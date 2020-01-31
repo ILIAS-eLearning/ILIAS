@@ -51,6 +51,16 @@ class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
 
         $this->setGlobalVariable('ilDB', $database);
 
+        $evaluator = $this
+            ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
+            ->getMock();
+        $this->setGlobalVariable('tos.document.evaluator', $evaluator);
+
+        $criterionFactory = $this
+            ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
+            ->getMock();
+        $this->setGlobalVariable('tos.criteria.type.factory', $criterionFactory);
+
         $helper = $this->getMockBuilder(ilTermsOfServiceHelper::class)->disableOriginalConstructor()->getMock();
 
         $helper
@@ -78,6 +88,19 @@ class ilTestableTermsOfServiceAppEventListener extends ilTermsOfServiceAppEventL
      */
     public function __construct(ilTermsOfServiceHelper $helper)
     {
-        parent::__construct(self::$mockHelper);
+        parent::__construct($helper);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function handleEvent($a_component, $a_event, $a_parameter) : void
+    {
+        $listener = new static(self::$mockHelper);
+        $listener
+            ->withComponent($a_component)
+            ->withEvent($a_event)
+            ->withParameters($a_parameter)
+            ->handle();
     }
 }

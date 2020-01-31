@@ -9,10 +9,8 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
 {
     /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
     protected $criterionTypeFactory;
-
     /** @var ilObjUser */
     protected $user;
-
     /** @var ilLogger */
     protected $log;
 
@@ -35,22 +33,24 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
     /**
      * @inheritdoc
      */
-    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool
+    public function evaluate(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool
     {
+        if (null === $user) {
+            $user = $this->user;
+        }
+
         $this->log->debug(sprintf(
             'Evaluating criteria for document "%s" (id: %s) and user "%s" (id: %s)',
             $document->title(),
             $document->id(),
-            $this->user->getLogin(),
-            $this->user->getId()
+            $user->getLogin(),
+            $user->getId()
         ));
 
         foreach ($document->criteria() as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceEvaluableCriterion */
-
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($criterionAssignment->getCriterionId(), true);
 
-            $result = $criterionType->evaluate($this->user, $criterionAssignment->getCriterionValue());
+            $result = $criterionType->evaluate($user, $criterionAssignment->getCriterionValue());
 
             $this->log->debug(sprintf(
                 'Criterion of type "%s", configured with %s evaluated: %s',

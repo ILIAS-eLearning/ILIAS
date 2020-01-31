@@ -9,27 +9,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 abstract class ilUserRequestTargetAdjustmentCase
 {
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var ilCtrl */
-    protected $ctrl;
-
-    /** @var ServerRequestInterface */
-    protected $request;
-
-    /**
-     * @param ilObjUser              $user
-     * @param ilCtrl                 $ctrl
-     * @param ServerRequestInterface $request
-     */
-    public function __construct(ilObjUser $user, ilCtrl $ctrl, ServerRequestInterface $request)
-    {
-        $this->user = $user;
-        $this->ctrl = $ctrl;
-        $this->request = $request;
-    }
-
     /**
      * @return bool
      */

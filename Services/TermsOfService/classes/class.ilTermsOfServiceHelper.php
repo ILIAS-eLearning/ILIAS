@@ -7,33 +7,50 @@
  */
 class ilTermsOfServiceHelper
 {
-    /** @var ilDBInterface */
-    protected $database;
-
     /** @var ilTermsOfServiceDataGatewayFactory */
     protected $dataGatewayFactory;
+    /** @var ilTermsOfServiceDocumentEvaluation */
+    protected $termsOfServiceEvaluation;
+    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
+    protected $criterionTypeFactory;
+    /** @var ilObjTermsOfService */
+    protected $tos;
 
     /**
      * ilTermsOfServiceHelper constructor.
-     * @param ilDBInterface|null                      $database
      * @param ilTermsOfServiceDataGatewayFactory|null $dataGatewayFactory
+     * @param ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
+     * @param ilTermsOfServiceCriterionTypeFactoryInterface|null $criterionTypeFactory
+     * @param ilObjTermsOfService|null $tos
      */
     public function __construct(
-        ilDBInterface $database = null,
-        ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null
+        ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null,
+        ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
+        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory = null,
+        ilObjTermsOfService $tos = null
     ) {
         global $DIC;
 
-        if (null === $database) {
-            $database = $DIC->database();
-        }
-        $this->database = $database;
-
         if (null === $dataGatewayFactory) {
             $dataGatewayFactory = new ilTermsOfServiceDataGatewayFactory();
-            $dataGatewayFactory->setDatabaseAdapter($this->database);
+            $dataGatewayFactory->setDatabaseAdapter($DIC->database());
         }
         $this->dataGatewayFactory = $dataGatewayFactory;
+
+        if (null === $termsOfServiceEvaluation) {
+            $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
+        }
+        $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
+
+        if (null === $criterionTypeFactory) {
+            $criterionTypeFactory = $DIC['tos.criteria.type.factory'];
+        }
+        $this->criterionTypeFactory = $criterionTypeFactory;
+
+        if (null === $tos) {
+            $tos = new ilObjTermsOfService();
+        }
+        $this->tos = $tos;
     }
 
     /**
@@ -41,9 +58,7 @@ class ilTermsOfServiceHelper
      */
     public static function isEnabled() : bool
     {
-        global $DIC;
-
-        return (bool) $DIC['ilSetting']->get('tos_status', false);
+        return (new static())->tos->getStatus();
     }
 
     /**
@@ -51,9 +66,7 @@ class ilTermsOfServiceHelper
      */
     public static function setStatus(bool $status) : void
     {
-        global $DIC;
-
-        $DIC['ilSetting']->set('tos_status', (int) $status);
+        (new static())->tos->setReevaluateOnLogin($status);
     }
 
     /**
@@ -95,7 +108,7 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser                        $user
+     * @param ilObjUser $user
      * @param ilTermsOfServiceSignableDocument $document
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
@@ -121,6 +134,83 @@ class ilTermsOfServiceHelper
         $user->writeAccepted();
 
         $user->hasToAcceptTermsOfServiceInSession(false);
+    }
+
+    /**
+     * @param ilObjUser $user
+     */
+    public function resetAcceptance(ilObjUser $user) : void
+    {
+        $user->setAgreeDate(null);
+        $user->update();
+    }
+
+    /**
+     * @param ilObjUser $user
+     * @param ilLogger $logger
+     * @return bool
+     */
+    public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger) : bool
+    {
+        $logger->debug(sprintf(
+            'Checking reevaluation of Terms of Service for user "%s" (id: %s) ...',
+            $user->getLogin(),
+            $user->getId()
+        ));
+
+        if (!$this->tos->getStatus()) {
+            $logger->debug(sprintf(
+                'Terms of Service disabled, resigning not required ...'
+            ));
+            return false;
+        }
+
+        if (!$this->tos->shouldReevaluateOnLogin()) {
+            $logger->debug(sprintf(
+                'Reevaluation of documents is not enabled, resigning not required ...'
+            ));
+            return false;
+        }
+
+        if (!$user->getAgreeDate()) {
+            $logger->debug(sprintf(
+                'Terms of Service currently not accepted by user, resigning not required ...'
+            ));
+            return false;
+        }
+
+        if (!$this->termsOfServiceEvaluation->hasDocument($user)) {
+            $logger->debug(sprintf(
+                'No signed Terms of Service document found, resigning not required ...'
+            ));
+            return false;
+        }
+
+        $entity = $this->getCurrentAcceptanceForUser($user);
+        if (!($entity->getId() > 0)) {
+            $logger->debug(sprintf(
+                'No signed Terms of Service document found, resigning not required ...'
+            ));
+            return false;
+        }
+
+        $historizedDocument = new ilTermsOfServiceHistorizedDocument(
+            $entity,
+            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria()),
+            $this->criterionTypeFactory
+        );
+
+        if ($this->termsOfServiceEvaluation->evaluateDocument($historizedDocument, $user)) {
+            $logger->debug(sprintf(
+                'Current user values do still match historized criteria, resigning not required ...'
+            ));
+            return false;
+        }
+
+        $logger->debug(sprintf(
+            'Current user values do not match historized criteria, resigning required ...'
+        ));
+        return true;
     }
 
     /**

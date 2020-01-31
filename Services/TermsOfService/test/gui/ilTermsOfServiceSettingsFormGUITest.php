@@ -133,17 +133,18 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $form
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getInput')
             ->willReturn(1);
 
         $_POST = [
-            'tos_status' => 1
+            'tos_status' => 1,
+            'tos_reevaluate_on_login' => 1,
         ];
 
         $form->setCheckInputCalled(true);
 
-        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();#
+        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $documentConnector
             ->expects($this->once())
@@ -254,12 +255,13 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $form
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(3))
             ->method('getInput')
             ->willReturn(1);
 
         $_POST = [
-            'tos_status' => 1
+            'tos_status' => 1,
+            'tos_reevaluate_on_login' => 1,
         ];
 
         $form->setCheckInputCalled(true);

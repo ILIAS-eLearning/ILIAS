@@ -8,13 +8,23 @@
 interface ilTermsOfServiceDocumentEvaluation
 {
     /**
+     * @param ilObjUser|null $user
      * @return ilTermsOfServiceSignableDocument
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      */
-    public function document() : ilTermsOfServiceSignableDocument;
+    public function document(ilObjUser $user = null) : ilTermsOfServiceSignableDocument;
 
     /**
+     * @param ilObjUser|null $user
      * @return bool
      */
-    public function hasDocument() : bool;
+    public function hasDocument(ilObjUser $user = null) : bool;
+
+    /**
+     * Evaluates the passed document
+     * @param ilTermsOfServiceSignableDocument $document
+     * @param ilObjUser|null $user
+     * @return bool
+     */
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool;
 }

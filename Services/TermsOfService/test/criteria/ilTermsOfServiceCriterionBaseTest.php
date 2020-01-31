@@ -82,7 +82,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getLanguage', 'getId', 'getLogin'])
+            ->onlyMethods(['getLanguage', 'getId', 'getLogin', 'getSelectedCountry'])
             ->getMock();
 
         $user

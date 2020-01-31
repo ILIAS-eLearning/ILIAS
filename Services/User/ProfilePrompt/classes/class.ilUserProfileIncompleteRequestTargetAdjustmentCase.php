@@ -1,13 +1,26 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php';
-
 /**
  * Class ilUserProfileIncompleteRequestTargetAdjustmentCase
  */
 class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
 {
+    /** @var ilObjUser */
+    private $user;
+    /** @var ilCtrl */
+    private $ctrl;
+
+    /**
+     * @param ilObjUser $user
+     * @param ilCtrl $ctrl
+     */
+    public function __construct(ilObjUser $user, ilCtrl $ctrl)
+    {
+        $this->user = $user;
+        $this->ctrl = $ctrl;
+    }
+
     /**
      * @var bool
      */

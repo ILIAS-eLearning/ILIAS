@@ -9,7 +9,8 @@ interface ilTermsOfServiceDocumentCriteriaEvaluation
 {
     /**
      * @param ilTermsOfServiceSignableDocument $document
+     * @param ilObjUser|null $user
      * @return bool
      */
-    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool;
+    public function evaluate(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool;
 }

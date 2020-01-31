@@ -1,11 +1,32 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class ilUserProfileIncompleteAndPasswordResetRequestTargetAdjustmentCase
  */
 class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
 {
+    /** @var ilObjUser */
+    private $user;
+    /** @var ilCtrl */
+    private $ctrl;
+    /** @var ServerRequestInterface */
+    private $request;
+
+    /**
+     * @param ilObjUser $user
+     * @param ilCtrl $ctrl
+     * @param ServerRequestInterface $request
+     */
+    public function __construct(ilObjUser $user, ilCtrl $ctrl, ServerRequestInterface $request)
+    {
+        $this->user = $user;
+        $this->ctrl = $ctrl;
+        $this->request = $request;
+    }
+
     /**
      * @return boolean
      */

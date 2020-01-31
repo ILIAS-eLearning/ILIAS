@@ -60,7 +60,7 @@ class ilObjTermsOfService extends ilObject2
      */
     public function saveStatus(bool $status) : void
     {
-        ilTermsOfServiceHelper::setStatus((bool) $status);
+        $this->settings->set('tos_status', (int) $status);
     }
 
     /**
@@ -68,6 +68,22 @@ class ilObjTermsOfService extends ilObject2
      */
     public function getStatus() : bool
     {
-        return ilTermsOfServiceHelper::isEnabled();
+        return (bool) $this->settings->get('tos_status', false);
+    }
+
+    /**
+     * @param bool $status
+     */
+    public function setReevaluateOnLogin(bool $status) : void
+    {
+        $this->settings->set('tos_reevaluate_on_login', (int) $status);
+    }
+    
+    /**
+     * @return bool
+     */
+    public function shouldReevaluateOnLogin() : bool
+    {
+        return (bool) $this->settings->get('tos_reevaluate_on_login', false);
     }
 }
