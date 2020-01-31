@@ -276,6 +276,13 @@ class ilObjGroupGUI extends ilContainerGUI
                 $t->setUserEditAll($ilAccess->checkAccess('write', '', $this->object->getRefId(), 'grp'));
                 $this->showPermanentLink($tpl);
                 $this->ctrl->forwardCommand($t);
+                include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+                ilLearningProgress::_tracProgress(
+                    $ilUser->getId(),
+                    $this->object->getId(),
+                    $this->object->getRefId(),
+                    'grp'
+                );
                 break;
 
             case "ilcontainerskillgui":
