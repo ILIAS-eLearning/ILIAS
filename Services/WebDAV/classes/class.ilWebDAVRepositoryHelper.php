@@ -37,7 +37,6 @@ class ilWebDAVRepositoryHelper
      */
     public function deleteObject(int $a_ref_id)
     {
-        include_once("./Services/Repository/classes/class.ilRepUtil.php");
         $repository_util = new ilRepUtil($this);
         $parent = $this->tree->getParentId($a_ref_id);
         $repository_util->deleteObjects($parent, array($a_ref_id));

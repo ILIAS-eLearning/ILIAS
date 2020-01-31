@@ -2,14 +2,6 @@
 use Sabre\DAV\Locks;
 use Sabre\DAV\Exception;
 
-require_once 'libs/composer/vendor/autoload.php';
-
-require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockObject.php';
-require_once 'Services/WebDAV/classes/db/class.ilWebDAVDBManager.php';
-require_once 'Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php';
-require_once 'Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php';
-require_once 'Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php';
-
 /**
  * Class ilWebDAVLockBackend
  *

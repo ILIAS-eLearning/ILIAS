@@ -153,7 +153,6 @@ class ilWebDAVObjDAVHelper
      */
     public function isValidFileNameWithValidFileExtension(string $a_title) : bool
     {
-        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
         return $a_title == ilFileUtils::getValidFilename($a_title) && $this->isDAVableObjTitle($a_title);
     }
 }

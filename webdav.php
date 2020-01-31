@@ -22,7 +22,6 @@ ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
 
 // Launch ILIAS using the client id we have determined
 $_GET["client_id"] = $client_id;
-include_once "Services/Context/classes/class.ilContext.php";
 $context =  ilContext::CONTEXT_WEBDAV;
 ilContext::init($context);
 ilInitialisation::initILIAS();
