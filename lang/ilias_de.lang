@@ -11369,6 +11369,7 @@ content#:#cont_offline_mode_allow_info#:#Erlaubt die Nutzung des Lernmoduls ohne
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin
+common#:#obj_rep#:#Magazin
 common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
 rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
@@ -14073,6 +14074,7 @@ cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Soll dieser Beitrag wirklich gelöscht werden?
 rbac#:#crs_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
+common#:#obj_bgtk#:#Hintergrundaufgabe
 bgtask#:#bgtask_failure#:#Fehler
 bgtask#:#bgtask_empty_folder#:#Die Auswahl enthält keine Objekte, die heruntergeladen werden können.
 bgtask#:#bgtask_download_too_large#:#Der Download überschreitet das Limit von %s.
@@ -15317,6 +15319,7 @@ certificate#:#persistent_certificate_mode_cron#:#Cron-Job
 certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
 certificate#:#persistent_certificate_mode_instant#:#Direkt
 certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
+common#:#obj_task#:#To-Do
 task#:#task_derived_tasks#:#To-Do
 task#:#task_tasks_with_deadline#:#Mit Endtermin
 task#:#task_tasks_without_deadline#:#Ohne Endtermin
