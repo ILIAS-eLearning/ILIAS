@@ -9069,6 +9069,7 @@ footer {
 .il-maincontrols-slate .link-bulky {
   align-items: flex-start;
   background-color: #f2f2f2;
+  border: none;
   display: flex;
   margin-bottom: 2px;
   position: relative;
@@ -9096,7 +9097,6 @@ footer {
 .il-maincontrols-slate .btn-bulky.engaged,
 .il-maincontrols-slate .link-bulky.engaged {
   background-color: rgba(76, 101, 134, 0.3);
-  border-color: #e0e0e0;
   color: inherit;
 }
 .il-maincontrols-slate .btn-bulky .icon,
