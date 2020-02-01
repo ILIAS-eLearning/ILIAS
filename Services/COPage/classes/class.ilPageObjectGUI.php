@@ -2569,6 +2569,7 @@ class ilPageObjectGUI
                             }
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
+                            $lcontent = htmlentities($lcontent);
                         }
                         break;
 
