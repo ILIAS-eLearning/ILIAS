@@ -20,7 +20,8 @@ class PaginationTest extends ILIAS_UI_TestBase
             {
                 return new IC\Symbol\Factory(
                     new IC\Symbol\Icon\Factory(),
-                    new IC\Symbol\Glyph\Factory()
+                    new IC\Symbol\Glyph\Factory(),
+                    new IC\Symbol\Avatar\Factory()
                 );
             }
             public function button()

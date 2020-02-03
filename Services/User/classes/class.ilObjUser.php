@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+
 define("IL_PASSWD_PLAIN", "plain");
 define("IL_PASSWD_CRYPTED", "crypted");
 
@@ -3754,14 +3756,28 @@ class ilObjUser extends ilObject
         return self::$personal_image_cache[$this->getId()][$a_size][(int) $a_force_pic];
     }
 
+    public function getAvatar() : Avatar
+    {
+        return self::_getAvatar($this->getId());
+    }
+
+    public static function _getAvatar($a_usr_id) : Avatar
+    {
+        $define = new ilUserAvatarResolver((int) $a_usr_id);
+
+        return $define->getAvatar();
+    }
+
     /**
      * Get path to personal picture.
      * @static
      * @param        $a_usr_id
-     * @param string $a_size                   "small", "xsmall" or "xxsmall"
+     * @param string $a_size "small", "xsmall" or "xxsmall"
      * @param bool   $a_force_pic
      * @param bool   $a_prevent_no_photo_image
      * @return string
+     *
+     * @throws ilWACException
      */
     public static function _getPersonalPicturePath(
         $a_usr_id,
@@ -3769,79 +3785,11 @@ class ilObjUser extends ilObject
         $a_force_pic = false,
         $a_prevent_no_photo_image = false
     ) {
-        global $DIC;
+        $define = new ilUserAvatarResolver((int) $a_usr_id);
+        $define->setForcePicture($a_force_pic);
+        $define->setSize($a_size);
 
-        $login = $firstname = $lastname = '';
-        $upload = $profile              = false;
-
-        $in  = $DIC->database()->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
-        $res = $DIC->database()->queryF(
-            "
-			SELECT usr_pref.*, ud.login, ud.firstname, ud.lastname
-			FROM usr_data ud LEFT JOIN usr_pref ON usr_pref.usr_id = ud.usr_id AND $in
-			WHERE ud.usr_id = %s",
-            array("integer"),
-            array($a_usr_id)
-        );
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $login     = $row['login'];
-            $firstname = $row['firstname'];
-            $lastname  = $row['lastname'];
-
-            switch ($row['keyword']) {
-                case 'public_upload':
-                    $upload = $row['value'] == 'y';
-                    break;
-                case 'public_profile':
-                    $profile = ($row['value'] == 'y' ||
-                        $row['value'] == 'g');
-                    break;
-            }
-        }
-
-        // END DiskQuota: Fetch all user preferences in a single query
-        $webspace_dir = "";
-        if (defined('ILIAS_MODULE')) {
-            $webspace_dir = ('.' . $webspace_dir);
-        }
-        $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
-
-        $image_dir = $webspace_dir . "/usr_images";
-        // BEGIN DiskQuota: Support 'big' user images
-        if ($a_size == 'big') {
-            $thumb_file = $image_dir . "/usr_" . $a_usr_id . ".jpg";
-        } else {
-            $thumb_file = $image_dir . "/usr_" . $a_usr_id . "_" . $a_size . ".jpg";
-        }
-        // END DiskQuota: Support 'big' user images
-        
-        if ((($upload && $profile) || $a_force_pic)
-            && @is_file($thumb_file)) {
-            $file = $thumb_file . "?t=" . rand(1, 99999);
-        } else {
-            if (!$a_prevent_no_photo_image) {
-                // we only have xsmall and xxsmall for this
-                if ($a_size == "small" || $a_size == "big") {
-                    $a_size = "xsmall";
-                }
-
-                if ($profile) {
-                    $short = ilStr::subStr($firstname, 0, 1) . ilStr::subStr($lastname, 0, 1);
-                } else {
-                    $short = ilStr::subStr($login, 0, 2);
-                }
-
-                /** @var $avatar ilUserAvatarBase */
-                $avatar = $DIC["user.avatar.factory"]->avatar($a_size);
-                $avatar->setName($short);
-                $avatar->setUsrId($a_usr_id);
-
-                return $avatar->getUrl();
-            }
-        }
-
-        require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-        return ilWACSignedPath::signFile($file);
+        return ilWACSignedPath::signFile($define->getLegacyPictureURL());
     }
 
     /**
