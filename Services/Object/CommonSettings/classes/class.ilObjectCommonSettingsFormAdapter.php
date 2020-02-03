@@ -27,6 +27,9 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 
     /**
      * Constructor
+     * @param ilObjectService $service
+     * @param ilObject $object
+     * @param ilPropertyFormGUI|null $legacy_form
      */
     public function __construct(ilObjectService $service, ilObject $object, ilPropertyFormGUI $legacy_form = null)
     {
@@ -41,6 +44,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function addIcon() : ilPropertyFormGUI
     {
         global $DIC;
+        $this->service->language()->loadLanguageModule("cont");
 
         if ($this->service->settings()->get('custom_icons')) {
             if (!is_null($this->legacy_form)) {
@@ -108,6 +112,9 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
 
     /**
      * @inheritdoc
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function saveTileImage()
     {
@@ -135,6 +142,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function addTitleIconVisibility() : ilPropertyFormGUI
     {
         $lng = $this->service->language();
+        $lng->loadLanguageModule("obj");
         $hide = new ilCheckboxInputGUI($lng->txt("obj_show_title_and_icon"), "show_header_icon_and_title");
         $hide->setChecked(!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"));
         $this->legacy_form->addItem($hide);
@@ -162,6 +170,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function addTopActionsVisibility() : ilPropertyFormGUI
     {
         $lng = $this->service->language();
+        $lng->loadLanguageModule("obj");
         $hide = new ilCheckboxInputGUI($lng->txt("obj_show_header_actions"), "show_top_actions");
         $hide->setChecked(!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions"));
         $this->legacy_form->addItem($hide);
