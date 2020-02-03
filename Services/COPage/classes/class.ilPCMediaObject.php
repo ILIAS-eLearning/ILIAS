@@ -462,4 +462,25 @@ class ilPCMediaObject extends ilPageContent
         return $a_html . $this->ui->renderer()->render($modal) . "<script>$(function () { il.COPagePres.setFullscreenModalShowSignal('" .
             $show_signal . "'); });</script>";
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJavascriptFiles($a_mode)
+    {
+        $js_files = ilPlayerUtil::getJsFilePaths();
+        $js_files[] = iljQueryUtil::getLocalMaphilightPath();
+        return $js_files;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCssFiles($a_mode)
+    {
+        $js_files = ilPlayerUtil::getCssFilePaths();
+
+        return $js_files;
+    }
+
 }

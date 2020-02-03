@@ -332,7 +332,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         //		{
         //			$sco_tpl = $a_sco_tpl;
         //		}
-        
+
         if ($mode != 'pdf' && $a_one_file == "") {
             include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
             $pg_exp = new ilCOPageHTMLExport($a_target_dir);
@@ -347,8 +347,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 ilPCQuestion::getJSTextInitCode($lk)
             );
             $sco_tpl->parseCurrentBlock();
-            
+
             // (additional) style sheets needed
+            foreach ($sco_tpl->getCSSFiles() as $css) {
+                $sco_tpl->setCurrentBlock("css_file");
+                $sco_tpl->setVariable("CSS_FILE", $css["file"]);
+                $sco_tpl->parseCurrentBlock();
+            }
             $styles = array("./css/yahoo/container.css",
                 "./css/question_handling.css");
             foreach ($styles as $style) {
@@ -358,13 +363,24 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             }
             
             // (additional) scripts needed
-            $scripts = array("./js/scorm.js",
-                "./js/pager.js", "./js/pure.js",
-                "./js/questions_" . $this->getId() . ".js");
-            foreach ($scripts as $script) {
-                $sco_tpl->setCurrentBlock("js_file");
-                $sco_tpl->setVariable("JS_FILE", $script);
-                $sco_tpl->parseCurrentBlock();
+            $js_files = $sco_tpl->getJSFiles();
+            $js_files["./js/scorm.js"] = 3;
+            $js_files["./js/pager.js"] = 3;
+            $js_files["./js/pure.js"] = 3;
+            $js_files["./js/questions_" . $this->getId() . ".js"] = 3;
+            //$scripts = array("./js/jquery.js", "./js/jquery-ui-min.js", "./js/Basic.js", "./js/scorm.js",
+            //    "./js/pager.js", "./js/pure.js",
+            //    "./js/questions_" . $this->getId() . ".js");
+
+            for ($i = 0; $i<=3; $i++) {
+                foreach ($js_files as $script => $batch) {
+                    if ($batch == $i) {
+                        $sco_tpl->setCurrentBlock("js_file");
+                        $sco_tpl->setVariable("JS_FILE", $script);
+                        $sco_tpl->parseCurrentBlock();
+                    }
+                }
+                reset ($js_files);
             }
             
             if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset") {

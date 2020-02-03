@@ -1914,25 +1914,9 @@ class ilPageObjectGUI
 
             // post xsl page content modification by pc elements
             $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
-            
-            // javascript files
-            $js_files = $pc_obj->getJavascriptFiles($this->getOutputMode());
-            foreach ($js_files as $js) {
-                $main_tpl->addJavascript($js);
-            }
-
-            // css files
-            $css_files = $pc_obj->getCssFiles($this->getOutputMode());
-            foreach ($css_files as $css) {
-                $main_tpl->addCss($css);
-            }
-
-            // onload code
-            $onload_code = $pc_obj->getOnloadCode($this->getOutputMode());
-            foreach ($onload_code as $code) {
-                $main_tpl->addOnloadCode($code);
-            }
         }
+
+        $this->addResourcesToTemplate($main_tpl);
         
         //		$output = $this->selfAssessmentRendering($output);
 
@@ -3702,5 +3686,26 @@ class ilPageObjectGUI
     public function getPagePermaLink()
     {
         return "";
+    }
+
+    /**
+     * Add resources to template
+     * @param ilGlobalTemplateInterface $tpl
+     */
+    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl)
+    {
+        $collector = new \ILIAS\COPage\ResourcesCollector($this->getOutputMode(), $this->getPageObject());
+
+        foreach ($collector->getJavascriptFiles() as $js) {
+            $tpl->addJavascript($js);
+        }
+
+        foreach ($collector->getCssFiles() as $css) {
+            $tpl->addCss($css);
+        }
+
+        foreach ($collector->getOnloadCode() as $code) {
+            $tpl->addOnloadCode($code);
+        }
     }
 }

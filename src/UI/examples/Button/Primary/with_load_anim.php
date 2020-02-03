@@ -10,7 +10,15 @@ function with_load_anim()
             ->withLoadingAnimationOnClick(true)
             ->withOnLoadCode(function ($id) {
                 return
-                    "$('#$id').click(function(e) { if (!$('#$id').hasClass('disabled')) {alert('Do Stuff');}});";
+                    "$('#$id').click(function(e) {
+							$('#$id').html('Working...');
+							setInterval(
+								function(){
+									$('#$id').html('Done');
+									il.UI.button.deactivateLoadingAnimation('$id');
+								}
+							,3000);
+					});";
             })
     );
 }

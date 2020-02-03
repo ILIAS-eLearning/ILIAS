@@ -30,17 +30,17 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
      */
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
-        $fileName = $this->origin->createFileName($presentation);
+        $fileName = $this->origin->createFileName($presentation); 
 
         if (null === $presentation->getUserCertificate()) {
             $fileNameParts = implode('_', array_filter([
                 $this->lng->txt('certificate_var_user_lastname'),
-                $presentation->getObjId()
+                $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId()),
             ]));
         } else {
             $fileNameParts = implode('_', array_filter([
                 $presentation->getUserName(),
-                $presentation->getObjectTitle()
+                $presentation->getObjectTitle(),
             ]));
         }
 

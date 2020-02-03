@@ -6764,6 +6764,9 @@ button.close {
   margin-top: 10px;
   background-color: #a9a9a9;
 }
+.panel {
+  border: none;
+}
 .panel .panel-heading.ilHeader,
 .panel .panel-heading.ilBlockHeader {
   background-color: #f9f9f9;
@@ -6812,6 +6815,11 @@ button.close {
   flex-grow: 99;
   flex-shrink: 1;
   line-height: 21px;
+  order: 1;
+}
+.panel-flex .ilBlockHeader h4 {
+  flex-grow: 99;
+  flex-shrink: 1;
   order: 1;
 }
 .panel-flex .panel-heading .dropdown {
@@ -6915,10 +6923,11 @@ button.close {
   padding-bottom: 3px;
 }
 .il-card {
-  padding: 0;
+  padding: 0 0 6px 0;
   width: 100%;
   position: relative;
-  background-color: white;
+  background-color: #f9f9f9;
+  border: none;
   /* see bug #24947 */
 }
 .il-card img {
@@ -6940,16 +6949,18 @@ button.close {
   height: 3px;
   width: 100%;
 }
+.il-card .caption {
+  padding-top: 6px;
+}
+.il-card .caption h5 {
+  margin: 6px 0 0 0;
+}
 .il-card .caption .card-title {
   overflow-wrap: break-word;
-}
-.il-card .caption:nth-of-type(1n+3) {
-  border-top: 1px solid #ddd;
 }
 .il-card .caption dl dt {
   font-weight: normal;
   color: #909090;
-  font-size: 12px;
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
@@ -7115,6 +7126,14 @@ button.close {
 .btn {
   font-size: 12px;
 }
+.btn:focus {
+  outline: 1px dotted #dfe3e6;
+  outline-offset: -1px;
+}
+.btn:active,
+.btn.engaged {
+  outline: none;
+}
 input.btn {
   display: inline-block;
   min-width: 60px;
@@ -7268,8 +7287,6 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.btn-tag.engaged,
 .btn.engaged:hover,
 .btn.btn-tag.engaged:hover,
-.btn.engaged:focus,
-.btn.btn-tag.engaged:focus,
 .btn.engaged:active,
 .btn.btn-tag.engaged:active,
 .btn.engaged.active,
@@ -9052,6 +9069,7 @@ footer {
 .il-maincontrols-slate .link-bulky {
   align-items: flex-start;
   background-color: #f2f2f2;
+  border: none;
   display: flex;
   margin-bottom: 2px;
   position: relative;
@@ -9079,7 +9097,6 @@ footer {
 .il-maincontrols-slate .btn-bulky.engaged,
 .il-maincontrols-slate .link-bulky.engaged {
   background-color: rgba(76, 101, 134, 0.3);
-  border-color: #e0e0e0;
   color: inherit;
 }
 .il-maincontrols-slate .btn-bulky .icon,
@@ -9191,8 +9208,7 @@ footer {
   background-color: #fff;
   border: 0;
 }
-.il-maincontrols-slate-close .btn-bulky:active,
-.il-maincontrols-slate-close .btn-bulky:focus {
+.il-maincontrols-slate-close .btn-bulky:active {
   outline: none;
 }
 @media only screen and (max-width: 768px) {
@@ -9268,8 +9284,7 @@ footer {
 .il-metabar-entries .btn-bulky:active {
   box-shadow: none;
 }
-.il-metabar-entries .btn-bulky.engaged,
-.il-metabar-entries .btn-bulky.engaged:focus {
+.il-metabar-entries .btn-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
@@ -9356,6 +9371,14 @@ footer {
   .il-metabar-slates .il-counter-spacer {
     margin-left: -18px;
   }
+  .il-metabar-more-slate .btn-bulky:after {
+    content: "\e606";
+    font-family: "il-icons";
+    font-size: 1.7rem;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+  }
 }
 /*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
@@ -9381,8 +9404,6 @@ footer {
   margin-top: 5px;
   display: block;
 }
-.il-maincontrols-mainbar .btn:focus,
-.il-maincontrols-metabar .btn:focus,
 .il-maincontrols-mainbar .btn:active,
 .il-maincontrols-metabar .btn:active {
   outline: 0;
@@ -9447,10 +9468,6 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover {
   transition: all 0.15s ease-in;
-}
-.il-mainbar-triggers .btn-bulky:focus,
-.il-mainbar-triggers .il-link.link-bulky:focus {
-  outline: none;
 }
 .il-mainbar-triggers .btn-bulky .glyph,
 .il-mainbar-triggers .il-link.link-bulky .glyph {
@@ -9547,6 +9564,12 @@ footer {
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
   filter: invert(100%);
 }
+.il-mainbar-tools-entries .btn-bulky .bulky-label,
+.il-mainbar-tools-entries .btn-bulky .bulky-label,
+.il-mainbar-tools-entries .il-link.link-bulky .bulky-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .il-mainbar-tools-entries .btn-bulky.engaged,
 .il-mainbar-tools-entries .btn-bulky.engaged,
 .il-mainbar-tools-entries .il-link.link-bulky.engaged {
@@ -9589,9 +9612,6 @@ footer {
   padding: 0 20px;
   width: auto;
 }
-.il-mainbar-remove-tool .close:focus {
-  outline: none;
-}
 .il-mainbar-close-slates {
   align-items: flex-end;
   display: flex;
@@ -9628,6 +9648,9 @@ footer {
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
   height: 0px;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content > :first-child {
+  z-index: 1;
 }
 /*
 **************************************************************
@@ -9669,6 +9692,15 @@ footer {
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
     font-size: 4rem;
     height: 50px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(4):nth-last-of-type(2) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(5):nth-last-of-type(1) .btn-bulky {
+    width: 63px;
   }
 }
 .il-maincontrols-footer {
@@ -10816,8 +10848,15 @@ footer {
   font-family: il-icons;
   content: "\e001";
 }
+.il-link:focus {
+  outline: 1px dotted #dfe3e6;
+  outline-offset: -1px;
+}
+.il-link:active,
+.il-link.engaged {
+  outline: none;
+}
 .il-link.link-bulky {
-  display: flex;
   text-decoration: none;
 }
 .il-link.link-bulky .icon,
@@ -12816,16 +12855,13 @@ div.ilFrameFixedWidth,
   margin: 0 auto;
 }
 .ilFrameFixedWidth #mainscrolldiv {
-  max-width: 1370px;
   margin: 0 auto;
 }
 div.ilFrameFixedWidthHeader {
-  max-width: 1370px;
   margin: 0 auto;
   padding: 0;
 }
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
-  max-width: 1370px;
   overflow: hidden;
   padding: 0 15px;
 }

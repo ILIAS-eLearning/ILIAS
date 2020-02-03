@@ -2151,12 +2151,15 @@ class ilObjCourseGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::SKILLS,
             false
         )) {
-            $this->tabs_gui->addTarget(
-                "obj_tool_setting_skills",
-                $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
-                "",
-                array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
-            );
+            $skmg_set = new ilSetting("skmg");
+            if ($skmg_set->get("enable_skmg")) {
+                $this->tabs_gui->addTarget(
+                    "obj_tool_setting_skills",
+                    $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+                    "",
+                    array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
+                );
+            }
         }
 
         // booking
@@ -2618,6 +2621,13 @@ class ilObjCourseGUI extends ilContainerGUI
                 $t->setUserEditAll($ilAccess->checkAccess('write', '', $this->object->getRefId(), 'grp'));
                 $this->showPermanentLink($tpl);
                 $this->ctrl->forwardCommand($t);
+                include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+                ilLearningProgress::_tracProgress(
+                    $ilUser->getId(),
+                    $this->object->getId(),
+                    $this->object->getRefId(),
+                    'crs'
+                );
                 break;
             
             case 'ilmemberexportsettingsgui':

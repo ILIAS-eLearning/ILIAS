@@ -18,7 +18,7 @@
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "4.12.0",
 		"phpmailer/phpmailer": "^6.1.1",
-		"geshi/geshi": "dev-master#5861c58981244ab6ee0dd337f096ff14bf15b1eb",
+		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.2.26",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.1",
@@ -36,7 +36,7 @@
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
-		"enshrined/svg-sanitize": "^0.10.0",
+		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
 		"zendframework/zend-httphandlerrunner": "^1.1.0"
 	},
@@ -134,21 +134,21 @@
 		},
 		"james-heinrich/getid3" : {
 			"source" : "https://github.com/JamesHeinrich/getID3",
-			"used_version" : "v1.9",
+			"used_version" : "v1.9.19",
 			"wrapped_by" : "Services/MediaObjects",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
-			"last_update" : "2017-09-28",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe (prior to 5.0)",
 			"approved-date": "YYYY-MM-DD",
-			"info": "Remove all demo files before commit! At least in current versions, they include security issues."
+			"info": ""
 		},
 		"geshi/geshi" : {
 			"source" : "https://github.com/GeSHi/geshi-1.0",
-			"used_version" : "v1.0.8.12",
+			"used_version" : "v1.0.9.1",
 			"wrapped_by" : "Services/COPage",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
-			"last_update" : "2016-05-25",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
