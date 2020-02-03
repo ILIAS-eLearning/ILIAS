@@ -69,7 +69,7 @@ class ilObjUser extends ilObject
      * @var string|null
      */
     protected $password_salt = null;
-
+    
     public $gender;	// 'm' or 'f'
     public $utitle;	// user title (keep in mind, that we derive $title from object also!)
     public $firstname;
@@ -109,7 +109,7 @@ class ilObjUser extends ilObject
     public $login_attempts;
 
     public $user_defined_data = array();
-
+    
     /**
     * Contains variable Userdata (Prefs, Settings)
     * @var		array
@@ -146,7 +146,7 @@ class ilObjUser extends ilObject
      * @var array
      */
     protected static $personal_image_cache = array();
-
+    
     /**
      * date of setting the user inactivated
      *
@@ -165,7 +165,7 @@ class ilObjUser extends ilObject
      * @var string
      */
     protected $org_units;
-
+    
     protected $interests_general; // [array]
     protected $interests_help_offered; // [array]
     protected $interests_help_looking; // [array]
@@ -347,7 +347,7 @@ class ilObjUser extends ilObject
         $ilErr = $DIC['ilErr'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-
+        
         // basic personal data
         $this->setLogin($a_data["login"]);
         if (!$a_data["passwd_type"]) {
@@ -369,7 +369,7 @@ class ilObjUser extends ilObject
         } else {
             $this->setBirthday(null);
         }
-
+        
         // address data
         $this->setInstitution($a_data["institution"]);
         $this->setDepartment($a_data["department"]);
@@ -405,7 +405,7 @@ class ilObjUser extends ilObject
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
         $this->agree_date = $a_data["agree_date"];
-
+        
         $this->setInactivationDate($a_data["inactivation_date"]);
 
         // time limitation
@@ -421,7 +421,7 @@ class ilObjUser extends ilObject
         //authentication
         $this->setAuthMode($a_data['auth_mode']);
         $this->setExternalAccount($a_data['ext_account']);
-
+        
         $this->setIsSelfRegistered((bool) $a_data['is_self_registered']);
     }
 
@@ -436,7 +436,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
-
+        
         /**
          * @var $ilErr ilErrorHandling
          * @var $ilDB ilDB
@@ -615,7 +615,7 @@ class ilObjUser extends ilObject
             "last_update" => array("timestamp", ilUtil::now()),
             'inactivation_date' => array('timestamp', $this->inactivation_date)
             );
-
+            
         if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
         }
@@ -645,7 +645,7 @@ class ilObjUser extends ilObject
         $ilDB->update("usr_data", $update_array, array("usr_id" => array("integer", $this->id)));
 
         $this->updateMultiTextFields();
-
+        
         $this->writePrefs();
 
         // update user defined fields
@@ -655,7 +655,7 @@ class ilObjUser extends ilObject
         parent::updateOwner();
 
         $this->read();
-
+        
         $ilAppEventHandler->raise(
             "Services/User",
             "afterUpdate",
@@ -686,7 +686,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $res = $ilDB->queryF(
             "SELECT " . $a_field . " FROM usr_data WHERE usr_id = %s",
             array("integer"),
@@ -698,7 +698,7 @@ class ilObjUser extends ilObject
         }
         return false;
     }
-
+    
     /**
     * Lookup Full Name
     */
@@ -707,7 +707,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $set = $ilDB->queryF(
             "SELECT title, firstname, lastname FROM usr_data WHERE usr_id = %s",
             array("integer"),
@@ -735,7 +735,7 @@ class ilObjUser extends ilObject
     {
         return ilObjUser::_lookup($a_user_id, "email");
     }
-
+    
     /**
      * Lookup second e-mail
      * @param $a_user_id
@@ -959,7 +959,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+            
         $res = $ilDB->queryF(
             '
 			SELECT * FROM loginname_history
@@ -970,7 +970,7 @@ class ilObjUser extends ilObject
 
         return $ilDB->fetchAssoc($res) ? true : false;
     }
-
+    
     /**
      *
      * Returns the last used loginname and the changedate of the passed user_id.
@@ -988,7 +988,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+            
         $ilDB->setLimit(1, 0);
         $res = $ilDB->queryF(
             '
@@ -1001,12 +1001,12 @@ class ilObjUser extends ilObject
         if (!is_array($row) || !count($row)) {
             throw new ilUserException('');
         }
-
+        
         return array(
             $row['login'], $row['history_date']
         );
     }
-
+    
     /**
     * update login name
     * @param	string	new login
@@ -1028,20 +1028,20 @@ class ilObjUser extends ilObject
         if (!isset($a_login)) {
             return false;
         }
-
+        
         $former_login = self::_lookupLogin($this->getId());
 
         // Update not necessary
         if (0 == strcmp($a_login, $former_login)) {
             return false;
         }
-
+        
         try {
             $last_history_entry = ilObjUser::_getLastHistoryDataByUserId($this->getId());
         } catch (ilUserException $e) {
             $last_history_entry = null;
         }
-
+    
         // throw exception if the desired loginame is already in history and it is not allowed to reuse it
         if ((int) $ilSetting->get('allow_change_loginname') &&
            (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
@@ -1357,12 +1357,12 @@ class ilObjUser extends ilObject
             array("integer"),
             array($this->getId())
         );
-
+        
         $this->deleteMultiTextFields();
 
         // delete user_prefs
         ilObjUser::_deleteAllPref($this->getId());
-
+            
         $this->removeUserPicture(false); // #8597
 
         // delete user_session
@@ -1400,11 +1400,11 @@ class ilObjUser extends ilObject
 
         include_once 'Modules/Session/classes/class.ilEventParticipants.php';
         ilEventParticipants::_deleteByUser($this->getId());
-
+        
         // Delete Tracking data SCORM 2004 RTE
         include_once 'Modules/Scorm2004/classes/ilSCORM13Package.php';
         ilSCORM13Package::_removeTrackingDataForUser($this->getId());
-
+        
         // Delete Tracking data SCORM 1.2 RTE
         include_once 'Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
         ilObjSCORMLearningModule::_removeTrackingDataForUser($this->getId());
@@ -1412,24 +1412,24 @@ class ilObjUser extends ilObject
         // remove all notifications
         include_once "./Services/Notification/classes/class.ilNotification.php";
         ilNotification::removeForUser($this->getId());
-
+        
         // remove portfolios
         include_once "./Modules/Portfolio/classes/class.ilObjPortfolio.php";
         ilObjPortfolio::deleteUserPortfolios($this->getId());
-
+        
         // remove workspace
         include_once "./Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree($this->getId());
         $tree->cascadingDelete();
-
+        
         // remove disk quota entries
         include_once "./Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
         ilDiskQuotaHandler::deleteByOwner($this->getId());
-
+        
         // remove reminder entries
         require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
         ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
-
+        
         // badges
         include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
         ilBadgeAssignment::deleteByUserId($this->getId());
@@ -1437,13 +1437,13 @@ class ilObjUser extends ilObject
         // remove org unit assignments
         $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
         $ilOrgUnitUserAssignmentQueries->deleteAllAssignmentsOfUser($this->getId());
-
+        
         // Delete user defined field entries
         $this->deleteUserDefinedFieldEntries();
-
+        
         // Delete clipboard entries
         $this->clipboardDeleteAll();
-
+        
         // Reset owner
         $this->resetOwner();
 
@@ -1926,7 +1926,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $query = "SELECT matriculation FROM usr_data " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id);
         $res = $ilDB->query($query);
@@ -1952,7 +1952,7 @@ class ilObjUser extends ilObject
     {
         return $this->email;
     }
-
+    
     /**
      * @return null|string
      */
@@ -1960,7 +1960,7 @@ class ilObjUser extends ilObject
     {
         return $this->second_email;
     }
-
+    
     /**
      * @param null|string $second_email
      */
@@ -1968,7 +1968,7 @@ class ilObjUser extends ilObject
     {
         $this->second_email = $second_email;
     }
-
+    
     /**
     * set hobby
     * @access	public
@@ -2035,7 +2035,7 @@ class ilObjUser extends ilObject
     {
         return $this->prefs["disk_quota"] ? $this->prefs["disk_quota"] : 0;
     }
-
+    
     public function getPersonalWorkspaceDiskQuota()
     {
         return $this->prefs["wsp_disk_quota"] ? $this->prefs["wsp_disk_quota"] : 0;
@@ -2506,7 +2506,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $this->setLastPasswordChangeTS(time());
 
         $query = "UPDATE usr_data SET last_password_change = %s " .
@@ -2528,7 +2528,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $query = "UPDATE usr_data SET last_password_change = 0 " .
                 "WHERE usr_id = %s";
         $affected = $ilDB->manipulateF(
@@ -2603,7 +2603,7 @@ class ilObjUser extends ilObject
         return $this->loc_zoom;
     }
 
-
+    
     /**
      * Check for simultaneous login
      *
@@ -2614,7 +2614,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+    
         $set = $ilDB->queryf(
             '
 			SELECT COUNT(*) session_count
@@ -2659,7 +2659,7 @@ class ilObjUser extends ilObject
         }
         return $login;
     }
-
+    
     /**
      * Static function removes Microsoft domain name from username
      * webdav related
@@ -2704,7 +2704,7 @@ class ilObjUser extends ilObject
                 return true;
             }
         }
-
+        
         return false;
     }
 
@@ -2809,9 +2809,9 @@ class ilObjUser extends ilObject
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
 
-
+        
         $query = "SELECT usr_data.usr_id, usr_data.login, usr_data.firstname, usr_data.lastname, usr_data.email, usr_data.active FROM usr_data ";
-
+        
         $without_anonymous_users = true;
 
         // determine join filter
@@ -2890,7 +2890,7 @@ class ilObjUser extends ilObject
                         break;
                 }
             }
-
+                
             if ($without_anonymous_users) {
                 $query.= "AND usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
             }
@@ -3105,7 +3105,7 @@ class ilObjUser extends ilObject
             " WHERE up1.keyword = " . $ilDB->quote("style", "text") .
             " AND up2.keyword = " . $ilDB->quote("skin", "text") .
             " AND up1.usr_id = up2.usr_id";
-
+            
         $sty_set = $ilDB->query($q);
 
         $styles = array();
@@ -3146,7 +3146,7 @@ class ilObjUser extends ilObject
     ////	Edit Clipboard
     ////
     ////
-
+    
     /**
     * add an item to user's personal clipboard
     *
@@ -3227,7 +3227,7 @@ class ilObjUser extends ilObject
         $set = $ilDB->queryF("SELECT MAX(insert_time) mtime FROM personal_pc_clipboard " .
             " WHERE user_id = %s", array("integer"), array($this->getId()));
         $row = $ilDB->fetchAssoc($set);
-
+        
         $set = $ilDB->queryF(
             "SELECT * FROM personal_pc_clipboard " .
             " WHERE user_id = %s AND insert_time = %s ORDER BY order_nr ASC",
@@ -3307,7 +3307,7 @@ class ilObjUser extends ilObject
         if ($a_top_nodes_only) {
             $par = " AND parent = " . $ilDB->quote(0, "integer") . " ";
         }
-
+        
         $type_str = ($a_type != "")
             ? " AND type = " . $ilDB->quote($a_type, "text") . " "
             : "";
@@ -3421,7 +3421,7 @@ class ilObjUser extends ilObject
         }
         return $id ? $id : 0;
     }
-
+    
     /**
      * lokup org unit representation
      * @param int $a_usr_id
@@ -3546,8 +3546,8 @@ class ilObjUser extends ilObject
         if (!is_array($a_usr_ids)) {
             return false;
         }
-
-
+        
+        
         if ($a_status) {
             $q = "UPDATE usr_data SET active = 1, inactivation_date = NULL WHERE " .
                 $ilDB->in("usr_id", $a_usr_ids, false, "integer");
@@ -3557,7 +3557,7 @@ class ilObjUser extends ilObject
 
             $q = "UPDATE usr_data SET active = 0 WHERE $usrId_IN_usrIds";
             $ilDB->manipulate($q);
-
+            
             $queryString = "
 				UPDATE usr_data
 				SET inactivation_date = %s
@@ -3566,7 +3566,7 @@ class ilObjUser extends ilObject
 			";
             $ilDB->manipulateF($queryString, array('timestamp'), array(ilUtil::now()));
         }
-
+        
         return true;
     }
 
@@ -3689,7 +3689,7 @@ class ilObjUser extends ilObject
             $types[] = "text";
             $values[] = "default";
         }
-
+        
         $q.= ")";
 
         $users = array();
@@ -3804,7 +3804,7 @@ class ilObjUser extends ilObject
         if ($a_dir == "" || !is_dir($a_dir)) {
             return;
         }
-
+        
         $webspace_dir = ilUtil::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
         $images = array(
@@ -3820,8 +3820,8 @@ class ilObjUser extends ilObject
             }
         }
     }
-
-
+    
+    
     /**
     * Remove user picture.
     */
@@ -3857,8 +3857,8 @@ class ilObjUser extends ilObject
             unlink($upload_file);
         }
     }
-
-
+    
+    
     public function setUserDefinedData($a_data)
     {
         if (!is_array($a_data)) {
@@ -3888,7 +3888,7 @@ class ilObjUser extends ilObject
         $fields = '';
 
         $field_def = array();
-
+        
         include_once("./Services/User/classes/class.ilUserDefinedData.php");
         $udata = new ilUserDefinedData($this->getId());
 
@@ -3940,9 +3940,9 @@ class ilObjUser extends ilObject
                 {
                     $this->user_defined_data = $row;
                 }*/
-
+        
         $this->user_defined_data = $udata->getAll();
-
+        
         return true;
     }
 
@@ -3971,7 +3971,7 @@ class ilObjUser extends ilObject
 
         include_once("./Services/User/classes/class.ilUserDefinedData.php");
         ilUserDefinedData::deleteEntriesOfUser($this->getId());
-
+        
         // wrong place...
         /*		$query = "DELETE FROM udf_data  ".
                     "WHERE usr_id = ".$ilDB->quote($this->getId(),'integer');
@@ -4066,7 +4066,7 @@ class ilObjUser extends ilObject
             ilDatePresentation::setLanguage($language);
             $date = ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
             ilDatePresentation::resetToDefaults();
-
+            
             $body .= ($language->txt("create_date") . ": " . $date . "\n");
         }
 
@@ -4091,10 +4091,10 @@ class ilObjUser extends ilObject
                 new ilDateTime($this->getTimeLimitUntil(), IL_CAL_UNIX)
             );
             ilDatePresentation::resetToDefaults();
-
+            
             $start = new ilDateTime($this->getTimeLimitFrom(), IL_CAL_UNIX);
             $end = new ilDateTime($this->getTimeLimitUntil(), IL_CAL_UNIX);
-
+            
             $body .= $language->txt('time_limit') . ': ' . $start->get(IL_CAL_DATETIME);
             $body .= $language->txt('time_limit') . ': ' . $end->get(IL_CAL_DATETIME);
         }
@@ -4182,7 +4182,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         self::_writePref(
             $a_user_id,
             "priv_feed_pass",
@@ -4209,13 +4209,13 @@ class ilObjUser extends ilObject
              "WHERE login = %s";
         $types[] = "text";
         $values[] = $a_login;
-
+             
         if ($a_user_id != 0) {
             $q.= " AND usr_id != %s ";
             $types[] = "integer";
             $values[] = $a_user_id;
         }
-
+             
         $r = $ilDB->queryF($q, $types, $values);
 
         if ($row = $ilDB->fetchAssoc($r)) {
@@ -4283,9 +4283,9 @@ class ilObjUser extends ilObject
             $values[] = $active;
             $types[] = "integer";
         }
-
+        
         $query .= " ORDER BY usr_data.lastname, usr_data.firstname ";
-
+        
         $r = $ilDB->queryF($query, $types, $values);
         $data = array();
         while ($row = $ilDB->fetchAssoc($r)) {
@@ -4552,14 +4552,14 @@ class ilObjUser extends ilObject
 
         $query = "UPDATE usr_data SET active = 0, inactivation_date = %s WHERE usr_id = %s";
         $affected = $ilDB->manipulateF($query, array('timestamp', 'integer'), array(ilUtil::now(), $a_usr_id));
-
+        
         if ($affected) {
             return true;
         } else {
             return false;
         }
     }
-
+    
     /**
      * returns true if public is profile, false otherwise
      *
@@ -4569,7 +4569,7 @@ class ilObjUser extends ilObject
     {
         return in_array($this->getPref("public_profile"), array("y", "g"));
     }
-
+    
     /**
      * returns firstname lastname and login if profile is public, login otherwise
      *
@@ -4583,7 +4583,7 @@ class ilObjUser extends ilObject
             return $this->getLogin();
         }
     }
-
+    
     public static function _writeHistory($a_usr_id, $a_login)
     {
         global $DIC;
@@ -4591,13 +4591,13 @@ class ilObjUser extends ilObject
         $ilDB = $DIC['ilDB'];
 
         $timestamp = time();
-
+            
         $res = $ilDB->queryF(
             'SELECT * FROM loginname_history WHERE usr_id = %s AND login = %s AND history_date = %s',
             array('integer', 'text', 'integer'),
             array($a_usr_id, $a_login, $timestamp)
         );
-
+        
         if ($ilDB->numRows($res) == 0) {
             $ilDB->manipulateF(
                 '
@@ -4608,10 +4608,10 @@ class ilObjUser extends ilObject
                 array($a_usr_id, $a_login, $timestamp)
             );
         }
-
+        
         return true;
     }
-
+    
     /**
     * reads all active sessions from db and returns users that are online
     * OR returns only one active user if a user_id is given
@@ -4634,7 +4634,7 @@ class ilObjUser extends ilObject
         $pd_set = new ilSetting('pd');
         $atime  = $pd_set->get('user_activity_time') * 60;
         $ctime  = time();
-
+        
         $where = array();
 
         if ($a_user_id == 0) {
@@ -4714,12 +4714,12 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         do {
             $continue = false;
-
+            
             $hashcode = substr(md5(uniqid(rand(), true)), 0, 16);
-
+            
             $res = $ilDB->queryf(
                 '
 				SELECT COUNT(usr_id) cnt FROM usr_data 
@@ -4733,11 +4733,11 @@ class ilObjUser extends ilObject
                 }
                 break;
             }
-
+            
             if ($continue) {
                 continue;
             }
-
+            
             $ilDB->manipulateF(
                 '
 				UPDATE usr_data	
@@ -4746,13 +4746,13 @@ class ilObjUser extends ilObject
                 array('text', 'integer'),
                 array($hashcode, (int) $a_usr_id)
             );
-
+            
             break;
         } while (true);
-
+        
         return $hashcode;
     }
-
+    
     /**
     * Verifies a registration hash
     *
@@ -4766,7 +4766,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $res = $ilDB->queryf(
             '
 			SELECT usr_id, create_date FROM usr_data 
@@ -4777,13 +4777,13 @@ class ilObjUser extends ilObject
         while ($row = $ilDB->fetchAssoc($res)) {
             require_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
             $oRegSettigs = new ilRegistrationSettings();
-
+            
             if ((int) $oRegSettigs->getRegistrationHashLifetime() != 0 &&
                time() - (int) $oRegSettigs->getRegistrationHashLifetime() > strtotime($row['create_date'])) {
                 require_once 'Services/Registration/exceptions/class.ilRegConfirmationLinkExpiredException.php';
                 throw new ilRegConfirmationLinkExpiredException('reg_confirmation_hash_life_time_expired', $row['usr_id']);
             }
-
+            
             $ilDB->manipulateF(
                 '
 				UPDATE usr_data	
@@ -4792,10 +4792,10 @@ class ilObjUser extends ilObject
                 array('text', 'integer'),
                 array('', (int) $row['usr_id'])
             );
-
+            
             return (int) $row['usr_id'];
         }
-
+        
         require_once 'Services/Registration/exceptions/class.ilRegistrationHashNotFoundException.php';
         throw new ilRegistrationHashNotFoundException('reg_confirmation_hash_not_found');
     }
@@ -4809,7 +4809,7 @@ class ilObjUser extends ilObject
             $this->birthday = null;
         }
     }
-
+    
     public function getBirthday()
     {
         return $this->birthday;
@@ -4872,7 +4872,7 @@ class ilObjUser extends ilObject
 
         return $ids;
     }
-
+    
     /**
      * get ids of all users that have been inactivated since at least the given period
      *
@@ -4886,7 +4886,7 @@ class ilObjUser extends ilObject
         /////////////////////////////
         $field = 'inactivation_date';
         /////////////////////////////
-
+        
         if (!(int) $period) {
             throw new ilException('no valid period given');
         }
@@ -4900,7 +4900,7 @@ class ilObjUser extends ilObject
         $query = "SELECT usr_id FROM usr_data WHERE $field < %s AND active = %s";
 
         $res = $ilDB->queryF($query, array('timestamp', 'integer'), array($date, 0));
-
+        
         $ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->usr_id;
@@ -4935,7 +4935,7 @@ class ilObjUser extends ilObject
 
         $query = "UPDATE usr_data SET first_login = %s WHERE usr_id = %s AND first_login IS NULL";
         $ilDB->manipulateF($query, array('timestamp', 'integer'), array($last_login, $a_usr_id));
-
+        
 
         if ($affected) {
             return $last_login;
@@ -4943,17 +4943,17 @@ class ilObjUser extends ilObject
             return false;
         }
     }
-
+    
     public function resetOwner()
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $query = "UPDATE object_data SET owner = 0 " .
             "WHERE owner = " . $ilDB->quote($this->getId(), 'integer');
         $ilDB->query($query);
-
+        
         return true;
     }
 
@@ -4983,14 +4983,14 @@ class ilObjUser extends ilObject
         }
         return $let;
     }
-
+    
     // begin-patch deleteProgress
     public static function userExists($a_usr_ids = array())
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $query = 'SELECT count(*) num FROM object_data od ' .
                 'JOIN usr_data ud ON obj_id = usr_id ' .
                 'WHERE ' . $ilDB->in('obj_id', $a_usr_ids, false, 'integer') . ' ';
@@ -5007,7 +5007,7 @@ class ilObjUser extends ilObject
     {
         return (boolean) $_SESSION["user_captcha_verified"];
     }
-
+    
     /**
      * Set captcha verified
      *
@@ -5017,7 +5017,7 @@ class ilObjUser extends ilObject
     {
         $_SESSION["user_captcha_verified"] = $a_val;
     }
-
+    
     /**
      * Export personal data
      *
@@ -5040,7 +5040,7 @@ class ilObjUser extends ilObject
             $dir
         );
     }
-
+    
     /**
      * Get personal data export file
      *
@@ -5059,10 +5059,10 @@ class ilObjUser extends ilObject
                 return $entry["entry"];
             }
         }
-
+        
         return "";
     }
-
+    
     /**
      * Send personal data file
      *
@@ -5078,7 +5078,7 @@ class ilObjUser extends ilObject
             ilUtil::deliverFile($file, $this->getPersonalDataExportFile());
         }
     }
-
+    
     /**
      * Import personal data
      *
@@ -5113,7 +5113,7 @@ class ilObjUser extends ilObject
             "Services/User"
         );
     }
-
+    
     /**
      *
      * @global type $ilDB
@@ -5124,21 +5124,21 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $NOW = $ilDB->now();
-
+        
         $usrId_IN_usrIds = $ilDB->in('usr_id', $usrIds, false, 'integer');
-
+        
         $queryString = "
 			UPDATE usr_data
 			SET inactivation_date = $NOW
 			WHERE inactivation_date IS NULL
 			AND $usrId_IN_usrIds
 		";
-
+        
         $ilDB->manipulate($queryString);
     }
-
+    
     /**
      *
      * @global type $ilDB
@@ -5149,18 +5149,18 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $usrId_IN_usrIds = $ilDB->in('usr_id', $usrIds, false, 'integer');
-
+        
         $queryString = "
 			UPDATE usr_data
 			SET inactivation_date = NULL
 			WHERE $usrId_IN_usrIds
 		";
-
+        
         $ilDB->manipulate($queryString);
     }
-
+    
     /**
      * setter for inactivation date
      *
@@ -5170,7 +5170,7 @@ class ilObjUser extends ilObject
     {
         $this->inactivation_date = $inactivation_date;
     }
-
+    
     /**
      * getter for inactivation date
      *
@@ -5269,7 +5269,7 @@ class ilObjUser extends ilObject
         if (null === $status) {
             return ilSession::get('has_to_accept_agr_in_session');
         }
-
+        
         require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
         if (ilTermsOfServiceHelper::isEnabled()) {
             ilSession::set('has_to_accept_agr_in_session', (int) $status);
@@ -5292,17 +5292,17 @@ class ilObjUser extends ilObject
     {
         return $usr_id == ANONYMOUS_USER_ID;
     }
-
+    
     public function activateDeletionFlag()
     {
         $this->writePref("delete_flag", true);
     }
-
+    
     public function removeDeletionFlag()
     {
         $this->writePref("delete_flag", false);
     }
-
+    
     public function hasDeletionFlag()
     {
         return (bool) $this->getPref("delete_flag");
@@ -5315,17 +5315,17 @@ class ilObjUser extends ilObject
     {
         $this->is_self_registered = (bool) $status;
     }
-
+    
     public function isSelfRegistered()
     {
         return (bool) $this->is_self_registered;
     }
-
-
+    
+    
     //
     // MULTI-TEXT / INTERESTS
     //
-
+        
     /**
      * Set general interests
      *
@@ -5335,7 +5335,7 @@ class ilObjUser extends ilObject
     {
         $this->interests_general = $value;
     }
-
+    
     /**
      * Get general interests
      *
@@ -5345,7 +5345,7 @@ class ilObjUser extends ilObject
     {
         return $this->interests_general;
     }
-
+    
     /**
      * Get general interests as plain text
      *
@@ -5355,7 +5355,7 @@ class ilObjUser extends ilObject
     {
         return $this->buildTextFromArray("interests_general");
     }
-
+    
     /**
      * Set help offering
      *
@@ -5365,7 +5365,7 @@ class ilObjUser extends ilObject
     {
         $this->interests_help_offered = $value;
     }
-
+    
     /**
      * Get help offering
      *
@@ -5375,7 +5375,7 @@ class ilObjUser extends ilObject
     {
         return $this->interests_help_offered;
     }
-
+    
     /**
      * Get help offering as plain text
      *
@@ -5385,7 +5385,7 @@ class ilObjUser extends ilObject
     {
         return $this->buildTextFromArray("interests_help_offered");
     }
-
+    
     /**
      * Set help looking for
      *
@@ -5395,7 +5395,7 @@ class ilObjUser extends ilObject
     {
         $this->interests_help_looking = $value;
     }
-
+    
     /**
      * Get help looking for
      *
@@ -5405,7 +5405,7 @@ class ilObjUser extends ilObject
     {
         return $this->interests_help_looking;
     }
-
+    
     /**
      * Get help looking for as plain text
      *
@@ -5415,7 +5415,7 @@ class ilObjUser extends ilObject
     {
         return $this->buildTextFromArray("interests_help_looking");
     }
-
+    
     /**
      * Convert multi-text values to plain text
      *
@@ -5429,7 +5429,7 @@ class ilObjUser extends ilObject
             return implode(", ", $current);
         }
     }
-
+    
     /**
      * Fetch multi-text values from DB
      */
@@ -5438,7 +5438,7 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         if (!$this->getId()) {
             return;
         }
@@ -5450,7 +5450,7 @@ class ilObjUser extends ilObject
         while ($row = $ilDB->fetchAssoc($set)) {
             $values[$row["field_id"]][] = $row["value"];
         }
-
+        
         if (isset($values["interests_general"])) {
             $this->setGeneralInterests($values["interests_general"]);
         } else {
@@ -5467,7 +5467,7 @@ class ilObjUser extends ilObject
             $this->setLookingForHelp();
         }
     }
-
+    
     /**
      * Write multi-text values to DB
      *
@@ -5478,21 +5478,21 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         if (!$this->getId()) {
             return;
         }
-
+        
         if (!$a_create) {
             $this->deleteMultiTextFields();
         }
-
+        
         $map = array(
             "interests_general" => $this->getGeneralInterests(),
             "interests_help_offered" => $this->getOfferingHelp(),
             "interests_help_looking" => $this->getLookingForHelp()
         );
-
+        
         foreach ($map as $id => $values) {
             if (is_array($values) && sizeof($values)) {
                 foreach ($values as $value) {
@@ -5512,7 +5512,7 @@ class ilObjUser extends ilObject
             }
         }
     }
-
+    
     /**
      * Remove multi-text values from DB
      */
@@ -5521,23 +5521,23 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         if (!$this->getId()) {
             return;
         }
-
+        
         $ilDB->manipulate("DELETE FROM usr_data_multi" .
             " WHERE usr_id = " . $ilDB->quote($this->getId(), "integer"));
     }
-
+    
     public static function findInterests($a_term, $a_user_id = null, $a_field_id = null)
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
+        
         $res = array();
-
+        
         $sql = "SELECT DISTINCT(value)" .
             " FROM usr_data_multi" .
             " WHERE " . $ilDB->like("value", "text", "%" . $a_term . "%");
@@ -5552,7 +5552,7 @@ class ilObjUser extends ilObject
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["value"];
         }
-
+        
         return $res;
     }
 
