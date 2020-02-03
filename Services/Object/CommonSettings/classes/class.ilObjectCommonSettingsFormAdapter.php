@@ -44,7 +44,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function addIcon() : ilPropertyFormGUI
     {
         global $DIC;
-        $this->service->language()->loadLanguageModule("cont");
+        $this->service->language()->loadLanguageModule("cntr");
 
         if ($this->service->settings()->get('custom_icons')) {
             if (!is_null($this->legacy_form)) {
