@@ -10,6 +10,7 @@ function combined()
     $contents = $f->legacy("some contents.");
     $slate1 = $f->maincontrols()->slate()->legacy('legacy1', $icon, $contents);
     $slate2 = $f->maincontrols()->slate()->legacy('legacy2', $icon, $contents);
+    $divider = $f->divider()->horizontal()->withLabel('Horizontal Divider with Text');
 
     $glyph = $f->symbol()->glyph()->briefcase();
     $button = $f->button()->bulky($glyph, 'Button', '#');
@@ -18,6 +19,7 @@ function combined()
         ->combined('combined_example', $f->symbol()->glyph()->briefcase())
         ->withAdditionalEntry($slate1)
         ->withAdditionalEntry($button)
+        ->withAdditionalEntry($divider)
         ->withAdditionalEntry($slate2);
 
 
