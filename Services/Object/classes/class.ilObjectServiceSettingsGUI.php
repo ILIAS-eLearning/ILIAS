@@ -256,15 +256,18 @@ class ilObjectServiceSettingsGUI
 
         // skills
         if (in_array(self::SKILLS, $services)) {
-            $skill = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_skills'), self::SKILLS);
-            $skill->setInfo($lng->txt('obj_tool_setting_skills_info'));
-            $skill->setValue(1);
-            $skill->setChecked(ilContainer::_lookupContainerSetting(
-                $a_obj_id,
-                self::SKILLS,
-                false
-            ));
-            $form->addItem($skill);
+            $skmg_set = new ilSetting("skmg");
+            if ($skmg_set->get("enable_skmg")) {
+                $skill = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_skills'), self::SKILLS);
+                $skill->setInfo($lng->txt('obj_tool_setting_skills_info'));
+                $skill->setValue(1);
+                $skill->setChecked(ilContainer::_lookupContainerSetting(
+                    $a_obj_id,
+                    self::SKILLS,
+                    false
+                ));
+                $form->addItem($skill);
+            }
         }
 
         // filter
@@ -405,8 +408,11 @@ class ilObjectServiceSettingsGUI
 
         // skills
         if (in_array(self::SKILLS, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
-            ilContainer::_writeContainerSetting($a_obj_id, self::SKILLS, (int) $form->getInput(self::SKILLS));
+            $skmg_set = new ilSetting("skmg");
+            if ($skmg_set->get("enable_skmg")) {
+                include_once './Services/Container/classes/class.ilContainer.php';
+                ilContainer::_writeContainerSetting($a_obj_id, self::SKILLS, (int) $form->getInput(self::SKILLS));
+            }
         }
 
         // filter

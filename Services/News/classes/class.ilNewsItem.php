@@ -872,10 +872,21 @@ class ilNewsItem
     ) {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
-        
+
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
+            if (!ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'cont_show_news',
+                    true
+                ) && !ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'news_timeline'
+                )) {
+                return [];
+            }
+
             include_once("./Services/Block/classes/class.ilBlockSetting.php");
             $hide_news_per_date = ilBlockSetting::_lookup(
                 "news",

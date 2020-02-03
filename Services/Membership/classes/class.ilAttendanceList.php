@@ -520,17 +520,12 @@ class ilAttendanceList
      */
     public function getFullscreenHTML()
     {
-        $tpl = new ilGlobalTemplate('tpl.main.html', true, true);
-        $tpl->setBodyClass("ilBodyPrint");
-        
-        // load style sheet depending on user's settings
-        $location_stylesheet = ilUtil::getStyleSheetLocation();
-        $tpl->setVariable("LOCATION_STYLESHEET", $location_stylesheet);
-                        
-        $tpl->setVariable("BODY_ATTRIBUTES", 'onload="window.print()"');
+        global $DIC;
+
+
+        $tpl = $DIC->ui()->mainTemplate();
         $tpl->setVariable("CONTENT", $this->getHTML());
-        
-        return $tpl->printToStdout();
+        $tpl->setContent($this->getHTML());
     }
     
     /**

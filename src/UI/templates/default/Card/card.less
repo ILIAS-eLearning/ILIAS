@@ -1,9 +1,9 @@
 .il-card {
-	padding: 0;
+	padding: 0 0 @padding-large-vertical 0;
 	width: 100%;
 	position:relative;
-
-	background-color: @il-primary-container-bg;
+	background-color: @il-card-background;
+	border: @il-card-border;
 
 	img{
 		width: 100%;
@@ -29,19 +29,20 @@
 	}
 
 	.caption{
+		padding-top: @padding-large-vertical;
+
+		h5{
+			margin:@padding-large-vertical 0 0 0;
+		}
 		.card-title{
 			overflow-wrap: break-word;
 
-		}
-		&:nth-of-type(1n+3) {
-			border-top: 1px solid @panel-inner-border;
 		}
 
 		dl{
 			dt{
 				font-weight: normal;
 				color: @il-light-text-color;
-				font-size: @font-size-small;
 				padding-top: @padding-large-vertical;
 			}
 		}

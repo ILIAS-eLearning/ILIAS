@@ -444,6 +444,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         // ensure jquery files being loaded first
         if (is_int(strpos($a_js_file, "Services/jQuery")) ||
             is_int(strpos($a_js_file, "/jquery.js")) ||
+            is_int(strpos($a_js_file, "/jquery/")) ||
+            is_int(strpos($a_js_file, "/jquery-ui/")) ||
             is_int(strpos($a_js_file, "/jquery-min.js"))) {
             $a_batch = 0;
         }

@@ -219,8 +219,9 @@ h3.ilFileUploadHeader {
 td.ilFileUploadEntryFileName {
 	text-align: left;
 	background-image: url(../../../../templates/default/images/tree_col.svg);
-	background-position: 5px 7px;
+	background-position: 3px 5px;
 	background-repeat: no-repeat;
+	background-size: 20px;
 	padding: 7px 8px 6px 24px;
 	line-height: 1.35em;
 }
@@ -229,7 +230,8 @@ td.ilFileUploadEntryFileName {
 }
 .ilFileUploadError td.ilFileUploadEntryFileName {
 	background-image: url(../../../../templates/default/images/icon_alert.svg);
-	background-position: 4px 6px;
+	background-position: 2px 5px;
+	background-size: 20px;
 	font-weight: normal;
 	padding-left: 24px;
 }

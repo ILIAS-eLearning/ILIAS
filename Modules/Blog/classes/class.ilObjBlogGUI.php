@@ -2058,6 +2058,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ctrl->setParameter($this, "blpg", $this->blpg);
             $vc = $f->viewControl()->section($pb, $mb, $nb);
             $toolbar->addComponent($vc);
+            if ($this->mayContribute() && $this->mayEditPosting($this->blpg)) {
+                $ctrl->setParameter($this, "prvm", "");
+                $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
+                $link = $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+                $toolbar->addSeparator();
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
+            }
+
         } else {		// month view
             $latest_month = $this->getLatestMonth($a_items);
             if ($latest_month != "" && $this->month != $latest_month) {
@@ -2088,6 +2096,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ctrl->setParameter($this, "bmn", $this->month);
             $vc = $f->viewControl()->section($pb, $mb, $nb);
             $toolbar->addComponent($vc);
+
+            if ($this->mayContribute()) {
+                $ctrl->setParameter($this, "prvm", "");
+
+                $ctrl->setParameter($this, "bmn", "");
+                $ctrl->setParameter($this, "blpg", "");
+                $link = $ctrl->getLinkTarget($this, "");
+                $ctrl->setParameter($this, "blpg", $this->blpg);
+                $ctrl->setParameter($this, "bmn", $this->month);
+                $toolbar->addSeparator();
+                $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
+            }
+
         }
     }
 

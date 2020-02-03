@@ -226,7 +226,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ];
         }
 
-        if ($this->isLuceneSearchEnabled()) {
+        if ($this->shouldUseLuceneSearch()) {
             $columns[++$i] = [
                 'field' => 'search_content',
                 'txt' => $this->lng->txt('search_content'),
@@ -412,10 +412,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function isLuceneSearchEnabled() : bool
+    protected function shouldUseLuceneSearch() : bool
     {
         if (
-            ilSearchSettings::getInstance()->enabledLucene() &&
+            $this->isLuceneEnabled() &&
             isset($this->filter['mail_filter']) &&
             is_string($this->filter['mail_filter']) &&
             strlen($this->filter['mail_filter']) > 0
@@ -424,6 +424,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    private function isLuceneEnabled() : bool
+    {
+        return ilSearchSettings::getInstance()->enabledLucene();
     }
 
     /**
@@ -441,15 +449,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
 
         try {
-            if ($this->isLuceneSearchEnabled()) {
+            if ($this->shouldUseLuceneSearch()) {
                 $query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
-                $query_parser->setFields(array(
+                $query_parser->setFields([
                     'title' => (bool) $this->filter['mail_filter_subject'],
                     'content' => (bool) $this->filter['mail_filter_body'],
                     'mattachment' => (bool) $this->filter['mail_filter_attach'],
                     'msender' => (bool) $this->filter['mail_filter_sender'],
                     'mrcp' => (bool) $this->filter['mail_filter_recipients']
-                ));
+                ]);
                 $query_parser->parse();
 
                 $result = new ilMailSearchResult();
@@ -557,7 +565,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             }
             $css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
-            if ($this->isLuceneSearchEnabled()) {
+            if ($this->shouldUseLuceneSearch()) {
                 $search_result = array();
                 foreach ($result->getFields($mail['mail_id']) as $content) {
                     if ('title' == $content[0]) {
@@ -714,16 +722,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $subFilterInBody->readFromSession();
         $this->filter['mail_filter_body'] = (int) $subFilterInBody->getChecked();
 
-        $this->sub_filter[] = $subFilterInAttachments = new ilCheckboxInputGUI(
-            $this->lng->txt('mail_filter_attach'),
-            'mail_filter_attach'
-        );
-        $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
-        $subFilterInAttachments->setValue(1);
-        $quickFilter->addSubItem($subFilterInAttachments);
-        $subFilterInAttachments->setParent($this);
-        $subFilterInAttachments->readFromSession();
-        $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
+        if ($this->isLuceneEnabled()) {
+            $this->sub_filter[] = $subFilterInAttachments = new ilCheckboxInputGUI(
+                $this->lng->txt('mail_filter_attach'),
+                'mail_filter_attach'
+            );
+            $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
+            $subFilterInAttachments->setValue(1);
+            $quickFilter->addSubItem($subFilterInAttachments);
+            $subFilterInAttachments->setParent($this);
+            $subFilterInAttachments->readFromSession();
+            $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
+        }
 
         if (!$this->isDraftFolder() && !$this->isSentFolder()) {
             $onlyUnread = new ilCheckboxInputGUI(
