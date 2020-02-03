@@ -1375,13 +1375,11 @@ class ilObjectListGUI
                 $txt = $command["txt"];
             }
 
-            // BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
             // Suppress commands that don't make sense for anonymous users
             if ($ilUser->getId() == ANONYMOUS_USER_ID &&
                 $command['enable_anonymous'] == 'false') {
                 continue;
             }
-            // END WebDAV: Suppress commands that don't make sense for anonymous users.
 
             // all access checking should be made within $ilAccess and
             // the checkAccess of the ilObj...Access classes
@@ -1418,7 +1416,6 @@ class ilObjectListGUI
         return $ref_commands;
     }
 
-    // BEGIN WebDAV: Visualize object state in its icon.
     /**
     * Returns the icon image type.
     * For most objects, this is same as the object type, e.g. 'cat','fold'.
@@ -1433,7 +1430,6 @@ class ilObjectListGUI
         }
         return $this->type;
     }
-    // END WebDAV: Visualize object state in its icon.
 
     /**
     * insert item title

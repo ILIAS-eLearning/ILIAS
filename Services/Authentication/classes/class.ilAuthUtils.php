@@ -11,9 +11,7 @@ define("AUTH_SCRIPT", 4);
 define("AUTH_SHIBBOLETH", 5);
 define("AUTH_CAS", 6);
 define("AUTH_SOAP", 7);
-// BEGIN WebDAV: Add support for HTTP authentication
-define("AUTH_HTTP", 8);
-// END WebDAV: Add support for HTTP authentication
+define("AUTH_HTTP", 8); // Used for WebDAV
 define("AUTH_ECS", 9);
 
 define("AUTH_APACHE", 11);

@@ -45,11 +45,9 @@ class ilObjPollListGUI extends ilObjectListGUI
     {
         $lng = $this->lng;
 
-        // BEGIN WebDAV: Get parent properties
         // BEGIN ChangeEvent: Get parent properties
         $props = parent::getProperties();
         // END ChangeEvent: Get parent properties
-        // END WebDAV: Get parent properties
 
         // offline
         include_once 'Modules/Poll/classes/class.ilObjPollAccess.php';
