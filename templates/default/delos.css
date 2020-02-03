@@ -10872,7 +10872,7 @@ footer {
 }
 .il-avatar.il-avatar-letter span.abbreviation {
   font-weight: lighter;
-  text-transform: lowercase;
+  text-transform: inherit;
   font-size: calc(20.5px);
   line-height: 1;
   position: relative;
