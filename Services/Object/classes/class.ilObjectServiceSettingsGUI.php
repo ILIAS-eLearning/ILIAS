@@ -72,11 +72,13 @@ class ilObjectServiceSettingsGUI
                 break;
         }
     }
-    
+
     /**
      * Init service settings form
+     * @param int $a_obj_id
      * @param ilPropertyFormGUI $form
-     * @param type $services
+     * @param string[] $services
+     * @return ilPropertyFormGUI
      */
     public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
     {
@@ -85,9 +87,11 @@ class ilObjectServiceSettingsGUI
         $ilSetting = $DIC->settings();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         // info tab
         if (in_array(self::INFO_TAB_VISIBILITY, $services)) {
+            $lng->loadLanguageModule("obj");
+
             $info = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_info_tab'), self::INFO_TAB_VISIBILITY);
             $info->setValue(1);
             $info->setChecked(ilContainer::_lookupContainerSetting(
