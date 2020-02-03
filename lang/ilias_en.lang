@@ -11362,6 +11362,7 @@ content#:#cont_offline_mode_allow_info#:#Users can use the learning module witho
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Repository
+common#:#obj_rep#:#Repository
 common#:#obj_reps_desc#:#General settings for the Repository
 rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_custom_icons#:#Custom Icons
@@ -14052,6 +14053,7 @@ cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 rbac#:#crs_news_add_news#:#Add and edit own news entries in course
+common#:#obj_bgtk#:#Background Task
 bgtask#:#bgtask_failure#:#Error
 bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
 bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
@@ -15299,6 +15301,7 @@ certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+common#:#obj_task#:#Task
 task#:#task_derived_tasks#:#Tasks
 task#:#task_tasks_with_deadline#:#With Deadline
 task#:#task_tasks_without_deadline#:#Without Deadline
