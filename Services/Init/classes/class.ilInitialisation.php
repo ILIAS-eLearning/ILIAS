@@ -832,7 +832,7 @@ class ilInitialisation
         }
 
         if ($session_destroyed) {
-            $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, \ilAuthSession::ANONYMOUS_USER_ID);
+            $GLOBALS['DIC']['ilAuthSession']->setAuthenticated(true, ANONYMOUS_USER_ID);
         }
 
         self::initUserAccount();
