@@ -79,7 +79,7 @@ class ilAuthSession
             $this->validateExpiration();
         } else {
             $this->getLogger()->debug('Started new session.');
-            $this->setUserId(self::ANONYMOUS_USER_ID);
+            $this->setUserId(ANONYMOUS_USER_ID);
             $this->expired = false;
             $this->authenticated = false;
         }
