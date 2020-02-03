@@ -254,7 +254,10 @@
 	position: relative;
  }
  .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
-	height: 0px; // forcing scrollbars in slate content
+	 >:first-child{
+		 z-index: 1;
+	 }
+	 height: 0px; // forcing scrollbars in slate content
 }
 
 /*
