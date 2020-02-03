@@ -12791,6 +12791,10 @@ div#bot_center_area_drag:hover {
     margin-right: 0 !important;
   }
 }
+/* see #27399 (should be finally tackled in PLR2) */
+div.ilContentFixed {
+  padding-bottom: 20px;
+}
 /* right panel (e.g. notes, comments) */
 div.ilRightPanel {
   overflow: auto;
