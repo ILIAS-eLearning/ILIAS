@@ -1,0 +1,21 @@
+<html>
+<head>
+
+</head>
+<body>
+
+Test
+
+<script type="module">
+  import il from './js/il.js';
+  window.il = il;
+  console.log(il);
+</script>
+<script>
+window.onload = function () {
+  il.component1.public1();
+  il.component2.public1();
+};
+</script>
+</body>
+</html>
