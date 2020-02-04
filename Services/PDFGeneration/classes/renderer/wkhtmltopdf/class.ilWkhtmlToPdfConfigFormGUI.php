@@ -29,7 +29,6 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     public function addConfigForm($form)
     {
-        $form->setTitle($this->translate('config'));
 
         $path = new ilTextInputGUI($this->translate('path'), 'path');
         $form->addItem($path);
