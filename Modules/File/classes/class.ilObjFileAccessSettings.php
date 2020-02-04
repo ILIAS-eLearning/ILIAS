@@ -382,4 +382,23 @@ class ilObjFileAccessSettings extends ilObject
 
         return $val;
     }
+
+    // begin-patch skydoc
+    public static  function lookupFileSettingsRefId() : int
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $query = "SELECT ref_id FROM object_reference obr " .
+            "JOIN object_data obd ON obd.obj_id = obr.obj_id " .
+            "WHERE type = 'facs'";
+
+        $set = $db->query($query);
+        $row = $db->fetchAssoc($set);
+
+        $ref_id = $row['ref_id'];
+        return (int) $ref_id;
+    }
+    // end-patch skydoc
 }

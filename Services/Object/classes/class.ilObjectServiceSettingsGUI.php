@@ -23,6 +23,9 @@ class ilObjectServiceSettingsGUI
     // accessing these, see ilObjectDataSet (changes should be
     // made there accordingly)
 
+    // begin-patch skydoc
+    const PL_SKYDOC = 'cont_skydoc';
+
     const CALENDAR_VISIBILITY = 'cont_show_calendar';
     const NEWS_VISIBILITY = 'cont_show_news';
     const USE_NEWS = 'cont_use_news';
@@ -265,6 +268,22 @@ class ilObjectServiceSettingsGUI
             $form->addItem($skill);
         }
 
+        // begin-patch skydoc
+        if (in_array(self::PL_SKYDOC, $services)) {
+            $lng->loadLanguageModule('file');
+            $skydoc = new \ilCheckboxInputGUI($lng->txt('skydoc_file_sync'), self::PL_SKYDOC);
+            $skydoc->setInfo($lng->txt('skydoc_file_sync_info'));
+            $skydoc->setValue(1);
+            $skydoc->setChecked(
+                \ilContainer::_lookupContainerSetting(
+                    $a_obj_id,
+                    self::PL_SKYDOC,
+                    false
+                )
+            );
+            $form->addItem($skydoc);
+        }
+
         return $form;
     }
 
@@ -364,6 +383,11 @@ class ilObjectServiceSettingsGUI
         if (in_array(self::SKILLS, $services)) {
             include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::SKILLS, (int) $form->getInput(self::SKILLS));
+        }
+
+        // begin-parch skydoc
+        if (in_array(self::PL_SKYDOC, $services)) {
+            \ilContainer::_writeContainerSetting($a_obj_id, self::PL_SKYDOC, (int) $form->getInput(self::PL_SKYDOC));
         }
 
         return true;
