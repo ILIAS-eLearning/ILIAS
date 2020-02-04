@@ -58,18 +58,23 @@ class ilObjChatroomListGUI extends ilObjectListGUI
     {
         global $DIC;
 
-        $props = array();
+        $props = [];
 
-        require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+        $DIC->language()->loadLanguageModule('chatroom');
+
         $room = ilChatroom::byObjectId($this->obj_id);
         if ($room) {
-            $props[] = array(
+            $props[] = [
                 'alert' => false, 'property' => $DIC->language()->txt('chat_users_active'),
                 'value' => $room->countActiveUsers()
-            );
+            ];
 
             if ($this->obj_id == self::$publicRoomObjId) {
-                $props[] = array('alert' => false, 'property' => $DIC->language()->txt('notice'), 'value' => $DIC->language()->txt('public_room'));
+                $props[] = [
+                    'alert' => false,
+                    'property' => $DIC->language()->txt('notice'),
+                    'value' => $DIC->language()->txt('public_room')
+                ];
             }
 
             if (self::$chat_enabled === null) {
@@ -78,12 +83,18 @@ class ilObjChatroomListGUI extends ilObjectListGUI
             }
 
             if (!self::$chat_enabled) {
-                $props[] = array('alert' => true, 'property' => $DIC->language()->txt('chtr_server_status'), 'value' => $DIC->language()->txt('server_disabled'));
+                $props[] = [
+                    'alert' => true,
+                    'property' => $DIC->language()->txt('chtr_server_status'),
+                    'value' => $DIC->language()->txt('server_disabled')
+                ];
             }
 
             if (!$room->getSetting('online_status')) {
-                $props[] = array('alert' => true, 'property' => $DIC->language()->txt('status'),
-                                 'value' => $DIC->language()->txt('offline'));
+                $props[] = [
+                    'alert' => true, 'property' => $DIC->language()->txt('status'),
+                    'value' => $DIC->language()->txt('offline')
+                ];
             }
         }
 
