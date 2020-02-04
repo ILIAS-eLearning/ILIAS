@@ -1800,11 +1800,9 @@ class ilObjectListGUI
         $cnt = 1;
         if (is_array($props) && count($props) > 0) {
             foreach ($props as $prop) {
-                // BEGIN WebDAV: Display a separator between properties.
                 if ($cnt > 1) {
                     $this->tpl->touchBlock("separator_prop");
                 }
-                // END WebDAV: Display a separator between properties.
 
                 if ($prop["alert"] == true) {
                     $this->tpl->touchBlock("alert_prop");
