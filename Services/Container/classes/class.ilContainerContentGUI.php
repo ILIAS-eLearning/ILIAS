@@ -416,6 +416,14 @@ abstract class ilContainerContentGUI
         $item_list_gui->disableTitleLink(false);
         $item_list_gui->resetConditionTarget();
 
+        if ($this->container_obj->isClassificationFilterActive()) {
+            $item_list_gui->enablePath(
+                true,
+                $this->container_obj->getRefId(),
+                new \ilSessionClassificationPathGUI()
+            );
+        }
+
         // show administration command buttons (or not)
         if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {
             //			$item_list_gui->enableDelete(false);
