@@ -744,16 +744,27 @@ class ilContainer extends ilObject
     }
 
     /**
-     * Get initial subitems
-     *
      * Note grp/crs currently allow to filter in their whole subtrees
      * Catetories only their direct childs
+     * @return bool
+     */
+    public function filteredSubtree(): bool
+    {
+        if ($this->isClassificationFilterActive() && in_array($this->getType(), ["grp", "crs"])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get initial subitems
+     *
      * @return array
      */
     protected function getInitialSubitems(): array
     {
         $tree = $this->tree;
-        if ($this->isClassificationFilterActive() && in_array($this->getType(), ["grp", "crs"])) {
+        if ($this->filteredSubtree()) {
             $objects = $tree->getSubTree($tree->getNodeData($this->getRefId()));
         } else {
             $objects = $tree->getChilds($this->getRefId(), "title");
