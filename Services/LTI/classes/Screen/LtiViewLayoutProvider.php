@@ -100,7 +100,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                     $f = $this->dic->ui()->factory();
                     $title = ($this->dic["lti"]->getHomeTitle() != "") ? $this->dic["lti"]->getHomeTitle() : "LTI Home";
                     $link = ($this->dic["lti"]->getHomeLink() != "") ? $this->dic["lti"]->getHomeLink() : "#";
-                    $icon = $f->symbol()->icon()->standard('dshs', $title); //dashboard
+                    $icon = $f->symbol()->icon()->standard('root', $title)->withIsOutlined(true);
                     $lti_home = $f->button()->bulky($icon, $title, $link);
                     foreach ($tools as $id => $entry) {
                         $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
