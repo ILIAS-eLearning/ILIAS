@@ -1721,7 +1721,10 @@ class ilNoteGUI
             $ref = (int) $_GET['ref_id'];
             if (in_array($ref, ilObject::_getAllReferences($this->rep_obj_id))) {
                 if ($this->obj_type == "pg") {
-                    $gui = new ilLMPresentationGUI();
+                    $gui = new ilLMPresentationGUI("",
+                        false,
+                        "",
+                        false);
                     $gui->observeNoteAction($this->rep_obj_id, $this->obj_id, $this->obj_type, $a_action, $a_note->getId());
                 }
 
