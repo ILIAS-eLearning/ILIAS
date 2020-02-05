@@ -35,11 +35,14 @@ class ilFavouritesListGUI
         if (is_null($user)) {
             $user = $DIC->user();
         }
+
         $settings = new ilPDSelectedItemsBlockViewSettings($user);
         $settings->parse();
         $this->block_view = ilPDSelectedItemsBlockViewGUI::bySettings($settings);
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("rep");
     }
 
     /**
@@ -63,18 +66,16 @@ class ilFavouritesListGUI
                 $item_groups[] = $f->item()->group($group->getLabel(), $items);
             }
         }
-        $panel = $f->panel()->secondary()->listing("", $item_groups);
-        //$panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard("Configure", "#")]));
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
-        $link = $f->link()->standard(
-            "Configure",
+        $panel = $f->panel()->secondary()->listing("", $item_groups);
+        $panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard(
+            $this->lng->txt("rep_configure"),
             $ctrl->getLinkTargetByClass(
-                ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-                "manage"
-            )
-        );
-        return $this->ui->renderer()->render([$link, $panel]);
+            ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
+            "manage"
+        ))]));
+        return $this->ui->renderer()->render([$panel]);
     }
 }

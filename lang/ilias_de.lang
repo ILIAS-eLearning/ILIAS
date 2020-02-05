@@ -16070,3 +16070,4 @@ style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" fü
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_quali_still_valid#:#Qualifikation gültig
 prg#:#prg_quali_not_valid#:#Qualifikation ungültig
+rep#:#rep_configure#:#Configure
