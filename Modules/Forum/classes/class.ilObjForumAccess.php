@@ -62,7 +62,10 @@ class ilObjForumAccess extends ilObjectAccess
             return false;
         }
 
-        if ($DIC->access()->checkAccess('read', '', $t_arr[1])) {
+        if (
+            $DIC->access()->checkAccess('read', '', $t_arr[1]) ||
+            $DIC->access()->checkAccess('visible', '', $t_arr[1])
+        ) {
             return true;
         }
 
