@@ -133,3 +133,7 @@ Cons
 
 - The approach does not offer a solution for dependenc handling / management yet. All components access other services through the global `il` object.
 - ...?
+
+## Follow-Up
+
+This PR does not discuss a bundle strategy (or any kind of build process). It should be a separate task to investigate the best level of bundling/minification on different levels to optimise performance. The suggested structure however could serve as a starting point for such an investigation.
