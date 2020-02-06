@@ -82,8 +82,10 @@ window.onload = function () {
 All core and service components SHOULD add their imports to one central il.js file.
 
 ```
+// this first line imports a non-ES6-module version of jquery
 import "../libs/bower/bower_components/jquery/dist/jquery.min.js"
 ...
+// ES6-module import style
 import ui from "./src/UI/js/ui.js"
 import object from "./Services/Object/js/object.js"
 import tagging from "./Servicces/tagging/tagging.js"
@@ -119,12 +121,15 @@ Pros
 - Elimination of problems caused by the wrong sequence scripts are loaded.
 - Optional bundling and minification based on ES6 modules using tools like webpack.
 - Removing `$tpl->addJavascript()` calls from PHP.
-- Necessary refactory would be limited and can be done incrementally.
+- Necessary refactoring would be limited and can be done incrementally.
+- Better readability of the code.
+- Easy way to prevent global scope pollution.
 
 Centralizing the imports in one place instead of adding them to single components keeps the path information (location of the js files) in one place. This makes refactoring easier (e.g. when JS files are moved). This approach shares some similarities with the way less files are currently organised in ILIAS.
 
-It may not be appropriate to include Javascript specialised on one component without any reuse for other contexts in this central file, e.g. forum.js or learning_module.js. But in general the number of scripts separately included in a page could be reduced to two.
+It may not be appropriate to include Javascript specialised on one component without any reuse for other contexts in this central `il.js` file, e.g. forum.js or learning_module.js. But in general the number of scripts separately included in a page could be reduced to two.
 
 Cons
 
 - The approach does not offer a solution for dependenc handling / management yet. All components access other services through the global `il` object.
+- ...?
