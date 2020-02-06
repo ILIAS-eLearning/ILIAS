@@ -408,7 +408,7 @@ abstract class ilContainerContentGUI
         } else {
             $item_list_gui =&$this->list_gui[$item_data["type"]];
         }
-                    
+
         // unique js-ids
         $item_list_gui->setParentRefId($item_data["parent"]);
         
