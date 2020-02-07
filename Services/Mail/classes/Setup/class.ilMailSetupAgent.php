@@ -1,31 +1,19 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
 use ILIAS\UI;
 
-class ilMediaObjectSetupAgent implements Setup\Agent
+class ilMailSetupAgent implements Setup\Agent
 {
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
-
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
-        $this->refinery = $refinery;
-    }
-
     /**
      * @inheritdoc
      */
     public function hasConfig() : bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -33,7 +21,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
      */
     public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new \LogicException("Agent has no config.");
     }
 
     /**
@@ -41,11 +29,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilMediaObjectSetupConfig(
-                $data["path_to_ffmpeg"] ?? null
-            );
-        });
+        throw new \LogicException("Agent has no config.");
     }
 
     /**
@@ -54,14 +38,13 @@ class ilMediaObjectSetupAgent implements Setup\Agent
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
         $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
-            'mobs',
-            ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
+            'mail',
+            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
         );
 
         return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/MediaObject",
+            "Complete objectives from Services/Mail",
             false,
-            new ilMediaObjectConfigStoredObjective($config),
             $dir_objective
         );
     }
