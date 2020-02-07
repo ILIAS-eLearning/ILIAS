@@ -134,6 +134,7 @@ Cons
 - The approach does not offer a solution for dependenc handling / management yet. All components access other services through the global `il` object.
 - ...?
 
-## Follow-Up
+## Roadmap
 
-This PR does not discuss a bundle strategy (or any kind of build process). It should be a separate task to investigate the best level of bundling/minification on different levels to optimise performance. The suggested structure however could serve as a starting point for such an investigation.
+- This PR does not discuss a **bundle strategy** (or any kind of build process). It should be a separate task to investigate the best level of bundling/minification on different levels to optimise performance. The suggested structure however could serve as a starting point for such an investigation.
+- `il` services as some kind of global service locator object. We may introduce a proper **DI container** instead together with guidelines on how to manage dependencies on the client side.
