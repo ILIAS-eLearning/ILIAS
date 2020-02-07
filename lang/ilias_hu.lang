@@ -16045,3 +16045,13 @@ exc#:#exc_members_already_assigned_team#:#Ez a felhasználó már tagja ennek a 
 style#:#sty_add_media_query_info#:#Péládul 'csak képernyő és (max-szélesség: 600px)' 600px-nél kisebb böngészőablakokhoz vagy 'nyomtatás' nyomtatókhoz.
 prg#:#prg_quali_still_valid#:#Qualification still valid
 prg#:#prg_quali_not_valid#:#Qualification not valid
+common#:#account#:#My Account###07 02 2020 new variable
+common#:#awra#:#Who is online?###07 02 2020 new variable
+common#:#noc#:#Notification Center###07 02 2020 new variable
+ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###07 02 2020 new variable
+objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:###07 02 2020 new variable
+common#:#obj_rep#:#Repository###07 02 2020 new variable
+common#:#obj_bgtk#:#Background Task###07 02 2020 new variable
+common#:#obj_task#:#Task###07 02 2020 new variable
+rep#:#rep_configure#:#Configure###07 02 2020 new variable
+cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
