@@ -14250,3 +14250,4 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
