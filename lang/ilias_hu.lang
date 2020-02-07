@@ -15800,3 +15800,258 @@ style#:#style_page_layout_module_learning_module#:#ILIAS-tananyag
 content#:#cont_insert_pagelayout#:#Oldalsablon beszúrása
 content#:#cont_page_template#:#Oldalsablon
 content#:#cont_page_created#:#Az oldal létrehozva
+administration#:#org_op_edit_user_accounts#:#Edit User Accounts###07 02 2020 new variable
+meta#:#udf_type_address#:#Address###07 02 2020 new variable
+meta#:#md_adv_edit_complex_option#:#Edit Option Properties###07 02 2020 new variable
+survey#:#svy_chart_download#:#Download Chart###07 02 2020 new variable
+survey#:#svy_export_pdf#:#Export PDF###07 02 2020 new variable
+survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results###07 02 2020 new variable
+survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.###07 02 2020 new variable
+survey#:#svy_notification_tutor_results_alert#:#This requires an end date.###07 02 2020 new variable
+survey#:#survey_results_tutor_subject#:#Results for survey "%s"###07 02 2020 new variable
+survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey###07 02 2020 new variable
+sess#:#sess_participation_refused_info#:#Your participation for this event has been canceled.###07 02 2020 new variable
+sess#:#sess_bt_refuse#:#Cannot Participate###07 02 2020 new variable
+sess#:#sess_part_table_excused#:#Excused###07 02 2020 new variable
+crs#:#crs_target_group#:#Target Group###07 02 2020 new variable
+acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept###07 02 2020 new variable
+acc#:#acc_add_document_btn_label#:#Add Document###07 02 2020 new variable
+acc#:#acc_form_new_doc_head#:#Create Document###07 02 2020 new variable
+acc#:#acc_form_edit_doc_head#:#Edit Document###07 02 2020 new variable
+acc#:#acc_form_document_title#:#Title###07 02 2020 new variable
+acc#:#acc_form_document_title_info#:#Please enter a title for the document.###07 02 2020 new variable
+acc#:#acc_form_document#:#Document###07 02 2020 new variable
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###07 02 2020 new variable
+acc#:#acc_form_document_new#:#Change Content###07 02 2020 new variable
+acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###07 02 2020 new variable
+acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.###07 02 2020 new variable
+acc#:#acc_tbl_docs_title#:#Documents###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_sorting#:#Sorting###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_title#:#Title###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_created#:#Creation Date###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_last_change#:#Last Change###07 02 2020 new variable
+acc#:#acc_tbl_docs_head_criteria#:#Criteria###07 02 2020 new variable
+acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion###07 02 2020 new variable
+acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned###07 02 2020 new variable
+acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion###07 02 2020 new variable
+acc#:#acc_doc_delete#:#Delete Document###07 02 2020 new variable
+acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###07 02 2020 new variable
+acc#:#acc_doc_crit_detached#:#The criterion has been detached.###07 02 2020 new variable
+acc#:#acc_doc_crit_attached#:#The criterion has been attached.###07 02 2020 new variable
+acc#:#acc_doc_crit_changed#:#The criterion has been changed.###07 02 2020 new variable
+acc#:#acc_form_attach_criterion_head#:#Attach Criterion###07 02 2020 new variable
+acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###07 02 2020 new variable
+acc#:#acc_form_criterion#:#Criterion###07 02 2020 new variable
+acc#:#acc_document#:#Document###07 02 2020 new variable
+acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?###07 02 2020 new variable
+acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###07 02 2020 new variable
+acc#:#acc_deleted_documents_s#:#The document has been deleted.###07 02 2020 new variable
+acc#:#acc_deleted_documents_p#:#The documents have been deleted.###07 02 2020 new variable
+acc#:#acc_saved_sorting#:#The sorting has been saved.###07 02 2020 new variable
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###07 02 2020 new variable
+acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###07 02 2020 new variable
+acc#:#acc_crit_type_usr_language#:#Profile Language###07 02 2020 new variable
+common#:#account#:#My Account###07 02 2020 new variable
+common#:#awra#:#Who is online?###07 02 2020 new variable
+common#:#noc#:#Notification Center###07 02 2020 new variable
+common#:#obj_accs_captcha#:#Captchas###07 02 2020 new variable
+common#:#webdav_add_instructions_btn_label#:#Add Mount Instructions Document###07 02 2020 new variable
+common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###07 02 2020 new variable
+common#:#webdav_general_settings#:#General Settings###07 02 2020 new variable
+common#:#webdav_form_document#:#Instructions Document###07 02 2020 new variable
+common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###07 02 2020 new variable
+common#:#webdav_form_document_title#:#Title###07 02 2020 new variable
+common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened###07 02 2020 new variable
+common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document###07 02 2020 new variable
+common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document###07 02 2020 new variable
+common#:#webdav_mount_instructions#:#Mount Instructions###07 02 2020 new variable
+common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:###07 02 2020 new variable
+common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###07 02 2020 new variable
+common#:#webdav_tbl_docs_head_title#:#Dokument title###07 02 2020 new variable
+common#:#webdav_upload_instructions#:#Upload Instructions###07 02 2020 new variable
+common#:#webdav_chosen_language_already_used#:#There already is another document associated with the chosen language###07 02 2020 new variable
+common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount Instructions###07 02 2020 new variable
+common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###07 02 2020 new variable
+ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###07 02 2020 new variable
+grp#:#grp_auto_notification#:#Welcome-Mail For New Members###07 02 2020 new variable
+grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###07 02 2020 new variable
+ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###07 02 2020 new variable
+ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###07 02 2020 new variable
+blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###07 02 2020 new variable
+objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:###07 02 2020 new variable
+common#:#obj_rep#:#Repository###07 02 2020 new variable
+mst#:#mst_list_certificates#:#Certificates###07 02 2020 new variable
+mst#:#mst_list_competences#:#Competences###07 02 2020 new variable
+mst#:#mst_profile_fulfilled#:#Not met, yet###07 02 2020 new variable
+mst#:#mst_profile_not_fulfilled#:#Fulfilled###07 02 2020 new variable
+mst#:#mst_cert_issued_on#:#Issued On###07 02 2020 new variable
+mst#:#mst_download_certificate#:#Download Certificate###07 02 2020 new variable
+orgu#:#org_op_view_certificates#:#View certificates of other users###07 02 2020 new variable
+rbac#:#org_op_view_certificates#:#View certificates of subordinated users###07 02 2020 new variable
+orgu#:#org_op_view_competences#:#View competences of other users###07 02 2020 new variable
+rbac#:#org_op_view_competences#:#View competences of subordinated users###07 02 2020 new variable
+adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###07 02 2020 new variable
+adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###07 02 2020 new variable
+common#:#report_accessibility_issue#:#Report Accessibility Issue###07 02 2020 new variable
+common#:#report_accessibility_link#:#Reported Link:###07 02 2020 new variable
+common#:#accessibility_control_concept#:#Accessibility Control Concept###07 02 2020 new variable
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.###07 02 2020 new variable
+common#:#obj_bgtk#:#Background Task###07 02 2020 new variable
+common#:#obj_task#:#Task###07 02 2020 new variable
+dash#:#dash_learningsequences#:#My Learning Sequences###07 02 2020 new variable
+dash#:#dash_studyprogramme#:#My Study Programmes###07 02 2020 new variable
+prg#:#assignment_date#:#Assignment Date###07 02 2020 new variable
+prg#:#completion_date#:#Completion Date###07 02 2020 new variable
+prg#:#prg_no_deadline#:#No fixed prozessing time###07 02 2020 new variable
+prg#:#prg_deadline_period#:#Processing time is determined inividually###07 02 2020 new variable
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.###07 02 2020 new variable
+prg#:#prg_deadline_date#:#Processing time expires at fixed date###07 02 2020 new variable
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###07 02 2020 new variable
+prg#:#prg_no_validity_qalification#:#Long-Lasting qualification###07 02 2020 new variable
+prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications###07 02 2020 new variable
+prg#:#validity_qalification_period#:#Qualification expires individually###07 02 2020 new variable
+prg#:#validity_qalification_period_desc#:#days after completion###07 02 2020 new variable
+prg#:#validity_qalification_date#:#Qualification expires at fixed date###07 02 2020 new variable
+prg#:#validity_qalification_date_desc#:#expiry date###07 02 2020 new variable
+prg#:#prg_no_restart#:#No restart required###07 02 2020 new variable
+prg#:#restart_period#:#Restart obligatory###07 02 2020 new variable
+prg#:#restart_period_desc#:#days before expiry###07 02 2020 new variable
+prg#:#sp_certificate_title#:#Title of the Study Programme###07 02 2020 new variable
+prg#:#sp_certificate_description#:#Description of the Study Programme###07 02 2020 new variable
+prg#:#sp_certificate_type#:#Type of the Study Programme###07 02 2020 new variable
+prg#:#sp_certificate_points#:#Amount of points that have been acquired###07 02 2020 new variable
+prg#:#sp_certificate_completion_date#:#Date of completion###07 02 2020 new variable
+prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification###07 02 2020 new variable
+prg#:#prg_completion_date#:#Completion date###07 02 2020 new variable
+prg#:#prg_expiry_date#:#Expiry date###07 02 2020 new variable
+prg#:#prg_validity#:#Validity###07 02 2020 new variable
+prg#:#prg_still_valid#:#still valid###07 02 2020 new variable
+prg#:#prg_not_valid#:#not valid###07 02 2020 new variable
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments###07 02 2020 new variable
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire###07 02 2020 new variable
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress###07 02 2020 new variable
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'###07 02 2020 new variable
+prg#:#prg_orgus#:#Organisational Units###07 02 2020 new variable
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories###07 02 2020 new variable
+prg#:#content_automation#:#Content Automation###07 02 2020 new variable
+prg#:#last_edited_by#:#Last Editor###07 02 2020 new variable
+prg#:#last_edited#:#Last edited###07 02 2020 new variable
+prg#:#add_category#:#Add Category###07 02 2020 new variable
+prg#:#modal_categories_title#:#Category to be monitored###07 02 2020 new variable
+prg#:#category#:#Category RefId###07 02 2020 new variable
+common#:#obj_prgr#:#Link to Study Programme###07 02 2020 new variable
+common#:#obj_prgrs#:#Links to Study Programmes###07 02 2020 new variable
+prg#:#prgr_new#:#Create Study Programme Link###07 02 2020 new variable
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###07 02 2020 new variable
+prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.###07 02 2020 new variable
+prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry###07 02 2020 new variable
+prg#:#prg_validity_of_qualification_restart#:#Restart###07 02 2020 new variable
+prg#:#prg_deadline_settings#:#Processing Period###07 02 2020 new variable
+prg#:#edit_participants#:#Edit Members###07 02 2020 new variable
+prg#:#auto_memberships#:#Membership Automation###07 02 2020 new variable
+prg#:#orgu#:#Organisational Unit###07 02 2020 new variable
+prg#:#rol#:#Role###07 02 2020 new variable
+prg#:#auto_membership_title#:#Sources for Membership Automation###07 02 2020 new variable
+prg#:#add_automembership_source#:#Add Source###07 02 2020 new variable
+prg#:#auto_membership_src_type#:#Type###07 02 2020 new variable
+prg#:#membership_source_id#:#Id###07 02 2020 new variable
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>###07 02 2020 new variable
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###07 02 2020 new variable
+prg#:#modal_automembership_title#:#Automatismus hinzufügen###07 02 2020 new variable
+prg#:#membership_source_type#:#Source###07 02 2020 new variable
+prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
+orgu#:#org_op_view_members#:#View Members###07 02 2020 new variable
+orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable
+prg#:#prg_formatted_period#:#%d days###07 02 2020 new variable
+prg#:#deadline_information#:#Information regarding processing period###07 02 2020 new variable
+prg#:#dealine_period_info#:#Days to process after assignment###07 02 2020 new variable
+prg#:#dealine_date_info#:#Deadline date###07 02 2020 new variable
+prg#:#vq_information#:#Information regarding validity of achived qualification###07 02 2020 new variable
+prg#:#vq_period_info#:#Days until qualification will expire after achivement###07 02 2020 new variable
+prg#:#vq_date_info#:#Qualification expires at fixed date###07 02 2020 new variable
+prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration###07 02 2020 new variable
+prg#:#restart_period_info#:#Days before qualification expiration to restart qualification###07 02 2020 new variable
+prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###07 02 2020 new variable
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.###07 02 2020 new variable
+prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###07 02 2020 new variable
+prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:###07 02 2020 new variable
+prg#:#prg_title#:#Title###07 02 2020 new variable
+prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm###07 02 2020 new variable
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.###07 02 2020 new variable
+prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm###07 02 2020 new variable
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.###07 02 2020 new variable
+prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart###07 02 2020 new variable
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.###07 02 2020 new variable
+prg#:#prg_processing_ends_no_success#:#Reminder mail failing###07 02 2020 new variable
+prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.###07 02 2020 new variable
+prg#:#prg_cron_job_configuration#:#Configuration automatic Mails###07 02 2020 new variable
+prg#:#send_re_assigned_mail#:#E-mail renewed participation###07 02 2020 new variable
+prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.###07 02 2020 new variable
+prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart###07 02 2020 new variable
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.###07 02 2020 new variable
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure###07 02 2020 new variable
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.###07 02 2020 new variable
+prg#:#prg_user_not_restarted_title#:#Send warning mail about restart###07 02 2020 new variable
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.###07 02 2020 new variable
+prg#:#send_risky_to_fail_mail#:#E-mail in case of failure###07 02 2020 new variable
+prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.###07 02 2020 new variable
+search#:#search_for_orgu_members#:#Search for Organisational Units###07 02 2020 new variable
+search#:#select_orgu#:#Select Organisational Units###07 02 2020 new variable
+prg#:#prg_dash_label_valid#:#Valid:###07 02 2020 new variable
+prg#:#prg_dash_label_minimum#:#Minimum Completion:###07 02 2020 new variable
+prg#:#prg_dash_label_gain#:#Current Completion:###07 02 2020 new variable
+prg#:#prg_dash_label_status#:#Status:###07 02 2020 new variable
+prg#:#prg_dash_label_finish_until#:#Finish until:###07 02 2020 new variable
+prg#:#prg_dash_label_restart_from#:#Restart from:###07 02 2020 new variable
+prg#:#percentage#:#%###07 02 2020 new variable
+prg#:#prg_status_1#:#In Progress###07 02 2020 new variable
+prg#:#prg_status_2#:#Completed###07 02 2020 new variable
+prg#:#prg_status_3#:#Accredited###07 02 2020 new variable
+prg#:#prg_status_4#:#Not Relevant###07 02 2020 new variable
+prg#:#prg_status_5#:#failed###07 02 2020 new variable
+prg#:#prg_multi_change_deadline#:#Change deadline###07 02 2020 new variable
+prg#:#prg_multi_change_expire_date#:#Change expire date###07 02 2020 new variable
+prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
+prg#:#update_deadline#:#Successfuly update deadline.###07 02 2020 new variable
+prg#:#error_updating_expire_date#:#Error during updating expire date.###07 02 2020 new variable
+prg#:#error_updating_deadline#:#Error during updating deadline.###07 02 2020 new variable
+prg#:#select_crs#:#Search for Courses###07 02 2020 new variable
+prg#:#select_grp#:#Search for Groups###07 02 2020 new variable
+prg#:#select_role#:#Search for Roles###07 02 2020 new variable
+prg#:#select_org#:#Search for Organisational Unit###07 02 2020 new variable
+prg#:#label_crs#:#Course Name###07 02 2020 new variable
+prg#:#label_grp#:#Group Name###07 02 2020 new variable
+prg#:#label_role#:#Role Name###07 02 2020 new variable
+prg#:#modal_member_auto_select_title#:#Select Source for auto assignment###07 02 2020 new variable
+prg#:#prg_auto_member_select_crs#:#Courses###07 02 2020 new variable
+prg#:#prg_auto_member_select_grp#:#Groups###07 02 2020 new variable
+prg#:#prg_auto_member_select_role#:#Roles###07 02 2020 new variable
+badge#:#badge_new_badges#:#You have %1 new badge(s).###07 02 2020 new variable
+content#:#cont_no_read#:#No read permission###07 02 2020 new variable
+content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout###07 02 2020 new variable
+content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.###07 02 2020 new variable
+content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout###07 02 2020 new variable
+content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.###07 02 2020 new variable
+content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock###07 02 2020 new variable
+content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.###07 02 2020 new variable
+content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box###07 02 2020 new variable
+content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.###07 02 2020 new variable
+content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout###07 02 2020 new variable
+content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.###07 02 2020 new variable
+dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.###07 02 2020 new variable
+rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:###07 02 2020 new variable
+rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.###07 02 2020 new variable
+rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".###07 02 2020 new variable
+rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.###07 02 2020 new variable
+task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.###07 02 2020 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###07 02 2020 new variable
+prg#:#prg_quali_still_valid#:#Qualification still valid###07 02 2020 new variable
+prg#:#prg_quali_not_valid#:#Qualification not valid###07 02 2020 new variable
+rep#:#rep_configure#:#Configure###07 02 2020 new variable
+cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
