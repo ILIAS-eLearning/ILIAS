@@ -6,7 +6,8 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use ILIAS\Refinery;
@@ -62,8 +63,11 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "1" => "Pick 1",
             "2" => "Pick 2"
         );
-        $ms = $f->multiSelect("label", $options, "byline");
-        $ms = $ms->withInput(new class () implements PostData {
+        $ms = $f->multiSelect("label", $options, "byline")
+            ->withNameFrom(new class () implements NameSource {
+                public function getNewName() { return "name"; }
+            });
+        $ms = $ms->withInput(new class () implements InputData {
             public function getOr($_, $__) {
                 return ["3"];
             }
