@@ -1,21 +1,17 @@
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
-* ILIAS language file (All entries)
+* ILIAS language file (Local changes merged into the global language file)
 *
 * @module			language file Portuguese
 * @modulegroup		language
 * @author			Juergen Busch <jurgen@elearneasy.net>
 * @version			$Id$
-* @il_server		http://release.ilias
-* @il_version		5.4.9 2020-01-24
-* @created			2020-02-07 17:13:03
-* @created_by		root user <ilias@yourserver.com>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Chave de acesso
