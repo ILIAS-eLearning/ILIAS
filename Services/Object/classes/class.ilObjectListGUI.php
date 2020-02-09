@@ -3781,7 +3781,7 @@ class ilObjectListGUI
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 
