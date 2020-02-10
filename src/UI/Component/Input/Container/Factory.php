@@ -96,4 +96,26 @@ interface Factory
      * @return  \ILIAS\UI\Component\Input\Container\Filter\Factory
      */
     public function filter();
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The ViewControl Container orchestrates a collection of Control Inputs
+     *      for exactly one visualization of data (e.g. a table or diagram) and defines
+     *      the way how input from those controls is being relayed to the system.
+     *   composition: >
+     *      The ViewControl Container encapsulates Control Inputs.
+     *   rivals:
+     *      filter: >
+     *          Filters are used to limit presented data, i.e. to modify the dataset.
+     *          ViewControls will alter the presentation.
+     *      inputs: >
+     *          ViewControls will not change persistent data.
+     *
+     * ---
+     *
+     * @return \ILIAS\UI\Component\Input\Container\ViewControl\Factory
+     */
+    public function viewControl(): ViewControl\Factory;
 }

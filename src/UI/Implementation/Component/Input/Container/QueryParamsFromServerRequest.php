@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2019 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
+namespace ILIAS\UI\Implementation\Component\Input\Container;
 
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use Psr\Http\Message\ServerRequestInterface;

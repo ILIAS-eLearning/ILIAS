@@ -1471,7 +1471,10 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Item\Factory();
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.input"]
+            );
         };
         $c["ui.factory.chart"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
@@ -1480,7 +1483,8 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Input\Factory(
                 $c["ui.signal_generator"],
                 $c["ui.factory.input.field"],
-                $c["ui.factory.input.container"]
+                $c["ui.factory.input.container"],
+                $c["ui.factory.input.control"]
             );
         };
         $c["ui.factory.table"] = function ($c) {
@@ -1546,7 +1550,8 @@ class ilInitialisation
         $c["ui.factory.input.container"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
                 $c["ui.factory.input.container.form"],
-                $c["ui.factory.input.container.filter"]
+                $c["ui.factory.input.container.filter"],
+                $c["ui.factory.input.container.viewcontrol"]
             );
         };
         $c["ui.factory.input.container.form"] = function ($c) {
@@ -1560,6 +1565,18 @@ class ilInitialisation
                 $c["ui.factory.input.field"]
             );
         };
+        $c["ui.factory.input.control"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\Control\Factory(
+                //NYI
+            );
+        };
+        $c["ui.factory.input.container.viewcontrol"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory(
+                //NYI
+            );
+        };
+
+
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
         };
