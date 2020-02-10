@@ -5,7 +5,7 @@ namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
+use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
 
 /**
  * Interface Tag
@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends FilterInput, InputInternal
+interface Tag extends FilterInput, FormInputInternal
 {
 
     /**
