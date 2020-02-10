@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This is what a radio-input looks like.
  */
-interface Radio extends Input
+interface Radio extends FormInput
 {
 
     /**

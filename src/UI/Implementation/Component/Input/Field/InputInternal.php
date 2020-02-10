@@ -13,7 +13,7 @@ use ILIAS\Data\Result;
  * Describes the interface of inputs that is used for internal
  * processing of data from the client.
  */
-interface InputInternal 
+interface InputInternal extends Input
 {
     /**
      * The name of the input as used in HTML.

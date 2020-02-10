@@ -23,7 +23,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * Inputs that are contained by this group
      *
-     * @var    Input[]
+     * @var    FormInput[]
      */
     protected $inputs = [];
 
@@ -201,7 +201,7 @@ class Group extends Input implements C\Input\Field\Group
     }
 
     /**
-     * @return Input[]
+     * @return FormInput[]
      */
     public function getInputs()
     {

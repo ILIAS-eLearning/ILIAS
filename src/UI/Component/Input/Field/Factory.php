@@ -96,7 +96,7 @@ interface Factory
      *
      * ---
      *
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @param    string    $label
      *
      * @return    \ILIAS\UI\Component\Input\Field\Group
@@ -126,7 +126,7 @@ interface Factory
      *      accepted by the Jour Fixe.
      *
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @return	\ILIAS\UI\Component\Input\Field\OptionalGroup
      */
     public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
@@ -154,7 +154,7 @@ interface Factory
      *      accepted by the Jour Fixe.
      *
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input\Group>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input\FormInput>    $input
      * @return	\ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
     public function switchableGroup(array $inputs, string $label, string $byline = null) : SwitchableGroup;
@@ -196,7 +196,7 @@ interface Factory
      *
      * ---
      *
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @param    string|null $label
      * @param    string      $byline
      *

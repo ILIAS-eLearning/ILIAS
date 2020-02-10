@@ -4,13 +4,13 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**
  * This type of input is required by forms.
  */
-interface FormInputInternal extends InputInternal, Input
+interface FormInputInternal extends InputInternal, FormInput
 {
     /**
      * Get an input like this one, with a different name.
