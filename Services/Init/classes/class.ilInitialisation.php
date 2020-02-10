@@ -1483,7 +1483,11 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Item\Factory();
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.input"],
+                $c["http.request_factory"]
+            );
         };
         $c["ui.factory.chart"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);

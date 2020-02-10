@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\ViewControls\FieldSelection as FieldSelectionInterface;
 
 /**
  * This is how the factory for UI elements looks.
@@ -138,4 +139,37 @@ interface Factory
      * @return \ILIAS\UI\Component\ViewControl\Pagination
      */
     public function pagination();
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      FieldSelection is used to limit a visualization of data to a choice of aspects,
+     *      e.g. in picking specific columns of a table or fields of a diagram.
+     *   composition: >
+     *      A FieldSelection uses a MultiSelect Input within a Standard Form, visually wrapped in 
+     *      a dropdown.
+     *   effect: >
+     *      When operating the dropdown, the From with the Multiselect is shown.
+     *      The user's choice is related in the request upon form submission.
+     *
+     * rules:
+     *   usage:
+     *      1: A FieldSelection MUST NOT be used standalone.
+     *      2: FieldSelection MUST be visually close to the visualization its operation will have effect upon.
+     *   accessibility:
+     *      1: FieldSelection MUST be operable via keyboard only.
+     *
+     * ---
+     * @param array<string,string> $options
+     * @param string $label
+     *
+     * @return \ILIAS\UI\Component\ViewControl\FieldSelection
+     */
+    public function fieldSelection(
+          array $options,
+          string $label = FieldSelectionInterface::DEFAULT_DROPDOWN_LABEL,
+          string $button_label = FieldSelectionInterface::DEFAULT_BUTTON_LABEL
+     ): FieldSelection;
 }

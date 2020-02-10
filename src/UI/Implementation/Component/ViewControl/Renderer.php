@@ -35,6 +35,10 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\ViewControl\Pagination) {
             return $this->renderPagination($component, $default_renderer);
         }
+        if ($component instanceof Component\ViewControl\FieldSelection) {
+            return $this->renderFieldSelection($component, $default_renderer);
+        }
+        
     }
 
     protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer)
@@ -366,6 +370,15 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
+    protected function renderFieldSelection(Component\ViewControl\FieldSelection $component, RendererInterface $default_renderer)    {
+        $tpl = $this->getTemplate("tpl.selection.html", true, true);
+        $form = $component->getForm();
+        $tpl->setVariable('LABEL', $component->getDropdownLabel());
+        $tpl->setVariable('FORM', $default_renderer->render($form));
+        return $tpl->get();
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -396,7 +409,8 @@ class Renderer extends AbstractComponentRenderer
             Component\ViewControl\Mode::class,
             Component\ViewControl\Section::class,
             Component\ViewControl\Sortation::class,
-            Component\ViewControl\Pagination::class
+            Component\ViewControl\Pagination::class,
+            Component\ViewControl\FieldSelection::class
         );
     }
 }
