@@ -296,7 +296,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function saveAssessmentSettingsObject()
     {
-        $this->saveTags("assessment", "assessment");
+        $form = $this->initTagsForm(
+            "assessment",
+            "saveAssessmentSettings",
+            "advanced_editing_assessment_settings"
+        );
+        if (!$this->saveTags("assessment", "assessment", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -316,7 +324,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function saveSurveySettingsObject()
     {
-        $this->saveTags("survey", "survey");
+        $form = $this->initTagsForm(
+            "survey",
+            "saveSurveySettings",
+            "advanced_editing_survey_settings"
+        );
+        if (!$this->saveTags("survey", "survey", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -336,7 +352,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         
     public function saveFrmPostSettingsObject()
     {
-        $this->saveTags("frm_post", "frmPost");
+        $form = $this->initTagsForm(
+            "frm_post",
+            "saveFrmPostSettings",
+            "advanced_editing_frm_post_settings"
+        );
+        if (!$this->saveTags("frm_post", "frmPost", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -356,7 +380,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         
     public function saveExcAssSettingsObject()
     {
-        $this->saveTags("exc_ass", "excAss");
+        $form = $this->initTagsForm(
+            "exc_ass",
+            "saveExcAssSettings",
+            "advanced_editing_excass_settings"
+        );
+        if (!$this->saveTags("exc_ass", "excAss", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
             
     
@@ -384,26 +416,31 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton($a_cmd, $this->lng->txt("save"));
         }
-        
+
         return $form;
     }
     
-    protected function saveTags($a_id, $a_cmd)
+    protected function saveTags($a_id, $a_cmd, $form)
     {
         $this->checkPermission("write");
         try {
-            // get rid of select all
-            if (is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "") {
-                unset($_POST['html_tags'][0]);
+            if ($form->checkInput()) {
+                // get rid of select all
+                if (is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "") {
+                    unset($_POST['html_tags'][0]);
+                }
+
+                $this->object->setUsedHTMLTags((array) $_POST['html_tags'], $a_id);
+                ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            } else {
+                return false;
             }
-            
-            $this->object->setUsedHTMLTags((array) $_POST['html_tags'], $a_id);
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         } catch (ilAdvancedEditingRequiredTagsException $e) {
             ilUtil::sendInfo($e->getMessage(), true);
         }
         
         $this->ctrl->redirect($this, $a_cmd);
+        return true;
     }
     
     
