@@ -39,7 +39,8 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
     protected function isLTIExitMode(CalledContexts $screen_context_stack): bool
     {
         $data_collection = $screen_context_stack->current()->getAdditionalData();
-        return $data_collection->is(self::GS_EXIT_LTI, true);
+        $is_exit_mode = $data_collection->is(self::GS_EXIT_LTI, true);
+        return $is_exit_mode;
     }
 
     public function isInterestedInContexts() : ContextCollection
