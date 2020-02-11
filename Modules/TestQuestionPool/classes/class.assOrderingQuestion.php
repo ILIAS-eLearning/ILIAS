@@ -1035,7 +1035,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
                 }
             }
-            $element = $this->getOrderingElementList()->getElementByPosition($idx);
+            $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($idx);
             $worksheet->setCell($startrow + $i, 1, $element->getContent());
             $i++;
         }
