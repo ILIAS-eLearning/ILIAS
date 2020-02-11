@@ -13,8 +13,8 @@ require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinitio
  */
 class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 {
-    protected $options = array();
-    protected $confirm_objects; // [array]
+    protected $options = [];
+    protected $confirm_objects = [];
     protected $confirmed_objects; // [array]
     
     const REMOVE_ACTION_ID = "-iladvmdrm-";
@@ -205,7 +205,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 );
                 $in_use = ilADTActiveRecordByType::readByPrimary("adv_md_values", $primary, "Enum");
                 if ($in_use) {
-                    $this->confirm_objects = array();
+                    $this->confirm_objects = [];
                     foreach ($in_use as $item) {
                         $this->confirm_objects[$item[ilADTActiveRecordByType::SINGLE_COLUMN_NAME]][] = array($item["obj_id"], $item["sub_type"], $item["sub_id"]);
                     }
@@ -218,7 +218,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     
     public function importDefinitionFormPostValuesNeedsConfirmation()
     {
-        return sizeof($this->confirm_objects);
+        return is_array($this->confirm_objects) && count($this->confirm_objects) > 0;
     }
     
     public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
