@@ -101,7 +101,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      */
     public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory() : void
     {
-        if (version_compare(\PHPUnit\Runner\Version::id(), '9.0', '>')) {
+        if (version_compare(\PHPUnit\Runner\Version::id(), '9.0', '>=')) {
             $this->expectError(PHPUnit\Framework\Error\Error::class);
         } else {
             $this->assertException(PHPUnit\Framework\Error\Error::class);
