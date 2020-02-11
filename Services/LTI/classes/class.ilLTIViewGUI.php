@@ -120,7 +120,7 @@ class ilLTIViewGUI
 			case 'exit' :
 				$this->logout();
 				$this->exitLti();
-				unset($_SESSION['il_lti_mode']);
+				$this->deactivate();
 				break;
 		}
 	}
@@ -144,6 +144,7 @@ class ilLTIViewGUI
 	 * */
 	public function deactivate() 
 	{
+		unset($_SESSION['il_lti_mode']);
 		unset($_SESSION['lti_home_id']);
 		unset($_SESSION['lti_home_obj_id']);
 		unset($_SESSION['lti_home_url']);
@@ -154,7 +155,7 @@ class ilLTIViewGUI
 
 	public function isActive() : bool
 	{
-		return (isset($_SESSION['il_lti_mode']));
+		return isset($_SESSION['il_lti_mode']) && $_SESSION['il_lti_mode'] == "1";
 	}
 
 	public function initGUI() 
@@ -225,7 +226,6 @@ class ilLTIViewGUI
 		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
 			$cc = $this->dic->globalScreen()->tool()->context()->current();
 			$cc->addAdditionalData(LtiViewLayoutProvider::GS_EXIT_LTI, true);
-
 			$ui_factory = $this->dic->ui()->factory();
 			$renderer = $this->dic->ui()->renderer();
 			$content = [
@@ -234,6 +234,7 @@ class ilLTIViewGUI
 
 			$tpl = $this->dic["tpl"];
 			$tpl->setContent($renderer->render($content));
+			$_SESSION['il_lti_mode'] = "1";
 			$tpl->printToStdout();
 		} else {
 			header('Location: ' . $_SESSION['lti_launch_presentation_return_url']);
@@ -246,7 +247,6 @@ class ilLTIViewGUI
 	function logout() 
 	{
 		$this->dic->logger()->lti()->info("logout");
-		$this->deactivate();
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		$client_id = $_COOKIE["ilClientId"];
