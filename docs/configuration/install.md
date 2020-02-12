@@ -170,14 +170,11 @@ For more details on file access rights see [File Access Rights](#file-access-rig
 
 The repository of ILIAS doesn't contain all code that is required to run. To
 download the required PHP-dependencies and to create static artifacts from
-the source, run
+the source, run the following in your ILIAS folder:
 
 ```
-cd libs/composer
-composer install --no-dev
+composer install --no-dev -d libs/composer
 ```
-
-in your ILIAS folder.
 
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or
 ```apache```) the mode SHOULD be 644 for files and 755 for directories.
@@ -522,8 +519,7 @@ To apply a minor update (e.g. v5.2.0 to v5.2.1) execute the following command in
 
 ```
 git pull
-cd libs/composer
-composer install --no-dev
+composer install --no-dev -d libs/composer
 ```
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
@@ -538,8 +534,7 @@ To apply a major update (e.g. v5.1.0 to 5.2.0 or v4.x.x to 5.x.x) please check t
 ```
 git fetch
 git checkout release_5-2
-cd libs/composer
-composer install --no-dev
+composer install --no-dev -d libs/composer
 ```
 
 Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
