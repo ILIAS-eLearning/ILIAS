@@ -369,10 +369,10 @@ class ilObjLTIConsumer extends ilObject2
         $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
         
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            if ($row['provider_id']) {
+            // if ($row['provider_id']) { //always set
                 $this->setProviderId((int) $row['provider_id']);
                 $this->setProvider(new ilLTIConsumeProvider((int) $row['provider_id']));
-            }
+            // }
             
             $this->setLaunchMethod($row['launch_method']);
 

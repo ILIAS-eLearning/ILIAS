@@ -742,7 +742,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        if ($this->object->getOfflineStatus() || $this->object->isLaunchMethodEmbedded()) {
+        if ($this->object->getOfflineStatus() || 
+			$this->object->isLaunchMethodEmbedded() ||
+			$this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             return;
         }
         
@@ -803,8 +805,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     protected function handleAvailablityMessage()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
+        if ($this->object->getProvider()->getProviderUrl() == '') {
+            ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_set_msg'));
+        }
+        else if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_avail_msg'));
         }
     }
