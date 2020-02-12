@@ -14239,7 +14239,7 @@ sysc#:#sysc_status_running#:#Wird durchgeführt
 sysc#:#sysc_tab_trash#:#Gelöschte Objekte
 sysc#:#sysc_task_overview#:#Aufgaben
 sysc#:#sysc_task_structure#:#Baumstruktur
-sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
+sysc#:#sysc_task_structure_desc#:#Analysiert und korrigiert die Struktur des Magazinbaums
 sysc#:#sysc_task_tree_dump#:#Baum auflisten
 sysc#:#sysc_task_tree_dump_desc#:#Analysiert die Baumstruktur und listet alle Baumknoten zusammen mit den Analysedaten auf.
 sysc#:#sysc_task_tree_duplicates#:#Doppelte Einträge in der Baumstruktur
