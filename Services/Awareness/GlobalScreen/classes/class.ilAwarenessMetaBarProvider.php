@@ -40,6 +40,33 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
     {
         global $DIC;
 
+        $ilUser = $DIC->user();
+
+        $awrn_set = new ilSetting("awrn");
+        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
+            return [];
+        }
+
+        $cache_period = (int) $awrn_set->get("caching_period");
+        $last_update = ilSession::get("awrn_last_update");
+        $now = time();
+
+        $act = ilAwarenessAct::getInstance($ilUser->getId());
+        $act->setRefId((int) $_GET["ref_id"]);
+        if ($last_update == "" || ($now - $last_update) >= $cache_period) {
+            $cnt = explode(":", $act->getAwarenessUserCounter());
+            $hcnt = $cnt[1];
+            $cnt = $cnt[0];
+            $act->notifyOnNewOnlineContacts();
+            ilSession::set("awrn_last_update", $now);
+            ilSession::set("awrn_nr_users", $cnt);
+            ilSession::set("awrn_nr_husers", $hcnt);
+        } else {
+            $cnt = (int) ilSession::get("awrn_nr_users");
+            $hcnt = (int) ilSession::get("awrn_nr_husers");
+        }
+
+
         $gui = new ilAwarenessGUI();
         $result = $gui->getAwarenessList(true);
 
@@ -92,4 +119,6 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
 
         return [$item];
     }
+
+
 }
