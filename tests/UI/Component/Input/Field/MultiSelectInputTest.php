@@ -6,7 +6,7 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-//use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\PostData;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use \ILIAS\Validation;
@@ -53,6 +53,24 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         );
         $ms = $f->multiSelect("label", $options, "byline");
         $this->assertEquals($options, $ms->getOptions());
+    }
+
+
+    public function test_only_accepts_actual_options_from_client_side() {
+        $this->expectException(\InvalidArgumentException::class);
+        $f = $this->buildFactory();
+        $options = array(
+            "1" => "Pick 1",
+            "2" => "Pick 2"
+        );
+        $ms = $f->multiSelect("label", $options, "byline");
+        $ms = $ms->withInput(new class () implements PostData {
+            public function getOr($_, $__) {
+                return ["3"];
+            }
+            public function get($_) {}
+        });
+        $content = $ms->getContent();
     }
 
 

@@ -11315,7 +11315,6 @@ prtt#:#prtt_new#:#Neue Portfoliovorlage anlegen
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
 prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
-ps#:#ps_participants_list_courses#:#Aktivierung der Teilnehmerliste der Mitgliedergalerie in Kursen zulassen
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
 ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
@@ -15069,3 +15068,4 @@ exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zun�
 exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
 style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.
 ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
+common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
