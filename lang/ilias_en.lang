@@ -12444,7 +12444,7 @@ sess#:#sess_mail_permanent_link_participants#:#Click on the following link to ed
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
