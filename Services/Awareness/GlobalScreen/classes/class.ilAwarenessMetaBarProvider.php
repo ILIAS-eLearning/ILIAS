@@ -4,6 +4,8 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\UI\Implementation\Component\Button\Bulky;
+
 
 /**
  * Who-Is-Online meta bar provider
@@ -54,6 +56,18 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
 
         $item = $mb
             ->topLegacyItem($this->getId())
+            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+                if ($c instanceof Bulky) {
+                    return $c->withAdditionalOnLoadCode(static function (string $id) : string {
+
+                        // ...we never get the bulky button of the legacy slate item here
+                        return "$('#$id').on('click', function() {
+                                    console.log('click slate button');
+                                })";
+                    });
+                }
+                return $c;
+            })
             ->withLegacyContent($content())
             ->withSymbol(
                 $this->dic->ui()->factory()
