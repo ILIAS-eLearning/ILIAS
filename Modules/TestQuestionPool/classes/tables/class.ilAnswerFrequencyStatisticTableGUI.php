@@ -136,7 +136,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     public function fillRow($data)
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', $data['answer']);
+        $this->tpl->setVariable('ANSWER',  \ilUtil::prepareFormOutput($data['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
