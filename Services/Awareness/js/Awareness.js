@@ -129,6 +129,7 @@ il.Awareness = {
 		{
 			t.content = o.html;
 			$('#awareness-content').replaceWith(o.html);
+			$('#il_awareness_filter').val(o.filter_val);
 			t.afterListUpdate();
 
 			cnt = o.cnt.split(":");
@@ -199,7 +200,6 @@ il.Awareness = {
 
 	updateList: function(filter) {
 		var t = il.Awareness;
-
 		$.ajax({
 			url: t.getBaseUrl() + "&cmd=getAwarenessList"
 				+ "&filter=" + encodeURIComponent(filter),
@@ -225,3 +225,8 @@ il.Awareness = {
 		}
 	}
 };
+
+/* temporary fix, since initial ajax loading does not work */
+il.Util.addOnLoad(function() {
+  il.Awareness.afterListUpdate();
+})

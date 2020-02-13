@@ -1445,7 +1445,6 @@ div#agreement {
 	overflow-x: hidden;
 }
 
-
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div#bot_center_area {
 	bottom:	0;
@@ -1494,16 +1493,17 @@ div#bot_center_area_drag:hover {
 	@media (max-width: @screen-lg-min) {margin-left: 0 !important;}
 }
 
+
 [dir="rtl"] .ilLeftNavSpace {
 	margin-left: 0 !important;
 	margin-right: 315px !important;
 	@media (max-width: @screen-lg-min) {margin-right: 0 !important;}
 }
 
-
+/* see #27399 (should be finally tackled in PLR2) */
 div.ilContentFixed {
+	padding-bottom: 20px;
 }
-
 
 /* right panel (e.g. notes, comments) */
 div.ilRightPanel {
@@ -1574,18 +1574,15 @@ div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
 }
 
 .ilFrameFixedWidth #mainscrolldiv {
-	max-width: 1370px;
 	margin: 0 auto;
 }
 
 div.ilFrameFixedWidthHeader {
-	max-width: 1370px;
 	margin: 0 auto;
 	padding: 0;
 }
 
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
-	max-width: 1370px;
 	overflow: hidden;
 	padding: 0 15px;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {

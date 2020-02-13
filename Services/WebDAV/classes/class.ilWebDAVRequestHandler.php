@@ -3,25 +3,6 @@
 use function Sabre\HTTP\decodePath;
 use Sabre\DAV\Exception\BadRequest;
 
-require_once 'libs/composer/vendor/autoload.php';
-
-// Include all needed classes for a webdav-request
-include_once "Services/WebDAV/classes/auth/class.ilWebDAVAuthentication.php";
-include_once "Services/WebDAV/classes/db/class.ilWebDAVDBManager.php";
-include_once "Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php";
-include_once "Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php";
-include_once "Services/WebDAV/classes/browser/class.ilWebDAVSabreBrowserPlugin.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjectDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjContainerDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjFileDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjCategoryDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjCourseDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjGroupDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjFolderDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilMountPointDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilClientNodeDAV.php";
-include_once "Services/WebDAV/classes/dav/class.ilObjRepositoryRootDAV.php";
-
 /**
  * Class ilWebDAVRequestHandler
  *

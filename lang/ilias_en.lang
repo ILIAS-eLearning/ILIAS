@@ -11362,6 +11362,7 @@ content#:#cont_offline_mode_allow_info#:#Users can use the learning module witho
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Repository
+common#:#obj_rep#:#Repository
 common#:#obj_reps_desc#:#General settings for the Repository
 rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_custom_icons#:#Custom Icons
@@ -12443,7 +12444,7 @@ sess#:#sess_mail_permanent_link_participants#:#Click on the following link to ed
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
@@ -13587,7 +13588,7 @@ administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_maintenance#:#System Settings and Maintenance
-administration#:#adm_user_administration#:#User Administration
+administration#:#adm_user_administration#:#Users and Roles
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
@@ -14056,6 +14057,7 @@ cont#:#cont_news_timeline_tab#:#Timeline
 cont#:#cont_news_edited#:#Bearbeitet
 news#:#news_really_delete_news#:#Do you really want to delete this news item?
 rbac#:#crs_news_add_news#:#Add and edit own news entries in course
+common#:#obj_bgtk#:#Background Task
 bgtask#:#bgtask_failure#:#Error
 bgtask#:#bgtask_empty_folder#:#The current selection does not include any downloadable content.
 bgtask#:#bgtask_download_too_large#:#The download surpasses the size limit of %s.
@@ -15303,6 +15305,7 @@ certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#This option is recommended for systems with high user interaction.
 certificate#:#persistent_certificate_mode_instant#:#Instant
 certificate#:#persistent_certificate_mode_instant_info#:#This option is recommended for systems with low up to mediocre user interactions. Systems that tend to big loading times during creation for multiple user certificates should switch to the "Cron Job" option.
+common#:#obj_task#:#Task
 task#:#task_derived_tasks#:#Tasks
 task#:#task_tasks_with_deadline#:#With Deadline
 task#:#task_tasks_without_deadline#:#Without Deadline
@@ -16053,3 +16056,6 @@ exc#:#exc_members_already_assigned_team#:#This user is already assigned to a tea
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 prg#:#prg_quali_still_valid#:#Qualification still valid
 prg#:#prg_quali_not_valid#:#Qualification not valid
+rep#:#rep_configure#:#Configure
+cont#:#cont_found_objects#:#Found Objects
+common#:#msg_unknown_value#:#An unknown value has been passed.

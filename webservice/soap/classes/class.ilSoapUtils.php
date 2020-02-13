@@ -564,7 +564,11 @@ class ilSoapUtils extends ilSoapAdministration
         ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, (int) $source_id);
 
         // Finally add new mapping entry
-        $cp_options->appendMapping($source_id, $new_ref_id);
+        $cp_options->appendMapping($node['child'], $new_ref_id);
+
+        $logger->notice('Added mapping for ' . $node['child'] . ' ' . $new_ref_id);
+
+
         return $new_ref_id;
     }
 
