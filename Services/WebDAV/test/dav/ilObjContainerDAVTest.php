@@ -1,14 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adm_her
- * Date: 26.09.18
- * Time: 12:50
- */
 
+use\PHPUnit\Framework\TestCase;
+use\Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
+require_once 'ilObjDummyDAV.php';
+
+class ilObjContainerDAVTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /** @var int */
     protected $ref_id;
 
@@ -27,7 +27,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
     /**
      * Setup
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->ref_id = 100;
         $this->mocked_obj = \Mockery::mock('ilContainer');
@@ -69,11 +69,13 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $children_ref_ids = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
         }
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
         $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
         $this->mocked_dav_helper->shouldReceive('createDAVObjectForRefId')->andReturn(new ilObjDummyDAV());
 
         // Act
@@ -98,12 +100,17 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_davable_children = 0;
 
         $children_ref_ids = array();
+        $children_titles = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
         }
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(false);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
+        $this->mocked_repo_helper->shouldReceive('getObjectTypeFromRefId')->andReturnValues($children_ref_ids);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObjType')->andReturn(false);
 
         // Act
         $dav_children = $this->container_dav->getChildren();
@@ -116,20 +123,103 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
      * @test
      * @small
      */
-    public function GetChildren_NoReadAccessToObjects_ReturnEmptyArray()
+    public function GetChildren_NoVisibleNoReadPermissionToObjects_ReturnEmptyArray()
     {
         // Arrange
         $number_of_children = 5;
         $number_of_davable_children = 0;
 
         $children_ref_ids = array();
+        $children_titles = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
         }
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
-        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(false);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible' || $permission == 'read') {
+                return false; // No Visible and no read
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
+
+        // Act
+        $dav_children = $this->container_dav->getChildren();
+
+        // Assert
+        $this->assertTrue(count($dav_children) == $number_of_davable_children);
+    }
+
+    /**
+     * @test
+     * @small
+     */
+    public function GetChildren_WithVisibleNoReadPermissionToObjects_ReturnEmptyArray()
+    {
+        // Arrange
+        $number_of_children = 5;
+        $number_of_davable_children = 0;
+
+        $children_ref_ids = array();
+        $children_titles = array();
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
+            $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
+        }
+
+        $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible') {
+                return true; // With visible
+            } elseif ($permission == 'read') {
+                return false; // No Read
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
+
+        // Act
+        $dav_children = $this->container_dav->getChildren();
+
+        // Assert
+        $this->assertTrue(count($dav_children) == $number_of_davable_children);
+    }
+
+    /**
+     * @test
+     * @small
+     */
+    public function GetChildren_NoVisibleWithReadPermissionToObjects_ReturnEmptyArray()
+    {
+        // Arrange
+        $number_of_children = 5;
+        $number_of_davable_children = 0;
+
+        $children_ref_ids = array();
+        $children_titles = array();
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
+            $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
+        }
+
+        $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible') {
+                return false; // No Visible
+            } elseif ($permission == 'read') {
+                return true; // With Read
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
 
         // Act
         $dav_children = $this->container_dav->getChildren();
@@ -146,25 +236,30 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $number_of_children = 5;
-        $number_of_davable_children = 1;
+        $number_of_davable_children = 3;
 
         $children_ref_ids = array();
+        $children_titles = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
         }
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true, true, true, false, false);
-        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(false, true, false);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturnValues($children_titles);
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTypeFromRefId')->andReturn(false);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObjType')->andReturn(false);
         $this->mocked_dav_helper->shouldReceive('createDAVObjectForRefId')->andReturn(new ilObjDummyDAV());
 
         // Act
         $dav_children = $this->container_dav->getChildren();
 
         // Assert
-        $this->assertTrue(count($dav_children) == $number_of_davable_children
-                            && $this->mocked_dav_helper->shouldHaveReceived('isDAVableObject')->times(5)
-                            && $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->times(3));
+        $this->mocked_dav_helper->shouldHaveReceived('isDAVableObject')->times(5);
+        $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->times(6);
+        $this->assertTrue(count($dav_children) == $number_of_davable_children);
     }
 
     /**
@@ -177,8 +272,10 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_children = 5;
 
         $children_ref_ids = array();
+        $children_titles = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
+            $children_titles[] = "abc" . $i;
         }
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
@@ -195,7 +292,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
      * @test
      * @small
      */
-    public function ChildExists_ChildExistsButUserHasNoReadAccess_returnFalse()
+    public function ChildExists_ChildExistsButUserHasNoVisibleAndNoReadPermission_returnFalse()
     {
         // Arrange
         $number_of_children = 5;
@@ -208,15 +305,93 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
 
         $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
-        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturn('1', '2', $searched_title, '4', '5');
-        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturn(false);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturn('t1', 't2', $searched_title, 't4', 't5');
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible' || $permission == 'read') {
+                return false; // No Visible
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
 
         // Act
         $child_exists = $this->container_dav->childExists($searched_title);
 
         // Assert
-        $this->assertTrue(!$child_exists
-                        && $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->once());
+        $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->once();
+        $this->assertTrue(!$child_exists);
+    }
+
+    /**
+     * @test
+     * @small
+     */
+    public function ChildExists_ChildExistsButUserHasOnlyVisiblePermission_returnFalse()
+    {
+        // Arrange
+        $number_of_children = 5;
+        $searched_title = 'dummy';
+
+        $children_ref_ids = array();
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
+            $children_ref_ids[] = $i;
+        }
+
+        $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturn('t1', 't2', $searched_title, 't4', 't5');
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible') {
+                return true; // With Visible
+            } elseif ($permission == 'read') {
+                return false; // No Read
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
+
+        // Act
+        $child_exists = $this->container_dav->childExists($searched_title);
+
+        // Assert
+        $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->twice();
+        $this->assertTrue(!$child_exists);
+    }
+
+    /**
+     * @test
+     * @small
+     */
+    public function ChildExists_ChildExistsButUserHasOnlyReadPermission_returnFalse()
+    {
+        // Arrange
+        $number_of_children = 5;
+        $searched_title = 'dummy';
+
+        $children_ref_ids = array();
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
+            $children_ref_ids[] = $i;
+        }
+
+        $this->mocked_repo_helper->shouldReceive('getChildrenOfRefId')->andReturn($children_ref_ids);
+        $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(true);
+        $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturn('t1', 't2', $searched_title, 't4', 't5');
+        $this->mocked_repo_helper->shouldReceive('checkAccess')->andReturnUsing(function ($permission, $ref) {
+            if ($permission == 'visible') {
+                return false; // No Visible
+            } elseif ($permission == 'read') {
+                return true; // With Read
+            } else {
+                throw new UnexpectedValueException($permission . ' was not expected as argument in this test case');
+            }
+        });
+
+        // Act
+        $child_exists = $this->container_dav->childExists($searched_title);
+
+        // Assert
+        $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->once();
+        $this->assertTrue(!$child_exists);
     }
 
     /**
@@ -273,7 +448,8 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $returned_child = $this->container_dav->getChild($searched_title);
 
         // Assert
-        $this->assertTrue($returned_child === $dummy_obj_dav && $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->once());
+        $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->twice();
+        $this->assertTrue($returned_child === $dummy_obj_dav);
     }
 
     /**
@@ -369,6 +545,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $file_title = 'some_file.exe';
+        $exception_thrown = false;
 
         $this->mocked_repo_helper->shouldReceive('checkCreateAccessForType')->andReturn(true);
         $this->mocked_dav_helper->shouldReceive('isValidFileNameWithValidFileExtension')->andReturn(false);
@@ -377,7 +554,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         try {
             $this->container_dav->createFile($file_title);
         } catch (\Sabre\DAV\Exception\Forbidden $e) {
-            if ($e->getMessage() == 'Invalid file extension') {
+            if ($e->getMessage() == 'Invalid file name or file extension') {
                 $exception_thrown = true;
             }
         }
