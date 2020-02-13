@@ -13584,7 +13584,7 @@ administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_maintenance#:#System Settings and Maintenance
-administration#:#adm_user_administration#:#User Administration
+administration#:#adm_user_administration#:#Users and Roles
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
