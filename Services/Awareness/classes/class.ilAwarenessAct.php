@@ -102,18 +102,15 @@ class ilAwarenessAct
     public function notifyOnNewOnlineContacts()
     {
         $lng = $this->lng;
-
         $awrn_set = new ilSetting("awrn");
         if (!$awrn_set->get("use_osd", true)) {
             return;
         }
-
         $ts = ilSession::get("awr_online_user_ts");
 
         $data = ilAwarenessData::getInstance($this->user_id);
         $data->setRefId($this->getRefId());
         $d = $data->getOnlineUserData($ts);
-
         $new_online_users = array();
         $no_ids = array();
         foreach ($d as $u) {
@@ -126,7 +123,6 @@ class ilAwarenessAct
                 $no_ids[] = $u->id;
             }
         }
-
         if (count($new_online_users) == 0) {
             return;
         }
@@ -153,7 +149,7 @@ class ilAwarenessAct
         //$notification->setHandlerParam('mail.sender', $sender_id);
 
         ilSession::set("awr_online_user_ts", date("Y-m-d H:i:s", time()));
-
+        
         $notification->notifyByUsers(array($this->user_id));
     }
 }

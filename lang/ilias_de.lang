@@ -12965,7 +12965,7 @@ sysc#:#sysc_task_tree_missing_tree_desc#:#Sucht und repariert fehlende Einträge
 sysc#:#sysc_task_tree_missing_reference#:#Fehlende Referenzen
 sysc#:#sysc_task_tree_missing_reference_desc#:#Sucht und repariert fehlende Objektreferenzen für Einträge im Magazinbaum.
 sysc#:#sysc_task_structure#:#Baumstruktur
-sysc#:#sysc_task_structure_desc#:#Analyiert und korrigiert die Struktur des Magazinbaums
+sysc#:#sysc_task_structure_desc#:#Analysiert und korrigiert die Struktur des Magazinbaums
 forum#:#sel_threads_already_sticky#:#Mindestens eins der gewählten Themen ist bereits als Top-Thema markiert
 forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist bereits kein Top-Thema mehr
 forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
@@ -13597,7 +13597,7 @@ administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
-administration#:#adm_user_administration#:#Benutzerverwaltung
+administration#:#adm_user_administration#:#Benutzer und Rollen
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige

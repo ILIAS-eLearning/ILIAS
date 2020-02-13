@@ -117,7 +117,8 @@ class ilAwarenessGUI
         include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
         $act = ilAwarenessAct::getInstance($ilUser->getId());
         $act->setRefId($this->ref_id);
-
+        var_dump("1");
+        exit;
         if ($last_update == "" || ($now - $last_update) >= $cache_period) {
             $cnt = explode(":", $act->getAwarenessUserCounter());
             $hcnt = $cnt[1];
