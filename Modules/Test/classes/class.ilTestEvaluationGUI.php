@@ -325,7 +325,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             if (!$this->object->getAnonymity()) {
-                if (ilCertificate::isActive()) {
+                $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+                if ($globalCertificatePrerequisites->validate()) {
                     $options['certificate'] = $this->lng->txt('exp_type_certificate');
                 }
             }
@@ -806,6 +807,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function exportCertificate()
     {
         global $DIC;
+
+        $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+        if (!$globalCertificatePrerequisites->validate()) {
+            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
+        }
 
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
