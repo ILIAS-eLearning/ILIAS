@@ -69,6 +69,13 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
 
+        $landmark_role = $component->getLandmarkRole();
+        if ($landmark_role != null) {
+            $tpl->setCurrentBlock("with_landmark_role");
+            $tpl->setVariable("LANDMARK_ROLE", $landmark_role);
+            $tpl->parseCurrentBlock();
+        }
+
         if ($component->getEngaged()) {
             $tpl->touchBlock('engaged');
         } else {

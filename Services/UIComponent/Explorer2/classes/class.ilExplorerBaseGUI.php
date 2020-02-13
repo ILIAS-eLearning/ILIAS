@@ -30,6 +30,11 @@ abstract class ilExplorerBaseGUI
      */
     protected $tpl;
 
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
     //protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
     protected static $js_tree_path = "./libs/bower/bower_components/jstree/dist/jstree.js";
     protected static $js_tree_path_css = "./libs/bower/bower_components/jstree/dist/themes/default/style.min.css";
@@ -76,6 +81,7 @@ abstract class ilExplorerBaseGUI
         $this->log = $DIC["ilLog"];
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
+        $this->lng = $DIC->language();
         $this->id = $a_expl_id;
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
@@ -737,6 +743,7 @@ abstract class ilExplorerBaseGUI
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $root = $this->getNodeId($this->getRootNode());
         if (!in_array($root, $this->open_nodes)) {
@@ -785,6 +792,7 @@ abstract class ilExplorerBaseGUI
 
         $etpl->setVariable("CONTAINER_ID", $container_id);
         $etpl->setVariable("CONTAINER_OUTER_ID", $container_outer_id);
+        $etpl->setVariable("ARIA_LABEL", $lng->txt('explorer_aria_label'));
 
         $add = "";
         if ($ilCtrl->isAsynch()) {

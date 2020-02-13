@@ -13366,6 +13366,10 @@ common#:#report_accessibility_issue#:#Barriere melden
 common#:#report_accessibility_link#:#Gemeldeter Link:
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
+common#:#explorer_aria_label#:#Baum
+common#:#tree_aria_label#:#Baum
+common#:#mainbar_aria_label#:#Mainbar
+common#:#breadcrumbs_aria_label#:#Brotkrumen
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter

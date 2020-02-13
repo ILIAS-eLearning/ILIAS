@@ -56,6 +56,21 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable
     public function withUnavailableAction();
 
     /**
+     * Get a button like this, but with an additional landmark role.
+     *
+     * @param	string	$landmark_role
+     * @return	Button
+     */
+    public function withLandmarkRole($landmark_role);
+
+    /**
+     * Get the landmark role on the button.
+     *
+     * @return	string
+     */
+    public function getLandmarkRole();
+
+    /**
      * Get a button like this, but with an additional/replaced aria-label.
      *
      * @param	string	$aria_label

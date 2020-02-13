@@ -151,6 +151,8 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
+        $tpl->setVariable("ARIA_LABEL", $this->txt('mainbar_aria_label'));
+
         //add "more"-slate
         $more_slate = $f->maincontrols()->slate()->combined(
             $component->getMoreButton()->getLabel(),
@@ -284,6 +286,11 @@ class Renderer extends AbstractComponentRenderer
                     ->appendOnClick($secondary_signal)
                     ->withEngagedState($engaged);
 
+                //set landmark role for accessibility
+                if ($entry->getName() == "Search") {
+                    $button = $button->withLandMarkRole("search");
+                }
+
                 $slate = $entry;
             } else {
                 $button = $entry;
@@ -297,6 +304,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
+                //set landmark role for accessibility
+                $slate = $slate->withLandMarkRole("dialog");
+
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($slate));
                 $tpl->parseCurrentBlock();

@@ -68,4 +68,19 @@ interface Slate extends Component, JavaScriptBindable, Triggerer
     public function withMainBarTreePosition(string $tree_pos);
 
     public function getMainBarTreePosition();
+
+    /**
+     * Get a slate like this, but with an additional landmark role.
+     *
+     * @param	string	$landmark_role
+     * @return	Slate
+     */
+    public function withLandmarkRole(string $landmark_role);
+
+    /**
+     * Get the landmark role on the button.
+     *
+     * @return	string
+     */
+    public function getLandmarkRole();
 }

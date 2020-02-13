@@ -59,6 +59,11 @@ abstract class Slate implements ISlate\Slate
     protected $mainbar_tree_position;
 
     /**
+     * @var string
+     */
+    protected $landmark_role;
+
+    /**
      * @param string 	$name 	name of the slate, also used as label
      * @param Symbol	$symbol
      */
@@ -180,5 +185,24 @@ abstract class Slate implements ISlate\Slate
     {
         $pos = explode(':', $this->mainbar_tree_position);
         return count($pos) - 1;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withLandmarkRole(string $landmark_role)
+    {
+        $this->checkStringArg("role", $landmark_role);
+        $clone = clone $this;
+        $clone->landmark_role = $landmark_role;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLandmarkRole()
+    {
+        return $this->landmark_role;
     }
 }

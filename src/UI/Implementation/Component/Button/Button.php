@@ -37,6 +37,11 @@ abstract class Button implements C\Button\Button
     /**
      * @var string
      */
+    protected $landmark_role;
+
+    /**
+     * @var string
+     */
     protected $aria_label;
 
     /**
@@ -160,5 +165,24 @@ abstract class Button implements C\Button\Button
     public function getAriaLabel()
     {
         return $this->aria_label;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withLandmarkRole($landmark_role)
+    {
+        $this->checkStringArg("role", $landmark_role);
+        $clone = clone $this;
+        $clone->landmark_role = $landmark_role;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLandmarkRole()
+    {
+        return $this->landmark_role;
     }
 }

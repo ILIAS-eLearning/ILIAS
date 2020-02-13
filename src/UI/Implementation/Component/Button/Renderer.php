@@ -91,6 +91,12 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->touchBlock("disabled");
         }
+        $landmark_role = $component->getLandmarkRole();
+        if ($landmark_role != null) {
+            $tpl->setCurrentBlock("with_landmark_role");
+            $tpl->setVariable("LANDMARK_ROLE", $landmark_role);
+            $tpl->parseCurrentBlock();
+        }
         $aria_label = $component->getAriaLabel();
         if ($aria_label != null) {
             $tpl->setCurrentBlock("with_aria_label");
