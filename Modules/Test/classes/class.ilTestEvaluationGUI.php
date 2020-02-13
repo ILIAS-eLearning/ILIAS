@@ -325,10 +325,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             if (!$this->object->getAnonymity()) {
-                $userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->cert());
                 try {
-                    $userCertificateRepository->fetchActiveCertificate($DIC->user()->getId(), $this->object->getId());
-                    $options['certificate'] = $this->lng->txt('exp_type_certificate');
+                    $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+                    if ($globalCertificatePrerequisites->validate()) {
+                        $options['certificate'] = $this->lng->txt('exp_type_certificate');
+                    }
                 } catch (ilException $e) {
                 }
             }
@@ -809,6 +810,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function exportCertificate()
     {
         global $DIC;
+
+        $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+        if (!$globalCertificatePrerequisites->validate()) {
+            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
+        }
 
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
