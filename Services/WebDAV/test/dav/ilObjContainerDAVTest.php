@@ -1,7 +1,7 @@
 <?php
 
-use\PHPUnit\Framework\TestCase;
-use\Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 require_once 'ilObjDummyDAV.php';
 
@@ -419,7 +419,7 @@ class ilObjContainerDAVTest extends TestCase
 
         // Assert
         $this->assertTrue($child_exists
-            && $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->once());
+            && $this->mocked_repo_helper->shouldHaveReceived('checkAccess')->twice());
     }
 
     /**
