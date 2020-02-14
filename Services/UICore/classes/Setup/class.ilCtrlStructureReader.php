@@ -110,7 +110,7 @@ class ilCtrlStructureReader
     public function read($a_cdir)
     {
         $ilDB = $this->getDB();
-        if (defined(ILIAS_ABSOLUTE_PATH)) {
+        if (defined("ILIAS_ABSOLUTE_PATH")) {
             $il_absolute_path = ILIAS_ABSOLUTE_PATH;
         } else {
             $il_absolute_path = dirname(__FILE__, 5);
