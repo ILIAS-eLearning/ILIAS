@@ -10,7 +10,7 @@ class ilWebDAVObjectlessMountInstructions extends ilWebDAVBaseMountInstructions
         String $language
     ) {
         $this->language = $language;
-        parent::__construct($a_repo, $a_uri_builder, $a_settings, $ilLang);
+        parent::__construct($a_repo, $a_uri_builder, $a_settings, $language);
     }
 
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
