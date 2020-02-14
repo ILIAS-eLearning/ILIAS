@@ -102,6 +102,14 @@ class ilCtrlStructureReader
         return str_replace(['//'], ['/'], $path);
     }
 
+    protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)
+    {
+        $data_dir = $this->normalizePath($il_absolute_path . "/data");
+        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
+        $dir = $this->normalizePath($dir);
+        return $dir != $customizing_dir && $dir != $data_dir;
+    }
+
     /**
     * read structure into internal variables
     *
@@ -125,114 +133,114 @@ class ilCtrlStructureReader
         $dir = opendir($a_cdir);
 
         while ($file = readdir($dir)) {
-            if ($file != "." and
-                $file != "..") {
-                // directories
-                if (@is_dir($a_cdir . "/" . $file)) {
-                    if ($this->normalizePath($a_cdir . "/" . $file) != $this->normalizePath($il_absolute_path . "/data") &&
-                        $this->normalizePath($a_cdir . "/" . $file) != $this->normalizePath($il_absolute_path . "/Customizing")
-                    ) {
-                        $this->read($a_cdir . "/" . $file);
-                    }
-                }
+            if ($file == "." || $file == "..") {
+                continue;
+            }
 
-                // files
-                if (@is_file($a_cdir . "/" . $file)) {
-                    if (preg_match("~^class.*php$~i", $file) || preg_match("~^ilSCORM13Player.php$~i", $file)) {
-                        $handle = fopen($a_cdir . "/" . $file, "r");
-                        //echo "<br>".$a_cdir."/".$file;
-                        while (!feof($handle)) {
-                            $line = fgets($handle, 4096);
+            $full_path = "$a_cdir/$file";
 
-                            // handle @ilctrl_calls
-                            $pos = strpos(strtolower($line), "@ilctrl_calls");
-                            if (is_int($pos)) {
-                                $com = substr($line, $pos + 14);
-                                $pos2 = strpos($com, ":");
-                                if (is_int($pos2)) {
-                                    $com_arr = explode(":", $com);
-                                    $parent = strtolower(trim($com_arr[0]));
-                                    
-                                    // check file duplicates
-                                    if ($parent != "" && isset($this->class_script[$parent]) &&
-                                        $this->class_script[$parent] != $a_cdir . "/" . $file) {
-                                        // delete all class to file assignments
-                                        $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
-                                            $ilDB->quote($this->comp_prefix, "text"));
-                                        if ($this->comp_prefix == "") {
-                                            $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
-                                                $ilDB->equals("comp_prefix", "", "text", true));
-                                        }
-                                
-                                        // delete all call entries
-                                        $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
-                                            $ilDB->quote($this->comp_prefix, "text"));
-                                        if ($this->comp_prefix == "") {
-                                            $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
-                                        }
+            // directories
+            if (@is_dir($full_path) && $this->shouldDescendToDirectory($full_path)) {
+                $this->read($full_path);
+                continue;
+            }
 
-                                        $msg = implode("\n", [
-                                            "Error: Duplicate call structure definition found (Class %s) in files:",
-                                            "- %s",
-                                            "- %s",
-                                            "",
-                                            "Please remove the file, that does not belong to the official ILIAS distribution.",
-                                            "After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
-                                        ]);
+            if (!@is_file($full_path)) {
+                continue;
+            }
 
-                                        throw new \Exception(
-                                            sprintf(
-                                                $msg,
-                                                $parent,
-                                                $this->class_script[$parent],
-                                                $a_cdir . "/" . $file
-                                            )
-                                        );
-                                    }
+            // files
+            if (preg_match("~^class.*php$~i", $file) || preg_match("~^ilSCORM13Player.php$~i", $file)) {
+                $handle = fopen($full_path, "r");
+                while (!feof($handle)) {
+                    $line = fgets($handle, 4096);
 
-                                    $this->class_script[$parent] = $a_cdir . "/" . $file;
-                                    $childs = explode(",", $com_arr[1]);
-                                    foreach ($childs as $child) {
-                                        $child = trim(strtolower($child));
-                                        if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
-                                            $this->class_childs[$parent][] = $child;
-                                        }
-                                    }
+                    // handle @ilctrl_calls
+                    $pos = strpos(strtolower($line), "@ilctrl_calls");
+                    if (is_int($pos)) {
+                        $com = substr($line, $pos + 14);
+                        $pos2 = strpos($com, ":");
+                        if (is_int($pos2)) {
+                            $com_arr = explode(":", $com);
+                            $parent = strtolower(trim($com_arr[0]));
+
+                            // check file duplicates
+                            if ($parent != "" && isset($this->class_script[$parent]) &&
+                                $this->class_script[$parent] != $full_path) {
+                                // delete all class to file assignments
+                                $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
+                                    $ilDB->quote($this->comp_prefix, "text"));
+                                if ($this->comp_prefix == "") {
+                                    $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
+                                        $ilDB->equals("comp_prefix", "", "text", true));
                                 }
+
+                                // delete all call entries
+                                $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
+                                    $ilDB->quote($this->comp_prefix, "text"));
+                                if ($this->comp_prefix == "") {
+                                    $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
+                                }
+
+                                $msg = implode("\n", [
+                                    "Error: Duplicate call structure definition found (Class %s) in files:",
+                                    "- %s",
+                                    "- %s",
+                                    "",
+                                    "Please remove the file, that does not belong to the official ILIAS distribution.",
+                                    "After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
+                                ]);
+
+                                throw new \Exception(
+                                    sprintf(
+                                        $msg,
+                                        $parent,
+                                        $this->class_script[$parent],
+                                        $full_path
+                                    )
+                                );
                             }
 
-                            // handle isCalledBy comments
-                            $pos = strpos(strtolower($line), "@ilctrl_iscalledby");
-                            if (is_int($pos)) {
-                                $com = substr($line, $pos + 19);
-                                $pos2 = strpos($com, ":");
-                                if (is_int($pos2)) {
-                                    $com_arr = explode(":", $com);
-                                    $child = strtolower(trim($com_arr[0]));
-                                    $this->class_script[$child] = $a_cdir . "/" . $file;
-
-                                    $parents = explode(",", $com_arr[1]);
-                                    foreach ($parents as $parent) {
-                                        $parent = trim(strtolower($parent));
-                                        if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
-                                            $this->class_childs[$parent][] = $child;
-                                        }
-                                    }
-                                }
-                            }
-                            
-                            if (preg_match("~^class\.(.*GUI)\.php$~i", $file, $res)) {
-                                $cl = strtolower($res[1]);
-                                $pos = strpos(strtolower($line), "class " . $cl);
-                                if (is_int($pos) && (!isset($this->class_script[$cl]) || $this->class_script[$cl] == "")) {
-                                    $this->class_script[$cl] = $a_cdir . "/" . $file;
-                                    //echo "<br>".$cl."-".$this->class_script[$cl]."-";
+                            $this->class_script[$parent] = $full_path;
+                            $childs = explode(",", $com_arr[1]);
+                            foreach ($childs as $child) {
+                                $child = trim(strtolower($child));
+                                if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
+                                    $this->class_childs[$parent][] = $child;
                                 }
                             }
                         }
-                        fclose($handle);
+                    }
+
+                    // handle isCalledBy comments
+                    $pos = strpos(strtolower($line), "@ilctrl_iscalledby");
+                    if (is_int($pos)) {
+                        $com = substr($line, $pos + 19);
+                        $pos2 = strpos($com, ":");
+                        if (is_int($pos2)) {
+                            $com_arr = explode(":", $com);
+                            $child = strtolower(trim($com_arr[0]));
+                            $this->class_script[$child] = $full_path;
+
+                            $parents = explode(",", $com_arr[1]);
+                            foreach ($parents as $parent) {
+                                $parent = trim(strtolower($parent));
+                                if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
+                                    $this->class_childs[$parent][] = $child;
+                                }
+                            }
+                        }
+                    }
+
+                    if (preg_match("~^class\.(.*GUI)\.php$~i", $file, $res)) {
+                        $cl = strtolower($res[1]);
+                        $pos = strpos(strtolower($line), "class " . $cl);
+                        if (is_int($pos) && (!isset($this->class_script[$cl]) || $this->class_script[$cl] == "")) {
+                            $this->class_script[$cl] = $full_path;
+                        }
                     }
                 }
+                fclose($handle);
             }
         }
     }
