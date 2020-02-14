@@ -399,6 +399,9 @@
 			"phpmailer/phpmailer": {
 				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
 			},
+			"simplesamlphp/simplesamlphp": {
+				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+			},
 			"zendframework/zend-httphandlerrunner": {
 				"ILIAS HttpHandlerRunner Patches": "patches/zend-httphandlerrunner.patch"
 			},
