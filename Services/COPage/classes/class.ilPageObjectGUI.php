@@ -2619,22 +2619,40 @@ class ilPageObjectGUI
      */
     public function downloadFile()
     {
-        $this->obj->buildDom();
-        
-        include_once("./Services/COPage/classes/class.ilPCFileList.php");
-        $files = ilPCFileList::collectFileItems($this->obj, $this->obj->getDomDoc());
+        $download_ok = false;
 
-        $file = explode("_", $_GET["file_id"]);
         require_once("./Modules/File/classes/class.ilObjFile.php");
-        $file_id = $file[count($file) - 1];
+        $pg_obj = $this->getPageObject();
+        $pg_obj->buildDom();
+        $int_links = $pg_obj->getInternalLinks();
+        foreach ($int_links as $il) {
+            if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"])) {
+                $file = explode("_", $_GET["file_id"]);
+                $file_id = (int) $file[count($file) - 1];
+                $download_ok = true;
+            }
+        }
+        if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds())) {
+            $file = explode("_", $_GET["file_id"]);
+            $file_id = (int) $file[count($file) - 1];
+            $download_ok = true;
+        }
 
-        // file must be in page
-        if (!in_array($file_id, $files)) {
+        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType().":pg", 0, false);
+        foreach ($pcs as $pc) {
+            $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
+            $file = explode("_", $_GET["file_id"]);
+            $file_id = (int) $file[count($file) - 1];
+            if (in_array($file_id, $files)) {
+                $download_ok = true;
+            }
+        }
+
+        if ($download_ok) {
+            $fileObj = new ilObjFile($file_id, false);
+            $fileObj->sendFile();
             exit;
         }
-        $fileObj = new ilObjFile($file_id, false);
-        $fileObj->sendFile();
-        exit;
     }
     
     /**
