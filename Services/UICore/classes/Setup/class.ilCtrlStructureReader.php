@@ -60,10 +60,7 @@ class ilCtrlStructureReader
             return;
         }
 
-        require_once('./Services/UICore/classes/class.ilCachedCtrl.php');
-        ilCachedCtrl::flush();
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
-        ilGlobalCache::flushAll();
+        $this->flushCaches();
     
         // prefix for component
         $this->comp_prefix = $a_comp_prefix;
@@ -88,6 +85,12 @@ class ilCtrlStructureReader
                 $this->ini->write();
             }
         }
+    }
+
+    protected function flushCaches()
+    {
+        ilCachedCtrl::flush();
+        ilGlobalCache::flushAll();
     }
 
     /**
