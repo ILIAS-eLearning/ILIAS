@@ -1,23 +1,15 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-
 /**
  * Class ilSamlIdpTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSamlIdpTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
-    /**
-     * @var ILIAS\DI\Container
-     */
+    /** @var ILIAS\DI\Container */
     protected $dic;
 
     /**
@@ -26,7 +18,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
      * @param string $a_parent_cmd
      * @param string $a_template_context
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $mayEdit = true)
+    public function __construct($a_parent_obj, $a_parent_cmd = "")
     {
         global $DIC;
 
@@ -34,8 +26,6 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
         $f        = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
-
-        $this->mayEdit = $mayEdit;
 
         $this->setId('saml_idp_list');
         parent::__construct($a_parent_obj, $a_parent_cmd, '');
@@ -65,9 +55,9 @@ class ilSamlIdpTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function getItems()
+    private function getItems() : void
     {
-        $idp_data = array();
+        $idp_data = [];
 
         foreach (ilSamlIdp::getAllIdps() as $idp) {
             $idp_data[] = $idp->toArray();

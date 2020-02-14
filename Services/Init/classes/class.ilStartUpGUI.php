@@ -2049,7 +2049,6 @@ class ilStartUpGUI
         $request = $DIC->http()->request();
         $params  = $request->getQueryParams();
 
-        require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
         $factory = new ilSamlAuthFactory();
         $auth = $factory->auth();
 
@@ -2089,18 +2088,14 @@ class ilStartUpGUI
 
         $_POST['auth_mode'] = AUTH_SAML . '_' . ((int) $auth->getParam('idpId'));
 
-        require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
         $credentials = new ilAuthFrontendCredentialsSaml($auth);
         $credentials->initFromRequest();
 
-        require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes($_POST['auth_mode']));
 
-        require_once 'Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
@@ -2115,7 +2110,6 @@ class ilStartUpGUI
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                require_once 'Services/Init/classes/class.ilInitialisation.php';
                 return ilInitialisation::redirectToStartingPage();
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
@@ -2151,7 +2145,6 @@ class ilStartUpGUI
 
         $items = [];
 
-        require_once 'Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php';
         $table = new ilSamlIdpSelectionTableGUI($this, 'doSamlAuthentication');
 
         foreach ($idps as $idp) {
