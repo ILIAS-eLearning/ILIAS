@@ -1,5 +1,6 @@
 <?php
-use\PHPUnit\Framework\TestCase;
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Sabre\DAV\Exception\Forbidden;
 
 /**
@@ -22,7 +23,7 @@ use Sabre\DAV\Exception\Forbidden;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilObjectDAVTest extends PHPUnit_Framework_TestCase
+class ilObjectDAVTest extends TestCase
 {
     /** @var int */
     protected $ref_id;
@@ -43,7 +44,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
     /**
      * Setup
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->ref_id = 100;
         $this->mocked_obj = \Mockery::mock('ilObject');

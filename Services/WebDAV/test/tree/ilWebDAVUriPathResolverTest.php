@@ -1,6 +1,9 @@
 <?php
 
-class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
+class ilWebDAVUriPathResolverTest extends TestCase
 {
     /** @var \Mockery\MockInterface */
     protected $mocked_repo_helper;
@@ -8,7 +11,7 @@ class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
     /**
      * Setup
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->mocked_repo_helper = \Mockery::mock('ilWebDAVRepositoryHelper');
 
