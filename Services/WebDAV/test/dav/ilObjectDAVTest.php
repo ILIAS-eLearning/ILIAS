@@ -1,8 +1,7 @@
 <?php
-use\PHPUnit\Framework\TestCase;
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Sabre\DAV\Exception\Forbidden;
-
-require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * TestCase for the ilObjectDAVTest
@@ -24,7 +23,7 @@ require_once('./libs/composer/vendor/autoload.php');
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilObjectDAVTest extends PHPUnit_Framework_TestCase
+class ilObjectDAVTest extends TestCase
 {
     /** @var int */
     protected $ref_id;
@@ -45,12 +44,8 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
     /**
      * Setup
      */
-    protected function setUp()
+    protected function setUp() : void
     {
-        require_once('./Services/WebDAV/classes/dav/class.ilObjectDAV.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php');
-
         $this->ref_id = 100;
         $this->mocked_obj = \Mockery::mock('ilObject');
         $this->mocked_obj->shouldReceive(['getRefId' => $this->ref_id]);
