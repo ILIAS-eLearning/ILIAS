@@ -50,4 +50,67 @@ class ilCtrlStructureReaderTest extends TestCase
         ];
         $this->assertEquals($this->reader->class_childs, $expected_class_childs);
     }
+
+    public function testReadRemovesDuplicateCallsInDatabase()
+    {
+        $this->expectException(\Exception::class);
+
+        $dir = __DIR__ . "/test_dir/";
+
+        $this->reader->comp_prefix = "";
+        $this->reader->class_script = [
+           "ilmytestinggui" => "/some/other/dir/class.ilMyTestingGUI.php"
+        ];
+        $this->db
+            ->method("quote")
+            ->will($this->returnCallback(function ($v, $_) {
+                return "\"$v\"";
+            }));
+        $this->db
+            ->method("equals")
+            ->will($this->returnCallback(function ($f, $v, $_, $__) {
+                return "$f = \"$v\"";
+            }));
+        $this->db->expects($this->exactly(4))
+            ->method("manipulate")
+            ->withConsecutive(
+                ["DELETE FROM ctrl_classfile WHERE comp_prefix = \"\""],
+                ["DELETE FROM ctrl_classfile WHERE comp_prefix = \"\""],
+                ["DELETE FROM ctrl_calls WHERE comp_prefix = \"\""],
+                ["DELETE FROM ctrl_calls WHERE comp_prefix IS NULL"]
+            );
+
+        $result = $this->reader->read($dir);
+    }
+
+    public function testReadRemovesDuplicateFilesInDatabaseIfCompPrefixIsSet()
+    {
+        $this->expectException(\Exception::class);
+
+        $dir = __DIR__ . "/test_dir/";
+        $my_comp_prefix = "mcp";
+
+        $this->reader->comp_prefix = $my_comp_prefix;
+        $this->reader->class_script = [
+           "ilmytestinggui" => "/some/other/dir/class.ilMyTestingGUI.php"
+        ];
+        $this->db
+            ->method("quote")
+            ->will($this->returnCallback(function ($v, $_) {
+                return "\"$v\"";
+            }));
+        $this->db
+            ->method("equals")
+            ->will($this->returnCallback(function ($f, $v, $_, $__) {
+                return "$f = \"$v\"";
+            }));
+        $this->db->expects($this->exactly(2))
+            ->method("manipulate")
+            ->withConsecutive(
+                ["DELETE FROM ctrl_classfile WHERE comp_prefix = \"$my_comp_prefix\""],
+                ["DELETE FROM ctrl_calls WHERE comp_prefix = \"$my_comp_prefix\""],
+            );
+
+        $result = $this->reader->read($dir);
+    }
 }
