@@ -21,11 +21,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
     /**
      * ilAuthProviderSaml constructor.
-     * @param ilAuthFrontendCredentials|ilAuthFrontendCredentialsSaml $credentials
-     * @param null $a_idp_id
+     * @param ilAuthFrontendCredentials $credentials
+     * @param int|null $a_idp_id
      * @throws ilSamlException
      */
-    public function __construct(ilAuthFrontendCredentials $credentials, $a_idp_id = null)
+    public function __construct(ilAuthFrontendCredentials $credentials, ?int $a_idp_id = null)
     {
         parent::__construct($credentials);
 
@@ -54,7 +54,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
         ) {
             throw new ilException(sprintf(
                 'Could not find unique SAML attribute for the configured identifier: %s',
-                var_export($this->idp->getUidClaim(), 1)
+                print_r($this->idp->getUidClaim(), true)
             ));
         }
 
@@ -98,7 +98,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $this->uid,
             $this->getUserAuthModeName()
         ));
-        ilLoggerFactory::getLogger('auth')->debug(sprintf('Target set to: %s', var_export($this->return_to, 1)));
+        ilLoggerFactory::getLogger('auth')->debug(sprintf('Target set to: %s', print_r($this->return_to, true)));
         ilLoggerFactory::getLogger('auth')->debug(sprintf(
             'Trying to find ext_account "%s" for auth_mode "%s".',
             $this->uid,
@@ -111,7 +111,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             false
         );
 
-        if (strlen($internal_account) == 0) {
+        if (!is_string($internal_account) || 0 === strlen($internal_account)) {
             $update_auth_mode = true;
 
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
@@ -133,7 +133,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
                 $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
             }
 
-            if (strlen($internal_account) == 0 && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())) {
+            if ((!is_string($internal_account) || 0 === strlen($internal_account)) && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())) {
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
                     'Could not find ext_account "%s" for auth_mode "%s".',
                     $this->uid,
@@ -150,7 +150,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             }
         }
 
-        if (strlen($internal_account) > 0) {
+        if (is_string($internal_account) && strlen($internal_account) > 0) {
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
                 'Found user "%s" for ext_account "%s" in ILIAS database.',
                 $internal_account,
