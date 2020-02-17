@@ -198,8 +198,8 @@ class ilCtrlStructureReader
                     }
                 }
 
-                if (preg_match("~^class\.(.*GUI)\.php$~i", $file, $res)) {
-                    $cl = strtolower($res[1]);
+                $cl = $this->getGUIClassNameFromClassFileName($file);
+                if ($cl) {
                     $pos = strpos(strtolower($line), "class " . $cl);
                     if (is_int($pos) && (!isset($this->class_script[$cl]) || $this->class_script[$cl] == "")) {
                         $this->class_script[$cl] = $full_path;
@@ -249,6 +249,17 @@ class ilCtrlStructureReader
     protected function isInterestingFile(string $file) : bool
     {
         return preg_match(self::INTERESTING_FILES_REGEXP, $file);
+    }
+
+    const GUI_CLASS_FILE_REGEXP = "~^class\.(.*GUI)\.php$~i";
+
+    protected function getGUIClassNameFromClassFileName(string $file) : ?string
+    {
+        $res = [];
+        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $file, $res)) {
+            return strtolower($res[1]);
+        }
+        return null;
     }
 
     /**

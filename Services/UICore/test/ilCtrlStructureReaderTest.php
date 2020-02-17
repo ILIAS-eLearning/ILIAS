@@ -21,6 +21,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->isInterestingFile($file);
             }
+            public function _getGUIClassNameFromClassFileName(string $file)
+            {
+                return $this->getGUIClassNameFromClassFileName($file);
+            }
         })
             ->withDB($this->db);
     }
@@ -156,5 +160,15 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertFalse($this->reader->_isInterestingFile("picture.png"));
         $this->assertFalse($this->reader->_isInterestingFile("icon.svg"));
         $this->assertFalse($this->reader->_isInterestingFile("data.json"));
+    }
+
+    public function testGetGUIClassNameFromClassFileName()
+    {
+        $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("ilSCORM13Player.php"));
+        $this->assertEquals("ilmytestinggui", $this->reader->_getGUIClassNameFromClassFileName("class.ilMyTestingGUI.php"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("foo.php"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("picture.png"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("icon.svg"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("data.json"));
     }
 }
