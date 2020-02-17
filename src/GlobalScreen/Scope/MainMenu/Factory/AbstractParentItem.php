@@ -2,7 +2,6 @@
 
 /**
  * Class AbstractParentItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractParentItem extends AbstractBaseItem implements isParent
@@ -13,7 +12,6 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
      */
     protected $children = [];
 
-
     /**
      * @inheritDoc
      */
@@ -22,18 +20,16 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
         return $this->children;
     }
 
-
     /**
      * @inheritDoc
      */
     public function withChildren(array $children) : isParent
     {
-        $clone = clone($this);
+        $clone           = clone($this);
         $clone->children = $children;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -45,12 +41,23 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
     public function hasChildren() : bool
     {
         return (count($this->children) > 0);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeChild(isChild $child_to_remove) : isParent
+    {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
+            return $item !== $child_to_remove;
+        });
+
+        return $this;
     }
 }
