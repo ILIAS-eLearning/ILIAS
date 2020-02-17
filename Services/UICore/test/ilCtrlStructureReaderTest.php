@@ -41,6 +41,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->getIlCtrlIsCalledBy($content);
             }
+            public function _containsClassDefinitionFor(string $class, string $content)
+            {
+                return $this->containsClassDefinitionFor($class, $content);
+            }
         })
             ->withDB($this->db);
     }
@@ -334,5 +338,29 @@ PHP
 
         $this->assertEquals("ilobjcoursegui", $parent);
         $this->assertEquals($expected, $children);
+    }
+
+    public function testContainsClassDefinitionFor()
+    {
+        $res = $this->reader->_containsClassDefinitionFor(
+            "SomeRandomClass",
+            <<<"PHP"
+class SomeRandomClass {
+}
+PHP
+        );
+        $this->assertTrue($res);
+    }
+
+    public function testDoesNotContainClassDefinitionFor()
+    {
+        $res = $this->reader->_containsClassDefinitionFor(
+            "SomeRandomClass",
+            <<<"PHP"
+class fooSomeRandomClass {
+}
+PHP
+        );
+        $this->assertFalse($res);
     }
 }

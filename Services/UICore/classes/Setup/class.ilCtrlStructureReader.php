@@ -133,24 +133,15 @@ class ilCtrlStructureReader
                 foreach ($parents as $parent) {
                     $this->addClassChild($parent, $child);
                 }
+
+                $cl = $this->getGUIClassNameFromClassFileName($file);
+                if ($this->containsClassDefinitionFor($cl, $content)) {
+                    $this->addClassScript($cl, $full_path);
+                }
             } catch (\LogicException $e) {
                 $e->setMessage("In file \"$full_path\": " . $e->getMessage());
                 throw $e;
             }
-
-            $handle = fopen($full_path, "r");
-            while (!feof($handle)) {
-                $line = fgets($handle, 4096);
-
-                $cl = $this->getGUIClassNameFromClassFileName($file);
-                if ($cl) {
-                    $pos = strpos(strtolower($line), "class " . $cl);
-                    if (is_int($pos)) {
-                        $this->addClassScript($cl, $full_path);
-                    }
-                }
-            }
-            fclose($handle);
         }
     }
 
@@ -205,6 +196,12 @@ class ilCtrlStructureReader
         if (!in_array($child, $this->class_childs[$parent])) {
             $this->class_childs[$parent][] = $child;
         }
+    }
+
+    protected function containsClassDefinitionFor(string $class, string $content) : bool
+    {
+        $regexp = "~.*class\s+$class~mi";
+        return preg_match($regexp, $content) != 0;
     }
 
     const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
