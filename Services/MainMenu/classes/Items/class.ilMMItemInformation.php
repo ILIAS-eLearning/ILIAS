@@ -99,7 +99,7 @@ class ilMMItemInformation implements ItemInformation
         if (isset($this->items[$serialize]['active'])) {
             return $this->items[$serialize]['active'] === '1';
         }
-        return ($item->isAvailable() && $item->isVisible()) || $item->isAlwaysAvailable();
+        return $item->isAlwaysAvailable() || ($item->isAvailable() && $item->isVisible());
     }
 
     /**

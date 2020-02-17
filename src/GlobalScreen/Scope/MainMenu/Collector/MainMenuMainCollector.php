@@ -100,7 +100,11 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 return $is_always_available;
             }
 
-            return $this->information->isItemActive($item);
+            $active = $this->information->isItemActive($item);
+            if (!$active) {
+                return $is_always_available;
+            }
+            return $active;
         });
 
         // apply special filters such as double dividers etc.
