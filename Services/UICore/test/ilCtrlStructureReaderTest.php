@@ -25,6 +25,18 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->getGUIClassNameFromClassFileName($file);
             }
+            public function _addClassScript(string $class, string $file_path)
+            {
+                return $this->addClassScript($class, $file_path);
+            }
+            public function _addClassChild(string $parent, string $child)
+            {
+                return $this->addClassChild($parent, $child);
+            }
+            public function _getIlCtrlCalls(string $content)
+            {
+                return $this->getIlCtrlCalls($content);
+            }
         })
             ->withDB($this->db);
     }
@@ -43,7 +55,7 @@ class ilCtrlStructureReaderTest extends TestCase
 
     public function testReadClassScriptIsAsExpected()
     {
-        $dir = __DIR__ . "/test_dir/";
+        $dir = __DIR__ . "/test_dir";
         $result = $this->reader->read($dir);
 
         $expected_class_script = [
@@ -141,7 +153,7 @@ class ilCtrlStructureReaderTest extends TestCase
 
     public function testFilesInDir()
     {
-        $dir = __DIR__ . "/test_dir/";
+        $dir = __DIR__ . "/test_dir";
         $expected = [
             ["class.ilMyTestingGUI.php", "$dir/class.ilMyTestingGUI.php"],
             ["test_file", "$dir/sub_test_dir/test_file"]
@@ -170,5 +182,98 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("picture.png"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("icon.svg"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassFileName("data.json"));
+    }
+
+    public function testAddClassScript()
+    {
+        $this->reader->_addClassScript("class1", "file1");
+        $this->reader->_addClassScript("class2", "file2");
+        $this->reader->_addClassScript("class3", "file3");
+        $this->reader->_addClassScript("class2", "file2");
+
+        $expected = [
+            "class1" => "file1",
+            "class2" => "file2",
+            "class3" => "file3",
+        ];
+
+        $this->assertEquals($expected, $this->reader->class_script);
+    }
+
+    public function testAddClassScriptPanicsOnDuplicate()
+    {
+        $this->expectException(\Exception::class);
+
+        $this->reader->_addClassScript("class1", "file1");
+        $this->reader->_addClassScript("class1", "file2");
+    }
+
+    public function testAddClassChild()
+    {
+        $this->reader->_addClassChild("parent1", "child1");
+        $this->reader->_addClassChild("parent2", "child2");
+        $this->reader->_addClassChild("parent1", "child3");
+
+        $expected = [
+            "parent1" => ["child1", "child3"],
+            "parent2" => ["child2"]
+        ];
+
+        $this->assertEquals($expected, $this->reader->class_childs);
+    }
+
+    public function testGetIlCtrlCallsNoContent()
+    {
+        $gen = $this->reader->_getIlCtrlCalls(
+            <<<"PHP"
+class SomeRandomClass {
+}
+PHP
+        );
+        $this->assertNull($gen);
+    }
+
+    public function testGetIlCtrlCallsWithContent()
+    {
+        list($parent, $children) = $this->reader->_getIlCtrlCalls(
+            <<<"PHP"
+<?php
+/* Copyright (c) 2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
+require_once "./Services/Container/classes/class.ilContainerGUI.php";
+
+/**
+ * Class ilObjCourseGUI
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * $Id$
+ *
+ * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI
+ *
+ * @extends ilContainerGUI
+ */
+class ilObjCourseGUI extends ilContainerGUI
+{
+}
+PHP
+        );
+        $expected = [
+            "ilcourseregistrationgui",
+            "ilcourseobjectivesgui",
+            "ilobjcoursegroupinggui",
+            "ilinfoscreengui",
+            "illearningprogressgui",
+            "ilpermissiongui",
+            "ilrepositorysearchgui"
+        ];
+
+        sort($expected);
+        sort($children);
+
+        $this->assertEquals("ilobjcoursegui", $parent);
+        $this->assertEquals($expected, $children);
     }
 }
