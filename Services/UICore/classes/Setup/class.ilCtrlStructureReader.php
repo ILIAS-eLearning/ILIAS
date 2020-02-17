@@ -140,7 +140,7 @@ class ilCtrlStructureReader
             $full_path = "$a_cdir/$file";
 
             // directories
-            if (@is_dir($full_path) && $this->shouldDescendToDirectory($full_path)) {
+            if (@is_dir($full_path) && $this->shouldDescendToDirectory($il_absolute_path, $full_path)) {
                 $this->read($full_path);
                 continue;
             }
@@ -243,6 +243,10 @@ class ilCtrlStructureReader
                 fclose($handle);
             }
         }
+    }
+
+    protected function getFilesIn(string $dir)
+    {
     }
 
     /**

@@ -8,7 +8,12 @@ class ilCtrlStructureReaderTest extends TestCase
     protected function setUp() : void
     {
         $this->db = $this->createMock(\ilDBInterface::class);
-        $this->reader = (new ilCtrlStructureReader())
+        $this->reader = (new class() extends ilCtrlStructureReader {
+            public function _shouldDescendToDirectory(string $il_absolute_path, string $dir)
+            {
+                return $this->shouldDescendToDirectory($il_absolute_path, $dir);
+            }
+        })
             ->withDB($this->db);
     }
 
@@ -112,5 +117,13 @@ class ilCtrlStructureReaderTest extends TestCase
             );
 
         $result = $this->reader->read($dir);
+    }
+
+    public function testShouldDescendToDirectory()
+    {
+        $this->assertTrue($this->reader->_shouldDescendToDirectory("", "/foo"));
+        $this->assertTrue($this->reader->_shouldDescendToDirectory("", "/bar"));
+        $this->assertFalse($this->reader->_shouldDescendToDirectory("", "/data"));
+        $this->assertFalse($this->reader->_shouldDescendToDirectory("", "/Customizing"));
     }
 }
