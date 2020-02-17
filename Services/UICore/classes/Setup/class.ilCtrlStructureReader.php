@@ -125,6 +125,14 @@ class ilCtrlStructureReader
                 foreach ($children as $child) {
                     $this->addClassChild($parent, $child);
                 }
+
+                list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
+                if ($child) {
+                    $this->addClassScript($child, $full_path);
+                }
+                foreach ($parents as $parent) {
+                    $this->addClassChild($parent, $child);
+                }
             } catch (\LogicException $e) {
                 $e->setMessage("In file \"$full_path\": " . $e->getMessage());
                 throw $e;
@@ -133,24 +141,6 @@ class ilCtrlStructureReader
             $handle = fopen($full_path, "r");
             while (!feof($handle)) {
                 $line = fgets($handle, 4096);
-
-                // handle isCalledBy comments
-                $pos = strpos(strtolower($line), "@ilctrl_iscalledby");
-                if (is_int($pos)) {
-                    $com = substr($line, $pos + 19);
-                    $pos2 = strpos($com, ":");
-                    if (is_int($pos2)) {
-                        $com_arr = explode(":", $com);
-                        $child = strtolower(trim($com_arr[0]));
-                        $this->addClassScript($child, $full_path);
-
-                        $parents = explode(",", $com_arr[1]);
-                        foreach ($parents as $parent) {
-                            $parent = trim(strtolower($parent));
-                            $this->addClassChild($parent, $child);
-                        }
-                    }
-                }
 
                 $cl = $this->getGUIClassNameFromClassFileName($file);
                 if ($cl) {
@@ -217,15 +207,32 @@ class ilCtrlStructureReader
         }
     }
 
-    const IL_CTRL_CALLS_REGEXP = '~^.*@ilctrl_calls\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
+    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
 
     /**
      * @return null|(string,string[])
      */
     protected function getIlCtrlCalls(string $content) : ?array
     {
+        return $this->getIlCtrlDeclarations($content, "ilctrl_calls");
+    }
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlIsCalledBy(string $content) : ?array
+    {
+        return $this->getIlCtrlDeclarations($content, "ilctrl_iscalledby");
+    }
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlDeclarations(string $content, string $which) : ?array
+    {
+        $regexp = str_replace("{WHICH}", $which, self::IL_CTRL_DECLARATION_REGEXP);
         $res = [];
-        if (!preg_match_all(self::IL_CTRL_CALLS_REGEXP, $content, $res)) {
+        if (!preg_match_all($regexp, $content, $res)) {
             return null;
         }
 
@@ -236,14 +243,14 @@ class ilCtrlStructureReader
             );
         }
 
-        $children = [];
+        $declaration = [];
         foreach ($res[2] as $ls) {
             foreach (explode(",", $ls) as $l) {
-                $children[] = strtolower(trim($l));
+                $declaration[] = strtolower(trim($l));
             }
         }
 
-        return [strtolower(trim($class_names[0])), $children];
+        return [strtolower(trim($class_names[0])), $declaration];
     }
 
     protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)

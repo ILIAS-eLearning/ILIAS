@@ -37,6 +37,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->getIlCtrlCalls($content);
             }
+            public function _getIlCtrlIsCalledBy(string $content)
+            {
+                return $this->getIlCtrlIsCalledBy($content);
+            }
         })
             ->withDB($this->db);
     }
@@ -252,6 +256,61 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI
+ *
+ * @extends ilContainerGUI
+ */
+class ilObjCourseGUI extends ilContainerGUI
+{
+}
+PHP
+        );
+        $expected = [
+            "ilcourseregistrationgui",
+            "ilcourseobjectivesgui",
+            "ilobjcoursegroupinggui",
+            "ilinfoscreengui",
+            "illearningprogressgui",
+            "ilpermissiongui",
+            "ilrepositorysearchgui"
+        ];
+
+        sort($expected);
+        sort($children);
+
+        $this->assertEquals("ilobjcoursegui", $parent);
+        $this->assertEquals($expected, $children);
+    }
+
+    public function testGetIlCtrlIsCalledByNoContent()
+    {
+        $gen = $this->reader->_getIlCtrlIsCalledBy(
+            <<<"PHP"
+class SomeRandomClass {
+}
+PHP
+        );
+        $this->assertNull($gen);
+    }
+
+    public function testGetIlCtrlIsCalledByWithContent()
+    {
+        list($parent, $children) = $this->reader->_getIlCtrlIsCalledBy(
+            <<<"PHP"
+<?php
+/* Copyright (c) 2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
+require_once "./Services/Container/classes/class.ilContainerGUI.php";
+
+/**
+ * Class ilObjCourseGUI
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * $Id$
+ *
+ * @ilCtrl_IsCalledBy ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
+ * @ilCtrl_IsCalledBy ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjCourseGUI: ilRepositorySearchGUI
  *
  * @extends ilContainerGUI
  */
