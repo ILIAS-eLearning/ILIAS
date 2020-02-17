@@ -12248,7 +12248,7 @@ grp#:#grp_mem_tbl_header#:#Group Participants
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
@@ -15068,3 +15068,4 @@ exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
+common#:#msg_unknown_value#:#An unknown value has been passed.

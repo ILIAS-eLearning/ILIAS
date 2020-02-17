@@ -72,11 +72,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
             $option->setValue($role_array['obj_id']);
             $checkbox_group_input_gui->addOption($option);
         }
-        foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id) {
-            $option = new ilCheckboxOption(ilObjRole::_getTranslation($role->getTitle(), $role_id));
-            $option->setValue($role_id);
-            $checkbox_group_input_gui->addOption($option);
-        }
 
         $checkbox_group_input_gui->setValue($this->tableview->getRoles());
         $this->addItem($checkbox_group_input_gui);
