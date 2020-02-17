@@ -116,35 +116,23 @@ class ilCtrlStructureReader
                 continue;
             }
 
+            $content = file_get_contents($full_path);
+            try {
+                list($parent, $children) = $this->getIlCtrlCalls($content);
+                if ($parent) {
+                    $this->addClassScript($parent, $full_path);
+                }
+                foreach ($children as $child) {
+                    $this->addClassChild($parent, $child);
+                }
+            } catch (\LogicException $e) {
+                $e->setMessage("In file \"$full_path\": " . $e->getMessage());
+                throw $e;
+            }
+
             $handle = fopen($full_path, "r");
             while (!feof($handle)) {
                 $line = fgets($handle, 4096);
-
-                // handle @ilctrl_calls
-                $pos = strpos(strtolower($line), "@ilctrl_calls");
-                if (is_int($pos)) {
-                    $com = substr($line, $pos + 14);
-                    $pos2 = strpos($com, ":");
-                    if (is_int($pos2)) {
-                        $com_arr = explode(":", $com);
-                        $parent = strtolower(trim($com_arr[0]));
-
-                        // check file duplicates
-                        if ($parent != "" && isset($this->class_script[$parent]) &&
-                            $this->class_script[$parent] != $full_path) {
-                            $this->panicOnDuplicateClass($full_path, $parent);
-                        }
-
-                        $this->class_script[$parent] = $full_path;
-                        $childs = explode(",", $com_arr[1]);
-                        foreach ($childs as $child) {
-                            $child = trim(strtolower($child));
-                            if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
-                                $this->class_childs[$parent][] = $child;
-                            }
-                        }
-                    }
-                }
 
                 // handle isCalledBy comments
                 $pos = strpos(strtolower($line), "@ilctrl_iscalledby");
@@ -154,14 +142,12 @@ class ilCtrlStructureReader
                     if (is_int($pos2)) {
                         $com_arr = explode(":", $com);
                         $child = strtolower(trim($com_arr[0]));
-                        $this->class_script[$child] = $full_path;
+                        $this->addClassScript($child, $full_path);
 
                         $parents = explode(",", $com_arr[1]);
                         foreach ($parents as $parent) {
                             $parent = trim(strtolower($parent));
-                            if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent])) {
-                                $this->class_childs[$parent][] = $child;
-                            }
+                            $this->addClassChild($parent, $child);
                         }
                     }
                 }
@@ -169,8 +155,8 @@ class ilCtrlStructureReader
                 $cl = $this->getGUIClassNameFromClassFileName($file);
                 if ($cl) {
                     $pos = strpos(strtolower($line), "class " . $cl);
-                    if (is_int($pos) && (!isset($this->class_script[$cl]) || $this->class_script[$cl] == "")) {
-                        $this->class_script[$cl] = $full_path;
+                    if (is_int($pos)) {
+                        $this->addClassScript($cl, $full_path);
                     }
                 }
             }
@@ -184,7 +170,7 @@ class ilCtrlStructureReader
             if ($e == "." || $e == "..") {
                 continue;
             }
-            $f = "$dir/$e";
+            $f = $this->normalizePath("$dir/$e");
             if (@is_dir($f)) {
                 if (!$this->shouldDescendToDirectory($il_absolute_path, $dir)) {
                     continue;
@@ -197,6 +183,67 @@ class ilCtrlStructureReader
                 yield [$e, $f];
             }
         }
+    }
+
+    protected function addClassScript(string $class, string $file_path) : void
+    {
+        if ($class == "") {
+            throw new \InvalidArgumentException(
+                "Can't add class script for an empty class."
+            );
+        }
+
+        if (isset($this->class_script[$class]) && $this->class_script[$class] != $file_path) {
+            $this->panicOnDuplicateClass($file_path, $class);
+        }
+
+        $this->class_script[$class] = $file_path;
+    }
+
+    protected function addClassChild(string $parent, string $child) : void
+    {
+        if ($parent == "") {
+            throw new \InvalidArgumentException(
+                "Can't add class child for an empty parent."
+            );
+        }
+
+        if (!isset($this->class_childs[$parent])) {
+            $this->class_childs[$parent] = [];
+        }
+
+        if (!in_array($child, $this->class_childs[$parent])) {
+            $this->class_childs[$parent][] = $child;
+        }
+    }
+
+    const IL_CTRL_CALLS_REGEXP = '~^.*@ilctrl_calls\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlCalls(string $content) : ?array
+    {
+        $res = [];
+        if (!preg_match_all(self::IL_CTRL_CALLS_REGEXP, $content, $res)) {
+            return null;
+        }
+
+        $class_names = array_unique($res[1]);
+        if (count($class_names) != 1) {
+            throw new \LogicException(
+                "Found different class names in ilctrl_calls: " . join(",", $class_names)
+            );
+        }
+
+        $children = [];
+        foreach ($res[2] as $ls) {
+            foreach (explode(",", $ls) as $l) {
+                $children[] = strtolower(trim($l));
+            }
+        }
+
+        return [strtolower(trim($class_names[0])), $children];
     }
 
     protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)
