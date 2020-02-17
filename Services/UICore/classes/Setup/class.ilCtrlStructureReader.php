@@ -134,8 +134,8 @@ class ilCtrlStructureReader
                     $this->addClassChild($parent, $child);
                 }
 
-                $cl = $this->getGUIClassNameFromClassFileName($file);
-                if ($this->containsClassDefinitionFor($cl, $content)) {
+                $cl = $this->getGUIClassNameFromClassPath($full_path);
+                if ($cl && $this->containsClassDefinitionFor($cl, $content)) {
                     $this->addClassScript($cl, $full_path);
                 }
             } catch (\LogicException $e) {
@@ -270,12 +270,12 @@ class ilCtrlStructureReader
         return preg_match(self::INTERESTING_FILES_REGEXP, $file);
     }
 
-    const GUI_CLASS_FILE_REGEXP = "~^class\.(.*GUI)\.php$~i";
+    const GUI_CLASS_FILE_REGEXP = "~^.*/class\.(.*GUI)\.php$~i";
 
-    protected function getGUIClassNameFromClassFileName(string $file) : ?string
+    protected function getGUIClassNameFromClassPath(string $path) : ?string
     {
         $res = [];
-        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $file, $res)) {
+        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $path, $res)) {
             return strtolower($res[1]);
         }
         return null;
