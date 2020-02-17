@@ -100,7 +100,6 @@ class ilCtrlStructureReader
     */
     public function read($a_cdir)
     {
-        $ilDB = $this->getDB();
         if (defined("ILIAS_ABSOLUTE_PATH")) {
             $il_absolute_path = ILIAS_ABSOLUTE_PATH;
         } else {
@@ -133,38 +132,7 @@ class ilCtrlStructureReader
                         // check file duplicates
                         if ($parent != "" && isset($this->class_script[$parent]) &&
                             $this->class_script[$parent] != $full_path) {
-                            // delete all class to file assignments
-                            $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
-                                $ilDB->quote($this->comp_prefix, "text"));
-                            if ($this->comp_prefix == "") {
-                                $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
-                                    $ilDB->equals("comp_prefix", "", "text", true));
-                            }
-
-                            // delete all call entries
-                            $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
-                                $ilDB->quote($this->comp_prefix, "text"));
-                            if ($this->comp_prefix == "") {
-                                $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
-                            }
-
-                            $msg = implode("\n", [
-                                "Error: Duplicate call structure definition found (Class %s) in files:",
-                                "- %s",
-                                "- %s",
-                                "",
-                                "Please remove the file, that does not belong to the official ILIAS distribution.",
-                                "After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
-                            ]);
-
-                            throw new \Exception(
-                                sprintf(
-                                    $msg,
-                                    $parent,
-                                    $this->class_script[$parent],
-                                    $full_path
-                                )
-                            );
+                            $this->panicOnDuplicateClass($full_path, $parent);
                         }
 
                         $this->class_script[$parent] = $full_path;
@@ -260,6 +228,44 @@ class ilCtrlStructureReader
             return strtolower($res[1]);
         }
         return null;
+    }
+
+    protected function panicOnDuplicateClass(string $full_path, string $parent)
+    {
+        $ilDB = $this->getDB();
+
+        // delete all class to file assignments
+        $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
+            $ilDB->quote($this->comp_prefix, "text"));
+        if ($this->comp_prefix == "") {
+            $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
+                $ilDB->equals("comp_prefix", "", "text", true));
+        }
+
+        // delete all call entries
+        $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
+            $ilDB->quote($this->comp_prefix, "text"));
+        if ($this->comp_prefix == "") {
+            $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
+        }
+
+        $msg = implode("\n", [
+            "Error: Duplicate call structure definition found (Class %s) in files:",
+            "- %s",
+            "- %s",
+            "",
+            "Please remove the file, that does not belong to the official ILIAS distribution.",
+            "After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
+        ]);
+
+        throw new \Exception(
+            sprintf(
+                $msg,
+                $parent,
+                $this->class_script[$parent],
+                $full_path
+            )
+        );
     }
 
     /**
