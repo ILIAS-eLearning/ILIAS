@@ -17,6 +17,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->getFilesIn($il_absolute_path, $dir);
             }
+            public function _isInterestingFile(string $file)
+            {
+                return $this->isInterestingFile($file);
+            }
         })
             ->withDB($this->db);
     }
@@ -142,5 +146,15 @@ class ilCtrlStructureReaderTest extends TestCase
         sort($expected);
         sort($result);
         $this->assertEquals($expected, $result);
+    }
+
+    public function testIsInterestingFile()
+    {
+        $this->assertTrue($this->reader->_isInterestingFile("ilSCORM13Player.php"));
+        $this->assertTrue($this->reader->_isInterestingFile("class.ilMyTestingGUI.php"));
+        $this->assertFalse($this->reader->_isInterestingFile("foo.php"));
+        $this->assertFalse($this->reader->_isInterestingFile("picture.png"));
+        $this->assertFalse($this->reader->_isInterestingFile("icon.svg"));
+        $this->assertFalse($this->reader->_isInterestingFile("data.json"));
     }
 }
