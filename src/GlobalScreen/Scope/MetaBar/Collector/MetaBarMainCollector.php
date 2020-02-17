@@ -117,10 +117,8 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
      */
     protected function getVisibleFilter() : Closure
     {
-        return function (isItem $item) {
-            $b = ($item->isAvailable() && $item->isVisible());
-
-            return $b;
+        return static function (isItem $item) {
+            return ($item->isAvailable() && $item->isVisible());
         };
     }
 }
