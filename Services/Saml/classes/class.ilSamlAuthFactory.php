@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,7 +13,7 @@ class ilSamlAuthFactory
      * @return ilSamlAuth
      * @throws Exception
      */
-    public function auth(string $authSourceName = 'default-sp') : ilSimpleSAMLphpWrapper
+    public function auth(string $authSourceName = 'default-sp') : ilSamlAuth
     {
         return new ilSimpleSAMLphpWrapper(
             $authSourceName,
