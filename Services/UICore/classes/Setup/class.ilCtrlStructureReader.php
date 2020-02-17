@@ -94,23 +94,6 @@ class ilCtrlStructureReader
     }
 
     /**
-     * @param string $path
-     * @return string
-     */
-    private function normalizePath(string $path) : string
-    {
-        return str_replace(['//'], ['/'], $path);
-    }
-
-    protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)
-    {
-        $data_dir = $this->normalizePath($il_absolute_path . "/data");
-        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
-        $dir = $this->normalizePath($dir);
-        return $dir != $customizing_dir && $dir != $data_dir;
-    }
-
-    /**
     * read structure into internal variables
     *
     * @access private
@@ -129,26 +112,7 @@ class ilCtrlStructureReader
             return false;
         }
 
-        // read current directory
-        $dir = opendir($a_cdir);
-
-        while ($file = readdir($dir)) {
-            if ($file == "." || $file == "..") {
-                continue;
-            }
-
-            $full_path = "$a_cdir/$file";
-
-            // directories
-            if (@is_dir($full_path) && $this->shouldDescendToDirectory($il_absolute_path, $full_path)) {
-                $this->read($full_path);
-                continue;
-            }
-
-            if (!@is_file($full_path)) {
-                continue;
-            }
-
+        foreach ($this->getFilesIn($il_absolute_path, $a_cdir) as list($file, $full_path)) {
             // files
             if (preg_match("~^class.*php$~i", $file) || preg_match("~^ilSCORM13Player.php$~i", $file)) {
                 $handle = fopen($full_path, "r");
@@ -245,8 +209,38 @@ class ilCtrlStructureReader
         }
     }
 
-    protected function getFilesIn(string $dir)
+    protected function getFilesIn(string $il_absolute_path, string $dir)
     {
+        foreach (scandir($dir) as $e) {
+            if ($e == "." || $e == "..") {
+                continue;
+            }
+            $f = "$dir/$e";
+            if (@is_dir($f)) {
+                if (!$this->shouldDescendToDirectory($il_absolute_path, $dir)) {
+                    continue;
+                }
+                foreach ($this->getFilesIn($il_absolute_path, $f) as $s) {
+                    yield $s;
+                }
+            }
+            if (@is_file($f)) {
+                yield [$e, $f];
+            }
+        }
+    }
+
+    protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)
+    {
+        $data_dir = $this->normalizePath($il_absolute_path . "/data");
+        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
+        $dir = $this->normalizePath($dir);
+        return $dir != $customizing_dir && $dir != $data_dir;
+    }
+
+    private function normalizePath(string $path) : string
+    {
+        return str_replace(['//'], ['/'], $path);
     }
 
     /**

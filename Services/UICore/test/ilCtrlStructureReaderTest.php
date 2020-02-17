@@ -13,6 +13,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->shouldDescendToDirectory($il_absolute_path, $dir);
             }
+            public function _getFilesIn(string $il_absolute_path, string $dir)
+            {
+                return $this->getFilesIn($il_absolute_path, $dir);
+            }
         })
             ->withDB($this->db);
     }
@@ -125,5 +129,18 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertTrue($this->reader->_shouldDescendToDirectory("", "/bar"));
         $this->assertFalse($this->reader->_shouldDescendToDirectory("", "/data"));
         $this->assertFalse($this->reader->_shouldDescendToDirectory("", "/Customizing"));
+    }
+
+    public function testFilesInDir()
+    {
+        $dir = __DIR__ . "/test_dir/";
+        $expected = [
+            ["class.ilMyTestingGUI.php", "$dir/class.ilMyTestingGUI.php"],
+            ["test_file", "$dir/sub_test_dir/test_file"]
+        ];
+        $result = iterator_to_array($this->reader->_getFilesIn("", $dir));
+        sort($expected);
+        sort($result);
+        $this->assertEquals($expected, $result);
     }
 }
