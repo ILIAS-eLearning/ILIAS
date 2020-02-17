@@ -77,11 +77,11 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
-                        function () use ($dic) {
+                        static function () use ($dic) {
                             return (bool) ($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
                         }
                     )->withAvailableCallable(
-                        function () use ($dic) {
+                        static function () use ($dic) {
                             return ($dic->user()->getId() != ANONYMOUS_USER_ID);
                         }
                     );
