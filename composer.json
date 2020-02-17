@@ -15,7 +15,7 @@
 		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
 		],
 		"test-php": [
-		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests --exclude-group needsInstalledILIAS"
+		  "./CI/PHPUnit/run_tests.sh"
 		]
 	},
 	"require": {
