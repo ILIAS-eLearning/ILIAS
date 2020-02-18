@@ -201,7 +201,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 
     DocumentRoot /var/www/html/ilias/
     <Directory /var/www/html/>
-        Options FollowSymLinks
+        Options FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -213,6 +213,14 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ErrorLog /var/log/apache2/error.log
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
+```
+
+In order to secure access to the files in your `data` directory, you SHOULD
+enable `mod\_rewrite` on Debian/Ubuntu (should be enabled by default on
+RHEL/CentOS):
+
+```
+a2enmod rewrite
 ```
 
 Please take care to [restrict access to the setup-folder](#secure-installation-files)
