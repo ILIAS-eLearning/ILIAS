@@ -1278,7 +1278,7 @@ class ilStartUpGUI
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
         $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&lang=" . $lng->getLangKey());
+        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
         self::printToGlobalTemplate($tpl);
     }
