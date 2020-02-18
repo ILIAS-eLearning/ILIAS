@@ -100,18 +100,12 @@ class ilCtrlStructureReader
     */
     public function read($a_cdir)
     {
-        if (defined("ILIAS_ABSOLUTE_PATH")) {
-            $il_absolute_path = ILIAS_ABSOLUTE_PATH;
-        } else {
-            $il_absolute_path = dirname(__FILE__, 5);
-        }
-
         // check wether $a_cdir is a directory
         if (!@is_dir($a_cdir)) {
             return false;
         }
 
-        foreach ($this->getFilesIn($il_absolute_path, $a_cdir) as list($file, $full_path)) {
+        foreach ($this->getFilesIn($a_cdir) as list($file, $full_path)) {
             if (!$this->isInterestingFile($file)) {
                 continue;
             }
@@ -145,7 +139,9 @@ class ilCtrlStructureReader
         }
     }
 
-    protected function getFilesIn(string $il_absolute_path, string $dir)
+    // DIRECTORY TRAVERSAL
+
+    protected function getFilesIn(string $dir)
     {
         foreach (scandir($dir) as $e) {
             if ($e == "." || $e == "..") {
@@ -153,10 +149,10 @@ class ilCtrlStructureReader
             }
             $f = $this->normalizePath("$dir/$e");
             if (@is_dir($f)) {
-                if (!$this->shouldDescendToDirectory($il_absolute_path, $dir)) {
+                if (!$this->shouldDescendToDirectory($dir)) {
                     continue;
                 }
-                foreach ($this->getFilesIn($il_absolute_path, $f) as $s) {
+                foreach ($this->getFilesIn($f) as $s) {
                     yield $s;
                 }
             }
@@ -250,8 +246,9 @@ class ilCtrlStructureReader
         return [strtolower(trim($class_names[0])), $declaration];
     }
 
-    protected function shouldDescendToDirectory(string $il_absolute_path, string $dir)
+    protected function shouldDescendToDirectory(string $dir)
     {
+        $il_absolute_path = $this->getILIASAbsolutePath();
         $data_dir = $this->normalizePath($il_absolute_path . "/data");
         $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
         $dir = $this->normalizePath($dir);
@@ -400,6 +397,8 @@ class ilCtrlStructureReader
         }
     }
 
+    // DEPENDENCIES
+
     public function withDB(\ilDBInterface $db)
     {
         $clone = clone $this;
@@ -415,5 +414,14 @@ class ilCtrlStructureReader
         //return ilDB in any case - backward compat.
         global $ilDB;
         return $ilDB;
+    }
+
+    protected function getILIASAbsolutePath() : string
+    {
+        if (defined("ILIAS_ABSOLUTE_PATH")) {
+            return ILIAS_ABSOLUTE_PATH;
+        } else {
+            return dirname(__FILE__, 5);
+        }
     }
 }
