@@ -44,16 +44,18 @@ class ilCtrlStructureReader
         }
         //$this->get_structure = true;
     }
-        
-    /**
-    * read structure
-    */
+
+
+    // ----------------------
+    // READING CTRL STRUCTURE
+    // ----------------------
+
     public function readStructure(
         $a_force = false,
         $a_dir = "",
         $a_comp_prefix = "",
         $a_plugin_path = ""
-    ) {
+    ) : void {
         $ilDB = $this->getDB();
 
         if (!$a_force && $this->ini->readVariable("db", "structure_reload") != "1") {
@@ -87,18 +89,13 @@ class ilCtrlStructureReader
         }
     }
 
-    protected function flushCaches()
+    protected function flushCaches() : void
     {
         ilCachedCtrl::flush();
         ilGlobalCache::flushAll();
     }
 
-    /**
-    * read structure into internal variables
-    *
-    * @access private
-    */
-    public function read($a_cdir)
+    protected function read($a_cdir) : bool
     {
         // check wether $a_cdir is a directory
         if (!@is_dir($a_cdir)) {
@@ -137,9 +134,14 @@ class ilCtrlStructureReader
                 throw $e;
             }
         }
+
+        return true;
     }
 
+
+    // ----------------------
     // DIRECTORY TRAVERSAL
+    // ----------------------
 
     protected function getFilesIn(string $dir)
     {
@@ -161,6 +163,32 @@ class ilCtrlStructureReader
             }
         }
     }
+
+    protected function shouldDescendToDirectory(string $dir)
+    {
+        $il_absolute_path = $this->getILIASAbsolutePath();
+        $data_dir = $this->normalizePath($il_absolute_path . "/data");
+        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
+        $dir = $this->normalizePath($dir);
+        return $dir != $customizing_dir && $dir != $data_dir;
+    }
+
+    private function normalizePath(string $path) : string
+    {
+        return str_replace(['//'], ['/'], $path);
+    }
+
+    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
+
+    protected function isInterestingFile(string $file) : bool
+    {
+        return preg_match(self::INTERESTING_FILES_REGEXP, $file);
+    }
+
+
+    // ----------------------
+    // RESULT STORAGE
+    // ----------------------
 
     protected function addClassScript(string $class, string $file_path) : void
     {
@@ -194,91 +222,7 @@ class ilCtrlStructureReader
         }
     }
 
-    protected function containsClassDefinitionFor(string $class, string $content) : bool
-    {
-        $regexp = "~.*class\s+$class~mi";
-        return preg_match($regexp, $content) != 0;
-    }
-
-    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlCalls(string $content) : ?array
-    {
-        return $this->getIlCtrlDeclarations($content, "ilctrl_calls");
-    }
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlIsCalledBy(string $content) : ?array
-    {
-        return $this->getIlCtrlDeclarations($content, "ilctrl_iscalledby");
-    }
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlDeclarations(string $content, string $which) : ?array
-    {
-        $regexp = str_replace("{WHICH}", $which, self::IL_CTRL_DECLARATION_REGEXP);
-        $res = [];
-        if (!preg_match_all($regexp, $content, $res)) {
-            return null;
-        }
-
-        $class_names = array_unique($res[1]);
-        if (count($class_names) != 1) {
-            throw new \LogicException(
-                "Found different class names in ilctrl_calls: " . join(",", $class_names)
-            );
-        }
-
-        $declaration = [];
-        foreach ($res[2] as $ls) {
-            foreach (explode(",", $ls) as $l) {
-                $declaration[] = strtolower(trim($l));
-            }
-        }
-
-        return [strtolower(trim($class_names[0])), $declaration];
-    }
-
-    protected function shouldDescendToDirectory(string $dir)
-    {
-        $il_absolute_path = $this->getILIASAbsolutePath();
-        $data_dir = $this->normalizePath($il_absolute_path . "/data");
-        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
-        $dir = $this->normalizePath($dir);
-        return $dir != $customizing_dir && $dir != $data_dir;
-    }
-
-    private function normalizePath(string $path) : string
-    {
-        return str_replace(['//'], ['/'], $path);
-    }
-
-    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
-
-    protected function isInterestingFile(string $file) : bool
-    {
-        return preg_match(self::INTERESTING_FILES_REGEXP, $file);
-    }
-
-    const GUI_CLASS_FILE_REGEXP = "~^.*/class\.(.*GUI)\.php$~i";
-
-    protected function getGUIClassNameFromClassPath(string $path) : ?string
-    {
-        $res = [];
-        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $path, $res)) {
-            return strtolower($res[1]);
-        }
-        return null;
-    }
-
-    protected function panicOnDuplicateClass(string $full_path, string $parent)
+    protected function panicOnDuplicateClass(string $full_path, string $parent) : void
     {
         $ilDB = $this->getDB();
 
@@ -316,12 +260,7 @@ class ilCtrlStructureReader
         );
     }
 
-    /**
-    * read structure into internal variables
-    *
-    * @access private
-    */
-    public function store($a_cdir = "./..")
+    protected function storeToDB() : void
     {
         $ilDB = $this->getDB();
 
@@ -373,10 +312,7 @@ class ilCtrlStructureReader
         }
     }
 
-    /**
-    * Determine class file IDS
-    */
-    public function determineClassFileIds()
+    protected function setClassFileIdsInDB() : void
     {
         $ilDB = $this->getDB();
 
@@ -397,7 +333,83 @@ class ilCtrlStructureReader
         }
     }
 
+
+    // ----------------------
+    // GUI CLASS FINDING
+    // ----------------------
+
+    const GUI_CLASS_FILE_REGEXP = "~^.*/class\.(.*GUI)\.php$~i";
+
+    protected function getGUIClassNameFromClassPath(string $path) : ?string
+    {
+        $res = [];
+        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $path, $res)) {
+            return strtolower($res[1]);
+        }
+        return null;
+    }
+
+    protected function containsClassDefinitionFor(string $class, string $content) : bool
+    {
+        $regexp = "~.*class\s+$class~mi";
+        return preg_match($regexp, $content) != 0;
+    }
+
+
+    // ----------------------
+    // GUI CLASS FINDING
+    // ----------------------
+
+    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlCalls(string $content) : ?array
+    {
+        return $this->getIlCtrlDeclarations($content, "ilctrl_calls");
+    }
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlIsCalledBy(string $content) : ?array
+    {
+        return $this->getIlCtrlDeclarations($content, "ilctrl_iscalledby");
+    }
+
+    /**
+     * @return null|(string,string[])
+     */
+    protected function getIlCtrlDeclarations(string $content, string $which) : ?array
+    {
+        $regexp = str_replace("{WHICH}", $which, self::IL_CTRL_DECLARATION_REGEXP);
+        $res = [];
+        if (!preg_match_all($regexp, $content, $res)) {
+            return null;
+        }
+
+        $class_names = array_unique($res[1]);
+        if (count($class_names) != 1) {
+            throw new \LogicException(
+                "Found different class names in ilctrl_calls: " . join(",", $class_names)
+            );
+        }
+
+        $declaration = [];
+        foreach ($res[2] as $ls) {
+            foreach (explode(",", $ls) as $l) {
+                $declaration[] = strtolower(trim($l));
+            }
+        }
+
+        return [strtolower(trim($class_names[0])), $declaration];
+    }
+
+
+    // ----------------------
     // DEPENDENCIES
+    // ----------------------
 
     public function withDB(\ilDBInterface $db)
     {
