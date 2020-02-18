@@ -49,6 +49,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return "";
             }
+            public function _read(string $a_cdir) : bool
+            {
+                return $this->read($a_cdir);
+            }
         })
             ->withDB($this->db);
     }
@@ -61,14 +65,14 @@ class ilCtrlStructureReaderTest extends TestCase
     public function testReadSmoke()
     {
         $dir = __DIR__ . "/test_dir";
-        $result = $this->reader->read($dir);
-        $this->assertTrue($result === false || is_null($result));
+        $result = $this->reader->_read($dir);
+        $this->assertTrue(is_bool($result));
     }
 
     public function testReadClassScriptIsAsExpected()
     {
         $dir = __DIR__ . "/test_dir";
-        $result = $this->reader->read($dir);
+        $result = $this->reader->_read($dir);
 
         $expected_class_script = [
            "ilmytestinggui" => "$dir/class.ilMyTestingGUI.php"
@@ -79,7 +83,7 @@ class ilCtrlStructureReaderTest extends TestCase
     public function testReadClassChildsIsAsExpected()
     {
         $dir = __DIR__ . "/test_dir/";
-        $result = $this->reader->read($dir);
+        $result = $this->reader->_read($dir);
 
         $expected_class_childs= [
            "ilmytestinggui" => [
@@ -121,7 +125,7 @@ class ilCtrlStructureReaderTest extends TestCase
                 ["DELETE FROM ctrl_calls WHERE comp_prefix IS NULL"]
             );
 
-        $result = $this->reader->read($dir);
+        $result = $this->reader->_read($dir);
     }
 
     public function testReadRemovesDuplicateFilesInDatabaseIfCompPrefixIsSet()
@@ -152,7 +156,7 @@ class ilCtrlStructureReaderTest extends TestCase
                 ["DELETE FROM ctrl_calls WHERE comp_prefix = \"$my_comp_prefix\""],
             );
 
-        $result = $this->reader->read($dir);
+        $result = $this->reader->_read($dir);
     }
 
     public function testShouldDescendToDirectory()
