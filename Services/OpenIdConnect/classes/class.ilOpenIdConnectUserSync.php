@@ -155,11 +155,13 @@ class ilOpenIdConnectUserSync
 
         $this->parseRoleAssignments();
 
-        $this->writer->xmlElement('Active', array(), "true");
-        $this->writer->xmlElement('TimeLimitOwner', array(), 7);
-        $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
-        $this->writer->xmlElement('TimeLimitFrom', array(), time());
-        $this->writer->xmlElement('TimeLimitUntil', array(), time());
+        if ($this->needsCreation()) {
+            $this->writer->xmlElement('Active', array(), "true");
+            $this->writer->xmlElement('TimeLimitOwner', array(), 7);
+            $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
+            $this->writer->xmlElement('TimeLimitFrom', array(), time());
+            $this->writer->xmlElement('TimeLimitUntil', array(), time());
+        }
 
         foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
             $connect_name = $this->settings->getProfileMappingFieldValue($field);
