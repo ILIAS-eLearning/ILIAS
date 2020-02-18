@@ -232,8 +232,7 @@ class ilForumAuthorInformation
                 $this->profilePicture = $this->getAvatarImageSource($this->author_short_name, $this->getAuthor()->getId());
             }
         } elseif ($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias)) {
-            // The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
-            // We have no import name,so we check the pseudonym
+            // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
             $this->suffix            = $translationLanguage->txt('deleted');
             $this->buildAuthorProfileLink(false);

@@ -252,15 +252,28 @@ class ilPublicUserProfileGUI
     }
 
     /**
+     * @return bool
+     */
+    protected function isProfilePublic()
+    {
+        $user = new ilObjUser($this->getUserId());
+        $current = $user->getPref("public_profile");
+        // #17462 - see ilPersonalProfileGUI::initPublicProfileForm()
+        if ($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles')) {
+            $current = "y";
+        }
+        return in_array($current, ["g", "y"]);
+    }
+
+    /**
      * Show user page
      */
     public function getHTML()
     {
         global $DIC;
-
         $ilCtrl = $DIC['ilCtrl'];
         $ilSetting = $DIC['ilSetting'];
-        
+
         if ($this->embedded) {
             return $this->getEmbeddable();
         }
@@ -284,7 +297,6 @@ class ilPublicUserProfileGUI
             // of public_profile = "y" show user infomation
             $user = new ilObjUser($this->getUserId());
             $current = $user->getPref("public_profile");
-                            
             // #17462 - see ilPersonalProfileGUI::initPublicProfileForm()
             if ($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles')) {
                 $current = "y";
@@ -301,7 +313,8 @@ class ilPublicUserProfileGUI
             return $this->getEmbeddable(true);
         }
     }
-    
+
+
     /**
      * get public profile html code
      *
@@ -330,7 +343,8 @@ class ilPublicUserProfileGUI
             true,
             "Services/User"
         );
-        
+
+
         $tpl->setVariable("ROWCOL1", "tblrow1");
         $tpl->setVariable("ROWCOL2", "tblrow2");
 
@@ -354,7 +368,15 @@ class ilPublicUserProfileGUI
             );
             $tpl->parseCurrentBlock();
         }
-        
+
+
+        // short version, fixes e.g. #27242
+        if (!$this->isProfilePublic()) {
+            $tpl->setVariable("TXT_NAME", $lng->txt("name"));
+            $tpl->setVariable("FIRSTNAME", ilUserUtil::getNamePresentation($user->getId()));
+            return $tpl->get();
+        }
+
         $first_name = "";
         if ($this->getPublicPref($user, "public_title") == "y") {
             $first_name .= $user->getUTitle() . " ";
@@ -369,7 +391,7 @@ class ilPublicUserProfileGUI
         $tpl->setVariable("TXT_NAME", $lng->txt("name"));
         $tpl->setVariable("FIRSTNAME", $first_name);
         $tpl->setVariable("LASTNAME", $user->getLastName());
-        
+
         if ($user->getBirthday() &&
             $this->getPublicPref($user, "public_birthday") == "y") {
             // #17574

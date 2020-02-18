@@ -13,7 +13,6 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 
 /**
  * Class ilMMItemInformation
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemInformation implements ItemInformation
@@ -36,17 +35,15 @@ class ilMMItemInformation implements ItemInformation
      */
     private $items = [];
 
-
     /**
      * ilMMItemInformation constructor.
      */
     public function __construct()
     {
-        $this->items = ilMMItemStorage::getArray('identification');
+        $this->items        = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage = new Services();
+        $this->storage      = new Services();
     }
-
 
     /**
      * @inheritDoc
@@ -76,7 +73,6 @@ class ilMMItemInformation implements ItemInformation
         return $item;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -84,7 +80,6 @@ class ilMMItemInformation implements ItemInformation
     {
         return $item->withPosition($this->getPosition($item));
     }
-
 
     private function getPosition(isItem $item) : int
     {
@@ -95,7 +90,6 @@ class ilMMItemInformation implements ItemInformation
         return $item->getPosition();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -103,12 +97,10 @@ class ilMMItemInformation implements ItemInformation
     {
         $serialize = $item->getProviderIdentification()->serialize();
         if (isset($this->items[$serialize]['active'])) {
-            return $this->items[$serialize]['active'] === "1";
+            return $this->items[$serialize]['active'] === '1';
         }
-
-        return $item->isActive();
+        return $item->isAlwaysAvailable() || ($item->isAvailable() && $item->isVisible());
     }
-
 
     /**
      * @inheritDoc
@@ -124,7 +116,6 @@ class ilMMItemInformation implements ItemInformation
         return $item->getParent();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -138,8 +129,8 @@ class ilMMItemInformation implements ItemInformation
             if (!$ri) {
                 return $item;
             }
-            $stream = $this->storage->stream($ri)->getStream();
-            $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $stream     = $this->storage->stream($ri)->getStream();
+            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();
