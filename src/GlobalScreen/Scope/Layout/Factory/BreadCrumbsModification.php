@@ -22,7 +22,7 @@ class BreadCrumbsModification extends AbstractLayoutModification implements Layo
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentTypeOrNull() : ?string
+    public function getClosureFirstArgumentType() : string
     {
         return UIBreadcrumbs::class;
     }
@@ -35,5 +35,22 @@ class BreadCrumbsModification extends AbstractLayoutModification implements Layo
     {
         return UIBreadcrumbs::class;
     }
-}
 
+
+    /**
+     * @inheritDoc
+     */
+    public function firstArgumentAllowsNull() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function returnTypeAllowsNull() : bool
+    {
+        return true;
+    }
+}

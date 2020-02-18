@@ -7,12 +7,12 @@
         });
 
         $('.createhover').mouseover(function(){
-            var [prefix, id] = this.id.split("_");
+            var id = this.id.split("_")[1];
             $('#new_link_'+id).css('visibility', 'visible');
         });
 
         $('.createhover').mouseout(function(){
-            var [prefix, id] = this.id.split("_");
+            var id = this.id.split("_")[1];
             $('#new_link_'+id).css('visibility', 'hidden');
         });
 

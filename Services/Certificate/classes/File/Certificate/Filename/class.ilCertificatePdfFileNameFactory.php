@@ -6,26 +6,37 @@
  */
 class ilCertificatePdfFileNameFactory
 {
+    /** @var ilLanguage */
+    private $lng;
+
+    /**
+     * ilCertificatePdfFileNameFactory constructor.
+     * @param ilLanguage $lng
+     */
+    public function __construct(\ilLanguage $lng)
+    {
+        $this->lng = $lng;
+    }
+
     public function create(ilUserCertificatePresentation $presentation)
     {
-        $objectType = $presentation->getUserCertificate()->getObjType();
+        $objectType = $presentation->getObjType();
         $pdfFileGenerator = $this->fetchCertificateGenerator($objectType);
 
-        $fileName = $pdfFileGenerator->createFileName($presentation);
-
-        return $fileName . '.pdf';
+        return $pdfFileGenerator->createFileName($presentation);
     }
 
     /**
-     * @param $objectType
-     * @return ilCertificatePdfFilename|ilCertificateScormPdfFilename
+     * @param string $objectType
+     * @return ilCertificateFilename
      */
-    private function fetchCertificateGenerator(string $objectType)
+    private function fetchCertificateGenerator(string $objectType) : ilCertificateFilename
     {
-        if ($objectType === 'sahs') {
-            return new ilCertificateScormPdfFilename(new ilSetting('scorm'));
+        $generator = new ilCertificatePdfFilename($this->lng);
+        if ('sahs' === $objectType) {
+            $generator = new ilCertificateScormPdfFilename($generator, $this->lng, new ilSetting('scorm'));
         }
 
-        return new ilCertificatePdfFilename();
+        return $generator;
     }
 }

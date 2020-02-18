@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page\Page;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 
@@ -23,7 +24,6 @@ use ILIAS\UI\Component\MainControls\MetaBar;
  */
 class ModificationHandler
 {
-
     use SingletonTrait;
     /**
      * @var DecoratedPageBuilder
@@ -121,12 +121,54 @@ class ModificationHandler
 
 
     /**
+     * @param Closure $closure_returning_page
+     */
+    public function modifyPageBuilderWithClosure(Closure $closure_returning_page) : void
+    {
+        $this->current_page_builder = new DecoratedPageBuilder($this->current_page_builder, $closure_returning_page);
+    }
+
+
+    /**
+     * @param Closure $closure_returning_footer
+     */
+    public function modifyFooterWithClosure(Closure $closure_returning_footer) : void
+    {
+        $this->replaceWithAutoWiredInstance(Footer::class, $closure_returning_footer);
+    }
+
+
+    /**
      * @return Page
      */
     public function getPageWithPagePartProviders() : Page
     {
         return $this->current_page_builder->build($this->current_page_part_provider);
     }
+
+
+    public function modifyTitleWithClosure(Closure $closure_returning_title) : void
+    {
+        $this->replaceWithAutoWiredInstance(
+            DecoratedPagePartProvider::PURPOSE_TITLE,
+            $closure_returning_title
+        );
+    }
+    public function modifyShortTitleWithClosure(Closure $closure_returning_short_title) : void
+    {
+        $this->replaceWithAutoWiredInstance(
+            DecoratedPagePartProvider::PURPOSE_SHORTTITLE,
+            $closure_returning_short_title
+        );
+    }
+    public function modifyViewTitleWithClosure(Closure $closure_returning_view_title) : void
+    {
+        $this->replaceWithAutoWiredInstance(
+            DecoratedPagePartProvider::PURPOSE_VIEWTITLE,
+            $closure_returning_view_title
+        );
+    }
+
 
 
     /**

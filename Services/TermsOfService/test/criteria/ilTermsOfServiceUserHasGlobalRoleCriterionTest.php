@@ -53,7 +53,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->rbacReview = $this->getRbacReviewMock();
 
         $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion(
-            $this->rbacReview, $this->getObjectDataCacheMock()
+            $this->rbacReview,
+            $this->getObjectDataCacheMock()
         );
 
         return $criterion;
@@ -94,8 +95,10 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $form->addItem($radioGroup);
 
-        $gui->appendOption($radioGroup,
-            new ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue]));
+        $gui->appendOption(
+            $radioGroup,
+            new ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue])
+        );
 
         return $form;
     }
@@ -176,9 +179,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     public function objectCacheProvider() : array
     {
         return [
-            [$this->expectedInitialValue, $this->adminRoleTitle],
-            [$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
-            [-1, ''],
+            'Administrator Role Id' => [$this->expectedInitialValue, $this->adminRoleTitle],
+            'User Role Id' => [$this->expectedAfterFormSubmitValue, $this->userRoleTitle],
+            'Invalid Role Id' => [-1, ''],
         ];
     }
 
@@ -222,12 +225,15 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $criterion = $this->getInstance();
 
         return [
-            [$criterion, $this->getCriterionConfig(['role_id' => []])],
-            [$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
-            [$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
-            [$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
-            [$criterion, $this->getCriterionConfig(['another_config_key' => true])],
-            [$criterion, $this->getCriterionConfig()],
+            'Array' => [$criterion, $this->getCriterionConfig(['role_id' => []])],
+            'Object' => [$criterion, $this->getCriterionConfig(['role_id' => new stdClass()])],
+            'Double' => [$criterion, $this->getCriterionConfig(['role_id' => 1.424])],
+            'String' => [$criterion, $this->getCriterionConfig(['role_id' => 'phpunit'])],
+            'Wrong Key Provided for Extracting Role' => [
+                $criterion,
+                $this->getCriterionConfig(['another_config_key' => true])
+            ],
+            'Empty Configuration' => [$criterion, $this->getCriterionConfig()],
         ];
     }
 

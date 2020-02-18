@@ -7,121 +7,136 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait DIC {
+trait DIC
+{
 
-	/**
-	 * @return \ILIAS\DI\Container
-	 */
-	public function dic() {
-		return $GLOBALS['DIC'];
-	}
-
-
-	/**
-	 * @return \ilCtrl
-	 */
-	protected function ctrl() {
-		return $this->dic()->ctrl();
-	}
+    /**
+     * @return \ILIAS\DI\Container
+     */
+    public function dic()
+    {
+        return $GLOBALS['DIC'];
+    }
 
 
-	/**
-	 * @param $variable
-	 *
-	 * @return string
-	 */
-	public function txt($variable) {
-		return $this->lng()->txt($variable);
-	}
+    /**
+     * @return \ilCtrl
+     */
+    protected function ctrl()
+    {
+        return $this->dic()->ctrl();
+    }
 
 
-	/**
-	 * @return \ilTemplate
-	 */
-	protected function tpl() {
-		return $this->dic()->ui()->mainTemplate();
-	}
+    /**
+     * @param $variable
+     *
+     * @return string
+     */
+    public function txt($variable)
+    {
+        return $this->lng()->txt($variable);
+    }
 
 
-	/**
-	 * @return \ilLanguage
-	 */
-	protected function lng() {
-		return $this->dic()->language();
-	}
+    /**
+     * @return \ilTemplate
+     */
+    protected function tpl()
+    {
+        return $this->dic()->ui()->mainTemplate();
+    }
 
 
-	/**
-	 * @return \ilTabsGUI
-	 */
-	protected function tabs() {
-		return $this->dic()->tabs();
-	}
+    /**
+     * @return \ilLanguage
+     */
+    protected function lng()
+    {
+        return $this->dic()->language();
+    }
 
 
-	/**
-	 * @return \ILIAS\DI\UIServices
-	 */
-	protected function ui() {
-		return $this->dic()->ui();
-	}
+    /**
+     * @return \ilTabsGUI
+     */
+    protected function tabs()
+    {
+        return $this->dic()->tabs();
+    }
 
 
-	/**
-	 * @return \ilObjUser
-	 */
-	protected function user() {
-		return $this->dic()->user();
-	}
+    /**
+     * @return \ILIAS\DI\UIServices
+     */
+    protected function ui()
+    {
+        return $this->dic()->ui();
+    }
 
 
-	/**
-	 * @return \ILIAS\DI\HTTPServices
-	 */
-	protected function http() {
-		return $this->dic()->http();
-	}
+    /**
+     * @return \ilObjUser
+     */
+    protected function user()
+    {
+        return $this->dic()->user();
+    }
 
 
-	/**
-	 * @return \ilAccessHandler
-	 */
-	protected function access() {
-		return $this->dic()->access();
-	}
+    /**
+     * @return \ILIAS\DI\HTTPServices
+     */
+    protected function http()
+    {
+        return $this->dic()->http();
+    }
 
 
-	/**
-	 * @return \ilToolbarGUI
-	 */
-	protected function toolbar() {
-		return $this->dic()->toolbar();
-	}
+    /**
+     * @return \ilAccessHandler
+     */
+    protected function access()
+    {
+        return $this->dic()->access();
+    }
 
 
-	/**
-	 * @return \ilDB
-	 */
-	protected function database() {
-		return $this->dic()->database();
-	}
-
-	//
-	// Helper
-	//
-	public function checkPermissionAndFail($a_perm) {
-		if (!$this->checkPermissionBoolAndReturn($a_perm)) {
-			throw new \ilObjectException($this->lng()->txt("permission_denied"));
-		}
-	}
+    /**
+     * @return \ilToolbarGUI
+     */
+    protected function toolbar()
+    {
+        return $this->dic()->toolbar();
+    }
 
 
-	/**
-	 * @param $a_perm
-	 *
-	 * @return bool
-	 */
-	public function checkPermissionBoolAndReturn($a_perm) {
-		return (bool)$this->access()->checkAccess($a_perm, '', $this->http()->request()->getQueryParams()['ref_id']);
-	}
+    /**
+     * @return \ilDB
+     */
+    protected function database()
+    {
+        return $this->dic()->database();
+    }
+
+    //
+    // Helper
+    //
+    public function checkPermissionAndFail($a_perm)
+    {
+        if (!$this->checkPermissionBoolAndReturn($a_perm)) {
+            throw new \ilObjectException($this->lng()->txt("permission_denied"));
+        }
+    }
+
+
+    /**
+     * @param $a_perm
+     *
+     * @return bool
+     */
+    public function checkPermissionBoolAndReturn($a_perm)
+    {
+        return (bool) $this->access()->checkAccess($a_perm, '', $this->http()->request()->getQueryParams()['ref_id']);
+    }
 }

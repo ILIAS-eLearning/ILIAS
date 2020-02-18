@@ -8,58 +8,62 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @version 2.0.7
  */
-class arLimit extends arStatement {
+class arLimit extends arStatement
+{
 
-	/**
-	 * @var int
-	 */
-	protected $start;
-	/**
-	 * @var int
-	 */
-	protected $end;
-
-
-	/**
-	 * @param ActiveRecord $ar
-	 *
-	 * @return string
-	 */
-	public function asSQLStatement(ActiveRecord $ar) {
-		return ' LIMIT ' . $this->getStart() . ', ' . $this->getEnd();
-	}
+    /**
+     * @var int
+     */
+    protected $start;
+    /**
+     * @var int
+     */
+    protected $end;
 
 
-	/**
-	 * @param int $end
-	 */
-	public function setEnd($end) {
-		$this->end = $end;
-	}
+    /**
+     * @param ActiveRecord $ar
+     *
+     * @return string
+     */
+    public function asSQLStatement(ActiveRecord $ar)
+    {
+        return ' LIMIT ' . $this->getStart() . ', ' . $this->getEnd();
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getEnd() {
-		return $this->end;
-	}
+    /**
+     * @param int $end
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+    }
 
 
-	/**
-	 * @param int $start
-	 */
-	public function setStart($start) {
-		$this->start = $start;
-	}
+    /**
+     * @return int
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getStart() {
-		return $this->start;
-	}
+    /**
+     * @param int $start
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
 }
-
-?>

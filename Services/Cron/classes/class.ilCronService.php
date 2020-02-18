@@ -13,16 +13,14 @@ include_once("./Services/Component/classes/class.ilService.php");
  * @ingroup ServicesCron
  */
 class ilCronService extends ilService
-{   
-	function isCore()
-	{
-		return true;
-	}
-	
-	function getVersion()
-	{
-		return "-";
-	}	
+{
+    public function isCore()
+    {
+        return true;
+    }
+    
+    public function getVersion()
+    {
+        return "-";
+    }
 }
-
-?>

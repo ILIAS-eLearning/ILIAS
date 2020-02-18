@@ -1,0 +1,19 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		<input type="hidden" name="participants[]" value="{HIDDEN_NAME}" />
+		<img src="{TYPE_ICON}" alt="{ALT_USR}" />
+	</td>
+	<td class="std">
+		{VAL_LOGIN}
+		<!-- BEGIN reference_path -->
+		<div>
+			<input type="checkbox" name="{CHECK_USER_NAME}" value="{CHECK_USER_VAL}" /><div style="display: inline-block">{REF_PATH}</div>
+		</div>
+		<!-- END reference_path -->
+		<!-- BEGIN reference_select -->
+		<div>
+			<input type="checkbox" id="call_{RUID}_{RFORM_ID}" onclick="il.Util.setChecked('{RFORM_ID}','refs[{RUID}]',this.checked)" />&nbsp;<label for="call_{RUID}_{RFORM_ID}">{SEL_ALL}</label>
+		</div>
+		<!-- END reference_select -->
+	</td>
+</tr>

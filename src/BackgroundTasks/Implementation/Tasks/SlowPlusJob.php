@@ -11,7 +11,6 @@ use ILIAS\BackgroundTasks\Value;
 
 class SlowPlusJob extends AbstractJob
 {
-
     const SLEEP_SECONDS = 10;
 
 
@@ -53,7 +52,7 @@ class SlowPlusJob extends AbstractJob
      *
      * @return Value
      */
-    public function run(Array $input, Observer $observer)
+    public function run(array $input, Observer $observer)
     {
         /** @var IntegerValue $a */
         $a = $input[0];

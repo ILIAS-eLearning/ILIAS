@@ -55,14 +55,14 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs = $gs;
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
+        $this->il_settings = $DIC->settings();
     }
 
 
     private function prepareOutputHeaders()
     {
-        $response = $this->http->response();
-        $this->http->saveResponse($response->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
-        $this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
             $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
@@ -76,6 +76,19 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
+        \ilBuddySystemGUI::initializeFrontend($this);
+        \ilOnScreenChatGUI::initializeFrontend($this);
+        \ILIAS\Accessibility\GlobalPageHandler::initPage($this);
+
+        $sessionReminder = new ilSessionReminderGUI(
+            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            $this,
+            $this->lng
+        );
+        $sessionReminder->populatePage();
+
+        $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
+        $onScreenNotifier->populatePage();
     }
 
 
@@ -96,8 +109,25 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
-
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+
+        // see #26968
+        $this->handleReferer();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function printToString() : string
+    {
+        $this->prepareOutputHeaders();
+        $this->prepareBasicJS();
+        $this->prepareBasicCSS();
+
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+
+        return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
 
@@ -191,7 +221,17 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setTitle($a_title)
     {
-        $this->legacy_content_template->setTitle($a_title);
+        $this->legacy_content_template->setTitle((string) $a_title);
+
+        $short_title = (string)$this->il_settings->get('short_inst_name');
+        if (trim($short_title) === "") {
+            $short_title = 'ILIAS';
+        }
+
+        PageContentProvider::setShortTitle($short_title);
+        PageContentProvider::setViewTitle((string) $a_title);
+        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        PageContentProvider::setTitle($header_title);
     }
 
 
@@ -213,6 +253,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setIconDesc($a_icon_desc);
     }
 
+
+    public function setBanner(string $img_src)
+    {
+        $this->legacy_content_template->setBanner($img_src);
+    }
 
     // ALERTS & OS-MESSAGES
 
@@ -435,7 +480,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
-        // Nothing to do
+        $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
+        PageContentProvider::setPermaLink($href);
     }
 
 
@@ -492,7 +538,17 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function getOnLoadCodeForAsynch()
     {
-        throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+        // see e.g. bug #26413
+        $js = "";
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $js .= $code->getContent() . "\n";
+        }
+        if ($js) {
+            return '<script type="text/javascript">' . "\n" .
+                $js .
+                '</script>' . "\n";
+        }
+        return "";
     }
 
 
@@ -548,4 +604,65 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     { //
         throw new NotImplementedException();
     }
+
+    /**
+     * Old method from global template
+     * fixing #26968
+     */
+    private function handleReferer()
+    {
+        if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
+            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
+            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))) {
+            $_SESSION["post_vars"] = $_POST;
+
+            // referer is modified if query string contains cmd=gateway and $_POST is not empty.
+            // this is a workaround to display formular again in case of error and if the referer points to another page
+            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
+            if (!$url_parts) {
+                $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
+                $host = $_SERVER['HTTP_HOST'];
+                $path = $_SERVER['REQUEST_URI'];
+                $url_parts = @parse_url($protocol . $host . $path);
+            }
+
+            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+                foreach ($_POST as $key => $val) {
+                    if (is_array($val)) {
+                        $val = key($val);
+                    }
+
+                    $str .= "&" . $key . "=" . $val;
+                }
+
+                $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
+                $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+            } elseif (isset($url_parts["query"]) && preg_match("/cmd=post/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+                foreach ($_POST as $key => $val) {
+                    if (is_array($val)) {
+                        $val = key($val);
+                    }
+
+                    $str .= "&" . $key . "=" . $val;
+                }
+
+                $_SESSION["referer"] = preg_replace("/cmd=post/", substr($str, 1), $_SERVER["REQUEST_URI"]);
+                if (isset($_GET['ref_id'])) {
+                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+                } else {
+                    $_SESSION['referer_ref_id'] = 0;
+                }
+            } else {
+                $_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+                if (isset($_GET['ref_id'])) {
+                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+                } else {
+                    $_SESSION['referer_ref_id'] = 0;
+                }
+            }
+
+            unset($_SESSION["error_post_vars"]);
+        }
+    }
+
 }

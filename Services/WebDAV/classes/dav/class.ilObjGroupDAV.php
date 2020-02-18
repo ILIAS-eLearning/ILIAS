@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Modules/Group/classes/class.ilObjGroup.php';
-
 /**
  * Class ilObjGroupDAV
  *

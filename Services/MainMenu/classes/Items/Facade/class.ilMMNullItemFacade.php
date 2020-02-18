@@ -157,4 +157,3 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
         parent::delete();
     }
 }
-

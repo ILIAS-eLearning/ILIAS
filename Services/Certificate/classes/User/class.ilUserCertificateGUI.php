@@ -114,6 +114,7 @@ class ilUserCertificateGUI
         }
         $this->user = $user;
 
+
         if ($request === null) {
             $request = $DIC->http()->request();
         }
@@ -149,6 +150,11 @@ class ilUserCertificateGUI
         }
         $this->filesystem = $filesystem;
 
+        if ($userCertificateRepository === null) {
+            $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
+        }
+        $this->userCertificateRepository = $userCertificateRepository;
+
         $this->language->loadLanguageModule('cert');
         $this->language->loadLanguageModule('cert');
     }
@@ -156,7 +162,7 @@ class ilUserCertificateGUI
     /**
      * @return string
      */
-    private function getDefaultCommand(): string
+    private function getDefaultCommand() : string
     {
         return 'listCertificates';
     }
@@ -237,7 +243,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilUtil::getWebspaceDir(). $thumbnailImagePath;
+                $imagePath = ilUtil::getWebspaceDir() . $thumbnailImagePath;
                 if ($thumbnailImagePath === null
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
@@ -305,7 +311,7 @@ class ilUserCertificateGUI
                 $cards[] = $card;
             }
 
-            $deck = $this->uiFactory->deck($cards);
+            $deck = $this->uiFactory->deck($cards)->withNormalCardsSize();
 
             $uiComponents[] = $this->uiFactory->divider()->horizontal();
 
@@ -320,7 +326,7 @@ class ilUserCertificateGUI
     /**
      * @return string
      */
-    protected function getCurrentSortation(): string
+    protected function getCurrentSortation() : string
     {
         $sorting = \ilSession::get(self::SORTATION_SESSION_KEY);
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -354,13 +360,12 @@ class ilUserCertificateGUI
         $user = $DIC->user();
         $language = $DIC->language();
 
-        $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
-        $pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
+        $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
 
-        $userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
+        $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
         try {
-            $userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
+            $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
             if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
                 throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(), $userCertificateId));
             }

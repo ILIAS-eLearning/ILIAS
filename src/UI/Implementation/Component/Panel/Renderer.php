@@ -12,124 +12,134 @@ use ILIAS\UI\Component;
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Panel
  */
-class Renderer extends AbstractComponentRenderer {
-	/**
-	 * @inheritdocs
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		/**
-		 * @var Component\Panel\Panel $component
-		 */
-		$this->checkComponent($component);
+class Renderer extends AbstractComponentRenderer
+{
+    /**
+     * @inheritdocs
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        /**
+         * @var Component\Panel\Panel $component
+         */
+        $this->checkComponent($component);
 
-		if ($component instanceof Component\Panel\Standard) {
-			/**
-			 * @var Component\Panel\Standard $component
-			 */
-			return $this->renderStandard($component, $default_renderer);
-		} else if($component instanceof Component\Panel\Sub) {
-			/**
-			 * @var Component\Panel\Sub $component
-			 */
-			return $this->renderSub($component, $default_renderer);
-		}
-		/**
-		 * @var Component\Panel\Report $component
-		 */
-		return $this->renderReport($component, $default_renderer);
-	}
+        if ($component instanceof Component\Panel\Standard) {
+            /**
+             * @var Component\Panel\Standard $component
+             */
+            return $this->renderStandard($component, $default_renderer);
+        } elseif ($component instanceof Component\Panel\Sub) {
+            /**
+             * @var Component\Panel\Sub $component
+             */
+            return $this->renderSub($component, $default_renderer);
+        }
+        /**
+         * @var Component\Panel\Report $component
+         */
+        return $this->renderReport($component, $default_renderer);
+    }
 
-	/**
-	 * @param Component\Component $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function getContentAsString(Component\Component $component, RendererInterface $default_renderer){
-		$content = "";
-		foreach($component->getContent() as $item){
-			$content .= $default_renderer->render($item);
-		}
-		return $content;
-	}
+    /**
+     * @param Component\Component $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function getContentAsString(Component\Component $component, RendererInterface $default_renderer)
+    {
+        $content = "";
+        foreach ($component->getContent() as $item) {
+            $content .= $default_renderer->render($item);
+        }
+        return $content;
+    }
 
-	/**
-	 * @param Component\Panel\Standard $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer)
-	{
-		$tpl = $this->getTemplate("tpl.standard.html", true, true);
+    /**
+     * @param Component\Panel\Standard $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderStandard(Component\Panel\Standard $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-		// actions
-		$actions = $component->getActions();
-		if ($actions !== null)
-		{
-			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-		}
+        $view_controls = $component->getViewControls();
+        if ($view_controls) {
+            foreach ($view_controls as $view_control) {
+                $tpl->setCurrentBlock("view_controls");
+                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                $tpl->parseCurrentBlock();
+            }
+        }
 
-		$tpl->setVariable("TITLE",  $component->getTitle());
-		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-		return $tpl->get();
-	}
+        // actions
+        $actions = $component->getActions();
+        if ($actions !== null) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
 
-	/**
-	 * @param Component\Panel\Sub $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderSub(Component\Panel\Sub $component, RendererInterface $default_renderer)
-	{
-		$tpl = $this->getTemplate("tpl.sub.html", true, true);
+        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+        return $tpl->get();
+    }
 
-		$actions = $component->getActions();
+    /**
+     * @param Component\Panel\Sub $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderSub(Component\Panel\Sub $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.sub.html", true, true);
 
-		if ($component->getTitle() != "" || $actions !== null)
-		{
-			$tpl->setCurrentBlock("title");
+        $actions = $component->getActions();
 
-			// actions
-			if ($actions !== null)
-			{
-				$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-			}
+        if ($component->getTitle() != "" || $actions !== null) {
+            $tpl->setCurrentBlock("title");
 
-			// title
-			$tpl->setVariable("TITLE", $component->getTitle());
-			$tpl->parseCurrentBlock();
-		}
+            // actions
+            if ($actions !== null) {
+                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+            }
 
-		if($component->getCard()){
-			$tpl->setCurrentBlock("with_card");
-			$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-			$tpl->setVariable("CARD",  $default_renderer->render($component->getCard()));
-			$tpl->parseCurrentBlock();
-		}else{
-			$tpl->setCurrentBlock("no_card");
-			$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-			$tpl->parseCurrentBlock();
-		}
+            // title
+            $tpl->setVariable("TITLE", $component->getTitle());
+            $tpl->parseCurrentBlock();
+        }
 
-		return $tpl->get();
-	}
+        if ($component->getCard()) {
+            $tpl->setCurrentBlock("with_card");
+            $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+            $tpl->setVariable("CARD", $default_renderer->render($component->getCard()));
+            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->setCurrentBlock("no_card");
+            $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+            $tpl->parseCurrentBlock();
+        }
 
-	/**
-	 * @param Component\Panel\Report $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer)
-	{
-		$tpl = $this->getTemplate("tpl.report.html", true, true);
-		$tpl->setVariable("TITLE",  $component->getTitle());
-		$tpl->setVariable("BODY",  $this->getContentAsString($component,$default_renderer));
-		return $tpl->get();
-	}
+        return $tpl->get();
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	protected function getComponentInterfaceName() {
-		return [Component\Panel\Panel::class];
-	}
+    /**
+     * @param Component\Panel\Report $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderReport(Component\Panel\Report $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.report.html", true, true);
+        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
+        return $tpl->get();
+    }
+
+    /**
+     * @inheritdocs
+     */
+    protected function getComponentInterfaceName()
+    {
+        return [Component\Panel\Panel::class];
+    }
 }

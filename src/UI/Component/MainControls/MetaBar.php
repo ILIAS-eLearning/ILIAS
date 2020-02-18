@@ -13,27 +13,32 @@ use ILIAS\UI\Component\Button;
  */
 interface MetaBar extends Component, JavaScriptBindable
 {
-	/**
-	 * Append an entry.
-	 *
-	 * @param string $id
-	 * @param Bulky|Slate $entry
-	 * @throws InvalidArgumentException 	if $id is already taken
-	 */
-	public function withAdditionalEntry(string $id, $entry): MetaBar;
+    /**
+     * Append an entry.
+     *
+     * @param string $id
+     * @param Bulky|Slate $entry
+     * @throws InvalidArgumentException 	if $id is already taken
+     */
+    public function withAdditionalEntry(string $id, $entry) : MetaBar;
 
-	/**
-	 * @return array <string, Bulky|Slate>
-	 */
-	public function getEntries(): array;
+    /**
+     * @return array <string, Bulky|Slate>
+     */
+    public function getEntries() : array;
 
-	/**
-	 * The Signal is triggered when any Entry is being clicked.
-	 */
-	public function getEntryClickSignal(): Signal;
+    /**
+     * The Signal is triggered when any Entry is being clicked.
+     */
+    public function getEntryClickSignal() : Signal;
 
-	/**
-	 * This signal disengages all slates when triggered.
-	 */
-	public function getDisengageAllSignal(): Signal;
+    /**
+     * This signal disengages all slates when triggered.
+     */
+    public function getDisengageAllSignal() : Signal;
+
+    /**
+     * Get a copy of this Metabar without any entries.
+     */
+    public function withClearedEntries() : MetaBar;
 }

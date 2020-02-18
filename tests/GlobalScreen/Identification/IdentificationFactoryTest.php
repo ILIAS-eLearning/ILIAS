@@ -33,7 +33,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class IdentificationFactoryTest extends TestCase
 {
-
     use MockeryPHPUnitIntegration;
     const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
@@ -85,11 +84,13 @@ class IdentificationFactoryTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods, [
+            $methods,
+            [
                 0 => '__construct',
                 1 => 'core',
                 2 => 'fromSerializedIdentification',
                 3 => 'plugin',
+                4 => 'tool'
             ]
         );
     }
@@ -105,7 +106,7 @@ class IdentificationFactoryTest extends TestCase
     public function testPlugin()
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
-        $identification_provider = $this->identification->plugin($this->plugin_mock, $this->provider_mock);
+        $identification_provider = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock);
         $this->assertInstanceOf(IdentificationProviderInterface::class, $identification_provider);
         $identification = $identification_provider->identifier('dummy');
         $this->assertInstanceOf(IdentificationInterface::class, $identification);
@@ -133,7 +134,7 @@ class IdentificationFactoryTest extends TestCase
     public function testUnserializingPlugin()
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
-        $identification = $this->identification->plugin($this->plugin_mock, $this->provider_mock)->identifier('dummy');
+        $identification = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock)->identifier('dummy');
         $serialized_identification = $identification->serialize();
         $this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
         $new_identification = $this->identification->fromSerializedIdentification($serialized_identification);

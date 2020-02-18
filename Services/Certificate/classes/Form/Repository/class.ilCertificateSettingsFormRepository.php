@@ -151,7 +151,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         }
 
         if (null === $backgroundImageFileService) {
-            $backgroundImageFileService = new ilCertificateBackgroundImageFileService($certificatePath, $filesystem);
+            $backgroundImageFileService = new ilCertificateBackgroundImageFileService(
+                $certificatePath,
+                $filesystem
+            );
         }
         $this->backGroundImageFileService = $backgroundImageFileService;
     }
@@ -168,7 +171,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) {
+    public function createForm(ilCertificateGUI $certificateGUI)
+    {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $command = $this->controller->getCmd();
@@ -273,7 +277,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $allowThumbnailDeletion = false;
 
         $cardThumbnailImagePath = $certificateTemplate->getThumbnailImagePath();
-        if ('' !== $cardThumbnailImagePath && null !== $cardThumbnailImagePath) {
+        if ('' !== $cardThumbnailImagePath) {
             $presentationThumbnailImagePath = CLIENT_WEB_DIR . $cardThumbnailImagePath;
             $thumbnailImage->setImage(ilWACSignedPath::signFile($presentationThumbnailImagePath));
             $allowThumbnailDeletion = true;

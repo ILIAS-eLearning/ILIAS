@@ -23,14 +23,14 @@ class ilCertificateObjectHelper
      */
     public function lookupObjId(int $refId) : int
     {
-        return ilObject::_lookupObjId($refId);
+        return (int) ilObject::_lookupObjId($refId);
     }
 
     /**
      * @param int $objectId
      * @return string
      */
-    public function lookupType(int $objectId): string
+    public function lookupType(int $objectId) : string
     {
         return ilObject::_lookupType($objectId);
     }

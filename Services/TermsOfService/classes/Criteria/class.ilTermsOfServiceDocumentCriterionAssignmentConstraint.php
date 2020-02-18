@@ -46,7 +46,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
 
     /**
      * @param ilTermsOfServiceDocumentCriterionAssignment $value
-     * @return ilTermsOfServiceDocumentCriterionAssignment[]
+     * @return ilTermsOfServiceDocumentCriterionAssignment[]|ilTermsOfServiceEvaluableCriterion[]
      */
     protected function filterEqualValues(
         ilTermsOfServiceDocumentCriterionAssignment $value

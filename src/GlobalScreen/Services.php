@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\MetaBarItemFactory;
+use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
 use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
 
 /**
@@ -15,7 +16,6 @@ use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
  */
 class Services
 {
-
     use SingletonTrait;
     /**
      * @var Services
@@ -89,6 +89,15 @@ class Services
     public function layout() : LayoutServices
     {
         return $this->get(LayoutServices::class);
+    }
+
+
+    /**
+     * @return NotificationServices
+     */
+    public function notifications() : NotificationServices
+    {
+        return $this->get(NotificationServices::class);
     }
 
 

@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 
 /**
@@ -28,13 +29,17 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
+        $title = $this->dic->language()->txt("mm_mail");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, $title)
+                                                             ->withIsOutlined(true);
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))
-                ->withTitle($this->dic->language()->txt("mm_mail"))
+                ->withTitle($title)
                 ->withAction("ilias.php?baseClass=ilMailGUI")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("mail", "")->withIsOutlined(true))
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {
@@ -44,7 +49,8 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withVisibilityCallable(
                     function () use ($dic) {
                         return $dic->rbac()->system()->checkAccess(
-                            'internal_mail', ilMailGlobalServices::getMailObjectRefId()
+                            'internal_mail',
+                            ilMailGlobalServices::getMailObjectRefId()
                         );
                     }
                 ),

@@ -23,15 +23,15 @@ trait StateTranslator
     public function translateState($state, \ilLanguage $lng)
     {
         switch ($state) {
-            case State::SCHEDULED;
+            case State::SCHEDULED:
                 return $lng->txt("observer_state_scheduled");
-            case State::RUNNING;
+            case State::RUNNING:
                 return $lng->txt("observer_state_running");
-            case State::USER_INTERACTION;
+            case State::USER_INTERACTION:
                 return $lng->txt("observer_state_user_interaction");
-            case State::FINISHED;
+            case State::FINISHED:
                 return $lng->txt("observer_state_finished");
-            case State::ERROR;
+            case State::ERROR:
                 return $lng->txt("observer_state_error");
         }
     }

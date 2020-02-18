@@ -10,9 +10,6 @@ class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        require_once('./Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php');
-
         $this->mocked_repo_helper = \Mockery::mock('ilWebDAVRepositoryHelper');
 
         parent::setUp();
@@ -29,12 +26,9 @@ class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
         $too_short_path = "some_string_without_a_slash";
         $correct_exception_thrown = false;
 
-        try
-        {
+        try {
             $path_resolver->getRefIdForWebDAVPath($too_short_path);
-        }
-        catch(\Sabre\DAV\Exception\BadRequest $e)
-        {
+        } catch (\Sabre\DAV\Exception\BadRequest $e) {
             $correct_exception_thrown = $e->getMessage() == 'Path too short';
         }
 
@@ -55,12 +49,9 @@ class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
         $path_resolver->shouldAllowMockingProtectedMethods();
 
         // Assert
-        try
-        {
+        try {
             $ref_id = $path_resolver->getRefIdForWebDAVPath($too_short_path);
-        }
-        catch(\Sabre\DAV\Exception\BadRequest $e)
-        {
+        } catch (\Sabre\DAV\Exception\BadRequest $e) {
             $correct_exception_thrown = $e->getMessage() == 'Invalid mountpoint given';
         }
 

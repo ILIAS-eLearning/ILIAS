@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" dir="ltr" id="{ID}">
+<html lang="{LANGUAGE}" dir="ltr">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,6 +8,8 @@
 	<!-- BEGIN base -->
 	<base href="{BASE}" />
 	<!-- END base -->
+
+	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 
 	<style type="text/css">
 		{CSS_INLINE}
@@ -24,13 +26,17 @@
 
 <body>
 
-	<section class="il-layout-page">
+	<section class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
 
 		<header>
 			<div class="header-inner">
 				<div class="il-logo">
 					{LOGO}
+					<div class="il-pagetitle">
+						{TITLE}
+					</div>
 				</div>
+
 				<!-- BEGIN header_locator -->
 				<nav class="il-header-locator">
 					{HEADER_BREADCRUMBS}
@@ -50,21 +56,32 @@
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
-			{CONTENT}
+			<div>
+				<!-- BEGIN mode_info -->
+				{MODEINFO}
+				<!-- END mode_info -->
+				{CONTENT}
+			</div>
+
+
+			<!-- BEGIN pagefooter -->
+			<footer>
+				{FOOTER}
+			</footer>
+			<!-- END pagefooter -->
 		</main>
 
-		<footer>
-			{FOOTER}
-		</footer>
+
 	</section>
+
 
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
-	il.Util.addOnLoad(function() {
 	<!-- BEGIN on_load_code_inner -->
-		{OLCODE}
+		il.Util.addOnLoad(function() {
+			{OLCODE}
+		});
 	<!-- END on_load_code_inner -->
-});
 </script>
 <!-- END on_load_code -->
 

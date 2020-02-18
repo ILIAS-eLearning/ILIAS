@@ -15,325 +15,347 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * This implements commonalities between all Filters.
  */
-abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameSource {
+abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameSource
+{
+    use ComponentHelper;
+    use JavaScriptBindable;
 
-	use ComponentHelper;
-	use JavaScriptBindable;
+    /**
+     * @var string|Signal
+     */
+    protected $toggle_action_on;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $toggle_action_on;
+    /**
+     * @var string|Signal
+     */
+    protected $toggle_action_off;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $toggle_action_off;
+    /**
+     * @var string|Signal
+     */
+    protected $expand_action;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $expand_action;
+    /**
+     * @var string|Signal
+     */
+    protected $collapse_action;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $collapse_action;
+    /**
+     * @var string|Signal
+     */
+    protected $apply_action;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $apply_action;
+    /**
+     * @var string|Signal
+     */
+    protected $reset_action;
 
-	/**
-	 * @var string|Signal
-	 */
-	protected $reset_action;
+    /**
+     * @var    C\Input\Field\Group
+     */
+    protected $input_group;
 
-	/**
-	 * @var    C\Input\Field\Group
-	 */
-	protected $input_group;
+    /**
+     * @var bool[]
+     */
+    protected $is_input_rendered;
 
-	/**
-	 * @var bool[]
-	 */
-	protected $is_input_rendered;
+    /**
+     * @var bool
+     */
+    protected $is_activated;
 
-	/**
-	 * @var bool
-	 */
-	protected $is_activated;
+    /**
+     * @var bool
+     */
+    protected $is_expanded;
 
-	/**
-	 * @var bool
-	 */
-	protected $is_expanded;
+    /**
+     * @var C\Input\Field\Factory
+     */
+    protected $field_factory;
 
-	/**
-	 * @var C\Input\Field\Factory
-	 */
-	protected $field_factory;
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
-	/**
-	 * @var SignalGeneratorInterface
-	 */
-	protected $signal_generator;
+    /**
+     * @var Signal
+     */
+    protected $update_signal;
 
-	/**
-	 * @var Signal
-	 */
-	protected $update_signal;
-
-	/**
-	 * For the implementation of NameSource.
-	 *
-	 * @var    int
-	 */
-	private $count = 0;
-
-
-	/**
-	 * @param SignalGeneratorInterface $signal_generator
-	 * @param C\Input\Field\Factory $field_factory
-	 * @param string|Signal $toggle_action_on
-	 * @param string|Signal $toggle_action_off
-	 * @param string|Signal $expand_action
-	 * @param string|Signal $collapse_action
-	 * @param string|Signal $apply_action
-	 * @param string|Signal $reset_action
-	 * @param C\Input\Field\Input $inputs
-	 * @param bool[] $is_input_rendered
-	 * @param bool $is_activated
-	 * @param bool $is_expanded
-	 */
-	public function __construct(SignalGeneratorInterface $signal_generator, CI\Input\Field\Factory $field_factory, $toggle_action_on, $toggle_action_off, $expand_action, $collapse_action, $apply_action, $reset_action,
-								array $inputs, array $is_input_rendered, $is_activated, $is_expanded) {
-		$this->signal_generator = $signal_generator;
-		$this->field_factory = $field_factory;
-		$this->toggle_action_on = $toggle_action_on;
-		$this->toggle_action_off = $toggle_action_off;
-		$this->expand_action = $expand_action;
-		$this->collapse_action = $collapse_action;
-		$this->apply_action = $apply_action;
-		$this->reset_action = $reset_action;
-		//No further handling for actions needed here, will be done in constructors of the respective component
-
-		if (count($inputs) != count($is_input_rendered)) {
-			throw new \ArgumentCountError("Inputs and boolean values must be arrays of same size.");
-		}
-		$classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
-		$this->checkArgListElements("input", $inputs, $classes);
-
-		$this->initSignals();
-		$this->input_group = $field_factory->group($inputs)->withNameFrom($this);
-
-		foreach ($is_input_rendered as $r) {
-			$this->checkBoolArg("is_input_rendered", $r);
-		}
-		$this->is_input_rendered = $is_input_rendered;
-
-		$this->checkBoolArg("is_activated", $is_activated);
-		$this->is_activated = $is_activated;
-		$this->checkBoolArg("is_expanded", $is_expanded);
-		$this->is_expanded = $is_expanded;
-	}
+    /**
+     * For the implementation of NameSource.
+     *
+     * @var    int
+     */
+    private $count = 0;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getToggleOnAction()
-	{
-		return $this->toggle_action_on;
-	}
+    /**
+     * @param SignalGeneratorInterface $signal_generator
+     * @param C\Input\Field\Factory $field_factory
+     * @param string|Signal $toggle_action_on
+     * @param string|Signal $toggle_action_off
+     * @param string|Signal $expand_action
+     * @param string|Signal $collapse_action
+     * @param string|Signal $apply_action
+     * @param string|Signal $reset_action
+     * @param C\Input\Field\Input $inputs
+     * @param bool[] $is_input_rendered
+     * @param bool $is_activated
+     * @param bool $is_expanded
+     */
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        CI\Input\Field\Factory $field_factory,
+        $toggle_action_on,
+        $toggle_action_off,
+        $expand_action,
+        $collapse_action,
+        $apply_action,
+        $reset_action,
+        array $inputs,
+        array $is_input_rendered,
+        $is_activated,
+        $is_expanded
+    ) {
+        $this->signal_generator = $signal_generator;
+        $this->field_factory = $field_factory;
+        $this->toggle_action_on = $toggle_action_on;
+        $this->toggle_action_off = $toggle_action_off;
+        $this->expand_action = $expand_action;
+        $this->collapse_action = $collapse_action;
+        $this->apply_action = $apply_action;
+        $this->reset_action = $reset_action;
+        //No further handling for actions needed here, will be done in constructors of the respective component
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getToggleOffAction()
-	{
-		return $this->toggle_action_off;
-	}
+        if (count($inputs) != count($is_input_rendered)) {
+            throw new \ArgumentCountError("Inputs and boolean values must be arrays of same size.");
+        }
+        $classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
+        $this->checkArgListElements("input", $inputs, $classes);
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getExpandAction()
-	{
-		return $this->expand_action;
-	}
+        $this->initSignals();
+        $this->input_group = $field_factory->group($inputs)->withNameFrom($this);
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getCollapseAction()
-	{
-		return $this->collapse_action;
-	}
+        foreach ($is_input_rendered as $r) {
+            $this->checkBoolArg("is_input_rendered", $r);
+        }
+        $this->is_input_rendered = $is_input_rendered;
+
+        $this->checkBoolArg("is_activated", $is_activated);
+        $this->is_activated = $is_activated;
+        $this->checkBoolArg("is_expanded", $is_expanded);
+        $this->is_expanded = $is_expanded;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getApplyAction()
-	{
-		return $this->apply_action;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getToggleOnAction()
+    {
+        return $this->toggle_action_on;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getResetAction()
-	{
-		return $this->reset_action;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getToggleOffAction()
+    {
+        return $this->toggle_action_off;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExpandAction()
+    {
+        return $this->expand_action;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCollapseAction()
+    {
+        return $this->collapse_action;
+    }
 
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getInputs() {
-		return $this->getInputGroup()->getInputs();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getApplyAction()
+    {
+        return $this->apply_action;
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function isInputRendered() {
-		return $this->is_input_rendered;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getResetAction()
+    {
+        return $this->reset_action;
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getInputGroup() {
-		return $this->input_group;
-	}
 
-	/**
-	 * @inheritdocs
-	 */
-	public function withRequest(ServerRequestInterface $request) {
-		$param_data = $this->extractParamData($request);
+    /**
+     * @inheritdocs
+     */
+    public function getInputs()
+    {
+        return $this->getInputGroup()->getInputs();
+    }
 
-		$clone = clone $this;
-		$clone->input_group = $this->getInputGroup()->withInput($param_data);
+    /**
+     * @inheritdocs
+     */
+    public function isInputRendered()
+    {
+        return $this->is_input_rendered;
+    }
 
-		return $clone;
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getInputGroup()
+    {
+        return $this->input_group;
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getData() {
-		$content = $this->getInputGroup()->getContent();
-		if (!$content->isok()) {
-			return null;
-		}
+    /**
+     * @inheritdocs
+     */
+    public function withRequest(ServerRequestInterface $request)
+    {
+        $param_data = $this->extractParamData($request);
 
-		return $content->value();
-	}
+        $clone = clone $this;
+        $clone->input_group = $this->getInputGroup()->withInput($param_data);
 
-	/**
-	 * Extract post data from request.
-	 *
-	 * @param    ServerRequestInterface $request
-	 *
-	 * @return    CI\Input\InputData
-	 */
-	protected function extractParamData(ServerRequestInterface $request) {
-		return new QueryParamsFromServerRequest($request);
-	}
+        return $clone;
+    }
 
-	/**
-	 * Implementation of NameSource
-	 *
-	 * @inheritdoc
-	 */
-	public function getNewName() {
-		$name = "filter_input_{$this->count}";
-		$this->count++;
+    /**
+     * @inheritdocs
+     */
+    public function getData()
+    {
+        $content = $this->getInputGroup()->getContent();
+        if (!$content->isok()) {
+            return null;
+        }
 
-		return $name;
-	}
+        return $content->value();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isActivated()
-	{
-		return $this->is_activated;
-	}
+    /**
+     * Extract post data from request.
+     *
+     * @param    ServerRequestInterface $request
+     *
+     * @return    CI\Input\InputData
+     */
+    protected function extractParamData(ServerRequestInterface $request)
+    {
+        return new QueryParamsFromServerRequest($request);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withActivated()
-	{
-		$clone = clone $this;
-		$clone->is_activated = true;
-		return $clone;
-	}
+    /**
+     * Implementation of NameSource
+     *
+     * @inheritdoc
+     */
+    public function getNewName()
+    {
+        $name = "filter_input_{$this->count}";
+        $this->count++;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withDeactivated()
-	{
-		$clone = clone $this;
-		$clone->is_activated = false;
-		return $clone;
-	}
+        return $name;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isExpanded()
-	{
-		return $this->is_expanded;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isActivated()
+    {
+        return $this->is_activated;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withExpanded()
-	{
-		$clone = clone $this;
-		$clone->is_expanded = true;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withActivated()
+    {
+        $clone = clone $this;
+        $clone->is_activated = true;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withCollapsed()
-	{
-		$clone = clone $this;
-		$clone->is_expanded = false;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withDeactivated()
+    {
+        $clone = clone $this;
+        $clone->is_activated = false;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getUpdateSignal() {
-		return $this->update_signal;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isExpanded()
+    {
+        return $this->is_expanded;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withResetSignals() {
-		$clone = clone $this;
-		$clone->initSignals();
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withExpanded()
+    {
+        $clone = clone $this;
+        $clone->is_expanded = true;
+        return $clone;
+    }
 
-	/**
-	 * Set the update signal for this input
-	 */
-	protected function initSignals() {
-		$this->update_signal = $this->signal_generator->create();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withCollapsed()
+    {
+        $clone = clone $this;
+        $clone->is_expanded = false;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateSignal()
+    {
+        return $this->update_signal;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withResetSignals()
+    {
+        $clone = clone $this;
+        $clone->initSignals();
+        return $clone;
+    }
+
+    /**
+     * Set the update signal for this input
+     */
+    protected function initSignals()
+    {
+        $this->update_signal = $this->signal_generator->create();
+    }
 }

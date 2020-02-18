@@ -23,7 +23,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
     /**
      * @inheritDoc
      */
-    final public function purify($html) : string
+    final public function purify(string $html) : string
     {
         return $this->purifier->purify($html);
     }
@@ -62,7 +62,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
     /**
      * @return string
      */
-    final static public function _getCacheDirectory() : string
+    final public static function _getCacheDirectory() : string
     {
         if (!file_exists(ilUtil::getDataDir() . '/HTMLPurifier') ||
             !is_dir(ilUtil::getDataDir() . '/HTMLPurifier')) {
@@ -109,7 +109,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      */
     protected function makeElementListTinyMceCompliant(array $elements) : array
     {
-        // Bugfix #5945: Necessary because TinyMCE does not use the "u" 
+        // Bugfix #5945: Necessary because TinyMCE does not use the "u"
         // html element but <span style="text-decoration: underline">E</span>
 
         if (in_array('u', $elements) && !in_array('span', $elements)) {

@@ -12,6 +12,26 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Simple usage of demo-page in examples  (beginner, ~4h)
+To show how a UI-Component looks loke in the page context (esp. for 
+Components from the MainControls) a simple "framework" to use a Demo-Page
+in the examples would be helpful.
+
+### Improving FileInput and Dropzones (advanced, vaiable)
+General Dropzone functionality:
+ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
+
+With ILIAS 7, FileInput (or specific variants thereof) should have at least the following functions and properties:
+- Upload several files at once
+- Displaying existing files
+- Restriction to file extensions
+- Restriction to MimeTypes
+- use `Data\DataSize` for file size info
+
+With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
+- Preview of uploaded images
+- Crop functionality for images
+
 ### Engaged Buttons (advanced, ~4h)
 
 The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)
@@ -129,8 +149,41 @@ are created with methods that share the "group"-suffix. This is a exemplary case
 for the introduction of a new 'Group` family within `Input\Field`, with its own
 description, factory, renderer, directory...
 
+### Remove Snake Cases Functions for Tests (beginner, ~2h)
+
+There are several tests still using snake cases as function names, remove it.
+See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
+
+### Slates only accept string for titles (beginner, ~2h)
+
+In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
+to also accept buttons. We should extend that.
+
+### Footer should not use an input (beginner)
+
+In the footer's template, an input-tag in cconunction with some inline-js is 
+used to display the perma-link. This should be substituted by a non-input 
+block-element, respectively an UI-Component on its own.
 
 ## Long Term
+
+### Glyphs as Toggle
+
+Currently, the Notification Glyph (and maybe others) is used to toggle the activation
+of the notification service at individual objects. The activity then is indicated
+by color only, which violates the general accessibility rule that ["Color MUST not be
+used as the only visual means of conveying information"](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/accessibility.md).
+However, a quick fix seems not to be possible atm, because there also is no other
+means to convey the notion of (in-)activity for a general Glyph, or even only the
+specific Notification Glyph.
+
+### Tooltips and Tooltippable
+
+Tooltips are currently not yet implemented as UI components. Since 
+probably many UI components have or will have tooltips, the introduction
+ of a tooltippable interface should be discussed. This interface can
+  easily receive tooltips (either as a UI component or much simpler as
+   text) and can be implemented for all relevant UI components.
 
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`
 
@@ -239,6 +292,15 @@ registries for CSS- and JS-resources. These registries could then be passed to
 the page and would turn the aforementioned transportation from ilTemplate obsolete.
 In ultimo, there would be exactly one occurence of a line like
 "echo $renderer->render($page);exit();" to output the complete UI.
+
+### Introduce proper Notification Center (Expert)
+
+The term "Notification Center" has not bee properly defined yet in the ILIAS context. 
+This leads to several issues. E.g. there is no notification center UI Component,
+laying (too much) work on the shoulders of Global Screen, Notification Slate and Items.
+However, just building such a UI Component, would not do the trick. This needs
+to go hand in hand with a proper discussion on what a Notification Center should be
+and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
 
 
 ## Ideas and Food for Thought

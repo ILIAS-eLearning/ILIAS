@@ -36,18 +36,4 @@ abstract class AbstractStaticMetaBarProvider extends AbstractProvider implements
         $this->meta_bar = $this->globalScreen()->metaBar();
         $this->if = $this->globalScreen()->identification()->core($this);
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getAllIdentifications() : array
-    {
-        $identifications = [];
-        foreach ($this->getMetaBarItems() as $meta_bar_item) {
-            $identifications[] = $meta_bar_item->getProviderIdentification();
-        }
-
-        return $identifications;
-    }
 }

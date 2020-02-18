@@ -7,6 +7,10 @@ proposed changes to `composer.json`, name it like "Add library XYZ" and assign
 the "jour fixe"-label.
 
 ## Composer dependency management
+ILIAS uses composer https://getcomposer.org/ to manage PHP dependencies. Server administrators
+who manage their installation via the Git repository will have to use composer to manage
+dependencies. See https://getcomposer.org/doc/ for more information.
+
 Composer distinguishes between two different category of dependencies the 
 production and dev dependencies.
 

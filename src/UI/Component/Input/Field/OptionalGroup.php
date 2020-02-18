@@ -8,5 +8,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes optional group inputs.
  */
-interface OptionalGroup extends Group {
+interface OptionalGroup extends Group
+{
 }

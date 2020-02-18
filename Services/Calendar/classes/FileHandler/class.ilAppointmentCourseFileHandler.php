@@ -13,36 +13,33 @@ include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFil
  */
 class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
-	/**
-	 * Get files (for appointment)
-	 *
-	 * @param
-	 * @return
-	 */
-	function getFiles()
-	{
-		$cat_info = $this->getCatInfo();
+    /**
+     * Get files (for appointment)
+     *
+     * @param
+     * @return
+     */
+    public function getFiles()
+    {
+        $cat_info = $this->getCatInfo();
 
-		//checking permissions of the parent object.
-		// get course ref id (this is possible, since courses only have one ref id)
-		$refs = ilObject::_getAllReferences($cat_info['obj_id']);
-		$crs_ref_id = current($refs);
+        //checking permissions of the parent object.
+        // get course ref id (this is possible, since courses only have one ref id)
+        $refs = ilObject::_getAllReferences($cat_info['obj_id']);
+        $crs_ref_id = current($refs);
 
-		$files = array();
-		if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $crs_ref_id))
-		{
-			include_once "./Modules/Course/classes/class.ilCourseFile.php";
-			$course_files = ilCourseFile::_readFilesByCourse($cat_info['obj_id']);
+        $files = array();
+        if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $crs_ref_id)) {
+            include_once "./Modules/Course/classes/class.ilCourseFile.php";
+            $course_files = ilCourseFile::_readFilesByCourse($cat_info['obj_id']);
 
-			foreach ($course_files as $course_file)
-			{
-				$file_name_system_path = $course_file->getAbsolutePath();
-				$file_name_web = $course_file->getInfoDirectory()."/".$course_file->getFileName();
-				$files[$file_name_system_path] = $file_name_web;
-			}
-		}
+            foreach ($course_files as $course_file) {
+                $file_name_system_path = $course_file->getAbsolutePath();
+                $file_name_web = $course_file->getInfoDirectory() . "/" . $course_file->getFileName();
+                $files[$file_name_system_path] = $file_name_web;
+            }
+        }
 
-		return $files;
-	}
-
+        return $files;
+    }
 }

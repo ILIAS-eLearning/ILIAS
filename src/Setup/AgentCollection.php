@@ -12,150 +12,159 @@ use ILIAS\Refinery\Transformation;
 /**
  * An agent that is just a collection of some other agents.
  */
-class AgentCollection implements Agent {
-	/**
-	 * @var FieldFactory
-	 */
-	protected $field_factory;
+class AgentCollection implements Agent
+{
+    /**
+     * @var FieldFactory
+     */
+    protected $field_factory;
 
-	/**
-	 * @var Refinery
-	 */
-	protected $refinery;
+    /**
+     * @var Refinery
+     */
+    protected $refinery;
 
-	/**
-	 * @var Agent[]
-	 */
-	protected $agents;
+    /**
+     * @var Agent[]
+     */
+    protected $agents;
 
-	public function __construct(
-		FieldFactory $field_factory,
-		Refinery $refinery,
-		array $agents
-	) {
-		$this->field_factory = $field_factory;
-		$this->refinery = $refinery;
-		$this->agents = $agents;
-	}
+    public function __construct(
+        FieldFactory $field_factory,
+        Refinery $refinery,
+        array $agents
+    ) {
+        $this->field_factory = $field_factory;
+        $this->refinery = $refinery;
+        $this->agents = $agents;
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function hasConfig() : bool {
-		foreach ($this->agents as $c) {
-			if ($c->hasConfig()) {
-				return true;
-			}
-		}
-		return false;
-	}	
+    /**
+     * @inheritdocs
+     */
+    public function hasConfig() : bool
+    {
+        foreach ($this->agents as $c) {
+            if ($c->hasConfig()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getConfigInput(Config $config = null) : Input {
-		if ($config !== null) {
-			$this->checkConfig($config);
-		}
+    /**
+     * @inheritdocs
+     */
+    public function getConfigInput(Config $config = null) : Input
+    {
+        if ($config !== null) {
+            $this->checkConfig($config);
+        }
 
-		$inputs = [];
-		foreach ($this->getAgentsWithConfig() as $k => $c) {
-			if ($config) {
-				$inputs[$k] = $c->getConfigInput($config->getConfig($k));
-			}
-			else {
-				$inputs[$k] = $c->getConfigInput();
-			}	
-		}
+        $inputs = [];
+        foreach ($this->getAgentsWithConfig() as $k => $c) {
+            if ($config) {
+                $inputs[$k] = $c->getConfigInput($config->getConfig($k));
+            } else {
+                $inputs[$k] = $c->getConfigInput();
+            }
+        }
 
-		return $this->field_factory->group($inputs)
-			->withAdditionalTransformation(
-				$this->refinery->in()->series([
-					$this->refinery->custom()->transformation(function($v) {
-						return [$v];
-					}),
-					$this->refinery->to()->toNew(ConfigCollection::class)
-				])
-			);
-	}
+        return $this->field_factory->group($inputs)
+            ->withAdditionalTransformation(
+                $this->refinery->in()->series([
+                    $this->refinery->custom()->transformation(function ($v) {
+                        return [$v];
+                    }),
+                    $this->refinery->to()->toNew(ConfigCollection::class)
+                ])
+            );
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getArrayToConfigTransformation() : Transformation {
-		return $this->refinery->in()->series([
-			$this->refinery->to()->recordOf(array_map(
-				function($a) {
-					return $a->getArrayToConfigTransformation();
-				},
-				array_filter(
-					$this->agents,
-					function($a) {
-						return $a->hasConfig();
-					}
-				)
-			)),
-			$this->refinery->custom()->transformation(function($v) {
-				return [$v];
-			}),
-			$this->refinery->to()->toNew(ConfigCollection::class)
-		]);
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getArrayToConfigTransformation() : Transformation
+    {
+        return $this->refinery->in()->series([
+            $this->refinery->custom()->transformation(function ($in) {
+                $out = [];
+                foreach ($this->agents as $key => $agent) {
+                    if (!$agent->hasConfig()) {
+                        continue;
+                    }
+                    $val = $in[$key] ?? null;
+                    $transformation = $agent->getArrayToConfigTransformation();
+                    $out[$key] = $transformation($val);
+                }
+                return $out;
+            }),
+            $this->refinery->custom()->transformation(function ($v) {
+                return [$v];
+            }),
+            $this->refinery->to()->toNew(ConfigCollection::class)
+        ]);
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getInstallObjective(Config $config = null) : Objective {
-		return $this->getXObjective("getInstallObjective", $config);
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getInstallObjective(Config $config = null) : Objective
+    {
+        return $this->getXObjective("getInstallObjective", $config);
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getUpdateObjective(Config $config = null) : Objective {
-		return $this->getXObjective("getUpdateObjective", $config);
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getUpdateObjective(Config $config = null) : Objective
+    {
+        return $this->getXObjective("getUpdateObjective", $config);
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getBuildArtifactObjective() : Objective {
-		$gs = [];
-		foreach ($this->agents as $k => $c) {
-			$gs[] = $c->getBuildArtifactObjective();
-		}
-		return new ObjectiveCollection("Collected Build Artifact Objectives", false, ...$gs);
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getBuildArtifactObjective() : Objective
+    {
+        $gs = [];
+        foreach ($this->agents as $k => $c) {
+            $gs[] = $c->getBuildArtifactObjective();
+        }
+        return new ObjectiveCollection("Collected Build Artifact Objectives", false, ...$gs);
+    }
 
-	protected function getXObjective(string $which, Config $config = null) : Objective {
-		$this->checkConfig($config);
+    protected function getXObjective(string $which, Config $config = null) : Objective
+    {
+        $this->checkConfig($config);
 
-		$gs = [];
-		foreach ($this->agents as $k => $c) {
-			if ($c->hasConfig()) {
-				$gs[] = call_user_func([$c, $which], $config->getConfig($k));
-			}
-			else {
-				$gs[] = call_user_func([$c, $which]);
-			}
-		}
+        $gs = [];
+        foreach ($this->agents as $k => $c) {
+            if ($c->hasConfig()) {
+                $gs[] = call_user_func([$c, $which], $config->getConfig($k));
+            } else {
+                $gs[] = call_user_func([$c, $which]);
+            }
+        }
 
-		return new ObjectiveCollection("Collected Objectives", false, ...$gs);
-	}
+        return new ObjectiveCollection("Collected Objectives", false, ...$gs);
+    }
 
-	protected function checkConfig(Config $config) {
-		if (!($config instanceof ConfigCollection)) {
-			throw new \InvalidArgumentException(
-				"Expected ConfigCollection for configuration."
-			);
-		}
-	}
+    protected function checkConfig(Config $config)
+    {
+        if (!($config instanceof ConfigCollection)) {
+            throw new \InvalidArgumentException(
+                "Expected ConfigCollection for configuration."
+            );
+        }
+    }
 
-	protected function getAgentsWithConfig() : \Traversable {
-		foreach ($this->agents as $k => $c) {
-			if ($c->hasConfig()) {
-				yield $k => $c;
-			}
-		}
-	}
+    protected function getAgentsWithConfig() : \Traversable
+    {
+        foreach ($this->agents as $k => $c) {
+            if ($c->hasConfig()) {
+                yield $k => $c;
+            }
+        }
+    }
 }

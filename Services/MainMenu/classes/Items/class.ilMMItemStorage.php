@@ -38,6 +38,8 @@ class ilMMItemStorage extends CachedActiveRecord
     }
 
 
+
+
     public function create()
     {
         if (self::find($this->getIdentification())) {
@@ -91,6 +93,14 @@ class ilMMItemStorage extends CachedActiveRecord
      * @con_length     256
      */
     protected $parent_identification = '';
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     256
+     */
+    protected $icon_id = '';
     /**
      * @var string
      */
@@ -166,5 +176,27 @@ class ilMMItemStorage extends CachedActiveRecord
     public function setParentIdentification(string $parent_identification)
     {
         $this->parent_identification = $parent_identification;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIconId() : ?string
+    {
+        return $this->icon_id;
+    }
+
+
+    /**
+     * @param string $icon_id
+     *
+     * @return ilMMItemStorage
+     */
+    public function setIconId(string $icon_id) : ilMMItemStorage
+    {
+        $this->icon_id = $icon_id;
+
+        return $this;
     }
 }

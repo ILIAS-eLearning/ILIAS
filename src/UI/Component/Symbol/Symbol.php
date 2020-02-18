@@ -3,8 +3,11 @@
 
 namespace ILIAS\UI\Component\Symbol;
 
+use ILIAS\UI\Component\JavaScriptBindable;
+
 /**
  * This describes a symbol.
  */
-interface Symbol extends \ILIAS\UI\Component\Component {
+interface Symbol extends \ILIAS\UI\Component\Component, JavaScriptBindable
+{
 }

@@ -9,12 +9,27 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_single_slate = 'il-maincontrols-slate'
 		;
 
-		var onToggleSignal = function(event, signalData, id) {
+		var onSignal = function(kind_of_signal, event, signalData, id) {
 			var slate = $('#' + id),
-				is_in_metabar_more = signalData.triggerer.parents('.il-metabar-more-slate').length > 0;
+				triggerer = signalData.triggerer,
+				is_in_metabar_more = triggerer.parents('.il-metabar-more-slate').length > 0;
 
+			switch (kind_of_signal) {
+				case 'toggle':
+					onToggleSignal(slate, triggerer, is_in_metabar_more);
+					break;
+				case 'engage':
+					engage(slate);
+					break;
+				case 'replace':
+					replaceFromSignal(id, signalData);
+					break;
+			};
+		};
+
+		var onToggleSignal = function(slate, triggerer, is_in_metabar_more) {
 			//special case for metabar-more
-			if(signalData.triggerer.attr('id') === il.UI.maincontrols.metabar._getMoreButton().attr('id')) {
+			if(triggerer.attr('id') === il.UI.maincontrols.metabar._getMoreButton().attr('id')) {
 				if(il.UI.maincontrols.metabar.getEngagedSlates().length > 0){
 					il.UI.maincontrols.metabar._disengageAllSlates();
 				} else {
@@ -28,17 +43,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				return;
 			}
 			if(_isEngaged(slate)) {
-				signalData.triggerer.addClass(_cls_engaged);
-				signalData.triggerer.removeClass(_cls_disengaged);
+				triggerer.addClass(_cls_engaged);
+				triggerer.removeClass(_cls_disengaged);
+				slate.trigger('in_view');
 			} else {
-				signalData.triggerer.removeClass(_cls_engaged);
-				signalData.triggerer.addClass(_cls_disengaged);
+				triggerer.removeClass(_cls_engaged);
+				triggerer.addClass(_cls_disengaged);
 			}
-		};
-
-		var onShowSignal = function(event, signalData, id) {
-			var slate = $('#' + id);
-			engage(slate);
 		};
 
 		var toggle = function(slate) {
@@ -63,9 +74,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			slate.attr("aria-hidden", "true");
 		};
 
+		var replaceFromSignal = function (id, signalData) {
+            var url = signalData.options.url;
+            il.UI.core.replaceContent(id, url, "content");
+        };
+
 		return {
-			onToggleSignal: onToggleSignal,
-			onShowSignal: onShowSignal,
+			onSignal: onSignal,
 			engage: engage,
 			disengage: disengage,
 			_cls_single_slate: _cls_single_slate,

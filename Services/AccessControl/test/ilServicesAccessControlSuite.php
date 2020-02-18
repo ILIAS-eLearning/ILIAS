@@ -7,15 +7,11 @@ class ilServicesAccessControlSuite extends TestSuite
 {
     public static function suite()
     {
-		
-		PHPUnit\Framework\Error\Deprecated::$enabled = FALSE;
-		
-		$suite = new ilServicesAccessControlSuite();
-		
-		include_once("./Services/AccessControl/test/ilRBACTest.php");
-		$suite->addTestSuite("ilRBACTest");
+        $suite = new ilServicesAccessControlSuite();
+        
+        include_once("./Services/AccessControl/test/ilRBACTest.php");
+        $suite->addTestSuite("ilRBACTest");
 
-		return $suite;
+        return $suite;
     }
 }
-?>

@@ -1,0 +1,46 @@
+<span class="il-item-notification-replacement-container">
+	<div class="il-item il-notification-item" <!-- BEGIN id -->id="{ID}"<!-- END id -->>
+		<div class="media">
+			<div class="media-left">
+				<!-- BEGIN lead_icon -->{LEAD_ICON}<!-- END lead_icon -->
+			</div>
+			<div class="media-body">
+				<h5 class="il-item-notification-title">{TITLE}</h5>
+				{CLOSE_ACTION}
+
+				<!-- BEGIN desc -->
+				<div class="il-item-description">{DESC}</div>
+				<!-- END desc -->
+				{ACTIONS}
+				<!-- BEGIN additional_content -->
+				<div class="il-item-additional-content">{ADDITIONAL_CONTENT}</div>
+				<!-- END additional_content -->
+
+				<!-- BEGIN properties -->
+				<hr class="il-item-divider">
+				<!-- BEGIN property_row -->
+				<div class="row il-item-properties">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-sm-3 il-item-property-name">{PROP_NAME_A}</div>
+							<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">{PROP_VAL_A}</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-sm-3 il-item-property-name">{PROP_NAME_B}</div>
+							<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">{PROP_VAL_B}</div>
+						</div>
+					</div>
+				</div>
+				<!-- END property_row -->
+				<!-- END properties -->
+				<!-- BEGIN aggregate_notifications -->
+				<div class="il-aggregate-notifications" data-aggregatedby="{PARENT_ID}">
+					{AGGREGATES}
+				</div>
+				<!-- END aggregate_notifications -->
+			</div>
+		</div>
+	</div>
+</span>

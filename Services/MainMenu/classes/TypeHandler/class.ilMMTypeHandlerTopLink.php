@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  */
 class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
-
     public function matchesForType() : string
     {
         return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem::class;

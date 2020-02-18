@@ -30,7 +30,7 @@ class ilPluginAdmin
      *
      * @var    array
      */
-    static $active_plugins = array();
+    public static $active_plugins = array();
     /**
      * cached lists of plugin objects
      *
@@ -64,10 +64,9 @@ class ilPluginAdmin
      *
      * @throws ilPluginException
      */
-    private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
+    final private function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
-
             $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
             $plugin_php_file = "./Customizing/global/plugins/" . $a_ctype . "/" . $a_cname . "/" . $slot_name . "/" . $a_pname . "/plugin.php";
@@ -522,9 +521,13 @@ class ilPluginAdmin
      */
     public static function getAllPlugins()
     {
-        $cached_component = ilCachedComponentData::getInstance();
+        static $all_plugins;
+        if (!isset($all_plugins)) {
+            $cached_component = ilCachedComponentData::getInstance();
+            $all_plugins = $cached_component->getIlPluginById();
+        }
 
-        return $cached_component->getIlPluginById();
+        return $all_plugins;
     }
 
 
@@ -535,14 +538,19 @@ class ilPluginAdmin
      */
     public static function getActivePlugins()
     {
-        $cached_component = ilCachedComponentData::getInstance();
-        $plugins = $cached_component->getIlPluginActive();
-        $buf = array();
-        foreach ($plugins as $slot => $plugs) {
-            $buf = array_merge($buf, $plugs);
+        static $active_plugins;
+        if (!isset($active_plugins)) {
+            $cached_component = ilCachedComponentData::getInstance();
+            $plugins = $cached_component->getIlPluginActive();
+            $buf = array();
+            foreach ($plugins as $slot => $plugs) {
+                $buf[] = $plugs;
+            }
+
+            $active_plugins = array_merge([], ...$buf);
         }
 
-        return $buf;
+        return $active_plugins;
     }
 
 
@@ -584,12 +592,16 @@ class ilPluginAdmin
         $pdata = $plugs[$id];
 
         return self::getPluginObject(
-            $pdata['component_type'], $pdata['component_name'], $pdata['slot_id'], $pdata['name']
+            $pdata['component_type'],
+            $pdata['component_name'],
+            $pdata['slot_id'],
+            $pdata['name']
         );
     }
 
 
     /**
+     * @deprecated
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
      */
     public static function getAllGlobalScreenProviders() : array
@@ -604,5 +616,22 @@ class ilPluginAdmin
         }
 
         return $providers;
+    }
+
+
+    /**
+     * @return Generator
+     */
+    public static function getGlobalScreenProviderCollections() : Generator
+    {
+        /**
+         * @var $pl ilPlugin
+         */
+        foreach (self::getActivePlugins() as $plugin) {
+            $pl = self::getPluginObjectById($plugin['plugin_id']);
+            if ($pl->isActive()) {
+                yield $pl->getGlobalScreenProviderCollection();
+            }
+        }
     }
 }

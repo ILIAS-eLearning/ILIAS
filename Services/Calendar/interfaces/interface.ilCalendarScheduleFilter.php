@@ -12,11 +12,9 @@
  */
 interface ilCalendarScheduleFilter
 {
-	public function filterCategories(array $a_cats);
-	
-	public function modifyEvent(ilCalendarEntry $a_event);
-	
-	public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories);
+    public function filterCategories(array $a_cats);
+    
+    public function modifyEvent(ilCalendarEntry $a_event);
+    
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories);
 }
-
-?>

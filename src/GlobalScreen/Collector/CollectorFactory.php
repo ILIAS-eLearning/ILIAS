@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
 use ILIAS\GlobalScreen\Scope\Layout\Collector\MainLayoutCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
+use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
 
@@ -14,7 +15,6 @@ use ILIAS\GlobalScreen\SingletonTrait;
  */
 class CollectorFactory
 {
-
     use SingletonTrait;
     /**
      * @var array
@@ -65,18 +65,36 @@ class CollectorFactory
 
     /**
      * @return MainToolCollector
+     * @throws \ReflectionException
      */
     public function tool() : MainToolCollector
     {
-        return $this->getWithArgument(MainToolCollector::class, $this->provider_factory->getToolProvider());
+        if (!$this->has(MainToolCollector::class)) {
+            $providers = $this->provider_factory->getToolProvider();
+            $information = $this->provider_factory->getMainBarItemInformation();
+
+            return $this->getWithMultipleArguments(MainToolCollector::class, [$providers, $information]);
+        }
+
+        return $this->get(MainToolCollector::class);
     }
 
 
     /**
      * @return MainLayoutCollector
+     * @throws \ReflectionException
      */
     public function layout() : MainLayoutCollector
     {
-        return $this->getWithArgument(MainLayoutCollector::class, $this->provider_factory->getModificationProvider());
+        return $this->getWithMultipleArguments(MainLayoutCollector::class, [$this->provider_factory->getModificationProvider()]);
+    }
+
+
+    /**
+     * @return MainNotificationCollector
+     */
+    public function notifications() : MainNotificationCollector
+    {
+        return $this->getWithArgument(MainNotificationCollector::class, $this->provider_factory->getNotificationsProvider());
     }
 }

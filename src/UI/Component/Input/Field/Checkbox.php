@@ -10,5 +10,6 @@ use ILIAS\UI\Component\Component;
 /**
  * This describes checkbox inputs.
  */
-interface Checkbox extends Component {
+interface Checkbox extends Component
+{
 }

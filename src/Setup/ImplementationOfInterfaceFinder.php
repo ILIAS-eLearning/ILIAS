@@ -19,22 +19,11 @@ class ImplementationOfInterfaceFinder
      */
     private $ignore
         = [
-            '/libs/',
-            '/test/',
-            '/tests/',
-            '/setup/',
+            '.*/libs/',
+            '.*/test/',
+            '.*/tests/',
+            '.*/setup/',
             // Classes using removed Auth-class from PEAR
-            '.*ilAuthCalendar.*',
-            '.*ilAuthCAS.*',
-            '.*ilAuthContainerCAS.*',
-            '.*ilAuthContainerECS.*',
-            '.*ilAuthContainerSOAP.*',
-            '.*ilAuthECS.*',
-            '.*ilAuthHTTP.*',
-            '.*ilAuthInactive.*',
-            '.*ilAuthLogObserver.*',
-            '.*ilAuthSOAP.*',
-            '.*ilCASAuth.*',
             '.*ilSOAPAuth.*',
             // Classes using unknown
             '.*ilPDExternalFeedBlockGUI.*',
@@ -61,17 +50,17 @@ class ImplementationOfInterfaceFinder
         $regexp = implode(
             "|",
             array_map(
-                function ($v) { return "($v)"; },
+                // fix path-separators to respect windows' backspaces.
+                function ($v) {
+                    return "(" . str_replace('/', '(/|\\\\)', $v) . ")";
+                },
                 $this->ignore
             )
         );
 
-        echo $regexp . "\n";
-
         foreach ($composer_classmap as $class_name => $file_path) {
             $path = str_replace($root, "", realpath($file_path));
             if (!preg_match("#^" . $regexp . "$#", $path)) {
-                echo $path . " => " . $class_name . "\n";
                 yield $class_name;
             }
         }

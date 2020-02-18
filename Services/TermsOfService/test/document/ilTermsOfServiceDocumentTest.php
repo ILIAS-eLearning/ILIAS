@@ -100,7 +100,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
             ->expects($this->once())
             ->method('readSet')
             ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
-
                 return [
                     [
                         'id'              => $criterionAssignment1->getId(),
@@ -173,7 +172,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
             ->expects($this->once())
             ->method('readSet')
             ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
-
                 return [
                     [
                         'id'              => $criterionAssignment1->getId(),

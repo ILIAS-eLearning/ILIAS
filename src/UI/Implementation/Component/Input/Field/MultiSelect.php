@@ -6,61 +6,101 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This implements the multi-select input.
  */
-class MultiSelect extends Input implements C\Input\Field\MultiSelect {
+class MultiSelect extends Input implements C\Input\Field\MultiSelect
+{
 
-	/**
-	 * @var array <string,string> {$value => $label}
-	 */
-	protected $options = [];
+    /**
+     * @var array <string,string> {$value => $label}
+     */
+    protected $options = [];
 
-	/**
-	 * @param DataFactory $data_factory
-	 * @param \ILIAS\Refinery\Factory $refinery
-	 * @param string $label
-	 * @param array $options
-	 * @param $byline
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		\ILIAS\Refinery\Factory $refinery,
-		$label,
-		$options,
-		$byline
-	) {
-		parent::__construct($data_factory, $refinery, $label, $byline);
-		$this->options = $options;
-	}
+    /**
+     * @param DataFactory $data_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param string $label
+     * @param array $options
+     * @param $byline
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        $label,
+        $options,
+        $byline
+    ) {
+        parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->options = $options;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getOptions() :array
-	{
-		return $this->options;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getOptions() : array
+    {
+        return $this->options;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function isClientSideValueOk($value) {
-		$ok = is_array($value) || is_null($value);
-		return $ok;
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isClientSideValueOk($value) : bool
+    {
+        if (is_null($value)) {
+            return true;
+        }
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                if (!array_key_exists($v, $this->options)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getConstraintForRequirement() {
-		$constraint = $this->refinery->custom()->constraint(
-			function ($value) {
-				return (is_array($value) && count($value) > 0);
-			}, "Empty"
-		);
-		return $constraint;
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getConstraintForRequirement()
+    {
+        $constraint = $this->refinery->custom()->constraint(
+            function ($value) {
+                return (is_array($value) && count($value) > 0);
+            },
+            "Empty"
+        );
+        return $constraint;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateOnLoadCode() : \Closure
+    {
+        return function ($id) {
+            $code = "var checkedBoxes = function() {
+				var options = {};
+				var options_combined = [];
+				$('#$id').find('input').each(function() {
+					options[$(this).val()] = $(this).prop('checked').toString();
+				});
+				for (let [key, value] of Object.entries(options)) {
+					options_combined.push(key + ': ' + value);
+				}
+				return options_combined.join(', ');
+			}
+			$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
+			";
+            return $code;
+        };
+    }
 }

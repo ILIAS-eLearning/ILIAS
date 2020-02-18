@@ -120,11 +120,16 @@ class ilCertificateCloneAction
             $backgroundImageFile = basename($backgroundImagePath);
             $backgroundImageThumbnail = dirname($backgroundImagePath) . '/background.jpg.thumb.jpg';
 
-            $newBackgroundImage = $certificatePath . $backgroundImageFile;
-            $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath($certificatePath));
-
-            if ($this->fileSystem->has($backgroundImagePath)) {
-                if ($this->fileSystem->has($newBackgroundImage)) {
+            $newBackgroundImage = '';
+            $newBackgroundImageThumbnail = '';
+            if ($this->fileSystem->has($backgroundImagePath) &&
+                !$this->fileSystem->hasDir($backgroundImagePath)
+            ) {
+                $newBackgroundImage = $certificatePath . $backgroundImageFile;
+                $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath($certificatePath));
+                if ($this->fileSystem->has($newBackgroundImage) &&
+                    !$this->fileSystem->hasDir($newBackgroundImage)
+                ) {
                     $this->fileSystem->delete($newBackgroundImage);
                 }
 
@@ -134,8 +139,12 @@ class ilCertificateCloneAction
                 );
             }
 
-            if ($this->fileSystem->has($backgroundImageThumbnail)) {
-                if ($this->fileSystem->has($newBackgroundImageThumbnail)) {
+            if ($this->fileSystem->has($backgroundImageThumbnail) &&
+                !$this->fileSystem->hasDir($backgroundImageThumbnail)
+            ) {
+                if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
+                    !$this->fileSystem->hasDir($newBackgroundImageThumbnail)
+                ) {
                     $this->fileSystem->delete($newBackgroundImageThumbnail);
                 }
 
@@ -145,9 +154,23 @@ class ilCertificateCloneAction
                 );
             }
 
+            $newCardThumbImage = '';
+            $cardThumbImagePath = (string) $template->getThumbnailImagePath();
+
+            if ($this->fileSystem->has($cardThumbImagePath) && !$this->fileSystem->hasDir($cardThumbImagePath)) {
+                $newCardThumbImage = $certificatePath . basename($cardThumbImagePath);
+                if ($this->fileSystem->has($newCardThumbImage) && !$this->fileSystem->hasDir($newCardThumbImage)) {
+                    $this->fileSystem->delete($newCardThumbImage);
+                }
+                $this->fileSystem->copy(
+                    $cardThumbImagePath,
+                    $newCardThumbImage
+                );
+            }
+
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
-                $this->objectHelper->lookupObjId((int) $newObject->getId()),
+                $this->objectHelper->lookupType((int) $newObject->getId()),
                 $template->getCertificateContent(),
                 $template->getCertificateHash(),
                 $template->getTemplateValues(),
@@ -155,7 +178,8 @@ class ilCertificateCloneAction
                 $iliasVersion,
                 time(),
                 $template->isCurrentlyActive(),
-                $newBackgroundImage
+                $newBackgroundImage,
+                $newCardThumbImage
             );
 
             $this->templateRepository->save($newTemplate);

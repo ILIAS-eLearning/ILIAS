@@ -10,38 +10,37 @@
  */
 class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-	/**
-	 * @var ilSetting
-	 */
-	private $settings = null;
+    /**
+     * @var ilSetting
+     */
+    private $settings = null;
 
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->settings = ilOpenIdConnectSettings::getInstance();
-	}
+        $this->settings = ilOpenIdConnectSettings::getInstance();
+    }
 
 
-	/**
-	 * @return \ilSetting
-	 */
-	protected function getSettings()
-	{
-		return $this->settings;
-	}
+    /**
+     * @return \ilSetting
+     */
+    protected function getSettings()
+    {
+        return $this->settings;
+    }
 
-	/**
-	 * Init credentials from request
-	 */
-	public function initFromRequest()
-	{
-		$this->setUsername('');
-		$this->setPassword('');
-	}
-
+    /**
+     * Init credentials from request
+     */
+    public function initFromRequest()
+    {
+        $this->setUsername('');
+        $this->setPassword('');
+    }
 }

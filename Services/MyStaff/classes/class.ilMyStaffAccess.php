@@ -1,221 +1,324 @@
 <?php
 
+namespace ILIAS\MyStaff;
+
+use ilObjectAccess;
+use ilOrgUnitOperation;
+use ilOrgUnitOperationContext;
+use ilOrgUnitOperationContextQueries;
+use ilOrgUnitOperationQueries;
+use ilOrgUnitPosition;
+use ilOrgUnitPositionAccess;
+use ilOrgUnitUserAssignmentQueries;
+
 /**
  * Class ilMyStaffAccess
  *
  * @author: Martin Studer <ms@studer-raimann.ch>
  */
-class ilMyStaffAccess extends ilObjectAccess {
-
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
-	const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
-	const DEFAULT_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
-	const DEFAULT_CONTEXT = 'crs';
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
-	/**
-	 * @var
-	 */
-	protected static $orgu_users_of_current_user_show_staff_permission;
-
-
-	/**
-	 * @return self
-	 */
-	public static function getInstance() {
-		global $DIC;
-
-		if (self::$instance === null) {
-			self::$instance = new self();
-
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-				. self::DEFAULT_CONTEXT);
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
-				. "_" . self::DEFAULT_CONTEXT);
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
-				. "_" . self::DEFAULT_CONTEXT);
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS . "_user_id_" . $DIC->user()->getId());
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS . "_user_id_" . $DIC->user()->getId());
-			self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-				. self::DEFAULT_CONTEXT);
-		}
-
-		return self::$instance;
-	}
+class ilMyStaffAccess extends ilObjectAccess
+{
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS = 'tmp_crs_members';
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS = 'tmp_orgu_members';
+    const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX = 'tmp_obj_user_matr';
+    const DEFAULT_ORG_UNIT_OPERATION = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+    const DEFAULT_CONTEXT = 'crs';
+    /**
+     * @var self
+     */
+    protected static $instance = null;
+    /**
+     * @var
+     */
+    protected static $orgu_users_of_current_user_show_staff_permission;
 
 
-	/**
-	 *
-	 */
-	private function __construct() {
+    /**
+     * @return self
+     */
+    public static function getInstance()
+    {
+        global $DIC;
 
-	}
+        if (self::$instance === null) {
+            self::$instance = new self();
 
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+                . self::DEFAULT_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
+                . "_" . self::DEFAULT_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION
+                . "_" . self::DEFAULT_CONTEXT);
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS . "_user_id_" . $DIC->user()->getId());
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS . "_user_id_" . $DIC->user()->getId());
+            self::$instance->dropTempTable(self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+                . self::DEFAULT_CONTEXT);
+        }
 
-	/**
-	 * @return bool
-	 */
-	public function hasCurrentUserAccessToMyStaff() {
-		global $DIC;
-
-		if (!$DIC->settings()->get("enable_my_staff")) {
-			return false;
-		}
-
-		$operation = ilOrgUnitOperationQueries::findByOperationString(ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, self::DEFAULT_CONTEXT);
-		if (!$operation) {
-			return false;
-		}
-		if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, self::DEFAULT_CONTEXT)
-			> 0) {
-			return true;
-		}
-
-		return false;
-	}
+        return self::$instance;
+    }
 
 
-	/**
-	 * @param int $usr_id
-	 *
-	 * @return bool
-	 */
-	public function hasCurrentUserAccessToUser($usr_id = 0) {
-		global $DIC;
-
-		if (in_array($usr_id, $this->getUsersForUser($DIC->user()->getId()))) {
-			return true;
-		}
-
-		return false;
-	}
+    /**
+     *
+     */
+    private function __construct()
+    {
+    }
 
 
-	/**
-	 * @param int $ref_id
-	 *
-	 * @return bool
-	 */
-	public function hasCurrentUserAccessToLearningProgressInObject($ref_id = 0) {
-		global $DIC;
+    /**
+     * @return bool
+     */
+    public function hasCurrentUserAccessToMyStaff() : bool
+    {
+        global $DIC;
 
-		return $DIC->access()->checkPositionAccess(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $ref_id);
-	}
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if (!$this->hasCurrentUserAccessToUser()) {
+            return true;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, self::DEFAULT_CONTEXT)
+            > 0
+        ) {
+            return true;
+        }
+
+        if ($this->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()) {
+            return true;
+        }
+
+        if ($this->hasCurrentUserAccessToCertificates()) {
+            return true;
+        }
+
+        if ($this->hasCurrentUserAccessToCompetences()) {
+            true;
+        }
+
+        return false;
+    }
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser() {
-		global $DIC;
+    /**
+     * @return bool
+     */
+    public function hasCurrentUserAccessToCertificates() : bool
+    {
+        global $DIC;
 
-		$arr_usr_id = $this->getUsersForUserOperationAndContext($DIC->user()
-			->getId(), ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, self::DEFAULT_CONTEXT);
-		if (count($arr_usr_id) > 0) {
-			return true;
-		}
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
 
-		return false;
-	}
+        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_VIEW_CERTIFICATES, self::DEFAULT_CONTEXT)
+            > 0
+        ) {
+            return true;
+        }
+
+        return false;
+    }
 
 
-	/**
-	 * @param int $user_id
-	 *
-	 * @return int
-	 */
-	public function countOrgusOfUserWithAtLeastOneOperation($user_id) {
-		global $DIC;
+    /**
+     * @return bool
+     */
+    public function hasCurrentUserAccessToCompetences() : bool
+    {
+        global $DIC;
 
-		$q = "SELECT COUNT(orgu_ua.orgu_id) AS 'cnt' FROM il_orgu_permissions AS perm
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_VIEW_COMPETENCES, self::DEFAULT_CONTEXT)
+            > 0
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param int $usr_id
+     *
+     * @return bool
+     */
+    public function hasCurrentUserAccessToUser($usr_id = 0) : bool
+    {
+        global $DIC;
+
+        if (in_array($usr_id, $this->getUsersForUser($DIC->user()->getId()))) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param int $ref_id
+     *
+     * @return bool
+     */
+    public function hasCurrentUserAccessToLearningProgressInObject($ref_id = 0) : bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkPositionAccess(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, $ref_id);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser() : bool
+    {
+        global $DIC;
+
+        $arr_usr_id = $this->getUsersForUserOperationAndContext($DIC->user()
+            ->getId(), ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, self::DEFAULT_CONTEXT);
+        if (count($arr_usr_id) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param int $user_id
+     *
+     * @return int
+     */
+    public function countOrgusOfUserWithAtLeastOneOperation($user_id)
+    {
+        global $DIC;
+
+        $q = "SELECT COUNT(orgu_ua.orgu_id) AS 'cnt' FROM il_orgu_permissions AS perm
 				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context is not NULL
 				WHERE orgu_ua.user_id = " . $DIC->database()->quote($user_id, 'integer') . " AND perm.operations is not NULL AND perm.parent_id = -1";
 
-		$set = $DIC->database()->query($q);
-		$rec = $DIC->database()->fetchAssoc($set);
+        $set = $DIC->database()->query($q);
+        $rec = $DIC->database()->fetchAssoc($set);
 
-		return $rec['cnt'];
-	}
+        return $rec['cnt'];
+    }
 
 
-	/**
-	 * @param int    $user_id
-	 * @param string $org_unit_operation_string see ilOrgUnitOperation
-	 * @param string $context
-	 *
-	 * @return int
-	 */
-	public function countOrgusOfUserWithOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT) {
-		global $DIC;
+    /**
+     * @param int    $user_id
+     * @param string $org_unit_operation_string see ilOrgUnitOperation
+     * @param string $context
+     *
+     * @return int
+     */
+    public function countOrgusOfUserWithOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT)
+    {
+        global $DIC;
 
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-		$q = "SELECT COUNT(orgu_ua.orgu_id) AS cnt FROM il_orgu_permissions AS perm
+        $q = "SELECT COUNT(orgu_ua.orgu_id) AS cnt FROM il_orgu_permissions AS perm
 				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				and orgu_ua.user_id = " . $DIC->database()->quote($user_id, 'integer') . " AND perm.operations LIKE  '%\""
-			. $operation->getOperationId() . "\"%'
+            . $operation->getOperationId() . "\"%'
 				WHERE perm.parent_id = -1";
 
-		$set = $DIC->database()->query($q);
-		$rec = $DIC->database()->fetchAssoc($set);
+        $set = $DIC->database()->query($q);
+        $rec = $DIC->database()->fetchAssoc($set);
 
-		return $rec['cnt'];
-	}
-
-
-	/**
-	 * @param int    $user_id
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 * @param string $tmp_table_name_prefix
-	 *
-	 * @return array
-	 */
-	public function getUsersForUserOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT, $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX) {
-		global $DIC;
-
-		$tmp_table_name = $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name_prefix);
-
-		$q = 'SELECT usr_id FROM ' . $tmp_table_name;
-
-		$user_set = $DIC->database()->query($q);
-
-		$arr_users = array();
-
-		while ($rec = $DIC->database()->fetchAssoc($user_set)) {
-			$arr_users[$rec['usr_id']] = $rec['usr_id'];
-		}
-
-		return $arr_users;
-	}
+        return $rec['cnt'];
+    }
 
 
-	/**
-	 * @param int $user_id
-	 *
-	 * @return array
-	 */
-	public function getUsersForUser($user_id) {
-		global $DIC;
+    /**
+     * @param int    $user_id
+     * @param string $org_unit_operation_string
+     * @param string $context
+     * @param string $tmp_table_name_prefix
+     *
+     * @return array
+     */
+    public function getUsersForUserOperationAndContext(
+        $user_id,
+        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        $context = self::DEFAULT_CONTEXT,
+        $tmp_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
+    ) {
+        global $DIC;
 
-		$tmp_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, array());
+        $tmp_table_name = $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name_prefix);
 
-		$q = "SELECT  " . $tmp_orgu_members . ".user_id AS usr_id
+        $q = 'SELECT usr_id FROM ' . $tmp_table_name;
+
+        $user_set = $DIC->database()->query($q);
+
+        $arr_users = array();
+
+        while ($rec = $DIC->database()->fetchAssoc($user_set)) {
+            $arr_users[$rec['usr_id']] = $rec['usr_id'];
+        }
+
+        return $arr_users;
+    }
+
+
+    /**
+     * @param $user_id
+     *
+     * @return array
+     */
+    public function getUsersForUserPerPosition($user_id) : array
+    {
+        $users = [];
+        $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
+        foreach ($user_assignments as $user_assignment) {
+            $users[$user_assignment->getPositionId()] = $this->getUsersForUser($user_id, $user_assignment->getPositionId());
+        }
+
+        return $users;
+    }
+
+
+    /**
+     * @param int      $user_id
+     *
+     * @param int|null $position_id
+     *
+     * @return int[]
+     */
+    public function getUsersForUser($user_id, ?int $position_id = null) : array
+    {
+        global $DIC;
+
+        $tmp_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, array());
+
+        $position_limitation = '';
+        if (!is_null($position_id)) {
+            $position_limitation = ' AND orgu_ua_current_user.position_id = ' . $position_id;
+        }
+
+        $q = "SELECT  " . $tmp_orgu_members . ".user_id AS usr_id
         		FROM 
 				" . $tmp_orgu_members . "
 				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote($user_id, 'integer') . "
-				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id
+				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id " . $position_limitation . "
 				WHERE
 				(
 				/* Identische OrgUnit wie Current User; Nicht Rekursiv; Fixe Position */
@@ -252,89 +355,211 @@ class ilMyStaffAccess extends ilObjectAccess {
 					)
 				)";
 
-		$user_set = $DIC->database()->query($q);
+        $user_set = $DIC->database()->query($q);
 
-		$arr_users = array();
+        $arr_users = array();
 
-		while ($rec = $DIC->database()->fetchAssoc($user_set)) {
-			$arr_users[$rec['usr_id']] = $rec['usr_id'];
-		}
+        while ($rec = $DIC->database()->fetchAssoc($user_set)) {
+            $arr_users[$rec['usr_id']] = $rec['usr_id'];
+        }
 
-		return $arr_users;
-	}
-
-
-	/**
-	 * @param int    $user_id
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 *
-	 * @return array
-	 */
-	public function getIlobjectsAndUsersForUserOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT) {
-		global $DIC;
-
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
-
-		$tmp_table_name = 'tmp_ilobj_user_matrix_' . $operation->getOperationId();
-
-		$this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name);
-
-		$q = 'SELECT * FROM ' . $tmp_table_name;
-
-		$user_set = $DIC->database()->query($q);
-
-		$arr_user_obj = array();
-
-		while ($rec = $DIC->database()->fetchAssoc($user_set)) {
-			$arr_user_obj[] = $rec;
-		}
-
-		return $arr_user_obj;
-	}
+        return $arr_users;
+    }
 
 
-	/**
-	 * @param int    $user_id
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 * @param string $temporary_table_name_prefix
-	 *
-	 * @return string
-	 */
-	public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT, $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX) {
-		global $DIC;
+    /**
+     * @param int    $user_id
+     * @param string $operation
+     * @param bool   $return_ref_id
+     *
+     * @return int[]
+     */
+    public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
+    {
+        $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
+        $ids = [];
+        foreach ($user_assignments as $user_assignment) {
+            $ids = array_merge($ids, $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id));
+        }
 
-		$temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
+        return $ids;
+    }
 
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-		$all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
+    /**
+     * @param int    $position_id
+     * @param string $operation
+     * @param bool   $return_ref_id
+     *
+     * @return array
+     */
+    public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
+    {
+        $ids = [];
+        foreach (ilOrgUnitOperationContext::$available_contexts as $context) {
+            $ids = array_merge($ids, $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id));
+        }
 
-		$tmp_table_objects_specific_perimissions = $this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($org_unit_operation_string, $context, self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS);
+        return $ids;
+    }
 
-		$tmp_table_objects_default_perimissions = $this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($org_unit_operation_string, $context, self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS);
 
-		$tmp_table_orgunit_default_perimissions = $this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($org_unit_operation_string, $context, self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS);
+    /**
+     * returns all obj_ids/ref_ids (depending on flag "ref_id") of objects of type $context,
+     * to which the position with $position_id has permissions
+     * on the operation with $operation_id
+     *
+     * @param int    $position_id
+     * @param string $operation
+     * @param string $context
+     *
+     * @param bool   $return_ref_id
+     *
+     * @return array
+     */
+    public function getIdsForPositionAndOperationAndContext(int $position_id, string $operation, string $context, bool $return_ref_id) : array
+    {
+        global $DIC;
+        $context_id = ilOrgUnitOperationContextQueries::findByName($context)->getId();
+        $operation_object = ilOrgUnitOperationQueries::findByOperationString($operation, $context);
+        if (is_null($operation_object)) {
+            // operation doesn't exist in this context
+            return [];
+        }
+        $operation_id = $operation_object->getOperationId();
 
-		$tmp_table_course_members = $this->buildTempTableCourseMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS, $all_users_for_user);
+        if ($this->hasPositionDefaultPermissionForOperationInContext($position_id, $operation_id, $context_id)) {
+            $query = 'select ' . ($return_ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ' from object_data ' .
+                'inner join object_reference on object_reference.obj_id = object_data.obj_id ' .
+                'where type = "' . $context . '" ' .
+                'AND object_reference.ref_id not in ' .
+                '   (SELECT parent_id FROM il_orgu_permissions ' .
+                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%"' . $operation_id . '"%\' and parent_id <> -1)';
+        } else {
+            $query = $return_ref_id
+                ?
+                'SELECT parent_id as ref_id FROM il_orgu_permissions '
+                :
+                'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
+            $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1';
+        }
 
-		$tmp_table_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, $all_users_for_user);
+        return array_map(function ($item) use ($return_ref_id) {
+            return $return_ref_id ? $item['ref_id'] : $item['obj_id'];
+        }, $DIC->database()->fetchAll($DIC->database()->query($query)));
+    }
 
-		$tmp_table_orgu_member_path = $this->buildTempTableOrguMemberships('tmp_orgu_members_path', $all_users_for_user);
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-			. self::DEFAULT_CONTEXT) {
-			$this->dropTempTable($temporary_table_name);
-		}
+    /**
+     * @param int $position_id
+     * @param int $operation_id
+     * @param int $context_id
+     *
+     * @return bool
+     */
+    public function hasPositionDefaultPermissionForOperationInContext(int $position_id, int $operation_id, int $context_id) : bool
+    {
+        global $DIC;
+        $res = $DIC->database()->query('SELECT * FROM il_orgu_permissions ' .
+            ' WHERE context_id = ' . $context_id . ' ' .
+            'AND operations LIKE \'%"' . $operation_id . '"%\' ' .
+            'AND position_id = ' . $position_id . ' ' .
+            'AND parent_id = -1');
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
+        return (bool) $DIC->database()->numRows($res) > 0;
+    }
+
+
+    /**
+     * @param int    $user_id
+     * @param string $org_unit_operation_string
+     * @param string $context
+     *
+     * @return array
+     */
+    public function getIlobjectsAndUsersForUserOperationAndContext($user_id, $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT)
+    {
+        global $DIC;
+
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+
+        $tmp_table_name = 'tmp_ilobj_user_matrix_' . $operation->getOperationId();
+
+        $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string, $context, $tmp_table_name);
+
+        $q = 'SELECT * FROM ' . $tmp_table_name;
+
+        $user_set = $DIC->database()->query($q);
+
+        $arr_user_obj = array();
+
+        while ($rec = $DIC->database()->fetchAssoc($user_set)) {
+            $arr_user_obj[] = $rec;
+        }
+
+        return $arr_user_obj;
+    }
+
+
+    /**
+     * @param int    $user_id
+     * @param string $org_unit_operation_string
+     * @param string $context
+     * @param string $temporary_table_name_prefix
+     *
+     * @return string
+     */
+    public function buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
+        $user_id,
+        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        $context = self::DEFAULT_CONTEXT,
+        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX
+    ) {
+        global $DIC;
+
+        $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
+
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+
+        $all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
+
+        $tmp_table_objects_specific_perimissions = $this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
+        );
+
+        $tmp_table_objects_default_perimissions = $this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
+        );
+
+        $tmp_table_orgunit_default_perimissions = $this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
+        );
+
+        $tmp_table_course_members = $this->buildTempTableCourseMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS, $all_users_for_user);
+
+        $tmp_table_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, $all_users_for_user);
+
+        $tmp_table_orgu_member_path = $this->buildTempTableOrguMemberships('tmp_orgu_members_path', $all_users_for_user);
+
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+            . self::DEFAULT_CONTEXT
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
+
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " AS (
 				SELECT DISTINCT user_perm_matrix.perm_for_ref_id, user_perm_matrix.usr_id FROM
 				(
 				 SELECT crs.*," . $tmp_table_course_members . ".ref_id," . $tmp_table_course_members . ".usr_id FROM
@@ -352,13 +577,13 @@ class ilMyStaffAccess extends ilObjectAccess {
 						)
 				UNION
 					SELECT " . $tmp_table_orgunit_default_perimissions . ".*, " . $tmp_table_orgu_members . ".orgu_id AS ref_id, "
-			. $tmp_table_orgu_members . ".user_id FROM " . $tmp_table_orgunit_default_perimissions . "
+            . $tmp_table_orgu_members . ".user_id FROM " . $tmp_table_orgunit_default_perimissions . "
 					INNER JOIN " . $tmp_table_orgu_members . " on " . $tmp_table_orgu_members . ".orgu_id = "
-			. $tmp_table_orgunit_default_perimissions . ".perm_for_ref_id
+            . $tmp_table_orgunit_default_perimissions . ".perm_for_ref_id
 					and (
 							(
 							" . $tmp_table_orgu_members . ".orgu_id = " . $tmp_table_orgunit_default_perimissions . ".perm_for_orgu_id AND "
-			. $tmp_table_orgu_members . ".user_position_id = " . $tmp_table_orgunit_default_perimissions . ".perm_over_user_with_position AND perm_orgu_scope = 1
+            . $tmp_table_orgu_members . ".user_position_id = " . $tmp_table_orgunit_default_perimissions . ".perm_over_user_with_position AND perm_orgu_scope = 1
 							)
 							or perm_orgu_scope = 2
 						)
@@ -410,35 +635,40 @@ class ilMyStaffAccess extends ilObjectAccess {
 				)	
 			);";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 * @param string $temporary_table_name_prefix
-	 *
-	 * @return string
-	 */
-	public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT, $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS) {
-		global $DIC;
+    /**
+     * @param string $org_unit_operation_string
+     * @param string $context
+     * @param string $temporary_table_name_prefix
+     *
+     * @return string
+     */
+    public function buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
+        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        $context = self::DEFAULT_CONTEXT,
+        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
+    ) {
+        global $DIC;
 
-		$temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
+        $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-			. self::DEFAULT_CONTEXT) {
-			$this->dropTempTable($temporary_table_name);
-		}
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+            . self::DEFAULT_CONTEXT
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
 				(INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id), INDEX i5 (perm_over_user_with_position))
 				AS (
 				 SELECT 
@@ -451,7 +681,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 					il_orgu_permissions AS perm
 					INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 					INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id AND orgu_ua.user_id = " . $GLOBALS['DIC']->user()
-				->getId() . "
+                ->getId() . "
 					INNER JOIN object_reference AS obj_ref ON obj_ref.ref_id =  perm.parent_id
 					INNER JOIN object_data AS obj ON obj.obj_id = obj_ref.obj_id AND obj.type = '$context'
 					INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '$context'
@@ -459,35 +689,40 @@ class ilMyStaffAccess extends ilObjectAccess {
 				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
 			);";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 * @param string $temporary_table_name_prefix
-	 *
-	 * @return string
-	 */
-	public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, $context = self::DEFAULT_CONTEXT, $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS) {
-		global $DIC;
+    /**
+     * @param string $org_unit_operation_string
+     * @param string $context
+     * @param string $temporary_table_name_prefix
+     *
+     * @return string
+     */
+    public function buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
+        $org_unit_operation_string = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
+        $context = self::DEFAULT_CONTEXT,
+        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
+    ) {
+        global $DIC;
 
-		$temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
+        $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
 
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-			. self::DEFAULT_CONTEXT) {
-			$this->dropTempTable($temporary_table_name);
-		}
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+            . self::DEFAULT_CONTEXT
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
 		(INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id),INDEX i5 (perm_over_user_with_position))
 		AS (
 					SELECT 
@@ -502,7 +737,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 				    INNER JOIN il_orgu_permissions AS perm ON perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%' AND perm.parent_id = -1
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id AND orgu_ua.user_id = " . $GLOBALS['DIC']->user()
-				->getId() . "
+                ->getId() . "
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    
 				    WHERE
@@ -518,34 +753,39 @@ class ilMyStaffAccess extends ilObjectAccess {
 				            WHERE perm.parent_id <> -1)
 							);";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $org_unit_operation_string
-	 * @param string $context
-	 * @param string $temporary_table_name_prefix
-	 *
-	 * @return string
-	 */
-	public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION, $context = self::DEFAULT_CONTEXT, $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS) {
-		global $DIC;
+    /**
+     * @param string $org_unit_operation_string
+     * @param string $context
+     * @param string $temporary_table_name_prefix
+     *
+     * @return string
+     */
+    public function buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
+        $org_unit_operation_string = self::DEFAULT_ORG_UNIT_OPERATION,
+        $context = self::DEFAULT_CONTEXT,
+        $temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
+    ) {
+        global $DIC;
 
-		$temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
-		/**
-		 * @var ilOrgUnitOperation $operation
-		 */
-		$operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
+        $temporary_table_name = $temporary_table_name_prefix . "_" . $org_unit_operation_string . "_" . $context;
+        /**
+         * @var ilOrgUnitOperation $operation
+         */
+        $operation = ilOrgUnitOperationQueries::findByOperationString($org_unit_operation_string, $context);
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
-			. self::DEFAULT_CONTEXT) {
-			$this->dropTempTable($temporary_table_name);
-		}
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
+            . self::DEFAULT_CONTEXT
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
 			  (INDEX i1 (perm_for_ref_id), INDEX i2 (perm_for_orgu_id), INDEX i3 (perm_orgu_scope), INDEX i4 (perm_for_position_id), INDEX i5 (perm_over_user_with_position))
 		AS (
 					SELECT 
@@ -557,36 +797,38 @@ class ilMyStaffAccess extends ilObjectAccess {
 				    FROM
 					il_orgu_permissions AS perm
 				    INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id AND perm.parent_id = -1 AND orgu_ua.user_id = "
-			. $GLOBALS['DIC']->user()->getId() . "
+            . $GLOBALS['DIC']->user()->getId() . "
 				    INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua.position_id
 				    INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
 				    WHERE
 				    perm.operations LIKE '%\"" . $operation->getOperationId() . "\"%'
 							);";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $temporary_table_name_prefix
-	 * @param array  $only_courses_of_user_ids
-	 *
-	 * @return string
-	 */
-	public function buildTempTableCourseMemberships($temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS, array $only_courses_of_user_ids = array()) {
-		global $DIC;
+    /**
+     * @param string $temporary_table_name_prefix
+     * @param array  $only_courses_of_user_ids
+     *
+     * @return string
+     */
+    public function buildTempTableCourseMemberships($temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS, array $only_courses_of_user_ids = array())
+    {
+        global $DIC;
 
-		$temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
+        $temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS . "_user_id_" . $DIC->user()->getId()
-			|| count($only_courses_of_user_ids) > 0) {
-			$this->dropTempTable($temporary_table_name);
-		}
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS . "_user_id_" . $DIC->user()->getId()
+            || count($only_courses_of_user_ids) > 0
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
 		(INDEX i1(ref_id), INDEX i2 (usr_id), INDEX i3 (position_id), INDEX i4 (orgu_id))
 		AS (
 					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
@@ -604,29 +846,31 @@ class ilMyStaffAccess extends ilObjectAccess {
 						INNER JOIN il_orgu_ua AS orgu_ua on orgu_ua.user_id = crs_members.usr_id
 			  );";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $temporary_table_name_prefix
-	 * @param array  $only_orgus_of_user_ids
-	 *
-	 * @return string
-	 */
-	public function buildTempTableOrguMemberships($temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, array $only_orgus_of_user_ids = array()) {
-		global $DIC;
+    /**
+     * @param string $temporary_table_name_prefix
+     * @param array  $only_orgus_of_user_ids
+     *
+     * @return string
+     */
+    public function buildTempTableOrguMemberships($temporary_table_name_prefix = self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, array $only_orgus_of_user_ids = array())
+    {
+        global $DIC;
 
-		$temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
+        $temporary_table_name = $temporary_table_name_prefix . "_user_id_" . $DIC->user()->getId();
 
-		if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS . "_user_id_" . $DIC->user()->getId()
-			|| count($only_orgus_of_user_ids) > 0) {
-			$this->dropTempTable($temporary_table_name);
-		}
+        if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS . "_user_id_" . $DIC->user()->getId()
+            || count($only_orgus_of_user_ids) > 0
+        ) {
+            $this->dropTempTable($temporary_table_name);
+        }
 
-		$q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
+        $q = "CREATE TEMPORARY TABLE IF NOT EXISTS " . $temporary_table_name . " 
 			(INDEX i1(orgu_id), INDEX i2 (tree_path), INDEX i3 (tree_child), INDEX i4 (tree_parent), INDEX i5 (tree_lft), INDEX i6 (tree_rgt), INDEX i7 (user_position_id), INDEX i8 (user_id))
 		AS (
 					SELECT  orgu_ua.orgu_id AS orgu_id,
@@ -642,29 +886,30 @@ class ilMyStaffAccess extends ilObjectAccess {
 							INNER JOIN object_reference AS obj_ref on obj_ref.ref_id = orgu_ua.orgu_id AND obj_ref.deleted is null
 							LEFT JOIN tree AS tree_orgu ON tree_orgu.child = orgu_ua.orgu_id";
 
-		if (count($only_orgus_of_user_ids) > 0) {
-			$q .= " WHERE " . $DIC->database()->in('orgu_ua.user_id', $only_orgus_of_user_ids, false, 'integer') . " ";
-		}
+        if (count($only_orgus_of_user_ids) > 0) {
+            $q .= " WHERE " . $DIC->database()->in('orgu_ua.user_id', $only_orgus_of_user_ids, false, 'integer') . " ";
+        }
 
-		$q .= ");";
+        $q .= ");";
 
-		$DIC->database()->manipulate($q);
+        $DIC->database()->manipulate($q);
 
-		return $temporary_table_name;
-	}
+        return $temporary_table_name;
+    }
 
 
-	/**
-	 * @param string $temporary_table_name
-	 *
-	 * @return bool
-	 */
-	public function dropTempTable($temporary_table_name) {
-		global $DIC;
+    /**
+     * @param string $temporary_table_name
+     *
+     * @return bool
+     */
+    public function dropTempTable($temporary_table_name)
+    {
+        global $DIC;
 
-		$q = "DROP TABLE IF EXISTS " . $temporary_table_name;
-		$DIC->database()->manipulate($q);
+        $q = "DROP TABLE IF EXISTS " . $temporary_table_name;
+        $DIC->database()->manipulate($q);
 
-		return true;
-	}
+        return true;
+    }
 }

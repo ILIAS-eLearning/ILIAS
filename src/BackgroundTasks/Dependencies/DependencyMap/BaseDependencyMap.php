@@ -16,7 +16,6 @@ use ILIAS\DI\Container;
  */
 class BaseDependencyMap extends EmptyDependencyMap
 {
-
     protected $map;
 
 

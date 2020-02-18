@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
 use ILIAS\Setup;
 
@@ -13,7 +14,6 @@ use ILIAS\Setup;
  */
 class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjective
 {
-
     public function getArtifactPath() : string
     {
         return "Services/GlobalScreen/artifacts/global_screen_providers.php";
@@ -28,6 +28,7 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjecti
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,
             ModificationProvider::class,
+            NotificationProvider::class,
         ];
 
         foreach ($i as $interface) {

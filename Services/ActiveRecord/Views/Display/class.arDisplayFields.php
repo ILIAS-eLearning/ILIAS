@@ -9,7 +9,7 @@ require_once('./Services/ActiveRecord/Views/class.arViewFields.php');
  * @version 2.0.7
  *
  */
-class arDisplayFields extends arViewFields {
-
-	const FIELD_CLASS = 'arDisplayField';
+class arDisplayFields extends arViewFields
+{
+    const FIELD_CLASS = 'arDisplayField';
 }

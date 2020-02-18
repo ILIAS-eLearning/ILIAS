@@ -51,6 +51,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
         if (null === $language) {
             $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 

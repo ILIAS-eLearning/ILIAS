@@ -13,6 +13,26 @@ il.Tooltip = {
 	 * @param object cfg configuration object
 	 */
 	add: function (el_id, cfg) {
+		this.tooltips.push({el_id: "#" + el_id, cfg: cfg});
+	},
+
+	/**
+	 * Add a tooltip to the nearest element given
+	 *
+	 * @param string el_id element id
+	 * @param object cfg configuration object
+	 */
+	addToNearest: function (el_id, nearest_element_selector, cfg) {
+		this.tooltips.push({el_id: $("#" + el_id).closest(nearest_element_selector), cfg: cfg});
+	},
+
+	/**
+	 * Add a tooltip
+	 *
+	 * @param string selector
+	 * @param object cfg configuration object
+	 */
+	addBySelector: function (el_id, cfg) {
 		this.tooltips.push({el_id: el_id, cfg: cfg});
 	},
 
@@ -25,7 +45,7 @@ il.Tooltip = {
 		for (k in this.tooltips) {
 //			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,
 //				this.tooltips[k].cfg);
-			$("#" + this.tooltips[k].el_id).qtip({
+			$(this.tooltips[k].el_id).qtip({
 				position: {
 					my: this.tooltips[k].cfg.my,
 					at: this.tooltips[k].cfg.at,

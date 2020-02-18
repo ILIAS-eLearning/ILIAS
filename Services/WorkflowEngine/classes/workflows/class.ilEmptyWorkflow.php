@@ -9,7 +9,7 @@ require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.p
  *
  * The empty workflow class is used for workflows with completely runtime generated
  * configurations, such as workflows for use in tests.
- * 
+ *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
@@ -17,18 +17,18 @@ require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.p
  */
 class ilEmptyWorkflow extends ilBaseWorkflow
 {
-	/**
-	 * ilEmptyWorkflow constructor.
-	 */
-	public function __construct()
-	{
-		$this->workflow_type				= 'Empty';
-		$this->workflow_content				= 'nothing';
-		$this->workflow_subject_type		= 'none';
-		$this->workflow_subject_identifier	= '0';
-		$this->workflow_context_type		= 'none';
-		$this->workflow_context_id			= '0';
-		$this->workflow_class				= 'class.ilEmptyWorkflow.php';
-		$this->workflow_location			= 'Services/WorkflowEngine/classes/workflows';
-	}
+    /**
+     * ilEmptyWorkflow constructor.
+     */
+    public function __construct()
+    {
+        $this->workflow_type				= 'Empty';
+        $this->workflow_content				= 'nothing';
+        $this->workflow_subject_type		= 'none';
+        $this->workflow_subject_identifier	= '0';
+        $this->workflow_context_type		= 'none';
+        $this->workflow_context_id			= '0';
+        $this->workflow_class				= 'class.ilEmptyWorkflow.php';
+        $this->workflow_location			= 'Services/WorkflowEngine/classes/workflows';
+    }
 }

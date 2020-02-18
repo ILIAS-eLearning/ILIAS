@@ -54,16 +54,20 @@ class ilBuddySystemGUI
     }
 
     /**
-     *
+     * @param ilGlobalTemplateInterface $page
      */
-    public static function initializeFrontend() : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
     {
         global $DIC;
 
-        if (!self::$isFrontendInitialized) {
+        if (
+            ilBuddySystem::getInstance()->isEnabled() &&
+            !$DIC->user()->isAnonymous() &&
+            !self::$isFrontendInitialized
+        ) {
             $DIC->language()->loadLanguageModule('buddysystem');
 
-            $DIC['tpl']->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
+            $page->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
 
             $config = new stdClass();
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([
@@ -71,13 +75,13 @@ class ilBuddySystemGUI
                 'ilBuddySystemGUI'
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
-            $DIC['tpl']->addOnLoadCode("il.BuddySystem.setConfig(" . json_encode($config) . ");");
+            $page->addOnLoadCode("il.BuddySystem.setConfig(" . json_encode($config) . ");");
 
             $btn_config = new stdClass();
             $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-            $DIC['tpl']->addOnLoadCode("il.BuddySystemButton.setConfig(" . json_encode($btn_config) . ");");
-            $DIC['tpl']->addOnLoadCode("il.BuddySystemButton.init();");
+            $page->addOnLoadCode("il.BuddySystemButton.setConfig(" . json_encode($btn_config) . ");");
+            $page->addOnLoadCode("il.BuddySystemButton.init();");
 
             self::$isFrontendInitialized = true;
         }
@@ -177,13 +181,16 @@ class ilBuddySystemGUI
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
             ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
-
         } catch (ilBuddySystemRelationStateAlreadyGivenException $e) {
-            ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])), true);
+            ilUtil::sendInfo(sprintf(
+                $this->lng->txt($e->getMessage()),
+                ilObjUser::_lookupLogin((int) $_GET['user_id'])
+            ), true);
         } catch (ilBuddySystemRelationStateTransitionException $e) {
-            ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])), true);
+            ilUtil::sendInfo(sprintf(
+                $this->lng->txt($e->getMessage()),
+                ilObjUser::_lookupLogin((int) $_GET['user_id'])
+            ), true);
         } catch (ilException $e) {
             ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
         }
@@ -231,7 +238,7 @@ class ilBuddySystemGUI
 
             $relation = $this->buddyList->getRelationByUserId($usr_id);
 
-            // The ILIAS JF decided to add a new personal setting 
+            // The ILIAS JF decided to add a new personal setting
             if (
                 $relation->isUnlinked() &&
                 !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))

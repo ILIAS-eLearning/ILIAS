@@ -1,8 +1,18 @@
 <?php
-function glyph_reset() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function glyph_reset()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->reset("#"));
+    $glyph = $f->symbol()->glyph()->reset("#");
+
+    //Showcase the various states of this Glyph
+    $list = $f->listing()->descriptive([
+        "Active"=>$glyph,
+        "Inactive"=>$glyph->withUnavailableAction(),
+        "Highlighted"=>$glyph->withHighlight()
+    ]);
+
+    return $renderer->render($list);
 }

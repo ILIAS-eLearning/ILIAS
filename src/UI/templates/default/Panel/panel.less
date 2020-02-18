@@ -1,99 +1,81 @@
-.il-panel-report {
-	.thumbnail {
-		margin-bottom: 0;
-	}
-	> .panel-body > .panel {
-		margin-bottom: 10px;
-	}
-	.panel-heading{
-		min-height: 34px;
-	}
 
-}
 
-.panel-heading {
-	> h3 {
-		float: left;
-	}
 
-	> h4 {
-		float: left;
-	}
+//Valid for all panels (if not overridden)
+.panel{
+	border: none;
 
-	.dropdown {
-		float: right;
+	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
+		background-color: @il-secondary-container-bg;
 
-		> button.dropdown-toggle {
-			color: @il-btn-standard-color;
+		margin: 0;
+		padding: @panel-heading-padding;
+
+		border: none;
+		.box-shadow(none);
+
+
+		h3, h3.ilHeader {
+			margin: 0;
+			color: @panel-heading-color;
+			font-size: @font-size-h3;
+		}
+
+		h4, h4.ilBlockHeader {
+			margin: 0;
+			color: @panel-heading-color;
+			font-size: @font-size-h4;
+		}
+
+		.dropdown {
+			float: right;
+
+			> button.dropdown-toggle {
+				color: @il-btn-standard-color;
+			}
 		}
 	}
-}
 
-.il-panel-listing-std-item-container {
-	margin: @il-panel-listing-std-item-container-margin;
-}
+	.panel-body {
+		padding: @padding-large-vertical @padding-large-horizontal;
+		background-color: @il-primary-container-bg;
 
-.il-panel-listing-std-container {
-	> .il-item-group > h4 {
-		margin: @il-panel-listing-std-container-h4-margin;
-		font-size: @font-size-h4;
-		font-weight: normal;
-		padding: 0;
-		text-transform: @il-panel-listing-std-container-h4-text-transform;
-		color: @il-panel-listing-std-container-h4-color;
-	}
-	> h3 {
-		font-weight: normal;
-		padding: 0;
-		margin: @il-panel-listing-std-container-h3-margin;
-		font-size: @font-size-h3;
-		text-transform: @il-panel-listing-std-container-h3-text-transform;
-		color: @il-panel-listing-std-container-h3-color;
-		float: left;
-	}
-
-	.dropdown {
-		float: right;
 	}
 }
 
-@media only screen and (min-width: (@grid-float-breakpoint-max + 1)) {
-
-	.panel-secondary .il-panel-listing-std-container > h3, .panel-secondary .il-panel-listing-std-container > h4 {
-		display: block;
-		padding: @padding-small-vertical @padding-small-horizontal;
-		font-size: @font-size-small;
-		background-color: @il-divider-bg;
-		color: @il-light-text-color;
-		white-space: nowrap;
-		margin: 0;
-	}
-
-	.panel-secondary .panel-body {
-		padding: @padding-base-vertical @padding-base-horizontal;
-	}
-}
-
-.panel-secondary {
+//Special assignments for Panels using Flex layouts (Standard, Secondary, Report and Sub)
+.panel-flex{
 	.panel-heading {
 		display: flex;
 		flex-flow: row wrap;
 	}
-	.panel-secondary-title {
+	.ilHeader{
+		display: flex;
+	}
+	h3.ilHeader {
 		flex-grow: 99;
-		flex-shrink: 0;
+		flex-shrink: 1;
+		line-height: ceil(@font-size-h4 * 1.235);
+		order: 1;
+	}
+	.ilBlockHeader h4{
+		flex-grow: 99;
+		flex-shrink: 1;
 		order: 1;
 	}
 	.panel-heading .dropdown {
 		flex-grow: 1;
 		flex-shrink: 0;
 		order: 3;
+		.dropdown-toggle {
+			float: right;
+		}
 	}
 	.il-viewcontrol-sortation {
 		flex-grow: 1;
 		flex-shrink: 0;
 		order: 2;
-		margin-right:5px;
+		margin-right: @padding-base-horizontal;
 	}
 	.il-viewcontrol-pagination, .il-viewcontrol-section {
 		flex-grow: 1;
@@ -104,9 +86,111 @@
 		text-align:center;
 		padding-top:@padding-base-horizontal;
 	}
-	.panel-heading.ilHeader {
-		padding-bottom: 0;
-		padding-right: 0;
-		border: none;
+}
+
+//Standard Panel
+.panel-primary {
+	h3.ilHeader {
+		font-weight: 600;
+	}
+}
+
+//Secondary Panel
+.panel-secondary{
+	.panel-heading.ilHeader{
+		padding: @padding-large-vertical @padding-large-horizontal;
+
+		h3.ilHeader {
+			font-size: @font-size-h4;
+		}
+	}
+
+	.panel-body {
+		overflow: hidden;
+
+		.il-item-group{
+			margin: 0 -@padding-large-horizontal;
+
+			h4{
+				padding: @padding-large-vertical @padding-large-horizontal;
+			}
+
+			&:first-child{
+				margin: -@padding-large-vertical -@padding-large-horizontal 0 -@padding-large-horizontal;
+			}
+
+			.il-item{
+				padding-left: @padding-large-horizontal;
+			}
+		}
+	}
+
+	.il-panel-listing-std-container > h3, .panel-body h4{
+		display: block;
+		padding: @padding-large-vertical 0;
+		font-size: @font-size-base;
+		color: @panel-heading-color;
+		margin: 0;
+	}
+
+	.il-std-item-container:not(:last-child) {
+		border-bottom: @il-item-border-bottom-small;
+	}
+}
+
+//Sub Panel
+.panel-sub{
+	margin: -@padding-large-vertical -@padding-large-horizontal;
+
+	.panel-body{
+		margin: 0;
+	}
+
+	&:first-child{
+		.panel-heading{
+			padding-top: @padding-small-vertical;
+		}
+	}
+}
+
+//Report Panel
+.il-panel-report {
+	.thumbnail {
+		margin-bottom: 0;
+	}
+	> .panel-body > .panel {
+		margin-bottom: @padding-large-vertical;
+	}
+	.panel-heading{
+		min-height: 34px;
+	}
+
+}
+
+//Listing Panel
+.il-panel-listing-std-container {
+	background-color: @il-secondary-container-bg;
+	margin-bottom: @il-standard-page-content-padding;
+
+	> h3 {
+		color: @panel-heading-color;
+		font-size: @font-size-h3;
+		font-weight: 600;
+		float: left;
+		padding: @panel-heading-padding;
+		padding-bottom: @padding-small-vertical;
+		margin: 0;
+		line-height: @line-height-large;
+	}
+
+	.dropdown {
+		float: right;
+	}
+	> .dropdown {
+		padding: @panel-heading-padding;
+
+		&:not(:last-child){
+			padding-bottom: @padding-small-vertical;
+		}
 	}
 }

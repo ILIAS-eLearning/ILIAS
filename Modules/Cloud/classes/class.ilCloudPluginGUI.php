@@ -86,5 +86,3 @@ abstract class ilCloudPluginGUI
         }
     }
 }
-
-?>

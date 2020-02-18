@@ -8,17 +8,17 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilDerivedTaskCollectorTest extends \ilTasksTestBase
 {
-	public function testGetEntries()
-	{
-		/** @var ilTaskService $service */
-		$service = $this->getTaskServiceMock();
-		$factory = $service->derived()->factory();
+    public function testGetEntries()
+    {
+        /** @var ilTaskService $service */
+        $service = $this->getTaskServiceMock();
+        $factory = $service->derived()->factory();
 
-		$collector = $factory->collector();
+        $collector = $factory->collector();
 
-		$entries = $collector->getEntries(0);
+        $entries = $collector->getEntries(0);
 
-		$this->assertTrue($entries[0] instanceof ilDerivedTask);
-		$this->assertEquals("title", $entries[0]->getTitle());
-	}
+        $this->assertTrue($entries[0] instanceof ilDerivedTask);
+        $this->assertEquals("title", $entries[0]->getTitle());
+    }
 }

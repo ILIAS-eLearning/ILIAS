@@ -6,5 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
 
-class Shy extends Button implements C\Button\Shy {
+class Shy extends Button implements C\Button\Shy
+{
 }

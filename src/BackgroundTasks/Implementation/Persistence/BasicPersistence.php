@@ -60,7 +60,7 @@ class BasicPersistence implements Persistence
      *
      * @param $connector \arConnector
      */
-    function setConnector(\arConnector $connector)
+    public function setConnector(\arConnector $connector)
     {
         $this->connector = $connector;
     }
@@ -216,6 +216,9 @@ class BasicPersistence implements Persistence
         $taskContainer->setBucketId($bucketId);
         $reflection = new \ReflectionClass(get_class($task));
         $taskContainer->setClassName(get_class($task));
+        // bugfix mantis 23503
+        $absolute_class_path = $reflection->getFileName();
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         $taskContainer->setClassPath($reflection->getFileName());
 
         // Recursivly save the inputs and link them to this task.
@@ -282,7 +285,10 @@ class BasicPersistence implements Persistence
         // Save information about the value
         $reflection = new \ReflectionClass(get_class($value));
         $valueContainer->setClassName(get_class($value));
-        $valueContainer->setClassPath($reflection->getFileName());
+        // bugfix mantis 23503
+        // $absolute_class_path = $reflection->getFileName();
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
+        // $valueContainer->setClassPath($relative_class_path);
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
         $valueContainer->setBucketId($bucketId);
@@ -402,7 +408,6 @@ class BasicPersistence implements Persistence
         /** @var TaskContainer $taskContainer */
         $taskContainer = TaskContainer::find($taskContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($taskContainer->getClassPath());
         /** @var Task $task */
         $task = $factory->createTask($taskContainer->getClassName());
 
@@ -435,7 +440,7 @@ class BasicPersistence implements Persistence
         /** @var ValueContainer $valueContainer */
         $valueContainer = ValueContainer::find($valueContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($valueContainer->getClassPath());
+        
         /** @var Value $value */
         $value = $factory->createInstance($valueContainer->getClassName());
 
@@ -454,19 +459,27 @@ class BasicPersistence implements Persistence
     {
         /** @var BucketContainer $bucket */
         $buckets = BucketContainer::where(['id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $buckets);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $buckets);
 
         /** @var TaskContainer $tasks */
         $tasks = TaskContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $tasks);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $tasks);
 
         /** @var ValueContainer $values */
         $values = ValueContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $values);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $values);
 
         /** @var ValueToTaskContainer $valueToTasks */
         $valueToTasks = ValueToTaskContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $valueToTasks);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $valueToTasks);
     }
 
 

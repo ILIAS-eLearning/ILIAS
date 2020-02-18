@@ -195,8 +195,7 @@ class FinderTest extends TestCase
      */
     public function testFinderWillFilterFilesAndFoldersByCreationTimestamp() : Filesystem\Filesystem
     {
-        // 30.03.2019 13:00:00 Europe/Berlin
-        $now = 1553947200;
+        $now = new \DateTimeImmutable('2019-03-30 13:00:00');
 
         $fs = $this->getNestedFileSystemStructure();
         $fs
@@ -208,25 +207,25 @@ class FinderTest extends TestCase
             ->will($this->returnCallback(function ($path) use ($now) {
                 switch ($path) {
                     case'file_1.txt':
-                        return new \DateTimeImmutable('@' . $now);
+                        return $now;
 
                     case 'file_2.mp3':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 1));
+                        return $now->modify('+1 hour');
 
                     case 'dir_1/file_3.log':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 2));
+                        return $now->modify('+2 hour');
 
                     case 'dir_1/file_4.php':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 3));
+                        return $now->modify('+3 hour');
 
                     case 'dir_1/dir_1_1/file_5.cpp':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 4));
+                        return $now->modify('+4 hour');
 
                     case 'dir_1/dir_1_2/file_6.py':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 5));
+                        return $now->modify('+5 hour');
 
                     case 'dir_1/dir_1_2/file_7.cpp':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 6));
+                        return $now->modify('+6 hour');
 
                     default:
                         return new \DateTimeImmutable('now');
@@ -306,17 +305,17 @@ class FinderTest extends TestCase
     {
         $finder = (new Finder($fs))->in(['/']);
 
-        $this->assertEquals('file_1.txt', current($finder->files()->sortByTime()->getIterator())->getPath());
+        $this->assertEquals('file_1.txt', $finder->files()->sortByTime()->getIterator()->current()->getPath());
         $this->assertEquals(
             'dir_1/dir_1_2/file_7.cpp',
-            current($finder->files()->sortByTime()->reverseSorting()->getIterator())->getPath()
+            $finder->files()->sortByTime()->reverseSorting()->getIterator()->current()->getPath()
         );
 
-        $this->assertEquals('dir_1', current($finder->sortByName()->getIterator())->getPath());
-        $this->assertEquals('file_2.mp3', current($finder->sortByName()->reverseSorting()->getIterator())->getPath());
+        $this->assertEquals('dir_1', $finder->sortByName()->getIterator()->current()->getPath());
+        $this->assertEquals('file_2.mp3', $finder->sortByName()->reverseSorting()->getIterator()->current()->getPath());
 
-        $this->assertEquals('dir_1', current($finder->sortByType()->getIterator())->getPath());
-        $this->assertEquals('file_2.mp3', current($finder->sortByType()->reverseSorting()->getIterator())->getPath());
+        $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
+        $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
         $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
@@ -325,7 +324,7 @@ class FinderTest extends TestCase
 
             return 1;
         });
-        $this->assertEquals('dir_1/dir_1_1/file_5.cpp', current($customSortFinder->getIterator())->getPath());
+        $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $customSortFinder->getIterator()->current()->getPath());
         $all = array_values(iterator_to_array($customSortFinder->reverseSorting()->getIterator()));
         $last = $all[iterator_count($customSortFinder) - 1];
         $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $last->getPath());

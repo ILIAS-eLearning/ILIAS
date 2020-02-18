@@ -8,6 +8,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes section inputs.
  */
-interface Section extends Input {
-
+interface Section extends Input
+{
 }

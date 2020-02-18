@@ -76,6 +76,7 @@ class PageContentGUI
     private $icon_desc;
     private $enable_fileupload;
     private $filter;
+    private $banner;
     //
     // Needed Methods for communication from the outside
     //
@@ -207,6 +208,26 @@ class PageContentGUI
         $this->header_page_title = $header_page_title;
     }
 
+    /**
+     * Set banner
+     *
+     * @param string $a_val banner img src
+     */
+    public function setBanner($a_val)
+    {
+        $this->banner = $a_val;
+    }
+    
+    /**
+     * Get banner
+     *
+     * @return string banner img src
+     */
+    public function getBanner()
+    {
+        return $this->banner;
+    }
+    
 
     /**
      * @param mixed $title
@@ -397,15 +418,6 @@ class PageContentGUI
 
             //$this->initHelp();
 
-            // TODO SessionReminder
-            // if ($this->blockExists("content") && $this->variableExists('MAINMENU')) {
-            // 	$tpl = $DIC["tpl"];
-            //
-            // 	include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-            // 	$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-            // 	$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
-            // }
-
             // these fill blocks in tpl.main.html
             // $this->fillCssFiles();
             // $this->fillInlineCss();
@@ -463,7 +475,8 @@ class PageContentGUI
             $gui_class = $ui_plugin->getUIClassInstance();
 
             $resp = $gui_class->getHTML(
-                "", "template_show",
+                "",
+                "template_show",
                 array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
             );
 
@@ -546,7 +559,7 @@ class PageContentGUI
     private function initHelp()
     {
         include_once("./Services/Help/classes/class.ilHelpGUI.php");
-        \ilHelpGUI::initHelp($this);
+        //\ilHelpGUI::initHelp($this);
     }
 
 
@@ -555,6 +568,15 @@ class PageContentGUI
         global $DIC;
 
         $lng = $DIC->language();
+
+
+        if ($this->banner != "" && $this->template_file->blockExists("banner_bl")) {
+            $this->template_file->setCurrentBlock("banner_bl");
+            $this->template_file->setVariable("BANNER_URL", $this->banner);
+            $header = true;
+            $this->template_file->parseCurrentBlock();
+        }
+
 
         $icon = false;
         if ($this->icon_path != "") {
@@ -745,7 +767,8 @@ class PageContentGUI
     {
         global $DIC;
 
-        $ilToolbar = $DIC["ilToolbar"];;
+        $ilToolbar = $DIC["ilToolbar"];
+        ;
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {

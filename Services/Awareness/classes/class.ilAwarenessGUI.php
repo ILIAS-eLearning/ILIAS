@@ -11,275 +11,274 @@
  */
 class ilAwarenessGUI
 {
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
-	/**
-	 * @var \ILIAS\DI\UIServices
-	 */
-	protected $ui;
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->user = $DIC->user();
-		global $DIC;
-		$this->ui = $DIC->ui();
+        $this->user = $DIC->user();
+        global $DIC;
+        $this->ui = $DIC->ui();
 
-		$this->ref_id = (int) $_GET["ref_id"];
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->lng->loadLanguageModule("awrn");
-	}
+        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("awrn");
+    }
 
-	/**
-	 * Execute command
-	 */
-	function executeCommand()
-	{
-		$cmd = $this->ctrl->getCmd();
+    /**
+     * Execute command
+     */
+    public function executeCommand()
+    {
+        $cmd = $this->ctrl->getCmd();
 
-		if (in_array($cmd, array("getAwarenessList")))
-		{
-			$this->$cmd();
-		}
-	}
-
-
-	/**
-	 * Get instance
-	 *
-	 * @return ilAwarenessGUI awareness gui object
-	 */
-	static function getInstance()
-	{
-		return new ilAwarenessGUI();
-	}
-
-	/**
-	 * Get main menu html
-	 */
-	function getMainMenuHTML()
-	{
-		$ilUser = $this->user;
-
-		$awrn_set = new ilSetting("awrn");
-		if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId())
-		{
-			return "";
-		}
-
-		$cache_period = (int) $awrn_set->get("caching_period");
-		$last_update = ilSession::get("awrn_last_update");
-		$now = time();
-
-		// init js
-		$GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
-		$this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
-				"", "", true, false)."');");
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
-
-		// include user action js
-		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
-		include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
-		$ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
-		$ua_gui->init();
-
-		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
-
-		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
-		$act = ilAwarenessAct::getInstance($ilUser->getId());
-		$act->setRefId($this->ref_id);
-
-		if ($last_update == "" || ($now - $last_update) >= $cache_period)
-		{
-			$cnt = explode(":", $act->getAwarenessUserCounter());
-			$hcnt = $cnt[1];
-			$cnt = $cnt[0];
-			$act->notifyOnNewOnlineContacts();
-			ilSession::set("awrn_last_update", $now);
-			ilSession::set("awrn_nr_users", $cnt);
-			ilSession::set("awrn_nr_husers", $hcnt);
-		}
-		else
-		{
-			$cnt = (int) ilSession::get("awrn_nr_users");
-			$hcnt = (int) ilSession::get("awrn_nr_husers");
-		}
-
-		if ($hcnt > 0 || $cnt > 0)
-		{
-			/*
-			$tpl->setCurrentBlock("status_text");
-			$tpl->setVariable("STATUS_TXT", $cnt);
-			if ($cnt == 0)
-			{
-				$tpl->setVariable("HIDDEN", "ilAwrnBadgeHidden");
-			}
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("h_status_text");
-			$tpl->setVariable("H_STATUS_TXT", $hcnt);
-			if ($hcnt == 0)
-			{
-				$tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
-			}
-			$tpl->parseCurrentBlock();
-			$tpl->setVariable("HSP", "&nbsp;");*/
-
-			$f = $this->ui->factory();
-			$renderer = $this->ui->renderer();
-
-			$glyph = $f->symbol()->glyph()->user("#");
-			if ($cnt > 0)
-			{
-				$glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
-			}
-			if ($hcnt > 0)
-			{
-				$glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
-			}
-			$glyph_html = $renderer->render($glyph);
-			$tpl->setVariable("GLYPH", $glyph_html);
+        if (in_array($cmd, array("getAwarenessList"))) {
+            $this->$cmd();
+        }
+    }
 
 
+    /**
+     * Get instance
+     *
+     * @return ilAwarenessGUI awareness gui object
+     */
+    public static function getInstance()
+    {
+        return new ilAwarenessGUI();
+    }
 
-			$tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
+    public function initJS()
+    {
+        $ilUser = $this->user;
+        // init js
+        $GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
+        $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(
+            $this,
+            "",
+            "",
+            true,
+            false
+        ) . "');");
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
 
-			return $tpl->get();
-		}
+        // include user action js
+        include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
+        include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
+        $ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
+        $ua_gui->init();
+    }
 
-		return "";
-	}
-	
-	/**
-	 * Get awareness list (ajax)
-	 */
-	function getAwarenessList()
-	{
-		$ilUser = $this->user;
+    /**
+     * Get main menu html
+     */
+    public function getMainMenuHTML()
+    {
+        $ilUser = $this->user;
 
-		$filter = $_GET["filter"];
+        $awrn_set = new ilSetting("awrn");
+        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
+            return "";
+        }
 
-		$tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
+        $cache_period = (int) $awrn_set->get("caching_period");
+        $last_update = ilSession::get("awrn_last_update");
+        $now = time();
 
-		include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
-		$act = ilAwarenessAct::getInstance($ilUser->getId());
-		$act->setRefId($this->ref_id);
+        $this->initJS();
 
-		$ad = $act->getAwarenessData($filter);
+        $tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
-		// update counter
-		$now = time();
-		$cnt = explode(":",$ad["cnt"]);
-		$hcnt = $cnt[1];
-		$cnt = $cnt[0];
-		ilSession::set("awrn_last_update", $now);
-		ilSession::set("awrn_nr_users", $cnt);
-		ilSession::set("awrn_nr_husers", $hcnt);
+        include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
+        $act = ilAwarenessAct::getInstance($ilUser->getId());
+        $act->setRefId($this->ref_id);
+        var_dump("1");
+        exit;
+        if ($last_update == "" || ($now - $last_update) >= $cache_period) {
+            $cnt = explode(":", $act->getAwarenessUserCounter());
+            $hcnt = $cnt[1];
+            $cnt = $cnt[0];
+            $act->notifyOnNewOnlineContacts();
+            ilSession::set("awrn_last_update", $now);
+            ilSession::set("awrn_nr_users", $cnt);
+            ilSession::set("awrn_nr_husers", $hcnt);
+        } else {
+            $cnt = (int) ilSession::get("awrn_nr_users");
+            $hcnt = (int) ilSession::get("awrn_nr_husers");
+        }
+
+        if ($hcnt > 0 || $cnt > 0) {
+            /*
+            $tpl->setCurrentBlock("status_text");
+            $tpl->setVariable("STATUS_TXT", $cnt);
+            if ($cnt == 0)
+            {
+                $tpl->setVariable("HIDDEN", "ilAwrnBadgeHidden");
+            }
+            $tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("h_status_text");
+            $tpl->setVariable("H_STATUS_TXT", $hcnt);
+            if ($hcnt == 0)
+            {
+                $tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
+            }
+            $tpl->parseCurrentBlock();
+            $tpl->setVariable("HSP", "&nbsp;");*/
+
+            $f = $this->ui->factory();
+            $renderer = $this->ui->renderer();
+
+            $glyph = $f->symbol()->glyph()->user("#");
+            if ($cnt > 0) {
+                $glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
+            }
+            if ($hcnt > 0) {
+                $glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+            }
+            $glyph_html = $renderer->render($glyph);
+            $tpl->setVariable("GLYPH", $glyph_html);
 
 
-		$users = $ad["data"];
 
-		$ucnt = 0;
-		$last_uc_title = "";
-		foreach ($users as $u)
-		{
-			if ($u->collector != $last_uc_title)
-			{
-				if ($u->highlighted)
-				{
-					$tpl->touchBlock("highlighted");
-				}
-				$tpl->setCurrentBlock("uc_title");
-				$tpl->setVariable("UC_TITLE", $u->collector);
-				$tpl->parseCurrentBlock();
-				$tpl->setCurrentBlock("item");
-				$tpl->parseCurrentBlock();
-			}
-			$last_uc_title = $u->collector;
+            $tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
 
-			$ucnt++;
+            return $tpl->get();
+        }
 
-			$fcnt = 0;
-			foreach ($u->actions as $act)
-			{
-				$fcnt++;
-				if ($fcnt == 1)
-				{
-					$tpl->touchBlock("arrow");
-					//$tpl->setCurrentBlock("arrow");
-					//$tpl->parseCurrentBlock();
-				}
-				if (is_array($act->data) && count($act->data) > 0)
-				{
-					foreach ($act->data as $k => $v)
-					{
-						$tpl->setCurrentBlock("f_data");
-						$tpl->setVariable("DATA_KEY", $k);
-						$tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
-						$tpl->parseCurrentBlock();
-					}
-				}
-				$tpl->setCurrentBlock("feature");
-				$tpl->setVariable("FEATURE_HREF", $act->href);
-				$tpl->setVariable("FEATURE_TEXT", $act->text);
-				$tpl->parseCurrentBlock();
-			}
+        return "";
+    }
+    
+    /**
+     * Get awareness list (ajax)
+     */
+    public function getAwarenessList($return = false)
+    {
+        $ilUser = $this->user;
 
-			if ($u->online)
-			{
-				$tpl->touchBlock("uonline");
-				$tpl->setCurrentBlock("uonline_text");
-				$tpl->setVariable("TXT_ONLINE", $this->lng->txt("awrn_online"));
-				$tpl->parseCurrentBlock();
-			}
+        $filter = $_GET["filter"];
 
-			$tpl->setCurrentBlock("user");
-			if ($u->public_profile)
-			{
-				$tpl->setVariable("UNAME", $u->lastname.", ".$u->firstname);
-			}
-			else
-			{
-				$tpl->setVariable("UNAME", "&nbsp;");
-			}
-			$tpl->setVariable("UACCOUNT", $u->login);
+        $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
 
-			$tpl->setVariable("USERIMAGE", $u->img);
-			$tpl->setVariable("CNT", $ucnt);
-			$tpl->parseCurrentBlock();
-			$tpl->setCurrentBlock("item");
-			$tpl->parseCurrentBlock();
-		}
+        include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
+        $act = ilAwarenessAct::getInstance($ilUser->getId());
+        $act->setRefId($this->ref_id);
 
-		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-		$tpl->setCurrentBlock("filter");
-		$tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
-		$tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
-		$tpl->parseCurrentBlock();
+        $ad = $act->getAwarenessData($filter);
 
-		echo json_encode(array("html" => $tpl->get(),
-			"cnt" => $ad["cnt"]));
-		exit;
-	}
-	
+        // update counter
+        $now = time();
+        $cnt = explode(":", $ad["cnt"]);
+        $hcnt = $cnt[1];
+        $cnt = $cnt[0];
+        ilSession::set("awrn_last_update", $now);
+        ilSession::set("awrn_nr_users", $cnt);
+        ilSession::set("awrn_nr_husers", $hcnt);
+
+
+        $users = $ad["data"];
+
+        $ucnt = 0;
+        $last_uc_title = "";
+        foreach ($users as $u) {
+            if ($u->collector != $last_uc_title) {
+                if ($u->highlighted) {
+                    $tpl->touchBlock("highlighted");
+                }
+                $tpl->setCurrentBlock("uc_title");
+                $tpl->setVariable("UC_TITLE", $u->collector);
+                $tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("item");
+                $tpl->parseCurrentBlock();
+            }
+            $last_uc_title = $u->collector;
+
+            $ucnt++;
+
+            $fcnt = 0;
+            foreach ($u->actions as $act) {
+                $fcnt++;
+                if ($fcnt == 1) {
+                    $tpl->touchBlock("arrow");
+                    //$tpl->setCurrentBlock("arrow");
+                    //$tpl->parseCurrentBlock();
+                }
+                if (is_array($act->data) && count($act->data) > 0) {
+                    foreach ($act->data as $k => $v) {
+                        $tpl->setCurrentBlock("f_data");
+                        $tpl->setVariable("DATA_KEY", $k);
+                        $tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+                        $tpl->parseCurrentBlock();
+                    }
+                }
+                $tpl->setCurrentBlock("feature");
+                $tpl->setVariable("FEATURE_HREF", $act->href);
+                $tpl->setVariable("FEATURE_TEXT", $act->text);
+                $tpl->parseCurrentBlock();
+            }
+
+            if ($u->online) {
+                $tpl->touchBlock("uonline");
+                $tpl->setCurrentBlock("uonline_text");
+                $tpl->setVariable("TXT_ONLINE", $this->lng->txt("awrn_online"));
+                $tpl->parseCurrentBlock();
+            }
+
+            $tpl->setCurrentBlock("user");
+            if ($u->public_profile) {
+                $tpl->setVariable("UNAME", $u->lastname . ", " . $u->firstname);
+            } else {
+                $tpl->setVariable("UNAME", "&nbsp;");
+            }
+            $tpl->setVariable("UACCOUNT", $u->login);
+
+            $tpl->setVariable("USERIMAGE", $u->img);
+            $tpl->setVariable("CNT", $ucnt);
+            $tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("item");
+            $tpl->parseCurrentBlock();
+        }
+
+        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+        $tpl->setCurrentBlock("filter");
+        $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->parseCurrentBlock();
+
+
+        $result = ["html" => $tpl->get(),
+                   "filter_val" => ilUtil::prepareFormOutput($filter),
+                    "cnt" => $ad["cnt"]];
+
+        if ($return) {
+            $this->initJS();
+            return $result;
+        }
+
+        echo json_encode($result);
+        exit;
+    }
 }
-?>

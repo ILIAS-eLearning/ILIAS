@@ -10,39 +10,36 @@
  */
 class ilChatroomCreateGUI extends ilChatroomGUIHandler
 {
-	/**
-	 * Inserts new object into gui.
-	 */
-	public function save()
-	{
-		require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-		$formFactory = new ilChatroomFormFactory();
-		$form        = $formFactory->getCreationForm();
+    /**
+     * Inserts new object into gui.
+     */
+    public function save()
+    {
+        require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
+        $formFactory = new ilChatroomFormFactory();
+        $form        = $formFactory->getCreationForm();
 
-		if($form->checkInput())
-		{
-			$roomObj = $this->gui->insertObject();
-			$room    = ilChatroom::byObjectId($roomObj->getId());
+        if ($form->checkInput()) {
+            $roomObj = $this->gui->insertObject();
+            $room    = ilChatroom::byObjectId($roomObj->getId());
 
-			$connector = $this->gui->getConnector();
-			$response  = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
+            $connector = $this->gui->getConnector();
+            $response  = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
 
-			$this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
-			$this->ilCtrl->redirect($this->gui, 'settings-general');
-		}
-		else
-		{
-			$this->executeDefault('create');
-		}
-	}
+            $this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
+            $this->ilCtrl->redirect($this->gui, 'settings-general');
+        } else {
+            $this->executeDefault('create');
+        }
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeDefault($method)
-	{
-		$this->gui->switchToVisibleMode();
-		$this->gui->createObject();
-		return;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function executeDefault($method)
+    {
+        $this->gui->switchToVisibleMode();
+        $this->gui->createObject();
+        return;
+    }
 }

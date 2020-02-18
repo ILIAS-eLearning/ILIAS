@@ -104,7 +104,6 @@ disable_check#:#pamundëso kontrollin
 disable_logging#:#pamundëso krijimin e log skedarëve
 disabled#:#pamundësohet
 display_clientlist#:#Paraqit zgjedhjen e lirë të klientëve
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#E-Mail
 email_not_valid#:#E-Mail adresa është jovalide
 en_by_default#:#(Gjuha Angleze është e paradefinuar të instalohet dhe nuk mund të fshihet)

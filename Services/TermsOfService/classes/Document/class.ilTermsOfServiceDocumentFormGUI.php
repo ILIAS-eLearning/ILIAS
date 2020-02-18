@@ -87,7 +87,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
     /**
      * @param bool $status
      */
-    public function setCheckInputCalled(bool $status) : void 
+    public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
@@ -120,13 +120,12 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
             $documentByline = $this->lng->txt('tos_form_document_new_info');
         }
 
-        $document = new ilFileStandardDropzoneInputGUI($documentLabel, 'document');
+        $document = new ilFileInputGUI($documentLabel, 'document');
         $document->setInfo($documentByline);
         if (!$this->document->getId()) {
             $document->setRequired(true);
         }
         $document->setDisabled(!$this->isEditable);
-        $document->setMaxFiles(1);
         $document->setSuffixes(['html', 'txt']);
         $this->addItem($document);
 
@@ -211,7 +210,11 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
                     }
 
                     $this->fileUpload->moveOneFileTo(
-                        $uploadResult, '/agreements', Location::TEMPORARY, '', true
+                        $uploadResult,
+                        '/agreements',
+                        Location::TEMPORARY,
+                        '',
+                        true
                     );
 
                     $pathToFile = '/agreements/' . $uploadResult->getName();

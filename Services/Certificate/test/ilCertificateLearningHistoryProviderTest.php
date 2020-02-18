@@ -96,6 +96,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->willReturn(
                 array(
                     new ilUserCertificatePresentation(
+                        200,
+                        'crs',
                         new ilUserCertificate(
                             1,
                             200,
@@ -117,6 +119,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                         'Course Description'
                     ),
                     new ilUserCertificatePresentation(
+                        500,
+                        'tst',
                         new ilUserCertificate(
                             5,
                             500,
@@ -172,12 +176,16 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $std_link = $this->getMockBuilder('\ILIAS\UI\Component\Link\Standard')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $link->method('standard')
             ->withConsecutive(
                 array('Course Title', '<a href> </a>'),
                 array('Test Title', '<a href> </a>')
             )
-            ->willReturn('<link rel="stylesheet" href="">');
+            ->willReturn($std_link);
 
         $uiFactory->method('link')
             ->willReturn($link);
@@ -187,7 +195,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $uiRenderer->method('render')
-            ->with('<link rel="stylesheet" href="">')
+            ->with($std_link)
             ->willReturn('link');
 
         $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')

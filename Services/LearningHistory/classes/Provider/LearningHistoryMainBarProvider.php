@@ -3,8 +3,9 @@
 use ilAchievementsGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilLearningHistoryGUI;
-use ilPersonalDesktopGUI;
+use ilDashboardGUI;
 
 /**
  * Class LearningHistoryMainBarProvider
@@ -28,23 +29,28 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        global $DIC;
+
         $entries = [];
 
+        $settings = $DIC->settings();
+
+        $title = $this->dic->language()->txt("mm_learning_history");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::LHTS, $title)->withIsOutlined(true);
+
         $entries[] = $this->mainmenu->link($this->if->identifier('learning_history'))
-            ->withTitle($this->dic->language()->txt("mm_learning_history"))
+            ->withTitle($title)
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
-                ilPersonalDesktopGUI::class,
+                ilDashboardGUI::class,
                 ilAchievementsGUI::class,
                 ilLearningHistoryGUI::class,
             ], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
             ->withPosition(10)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("lhist", "")->withIsOutlined(true))
+            ->withSymbol($icon)
             ->withAvailableCallable(
-                function () {
-                    $achievements = new \ilAchievements();
-
-                    return (bool) $achievements->isAnyActive();
+                function () use ($settings) {
+                    return (bool) $settings->get("enable_learning_history");
                 }
             );
 

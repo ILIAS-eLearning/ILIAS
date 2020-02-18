@@ -15,17 +15,15 @@ require_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
 */
 class ilLPCollectionOfObjectives extends ilLPCollection
 {
-	protected function read($a_obj_id)
-	{
-		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
-	
-		$this->items = ilCourseObjective::_getObjectiveIds($a_obj_id,true);	
-	}	
-	
-	public function hasSelectableItems()
-	{
-		return false;
-	}
+    protected function read($a_obj_id)
+    {
+        include_once 'Modules/Course/classes/class.ilCourseObjective.php';
+    
+        $this->items = ilCourseObjective::_getObjectiveIds($a_obj_id, true);
+    }
+    
+    public function hasSelectableItems()
+    {
+        return false;
+    }
 }
-
-?>

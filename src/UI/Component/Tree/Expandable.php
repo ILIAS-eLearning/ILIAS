@@ -13,5 +13,4 @@ use \ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Expandable extends Tree, JavaScriptBindable
 {
-
 }

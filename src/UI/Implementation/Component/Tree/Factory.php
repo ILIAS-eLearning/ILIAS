@@ -8,19 +8,19 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements ITree\Factory
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function node(): ITree\Node\Factory
-	{
-		return new Node\Factory();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function node() : ITree\Node\Factory
+    {
+        return new Node\Factory();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function expandable(ITree\TreeRecursion $recursion): ITree\Expandable
-	{
-		return new Expandable($recursion);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function expandable(ITree\TreeRecursion $recursion) : ITree\Expandable
+    {
+        return new Expandable($recursion);
+    }
 }

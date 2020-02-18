@@ -51,7 +51,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 
             $this->log->debug(sprintf(
                 'Evaluating document for user "%s" (id: %s) ...',
-                $this->user->getLogin(), $this->user->getId()
+                $this->user->getLogin(),
+                $this->user->getId()
             ));
 
             foreach ($this->possibleDocuments as $document) {
@@ -81,7 +82,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 
         throw new ilTermsOfServiceNoSignableDocumentFoundException(sprintf(
             'Could not find any terms of service document for the passed user (id: %s|login: %s)',
-            $this->user->getId(), $this->user->getLogin()
+            $this->user->getId(),
+            $this->user->getLogin()
         ));
     }
 

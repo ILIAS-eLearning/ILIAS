@@ -7,7 +7,7 @@
 		<!-- END tools_trigger -->
 
 		<div class="il-mainbar-triggers">
-			<div class="il-mainbar-entries">
+			<div class="il-mainbar-entries" style="visibility: hidden"><!--if done via class/css-files, visibility is being applied too late -->
 				<!-- BEGIN trigger_item -->
 				{BUTTON}
 				<!-- END trigger_item -->
@@ -19,7 +19,9 @@
 		<div class="il-mainbar-tools-entries">
 			<div class="il-mainbar-tools-entries-bg">
 				<!-- BEGIN tool_trigger_item -->
-				{BUTTON}
+				<div class="il-mainbar-tool-trigger-item">
+					{BUTTON}
+				</div>
 				<!-- END tool_trigger_item -->
 			</div>
 			<!-- BEGIN tool_removal -->

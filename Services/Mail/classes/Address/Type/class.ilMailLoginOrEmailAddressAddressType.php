@@ -51,7 +51,8 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
             if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
                 $this->logger->debug(sprintf(
                     "Address '%s' not valid. Found id %s, but user can't use mail system and wants to receive emails only internally.",
-                    $this->address->getMailbox(), $usrId
+                    $this->address->getMailbox(),
+                    $usrId
                 ));
                 $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
                 return false;
@@ -78,12 +79,14 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 
         if (count($usrIds) > 0) {
             $this->logger->debug(sprintf(
-                "Found the following user ids for address (login) '%s': %s", $address,
+                "Found the following user ids for address (login) '%s': %s",
+                $address,
                 implode(', ', array_unique($usrIds))
             ));
         } elseif (strlen($address) > 0) {
             $this->logger->debug(sprintf(
-                "Did not find any user account for address (login) '%s'", $address
+                "Did not find any user account for address (login) '%s'",
+                $address
             ));
         }
 

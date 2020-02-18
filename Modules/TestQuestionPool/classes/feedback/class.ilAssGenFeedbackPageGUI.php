@@ -6,8 +6,8 @@ include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedback
 
 /**
  * Generic feedback page GUI class
- * 
- * @author Alex Killing <alex.killing@gmx.de> 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
  *
  * @ilCtrl_Calls ilAssGenFeedbackPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilAssGenFeedbackPageGUI: ilPublicUserProfileGUI, ilNoteGUI
@@ -17,18 +17,16 @@ include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedback
  */
 class ilAssGenFeedbackPageGUI extends ilPageObjectGUI
 {
-	/**
-	 * Constructor
-	 */
-	function __construct($a_id = 0, $a_old_nr = 0)
-	{
-		global $DIC;
-		$tpl = $DIC['tpl'];
+    /**
+     * Constructor
+     */
+    public function __construct($a_id = 0, $a_old_nr = 0)
+    {
+        global $DIC;
+        $tpl = $DIC['tpl'];
 
-		parent::__construct("qfbg", $a_id, $a_old_nr);
-		$this->setTemplateTargetVar('ADM_CONTENT');
-		$this->setTemplateOutput(true);
-	}
-	
-} 
-?>
+        parent::__construct("qfbg", $a_id, $a_old_nr);
+        $this->setTemplateTargetVar('ADM_CONTENT');
+        $this->setTemplateOutput(true);
+    }
+}

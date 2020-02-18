@@ -7,5 +7,6 @@ namespace ILIAS\UI\Component\Panel;
 /**
  * This describes how a Report could be modified during construction of UI.
  */
-interface Report extends Panel {
+interface Report extends Panel
+{
 }

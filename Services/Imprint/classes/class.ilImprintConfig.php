@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Imprint page configuration 
+ * Imprint page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -13,17 +13,14 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilImprintConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		$this->setPreventHTMLUnmasking(true);
-		$this->setEnableInternalLinks(false);
-		$this->setEnableWikiLinks(false);						
-		$this->setEnableActivation(true);
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->setPreventHTMLUnmasking(true);
+        $this->setEnableInternalLinks(false);
+        $this->setEnableWikiLinks(false);
+        $this->setEnableActivation(true);
+    }
 }
-
-?>

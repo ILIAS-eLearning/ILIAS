@@ -12,5 +12,6 @@ namespace ILIAS\Setup;
  *   - some binary is missing
  *   - some permissions are missing
  */
-class UnachievableException extends \LogicException {
+class UnachievableException extends \LogicException
+{
 }

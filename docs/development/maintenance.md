@@ -150,6 +150,12 @@ The code base is deviced in several components:
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* Tester: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 
+* **Dashboard**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Data**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* 2nd Maintainer: MISSING
@@ -270,6 +276,12 @@ The code base is deviced in several components:
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
+* **LTI Consumer**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Language Handling**
 	* 1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* 2nd Maintainer: [fneumann](http://www.ilias.de/docu/goto_docu_usr_1560.html)
@@ -306,6 +318,12 @@ The code base is deviced in several components:
 	* Testcases: [scarlino](http://www.ilias.de/docu/goto_docu_usr_56074.html)
 	* Tester: [mglaubitz](http://www.ilias.de/docu/goto_docu_usr_28309.html)
 
+* **Like**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 * **Logging**
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: MISSING
@@ -316,7 +334,7 @@ The code base is deviced in several components:
 	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: FH Aachen
-	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [vimotion](http://www.ilias.de/docu/goto_docu_usr_25105.html)
 
 * **Mail**
 	* 1st Maintainer: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html)
@@ -391,8 +409,8 @@ The code base is deviced in several components:
 	* Tester: [skaiser](http://www.ilias.de/docu/goto_docu_usr_17260.html)
 
 * **Online Help**
-	* 1st Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
-	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 
@@ -564,6 +582,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **VirusScanner**
+	* 1st Maintainer: [rschenk](http://www.ilias.de/docu/goto_docu_usr_18065.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* Testcases: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+	* Tester: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+
 * **Web Access Checker**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
@@ -612,6 +636,12 @@ The code base is deviced in several components:
 	* Testcases: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
 	* Tester: [richtera](http://www.ilias.de/docu/goto_docu_usr_41247.html)
 
+* **cmi5/xAPI Object**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 
@@ -631,9 +661,8 @@ The following directories are currently maintained under the [Coordinator Model]
 
 The following directories are currently unmaintained:
 
-* Services/AssessmentQuestion
+* Modules/StudyProgrammeReference
 * Services/DiskQuota
-* Services/Like
 * Services/Membership
 * Services/OpenIdConnect
 * Services/PHPUnit

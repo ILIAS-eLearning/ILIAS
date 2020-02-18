@@ -299,7 +299,10 @@ class ilMailFolderGUI
                 }
             }
 
-            $folder_options[$folder['obj_id']] = $this->lng->txt('mail_' . $folder['title']);
+            $folder_options[$folder['obj_id']] = sprintf(
+                $this->lng->txt('mail_change_to_folder'),
+                $this->lng->txt('mail_' . $folder['title'])
+            );
             if ($folder['type'] === 'user_folder') {
                 $pre = '';
                 for ($i = 2; $i < $folder_d['depth'] - 1; $i++) {
@@ -310,18 +313,23 @@ class ilMailFolderGUI
                     $pre .= '+';
                 }
 
-                $folder_options[$folder['obj_id']] = $pre . ' ' . $folder['title'];
+                $folder_options[$folder['obj_id']] = sprintf(
+                    $this->lng->txt('mail_change_to_folder'),
+                    $pre . ' ' . $folder['title']
+                );
             }
         }
 
         if ($oneConfirmationDialogueRendered === false && $this->confirmTrashDeletion === false) {
-            $this->toolbar->addText($this->lng->txt('mail_change_to_folder'));
             $si = new ilSelectInputGUI('', 'mobj_id');
             $si->setOptions($folder_options);
             $si->setValue($this->currentFolderId);
-            $this->toolbar->addInputItem($si);
+            $this->toolbar->addStickyItem($si);
 
-            $this->toolbar->addFormButton($this->lng->txt('change'), 'showFolder');
+            $btn = ilSubmitButton::getInstance();
+            $btn->setCaption('change');
+            $btn->setCommand('showFolder');
+            $this->toolbar->addStickyItem($btn);
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 
             if ($isUserRootFolder == true || $isUserSubFolder == true) {
@@ -736,16 +744,23 @@ class ilMailFolderGUI
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
             $picture = ilUtil::img(
-                $sender->getPersonalPicturePath('xsmall'), $sender->getPublicName(),
-                '', '', 0, '', 'ilMailAvatar'
+                $sender->getPersonalPicturePath('xsmall'),
+                $sender->getPublicName(),
+                '',
+                '',
+                0,
+                '',
+                'ilMailAvatar'
             );
 
             if (in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), ['y', 'g'])) {
                 $this->ctrl->setParameter($this, 'mail_id', $mailId);
                 $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
                 $this->ctrl->setParameter($this, 'user', $sender->getId());
-                $linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget($this,
-                        'showUser') . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
+                $linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget(
+                    $this,
+                    'showUser'
+                ) . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
                 $this->ctrl->clearParameters($this);
             }
 
@@ -759,8 +774,15 @@ class ilMailFolderGUI
         } else {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
-                ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName(), '', '', 0, '',
-                    'ilMailAvatar') .
+                ilUtil::img(
+                    ilUtil::getImagePath('HeaderIconAvatar.svg'),
+                    ilMail::_getIliasMailerName(),
+                    '',
+                    '',
+                    0,
+                    '',
+                    'ilMailAvatar'
+                ) .
                 '<br />' . ilMail::_getIliasMailerName()
             );
             $form->addItem($from);
@@ -778,8 +800,10 @@ class ilMailFolderGUI
 
         if ($mailData['rcp_bcc']) {
             $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
-            $bcc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']),
-                false));
+            $bcc->setHtml(ilUtil::htmlencodePlainString(
+                $this->umail->formatNamesForOutput($mailData['rcp_bcc']),
+                false
+            ));
             $form->addItem($bcc);
         }
 

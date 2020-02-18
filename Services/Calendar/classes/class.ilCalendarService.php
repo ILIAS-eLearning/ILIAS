@@ -14,13 +14,13 @@ include_once("./Services/Component/classes/class.ilService.php");
  */
 class ilCalendarService extends ilService
 {
-	function isCore()
-	{
-		return true;
-	}
+    public function isCore()
+    {
+        return true;
+    }
 
-	function getVersion()
-	{
-		return "-";
-	}
+    public function getVersion()
+    {
+        return "-";
+    }
 }

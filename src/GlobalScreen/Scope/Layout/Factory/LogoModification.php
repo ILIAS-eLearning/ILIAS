@@ -22,7 +22,7 @@ class LogoModification extends AbstractLayoutModification implements LayoutModif
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentTypeOrNull() : ?string
+    public function getClosureFirstArgumentType() : string
     {
         return Image::class;
     }
@@ -35,5 +35,22 @@ class LogoModification extends AbstractLayoutModification implements LayoutModif
     {
         return Image::class;
     }
-}
 
+
+    /**
+     * @inheritDoc
+     */
+    public function firstArgumentAllowsNull() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function returnTypeAllowsNull() : bool
+    {
+        return true;
+    }
+}

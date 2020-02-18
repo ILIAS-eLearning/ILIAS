@@ -160,7 +160,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
      * @param array $data
      * @return array
      */
-    protected function preProcessData(array &$data) : void 
+    protected function preProcessData(array &$data) : void
     {
         foreach ($data['items'] as $key => $document) {
             /** @var ilTermsOfServiceDocument $document */
@@ -357,11 +357,11 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
     {
         $value = ($this->i++) * $this->factor;
         if (!$this->isEditable) {
-            return $value;
+            return (string) $value;
         }
 
         $sortingField = new ilNumberInputGUI('', 'sorting[' . $row['id'] . ']');
-        $sortingField->setValue($value);
+        $sortingField->setValue((string) $value);
         $sortingField->setMaxLength(4);
         $sortingField->setSize(2);
 

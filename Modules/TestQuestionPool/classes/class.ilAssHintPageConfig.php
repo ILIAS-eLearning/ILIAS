@@ -4,7 +4,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Assessment hint page configuration 
+ * Assessment hint page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -12,13 +12,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilAssHintPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+    }
 }
-
-?>

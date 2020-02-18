@@ -6,51 +6,51 @@
  */
 interface ilSamlAuth
 {
-	/**
-	 * @return mixed
-	 */
-	public function getAuthId();
+    /**
+     * @return string
+     */
+    public function getAuthId() : string;
 
-	/**
-	 * Protect a script resource with a SAML auth.
-	 */
-	public function protectResource();
+    /**
+     * Protect a script resource with a SAML auth.
+     */
+    public function protectResource() : void;
 
-	/**
-	 * @param string $key
-	 * @param mixed $value
-	 */
-	public function storeParam($key, $value);
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function storeParam($key, $value);
 
-	/**
-	 * @return bool
-	 */
-	public function isAuthenticated();
+    /**
+     * @return bool
+     */
+    public function isAuthenticated() : bool;
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function popParam($key);
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function popParam(string $key);
 
-	/**
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function getParam($key);
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getParam(string $key);
 
-	/**
-	 * @return array
-	 */
-	public function getAttributes();
+    /**
+     * @return array
+     */
+    public function getAttributes() : array;
 
-	/**
-	 * @param string $returnUrl
-	 */
-	public function logout($returnUrl = '');
+    /**
+     * @param string $returnUrl
+     */
+    public function logout(string $returnUrl = '') : void;
 
-	/**
-	 * @return ilSamlIdpDiscovery
-	 */
-	public function getIdpDiscovery();
+    /**
+     * @return ilSamlIdpDiscovery
+     */
+    public function getIdpDiscovery() : ilSamlIdpDiscovery;
 }

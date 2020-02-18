@@ -14,107 +14,104 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilTaxonomyTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilAccessHandler
-	 */
-	protected $access;
+    /**
+     * @var ilAccessHandler
+     */
+    protected $access;
 
-	/**
-	 * Constructor
-	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_tree,
-		$a_node_id, $a_tax)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_tree,
+        $a_node_id,
+        $a_tax
+    ) {
+        global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->access = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
 
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		
-		if ($a_node_id == "")
-		{
-			$a_node_id = $a_tree->readRootId();
-		}
-		
-		$this->tree = $a_tree;
-		$this->tax = $a_tax;
-		$this->node_id = $a_node_id;
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        
+        if ($a_node_id == "") {
+            $a_node_id = $a_tree->readRootId();
+        }
+        
+        $this->tree = $a_tree;
+        $this->tax = $a_tax;
+        $this->node_id = $a_node_id;
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
-		$childs = $this->tree->getChildsByTypeFilter($a_node_id,
-			array("taxn"));
-		
-		if ($a_tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
-		{
-			$childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
-		}
-		else
-		{
-			$childs = ilUtil::sortArray($childs, "title", "asc", false);
-		}
-		$this->setData($childs);
-		
-		$this->setTitle($lng->txt("tax_nodes"));
-		
-		$this->addColumn($this->lng->txt(""), "", "1px", true);
-		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
-		{
-			$this->addColumn($this->lng->txt("tax_order"), "order_nr", "1px");
-			$this->setDefaultOrderField("order_nr");
-			$this->setDefaultOrderDirection("asc");
-		}
-		$this->addColumn($this->lng->txt("title"));
-		
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.tax_row.html", "Services/Taxonomy");
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+        
+        $childs = $this->tree->getChildsByTypeFilter(
+            $a_node_id,
+            array("taxn")
+        );
+        
+        if ($a_tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
+            $childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
+        } else {
+            $childs = ilUtil::sortArray($childs, "title", "asc", false);
+        }
+        $this->setData($childs);
+        
+        $this->setTitle($lng->txt("tax_nodes"));
+        
+        $this->addColumn($this->lng->txt(""), "", "1px", true);
+        if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
+            $this->addColumn($this->lng->txt("tax_order"), "order_nr", "1px");
+            $this->setDefaultOrderField("order_nr");
+            $this->setDefaultOrderDirection("asc");
+        }
+        $this->addColumn($this->lng->txt("title"));
+        
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setRowTemplate("tpl.tax_row.html", "Services/Taxonomy");
 
-		$this->addMultiCommand("deleteItems", $lng->txt("delete"));
-		$this->addMultiCommand("moveItems", $lng->txt("move"));
-		$this->addCommandButton("saveSorting", $lng->txt("save"));
-	}
-	
-		
-	/**
-	* Should this field be sorted numeric?
-	*
-	* @return	boolean		numeric ordering; default is false
-	*/
-	function numericOrdering($a_field)
-	{
-		if (in_array($a_field, array("order_nr")))
-		{
-			return true;
-		}
-	}
-	
-	/**
-	 * Fill table row
-	 */
-	protected function fillRow($a_set)
-	{
-		$lng = $this->lng;
-		$ilCtrl = $this->ctrl;
+        $this->addMultiCommand("deleteItems", $lng->txt("delete"));
+        $this->addMultiCommand("moveItems", $lng->txt("move"));
+        $this->addCommandButton("saveSorting", $lng->txt("save"));
+    }
+    
+        
+    /**
+    * Should this field be sorted numeric?
+    *
+    * @return	boolean		numeric ordering; default is false
+    */
+    public function numericOrdering($a_field)
+    {
+        if (in_array($a_field, array("order_nr"))) {
+            return true;
+        }
+    }
+    
+    /**
+     * Fill table row
+     */
+    protected function fillRow($a_set)
+    {
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
 
-		$ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
-		$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listNodes");
-		$ilCtrl->setParameter($this->parent_obj, "tax_node", $_GET["tax_node"]);
-		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
-		{
-			$this->tpl->setCurrentBlock("order");
-			$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
-			$this->tpl->setVariable("ONODE_ID", $a_set["child"]);
-			$this->tpl->parseCurrentBlock();
-		}
+        $ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
+        $ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listNodes");
+        $ilCtrl->setParameter($this->parent_obj, "tax_node", $_GET["tax_node"]);
+        if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
+            $this->tpl->setCurrentBlock("order");
+            $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
+            $this->tpl->setVariable("ONODE_ID", $a_set["child"]);
+            $this->tpl->parseCurrentBlock();
+        }
 
-		$this->tpl->setVariable("HREF_TITLE", $ret);
-		
-		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
-		$this->tpl->setVariable("NODE_ID", $a_set["child"]);
-	}
-
+        $this->tpl->setVariable("HREF_TITLE", $ret);
+        
+        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("NODE_ID", $a_set["child"]);
+    }
 }
-?>

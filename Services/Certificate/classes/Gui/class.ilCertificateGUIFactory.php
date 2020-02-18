@@ -47,7 +47,6 @@ class ilCertificateGUIFactory
             case 'tst':
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
                 $placeholderValuesObject = new ilTestPlaceHolderValues();
-                $adapter = new ilTestCertificateAdapter($object);
 
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
@@ -70,7 +69,6 @@ class ilCertificateGUIFactory
             case 'crs':
                 $hasAdditionalElements = true;
 
-                $adapter = new ilCourseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
@@ -88,7 +86,6 @@ class ilCertificateGUIFactory
 
                 break;
             case 'exc':
-                $adapter = new ilExerciseCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
                 $placeholderValuesObject = new ilExercisePlaceHolderValues();
 
@@ -105,7 +102,6 @@ class ilCertificateGUIFactory
 
                 break;
             case 'sahs':
-                $adapter = new ilSCORMCertificateAdapter($object);
                 $placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
                 $placeholderValuesObject = new ilScormPlaceholderValues();
 
@@ -119,7 +115,52 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+                break;
+            case 'lti':
+                $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
+                $placeholderValuesObject = new ilLTIConsumerPlaceholderValues();
 
+                $formFactory = new ilCertificateSettingsLTIConsumerFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'cmix':
+                $placeholderDescriptionObject = new ilCmiXapiPlaceholderDescription();
+                $placeholderValuesObject = new ilCmiXapiPlaceholderValues();
+
+                $formFactory = new ilCertificateSettingsCmiXapiFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'prg':
+                $placeholderDescriptionObject =
+                new ilStudyProgrammePlaceholderDescription();
+                $placeholderValuesObject =
+                new ilStudyProgrammePlaceholderValues();
+                $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                 );
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
@@ -127,7 +168,6 @@ class ilCertificateGUIFactory
         }
 
         $gui = new ilCertificateGUI(
-            $adapter,
             $placeholderDescriptionObject,
             $placeholderValuesObject,
             $objectId,

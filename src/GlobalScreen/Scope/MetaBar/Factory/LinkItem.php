@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -12,9 +13,9 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
 {
 
     /**
-     * @var Glyph
+     * @var Symbol
      */
-    protected $glyph;
+    protected $symbol;
     /**
      * @var string
      */
@@ -23,6 +24,16 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      * @var string
      */
     protected $action = "";
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(IdentificationInterface $provider_identification)
+    {
+        parent::__construct($provider_identification);
+        $this->renderer = new LinkItemRenderer();
+    }
 
 
     /**
@@ -54,7 +65,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         $clone = clone($this);
-        $clone->glyph = $symbol;
+        $clone->symbol = $symbol;
 
         return $clone;
     }
@@ -65,7 +76,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function getSymbol() : \ILIAS\UI\Component\Symbol\Symbol
     {
-        return $this->glyph;
+        return $this->symbol;
     }
 
 
@@ -74,7 +85,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      */
     public function hasSymbol() : bool
     {
-        return ($this->glyph instanceof Symbol);
+        return ($this->symbol instanceof Symbol);
     }
 
 

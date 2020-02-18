@@ -51,4 +51,35 @@ class ModificationFactory
     {
         return new BreadCrumbsModification();
     }
+
+
+    /**
+     * @return PageBuilderModification
+     */
+    public function page() : PageBuilderModification
+    {
+        return new PageBuilderModification();
+    }
+
+
+    /**
+     * @return FooterModification
+     */
+    public function footer() : FooterModification
+    {
+        return new FooterModification();
+    }
+
+    public function title() : TitleModification
+    {
+        return new TitleModification();
+    }
+    public function short_title() : ShortTitleModification
+    {
+        return new ShortTitleModification();
+    }
+    public function view_title() : ViewTitleModification
+    {
+        return new ViewTitleModification();
+    }
 }

@@ -69,13 +69,10 @@ class ilMountPointDAV implements Sabre\DAV\ICollection
      */
     public function getChildren()
     {
-        if($this->user_id != null && $this->user_id != ANONYMOUS_USER_ID)
-        {
+        if ($this->user_id != null && $this->user_id != ANONYMOUS_USER_ID) {
             return array(new ilClientNodeDAV($this->client_id, $this->repo_helper, $this->dav_helper));
-        }
-        else
-        {
-            throw new Forbidden('Only for logged in users');    
+        } else {
+            throw new Forbidden('Only for logged in users');
         }
     }
 
@@ -90,8 +87,9 @@ class ilMountPointDAV implements Sabre\DAV\ICollection
      */
     public function getChild($name)
     {
-        if($name == $this->client_id)
+        if ($name == $this->client_id) {
             return new ilClientNodeDAV($this->client_id, $this->repo_helper, $this->dav_helper);
+        }
         throw new NotFound();
     }
 
@@ -103,8 +101,9 @@ class ilMountPointDAV implements Sabre\DAV\ICollection
      */
     public function childExists($name)
     {
-        if($name == $this->client_id)
+        if ($name == $this->client_id) {
             return true;
+        }
         return false;
     }
 

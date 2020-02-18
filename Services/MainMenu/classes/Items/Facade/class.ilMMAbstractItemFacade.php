@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
@@ -133,7 +134,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      */
     public function isActivated() : bool
     {
-        return (bool) $this->mm_item->isActive() || $this->item()->isAlwaysAvailable();
+        return (bool) ($this->mm_item->isActive() && $this->item()->isAvailable()) || $this->item()->isAlwaysAvailable();
     }
 
 
@@ -308,6 +309,27 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function setActiveStatus(bool $status)
     {
         $this->mm_item->setActive($status);
+    }
+
+
+    public function supportsCustomIcon() : bool
+    {
+        return $this->gs_item instanceof hasSymbol;
+    }
+
+
+    public function getIconID() : ?string
+    {
+        return $this->mm_item->getIconId();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setIconID(string $icon_id)
+    {
+        $this->mm_item->setIconId($icon_id);
     }
 
 

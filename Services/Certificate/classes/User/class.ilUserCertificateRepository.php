@@ -79,9 +79,9 @@ class ilUserCertificateRepository
             'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
             'template_values'        => array('clob', $userCertificate->getTemplateValues()),
             'valid_until'            => array('integer', $userCertificate->getValidUntil()),
-            'version'                => array('text', $version),
+            'version'                => array('integer', $version),
             'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
-            'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
+            'currently_active'       => array('integer', (integer) $userCertificate->isCurrentlyActive()),
             'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
             'thumbnail_image_path'   => array('text', $userCertificate->getThumbnailImagePath())
         );
@@ -138,7 +138,13 @@ AND currently_active = 1';
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 
@@ -197,7 +203,13 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 
@@ -282,7 +294,14 @@ AND il_cert_user_cert.currently_active = 1';
             $this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
 
             $userCertificate = $this->createUserCertificate($row);
-            return new ilUserCertificatePresentation($userCertificate, $row['title'], '', $row['lastname']);
+            return new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                '',
+                $row['lastname']
+            );
         }
 
         throw new ilException(sprintf('There is no active entry for user id: "%s" and object id: "%s"', $userId, $objectId));
@@ -335,7 +354,13 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
             
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 
@@ -386,7 +411,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $sql = 'SELECT obj_id FROM il_cert_user_cert
  WHERE user_id = ' . $this->database->quote($userId, 'integer') .
 ' AND ' . $inStatementObjectIds .
-' AND currently_active = '  .  $this->database->quote(1, 'integer');
+' AND currently_active = ' . $this->database->quote(1, 'integer');
 
         $query = $this->database->query($sql);
 
@@ -406,7 +431,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
         $sql = 'SELECT user_id FROM il_cert_user_cert
 WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
- AND currently_active = '  .  $this->database->quote(1, 'integer');
+ AND currently_active = ' . $this->database->quote(1, 'integer');
 
         $query = $this->database->query($sql);
 
@@ -527,7 +552,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
      * @param $row
      * @return ilUserCertificate
      */
-    private function createUserCertificate($row): ilUserCertificate
+    private function createUserCertificate($row) : ilUserCertificate
     {
         return new ilUserCertificate(
             $row['pattern_certificate_id'],
@@ -535,7 +560,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             $row['obj_type'],
             $row['user_id'],
             $row['user_name'],
-            (int)$row['acquired_timestamp'],
+            (int) $row['acquired_timestamp'],
             $row['certificate_content'],
             $row['template_values'],
             $row['valid_until'],

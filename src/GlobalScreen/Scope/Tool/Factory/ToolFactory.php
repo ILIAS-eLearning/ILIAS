@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
+<?php declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
@@ -24,5 +26,16 @@ class ToolFactory
     public function tool(IdentificationInterface $identification) : Tool
     {
         return new Tool($identification);
+    }
+
+
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return TreeTool
+     */
+    public function treeTool(IdentificationInterface $identification) : TreeTool
+    {
+        return new TreeTool($identification);
     }
 }

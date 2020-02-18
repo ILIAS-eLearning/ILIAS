@@ -75,7 +75,8 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) {
+    public function createForm(ilCertificateGUI $certificateGUI)
+    {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         return $form;

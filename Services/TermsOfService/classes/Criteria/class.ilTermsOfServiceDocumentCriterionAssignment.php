@@ -74,12 +74,12 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $last_modified_usr_id = '';
+    protected $last_modified_usr_id = 0;
 
     /**
      * @inheritdoc
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

@@ -13,220 +13,202 @@ use ILIAS\UI\Factory;
  */
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
-	const CMD_START_OBJECT = 'start_legacy_obj';
-	const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
+    const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
 
-	protected $object;
+    protected $object;
 
-	public function __construct(
-		ilObject $object,
-		ilLanguage $lng,
-		ilAccess $access
-	) {
-		$this->object = $object;
-		$this->lng = $lng;
-		$this->access = $access;
-	}
+    public function __construct(
+        ilObject $object,
+        ilLanguage $lng,
+        ilAccess $access
+    ) {
+        $this->object = $object;
+        $this->lng = $lng;
+        $this->access = $access;
+    }
 
-	protected function getObjectTitle(): string
-	{
-		return $this->object->getTitle();
-	}
+    protected function getObjectTitle() : string
+    {
+        return $this->object->getTitle();
+    }
 
-	protected function getType(): string
-	{
-		return $this->object->getType();
-	}
+    protected function getType() : string
+    {
+        return $this->object->getType();
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function setObject(\ilObject $object)
-	{
-		$this->object = $object;
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function setObject(\ilObject $object)
+    {
+        $this->object = $object;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function hasPermissionToAccessKioskMode(): bool
-	{
-		return true;
-		//return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function hasPermissionToAccessKioskMode() : bool
+    {
+        return true;
+        //return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function buildInitialState(State $empty_state): State
-	{
-		return $empty_state;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function buildInitialState(State $empty_state) : State
+    {
+        return $empty_state;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
-	{
-		$builder->start (
-			$this->lng->txt('lso_start_item').' '.$this->getTitleByType($this->getType()),
-			self::CMD_START_OBJECT,
-			0
-		);
+    /**
+     * @inheritDoc
+     */
+    public function buildControls(State $state, ControlBuilder $builder) : ControlBuilder
+    {
+        if (!$builder instanceof LSControlBuilder) {
+            throw new LogicException("The Legacy Mode in the Learning Sequence requires an LSControlBuilder explicitely.", 1);
+        }
 
-		//return $this->debugBuildAllControls($builder);
-		return $builder;
-	}
+        $label = $this->lng->txt('lso_start_item') . ' ' . $this->getTitleByType($this->getType());
 
-	/**
-	 * @inheritDoc
-	 */
-	public function updateGet(State $state, string $command, int $param = null): State
-	{
-		if($command === self::CMD_START_OBJECT) {
-			$url = \ilLink::_getStaticLink(
-				$this->object->getRefId(),
-				$this->object->getType(),
-				true,
-				false
-			);
+        $ref_id = $this->object->getRefId();
+        $type = $this->object->getType();
 
-			$type = $this->object->getType();
-			if(in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
-				$obj_id = $this->object->getId();
-				$ref_id = $this->object->getRefId();
-				$item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
-				$item_list_gui->initItem($ref_id, $obj_id, $type);
-				$view_lnk = $item_list_gui->getCommandLink('view');
-				$view_lnk = str_replace('&amp;', '&', $view_lnk);
-				$view_lnk = ILIAS_HTTP_PATH.'/'.$view_lnk;
-				$url = $view_lnk;
-			}
+        $url = \ilLink::_getStaticLink(
+            $ref_id,
+            $type,
+            true,
+            false
+        );
 
+        if (in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
+            $obj_id = $this->object->getId();
+            $item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
+            $item_list_gui->initItem($ref_id, $obj_id);
+            $view_link = $item_list_gui->getCommandLink('view');
+            $view_link = str_replace('&amp;', '&', $view_link);
+            $view_link = ILIAS_HTTP_PATH . '/' . $view_link;
+            $url = $view_link;
+        }
 
-			print implode("\n", [
-				'<script>',
-					'var il_ls_win = window.open("' .$url .'"),',
-					' 	il_ls_win_watch = setInterval(',
-					'		function(){',
-					'			if (il_ls_win.closed) {',
-					'				clearInterval(il_ls_win_watch);',
-					'				var url = location.toString().replace("start_legacy_obj", "x_");',
-					'				location.replace(url);',
-					'			}',
-					' 		},',
-					' 		1000',
-					'	);',
-				'</script>',
-			]);
-		}
-		return $state;
-	}
+        $builder->start($label, $url, 0);
 
-	/**
-	 * @inheritDoc
-	 */
-	public function updatePost(State $state, string $command, array $post): State
-	{
-		return $state;
-	}
+        //		return $this->debugBuildAllControls($builder);
+        return $builder;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function render(
-		State $state,
-		Factory $factory,
-		URLBuilder $url_builder,
-		array $post = null
-	): Component {
+    /**
+     * @inheritDoc
+     */
+    public function updateGet(State $state, string $command, int $param = null) : State
+    {
+        return $state;
+    }
 
-		$obj_type = $this->object->getType();
-		$obj_type_txt = $this->lng->txt('obj_'. $obj_type);
-		$icon = $factory->icon()->standard($obj_type, $obj_type_txt, 'large');
-		$md = $this->getMetadata((int)$this->object->getId(), $obj_type);
-		$props = array_merge(
-			[$this->lng->txt('obj_type') => $obj_type_txt],
-			$this->getMetadata((int)$this->object->getId(), $obj_type)
-		);
+    /**
+     * @inheritDoc
+     */
+    public function updatePost(State $state, string $command, array $post) : State
+    {
+        return $state;
+    }
 
-		$info =  $factory->item()->standard($this->object->getTitle())
-			->withLeadIcon($icon)
-			->withDescription($this->object->getDescription())
-			->withProperties($props);
+    /**
+     * @inheritDoc
+     */
+    public function render(
+        State $state,
+        Factory $factory,
+        URLBuilder $url_builder,
+        array $post = null
+    ) : Component {
+        $obj_type = $this->object->getType();
+        $obj_type_txt = $this->lng->txt('obj_' . $obj_type);
+        $icon = $factory->symbol()->icon()->standard($obj_type, $obj_type_txt, 'large');
+        $md = $this->getMetadata((int) $this->object->getId(), $obj_type);
+        $props = array_merge(
+            [$this->lng->txt('obj_type') => $obj_type_txt],
+            $this->getMetadata((int) $this->object->getId(), $obj_type)
+        );
 
-		return $info;
-	}
+        $info =  $factory->item()->standard($this->object->getTitle())
+            ->withLeadIcon($icon)
+            ->withDescription($this->object->getDescription())
+            ->withProperties($props);
 
-	//TODO: enhance metadata
-	private function getMetadata(int $obj_id, string $type): array
-	{
-		$md = new ilMD($obj_id, 0, $type);
-		$meta_data = [];
+        return $info;
+    }
 
-		$section = $md->getGeneral();
-		if (!$section) {
-			return [];
-		}
+    //TODO: enhance metadata
+    private function getMetadata(int $obj_id, string $type) : array
+    {
+        $md = new ilMD($obj_id, 0, $type);
+        $meta_data = [];
 
-		$meta_data['language'] = [];
-		foreach ($section->getLanguageIds() as $id) {
-			$meta_data['language'][] = $section->getLanguage($id)->getLanguageCode();
-		}
-		$meta_data['keywords'] = [];
-		foreach ($section->getKeywordIds() as $id) {
-			$meta_data['keywords'][] = $section->getKeyword($id)->getKeyword();
-		}
+        $section = $md->getGeneral();
+        if (!$section) {
+            return [];
+        }
 
-		$md_flat = [];
-		foreach ($meta_data as $md_label => $values) {
-			if(count($values) > 0) {
-				$md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
-			}
-		}
-		return $md_flat;
-	}
+        $meta_data['language'] = [];
+        foreach ($section->getLanguageIds() as $id) {
+            $meta_data['language'][] = $section->getLanguage($id)->getLanguageCode();
+        }
+        $meta_data['keywords'] = [];
+        foreach ($section->getKeywordIds() as $id) {
+            $meta_data['keywords'][] = $section->getKeyword($id)->getKeyword();
+        }
 
-	private function debugBuildAllControls(ControlBuilder $builder): ControlBuilder
-	{
-		$builder
+        $md_flat = [];
+        foreach ($meta_data as $md_label => $values) {
+            if (count($values) > 0) {
+                $md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
+            }
+        }
+        return $md_flat;
+    }
 
-		->tableOfContent($this->getObjectTitle(), 'kommando', 666)
-			->node('node1')
-				->item('item1.1', 1)
-				->item('item1.2', 11)
-				->end()
-			->item('item2', 111)
-			->node('node3', 1111)
-				->item('item3.1', 2)
-				->node('node3.2')
-					->item('item3.2.1', 122)
-				->end()
-			->end()
-			->end()
+    private function debugBuildAllControls(ControlBuilder $builder) : ControlBuilder
+    {
+        $builder
 
-		->locator('locator_cmd')
-			->item('item 1', 1)
-			->item('item 2', 2)
-			->item('item 3', 3)
-			->end()
+        ->tableOfContent($this->getObjectTitle(), 'kommando', 666)
+            ->node('node1')
+                ->item('item1.1', 1)
+                ->item('item1.2', 11)
+                ->end()
+            ->item('item2', 111)
+            ->node('node3', 1111)
+                ->item('item3.1', 2)
+                ->node('node3.2')
+                    ->item('item3.2.1', 122)
+                ->end()
+            ->end()
+            ->end()
 
-		->done('cmd', 1)
-		->next('cmd', 1)
-		->previous('', 1)
-		//->exit('cmd', 1)
-		->generic('cmd 1', 'x', 1)
-		->generic('cmd 2', 'x', 2)
-		//->toggle('toggle', 'cmd_on', 'cmd_off')
-		->mode('modecmd', ['m1', 'm2', 'm3'])
-		;
+        ->locator('locator_cmd')
+            ->item('item 1', 1)
+            ->item('item 2', 2)
+            ->item('item 3', 3)
+            ->end()
 
-		return $builder;
-	}
+        ->done('cmd', 1)
+        ->next('cmd', 1)
+        ->previous('', 1)
+        //->exit('cmd', 1)
+        ->generic('cmd 1', 'x', 1)
+        ->generic('cmd 2', 'x', 2)
+        //->toggle('toggle', 'cmd_on', 'cmd_off')
+        ->mode('modecmd', ['m1', 'm2', 'm3'])
+        ;
 
-	private function getTitleByType(string $type): string
-	{
-		return $this->lng->txt("obj_".$type);
-	}
+        return $builder;
+    }
 
+    private function getTitleByType(string $type) : string
+    {
+        return $this->lng->txt("obj_" . $type);
+    }
 }

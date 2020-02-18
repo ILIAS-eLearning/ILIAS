@@ -11,7 +11,7 @@ class NullModification extends AbstractLayoutModification implements LayoutModif
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentTypeOrNull() : ?string
+    public function getClosureFirstArgumentType() : string
     {
         return null;
     }
@@ -33,5 +33,22 @@ class NullModification extends AbstractLayoutModification implements LayoutModif
     {
         return -1;
     }
-}
 
+
+    /**
+     * @inheritDoc
+     */
+    public function firstArgumentAllowsNull() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function returnTypeAllowsNull() : bool
+    {
+        return true;
+    }
+}

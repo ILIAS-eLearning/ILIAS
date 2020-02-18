@@ -12,20 +12,18 @@ require_once 'class.ilSystemStyleExceptionBase.php';
  */
 class ilSystemStyleColorException extends ilSystemStyleExceptionBase
 {
-	const INVALID_COLOR_EXCEPTION = 1001;
+    const INVALID_COLOR_EXCEPTION = 1001;
 
 
-	protected function assignMessageToCode()
-	{
-		switch ($this->code)
-		{
-			case self::INVALID_COLOR_EXCEPTION:
-				$this->message = "Invalid Color value";
-				break;
-			default:
-				$this->message = "Unknown Exception " . $this->add_info;
-				break;
-		}
-	}
-
+    protected function assignMessageToCode()
+    {
+        switch ($this->code) {
+            case self::INVALID_COLOR_EXCEPTION:
+                $this->message = "Invalid Color value";
+                break;
+            default:
+                $this->message = "Unknown Exception " . $this->add_info;
+                break;
+        }
+    }
 }

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
 
@@ -10,13 +10,16 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesAuthApacheSuite extends TestSuite
 {
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return ilServicesAuthApacheSuite
+     */
+    public static function suite() : self
+    {
+        $suite = new self();
 
-		require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
-		$suite->addTestSuite('ilWhiteListUrlValidatorTest');
+        require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
+        $suite->addTestSuite('ilWhiteListUrlValidatorTest');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }
