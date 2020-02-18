@@ -24,4 +24,17 @@ interface Secondary extends C\Component, HasViewControls
      * @return \ILIAS\UI\Component\Button\Shy | null
      */
     public function getFooter() : ?C\Button\Shy;
+
+    /**
+     * Sets the action drop down to be displayed on the right of the title
+     * @param C\Dropdown\Standard $actions
+     * @return \ILIAS\UI\Implementation\Component\Panel\Secondary\Secondary
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary;
+
+    /**
+     * Gets the action drop down to be displayed on the right of the title
+     * @return C\Dropdown\Standard | null
+     */
+    public function getActions() : ?C\Dropdown\Standard;
 }
