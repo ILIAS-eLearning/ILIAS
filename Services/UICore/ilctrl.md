@@ -251,3 +251,85 @@ class ilLowerGUI
 	[...]
 }
 ```
+
+### Declaring base classes
+
+Base classes must be declared in `the modules.xml` or `service.xml` files of components.
+
+```
+<baseclasses>
+    <baseclass name="ilMyBaseClassGUI" dir="classes" />
+</baseclasses>
+```
+
+### How ilCtrl works in detail
+
+If `getLinkTargetByClass($class_name, ...)` is called `ilCtrl` has to determine a new control flow path to the requested class. `ilCtrl` will search the control flow tree using the following algorithm.
+
+Sitation: We are currently in
+
+`A_GUI -> B_GUI -> C_GUI`
+
+and the command flow has already been forwarded to C_GUI. C_GUI is now calling `getLinkTargetByClass($class_name, ...)`.
+
+- **Same class**: if `$class_name` is `C_GUI`, the current path will be used for the link (resulting in `A_GUI -> B_GUI -> C_GUI`).
+- **Children**: if `$class_name` is a child of `C_GUI`, the new path will be `A_GUI -> B_GUI -> C_GUI -> $class_name`.
+- **Sibling**: if `$class_name` is a sibling of `C_GUI`, the new path will be `A_GUI -> B_GUI -> $class_name`.
+- **Ancestor**: if `$class_name` is an ancestor of `C_GUI`, e.g. `B_GUI` the new path will be `A_GUI -> B_GUI`.
+- **Base class**: if `$class_name` is another base class, the new path will be `$class_name`.
+
+So any link to the same class, a children class, an ancestor or another base class will only need one class name as an attribute.
+
+### Using arrays as target class parameter
+
+For more complex scenarios it is also possible to specify an array as a target for the next command. In this case `ilCtrl` will take the first class in the array and perform the algorithm above. Afterwards it repeats the same procedure again for every additional class, starting from the latest determined path.
+
+#### Linking to a grandchild
+
+Situation: We are currently in
+
+`A_GUI -> B_GUI -> C_GUI`
+
+We want to provide a link to a "grandchild" of `C_GUI`:
+
+`A_GUI -> B_GUI -> C_GUI -> D_GUI -> E_GUI`.
+
+We can do so within `C_GUI` by calling `getLinkTargetByClass(['D_GUI', 'E_GUI'], ...)`.
+
+In this case `ilCtrl` will start with the current path `A_GUI -> B_GUI -> C_GUI` and identify `D_GUI` as a child of `C_GUI`, so the updated path will be `A_GUI -> B_GUI -> C_GUI -> D_GUI`. Now it will identify `E_GUI` as a child of `D_GUI` which will result in the final path `A_GUI -> B_GUI -> C_GUI -> D_GUI -> E_GUI`.
+
+#### Linking into a structure of another base class
+
+Situation: We are currently in
+
+`A_GUI -> B_GUI -> C_GUI`
+
+Now we want to link into a complete different context, e.g.
+
+`F_GUI -> G_GUI -> H_GUI`
+
+We can do so within `C_GUI` by calling `getLinkTargetByClass(['F_GUI', 'G_GUI', 'H_GUI'], ...)`.
+
+In this case `ilCtrl` will first look for `F_GUI`. `F_GUI` is neither a child, sibling or ancestor of `C_GUI`. But `F_GUI` is a base class, so the updated path will be `F_GUI`. Next `G_GUI` will be identified as a child of `F_GUI` making `F_GUI -> G_GUI` the updated path. In the last step `H_GUI` will be identified as a child of `G_GUI` which will result in the final path `F_GUI -> G_GUI -> H_GUI`.
+
+### How to quickly identify the current control flow path
+
+If you are a developer, you may want to know the control flow path of a certain screen. The procedure to get this information depends on your ILIAS version. Up to ILIAS 5.4.x you need to activate the **development mode** in your `client.ini.php`.
+
+```
+[system]
+...
+DEVMODE = "1"
+```
+
+Now you will see the ilCtrl path information in the footer of ILIAS.
+
+From 6.x on this feature has been removed from the core. There is a plugin available at https://github.com/leifos-gmbh/LfDevTool that presents the same information in a metabar slate.
+
+### Integrate UI elements using $ilCtrl->getHTML()
+
+All cases discussed so far assume that a target GUI class performs the current command and is responsible for the output of the screen.
+
+There are cases where a GUI class wants to merge a number of HTML snippets from sub GUI classes, without these classes performing a command (in the current request). E.g. the ILIAS 6 dashboard needs to collect parts from other GUI classes in its main "show" command.
+
+Similar to `$ilCtrl->forwardCommand($childGUI) > $childGUI->executeCommand()` a child class may be called by `$ilCtrl->getHTML($childGUI); -> $childGUI->getHTML();`. In the second case the child GUI class does not perform the current command, it just returns a HTML snippet to the parent. However since `ilCtrl` is aware of the child performing its `getHTML` method, the child may use `ilCtrl` within this method in the usual way. `ilCtrl` will update the current control flow path adding the child GUI class when the method is called and reset the path to the parents GUI class, once the child `getHTML()` method is finished.
