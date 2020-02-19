@@ -115,6 +115,9 @@ class ilObjCloudGUI extends ilObject2GUI
             case "render":
                 $this->addHeaderAction();
                 break;
+            case 'infoScreen':
+                $this->ctrl->redirectByClass(ilInfoScreenGUI::class);
+                break;
         }
 
         switch ($next_class) {
