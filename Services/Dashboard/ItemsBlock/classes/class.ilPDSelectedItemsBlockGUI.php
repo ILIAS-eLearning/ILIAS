@@ -322,7 +322,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'sorting', null);
         }
 
-        if (count($sortingCommands) > 0) {
+        if (count($sortingCommands) > 1) {
             $commandGroups[] = $sortingCommands;
         }
 
@@ -345,7 +345,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'presentation', null);
         }
 
-        if (count($presentationCommands) > 0) {
+        if (count($presentationCommands) > 1) {
             $commandGroups[] = $presentationCommands;
         }
 
