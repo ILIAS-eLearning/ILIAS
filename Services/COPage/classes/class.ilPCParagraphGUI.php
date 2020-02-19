@@ -730,11 +730,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
         if ($this->pg_obj->getParentType() == "gdf" ||
             $this->pg_obj->getParentType() == "lm") {
             if ($this->pg_obj->getParentType() != "gdf") {
-                $this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(
+                $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(
                     ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())
                 ));
             } else {
-                $this->tpl->setContentStylesheet(ilObjStyleSheet::getContentStylePath(0));
+                $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
             }
         } else {
             if ($this->pg_obj->getParentType() != "sahs") {
