@@ -322,7 +322,7 @@ If you are a developer, you may want to know the control flow path of a certain 
 DEVMODE = "1"
 ```
 
-Now you will see the ilCtrl path information in the footer of ILIAS.
+Now you will see the ilCtrl path information in the footer of ILIAS. All lines including "execComm" will mention the GUI classes being involved in the current command.
 
 From 6.x on this feature has been removed from the core. There is a plugin available at https://github.com/leifos-gmbh/LfDevTool that presents the same information in a metabar slate.
 
