@@ -110,7 +110,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Imagemagick: 6.8.9-9+
   * PhantomJS: 2.0.0+
   * NodeJS: 8.9.4 (TLS) - 10.15.3 (LTS)
-  * Java: Version 7 and 8 are suported
+  * Java: Version 7 and 8 are supported
 
 <a name="client"></a>
 ### Client
