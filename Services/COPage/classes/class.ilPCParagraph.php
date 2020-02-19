@@ -1633,15 +1633,18 @@ class ilPCParagraph extends ilPageContent
             $found_terms = array();
             foreach ($a_glos as $glo) {
                 if (ilObject::_lookupType($glo) == "glo") {
-                    $terms = ilGlossaryTerm::getTermList($glo);
-                    foreach ($terms as $t) {
-                        if (is_int(stripos($text, $t["term"]))) {
-                            $found_terms[$t["id"]] = $t;
+                    $ref_ids = ilObject::_getAllReferences($glo);
+                    $glo_ref_id = current($ref_ids);
+                    if ($glo_ref_id > 0) {
+                        $terms = ilGlossaryTerm::getTermList($glo_ref_id);
+                        foreach ($terms as $t) {
+                            if (is_int(stripos($text, $t["term"]))) {
+                                $found_terms[$t["id"]] = $t;
+                            }
                         }
                     }
                 }
             }
-
             // did we find anything? -> modify content
             if (count($found_terms) > 0) {
                 self::linkTermsInDom($this->dom, $found_terms, $this->par_node);
