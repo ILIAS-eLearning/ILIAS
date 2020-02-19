@@ -456,11 +456,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         $current_node = $_REQUEST["item_ref_id"];
         $handler = $this->getAccessHandler();
-        
         // see ilSharedRessourceGUI::hasAccess()
         if ($handler->checkAccess("read", "", $current_node)) {
             // remember source node
-            $_SESSION['clipboard']['source_id'] = $current_node;
+            $_SESSION['clipboard']['source_ids'] = [$current_node];
             $_SESSION['clipboard']['cmd'] = 'copy';
             $_SESSION['clipboard']['shared'] = true;
 
@@ -703,9 +702,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $this->ctrl->redirect($this);
         }
 
-
         foreach ($source_node_ids as $source_node_id) {
-            $node_data = $this->tree->getNodeData($source_node_id);
+            $source_tree = $this->tree;
+            if ($ilUser->getId() != $owner && $mode == "copy") {
+                $source_tree = new ilWorkspaceTree($owner);
+            }
+            $node_data = $source_tree->getNodeData($source_node_id);
             $source_object = ilObjectFactory::getInstanceByObjId($node_data["obj_id"]);
 
             // move the node
