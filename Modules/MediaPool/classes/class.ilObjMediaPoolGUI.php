@@ -813,42 +813,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     public function showPage()
     {
         $tpl = $this->tpl;
-        
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
-        include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
+        //$tpl = new \ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->parseCurrentBlock();
+        $tpl->addCss(ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
         // get page object
-        //include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-        //$ot = ilObjectTranslation::getInstance($this->object->getId());
-        //$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
         $page_gui = new ilMediaPoolPageGUI((int) $_GET["mepitem_id"]);
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        //$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-        //	$this->object->getStyleSheetId(), $this->object->getType()));
+        $page_gui->setTemplate($tpl);
 
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader("");
         $ret = $page_gui->showPage(true);
 
-        $tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("CONTENT", $ret);
-        //$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
+        //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
+        $tpl->setVariable("MEDIA_CONTENT", $ret);
 
 
         $tpl->printToStdout();
