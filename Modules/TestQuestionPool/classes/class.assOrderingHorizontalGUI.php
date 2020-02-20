@@ -135,6 +135,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
         //$solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
+            $elements = [];
             $solutions =&$this->object->getSolutionValues($active_id, $pass);
             if (strlen($solutions[0]["value1"])) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
@@ -290,11 +291,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
-            if (count($solutions) == 1) {
+            if (is_array($solutions) && count($solutions) == 1) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
         }
-        if (count($solutions) == 0) {
+        if (!is_array($solutions) || count($solutions) == 0) {
             $_SESSION['qst_ordering_horizontal_elements'] = $elements;
         } else {
             unset($_SESSION['qst_ordering_horizontal_elements']);
