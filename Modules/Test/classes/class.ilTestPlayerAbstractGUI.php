@@ -1468,7 +1468,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         );
         $this->tpl->setVariable("USER_REMAINING_TIME", sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left));
         $this->tpl->parseCurrentBlock();
-        $template = new ilTemplate("tpl.workingtime.js.html", true, true, 'Modules/Test');
+
+        $template = new ilTemplate("tpl.workingtime.js", true, true, 'Modules/Test');
         $template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
         $template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
         $template->setVariable("STRING_SECOND", $this->lng->txt("second"));
@@ -1499,10 +1500,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        
-        $this->tpl->setCurrentBlock("HeadContent");
-        $this->tpl->setVariable("CONTENT_BLOCK", $template->get());
-        $this->tpl->parseCurrentBlock();
+
+        $this->tpl->addOnLoadCode($template->get());
     }
 
     protected function showSideList($presentationMode, $currentSequenceElement)
