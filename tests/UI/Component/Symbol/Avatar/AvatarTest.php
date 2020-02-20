@@ -114,9 +114,8 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($calculated_color_variant, $f->letter($abb)->getBackgroundColorVariant());
 
         // test with random abbreviations (dynamically generated)
-        $get_example_abbreviations = $this->getRandom26StringsForAllColorVariants();
 
-        foreach ($get_example_abbreviations() as $color => $variant) {
+        foreach ($this->getRandom26StringsForAllColorVariants() as $color => $variant) {
             $this->assertEquals($color, $f->letter($variant)->getBackgroundColorVariant());
         }
     }
@@ -149,28 +148,27 @@ class AvatarTest extends ILIAS_UI_TestBase
      * @param int $length
      * @return Generator|Closure
      */
-    public static function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 10) : Closure
+    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 10) : Generator
     {
-        return static function () use ($color_variants, $length) {
-            $sh = static function ($length = 10) {
-                return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);
-            };
-
-            $strings = [];
-            $running = true;
-            while ($running) {
-                $str   = $sh($length);
-                $probe = crc32($str);
-                $i     = ($probe % $color_variants) + 1;
-                if (!in_array($i, $strings, true)) {
-                    $strings[$i] = $str;
-                    yield $i => $str;
-                }
-                if (count($strings) === $color_variants) {
-                    $running = false;
-                }
-            }
+        $sh = static function ($length = 10) {
+            return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);
         };
+
+        $strings = [];
+        $running = true;
+        while ($running) {
+            $str   = $sh($length);
+            $probe = crc32($str);
+            $i     = ($probe % $color_variants) + 1;
+            if (!in_array($i, $strings, true)) {
+                $strings[$i] = $str;
+                yield $i => $str;
+            }
+            if (count($strings) === $color_variants) {
+                $running = false;
+            }
+        }
+
     }
 
 }
