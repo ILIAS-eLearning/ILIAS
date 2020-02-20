@@ -193,8 +193,16 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 }
                 $assClozeGapCombinationObject = new assClozeGapCombination();
                 $assClozeGapCombinationObject->clearGapCombinationsFromDb($this->object->getId());
-                if (is_array($_POST['gap_combination']) && count($_POST['gap_combination']) > 0) {
-                    $assClozeGapCombinationObject->saveGapCombinationToDb($this->object->getId(), ilUtil::stripSlashesRecursive($_POST['gap_combination']), ilUtil::stripSlashesRecursive($_POST['gap_combination_values']));
+                if (
+                    isset($_POST['gap_combination']) &&
+                    is_array($_POST['gap_combination']) &&
+                    count($_POST['gap_combination']) > 0
+                ) {
+                    $assClozeGapCombinationObject->saveGapCombinationToDb(
+                        $this->object->getId(),
+                        ilUtil::stripSlashesRecursive($_POST['gap_combination']),
+                        ilUtil::stripSlashesRecursive($_POST['gap_combination_values'])
+                    );
                 }
             }
             if ($this->ctrl->getCmd() != 'createGaps') {
