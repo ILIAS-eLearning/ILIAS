@@ -603,10 +603,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
         }
-        
-        $result_has_undefined_vars = array();
-        $question_has_unused_vars = array();
-        
+
+        $result_has_undefined_vars = [];
+        $question_has_unused_vars = [];
+        $result_has_undefined_res = [];
+
         if (is_array($quest_vars) && count($quest_vars) > 0) {
             $result_has_undefined_vars = array_diff($defined_result_vars, $quest_vars);
             $question_has_unused_vars = array_diff($quest_vars, $defined_result_vars);
