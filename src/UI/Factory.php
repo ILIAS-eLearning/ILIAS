@@ -225,7 +225,6 @@ interface Factory
      *      popovers: >
      *          Dropdowns only provide a list of possible actions. Popovers can include more diverse
      *          and flexible content.
-     *
      * rules:
      *   usage:
      *      1: >
@@ -277,6 +276,9 @@ interface Factory
      *      7: >
      *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
      *           element. This differs from the behaviour in Popovers and Modals.
+     *      8: >
+     *           Dropdowns MUST set the aria-label describing the contained options, if the
+     *           term "Actions" does not describe the contained options well.
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
