@@ -15069,3 +15069,4 @@ exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all part
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 common#:#msg_unknown_value#:#An unknown value has been passed.
+exc#:#exc_deleted_user#:#Deleted User

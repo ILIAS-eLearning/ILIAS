@@ -15069,3 +15069,4 @@ exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team
 style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.
 ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
+exc#:#exc_deleted_user#:#Gelöschter Benutzer
