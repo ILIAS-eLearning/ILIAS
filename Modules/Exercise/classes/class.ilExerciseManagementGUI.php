@@ -599,7 +599,6 @@ class ilExerciseManagementGUI
         $modal = $this->getEvaluationModal($a_data);
 
         $this->ctrl->setParameter($this, "member_id", $a_data['uid']);
-
         $actions = array(
             $this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal())
         );
@@ -667,8 +666,12 @@ class ilExerciseManagementGUI
         if (array_key_exists("peer", $a_data) && ($this->filter["feedback"] == self::FEEDBACK_FULL_SUBMISSION) || $this->filter["feedback"] == "") {
             $feedback_tpl->setCurrentBlock("feedback");
             foreach ($a_data["peer"] as $peer_id) {
-                $user = new ilObjUser($peer_id);
-                $peer_name =  $user->getFirstname() . " " . $user->getLastname();
+                if (ilObject::_lookupType($peer_id) == "usr") {
+                    $user = new ilObjUser($peer_id);
+                    $peer_name = $user->getFirstname() . " " . $user->getLastname();
+                } else {
+                    $peer_name = $this->lng->txt("exc_deleted_user");
+                }
 
                 $feedback_tpl->setCurrentBlock("peer_feedback");
                 $feedback_tpl->setVariable("PEER_NAME", $peer_name);
