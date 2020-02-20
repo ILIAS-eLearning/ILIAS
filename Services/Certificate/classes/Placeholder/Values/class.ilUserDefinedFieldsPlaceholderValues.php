@@ -22,12 +22,19 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
     private $userDefinedFieldsObject;
 
     /**
+     * @var ilCertificateUtilHelper
+     */
+    private $ilUtilHelper;
+
+    /**
      * @param ilCertificateObjectHelper|null $objectHelper
      * @param ilUserDefinedFields|null $userDefinedFieldsObject
+     * @param ilCertificateUtilHelper|null $ilUtilHelper
      */
     public function __construct(
         ilCertificateObjectHelper $objectHelper = null,
-        ilUserDefinedFields $userDefinedFieldsObject = null
+        ilUserDefinedFields $userDefinedFieldsObject = null,
+        ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         $this->placeholder = array();
 
@@ -40,6 +47,11 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
         }
         $this->userDefinedFieldsObject = $userDefinedFieldsObject;
+
+        if (null === $ilUtilHelper) {
+            $ilUtilHelper = new ilCertificateUtilHelper();
+        }
+        $this->ilUtilHelper = $ilUtilHelper;
     }
 
     /**
@@ -75,7 +87,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
 
                 $userDefinedFieldValue = '';
                 if (isset($userDefinedData['f_' . $field['field_id']])) {
-                    $userDefinedFieldValue = $userDefinedData['f_' . $field['field_id']];
+                    $userDefinedFieldValue = $this->ilUtilHelper->prepareFormOutput($userDefinedData['f_' . $field['field_id']]);
                 }
 
                 $placeholder[$placeholderText] = $userDefinedFieldValue;
@@ -105,7 +117,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             if ($field['certificate']) {
                 $placeholderText = '#' . str_replace(' ', '_', strtoupper($field['field_name']));
 
-                $placeholder[$placeholderText] = '';
+                $placeholder[$placeholderText] = $field['field_name'];
             }
         }
 

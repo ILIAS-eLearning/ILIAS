@@ -1,4 +1,4 @@
-//out: delos.css, sourcemap: true, compress: true
+//out: delos.css, sourcemap: true, compress: false
 
 @import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
@@ -18,6 +18,7 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
+
 
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
@@ -123,6 +124,9 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // general multi line cap
 @import "less/multi-line-cap.less";
+
+// tab focus ilias mixin
+@import "less/tab-focus-mixin.less";
 
 /* flex grid support start, see http://www.bootply.com/126437 */
 
@@ -362,6 +366,7 @@ span.ilAlert {
 
 html, body {
 	height:100%;
+	overflow: hidden;
 }
 html {
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -777,8 +782,7 @@ div.ilCommandRow.one_side_col {
 }
 
 div.ilAdminRow {
-	margin: 10px 1% 20px;
-	width: 98%;
+	margin: 10px 15px 20px 15px;
 }
 
 table.std {
@@ -1087,7 +1091,6 @@ h3.ilHeader {
 	display: inline;
 	font-size: @font-size-h3;
 	color: lighten(@mid-gray,30%);
-	text-transform: uppercase;
 }
 
 #headerimage {
@@ -1442,7 +1445,6 @@ div#agreement {
 	overflow-x: hidden;
 }
 
-
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div#bot_center_area {
 	bottom:	0;
@@ -1491,16 +1493,17 @@ div#bot_center_area_drag:hover {
 	@media (max-width: @screen-lg-min) {margin-left: 0 !important;}
 }
 
+
 [dir="rtl"] .ilLeftNavSpace {
 	margin-left: 0 !important;
 	margin-right: 315px !important;
 	@media (max-width: @screen-lg-min) {margin-right: 0 !important;}
 }
 
-
+/* see #27399 (should be finally tackled in PLR2) */
 div.ilContentFixed {
+	padding-bottom: 20px;
 }
-
 
 /* right panel (e.g. notes, comments) */
 div.ilRightPanel {
@@ -1571,18 +1574,15 @@ div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
 }
 
 .ilFrameFixedWidth #mainscrolldiv {
-	max-width: 1370px;
 	margin: 0 auto;
 }
 
 div.ilFrameFixedWidthHeader {
-	max-width: 1370px;
 	margin: 0 auto;
 	padding: 0;
 }
 
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
-	max-width: 1370px;
 	overflow: hidden;
 	padding: 0 15px;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -1657,7 +1657,7 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 }
 
 div.ilSideBarHead{
-	background-color: #f0f0f0;
+	margin-top: 10px;
 	margin-bottom: 5px;
 	padding: 5px;
 }
@@ -1666,6 +1666,7 @@ div.ilSideBarHead h3{
 	font-size: 110%;
 	color: #606060;
 	display: inline;
+	padding: 0;
 }
 
 div.ilSideBarContent{
@@ -1818,7 +1819,6 @@ span.ilIcalIcon {
 @import "less/Modules/Chatroom/delos.less";
 @import "less/Services/Container/delos.less";
 @import "less/Modules/LearningModule/delos.less";
-@import "less/Services/PersonalDesktop/delos.less";
 @import "less/Services/UIComponent/AdvancedSelectionList/delos.less";
 @import "less/Services/Object/delos.less";
 @import "less/Services/Navigation/delos.less";
@@ -1832,7 +1832,6 @@ span.ilIcalIcon {
 @import "less/Services/UIComponent/Toolbar/delos.less";
 @import "less/Services/UIComponent/Tooltip/delos.less";
 @import "less/Services/Rating/delos.less";
-@import "less/Services/UIComponent/Panel/delos.less";
 @import "less/Modules/Excercise/delos.less";
 @import "less/Services/UIComponent/ProgressBar/delos.less";
 @import "less/Services/News/delos.less";
@@ -1850,8 +1849,8 @@ span.ilIcalIcon {
 @import "less/Services/UIComponent/Modal/delos.less";
 @import "less/Services/Badge/delos.less";
 @import "less/Services/Calendar/bootstrap-datetimepicker.less";
-@import "less/Services/BackgroundTasks/delos.less";
 @import "less/Modules/OrgUnit/delos.less";
+@import "less/Modules/LTIConsumer/delos.less";
 @import "less/Services/Like/delos.less";
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";
@@ -1888,7 +1887,7 @@ img[src$="icon_checked.svg"] {
 div.ilNewObjectSelector {
 	display: inline-block;
     margin-bottom: 8px;
-    padding: 0 10px;
+    padding: 0;
     width: 100%;
     > .btn-group {
         display: block;
@@ -2003,6 +2002,11 @@ table.mceToolbar {
         width: 100% !important;
         margin: 0;
     }
+}
+
+//Horizontal Scroll Bar for Code, see: #27132
+.code-container{
+	display: grid;
 }
 
 div.ilGoogleMap {

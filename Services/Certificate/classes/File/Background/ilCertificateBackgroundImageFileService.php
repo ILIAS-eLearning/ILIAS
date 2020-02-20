@@ -53,7 +53,7 @@ class ilCertificateBackgroundImageFileService
             return false;
         }
 
-        if ($this->fileSystem->has($backgroundImagePath)){
+        if ($this->fileSystem->has($backgroundImagePath)) {
             return true;
         }
 
@@ -71,7 +71,7 @@ class ilCertificateBackgroundImageFileService
             return false;
         }
 
-        if ($this->fileSystem->has($backgroundImagePath)){
+        if ($this->fileSystem->has($backgroundImagePath)) {
             return true;
         }
 

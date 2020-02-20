@@ -99,7 +99,8 @@ class ilForumExportGUI
                 'HEADLINE',
                 $this->lng->txt('forum') . ': ' . $frmData['top_name'] . ' > ' .
                 $this->lng->txt('forums_thread') . ': ' . $topic->getSubject() . ' > ' .
-                $this->lng->txt('forums_count_art') . ': ' . $num_posts);
+                $this->lng->txt('forums_count_art') . ': ' . $num_posts
+            );
 
             $z = 0;
             foreach ($post_collection as $post) {
@@ -142,8 +143,10 @@ class ilForumExportGUI
         $tpl->setCurrentBlock('posts_row');
 
         if (ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1) {
-            if ($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'],
-                    $post->getPosAuthorId())) {
+            if ($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator(
+                $_GET['ref_id'],
+                $post->getPosAuthorId()
+            )) {
                 $rowCol = 'ilModeratorPosting';
             } else {
                 if ($post->getIsAuthorModerator()) {
@@ -188,8 +191,10 @@ class ilForumExportGUI
         if (self::MODE_EXPORT_CLIENT == $mode) {
             if ($authorinfo->getAuthor()->getPref('public_profile') != 'n') {
                 $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('registered_since'));
-                $tpl->setVariable('REGISTERED_SINCE',
-                    $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
+                $tpl->setVariable(
+                    'REGISTERED_SINCE',
+                    $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate())
+                );
             }
 
             if ($post->getDisplayUserId()) {
@@ -204,8 +209,10 @@ class ilForumExportGUI
         }
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-        if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int) $_GET['ref_id'],
-                $post->getPosAuthorId())) {
+        if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
+            (int) $_GET['ref_id'],
+            $post->getPosAuthorId()
+        )) {
             if ($authorinfo->getAuthor()->getGender() == 'f') {
                 $tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
             } else {
@@ -235,8 +242,10 @@ class ilForumExportGUI
                 ''
             );
 
-            $tpl->setVariable('POST_UPDATE_TXT',
-                $this->lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($this->lng->txt('by')));
+            $tpl->setVariable(
+                'POST_UPDATE_TXT',
+                $this->lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($this->lng->txt('by'))
+            );
             $tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized()) {
                 $tpl->setVariable('UPDATE_USR_NAME', $authorinfo->getAuthorName(true));
@@ -261,9 +270,13 @@ class ilForumExportGUI
             }
 
             if ($spanClass != "") {
-                $tpl->setVariable('POST',
-                    "<span class=\"" . $spanClass . "\">" . ilRTE::_replaceMediaObjectImageSrc($post->getMessage(),
-                        1) . "</span>");
+                $tpl->setVariable(
+                    'POST',
+                    "<span class=\"" . $spanClass . "\">" . ilRTE::_replaceMediaObjectImageSrc(
+                        $post->getMessage(),
+                        1
+                    ) . "</span>"
+                );
             } else {
                 $tpl->setVariable('POST', ilRTE::_replaceMediaObjectImageSrc($post->getMessage(), 1));
             }
@@ -297,8 +310,10 @@ class ilForumExportGUI
             $this->ensureThreadBelongsToForum((int) $this->frm->getForumId(), $post->getThread());
 
             $tpl->setVariable('TITLE', $post->getThread()->getSubject());
-            $tpl->setVariable('HEADLINE',
-                $this->lng->txt('forum') . ': ' . $frmData['top_name'] . ' > ' . $this->lng->txt('forums_thread') . ': ' . $post->getThread()->getSubject());
+            $tpl->setVariable(
+                'HEADLINE',
+                $this->lng->txt('forum') . ': ' . $frmData['top_name'] . ' > ' . $this->lng->txt('forums_thread') . ': ' . $post->getThread()->getSubject()
+            );
 
             $this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
         }
@@ -381,7 +396,9 @@ class ilForumExportGUI
             $tpl->parseCurrentBlock();
         }
 
-        ilUtil::deliverData($tpl->get('DEFAULT', false, false, false, true, false, false),
-            'forum_html_export_' . $_GET['ref_id'] . '.html');
+        ilUtil::deliverData(
+            $tpl->get('DEFAULT', false, false, false, true, false, false),
+            'forum_html_export_' . $_GET['ref_id'] . '.html'
+        );
     }
 }

@@ -43,37 +43,75 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $form = new ilTermsOfServiceDocumentFormGUI(
-            $document, $purifier, $user, $fs, $fu,
-            'action', 'save', 'cancel',
+            $document,
+            $purifier,
+            $user,
+            $fs,
+            $fu,
+            'action',
+            'save',
+            'cancel',
             true
         );
 
-        $this->assertTrue($form->getItemByPostVar('document')->getRequired(),
-            'Failed asserting document upload is required for new documents');
+        $this->assertTrue(
+            $form->getItemByPostVar('document')->getRequired(),
+            'Failed asserting document upload is required for new documents'
+        );
 
-        $this->assertCount(2, $form->getCommandButtons(),
-            'Failed asserting save and cancel buttons are given if form is editable');
-        $this->assertArrayHasKey(0, $form->getCommandButtons(),
-            'Failed asserting save and cancel buttons are given if form is editable');
-        $this->assertArrayHasKey(1, $form->getCommandButtons(),
-            'Failed asserting save and cancel buttons are given if form is editable');
-        $this->assertEquals('save', $form->getCommandButtons()[0]['cmd'],
-            'Failed asserting save and cancel buttons are given if form is editable');
-        $this->assertEquals('cancel', $form->getCommandButtons()[1]['cmd'],
-            'Failed asserting save and cancel buttons are given if form is editable');
+        $this->assertCount(
+            2,
+            $form->getCommandButtons(),
+            'Failed asserting save and cancel buttons are given if form is editable'
+        );
+        $this->assertArrayHasKey(
+            0,
+            $form->getCommandButtons(),
+            'Failed asserting save and cancel buttons are given if form is editable'
+        );
+        $this->assertArrayHasKey(
+            1,
+            $form->getCommandButtons(),
+            'Failed asserting save and cancel buttons are given if form is editable'
+        );
+        $this->assertEquals(
+            'save',
+            $form->getCommandButtons()[0]['cmd'],
+            'Failed asserting save and cancel buttons are given if form is editable'
+        );
+        $this->assertEquals(
+            'cancel',
+            $form->getCommandButtons()[1]['cmd'],
+            'Failed asserting save and cancel buttons are given if form is editable'
+        );
 
         $form = new ilTermsOfServiceDocumentFormGUI(
-            $document, $purifier, $user, $fs, $fu,
-            'action', 'save', 'cancel',
+            $document,
+            $purifier,
+            $user,
+            $fs,
+            $fu,
+            'action',
+            'save',
+            'cancel',
             false
         );
 
-        $this->assertCount(1, $form->getCommandButtons(),
-            'Failed asserting only cancel button is given if form is not editable');
-        $this->assertArrayHasKey(0, $form->getCommandButtons(),
-            'Failed asserting only cancel button is given if form is not editable');
-        $this->assertEquals('cancel', $form->getCommandButtons()[0]['cmd'],
-            'Failed asserting only cancel button is given if form is not editable');
+        $this->assertCount(
+            1,
+            $form->getCommandButtons(),
+            'Failed asserting only cancel button is given if form is not editable'
+        );
+        $this->assertArrayHasKey(
+            0,
+            $form->getCommandButtons(),
+            'Failed asserting only cancel button is given if form is not editable'
+        );
+        $this->assertEquals(
+            'cancel',
+            $form->getCommandButtons()[0]['cmd'],
+            'Failed asserting only cancel button is given if form is not editable'
+        );
     }
 
     /**
@@ -96,7 +134,9 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $uploadResult = new UploadResult(
-            'phpunit', 1024, 'text/xml',
+            'phpunit',
+            1024,
+            'text/xml',
             $this->getMockBuilder(ImmutableStringMap::class)->getMock(),
             new ProcessingStatus(ProcessingStatus::OK, 'uploaded'),
             '/tmp'
@@ -197,7 +237,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->once())
             ->method('readSet')
             ->willReturnCallback(function () use ($expectedSortingValueExistingDocuments) {
-
                 return [
                     [
                         'id'      => 666,
@@ -248,7 +287,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertFalse($form->hasTranslatedError());
         $this->assertEmpty($form->getTranslatedError());
         $this->assertEquals(
-            $expectedSortingValueExistingDocuments, $document->getSorting(),
+            $expectedSortingValueExistingDocuments,
+            $document->getSorting(),
             'Failed asserting that the sorting of the new document equals the maximum incremented by one when other documents exist'
         );
 
@@ -258,7 +298,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->once())
             ->method('readSet')
             ->willReturnCallback(function () {
-
                 return [];
             });
 
@@ -290,7 +329,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertFalse($form->hasTranslatedError());
         $this->assertEmpty($form->getTranslatedError());
         $this->assertEquals(
-            1, $document->getSorting(),
+            1,
+            $document->getSorting(),
             'Failed asserting that the sorting of the new document equals 1 when no other document exists'
         );
     }
@@ -330,8 +370,14 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $form = new ilTermsOfServiceDocumentFormGUI(
-            $document, $purifier, $user, $fs, $fu,
-            'action', 'save', 'cancel',
+            $document,
+            $purifier,
+            $user,
+            $fs,
+            $fu,
+            'action',
+            'save',
+            'cancel',
             true
         );
 
@@ -499,14 +545,18 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->method('process');
 
         $uploadResult = new UploadResult(
-            'phpunit', 1024, 'text/xml',
+            'phpunit',
+            1024,
+            'text/xml',
             $this->getMockBuilder(ImmutableStringMap::class)->getMock(),
             new ProcessingStatus(ProcessingStatus::OK, 'uploaded'),
             '/tmp'
         );
 
         $uploadFailingResult = new UploadResult(
-            'phpunit', 1024, 'text/xml',
+            'phpunit',
+            1024,
+            'text/xml',
             $this->getMockBuilder(ImmutableStringMap::class)->getMock(),
             new ProcessingStatus(ProcessingStatus::REJECTED, 'not uploaded'),
             '/tmp'
@@ -516,7 +566,9 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(3))
             ->method('getResults')
             ->willReturnOnConsecutiveCalls(
-                [false], [0 => $uploadFailingResult], [0 => $uploadResult]
+                [false],
+                [0 => $uploadFailingResult],
+                [0 => $uploadResult]
             );
 
         $fs = $this

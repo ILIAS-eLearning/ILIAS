@@ -31,7 +31,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return is_string($value);
     }

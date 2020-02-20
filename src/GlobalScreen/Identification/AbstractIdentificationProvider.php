@@ -46,7 +46,8 @@ abstract class AbstractIdentificationProvider implements IdentificationProviderI
         $this->map = $map;
         $this->provider = $provider;
         $this->class_name = get_class($provider);
-        $this->serializer = $serializer;;
+        $this->serializer = $serializer;
+        ;
     }
 
 

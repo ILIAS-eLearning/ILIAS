@@ -10,5 +10,4 @@
 
 class ilBiblAdminRisFieldGUI extends ilBiblAdminFieldGUI
 {
-
 }

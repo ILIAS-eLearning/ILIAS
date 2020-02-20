@@ -7,7 +7,6 @@
  */
 interface ilBiblFieldInterface
 {
-
     const DATA_TYPE_RIS = 1;
     const DATA_TYPE_BIBTEX = 2;
 

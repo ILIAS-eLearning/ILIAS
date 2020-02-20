@@ -32,12 +32,15 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * Append a tool-entry.
      * Define a tools-trigger via "withToolsButton" first.
      *
-     * @param string $id
-     * @param Slate $entry
      * @throws InvalidArgumentException 	if $id is already taken
      * @throws LogicException 	if no tool-button was set
      */
-    public function withAdditionalToolEntry(string $id, Slate\Slate $entry) : MainBar;
+    public function withAdditionalToolEntry(
+        string $id,
+        Slate\Slate $entry,
+        bool $initially_hidden = false,
+        Button\Close $close_button = null
+    ) : MainBar;
 
     /**
      * @return array <string, Slate>
@@ -93,4 +96,31 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * This signal disengages all slates when triggered.
      */
     public function getDisengageAllSignal() : Signal;
+
+    /**
+     * There are tools that are rendered invisible before first activation.
+     * @return string[]
+     */
+    public function getInitiallyHiddenToolIds() : array;
+
+    /**
+     * Signal to engage a tool from outside the mainbar.
+     */
+    public function getEngageToolSignal(string $tool_id) : Signal;
+
+    /**
+     * Buttons to close tools; maybe configure with callback.
+     * @return array <string, Button\Close>
+     */
+    public function getCloseButtons() : array;
+
+    /**
+     * Get a copy of this Mainbar without any entries.
+     */
+    public function withClearedEntries() : MainBar;
+
+    /**
+     * Signal to toggle the tools-section.
+     */
+    public function getToggleToolsSignal() : Signal;
 }

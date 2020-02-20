@@ -3,19 +3,29 @@
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\MainMenu\Storage\Services;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 
 /**
  * Class ilMMItemInformation
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemInformation implements ItemInformation
 {
-
+    private const ICON_ID = 'icon_id';
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    private $ui_factory;
+    /**
+     * @var Services
+     */
+    private $storage;
     /**
      * @var array
      */
@@ -25,23 +35,20 @@ class ilMMItemInformation implements ItemInformation
      */
     private $items = [];
 
-
     /**
      * ilMMItemInformation constructor.
-     *
-     * @param StorageFacade $storage
      */
     public function __construct()
     {
-        $this->items = ilMMItemStorage::getArray('identification');
+        $this->items        = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
+        $this->storage      = new Services();
     }
-
 
     /**
      * @inheritDoc
      */
-    public function translateItemForUser(hasTitle $item) : hasTitle
+    public function customTranslationForUser(hasTitle $item) : hasTitle
     {
         /**
          * @var $item isItem
@@ -66,26 +73,13 @@ class ilMMItemInformation implements ItemInformation
         return $item;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getPositionOfSubItem(isChild $child) : int
+    public function customPosition(isItem $item) : isItem
     {
-        $position = $this->getPosition($child);
-
-        return $position;
+        return $item->withPosition($this->getPosition($item));
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getPositionOfTopItem(isTopItem $top_item) : int
-    {
-        return $this->getPosition($top_item);
-    }
-
 
     private function getPosition(isItem $item) : int
     {
@@ -96,7 +90,6 @@ class ilMMItemInformation implements ItemInformation
         return $item->getPosition();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -104,12 +97,10 @@ class ilMMItemInformation implements ItemInformation
     {
         $serialize = $item->getProviderIdentification()->serialize();
         if (isset($this->items[$serialize]['active'])) {
-            return $this->items[$serialize]['active'] === "1";
+            return $this->items[$serialize]['active'] === '1';
         }
-
-        return $item->isActive();
+        return $item->isAlwaysAvailable() || ($item->isAvailable() && $item->isVisible());
     }
-
 
     /**
      * @inheritDoc
@@ -123,5 +114,37 @@ class ilMMItemInformation implements ItemInformation
         }
 
         return $item->getParent();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function customSymbol(hasSymbol $item) : hasSymbol
+    {
+        $id = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
+            global $DIC;
+
+            $ri = $this->storage->find($this->items[$id][self::ICON_ID]);
+            if (!$ri) {
+                return $item;
+            }
+            $stream     = $this->storage->stream($ri)->getStream();
+            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
+            if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
+                $aria_label = $old_symbol->getAriaLabel();
+            } elseif ($item instanceof hasTitle) {
+                $aria_label = $item->getTitle();
+            } else {
+                $aria_label = 'Custom icon';
+            }
+
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, $aria_label);
+
+            return $item->withSymbol($symbol);
+        }
+
+        return $item;
     }
 }

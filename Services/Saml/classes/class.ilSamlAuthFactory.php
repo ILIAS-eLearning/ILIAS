@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,33 +6,33 @@
  */
 class ilSamlAuthFactory
 {
-	const METADATA_PATH = 'auth/saml/config';
+    const METADATA_PATH = 'auth/saml/config';
 
-	/**
-	 * @param string $authSourceName
-	 * @return ilSamlAuth
-	 * @throws Exception
-	 */
-	public function auth($authSourceName = 'default-sp')
-	{
-		require_once 'Services/Saml/classes/class.ilSimpleSAMLphpWrapper.php';
-		return new ilSimpleSAMLphpWrapper(
-			$authSourceName, $this->getConfigDirectory() 
-		);
-	}
+    /**
+     * @param string $authSourceName
+     * @return ilSamlAuth
+     * @throws Exception
+     */
+    public function auth(string $authSourceName = 'default-sp') : ilSamlAuth
+    {
+        return new ilSimpleSAMLphpWrapper(
+            $authSourceName,
+            $this->getConfigDirectory()
+        );
+    }
 
-	/**
-	 * @return string
-	 * @throws \ILIAS\Filesystem\Exception\IOException
-	 */
-	public function getConfigDirectory()
-	{
-		global $DIC;
+    /**
+     * @return string
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    public function getConfigDirectory() : string
+    {
+        global $DIC;
 
-		$fs = $DIC->filesystem()->storage();
+        $fs = $DIC->filesystem()->storage();
 
-		$fs->createDir(self::METADATA_PATH);
+        $fs->createDir(self::METADATA_PATH);
 
-		return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
-	}
+        return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
+    }
 }

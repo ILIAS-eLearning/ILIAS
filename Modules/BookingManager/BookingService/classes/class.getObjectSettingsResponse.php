@@ -12,27 +12,27 @@ namespace ILIAS\BookingManager;
  */
 class getObjectSettingsResponse
 {
-	/**
-	 * @var \ilObjBookingServiceSettings
-	 */
-	protected $settings;
+    /**
+     * @var \ilObjBookingServiceSettings
+     */
+    protected $settings;
 
-	/**
-	 * Constructor
-	 * @param \ilObjBookingServiceSettings $settings
-	 */
-	public function __construct(\ilObjBookingServiceSettings $settings)
-	{
-		$this->settings = $settings;
-	}
+    /**
+     * Constructor
+     * @param \ilObjBookingServiceSettings $settings
+     */
+    public function __construct(\ilObjBookingServiceSettings $settings)
+    {
+        $this->settings = $settings;
+    }
 
-	/**
-	 * Get settings
-	 *
-	 * @return \ilObjBookingServiceSettings
-	 */
-	public function getSettings(): \ilObjBookingServiceSettings
-	{
-		return $this->settings;
-	}
+    /**
+     * Get settings
+     *
+     * @return \ilObjBookingServiceSettings
+     */
+    public function getSettings() : \ilObjBookingServiceSettings
+    {
+        return $this->settings;
+    }
 }

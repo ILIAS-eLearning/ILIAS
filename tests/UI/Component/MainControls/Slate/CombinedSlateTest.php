@@ -5,11 +5,9 @@
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Combined;
-use \ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Combined;
 
 /**
  * Tests for the Slate.
@@ -20,6 +18,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
     {
         $this->sig_gen = new I\SignalGenerator();
         $this->button_factory = new I\Button\Factory($this->sig_gen);
+        $this->divider_factory = new I\Divider\Factory();
         $this->icon_factory = new I\Symbol\Icon\Factory();
     }
 
@@ -34,6 +33,12 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Glyph\Factory();
             }
+
+            public function divider()
+            {
+                return new I\Divider\Factory();
+            }
+
             public function mainControls() : C\MainControls\Factory
             {
                 return new I\MainControls\Factory($this->sig_gen);
@@ -67,6 +72,34 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         );
     }
 
+    public function testRenderingWithSubDivider()
+    {
+        $name = 'name';
+        $icon = $this->icon_factory->custom('', '');
+        $subdivider = new I\Divider\Horizontal();
+        $subdivider_with_text = new I\Divider\Horizontal();
+        $subdivider_with_text = $subdivider_with_text->withLabel('Title');
+        $slate = new Combined($this->sig_gen, $name, $icon);
+        $slate = $slate
+            ->withAdditionalEntry($subdivider_with_text)
+            ->withAdditionalEntry($subdivider);
+
+        $r = $this->getDefaultRenderer();
+        $html = $r->render($slate);
+
+        $expected = <<<EOT
+		<div class="il-maincontrols-slate disengaged" id="id_1">
+		<div class="il-maincontrols-slate-content" data-replace-marker="content">
+		<hr class="il-divider-with-label" />
+		<h6 class="il-divider">Title</h6>
+		<hr /></div></div>
+EOT;
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
     public function testRenderingWithSubslateAndButton()
     {
         $name = 'name';
@@ -89,9 +122,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 					<div class="icon custom small" aria-label="">
 						<img src="" />
 					</div>
-					<div>
-						<span class="bulky-label">name</span>
-					</div>
+					<span class="bulky-label">name</span>
 				</button>
 				<div class="il-maincontrols-slate disengaged" id="id_2">
 					<div class="il-maincontrols-slate-content" data-replace-marker="content">
@@ -102,9 +133,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 					<div class="icon custom small" aria-label="">
 						<img src="" />
 					</div>
-					<div>
-						<span class="bulky-label"></span>
-					</div>
+					<span class="bulky-label"></span>
 				</button>
 
 			</div>

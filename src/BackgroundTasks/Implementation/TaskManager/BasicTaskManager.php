@@ -93,7 +93,7 @@ abstract class BasicTaskManager implements TaskManager
 
             if ($userInteraction->canBeSkipped($final_values)) {
                 return $userInteraction->getSkippedValue($final_values);
-                //
+            //
             } else {
                 $observer->notifyCurrentTask($userInteraction);
                 $observer->notifyState(State::USER_INTERACTION);
@@ -117,8 +117,7 @@ abstract class BasicTaskManager implements TaskManager
     {
         // We do the user interaction
         $bucket->userInteraction($option);
-        if ($bucket->getState() != State::FINISHED) // The job is not done after the user interaction, so we continue to run it.
-        {
+        if ($bucket->getState() != State::FINISHED) { // The job is not done after the user interaction, so we continue to run it.
             $this->run($bucket);
         } else {
             $this->persistence->deleteBucket($bucket);

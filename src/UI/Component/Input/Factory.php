@@ -91,7 +91,9 @@ interface Factory
      *     1: >
      *         All fields visible in a view MUST be accessible by keyboard by using the
      *         ‘Tab’-Key.
-     *
+     *     2: >
+     *         If the Field is carrying the focus (e.g. by tabbing) and is visible it
+     *         MUST always be visibly marked (e.g. by some sort of highlighting).
      * ---
      *
      * @return    \ILIAS\UI\Component\Input\Field\Factory

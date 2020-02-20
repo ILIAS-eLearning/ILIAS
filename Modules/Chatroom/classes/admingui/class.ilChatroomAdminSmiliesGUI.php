@@ -9,14 +9,14 @@
  */
 class ilChatroomAdminSmiliesGUI extends ilChatroomGUIHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeDefault($method)
-	{
-		global $DIC;
+    /**
+     * {@inheritdoc}
+     */
+    public function executeDefault($method)
+    {
+        global $DIC;
 
-		$this->gui->switchToVisibleMode();
-		$DIC->ui()->mainTemplate()->setVariable('ADM_CONTENT', '');
-	}
+        $this->gui->switchToVisibleMode();
+        $DIC->ui()->mainTemplate()->setVariable('ADM_CONTENT', '');
+    }
 }

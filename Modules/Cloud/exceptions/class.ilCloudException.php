@@ -13,7 +13,6 @@ require_once './Services/Exceptions/classes/class.ilException.php';
  */
 class ilCloudException extends ilException
 {
-
     const UNKNONW_EXCEPTION = -1;
     const NO_SERVICE_ACTIVE = 1001;
     const NO_SERVICE_SELECTED = 1002;
@@ -47,8 +46,6 @@ class ilCloudException extends ilException
      */
     public function __construct($exception_code, $exception_info = "")
     {
-
-
         $this->code = $exception_code;
         $this->add_info = $exception_info;
         $this->assignMessageToCode();
@@ -138,5 +135,3 @@ class ilCloudException extends ilException
             . "{$this->getTraceAsString()}";
     }
 }
-
-?>

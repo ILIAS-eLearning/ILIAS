@@ -23,7 +23,11 @@ interface Factory
      *     content. "Content" in this case is the part of the page that is
      *     not Mainbar, Metabar, Footer or Locator, but e.g. the Repository-Listing,
      *     an object's view or edit form, etc.
-     *     The locator (in form of breadcrumbs),the logo and title are optional.
+     *     The locator (in form of breadcrumbs), the logo and titles are optional.
+     *     Finally, there are short- and view title. The short title is usually used
+     *     to identify the installation of ILIAS, while the view-title gives a very
+     *     short  reference to the current view. Both short title and view title are
+     *     put into the title-tag of the page so they show up in the browser's tab.
      *
      * featurewiki:
      *   - Desktop: https://docu.ilias.de/goto_docu_wiki_wpage_4563_1357.html
@@ -36,7 +40,15 @@ interface Factory
      *     3: The Standard Page MUST be rendered with a Mainbar.
      *     4: The Standard Page SHOULD be rendered with Breadcrumbs.
      *     5: The Standard Page SHOULD be rendered with a Logo.
+     *     6: The Standard Page SHOULD be rendered with a Title.
+     *     7: The Standard Page's short title SHOULD reference the current ILIAS installation.
+     *     8: The Standard Page's view title SHOULD give a good hint to the current view.
      *
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        Scrollable areas of the Standard Page MUST be scrollable by only using
+     *        the keyboard.
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content
@@ -54,6 +66,8 @@ interface Factory
         Breadcrumbs $locator = null,
         Image $logo = null,
         MainControls\Footer $footer = null,
-        string $title = ''
+        string $title = '',
+        string $short_title = '',
+        string $view_title = ''
     ) : Standard;
 }

@@ -13,7 +13,6 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
  */
 class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 {
-
     protected $tree_flat_link = "";
     protected $page_form_action = "";
     protected $permanent_link = false;
@@ -48,6 +47,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     ) {
         $this->setBodyClass("std");
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function printToString() : string
+    {
+        throw new ilException('not implemented');
     }
 
 
@@ -172,9 +179,16 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
                 $template2 = clone($this);
                 $ftpl->setCurrentBlock("xhtml_validation");
-                $ftpl->setVariable("VALIDATION",
-                    ilValidatorAdapter::validate($template2->get("DEFAULT",
-                        false, false, false, true), $_GET["do_dev_validate"]));
+                $ftpl->setVariable(
+                    "VALIDATION",
+                    ilValidatorAdapter::validate($template2->get(
+                        "DEFAULT",
+                        false,
+                        false,
+                        false,
+                        true
+                    ), $_GET["do_dev_validate"])
+                );
                 $ftpl->parseCurrentBlock();
             }
 
@@ -229,8 +243,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         // The corresponding $ilBench->start invocation is in inc.header.php
         $ilBench = $DIC["ilBench"];
         $ilBench->stop("Core", "ElapsedTimeUntilFooter");
-        $ftpl->setVariable("ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds');
+        $ftpl->setVariable(
+            "ELAPSED_TIME",
+            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
+        );
         // END Usability: Non-Delos Skins can display the elapsed time in the footer
 
         $this->setVariable("FOOTER", $ftpl->get());
@@ -290,7 +306,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     private function initHelp()
     {
         include_once("./Services/Help/classes/class.ilHelpGUI.php");
-        ilHelpGUI::initHelp($this);
+        //ilHelpGUI::initHelp($this);
     }
 
 
@@ -503,8 +519,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $ilSetting = $DIC->settings();
 
-        if (is_object($ilSetting))        // maybe this one can be removed
-        {
+        if (is_object($ilSetting)) {        // maybe this one can be removed
             $vers = "vers=" . str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 
             if (DEVMODE) {
@@ -520,8 +535,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                         if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force) {
                             $this->fillJavascriptFile($file, $vers);
                         } else {
-                            if (substr($file, 0, 2) == './') // #13962
-                            {
+                            if (substr($file, 0, 2) == './') { // #13962
                                 $url_parts = parse_url($file);
                                 if (is_file($url_parts['path'])) {
                                     $this->fillJavascriptFile($file, $vers);
@@ -699,10 +713,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillNewContentStyle()
     {
-        $this->setVariable("LOCATION_NEWCONTENT_STYLESHEET_TAG",
+        $this->setVariable(
+            "LOCATION_NEWCONTENT_STYLESHEET_TAG",
             '<link rel="stylesheet" type="text/css" href="' .
             ilUtil::getNewContentStyleSheetLocation()
-            . '" />');
+            . '" />'
+        );
     }
 
 
@@ -814,7 +830,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilCalendarPresentationGUI
     //    - ilContainerGUI
     //    - ilObjDataCollectionGUI
-    //    - ilPersonalDesktopGUI
+    //    - ilDashboardGUI
     //    - ilObjPortfolioTemplateGUI
     //    - ilWikiPageGUI
     //    - ilObjWikiGUI
@@ -960,8 +976,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $html = "";
         if (is_object($ilPluginAdmin)) {
             include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-            $uip = new ilUIHookProcessor("Services/Locator", "main_locator",
-                array("locator_gui" => $ilLocator));
+            $uip = new ilUIHookProcessor(
+                "Services/Locator",
+                "main_locator",
+                array("locator_gui" => $ilLocator)
+            );
             if (!$uip->replaced()) {
                 $html = $ilLocator->getHTML();
             }
@@ -1178,7 +1197,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         global $DIC;
 
-        $ilToolbar = $DIC["ilToolbar"];;
+        $ilToolbar = $DIC["ilToolbar"];
+        ;
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {
@@ -1238,11 +1258,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         if ($ilSetting->get('short_inst_name') != "") {
-            $this->setVariable("WINDOW_TITLE",
-                $ilSetting->get('short_inst_name'));
+            $this->setVariable(
+                "WINDOW_TITLE",
+                $ilSetting->get('short_inst_name')
+            );
         } else {
-            $this->setVariable("WINDOW_TITLE",
-                "ILIAS");
+            $this->setVariable(
+                "WINDOW_TITLE",
+                "ILIAS"
+            );
         }
     }
 
@@ -1320,7 +1344,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $a_main_menu = true,
         $a_tabs = true
     ) {
-
         global $DIC;
 
         if ($add_error_mess) {
@@ -1507,8 +1530,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
                     $gui_class = $ui_plugin->getUIClassInstance();
 
-                    $resp = $gui_class->getHTML("", "template_show",
-                        array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html));
+                    $resp = $gui_class->getHTML(
+                        "",
+                        "template_show",
+                        array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+                    );
 
                     if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
                         $html = $gui_class->modifyHTML($html, $resp);
@@ -1644,10 +1670,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
             include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-            $this->setVariable("TREE_ACC_KEY",
+            $this->setVariable(
+                "TREE_ACC_KEY",
                 ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
                     ? ilAccessKey::TREE_ON
-                    : ilAccessKey::TREE_OFF));
+                    : ilAccessKey::TREE_OFF)
+            );
             $this->parseCurrentBlock();
         }
 
@@ -1788,7 +1816,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],
                 $this->permanent_link["append"],
-                $this->permanent_link["target"]);
+                $this->permanent_link["target"]
+            );
             if ($this->permanent_link["title"] != "") {
                 $plinkgui->setTitle($this->permanent_link["title"]);
             }

@@ -86,7 +86,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
      */
-    static function _getCommands()
+    public static function _getCommands()
     {
         $commands = array();
         $commands[] = array(
@@ -113,7 +113,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * check whether goto script will succeed
      */
-    static function _checkGoto($a_target)
+    public static function _checkGoto($a_target)
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -145,7 +145,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * looks up the file_data for the file object with the specified object id
      * as an associative array.
      */
-    static function _lookupFileData($a_id)
+    public static function _lookupFileData($a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -161,7 +161,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * lookup version
      */
-    static function _lookupVersion($a_id)
+    public static function _lookupVersion($a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -232,7 +232,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * lookup suffix
      */
-    static function _lookupSuffix($a_id)
+    public static function _lookupSuffix($a_id)
     {
         include_once('Modules/File/classes/class.ilFSStorageFile.php');
 
@@ -256,7 +256,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      *
      * @param int object id of a file object.
      */
-    static function _lookupDiskUsage($a_id)
+    public static function _lookupDiskUsage($a_id)
     {
         include_once('Modules/File/classes/class.ilFSStorageFile.php');
         $fileStorage = new ilFSStorageFile($a_id);
@@ -275,8 +275,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         if (self::$_inlineFileExtensionsArray
             === null
-        )        // the === makes a huge difference, if the array is empty
-        {
+        ) {        // the === makes a huge difference, if the array is empty
             require_once 'Services/Administration/classes/class.ilSetting.php';
             $settings = new ilSetting('file_access');
             self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1, PREG_SPLIT_NO_EMPTY);

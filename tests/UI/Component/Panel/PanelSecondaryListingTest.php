@@ -130,9 +130,9 @@ class PanelSecodaryListingTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader panel-secondary-title">Title</h3>
+		<h3 class="ilHeader">Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -163,9 +163,9 @@ EOT;
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader panel-secondary-title">Title</h3>
+		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-sortation" id="">
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -202,9 +202,9 @@ EOT;
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader panel-secondary-title">Title</h3>
+		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-pagination">
 			<span class="browse previous">
 				<a class="glyph" href="http://ilias.de?page=0" aria-label="back">
@@ -212,7 +212,7 @@ EOT;
 				</a>
 			</span>
 			<button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-			<button class="btn btn-link ilSubmitInactive disabled" data-action="http://ilias.de?page=1">2</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=1" disabled="true">2</button>
 			<button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
 			<button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
 			<button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
@@ -246,9 +246,9 @@ EOT;
         $html = $this->getDefaultRenderer()->render($secondary_panel);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader panel-secondary-title">Title</h3>
+		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-section">
 			<a class="btn btn-default " type="button" href="http://www.ilias.de" data-action="http://www.ilias.de">
 				<span class="glyphicon glyphicon-chevron-left"></span>

@@ -15,18 +15,19 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
  * @since   5.3
  * @version 1.0
  */
-interface FilesystemFactory {
+interface FilesystemFactory
+{
 
-	/**
-	 * Creates a local filesystem instance with the given configuration.
-	 *
-	 * @param LocalConfig $config The local configuration which should be used to create the local filesystem.
-	 *
-	 * @param bool        $read_only
-	 *
-	 * @return Filesystem
-	 * @since   5.3
-	 * @version 1.0
-	 */
-	public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
+    /**
+     * Creates a local filesystem instance with the given configuration.
+     *
+     * @param LocalConfig $config The local configuration which should be used to create the local filesystem.
+     *
+     * @param bool        $read_only
+     *
+     * @return Filesystem
+     * @since   5.3
+     * @version 1.0
+     */
+    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem;
 }

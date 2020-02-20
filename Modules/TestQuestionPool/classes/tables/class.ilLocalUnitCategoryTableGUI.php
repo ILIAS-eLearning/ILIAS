@@ -8,18 +8,15 @@ require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableG
  */
 class ilLocalUnitCategoryTableGUI extends ilUnitCategoryTableGUI
 {
-	/**
-	 *
-	 */
-	protected function populateTitle()
-	{
-		if($this->getParentObject()->isCRUDContext())
-		{
-			$this->setTitle($this->lng->txt('un_local_units') . ': ' . $this->lng->txt('categories'));
-		}
-		else
-		{
-			$this->setTitle($this->lng->txt('un_global_units') . ': ' . $this->lng->txt('categories'));
-		}
-	}
+    /**
+     *
+     */
+    protected function populateTitle()
+    {
+        if ($this->getParentObject()->isCRUDContext()) {
+            $this->setTitle($this->lng->txt('un_local_units') . ': ' . $this->lng->txt('categories'));
+        } else {
+            $this->setTitle($this->lng->txt('un_global_units') . ': ' . $this->lng->txt('categories'));
+        }
+    }
 }

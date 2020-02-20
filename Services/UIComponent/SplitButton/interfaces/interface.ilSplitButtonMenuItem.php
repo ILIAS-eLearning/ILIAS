@@ -8,8 +8,8 @@
  */
 interface ilSplitButtonMenuItem
 {
-	/**
-	 * @return string
-	 */
-	public function getContent();
+    /**
+     * @return string
+     */
+    public function getContent();
 }

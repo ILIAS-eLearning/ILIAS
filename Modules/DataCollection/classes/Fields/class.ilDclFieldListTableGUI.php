@@ -174,5 +174,3 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         }
     }
 }
-
-?>

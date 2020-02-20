@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Modules/Folder/classes/class.ilObjFolder.php';
-
 /**
  * Class ilObjFolderDAV
  *
@@ -35,5 +33,4 @@ class ilObjFolderDAV extends ilObjContainerDAV
     {
         return 'fold';
     }
-    
 }

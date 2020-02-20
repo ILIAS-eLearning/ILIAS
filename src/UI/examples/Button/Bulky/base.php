@@ -1,4 +1,6 @@
 <?php
+//Note the exact look of the Bulky Buttons is mostly defined by the
+//surrounding container.
 function base()
 {
     global $DIC;

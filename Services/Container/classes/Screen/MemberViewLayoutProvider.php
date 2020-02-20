@@ -1,11 +1,16 @@
 <?php namespace ILIAS\Container\Screen;
 
-use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
+use ILIAS\Data\URI;
+use ILIAS\GlobalScreen\Scope\Layout\Builder\StandardPageBuilder;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
+use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Layout\Page\Page;
+use ILIAS\UI\Component\Layout\Page\Standard;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 use ilLink;
 use ilMemberViewSettings;
 use ilObject;
@@ -17,7 +22,6 @@ use ilObject;
  */
 class MemberViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-
     /**
      * @inheritDoc
      */
@@ -26,35 +30,45 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
         return $this->context_collection->repository();
     }
 
+    public static function getMemberViewModeInfo(\ILIAS\DI\Container $dic): ?Modeinfo
+    {
+        $mv = ilMemberViewSettings::getInstance();
+        if(! $mv->isActive()) {
+            return null;
+        }
+        $ref_id = $mv->getCurrentRefId();
+        $url = new URI(ilLink::_getLink(
+            $ref_id,
+            ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
+            array('mv' => 0)
+        ));
+
+        $modeinfo = $dic->ui()->factory()->mainControls()->modeInfo(
+            $dic->language()->txt('mem_view_long'),
+            $url
+        );
+
+        return $modeinfo;
+    }
 
     /**
      * @inheritDoc
      */
-    public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        if (!$screen_context_stack->current()->hasReferenceId()) {
+        $mv_mode_info = self::getMemberViewModeInfo($this->dic);
+        if(is_null($mv_mode_info)) {
             return null;
         }
 
-        $mv = ilMemberViewSettings::getInstance();
-        if ($mv->isActive()) {
-            return $this->globalScreen()->layout()->factory()->logo()->withModification(function (Image $current) use ($mv) : Image {
-                $ref_id = $mv->getCurrentRefId();
-
-                $image = $this->dic->ui()->factory()->image()->responsive("https://www.colourbox.com/preview/5559052-icon-user-red.jpg", "mv");
-                if ($ref_id) {
-                    $url = ilLink::_getLink(
-                        $ref_id,
-                        ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
-                        array('mv' => 0)
-                    );
-                    $image = $image->withAction($url);
+        return $this->factory->page()
+            ->withLowPriority()
+            ->withModification(
+                function (PagePartProvider $parts) use ($mv_mode_info) : Page {
+                    $p = new StandardPageBuilder();
+                    $page = $p->build($parts);
+                    return $page->withModeInfo($mv_mode_info);
                 }
-
-                return $image;
-            })->withHighPriority();
-        }
-
-        return null;
+            );
     }
 }

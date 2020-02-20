@@ -41,9 +41,9 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     public function __construct(ilObjBibliographicGUI $a_parent_obj, ilBiblFactoryFacade $facade)
     {
         $this->facade = $facade;
-        $this->setId('tbl_bibl_overview');
-        $this->setPrefix('tbl_bibl_overview');
-        $this->setFormName('tbl_bibl_overview');
+        $this->setId('tbl_bibl_overview_' . $facade->iliasRefId());
+        $this->setPrefix('tbl_bibl_overview_' . $facade->iliasRefId());
+        $this->setFormName('tbl_bibl_overview_' . $facade->iliasRefId());
         parent::__construct($a_parent_obj);
         $this->parent_obj = $a_parent_obj;
 
@@ -123,13 +123,12 @@ class ilBiblEntryTableGUI extends ilTable2GUI
 
     protected function initData()
     {
-        global $DIC;
         $query = new ilBiblTableQueryInfo();
         /**
          * @var $filter \ilBiblFieldFilterInterface
          */
         foreach ($this->applied_filter as $field_name => $field_value) {
-            if (!$field_value || count($field_value) == 0) {
+            if (!$field_value || (is_array($field_value) && count($field_value) == 0)) {
                 continue;
             }
             $filter = $this->filter_objects[$field_name];

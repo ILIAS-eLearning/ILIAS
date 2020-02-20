@@ -10,19 +10,18 @@
  */
 interface ilDerivedTaskProvider
 {
-	/**
-	 * Get providers
-	 *
-	 * @param int $user_id
-	 * @return ilDerivedTask[]
-	 */
-	public function getTasks(int $user_id): array;
+    /**
+     * Get providers
+     *
+     * @param int $user_id
+     * @return ilDerivedTask[]
+     */
+    public function getTasks(int $user_id) : array;
 
-	/**
-	 * Is provider active?
-	 *
-	 * @return bool
-	 */
-	public function isActive(): bool;
-
+    /**
+     * Is provider active?
+     *
+     * @return bool
+     */
+    public function isActive() : bool;
 }

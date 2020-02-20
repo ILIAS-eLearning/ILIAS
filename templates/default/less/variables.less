@@ -35,7 +35,7 @@
 @il-primary-container-bg: white;
 @il-secondary-container-bg: #f9f9f9;
 
-@il-highlight-bg: #ffffd0;
+@il-highlight-bg: #dfe3e6;
 /* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
@@ -125,11 +125,7 @@
 @modal-backdrop-bg: black;
 
 @progress-bar-color: white;
-
 @list-group-bg: white;
-
-@panel-bg: white;
-@panel-primary-text: white;
 
 @carousel-control-color: white;
 @carousel-indicator-active-bg: white;
@@ -171,6 +167,15 @@
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-base:        1.428571429; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
+//** For larger font sizes, such as titles in panels.
+@line-height-large:         1.33;
+//** For smaller font sizes
+@line-height-small:         1.5;
+
 @padding-base-vertical:     3px;
 @padding-base-horizontal:   8px;
 
@@ -182,9 +187,6 @@
 
 @padding-xs-vertical:       1px;
 @padding-xs-horizontal:     5px;
-
-@line-height-large:         1.33;
-@line-height-small:         1.5;
 
 @border-radius-base:        0px;
 @border-radius-large:       0px;
@@ -260,6 +262,8 @@
 @il-footer-bg-color: @brand-primary;
 //** controls the color of the text in the footer.
 @il-footer-color: white;
+@il-footer-height: 70px;
+@il-footer-padding: 20px 0 15px 5px;
 
 //== Navs
 //
@@ -280,16 +284,16 @@
 //** Text color of the standard button (most button instances)
 @il-btn-standard-color:           white;
 //** Background color of the standard button (most button instances)
-@il-btn-standard-bg:              lighten(@brand-primary, 15%);
+@il-btn-standard-bg:              @brand-primary;
 //** Border color of the standard button (most button instances)
-@il-btn-standard-border:          lighten(@brand-primary, 15%);
+@il-btn-standard-border:          @brand-primary;
 
 //** Text color of the primary button (most important button on the screen)
 @il-btn-primary-color:           white;
 //** Background color of the primary button (most important button on the screen)
-@il-btn-primary-bg:              @brand-secondary;
+@il-btn-primary-bg:              darken(@brand-secondary, 10%);
 //** Border color of the primary button (most important button on the screen)
-@il-btn-primary-border:          @brand-secondary;
+@il-btn-primary-border:          darken(@brand-secondary, 10%);
 
 //** Text color of inactive buttons
 @il-disabled-btn-color:          white;
@@ -322,6 +326,7 @@
 //** margin of tags
 @btn-tag-margin: 2px 4px 2px 0;
 
+@il-tab-focus-outline: 1px dotted @il-highlight-bg;
 
 //== Toggle Buttons
 //
@@ -483,7 +488,8 @@
 
 @panel-bg:                    @il-secondary-container-bg;
 @panel-body-padding:          15px;
-@panel-heading-padding:       10px 15px;
+@panel-heading-color:		  #707070;
+@panel-heading-padding:       1.5*@padding-large-vertical @padding-large-horizontal;
 @panel-footer-padding:        @panel-heading-padding;
 @panel-border-radius:         @border-radius-base;
 
@@ -614,6 +620,7 @@
 
 //** Default background color used for dropzones.
 @il-dropzone-bg: white;
+@il-dropzone-bg-inactive: #F4F4F4;
 //** Background color used when a dropzone is highlighted (not when hovered).
 @il-dropzone-highlight-bg: #FFFFD6;
 //** Background color used when a dropzone is hovered.
@@ -689,21 +696,11 @@
 @il-item-divider-margin: 0 0 10px 0;
 @il-item-divider-border-bottom: dashed 0.5px #E0E0E0;
 @il-item-description-padding: 10px 0 0 0;
-@il-item-padding: 20px;
+@il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
-
-
-//== Listing Panel
-//
-//##
-@il-panel-listing-std-container-h4-margin: 16px 0 2px 0;
-@il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
-@il-panel-listing-std-container-h3-text-transform: uppercase;
-@il-panel-listing-std-container-h4-text-transform: uppercase;
-@il-panel-listing-std-container-h3-color: @il-light-text-color;
-@il-panel-listing-std-container-h4-color: @il-light-text-color;
-@il-panel-listing-std-item-container-margin: 0 0 1px 0;
+@il-item-border-bottom: 2px solid @body-bg;
+@il-item-border-bottom-small: 1px solid @body-bg;
 
 
 //== Charts
@@ -771,7 +768,7 @@
 //
 //## Icons are used to represent (and quickly identify) objects.
 
-//** Size for icons: Small is used in the tree. e.g.
+//** Size for icons: xsmall is used in the tree. e.g.
 @icon-size-xsmall: 17px;
 //** Size for icons: Small is used in the tree. e.g.
 @icon-size-small: 20px;
@@ -802,15 +799,18 @@
 //== Card
 //
 //##
+@il-card-border: none;
+@il-card-background: @il-secondary-container-bg;
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
 @il-card-repository-head-color: rgba(0,0,0,0.5);
 @il-card-repository-dropdown-border: #e0e0e0 1px solid;
-@il-card-repository-outlined-icon-filter: brightness(1);
+@il-card-repository-outlined-icon-filter: invert(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
+
 
 //== Workflow
 //
@@ -851,6 +851,7 @@
 @il-metabar-entry-width: 60px;
 @il-metabar-glyph-size: 2.3rem;
 @il-metabar-glyph-color: #aaa;
+@il-metabar-slates-width: 500px;
 
 //** breadcrumbs
 @il-standard-page-breadcrumbs-height: 33px;
@@ -869,20 +870,32 @@
 @il-mainbar-btn-label-size: .9rem;
 @il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-bg: @body-bg;
+@il-mainbar-tools-item-gap: 3px;
 
 //** tools
 @il-mainbar-remove-tools-btn-height: 45px;
 
+//** modeinfo
+@il-mode-info-color: @brand-warning;
+@il-mode-info-border: 3px solid @il-mode-info-color;
+@il-mode-info-height: 30px;
+@il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
+@il-mode-info-text-color: white;
+
 //** slates
 @il-slate-bulky-bg-color: #f2f2f2;
 @il-slate-bulky-level2-bg-color: #e3e3e3;
-@il-slate-bulky-bg-color-engaged: #d1d8e3;
+@il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
 @il-slate-content-padding: 10px 20px;
-@il-slate-bulky-padding: @il-slate-content-padding;
-@il-slate-bulky-icon-margin-right: 10px;
+@il-slate-tree-padding: 4px 0;
+@il-slate-bulky-padding: 10px 40px 15px 10px;
+@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-bulky-glyph-size: 2rem;
+@il-slate-bulky-glyph-margin-right: 5px;
 @il-slate-bulky-label-size: 1.5rem;
 @il-slate-content-spacing: 2px;
-@il-standard-page-slate-width: 400px;
+@il-standard-page-slate-width: 329px;
+@il-mainbar-slates-bg-color: #fff;
 @il-metabar-slates-bg-color: #fafafa;
 @il-mainbar-close-slate-btn-height: 45px;
 @il-metabar-close-slate-btn-height: 30px;
@@ -905,7 +918,9 @@
 //== Tree
 //
 //## Basic adjustments for the tree
-@il-tree-node-indentation: 20px;
+@il-tree-node-indentation: @font-size-base;
+//** Vertical Space between nodes
+@il-tree-node-vertical-spacing: 0px;
 
 //== Characteristic Value Listing
 //** item rows layout

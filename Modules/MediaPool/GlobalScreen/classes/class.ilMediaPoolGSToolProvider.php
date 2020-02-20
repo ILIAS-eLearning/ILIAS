@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_FOLDERS_TOOL = 'show_folders_tool';
 
 
@@ -33,13 +32,22 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_FOLDERS_TOOL, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
+
+            $title = "Folders";
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"),$title);
             $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Folders")
-                ->withContent($l($this->getTree($ref_id)));
+                ->withTitle($title)
+                ->withSymbol($icon)
+                ->withContentWrapper(function () use ($l, $ref_id) {
+                    return $l($this->getTree($ref_id));
+                });
         }
 
         return $tools;

@@ -10,6 +10,5 @@ use ILIAS\GlobalScreen\Provider\PluginProviderHelper;
  */
 abstract class AbstractStaticMetaBarPluginProvider extends AbstractStaticMetaBarProvider implements StaticMetaBarProvider, PluginProvider
 {
-
     use PluginProviderHelper;
 }

@@ -10,9 +10,9 @@ il.Help = {
 	// list help topics
 	listHelp: function (e, back_clicked) {
 		// prevent the default action		
-		e.preventDefault();		
+//		e.preventDefault();
 		// hide overlays
-		il.Overlay.hideAllOverlays(e, true);
+//		il.Overlay.hideAllOverlays(e, true);
 		// add panel
 		this.initPanel(e, true);
 	},
@@ -22,23 +22,25 @@ il.Help = {
 		var n, b, obj;
 		if (!this.panel) {
 			n = document.getElementById('ilHelpPanel');
+			/*
 			if (!n) {
 				b = $("body");
 				b.append("<div class='yui-skin-sam'><div id='ilHelpPanel' class='ilOverlay' style='overflow:auto;'>" +
 					"&nbsp;</div>");
 				n = document.getElementById('ilHelpPanel');
-			}
+			}*/
 
-			il.Overlay.add("ilHelpPanel", {yuicfg: {}});
-			il.Overlay.show(e, "ilHelpPanel");
+//			il.Overlay.add("ilHelpPanel", {yuicfg: {}});
+//			il.Overlay.show(e, "ilHelpPanel");
 			this.panel = true;
 		} else {
-			il.Overlay.show(e, "ilHelpPanel");
+//			il.Overlay.show(e, "ilHelpPanel");
 //			this.panel.show();
 		}
 		il.Help.insertPanelHTML("");
 		//il.Help.reduceMainContentArea();
 
+/*
 		obj = document.getElementById('ilHelpPanel');
 		obj.style.position = 'fixed';
 		obj.style.top = '0px';
@@ -47,7 +49,7 @@ il.Help = {
 		obj.style.left = '';
 		obj.style.width = '300px';
 		obj.style.height = '100%';
-
+*/
 		if (sh) {
 			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
 				{cmd: "showHelp"}, {}, this.handleAjaxSuccess);
@@ -93,7 +95,7 @@ il.Help = {
 					il.Accordion.initByIntId('oh_acc');
 					console.log("called init");
 				}
-				$('div#ilHelpPanel').css("overflow", "auto"); // Ensure overflow auto, see 20639
+//				$('div#ilHelpPanel').css("overflow", "auto"); // Ensure overflow auto, see 20639
 			}
 		}
 	},
@@ -148,14 +150,18 @@ il.Help = {
 			il.Help.panel = false;
 			//il.Help.resetMainContentArea();
 
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
-
+      il.Help.resetCurrentPage();
 		}
 	},
 
+  resetCurrentPage: function () {
+    il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+      {cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
+  },
+
 	// (de-)activate tooltips
 	switchTooltips: function (e) {
+return;
 		var t = il.Help;
 		if (t.tt_activated) {
 			t.tt_activated = false;

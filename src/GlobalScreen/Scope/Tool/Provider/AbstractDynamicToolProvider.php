@@ -2,6 +2,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
+use ILIAS\GlobalScreen\Identification\ToolIdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -15,7 +16,7 @@ abstract class AbstractDynamicToolProvider extends AbstractProvider implements D
 {
 
     /**
-     * @var IdentificationProviderInterface
+     * @var ToolIdentificationProviderInterface
      */
     protected $identification_provider;
     /**
@@ -36,6 +37,6 @@ abstract class AbstractDynamicToolProvider extends AbstractProvider implements D
         parent::__construct($dic);
         $this->context_collection = $this->globalScreen()->tool()->context()->collection();
         $this->factory = $this->globalScreen()->tool()->factory();
-        $this->identification_provider = $this->globalScreen()->identification()->core($this);
+        $this->identification_provider = $this->globalScreen()->identification()->tool($this);
     }
 }

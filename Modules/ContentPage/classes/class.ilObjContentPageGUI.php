@@ -267,14 +267,21 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
                 $this->prepareOutput();
 
-                $this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET',
-                    \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+                $this->tpl->setVariable(
+                    'LOCATION_CONTENT_STYLESHEET',
+                    \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                );
                 $this->tpl->setCurrentBlock('SyntaxStyle');
                 $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
-                $forwarder = new \ilContentPagePageCommandForwarder($this->request, $this->ctrl, $this->tabs,
-                    $this->lng, $this->object);
+                $forwarder = new \ilContentPagePageCommandForwarder(
+                    $this->request,
+                    $this->ctrl,
+                    $this->tabs,
+                    $this->lng,
+                    $this->object
+                );
                 $pageContent = $forwarder->forward();
                 if (strlen($pageContent) > 0) {
                     $this->tpl->setContent($pageContent);
@@ -316,7 +323,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                     $this->object->getRefId(),
                     isset(
                         $this->request->getQueryParams()['user_id']) &&
-                        is_numeric($this->request->getQueryParams()['user_id']
+                        is_numeric(
+                            $this->request->getQueryParams()['user_id']
                     ) ?
                         (int) $this->request->getQueryParams()['user_id'] :
                         $this->user->getId()
@@ -483,33 +491,6 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         $this->infoScreenForward();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addToDeskObject()
-    {
-        if ((int) $this->settings->get('disable_my_offers')) {
-            $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-        }
-
-        \ilDesktopItemGUI::addToDesktop();
-        \ilUtil::sendSuccess($this->lng->txt('added_to_desktop'), true);
-        $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeFromDeskObject()
-    {
-        if ((int) $this->settings->get('disable_my_offers')) {
-            $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-        }
-
-        \ilDesktopItemGUI::removeFromDesktop();
-        \ilUtil::sendSuccess($this->lng->txt('removed_from_desktop'), true);
-        $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-    }
 
     /**
      * Shows the content of the object
@@ -566,7 +547,11 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
             $this->initStyleSheets();
 
             $forwarder = new \ilContentPagePageCommandForwarder(
-                $this->request, $this->ctrl, $this->tabs, $this->lng, $this->object
+                $this->request,
+                $this->ctrl,
+                $this->tabs,
+                $this->lng,
+                $this->object
             );
             $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
@@ -578,8 +563,10 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
     protected function initStyleSheets()
     {
-        $this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET',
-            \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+        $this->tpl->setVariable(
+            'LOCATION_CONTENT_STYLESHEET',
+            \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+        );
         $this->tpl->setCurrentBlock('SyntaxStyle');
         $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
@@ -757,8 +744,10 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
         if (
             $this->settings->get('fixed_content_style_id') <= 0 &&
-            (\ilObjStyleSheet::_lookupStandard(
-                $this->object->getStyleSheetId()) ||
+            (
+                \ilObjStyleSheet::_lookupStandard(
+                $this->object->getStyleSheetId()
+            ) ||
                 $this->object->getStyleSheetId() == 0
             )
         ) {

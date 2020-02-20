@@ -6,25 +6,50 @@
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting*/
     private $scormSetting;
+    /** @var ilCertificateFilename */
+    private $origin;
+    /** @var ilLanguage */
+    private $lng;
 
     /**
+     * @param ilCertificateFilename $origin
+     * @param ilLanguage $lng
      * @param ilSetting $scormSetting
      */
-    public function __construct(ilSetting $scormSetting)
+    public function __construct(ilCertificateFilename $origin, ilLanguage $lng, ilSetting $scormSetting)
     {
         $this->scormSetting = $scormSetting;
+        $this->origin = $origin;
+        $this->lng = $lng;
     }
 
-    public function createFileName(ilUserCertificatePresentation $presentation)
+    /**
+     * @inheritDoc
+     */
+    public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
-        $short_title = $this->scormSetting->get('certificate_short_name_' . $presentation->getUserCertificate()->getObjId());
+        $fileName = $this->origin->createFileName($presentation); 
 
-        $pdfDownloadName = strftime('%y%m%d', time()) . '_' . $presentation->getUserName() . '_' . $short_title . '_certificate';
+        if (null === $presentation->getUserCertificate()) {
+            $fileNameParts = implode('_', array_filter([
+                $this->lng->txt('certificate_var_user_lastname'),
+                $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId()),
+            ]));
+        } else {
+            $fileNameParts = implode('_', array_filter([
+                $presentation->getUserName(),
+                $presentation->getObjectTitle(),
+            ]));
+        }
 
-        return $pdfDownloadName;
+        $fileName = implode('_', array_filter([
+            strftime('%y%m%d', time()),
+            $fileNameParts,
+            $fileName
+        ]));
+
+        return $fileName;
     }
 }

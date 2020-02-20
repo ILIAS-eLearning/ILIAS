@@ -16,33 +16,38 @@ use Psr\Http\Message\StreamInterface;
  * @since   5.3
  * @version 1.0.0
  */
-final class VirusScannerPreProcessor implements PreProcessor {
+final class VirusScannerPreProcessor implements PreProcessor
+{
 
-	/**
-	 * @var \ilVirusScanner
-	 */
-	protected $scanner;
-
-
-	/**
-	 * VirusScannerPreProcessor constructor.
-	 *
-	 * @param \ilVirusScanner $scanner
-	 */
-	public function __construct(\ilVirusScanner $scanner) { $this->scanner = $scanner; }
+    /**
+     * @var \ilVirusScanner
+     */
+    protected $scanner;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		// $stream->rewind();
-		$uri = $stream->getMetadata()["uri"];
-		// chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file
-		if ($this->scanner->scanFile($uri) !== "") {
-			return new ProcessingStatus(ProcessingStatus::REJECTED, 'Virus detected.');
-		}
+    /**
+     * VirusScannerPreProcessor constructor.
+     *
+     * @param \ilVirusScanner $scanner
+     */
+    public function __construct(\ilVirusScanner $scanner)
+    {
+        $this->scanner = $scanner;
+    }
 
-		return new ProcessingStatus(ProcessingStatus::OK, 'No Virus detected.');
-	}
+
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        // $stream->rewind();
+        $uri = $stream->getMetadata()["uri"];
+        // chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file
+        if ($this->scanner->scanFile($uri) !== "") {
+            return new ProcessingStatus(ProcessingStatus::REJECTED, 'Virus detected.');
+        }
+
+        return new ProcessingStatus(ProcessingStatus::OK, 'No Virus detected.');
+    }
 }

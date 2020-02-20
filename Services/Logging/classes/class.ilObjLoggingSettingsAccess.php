@@ -4,16 +4,14 @@
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
-/** 
-* 
+/**
+*
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
-* 
-* 
+*
+*
 * @ingroup ServicesLogging
 */
 class ilObjLoggingSettingsAccess extends ilObjectAccess
 {
-	
 }
-?>

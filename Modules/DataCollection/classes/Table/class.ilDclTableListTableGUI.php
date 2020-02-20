@@ -110,7 +110,6 @@ class ilDclTableListTableGUI extends ilTable2GUI
      */
     protected function buildActions($id)
     {
-
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($id);
         $alist->setListTitle($this->lng->txt('actions'));

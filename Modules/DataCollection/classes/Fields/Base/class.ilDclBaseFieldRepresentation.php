@@ -9,7 +9,6 @@
  */
 abstract class ilDclBaseFieldRepresentation
 {
-
     protected $field;
     /**
      * @var ilLanguage
@@ -158,7 +157,6 @@ abstract class ilDclBaseFieldRepresentation
         $opt = $this->buildFieldCreationInput($dcl, $mode);
 
         if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
-
             $new_plugin_title = $opt->getTitle();
             $plugin_name = ilDclFieldFactory::getPluginNameFromFieldModel($this->getField());
             if ($plugin_name !== "DclBase") {

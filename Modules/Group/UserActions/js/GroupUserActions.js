@@ -79,7 +79,7 @@ il.Group = il.Group || {};
 
 					il.Util.sendAjaxGetRequestToUrl(url, [], [], function (r) {
 						var modal_content = $('#il_grp_action_modal_content');
-						console.log(r.responseText);
+						//console.log(r.responseText);
 						if (modal_content.length) {
 							modal_content.html(r.responseText);
 							modal_content.closest('.il-modal-roundtrip').modal().show();

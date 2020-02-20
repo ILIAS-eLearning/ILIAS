@@ -10,6 +10,5 @@ use ILIAS\GlobalScreen\Provider\PluginProviderHelper;
  */
 abstract class AbstractStaticMainMenuPluginProvider extends AbstractStaticMainMenuProvider implements PluginProvider, StaticMainMenuProvider
 {
-
     use PluginProviderHelper;
 }

@@ -8,7 +8,6 @@
 
 interface ilBiblFieldFilterInterface
 {
-
     const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
     const FILTER_TYPE_SELECT_INPUT = 2;
     const FILTER_TYPE_TEXT_INPUT = 1;

@@ -6,21 +6,23 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB implements ilDBInterface {
+class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB implements ilDBInterface
+{
 
-	/**
-	 * @return bool
-	 */
-	public function supportsTransactions() {
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function supportsTransactions()
+    {
+        return true;
+    }
 
 
-	/**
-	 * @return \ilAtomQuery
-	 */
-	public function buildAtomQuery() {
-		return new ilAtomQueryTransaction($this);
-	}
+    /**
+     * @return \ilAtomQuery
+     */
+    public function buildAtomQuery()
+    {
+        return new ilAtomQueryTransaction($this);
+    }
 }
-

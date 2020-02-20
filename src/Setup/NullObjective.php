@@ -9,32 +9,38 @@ use ILIAS\UI;
 /**
  * A non-objective, nothing to do to achieve it...
  */
-class NullObjective implements Objective {
-	const LABEL = "Nothing to do.";
+class NullObjective implements Objective
+{
+    const LABEL = "Nothing to do.";
 
-	public function getHash() : string {
-		return "null-objective";
-	}
+    public function getHash() : string
+    {
+        return "null-objective";
+    }
 
-	public function getLabel() : string {
-		return self::LABEL;
-	}
+    public function getLabel() : string
+    {
+        return self::LABEL;
+    }
 
-	public function isNotable() : bool {
-		return false;
-	}
+    public function isNotable() : bool
+    {
+        return false;
+    }
 
-	/*
-	 * @inheritdocs
-	 */
-	public function getPreconditions(Environment $environment) : array {
-		return [];
-	}
+    /*
+     * @inheritdocs
+     */
+    public function getPreconditions(Environment $environment) : array
+    {
+        return [];
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function achieve(Environment $environment) : Environment {
-		return $environment;
-	}
+    /**
+     * @inheritdocs
+     */
+    public function achieve(Environment $environment) : Environment
+    {
+        return $environment;
+    }
 }

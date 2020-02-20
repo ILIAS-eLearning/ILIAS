@@ -30,7 +30,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
     protected $parent_gui;
 
 
-    function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
+    public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -70,11 +70,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
             $option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title'], $role_array['obj_id']));
             $option->setValue($role_array['obj_id']);
-            $checkbox_group_input_gui->addOption($option);
-        }
-        foreach ($rbacreview->getLocalRoles($_GET['ref_id']) as $role_id) {
-            $option = new ilCheckboxOption(ilObjRole::_getTranslation($role->getTitle(), $role_id));
-            $option->setValue($role_id);
             $checkbox_group_input_gui->addOption($option);
         }
 

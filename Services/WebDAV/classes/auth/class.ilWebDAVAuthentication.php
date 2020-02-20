@@ -33,10 +33,8 @@ class ilWebDAVAuthentication
      */
     public function isUserAgentSessionAware(string $user_agent) : bool
     {
-        foreach($this->session_aware_webdav_clients as $webdav_client_name)
-        {
-            if(stristr($user_agent, $webdav_client_name))
-            {
+        foreach ($this->session_aware_webdav_clients as $webdav_client_name) {
+            if (stristr($user_agent, $webdav_client_name)) {
                 return true;
             }
         }
@@ -58,7 +56,7 @@ class ilWebDAVAuthentication
         return $user_agent;
     }
 
-	/**
+    /**
      * Callback function. Identifies user by username and password and returns if authentication was successful
      *
      * @param $a_username
@@ -69,32 +67,24 @@ class ilWebDAVAuthentication
     {
         global $DIC;
 
-        if($this->isUserAgentSessionAware($this->getUserAgent()))
-        {
-            if($DIC['ilAuthSession']->isAuthenticated() && $DIC->user()->getId() != 0)
-            {
+        if ($this->isUserAgentSessionAware($this->getUserAgent())) {
+            if ($DIC['ilAuthSession']->isAuthenticated() && $DIC->user()->getId() != 0) {
                 ilLoggerFactory::getLogger('webdav')->debug('User authenticated through session. UserID = ' . $DIC->user()->getId());
                 return true;
             }
-        }
-        else
-        {
+        } else {
             ilSession::enableWebAccessWithoutSession(true);
         }
        
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php';
         $credentials = new ilAuthFrontendCredentialsHTTP();
         $credentials->setUsername($a_username);
         $credentials->setPassword($a_password);
         
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $providers = $provider_factory->getProviders($credentials);
         
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
         
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
         $frontend = $frontend_factory->getFrontend(
@@ -106,8 +96,7 @@ class ilWebDAVAuthentication
 
         $frontend->authenticate();
         
-        switch($status->getStatus())
-        {
+        switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('webdav')->debug('User authenticated through basic authentication. UserId = ' . $DIC->user()->getId());
                 return true;

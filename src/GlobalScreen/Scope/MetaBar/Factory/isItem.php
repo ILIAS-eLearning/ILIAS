@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
 /**
@@ -8,14 +8,8 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isItem
+interface isItem extends isGlobalScreenItem
 {
-
-    /**
-     * @return IdentificationInterface
-     */
-    public function getProviderIdentification() : IdentificationInterface;
-
 
     /**
      * @return MetaBarItemRenderer

@@ -570,4 +570,43 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
     public function duration($label, $byline = null);
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A File Input is used to upload a single file using the native
+     *     filebrowser of a browser or Drag&Drop.
+     *   composition: >
+     *     A File Input is composed as a Dropzone and a list of files. The
+     *     Dropzone contains a Shy Button for file selection.
+     *   effect: >
+     *     According to configuration, the input will accept files of certain
+     *     types and sizes. Dragging files from a folder on the comuter to the
+     *     Page in ILIAS will highlight the Dropzone.
+     *     Clicking the Shy Button which starts the native browser file selection.
+     *     Droppping the file onto the Dropzone or selecting a file in native
+     *     browser will directly upload the file and add a info-line beneath
+     *     the dropzone with the title and the size of the file and a Remove
+     *     Glyph once the upload has finished.
+     *     Clicking the Remove Glyph will remove the file-info and calls the
+     *     upload-handler to delete the already uploaded file.
+     *     Invalid files will lead to a error message in the dropzone.
+     *
+     * rules:
+     *   usage:
+     *     1: The consuming component MUST handle uploads and deletions of files.
+     *
+     * context:
+     *   - Upload icons for items in the MainBar (https://docu.ilias.de/goto_docu_wiki_wpage_3993_1357.html)
+     *
+     * ---
+     * @param UploadHandler $handler
+     * @param string        $label defines the label.
+     * @param string        $byline
+     *
+     * @return \ILIAS\UI\Component\Input\Field\File
+     */
+    public function file(UploadHandler $handler, string $label, string $byline = null) : File;
 }

@@ -12,8 +12,4 @@
 */
 class ilObjLearningResourcesSettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

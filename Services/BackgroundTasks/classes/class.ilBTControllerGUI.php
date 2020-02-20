@@ -11,41 +11,38 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBTControllerGUI
 {
-
     use DIC;
     const FROM_URL = 'from_url';
     const OBSERVER_ID = 'observer_id';
     const SELECTED_OPTION = 'selected_option';
-    const REPLACE_SIGNAL = 'replaceSignal';
     const CMD_ABORT = 'abortBucket';
     const CMD_REMOVE = 'abortBucket';
-    const CMD_GET_POPOVER_CONTENT = 'getPopoverContent';
     const CMD_USER_INTERACTION = 'userInteraction';
+    const IS_ASYNC = 'bt_task_is_async';
+    const CMD_GET_REPLACEMENT_ITEM = "getAsyncReplacementItem";
 
 
-    public function executeCommand()
-    {
-        switch ($this->ctrl()->getCmdClass()) {
-            default:
-                $this->performCommand();
-        }
-    }
-
-
-    protected function performCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl()->getCmd();
         switch ($cmd) {
+            case self::CMD_GET_REPLACEMENT_ITEM:
+                $this->getAsyncReplacementItem();
+                break;
             case self::CMD_USER_INTERACTION:
-            case self::CMD_GET_POPOVER_CONTENT:
+                $this->userInteraction();
+                break;
             case self::CMD_ABORT:
             case self::CMD_REMOVE:
-                $this->$cmd();
+                $this->abortBucket();
+                break;
+            default:
+                break;
         }
     }
 
 
-    protected function userInteraction()
+    protected function userInteraction() : void
     {
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
@@ -54,6 +51,9 @@ class ilBTControllerGUI
         $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
         $option = new UserInteractionOption("", $selected_option);
         $this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
+        if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
+            exit;
+        }
         $this->ctrl()->redirectToURL($from_url);
     }
 
@@ -66,25 +66,27 @@ class ilBTControllerGUI
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 
         $this->dic()->backgroundTasks()->taskManager()->quitBucket($bucket);
-
+        if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
+            exit;
+        }
         $this->ctrl()->redirectToURL($from_url);
     }
 
 
-    protected function getPopoverContent()
+    /**
+     * Loads one single aggregate notification item representing a button async
+     * to replace an existing one.
+     */
+    protected function getAsyncReplacementItem()
     {
-        /** @var ilBTPopOverGUI $gui */
-        $gui = $this->dic()->backgroundTasks()->injector()->createInstance(ilBTPopOverGUI::class);
-        $signal_id = $this->http()->request()->getQueryParams()[self::REPLACE_SIGNAL];
+        $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
+        $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 
-        $this->ctrl()
-            ->setParameterByClass(ilBTControllerGUI::class, self::REPLACE_SIGNAL, $signal_id);
-
-        $replace_url = $this->ctrl()
-            ->getLinkTargetByClass([ilBTControllerGUI::class], self::CMD_GET_POPOVER_CONTENT, "", true);
-
-        echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
-            ->getId(), $this->getFromURL(), $replace_url));
+        $item_source = new ilBTPopOverGUI($this->dic());
+        $this->dic()->language()->loadLanguageModule('background_tasks');
+        $item = $item_source->getItemForObserver($bucket);
+        echo $this->dic()->ui()->renderer()->renderAsync($item);
+        exit;
     }
 
 

@@ -12,25 +12,25 @@ namespace ILIAS\BookingManager;
  */
 class getObjectSettingsCommand
 {
-	/**
-	 * @var int
-	 */
-	protected $obj_id;
+    /**
+     * @var int
+     */
+    protected $obj_id;
 
-	/**
-	 * Constructor
-	 * @param int $obj_id
-	 */
-	public function __construct(int $obj_id)
-	{
-		$this->obj_id = $obj_id;
-	}
+    /**
+     * Constructor
+     * @param int $obj_id
+     */
+    public function __construct(int $obj_id)
+    {
+        $this->obj_id = $obj_id;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getObjectId(): int
-	{
-		return $this->obj_id;
-	}
+    /**
+     * @return int
+     */
+    public function getObjectId() : int
+    {
+        return $this->obj_id;
+    }
 }

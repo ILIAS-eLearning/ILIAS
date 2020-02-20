@@ -1,11 +1,16 @@
 .il-tree {
 	list-style-type: none;
+	padding: 0 @padding-small-vertical 0 @padding-small-vertical;
+	margin-left: 0;
 	ul {
+		padding-left: @il-tree-node-indentation;
 		list-style-type: none;
-		padding: 4px 0 4px @il-tree-node-indentation;
 	}
 	li.il-tree-node {
+		padding: 0 @il-tree-node-vertical-spacing;
+
 		.node-line {
+			padding-left: @il-tree-node-indentation;
 			cursor: pointer;
 			display: flex;
 			flex-wrap: wrap;
@@ -21,13 +26,13 @@
 		}
 		&.expandable {
 			> .node-line:before {
-				font-family: 'Glyphicons Halflings';
-				content: "\e250";
+				color: @gray-light;
+				&:extend(.glyphicon-triangle-right:before);
 				position: absolute;
 				margin-left: -@il-tree-node-indentation;
 			}
 			&.expanded > .node-line:before {
-				content: "\e252";
+				&:extend(.glyphicon-triangle-bottom:before);
 			}
 		}
 		&:not(.expanded) > ul{

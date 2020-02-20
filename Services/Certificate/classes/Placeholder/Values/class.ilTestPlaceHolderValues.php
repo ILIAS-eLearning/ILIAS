@@ -69,6 +69,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         if (null === $language) {
             global $DIC;
             $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 
@@ -122,7 +123,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
      * @return mixed - [PLACEHOLDER] => 'actual value'
      * @throws ilException
      */
-    public function getPlaceholderValues(int $userId, int $objId): array
+    public function getPlaceholderValues(int $userId, int $objId) : array
     {
         /** @var ilObjTest $testObject */
         $testObject = $this->objectHelper->getInstanceByObjId($objId);
@@ -130,9 +131,9 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         $active_id = $testObject->getActiveIdOfUser($userId);
         $pass = $this->testObjectHelper->getResultPass($active_id);
 
-        $result_array =& $testObject->getTestResult($active_id);
+        $result_array =&$testObject->getTestResult($active_id);
         if (strlen($pass)) {
-            $result_array =& $testObject->getTestResult($active_id, $pass);
+            $result_array =&$testObject->getTestResult($active_id, $pass);
         }
 
         $passed = $this->language->txt('certificate_failed');

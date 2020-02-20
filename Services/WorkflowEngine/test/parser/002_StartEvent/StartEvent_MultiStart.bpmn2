@@ -3,7 +3,7 @@
     <bpmn2:process id="StartEvent_Multistart" isExecutable="false">
         <bpmn2:startEvent id="StartEvent_1">
             <bpmn2:timerEventDefinition id="TimerEventDefinition_1">
-                <bpmn2:timeDate xsi:type="bpmn2:tFormalExpression">2014-05-12T12:13:14</bpmn2:timeDate>
+                <bpmn2:timeDate xsi:type="bpmn2:tFormalExpression">2014-05-12T12:13:14Z</bpmn2:timeDate>
             </bpmn2:timerEventDefinition>
         </bpmn2:startEvent>
         <bpmn2:startEvent id="StartEvent_2">

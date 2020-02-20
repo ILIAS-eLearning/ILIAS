@@ -21,27 +21,27 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  */
 class ilTestPlayerRandomQuestionSetGUI extends ilTestOutputGUI
 {
-	protected function buildTestPassQuestionList()
-	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+    protected function buildTestPassQuestionList()
+    {
+        global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
-		
-		$questionList->setParentObjId($this->object->getId());
+        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
+        
+        $questionList->setParentObjId($this->object->getId());
 
-		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
-		$questionList->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
+        $questionList->setIncludeQuestionIdsFilter($this->testSequence->getQuestionIds());
 
-		return $questionList;
-	}
+        return $questionList;
+    }
 
-	protected function populateQuestionOptionalMessage()
-	{
-		$info = $this->lng->txt('tst_wf_info_optional_question');
-		$info .= ' '.$this->lng->txt('tst_wf_info_answer_not_adopted');
-		ilUtil::sendInfo($info);
-	}
+    protected function populateQuestionOptionalMessage()
+    {
+        $info = $this->lng->txt('tst_wf_info_optional_question');
+        $info .= ' ' . $this->lng->txt('tst_wf_info_answer_not_adopted');
+        ilUtil::sendInfo($info);
+    }
 }

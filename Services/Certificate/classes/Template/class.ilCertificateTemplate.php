@@ -81,8 +81,8 @@ class ilCertificateTemplate
      * @param string $iliasVersion
      * @param integer $createdTimestamp
      * @param boolean $currentlyActive
-     * @param null $backgroundImagePath
-     * @param null $thumbnailImagePath
+     * @param string $backgroundImagePath
+     * @param string $thumbnailImagePath
      * @param integer|null $id
      * @param bool $deleted
      */
@@ -96,8 +96,8 @@ class ilCertificateTemplate
         $iliasVersion,
         $createdTimestamp,
         $currentlyActive,
-        $backgroundImagePath = null,
-        $thumbnailImagePath = null,
+        $backgroundImagePath = '',
+        $thumbnailImagePath = '',
         $id = null,
         bool $deleted = false
     ) {
@@ -110,8 +110,8 @@ class ilCertificateTemplate
         $this->iliasVersion = $iliasVersion;
         $this->createdTimestamp = $createdTimestamp;
         $this->currentlyActive = $currentlyActive;
-        $this->backgroundImagePath = $backgroundImagePath;
-        $this->thumbnailImagePath = $thumbnailImagePath;
+        $this->backgroundImagePath = (string) $backgroundImagePath;
+        $this->thumbnailImagePath = (string) $thumbnailImagePath;
         $this->id = $id;
         $this->deleted = $deleted;
     }
@@ -119,7 +119,7 @@ class ilCertificateTemplate
     /**
      * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -127,7 +127,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getCertificateContent(): string
+    public function getCertificateContent() : string
     {
         return $this->certificateContent;
     }
@@ -135,7 +135,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getCertificateHash(): string
+    public function getCertificateHash() : string
     {
         return $this->certificateHash;
     }
@@ -143,7 +143,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getTemplateValues(): string
+    public function getTemplateValues() : string
     {
         return $this->templateValues;
     }
@@ -151,7 +151,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getVersion(): string
+    public function getVersion() : string
     {
         return $this->version;
     }
@@ -159,7 +159,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getIliasVersion(): string
+    public function getIliasVersion() : string
     {
         return $this->iliasVersion;
     }
@@ -167,7 +167,7 @@ class ilCertificateTemplate
     /**
      * @return int
      */
-    public function getCreatedTimestamp(): int
+    public function getCreatedTimestamp() : int
     {
         return $this->createdTimestamp;
     }
@@ -175,7 +175,7 @@ class ilCertificateTemplate
     /**
      * @return bool
      */
-    public function isCurrentlyActive(): bool
+    public function isCurrentlyActive() : bool
     {
         return $this->currentlyActive;
     }
@@ -191,15 +191,15 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getBackgroundImagePath()
+    public function getBackgroundImagePath() : string
     {
-        return $this->backgroundImagePath;
+        return (string) $this->backgroundImagePath;
     }
 
     /**
      * @return string
      */
-    public function getObjType(): string
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
@@ -207,7 +207,7 @@ class ilCertificateTemplate
     /**
      * @return bool
      */
-    public function isDeleted(): bool
+    public function isDeleted() : bool
     {
         return $this->deleted;
     }
@@ -215,8 +215,8 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getThumbnailImagePath()
+    public function getThumbnailImagePath() : string
     {
-        return $this->thumbnailImagePath;
+        return (string) $this->thumbnailImagePath;
     }
 }

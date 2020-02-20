@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Client\Client;
 use ILIAS\GlobalScreen\Client\ClientSettings;
 use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Client\ModeToggle;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
@@ -13,6 +14,9 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
@@ -27,7 +31,7 @@ use LogicException;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainLayoutCollector
+class MainLayoutCollector extends AbstractBaseCollector
 {
 
     /**
@@ -52,46 +56,12 @@ class MainLayoutCollector
     }
 
 
-    /**
-     * @param LayoutModification      $current_modification
-     * @param LayoutModification|null $candicate
-     * @param string                  $type
-     */
-    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type)
-    {
-        if (is_a($candicate, $type) && $candicate->hasValidModification()) {
-            if ($candicate->getPriority() === $current_modification->getPriority()) {
-                throw new LogicException("There are competing Modifications for $type with the same priority");
-            } elseif ($candicate->getPriority() > $current_modification->getPriority()) {
-                $current_modification = $candicate;
-            }
-        }
-    }
-
-
-    /**
-     * @return Page
-     */
-    public function getFinalPage() : Page
+    public function collectStructure() : void
     {
         // Client
         $settings = new ClientSettings();
         $settings->setHashing(true);
-        $settings->setLogging(true);
-
-        if ((new ModeToggle())->getMode() === ModeToggle::MODE1) {
-            $settings->setStoreStateForLevels(
-                [
-                    ItemState::LEVEL_OF_TOPITEM,
-                    ItemState::LEVEL_OF_TOOL,
-                    ItemState::LEVEL_OF_SUBITEM,
-                ]
-            );
-        } else {
-            $settings->setStoreStateForLevels(
-                []
-            );
-        }
+        $settings->setLogging(false);
 
         $client = new Client($settings);
         $client->init($this->getMetaContent());
@@ -105,6 +75,9 @@ class MainLayoutCollector
         $final_meta_bar_modification = new NullModification();
         $final_page_modification = new NullModification();
         $final_footer_modification = new NullModification();
+        $final_title_modification = new NullModification();
+        $final_short_title_modification = new NullModification();
+        $final_view_title_modification = new NullModification();
 
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
@@ -133,6 +106,15 @@ class MainLayoutCollector
             // PAGE
             $page_modification = $provider->getPageBuilderDecorator($called_contexts);
             $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
+            // Pagetitle
+            $title_modification = $provider->getTitleModification($called_contexts);
+            $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
+
+            $short_title_modification = $provider->getShortTitleModification($called_contexts);
+            $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
+
+            $view_title_modification = $provider->getViewTitleModification($called_contexts);
+            $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -156,6 +138,71 @@ class MainLayoutCollector
         if ($final_page_modification->hasValidModification()) {
             $this->modification_handler->modifyPageBuilderWithClosure($final_page_modification->getModification());
         }
+        if ($final_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyTitleWithClosure($final_title_modification->getModification());
+        }
+        if ($final_short_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyShortTitleWithClosure($final_short_title_modification->getModification());
+        }
+        if ($final_view_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyViewTitleWithClosure($final_view_title_modification->getModification());
+        }
+    }
+
+
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    {
+        // TODO: Implement filterItemsByVisibilty() method.
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        // TODO: Implement prepareItemsForUIRepresentation() method.
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getItemsForUIRepresentation() : \Generator
+    {
+        // TODO: Implement getItemsForUIRepresentation() method.
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @param LayoutModification      $current_modification
+     * @param LayoutModification|null $candicate
+     * @param string                  $type
+     */
+    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type)
+    {
+        if (is_a($candicate, $type) && $candicate->hasValidModification()) {
+            if ($candicate->getPriority() === $current_modification->getPriority()) {
+                throw new LogicException("There are competing Modifications for $type with the same priority");
+            } elseif ($candicate->getPriority() > $current_modification->getPriority()) {
+                $current_modification = $candicate;
+            }
+        }
+    }
+
+
+    /**
+     * @return Page
+     */
+    public function getFinalPage() : Page
+    {
+        $this->collectOnce();
 
         return $this->modification_handler->getPageWithPagePartProviders();
     }

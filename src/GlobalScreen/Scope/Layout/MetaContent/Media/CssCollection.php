@@ -26,15 +26,6 @@ class CssCollection extends AbstractCollection
     /**
      * @return Css[]
      */
-    public function getItems() : array
-    {
-        return parent::getItems();
-    }
-
-
-    /**
-     * @return Css[]
-     */
     public function getItemsInOrderOfDelivery() : array
     {
         return parent::getItemsInOrderOfDelivery();

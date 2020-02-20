@@ -7,7 +7,6 @@
 
 class ilBiblDataFactory implements ilBiblDataFactoryInterface
 {
-
     public function getIlBiblDataById($id)
     {
         return ilBiblData::where(["id" => $id])->first();

@@ -135,7 +135,7 @@ class ilUserCertificate
     /**
      * @return int
      */
-    public function getPatternCertificateId(): int
+    public function getPatternCertificateId() : int
     {
         return $this->patternCertificateId;
     }
@@ -143,7 +143,7 @@ class ilUserCertificate
     /**
      * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->objId;
     }
@@ -151,7 +151,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getObjType(): string
+    public function getObjType() : string
     {
         return $this->objType;
     }
@@ -159,7 +159,7 @@ class ilUserCertificate
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserId() : int
     {
         return $this->userId;
     }
@@ -167,7 +167,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUserName() : string
     {
         return $this->userName;
     }
@@ -175,7 +175,7 @@ class ilUserCertificate
     /**
      * @return int
      */
-    public function getAcquiredTimestamp(): int
+    public function getAcquiredTimestamp() : int
     {
         return $this->acquiredTimestamp;
     }
@@ -183,7 +183,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getCertificateContent(): string
+    public function getCertificateContent() : string
     {
         return $this->certificateContent;
     }
@@ -191,7 +191,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getTemplateValues(): string
+    public function getTemplateValues() : string
     {
         return $this->templateValues;
     }
@@ -207,7 +207,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getVersion(): string
+    public function getVersion() : string
     {
         return $this->version;
     }
@@ -215,7 +215,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getIliasVersion(): string
+    public function getIliasVersion() : string
     {
         return $this->iliasVersion;
     }
@@ -223,7 +223,7 @@ class ilUserCertificate
     /**
      * @return bool
      */
-    public function isCurrentlyActive(): bool
+    public function isCurrentlyActive() : bool
     {
         return $this->currentlyActive;
     }
@@ -231,7 +231,7 @@ class ilUserCertificate
     /**
      * @return int|null
      */
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -247,7 +247,7 @@ class ilUserCertificate
     /**
      * @return string
      */
-    public function getThumbnailImagePath(): string
+    public function getThumbnailImagePath() : string
     {
         return $this->thumbnailImagePath;
     }

@@ -9,6 +9,9 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class ilPageContentProvider
@@ -26,7 +29,18 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
      * @var string
      */
     private static $perma_link = "";
-
+    /**
+     * @var string
+     */
+    private static $title = "";
+    /**
+     * @var string
+     */
+    private static $short_title = "";
+    /**
+     * @var string
+     */
+    private static $view_title = "";
 
     /**
      * @param string $content
@@ -34,6 +48,30 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     public static function setContent(string $content) : void
     {
         self::$content = $content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setTitle(string $title) : void
+    {
+        self::$title = $title;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setShortTitle(string $short_title) : void
+    {
+        self::$short_title = $short_title;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setViewTitle(string $view_title) : void
+    {
+        self::$view_title = $view_title;
     }
 
 
@@ -62,11 +100,39 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     {
         return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
             $ui = $this->dic->ui();
-
-            return $ui->factory()->legacy($ui->renderer()->render($content) . self::$content);
+            return $ui->factory()->legacy(
+                $ui->renderer()->render($content) . self::$content
+            );
         })->withLowPriority();
     }
 
+
+    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+    {
+        return $this->globalScreen()->layout()->factory()->title()->withModification(
+            function (string $content) : string {
+                return self::$title;
+            }
+        )->withLowPriority();
+    }
+
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    {
+        return $this->globalScreen()->layout()->factory()->short_title()->withModification(
+            function (string $content) : string {
+                return self::$short_title;
+            }
+        )->withLowPriority();
+    }
+
+    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
+    {
+        return $this->globalScreen()->layout()->factory()->view_title()->withModification(
+            function (string $content) : string {
+                return self::$view_title;
+            }
+        )->withLowPriority();
+    }
 
     /**
      * @inheritDoc
@@ -99,6 +165,18 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
                 $translation_url = \ilObjLanguageAccess::_getTranslationLink();
                 $translation_title = $this->dic->language()->txt('translation');
                 $links[] = $f->link()->standard($translation_title, $translation_url);
+            }
+
+            // accessibility control concept
+            if (($accessibility_control_url = \ilAccessibilityControlConceptGUI::getFooterLink()) !== '') {
+                $accessibility_control_title = \ilAccessibilityControlConceptGUI::getFooterText();
+                $links[] = $f->link()->standard($accessibility_control_title, $accessibility_control_url);
+            }
+
+            // report accessibility issue
+            if (($accessibility_report_url = \ilAccessibilitySupportContactsGUI::getFooterLink()) !== '') {
+                $accessibility_report_title = \ilAccessibilitySupportContactsGUI::getFooterText();
+                $links[] = $f->link()->standard($accessibility_report_title, $accessibility_report_url);
             }
 
             $footer = $f->mainControls()->footer($links, $text);

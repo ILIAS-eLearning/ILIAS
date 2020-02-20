@@ -71,6 +71,7 @@ class ilMMTabHandling
      */
     public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "")
     {
+        $this->tabs->clearTargets();
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjMainMenuGUI::TAB_MAIN,
@@ -79,10 +80,16 @@ class ilMMTabHandling
             );
             switch ($tab) {
                 case ilObjMainMenuGUI::TAB_MAIN:
-                    $this->tabs->addSubTab(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS, $this->lng->txt(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS),
-                        $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS));
-                    $this->tabs->addSubTab(ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, $this->lng->txt(ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS),
-                        $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS));
+                    $this->tabs->addSubTab(
+                        ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS,
+                        $this->lng->txt(ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS),
+                        $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_VIEW_TOP_ITEMS)
+                    );
+                    $this->tabs->addSubTab(
+                        ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
+                        $this->lng->txt(ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS),
+                        $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS)
+                    );
                     $this->tabs->activateSubTab($subtab);
                     break;
             }
@@ -106,6 +113,6 @@ class ilMMTabHandling
                 $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
             }
         }
-        $this->tabs->setTabActive($tab);
+        $this->tabs->activateTab($tab);
     }
 }

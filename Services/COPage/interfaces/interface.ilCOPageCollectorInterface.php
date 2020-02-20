@@ -10,11 +10,11 @@
  */
 interface ilCOPageCollectorInterface
 {
-	/**
-	 * Get all page IDs of an repository object
-	 *
-	 * @param int $obj_id object id of repository object
-	 * @return array[] inner array keys: "parent_type", "id", "lang"
-	 */
-	public function getAllPageIds($obj_id);
+    /**
+     * Get all page IDs of an repository object
+     *
+     * @param int $obj_id object id of repository object
+     * @return array[] inner array keys: "parent_type", "id", "lang"
+     */
+    public function getAllPageIds($obj_id);
 }

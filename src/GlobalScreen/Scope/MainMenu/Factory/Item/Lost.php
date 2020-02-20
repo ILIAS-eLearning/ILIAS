@@ -1,26 +1,28 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
+use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Lost
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTopItem, isParent, isChild, hasTitle, hasAction
+class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
-
+    use SymbolDecoratorTrait;
     /**
      * @var isChild[]
      */
@@ -32,8 +34,7 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     /**
      * @var string
      */
-    private $title = "";
-
+    private $title = '';
 
     /**
      * @inheritDoc
@@ -43,7 +44,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         parent::__construct($provider_identification);
         $this->parent = new NullIdentification();
     }
-
 
     /**
      * @inheritDoc
@@ -55,7 +55,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -63,25 +62,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return $this->title;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getAsyncContentURL() : string
-    {
-        return "";
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withAsyncContentURL(string $async_content_url) : hasAsyncContent
-    {
-        return $this;
-    }
-
 
     /**
      * @inheritDoc
@@ -91,6 +71,13 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function withContentWrapper(Closure $content_wrapper) : hasContent
+    {
+        return $this;
+    }
 
     /**
      * @inheritDoc
@@ -102,7 +89,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $DIC->ui()->factory()->legacy("");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -113,7 +99,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -122,7 +107,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this->parent instanceof isParent;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -130,7 +114,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return $this->parent;
     }
-
 
     /**
      * @inheritDoc
@@ -142,7 +125,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -150,7 +132,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return $this->children;
     }
-
 
     /**
      * @inheritDoc
@@ -162,7 +143,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -173,6 +153,17 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function removeChild(isChild $child_to_remove) : isParent
+    {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
+            return $item->getProviderIdentification()->serialize() !== $child_to_remove->getProviderIdentification()->serialize();
+        });
+
+        return $this;
+    }
 
     /**
      * @inheritDoc
@@ -181,7 +172,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return count($this->children) > 0;
     }
-
 
     /**
      * @inheritDoc
@@ -192,7 +182,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -200,7 +189,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return "#";
     }
-
 
     /**
      * @inheritDoc
@@ -211,7 +199,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -219,4 +206,29 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     {
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
+    {
+        return false;
+    }
+
 }

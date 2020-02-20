@@ -10,48 +10,45 @@
  */
 class ilObjBookingServiceSettings
 {
-	/**
-	 * repository object id (e.g. a course)
-	 * @var int
-	 */
-	protected $obj_id;
+    /**
+     * repository object id (e.g. a course)
+     * @var int
+     */
+    protected $obj_id;
 
-	/**
-	 * @var int[]
-	 */
-	protected $book_obj_ids;
+    /**
+     * @var int[]
+     */
+    protected $book_obj_ids;
 
-	/**
-	 * Constructor
-	 * @param int $obj_id
-	 * @param array $book_obj_ids
-	 */
-	public function __construct(int $obj_id, array $book_obj_ids)
-	{
-		$this->obj_id = $obj_id;
-		$this->book_obj_ids = $book_obj_ids;
-	}
+    /**
+     * Constructor
+     * @param int $obj_id
+     * @param array $book_obj_ids
+     */
+    public function __construct(int $obj_id, array $book_obj_ids)
+    {
+        $this->obj_id = $obj_id;
+        $this->book_obj_ids = $book_obj_ids;
+    }
 
-	/**
-	 * Get object id of repo object
-	 *
-	 * @return int
-	 */
-	public function getObjectId(): int
-	{
-		return $this->obj_id;
-	}
+    /**
+     * Get object id of repo object
+     *
+     * @return int
+     */
+    public function getObjectId() : int
+    {
+        return $this->obj_id;
+    }
 
-	/**
-	 * Get used booking object ids
-	 *
-	 * @return int[]
-	 */
-	public function getUsedBookingObjectIds(): array
-	{
-		return $this->book_obj_ids;
-	}
-
-
-
+    /**
+     * Get used booking object ids
+     *
+     * @return int[]
+     */
+    public function getUsedBookingObjectIds() : array
+    {
+        return $this->book_obj_ids;
+    }
 }

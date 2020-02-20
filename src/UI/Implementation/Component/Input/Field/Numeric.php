@@ -31,16 +31,21 @@ class Numeric extends Input implements C\Input\Field\Numeric
         $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($this->refinery->numeric()->isNumeric());
+        $this->setAdditionalTransformation(
+            $this->refinery->logical()->logicalOr([
+                $this->refinery->numeric()->isNumeric(),
+                $this->refinery->null()
+            ])
+        );
     }
 
 
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
-        return is_numeric($value) || $value === "";
+        return is_numeric($value) || $value === "" || $value === null;
     }
 
 

@@ -12,35 +12,44 @@
  */
 class ilBookingObjectServiceGUI extends ilBookingObjectGUI
 {
-	/**
-	 * @var int
-	 */
-	protected $host_obj_ref_id;
+    /**
+     * @var int
+     */
+    protected $host_obj_ref_id;
 
-	/**
-	 * @var ilObjUseBookDBRepository
-	 */
-	protected $use_book_repo;
+    /**
+     * @var ilObjUseBookDBRepository
+     */
+    protected $use_book_repo;
 
-	/**
-	 * @var
-	 */
-	//protected $current_pool_ref_id;
+    /**
+     * @var
+     */
+    //protected $current_pool_ref_id;
 
-	/**
-	 * ilBookingObjectServiceGUI constructor.
-	 * @param int $host_obj_ref_id Host object ref id (e.g. course)
-	 */
-	public function __construct(int $host_obj_ref_id, int $current_pool_ref_id, \ilObjUseBookDBRepository $use_book_repo,
-		string $seed, string $sseed, ilBookingHelpAdapter $help)
-	{
-		parent::__construct(null, $seed, $sseed,
-			$help,
-			ilObject::_lookupObjId($host_obj_ref_id));
-		$this->host_obj_ref_id = (int) $host_obj_ref_id;
-		$this->use_book_repo = $use_book_repo;
-		$this->pool_gui = new ilObjBookingPoolGUI("", $current_pool_ref_id, true, false);
-		$this->activateManagement(false);
-	}
+    /**
+     * ilBookingObjectServiceGUI constructor.
+     * @param int $host_obj_ref_id Host object ref id (e.g. course)
+     */
+    public function __construct(
+        int $host_obj_ref_id,
+        int $current_pool_ref_id,
+        \ilObjUseBookDBRepository $use_book_repo,
+        string $seed,
+        string $sseed,
+        ilBookingHelpAdapter $help
+    ) {
+        $this->pool_gui = new ilObjBookingPoolGUI("", $current_pool_ref_id, true, false);
+        parent::__construct(
+            $this->pool_gui,
+            $seed,
+            $sseed,
+            $help,
+            ilObject::_lookupObjId($host_obj_ref_id)
+        );
+        $this->host_obj_ref_id = (int) $host_obj_ref_id;
+        $this->use_book_repo = $use_book_repo;
 
+        $this->activateManagement(false);
+    }
 }

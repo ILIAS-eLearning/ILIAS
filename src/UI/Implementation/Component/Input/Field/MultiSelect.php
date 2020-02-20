@@ -48,10 +48,20 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
-        $ok = is_array($value) || is_null($value);
-        return $ok;
+        if (is_null($value)) {
+            return true;
+        }
+        if (is_array($value)) {
+            foreach ($value as $v) {
+                if (!array_key_exists($v, $this->options)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

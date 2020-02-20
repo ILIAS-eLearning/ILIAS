@@ -13,7 +13,6 @@
  */
 class ilDclRecordListGUI
 {
-
     const GET_TABLE_ID = 'table_id';
     const GET_TABLEVIEW_ID = 'tableview_id';
     const GET_MODE = 'mode';
@@ -155,7 +154,7 @@ class ilDclRecordListGUI
 
         $this->createSwitchers();
 
-        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id) AND $this->table_obj->hasCustomFields();
+        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id) and $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
@@ -590,7 +589,6 @@ class ilDclRecordListGUI
         }
 
         if (count($options) > 1) {
-
             $tableview_selection = new ilSelectInputGUI('', 'tableview_id');
             $tableview_selection->setOptions($options);
             $tableview_selection->setValue($this->tableview_id);
@@ -614,5 +612,3 @@ class ilDclRecordListGUI
         return ilObjDataCollectionAccess::hasAccessTo($this->parent_obj->ref_id, $this->table_id, $this->tableview_id);
     }
 }
-
-?>

@@ -57,9 +57,9 @@ class ilMainMenuGUI
     /**
      * @var ilTemplate
      */
-    var $tpl;
-    var $target;
-    var $start_template;
+    public $tpl;
+    public $target;
+    public $start_template;
     /**
      * @var ilGlobalTemplate
      */
@@ -103,7 +103,9 @@ class ilMainMenuGUI
         $ilUser = $DIC->user();
 
         $this->tpl = new ilTemplate(
-            "tpl.main_menu.html", true, true,
+            "tpl.main_menu.html",
+            true,
+            true,
             "Services/MainMenu"
         );
         $this->target = $a_target;
@@ -241,7 +243,8 @@ class ilMainMenuGUI
 
                 // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
-                    "Services/MainMenu", "main_menu_search",
+                    "Services/MainMenu",
+                    "main_menu_search",
                     array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
                 );
                 if (!$uip->replaced()) {
@@ -303,9 +306,9 @@ class ilMainMenuGUI
                 $user_img_src = $ilUser->getPersonalPicturePath("small", true);
                 $user_img_alt = $ilUser->getFullname();
                 $this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
-                $this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile");
+                $this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile");
                 $this->tpl->setVariable("USR_TXT_PROFILE", $lng->txt("personal_profile"));
-                $this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings");
+                $this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings");
                 $this->tpl->setVariable("USR_TXT_SETTINGS", $lng->txt("personal_settings"));
                 $this->tpl->setVariable("TXT_LOGOUT2", $lng->txt("logout"));
                 $this->tpl->setVariable("LINK_LOGOUT2", $link_dir . "logout.php?lang=" . $ilUser->getCurrentLanguage());
@@ -335,7 +338,8 @@ class ilMainMenuGUI
             $this->tpl->setCurrentBlock("header_back_bl");
             $this->tpl->setVariable("URL_HEADER_BACK", $this->topbar_back_url);
             $this->tpl->setVariable(
-                "TXT_HEADER_BACK", $this->topbar_back_caption
+                "TXT_HEADER_BACK",
+                $this->topbar_back_caption
                 ? $this->topbar_back_caption
                 : $lng->txt("back")
             );
@@ -470,8 +474,12 @@ class ilMainMenuGUI
             $acc->addCss();
 
             ilTooltipGUI::addTooltip(
-                "help_tr", $lng->txt("help_open_online_help"), "",
-                "bottom center", "top center", false
+                "help_tr",
+                $lng->txt("help_open_online_help"),
+                "",
+                "bottom center",
+                "top center",
+                false
             );
             $helpl->addEntry("<span>&nbsp;</span> " . $lng->txt("help_topcis"), "#", "", "il.Help.listHelp(event, false);");
         }
@@ -486,8 +494,12 @@ class ilMainMenuGUI
             $main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
             ilTooltipGUI::addTooltip(
-                "help_tt", $lng->txt("help_toggle_tooltips"), "",
-                "bottom center", "top center", false
+                "help_tt",
+                $lng->txt("help_toggle_tooltips"),
+                "",
+                "bottom center",
+                "top center",
+                false
             );
             $helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> ' . $lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
         }
@@ -521,7 +533,7 @@ class ilMainMenuGUI
     /**
      * Render awareness tool
      */
-    function renderAwareness()
+    public function renderAwareness()
     {
         include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
         $aw = ilAwarenessGUI::getInstance();
@@ -580,9 +592,10 @@ class ilMainMenuGUI
 
         $numberOfUserInteractions = count(
             array_filter(
-                $metas, function (BucketMeta $meta) {
-                return $meta->getState() == State::USER_INTERACTION;
-            }
+                $metas,
+                function (BucketMeta $meta) {
+                    return $meta->getState() == State::USER_INTERACTION;
+                }
             )
         );
         $numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
@@ -634,8 +647,14 @@ class ilMainMenuGUI
     protected function addToolbarTooltip(string $element_id, string $help_id)
     {
         if (ilHelp::getMainMenuTooltip($help_id) != "") {
-            ilTooltipGUI::addTooltip($element_id, ilHelp::getMainMenuTooltip($help_id),
-                "", "top center", "bottom center", false);
+            ilTooltipGUI::addTooltip(
+                $element_id,
+                ilHelp::getMainMenuTooltip($help_id),
+                "",
+                "top center",
+                "bottom center",
+                false
+            );
         }
     }
 
@@ -677,4 +696,3 @@ class ilMainMenuGUI
         return $target_str;
     }
 }
-

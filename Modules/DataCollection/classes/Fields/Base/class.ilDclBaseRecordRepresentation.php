@@ -9,7 +9,6 @@
  */
 class ilDclBaseRecordRepresentation
 {
-
     protected $record_field;
     protected $lng;
     protected $access;
@@ -123,7 +122,6 @@ class ilDclBaseRecordRepresentation
      */
     public function fillRow(ilTemplate $tpl)
     {
-
     }
 
 

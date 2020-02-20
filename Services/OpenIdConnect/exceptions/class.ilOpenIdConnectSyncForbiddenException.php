@@ -9,5 +9,4 @@
  */
 class ilOpenIdConnectSyncForbiddenException extends ilException
 {
-
 }

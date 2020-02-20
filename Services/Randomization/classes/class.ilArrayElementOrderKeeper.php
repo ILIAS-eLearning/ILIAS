@@ -11,12 +11,12 @@ require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
  */
 class ilArrayElementOrderKeeper extends ilArrayElementShuffler
 {
-	/**
-	 * @param array $array
-	 * @return array
-	 */
-	public function shuffle($array)
-	{
-		return $array;
-	}
+    /**
+     * @param array $array
+     * @return array
+     */
+    public function shuffle($array)
+    {
+        return $array;
+    }
 }

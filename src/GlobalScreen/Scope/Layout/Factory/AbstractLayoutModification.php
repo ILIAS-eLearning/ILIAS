@@ -43,7 +43,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @inheritDoc
      */
-    public final function withPriority(int $priority) : LayoutModification
+    final public function withPriority(int $priority) : LayoutModification
     {
         if (!in_array($priority, [LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_HIGH])) {
             throw new LogicException("\$priority MUST be LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_MEDIUM or LayoutModification::PRIORITY_HIGH");
@@ -58,7 +58,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @inheritDoc
      */
-    public final function withHighPriority() : LayoutModification
+    final public function withHighPriority() : LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_HIGH;
@@ -70,7 +70,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @inheritDoc
      */
-    public final function withLowPriority() : LayoutModification
+    final public function withLowPriority() : LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_LOW;
@@ -84,7 +84,7 @@ abstract class AbstractLayoutModification implements LayoutModification
      *
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
-    public final function withModification(Closure $closure) : LayoutModification
+    final public function withModification(Closure $closure) : LayoutModification
     {
         $clone = clone $this;
         $clone->modification = $closure;
@@ -96,7 +96,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @inheritDoc
      */
-    public final function getModification() : Closure
+    final public function getModification() : Closure
     {
         return $this->modification;
     }
@@ -105,7 +105,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @inheritDoc
      */
-    public final function hasValidModification() : bool
+    final public function hasValidModification() : bool
     {
         return ($this->modification instanceof Closure && $this->checkClosure());
     }
@@ -114,7 +114,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @return bool
      */
-    private final function checkClosure() : bool
+    final private function checkClosure() : bool
     {
         $closure = $this->modification;
         $return_type = $this->getClosureReturnType();

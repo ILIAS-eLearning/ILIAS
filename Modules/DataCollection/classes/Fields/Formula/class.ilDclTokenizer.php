@@ -52,5 +52,3 @@ class ilDclTokenizer
         return array_map('trim', $tokens);
     }
 }
-
-?>

@@ -5,27 +5,13 @@
 namespace ILIAS\UI\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\ViewControl\HasViewControls;
 
 /**
  * This describes a Secondary Panel.
  */
-interface Secondary extends C\Component
+interface Secondary extends C\Component, HasViewControls
 {
-    /**
-     * Add View Controls to Secondary panel
-     *
-     * @param array $view_controls Array Of ViewControls
-     * @return \ILIAS\UI\Component\Panel\Secondary\Secondary
-     */
-    public function withViewControls(array $view_controls) : Secondary;
-
-    /**
-     * Get view controls to be shown in the header of the Secondary panel.
-     *
-     * @return array Array of ViewControls
-     */
-    public function getViewControls() : ?array;
-
     /**
      * Sets a Component being displayed below the content
      * @param \ILIAS\UI\Component\Button\Shy $component
@@ -38,4 +24,17 @@ interface Secondary extends C\Component
      * @return \ILIAS\UI\Component\Button\Shy | null
      */
     public function getFooter() : ?C\Button\Shy;
+
+    /**
+     * Sets the action drop down to be displayed on the right of the title
+     * @param C\Dropdown\Standard $actions
+     * @return \ILIAS\UI\Implementation\Component\Panel\Secondary\Secondary
+     */
+    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary;
+
+    /**
+     * Gets the action drop down to be displayed on the right of the title
+     * @return C\Dropdown\Standard | null
+     */
+    public function getActions() : ?C\Dropdown\Standard;
 }

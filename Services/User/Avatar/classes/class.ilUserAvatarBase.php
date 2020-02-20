@@ -8,29 +8,29 @@
  */
 abstract class ilUserAvatarBase implements ilUserAvatar
 {
-	/**
-	 * @var string
-	 */
-	protected $name = '';
+    /**
+     * @var string
+     */
+    protected $name = '';
 
-	/**
-	 * @var int
-	 */
-	protected $usrId = 0;
+    /**
+     * @var int
+     */
+    protected $usrId = 0;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function setUsrId($usrId)
-	{
-		$this->usrId = $usrId;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function setUsrId($usrId)
+    {
+        $this->usrId = $usrId;
+    }
 }

@@ -12,37 +12,36 @@ abstract class ilAuthPlugin extends ilPlugin
 {
 
 
-	/**
-	 * Get component name
-	 */
-	public function getComponentName()
-	{
-		return 'Authentication';
-	}
+    /**
+     * Get component name
+     */
+    public function getComponentName()
+    {
+        return 'Authentication';
+    }
 
-	/**
-	 * Get service
-	 */
-	public function getComponentType()
-	{
-		return IL_COMP_SERVICE;
-	}
+    /**
+     * Get service
+     */
+    public function getComponentType()
+    {
+        return IL_COMP_SERVICE;
+    }
 
 
-	/**
-	 * Get slot
-	 */
-	public function getSlot()
-	{
-		return 'AuthenticationHook';
-	}
+    /**
+     * Get slot
+     */
+    public function getSlot()
+    {
+        return 'AuthenticationHook';
+    }
 
-	/**
-	 * Get slot id
-	 */
-	public function getSlotId()
-	{
-		return 'authhk';
-	}
+    /**
+     * Get slot id
+     */
+    public function getSlotId()
+    {
+        return 'authhk';
+    }
 }
-?>

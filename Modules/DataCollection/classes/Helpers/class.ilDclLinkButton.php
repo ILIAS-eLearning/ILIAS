@@ -7,7 +7,6 @@
  */
 class ilDclLinkButton extends ilLinkButton
 {
-
     const TYPE_DATACOLLECTION_LINK = 99;
     protected $attributes;
     protected $useWrapper = false;

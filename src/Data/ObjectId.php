@@ -9,41 +9,45 @@ use ilObject2;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class ObjectId {
+class ObjectId
+{
 
-	/**
-	 * @var string
-	 */
-	private $object_id;
-
-
-	/**
-	 * ReferenceId constructor.
-	 *
-	 * @param int $ref_id
-	 */
-	public function __construct(int $object_id) {
-		$this->object_id = $object_id;
-	}
+    /**
+     * @var string
+     */
+    private $object_id;
 
 
-	/**
-	 * @return int
-	 */
-	public function toInt(): int {
-		return (int)$this->object_id;
-	}
+    /**
+     * ReferenceId constructor.
+     *
+     * @param int $object_id
+     */
+    public function __construct(int $object_id)
+    {
+        $this->object_id = $object_id;
+    }
 
 
-	/**
-	 * @return ReferenceId[]
-	 */
-	public function toReferenceIds(): array {
-		$ref_ids = [];
-		foreach (ilObject2::_getAllReferences($this->object_id) as $reference) {
-			$ref_ids[] = new ReferenceId((int)$reference);
-		}
+    /**
+     * @return int
+     */
+    public function toInt() : int
+    {
+        return (int) $this->object_id;
+    }
 
-		return $ref_ids;
-	}
+
+    /**
+     * @return ReferenceId[]
+     */
+    public function toReferenceIds() : array
+    {
+        $ref_ids = [];
+        foreach (ilObject2::_getAllReferences($this->object_id) as $reference) {
+            $ref_ids[] = new ReferenceId((int) $reference);
+        }
+
+        return $ref_ids;
+    }
 }

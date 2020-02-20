@@ -8,7 +8,6 @@
  */
 class ilDclTextRecordQueryObject extends ilDclRecordQueryObject
 {
-
     public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records_ids, $direction = 'asc')
     {
         $sort_array = array();

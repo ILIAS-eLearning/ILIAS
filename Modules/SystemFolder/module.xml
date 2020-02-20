@@ -3,6 +3,7 @@
 	id="adm">
 	<baseclasses>
 		<baseclass name="ilSystemSupportContactsGUI" dir="classes" />
+		<baseclass name="ilAccessibilitySupportContactsGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="adm" class_name="SystemFolder" dir="classes"

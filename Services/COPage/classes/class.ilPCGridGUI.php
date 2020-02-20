@@ -14,313 +14,350 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCGridGUI extends ilPageContentGUI
 {
-	protected $toolbar;
-	protected $tabs;
+    const TEMPLATE_MANUAL = 0;
+    const TEMPLATE_TWO_COLUMN = 1;
+    const TEMPLATE_THREE_COLUMN = 2;
+    const TEMPLATE_MAIN_SIDE = 3;
+    const TEMPLATE_TWO_BY_TWO = 4;
 
-	/**
-	 * Constructor
-	 * @param $a_pg_obj
-	 * @param $a_content_obj
-	 * @param $a_hier_id
-	 * @param string $a_pc_id
-	 */
-	function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-	{
-		global $DIC;
+    protected $toolbar;
+    protected $tabs;
 
-		$this->ctrl = $DIC->ctrl();
-		$ilToolbar = $DIC->toolbar();
-		$ilTabs = $DIC->tabs();
+    /**
+     * Constructor
+     * @param $a_pg_obj
+     * @param $a_content_obj
+     * @param $a_hier_id
+     * @param string $a_pc_id
+     */
+    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+    {
+        global $DIC;
 
-		$this->toolbar = $ilToolbar;
-		$this->tabs = $ilTabs;
-		parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-	}
-	
-	/**
-	 * Execute command
-	 */
-	function executeCommand()
-	{
-		// get next class that processes or forwards current command
-		$next_class = $this->ctrl->getNextClass($this);
+        $this->ctrl = $DIC->ctrl();
+        $ilToolbar = $DIC->toolbar();
+        $ilTabs = $DIC->tabs();
 
-		// get current command
-		$cmd = $this->ctrl->getCmd();
+        $this->toolbar = $ilToolbar;
+        $this->tabs = $ilTabs;
+        parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+    }
+    
+    /**
+     * Execute command
+     */
+    public function executeCommand()
+    {
+        // get next class that processes or forwards current command
+        $next_class = $this->ctrl->getNextClass($this);
 
-		switch($next_class)
-		{
-			default:
-				$ret = $this->$cmd();
-				break;
-		}
+        // get current command
+        $cmd = $this->ctrl->getCmd();
 
-		return $ret;
-	}
+        switch ($next_class) {
+            default:
+                $ret = $this->$cmd();
+                break;
+        }
 
-	/**
-	 * Insert new grid
-	 */
-	function insert()
-	{
-		$this->displayValidationError();
-		$form = $this->initCreationForm();
-		if ($this->ctrl->getCmd() == "create")
-		{
-			$form->setValuesByPost();
-		}
-		$this->tpl->setContent($form->getHTML());
-	}
+        return $ret;
+    }
 
-	/**
-	 * Edit grid cells
-	 */
-	function editProperties()
-	{
-		$this->displayValidationError();
-		$this->setTabs();
-		
-		$form = $this->initForm();
-		$this->getFormValues($form);
-		$html = $form->getHTML();
-		$this->tpl->setContent($html);
-	}
+    /**
+     * Insert new grid
+     */
+    public function insert()
+    {
+        $this->displayValidationError();
+        $form = $this->initCreationForm();
+        if ($this->ctrl->getCmd() == "create") {
+            $form->setValuesByPost();
+        }
+        $this->tpl->setContent($form->getHTML());
+    }
 
-	/**
-	 * Init creation form
-	 * @return ilPropertyFormGUI
-	 */
-	function initCreationForm()
-	{
-		// edit form
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("cont_ed_insert_grid"));
-		$form->setDescription($this->lng->txt("cont_ed_insert_grid_info"));
+    /**
+     * Edit grid cells
+     */
+    public function editProperties()
+    {
+        $this->displayValidationError();
+        $this->setTabs();
+        
+        $form = $this->initForm();
+        $this->getFormValues($form);
+        $html = $form->getHTML();
+        $this->tpl->setContent($html);
+    }
 
-		// number of cells
-		$ni = new ilNumberInputGUI($this->lng->txt("cont_grid_nr_cells"), "number_of_cells");
-		$ni->setMaxLength(2);
-		$ni->setSize(2);
-		$form->addItem($ni);
+    /**
+     * Init creation form
+     * @return ilPropertyFormGUI
+     */
+    public function initCreationForm()
+    {
+        $lng = $this->lng;
 
-		$sh = new ilFormSectionHeaderGUI();
-		$sh->setTitle($this->lng->txt("cont_ed_grid_col_width"));
-		$sh->setInfo($this->lng->txt("cont_ed_grid_col_width_info"));
-		$form->addItem($sh);
+        // edit form
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this));
+        $form->setTitle($this->lng->txt("cont_ed_insert_grid"));
+        $form->setDescription($this->lng->txt("cont_ed_insert_grid_info"));
+        
+        //
+        $radg = new ilRadioGroupInputGUI($lng->txt("cont_pc_grid"), "layout_template");
+        $radg->setValue(self::TEMPLATE_TWO_COLUMN);
+        $op1 = new ilRadioOption($lng->txt("cont_grid_t_two_column"), self::TEMPLATE_TWO_COLUMN, $lng->txt("cont_grid_t_two_column_info"));
+        $radg->addOption($op1);
+        $op2 = new ilRadioOption($lng->txt("cont_grid_t_three_column"), self::TEMPLATE_THREE_COLUMN, $lng->txt("cont_grid_t_three_column_info"));
+        $radg->addOption($op2);
+        $op3 = new ilRadioOption($lng->txt("cont_grid_t_main_side"), self::TEMPLATE_MAIN_SIDE, $lng->txt("cont_grid_t_main_side_info"));
+        $radg->addOption($op3);
+        $op4 = new ilRadioOption($lng->txt("cont_grid_t_two_by_two"), self::TEMPLATE_TWO_BY_TWO, $lng->txt("cont_grid_t_two_by_two_info"));
+        $radg->addOption($op4);
+        $op5 = new ilRadioOption($lng->txt("cont_grid_t_manual"), self::TEMPLATE_MANUAL, $lng->txt("cont_grid_t_manual_info"));
+        $radg->addOption($op5);
+        $form->addItem($radg);
+        
 
-		$options = array("" => "") + ilPCGrid::getWidths();
+        // number of cells
+        $ni = new ilNumberInputGUI($this->lng->txt("cont_grid_nr_cells"), "number_of_cells");
+        $ni->setMaxLength(2);
+        $ni->setSize(2);
+        $op5->addSubItem($ni);
 
-		// widths
-		foreach (ilPCGrid::getSizes() as $s)
-		{
-			$si = new ilSelectInputGUI($this->lng->txt("cont_grid_width_".$s), $s);
-			$si->setInfo($this->lng->txt("cont_grid_width_".$s."_info"));
-			$si->setOptions($options);
-			$form->addItem($si);
-		}
+        /*$sh = new ilFormSectionHeaderGUI();
+        $sh->setTitle($this->lng->txt("cont_ed_grid_col_width"));
+        $sh->setInfo($this->lng->txt("cont_ed_grid_col_width_info"));
+        $form->addItem($sh);*/
 
-		// save/cancel buttons
-		$form->addCommandButton("create_grid", $this->lng->txt("save"));
-		$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
+        $options = array("" => "") + ilPCGrid::getWidths();
 
-		return $form;
-	}
+        // widths
+        foreach (ilPCGrid::getSizes() as $s) {
+            $si = new ilSelectInputGUI($this->lng->txt("cont_grid_width_" . $s), $s);
+            $si->setInfo($this->lng->txt("cont_grid_width_" . $s . "_info"));
+            $si->setOptions($options);
+            $op5->addSubItem($si);
+        }
 
-	/**
-	 * Create new grid element
-	 */
-	function create()
-	{
-		$form = $this->initCreationForm();
-		if ($form->checkInput())
-		{
-			$this->content_obj = new ilPCGrid($this->getPage());
-			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+        // save/cancel buttons
+        $form->addCommandButton("create_grid", $this->lng->txt("save"));
+        $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 
-			for ($i = 0; $i < (int) $_POST["number_of_cells"]; $i++)
-			{
-				$this->content_obj->addGridCell($_POST["s"], $_POST["m"], $_POST["l"], $_POST["xl"]);
-			}
+        return $form;
+    }
 
-			$this->updated = $this->pg_obj->update();
+    /**
+     * Create new grid element
+     */
+    public function create()
+    {
+        $form = $this->initCreationForm();
+        if ($form->checkInput()) {
+            $post_layout_template = (int) $_POST["layout_template"];
+            $this->content_obj = new ilPCGrid($this->getPage());
+            $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
-			if ($this->updated === true)
-			{
-				$this->afterCreation();
-				//$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-			}
-			else
-			{
-				$this->insert();
-			}
-		}
-		else
-		{
-			$form->setValuesByPost();
-			$this->tpl->setContent($form->getHTML());
-		}
-	}
-	
-	/**
-	 * After creation processing
-	 */
-	function afterCreation()
-	{
-		$this->pg_obj->stripHierIDs();
-		$this->pg_obj->addHierIDs();
-		$this->ctrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
-		$this->ctrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
-		$this->content_obj->setHierId($this->content_obj->readHierId());
-		$this->setHierId($this->content_obj->readHierId());
-		$this->content_obj->setPCId($this->content_obj->readPCId());
-		$this->edit();
-	}
+            switch ($post_layout_template) {
+                case self::TEMPLATE_TWO_COLUMN:
+                    $this->content_obj->addGridCell(12, 6, 6, 6);
+                    $this->content_obj->addGridCell(12, 6, 6, 6);
+                    break;
+
+                case self::TEMPLATE_THREE_COLUMN:
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    break;
+
+                case self::TEMPLATE_MAIN_SIDE:
+                    $this->content_obj->addGridCell(12, 6, 8, 9);
+                    $this->content_obj->addGridCell(12, 6, 4, 3);
+                    break;
+
+                case self::TEMPLATE_TWO_BY_TWO:
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    break;
 
 
-	//
-	// Edit Grid cells
-	//
-	
-	/**
-	* List all cells
-	*/
-	function edit()
-	{
-		$this->toolbar->addButton($this->lng->txt("cont_add_cell"),
-			$this->ctrl->getLinkTarget($this, "addCell"));
+                case self::TEMPLATE_MANUAL:
+                    for ($i = 0; $i < (int) $_POST["number_of_cells"]; $i++) {
+                        $this->content_obj->addGridCell($_POST["s"], $_POST["m"], $_POST["l"], $_POST["xl"]);
+                    }
+                    break;
+            }
 
-		$this->setTabs();
-		$this->tabs->activateTab("settings");
-		include_once("./Services/COPage/classes/class.ilPCGridCellTableGUI.php");
-		$table_gui = new ilPCGridCellTableGUI($this, "edit", $this->content_obj);
-		$this->tpl->setContent($table_gui->getHTML());
-	}
-	
-	/**
-	 * Save cell properties
-	 */
-	function saveCells()
-	{
-		if (is_array($_POST["position"]))
-		{
-			$positions = ilUtil::stripSlashesArray($_POST["position"]);
-			$this->content_obj->savePositions($positions);
-		}
-		$this->updated = $this->pg_obj->update();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "edit");
-	}
+            $this->updated = $this->pg_obj->update();
 
-	/**
-	 * Add cell
-	 */
-	function addCell()
-	{
-		$this->content_obj->addCell("", "", "", "");
-		$this->updated = $this->pg_obj->update();
+            if ($this->updated === true) {
+                $this->afterCreation();
+            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+            } else {
+                $this->insert();
+            }
+        } else {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
+    }
+    
+    /**
+     * After creation processing
+     */
+    public function afterCreation()
+    {
+        $this->pg_obj->stripHierIDs();
+        $this->pg_obj->addHierIDs();
+        $this->ctrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
+        $this->ctrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
+        $this->content_obj->setHierId($this->content_obj->readHierId());
+        $this->setHierId($this->content_obj->readHierId());
+        $this->content_obj->setPCId($this->content_obj->readPCId());
+        $this->edit();
+    }
 
-		ilUtil::sendSuccess($this->lng->txt("cont_added_cell"), true);
-		$this->ctrl->redirect($this, "edit");
-	}
-	
-	/**
-	 * Confirm cell deletion
-	 */
-	function confirmCellDeletion()
-	{
-		$this->setTabs();
 
-		if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-			$this->ctrl->redirect($this, "edit");
-		}
-		else
-		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-			$cgui = new ilConfirmationGUI();
-			$cgui->setFormAction($this->ctrl->getFormAction($this));
-			$cgui->setHeaderText($this->lng->txt("cont_grid_cell_confirm_deletion"));
-			$cgui->setCancel($this->lng->txt("cancel"), "cancelCellDeletion");
-			$cgui->setConfirm($this->lng->txt("delete"), "deleteCells");
-			
-			foreach ($_POST["tid"] as $k => $i)
-			{
-				$id = explode(":", $k);
-				$id = explode("_", $id[0]);
-				$cgui->addItem("tid[]", $k, $this->lng->txt("cont_grid_cell")." ".$id[count($id) - 1]);
-			}
-			
-			$this->tpl->setContent($cgui->getHTML());
-		}
-	}
-	
-	/**
-	 * Cancel cell deletion
-	 */
-	function cancelCellDeletion()
-	{
-		$this->ctrl->redirect($this, "edit");
-	}
-	
-	/**
-	 * Delete Cells
-	 */
-	function deleteCells()
-	{
-		$ilCtrl = $this->ctrl;
-		
-		if (is_array($_POST["tid"]))
-		{
-			foreach($_POST["tid"] as $tid)
-			{
-				$ids = explode(":", $tid);
-				$this->content_obj->deleteGridCell($ids[0], $ids[1]);
-			}
-		}
-		$this->updated = $this->pg_obj->update();
-		
-		$ilCtrl->redirect($this, "edit");
-	}
-	
-	
-	/**
-	 * Set tabs
-	 */
-	function setTabs()
-	{
-		$this->tabs->setBackTarget($this->lng->txt("pg"),
-			$this->ctrl->getParentReturn($this));
+    //
+    // Edit Grid cells
+    //
+    
+    /**
+    * List all cells
+    */
+    public function edit()
+    {
+        $this->toolbar->addButton(
+            $this->lng->txt("cont_add_cell"),
+            $this->ctrl->getLinkTarget($this, "addCell")
+        );
 
-		$this->tabs->addTab("settings",
-			$this->lng->txt("settings"),
-			$this->ctrl->getLinkTarget($this, "edit")
-		);
+        $this->setTabs();
+        $this->tabs->activateTab("settings");
+        include_once("./Services/COPage/classes/class.ilPCGridCellTableGUI.php");
+        $table_gui = new ilPCGridCellTableGUI($this, "edit", $this->content_obj);
+        $this->tpl->setContent($table_gui->getHTML());
+    }
+    
+    /**
+     * Save cell properties
+     */
+    public function saveCells()
+    {
+        if (is_array($_POST["position"])) {
+            $positions = ilUtil::stripSlashesArray($_POST["position"]);
+            $this->content_obj->savePositions($positions);
+        }
+        $this->updated = $this->pg_obj->update();
+        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "edit");
+    }
 
-	}
+    /**
+     * Add cell
+     */
+    public function addCell()
+    {
+        $this->content_obj->addCell("", "", "", "");
+        $this->updated = $this->pg_obj->update();
 
-	/**
-	 * Save tabs properties in db and return to page edit screen
-	 */
-	function saveCellData()
-	{
-		$width_s = ilUtil::stripSlashesArray($_POST["width_s"]);
-		$width_m = ilUtil::stripSlashesArray($_POST["width_m"]);
-		$width_l = ilUtil::stripSlashesArray($_POST["width_l"]);
-		$width_xl = ilUtil::stripSlashesArray($_POST["width_xl"]);
-		$this->content_obj->saveWidths($width_s, $width_m, $width_l, $width_xl);
+        ilUtil::sendSuccess($this->lng->txt("cont_added_cell"), true);
+        $this->ctrl->redirect($this, "edit");
+    }
+    
+    /**
+     * Confirm cell deletion
+     */
+    public function confirmCellDeletion()
+    {
+        $this->setTabs();
 
-		if (is_array($_POST["position"]))
-		{
-			$positions = ilUtil::stripSlashesArray($_POST["position"]);
-			$this->content_obj->savePositions($positions);
-		}
-		$this->updated = $this->pg_obj->update();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->redirect($this, "edit");
-	}
+        if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0) {
+            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "edit");
+        } else {
+            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+            $cgui = new ilConfirmationGUI();
+            $cgui->setFormAction($this->ctrl->getFormAction($this));
+            $cgui->setHeaderText($this->lng->txt("cont_grid_cell_confirm_deletion"));
+            $cgui->setCancel($this->lng->txt("cancel"), "cancelCellDeletion");
+            $cgui->setConfirm($this->lng->txt("delete"), "deleteCells");
+            
+            foreach ($_POST["tid"] as $k => $i) {
+                $id = explode(":", $k);
+                $id = explode("_", $id[0]);
+                $cgui->addItem("tid[]", $k, $this->lng->txt("cont_grid_cell") . " " . $id[count($id) - 1]);
+            }
+            
+            $this->tpl->setContent($cgui->getHTML());
+        }
+    }
+    
+    /**
+     * Cancel cell deletion
+     */
+    public function cancelCellDeletion()
+    {
+        $this->ctrl->redirect($this, "edit");
+    }
+    
+    /**
+     * Delete Cells
+     */
+    public function deleteCells()
+    {
+        $ilCtrl = $this->ctrl;
+        
+        if (is_array($_POST["tid"])) {
+            foreach ($_POST["tid"] as $tid) {
+                $ids = explode(":", $tid);
+                $this->content_obj->deleteGridCell($ids[0], $ids[1]);
+            }
+        }
+        $this->updated = $this->pg_obj->update();
+        
+        $ilCtrl->redirect($this, "edit");
+    }
+    
+    
+    /**
+     * Set tabs
+     */
+    public function setTabs()
+    {
+        $this->tabs->setBackTarget(
+            $this->lng->txt("pg"),
+            $this->ctrl->getParentReturn($this)
+        );
 
+        $this->tabs->addTab(
+            "settings",
+            $this->lng->txt("settings"),
+            $this->ctrl->getLinkTarget($this, "edit")
+        );
+    }
+
+    /**
+     * Save tabs properties in db and return to page edit screen
+     */
+    public function saveCellData()
+    {
+        $width_s = ilUtil::stripSlashesArray($_POST["width_s"]);
+        $width_m = ilUtil::stripSlashesArray($_POST["width_m"]);
+        $width_l = ilUtil::stripSlashesArray($_POST["width_l"]);
+        $width_xl = ilUtil::stripSlashesArray($_POST["width_xl"]);
+        $this->content_obj->saveWidths($width_s, $width_m, $width_l, $width_xl);
+
+        if (is_array($_POST["position"])) {
+            $positions = ilUtil::stripSlashesArray($_POST["position"]);
+            $this->content_obj->savePositions($positions);
+        }
+        $this->updated = $this->pg_obj->update();
+        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->ctrl->redirect($this, "edit");
+    }
 }
-?>

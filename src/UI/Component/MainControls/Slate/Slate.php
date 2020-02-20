@@ -4,20 +4,25 @@
 
 namespace ILIAS\UI\Component\MainControls\Slate;
 
-use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\ReplaceSignal;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Triggerer;
 
 /**
  * This describes a Slate
  */
-interface Slate extends Component, JavaScriptBindable
+interface Slate extends Component, JavaScriptBindable, Triggerer
 {
+    /**
+     * Get the name of this slate
+     */
     public function getName() : string;
 
     /**
-     * @return Symbol
+     * Get the Symbol of the slate
      */
     public function getSymbol() : Symbol;
 
@@ -27,9 +32,9 @@ interface Slate extends Component, JavaScriptBindable
     public function getToggleSignal() : Signal;
 
     /**
-     * Signal that engages the slate when triggered.
+     * Signal that  engages the slate when triggered.
      */
-    public function getShowSignal() : Signal;
+    public function getEngageSignal() : Signal;
 
     /**
      * Configures the slate to be rendered as engaged (or not).
@@ -45,4 +50,22 @@ interface Slate extends Component, JavaScriptBindable
      * @return Component[]
      */
     public function getContents();
+
+    /**
+     * Signal to replace the contents of the slate.
+     */
+    public function getReplaceSignal() : ReplaceSignal;
+
+    /**
+     * A Signal that is triggered when the slate "comes into view", i.e. is being engaged.
+     */
+    public function appendOnInView(Signal $signal) : Slate;
+
+    /**
+     * Slates in the mainbar need to be adressable via JS, a.o. for storing
+     * current activation states or triggering them from the outside.
+     */
+    public function withMainBarTreePosition(string $tree_pos);
+
+    public function getMainBarTreePosition();
 }

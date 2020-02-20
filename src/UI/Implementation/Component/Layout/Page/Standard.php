@@ -4,6 +4,7 @@
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\MetaBar;
@@ -19,7 +20,10 @@ class Standard implements Page\Standard
 {
     use ComponentHelper;
     use JavaScriptBindable;
-
+    /**
+     * @var ModeInfo|null
+     */
+    private $mode_info;
     /**
      * @var mixed
      */
@@ -45,6 +49,14 @@ class Standard implements Page\Standard
      */
     private $footer;
     /**
+     * @var string
+     */
+    private $short_title;
+    /**
+     * @var string
+     */
+    private $view_title;
+    /**
      * @var	string
      */
     private $title;
@@ -56,7 +68,6 @@ class Standard implements Page\Standard
      * @var    bool
      */
     private $ui_demo = false;
-
 
     /**
      * Standard constructor.
@@ -75,7 +86,9 @@ class Standard implements Page\Standard
         Breadcrumbs $locator = null,
         Image $logo = null,
         Footer $footer = null,
-        string $title = ''
+        string $title = '',
+        string $short_title = '',
+        string $view_title = ''
     ) {
         $allowed = [\ILIAS\UI\Component\Component::class];
         $this->checkArgListElements("content", $content, $allowed);
@@ -87,6 +100,8 @@ class Standard implements Page\Standard
         $this->logo = $logo;
         $this->footer = $footer;
         $this->title = $title;
+        $this->short_title = $short_title;
+        $this->view_title = $view_title;
     }
 
     /**
@@ -266,5 +281,56 @@ class Standard implements Page\Standard
     public function getTitle() : string
     {
         return $this->title;
+    }
+
+    public function withShortTitle(string $title) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->short_title = $title;
+        return $clone;
+    }
+
+    public function getShortTitle() : string
+    {
+        return $this->short_title;
+    }
+
+
+    public function withViewTitle(string $title) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->view_title = $title;
+        return $clone;
+    }
+
+    public function getViewTitle() : string
+    {
+        return $this->view_title;
+    }
+
+
+    public function withModeInfo(ModeInfo $mode_info) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $clone = clone $this;
+        $clone->mode_info = $mode_info;
+        return $clone;
+    }
+
+    public function getModeInfo() : ?ModeInfo
+    {
+        return $this->mode_info;
+    }
+
+
+    public function hasModeInfo() : bool
+    {
+        return $this->mode_info instanceof ModeInfo;
+    }
+
+    public function withNoFooter() : Standard
+    {
+        $clone = clone $this;
+        $clone->footer = null;
+        return $clone;
     }
 }

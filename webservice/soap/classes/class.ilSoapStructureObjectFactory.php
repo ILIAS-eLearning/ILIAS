@@ -31,60 +31,63 @@
    * @package ilias
    */
 
-class ilSoapStructureObjectFactory {
-	function getInstanceForObject ($object)
-	{
-		$classname = ilSoapStructureObjectFactory::_getClassnameForType ($object->getType());
+class ilSoapStructureObjectFactory
+{
+    public function getInstanceForObject($object)
+    {
+        $classname = ilSoapStructureObjectFactory::_getClassnameForType($object->getType());
 
-		if ($classname != null)
-    		switch ($object->getType())
-    		{
-                	case "lm":
-                	case "glo":
-    				return new $classname(
-    					$object->getId(), $object->getType(), $object->getTitle(),
-    					$object->getLongDescription(), $object->getRefId());
-    				break;
-    		}
-		return null;
-	}
+        if ($classname != null) {
+            switch ($object->getType()) {
+                    case "lm":
+                    case "glo":
+                    return new $classname(
+                        $object->getId(),
+                        $object->getType(),
+                        $object->getTitle(),
+                        $object->getLongDescription(),
+                        $object->getRefId()
+                    );
+                    break;
+            }
+        }
+        return null;
+    }
 
-	function getInstance ($objId, $type, $title, $description, $parentRefId)
-	{
-		$classname = ilSoapStructureObjectFactory::_getClassnameForType ($type);
-		if ($classname == null)
-		  return null;
+    public function getInstance($objId, $type, $title, $description, $parentRefId)
+    {
+        $classname = ilSoapStructureObjectFactory::_getClassnameForType($type);
+        if ($classname == null) {
+            return null;
+        }
 
-		return new $classname($objId, $type, $title, $description, $parentRefId);
-	}
+        return new $classname($objId, $type, $title, $description, $parentRefId);
+    }
 
-	function _getClassnameForType ($type)
-	{
-		switch ($type)
-		{
-			case "lm":
-				include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
-				return "ilSoapRepositoryStructureObject";
-			case "st":
-				include_once "./webservice/soap/classes/class.ilSoapLMChapterStructureObject.php";
-				return "ilSoapLMChapterStructureObject";
-			case "pg":
-				include_once "./webservice/soap/classes/class.ilSoapLMPageStructureObject.php";
-				return "ilSoapLMPageStructureObject";
-			case "glo":
-			    include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
-				return "ilSoapRepositoryStructureObject";
-			case "git":
-			    include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
-				return "ilSoapGLOTermStructureObject";
-			case "gdf":
-			    include_once "./webservice/soap/classes/class.ilSoapGLOTermDefinitionStructureObject.php";
-				return "ilSoapGLOTermDefinitionStructureObject";
+    public function _getClassnameForType($type)
+    {
+        switch ($type) {
+            case "lm":
+                include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
+                return "ilSoapRepositoryStructureObject";
+            case "st":
+                include_once "./webservice/soap/classes/class.ilSoapLMChapterStructureObject.php";
+                return "ilSoapLMChapterStructureObject";
+            case "pg":
+                include_once "./webservice/soap/classes/class.ilSoapLMPageStructureObject.php";
+                return "ilSoapLMPageStructureObject";
+            case "glo":
+                include_once "./webservice/soap/classes/class.ilSoapRepositoryStructureObject.php";
+                return "ilSoapRepositoryStructureObject";
+            case "git":
+                include_once "./webservice/soap/classes/class.ilSoapGLOTermStructureObject.php";
+                return "ilSoapGLOTermStructureObject";
+            case "gdf":
+                include_once "./webservice/soap/classes/class.ilSoapGLOTermDefinitionStructureObject.php";
+                return "ilSoapGLOTermDefinitionStructureObject";
 
 
-		}
-		return null;
-	}
+        }
+        return null;
+    }
 }
-
-?>

@@ -116,6 +116,7 @@ il.Util = {
 	
 	ajaxReplace: function(url, el_id)
 	{
+		console.log(url);
 		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: false}, this.ajaxReplaceSuccess)
 	},
 	
@@ -656,6 +657,16 @@ il.UICore = {
 	},
 
 	showRightPanel: function () {
+
+		this.right_panel = il.Modal.dialogue({
+			id:       "il_right_panel",
+			show: true,
+			body: "<div id='ilRightPanel'></div>",
+			buttons:  {
+			}
+		});
+		return;
+		/*
 		var n = document.getElementById('ilRightPanel');
 		if (!n) {
 			var b = $("body");
@@ -677,6 +688,8 @@ il.UICore = {
 		n = document.getElementById('ilRightPanel');
 		n.style.width = '500px';
 		n.style.height = '100%';
+
+		 */
 	},
 	
 	setRightPanelContent: function (c) {
@@ -699,6 +712,12 @@ il.UICore = {
 	
 	hideRightPanel: function () {
 		il.UICore.unloadWrapperFromRightPanel();
+
+		if (this.right_panel) {
+			this.right_panel.hide();
+		}
+		return;
+
 		il.Overlay.hide(null, "ilRightPanel");
 	}
 

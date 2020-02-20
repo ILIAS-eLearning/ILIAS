@@ -83,6 +83,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $language) {
             global $DIC;
             $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 
@@ -117,7 +118,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             'DATETIME'           => '',
             'DATE_COMPLETED'     => '',
             'DATETIME_COMPLETED' => '',
-            'CLIENT_WEB_DIR'     => ''
         );
     }
 

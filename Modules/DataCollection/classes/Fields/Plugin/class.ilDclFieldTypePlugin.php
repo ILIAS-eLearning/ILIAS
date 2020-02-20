@@ -11,7 +11,6 @@
  */
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
-
     const COMPONENT_NAME = "DataCollection";
     const SLOT_NAME = "FieldTypeHook";
     const SLOT_ID = "dclfth";
@@ -47,7 +46,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
      *
      * @return        string        Component Type
      */
-    final function getComponentType()
+    final public function getComponentType()
     {
         return IL_COMP_MODULE;
     }
@@ -58,7 +57,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
      *
      * @return        string        Component Name
      */
-    final function getComponentName()
+    final public function getComponentName()
     {
         return self::COMPONENT_NAME;
     }
@@ -69,7 +68,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
      *
      * @return        string        Slot Name
      */
-    final function getSlot()
+    final public function getSlot()
     {
         return self::SLOT_NAME;
     }
@@ -80,7 +79,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
      *
      * @return        string        Slot Id
      */
-    final function getSlotId()
+    final public function getSlotId()
     {
         return self::SLOT_ID;
     }
@@ -89,7 +88,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    protected final function slotInit()
+    final protected function slotInit()
     {
         // nothing to do here
     }
@@ -124,5 +123,3 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return 'il';
     }
 }
-
-?>

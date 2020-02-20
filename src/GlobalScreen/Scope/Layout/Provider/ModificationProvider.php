@@ -10,6 +10,9 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContextAwareProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Interface ModificationProvider
@@ -73,4 +76,25 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      * @return PageBuilderModification|null
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification;
+
+    /**
+     * @param CalledContexts $screen_context_stack
+     *
+     * @return TitleModification|null
+     */
+    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification;
+
+    /**
+     * @param CalledContexts $screen_context_stack
+     *
+     * @return ShortTitleModification|null
+     */
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification;
+
+    /**
+     * @param CalledContexts $screen_context_stack
+     *
+     * @return ViewTitleModification|null
+     */
+    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification;
 }

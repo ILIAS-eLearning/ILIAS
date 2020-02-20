@@ -57,7 +57,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::NWSS
         ,self::FEED
         ,self::MCST
-        ,self::PDTS
         ,self::RCRS
         ,self::MDS
         ,self::CMPS
@@ -118,6 +117,18 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::WFE
         ,self::IASS
         ,self::COPA
+        ,self::BGTK
+        ,self::MME
+        ,self::PDFG
+        ,self::DSHS
+        ,self::PRSS
+        ,self::NOTS
+        ,self::LHTS
+        ,self::COMS
+        ,self::LTIS
+        ,self::CMIS
+        ,self::TASK
+        ,self::REP
     );
 
     public function __construct($name, $aria_label, $size, $is_disabled)
@@ -139,8 +150,9 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
 
     /**
     * get all defined constants
+     * @return string[]
     */
-    public function getAllStandardHandles()
+    public function getAllStandardHandles() : array
     {
         return self::$standard_icons;
     }

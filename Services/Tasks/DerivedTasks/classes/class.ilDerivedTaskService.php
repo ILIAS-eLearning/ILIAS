@@ -10,36 +10,34 @@
  */
 class ilDerivedTaskService
 {
-	/**
-	 * @var ilTaskServiceDependencies
-	 */
-	protected $_deps;
+    /**
+     * @var ilTaskServiceDependencies
+     */
+    protected $_deps;
 
-	/**
-	 * @var ilTaskService
-	 */
-	protected $service;
+    /**
+     * @var ilTaskService
+     */
+    protected $service;
 
-	/**
-	 * Constructor
-	 *
-	 * @param ilTaskService $service
-	 */
-	public function __construct(ilTaskService $service)
-	{
-		$this->_deps = $service->getDependencies();
-		$this->service = $service;
-	}
+    /**
+     * Constructor
+     *
+     * @param ilTaskService $service
+     */
+    public function __construct(ilTaskService $service)
+    {
+        $this->_deps = $service->getDependencies();
+        $this->service = $service;
+    }
 
-	/**
-	 * Subservice for derived tasks
-	 *
-	 * @return ilDerivedTaskService
-	 */
-	public function factory(): ilDerivedTaskFactory
-	{
-		return new ilDerivedTaskFactory($this->service);
-	}
-
-
+    /**
+     * Subservice for derived tasks
+     *
+     * @return ilDerivedTaskService
+     */
+    public function factory() : ilDerivedTaskFactory
+    {
+        return new ilDerivedTaskFactory($this->service);
+    }
 }

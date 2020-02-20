@@ -3,9 +3,9 @@
 		<span>{TXT_SEL_TOP}</span> <!-- BEGIN top_img --><span class="caret" alt="{ALT_SEL_TOP}"></span><!-- END top_img -->
 	</button>
 		
-	<ul id="chkbxlstovl_{ID}" class="dropdown-menu pull-right" role="menu" style="padding:10px;">
+	<ul id="chkbxlstovl_{ID}" class="dropdown-menu <!-- BEGIN pr -->pull-right<!-- END pr -->" role="menu" style="padding:10px;">
 		<!-- BEGIN list_entry -->
-		<li><input id="{VAR}_{IDX_ENTRY}" type="checkbox" name="{VAR}[]" value="{VAL_ENTRY}" {CHECKED}/> <label for="{VAR}_{IDX_ENTRY}">{TXT_ENTRY}</label></li>
+		<li style="white-space: nowrap"><input id="{VAR}_{IDX_ENTRY}" type="checkbox" name="{VAR}[]" value="{VAL_ENTRY}" {CHECKED}/> <label for="{VAR}_{IDX_ENTRY}">{TXT_ENTRY}</label></li>
 		<!-- END list_entry -->
 		<li> <input type="submit" class="btn btn-default" {ONCLICK} value="{VAL_SUBMIT}" name="cmd[{CMD_SUBMIT}]" /></li>
 	</ul>

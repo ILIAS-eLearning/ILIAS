@@ -6,10 +6,13 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Slate
@@ -18,6 +21,7 @@ abstract class Slate implements ISlate\Slate
 {
     use ComponentHelper;
     use JavaScriptBindable;
+    use Triggerer;
 
     /**
      * @var string
@@ -37,12 +41,22 @@ abstract class Slate implements ISlate\Slate
     /**
      * @var Signal
      */
-    protected $show_signal;
+    protected $engage_signal;
+
+    /**
+     * @var ReplaceSignal
+     */
+    protected $replace_signal;
 
     /**
      * @var bool
      */
     protected $engaged = false;
+
+    /**
+     * @var string
+     */
+    protected $mainbar_tree_position;
 
     /**
      * @param string 	$name 	name of the slate, also used as label
@@ -66,7 +80,8 @@ abstract class Slate implements ISlate\Slate
     protected function initSignals()
     {
         $this->toggle_signal = $this->signal_generator->create();
-        $this->show_signal = $this->signal_generator->create();
+        $this->engage_signal = $this->signal_generator->create();
+        $this->replace_signal = $this->signal_generator->create(ReplaceSignalImplementation::class);
     }
 
     /**
@@ -96,9 +111,9 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getShowSignal() : Signal
+    public function getEngageSignal() : Signal
     {
-        return $this->show_signal;
+        return $this->engage_signal;
     }
 
     /**
@@ -123,4 +138,47 @@ abstract class Slate implements ISlate\Slate
      * @inheritdoc
      */
     abstract public function getContents() : array;
+
+    /**
+     * @inheritdoc
+     */
+    public function getReplaceSignal() : ReplaceSignal
+    {
+        return $this->replace_signal;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function appendOnInView(Signal $signal) : \ILIAS\UI\Component\MainControls\Slate\Slate
+    {
+        return $this->appendTriggeredSignal($signal, 'in_view');
+    }
+
+
+    abstract public function withMappedSubNodes(callable $f);
+
+    /**
+     * @inheritdoc
+     */
+    public function withMainBarTreePosition(string $tree_pos)
+    {
+        $clone = clone $this;
+        $clone->mainbar_tree_position = $tree_pos;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getMainBarTreePosition()
+    {
+        return $this->mainbar_tree_position;
+    }
+
+    public function getMainBarTreeDepth()
+    {
+        $pos = explode(':', $this->mainbar_tree_position);
+        return count($pos) - 1;
+    }
 }

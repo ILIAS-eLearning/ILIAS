@@ -24,8 +24,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         ilMailUserHelper $usernameHelper,
         ilMailLanguageHelper $languageHelper
     ) : ilMailTemplateContext {
-        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext
-        {
+        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext {
             public function getId() : string
             {
                 return 'phpunuit';
@@ -176,8 +175,12 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         $lngHelper->expects($this->atLeastOnce())->method('getLanguageByIsoCode')->willReturn($lng);
         $lngHelper->expects($this->atLeastOnce())->method('getCurrentLanguage')->willReturn($lng);
 
-        $expectedIdsConstraint = $this->logicalAnd(...array_map(function (ilOrgUnitUser $user) {
-            return $this->contains($user->getUserId());
+        $expectedIdsConstraint = self::logicalAnd(...array_map(function (ilOrgUnitUser $user) {
+            if (version_compare(\PHPUnit\Runner\Version::id(), '9.0', '>=')) {
+                return self::containsEqual($user->getUserId());
+            } else {
+                return self::contains($user->getUserId());
+            }
         }, $superiors));
 
         $firstAndLastnames = array_map(function (ilOrgUnitUser $user, int $key) {

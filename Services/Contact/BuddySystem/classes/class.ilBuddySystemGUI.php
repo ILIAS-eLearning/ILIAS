@@ -181,13 +181,16 @@ class ilBuddySystemGUI
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
             ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
-
         } catch (ilBuddySystemRelationStateAlreadyGivenException $e) {
-            ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])), true);
+            ilUtil::sendInfo(sprintf(
+                $this->lng->txt($e->getMessage()),
+                ilObjUser::_lookupLogin((int) $_GET['user_id'])
+            ), true);
         } catch (ilBuddySystemRelationStateTransitionException $e) {
-            ilUtil::sendInfo(sprintf($this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])), true);
+            ilUtil::sendInfo(sprintf(
+                $this->lng->txt($e->getMessage()),
+                ilObjUser::_lookupLogin((int) $_GET['user_id'])
+            ), true);
         } catch (ilException $e) {
             ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
         }
@@ -235,7 +238,7 @@ class ilBuddySystemGUI
 
             $relation = $this->buddyList->getRelationByUserId($usr_id);
 
-            // The ILIAS JF decided to add a new personal setting 
+            // The ILIAS JF decided to add a new personal setting
             if (
                 $relation->isUnlinked() &&
                 !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))

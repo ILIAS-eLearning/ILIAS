@@ -106,7 +106,9 @@ class ilDclBaseRecordModel
             ),
         );
         $ilDB->update(
-            "il_dcl_record", $values, array(
+            "il_dcl_record",
+            $values,
+            array(
                 "id" => array(
                     "integer",
                     $this->id,
@@ -728,8 +730,13 @@ class ilDclBaseRecordModel
             case 'comments':
                 $nComments = count($this->getComments());
                 $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
-                    1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()
-                    ->getId(), 'dcl', $this->getId()
+                    1,
+                    $_GET['ref_id'],
+                    'dcl',
+                    $this->table->getCollectionObject()
+                    ->getId(),
+                    'dcl',
+                    $this->getId()
                 );
                 $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 
@@ -749,8 +756,17 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'comments':
-                return count(ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), "dcl", 2,
-                    false, "", "y", true, true));
+                return count(ilNote::_getNotesOfObject(
+                    $this->table->getCollectionObject()->getId(),
+                    $this->getId(),
+                    "dcl",
+                    2,
+                    false,
+                    "",
+                    "y",
+                    true,
+                    true
+                ));
             default:
                 return strip_tags($this->getStandardFieldHTML($field_id));
         }
@@ -813,7 +829,6 @@ class ilDclBaseRecordModel
 
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE) {
                 $this->deleteFile($recordfield->getValue());
             }

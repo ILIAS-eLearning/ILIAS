@@ -1,11 +1,16 @@
+.il-std-item-container:not(:last-child) {
+	border-bottom: @il-item-border-bottom;
+}
+
 .il-item {
 	background-color: @il-primary-container-bg;
 	position: relative;
 	padding: @il-item-padding;
+	.clearfix();
 
 	h5 {
-		margin: @il-item-h5-margin;
-		font-size: @font-size-h5;
+		margin: 0;
+		font-size: @font-size-base;
 		float: left;
 
 		.btn-link {
@@ -34,12 +39,12 @@
 
 	.il-item-property-name {
 		font-size: @font-size-small;
+		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
 		font-size: @font-size-small;
-		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
@@ -59,18 +64,40 @@
 
 .il-item-group {
 	clear: both;
-}
+	background-color: @il-secondary-container-bg;
 
-.il-item-group h4 {
-	float:left;
-}
+	> h4 {
+		float:left;
+		color: @panel-heading-color;
+		font-size: @font-size-h4;
+		font-weight: normal;
+		padding: @panel-heading-padding;
+		margin: 0;
+	}
 
-.il-item-group .dropdown {
-	float:right;
+	.dropdown {
+		float:right;
+	}
 }
 
 .il-item-group-items {
 	clear: both;
+}
+.il-item-notification-replacement-container:not(:first-child){
+	.il-notification-item{
+		margin-top: @padding-large-vertical;
+	}
+}
+
+.il-notification-item{
+	.il-item-additional-content{
+		clear:both;
+	}
+
+	.dropdown{
+		margin-top: -(@font-size-base+@padding-large-vertical);
+	}
+
 }
 
 /* this is currently experimental, could be removed */
@@ -83,7 +110,7 @@
 
 		h5 {
 			margin-top: 0;
-			font-size: 100%;
+			font-size: @font-size-base;
 			float: none;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -160,15 +187,10 @@
 			display: none;
 		}
 	}
-
-	.panel-secondary .il-item:hover {
-		background-color: @il-highlight-bg;
-	}
-
 }
 
 /* otherwise dropdowns in items with icon do not work */
-.il-std-item .media .media-body, .il-std-item .media {
+.il-std-item .media .media-body, .il-std-item .media, .il-notification-item .media, .il-notification-item .media .media-body {
 	overflow: visible;
 }
 
@@ -178,10 +200,6 @@
 		div.col-sm-3 > h5 {
 			font-size: @font-size-h6;
 			float: none;
-		}
-
-		.il-item-description {
-			display: none;
 		}
 
 		.il-item-divider {

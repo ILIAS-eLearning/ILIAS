@@ -89,7 +89,6 @@ class ilExSubmissionTeamGUI
         switch ($class) {
             case 'ilrepositorysearchgui':
                 $this->ctrl->setReturn($this, 'submissionScreenTeam');
-                include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
                 $rep_search = new ilRepositorySearchGUI();
                 if (!$this->submission->isTutor()) {
                     $rep_search->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
@@ -123,7 +122,6 @@ class ilExSubmissionTeamGUI
             $team = array();
             foreach ($team_members as $member_id) {
                 //$team[] = ilObjUser::_lookupFullname($member_id);
-                include_once("./Services/User/classes/class.ilUserUtil.php");
                 $team[] = ilUserUtil::getNamePresentation($member_id, false, false, "", false);
             }
             $team = implode("; ", $team);
@@ -226,7 +224,6 @@ class ilExSubmissionTeamGUI
         } elseif (!$read_only) {
             $add_search = $this->submission->isTutor();
             // add member
-            include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $ilToolbar,
@@ -241,7 +238,6 @@ class ilExSubmissionTeamGUI
             ilUtil::sendInfo($this->lng->txt("exc_no_team_yet_info_tutor"));
         }
         
-        include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
         $tbl = new ilExAssignmentTeamTableGUI(
             $this,
             "submissionScreenTeam",
@@ -290,9 +286,9 @@ class ilExSubmissionTeamGUI
                 $this->submission->validatePeerReviews()
             );
             // :TODO: notification?
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
         }
-        
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+
         $this->ctrl->redirect($this, "submissionScreenTeam");
     }
     
@@ -337,7 +333,6 @@ class ilExSubmissionTeamGUI
             }
         }
             
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("exc_team_member_remove_sure"));
@@ -347,8 +342,6 @@ class ilExSubmissionTeamGUI
             : "submissionScreenTeam");
 
         $files = $this->submission->getFiles();
-        
-        include_once "Services/User/classes/class.ilUserUtil.php";
         
         foreach ($ids as $id) {
             $details = array();
@@ -434,7 +427,6 @@ class ilExSubmissionTeamGUI
     {
         $this->tabs_gui->activateTab("log");
     
-        include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
         $tbl = new ilExAssignmentTeamLogTableGUI(
             $this,
             "submissionScreenTeamLog",
@@ -457,7 +449,6 @@ class ilExSubmissionTeamGUI
     
     public function showTeamLogObject()
     {
-        include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
         $tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);
         $this->tpl->setContent($tbl->getHTML());
     }
@@ -472,7 +463,6 @@ class ilExSubmissionTeamGUI
         if ($this->submission->canSubmit()) {
             $options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
             if (sizeof($options)) {
-                include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
                 $form = new ilPropertyFormGUI();
                 $form->setTitle($lng->txt("exc_team_assignment_adopt_user"));
                 $form->setFormAction($ilCtrl->getFormAction($this, "createAdoptedTeam"));
@@ -484,7 +474,6 @@ class ilExSubmissionTeamGUI
                 
                 $current_map = ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId());
 
-                include_once "Services/User/classes/class.ilUserUtil.php";
                 foreach ($options as $id => $item) {
                     $members = array();
                     $free = false;

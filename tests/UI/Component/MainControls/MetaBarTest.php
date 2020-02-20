@@ -20,8 +20,17 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $sig_gen = 	new I\Component\SignalGenerator();
         $this->button_factory = new I\Component\Button\Factory($sig_gen);
         $this->icon_factory = new I\Component\Symbol\Icon\Factory();
-        $counter_factory = new I\Component\Counter\Factory();
-        $slate_factory = new I\Component\MainControls\Slate\Factory($sig_gen, $counter_factory);
+        $this->counter_factory = new I\Component\Counter\Factory();
+
+        $slate_factory = new I\Component\MainControls\Slate\Factory(
+            $sig_gen,
+            $this->counter_factory,
+            new I\Component\Symbol\Factory(
+                new I\Component\Symbol\Icon\Factory(),
+                new I\Component\Symbol\Glyph\Factory()
+            )
+        );
+
         $this->factory = new I\Component\MainControls\Factory($sig_gen, $slate_factory);
         $this->metabar = $this->factory->metabar();
     }
@@ -81,10 +90,6 @@ class MetaBarTest extends ILIAS_UI_TestBase
             {
                 return $this->button_factory;
             }
-            public function glyph()
-            {
-                return new I\Component\Glyph\Factory();
-            }
             public function mainControls() : C\MainControls\Factory
             {
                 return $this->mc_factory;
@@ -96,9 +101,14 @@ class MetaBarTest extends ILIAS_UI_TestBase
                     new I\Component\Symbol\Glyph\Factory()
                 );
             }
+            public function counter() : C\Counter\Factory
+            {
+                return $this->counter_factory;
+            }
         };
         $factory->button_factory = $this->button_factory;
         $factory->mc_factory = $this->factory;
+        $factory->counter_factory = $this->counter_factory;
         return $factory;
     }
 
@@ -106,6 +116,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
+        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
         return trim($html);
     }
 
@@ -122,27 +133,39 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $html = $r->render($mb);
 
         $expected = <<<EOT
-		<div class="il-maincontrols-metabar" id="id_5">
-			<div class="il-metabar-entries">
-				<button class="btn btn-bulky" data-action="#" id="id_1" >
-					<div class="icon custom small" aria-label=""><img src="" /></div>
-					<div><span class="bulky-label">TestEntry</span></div>
-				</button>
-				<button class="btn btn-bulky" data-action="#" id="id_2" >
-					<div class="icon custom small" aria-label=""><img src="" /></div>
-					<div><span class="bulky-label">TestEntry</span></div>
-				</button>
-				<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
-					<div class="icon custom small" aria-label=""><img src="./src/UI/examples/Layout/Page/Standard/options-vertical.svg" /></div>
-					<div><span class="bulky-label">more</span></div>
-				</button>
+<div class="il-maincontrols-metabar" id="id_5">
+	<div class="il-metabar-entries" style="visibility: hidden">
+		<button class="btn btn-bulky" data-action="#" id="id_1" >
+			<div class="icon custom small" aria-label="">
+				<img src="" />
 			</div>
-			<div class="il-metabar-slates">
-				<div class="il-maincontrols-slate disengaged" id="id_4">
-					<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
-				</div>
+			<span class="bulky-label">TestEntry</span>
+		</button>
+		<button class="btn btn-bulky" data-action="#" id="id_2" >
+			<div class="icon custom small" aria-label="">
+				<img src="" />
 			</div>
+			<span class="bulky-label">TestEntry</span>
+		</button>
+		<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
+			<span class="glyph" aria-label="disclosure">
+				<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+				<span class="il-counter">
+					<span class="badge badge-notify il-counter-status" style="display:none">0</span>
+				</span>
+				<span class="il-counter">
+					<span class="badge badge-notify il-counter-novelty" style="display:none">0</span>
+				</span>
+			</span>
+			<span class="bulky-label">more</span>
+		</button>
+	</div>
+	<div class="il-metabar-slates">
+		<div class="il-maincontrols-slate disengaged" id="id_4">
+			<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 		</div>
+	</div>
+</div>
 EOT;
 
         $this->assertEquals(

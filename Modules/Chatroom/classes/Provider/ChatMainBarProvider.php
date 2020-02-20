@@ -3,6 +3,7 @@
 namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class ChatMainBarProvider
@@ -29,12 +30,14 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $publicChatRefId = (int) \ilObjChatroom::_getPublicRefId();
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('chtr', '')->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
+        $icon = $this->dic->ui()->factory()
+            ->symbol()
+            ->icon()
+            ->standard(Standard::CHTA, $this->dic->language()->txt('public_room'))->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))
-                ->withTitle($dic['ilObjDataCache']->lookupTitle($publicChatObjId))
+                ->withTitle($this->dic->language()->txt('public_room'))
                 ->withAction('ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id=' . $publicChatRefId)
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)

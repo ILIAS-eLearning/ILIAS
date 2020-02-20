@@ -11,7 +11,7 @@ class ilCertificateDateHelper
      * @param int $dateFormat
      * @return string
      */
-    public function formatDate(string $date, $dateFormat = null): string
+    public function formatDate(string $date, $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;
@@ -33,7 +33,7 @@ class ilCertificateDateHelper
      * @return string
      * @throws ilDateTimeException
      */
-    public function formatDateTime(string $dateTime, $dateFormat = null): string
+    public function formatDateTime(string $dateTime, $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;

@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\LinkItemRenderer;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -22,6 +24,16 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
      * @var string
      */
     protected $action = "";
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(IdentificationInterface $provider_identification)
+    {
+        parent::__construct($provider_identification);
+        $this->renderer = new LinkItemRenderer();
+    }
 
 
     /**

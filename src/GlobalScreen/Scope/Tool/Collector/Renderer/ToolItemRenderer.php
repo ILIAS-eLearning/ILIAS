@@ -2,10 +2,12 @@
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\Component;
 
@@ -16,16 +18,18 @@ use ILIAS\UI\Component\Component;
  */
 class ToolItemRenderer extends BaseTypeRenderer
 {
-
     use SlateSessionStateCode;
-
+    use ComponentDecoratorApplierTrait;
+    use SymbolDecoratorTrait;
 
     /**
-     * @param Link $item
+     * @param isItem $item
+     *
+     * @param bool   $with_content
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_content = false) : Component
     {
         /**
          * @var $item Tool
@@ -36,6 +40,7 @@ class ToolItemRenderer extends BaseTypeRenderer
         $slate = $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
 
         $slate = $this->addOnloadCode($slate, $item);
+        $slate = $this->applyDecorator($slate, $item);
 
         return $slate;
     }

@@ -10,42 +10,44 @@ require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  * Time: 15:40
  * @author Thomas Joußen <tjoussen@databay.de>
  * @author Björn Heyser <bheyser@databay.de>
- */ 
+ */
 class ilAssLacConditionParserException extends ilAssLacException implements ilAssLacFormAlertProvider
 {
-	/**
-	 * @var int
-	 */
-	protected $column;
+    /**
+     * @var int
+     */
+    protected $column;
 
-	/**
-	 * @param int $column
-	 */
-	public function __construct($column)
-	{
-		$this->column = $column;
+    /**
+     * @param int $column
+     */
+    public function __construct($column)
+    {
+        $this->column = $column;
 
-		parent::__construct(sprintf(
-			'The expression at position "%s" is not valid', $this->getColumn()
-		));
-	}
+        parent::__construct(sprintf(
+            'The expression at position "%s" is not valid',
+            $this->getColumn()
+        ));
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getColumn()
-	{
-		return $this->column;
-	}
+    /**
+     * @return int
+     */
+    public function getColumn()
+    {
+        return $this->column;
+    }
 
-	/**
-	 * @param ilLanguage $lng
-	 * @return string
-	 */
-	public function getFormAlert(ilLanguage $lng)
-	{
-		return sprintf(
-			$lng->txt("ass_lac_invalid_statement"), $this->getColumn()
-		);
-	}
+    /**
+     * @param ilLanguage $lng
+     * @return string
+     */
+    public function getFormAlert(ilLanguage $lng)
+    {
+        return sprintf(
+            $lng->txt("ass_lac_invalid_statement"),
+            $this->getColumn()
+        );
+    }
 }

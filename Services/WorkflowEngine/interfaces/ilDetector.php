@@ -7,7 +7,7 @@
  * Please see the reference implementations for details:
  * @see class.ilSimpleDetector.php
  * @see class.ilCounterDetector.php
- * 
+ *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
@@ -15,25 +15,25 @@
  */
 interface ilDetector
 {
-	/**
-	 * @param $params
-	 *
-	 * @return mixed
-	 */
-	public function trigger($params);
+    /**
+     * @param $params
+     *
+     * @return mixed
+     */
+    public function trigger($params);
 
-	/**
-	 * @return mixed
-	 */
-	public function getDetectorState();
+    /**
+     * @return mixed
+     */
+    public function getDetectorState();
 
-	/**
-	 * @return mixed
-	 */
-	public function onActivate();
+    /**
+     * @return mixed
+     */
+    public function onActivate();
 
-	/**
-	 * @return mixed
-	 */
-	public function onDeactivate();
+    /**
+     * @return mixed
+     */
+    public function onDeactivate();
 }

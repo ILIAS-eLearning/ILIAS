@@ -92,7 +92,6 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
                 foreach ($children as $path) {
                     $child_node = $this->getFileTree()->getNodeFromPath($path);
                     if (($child_node->getIsDir() && $folders_visible) || (!$child_node->getIsDir() && $files_visible)) {
-
                         $block->setCurrentBlock("container_standard_row");
                         if ($child_node->getIsDir()) {
                             $block->setVariable("ROW_ID", "id=xcld_folder_" . $child_node->getId());
@@ -134,15 +133,16 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         $download = false,
         $files_visible = false,
         $folders_visible = false
-    )
-    {
+    ) {
     }
 
 
     /**
      * @param ilTemplate $block
      */
-    protected function setBlockVariablePlugin(ilTemplate $block) { }
+    protected function setBlockVariablePlugin(ilTemplate $block)
+    {
+    }
 
 
     /**
@@ -189,8 +189,10 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
                 $item->setVariable("SRC_ICON", ilUtil::getImagePath('icon_dcl_file.svg'));
             }
 
-            $item->setVariable("TXT_DESC",
-                $this->formatBytes($node->getSize()) . "&nbsp;&nbsp;&nbsp;" . $modified);
+            $item->setVariable(
+                "TXT_DESC",
+                $this->formatBytes($node->getSize()) . "&nbsp;&nbsp;&nbsp;" . $modified
+            );
             if ($download) {
                 $item->setVariable("TXT_TITLE_LINKED", basename($node->getPath()));
                 $item->setVariable("HREF_TITLE_LINKED", $ilCtrl->getLinkTarget($gui_class, "getFile") . "&id=" . $node->getId());
@@ -235,7 +237,9 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
      * @param ilTemplate $item
      * @param ilCloudFileNode $node
      */
-    protected function setItemVariablePlugin(ilTemplate $item, ilCloudFileNode $node) { }
+    protected function setItemVariablePlugin(ilTemplate $item, ilCloudFileNode $node)
+    {
+    }
 
 
     /**
@@ -264,7 +268,7 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
      *
      * @return string
      */
-    static function getLinkToFolder(ilCloudFileNode $node)
+    public static function getLinkToFolder(ilCloudFileNode $node)
     {
         return "#/open_folder?id_parent=" . $node->getParentId() . "&current_id=" . $node->getId() . "&current_path=" . self::_urlencode($node->getPath());
     }
@@ -297,5 +301,3 @@ class ilCloudPluginFileTreeGUI extends ilCloudPluginGUI
         return str_replace('%2F', '/', rawurlencode($str));
     }
 }
-
-?>

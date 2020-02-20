@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_EDITOR = 'copg_show_editor';
 
 
@@ -32,14 +31,18 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_EDITOR, true)) {
+            $title = $this->dic->language()->txt('editor');
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_edtr.svg"), $title);
 
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/pencil.svg"), "");
-
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $tools[] = $this->factory->tool($iff("copg_editor"))
                 ->withSymbol($icon)
-                ->withTitle("Editor")
+                ->withTitle($title)
                 ->withContent($l($this->getContent()));
         }
 
@@ -54,6 +57,16 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getContent() : string
     {
-        return "<div id='copg-editor-slate-content'></div>";
+        $lng = $this->dic->language();
+        $lng->loadLanguageModule("content");
+        $tpl = new ilTemplate("tpl.editor_slate.html", true, true, "Services/COPage");
+        $tpl->setCurrentBlock("help");
+        $tpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
+        $tpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
+        $tpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
+        $tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
+        $tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
+        $tpl->parseCurrentBlock();
+        return $tpl->get();
     }
 }

@@ -20,11 +20,12 @@ class StandardPageTest extends ILIAS_UI_TestBase
 {
     public function setUp() : void
     {
+        $sig_gen = new \ILIAS\UI\Implementation\Component\SignalGenerator();
         $this->metabar = $this->createMock(MetaBar::class);
         $this->mainbar = $this->createMock(MainBar::class);
         $this->crumbs = $this->createMock(Breadcrumbs::class);
         $this->logo = $this->createMock(Image::class);
-        $this->contents = array(new Legacy('some content'));
+        $this->contents = array(new Legacy('some content', $sig_gen));
         $this->title = 'pagetitle';
 
         $this->factory = new Page\Factory();
@@ -113,6 +114,22 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->assertEquals(
             $title,
             $this->stdpage->withTitle($title)->getTitle()
+        );
+    }
+    public function testWithShortTitle()
+    {
+        $title = 'some short title';
+        $this->assertEquals(
+            $title,
+            $this->stdpage->withShortTitle($title)->getShortTitle()
+        );
+    }
+    public function testWithViewTitle()
+    {
+        $title = 'some view title';
+        $this->assertEquals(
+            $title,
+            $this->stdpage->withViewTitle($title)->getViewTitle()
         );
     }
 }

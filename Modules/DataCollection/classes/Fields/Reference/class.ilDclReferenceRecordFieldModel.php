@@ -180,5 +180,3 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 }
-
-?>

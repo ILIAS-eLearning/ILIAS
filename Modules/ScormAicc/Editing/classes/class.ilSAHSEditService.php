@@ -25,8 +25,7 @@ class ilSAHSEditService
      */
     public function __construct(
         array $query_params
-    )
-    {
+    ) {
         $this->request = new ilSAHSEditRequest($query_params);
         $this->ref_id = $this->request->getRequestedRefId();
         $this->lm = new ilObjSCORM2004LearningModule($this->ref_id);
@@ -37,7 +36,7 @@ class ilSAHSEditService
      *
      * @return ilSAHSEditRequest
      */
-    public function getRequest(): ilSAHSEditRequest
+    public function getRequest() : ilSAHSEditRequest
     {
         return $this->request;
     }
@@ -47,11 +46,8 @@ class ilSAHSEditService
      *
      * @return ilObjSCORM2004LearningModule
      */
-    public function getLearningModule(): ilObjSCORM2004LearningModule
+    public function getLearningModule() : ilObjSCORM2004LearningModule
     {
         return $this->lm;
     }
-
-
-
 }

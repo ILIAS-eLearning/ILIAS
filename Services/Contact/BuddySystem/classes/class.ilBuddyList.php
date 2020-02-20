@@ -33,8 +33,10 @@ class ilBuddyList
     public static function getInstanceByUserId(int $usrId) : self
     {
         if (ilObjUser::_isAnonymous($usrId)) {
-            throw new ilBuddySystemException(sprintf("You cannot create an instance for the anonymous user (id: %s)",
-                $usrId));
+            throw new ilBuddySystemException(sprintf(
+                "You cannot create an instance for the anonymous user (id: %s)",
+                $usrId
+            ));
         }
 
         if (isset(self::$instances[$usrId])) {

@@ -9,24 +9,26 @@ use PHPUnit\Framework\TestCase;
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
-class ilSkinStyleLessCommentTest extends TestCase {
+class ilSkinStyleLessCommentTest extends TestCase
+{
+    public function testConstruct()
+    {
+        $comment = new ilSystemStyleLessComment("comment");
+        $this->assertEquals("comment", $comment->getComment());
+    }
 
-	public function testConstruct() {
-		$comment = new ilSystemStyleLessComment("comment");
-		$this->assertEquals("comment", $comment->getComment());
-	}
+    public function testSetters()
+    {
+        $comment = new ilSystemStyleLessComment("name", "comment");
 
-	public function testSetters() {
-		$comment = new ilSystemStyleLessComment("name", "comment");
+        $comment->setComment("newComment");
+        $this->assertEquals("newComment", $comment->getComment());
+    }
 
-		$comment->setComment("newComment");
-		$this->assertEquals("newComment", $comment->getComment());
-	}
+    public function testToString()
+    {
+        $comment = new ilSystemStyleLessComment("comment");
 
-	public function testToString(){
-		$comment = new ilSystemStyleLessComment("comment");
-
-		$this->assertEquals("comment\n",(string)$comment);
-	}
-
+        $this->assertEquals("comment\n", (string) $comment);
+    }
 }

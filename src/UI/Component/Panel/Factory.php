@@ -21,7 +21,7 @@ interface Factory
      *   composition: >
      *      Standard Panels consist of a title and a content section. The
      *      structure of this content might be varying from Standard
-     *      Panel to Standard Panel. Standard Panels may contain Sub Panels.
+     *      Panel to Standard Panel. Standard Panels may contain View Controls and Sub Panels.
      *   rivals:
      *      Cards: >
      *        Often Cards are used in Decks to display multiple uniformly structured chunks of Data horizontally and vertically.
@@ -30,6 +30,11 @@ interface Factory
      *   usage:
      *      1: In Forms Standard Panels MUST be used to group different sections into Form Parts.
      *      2: Standard Panels SHOULD be used in the center content as primary Container for grouping content of varying content.
+     *
+     *   composition:
+     *      1: Standard Panels MAY contain a Section View Control to change the current presentation of the content.
+     *      2: Standard Panels MAY contain a Pagination View Control to display data in chunks.
+     *      3: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
      * ---
      * @param string $title
      * @param Component[]|Component
@@ -141,9 +146,7 @@ interface Factory
      *       Secondary Panels are used to group content not located in the center section.
      *       Secondary Panels are used to display marginal content related to the current page context.
      *   composition: >
-     *       Secondary Panels consist of content section and top section.
-     *       The top section may contain a title, sortation and a dropdown.
-     *       The content section may contain a Pagination view controller or a Section view controller.
+     *       Secondary Panels consist of a title and a content section. Secondary Panels may contain View Controls.
      *   rivals:
      *      Slate: >
      *        Secondary Panels are used to present secondary information or content that should appear in combination with the current
@@ -158,11 +161,10 @@ interface Factory
      *      1: Secondary Panels MUST NOT be inside the center content as primary Container for grouping content of varying content.
      *
      *   composition:
-     *      1: Secondary Panels MAY contain a Section view control to change the current presentation of the content.
-     *      2: Secondary Panels MAY contain a Pagination view control to display data in chunks.
-     *      3: Secondary Panels MUST NOT contain more than one UI ViewControl in the main content.
-     *      4: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
-     *      5: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+     *      1: Secondary Panels MAY contain a Section View Control to change the current presentation of the content.
+     *      2: Secondary Panels MAY contain a Pagination View Control to display data in chunks.
+     *      3: Secondary Panels MAY have a Button to perform actions listed in a Standard Dropdown.
+     *      4: Secondary Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
      *
      * ---
      * @return \ILIAS\UI\Component\Panel\Secondary\Factory

@@ -31,12 +31,12 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
         // Login-Button
         // Only visible, if not on login-page but not logged in
-        $login_glyph = $factory->symbol()->glyph()->user(); // Currently the wrong one
+        $login_glyph = $factory->symbol()->glyph()->login();
         $login = $this->meta_bar->topLinkItem($if('login'))
             ->withAction("login.php?client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
             ->withSymbol($login_glyph)
             ->withPosition(2)
-            ->withTitle($txt('login'))
+            ->withTitle($txt('log_in'))
             ->withAvailableCallable(function () {
                 return !$this->isUserLoggedIn();
             })
@@ -45,10 +45,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
             });
 
         // Language-Selection
-        $language_glyph = $factory->symbol()->glyph()->settings();
-        $missing_icon = $factory->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", 'missing icon');
         $language_selection = $this->meta_bar->topParentItem($if('language_selection'))
-            ->withSymbol($language_glyph)
+            ->withSymbol($factory->symbol()->glyph()->language())
             ->withPosition(1)
             ->withAvailableCallable(function () {
                 return !$this->isUserLoggedIn();
@@ -56,7 +54,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withVisibilityCallable(function () {
                 return true;
             })
-            ->withTitle($txt('language_selection'));
+            ->withTitle($txt('language'));
 
         $base = $this->getBaseURL();
 
@@ -65,11 +63,13 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
          */
         foreach ($this->dic->language()->getInstalledLanguages() as $lang_key) {
             $link = $this->appendUrlParameterString($base, "lang=" . $lang_key);
-
             $language_name = $this->dic->language()->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
 
+            $language_icon = $factory->symbol()->icon()->standard("none", $language_name)
+                                     ->withAbbreviation($lang_key);
+
             $s = $this->meta_bar->linkItem($if($lang_key))
-                ->withSymbol($missing_icon)
+                ->withSymbol($language_icon)
                 ->withAction($link)
                 ->withTitle($language_name);
 

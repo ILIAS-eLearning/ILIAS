@@ -70,7 +70,6 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
      */
     public function getSupportedExtensions()
     {
-
         if (!$this->hasProperty(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES)) {
             return "*";
         }

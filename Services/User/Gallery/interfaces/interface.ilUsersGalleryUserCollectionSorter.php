@@ -6,9 +6,9 @@
  */
 interface ilUsersGalleryUserCollectionSorter
 {
-	/**
-	 * @param ilUsersGalleryUser[] $users
-	 * @return ilUsersGalleryUser[]
-	 */
-	public function sort(array $users);
+    /**
+     * @param ilUsersGalleryUser[] $users
+     * @return ilUsersGalleryUser[]
+     */
+    public function sort(array $users);
 }

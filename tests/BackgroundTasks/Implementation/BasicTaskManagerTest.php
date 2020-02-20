@@ -21,49 +21,49 @@ use ILIAS\BackgroundTasks\Dependencies\Injector;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
-class BasicTaskManagerTest extends TestCase {
+class BasicTaskManagerTest extends TestCase
+{
+    use MockeryPHPUnitIntegration;
 
-	use MockeryPHPUnitIntegration;
+    protected $taskManager;
+    protected $bucket;
 
-	protected $taskManager;
-	protected $bucket;
+    public function setUp() : void
+    {
+        $persistence = \Mockery::mock(BasicPersistence::class);
+        $this->taskManager = new SyncTaskManager($persistence);
+    }
 
-	public function setUp(): void{
-		$persistence = \Mockery::mock(BasicPersistence::class);
-		$this->taskManager = new SyncTaskManager($persistence);
-	}
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testBasicTaskManager()
+    {
+        $dic = new Container();
 
-	/**
-	 * @doesNotPerformAssertions
-	 */
-	public function testBasicTaskManager() {
-		$dic = new Container();
+        $factory = new Injector($dic, new EmptyDependencyMap());
 
-		$factory = new Injector($dic, new EmptyDependencyMap());
+        $bucket = new BasicBucket();
+        $bucket->setUserId(3);
+        $bucket->setState(State::SCHEDULED);
 
-		$bucket = new BasicBucket();
-		$bucket->setUserId(3);
-		$bucket->setState(State::SCHEDULED);
+        /** @var PlusJob $a */
+        $a = $factory->createInstance(PlusJob::class);
+        /** @var PlusJob $b */
+        $b = $factory->createInstance(PlusJob::class);
+        /** @var PlusJob $c */
+        $c = $factory->createInstance(PlusJob::class);
 
-		/** @var PlusJob $a */
-		$a = $factory->createInstance(PlusJob::class);
-		/** @var PlusJob $b */
-		$b = $factory->createInstance(PlusJob::class);
-		/** @var PlusJob $c */
-		$c = $factory->createInstance(PlusJob::class);
+        $a->setInput([1, 1]);
+        $b->setInput([1, 1]);
+        $c->setInput([$a, $b]);
 
-		$a->setInput([1, 1]);
-		$b->setInput([1, 1]);
-		$c->setInput([$a, $b]);
+        /** @var DownloadInteger $userInteraction */
+        $userInteraction = $factory->createInstance(DownloadInteger::class);
+        $userInteraction->setInput([$c]);
 
-		/** @var DownloadInteger $userInteraction */
-		$userInteraction = $factory->createInstance(DownloadInteger::class);
-		$userInteraction->setInput([$c]);
+        $bucket->setTask($userInteraction);
 
-		$bucket->setTask($userInteraction);
-
-		$this->bucket = $bucket;
-	}
-
-
+        $this->bucket = $bucket;
+    }
 }

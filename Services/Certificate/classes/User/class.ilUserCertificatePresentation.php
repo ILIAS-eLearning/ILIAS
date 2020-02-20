@@ -7,7 +7,17 @@
 class ilUserCertificatePresentation
 {
     /**
-     * @var ilUserCertificate
+     * @var int
+     */
+    private $objId;
+
+    /**
+     * @var string
+     */
+    private $objType;
+    
+    /**
+     * @var ilUserCertificate|null
      */
     private $userCertificate;
 
@@ -27,17 +37,24 @@ class ilUserCertificatePresentation
     private $userName;
 
     /**
-     * @param ilUserCertificate $userCertificate
+     * ilUserCertificatePresentation constructor.
+     * @param int $objId
+     * @param string $objType
+     * @param ilUserCertificate|null $userCertificate
      * @param string $objectTitle
      * @param string $objectDescription
      * @param string $userName
      */
     public function __construct(
-        ilUserCertificate $userCertificate,
+        int $objId,
+        string $objType,
+        ?ilUserCertificate $userCertificate,
         string $objectTitle,
         string $objectDescription,
         string $userName = ''
     ) {
+        $this->objId = $objId;
+        $this->objType = $objType;
         $this->userCertificate = $userCertificate;
         $this->objectTitle = $objectTitle;
         $this->objectDescription = $objectDescription;
@@ -45,9 +62,25 @@ class ilUserCertificatePresentation
     }
 
     /**
-     * @return ilUserCertificate
+     * @return int
      */
-    public function getUserCertificate(): ilUserCertificate
+    public function getObjId() : int
+    {
+        return $this->objId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObjType() : string
+    {
+        return $this->objType;
+    }
+
+    /**
+     * @return ilUserCertificate|null
+     */
+    public function getUserCertificate() : ?ilUserCertificate
     {
         return $this->userCertificate;
     }
@@ -55,7 +88,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getObjectTitle(): string
+    public function getObjectTitle() : string
     {
         return $this->objectTitle;
     }
@@ -63,7 +96,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getObjectDescription(): string
+    public function getObjectDescription() : string
     {
         return $this->objectDescription;
     }
@@ -71,7 +104,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUserName() : string
     {
         return $this->userName;
     }

@@ -14,7 +14,6 @@ class ilDclExportGUI extends ilExportGUI
      */
     protected function buildExportTableGUI()
     {
-
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 
         return $table;
@@ -24,7 +23,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * overwrite to check if exportable fields are available (for async xls export)
      */
-    function createExportFile()
+    public function createExportFile()
     {
         if ($_POST['format'] == 'xlsx') {
             $this->checkForExportableFields();

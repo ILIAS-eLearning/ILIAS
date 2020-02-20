@@ -297,4 +297,44 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::CLOSE, "close", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function more($action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::MORE, "more", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function disclosure($action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::DISCLOSURE, "disclosure", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function language(?string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LANGUAGE, "switch language", $action);
+    }
+  
+    /**
+     * @inheritdoc
+     */
+    public function login(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LOGIN, "login", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function logout(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LOGOUT, "logout", $action);
+    }
 }

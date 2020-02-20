@@ -43,7 +43,8 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
             if (!($value instanceof ilTermsOfServiceEvaluableCriterion)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected instanceof '%s'",
-                    var_export($value, true), ilTermsOfServiceEvaluableCriterion::class
+                    var_export($value, true),
+                    ilTermsOfServiceEvaluableCriterion::class
                 ));
             }
         });

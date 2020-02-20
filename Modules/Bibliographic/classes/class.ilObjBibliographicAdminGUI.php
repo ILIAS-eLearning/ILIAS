@@ -15,7 +15,6 @@
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI
 {
-
     const TAB_FIELDS = 'fields';
     const TAB_SETTINGS = 'settings';
     const CMD_DEFAULT = 'view';

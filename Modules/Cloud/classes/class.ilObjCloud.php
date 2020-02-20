@@ -43,7 +43,7 @@ class ilObjCloud extends ilObject2
      *
      * @access    public
      */
-    function __construct($a_ref_id = 0, $a_reference = true)
+    public function __construct($a_ref_id = 0, $a_reference = true)
     {
         parent::__construct($a_ref_id, $a_reference);
     }
@@ -61,7 +61,7 @@ class ilObjCloud extends ilObject2
     /**
      * Create object
      */
-    function doCreate()
+    public function doCreate()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -88,7 +88,7 @@ class ilObjCloud extends ilObject2
     /**
      * Read data from db
      */
-    function doRead()
+    public function doRead()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -110,12 +110,13 @@ class ilObjCloud extends ilObject2
     /**
      * Update data
      */
-    function doUpdate()
+    public function doUpdate()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $ilDB->manipulate($up = "UPDATE il_cld_data SET " .
+        $ilDB->manipulate(
+            $up = "UPDATE il_cld_data SET " .
             " is_online = " . $ilDB->quote($this->getOnline(), "integer") . "," .
             " service = " . $ilDB->quote($this->getServiceName(), "text") . "," .
             " root_folder = " . $ilDB->quote($this->getRootFolder(), "text") . "," .
@@ -130,7 +131,7 @@ class ilObjCloud extends ilObject2
     /**
      * Delete data from db
      */
-    function doDelete()
+    public function doDelete()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -142,7 +143,8 @@ class ilObjCloud extends ilObject2
             }
         }
 
-        $ilDB->manipulate("DELETE FROM il_cld_data WHERE " .
+        $ilDB->manipulate(
+            "DELETE FROM il_cld_data WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
         );
     }
@@ -151,7 +153,7 @@ class ilObjCloud extends ilObject2
     /**
      * Do Cloning
      */
-    function doClone($a_target_id, $a_copy_id, $new_obj)
+    public function doClone($a_target_id, $a_copy_id, $new_obj)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -180,7 +182,7 @@ class ilObjCloud extends ilObject2
      *
      * @param boolean        online
      */
-    function setOnline($a_val)
+    public function setOnline($a_val)
     {
         $this->online = $a_val;
     }
@@ -191,7 +193,7 @@ class ilObjCloud extends ilObject2
      *
      * @return    boolean        online
      */
-    function getOnline()
+    public function getOnline()
     {
         return $this->online;
     }
@@ -203,7 +205,7 @@ class ilObjCloud extends ilObject2
      *
      * @param string        root_folder
      */
-    function setRootFolder($a_val, $no_check = false)
+    public function setRootFolder($a_val, $no_check = false)
     {
         if ($this->currentUserIsOwner() || $no_check || $this->getRootFolder() == null) {
             $a_val = ilCloudUtil::normalizePath($a_val);
@@ -219,7 +221,7 @@ class ilObjCloud extends ilObject2
      *
      * @return    string        root_folder
      */
-    function getRootFolder()
+    public function getRootFolder()
     {
         return $this->root_folder;
     }
@@ -230,7 +232,7 @@ class ilObjCloud extends ilObject2
      *
      * @param string        root_id
      */
-    function setRootId($a_val, $no_check = false)
+    public function setRootId($a_val, $no_check = false)
     {
         if ($this->currentUserIsOwner() || $no_check || $this->getRootId() == null) {
             $this->root_id = $a_val;
@@ -245,7 +247,7 @@ class ilObjCloud extends ilObject2
      *
      * @return    string        root_id
      */
-    function getRootId()
+    public function getRootId()
     {
         return $this->root_id;
     }
@@ -256,7 +258,7 @@ class ilObjCloud extends ilObject2
      *
      * @param string        service
      */
-    function setServiceName($a_val)
+    public function setServiceName($a_val)
     {
         $this->service_name = $a_val;
     }
@@ -267,7 +269,7 @@ class ilObjCloud extends ilObject2
      *
      * @return    string        service
      */
-    function getServiceName()
+    public function getServiceName()
     {
         return $this->service_name;
     }
@@ -320,5 +322,3 @@ class ilObjCloud extends ilObject2
         return $this->auth_complete;
     }
 }
-
-?>

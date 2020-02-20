@@ -33,7 +33,11 @@ Responsibilities of a component maintainer:
 - Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically by the [Issue-Tracker](http://mantis.ilias.de).
 
 
-The code base is deviced in several components:
+## Becoming a Maintainer
+
+Applications for maintainerships can be handed in to the product manager. The product manager together with the technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In addition the company the maintainer is working for can be listed, too. In this second case the company can suggest a new maintainer to the product manager, if the employee leaves the company.
+
+## Current Maintainerships
 
 <!-- REMOVE -->
 * **ActiveRecord**
@@ -149,6 +153,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
 	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
 	* Tester: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+
+* **Dashboard**
+	* 1st Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* 2nd Maintainer: MISSING
+	* Testcases: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Data**
 	* 1st Maintainer: [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
@@ -269,6 +279,12 @@ The code base is deviced in several components:
 	* 2nd Maintainer: [smeyer](http://www.ilias.de/docu/goto_docu_usr_191.html)
 	* Testcases: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
 	* Tester: [atoedt](http://www.ilias.de/docu/goto_docu_usr_3139.html)
+
+* **LTI Consumer**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
 * **Language Handling**
 	* 1st Maintainer: [kunkel](http://www.ilias.de/docu/goto_docu_usr_115.html)
@@ -570,6 +586,12 @@ The code base is deviced in several components:
 	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
 
+* **VirusScanner**
+	* 1st Maintainer: [rschenk](http://www.ilias.de/docu/goto_docu_usr_18065.html)
+	* 2nd Maintainer: [akill](http://www.ilias.de/docu/goto_docu_usr_149.html)
+	* Testcases: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+	* Tester: [tloewen](http://www.ilias.de/docu/goto_docu_usr_41553.html)
+
 * **Web Access Checker**
 	* 1st Maintainer: [fschmid](http://www.ilias.de/docu/goto_docu_usr_21087.html)
 	* 2nd Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
@@ -618,12 +640,18 @@ The code base is deviced in several components:
 	* Testcases: [mbecker](http://www.ilias.de/docu/goto_docu_usr_27266.html)
 	* Tester: [richtera](http://www.ilias.de/docu/goto_docu_usr_41247.html)
 
+* **cmi5/xAPI Object**
+	* 1st Maintainer: [ukohnle](http://www.ilias.de/docu/goto_docu_usr_21855.html)
+	* 2nd Maintainer: [bheyser](http://www.ilias.de/docu/goto_docu_usr_14300.html)
+	* Testcases: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTERS MISSING](http://www.ilias.de/docu/goto_docu_pg_64423_4793.html)
+
 
 Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
 
 * **Refinery**
 	* Coordinators: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
-	* Used in Directories: 
+	* Used in Directories: src/Refinery
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI
@@ -637,7 +665,7 @@ The following directories are currently maintained under the [Coordinator Model]
 
 The following directories are currently unmaintained:
 
-* Services/AssessmentQuestion
+* Modules/StudyProgrammeReference
 * Services/DiskQuota
 * Services/Membership
 * Services/OpenIdConnect
@@ -645,4 +673,5 @@ The following directories are currently unmaintained:
 * Services/QTI
 * Services/Randomization
 * Services/UI
+* src/ArtifactBuilder
 * src/Setup
