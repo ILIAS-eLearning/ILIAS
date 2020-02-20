@@ -38,8 +38,7 @@ class ilUserAvatarLetter extends ilUserAvatarBase
         $tpl   = new \ilTemplate('tpl.letter_avatar.svg', true, true, 'Services/User');
         $tpl->setVariable('COLOR', $color);
         $tpl->setVariable('SHORT', $this->name);
-        $data_src = 'data:image/svg+xml,' . rawurlencode($tpl->get());
 
-        return $data_src;
+        return 'data:image/svg+xml,' . rawurlencode($tpl->get());
     }
 }
