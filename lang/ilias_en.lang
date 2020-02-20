@@ -16055,3 +16055,4 @@ prg#:#prg_quali_not_valid#:#Qualification not valid
 rep#:#rep_configure#:#Configure
 cont#:#cont_found_objects#:#Found Objects
 common#:#msg_unknown_value#:#An unknown value has been passed.
+exc#:#exc_deleted_user#:#Deleted User

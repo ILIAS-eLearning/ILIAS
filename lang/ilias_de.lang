@@ -16055,3 +16055,4 @@ exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allo
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
 prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
+exc#:#exc_deleted_user#:#Gelöschter Benutzer
