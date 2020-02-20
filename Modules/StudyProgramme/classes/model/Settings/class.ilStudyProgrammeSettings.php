@@ -30,10 +30,10 @@ class ilStudyProgrammeSettings
     const MODE_LP_COMPLETED = 2;
 
     public static $MODES = array(
-    	self::MODE_UNDEFINED,
+        self::MODE_UNDEFINED,
         self::MODE_POINTS,
-		self::MODE_LP_COMPLETED
-	);
+        self::MODE_LP_COMPLETED
+    );
 
 
     // A program tree has a lifecycle during which it has three status.
@@ -81,24 +81,24 @@ class ilStudyProgrammeSettings
      */
     protected $lp_mode;
 
-	/**
-	 * @var \ilStudyProgrammeTypeSettings
-	 */
+    /**
+     * @var \ilStudyProgrammeTypeSettings
+     */
     protected $type_settings;
 
-	/**
-	 * @var \ilStudyProgrammeAssessmentSettings
-	 */
-	protected $assessment_settings;
+    /**
+     * @var \ilStudyProgrammeAssessmentSettings
+     */
+    protected $assessment_settings;
 
-	/**
-	 * @var \ilStudyProgrammeDeadlineSettings
-	 */
+    /**
+     * @var \ilStudyProgrammeDeadlineSettings
+     */
     protected $deadline_settings;
 
-	/**
-	 * @var \ilStudyProgrammeValidityOfAchievedQualificationSettings
-	 */
+    /**
+     * @var \ilStudyProgrammeValidityOfAchievedQualificationSettings
+     */
     protected $validity_of_qualification_settings;
 
     /**
@@ -114,13 +114,13 @@ class ilStudyProgrammeSettings
     protected $automail_settings;
 
     public function __construct(
-    	int $a_id,
-		\ilStudyProgrammeTypeSettings $type_settings,
-		\ilStudyProgrammeAssessmentSettings $assessment_settings,
-		\ilStudyProgrammeDeadlineSettings $deadline_settings,
-		\ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
-		\ilStudyProgrammeAutoMailSettings $automail_settings
-	) {
+        int $a_id,
+        \ilStudyProgrammeTypeSettings $type_settings,
+        \ilStudyProgrammeAssessmentSettings $assessment_settings,
+        \ilStudyProgrammeDeadlineSettings $deadline_settings,
+        \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
+        \ilStudyProgrammeAutoMailSettings $automail_settings
+    ) {
         $this->obj_id = $a_id;
         $this->type_settings = $type_settings;
         $this->assessment_settings = $assessment_settings;
@@ -204,59 +204,58 @@ class ilStudyProgrammeSettings
         return (int) $this->lp_mode;
     }
 
-	public function getTypeSettings() : \ilStudyProgrammeTypeSettings
-	{
-		return $this->type_settings;
-	}
+    public function getTypeSettings() : \ilStudyProgrammeTypeSettings
+    {
+        return $this->type_settings;
+    }
 
-	public function withTypeSettings(
-		\ilStudyProgrammeTypeSettings $type_settings
-	) : ilStudyProgrammeSettings {
-		$clone = clone $this;
-		$clone->type_settings = $type_settings;
-		return $clone;
-	}
+    public function withTypeSettings(
+        \ilStudyProgrammeTypeSettings $type_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->type_settings = $type_settings;
+        return $clone;
+    }
 
     public function getAssessmentSettings() : \ilStudyProgrammeAssessmentSettings
-	{
-		return $this->assessment_settings;
-	}
+    {
+        return $this->assessment_settings;
+    }
 
-	public function withAssessmentSettings(
-		\ilStudyProgrammeAssessmentSettings $assessment_settings
-	) : ilStudyProgrammeSettings {
-		$clone = clone $this;
-		$clone->assessment_settings = $assessment_settings;
-		$clone->updateLastChange();
-		return $clone;
-	}
+    public function withAssessmentSettings(
+        \ilStudyProgrammeAssessmentSettings $assessment_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->assessment_settings = $assessment_settings;
+        $clone->updateLastChange();
+        return $clone;
+    }
 
     public function getDeadlineSettings() : \ilStudyProgrammeDeadlineSettings
-	{
-		return $this->deadline_settings;
-	}
+    {
+        return $this->deadline_settings;
+    }
 
-	public function withDeadlineSettings(
-		\ilStudyProgrammeDeadlineSettings $deadline_settings
-	) : ilStudyProgrammeSettings {
-    	$clone = clone $this;
-    	$clone->deadline_settings = $deadline_settings;
-    	return $clone;
-	}
+    public function withDeadlineSettings(
+        \ilStudyProgrammeDeadlineSettings $deadline_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->deadline_settings = $deadline_settings;
+        return $clone;
+    }
 
-    public function getValidityOfQualificationSettings()
-	: \ilStudyProgrammeValidityOfAchievedQualificationSettings
-	{
-		return $this->validity_of_qualification_settings;
-	}
+    public function getValidityOfQualificationSettings() : \ilStudyProgrammeValidityOfAchievedQualificationSettings
+    {
+        return $this->validity_of_qualification_settings;
+    }
 
-	public function withValidityOfQualificationSettings(
-		\ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings
-	) : ilStudyProgrammeSettings {
-    	$clone = clone $this;
-		$clone->validity_of_qualification_settings = $validity_of_qualification_settings;
-		return $clone;
-	}
+    public function withValidityOfQualificationSettings(
+        \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->validity_of_qualification_settings = $validity_of_qualification_settings;
+        return $clone;
+    }
 
     /**
      * Choose whether the corresponding prg feature access is governed by positions.
@@ -280,16 +279,16 @@ class ilStudyProgrammeSettings
                 $this->getValidityOfQualificationSettings()->getQualificationPeriod() != -1;
     }
 
-	public function getAutoMailSettings() : \ilStudyProgrammeAutoMailSettings
-	{
-		return $this->automail_settings;
-	}
+    public function getAutoMailSettings() : \ilStudyProgrammeAutoMailSettings
+    {
+        return $this->automail_settings;
+    }
 
-	public function withAutoMailSettings(
-		\ilStudyProgrammeAutoMailSettings $automail_settings
-	) : ilStudyProgrammeSettings {
-		$clone = clone $this;
-		$clone->automail_settings = $automail_settings;
-		return $clone;
-	}
+    public function withAutoMailSettings(
+        \ilStudyProgrammeAutoMailSettings $automail_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->automail_settings = $automail_settings;
+        return $clone;
+    }
 }

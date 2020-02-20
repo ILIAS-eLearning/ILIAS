@@ -16059,3 +16059,7 @@ exc#:#exc_deleted_user#:#Gelöschter Benutzer
 prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
 prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, wenn sie dieses Programm erfolgreich absolviert haben, und müssen diese Anzahl von Punkten in nachfolgenden Programmen ereichen.
 prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
+prg#:#prg_description#:#Beschreibung
+prg#:#prg_link#:#Link
+prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms

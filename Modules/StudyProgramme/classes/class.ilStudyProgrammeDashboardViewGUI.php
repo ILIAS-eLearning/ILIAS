@@ -98,7 +98,7 @@ class ilStudyProgrammeDashboardViewGUI
 
             list($minimum_percents, $current_percents) = $this->calculatePercent(
                 $current_prg_settings->getAssessmentSettings()->getPoints(),
-                $current_progress->getAmountOfPoints(),
+                $current_progress->getCurrentAmountOfPoints(),
                 (int) $current->getStudyProgramme()->getRefId()
             );
 
