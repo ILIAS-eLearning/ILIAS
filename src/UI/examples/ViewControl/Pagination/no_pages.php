@@ -14,7 +14,6 @@ function no_pages()
     $pagination_onepage = $pagination->withTotalEntries(9);
     $pagination_limited = $pagination->withMaxPaginationButtons(5);
 
-
     return $renderer->render($pagination)
         . '<hr>'
         . $renderer->render($pagination_onepage)
