@@ -25,14 +25,6 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->getGUIClassNameFromClassPath($file);
             }
-            public function _addClassScript(string $class, string $file_path)
-            {
-                return $this->addClassScript($class, $file_path);
-            }
-            public function _addClassChild(string $parent, string $child)
-            {
-                return $this->addClassChild($parent, $child);
-            }
             public function _getIlCtrlCalls(string $content)
             {
                 return $this->getIlCtrlCalls($content);
@@ -49,9 +41,9 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return "";
             }
-            public function _read(string $a_cdir) : bool
+            public function _readDirTo(string $a_cdir, \ilCtrlStructure $cs = null) : \ilCtrlStructure
             {
-                return $this->read($a_cdir);
+                return $this->readDirTo($a_cdir, $cs ?? new \ilCtrlStructure());
             }
         })
             ->withDB($this->db);
@@ -65,25 +57,28 @@ class ilCtrlStructureReaderTest extends TestCase
     public function testReadSmoke()
     {
         $dir = __DIR__ . "/test_dir";
-        $result = $this->reader->_read($dir);
-        $this->assertTrue(is_bool($result));
+        $result = $this->reader->_readDirTo($dir);
+        $this->assertInstanceOf(\ilCtrlStructure::class, $result);
     }
 
     public function testReadClassScriptIsAsExpected()
     {
         $dir = __DIR__ . "/test_dir";
-        $result = $this->reader->_read($dir);
+        $result = $this->reader->_readDirTo($dir);
 
         $expected_class_script = [
            "ilmytestinggui" => "$dir/class.ilMyTestingGUI.php"
         ];
-        $this->assertEquals($this->reader->class_script, $expected_class_script);
+        $this->assertEquals(
+            $expected_class_script,
+            iterator_to_array($result->getClassScripts())
+        );
     }
 
     public function testReadClassChildsIsAsExpected()
     {
         $dir = __DIR__ . "/test_dir/";
-        $result = $this->reader->_read($dir);
+        $result = $this->reader->_readDirTo($dir);
 
         $expected_class_childs= [
            "ilmytestinggui" => [
@@ -93,7 +88,10 @@ class ilCtrlStructureReaderTest extends TestCase
                 "ilmytestinggui"
             ]
         ];
-        $this->assertEquals($this->reader->class_childs, $expected_class_childs);
+        $this->assertEquals(
+            $expected_class_childs,
+            iterator_to_array($result->getClassChildren())
+        );
     }
 
     public function testReadRemovesDuplicateCallsInDatabase()
@@ -103,9 +101,9 @@ class ilCtrlStructureReaderTest extends TestCase
         $dir = __DIR__ . "/test_dir/";
 
         $this->reader->comp_prefix = "";
-        $this->reader->class_script = [
+        $ctrl_structure = new \ilCtrlStructure([
            "ilmytestinggui" => "/some/other/dir/class.ilMyTestingGUI.php"
-        ];
+        ]);
         $this->db
             ->method("quote")
             ->will($this->returnCallback(function ($v, $_) {
@@ -125,7 +123,7 @@ class ilCtrlStructureReaderTest extends TestCase
                 ["DELETE FROM ctrl_calls WHERE comp_prefix IS NULL"]
             );
 
-        $result = $this->reader->_read($dir);
+        $result = $this->reader->_readDirTo($dir, $ctrl_structure);
     }
 
     public function testReadRemovesDuplicateFilesInDatabaseIfCompPrefixIsSet()
@@ -136,9 +134,9 @@ class ilCtrlStructureReaderTest extends TestCase
         $my_comp_prefix = "mcp";
 
         $this->reader->comp_prefix = $my_comp_prefix;
-        $this->reader->class_script = [
+        $ctrl_structure = new \ilCtrlStructure([
            "ilmytestinggui" => "/some/other/dir/class.ilMyTestingGUI.php"
-        ];
+        ]);
         $this->db
             ->method("quote")
             ->will($this->returnCallback(function ($v, $_) {
@@ -156,7 +154,7 @@ class ilCtrlStructureReaderTest extends TestCase
                 ["DELETE FROM ctrl_calls WHERE comp_prefix = \"$my_comp_prefix\""],
             );
 
-        $result = $this->reader->_read($dir);
+        $result = $this->reader->_readDirTo($dir, $ctrl_structure);
     }
 
     public function testShouldDescendToDirectory()
@@ -198,44 +196,6 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/picture.png"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/icon.svg"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/data.json"));
-    }
-
-    public function testAddClassScript()
-    {
-        $this->reader->_addClassScript("class1", "file1");
-        $this->reader->_addClassScript("class2", "file2");
-        $this->reader->_addClassScript("class3", "file3");
-        $this->reader->_addClassScript("class2", "file2");
-
-        $expected = [
-            "class1" => "file1",
-            "class2" => "file2",
-            "class3" => "file3",
-        ];
-
-        $this->assertEquals($expected, $this->reader->class_script);
-    }
-
-    public function testAddClassScriptPanicsOnDuplicate()
-    {
-        $this->expectException(\Exception::class);
-
-        $this->reader->_addClassScript("class1", "file1");
-        $this->reader->_addClassScript("class1", "file2");
-    }
-
-    public function testAddClassChild()
-    {
-        $this->reader->_addClassChild("parent1", "child1");
-        $this->reader->_addClassChild("parent2", "child2");
-        $this->reader->_addClassChild("parent1", "child3");
-
-        $expected = [
-            "parent1" => ["child1", "child3"],
-            "parent2" => ["child2"]
-        ];
-
-        $this->assertEquals($expected, $this->reader->class_childs);
     }
 
     public function testGetIlCtrlCallsNoContent()

@@ -12,8 +12,6 @@
 */
 class ilCtrlStructureReader
 {
-    public $class_script;
-    public $class_childs;
     public $executed;
     public $db = null;
 
@@ -62,6 +60,11 @@ class ilCtrlStructureReader
             return;
         }
 
+        // only run one time per db_update request
+        if ($this->executed) {
+            return;
+        }
+
         $this->flushCaches();
     
         // prefix for component
@@ -70,22 +73,18 @@ class ilCtrlStructureReader
         // plugin path
         $this->plugin_path = $a_plugin_path;
 
-        // only run one time per db_update request
-        if (!$this->executed) {
-            if ($a_dir == "") {
-                $this->start_dir = ILIAS_ABSOLUTE_PATH;
-                $this->read(ILIAS_ABSOLUTE_PATH);
-            } else {
-                $this->start_dir = $a_dir;
-                $this->read($a_dir);
-            }
-            $this->store();
-            $this->determineClassFileIds();
-            $this->executed = true;
-            if (!$a_force) {
-                $this->ini->setVariable("db", "structure_reload", "0");
-                $this->ini->write();
-            }
+        if ($a_dir == "") {
+            $a_dir = ILIAS_ABSOLUTE_PATH;
+        }
+
+        $ctrl_structure = $this->readDirTo($a_dir, new \ilCtrlStructure());
+        $this->storeToDB($ctrl_structure, $a_dir);
+        $this->setClassFileIdsInDB();
+
+        $this->executed = true;
+        if (!$a_force) {
+            $this->ini->setVariable("db", "structure_reload", "0");
+            $this->ini->write();
         }
     }
 
@@ -95,11 +94,11 @@ class ilCtrlStructureReader
         ilGlobalCache::flushAll();
     }
 
-    protected function read($a_cdir) : bool
+    protected function readDirTo(string $a_cdir, \ilCtrlStructure $cs) : \ilCtrlStructure
     {
         // check wether $a_cdir is a directory
         if (!@is_dir($a_cdir)) {
-            return false;
+            throw new \LogicException("'$c_dir' is not a directory.");
         }
 
         foreach ($this->getFilesIn($a_cdir) as list($file, $full_path)) {
@@ -111,31 +110,36 @@ class ilCtrlStructureReader
             try {
                 list($parent, $children) = $this->getIlCtrlCalls($content);
                 if ($parent) {
-                    $this->addClassScript($parent, $full_path);
+                    $cs = $cs->withClassScript($parent, $full_path);
                 }
                 foreach ($children as $child) {
-                    $this->addClassChild($parent, $child);
+                    $cs = $cs->withClassChild($parent, $child);
                 }
 
                 list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
                 if ($child) {
-                    $this->addClassScript($child, $full_path);
+                    $cs = $cs->withClassScript($child, $full_path);
                 }
                 foreach ($parents as $parent) {
-                    $this->addClassChild($parent, $child);
+                    $cs = $cs->withClassChild($parent, $child);
                 }
 
                 $cl = $this->getGUIClassNameFromClassPath($full_path);
                 if ($cl && $this->containsClassDefinitionFor($cl, $content)) {
-                    $this->addClassScript($cl, $full_path);
+                    $cs = $cs->withClassScript($cl, $full_path);
                 }
             } catch (\LogicException $e) {
                 $e->setMessage("In file \"$full_path\": " . $e->getMessage());
                 throw $e;
+            } catch (\RuntimeException $e) {
+                if (!isset($e->class) || !isset($e->file_path)) {
+                    throw $e;
+                }
+                $this->panicOnDuplicateClass($e->file_path, $e->class);
             }
         }
 
-        return true;
+        return $cs;
     }
 
 
@@ -190,38 +194,6 @@ class ilCtrlStructureReader
     // RESULT STORAGE
     // ----------------------
 
-    protected function addClassScript(string $class, string $file_path) : void
-    {
-        if ($class == "") {
-            throw new \InvalidArgumentException(
-                "Can't add class script for an empty class."
-            );
-        }
-
-        if (isset($this->class_script[$class]) && $this->class_script[$class] != $file_path) {
-            $this->panicOnDuplicateClass($file_path, $class);
-        }
-
-        $this->class_script[$class] = $file_path;
-    }
-
-    protected function addClassChild(string $parent, string $child) : void
-    {
-        if ($parent == "") {
-            throw new \InvalidArgumentException(
-                "Can't add class child for an empty parent."
-            );
-        }
-
-        if (!isset($this->class_childs[$parent])) {
-            $this->class_childs[$parent] = [];
-        }
-
-        if (!in_array($child, $this->class_childs[$parent])) {
-            $this->class_childs[$parent][] = $child;
-        }
-    }
-
     protected function panicOnDuplicateClass(string $full_path, string $parent) : void
     {
         $ilDB = $this->getDB();
@@ -260,7 +232,7 @@ class ilCtrlStructureReader
         );
     }
 
-    protected function storeToDB() : void
+    protected function storeToDB(\ilCtrlStructure $ctrl_structure, string $start_dir) : void
     {
         $ilDB = $this->getDB();
 
@@ -280,8 +252,8 @@ class ilCtrlStructureReader
                 $ilDB->equals("comp_prefix", "", "text", true));
         }
 
-        foreach ($this->class_script as $class => $script) {
-            $file = substr($script, strlen($this->start_dir) + 1);
+        foreach ($ctrl_structure->getClassScripts() as $class => $script) {
+            $file = substr($script, strlen($start_dir) + 1);
             
             // store class to file assignment
             $ilDB->manipulate(sprintf(
@@ -294,20 +266,22 @@ class ilCtrlStructureReader
                 ));
         }
         //$this->class_childs[$parent][] = $child;
-        foreach ($this->class_childs as $parent => $v) {
-            if (is_array($this->class_childs[$parent])) {
-                foreach ($this->class_childs[$parent] as $child) {
-                    if (strlen(trim($child)) and strlen(trim($parent))) {
-                        // store call entry
-                        $ilDB->manipulate(sprintf(
-                            "INSERT INTO ctrl_calls (parent, child, comp_prefix) " .
-                            "VALUES (%s,%s,%s)",
-                            $ilDB->quote($parent, "text"),
-                            $ilDB->quote($child, "text"),
-                            $ilDB->quote($this->comp_prefix, "text")
-                        ));
-                    }
+        foreach ($ctrl_structure->getClassChildren() as $parent => $children) {
+            if (!strlen($parent)) {
+                continue;
+            }
+            foreach ($children as $child) {
+                if (!strlen(trim($child))) {
+                    continue;
                 }
+                // store call entry
+                $ilDB->manipulate(sprintf(
+                    "INSERT INTO ctrl_calls (parent, child, comp_prefix) " .
+                    "VALUES (%s,%s,%s)",
+                    $ilDB->quote($parent, "text"),
+                    $ilDB->quote($child, "text"),
+                    $ilDB->quote($this->comp_prefix, "text")
+                ));
             }
         }
     }
