@@ -1,5 +1,3 @@
-<script type="text/javascript">
-<!--
 	var serverdate = -1;
 	var unsaved = true;
 	
@@ -106,5 +104,3 @@
 	}
 	
 	window.setInterval('setWorkingTime()',1000);
-//-->
-</script>
