@@ -22,7 +22,7 @@ class ilTestPasswordProtectionGUI
     protected $ctrl;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalPageTemplate
      */
     protected $tpl;
 
