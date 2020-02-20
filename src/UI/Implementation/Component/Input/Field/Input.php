@@ -20,7 +20,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Field\Input, InputInternal
+abstract class Input implements C\Input\Field\Input, FormInputInternal
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -324,7 +324,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal
         }
     }
 
-    // Implementation of InputInternal
+    // Implementation of FormInputInternal
 
     // This is the machinery to be used to process the input from the client side.
     // This should not be exposed to the consumers of the inputs. These methods

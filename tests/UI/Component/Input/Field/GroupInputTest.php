@@ -7,7 +7,6 @@ require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input\Field\Group;
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
-use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\Data;
 

@@ -4,11 +4,9 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\Data\Password as PWD;
-
 /**
  * This describes password inputs.
  */
-interface Password extends Input
+interface Password extends FormInput
 {
 }
