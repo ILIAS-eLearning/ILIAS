@@ -146,46 +146,6 @@ class Factory
     }
 
     /**
-     * @param int $minimum
-     * @param int $maximum
-     * @return OpenedIntegerInterval
-     */
-    public function openedIntegerInterval(int $minimum, int $maximum) : OpenedIntegerInterval
-    {
-        return new OpenedIntegerInterval($minimum, $maximum);
-    }
-
-    /**
-     * @param int $minimum
-     * @param int $maximum
-     * @return ClosedIntegerInterval
-     */
-    public function closedIntegerInterval(int $minimum, int $maximum) : ClosedIntegerInterval
-    {
-        return new ClosedIntegerInterval($minimum, $maximum);
-    }
-
-    /**
-     * @param float $minimum
-     * @param float $maximum
-     * @return Float
-     */
-    public function openedFloatInterval(float $minimum, float $maximum) : OpenedFloatInterval
-    {
-        return new OpenedFloatInterval($minimum, $maximum);
-    }
-
-    /**
-     * @param float $minimum
-     * @param float $maximum
-     * @return ClosedFloatInterval
-     */
-    public function closedFloatInterval(float $minimum, float $maximum) : ClosedFloatInterval
-    {
-        return new ClosedFloatInterval($minimum, $maximum);
-    }
-
-    /**
      * @return DateFormat\Factory
      */
     public function dateFormat() : DateFormat\Factory

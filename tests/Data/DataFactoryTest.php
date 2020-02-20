@@ -63,30 +63,6 @@ class DataFactoryTest extends TestCase
         $this->assertInstanceOf(Data\PositiveInteger::class, $dataType);
     }
 
-    public function testIntegerRange()
-    {
-        $dataType = $this->f->openedIntegerInterval(1, 100);
-        $this->assertInstanceOf(Data\Interval\OpenedIntegerInterval::class, $dataType);
-    }
-
-    public function testStrictIntegerRange()
-    {
-        $dataType = $this->f->closedIntegerInterval(1, 100);
-        $this->assertInstanceOf(Data\Interval\ClosedIntegerInterval::class, $dataType);
-    }
-
-    public function testFloatRange()
-    {
-        $dataType = $this->f->openedFloatInterval(1.4, 100.2);
-        $this->assertInstanceOf(Data\Interval\OpenedFloatInterval::class, $dataType);
-    }
-
-    public function testStrictFloatRange()
-    {
-        $dataType = $this->f->closedFloatInterval(1.4, 100.2);
-        $this->assertInstanceOf(Data\Interval\ClosedFloatInterval::class, $dataType);
-    }
-
     public function testDataSize1()
     {
         $dataType = $this->f->dataSize(10, "MB");
