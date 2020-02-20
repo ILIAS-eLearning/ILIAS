@@ -952,9 +952,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $user_solution = (array) $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
             $solutionValues = array();
-            
-            foreach ($this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2) {
-                $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+
+            $participantsSolution = $this->getPreviewSession()->getParticipantsSolution();
+            if (is_array($participantsSolution)) {
+                foreach ($participantsSolution as $val1 => $val2) {
+                    $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+                }
             }
             
             $user_solution = (array) $this->object->getBestSolution($solutionValues);
