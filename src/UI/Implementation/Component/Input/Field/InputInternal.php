@@ -15,23 +15,12 @@ use ILIAS\Data\Result;
  */
 interface InputInternal extends Input
 {
-
     /**
      * The name of the input as used in HTML.
      *
      * @return string
      */
     public function getName();
-
-
-    /**
-     * Get an input like this one, with a different name.
-     *
-     * @param    NameSource $source
-     *
-     * @return    Input
-     */
-    public function withNameFrom(NameSource $source);
 
 
     /**

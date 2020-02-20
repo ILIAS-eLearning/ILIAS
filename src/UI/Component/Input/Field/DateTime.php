@@ -5,11 +5,12 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\Data\DateFormat\DateFormat;
+use ILIAS\UI\Component\Component;
 
 /**
  * This describes the datetime-field.
  */
-interface DateTime extends Input
+interface DateTime extends Component, FormInput
 {
     /**
      * Get an input like this using the given format.

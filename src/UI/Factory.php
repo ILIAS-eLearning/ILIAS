@@ -126,6 +126,12 @@ interface Factory
      *      1: >
      *           DOM elements of type "a" MUST be used to properly identify an
      *           element.
+     *      2: >
+     *           If the Link is carrying the focus (e.g. by tabbing) and is visible it
+     *           MUST always be visibly marked (e.g. by some sort of highlighting).
+     *      3: >
+     *           All Links visible in a view MUST be accessible by keyboard by using the
+     *           ‘Tab’-Key.
      * ---
      * @return  \ILIAS\UI\Component\Link\Factory
      */
@@ -198,6 +204,12 @@ interface Factory
      *           Button DOM elements MUST either be of type "button", of type "a"
      *           accompanied with the aria-role “Button” or input along with the type
      *           attribute “button” or "submit".
+     *      3: >
+     *           If the Button is carrying the focus (e.g. by tabbing) and is visible it
+     *           MUST always be visibly marked (e.g. by some sort of highlighting).
+     *      4: >
+     *           All Buttons visible in a view MUST be accessible by keyboard by using the
+     *           ‘Tab’-Key.
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */

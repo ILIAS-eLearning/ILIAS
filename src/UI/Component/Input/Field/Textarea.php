@@ -9,7 +9,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes Textarea inputs.
  */
-interface Textarea extends Input
+interface Textarea extends FormInput
 {
 
     /**

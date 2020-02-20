@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\ViewControl;
 use \ILIAS\UI\Component as C;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Triggerer;
+use ILIAS\Data\Range;
 
 /**
  * This describes a Pagination Control
@@ -46,7 +47,7 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     public function withPageSize(int $size) : Pagination;
 
     /**
-     * Get the numebr of entries per page.
+     * Get the number of entries per page.
      */
     public function getPageSize() : int;
 
@@ -56,14 +57,9 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     public function withCurrentPage(int $page) : Pagination;
 
     /**
-     * Get the currently slected page.
+     * Get the currently selected page.
      */
     public function getCurrentPage() : int;
-
-    /**
-     * Get the data's offset according to current page and page size.
-     */
-    public function getOffset() : int;
 
     /**
      * Register a signal with the control.
@@ -125,5 +121,5 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Get the current number of entries on this page.
      */
-    public function getPageLength() : int;
+    public function getRange(): Range;
 }
