@@ -85,7 +85,9 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         if (!$this->onclick && $this->target_gui != "") {
             $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
             $href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
-            $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $_GET["tax_node"]);
+            if (isset($_GET["tax_node"]) && !is_array($_GET['tax_node'])) {
+                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", ilUtil::stripSlashes((string) $_GET["tax_node"]));
+            }
             return $href;
         } else {
             return "#";
