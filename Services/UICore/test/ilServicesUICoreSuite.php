@@ -21,6 +21,8 @@ class ilServicesUICoreSuite extends TestSuite
         $suite->addTestSuite("ilTemplateTest");
         include_once("./Services/UICore/test/ilCtrlStructureReaderTest.php");
         $suite->addTestSuite("ilCtrlStructureReaderTest");
+        include_once("./Services/UICore/test/ilCtrlStructureTest.php");
+        $suite->addTestSuite("ilCtrlStructureTest");
 
         return $suite;
     }
