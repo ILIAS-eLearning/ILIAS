@@ -29,12 +29,12 @@ class ilUserAvatarLetter extends ilUserAvatarBase
      */
     public function getUrl() : string
     {
-        static $smount_od_colors;
-        if(!isset($smount_od_colors)) {
-            $smount_od_colors = count(self::$colors);
+        static $amount_of_colors;
+        if (!isset($amount_of_colors)) {
+            $amount_of_colors = count(self::$colors);
         }
         // general idea, see https://gist.github.com/vctrfrnndz/fab6f839aaed0de566b0
-        $color = self::$colors[crc32($this->name) % $smount_od_colors];
+        $color = self::$colors[crc32($this->name) % $amount_of_colors];
         $tpl   = new \ilTemplate('tpl.letter_avatar.svg', true, true, 'Services/User');
         $tpl->setVariable('COLOR', $color);
         $tpl->setVariable('SHORT', $this->name);
