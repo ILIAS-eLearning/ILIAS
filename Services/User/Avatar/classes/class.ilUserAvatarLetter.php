@@ -25,8 +25,9 @@ class ilUserAvatarLetter extends ilUserAvatarBase
 
     /**
      * @return string
+     * @throws ilTemplateException
      */
-    public function getUrl()
+    public function getUrl() : string
     {
         static $smount_od_colors;
         if(!isset($smount_od_colors)) {
