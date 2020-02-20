@@ -439,7 +439,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         
         $ilHelp->setSubScreenId(implode('_', $subScreenId));
 
-        return $tpl->setContent($form->getHTML());
+        return $form->getHTML();
     }
 
     public function questions()
