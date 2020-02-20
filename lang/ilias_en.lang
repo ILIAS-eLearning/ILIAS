@@ -12444,7 +12444,7 @@ sess#:#sess_mail_permanent_link_participants#:#Click on the following link to ed
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
@@ -13584,7 +13584,7 @@ administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_maintenance#:#System Settings and Maintenance
-administration#:#adm_user_administration#:#User Administration
+administration#:#adm_user_administration#:#Users and Roles
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
@@ -16052,3 +16052,6 @@ exc#:#exc_members_already_assigned_team#:#This user is already assigned to a tea
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 prg#:#prg_quali_still_valid#:#Qualification still valid
 prg#:#prg_quali_not_valid#:#Qualification not valid
+rep#:#rep_configure#:#Configure
+cont#:#cont_found_objects#:#Found Objects
+common#:#msg_unknown_value#:#An unknown value has been passed.

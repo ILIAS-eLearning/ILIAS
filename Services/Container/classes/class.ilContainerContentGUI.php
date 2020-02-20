@@ -408,13 +408,21 @@ abstract class ilContainerContentGUI
         } else {
             $item_list_gui =&$this->list_gui[$item_data["type"]];
         }
-                    
+
         // unique js-ids
         $item_list_gui->setParentRefId($item_data["parent"]);
         
         $item_list_gui->setDefaultCommandParameters(array());
         $item_list_gui->disableTitleLink(false);
         $item_list_gui->resetConditionTarget();
+
+        if ($this->container_obj->isClassificationFilterActive()) {
+            $item_list_gui->enablePath(
+                true,
+                $this->container_obj->getRefId(),
+                new \ilSessionClassificationPathGUI()
+            );
+        }
 
         // show administration command buttons (or not)
         if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {

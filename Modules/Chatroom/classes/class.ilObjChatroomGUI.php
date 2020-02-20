@@ -60,11 +60,19 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
             if ($sub) {
                 $_REQUEST['sub'] = $_GET['sub'] = (int) $sub;
             }
-            include_once 'Services/Object/classes/class.ilObjectGUI.php';
             ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+        } elseif (ilChatroom::checkUserPermissions('visible', $ref_id, false)) {
+            $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $ref_id);
+            $DIC->ctrl()->redirectByClass(
+                [
+                    ilRepositoryGUI::class,
+                    ilObjChatroomGUI::class,
+                    ilInfoScreenGUI::class
+                ],
+                'info'
+            );
         } elseif ($DIC->rbac()->system()->checkAccess('read', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(sprintf($DIC->language()->txt('msg_no_perm_read_item'), ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))), true);
-            include_once 'Services/Object/classes/class.ilObjectGUI.php';
             ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
         }
 

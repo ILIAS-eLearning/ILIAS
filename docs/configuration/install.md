@@ -20,6 +20,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Database Recommendations](#database-recommendations)
 1. [Manual Installation on Linux](#manual-installation-on-linux)
    1. [Git Clone/Checkout](#git-clonecheckout)
+   1. [Build PHP-Dependencies and Artifacts](#build-php-dependencies-and-artifacts)
 1. [Dependency Installation](#dependency-installation)
    1. [Apache Installation/Configuration](#apache-installationconfiguration)
    1. [PHP Installation/Configuration](#php-installationconfiguration)
@@ -151,18 +152,32 @@ We RECOMMEND to clone from GitHub as this will offer some kind of autoupdate for
 <a name="git-clonecheckout"></a>
 ## Git Clone/Checkout
 
-To checkout the ILIAS release 5.2 in ```/var/www/html/ilias/``` use the following commands:
+To checkout the ILIAS release 6 in ```/var/www/html/ilias/``` use the following commands:
 
 ```
 cd /var/www/html/
 git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
 cd ilias
-git checkout release_5-2
+git checkout release_6
 chown www-data:www-data /var/www/html/ilias -R
 ```
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories.
 
 For more details on file access rights see [File Access Rights](#file-access-rights) in the Security section of this document.
+
+<a name="build-php-dependencies-and-artifacts"></a>
+## Build PHP-Dependencies and Artifacts
+
+The repository of ILIAS doesn't contain all code that is required to run. To
+download the required PHP-dependencies and to create static artifacts from
+the source, run the following in your ILIAS folder:
+
+```
+composer install --no-dev -d libs/composer
+```
+
+The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or
+```apache```) the mode SHOULD be 644 for files and 755 for directories.
 
 <a name="dependency-installation"></a>
 # Dependency Installation
@@ -190,7 +205,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 
     DocumentRoot /var/www/html/ilias/
     <Directory /var/www/html/>
-        Options FollowSymLinks
+        Options FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -202,6 +217,14 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ErrorLog /var/log/apache2/error.log
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
+```
+
+In order to secure access to the files in your `data` directory, you SHOULD
+enable `mod\_rewrite` on Debian/Ubuntu (should be enabled by default on
+RHEL/CentOS):
+
+```
+a2enmod rewrite
 ```
 
 Please take care to [restrict access to the setup-folder](#secure-installation-files)
@@ -504,6 +527,7 @@ To apply a minor update (e.g. v5.2.0 to v5.2.1) execute the following command in
 
 ```
 git pull
+composer install --no-dev -d libs/composer
 ```
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
@@ -518,6 +542,7 @@ To apply a major update (e.g. v5.1.0 to 5.2.0 or v4.x.x to 5.x.x) please check t
 ```
 git fetch
 git checkout release_5-2
+composer install --no-dev -d libs/composer
 ```
 
 Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.

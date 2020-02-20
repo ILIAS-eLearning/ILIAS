@@ -51,7 +51,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
                 $data["password"] ? $password->transform($data["password"]) : null,
                 $data["create_database"] ?? true,
                 $data["collation"] ?? null,
-                $data["port"] ?? null,
+                $data["port"] ?? 3306,
                 $data["path_to_db_dump"] ?? null
             );
         });

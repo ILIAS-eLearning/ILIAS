@@ -243,9 +243,8 @@ abstract class ilPDSelectedItemsBlockViewGUI
             'ended'     => array(),
             'not_dated' => array()
         );
-
         foreach ($items as $key => $item) {
-            if ($item['start'] && $item['start'] && $item['start'] instanceof ilDate) {
+            if ($item['start'] && $item['start']->get(IL_CAL_UNIX) > 0 && $item['start'] instanceof ilDateTime) {
                 if ($item['start']->get(IL_CAL_UNIX) > time()) {
                     $groups['upcoming'][] = $item;
                 } elseif ($item['end']->get(IL_CAL_UNIX) > time()) {

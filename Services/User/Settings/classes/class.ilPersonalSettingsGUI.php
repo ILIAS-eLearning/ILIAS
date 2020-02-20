@@ -898,7 +898,7 @@ class ilPersonalSettingsGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
         
-        ilUtil::redirect("login.php?target=usr_" . md5("usrdelown"));
+        ilUtil::redirect("login.php?cmd=force_login&target=usr_" . md5("usrdelown"));
     }
     
     /**

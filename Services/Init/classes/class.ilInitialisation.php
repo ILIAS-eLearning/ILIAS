@@ -345,6 +345,10 @@ class ilInitialisation
         $iliasHttpPath = implode('', [$protocol, $host, $uri]);
         if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
             $iliasHttpPath = dirname($iliasHttpPath);
+        } elseif (ilContext::getType() === ilContext::CONTEXT_SAML) {
+            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
+                $iliasHttpPath = substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'));
+            }
         }
 
         $f = new \ILIAS\Data\Factory();

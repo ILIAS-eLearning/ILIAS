@@ -419,7 +419,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilSetting = $this->settings;
         $ilUser = $this->user;
         
-        if (!$ilSetting->get("enable_cat_page_edit")) {
+        if (!$ilSetting->get("enable_cat_page_edit") || $this->object->filteredSubtree()) {
             return;
         }
         
@@ -560,7 +560,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function getContentGUI()
     {
-        switch ($this->object->getViewMode()) {
+        $view_mode = $this->object->getViewMode();
+        if ($this->object->filteredSubtree()) {
+            $view_mode = ilContainer::VIEW_SIMPLE;
+        }
+        switch ($view_mode) {
             // all items in one block
             case ilContainer::VIEW_SIMPLE:
                 include_once("./Services/Container/classes/class.ilContainerSimpleContentGUI.php");

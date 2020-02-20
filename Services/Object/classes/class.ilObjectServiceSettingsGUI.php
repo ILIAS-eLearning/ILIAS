@@ -87,7 +87,9 @@ class ilObjectServiceSettingsGUI
         $ilSetting = $DIC->settings();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
+        $lng->loadLanguageModule("obj");
+
         // info tab
         if (in_array(self::INFO_TAB_VISIBILITY, $services)) {
             $info = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_info_tab'), self::INFO_TAB_VISIBILITY);
