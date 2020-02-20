@@ -102,5 +102,6 @@
 		var span = document.getElementById("timeleft");
 		span.innerHTML = timeleft.replace(/%s/, output);
 	}
+	window.setWorkingTime = setWorkingTime;
 	
 	window.setInterval('setWorkingTime()',1000);
