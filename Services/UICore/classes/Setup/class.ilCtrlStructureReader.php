@@ -112,16 +112,20 @@ class ilCtrlStructureReader
                 if ($parent) {
                     $cs = $cs->withClassScript($parent, $full_path);
                 }
-                foreach ($children as $child) {
-                    $cs = $cs->withClassChild($parent, $child);
+                if ($children) {
+                    foreach ($children as $child) {
+                        $cs = $cs->withClassChild($parent, $child);
+                    }
                 }
 
                 list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
                 if ($child) {
                     $cs = $cs->withClassScript($child, $full_path);
                 }
-                foreach ($parents as $parent) {
-                    $cs = $cs->withClassChild($parent, $child);
+                if ($parents) {
+                    foreach ($parents as $parent) {
+                        $cs = $cs->withClassChild($parent, $child);
+                    }
                 }
 
                 $cl = $this->getGUIClassNameFromClassPath($full_path);
@@ -135,7 +139,11 @@ class ilCtrlStructureReader
                 if (!isset($e->class) || !isset($e->file_path)) {
                     throw $e;
                 }
-                $this->panicOnDuplicateClass($e->file_path, $e->class);
+                $this->panicOnDuplicateClass(
+                    $e->file_path,
+                    $cs->getClassScriptOf($e->class),
+                    $e->class
+                );
             }
         }
 
@@ -194,7 +202,7 @@ class ilCtrlStructureReader
     // RESULT STORAGE
     // ----------------------
 
-    protected function panicOnDuplicateClass(string $full_path, string $parent) : void
+    protected function panicOnDuplicateClass(string $full_path, string $other_path, string $parent) : void
     {
         $ilDB = $this->getDB();
 
@@ -226,7 +234,7 @@ class ilCtrlStructureReader
             sprintf(
                 $msg,
                 $parent,
-                $this->class_script[$parent],
+                $other_path,
                 $full_path
             )
         );
