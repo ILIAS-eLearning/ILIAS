@@ -164,7 +164,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI($this->object, 'mob');
                 $this->ctrl->forwardCommand($md_gui);
-                $this->tpl->show();
+                $this->tpl->printToStdout();
                 break;
 
 
