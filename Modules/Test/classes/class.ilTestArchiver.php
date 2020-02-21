@@ -394,7 +394,7 @@ class ilTestArchiver
         }
         $output_template = $gui->createUserResults(true, false, true, $array_of_actives);
 
-        require_once 'class.ilTestPDFGenerator.php';
+        require_once 'Modules/Test/classes/class.ilTestPDFGenerator.php';
         $filename = realpath($this->getTestArchive()) . self::DIR_SEP . 'participant_pass_overview.pdf';
         ilTestPDFGenerator::generatePDF($output_template->get(), ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
         
