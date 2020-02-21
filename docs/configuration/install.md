@@ -173,7 +173,7 @@ download the required PHP-dependencies and to create static artifacts from
 the source, run the following in your ILIAS folder:
 
 ```
-composer install --no-dev -d libs/composer
+composer install --no-dev
 ```
 
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or
@@ -527,7 +527,7 @@ To apply a minor update (e.g. v5.2.0 to v5.2.1) execute the following command in
 
 ```
 git pull
-composer install --no-dev -d libs/composer
+composer install --no-dev
 ```
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
@@ -537,15 +537,15 @@ See [Database Update](#database-update) for details on how to complete the Upgra
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
-To apply a major update (e.g. v5.1.0 to 5.2.0 or v4.x.x to 5.x.x) please check that your OS has the [proper dependency versions](#upgrading-dependencies) installed. If everything is fine change your default skin to Delos and apply this at least to your root user, otherwise ILIAS might become unusable due to changes in the layout templates. Then execute the following commands in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
+To apply a major update (e.g. v5.4.0 to 6.0) please check that your OS has the [proper dependency versions](#upgrading-dependencies) installed. If everything is fine change your default skin to Delos and apply this at least to your root user, otherwise ILIAS might become unusable due to changes in the layout templates. Then execute the following commands in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
 
 ```
 git fetch
-git checkout release_5-2
-composer install --no-dev -d libs/composer
+git checkout release_6
+composer install --no-dev
 ```
 
-Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
+Replace ```release_6``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
