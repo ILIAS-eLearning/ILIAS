@@ -18,6 +18,8 @@ class ilTinyMCE extends ilRTE
     protected $version = ''; // set default version here
     protected $vd = ''; // version directory suffix
 
+    protected static $renderedToGlobalTemplate = false;
+
     /**
      * @var bool
      */
@@ -221,8 +223,11 @@ class ilTinyMCE extends ilRTE
             
             $tpl->parseCurrentBlock();
 
-            $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
-            $this->tpl->addOnLoadCode($tpl->get());
+            if (!self::$renderedToGlobalTemplate) {
+                $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
+                $this->tpl->addOnLoadCode($tpl->get());
+                self::$renderedToGlobalTemplate = true;
+            }
         }
     }
 
@@ -276,8 +281,11 @@ class ilTinyMCE extends ilRTE
         
         $tpl->parseCurrentBlock();
 
-        $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
-        $this->tpl->addOnLoadCode($tpl->get());
+        if (!self::$renderedToGlobalTemplate) {
+            $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
+            $this->tpl->addOnLoadCode($tpl->get());
+            self::$renderedToGlobalTemplate = true;
+        }
     }
 
     /**
