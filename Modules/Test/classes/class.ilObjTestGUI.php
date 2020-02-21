@@ -3101,7 +3101,7 @@ class ilObjTestGUI extends ilObjectGUI
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
         
         if ($isPdfDeliveryRequest) {
-            require_once 'class.ilTestPDFGenerator.php';
+            require_once 'Modules/Test/classes/class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
         } else {
             $this->tpl->setVariable("PRINT_CONTENT", $template->get());
@@ -3174,7 +3174,7 @@ class ilObjTestGUI extends ilObjectGUI
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
 
         if ($isPdfDeliveryRequest) {
-            require_once 'class.ilTestPDFGenerator.php';
+            require_once 'Modules/Test/classes/class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
         } else {
             $this->ctrl->setParameter($this, "pdf", "1");
