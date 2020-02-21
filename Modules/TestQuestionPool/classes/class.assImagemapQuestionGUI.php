@@ -475,15 +475,40 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
             foreach ($solutions as $idx => $solution_value) {
-                if (strcmp($solution_value["value1"], "") != 0) {
-                    $preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
-                    $solution_id = $solution_value["value1"];
+                $value1 = $solution_value["value1"];
+                if (
+                    strcmp($value1, '') === 0 ||
+                    !isset($this->object->answers[$value1])
+                ) {
+                    continue;
                 }
+
+                /** @var ASS_AnswerImagemap $shape */
+                $shape = $this->object->answers[$value1];
+                $preview->addArea(
+                    $value1,
+                    $shape->getArea(),
+                    $shape->getCoords(),
+                    $shape->getAnswertext()
+                    ,
+                    '',
+                    '',
+                    true,
+                    $this->linecolor
+                );
+
+                $solution_id = $value1;
             }
             $preview->createPreview();
-            $imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->getImageFilename());
+            $imagepath = implode('', [
+                $this->object->getImagePathWeb(),
+                $preview->getPreviewFilename(
+                    $this->object->getImagePath(),
+                    $this->object->getImageFilename()
+                ),
+            ]);
         }
-        
+
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", true, true, "Modules/TestQuestionPool");
