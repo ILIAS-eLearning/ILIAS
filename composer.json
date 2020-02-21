@@ -1,14 +1,21 @@
 {
-	"name": "ilias/deps",
-	"description": "Dependencies of ILIAS",
+	"name": "ilias/ilias",
+	"description": "ILIAS",
 	"license": "GPL v3",
 	"authors": [],
 	"config": {
-		"optimize-autoloader": true
+		"optimize-autoloader": true,
+		"vendor-dir": "./libs/composer/vendor"
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "cd .. && cd .. && php setup/cli.php build-artifacts --yes"
+		  "php setup/cli.php build-artifacts --yes"
+		],
+		"test-php-all": [
+		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+		],
+		"test-php": [
+		  "./CI/PHPUnit/run_tests.sh"
 		]
 	},
 	"require": {
@@ -56,18 +63,18 @@
 	},
 	"autoload": {
 		"psr-4" : {
-			"ILIAS\\Tests\\" : "../../tests",
-			"ILIAS\\" : "../../src"
+			"ILIAS\\Tests\\" : "./tests",
+			"ILIAS\\" : "./src"
 		},
 		"classmap": [
-			"../../Services/",
-			"../../Modules",
-			"../ilias"
+			"./Services/",
+			"./Modules",
+			"./libs/ilias"
 		],
 		"exclude-from-classmap": [
-			"../../Services/Migration",
-			"../../*/*/lib", "../../*/*/test",
-			"../../Services/CAS/phpcas"
+			"./Services/Migration",
+			"./*/*/lib", "./*/*/test",
+			"./Services/CAS/phpcas"
 		]
 	},
 	"extra": {
@@ -394,19 +401,19 @@
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
 			},
 			"phpmailer/phpmailer": {
-				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},
 			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
 			},
 			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "patches/zend-httphandlerrunner.patch"
+				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
 			},
 			"imsglobal/lti": {
-				"ILIAS LTI Patches": "patches/lti.patch"
+				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
 			}
 		}
 	}
