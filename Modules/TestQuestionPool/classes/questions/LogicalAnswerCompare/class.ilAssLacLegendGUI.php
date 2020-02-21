@@ -14,7 +14,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 {
     protected $lng;
     
-    /** @var ilGlobalPageTemplate */
+    /** @var ilGlobalTemplateInterface */
     protected $tpl;
     
     private $initialVisibilityEnabled;
@@ -43,7 +43,7 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         ),
     );
     
-    public function __construct(ilLanguage $lng, ilGlobalPageTemplate $tpl)
+    public function __construct(ilLanguage $lng, ilGlobalTemplateInterface $tpl)
     {
         $this->lng = $lng;
         $this->tpl = $tpl;

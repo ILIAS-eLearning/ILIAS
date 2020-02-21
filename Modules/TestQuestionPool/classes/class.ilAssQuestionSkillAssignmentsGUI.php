@@ -40,7 +40,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private $access;
 
     /**
-     * @var ilGlobalPageTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -82,11 +82,11 @@ class ilAssQuestionSkillAssignmentsGUI
     /**
      * @param ilCtrl $ctrl
      * @param ilAccessHandler $access
-     * @param ilGlobalPageTemplate $tpl
+     * @param ilGlobalTemplateInterface $tpl
      * @param ilLanguage $lng
      * @param ilDBInterface $db
      */
-    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalPageTemplate $tpl, ilLanguage $lng, ilDBInterface $db)
+    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db)
     {
         $this->ctrl = $ctrl;
         $this->access = $access;
