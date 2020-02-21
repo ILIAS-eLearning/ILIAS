@@ -1031,7 +1031,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($this->isPdfDeliveryRequest()) {
             //$this->object->deliverPDFfromHTML($template->get());
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setVariable("ADM_CONTENT", $template->get());
@@ -1149,7 +1148,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $name = ilObjUser::_lookupName($user_id);
             $filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__' . $this->object->getTitleFilenameCompliant();
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
         //ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
             //$template->setVariable("PDF_FILE_LOCATION", $filename);
@@ -1348,7 +1346,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         if ($this->isPdfDeliveryRequest()) {
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setContent($tpl->get());
@@ -1474,8 +1471,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 
         if ($this->isPdfDeliveryRequest()) {
-            //$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setContent($templatehead->get());

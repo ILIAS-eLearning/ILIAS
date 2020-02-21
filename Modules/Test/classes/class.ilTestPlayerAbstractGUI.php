@@ -937,7 +937,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $filename = realpath($path) . '/exam_N' . $inst_id . '-' . $this->object->getId()
                     . '-' . $active . '-' . $pass . '.pdf';
 
-        require_once 'class.ilTestPDFGenerator.php';
         ilTestPDFGenerator::generatePDF($results_output, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
         //$template->setVariable("PDF_FILE_LOCATION", $filename);
         // Participant submission

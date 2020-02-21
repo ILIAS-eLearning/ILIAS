@@ -515,8 +515,6 @@ class ilParticipantsTestResultsGUI
         }
         
         if ($this->isPdfDeliveryRequest()) {
-            require_once 'class.ilTestPDFGenerator.php';
-            
             ilTestPDFGenerator::generatePDF(
                 $template->get(),
                 ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD,
