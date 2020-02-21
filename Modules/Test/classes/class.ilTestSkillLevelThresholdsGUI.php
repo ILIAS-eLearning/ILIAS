@@ -20,7 +20,7 @@ class ilTestSkillLevelThresholdsGUI
     private $ctrl;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -46,7 +46,7 @@ class ilTestSkillLevelThresholdsGUI
 
     private $questionAssignmentColumnsEnabled;
 
-    public function __construct(ilCtrl $ctrl, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
+    public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
     {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;

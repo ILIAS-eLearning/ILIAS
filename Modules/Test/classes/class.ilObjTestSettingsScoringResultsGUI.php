@@ -32,7 +32,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     /** @var ilLanguage $lng */
     protected $lng = null;
     
-    /** @var ilGlobalTemplate $tpl */
+    /** @var ilGlobalTemplateInterface $tpl */
     protected $tpl = null;
     
     /** @var ilTree $tree */

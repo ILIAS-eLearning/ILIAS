@@ -36,7 +36,7 @@ class ilQuestionPoolSkillAdministrationGUI
     private $tabs;
 
     /**
-     * @var ilGlobalPageTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -61,7 +61,7 @@ class ilQuestionPoolSkillAdministrationGUI
     private $poolOBJ;
     
     
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalPageTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
+    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
     {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;

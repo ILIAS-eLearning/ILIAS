@@ -36,7 +36,7 @@ class ilTestServiceGUI
     protected $db;
 
     public $lng;
-    /** @var ilGlobalPageTemplate */
+    /** @var ilGlobalTemplateInterface */
     public $tpl;
     
     /**
