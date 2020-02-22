@@ -9121,7 +9121,7 @@ footer {
   word-break: normal;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
-  background-color: #e3e3e3;
+  background-color: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
   text-transform: uppercase;
@@ -9145,15 +9145,15 @@ footer {
 }
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
-  background-color: rgba(76, 101, 134, 0.2);
+  background-color: #f9f9f9;
 }
 .il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky:not(:hover) {
-  background-color: rgba(76, 101, 134, 0.15);
+  background-color: rgba(249, 249, 249, 0.15);
 }
 .il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky:not(:hover) {
-  background-color: rgba(76, 101, 134, 0.1);
+  background-color: rgba(249, 249, 249, 0.1);
 }
 .il-maincontrols-slate-content p,
 .il-maincontrols-slate-content h1,
