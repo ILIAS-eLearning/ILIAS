@@ -16449,6 +16449,9 @@ div.ilContainerListItemCB {
   vertical-align: top;
   padding-right: 10px;
 }
+div.ilContainerListItemCB img {
+  width: 20px;
+}
 [dir="rtl"] div.ilContainerListItemCB {
   /* float: right; */
 }
