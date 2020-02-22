@@ -9143,16 +9143,16 @@ footer {
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky {
+.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: rgba(76, 101, 134, 0.2);
 }
-.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky {
+.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky:not(:hover) {
   background-color: rgba(76, 101, 134, 0.15);
 }
-.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky {
+.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky:not(:hover) {
   background-color: rgba(76, 101, 134, 0.1);
 }
 .il-maincontrols-slate-content p,
