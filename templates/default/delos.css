@@ -10345,7 +10345,7 @@ footer {
   filter: brightness(0);
 }
 .icon.outlined.disabled {
-  filter: brightness(0.3);
+  filter: contrast(0%);
 }
 .icon.outlined.grp {
   background-image: url("images/outlined/icon_grp.svg");
