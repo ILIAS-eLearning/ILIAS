@@ -22,12 +22,17 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("ARIA_LABEL", $component->getAriaLabel());
         $tpl->setVariable("SIZE", $component->getSize());
 
         if ($component instanceof Component\Symbol\Icon\Custom) {
+            $tpl->setCurrentBlock("customimage");
             $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
+            $tpl->setVariable("ALT_TEXT", $component->getAriaLabel());
+            $tpl->parseCurrentBlock();
         } else {
+            $tpl->setCurrentBlock("aria_label");
+            $tpl->setVariable("ARIA_LABEL", $component->getAriaLabel());
+            $tpl->parseCurrentBlock();
             if ($component->isOutlined()) {
                 $tpl->setVariable("OUTLINED", " outlined");
             }

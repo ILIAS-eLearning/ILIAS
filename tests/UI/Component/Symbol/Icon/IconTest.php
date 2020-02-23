@@ -177,24 +177,24 @@ class IconTest extends ILIAS_UI_TestBase
 
         $ico = $ico = $f->custom($path, 'Custom', 'medium');
         $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon custom medium" aria-label="Custom">'
-                    . '	<img src="./templates/default/images/icon_fold.svg" />'
+        $expected = '<div class="icon custom medium" >'
+                    . '	<img alt="Custom" src="./templates/default/images/icon_fold.svg" />'
                     . '</div>';
         $this->assertEquals($expected, $html);
 
         //with disabled
         $ico = $ico->withDisabled(true);
         $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon custom medium disabled" aria-label="Custom">'
-            . '	<img src="./templates/default/images/icon_fold.svg" />'
+        $expected = '<div class="icon custom medium disabled" >'
+            . '	<img alt="Custom" src="./templates/default/images/icon_fold.svg" />'
             . '</div>';
         $this->assertEquals($expected, $html);
 
         //with abbreviation
         $ico = $ico->withAbbreviation('CS');
         $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon custom medium disabled" aria-label="Custom">'
-                    . '	<img src="./templates/default/images/icon_fold.svg" />'
+        $expected = '<div class="icon custom medium disabled" >'
+                    . '	<img alt="Custom" src="./templates/default/images/icon_fold.svg" />'
                     . '	<div class="abbreviation">CS</div>'
                     . '</div>';
 

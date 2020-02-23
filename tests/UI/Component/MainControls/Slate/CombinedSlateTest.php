@@ -119,8 +119,8 @@ EOT;
 			<div class="il-maincontrols-slate-content" data-replace-marker="content">
 
 				<button class="btn btn-bulky" id="id_1" >
-					<div class="icon custom small" aria-label="">
-						<img src="" />
+					<div class="icon custom small" >
+						<img alt="" src="" />
 					</div>
 					<span class="bulky-label">name</span>
 				</button>
@@ -130,8 +130,8 @@ EOT;
 				</div>
 
 				<button class="btn btn-bulky" data-action="" >
-					<div class="icon custom small" aria-label="">
-						<img src="" />
+					<div class="icon custom small" >
+						<img alt="" src="" />
 					</div>
 					<span class="bulky-label"></span>
 				</button>
