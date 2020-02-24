@@ -467,9 +467,9 @@ class ilCertificate
             $all[$id] = false;
         }
 
-        $set = $ilDB->query("SELECT obj_id FROM il_certificate WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer"));
+        $set = $ilDB->query("SELECT obj_id FROM il_cert_template WHERE currently_active = 1 AND " . $ilDB->in("obj_id", $a_obj_ids, "", "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $all[$row["obj_id"]] = true;
+            $all[$row['obj_id']] = true;
         }
 
         return $all;
@@ -480,7 +480,7 @@ class ilCertificate
      */
     public function readActive()
     {
-        $set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
+        $set    = $this->db->query("SELECT obj_id FROM il_cert_template WHERE currently_active = 1 AND obj_id = " . $this->db->quote($this->objectId, "integer"));
         return $this->db->numRows($set);
     }
 }
