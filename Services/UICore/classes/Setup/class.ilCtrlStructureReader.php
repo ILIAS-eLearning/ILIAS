@@ -132,7 +132,7 @@ class ilCtrlStructureReader
     // DIRECTORY TRAVERSAL
     // ----------------------
 
-    protected function getFilesIn(string $dir)
+    protected function getFilesIn(string $dir) : \Generator
     {
         foreach (scandir($dir) as $e) {
             if ($e == "." || $e == "..") {
@@ -153,7 +153,7 @@ class ilCtrlStructureReader
         }
     }
 
-    protected function shouldDescendToDirectory(string $dir)
+    protected function shouldDescendToDirectory(string $dir) : bool
     {
         $il_absolute_path = $this->getILIASAbsolutePath();
         $data_dir = $this->normalizePath($il_absolute_path . "/data");
