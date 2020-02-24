@@ -1367,13 +1367,8 @@ class ilObjTestGUI extends ilObjectGUI
         return $qpl->getRefId();
     }
 
-    /**
-    * Creates a form for random selection of questions
-    */
     public function randomselectObject()
     {
-        global $DIC;
-
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
@@ -1410,72 +1405,24 @@ class ilObjTestGUI extends ilObjectGUI
 
         $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-    * Cancels the form for random selection of questions
-    *
-    * Cancels the form for random selection of questions
-    *
-    * @access	public
-    */
+
     public function cancelRandomSelectObject()
     {
         $this->ctrl->redirect($this, "questions");
     }
-    
-    /**
-    * Offers a random selection for insertion in the test
-    *
-    * Offers a random selection for insertion in the test
-    *
-    * @access	public
-    */
+
     public function createRandomSelectionObject()
     {
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-        $question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", "Modules/Test");
-        $color_class = array("tblrow1", "tblrow2");
-        $counter = 0;
-        $questionpools =&$this->object->getAvailableQuestionpools(true);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        foreach ($question_array as $question_id) {
-            $dataset = $this->object->getQuestionDataset($question_id);
-            $this->tpl->setCurrentBlock("QTab");
-            $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-            $this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
-            $this->tpl->setVariable("QUESTION_COMMENT", $dataset->description);
-            $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($dataset->type_tag));
-            $this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
-            $this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]["title"]);
-            $this->tpl->parseCurrentBlock();
-            $counter++;
-        }
-        if (count($question_array) == 0) {
-            $this->tpl->setCurrentBlock("Emptytable");
-            $this->tpl->setVariable("TEXT_NO_QUESTIONS_AVAILABLE", $this->lng->txt("no_questions_available"));
-            $this->tpl->parseCurrentBlock();
-        } else {
-            $this->tpl->setCurrentBlock("Selectionbuttons");
-            $this->tpl->setVariable("BTN_YES", $this->lng->txt("random_accept_sample"));
-            $this->tpl->setVariable("BTN_NO", $this->lng->txt("random_another_sample"));
-            $this->tpl->parseCurrentBlock();
-        }
-        $chosen_questions = join($question_array, ",");
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-        $this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
-        $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
-        $this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-        $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
-        $this->tpl->setVariable("VALUE_CHOSEN_QUESTIONS", $chosen_questions);
-        $this->tpl->setVariable("VALUE_QUESTIONPOOL_SELECTION", $_POST["sel_qpl"]);
-        $this->tpl->setVariable("VALUE_NR_OF_QUESTIONS", $_POST["nr_of_questions"]);
-        $this->tpl->setVariable("TEXT_QUESTION_OFFER", $this->lng->txt("tst_question_offer"));
-        $this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->parseCurrentBlock();
+
+        $randomQuestionSelectionTable = new ilTestRandomQuestionSelectionTableGUI($this, 'createRandomSelection', $this->object);
+
+        $this->tpl->setContent(
+            $randomQuestionSelectionTable
+                ->build((int) $_POST['nr_of_questions'], (int) $_POST['sel_qpl'])
+                ->getHtml()
+        );
     }
     
     /**
