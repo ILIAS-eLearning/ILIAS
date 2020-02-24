@@ -102,9 +102,11 @@ class ilLDAPQuery
      * @param string login name
      * @return array of user data
      */
-    public function fetchUser($a_name)
+    public function fetchUser($a_name, $a_use_group_filter = false)
     {
-        if (!$this->readUserData($a_name)) {
+        $this->log->debug('Use group filter: ' . $a_use_group_filter);
+
+        if (!$this->readUserData($a_name, false, $a_use_group_filter)) {
             return array();
         } else {
             return $this->users;
@@ -407,11 +409,15 @@ class ilLDAPQuery
     {
         $filter = $this->settings->getFilter();
         if ($a_try_group_user_filter) {
+            $this->log->debug('Using group user filter');
             if ($this->settings->isMembershipOptional()) {
+                $this->log->debug('Membership is optional');
                 $filter = $this->settings->getGroupUserFilter();
             }
         }
-        
+
+        $this->log->debug('Using user filter: ' . $filter);
+		
         // Build filter
         if ($this->settings->enabledGroupMemberIsDN() and $a_check_dn) {
             $dn = $a_name;
