@@ -705,7 +705,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->addSubTab("settings_trans", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
                 //$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
-                $sub_type_id = $this->object->getSubtypeId();
+                $sub_type_id = $this->object->getTypeSettings()->getTypeId();
                 if ($sub_type_id) {
                     $type = $this->type_repository->readType($sub_type_id);
                 }
@@ -791,13 +791,19 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected function fillInfoScreen($a_info_screen)
     {
-        if (!$this->object->getSubtypeId() ||
+        if (!$this->object->getTypeSettings()->getTypeId() ||
             !ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
-                ->readType($this->object->getSubtypeId())
+                ->readType($this->object->getTypeSettings()->getTypeId())
         ) {
             return;
         }
-        $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+        $record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_INFO,
+            'prg',
+            $this->object->getId(),
+            'prg_type',
+            $this->object->getTypeSettings()->getTypeId()
+        );
         $record_gui->setInfoObject($a_info_screen);
         $record_gui->parse();
     }

@@ -9121,7 +9121,7 @@ footer {
   word-break: normal;
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
-  background-color: #e3e3e3;
+  background-color: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
   text-transform: uppercase;
@@ -9143,17 +9143,17 @@ footer {
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky {
-  background-color: rgba(76, 101, 134, 0.2);
+.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
+  background-color: #f9f9f9;
 }
-.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky {
-  background-color: rgba(76, 101, 134, 0.15);
+.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky:not(:hover) {
+  background-color: rgba(249, 249, 249, 0.15);
 }
-.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky,
-.il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky {
-  background-color: rgba(76, 101, 134, 0.1);
+.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky:not(:hover),
+.il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky:not(:hover) {
+  background-color: rgba(249, 249, 249, 0.1);
 }
 .il-maincontrols-slate-content p,
 .il-maincontrols-slate-content h1,
@@ -10345,7 +10345,7 @@ footer {
   filter: brightness(0);
 }
 .icon.outlined.disabled {
-  filter: brightness(0.3);
+  filter: contrast(0%);
 }
 .icon.outlined.grp {
   background-image: url("images/outlined/icon_grp.svg");
@@ -13055,7 +13055,7 @@ span.ilIcalIcon {
 /* Services/Accordion */
 .il_VAccordionHead,
 .il_HAccordionHead {
-  padding: 5px 5px 5px 35px;
+  padding: 8px 8px 8px 38px;
   text-align: left;
   cursor: pointer;
   color: #557196;
@@ -16448,6 +16448,9 @@ div.ilContainerListItemCB {
   display: table-cell;
   vertical-align: top;
   padding-right: 10px;
+}
+div.ilContainerListItemCB img {
+  width: 20px;
 }
 [dir="rtl"] div.ilContainerListItemCB {
   /* float: right; */

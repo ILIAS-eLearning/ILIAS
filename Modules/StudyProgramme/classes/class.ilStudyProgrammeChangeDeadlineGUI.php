@@ -200,7 +200,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         };
 
         $option = ilObjStudyProgrammeSettingsGUI::OPT_NO_DEADLINE;
-        $deadline_date = $prg->getDeadlineDate();
+        $deadline_date = $prg->getDeadlineSettings()->getDeadlineDate();
         $format = $this->data_factory->dateFormat()->germanShort();
         $deadline_date_subform = $ff
             ->dateTime('', $txt('prg_deadline_date_desc'))

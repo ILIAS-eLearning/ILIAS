@@ -179,7 +179,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("COLL_DESC", $a_set['description']);
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
-            $ass_glyph = $this->ui->glyph()->apply();
+            $ass_glyph = $this->ui->symbol()->glyph()->apply();
             $this->tpl->setVariable("ASSIGNED_IMG_OK", $this->renderer->render($ass_glyph));
         }
 

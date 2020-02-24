@@ -181,7 +181,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        $form->fillObject($type_repository->readType((int) $_GET['type_id']));
+        $form->fillObject($this->type_repository->readType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 

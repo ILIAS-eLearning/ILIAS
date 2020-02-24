@@ -15895,11 +15895,11 @@ prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zei
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
-prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
-prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
-prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
-prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
-prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qualification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qualification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
 prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
@@ -16056,3 +16056,10 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
+prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
+prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, wenn sie dieses Programm erfolgreich absolviert haben, und müssen diese Anzahl von Punkten in nachfolgenden Programmen ereichen.
+prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
+prg#:#prg_description#:#Beschreibung
+prg#:#prg_link#:#Link
+prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms

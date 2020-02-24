@@ -143,6 +143,7 @@ class ilStudyProgrammeDIC
                 $DIC['ilCtrl'],
                 $DIC['lng'],
                 $DIC['ilUser'],
+                $DIC['ilAccess'],
                 $dic['ilStudyProgrammeUserProgressDB'],
                 $dic['ilStudyProgrammeUserAssignmentDB']
             );
@@ -163,9 +164,8 @@ class ilStudyProgrammeDIC
             return new \ILIAS\Data\Factory();
         };
         $dic['ilStudyProgrammeUserProgressDB'] = function ($dic) use ($DIC) {
-
             $lng = $DIC['lng'];
-            if(strpos(get_class($lng), 'class@anonymous') === 0) {
+            if (strpos(get_class($lng), 'class@anonymous') === 0) {
                 $lng =  new \ilSetupLanguage("en");
             }
 
@@ -181,7 +181,7 @@ class ilStudyProgrammeDIC
                 $DIC['tree'] : new ilTree(ROOT_FOLDER_ID);
 
             $logger = $DIC['ilLog'];
-            if(strpos(get_class($logger), 'class@anonymous') === 0) {
+            if (strpos(get_class($logger), 'class@anonymous') === 0) {
                 $logger = ilLoggerFactory::getLogger('setup');
             }
 
