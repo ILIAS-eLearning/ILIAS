@@ -1373,32 +1373,42 @@ class ilObjTestGUI extends ilObjectGUI
     public function randomselectObject()
     {
         global $DIC;
-        $ilUser = $DIC['ilUser'];
+
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
-        $questionpools =&$this->object->getAvailableQuestionpools(false, false, false, true);
-        $this->tpl->setCurrentBlock("option");
-        $this->tpl->setVariable("VALUE_OPTION", "0");
-        $this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("all_available_question_pools"));
-        $this->tpl->parseCurrentBlock();
+
+        $form = new ilPropertyFormGUI();
+        $form->setTitle($this->lng->txt('random_selection'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'cancelRandomSelect'));
+
+        $form->addCommandButton('createRandomSelection', $this->lng->txt('submit'));
+        $form->addCommandButton('cancelRandomSelect', $this->lng->txt('cancel'));
+
+        $amount = new ilNumberInputGUI($this->lng->txt('tst_random_nr_of_questions'), 'nr_of_questions');
+        $amount->allowDecimals(false);
+        $amount->setSize(5);
+        $amount->setMinValue(1);
+        $amount->setValue(5);
+        $form->addItem($amount);
+
+        $poolSelection = new ilSelectInputGUI($this->lng->txt('tst_source_question_pool'), 'sel_qpl');
+        $poolSelection->setInfo($this->lng->txt('tst_random_select_questionpool'));
+        $poolSelection->setRequired(true);
+        $poolOptions = [];
+        $questionpools = $this->object->getAvailableQuestionpools(false, false, false, true);
         foreach ($questionpools as $key => $value) {
-            $this->tpl->setCurrentBlock("option");
-            $this->tpl->setVariable("VALUE_OPTION", $key);
-            $this->tpl->setVariable("TEXT_OPTION", $value["title"]);
-            $this->tpl->parseCurrentBlock();
+            $poolOptions[$key] = $value['title'];
         }
-        $this->tpl->setCurrentBlock("hidden");
-        $this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
-        $this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_random_select_questionpool"));
-        $this->tpl->setVariable("TXT_NR_OF_QUESTIONS", $this->lng->txt("tst_random_nr_of_questions"));
-        $this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-        $this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->parseCurrentBlock();
+        $poolSelection->setOptions(
+            ['0' => $this->lng->txt('all_available_question_pools')] + $poolOptions  
+        );
+        $form->addItem($poolSelection);
+
+        $questionType = new ilHiddenInputGUI('sel_question_types');
+        $questionType->setValue(ilUtil::stripSlashes($_POST['sel_question_types']));
+        $form->addItem($questionType);
+
+        $this->tpl->setContent($form->getHTML());
     }
     
     /**
