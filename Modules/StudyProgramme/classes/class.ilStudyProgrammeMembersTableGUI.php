@@ -366,7 +366,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "prgrs.usr_id," . PHP_EOL
             . "prgrs.points," . PHP_EOL
             . "prgrs.points_cur * ABS(prgrs.status - $accredited) /" . PHP_EOL
-            . "    (GREATEST(ABS(prgrs.status - $accredited),1))," . PHP_EOL
+            . "    (GREATEST(ABS(prgrs.status - $accredited),1))" . PHP_EOL
             . "+ prgrs.points * (1 - ABS(prgrs.status - $accredited) /" . PHP_EOL
             . "    (GREATEST(ABS(prgrs.status - $accredited),1))) AS points_current," . PHP_EOL
             . "prgrs.last_change_by," . PHP_EOL
