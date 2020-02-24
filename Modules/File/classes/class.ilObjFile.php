@@ -1497,7 +1497,13 @@ class ilObjFile extends ilObject2
      */
     private function parseInfoParams($entry)
     {
-        $data = explode(",", $entry["info_params"]);
+        $data = array_reverse(
+            array_map(
+                'strrev',
+                explode(',', strrev($entry['info_params']),3)
+            )
+        );
+        //$data = explode(",", $entry["info_params"]);
 
         // bugfix: first created file had no version number
         // this is a workaround for all files created before the bug was fixed
