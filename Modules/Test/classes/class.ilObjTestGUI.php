@@ -650,7 +650,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 // set context tabs
                 require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                $questionGUI =&assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParameter());
+                $questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
@@ -720,31 +720,41 @@ class ilObjTestGUI extends ilObjectGUI
                 $this->prepareOutput();
 
                 $this->ctrl->setReturn($this, "questions");
-                require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                $q_gui =&assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $this->fetchAuthoringQuestionIdParameter());
-                $q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
-                $q_gui->object->setObjId($this->object->getId());
-                if (!$_GET['sel_question_types']) {
-                    $qType = assQuestion::getQuestionTypeFromDb($_GET['q_id']);
-                } else {
-                    $qType = $_GET['sel_question_types'];
-                }
-                $this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
-                $this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
-                $this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
-                if ($_REQUEST['test_express_mode']) {
-                    $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
-                }
 
-                #global $___test_express_mode;
-                #$___test_express_mode = true;
-                if (!$q_gui->isSaveCommand()) {
-                    $_GET['calling_test'] = $this->object->getRefId();
-                }
+                try {
+                    $qid = $this->fetchAuthoringQuestionIdParameter();
 
-                $q_gui->setQuestionTabs();
-                #unset($___test_express_mode);
-                $ret =&$this->ctrl->forwardCommand($q_gui);
+                    $questionGui = assQuestionGUI::_getQuestionGUI(
+                        ilUtil::stripSlashes($_GET['sel_question_types'] ?? ''),
+                        $qid
+                    );
+
+                    $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
+                    $questionGui->object->setObjId($this->object->getId());
+
+                    $questionGuiClass = get_class($questionGui);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'prev_qid', $_REQUEST['prev_qid']);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'test_ref_id', $_REQUEST['ref_id']);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'q_id', $qid);
+
+                    if (isset($_REQUEST['test_express_mode'])) {
+                        $this->ctrl->setParameterByClass($questionGuiClass, 'test_express_mode', 1);
+                    }
+
+                    if (!$questionGui->isSaveCommand()) {
+                        $_GET['calling_test'] = $this->object->getRefId();
+                    }
+
+                    $questionGui->setQuestionTabs();
+
+                    $this->ctrl->forwardCommand($questionGui);
+                } catch (ilTestException $e) {
+                    if (isset($_REQUEST['test_express_mode'])) {
+                        $this->ctrl->redirect($this, 'showPage');
+                    } else {
+                        $this->ctrl->redirect($this, 'questions');
+                    }
+                }
                 break;
         }
         if (!in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui')) &&
@@ -778,21 +788,19 @@ class ilObjTestGUI extends ilObjectGUI
     }
     
     /**
-     * @return mixed
+     * @return int
+     * @throws ilTestException
      */
     protected function fetchAuthoringQuestionIdParameter()
     {
         $qid = $_REQUEST['q_id'];
-        
+
         if (!$qid || $qid == 'Array') {
             $questions = $this->object->getQuestionTitlesAndIndexes();
-            if (!is_array($questions)) {
-                $questions = array();
-            }
-            
+
             $keys = array_keys($questions);
-            $qid = $keys[0];
-            
+            $qid = (int) ($keys[0] ?? 0);
+
             $_REQUEST['q_id'] = $qid;
             $_GET['q_id'] = $qid;
             $_POST['q_id'] = $qid;
@@ -801,7 +809,7 @@ class ilObjTestGUI extends ilObjectGUI
         if ($this->object->checkQuestionParent($qid)) {
             return $qid;
         }
-        
+
         throw new ilTestException('question id does not relate to parent object!');
     }
     
