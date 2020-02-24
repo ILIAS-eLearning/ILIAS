@@ -150,7 +150,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $may_read_learning_progress =
             !$this->prg->getAccessControlByOrguPositionsGlobal() ||
-            in_array($usr_id, $this->getParentObject()->readLeadningProgress())
+            in_array($usr_id, $this->getParentObject()->readLearningProgress())
         ;
 
         $this->tpl->setCurrentBlock("checkb");
