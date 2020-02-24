@@ -16059,3 +16059,7 @@ exc#:#exc_deleted_user#:#Deleted User
 prg#:#prg_type_byline#:#Set a type to use certain custom metadata sets or icons.
 prg#:#prg_points_byline#:#Students get a certain amount of points when they succeed in this programme and need to get this many points in subsequent programmes.
 prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.
+prg#:#prg_description#:#Description
+prg#:#prg_link#:#Link
+prg#:#prg_mail_context_title#:#Mail to Members
+prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme

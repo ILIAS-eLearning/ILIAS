@@ -174,7 +174,7 @@ class ilStudyProgrammeUserProgress
     /**
      * Get the completion date of this node.
      */
-    public function getCompletionDate() : DateTime
+    public function getCompletionDate() : ?DateTime
     {
         return $this->progress->getCompletionDate();
     }
@@ -308,7 +308,7 @@ class ilStudyProgrammeUserProgress
         $this->progress_repository->update(
             $this->progress
                 ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-                ->setLastChangeBy($user_id)
+                ->setLastChangeBy($a_user_id)
                 ->setCompletionDate(null)
         );
 

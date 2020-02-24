@@ -381,15 +381,13 @@ class ilObjStudyProgrammeMembersGUI
         $assignments = $this->_addUsers($users);
         $completed_programmes = $_POST["courses"];
         if (is_array($completed_programmes)) {
-
-
             foreach ($completed_programmes as $user_id => $prg_ref_ids) {
                 $ass_id = $assignments[$user_id]->getId();
                 foreach ($prg_ref_ids as $ids) {
                     list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
-                    $prg = $this->getStudyProgramme((int)$prg_ref_id);
-                    $progress = $prg->getProgressForAssignment((int)$ass_id);
-                    $progress->setLPCompleted((int)$crsr_id, $user_id);
+                    $prg = $this->getStudyProgramme((int) $prg_ref_id);
+                    $progress = $prg->getProgressForAssignment((int) $ass_id);
+                    $progress->setLPCompleted((int) $crsr_id, $user_id);
                 }
             }
         }
