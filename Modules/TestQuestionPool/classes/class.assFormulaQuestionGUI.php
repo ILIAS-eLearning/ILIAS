@@ -190,6 +190,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
 
+            try {
+                $lifecycle = ilAssQuestionLifecycle::getInstance($_POST['lifecycle']);
+                $this->object->setLifecycle($lifecycle);
+            } catch(ilTestQuestionPoolInvalidArgumentException $e) {}
+
             //			if(!$this->object->checkForDuplicateVariables())
             //			{
 //
