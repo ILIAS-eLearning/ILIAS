@@ -74,7 +74,7 @@ class ilCtrlStructureReader
         $this->plugin_path = $a_plugin_path;
 
         if ($a_dir == "") {
-            $a_dir = ILIAS_ABSOLUTE_PATH;
+            $a_dir = $this->getILIASAbsolutePath();
         }
 
         $ctrl_structure = $this->readDirTo($a_dir, new \ilCtrlStructure());
@@ -108,30 +108,7 @@ class ilCtrlStructureReader
 
             $content = file_get_contents($full_path);
             try {
-                list($parent, $children) = $this->getIlCtrlCalls($content);
-                if ($parent) {
-                    $cs = $cs->withClassScript($parent, $full_path);
-                }
-                if ($children) {
-                    foreach ($children as $child) {
-                        $cs = $cs->withClassChild($parent, $child);
-                    }
-                }
-
-                list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
-                if ($child) {
-                    $cs = $cs->withClassScript($child, $full_path);
-                }
-                if ($parents) {
-                    foreach ($parents as $parent) {
-                        $cs = $cs->withClassChild($parent, $child);
-                    }
-                }
-
-                $cl = $this->getGUIClassNameFromClassPath($full_path);
-                if ($cl && $this->containsClassDefinitionFor($cl, $content)) {
-                    $cs = $cs->withClassScript($cl, $full_path);
-                }
+                $cs = $this->parseFileTo($cs, $full_path, $content);
             } catch (\LogicException $e) {
                 $e->setMessage("In file \"$full_path\": " . $e->getMessage());
                 throw $e;
@@ -317,6 +294,40 @@ class ilCtrlStructureReader
 
 
     // ----------------------
+    // PARSING
+    // ----------------------
+
+    protected function parseFileTo(\ilCtrlStructure $cs, string $full_path, string $content) : \ilCtrlStructure
+    {
+        list($parent, $children) = $this->getIlCtrlCalls($content);
+        if ($parent) {
+            $cs = $cs->withClassScript($parent, $full_path);
+        }
+        if ($children) {
+            foreach ($children as $child) {
+                $cs = $cs->withClassChild($parent, $child);
+            }
+        }
+
+        list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
+        if ($child) {
+            $cs = $cs->withClassScript($child, $full_path);
+        }
+        if ($parents) {
+            foreach ($parents as $parent) {
+                $cs = $cs->withClassChild($parent, $child);
+            }
+        }
+
+        $cl = $this->getGUIClassNameFromClassPath($full_path);
+        if ($cl && $this->containsClassDefinitionFor($cl, $content)) {
+            $cs = $cs->withClassScript($cl, $full_path);
+        }
+
+        return $cs;
+    }
+
+    // ----------------------
     // GUI CLASS FINDING
     // ----------------------
 
@@ -339,7 +350,7 @@ class ilCtrlStructureReader
 
 
     // ----------------------
-    // GUI CLASS FINDING
+    // ILCTRL DECLARATION FINDING
     // ----------------------
 
     const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
