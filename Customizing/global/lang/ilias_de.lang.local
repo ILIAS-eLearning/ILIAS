@@ -1,0 +1,7 @@
+<!-- language file start -->
+file#:#skydoc_file_sync#:#Skydoc-Synchronisierung
+file#:#skydoc_file_sync_info#:#Wenn aktiviert, werden alle ILIAS-Dateiobjekte unterhalb dieser Kategorie automatisch mit Skydoc synchronisiert.
+file#:#skydoc_file_sync_activation_info#:#Konfiguration übernommen aus Kategorie:
+file#:#skydoc_file_sync_deactivation_info#:#Konfiguration übernommen aus Kategorie:
+file#:#skydoc_file_inherit#:#Synchronisierung deaktivieren
+file#:#skydoc_file_inherit_info#:#Wenn ausgewählt, werden Datei-Objekte unterhalb dieser Kategorie nicht mit Skydoc synchronisiert.

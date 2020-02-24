@@ -25,6 +25,7 @@ class ilObjectServiceSettingsGUI
 
     // begin-patch skydoc
     const PL_SKYDOC = 'cont_skydoc';
+    const PL_SKYDOC_DISABLED = 'cont_skydoc_disabled';
 
     const CALENDAR_VISIBILITY = 'cont_show_calendar';
     const NEWS_VISIBILITY = 'cont_show_news';
@@ -270,21 +271,106 @@ class ilObjectServiceSettingsGUI
 
         // begin-patch skydoc
         if (in_array(self::PL_SKYDOC, $services)) {
+
             $lng->loadLanguageModule('file');
+
+            $info = self::getSynchronizationInfo($a_obj_id);
+
             $skydoc = new \ilCheckboxInputGUI($lng->txt('skydoc_file_sync'), self::PL_SKYDOC);
-            $skydoc->setInfo($lng->txt('skydoc_file_sync_info'));
+            $skydoc->setInfo($lng->txt('skydoc_file_sync_info') . $info['activation_info']);
             $skydoc->setValue(1);
-            $skydoc->setChecked(
-                \ilContainer::_lookupContainerSetting(
-                    $a_obj_id,
-                    self::PL_SKYDOC,
-                    false
-                )
-            );
+            $skydoc->setChecked($info['activation_checked']);
+            $skydoc->setDisabled($info['activation_disabled']);
+
+            if ($info['activation_disabled']) {
+                $inherit = new \ilCheckboxInputGUI($lng->txt('skydoc_file_inherit'), self::PL_SKYDOC_DISABLED);
+                $inherit->setInfo($lng->txt('skydoc_file_inherit_info') . $info['deactivation_info']);
+                $inherit->setValue(1);
+                $inherit->setChecked($info['deactivation_checked']);
+                $inherit->setDisabled($info['deactivation_disabled']);
+                $skydoc->addSubItem($inherit);
+            }
+
+
             $form->addItem($skydoc);
         }
 
         return $form;
+    }
+
+    // begin-patch skydoc
+    /**
+     * @param int $obj_id
+     * @return array
+     */
+    public static function getSynchronizationInfo(int $obj_id) : array
+    {
+        global $DIC;
+
+        $tree = $DIC->repositoryTree();
+        $logger = $DIC->logger()->root();
+        $lng = $DIC->language();
+
+        $ref_ids = \ilObject::_getAllReferences($obj_id);
+        $ref_id = end($ref_ids);
+
+        $info = [
+            'activation_checked' => false,
+            'activation_disabled' => false,
+            'activation_info' => '',
+            'deactivation_checked' => false,
+            'deactivation_disabled' => false,
+            'deactivation_info' => ''
+        ];
+        foreach (array_reverse($tree->getPathFull($ref_id)) as $node) {
+            if ($node['ref_id'] == $ref_id) {
+                if (\ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    self::PL_SKYDOC,
+                    false)
+                ) {
+                    $info['activation_checked'] = true;
+                }
+                if (\ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    self::PL_SKYDOC_DISABLED,
+                    false)
+                ) {
+                    $info['deactivation_checked'] = true;
+                }
+                continue;
+            }
+            // checked in upper context
+            if (\ilContainer::_lookupContainerSetting(
+                $node['obj_id'],
+                self::PL_SKYDOC,
+                false
+            )) {
+                $info['activation_checked'] = true;
+                $info['activation_disabled'] = true;
+                $info['activation_info'] =
+                    '<br />' .
+                    $lng->txt('skydoc_file_sync_activation_info') .
+                    ' <a href="' . \ilLink::_getLink($node['ref_id']) . '">' . $node['title'] . '</a>';
+            }
+            // deactivation checked in upper context
+            if (\ilContainer::_lookupContainerSetting(
+                $node['obj_id'],
+                self::PL_SKYDOC_DISABLED,
+                false
+            )) {
+                $info['deactivation_checked'] = true;
+                $info['deactivation_disabled'] = true;
+                $info['deactivation_info'] =
+                    '<br />' .
+                    $lng->txt('skydoc_file_sync_deactivation_info') .
+                    ' <a href="' . \ilLink::_getLink($node['ref_id']) . '">' . $node['title'] . '</a>';
+
+            }
+
+
+        }
+        return $info;
     }
 
 
@@ -387,7 +473,13 @@ class ilObjectServiceSettingsGUI
 
         // begin-parch skydoc
         if (in_array(self::PL_SKYDOC, $services)) {
-            \ilContainer::_writeContainerSetting($a_obj_id, self::PL_SKYDOC, (int) $form->getInput(self::PL_SKYDOC));
+            $info = self::getSynchronizationInfo($a_obj_id);
+            if (!$info['activation_disabled']) {
+                \ilContainer::_writeContainerSetting($a_obj_id, self::PL_SKYDOC, (int) $form->getInput(self::PL_SKYDOC));
+            }
+            if ($info['activation_disabled']) {
+                \ilContainer::_writeContainerSetting($a_obj_id, self::PL_SKYDOC_DISABLED, (int) $form->getInput(self::PL_SKYDOC_DISABLED));
+            }
         }
 
         return true;
