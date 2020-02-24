@@ -526,8 +526,9 @@ class ilLDAPQuery
      */
     private function connect()
     {
+        ldap_set_option(0, LDAP_OPT_DEBUG_LEVEL, 7);
         $this->lh = @ldap_connect($this->ldap_server_url);
-        
+
         // LDAP Connect
         if (!$this->lh) {
             throw new ilLDAPQueryException("LDAP: Cannot connect to LDAP Server: " . $this->settings->getUrl());
