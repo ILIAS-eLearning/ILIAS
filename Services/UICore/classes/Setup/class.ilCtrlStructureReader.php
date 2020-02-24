@@ -297,6 +297,10 @@ class ilCtrlStructureReader
     // PARSING
     // ----------------------
 
+    /**
+     * @throw \LogicException if some file declares control structure for multiple classes
+     * @throw \RuntimeException if there are different locations defined for some class.
+     */
     protected function parseFileTo(\ilCtrlStructure $cs, string $full_path, string $content) : \ilCtrlStructure
     {
         list($parent, $children) = $this->getIlCtrlCalls($content);
