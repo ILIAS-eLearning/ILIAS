@@ -112,6 +112,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($fmg);
                 break;
 
+            case 'ilopentextconfiggui':
+                $this->forwardToOpenTextPlugin();
+                break;
+
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = self::CMD_EDIT_DOWNLOADING_SETTINGS;
@@ -122,6 +126,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
 
         return true;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    protected function forwardToOpenTextPlugin()
+    {
+        $plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "EventHandling", "evhk", "OpenText");
+
+        $config = new \ilOpenTextConfigGUI();
+        $this->ctrl->forwardCommand($config);
     }
 
 
@@ -168,6 +183,24 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
             $this->tabs_gui->addTarget("disk_quota", $this->ctrl->getLinkTarget($this, "editDiskQuotaSettings"), array("editDiskQuota", "view"));
         }
+
+        // begin-patch skydoc
+        if ($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+
+            $plugin = ilPlugin::getPluginObject(IL_COMP_SERVICE, "EventHandling", "evhk", "OpenText");
+            if (
+                $plugin instanceof \ilOpenTextPlugin &&
+                $plugin->isActive()
+            ) {
+                $this->tabs_gui->addTab(
+                    'skydoc',
+                    'Skydoc',
+                    $this->ctrl->getLinkTargetByClass(\ilOpenTextConfigGUI::class, '')
+                );
+            }
+        }
+
+
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget("perm_settings", $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"), array(), 'ilpermissiongui');
         }
