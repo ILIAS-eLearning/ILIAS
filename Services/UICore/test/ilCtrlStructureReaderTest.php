@@ -151,7 +151,7 @@ class ilCtrlStructureReaderTest extends TestCase
             ->method("manipulate")
             ->withConsecutive(
                 ["DELETE FROM ctrl_classfile WHERE comp_prefix = \"$my_comp_prefix\""],
-                ["DELETE FROM ctrl_calls WHERE comp_prefix = \"$my_comp_prefix\""],
+                ["DELETE FROM ctrl_calls WHERE comp_prefix = \"$my_comp_prefix\""]
             );
 
         $result = $this->reader->_readDirTo($dir, $ctrl_structure);
