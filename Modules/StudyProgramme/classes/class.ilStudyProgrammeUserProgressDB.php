@@ -144,6 +144,12 @@ class ilStudyProgrammeUserProgressDB
     {
         return $this->getObjectsByModels($this->progress_repository->readExpiredSuccessfull());
     }
+
+    public function getPassedDeadline() : array
+    {
+        return $this->getObjectsByModels($this->progress_repository->readPassedDeadline());
+    }
+
     /**
     * @return ilStudyProgrammeUserProgress[]
     */
