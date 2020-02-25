@@ -12,6 +12,8 @@
  *
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilTestEvaluationGUI
  * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssQuestionPageGUI
+ * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssSpecFeedbackPageGUI
+ * @ilCtrl_Calls ilParticipantsTestResultsGUI: ilAssGenFeedbackPageGUI
  */
 class ilParticipantsTestResultsGUI
 {
