@@ -7129,9 +7129,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
-        if (!$cp_options->isRootNode($this->getRefId())) {
-            $newObj->setOfflineStatus($this->getOfflineStatus());
-        }
+        // #27082
+        $newObj->setOfflineStatus(true);
+        $newObj->update();
 
         $newObj->setAnonymity($this->getAnonymity());
         $newObj->setAnswerFeedback($this->getAnswerFeedback());
