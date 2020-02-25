@@ -10,34 +10,34 @@
 */
 class ilMailFormGUI
 {
-    /** @var \ilTemplate */
+    /** @var ilTemplate */
     private $tpl;
 
-    /** @var \ilCtrl */
+    /** @var ilCtrl */
     private $ctrl;
 
-    /** @var \ilLanguage */
+    /** @var ilLanguage */
     private $lng;
 
-    /** @var \ilObjUser */
+    /** @var ilObjUser */
     private $user;
 
-    /** @var \ilTabsGUI */
+    /** @var ilTabsGUI */
     private $tabs;
 
-    /** @var \ilToolbarGUI */
+    /** @var ilToolbarGUI */
     private $toolbar;
 
-    /** @var \ilRbacSystem */
+    /** @var ilRbacSystem */
     private $rbacsystem;
 
-    /** @var \ilFormatMail */
+    /** @var ilFormatMail */
     private $umail;
 
-    /** @var \ilMailBox*/
+    /** @var ilMailBox */
     private $mbox;
 
-    /** @var \ilFileDataMail */
+    /** @var ilFileDataMail */
     private $mfile;
 
     /** @var ilMailTemplateService */
@@ -52,8 +52,8 @@ class ilMailFormGUI
      * @param ilMailBodyPurifier|null $bodyPurifier
      */
     public function __construct(
-        \ilMailTemplateService $templateService = null,
-        \ilMailBodyPurifier $bodyPurifier = null
+        ilMailTemplateService $templateService = null,
+        ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
 
@@ -164,7 +164,7 @@ class ilMailFormGUI
         $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         $mailer = $this->umail
-            ->withContextId(\ilMailFormCall::getContextId() ? \ilMailFormCall::getContextId() : '')
+            ->withContextId(ilMailFormCall::getContextId() ? ilMailFormCall::getContextId() : '')
             ->withContextParameters(is_array(ilMailFormCall::getContextParameters()) ? ilMailFormCall::getContextParameters() : []);
 
         $mailer->setSaveInSentbox(true);
@@ -208,9 +208,9 @@ class ilMailFormGUI
         $files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         if ($errors = $this->umail->validateRecipients(
-            (string) \ilUtil::securePlainString($_POST['rcp_to']),
-            (string) \ilUtil::securePlainString($_POST['rcp_cc']),
-            (string) \ilUtil::securePlainString($_POST['rcp_bcc'])
+            (string) ilUtil::securePlainString($_POST['rcp_to']),
+            (string) ilUtil::securePlainString($_POST['rcp_cc']),
+            (string) ilUtil::securePlainString($_POST['rcp_bcc'])
         )) {
             $_POST['attachments'] = $files;
             $this->showSubmissionErrors($errors);
@@ -681,19 +681,19 @@ class ilMailFormGUI
             $form_gui->addItem($chb);
         }
 
-        if (\ilMailFormCall::getContextId()) {
-            $context_id = \ilMailFormCall::getContextId();
+        if (ilMailFormCall::getContextId()) {
+            $context_id = ilMailFormCall::getContextId();
 
             $mailData['use_placeholders'] = true;
 
             try {
-                $context = \ilMailTemplateContextService::getTemplateContextById($context_id);
+                $context = ilMailTemplateContextService::getTemplateContextById($context_id);
 
                 $templates = $this->templateService->loadTemplatesForContextId($context->getId());
                 if (count($templates) > 0) {
                     $options = array();
 
-                    $template_chb = new \ilMailTemplateSelectInputGUI(
+                    $template_chb = new ilMailTemplateSelectInputGUI(
                         $this->lng->txt('mail_template_client'),
                         'template_id',
                         $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
@@ -718,15 +718,15 @@ class ilMailFormGUI
                     $template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
                     $form_gui->addItem($template_chb);
                 }
-            } catch (\Exception $e) {
-                \ilLoggerFactory::getLogger('mail')->error(sprintf(
+            } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->error(sprintf(
                     '%s has been called with invalid context id: %s.',
                     __METHOD__,
                     $context_id
                 ));
             }
         } else {
-            $context = new \ilMailTemplateGenericContext();
+            $context = new ilMailTemplateGenericContext();
         }
 
         // MESSAGE
@@ -784,7 +784,7 @@ class ilMailFormGUI
         $result = array();
 
         require_once 'Services/Utilities/classes/class.ilStr.php';
-        if (\ilStr::strLen($search) < 3) {
+        if (ilStr::strLen($search) < 3) {
             echo json_encode($result);
             exit;
         }
@@ -850,15 +850,15 @@ class ilMailFormGUI
     }
 
     /**
-     * @param $errors \ilMailError[]
+     * @param $errors ilMailError[]
      */
     protected function showSubmissionErrors(array $errors)
     {
-        $formatter = new \ilMailErrorFormatter($this->lng);
+        $formatter = new ilMailErrorFormatter($this->lng);
         $formattedErrors = $formatter->format($errors);
 
         if (strlen($formattedErrors) > 0) {
-            \ilUtil::sendInfo($formattedErrors);
+            ilUtil::sendFailure($formattedErrors);
         }
     }
 }
