@@ -4176,3 +4176,7 @@ ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
 $purpose = 'PrintViewOfQuestions'; // According to name given. Call multiple times.
 ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
 ?>
+<#5656>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
