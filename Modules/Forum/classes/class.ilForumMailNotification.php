@@ -64,8 +64,8 @@ class ilForumMailNotification extends ilMailNotification
     public function sendMail(array $a_rcp, $a_type, $a_parse_recipients = true)
     {
         $this->logger->debug(sprintf(
-            'Delegating notification transport to mail service for recipient "%s" ...',
-            $a_rcp
+            'Delegating notification transport to mail service for recipients: %s',
+            print_r($a_rcp, true)
         ));
         parent::sendMail($a_rcp, $a_type, $a_parse_recipients);
         $this->logger->debug('Notification transport delegated');
