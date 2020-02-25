@@ -130,7 +130,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
      * @param array $row
      * @return string
      */
-    private function buildUniqueRecordIdentifier(array $row) : string
+    private function buildUniqueRecordIdentifier(array $row)
     {
         return 'threshold_' . $row['skill_base_id'] . ':' . $row['skill_tref_id'];
     }
