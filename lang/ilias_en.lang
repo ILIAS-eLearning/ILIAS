@@ -952,7 +952,6 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Poi
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
-assessment#:#ass_lac_hide_legend_btn#:#Hide Legend
 assessment#:#ass_lac_show_legend_btn#:#Show Legend
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
 assessment#:#ass_lac_expression#:#Expression
