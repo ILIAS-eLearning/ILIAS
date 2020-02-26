@@ -27,7 +27,8 @@ class MainBarTest extends ILIAS_UI_TestBase
             $counter_factory,
             new I\Symbol\Factory(
                 new I\Symbol\Icon\Factory(),
-                new I\Symbol\Glyph\Factory()
+                new I\Symbol\Glyph\Factory(),
+                new I\Symbol\Avatar\Factory()
             )
         );
         $this->factory = new I\MainControls\Factory($sig_gen, $slate_factory);
@@ -166,7 +167,9 @@ class MainBarTest extends ILIAS_UI_TestBase
             {
                 $f_icon = new I\Symbol\Icon\Factory();
                 $f_glyph = new I\Symbol\Glyph\Factory();
-                return new I\Symbol\Factory($f_icon, $f_glyph);
+                $f_avatar = new I\Symbol\Avatar\Factory();
+
+                return new I\Symbol\Factory($f_icon, $f_glyph, $f_avatar);
             }
             public function mainControls() : C\MainControls\Factory
             {
@@ -174,7 +177,8 @@ class MainBarTest extends ILIAS_UI_TestBase
                 $counter_factory = new I\Counter\Factory();
                 $symbol_factory = new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory()
+                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Avatar\Factory()
                 );
                 $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory, $symbol_factory);
                 return new I\MainControls\Factory($sig_gen, $slate_factory);
