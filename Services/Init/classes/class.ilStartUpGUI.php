@@ -1106,7 +1106,7 @@ class ilStartUpGUI
     {
         if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
-                $this->lng->txt('err_wrong_login')
+                $this->lng->txt('select_one')
             );
             return false;
         }
