@@ -32,10 +32,7 @@ class ilStudyProgrammeDIC
             );
         };
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function ($dic) use ($DIC) {
-            return new ilStudyProgrammeSettingsDBRepository(
-                $DIC['ilDB'],
-                $dic['ilOrgUnitObjectTypePositionSetting']
-            );
+            return new ilStudyProgrammeSettingsDBRepository($DIC['ilDB']);
         };
         $dic['model.Progress.ilStudyProgrammeProgressRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeProgressDBRepository($DIC['ilDB']);
