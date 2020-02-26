@@ -41,7 +41,8 @@ trait IliasMocks
         $ui_factory->method('symbol')
             ->willReturn(new CImpl\Symbol\Factory(
                 new CImpl\Symbol\Icon\Factory(),
-                new CImpl\Symbol\Glyph\Factory()
+                new CImpl\Symbol\Glyph\Factory(),
+                new CImpl\Symbol\Avatar\Factory()
             ));
 
         return $ui_factory;
