@@ -951,12 +951,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
         }
 
-        $result_array = $this->object->getTestResult(
-            $active_id,
-            $pass,
-            false,
-            !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-        );
+        $result_array = $this->getFilteredTestResult($active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired());
 
         $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
@@ -1168,6 +1163,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tableGUI->resetOffset();
         $tableGUI->resetFilter();
         $this->outUserPassDetails();
+    }
+
+    public function outParticipantsPassDetailsSetTableFilter()
+    {
+        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
+        $tableGUI->initFilter();
+        $tableGUI->resetOffset();
+        $tableGUI->writeFilterToSession();
+        $this->outParticipantsPassDetails();
+    }
+
+    public function outParticipantsPassDetailsResetTableFilter()
+    {
+        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
+        $tableGUI->initFilter();
+        $tableGUI->resetOffset();
+        $tableGUI->resetFilter();
+        $this->outParticipantsPassDetails();
     }
 
     /**
