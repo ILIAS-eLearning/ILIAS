@@ -284,12 +284,14 @@ class ilObjStudyProgrammeSettingsGUI
                     );
 
                     $prg->setAutoMailSettings($values["automail_settings"]);
+                    $prg->setAccessCtrlByOrguPositionSettings($values['prg_additional_settings']);
 
-                    if (array_key_exists(6, $values)) {
-                        $prg->setAccessControlByOrguPositions(
-                            $values[5][self::PROP_ACCESS_CONTROL_BY_ORGU_POSITION] === "checked"
-                        );
-                    }
+                    $orgu_object_settings = new ilOrgUnitObjectPositionSetting($prg->getId());
+                    $orgu_object_settings->setActive(
+                        $prg->getAccessCtrlByOrguPositionSettings()->getAccessByOrgu()
+                    );
+                    $orgu_object_settings->update();
+
                     return $prg;
                 }
             )
@@ -328,20 +330,18 @@ class ilObjStudyProgrammeSettingsGUI
                 ->getAutoMailSettings()
                 ->toFormInput($ff, $ilLng, $refinery)
         ];
-        if ($prg->getPositionSettingsIsActiveForPrg()
-            && $prg->getPositionSettingsIsChangeableForPrg()) {
-            $return[] = $ff->section(
-                [
-                    self::PROP_ACCESS_CONTROL_BY_ORGU_POSITION =>
-                        $this->getAccessControlByOrguPositionsForm(
-                            $ff,
-                            $prg
-                        )
-                ],
-                $this->txt('access_ctr_by_orgu_position'),
-                ''
-            );
+
+        if (
+            $prg->getPositionSettingsIsActiveForPrg() &&
+            $prg->getPositionSettingsIsChangeableForPrg()
+        ) {
+            $return['prg_additional_settings'] =
+                $prg
+                    ->getAccessCtrlByOrguPositionSettings()
+                    ->toFormInput($ff, $ilLng, $refinery)
+            ;
         }
+
         return $return;
     }
 
@@ -365,16 +365,6 @@ class ilObjStudyProgrammeSettingsGUI
             ' <a href="' . $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "") .
             '">&raquo; ' . $this->txt("obj_more_translations") . '</a>'
         );
-    }
-
-    protected function getAccessControlByOrguPositionsForm(
-        InputFieldFactory $ff,
-        ilObjStudyProgramme $prg
-    ) {
-        $checkbox = $ff->checkbox($this->txt("prg_status"), '');
-        return $prg->getAccessControlByOrguPositions() ?
-            $checkbox->withValue(true) :
-            $checkbox->withValue(false);
     }
 
     protected function getObject() : ilObjStudyProgramme

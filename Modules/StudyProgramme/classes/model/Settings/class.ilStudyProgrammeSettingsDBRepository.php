@@ -17,11 +17,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected $db;
 
-    /**
-     * @var ilOrgUnitObjectTypePositionSetting
-     */
-    protected $tps;
-
     const TABLE = 'prg_settings';
 
     const FIELD_OBJ_ID = 'obj_id';
@@ -42,12 +37,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
     const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
-    public function __construct(
-        ilDBInterface $db,
-        ilOrgUnitObjectTypePositionSetting $tps
-    ) {
+    public function __construct(ilDBInterface $db)
+    {
         $this->db = $db;
-        $this->tps = $tps;
     }
 
     /**
@@ -69,13 +61,21 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         ;
         $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
 
+        // TODO: move this to dic, if it is possible to get obj_id there
+        $ps = new \ilOrgUnitObjectTypePositionSetting($obj_id);
+
+        $access_ctrl_by_orgu_position = new \ilStudyProgrammeAccessCtrlByOrguPositionSettings(
+            $ps->isActive()
+        );
+
         $prg = new ilStudyProgrammeSettings(
             $obj_id,
             $type_settings,
             $assessment_settings,
             $deadline_settings,
             $validity_of_achieved_qualification_settings,
-            $automail
+            $automail,
+            $access_ctrl_by_orgu_position
         );
 
         $this->insertDB(
@@ -88,15 +88,14 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             0,
             ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
             ilStudyProgrammeSettings::NO_RESTART,
-            $this->tps->isActive(),
+            $ps->isActive(),
             null,
             null,
             null,
             null
         );
 
-        $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
-            ->setAccessControlByOrguPositions($this->tps->isActive());
+        $prg = $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED);
         self::$cache[$obj_id] = $prg;
         return $prg;
     }
@@ -153,7 +152,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $deadline_period,
             $qp,
             $rp,
-            $settings->getAccessControlByOrguPositions(),
+            $settings->getAccessCtrlByOrguPositionSettings()->getAccessByOrgu(),
             $deadline_date,
             $vq_date,
             $settings->getAutoMailSettings()->getReminderNotRestartedByUserDays(),
@@ -306,6 +305,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
         ;
         $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
+        $acces_ctrl_by_orgu_positions = new \ilStudyProgrammeAccessCtrlByOrguPositionSettings();
 
         $prg = new ilStudyProgrammeSettings(
             (int) $row[self::FIELD_OBJ_ID],
@@ -313,7 +313,8 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $assessment_settings,
             $deadline_settings,
             $validity_of_achieved_qualification_settings,
-            $automail
+            $automail,
+            $acces_ctrl_by_orgu_positions
         );
 
         $return = $prg
@@ -370,7 +371,12 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $vqs = $vqs->withRestartPeriod($restart_period);
         $return = $return->withValidityOfQualificationSettings($vqs);
 
-        $return->setAccessControlByOrguPositions((bool) $row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
+        $acces_ctrl_by_orgu_positions = $prg->getAccessCtrlByOrguPositionSettings();
+        $return = $return->withAccessCtrlByOrguPositionsSettings(
+            $acces_ctrl_by_orgu_positions->withAccessByOrgu(
+                (bool) $row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]
+            )
+        );
 
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
         if (!is_null($rm_nr_by_usr_days)) {
