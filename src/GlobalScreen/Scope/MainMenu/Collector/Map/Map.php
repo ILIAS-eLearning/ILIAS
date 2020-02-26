@@ -23,17 +23,16 @@ class Map implements Filterable, Walkable
      */
     protected $raw;
     /**
-     * @var ArrayIterator
+     * @var Closure[]
      */
-    protected $filter;
+    protected $filters = [];
 
     /**
      * Tree constructor.
      */
     public function __construct()
     {
-        $this->raw    = new ArrayObject();
-        $this->filter = new ArrayIterator();
+        $this->raw = new ArrayObject();
     }
 
     /**
@@ -41,8 +40,10 @@ class Map implements Filterable, Walkable
      */
     public function add(isItem $item) : void
     {
-        $this->raw[$item->getProviderIdentification()->serialize()]    = $item;
-        $this->filter[$item->getProviderIdentification()->serialize()] = $item;
+        $serialize = $item->getProviderIdentification()->serialize();
+        if (0 < strlen($serialize)) {
+            $this->raw[$serialize] = $item;
+        }
     }
 
     /**
@@ -62,17 +63,6 @@ class Map implements Filterable, Walkable
      */
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
-        $item = $this->filter->offsetGet($identification->serialize());
-
-        if ($item === null) {
-            return $this->getLostItem($identification);
-        }
-
-        return $item;
-    }
-
-    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
-    {
         $item = $this->raw->offsetGet($identification->serialize());
 
         if ($item === null) {
@@ -88,7 +78,6 @@ class Map implements Filterable, Walkable
     public function remove(IdentificationInterface $identification) : void
     {
         $this->raw->offsetUnset($identification->serialize());
-        $this->filter->offsetUnset($identification->serialize());
     }
 
     /**
@@ -97,22 +86,13 @@ class Map implements Filterable, Walkable
      */
     public function existsInFilter(IdentificationInterface $identification) : bool
     {
-        return $this->filter->offsetExists($identification->serialize());
-    }
-
-    /**
-     * @param IdentificationInterface $identification
-     * @return bool
-     */
-    public function existsInRaw(IdentificationInterface $identification) : bool
-    {
         return $this->raw->offsetExists($identification->serialize());
     }
 
     /**
      * @return bool
      */
-    public function hasInRaw() : bool
+    public function has() : bool
     {
         return $this->raw->count() > 0;
     }
@@ -120,17 +100,17 @@ class Map implements Filterable, Walkable
     /**
      * @return \Generator|isItem[]
      */
-    public function getAllFromRaw() : \Generator
-    {
-        yield from $this->raw;
-    }
-
-    /**
-     * @return \Generator|isItem[]
-     */
     public function getAllFromFilter() : \Generator
     {
-        yield from $this->filter;
+        static $filtered;
+        if (!isset($filtered)) {
+            $filtered = new ArrayIterator($this->raw);
+            foreach ($this->filters as $filter) {
+                $filtered = new \CallbackFilterIterator($filtered, $filter);
+            }
+        }
+
+        yield from $filtered;
     }
 
     /**
@@ -138,7 +118,7 @@ class Map implements Filterable, Walkable
      */
     public function walk(Closure $c) : void
     {
-        iterator_apply($this->filter, $c, [$this->filter]);
+        array_walk($this->raw, $c);
     }
 
     /**
@@ -146,12 +126,12 @@ class Map implements Filterable, Walkable
      */
     public function filter(Closure $c) : void
     {
-        $this->filter = new \CallbackFilterIterator($this->filter, $c);
+        $this->filters[] = $c;
     }
 
     public function sort()
     {
-        $this->filter->uasort(function (isItem $item_one, isItem $item_two) : bool {
+        $this->raw->uasort(function (isItem $item_one, isItem $item_two) : bool {
             /**
              * @var $parent isParent
              */
