@@ -123,8 +123,8 @@ interface Factory
      *     abbreviation that indicates the username of the user.
      *     In the case of abbreviations, the avatar receives a colored background.
      *   effect: >
-     *     Avatars themselves are not interactive; however they are allowed
-     *     within interactive containers.
+     *     The Avatar itself has no own interaction but can be used in a context
+     *     which triggers further actions (such as a Bulky Button in the Meta Bar).
      *   rivals:
      *     Glyph: >
      *       Glyphs are typographical characters that act as a trigger for
@@ -134,12 +134,18 @@ interface Factory
      *     Icon: >
      *       Avatars represent a User in the System, Icons just an Object which is
      *       not defined further.
+     * context:
+     *   1: user slate in the Meta Bar
+     *   2: members gallery in a course
+     *   3: forum posts
      * rules:
      *   usage:
      *     1: Avatars MUST be used to represent a specific user.
      *     2: Avatars MUST be used in combination with the represented username.
      *   accessibility:
      *     1: Avatars MUST bear an aria-label with the username.
+     *   responsiveness:
+     *     1: the avatar MUST adjust it's size to the parent container.
      * ---
      * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
      **/
