@@ -18,6 +18,12 @@ This section documents the general concepts and structures of the Skill Service.
 * [Skill Template Reference](#skill-template-reference)
 * [Skill Tree Structure](#skill-tree-structure)
 * [Skill Tree IDs](#skill-tree-ids)
+* [Skill Levels](#skill-levels)
+* [Personal Skills](#personal-skills)
+* [Skill Profile](#skill-profile)
+* [Skill Resource](#skill-resource)
+* [User Skill Level](#user-skill-level)
+
 
 
 ## Skill Tree Nodes
