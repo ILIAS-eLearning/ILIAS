@@ -65,9 +65,8 @@ class ilLearningSequenceParticipants extends ilParticipants
                 case 'il_lso_a':
                 case 'il_lso_m':
                     $roles[$role] = $role;
-                    // no break
                 default:
-                    continue;
+                    break;
             }
         }
 
