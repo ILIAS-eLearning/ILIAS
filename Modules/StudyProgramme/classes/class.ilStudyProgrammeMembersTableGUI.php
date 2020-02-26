@@ -639,7 +639,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
             $operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
-            if ($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
+            if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
                 $operator = '>';
             }
             $buf[] = 'AND prgrs.vq_date ' . $operator . ' NOW()';
