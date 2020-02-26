@@ -158,6 +158,7 @@ class ilSurveyEvaluationResults
         if (sizeof($this->answers)) {
             return $this->answers;
         }
+        return [];
     }
     
     protected function getScaleText($a_value)
