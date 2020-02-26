@@ -620,6 +620,7 @@ class ilMemberExport
         if (substr($a_field, 0, 4) != 'udf_') {
             return false;
         }
+
         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted']) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
@@ -628,8 +629,9 @@ class ilMemberExport
             $this->addCol($value, $row, $col);
             return true;
         }
-        #$this->csv->addColumn('');
+
         $this->addCol('', $row, $col);
+        return true;
     }
     
     /**
