@@ -1972,7 +1972,6 @@ class ilUtil
         exit;
     }
 
-    // BEGIN WebDAV: Show file in browser or provide it as attachment
     /**
     *   deliver file for download via browser.
     * @param $mime Mime of the file
@@ -3060,11 +3059,9 @@ class ilUtil
     ) {
         include_once("./Services/Utilities/classes/class.ilStr.php");
 
-        // BEGIN WebDAV: Provide a 'stable' sort algorithm
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby, $a_array_sortorder, $a_numeric, $a_keep_keys);
         }
-        // END WebDAV Provide a 'stable' sort algorithm
 
         global $array_sortby,$array_sortorder;
         $array_sortby = $a_array_sortby;
@@ -3091,7 +3088,7 @@ class ilUtil
 
         return $array;
     }
-    // BEGIN WebDAV: Provide a 'stable' sort algorithm
+
     /**
     * Sort an aray using a stable sort algorithm, which preveserves the sequence
     * of array elements which have the same sort value.
@@ -3129,6 +3126,7 @@ class ilUtil
 
         return $sort_array;
     }
+
     public static function mergesort(&$array, $cmp_function = 'strcmp')
     {
         // Arrays of size < 2 require no action.
@@ -3172,7 +3170,6 @@ class ilUtil
 
         return;
     }
-    // END WebDAV: Provide a 'stable' sort algorithm
 
     /**
     * Make a multi-dimensional array to have only DISTINCT values for a certain "column".
