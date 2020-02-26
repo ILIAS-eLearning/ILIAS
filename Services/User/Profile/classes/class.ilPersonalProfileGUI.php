@@ -1151,7 +1151,9 @@ class ilPersonalProfileGUI
         // location
         include_once("./Services/Maps/classes/class.ilMapUtil.php");
         if (ilMapUtil::isActivated()) {
-            $val_array["location"] = "";
+            $val_array["location"] = ($ilUser->getLatitude() + $ilUser->getLongitude() + $ilUser->getLocationZoom() > 0)
+                ? " "
+                : "";
         }
         
         foreach ($val_array as $key => $value) {

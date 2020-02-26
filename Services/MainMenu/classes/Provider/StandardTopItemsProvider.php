@@ -113,7 +113,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::REP, $title)->withIsOutlined(true);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
-            // ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
+            ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(20);

@@ -125,11 +125,7 @@
 @modal-backdrop-bg: black;
 
 @progress-bar-color: white;
-
 @list-group-bg: white;
-
-@panel-bg: white;
-@panel-primary-text: white;
 
 @carousel-control-color: white;
 @carousel-indicator-active-bg: white;
@@ -330,6 +326,7 @@
 //** margin of tags
 @btn-tag-margin: 2px 4px 2px 0;
 
+@il-tab-focus-outline: 1px dotted @il-highlight-bg;
 
 //== Toggle Buttons
 //
@@ -788,7 +785,7 @@
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
 @il-standard-disabled-icon-filter: grayscale(100%);
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
-@il-standard-outlined-disabled-icon-filter: brightness(0.3);
+@il-standard-outlined-disabled-icon-filter: contrast(0%);
 
 //== View Control
 //
@@ -802,6 +799,8 @@
 //== Card
 //
 //##
+@il-card-border: none;
+@il-card-background: @il-secondary-container-bg;
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
@@ -811,6 +810,7 @@
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
+
 
 //== Workflow
 //
@@ -884,7 +884,7 @@
 
 //** slates
 @il-slate-bulky-bg-color: #f2f2f2;
-@il-slate-bulky-level2-bg-color: #e3e3e3;
+@il-slate-bulky-level2-bg-color: #f9f9f9;
 @il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
 @il-slate-content-padding: 10px 20px;
 @il-slate-tree-padding: 4px 0;

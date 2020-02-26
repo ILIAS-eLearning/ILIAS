@@ -56,7 +56,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ? $this->dic->language()->txt("mm_repo_tree_view_act")
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
 
-        $title = $this->dic->language()->txt("mm_rep_tree_view");
+//        $title = $this->dic->language()->txt("mm_rep_tree_view");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         /*
@@ -88,7 +88,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->complex($this->if->identifier('last_visited'))
             ->withTitle($this->dic->language()->txt('last_visited'))
             ->withSupportsAsynchronousLoading(true)
-            ->withVisibilityCallable($access_helper->isUserLoggedIn())
+            ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable()))
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)

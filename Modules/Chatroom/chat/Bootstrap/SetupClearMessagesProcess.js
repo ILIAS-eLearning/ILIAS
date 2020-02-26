@@ -56,7 +56,7 @@ function generateBoundTimestamp(deletionUnit, deletionValue) {
 	if (deletionUnit === 'years') {
 		bound.setFullYear(bound.getFullYear() - deletionValue)
 	}
-	if (deletionUnit === 'months') {
+	if (deletionUnit === 'months' || deletionUnit === 'month') {
 		bound.setMonth(bound.getMonth() - deletionValue)
 	}
 	if (deletionUnit === 'weeks') {

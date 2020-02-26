@@ -338,6 +338,7 @@ class ilMediaPlayerGUI
             }
             $mp_tpl->setVariable("PV", $p["v"]);
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
@@ -410,6 +411,7 @@ class ilMediaPlayerGUI
             }
             
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
@@ -531,15 +533,6 @@ class ilMediaPlayerGUI
         }
 
         return;
-        $tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");
-        $mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-        $mp_tpl->setCurrentBlock("default");
-        $mp_tpl->setVariable("FILE", urlencode($this->getFile()));
-        $mp_tpl->setVariable("PLAYER_NR", $this->current_nr);
-        $mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType, "audio/mpeg") === false ? "240" : "20");
-        $mp_tpl->setVariable("DISPLAY_WIDTH", "320");
-        $mp_tpl->parseCurrentBlock();
-        return $mp_tpl->get();
     }
     
     /**

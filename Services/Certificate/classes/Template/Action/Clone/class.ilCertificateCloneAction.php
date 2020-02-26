@@ -170,7 +170,7 @@ class ilCertificateCloneAction
 
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
-                $this->objectHelper->lookupObjId((int) $newObject->getId()),
+                $this->objectHelper->lookupType((int) $newObject->getId()),
                 $template->getCertificateContent(),
                 $template->getCertificateHash(),
                 $template->getTemplateValues(),

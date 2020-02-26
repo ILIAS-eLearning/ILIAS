@@ -15,6 +15,14 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					this.renderer.render(this.model.getState());
 				},
 				/**
+				 * remove a certain tool
+				 */
+				removeTool: function(mapping_id) {
+					var tool_id = mappings[mapping_id];
+					this.model.actions.removeTool(tool_id);
+					this.renderer.render(this.model.getState());
+				},
+				/**
 				 * Just open the tools, activate last one
 				 */
 				disengageAll: function() {
@@ -223,6 +231,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				adjustToScreenSize: adjustToScreenSize,
 				init: init,
 				engageTool: external_commands.engageTool,
+				removeTool: external_commands.removeTool,
 				disengageAll: external_commands.disengageAll,
 				clearStates: external_commands.clearStates
 			};

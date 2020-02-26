@@ -10,9 +10,6 @@ class ilWebDAVUriPathResolverTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        require_once('./Services/WebDAV/classes/tree/class.ilWebDAVUriPathResolver.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php');
-
         $this->mocked_repo_helper = \Mockery::mock('ilWebDAVRepositoryHelper');
 
         parent::setUp();

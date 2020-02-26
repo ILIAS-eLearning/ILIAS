@@ -56,7 +56,28 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     public function createFor(int $obj_id) : ilStudyProgrammeSettings
     {
-        $prg = new ilStudyProgrammeSettings($obj_id);
+        $type_settings = new \ilStudyProgrammeTypeSettings(
+            ilStudyProgrammeSettings::DEFAULT_SUBTYPE
+        );
+        $assessment_settings = new \ilStudyProgrammeAssessmentSettings(
+            ilStudyProgrammeSettings::DEFAULT_POINTS,
+            ilStudyProgrammeSettings::STATUS_DRAFT
+        );
+        $deadline_settings = new \ilStudyProgrammeDeadlineSettings(null, null);
+        $validity_of_achieved_qualification_settings =
+            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
+        ;
+        $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
+
+        $prg = new ilStudyProgrammeSettings(
+            $obj_id,
+            $type_settings,
+            $assessment_settings,
+            $deadline_settings,
+            $validity_of_achieved_qualification_settings,
+            $automail
+        );
+
         $this->insertDB(
             $obj_id,
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE,
@@ -73,10 +94,8 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             null,
             null
         );
-        $prg->setSubtypeId(ilStudyProgrammeSettings::DEFAULT_SUBTYPE)
-            ->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
-            ->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
-            ->setPoints(ilStudyProgrammeSettings::DEFAULT_POINTS)
+
+        $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
             ->setAccessControlByOrguPositions($this->tps->isActive());
         self::$cache[$obj_id] = $prg;
         return $prg;
@@ -99,33 +118,49 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     public function update(ilStudyProgrammeSettings $settings) : void
     {
-        $deadine_date = $settings->getDeadlineDate();
-        if (!is_null($deadine_date)) {
-            $deadine_date = $deadine_date->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT);
+        $deadline_period = $settings->getDeadlineSettings()->getDeadlinePeriod();
+        if (is_null($deadline_period)) {
+            $deadline_period = 0;
         }
-        $vq_date = $settings->getValidityOfQualificationDate();
+
+        $deadline_date = $settings->getDeadlineSettings()->getDeadlineDate();
+        if (!is_null($deadline_date)) {
+            $deadline_date = $deadline_date->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT);
+        }
+
+        $vq_date = $settings->getValidityOfQualificationSettings()->getQualificationDate();
         if (!is_null($vq_date)) {
             $vq_date = $vq_date->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT);
         }
 
+        $qp = $settings->getValidityOfQualificationSettings()->getQualificationPeriod();
+        if (is_null($qp)) {
+            $qp = 0;
+        }
+
+        $rp = $settings->getValidityOfQualificationSettings()->getRestartPeriod();
+        if (is_null($rp)) {
+            $rp = 0;
+        }
+
         $this->updateDB(
             $settings->getObjId(),
-            $settings->getSubtypeId(),
-            $settings->getStatus(),
+            $settings->getTypeSettings()->getTypeId(),
+            $settings->getAssessmentSettings()->getStatus(),
             $settings->getLPMode(),
-            $settings->getPoints(),
+            $settings->getAssessmentSettings()->getPoints(),
             $settings->getLastChange()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT),
-            $settings->getDeadlinePeriod(),
-            $settings->getValidityOfQualificationPeriod(),
-            $settings->getRestartPeriod(),
+            $deadline_period,
+            $qp,
+            $rp,
             $settings->getAccessControlByOrguPositions(),
-            $deadine_date,
+            $deadline_date,
             $vq_date,
-            $settings->getReminderNotRestartedByUserDays(),
-            $settings->getProcessingEndsNotSuccessfulDays(),
-            $settings->sendReAssignedMail(),
-            $settings->sendInfoToReAssignMail(),
-            $settings->sendRiskyToFailMail()
+            $settings->getAutoMailSettings()->getReminderNotRestartedByUserDays(),
+            $settings->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays(),
+            $settings->getAutoMailSettings()->getSendReAssignedMail(),
+            false,
+            false
         );
         self::$cache[$settings->getObjId()] = $settings;
     }
@@ -259,24 +294,82 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected function createByRow(array $row) : ilStudyProgrammeSettings
     {
-        $return = (new ilStudyProgrammeSettings((int) $row[self::FIELD_OBJ_ID]))
-            ->setSubtypeId((int) $row[self::FIELD_SUBTYPE_ID])
-            ->setStatus((int) $row[self::FIELD_STATUS])
-            ->setLPMode((int) $row[self::FIELD_LP_MODE])
-            ->setPoints((int) $row[self::FIELD_POINTS])
-            ->setLastChange(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGED]));
-        if ($row[self::FIELD_DEADLINE_DATE] !== null) {
-            $return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_DEADLINE_DATE]));
-        } else {
-            $return->setDeadlinePeriod((int) $row[self::FIELD_DEADLINE_PERIOD]);
-        }
-        if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
-            $return->setValidityOfQualificationDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]));
-        } else {
-            $return->setValidityOfQualificationPeriod((int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD]);
-        }
+        $type_settings = new \ilStudyProgrammeTypeSettings(
+            ilStudyProgrammeSettings::DEFAULT_SUBTYPE
+        );
+        $assessment_settings = new \ilStudyProgrammeAssessmentSettings(
+            ilStudyProgrammeSettings::DEFAULT_POINTS,
+            ilStudyProgrammeSettings::STATUS_DRAFT
+        );
+        $deadline_settings = new \ilStudyProgrammeDeadlineSettings(null, null);
+        $validity_of_achieved_qualification_settings =
+            new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
+        ;
+        $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
 
-        $return->setRestartPeriod((int) $row[self::FIELD_VQ_RESTART_PERIOD]);
+        $prg = new ilStudyProgrammeSettings(
+            (int) $row[self::FIELD_OBJ_ID],
+            $type_settings,
+            $assessment_settings,
+            $deadline_settings,
+            $validity_of_achieved_qualification_settings,
+            $automail
+        );
+
+        $return = $prg
+            ->setLPMode((int) $row[self::FIELD_LP_MODE])
+            ->setLastChange(DateTime::createFromFormat(
+                ilStudyProgrammeSettings::DATE_TIME_FORMAT,
+                $row[self::FIELD_LAST_CHANGED]
+            ))
+        ;
+
+        $type = $return->getTypeSettings();
+        $type = $type->withTypeId((int) $row['subtype_id']);
+        $return = $return->withTypeSettings($type);
+
+        $points = $return->getAssessmentSettings();
+        $points = $points->withPoints((int) $row['points'])->withStatus((int) $row['status']);
+        $return = $return->withAssessmentSettings($points);
+
+        $deadline = $return->getDeadlineSettings();
+        if ($row[self::FIELD_DEADLINE_DATE] !== null) {
+            $deadline = $deadline->withDeadlineDate(DateTime::createFromFormat(
+                ilStudyProgrammeSettings::DATE_TIME_FORMAT,
+                $row[self::FIELD_DEADLINE_DATE]
+            ))
+            ;
+        } else {
+            $deadline_period = (int) $row[self::FIELD_DEADLINE_PERIOD];
+            if ($deadline_period == -1) {
+                $deadline_period = null;
+            }
+            $deadline = $deadline->withDeadlinePeriod($deadline_period);
+        }
+        $return = $return->withDeadlineSettings($deadline);
+
+        $vqs = $return->getValidityOfQualificationSettings();
+        if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
+            $vqs = $vqs->withQualificationDate(
+                DateTime::createFromFormat(
+                    ilStudyProgrammeSettings::DATE_TIME_FORMAT,
+                    $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]
+            )
+            );
+        } else {
+            $qualification_period = (int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD];
+            if ($qualification_period == -1) {
+                $qualification_period = null;
+            }
+            $vqs = $vqs->withQualificationPeriod($qualification_period);
+        }
+        $restart_period = (int) $row[self::FIELD_VQ_RESTART_PERIOD];
+        if ($restart_period == -1) {
+            $restart_period = null;
+        }
+        $vqs = $vqs->withRestartPeriod($restart_period);
+        $return = $return->withValidityOfQualificationSettings($vqs);
+
         $return->setAccessControlByOrguPositions((bool) $row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
 
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
@@ -288,12 +381,13 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $proc_end_no_success = (int) $proc_end_no_success;
         }
 
-        $return->setReminderNotRestartedByUserDays($rm_nr_by_usr_days);
-        $return->setProcessingEndsNotSuccessfulDays($proc_end_no_success);
-        return $return->withSendReAssignedMail((bool) $row[self::FIELD_SEND_RE_ASSIGNED_MAIL])
-            ->withSendInfoToReAssignMail((bool) $row[self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL])
-            ->withSendRiskyToFailMail((bool) $row[self::FIELD_SEND_RISKY_TO_FAIL_MAIL])
-        ;
+        return $return->withAutoMailSettings(
+            new \ilStudyProgrammeAutoMailSettings(
+                (bool) $row[self::FIELD_SEND_RE_ASSIGNED_MAIL],
+                $rm_nr_by_usr_days,
+                $proc_end_no_success
+            )
+        );
     }
 
     /**

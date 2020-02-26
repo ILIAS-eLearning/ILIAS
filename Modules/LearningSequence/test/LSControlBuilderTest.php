@@ -45,7 +45,7 @@ class LSControlBuilderTest extends TestCase
     {
         $cb = $this->control_builder->exit('cmd');
         $this->assertInstanceOf(ControlBuilder::class, $cb);
-        $this->assertInstanceOf(Button\Shy::class, $cb->getExitControl());
+        $this->assertInstanceOf(Button\Bulky::class, $cb->getExitControl());
     }
 
     public function testUniqueExit()

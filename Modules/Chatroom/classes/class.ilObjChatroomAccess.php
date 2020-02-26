@@ -37,16 +37,17 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _checkGoto($a_target)
     {
-        global $DIC;
-
         if (is_string($a_target)) {
             $t_arr = explode("_", $a_target);
 
-            if (count($t_arr) < 2 || $t_arr[0] != "chtr" || ((int) $t_arr[1]) <= 0) {
+            if (count($t_arr) < 2 || $t_arr[0] != 'chtr' || ((int) $t_arr[1]) <= 0) {
                 return false;
             }
 
-            if ($DIC->rbac()->system()->checkAccess("read", $t_arr[1])) {
+            if (
+                ilChatroom::checkUserPermissions('visible', $t_arr[1], false) ||
+                ilChatroom::checkUserPermissions('read', $t_arr[1], false)
+            ) {
                 return true;
             }
         }

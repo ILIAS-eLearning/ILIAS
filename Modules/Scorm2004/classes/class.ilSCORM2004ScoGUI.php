@@ -423,7 +423,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $ilCtrl = $this->ctrl;
         
         // init main template
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+        $tpl = new ilGlobalTemplate("tpl.legacy_main.html", true, true, "Modules/Scorm2004");
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $tpl->setBodyClass("");
@@ -436,10 +436,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         
         // get javascript
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-        iljQueryUtil::initjQuery();
-        iljQueryUtil::initjQueryUI();
+        iljQueryUtil::initjQuery($tpl);
+        iljQueryUtil::initjQueryUI($tpl);
         $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
         $tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
+        $tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+        $tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
+        $tpl->addCss("./Modules/Test/templates/default/ta.css");
 
         $tpl->addOnLoadCode("pager.Init();");
         
@@ -515,6 +518,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         
         //inline JS
         $output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
+        $tpl->addOnLoadCode("ilias.questions.refresh_lang();");
         $tpl->setVariable("CONTENT", $output);
         $tpl->printToStdout();
         exit;

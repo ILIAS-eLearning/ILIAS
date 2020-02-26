@@ -150,7 +150,7 @@ class ilStudyProgrammeUserProgress
     /**
      * Get the id of the user who did the last change on this progress.
      */
-    public function getLastChangeBy() : int
+    public function getLastChangeBy() : ?int
     {
         return $this->progress->getLastChangeBy();
     }
@@ -174,7 +174,7 @@ class ilStudyProgrammeUserProgress
     /**
      * Get the completion date of this node.
      */
-    public function getCompletionDate() : DateTime
+    public function getCompletionDate() : ?DateTime
     {
         return $this->progress->getCompletionDate();
     }
@@ -308,7 +308,7 @@ class ilStudyProgrammeUserProgress
         $this->progress_repository->update(
             $this->progress
                 ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-                ->setLastChangeBy($user_id)
+                ->setLastChangeBy($a_user_id)
                 ->setCompletionDate(null)
         );
 
@@ -729,7 +729,7 @@ class ilStudyProgrammeUserProgress
      * @throws ilException
      * @return bool | void
      */
-    public function setLPCompleted(int $a_obj_id, int $a_usr_id)
+    public function setLPCompleted(int $obj_id, int $usr_id)
     {
         if ($this->isSuccessful() || !$this->isRelevant()) {
             return true;
@@ -783,29 +783,26 @@ class ilStudyProgrammeUserProgress
         ilObjStudyProgramme $prg,
         ilStudyProgrammeAssignment $assignment
     ) : void {
-        if (null !== $prg->getValidityOfQualificationDate()) {
-            $date = $prg->getValidityOfQualificationDate();
+        $qualification_date = $prg->getValidityOfQualificationSettings()->getQualificationDate();
+        $qualification_period = $prg->getValidityOfQualificationSettings()->getQualificationPeriod();
+        if (!is_null($qualification_date)) {
+            $date = $qualification_date;
         } elseif (
-            ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD !==
-            $prg->getValidityOfQualificationPeriod()
+            ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD !== $qualification_period
         ) {
             $date = new DateTime();
-            $date->add(new DateInterval('P' . $prg->getValidityOfQualificationPeriod() . 'D'));
+            $date->add(new DateInterval('P' . $qualification_period . 'D'));
         } else {
             // nothing to do
             return;
         }
 
-        $this->progress_repository->update(
-            $this->progress
-                ->setValidityOfQualification($date)
-        );
+        $this->progress_repository->update($this->progress->setValidityOfQualification($date));
 
-        if (ilStudyProgrammeSettings::NO_RESTART !== $prg->getRestartPeriod()) {
-            $date->sub(new DateInterval('P' . $prg->getRestartPeriod() . 'D'));
-            $this->assignment_repository->update(
-                $assignment->setRestartDate($date)
-            );
+        $restart_period = $prg->getValidityOfQualificationSettings()->getRestartPeriod();
+        if (ilStudyProgrammeSettings::NO_RESTART !== $restart_period) {
+            $date->sub(new DateInterval('P' . $restart_period . 'D'));
+            $this->assignment_repository->update($assignment->setRestartDate($date));
         }
     }
 

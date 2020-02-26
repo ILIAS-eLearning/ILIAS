@@ -190,6 +190,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
 
+            try {
+                $lifecycle = ilAssQuestionLifecycle::getInstance($_POST['lifecycle']);
+                $this->object->setLifecycle($lifecycle);
+            } catch(ilTestQuestionPoolInvalidArgumentException $e) {}
+
             //			if(!$this->object->checkForDuplicateVariables())
             //			{
 //
@@ -603,10 +608,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
         }
-        
-        $result_has_undefined_vars = array();
-        $question_has_unused_vars = array();
-        
+
+        $result_has_undefined_vars = [];
+        $question_has_unused_vars = [];
+        $result_has_undefined_res = [];
+
         if (is_array($quest_vars) && count($quest_vars) > 0) {
             $result_has_undefined_vars = array_diff($defined_result_vars, $quest_vars);
             $question_has_unused_vars = array_diff($quest_vars, $defined_result_vars);
@@ -952,9 +958,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $user_solution = (array) $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
             $solutionValues = array();
-            
-            foreach ($this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2) {
-                $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+
+            $participantsSolution = $this->getPreviewSession()->getParticipantsSolution();
+            if (is_array($participantsSolution)) {
+                foreach ($participantsSolution as $val1 => $val2) {
+                    $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+                }
             }
             
             $user_solution = (array) $this->object->getBestSolution($solutionValues);

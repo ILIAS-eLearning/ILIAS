@@ -50,7 +50,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_records_row.html", "Services/AdvancedMetaData");
-        $this->setDefaultOrderField('position');
+        $this->setDefaultOrderField('sort');
         $this->setDefaultOrderDirection('asc');
     }
     

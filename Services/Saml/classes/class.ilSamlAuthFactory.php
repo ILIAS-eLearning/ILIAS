@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,9 +13,8 @@ class ilSamlAuthFactory
      * @return ilSamlAuth
      * @throws Exception
      */
-    public function auth($authSourceName = 'default-sp')
+    public function auth(string $authSourceName = 'default-sp') : ilSamlAuth
     {
-        require_once 'Services/Saml/classes/class.ilSimpleSAMLphpWrapper.php';
         return new ilSimpleSAMLphpWrapper(
             $authSourceName,
             $this->getConfigDirectory()
@@ -26,7 +25,7 @@ class ilSamlAuthFactory
      * @return string
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function getConfigDirectory()
+    public function getConfigDirectory() : string
     {
         global $DIC;
 

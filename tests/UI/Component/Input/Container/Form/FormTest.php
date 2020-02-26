@@ -5,7 +5,7 @@
 require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\Input;
-use \ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
+use \ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
 use \ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Implementation\Component\Input\InputData;
 use \ILIAS\UI\Implementation\Component\Input\Container\Form\Form;
@@ -412,7 +412,7 @@ class FormTest extends ILIAS_UI_TestBase
     {
         static $no = 1000;
         $config = $this
-            ->getMockBuilder(InputInternal::class)
+            ->getMockBuilder(FormInputInternal::class)
             ->setMethods(["getName", "withNameFrom", "withInput", "getContent", "getLabel", "withLabel", "getByline", "withByline", "isRequired", "withRequired", "isDisabled", "withDisabled", "getValue", "withValue", "getError", "withError", "withAdditionalTransformation", "withAdditionalConstraint", "getUpdateOnLoadCode", "getCanonicalName", "withOnLoadCode", "withAdditionalOnLoadCode", "getOnLoadCode", "withOnUpdate", "appendOnUpdate", "withResetTriggeredSignals", "getTriggeredSignals"])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();

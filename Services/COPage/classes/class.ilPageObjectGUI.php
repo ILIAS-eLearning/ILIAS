@@ -1914,25 +1914,9 @@ class ilPageObjectGUI
 
             // post xsl page content modification by pc elements
             $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
-            
-            // javascript files
-            $js_files = $pc_obj->getJavascriptFiles($this->getOutputMode());
-            foreach ($js_files as $js) {
-                $main_tpl->addJavascript($js);
-            }
-
-            // css files
-            $css_files = $pc_obj->getCssFiles($this->getOutputMode());
-            foreach ($css_files as $css) {
-                $main_tpl->addCss($css);
-            }
-
-            // onload code
-            $onload_code = $pc_obj->getOnloadCode($this->getOutputMode());
-            foreach ($onload_code as $code) {
-                $main_tpl->addOnloadCode($code);
-            }
         }
+
+        $this->addResourcesToTemplate($main_tpl);
         
         //		$output = $this->selfAssessmentRendering($output);
 
@@ -2568,22 +2552,40 @@ class ilPageObjectGUI
      */
     public function downloadFile()
     {
-        $this->obj->buildDom();
-        
-        include_once("./Services/COPage/classes/class.ilPCFileList.php");
-        $files = ilPCFileList::collectFileItems($this->obj, $this->obj->getDomDoc());
+        $download_ok = false;
 
-        $file = explode("_", $_GET["file_id"]);
         require_once("./Modules/File/classes/class.ilObjFile.php");
-        $file_id = $file[count($file) - 1];
+        $pg_obj = $this->getPageObject();
+        $pg_obj->buildDom();
+        $int_links = $pg_obj->getInternalLinks();
+        foreach ($int_links as $il) {
+            if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"])) {
+                $file = explode("_", $_GET["file_id"]);
+                $file_id = (int) $file[count($file) - 1];
+                $download_ok = true;
+            }
+        }
+        if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds())) {
+            $file = explode("_", $_GET["file_id"]);
+            $file_id = (int) $file[count($file) - 1];
+            $download_ok = true;
+        }
 
-        // file must be in page
-        if (!in_array($file_id, $files)) {
+        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType().":pg", 0, false);
+        foreach ($pcs as $pc) {
+            $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
+            $file = explode("_", $_GET["file_id"]);
+            $file_id = (int) $file[count($file) - 1];
+            if (in_array($file_id, $files)) {
+                $download_ok = true;
+            }
+        }
+
+        if ($download_ok) {
+            $fileObj = new ilObjFile($file_id, false);
+            $fileObj->sendFile();
             exit;
         }
-        $fileObj = new ilObjFile($file_id, false);
-        $fileObj->sendFile();
-        exit;
     }
     
     /**
@@ -3702,5 +3704,26 @@ class ilPageObjectGUI
     public function getPagePermaLink()
     {
         return "";
+    }
+
+    /**
+     * Add resources to template
+     * @param ilGlobalTemplateInterface $tpl
+     */
+    protected function addResourcesToTemplate(ilGlobalTemplateInterface $tpl)
+    {
+        $collector = new \ILIAS\COPage\ResourcesCollector($this->getOutputMode(), $this->getPageObject());
+
+        foreach ($collector->getJavascriptFiles() as $js) {
+            $tpl->addJavascript($js);
+        }
+
+        foreach ($collector->getCssFiles() as $css) {
+            $tpl->addCss($css);
+        }
+
+        foreach ($collector->getOnloadCode() as $code) {
+            $tpl->addOnloadCode($code);
+        }
     }
 }

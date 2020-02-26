@@ -45,7 +45,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     /** @var ilLanguage $lng */
     protected $lng = null;
 
-    /** @var ilGlobalTemplate $tpl */
+    /** @var ilGlobalTemplateInterface $tpl */
     protected $tpl = null;
 
     /** @var ilTree $tree */
@@ -689,7 +689,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $act_type->setChecked($this->testOBJ->isActivationLimited());
         // $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
 
-        $this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
         include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
         $dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
         $dur->setRequired(true);
@@ -795,7 +794,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $this->testOBJ->setIntroductionEnabled($form->getItemByPostVar('intro_enabled')->getChecked());
 
             if ($form->getItemByPostVar('intro_enabled')->getChecked()) {
-                $this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+                $this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue());
             } else {
                 $this->testOBJ->setIntroduction('');
             }
@@ -1553,7 +1552,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue());
 
         if ($form->getItemByPostVar('redirection_enabled')->getChecked()) {
             $this->testOBJ->setRedirectionMode($form->getItemByPostVar('redirection_mode')->getValue());

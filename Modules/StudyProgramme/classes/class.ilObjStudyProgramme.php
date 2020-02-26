@@ -343,17 +343,16 @@ class ilObjStudyProgramme extends ilContainer
         parent::update();
 
         // Update selection for advanced meta data of the type
-        if ($this->getSubTypeId()) {
+        if ($this->getTypeSettings()->getTypeId()) {
             ilAdvancedMDRecord::saveObjRecSelection(
                 $this->getId(),
                 'prg_type',
-                $this->type_repository->readAssignedAMDRecordsByType($this->getSubTypeId())
+                $this->type_repository->readAssignedAMDRecordsByType($this->getTypeSettings()->getTypeId())
             );
         } else {
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'prg_type', array());
         }
-
         $this->updateSettings();
     }
 
@@ -401,7 +400,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function getPoints() : int
     {
-        return $this->settings->getPoints();
+        return $this->settings->getAssessmentSettings()->getPoints();
     }
 
     /**
@@ -411,7 +410,9 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function setPoints(int $a_points) : ilObjStudyProgramme
     {
-        $this->settings->setPoints($a_points);
+        $settings = $this->getAssessmentSettings();
+        $settings = $settings->withPoints($a_points);
+        $this->setAssessmentSettings($settings);
         $this->updateLastChange();
         return $this;
     }
@@ -450,7 +451,7 @@ class ilObjStudyProgramme extends ilContainer
 
     public function getStatus() : int
     {
-        return $this->settings->getStatus();
+        return $this->getAssessmentSettings()->getStatus();
     }
 
     /**
@@ -460,7 +461,8 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function setStatus(int $a_status) : ilObjStudyProgramme
     {
-        $this->settings->setStatus($a_status);
+        $settings = $this->getAssessmentSettings()->withStatus($a_status);
+        $this->setAssessmentSettings($settings);
         $this->updateLastChange();
         return $this;
     }
@@ -470,20 +472,6 @@ class ilObjStudyProgramme extends ilContainer
         return $this->getStatus() == ilStudyProgrammeSettings::STATUS_ACTIVE;
     }
 
-    public function getSubtypeId() : int
-    {
-        return $this->settings->getSubtypeId();
-    }
-
-    /**
-     * Sets the meta-data subtype id
-     */
-    public function setSubtypeId(int $a_subtype_id) : ilObjStudyProgramme
-    {
-        $this->settings->setSubtypeId($a_subtype_id);
-        return $this;
-    }
-
     /**
      * Gets the SubType Object
      *
@@ -491,77 +479,56 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function getSubType()
     {
-        if (!in_array($this->getSubtypeId(), array("-", "0"))) {
-            $subtype_id = $this->getSubtypeId();
+        if (!in_array($this->getTypeSettings()->getTypeId(), array("-", "0"))) {
+            $subtype_id = $this->getTypeSettings()->getTypeId();
             return $this->type_repository->readType($subtype_id);
         }
 
         return null;
     }
 
-    public function getDeadlinePeriod() : int
+    public function getTypeSettings() : \ilStudyProgrammeTypeSettings
     {
-        return $this->settings->getDeadlinePeriod();
+        return $this->settings->getTypeSettings();
     }
 
-    /**
-     * @throws ilException
-     */
-    public function setDeadlinePeriod(int $period) : void
+    public function setTypeSettings(\ilStudyProgrammeTypeSettings $type_settings) : void
     {
-        $this->settings->setDeadlinePeriod($period);
+        $this->settings = $this->settings->withTypeSettings($type_settings);
     }
 
-    /**
-     * @return DateTime | null
-     */
-    public function getDeadlineDate()
+    public function getAssessmentSettings() : \ilStudyProgrammeAssessmentSettings
     {
-        return $this->settings->getDeadlineDate();
+        return $this->settings->getAssessmentSettings();
     }
 
-    public function setDeadlineDate(DateTime $date = null) : void
-    {
-        $this->settings->setDeadlineDate($date);
+    public function setAssessmentSettings(
+        \ilStudyProgrammeAssessmentSettings $assessment_settings
+    ) : void {
+        $this->settings = $this->settings->withAssessmentSettings($assessment_settings);
     }
 
-    /**
-     * @throws ilException
-     */
-    public function setValidityOfQualificationPeriod(int $period) : void
+    public function getDeadlineSettings() : \ilStudyProgrammeDeadlineSettings
     {
-        $this->settings->setValidityOfQualificationPeriod($period);
+        return $this->settings->getDeadlineSettings();
     }
 
-    public function setValidityOfQualificationDate(DateTime $date = null) : void
+    public function setDeadlineSettings(\ilStudyProgrammeDeadlineSettings $deadline_settings) : void
     {
-        $this->settings->setValidityOfQualificationDate($date);
+        $this->settings = $this->settings->withDeadlineSettings($deadline_settings);
     }
 
-    /**
-     * @throws ilException
-     */
-    public function setRestartPeriod(int $period) : void
+    public function getValidityOfQualificationSettings() : \ilStudyProgrammeValidityOfAchievedQualificationSettings
     {
-        $this->settings->setRestartPeriod($period);
+        return $this->settings->getValidityOfQualificationSettings();
     }
 
-    public function getValidityOfQualificationPeriod() : int
-    {
-        return $this->settings->getValidityOfQualificationPeriod();
-    }
-
-    /**
-     * @return DateTime | null
-     */
-    public function getValidityOfQualificationDate()
-    {
-        return $this->settings->getValidityOfQualificationDate();
-    }
-
-    public function getRestartPeriod() : int
-    {
-        return $this->settings->getRestartPeriod();
+    public function setValidityOfQualificationSettings(
+        \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings
+    ) : void {
+        $this->settings = $this->settings->withValidityOfQualificationSettings(
+            $validity_of_qualification_settings
+        );
     }
 
     public function setAccessControlByOrguPositions(bool $access_ctrl_positions) : void
@@ -593,61 +560,16 @@ class ilObjStudyProgramme extends ilContainer
         return $this->ps->isChangeableForObject();
     }
 
-    public function setReminderNotRestartedByUserDays(int $days) : void
+    public function getAutoMailSettings() : \ilStudyProgrammeAutoMailSettings
     {
-        $this->settings->setReminderNotRestartedByUserDays($days);
+        return $this->settings->getAutoMailSettings();
     }
 
-    public function shouldSendReAssignedMail() : bool
+    public function setAutoMailSettings(\ilStudyProgrammeAutoMailSettings $automail_settings) : void
     {
-        return $this->settings->sendReAssignedMail();
+        $this->settings = $this->settings->withAutoMailSettings($automail_settings);
     }
 
-    public function shouldSendInfoToReAssignMail() : bool
-    {
-        return $this->settings->sendInfoToReAssignMail();
-    }
-
-    public function shouldSendRiskyToFailMail() : bool
-    {
-        return $this->settings->sendRiskyToFailMail();
-    }
-
-    public function setSendReAssignedMail(bool $send_re_assigned_mail) : void
-    {
-        $this->settings = $this->settings->withSendReAssignedMail($send_re_assigned_mail);
-    }
-
-    public function setSendInfoToReAssignMail(bool $send_info_to_re_assign_mail) : void
-    {
-        $this->settings = $this->settings->withSendInfoToReAssignMail($send_info_to_re_assign_mail);
-    }
-
-    public function setSendRiskyToFailMail(bool $send_risky_to_fail_mail) : void
-    {
-        $this->settings = $this->settings->withSendRiskyToFailMail($send_risky_to_fail_mail);
-    }
-
-    /**
-     * @return int | null
-     */
-    public function getReminderNotRestartedByUserDays()
-    {
-        return $this->settings->getReminderNotRestartedByUserDays();
-    }
-
-    public function setProcessingEndsNotSuccessfulDays(int $days) : void
-    {
-        $this->settings->setProcessingEndsNotSuccessfulDays($days);
-    }
-
-    /**
-     * @return int | null
-     */
-    public function getProcessingEndsNotSuccessfulDays()
-    {
-        return $this->settings->getProcessingEndsNotSuccessfulDays();
-    }
     ////////////////////////////////////
     // TREE NAVIGATION
     ////////////////////////////////////
@@ -1238,12 +1160,12 @@ class ilObjStudyProgramme extends ilContainer
                     );
                 } else {
                     $deadline_date = null;
-                    if ($deadline_date = $node->getDeadlineDate()) {
+                    if ($deadline_date = $node->getDeadlineSettings()->getDeadlineDate()) {
                         $this->progress_repository->update(
                             $progress->setDeadline($deadline_date)
                         );
                     }
-                    if ($deadline_period = $node->getDeadlinePeriod()) {
+                    if ($deadline_period = $node->getDeadlineSettings()->getDeadlinePeriod()) {
                         $deadline_date = new DateTime();
                         $deadline_date->add(new DateInterval('P' . $deadline_period . 'D'));
                         $this->progress_repository->update(
@@ -1664,7 +1586,7 @@ class ilObjStudyProgramme extends ilContainer
     public function isAutoContentApplicable() : bool
     {
         $valid_status = in_array(
-            $this->getStatus(),
+            $this->settings->getAssessmentSettings()->getStatus(),
             [
                 ilStudyProgrammeSettings::STATUS_DRAFT,
                 ilStudyProgrammeSettings::STATUS_ACTIVE

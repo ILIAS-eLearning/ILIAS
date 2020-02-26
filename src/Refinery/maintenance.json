@@ -10,7 +10,7 @@
     "tester": "",
     "testcase_writer": "",
     "path": "src/Refinery",
-    "belong_to_component": "None",
+    "belong_to_component": "Refinery",
     "used_in_components": [
         "All"
     ]

@@ -650,7 +650,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 // set context tabs
                 require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                $questionGUI =&assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParameter());
+                $questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
 
@@ -720,31 +720,41 @@ class ilObjTestGUI extends ilObjectGUI
                 $this->prepareOutput();
 
                 $this->ctrl->setReturn($this, "questions");
-                require_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                $q_gui =&assQuestionGUI::_getQuestionGUI($_GET['sel_question_types'], $this->fetchAuthoringQuestionIdParameter());
-                $q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
-                $q_gui->object->setObjId($this->object->getId());
-                if (!$_GET['sel_question_types']) {
-                    $qType = assQuestion::getQuestionTypeFromDb($_GET['q_id']);
-                } else {
-                    $qType = $_GET['sel_question_types'];
-                }
-                $this->ctrl->setParameterByClass($qType . "GUI", 'prev_qid', $_REQUEST['prev_qid']);
-                $this->ctrl->setParameterByClass($qType . "GUI", 'test_ref_id', $_REQUEST['ref_id']);
-                $this->ctrl->setParameterByClass($qType . "GUI", 'q_id', $_REQUEST['q_id']);
-                if ($_REQUEST['test_express_mode']) {
-                    $this->ctrl->setParameterByClass($qType . "GUI", 'test_express_mode', 1);
-                }
 
-                #global $___test_express_mode;
-                #$___test_express_mode = true;
-                if (!$q_gui->isSaveCommand()) {
-                    $_GET['calling_test'] = $this->object->getRefId();
-                }
+                try {
+                    $qid = $this->fetchAuthoringQuestionIdParameter();
 
-                $q_gui->setQuestionTabs();
-                #unset($___test_express_mode);
-                $ret =&$this->ctrl->forwardCommand($q_gui);
+                    $questionGui = assQuestionGUI::_getQuestionGUI(
+                        ilUtil::stripSlashes($_GET['sel_question_types'] ?? ''),
+                        $qid
+                    );
+
+                    $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
+                    $questionGui->object->setObjId($this->object->getId());
+
+                    $questionGuiClass = get_class($questionGui);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'prev_qid', $_REQUEST['prev_qid']);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'test_ref_id', $_REQUEST['ref_id']);
+                    $this->ctrl->setParameterByClass($questionGuiClass, 'q_id', $qid);
+
+                    if (isset($_REQUEST['test_express_mode'])) {
+                        $this->ctrl->setParameterByClass($questionGuiClass, 'test_express_mode', 1);
+                    }
+
+                    if (!$questionGui->isSaveCommand()) {
+                        $_GET['calling_test'] = $this->object->getRefId();
+                    }
+
+                    $questionGui->setQuestionTabs();
+
+                    $this->ctrl->forwardCommand($questionGui);
+                } catch (ilTestException $e) {
+                    if (isset($_REQUEST['test_express_mode'])) {
+                        $this->ctrl->redirect($this, 'showPage');
+                    } else {
+                        $this->ctrl->redirect($this, 'questions');
+                    }
+                }
                 break;
         }
         if (!in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui')) &&
@@ -778,21 +788,19 @@ class ilObjTestGUI extends ilObjectGUI
     }
     
     /**
-     * @return mixed
+     * @return int
+     * @throws ilTestException
      */
     protected function fetchAuthoringQuestionIdParameter()
     {
         $qid = $_REQUEST['q_id'];
-        
+
         if (!$qid || $qid == 'Array') {
             $questions = $this->object->getQuestionTitlesAndIndexes();
-            if (!is_array($questions)) {
-                $questions = array();
-            }
-            
+
             $keys = array_keys($questions);
-            $qid = $keys[0];
-            
+            $qid = (int) ($keys[0] ?? 0);
+
             $_REQUEST['q_id'] = $qid;
             $_GET['q_id'] = $qid;
             $_POST['q_id'] = $qid;
@@ -801,7 +809,7 @@ class ilObjTestGUI extends ilObjectGUI
         if ($this->object->checkQuestionParent($qid)) {
             return $qid;
         }
-        
+
         throw new ilTestException('question id does not relate to parent object!');
     }
     
@@ -1359,105 +1367,62 @@ class ilObjTestGUI extends ilObjectGUI
         return $qpl->getRefId();
     }
 
-    /**
-    * Creates a form for random selection of questions
-    */
     public function randomselectObject()
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
-        $questionpools =&$this->object->getAvailableQuestionpools(false, false, false, true);
-        $this->tpl->setCurrentBlock("option");
-        $this->tpl->setVariable("VALUE_OPTION", "0");
-        $this->tpl->setVariable("TEXT_OPTION", $this->lng->txt("all_available_question_pools"));
-        $this->tpl->parseCurrentBlock();
+
+        $form = new ilPropertyFormGUI();
+        $form->setTitle($this->lng->txt('random_selection'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'cancelRandomSelect'));
+
+        $form->addCommandButton('createRandomSelection', $this->lng->txt('submit'));
+        $form->addCommandButton('cancelRandomSelect', $this->lng->txt('cancel'));
+
+        $amount = new ilNumberInputGUI($this->lng->txt('tst_random_nr_of_questions'), 'nr_of_questions');
+        $amount->allowDecimals(false);
+        $amount->setSize(5);
+        $amount->setMinValue(1);
+        $amount->setValue(5);
+        $form->addItem($amount);
+
+        $poolSelection = new ilSelectInputGUI($this->lng->txt('tst_source_question_pool'), 'sel_qpl');
+        $poolSelection->setInfo($this->lng->txt('tst_random_select_questionpool'));
+        $poolSelection->setRequired(true);
+        $poolOptions = [];
+        $questionpools = $this->object->getAvailableQuestionpools(false, false, false, true);
         foreach ($questionpools as $key => $value) {
-            $this->tpl->setCurrentBlock("option");
-            $this->tpl->setVariable("VALUE_OPTION", $key);
-            $this->tpl->setVariable("TEXT_OPTION", $value["title"]);
-            $this->tpl->parseCurrentBlock();
+            $poolOptions[$key] = $value['title'];
         }
-        $this->tpl->setCurrentBlock("hidden");
-        $this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
-        $this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_random_select_questionpool"));
-        $this->tpl->setVariable("TXT_NR_OF_QUESTIONS", $this->lng->txt("tst_random_nr_of_questions"));
-        $this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-        $this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->parseCurrentBlock();
+        $poolSelection->setOptions(
+            ['0' => $this->lng->txt('all_available_question_pools')] + $poolOptions  
+        );
+        $form->addItem($poolSelection);
+
+        $questionType = new ilHiddenInputGUI('sel_question_types');
+        $questionType->setValue(ilUtil::stripSlashes($_POST['sel_question_types']));
+        $form->addItem($questionType);
+
+        $this->tpl->setContent($form->getHTML());
     }
-    
-    /**
-    * Cancels the form for random selection of questions
-    *
-    * Cancels the form for random selection of questions
-    *
-    * @access	public
-    */
+
     public function cancelRandomSelectObject()
     {
         $this->ctrl->redirect($this, "questions");
     }
-    
-    /**
-    * Offers a random selection for insertion in the test
-    *
-    * Offers a random selection for insertion in the test
-    *
-    * @access	public
-    */
+
     public function createRandomSelectionObject()
     {
         $this->getTabsManager()->getQuestionsSubTabs();
         $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-        $question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", "Modules/Test");
-        $color_class = array("tblrow1", "tblrow2");
-        $counter = 0;
-        $questionpools =&$this->object->getAvailableQuestionpools(true);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        foreach ($question_array as $question_id) {
-            $dataset = $this->object->getQuestionDataset($question_id);
-            $this->tpl->setCurrentBlock("QTab");
-            $this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-            $this->tpl->setVariable("QUESTION_TITLE", $dataset->title);
-            $this->tpl->setVariable("QUESTION_COMMENT", $dataset->description);
-            $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($dataset->type_tag));
-            $this->tpl->setVariable("QUESTION_AUTHOR", $dataset->author);
-            $this->tpl->setVariable("QUESTION_POOL", $questionpools[$dataset->obj_fi]["title"]);
-            $this->tpl->parseCurrentBlock();
-            $counter++;
-        }
-        if (count($question_array) == 0) {
-            $this->tpl->setCurrentBlock("Emptytable");
-            $this->tpl->setVariable("TEXT_NO_QUESTIONS_AVAILABLE", $this->lng->txt("no_questions_available"));
-            $this->tpl->parseCurrentBlock();
-        } else {
-            $this->tpl->setCurrentBlock("Selectionbuttons");
-            $this->tpl->setVariable("BTN_YES", $this->lng->txt("random_accept_sample"));
-            $this->tpl->setVariable("BTN_NO", $this->lng->txt("random_another_sample"));
-            $this->tpl->parseCurrentBlock();
-        }
-        $chosen_questions = join($question_array, ",");
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
-        $this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
-        $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
-        $this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
-        $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
-        $this->tpl->setVariable("VALUE_CHOSEN_QUESTIONS", $chosen_questions);
-        $this->tpl->setVariable("VALUE_QUESTIONPOOL_SELECTION", $_POST["sel_qpl"]);
-        $this->tpl->setVariable("VALUE_NR_OF_QUESTIONS", $_POST["nr_of_questions"]);
-        $this->tpl->setVariable("TEXT_QUESTION_OFFER", $this->lng->txt("tst_question_offer"));
-        $this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->parseCurrentBlock();
+
+        $randomQuestionSelectionTable = new ilTestRandomQuestionSelectionTableGUI($this, 'createRandomSelection', $this->object);
+
+        $this->tpl->setContent(
+            $randomQuestionSelectionTable
+                ->build((int) $_POST['nr_of_questions'], (int) $_POST['sel_qpl'])
+                ->getHtml()
+        );
     }
     
     /**
@@ -2384,7 +2349,6 @@ class ilObjTestGUI extends ilObjectGUI
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
         
         if ($isPdfDeliveryRequest) {
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
         } else {
             $this->tpl->setVariable("PRINT_CONTENT", $template->get());
@@ -2402,7 +2366,7 @@ class ilObjTestGUI extends ilObjectGUI
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        $ilias = $DIC['ilias'];
+
         if (!$ilAccess->checkAccess("write", "", $this->ref_id)) {
             // allow only write access
             ilUtil::sendInfo($this->lng->txt("cannot_edit_test"), true);
@@ -2415,9 +2379,6 @@ class ilObjTestGUI extends ilObjectGUI
 
         $isPdfDeliveryRequest = isset($_GET['pdf']) && $_GET['pdf'];
 
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $print_date = mktime(date("H"), date("i"), date("s"), date("m"), date("d"), date("Y"));
         $max_points= 0;
         $counter = 1;
 
@@ -2449,17 +2410,20 @@ class ilObjTestGUI extends ilObjectGUI
             $max_points += $question_gui->object->getMaximumPoints();
         }
 
-
-
         $template->setVariable("TITLE", ilUtil::prepareFormOutput($this->object->getTitle()));
         $template->setVariable("PRINT_TEST", ilUtil::prepareFormOutput($this->lng->txt("review_view")));
         $template->setVariable("TXT_PRINT_DATE", ilUtil::prepareFormOutput($this->lng->txt("date")));
-        $template->setVariable("VALUE_PRINT_DATE", ilUtil::prepareFormOutput(strftime("%c", $print_date)));
+        $usedRelativeDates = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(false);
+        $template->setVariable(
+            "VALUE_PRINT_DATE",
+            ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX))
+        );
+        ilDatePresentation::setUseRelativeDates($usedRelativeDates);
         $template->setVariable("TXT_MAXIMUM_POINTS", ilUtil::prepareFormOutput($this->lng->txt("tst_maximum_points")));
         $template->setVariable("VALUE_MAXIMUM_POINTS", ilUtil::prepareFormOutput($max_points));
 
         if ($isPdfDeliveryRequest) {
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
         } else {
             $this->ctrl->setParameter($this, "pdf", "1");

@@ -46,7 +46,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             self::FIELD_ASSIGNMENT_ID => $ass->getId(),
             self::FIELD_PRG_ID => $prg->getObjId(),
             self::FIELD_USR_ID => $ass->getUserId(),
-            self::FIELD_POINTS => $prg->getPoints(),
+            self::FIELD_POINTS => $prg->getAssessmentSettings()->getPoints(),
             self::FIELD_POINTS_CUR => 0,
             self::FIELD_STATUS => ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
             self::FIELD_COMPLETION_BY => null,

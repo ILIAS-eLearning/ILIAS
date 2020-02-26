@@ -56,7 +56,7 @@ class ilLSPlayer
         $current_item = $this->getCurrentItem();
         $current_item_ref_id = $current_item->getRefId();
         $view = $this->view_factory->getViewFor($current_item);
-        $state = $this->ls_items->getStateFor($current_item);
+        $state = $this->ls_items->getStateFor($current_item, $view);
         $state = $this->updateViewState($state, $view, $get, $post);
 
         //now, digest parameter:
@@ -84,7 +84,9 @@ class ilLSPlayer
         //get proper view
         if ($next_item !== $current_item) {
             $view = $this->view_factory->getViewFor($next_item);
+            $state = $this->ls_items->getStateFor($next_item, $view);
         }
+
         //get position
         list($item_position, $item) = $this->findItemByRefId($next_item->getRefId());
 

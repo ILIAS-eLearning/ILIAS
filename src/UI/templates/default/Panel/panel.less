@@ -3,6 +3,8 @@
 
 //Valid for all panels (if not overridden)
 .panel{
+	border: none;
+
 	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
 		background-color: @il-secondary-container-bg;
 
@@ -54,6 +56,11 @@
 		flex-grow: 99;
 		flex-shrink: 1;
 		line-height: ceil(@font-size-h4 * 1.235);
+		order: 1;
+	}
+	.ilBlockHeader h4{
+		flex-grow: 99;
+		flex-shrink: 1;
 		order: 1;
 	}
 	.panel-heading .dropdown {

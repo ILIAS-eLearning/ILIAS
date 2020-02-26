@@ -213,10 +213,10 @@ class ilStudyProgrammeChangeExpireDateGUI
         $option = ilObjStudyProgrammeSettingsGUI::OPT_NO_VALIDITY_OF_QUALIFICATION;
         $format = $this->data_factory->dateFormat()->germanShort();
         $vq_date_subform = $ff
-            ->dateTime('', $txt('validity_qalification_date_desc'))
+            ->dateTime('', $txt('validity_qualification_date_desc'))
             ->withMinValue(new DateTimeImmutable())
             ->withFormat($format);
-        $date = $prg->getValidityOfQualificationDate();
+        $date = $prg->getValidityOfQualificationSettings()->getQualificationDate();
         if ($date !== null) {
             $vq_date_subform = $vq_date_subform->withValue($date->format($format->toString()));
             $option = ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE;
@@ -225,9 +225,9 @@ class ilStudyProgrammeChangeExpireDateGUI
         $sg = $ff->switchableGroup(
             [
                 ilObjStudyProgrammeSettingsGUI::OPT_NO_VALIDITY_OF_QUALIFICATION =>
-                    $ff->group([], $txt('prg_no_validity_qalification')),
+                    $ff->group([], $txt('prg_no_validity_qualification')),
                 ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE =>
-                    $ff->group([$vq_date_subform], $txt('validity_qalification_date'))
+                    $ff->group([$vq_date_subform], $txt('validity_qualification_date'))
             ],
             ''
         );
@@ -257,6 +257,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         $form = $this
             ->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "changeExpireDate"))
             ->withRequest($this->request);
+
         $result = $form->getInputGroup()->getContent();
 
         if ($result->isOK()) {
@@ -270,7 +271,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         }
 
         ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
-        $this->ctrl->redirectByClass($this, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
 
     public function setRefId(int $ref_id) : void
@@ -292,7 +293,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         if (is_null($prgrs_ids)) {
             return array();
         }
-        return explode(',', $prgrs_ids);
+        return array_map('intval', explode(',', $prgrs_ids));
     }
 
     protected function redirectToParent() : void

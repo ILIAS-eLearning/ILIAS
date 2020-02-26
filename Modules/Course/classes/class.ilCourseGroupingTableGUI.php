@@ -58,6 +58,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
             $tmp_obj = new ilObjCourseGrouping($grouping_id);
             
             $data[$grouping_id]['id'] = $grouping_id;
+            $data[$grouping_id]['source_ref_id'] = $tmp_obj->getContainerRefId();
             $data[$grouping_id]['assigned'] = [];
             $data[$grouping_id]['title'] = $tmp_obj->getTitle();
             $data[$grouping_id]['unique'] = $this->lng->txt($tmp_obj->getUniqueField());
@@ -90,7 +91,18 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ITEM_TITLE", $this->lng->txt('crs_grp_no_courses_assigned'));
             $this->tpl->parseCurrentBlock();
         }
-        
+
+        if (array_key_exists('source_ref_id', $a_set) && $a_set['source_ref_id']) {
+            $path = new \ilPathGUI();
+            $path->enableHideLeaf(false);
+            $path->enableTextOnly(false);
+            $path->setUseImages(true);
+
+            $this->tpl->setCurrentBlock('path');
+            $this->tpl->setVariable('OBJ_PATH', $path->getPath(ROOT_FOLDER_ID, $a_set['source_ref_id']));
+            $this->tpl->parseCurrentBlock();
+        }
+
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);

@@ -29,11 +29,6 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        require_once('./Services/WebDAV/classes/dav/class.ilObjContainerDAV.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php');
-        require_once('./Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php');
-        require_once('./Services/WebDAV/test/dav/ilObjDummyDAV.php');
-
         $this->ref_id = 100;
         $this->mocked_obj = \Mockery::mock('ilContainer');
         $this->mocked_obj->shouldReceive(['getRefId' => $this->ref_id]);

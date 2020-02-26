@@ -20,6 +20,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     public function joinWithCustomName()
     {
+        $this->redirectIfNoPermission('read');
+
         $this->gui->switchToVisibleMode();
         $this->setupTemplate();
         $room      = ilChatroom::byObjectId($this->gui->object->getId());

@@ -1,5 +1,6 @@
 .btn {
-  font-size: @il-button-font-size;
+	font-size: @il-button-font-size;
+	.il-tab-focus();
 }
 
 //This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
@@ -38,7 +39,6 @@ input.btn{
   &.engaged {
     &,
     &:hover,
-    &:focus,
     &:active,
     &.active {
       background-color: @il-disabled-btn-bg;

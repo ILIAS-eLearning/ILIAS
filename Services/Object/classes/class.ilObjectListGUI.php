@@ -3775,7 +3775,7 @@ class ilObjectListGUI
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon")." ".$this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 
@@ -3853,7 +3853,7 @@ class ilObjectListGUI
 
         // description, @todo: move to new ks element
         if ($description != "") {
-            $sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>" . $description . "</div>");
+            $sections[] = $ui->factory()->legacy("<div class='il-multi-line-cap-3'>" . $description . "</div>");
         }
 
         $this->insertCommands();

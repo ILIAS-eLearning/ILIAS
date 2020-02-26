@@ -1,14 +1,21 @@
 {
-	"name": "ilias/deps",
-	"description": "Dependencies of ILIAS",
+	"name": "ilias/ilias",
+	"description": "ILIAS",
 	"license": "GPL v3",
 	"authors": [],
 	"config": {
-		"optimize-autoloader": true
+		"optimize-autoloader": true,
+		"vendor-dir": "./libs/composer/vendor"
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "cd .. && cd .. && php setup/cli.php build-artifacts --yes"
+		  "php setup/cli.php build-artifacts --yes"
+		],
+		"test-php-all": [
+		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+		],
+		"test-php": [
+		  "./CI/PHPUnit/run_tests.sh"
 		]
 	},
 	"require": {
@@ -18,15 +25,14 @@
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "4.12.0",
 		"phpmailer/phpmailer": "^6.1.1",
-		"geshi/geshi": "dev-master#5861c58981244ab6ee0dd337f096ff14bf15b1eb",
+		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.2.26",
 		"pimple/pimple" : "^3.0",
-		"symfony/yaml": "^3.1",
+		"symfony/yaml": "^3.4",
 		"imsglobal/lti": "^3.0",
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
-		"simplesamlphp/simplesamlphp": "^1.16.2",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
@@ -36,9 +42,10 @@
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
-		"enshrined/svg-sanitize": "^0.10.0",
+		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"zendframework/zend-httphandlerrunner": "^1.1.0"
+		"zendframework/zend-httphandlerrunner": "^1.1.0",
+		"simplesamlphp/simplesamlphp": "^1.18"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -56,18 +63,18 @@
 	},
 	"autoload": {
 		"psr-4" : {
-			"ILIAS\\Tests\\" : "../../tests",
-			"ILIAS\\" : "../../src"
+			"ILIAS\\Tests\\" : "./tests",
+			"ILIAS\\" : "./src"
 		},
 		"classmap": [
-			"../../Services/",
-			"../../Modules",
-			"../ilias"
+			"./Services/",
+			"./Modules",
+			"./libs/ilias"
 		],
 		"exclude-from-classmap": [
-			"../../Services/Migration",
-			"../../*/*/lib", "../../*/*/test",
-			"../../Services/CAS/phpcas"
+			"./Services/Migration",
+			"./*/*/lib", "./*/*/test",
+			"./Services/CAS/phpcas"
 		]
 	},
 	"extra": {
@@ -134,21 +141,21 @@
 		},
 		"james-heinrich/getid3" : {
 			"source" : "https://github.com/JamesHeinrich/getID3",
-			"used_version" : "v1.9",
+			"used_version" : "v1.9.19",
 			"wrapped_by" : "Services/MediaObjects",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
-			"last_update" : "2017-09-28",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe (prior to 5.0)",
 			"approved-date": "YYYY-MM-DD",
-			"info": "Remove all demo files before commit! At least in current versions, they include security issues."
+			"info": ""
 		},
 		"geshi/geshi" : {
 			"source" : "https://github.com/GeSHi/geshi-1.0",
-			"used_version" : "v1.0.8.12",
+			"used_version" : "v1.0.9.1",
 			"wrapped_by" : "Services/COPage",
 			"added_by" : "Alexander Killing <killing@leifos.de>",
-			"last_update" : "2016-05-25",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -265,7 +272,7 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.16.2",
+			"used_version": "v1.18.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
 			"last_update": "2018-10-24",
@@ -384,29 +391,29 @@
 		},
 		"enshrined/svg-sanitize" : {
 			"source" : "https://github.com/darylldoyle/svg-sanitizer",
-			"used_version" : "v0.10.0",
+			"used_version" : "v0.13.3",
 			"wrapped_by" : "Services/MediaObject",
 			"added_by" : "Alex Killing <killing@leifos.de>",
-			"last_update" : "2019-09-19",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alex Killing <killing@leifos.de>",
 			"approved-by": "see security issue 20339",
 			"approved-date": "2017-04-05"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
 			},
 			"phpmailer/phpmailer": {
-				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},
 			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
 			},
 			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "patches/zend-httphandlerrunner.patch"
+				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
 			},
 			"imsglobal/lti": {
-				"ILIAS LTI Patches": "patches/lti.patch"
+				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
 			}
 		}
 	}

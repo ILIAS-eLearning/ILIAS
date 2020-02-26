@@ -5,7 +5,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes file field.
  */
-interface File extends Input
+interface File extends FormInput
 {
     public function withAcceptedMimeTypes(array $mime_types) : File;
 

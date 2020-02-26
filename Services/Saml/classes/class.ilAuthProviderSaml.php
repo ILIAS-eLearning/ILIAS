@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,43 +6,26 @@
  */
 class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $uid = '';
-
-    /**
-     * @var array
-     */
-    protected $attributes = array();
-
-    /**
-     * @var string
-     */
+    /** @var array */
+    protected $attributes = [];
+    /** @var string */
     protected $return_to = '';
-
-    /**
-     * @var ilSamlIdp
-     */
+    /** @var ilSamlIdp */
     protected $idp;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $force_new_account = false;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $migration_account = '';
 
     /**
      * ilAuthProviderSaml constructor.
-     * @param \ilAuthFrontendCredentials|\ilAuthFrontendCredentialsSaml $credentials
-     * @param null                                                      $a_idp_id
+     * @param ilAuthFrontendCredentials $credentials
+     * @param int|null $a_idp_id
      * @throws ilSamlException
      */
-    public function __construct(\ilAuthFrontendCredentials $credentials, $a_idp_id = null)
+    public function __construct(ilAuthFrontendCredentials $credentials, ?int $a_idp_id = null)
     {
         parent::__construct($credentials);
 
@@ -52,16 +35,16 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);
         }
 
-        if ($credentials instanceof \ilAuthFrontendCredentialsSaml) {
+        if ($credentials instanceof ilAuthFrontendCredentialsSaml) {
             $this->attributes = $credentials->getAttributes();
-            $this->return_to  = $credentials->getReturnTo();
+            $this->return_to = $credentials->getReturnTo();
         }
     }
 
     /**
-     * @throws \ilException
+     * @throws ilException
      */
-    private function determineUidFromAttributes()
+    private function determineUidFromAttributes() : void
     {
         if (
             !array_key_exists($this->idp->getUidClaim(), $this->attributes) ||
@@ -69,9 +52,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             !array_key_exists(0, $this->attributes[$this->idp->getUidClaim()]) ||
             0 === strlen($this->attributes[$this->idp->getUidClaim()][0])
         ) {
-            throw new \ilException(sprintf(
+            throw new ilException(sprintf(
                 'Could not find unique SAML attribute for the configured identifier: %s',
-                var_export($this->idp->getUidClaim(), 1)
+                print_r($this->idp->getUidClaim(), true)
             ));
         }
 
@@ -81,7 +64,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritdoc
      */
-    public function doAuthentication(\ilAuthStatus $status)
+    public function doAuthentication(ilAuthStatus $status)
     {
         if (!is_array($this->attributes) || 0 === count($this->attributes)) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
@@ -94,7 +77,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $this->determineUidFromAttributes();
 
             return $this->handleSamlAuth($status);
-        } catch (\ilException $e) {
+        } catch (ilException $e) {
             $this->getLogger()->warning($e->getMessage());
             $this->handleAuthenticationFail($status, 'err_wrong_login');
 
@@ -106,7 +89,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
      * @param ilAuthStatus $status
      * @return bool
      */
-    public function handleSamlAuth(\ilAuthStatus $status)
+    public function handleSamlAuth(ilAuthStatus $status) : bool
     {
         $update_auth_mode = false;
 
@@ -115,7 +98,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $this->uid,
             $this->getUserAuthModeName()
         ));
-        ilLoggerFactory::getLogger('auth')->debug(sprintf('Target set to: %s', var_export($this->return_to, 1)));
+        ilLoggerFactory::getLogger('auth')->debug(sprintf('Target set to: %s', print_r($this->return_to, true)));
         ilLoggerFactory::getLogger('auth')->debug(sprintf(
             'Trying to find ext_account "%s" for auth_mode "%s".',
             $this->uid,
@@ -128,7 +111,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             false
         );
 
-        if (strlen($internal_account) == 0) {
+        if (!is_string($internal_account) || 0 === strlen($internal_account)) {
             $update_auth_mode = true;
 
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
@@ -150,7 +133,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
                 $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
             }
 
-            if (strlen($internal_account) == 0 && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())) {
+            if ((!is_string($internal_account) || 0 === strlen($internal_account)) && ($defaultAuth == AUTH_LOCAL || $defaultAuth == $this->getTriggerAuthMode())) {
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
                     'Could not find ext_account "%s" for auth_mode "%s".',
                     $this->uid,
@@ -167,7 +150,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             }
         }
 
-        if (strlen($internal_account) > 0) {
+        if (is_string($internal_account) && strlen($internal_account) > 0) {
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
                 'Found user "%s" for ext_account "%s" in ILIAS database.',
                 $internal_account,
@@ -279,7 +262,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * @inheritdoc
      */
-    public function createNewAccount(\ilAuthStatus $status)
+    public function createNewAccount(ilAuthStatus $status)
     {
         if (
             0 === strlen($this->getCredentials()->getUsername()) ||
@@ -292,9 +275,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             return false;
         }
 
-        $this->uid        = $this->getCredentials()->getUsername();
+        $this->uid = $this->getCredentials()->getUsername();
         $this->attributes = ilSession::get('tmp_attributes');
-        $this->return_to  = ilSession::get('tmp_return_to');
+        $this->return_to = ilSession::get('tmp_return_to');
 
         $this->force_new_account = true;
 
@@ -305,7 +288,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
      * Set external account name
      * @param string $a_name
      */
-    public function setExternalAccountName($a_name)
+    public function setExternalAccountName(string $a_name) : void
     {
         $this->migration_account = $a_name;
     }
@@ -336,11 +319,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
     /**
      * @param string|null $a_internal_login
-     * @param string      $a_external_account
-     * @param array       $a_user_data
+     * @param string $a_external_account
+     * @param array $a_user_data
      * @return string
      */
-    public function importUser($a_internal_login, $a_external_account, $a_user_data = array())
+    public function importUser(?string $a_internal_login, string $a_external_account, array $a_user_data = [])
     {
         $mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp->getIdpId());
 
@@ -350,38 +333,38 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $login = $a_user_data[$this->idp->getLoginClaim()][0];
             $login = ilAuthUtils::_generateLogin($login);
 
-            $xml_writer->xmlStartTag('User', array('Action' => 'Insert'));
-            $xml_writer->xmlElement('Login', array(), $login);
+            $xml_writer->xmlStartTag('User', ['Action' => 'Insert']);
+            $xml_writer->xmlElement('Login', [], $login);
 
-            $xml_writer->xmlElement('Role', array(
-                'Id'     => $this->idp->getDefaultRoleId(),
-                'Type'   => 'Global',
+            $xml_writer->xmlElement('Role', [
+                'Id' => $this->idp->getDefaultRoleId(),
+                'Type' => 'Global',
                 'Action' => 'Assign'
-            ));
+            ]);
 
-            $xml_writer->xmlElement('Active', array(), "true");
-            $xml_writer->xmlElement('TimeLimitOwner', array(), USER_FOLDER_ID);
-            $xml_writer->xmlElement('TimeLimitUnlimited', array(), 1);
-            $xml_writer->xmlElement('TimeLimitFrom', array(), time());
-            $xml_writer->xmlElement('TimeLimitUntil', array(), time());
+            $xml_writer->xmlElement('Active', [], "true");
+            $xml_writer->xmlElement('TimeLimitOwner', [], USER_FOLDER_ID);
+            $xml_writer->xmlElement('TimeLimitUnlimited', [], 1);
+            $xml_writer->xmlElement('TimeLimitFrom', [], time());
+            $xml_writer->xmlElement('TimeLimitUntil', [], time());
             $xml_writer->xmlElement(
                 'AuthMode',
-                array('type' => $this->getUserAuthModeName()),
+                ['type' => $this->getUserAuthModeName()],
                 $this->getUserAuthModeName()
             );
-            $xml_writer->xmlElement('ExternalAccount', array(), $a_external_account);
+            $xml_writer->xmlElement('ExternalAccount', [], $a_external_account);
 
             $mapping = new ilExternalAuthUserCreationAttributeMappingFilter($mapping);
         } else {
-            $login  = $a_internal_login;
+            $login = $a_internal_login;
             $usr_id = ilObjUser::_lookupId($a_internal_login);
 
-            $xml_writer->xmlStartTag('User', array('Action' => 'Update', 'Id' => $usr_id));
+            $xml_writer->xmlStartTag('User', ['Action' => 'Update', 'Id' => $usr_id]);
 
             $loginClaim = $a_user_data[$this->idp->getLoginClaim()][0];
-            if ($login != $loginClaim) {
+            if ($login !== $loginClaim) {
                 $login = ilAuthUtils::_generateLogin($loginClaim);
-                $xml_writer->xmlElement('Login', array(), $login);
+                $xml_writer->xmlElement('Login', [], $login);
             }
 
             $mapping = new ilExternalAuthUserUpdateAttributeMappingFilter($mapping);
@@ -390,9 +373,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
         foreach ($mapping as $rule) {
             try {
                 $attributeValueParser = new ilSamlMappedUserAttributeValueParser($rule, $a_user_data);
-                $value                = $attributeValueParser->parse();
+                $value = $attributeValueParser->parse();
                 $this->buildUserAttributeXml($xml_writer, $rule, $value);
-            } catch (\ilSamlException $e) {
+            } catch (ilSamlException $e) {
                 $this->getLogger()->warning($e->getMessage());
                 continue;
             }
@@ -407,12 +390,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $a_external_account,
             $this->getUserAuthModeName()
         ));
-        include_once './Services/User/classes/class.ilUserImportParser.php';
         $importParser = new ilUserImportParser();
         $importParser->setXMLContent($xml_writer->xmlDumpMem(false));
-        $importParser->setRoleAssignment(array(
-            $this->idp->getDefaultRoleId() => $this->idp->getDefaultRoleId()
-        ));
+        $importParser->setRoleAssignment([
+            $this->idp->getDefaultRoleId() => $this->idp->getDefaultRoleId(),
+        ]);
         $importParser->setFolderId(USER_FOLDER_ID);
         $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
         $importParser->startParsing();
@@ -421,110 +403,110 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     }
 
     /**
-     * @param \ilXmlWriter                            $xml_writer
-     * @param \ilExternalAuthUserAttributeMappingRule $rule
-     * @param                                         $value
+     * @param ilXmlWriter $xml_writer
+     * @param ilExternalAuthUserAttributeMappingRule $rule
+     * @param string $value
      */
     protected function buildUserAttributeXml(
-        \ilXmlWriter $xml_writer,
-        \ilExternalAuthUserAttributeMappingRule $rule,
-        $value
+        ilXmlWriter $xml_writer,
+        ilExternalAuthUserAttributeMappingRule $rule,
+        string $value
     ) {
         switch (strtolower($rule->getAttribute())) {
             case 'gender':
                 switch (strtolower($value)) {
                     case 'n':
                     case 'neutral':
-                        $xml_writer->xmlElement('Gender', array(), 'n');
+                        $xml_writer->xmlElement('Gender', [], 'n');
                         break;
 
                     case 'm':
                     case 'male':
-                        $xml_writer->xmlElement('Gender', array(), 'm');
+                        $xml_writer->xmlElement('Gender', [], 'm');
                         break;
 
                     case 'f':
                     case 'female':
                     default:
-                        $xml_writer->xmlElement('Gender', array(), 'f');
+                        $xml_writer->xmlElement('Gender', [], 'f');
                         break;
                 }
                 break;
 
             case 'firstname':
-                $xml_writer->xmlElement('Firstname', array(), $value);
+                $xml_writer->xmlElement('Firstname', [], $value);
                 break;
 
             case 'lastname':
-                $xml_writer->xmlElement('Lastname', array(), $value);
+                $xml_writer->xmlElement('Lastname', [], $value);
                 break;
 
             case 'email':
-                $xml_writer->xmlElement('Email', array(), $value);
+                $xml_writer->xmlElement('Email', [], $value);
                 break;
 
             case 'institution':
-                $xml_writer->xmlElement('Institution', array(), $value);
+                $xml_writer->xmlElement('Institution', [], $value);
                 break;
 
             case 'department':
-                $xml_writer->xmlElement('Department', array(), $value);
+                $xml_writer->xmlElement('Department', [], $value);
                 break;
 
             case 'hobby':
-                $xml_writer->xmlElement('Hobby', array(), $value);
+                $xml_writer->xmlElement('Hobby', [], $value);
                 break;
 
             case 'title':
-                $xml_writer->xmlElement('Title', array(), $value);
+                $xml_writer->xmlElement('Title', [], $value);
                 break;
 
             case 'street':
-                $xml_writer->xmlElement('Street', array(), $value);
+                $xml_writer->xmlElement('Street', [], $value);
                 break;
 
             case 'city':
-                $xml_writer->xmlElement('City', array(), $value);
+                $xml_writer->xmlElement('City', [], $value);
                 break;
 
             case 'zipcode':
-                $xml_writer->xmlElement('PostalCode', array(), $value);
+                $xml_writer->xmlElement('PostalCode', [], $value);
                 break;
 
             case 'country':
-                $xml_writer->xmlElement('Country', array(), $value);
+                $xml_writer->xmlElement('Country', [], $value);
                 break;
 
             case 'phone_office':
-                $xml_writer->xmlElement('PhoneOffice', array(), $value);
+                $xml_writer->xmlElement('PhoneOffice', [], $value);
                 break;
 
             case 'phone_home':
-                $xml_writer->xmlElement('PhoneHome', array(), $value);
+                $xml_writer->xmlElement('PhoneHome', [], $value);
                 break;
 
             case 'phone_mobile':
-                $xml_writer->xmlElement('PhoneMobile', array(), $value);
+                $xml_writer->xmlElement('PhoneMobile', [], $value);
                 break;
 
             case 'fax':
-                $xml_writer->xmlElement('Fax', array(), $value);
+                $xml_writer->xmlElement('Fax', [], $value);
                 break;
 
             case 'referral_comment':
-                $xml_writer->xmlElement('Comment', array(), $value);
+                $xml_writer->xmlElement('Comment', [], $value);
                 break;
 
             case 'matriculation':
-                $xml_writer->xmlElement('Matriculation', array(), $value);
+                $xml_writer->xmlElement('Matriculation', [], $value);
                 break;
 
             case 'birthday':
-                $xml_writer->xmlElement('Birthday', array(), $value);
+                $xml_writer->xmlElement('Birthday', [], $value);
                 break;
 
             default:
-                if (substr($rule->getAttribute(), 0, 4) != 'udf_') {
+                if (substr($rule->getAttribute(), 0, 4) !== 'udf_') {
                     break;
                 }
 
@@ -536,7 +518,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
                 $definition = ilUserDefinedFields::_getInstance()->getDefinition($udf_data[1]);
                 $xml_writer->xmlElement(
                     'UserDefinedField',
-                    array('Id' => $definition['il_id'], 'Name' => $definition['field_name']),
+                    ['Id' => $definition['il_id'], 'Name' => $definition['field_name']],
                     $value
                 );
                 break;
