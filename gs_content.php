@@ -13,7 +13,7 @@ class ContentRenderer
     {
         \ilInitialisation::initILIAS();
         global $DIC;
-        $DIC->ctrl()->setTargetScript("/ilias.php");
+        $DIC->ctrl()->setTargetScript("ilias.php");
 
         $GS = $DIC->globalScreen();
 
