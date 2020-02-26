@@ -17,7 +17,8 @@ class ilSCORM2004StoreData
 
         $ilDB = $DIC->database();
                 
-        $data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+        //		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+        $data = json_decode(file_get_contents('php://input'));
         if (!$data) {
             return;
         }
@@ -95,7 +96,7 @@ class ilSCORM2004StoreData
             $comments,
             $interactions,
             $objectives
-            );
+        );
         
         //$new_global_status=ilSCORM2004StoreData::setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data);
         ilSCORM2004StoreData::setGlobalObjectives($userId, $packageId, $data);
@@ -480,9 +481,9 @@ class ilSCORM2004StoreData
                 if ($key == "status") {
 
                     //special handling for status
-                    $completed = $g_data->$key->$skey->$user->{completed};
-                    $measure = $g_data->$key->$skey->$user->{measure};
-                    $satisfied = $g_data->$key->$skey->$user->{satisfied};
+                    $completed =$g_data->$key->$skey->$user->{"completed"};
+                    $measure = $g_data->$key->$skey->$user->{"measure"};
+                    $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
 
                     $returnAr=array($completed, $satisfied, $measure);
 
@@ -541,7 +542,7 @@ class ilSCORM2004StoreData
 	    					  WHERE obj_id = %s",
             array('text'),
             array($package)
-                            );
+        );
                             
         $scope_id = ($ilDB->fetchObject($res)->global_to_system) ? 0 : $package;
         
@@ -564,7 +565,7 @@ class ilSCORM2004StoreData
 							 	  AND objective_id IN ($existing_key_template)",
                 array('integer', 'integer'),
                 array($dbuser, $scope_id)
-                                 );
+            );
                                  
             while ($row = $ilDB->fetchAssoc($res)) {
                 $existing_keys[] = $row['objective_id'];
@@ -591,7 +592,7 @@ class ilSCORM2004StoreData
                                            $vals["score_min"], $vals["score_max"],
                                            $vals["completion_status"], $vals["progress_measure"],
                                            $obj_id, $dbuser, $scope_id)
-                                 );
+                 );
             } else {
                 $ilDB->manipulateF(
                     "INSERT INTO cmi_gobjective
@@ -604,7 +605,7 @@ class ilSCORM2004StoreData
                                           $scope_id, null, $obj_id, $vals['score_raw'],
                                           $vals['score_min'], $vals['score_max'],
                                           $vals['progress_measure'], $vals['completion_status'])
-                                );
+                );
             }
         }
         
