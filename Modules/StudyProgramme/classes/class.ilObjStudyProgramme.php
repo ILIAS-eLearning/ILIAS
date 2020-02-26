@@ -331,6 +331,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         $id = parent::create();
         $this->createSettings();
+        $this->updateSettings();
 
         return (int) $id;
     }
@@ -531,21 +532,24 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions) : void
-    {
-        $this->settings->setAccessControlByOrguPositions($access_ctrl_positions);
+    public function setAccessCtrlByOrguPositionSettings(
+        ilStudyProgrammeAccessCtrlByOrguPositionSettings $access_ctrl_by_orgu_position_settings
+    ) : void {
+        $this->settings = $this->settings->withAccessCtrlByOrguPositionsSettings(
+            $access_ctrl_by_orgu_position_settings
+        );
     }
 
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->settings->getAccessControlByOrguPositions();
+    public function getAccessCtrlByOrguPositionSettings(
+    ) : \ilStudyProgrammeAccessCtrlByOrguPositionSettings {
+        return $this->settings->getAccessCtrlByOrguPositionSettings();
     }
 
     public function getAccessControlByOrguPositionsGlobal() : bool
     {
         return $this->getPositionSettingsIsActiveForPrg()
             && (
-                $this->settings->getAccessControlByOrguPositions()
+                $this->getAccessCtrlByOrguPositionSettings()->getAccessByOrgu()
                 || !$this->getPositionSettingsIsChangeableForPrg()
             );
     }
