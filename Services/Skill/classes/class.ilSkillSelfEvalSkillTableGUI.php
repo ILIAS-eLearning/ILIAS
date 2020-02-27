@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Self evaluation table for single skill
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
 {
@@ -46,7 +42,6 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
         }
 
         // build title
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $stree = new ilSkillTree();
         $path = $stree->getPathFull($this->sn_id);
         $title = $sep = "";
@@ -83,7 +78,6 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
      */
     public function getLevels()
     {
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $this->skill = new ilBasicSkill($this->sn_id);
         $levels = array(array("id" => 0));
         foreach ($this->skill->getLevelData() as $k => $v) {

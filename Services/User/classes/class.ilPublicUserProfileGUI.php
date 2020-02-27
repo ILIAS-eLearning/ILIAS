@@ -901,7 +901,6 @@ class ilPublicUserProfileGUI
             }
             
             // :TODO: search in skill data
-            include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
             foreach (ilSkillTreeNode::findSkills($a_term) as $skill) {
                 $result[$cnt]        = new stdClass();
                 $result[$cnt]->value = $skill;

@@ -75,7 +75,6 @@ class ilContSkillAdminGUI
         $this->container = $a_container_gui->object;
         $this->ref_id = $this->container->getRefId();
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
@@ -371,7 +370,6 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("competences");
 
-        include_once("./Services/Skill/classes/class.ilSkillSelectorGUI.php");
         $sel = new ilSkillSelectorGUI($this, "selectSkill", $this, "saveSelectedSkill");
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());

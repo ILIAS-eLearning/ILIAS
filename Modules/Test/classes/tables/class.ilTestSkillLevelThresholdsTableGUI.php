@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
-require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
 
 /**

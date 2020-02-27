@@ -12135,7 +12135,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public static function isSkillManagementGloballyActivated()
     {
         if (self::$isSkillManagementGloballyActivated === null) {
-            include_once 'Services/Skill/classes/class.ilSkillManagementSettings.php';
             $skmgSet = new ilSkillManagementSettings();
 
             self::$isSkillManagementGloballyActivated = $skmgSet->isActivated();

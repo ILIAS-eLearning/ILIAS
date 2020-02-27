@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Basic GUI class for skill tree nodes
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillTreeNodeGUI
 {
@@ -92,7 +87,6 @@ class ilSkillTreeNodeGUI
             return $this->in_use;
         }
         $cskill_ids = ilSkillTreeNode::getAllCSkillIdsForNodeIds(array($this->node_object->getId()));
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         $u = new ilSkillUsage();
         $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
         if (count($usages) > 0) {
@@ -140,7 +134,6 @@ class ilSkillTreeNodeGUI
      */
     public function readNodeObject($a_node_id)
     {
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
         $this->node_object = ilSkillTreeNodeFactory::getInstance($a_node_id);
     }
     
@@ -173,8 +166,6 @@ class ilSkillTreeNodeGUI
     {
         $lng = $this->lng;
 
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             $this->redirectToParent();
         }
@@ -197,7 +188,6 @@ class ilSkillTreeNodeGUI
 
         ilSkillTreeNode::clipboardCut(1, $items);
 
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("cut");
 
         ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_cut"), true);
@@ -223,8 +213,6 @@ class ilSkillTreeNodeGUI
             $this->redirectToParent();
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
         $items = ilUtil::stripSlashesArray($_POST["id"]);
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
@@ -242,7 +230,6 @@ class ilSkillTreeNodeGUI
         ilSkillTreeNode::clipboardCopy(1, $items);
 
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("copy");
         ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_copied"), true);
 
@@ -293,7 +280,6 @@ class ilSkillTreeNodeGUI
         $this->getParentGUI()->addLocatorItems();
         
         if ($_GET["obj_id"] > 0) {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $path = $tree->getPathFull($_GET["obj_id"]);
             for ($i =  1; $i < count($path); $i++) {
@@ -352,7 +338,6 @@ class ilSkillTreeNodeGUI
         $tpl = $this->tpl;
         
         if (is_object($this->node_object)) {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $path = $this->node_object->skill_tree->getSkillTreePath(
                 $this->node_object->getId(),
@@ -514,8 +499,7 @@ class ilSkillTreeNodeGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
     
         // title
@@ -537,7 +521,6 @@ class ilSkillTreeNodeGUI
         $ni->setSize(6);
         $ni->setRequired(true);
         if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
             $ni->setValue($max + 10);
@@ -635,10 +618,6 @@ class ilSkillTreeNodeGUI
      */
     public function insertBasicSkillClip()
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $nodes = ilSkillTreeNode::insertItemsFromClip("skll", (int) $_GET["obj_id"]);
         $this->redirectToParent();
     }
@@ -648,10 +627,6 @@ class ilSkillTreeNodeGUI
      */
     public function insertSkillCategoryClip()
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $nodes = ilSkillTreeNode::insertItemsFromClip("scat", (int) $_GET["obj_id"]);
         $this->redirectToParent();
     }
@@ -661,10 +636,6 @@ class ilSkillTreeNodeGUI
      */
     public function insertTemplateReferenceClip()
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $nodes = ilSkillTreeNode::insertItemsFromClip("sktr", (int) $_GET["obj_id"]);
         $this->redirectToParent();
     }
@@ -674,10 +645,6 @@ class ilSkillTreeNodeGUI
      */
     public function insertSkillTemplateClip()
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $nodes = ilSkillTreeNode::insertItemsFromClip("sktp", (int) $_GET["obj_id"]);
         $this->redirectToParent();
     }
@@ -687,10 +654,6 @@ class ilSkillTreeNodeGUI
      */
     public function insertTemplateCategoryClip()
     {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $nodes = ilSkillTreeNode::insertItemsFromClip("sctp", (int) $_GET["obj_id"]);
         $this->redirectToParent();
     }
@@ -747,7 +710,6 @@ class ilSkillTreeNodeGUI
 
         $this->setTabs("usage");
 
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         $usage_info = new ilSkillUsage();
         $base_skill_id = ($this->base_skill_id > 0)
             ? $this->base_skill_id
@@ -755,7 +717,6 @@ class ilSkillTreeNodeGUI
         $usages = $usage_info->getAllUsagesInfoOfSubtree($base_skill_id . ":" . $this->tref_id);
 
         $html = "";
-        include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
             $html.= $tab->getHTML() . "<br/><br/>";
@@ -775,7 +736,6 @@ class ilSkillTreeNodeGUI
             $this->redirectToParent();
         }
 
-        include_once("./Services/Export/classes/class.ilExport.php");
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setSelectedNodes($_POST["id"]);

@@ -41,7 +41,7 @@ In ILIAS both terms are synonyms. In the UI we started with the "Skill" term and
 
 ## Skill Tree Nodes
 
-Skills are organised in a hierarchical structure called the **Skill Tree**. Items of the tree are called tree nodes.
+Skills are organised in a hierarchical structure called the [Skill Tree](#skill-tree). Items of the tree are called tree nodes.
 
 * **Code**: `class ilSkillTreeNode`: Base class for all skill tree nodes.
 * **DB Tables**: `skl_tree_node`

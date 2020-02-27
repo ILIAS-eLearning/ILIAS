@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Personal skill
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilPersonalSkill implements ilSkillUsageInfo
 {
@@ -25,9 +21,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
 
         $ilDB = $DIC->database();
         
-        include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
-        
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $stree = new ilSkillTree();
 
         $set = $ilDB->query(
@@ -250,7 +243,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
      */
     public static function saveSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level)
     {
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         if ($a_level > 0) {
             ilBasicSkill::writeUserSkillLevelStatus(
                 $a_level,
@@ -277,7 +269,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
      */
     public static function getSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
     {
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastLevelPerObject($a_tref_id, 0, $a_user_id, 1);
     }
@@ -293,7 +284,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
      */
     public static function getSelfEvaluationDate($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
     {
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
     }
@@ -311,7 +301,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $ilDB = $DIC->database();
 
         // material
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
             $a_usages,
@@ -334,7 +323,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $tref_ids = array();
         foreach ($a_cskill_ids as $cs) {
             if ($cs["tref_id"] > 0) {
-                include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                 if (ilSkillTemplateReference::_lookupTemplateId($cs["tref_id"]) == $cs["skill_id"]) {
                     $pskill_ids[$cs["tref_id"]] = $cs["tref_id"];
                     $tref_ids[(int) $cs["tref_id"]] = $cs["skill_id"];

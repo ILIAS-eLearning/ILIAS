@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill Template Reference
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
@@ -188,7 +183,6 @@ class ilSkillTemplateReference extends ilSkillTreeNode
      */
     public static function _lookupTrefIdsForTemplateId($a_tid)
     {
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         $top_template_id = $tree->getTopParentNodeId($a_tid);
         return self::_lookupTrefIdsForTopTemplateId($top_template_id);

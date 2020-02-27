@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
-include_once("./Services/Skill/classes/class.ilSkillProfile.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Personal skills GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilPersonalSkillsGUI:
- *
- * @ingroup ServicesSkill
  */
 class ilPersonalSkillsGUI
 {
@@ -143,12 +136,10 @@ class ilPersonalSkillsGUI
 
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
         
         $this->use_materials = !$ilSetting->get("disable_personal_workspace");
 
-        include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
         $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->filter = new ilPersonalSkillsFilterGUI();
@@ -414,8 +405,7 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
         $this->setTabs("list_skills");
-        
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
+
         $stree = new ilSkillTree();
         
         // skill selection / add new personal skill
@@ -444,8 +434,6 @@ class ilPersonalSkillsGUI
         }
         
         // list skills
-        //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
-        //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
 
         if ($html != "") {
             $filter_toolbar->addFormButton($this->lng->txt("skmg_refresh_view"), "applyFilter");
@@ -486,7 +474,6 @@ class ilPersonalSkillsGUI
     public function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false, $a_tref_id = 0)
     {
         // user interface plugin slot + default rendering
-        include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
         $uip = new ilUIHookProcessor(
             "Services/Skill",
             "personal_skill_html",
@@ -522,16 +509,13 @@ class ilPersonalSkillsGUI
         }
 
         $tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
-        
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
+
         $stree = new ilSkillTree();
 
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $tref_id = $a_tref_id;
         $skill_id = $a_top_skill_id;
         if (ilSkillTreeNode::_lookupType($a_top_skill_id) == "sktr") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $tref_id = $a_top_skill_id;
             $skill_id = ilSkillTemplateReference::_lookupTemplateId($a_top_skill_id);
         }
@@ -692,8 +676,6 @@ class ilPersonalSkillsGUI
     public function getMaterialInfo($a_wsp_id, $a_user_id)
     {
         if (!$this->ws_tree) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $this->ws_tree = new ilWorkspaceTree($a_user_id);
             $this->ws_access = new ilWorkspaceAccessHandler($caption);
         }
@@ -709,19 +691,16 @@ class ilPersonalSkillsGUI
             // all possible material types for now
             switch (ilObject::_lookupType($obj_id)) {
                 case "tstv":
-                    include_once "Modules/Test/classes/class.ilObjTestVerification.php";
                     $obj = new ilObjTestVerification($obj_id, false);
                     $url .= $obj->getOfflineFilename();
                     break;
                     
                 case "excv":
-                    include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
                     $obj = new ilObjExerciseVerification($obj_id, false);
                     $url .= $obj->getOfflineFilename();
                     break;
                 
                 case "crsv":
-                    include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
                     $obj = new ilObjCourseVerification($obj_id, false);
                     $url .= $obj->getOfflineFilename();
                     break;
@@ -737,7 +716,6 @@ class ilPersonalSkillsGUI
                     break;
 
                 case "scov":
-                    include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
                     $obj = new ilObjSCORMVerification($obj_id, false);
                     $url .= $obj->getOfflineFilename();
                     break;
@@ -777,8 +755,7 @@ class ilPersonalSkillsGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-            
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
         if ($_GET["skill_id"] > 0) {
             $_POST["id"][] = $_GET["skill_id"];
         }
@@ -786,7 +763,6 @@ class ilPersonalSkillsGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSkills");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_really_remove_skills"));
@@ -848,20 +824,17 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "skill_id");
         $ilCtrl->saveParameter($this, "basic_skill_id");
         $ilCtrl->saveParameter($this, "tref_id");
-        
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
             ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) .
             ".svg"));
          
         // basic skill selection
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $tref_id = 0;
         $skill_id = (int) $_GET["skill_id"];
         if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $tref_id = $_GET["skill_id"];
             $skill_id = ilSkillTemplateReference::_lookupTemplateId($_GET["skill_id"]);
         }
@@ -880,8 +853,7 @@ class ilPersonalSkillsGUI
                 : key($options));
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
-            
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+
         $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
         $si->setOptions($options);
         $si->setValue($cur_basic_skill_id);
@@ -894,7 +866,6 @@ class ilPersonalSkillsGUI
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         
         // table
-        include_once("./Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php");
         $tab = new ilSkillAssignMaterialsTableGUI(
             $this,
             "assignMaterials",
@@ -944,7 +915,6 @@ class ilPersonalSkillsGUI
         );
 
 
-        include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
         $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "assignMaterial", $this, "");
         $exp->setTypeWhiteList(array("blog", "wsrt", "wfld", "file", "tstv", "excv"));
         $exp->setSelectableTypes(array("file", "tstv", "excv"));
@@ -984,7 +954,6 @@ class ilPersonalSkillsGUI
         $lng = $this->lng;
 
 
-        include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
         if (is_array($_POST["wsp_id"])) {
             foreach ($_POST["wsp_id"] as $w) {
                 ilPersonalSkill::assignMaterial(
@@ -1056,20 +1025,17 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "skill_id");
         $ilCtrl->saveParameter($this, "basic_skill_id");
         $ilCtrl->saveParameter($this, "tref_id");
-        
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
         $tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
             ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) .
             ".svg"));
          
         // basic skill selection
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $tref_id = 0;
         $skill_id = (int) $_GET["skill_id"];
         if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $tref_id = $_GET["skill_id"];
             $skill_id = ilSkillTemplateReference::_lookupTemplateId($_GET["skill_id"]);
         }
@@ -1088,8 +1054,7 @@ class ilPersonalSkillsGUI
                 : key($options));
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
-            
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+
         $si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
         $si->setOptions($options);
         $si->setValue($cur_basic_skill_id);
@@ -1102,7 +1067,6 @@ class ilPersonalSkillsGUI
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         
         // table
-        include_once("./Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php");
         $tab = new ilSelfEvaluationSimpleTableGUI(
             $this,
             "selfEvaluation",
@@ -1159,7 +1123,6 @@ class ilPersonalSkillsGUI
             $ilCtrl->getLinkTarget($this, "")
         );
 
-        include_once("./Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php");
         $exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd", $this, "addSkill");
         if ($exp->getHasSelectableNodes()) {
             if (!$exp->handleCommand()) {
@@ -1214,7 +1177,6 @@ class ilPersonalSkillsGUI
             $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
         }
 
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
         $si->setOptions($options);
         $si->setValue($this->getProfileId());
@@ -1263,7 +1225,6 @@ class ilPersonalSkillsGUI
     {
         // get actual levels for gap analysis
         $this->actual_levels = array();
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         foreach ($skills as $sk) {
             $bs = new ilBasicSkill($sk["base_skill_id"]);
             if ($this->gap_mode == "max_per_type") {
@@ -1297,7 +1258,6 @@ class ilPersonalSkillsGUI
             $a_skills = $this->obj_skills;
         }
 
-        include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
 
         if ($this->getIntroText() != "") {
             $pan = ilPanelGUI::getInstance();
@@ -1401,7 +1361,6 @@ class ilPersonalSkillsGUI
                     }
                 }
 
-                include_once("./Services/Chart/classes/class.ilChart.php");
                 $chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart" . $pkg_cnt);
                 $chart->setsize(800, 300);
                 $chart->setYAxisMax($max_cnt);
@@ -1471,7 +1430,6 @@ class ilPersonalSkillsGUI
         $html = "";
 
         // order skills per virtual skill tree
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
         foreach ($skills as $s) {
@@ -1487,9 +1445,7 @@ class ilPersonalSkillsGUI
         }
 
         // list skills
-        //		include_once("./Services/Skill/classes/class.ilPersonalSkillTableGUI.php");
-        //		$sktab = new ilPersonalSkillTableGUI($this, "listSkills");
-        
+
         return $intro_html . $all_chart_html . $html;
     }
     
@@ -1715,7 +1671,6 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_eval_item.html", true, true, "Services/Skill");
         $tpl->setVariable("SCALE_BAR", $this->getScaleBar($a_levels, $a_level_entry["level_id"]));
 
-        include_once("./Services/Skill/classes/class.ilSkillEval.php");
         $type = ilSkillEval::TYPE_APPRAISAL;
 
         if ($a_level_entry["self_eval"] == 1) {
@@ -1733,7 +1688,6 @@ class ilPersonalSkillsGUI
 
         if ($a_level_entry["trigger_ref_id"] > 0
             && $ilAccess->checkAccess("read", "", $a_level_entry["trigger_ref_id"])) {
-            include_once("./Services/Link/classes/class.ilLink.php");
             $title = "<a href='" . ilLink::_getLink($a_level_entry["trigger_ref_id"]) . "'>" . $title . "</a>";
         }
 
@@ -1860,7 +1814,6 @@ class ilPersonalSkillsGUI
 
             // suggested resources
             if ($too_low) {
-                include_once("./Services/Skill/classes/class.ilSkillResources.php");
                 $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
                 $res = $skill_res->getResources();
                 $imp_resources = array();
@@ -1876,7 +1829,6 @@ class ilPersonalSkillsGUI
                     $ref_id = $r["rep_ref_id"];
                     $obj_id = ilObject::_lookupObjId($ref_id);
                     $title = ilObject::_lookupTitle($obj_id);
-                    include_once("./Services/Link/classes/class.ilLink.php");
                     $tpl->setCurrentBlock("resource_item");
                     $tpl->setVariable("TXT_RES", $title);
                     $tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
@@ -1896,7 +1848,6 @@ class ilPersonalSkillsGUI
             }
         } else {
             // no profile, just list all resources
-            include_once("./Services/Skill/classes/class.ilSkillResources.php");
             $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
             $res = $skill_res->getResources();
             // add $r["level_id"] info
@@ -1909,7 +1860,6 @@ class ilPersonalSkillsGUI
                         $ref_id = $r["rep_ref_id"];
                         $obj_id = ilObject::_lookupObjId($ref_id);
                         $title = ilObject::_lookupTitle($obj_id);
-                        include_once("./Services/Link/classes/class.ilLink.php");
                         $tpl->setCurrentBlock("resource_item");
                         $tpl->setVariable("TXT_RES", $title);
                         $tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));

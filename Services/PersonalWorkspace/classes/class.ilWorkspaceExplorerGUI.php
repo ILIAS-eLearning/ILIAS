@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Explorer for selecting a personal workspace item
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- *
- * @ingroup ServicesPersonalWorkspace
  */
 class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 {

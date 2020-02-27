@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/EventHandling/interfaces/interface.ilAppEventListener.php';
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Update skill from Services/Tracking events
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTracking
  */
 class ilSkillAppEventListener implements ilAppEventListener
 {
@@ -29,8 +25,6 @@ class ilSkillAppEventListener implements ilAppEventListener
                         if ($a_params["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                             $obj_id = $a_params["obj_id"];
                             $usr_id = $a_params["usr_id"];
-                            include_once("./Services/Skill/classes/class.ilSkillResources.php");
-                            include_once("./Services/Skill/classes/class.ilBasicSkill.php");
                             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
                                 foreach (ilSkillResources::getTriggerLevelsForRefId($ref_id) as $sk) {
                                     ilBasicSkill::writeUserSkillLevelStatus(

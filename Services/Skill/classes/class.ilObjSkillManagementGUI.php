@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill management main GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
- *
- * @ingroup ServicesSkill
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
 {
@@ -62,7 +56,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('skmg');
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
 
         $ilCtrl->saveParameter($this, "obj_id");
@@ -92,7 +85,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilskillrootgui':
-                include_once("./Services/Skill/classes/class.ilSkillRootGUI.php");
                 $skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"], $this);
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
@@ -100,7 +92,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilskillcategorygui':
                 $this->tabs_gui->activateTab("skills");
-                include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");
                 $scat_gui = new ilSkillCategoryGUI((int) $_GET["obj_id"]);
                 $scat_gui->setParentGUI($this);
                 $this->showTree(false, $scat_gui, "listItems");
@@ -109,7 +100,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilbasicskillgui':
                 $this->tabs_gui->activateTab("skills");
-                include_once("./Services/Skill/classes/class.ilBasicSkillGUI.php");
                 $skill_gui = new ilBasicSkillGUI((int) $_GET["obj_id"]);
                 $skill_gui->setParentGUI($this);
                 $this->showTree(false, $skill_gui, "edit");
@@ -118,7 +108,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilskilltemplatecategorygui':
                 $this->tabs_gui->activateTab("skill_templates");
-                include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
                 $sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
                 $sctp_gui->setParentGUI($this);
                 $this->showTree(((int) $_GET["tref_id"] == 0), $sctp_gui, "listItems");
@@ -127,7 +116,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilbasicskilltemplategui':
                 $this->tabs_gui->activateTab("skill_templates");
-                include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
                 $sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
                 $sktp_gui->setParentGUI($this);
                 $this->showTree(((int) $_GET["tref_id"] == 0), $sktp_gui, "edit");
@@ -136,7 +124,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilskilltemplatereferencegui':
                 $this->tabs_gui->activateTab("skills");
-                include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
                 $sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["tref_id"]);
                 $sktr_gui->setParentGUI($this);
                 $this->showTree(false, $sktr_gui, "listItems");
@@ -145,21 +132,18 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case "ilskillprofilegui":
                 $ilTabs->activateTab("profiles");
-                include_once("./Services/Skill/classes/class.ilSkillProfileGUI.php");
                 $skprof_gui = new ilSkillProfileGUI();
                 $ret = $this->ctrl->forwardCommand($skprof_gui);
                 break;
                 
             case 'ilpermissiongui':
                 $this->tabs_gui->activateTab('permissions');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
                 $this->tabs_gui->activateTab('export');
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 //$exp_gui->addFormat("html", "", $this, "exportHTML");
@@ -251,16 +235,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $ilSetting = $this->settings;
         $ilTabs = $this->tabs;
 
         $ilTabs->activateTab("settings");
 
-        include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
         $skmg_set = new ilSkillManagementSettings();
         $enable_skmg = $skmg_set->isActivated();
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("skmg_settings"));
@@ -304,7 +285,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             return;
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
         $skmg_set = new ilSkillManagementSettings();
         $skmg_set->activate((int) $_POST["enable_skmg"]);
         $skmg_set->setHideProfileBeforeSelfEval((int) $_POST["hide_profile_self_eval"]);
@@ -340,7 +320,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $lng = $this->lng;
 
         if (is_array($_POST["title"])) {
-            include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
             foreach ($_POST["title"] as $id => $title) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 if (is_object($node_obj)) {
@@ -364,7 +343,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $lng = $this->lng;
 
         if (is_array($_POST["title"])) {
-            include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
             foreach ($_POST["title"] as $id => $title) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 if (is_object($node_obj)) {
@@ -448,7 +426,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $skill_id = $id;
                 $tref_id = 0;
                 if (ilSkillTreeNode::_lookupType($id) == "sktr") {
-                    include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                     $skill_id = ilSkillTemplateReference::_lookupTemplateId($id);
                     $tref_id = $id;
                 }
@@ -469,13 +446,11 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         if ($mode == "basic" || $mode == "templates") {
-            include_once("./Services/Skill/classes/class.ilSkillUsage.php");
             $u = new ilSkillUsage();
             $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
             if (count($usages) > 0) {
                 $html = "";
                 foreach ($usages as $k => $usage) {
-                    include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
                     $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
                     $html.= $tab->getHTML() . "<br/><br/>";
                 }
@@ -495,7 +470,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         // SAVE POST VALUES
         $_SESSION["saved_post"] = $_POST["id"];
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $confirmation_gui = new ilConfirmationGUI();
 
         $ilCtrl->setParameter($a_gui, "tmpmode", $_GET["tmpmode"]);
@@ -504,7 +478,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
 
         // Add items to delete
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
@@ -539,7 +512,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         // delete all selected objects
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $obj = ilSkillTreeNodeFactory::getInstance($id);
@@ -580,9 +552,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $ilTabs->activateTab("test");
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
@@ -642,9 +611,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->setTestSubTabs("cert");
         $ilTabs->activateTab("test");
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
@@ -704,9 +670,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->setTestSubTabs("all_cert");
         $ilTabs->activateTab("test");
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
@@ -754,9 +717,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->setTestSubTabs("levels");
         $ilTabs->activateTab("test");
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
@@ -860,7 +820,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             if ($_GET["obj_id"] > 1) {
                 $path = $this->skill_tree->getPathId($_GET["obj_id"]);
-                include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
                 if (ilSkillTreeNode::_lookupType($path[1]) == "sktp") {
                     return;
                 }

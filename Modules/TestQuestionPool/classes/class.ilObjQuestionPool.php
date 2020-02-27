@@ -1654,7 +1654,6 @@ class ilObjQuestionPool extends ilObject
     public static function isSkillManagementGloballyActivated()
     {
         if (self::$isSkillManagementGloballyActivated === null) {
-            include_once 'Services/Skill/classes/class.ilSkillManagementSettings.php';
             $skmgSet = new ilSkillManagementSettings();
 
             self::$isSkillManagementGloballyActivated = $skmgSet->isActivated();
