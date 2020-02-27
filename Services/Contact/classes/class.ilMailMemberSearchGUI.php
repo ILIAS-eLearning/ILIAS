@@ -245,7 +245,7 @@ class ilMailMemberSearchGUI
      */
     protected function sendMailToSelectedUsers()
     {
-        if (!count($_POST['user_ids'])) {
+        if (!isset($_POST['user_ids']) || !is_array($_POST['user_ids']) || 0 === count($_POST['user_ids'])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
