@@ -4180,3 +4180,16 @@ ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5657>
+<?php
+$query = 'select obd.obj_id from object_data obd left join crs_reference_settings crs on obd.obj_id = crs.obj_id  ' .
+	'where crs.obj_id IS NULL and type = ' . $ilDB->quote('crsr', \ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+	$query = 'insert into crs_reference_settings (obj_id, member_update ) values (' .
+		$ilDB->quote($row->obj_id, \ilDBConstants::T_INTEGER) . ', ' .
+		$ilDB->quote(0 , \ilDBConstants::T_INTEGER) .
+		')';
+	$ilDB->manipulate($query);
+}
+?>
