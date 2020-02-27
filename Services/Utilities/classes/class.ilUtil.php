@@ -3836,7 +3836,7 @@ class ilUtil
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
                 if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
-                    throw new ilException($processing_status->getMessage() . " ($target_filename)");
+                    throw new ilException($processing_status->getMessage());
                 }
             } else {
                 return false;

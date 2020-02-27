@@ -83,6 +83,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
                 }
                 if (in_array($extension_sub_file, $this->blacklist, true)) {
                     $zip->close();
+                    $this->reason = $this->reason .= " ($original_path in $filename)";
 
                     return true;
                 }
@@ -90,7 +91,11 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
             $zip->close();
         }
 
-        return in_array($extension, $this->blacklist, true);
+        $in_array = in_array($extension, $this->blacklist, true);
+        if (!$in_array) {
+            $this->reason = $this->reason .= " ($filename)";
+        }
+        return $in_array;
     }
 
     /**
