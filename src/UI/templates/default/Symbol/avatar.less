@@ -47,7 +47,7 @@
 			@number_text: ~"@{i}";
 			@color: (extract(@avatar-colors, @i));
 			&.il-avatar-letter-color-@{number_text} {
-				@contrast: contrast(@color, lighten(@color, @avatar-letter-border-color-contrast), darken(@color, @avatar-letter-border-color-contrast));
+				@contrast: contrast(@color, lighten(@color, @avatar-letter-border-color-contrast-lighten), darken(@color, @avatar-letter-border-color-contrast-darken));
 				background-color: @color;
 				border-color: @contrast;
 				color: @contrast;
