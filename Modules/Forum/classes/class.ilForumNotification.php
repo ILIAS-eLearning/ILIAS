@@ -214,17 +214,21 @@ class ilForumNotification
         global $DIC;
         $ilUser = $DIC->user();
 
+        $user_id = $user_id == 0 ? $ilUser->getId() : $user_id;
         $node_data = self::getCachedNodeData($ref_id);
-        
+
+        $DIC->rbac()->system()->resetCaches();
+        $DIC->access()->clear();
+        $node_data = array_filter($node_data, function($node) use ($DIC, $user_id) {
+            // omit forums to which the user has no read access
+            return $DIC->access()->checkAccessOfUser($user_id, 'read', '', $node['child']);
+        });
+
         foreach ($node_data as $data) {
             //check frm_properties if frm_noti is enabled
             $frm_noti = new ilForumNotification($data['ref_id']);
-            if ($user_id != 0) {
-                $frm_noti->setUserId($user_id);
-            } else {
-                $frm_noti->setUserId($ilUser->getId());
-            }
-                    
+            $frm_noti->setUserId($user_id);
+
             $admin_force = ilForumProperties::_isAdminForceNoti($data['obj_id']);
             $frm_noti->setAdminForce($admin_force);
     
@@ -247,7 +251,7 @@ class ilForumNotification
     {
         global $DIC;
         $ilUser = $DIC->user();
-
+        $user_id = $user_id == 0 ? $ilUser->getId() : $user_id;
         $node_data = self::getCachedNodeData($ref_id);
 
         foreach ($node_data as $data) {
@@ -256,11 +260,7 @@ class ilForumNotification
             $objFrmMods = new ilForumModerators($data['ref_id']);
             $moderator_ids = $objFrmMods->getCurrentModerators();
             
-            if ($user_id != 0) {
-                $frm_noti->setUserId($user_id);
-            } else {
-                $frm_noti->setUserId($ilUser->getId());
-            }
+            $frm_noti->setUserId($user_id);
 
             $frm_noti->setForumId($data['obj_id']);
             if (!in_array($frm_noti->getUserId(), $moderator_ids)) {
@@ -269,8 +269,10 @@ class ilForumNotification
         }
     }
 
+
     /**
-     * @param $ref_id
+     * @param $ref_id int
+     *
      * @return mixed
      */
     public static function getCachedNodeData($ref_id)
