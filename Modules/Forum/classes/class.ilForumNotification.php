@@ -277,7 +277,11 @@ class ilForumNotification
     {
         if (!array_key_exists($ref_id, self::$node_data_cache)) {
             global $DIC;
-            self::$node_data_cache[$ref_id] = $DIC->repositoryTree()->getChildsByType($ref_id, 'frm');
+            self::$node_data_cache[$ref_id] = $DIC->repositoryTree()->getSubTree(
+                $DIC->repositoryTree()->getNodeData($ref_id),
+                true,
+                'frm'
+            );
         }
         
         return self::$node_data_cache[$ref_id];
