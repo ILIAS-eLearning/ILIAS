@@ -331,6 +331,13 @@ class ilInitialisation
         }
         if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
             return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators(dirname($protocol . $host . $uri)));
+        } elseif (ilContext::getType() == ilContext::CONTEXT_SAML) {
+            $iliasHttpPath = implode('', [$protocol, $host, $uri]);
+            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
+                return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators(
+                    substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'))
+                ));
+            }
         }
         return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators($protocol . $host . $uri));
     }
