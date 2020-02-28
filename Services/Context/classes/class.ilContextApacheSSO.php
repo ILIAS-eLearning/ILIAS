@@ -110,4 +110,12 @@ class ilContextApacheSSO implements ilContextTemplate
     {
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function modifyHttpPath(string $httpPath) : string
+    {
+        return dirname($httpPath);
+    }
 }

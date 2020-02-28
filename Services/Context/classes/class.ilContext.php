@@ -70,16 +70,17 @@ class ilContext
 
     /**
      * Call current content
-     *
      * @param string $a_method
-     * @return bool
+     * @param array $args
+     * @return mixed
      */
-    protected static function callContext($a_method)
+    protected static function callContext($a_method, array $args = [])
     {
         if (!self::$class_name) {
             self::init(self::CONTEXT_WEB);
         }
-        return call_user_func(array(self::$class_name, $a_method));
+
+        return call_user_func_array([self::$class_name, $a_method], $args);
     }
     
     /**
@@ -204,5 +205,14 @@ class ilContext
     public static function isSessionMainContext()
     {
         return (bool) self::callContext('isSessionMainContext');
+    }
+
+    /**
+     * @param string $httpPath
+     * @return string
+     */
+    public static function modifyHttpPath(string $httpPath) : string
+    {
+        return self::callContext('modifyHttpPath', [$httpPath]);
     }
 }
