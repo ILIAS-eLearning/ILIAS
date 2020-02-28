@@ -863,8 +863,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
         $deleteable_questions =&$this->object->getDeleteableQuestionDetails($questionIdsToDelete);
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)), true);
-        $table_gui->setEditable($rbacsystem->checkAccess('write', $_GET['ref_id']));
+        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', (int) $_GET['ref_id']) ? true : false)), true);
+        $table_gui->setShowRowsSelector(false);
+        $table_gui->setLimit(PHP_INT_MAX);
+        $table_gui->setEditable($rbacsystem->checkAccess('write', (int) $_GET['ref_id']));
         $table_gui->setData($deleteable_questions);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }

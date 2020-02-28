@@ -14249,3 +14249,4 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable

@@ -42,6 +42,9 @@ class ilAdvancedSelectionListGUI
     protected $grouped_list = null;
     protected $style = 0;
     private $dd_pullright = true;
+
+    protected $listtitle;
+    protected $aria_listtitle;
     
     /*
 
@@ -69,6 +72,9 @@ class ilAdvancedSelectionListGUI
     */
     public function __construct()
     {
+        global $DIC;
+
+        $this->lng = $DIC->language();
         $this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
         $this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $this->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_HREF);
@@ -203,6 +209,26 @@ class ilAdvancedSelectionListGUI
     public function getListTitle()
     {
         return $this->listtitle;
+    }
+
+    /**
+    * Set List Title.
+    *
+    * @param	string	$a_listtitle	List Title
+    */
+    public function setAriaListTitle($a_listtitle)
+    {
+        $this->aria_listtitle = $a_listtitle;
+    }
+
+    /**
+    * Get List Title.
+    *
+    * @return	string	List Title
+    */
+    public function getAriaListTitle()
+    {
+        return $this->aria_listtitle;
     }
 
     /**
@@ -830,6 +856,12 @@ class ilAdvancedSelectionListGUI
         //echo htmlentities(ilJsonUtil::encode($cfg));
         
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
+        if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
+            $aria_title = ($this->getAriaListTitle() != "")
+                ? $this->getAriaListTitle() != ""
+                : $this->lng->txt("actions");
+            $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
+        }
         $tpl->setVariable("ID", $this->getId());
         
         //$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());

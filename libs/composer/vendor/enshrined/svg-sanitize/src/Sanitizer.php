@@ -2,11 +2,13 @@
 
 namespace enshrined\svgSanitize;
 
-use DOMDocument;
 use enshrined\svgSanitize\data\AllowedAttributes;
 use enshrined\svgSanitize\data\AllowedTags;
 use enshrined\svgSanitize\data\AttributeInterface;
 use enshrined\svgSanitize\data\TagInterface;
+use enshrined\svgSanitize\data\XPath;
+use enshrined\svgSanitize\ElementReference\Resolver;
+use enshrined\svgSanitize\ElementReference\Subject;
 
 /**
  * Class Sanitizer
@@ -17,12 +19,7 @@ class Sanitizer
 {
 
     /**
-     * Regex to catch script and data values in attributes
-     */
-    const SCRIPT_REGEX = '/(?:\w+script|data):/xi';
-
-    /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $xmlDocument;
 
@@ -52,6 +49,11 @@ class Sanitizer
     protected $removeRemoteReferences = false;
 
     /**
+     * @var int
+     */
+    protected $useThreshold = 1000;
+
+    /**
      * @var bool
      */
     protected $removeXMLTag = false;
@@ -65,6 +67,16 @@ class Sanitizer
      * @var array
      */
     protected $xmlIssues = array();
+
+    /**
+     * @var Resolver
+     */
+    protected $elementReferenceResolver;
+
+    /**
+     * @var int
+     */
+    protected $useNestingLimit = 15;
 
     /**
      *
@@ -81,7 +93,7 @@ class Sanitizer
      */
     protected function resetInternal()
     {
-        $this->xmlDocument = new DOMDocument();
+        $this->xmlDocument = new \DOMDocument();
         $this->xmlDocument->preserveWhiteSpace = false;
         $this->xmlDocument->strictErrorChecking = false;
         $this->xmlDocument->formatOutput = !$this->minifyXML;
@@ -90,7 +102,7 @@ class Sanitizer
     /**
      * Set XML options to use when saving XML
      * See: DOMDocument::saveXML
-     * 
+     *
      * @param int  $xmlOptions
      */
     public function setXMLOptions($xmlOptions)
@@ -98,15 +110,15 @@ class Sanitizer
         $this->xmlOptions = $xmlOptions;
     }
 
-     /**
+    /**
      * Get XML options to use when saving XML
      * See: DOMDocument::saveXML
-     * 
+     *
      * @return int
      */
     public function getXMLOptions()
     {
-       return $this->xmlOptions;
+        return $this->xmlOptions;
     }
 
     /**
@@ -165,7 +177,7 @@ class Sanitizer
      * @return array
      */
     public function getXmlIssues() {
-         return $this->xmlIssues;
+        return $this->xmlIssues;
     }
 
 
@@ -198,11 +210,17 @@ class Sanitizer
 
         $this->removeDoctype();
 
+        // Pre-process all identified elements
+        $xPath = new XPath($this->xmlDocument);
+        $this->elementReferenceResolver = new Resolver($xPath, $this->useNestingLimit);
+        $this->elementReferenceResolver->collect();
+        $elementsToRemove = $this->elementReferenceResolver->getElementsToRemove();
+
         // Grab all the elements
         $allElements = $this->xmlDocument->getElementsByTagName("*");
 
         // Start the cleaning proccess
-        $this->startClean($allElements);
+        $this->startClean($allElements, $elementsToRemove);
 
         // Save cleaned XML to a variable
         if ($this->removeXMLTag) {
@@ -232,7 +250,7 @@ class Sanitizer
 
         // Suppress the errors because we don't really have to worry about formation before cleansing
         libxml_use_internal_errors(true);
- 
+
         // Reset array of altered XML
         $this->xmlIssues = array();
     }
@@ -263,14 +281,32 @@ class Sanitizer
      * Start the cleaning with tags, then we move onto attributes and hrefs later
      *
      * @param \DOMNodeList $elements
+     * @param array        $elementsToRemove
      */
-    protected function startClean(\DOMNodeList $elements)
+    protected function startClean(\DOMNodeList $elements, array $elementsToRemove)
     {
         // loop through all elements
         // we do this backwards so we don't skip anything if we delete a node
         // see comments at: http://php.net/manual/en/class.domnamednodemap.php
         for ($i = $elements->length - 1; $i >= 0; $i--) {
+            /** @var \DOMElement $currentElement */
             $currentElement = $elements->item($i);
+
+            /**
+             * If the element has exceeded the nesting limit, we should remove it.
+             *
+             * As it's only <use> elements that cause us issues with nesting DOS attacks
+             * we should check what the element is before removing it. For now we'll only
+             * remove <use> elements.
+             */
+            if (in_array($currentElement, $elementsToRemove) && 'use' === $currentElement->nodeName) {
+                $currentElement->parentNode->removeChild($currentElement);
+                $this->xmlIssues[] = array(
+                    'message' => 'Invalid \'' . $currentElement->tagName . '\'',
+                    'line'    => $currentElement->getLineNo(),
+                );
+                continue;
+            }
 
             // If the tag isn't in the whitelist, remove it and continue with next iteration
             if (!in_array(strtolower($currentElement->tagName), $this->allowedTags)) {
@@ -278,22 +314,24 @@ class Sanitizer
                 $this->xmlIssues[] = array(
                     'message' => 'Suspicious tag \'' . $currentElement->tagName . '\'',
                     'line' => $currentElement->getLineNo(),
-		);
+                );
                 continue;
             }
 
-            $this->cleanAttributesOnWhitelist($currentElement);
+            $this->cleanHrefs($currentElement);
 
             $this->cleanXlinkHrefs($currentElement);
 
-            $this->cleanHrefs($currentElement);
+            $this->cleanAttributesOnWhitelist($currentElement);
 
             if (strtolower($currentElement->tagName) === 'use') {
-                if ($this->isUseTagDirty($currentElement)) {
+                if ($this->isUseTagDirty($currentElement)
+                    || $this->isUseTagExceedingThreshold($currentElement)
+                ) {
                     $currentElement->parentNode->removeChild($currentElement);
                     $this->xmlIssues[] = array(
                         'message' => 'Suspicious \'' . $currentElement->tagName . '\'',
-			'line' => $currentElement->getLineNo(),
+                        'line' => $currentElement->getLineNo(),
                     );
                     continue;
                 }
@@ -319,7 +357,23 @@ class Sanitizer
                 $this->xmlIssues[] = array(
                     'message' => 'Suspicious attribute \'' . $attrName . '\'',
                     'line' => $element->getLineNo(),
-		);
+                );
+            }
+
+            /**
+             * This is used for when a namespace isn't imported properly.
+             * Such as xlink:href when the xlink namespace isn't imported.
+             * We have to do this as the link is still ran in this case.
+             */
+            if (false !== strpos($attrName, 'href')) {
+                $href = $element->getAttribute($attrName);
+                if (false === $this->isHrefSafeValue($href)) {
+                    $element->removeAttribute($attrName);
+                    $this->xmlIssues[] = array(
+                        'message' => 'Suspicious attribute \'href\'',
+                        'line'    => $element->getLineNo(),
+                    );
+                }
             }
 
             // Do we want to strip remote references?
@@ -330,7 +384,7 @@ class Sanitizer
                     $this->xmlIssues[] = array(
                         'message' => 'Suspicious attribute \'' . $attrName . '\'',
                         'line' => $element->getLineNo(),
-		    );
+                    );
                 }
             }
         }
@@ -344,22 +398,12 @@ class Sanitizer
     protected function cleanXlinkHrefs(\DOMElement $element)
     {
         $xlinks = $element->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
-        if (preg_match(self::SCRIPT_REGEX, $xlinks) === 1) {
-            if (!in_array(substr($xlinks, 0, 14), array(
-                'data:image/png', // PNG
-                'data:image/gif', // GIF
-                'data:image/jpg', // JPG
-                'data:image/jpe', // JPEG
-                'data:image/pjp', // PJPEG
-            ))) {
-                $element->removeAttributeNS( 'http://www.w3.org/1999/xlink', 'href' );
-                $this->xmlIssues[] = array(
-                    'message' => 'Suspicious attribute \'href\'',
-                    'line' => $element->getLineNo(),
-		);
-
-
-           }
+        if (false === $this->isHrefSafeValue($xlinks)) {
+            $element->removeAttributeNS( 'http://www.w3.org/1999/xlink', 'href' );
+            $this->xmlIssues[] = array(
+                'message' => 'Suspicious attribute \'href\'',
+                'line' => $element->getLineNo(),
+            );
         }
     }
 
@@ -371,13 +415,69 @@ class Sanitizer
     protected function cleanHrefs(\DOMElement $element)
     {
         $href = $element->getAttribute('href');
-        if (preg_match(self::SCRIPT_REGEX, $href) === 1) {
+        if (false === $this->isHrefSafeValue($href)) {
             $element->removeAttribute('href');
             $this->xmlIssues[] = array(
                 'message' => 'Suspicious attribute \'href\'',
                 'line' => $element->getLineNo(),
             );
         }
+    }
+
+/**
+ * Only allow whitelisted starts to be within the href.
+ *
+ * This will stop scripts etc from being passed through, with or without attempting to hide bypasses.
+ * This stops the need for us to use a complicated script regex.
+ *
+ * @param $value
+ * @return bool
+ */
+    protected function isHrefSafeValue($value) {
+
+        // Allow fragment identifiers.
+        if ('#' === substr($value, 0, 1)) {
+            return true;
+        }
+
+        // Allow relative URIs.
+        if ('/' === substr($value, 0, 1)) {
+            return true;
+        }
+
+        // Allow HTTPS domains.
+        if ('https://' === substr($value, 0, 8)) {
+            return true;
+        }
+
+        // Allow HTTP domains.
+        if ('http://' === substr($value, 0, 7)) {
+            return true;
+        }
+
+        // Allow known data URIs.
+        if (in_array(substr($value, 0, 14), array(
+            'data:image/png', // PNG
+            'data:image/gif', // GIF
+            'data:image/jpg', // JPG
+            'data:image/jpe', // JPEG
+            'data:image/pjp', // PJPEG
+        ))) {
+           return true;
+        }
+
+        // Allow known short data URIs.
+        if (in_array(substr($value, 0, 12), array(
+            'data:img/png', // PNG
+            'data:img/gif', // GIF
+            'data:img/jpg', // JPG
+            'data:img/jpe', // JPEG
+            'data:img/pjp', // PJPEG
+        ))) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -432,6 +532,17 @@ class Sanitizer
     }
 
     /**
+     * Whether `<use ... xlink:href="#identifier">` elements shall be
+     * removed in case expansion would exceed this threshold.
+     *
+     * @param int $useThreshold
+     */
+    public function useThreshold($useThreshold = 1000)
+    {
+        $this->useThreshold = (int)$useThreshold;
+    }
+
+    /**
      * Check to see if an attribute is an aria attribute or not
      *
      * @param $attributeName
@@ -463,11 +574,44 @@ class Sanitizer
      */
     protected function isUseTagDirty(\DOMElement $element)
     {
-        $xlinks = $element->getAttributeNS('http://www.w3.org/1999/xlink', 'href');
-        if ($xlinks && substr($xlinks, 0, 1) !== '#') {
-            return true;
-        }
+        $href = Helper::getElementHref($element);
+        return $href && strpos($href, '#') !== 0;
+    }
 
+    /**
+     * Determines whether `<use ... xlink:href="#identifier">` is expanded
+     * recursively in order to create DoS scenarios. The amount of a actually
+     * used element needs to be below `$this->useThreshold`.
+     *
+     * @param \DOMElement $element
+     * @return bool
+     */
+    protected function isUseTagExceedingThreshold(\DOMElement $element)
+    {
+        if ($this->useThreshold <= 0) {
+            return false;
+        }
+        $useId = Helper::extractIdReferenceFromHref(
+            Helper::getElementHref($element)
+        );
+        if ($useId === null) {
+            return false;
+        }
+        foreach ($this->elementReferenceResolver->findByElementId($useId) as $subject) {
+            if ($subject->countUse() >= $this->useThreshold) {
+                return true;
+            }
+        }
         return false;
+    }
+
+    /**
+     * Set the nesting limit for <use> tags.
+     *
+     * @param $limit
+     */
+    public function setUseNestingLimit($limit)
+    {
+        $this->useNestingLimit = (int) $limit;
     }
 }
