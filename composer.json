@@ -275,7 +275,7 @@
 			"used_version": "v1.18.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2018-10-24",
+			"last_update": "2020-02-28",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
