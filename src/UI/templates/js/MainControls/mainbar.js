@@ -502,7 +502,34 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				return hash;
 			},
+			compressEntries = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[k] = [
+						v['removeable'] ? 1:0,
+						v['engaged'] ? 1:0,
+						v['hidden'] ? 1:0
+					];
+				}
+				return ret;
+			},
+			decompressEntries = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[k] = {
+						"id": k,
+						"removeable": !!v[0],
+						"engaged": !!v[1],
+						"hidden": !!v[2]
+					};
+				}
+				return ret;
+			},
 			storeStates = function(state) {
+				state.entries = compressEntries(state.entries);
+				state.tools = compressEntries(state.tools);
 				cs = storage();
 				for(idx in state) {
 					cs.add(idx, state[idx]);
@@ -512,6 +539,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			},
 			readStates = function() {
 				cs = storage();
+				cs.items.entries = decompressEntries(cs.items.entries);
+				cs.items.tools = decompressEntries(cs.items.tools);
 				return cs.items;
 			},
 			/**
