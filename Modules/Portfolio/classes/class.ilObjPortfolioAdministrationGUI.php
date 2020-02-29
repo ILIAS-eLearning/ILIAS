@@ -249,11 +249,19 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
             $width->setValue(1370);
             $height->setValue(100);
         }
-        
+
+        /*
         $mask = new ilCheckboxInputGUI($lng->txt("prtf_allow_html"), "mask");
         $mask->setInfo($lng->txt("prtf_allow_html_info"));
         $mask->setChecked($prfa_set->get("mask", false));
-        $form->addItem($mask);
+        $form->addItem($mask);*/
+
+        $gui = ilAdministrationSettingsFormHandler::getSettingsGUIInstance("adve");
+        $ne = new ilNonEditableValueGUI($lng->txt("prtf_allow_html"), "", true);
+        $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
+        $link = $this->ctrl->getLinkTarget($gui);
+        $ne->setValue("<a href='$link'> >> ".$this->lng->txt("settings")."</a>");
+        $form->addItem($ne);
         
         $mycourses = new ilCheckboxInputGUI($lng->txt("prtf_allow_my_courses"), "mycrs");
         $mycourses->setInfo($lng->txt("prtf_allow_my_courses_info"));
