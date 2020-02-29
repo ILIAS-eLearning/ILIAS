@@ -16062,3 +16062,25 @@ prg#:#prg_description#:#Beschreibung
 prg#:#prg_link#:#Link
 prg#:#prg_mail_context_title#:#Mail an Mitglieder
 prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
+copg#:#copg_allow_html#:#HTML/Javascript erlauben
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdige Benutzern verwendet werden. Die Möglichkeit HTML in dieser Art einzubinden wird evtl. in einer zukünftigen Version komplett entfallen.
+dcl#:#dcl_page_type_dclf#:#Detailansicht
+crs#:#crs_page_type_lobj#:#Lernzieleinleitung
+copa#:#copa_page_type_copa#:#Inhaltsseite
+mep#:#mep_page_type_mep#:#Inhaltsbaustein
+wiki#:#wiki_page_type_wpg#:#Wikiseite
+blog#:#blog_page_type_blp#:#Blogbeitrag
+prtf#:#prtf_page_type_prtf#:#Portfolioseite
+prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
+glo#:#glo_page_type_gdf#:#Begriffsdefinition
+lm#:#lm_page_type_lm#:#Lernmodulseite
+qpl#:#qpl_page_type_qht#:#Hinweis
+qpl#:#qpl_page_type_qpl#:#Fragenseite
+qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
+qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
+copg#:#copg_page_type_stys#:#Seitenlayout
+cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
+cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
+auth#:#auth_page_type_auth#:#Loginseite
+impr#:#impr_page_type_impr#:#Impressum
