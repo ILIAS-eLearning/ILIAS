@@ -228,6 +228,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     } else {
                         $short_str = $def["short_text"];
                     }
+
                     // replace tex
                     // if a tex end tag is missing a tex end tag
                     $ltexs = strrpos($short_str, "[tex]");
@@ -254,7 +255,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         );
                     }
 
-                    $short_str = ilPCParagraph::xml2output($short_str);
+
+                    $short_str = ilPCParagraph::xml2output($short_str, false, true, false);
 
                     $this->tpl->setVariable("DEF_SHORT", $short_str);
                     $this->tpl->parseCurrentBlock();

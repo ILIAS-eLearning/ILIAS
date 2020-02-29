@@ -662,4 +662,22 @@ class ilGlossaryDefinition
             );
         }
     }
+
+    /**
+     * Set short texts dirty
+     *
+     * @param
+     * @return
+     */
+    public static function setShortTextsDirtyGlobally()
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulate("UPDATE glossary_definition SET " .
+            " short_text_dirty = " . $ilDB->quote(1, "integer")
+        );
+    }
+
 }

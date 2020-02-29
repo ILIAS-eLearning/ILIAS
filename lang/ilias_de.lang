@@ -14252,3 +14252,26 @@ content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugre
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
 exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
+exc#:#exc_deleted_user#:#Gelöschter Benutzer
+copg#:#copg_allow_html#:#HTML/Javascript erlauben
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdige Benutzern verwendet werden. Die Möglichkeit HTML in dieser Art einzubinden wird evtl. in einer zukünftigen Version komplett entfallen.
+dcl#:#dcl_page_type_dclf#:#Detailansicht
+crs#:#crs_page_type_lobj#:#Lernzieleinleitung
+copa#:#copa_page_type_copa#:#Inhaltsseite
+mep#:#mep_page_type_mep#:#Inhaltsbaustein
+wiki#:#wiki_page_type_wpg#:#Wikiseite
+blog#:#blog_page_type_blp#:#Blogbeitrag
+prtf#:#prtf_page_type_prtf#:#Portfolioseite
+prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
+glo#:#glo_page_type_gdf#:#Begriffsdefinition
+lm#:#lm_page_type_lm#:#Lernmodulseite
+qpl#:#qpl_page_type_qht#:#Hinweis
+qpl#:#qpl_page_type_qpl#:#Fragenseite
+qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
+qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
+copg#:#copg_page_type_stys#:#Seitenlayout
+cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
+cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
+auth#:#auth_page_type_auth#:#Loginseite
+impr#:#impr_page_type_impr#:#Impressum
