@@ -532,8 +532,10 @@ class ilLDAPQuery
      */
     private function connect()
     {
-        ldap_set_option(0, LDAP_OPT_DEBUG_LEVEL, 7);
         $this->lh = @ldap_connect($this->ldap_server_url);
+        if (is_resource($this->lh)) {
+            ldap_set_option($this->lh, LDAP_OPT_DEBUG_LEVEL, 7);
+        }
 
         // LDAP Connect
         if (!$this->lh) {
