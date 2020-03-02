@@ -7469,6 +7469,10 @@ hr.il-divider-with-label {
   color: #262626;
   background-color: #ecf0f4;
 }
+.il-maincontrols-slate-content .dropdown-menu {
+  right: 0;
+  left: inherit;
+}
 .il-std-item-container:not(:last-child) {
   border-bottom: 2px solid #f0f0f0;
 }
