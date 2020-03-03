@@ -5,131 +5,132 @@ require_once 'Services/Database/interfaces/interface.ilQueryUtils.php';
  * Class ilQueryUtils
  *
  */
-abstract class ilQueryUtils implements ilQueryUtilsInterface {
+abstract class ilQueryUtils implements ilQueryUtilsInterface
+{
 
-	/**
-	 * @var \ilDBPdo
-	 */
-	protected $db_instance;
-
-
-	/**
-	 * ilMySQLQueryUtils constructor.
-	 *
-	 * @param \ilDBInterface $ilDBInterface
-	 */
-	public function __construct(ilDBInterface $ilDBInterface) {
-		$this->db_instance = $ilDBInterface;
-	}
+    /**
+     * @var \ilDBPdo
+     */
+    protected $db_instance;
 
 
-	/**
-	 * @param string $field
-	 * @param string[] $values
-	 * @param bool $negate
-	 * @param string $type
-	 * @return string
-	 */
-	abstract public function in($field, $values, $negate = false, $type = "");
+    /**
+     * ilMySQLQueryUtils constructor.
+     *
+     * @param \ilDBInterface $ilDBInterface
+     */
+    public function __construct(ilDBInterface $ilDBInterface)
+    {
+        $this->db_instance = $ilDBInterface;
+    }
 
 
-	/**
-	 * @param mixed $value
-	 * @param null $type
-	 * @return string
-	 */
-	abstract public function quote($value, $type = null);
+    /**
+     * @param string $field
+     * @param string[] $values
+     * @param bool $negate
+     * @param string $type
+     * @return string
+     */
+    abstract public function in($field, $values, $negate = false, $type = "");
 
 
-	/**
-	 * @param array $values
-	 * @param bool $allow_null
-	 * @return string
-	 */
-	abstract public function concat(array $values, $allow_null = true);
+    /**
+     * @param mixed $value
+     * @param null $type
+     * @return string
+     */
+    abstract public function quote($value, $type = null);
 
 
-	/**
-	 * @param $a_needle
-	 * @param $a_string
-	 * @param int $a_start_pos
-	 * @return string
-	 */
-	abstract public function locate($a_needle, $a_string, $a_start_pos = 1);
+    /**
+     * @param array $values
+     * @param bool $allow_null
+     * @return string
+     */
+    abstract public function concat(array $values, $allow_null = true);
 
 
-	/**
-	 * @param \ilPDOStatement $statement
-	 * @return bool
-	 */
-	abstract public function free(ilPDOStatement $statement);
+    /**
+     * @param $a_needle
+     * @param $a_string
+     * @param int $a_start_pos
+     * @return string
+     */
+    abstract public function locate($a_needle, $a_string, $a_start_pos = 1);
 
 
-	/**
-	 * @param $identifier
-	 * @return string
-	 */
-	abstract public function quoteIdentifier($identifier);
+    /**
+     * @param \ilPDOStatement $statement
+     * @return bool
+     */
+    abstract public function free(ilPDOStatement $statement);
 
 
-	/**
-	 * @param $name
-	 * @param $fields
-	 * @param array $options
-	 * @return string
-	 * @throws \ilDatabaseException
-	 */
-	abstract public function createTable($name, $fields, $options = array());
+    /**
+     * @param $identifier
+     * @return string
+     */
+    abstract public function quoteIdentifier($identifier);
 
 
-	/**
-	 * @param $column
-	 * @param $type
-	 * @param string $value
-	 * @param bool $case_insensitive
-	 * @return string
-	 * @throws \ilDatabaseException
-	 */
-	abstract public function like($column, $type, $value = "?", $case_insensitive = true);
+    /**
+     * @param $name
+     * @param $fields
+     * @param array $options
+     * @return string
+     * @throws \ilDatabaseException
+     */
+    abstract public function createTable($name, $fields, $options = array());
 
 
-	/**
-	 * @return string
-	 */
-	abstract public function now();
+    /**
+     * @param $column
+     * @param $type
+     * @param string $value
+     * @param bool $case_insensitive
+     * @return string
+     * @throws \ilDatabaseException
+     */
+    abstract public function like($column, $type, $value = "?", $case_insensitive = true);
 
 
-	/**
-	 * @param array $tables
-	 * @return string
-	 */
-	abstract public function lock(array $tables);
+    /**
+     * @return string
+     */
+    abstract public function now();
 
 
-	/**
-	 * @return string
-	 */
-	abstract public function unlock();
+    /**
+     * @param array $tables
+     * @return string
+     */
+    abstract public function lock(array $tables);
 
 
-	/**
-	 * @param $a_name
-	 * @param string $a_charset
-	 * @param string $a_collation
-	 * @return mixed
-	 */
-	abstract public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
-	
+    /**
+     * @return string
+     */
+    abstract public function unlock();
 
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL);
 
-	
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function cast($a_field_name, $a_dest_type);
+    /**
+     * @param $a_name
+     * @param string $a_charset
+     * @param string $a_collation
+     * @return mixed
+     */
+    abstract public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+    
 
+    /**
+     * @inheritdoc
+     */
+    abstract public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null);
+
+    
+    /**
+     * @inheritdoc
+     */
+    abstract public function cast($a_field_name, $a_dest_type);
 }

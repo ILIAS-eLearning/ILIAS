@@ -6,7 +6,6 @@ use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 
 class StringValue extends ScalarValue
 {
-
     public function setValue($string)
     {
         if (!is_string($string)) {

@@ -17,15 +17,15 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
  *
  * @see FilesystemFactory
  */
-interface LocalFilesystemFactory {
+interface LocalFilesystemFactory
+{
 
-	/**
-	 * Creates a local filesystem instance with the given configuration.
-	 *
-	 * @param LocalConfig $config   The local configuration which should be used to create the local filesystem.
-	 *
-	 * @return Filesystem
-	 */
-	public function getInstance(LocalConfig $config): Filesystem;
-
+    /**
+     * Creates a local filesystem instance with the given configuration.
+     *
+     * @param LocalConfig $config   The local configuration which should be used to create the local filesystem.
+     *
+     * @return Filesystem
+     */
+    public function getInstance(LocalConfig $config) : Filesystem;
 }

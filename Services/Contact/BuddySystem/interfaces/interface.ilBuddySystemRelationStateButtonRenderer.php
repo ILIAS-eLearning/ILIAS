@@ -7,8 +7,8 @@
  */
 interface ilBuddySystemRelationStateButtonRenderer
 {
-	/**
-	 * @return string
-	 */
-	public function getHtml();
+    /**
+     * @return string
+     */
+    public function getHtml();
 }

@@ -10,6 +10,6 @@ namespace ILIAS\DI\Exceptions;
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
-class NoSuchServiceException extends Exception {
-
+class NoSuchServiceException extends Exception
+{
 }

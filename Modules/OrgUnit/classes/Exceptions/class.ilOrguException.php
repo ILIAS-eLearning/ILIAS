@@ -7,4 +7,6 @@
  *
  * This is the base class for OrgUnit Exceptions as described in the dev guide.
  */
-class ilOrguException extends ilException {}
+class ilOrguException extends ilException
+{
+}

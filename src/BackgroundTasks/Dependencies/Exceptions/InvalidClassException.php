@@ -14,5 +14,4 @@ namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
  */
 class InvalidClassException extends Exception
 {
-
 }

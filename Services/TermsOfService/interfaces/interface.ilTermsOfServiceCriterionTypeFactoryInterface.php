@@ -7,16 +7,16 @@
  */
 interface ilTermsOfServiceCriterionTypeFactoryInterface
 {
-	/**
-	 * @return \ilTermsOfServiceCriterionType[]
-	 */
-	public function getTypesByIdentMap(): array;
+    /**
+     * @return \ilTermsOfServiceCriterionType[]
+     */
+    public function getTypesByIdentMap() : array;
 
-	/**
-	 * @param string $typeIdent
-	 * @param bool $useFallback
-	 * @return ilTermsOfServiceCriterionType
-	 * @throws \ilTermsOfServiceCriterionTypeNotFoundException
-	 */
-	public function findByTypeIdent(string $typeIdent, bool $useFallback = false): \ilTermsOfServiceCriterionType;
+    /**
+     * @param string $typeIdent
+     * @param bool $useFallback
+     * @return ilTermsOfServiceCriterionType
+     * @throws \ilTermsOfServiceCriterionTypeNotFoundException
+     */
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : \ilTermsOfServiceCriterionType;
 }

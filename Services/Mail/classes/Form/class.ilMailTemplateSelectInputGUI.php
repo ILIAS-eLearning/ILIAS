@@ -9,44 +9,44 @@ require_once 'Services/JSON/classes/class.ilJsonUtil.php';
  */
 class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
 {
-	/**
-	 * @var array
-	 */
-	protected $fields = array();
+    /**
+     * @var array
+     */
+    protected $fields = array();
 
-	/**
-	 * @var string
-	 */
-	protected $url;
+    /**
+     * @var string
+     */
+    protected $url;
 
-	/**
-	 * @param string $a_title
-	 * @param string $a_postvar
-	 * @param string $url
-	 * @param array  $fields
-	 */
-	public function __construct($a_title = '', $a_postvar = '', $url = '', array $fields = array())
-	{
-		parent::__construct($a_title, $a_postvar);
+    /**
+     * @param string $a_title
+     * @param string $a_postvar
+     * @param string $url
+     * @param array  $fields
+     */
+    public function __construct($a_title = '', $a_postvar = '', $url = '', array $fields = array())
+    {
+        parent::__construct($a_title, $a_postvar);
 
-		$this->url    = $url;
-		$this->fields = $fields;
-	}
+        $this->url    = $url;
+        $this->fields = $fields;
+    }
 
-	/**
-	 * @param string $a_mode
-	 * @return string
-	 */
-	public function render($a_mode = '')
-	{
-		$html = parent::render($a_mode);
+    /**
+     * @param string $a_mode
+     * @return string
+     */
+    public function render($a_mode = '')
+    {
+        $html = parent::render($a_mode);
 
-		$tpl = new ilTemplate('tpl.prop_template_select_container.html', true, true, 'Services/Mail');
-		$tpl->setVariable('CONTENT', $html);
-		$tpl->setVariable('FIELDS', ilJsonUtil::encode($this->fields));
-		$tpl->setVariable('URL', $this->url);
-		$tpl->setVariable('ID', $this->getFieldId());
+        $tpl = new ilTemplate('tpl.prop_template_select_container.html', true, true, 'Services/Mail');
+        $tpl->setVariable('CONTENT', $html);
+        $tpl->setVariable('FIELDS', ilJsonUtil::encode($this->fields));
+        $tpl->setVariable('URL', $this->url);
+        $tpl->setVariable('ID', $this->getFieldId());
 
-		return $tpl->get();
-	}
+        return $tpl->get();
+    }
 }

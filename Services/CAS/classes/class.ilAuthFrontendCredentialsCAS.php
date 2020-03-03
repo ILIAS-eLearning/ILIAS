@@ -10,5 +10,4 @@ include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCre
  */
 class ilAuthFrontendCredentialsCAS extends ilAuthFrontendCredentials
 {
-
 }

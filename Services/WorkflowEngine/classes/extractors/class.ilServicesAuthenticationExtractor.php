@@ -13,36 +13,35 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesAuthenticationExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('authentication');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('authentication');
 
-		switch($event)
-		{
-			case 'afterLogin':
-				$this->extractAfterLogin($parameters);
-				break;
-			// case 'expiredSessionDetected': Can this be supported? No params... TODO: Add some thinking to it...
-			// case 'reachedSessionPoolLimit': Can this be supported? No params... TODO: Add some thinking to it...
+        switch ($event) {
+            case 'afterLogin':
+                $this->extractAfterLogin($parameters);
+                break;
+            // case 'expiredSessionDetected': Can this be supported? No params... TODO: Add some thinking to it...
+            // case 'reachedSessionPoolLimit': Can this be supported? No params... TODO: Add some thinking to it...
 
-		}
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 
-	/**
-	 * @param array $parameters
-	 */
-	protected function extractAfterLogin($parameters)
-	{
-		$this->ilExtractedParams->setSubjectId(0);
-		$this->ilExtractedParams->setContextType('user');
-		$this->ilExtractedParams->setContextId(ilObjUser::_lookupId($parameters['username']));
-	}
+    /**
+     * @param array $parameters
+     */
+    protected function extractAfterLogin($parameters)
+    {
+        $this->ilExtractedParams->setSubjectId(0);
+        $this->ilExtractedParams->setContextType('user');
+        $this->ilExtractedParams->setContextId(ilObjUser::_lookupId($parameters['username']));
+    }
 }

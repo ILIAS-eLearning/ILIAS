@@ -8,11 +8,9 @@ include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontend.ph
 /**
  * Auth class for form based authentication
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 class ilAuthStandardFormFrontend extends ilAuthFrontend implements ilAuthFrontendInterface
 {
-
 }
-?>

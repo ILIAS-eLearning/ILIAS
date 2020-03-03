@@ -5,77 +5,77 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblFieldInterface {
-
-	const DATA_TYPE_RIS = 1;
-	const DATA_TYPE_BIBTEX = 2;
-
-
-	/**
-	 * @return int
-	 */
-	public function getId();
+interface ilBiblFieldInterface
+{
+    const DATA_TYPE_RIS = 1;
+    const DATA_TYPE_BIBTEX = 2;
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id);
+    /**
+     * @return int
+     */
+    public function getId();
 
 
-	/**
-	 * @return string
-	 */
-	public function getIdentifier();
+    /**
+     * @param int $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @param string $identifier
-	 */
-	public function setIdentifier($identifier);
+    /**
+     * @return string
+     */
+    public function getIdentifier();
 
 
-	/**
-	 * @return int
-	 */
-	public function getPosition();
+    /**
+     * @param string $identifier
+     */
+    public function setIdentifier($identifier);
 
 
-	/**
-	 * @param int $position
-	 */
-	public function setPosition($position);
+    /**
+     * @return int
+     */
+    public function getPosition();
+
+
+    /**
+     * @param int $position
+     */
+    public function setPosition($position);
 
 
 
-	/**
-	 * @return int
-	 */
-	public function getIsStandardField();
+    /**
+     * @return int
+     */
+    public function getIsStandardField();
 
 
-	/**
-	 * @param int $is_standard_field
-	 */
-	public function setIsStandardField($is_standard_field);
+    /**
+     * @param int $is_standard_field
+     */
+    public function setIsStandardField($is_standard_field);
 
 
-	/**
-	 * @return int
-	 */
-	public function getDataType();
+    /**
+     * @return int
+     */
+    public function getDataType();
 
 
-	/**
-	 * @param int $data_type
-	 */
-	public function setDataType($data_type);
+    /**
+     * @param int $data_type
+     */
+    public function setDataType($data_type);
 
 
-	/**
-	 * Stores the Object, creates a newone in Db if non existing or updates an existing
-	 *
-	 * @return void
-	 */
-	public function store();
+    /**
+     * Stores the Object, creates a newone in Db if non existing or updates an existing
+     *
+     * @return void
+     */
+    public function store();
 }

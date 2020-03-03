@@ -5,6 +5,6 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilOrgUnitAccessException extends ilException {
-
+class ilOrgUnitAccessException extends ilException
+{
 }

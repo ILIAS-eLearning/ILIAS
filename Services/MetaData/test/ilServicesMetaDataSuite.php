@@ -5,12 +5,11 @@ class ilServicesMetaDataSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesMetaDataSuite();
-		
-		include_once("./Services/MetaData/test/ilMDTest.php");
-		$suite->addTestSuite("ilMDTest");
+        $suite = new ilServicesMetaDataSuite();
+        
+        include_once("./Services/MetaData/test/ilMDTest.php");
+        $suite->addTestSuite("ilMDTest");
 
-		return $suite;
+        return $suite;
     }
 }
-?>

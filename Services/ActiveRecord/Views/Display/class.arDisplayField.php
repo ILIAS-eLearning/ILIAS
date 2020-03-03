@@ -8,6 +8,6 @@ require_once('./Services/ActiveRecord/Views/class.arViewField.php');
  * @version 2.0.7
  *
  */
-class arDisplayField extends arViewField {
-
+class arDisplayField extends arViewField
+{
 }

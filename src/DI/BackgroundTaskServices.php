@@ -8,47 +8,53 @@ use ILIAS\BackgroundTasks\TaskManager;
 
 /**
  */
-class BackgroundTaskServices {
+class BackgroundTaskServices
+{
 
-	/**
-	 * @var    Container
-	 */
-	protected $container;
-
-
-	public function __construct(Container $container) {
-		$this->container = $container;
-	}
+    /**
+     * @var    Container
+     */
+    protected $container;
 
 
-	/**
-	 * @return TaskFactory
-	 */
-	public function taskFactory() {
-		return $this->container['bt.task_factory'];
-	}
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
 
-	/**
-	 * @return Persistence
-	 */
-	public function persistence() {
-		return $this->container['bt.persistence'];
-	}
+    /**
+     * @return TaskFactory
+     */
+    public function taskFactory()
+    {
+        return $this->container['bt.task_factory'];
+    }
 
 
-	/**
-	 * @return TaskManager
-	 */
-	public function taskManager() {
-		return $this->container['bt.task_manager'];
-	}
+    /**
+     * @return Persistence
+     */
+    public function persistence()
+    {
+        return $this->container['bt.persistence'];
+    }
 
 
-	/**
-	 * @return \ILIAS\BackgroundTasks\Dependencies\Injector
-	 */
-	public function injector() {
-		return $this->container['bt.injector'];
-	}
+    /**
+     * @return TaskManager
+     */
+    public function taskManager()
+    {
+        return $this->container['bt.task_manager'];
+    }
+
+
+    /**
+     * @return \ILIAS\BackgroundTasks\Dependencies\Injector
+     */
+    public function injector()
+    {
+        return $this->container['bt.injector'];
+    }
 }

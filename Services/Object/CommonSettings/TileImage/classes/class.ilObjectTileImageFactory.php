@@ -10,33 +10,33 @@
  */
 class ilObjectTileImageFactory implements ilObjectTileImageFactoryInterface
 {
-	/**
-	 * @var ilObjectService
-	 */
-	protected $service;
+    /**
+     * @var ilObjectService
+     */
+    protected $service;
 
-	/**
-	 * Constructor
-	 * @param ilObjectService $service
-	 */
-	public function __construct(ilObjectService $service)
-	{
-		$this->service = $service;
-	}
+    /**
+     * Constructor
+     * @param ilObjectService $service
+     */
+    public function __construct(ilObjectService $service)
+    {
+        $this->service = $service;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSupportedFileExtensions(): array
-	{
-		return ["png", "jpg", "jpeg"];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getSupportedFileExtensions() : array
+    {
+        return ["png", "jpg", "jpeg"];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getByObjId(int $obj_id): ilObjectTileImage
-	{
-		return new \ilObjectTileImage($this->service, $obj_id);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getByObjId(int $obj_id) : ilObjectTileImage
+    {
+        return new \ilObjectTileImage($this->service, $obj_id);
+    }
 }

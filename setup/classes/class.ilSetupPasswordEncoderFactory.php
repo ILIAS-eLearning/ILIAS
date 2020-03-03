@@ -9,14 +9,14 @@ require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
  */
 class ilSetupPasswordEncoderFactory extends \ilUserPasswordEncoderFactory
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function getValidEncoders($config): array
-	{
-		return [
-			new ilBcryptPhpPasswordEncoder($config),
-			new ilMd5PasswordEncoder($config),
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getValidEncoders($config) : array
+    {
+        return [
+            new ilBcryptPhpPasswordEncoder($config),
+            new ilMd5PasswordEncoder($config),
+        ];
+    }
 }

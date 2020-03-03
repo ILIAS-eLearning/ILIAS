@@ -6,29 +6,30 @@
  */
 class ilCertificateVerificationObject extends ilVerificationObject
 {
-	public function __construct(string $type, int $a_id = 0, bool $a_reference = true)
-	{
-		$this->type = $type;
+    public function __construct(string $type, int $a_id = 0, bool $a_reference = true)
+    {
+        $this->type = $type;
 
-		parent::__construct($a_id, $a_reference);
-	}
+        parent::__construct($a_id, $a_reference);
+    }
 
-	/**
-	 * @return array
-	 */
-	protected function initType()
-	{}
+    /**
+     * @return array
+     */
+    protected function initType()
+    {
+    }
 
-	/**
-	 * Return property map (name => type)
-	 *
-	 * @return array
-	 */
-	protected function getPropertyMap()
-	{
-		return array(
-			"issued_on" => self::TYPE_DATE,
-			"file" => self::TYPE_STRING
-		);
-	}
+    /**
+     * Return property map (name => type)
+     *
+     * @return array
+     */
+    protected function getPropertyMap()
+    {
+        return array(
+            "issued_on" => self::TYPE_DATE,
+            "file" => self::TYPE_STRING
+        );
+    }
 }

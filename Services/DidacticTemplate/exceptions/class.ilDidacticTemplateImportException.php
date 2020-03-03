@@ -9,6 +9,4 @@
  */
 class ilDidacticTemplateImportException extends ilException
 {
-    
 }
-?>

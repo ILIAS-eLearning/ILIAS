@@ -6550,6 +6550,7 @@ pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!
 pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:
 pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.
 pdesk#:#pdesk_intro4#:#If you have found something of interest, put it on your desktop by clicking <i>Add to Desktop</i> in the object's <i>Actions</i> menu.
+ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
@@ -12247,7 +12248,7 @@ grp#:#grp_mem_tbl_header#:#Group Participants
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
@@ -15065,3 +15066,29 @@ crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s req
 crs#:#crs_objective_result_details#:#« Show Details
 exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
+common#:#msg_unknown_value#:#An unknown value has been passed.
+exc#:#exc_deleted_user#:#Deleted User
+copg#:#copg_allow_html#:#Enable HTML/Javascript
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
+dcl#:#dcl_page_type_dclf#:#Details View
+crs#:#crs_page_type_lobj#:#Learning Objective Page
+copa#:#copa_page_type_copa#:#Content Page
+mep#:#mep_page_type_mep#:#Content Snippet
+wiki#:#wiki_page_type_wpg#:#Wiki Page
+blog#:#blog_page_type_blp#:#Blog Posting
+prtf#:#prtf_page_type_prtf#:#Portfolio Page
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
+glo#:#glo_page_type_gdf#:#Term Definition
+lm#:#lm_page_type_lm#:#LM Page
+qpl#:#qpl_page_type_qht#:#Hint
+qpl#:#qpl_page_type_qpl#:#Question Page
+qpl#:#qpl_page_type_qfbg#:#General Feedback
+qpl#:#qpl_page_type_qfbs#:#Special Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
+copg#:#copg_page_type_stys#:#Layout Page
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
+auth#:#auth_page_type_auth#:#Login Page
+impr#:#impr_page_type_impr#:#Imprint

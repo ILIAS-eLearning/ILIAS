@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
  */
 class Services
 {
-
     use SingletonTrait;
     /**
      * @var Services
@@ -29,7 +28,10 @@ class Services
      *
      * @param ProviderFactoryInterface $provider_factory
      */
-    public function __construct(ProviderFactoryInterface $provider_factory) { $this->provider_factory = $provider_factory; }
+    public function __construct(ProviderFactoryInterface $provider_factory)
+    {
+        $this->provider_factory = $provider_factory;
+    }
 
 
     /**

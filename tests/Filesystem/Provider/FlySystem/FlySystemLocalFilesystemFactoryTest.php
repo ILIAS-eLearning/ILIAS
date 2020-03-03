@@ -19,116 +19,116 @@ use PHPUnit\Framework\TestCase;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class FlySystemLocalFilesystemFactoryTest extends TestCase {
+class FlySystemLocalFilesystemFactoryTest extends TestCase
+{
+    use MockeryPHPUnitIntegration;
 
-	use MockeryPHPUnitIntegration;
-
-	/**
-	 * @var FlySystemLocalFilesystemFactory $subject
-	 */
-	private $subject;
+    /**
+     * @var FlySystemLocalFilesystemFactory $subject
+     */
+    private $subject;
 
 
-	/**
-	 * Sets up the fixture, for example, open a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp() {
-		parent::setUp();
+    /**
+     * Sets up the fixture, for example, open a network connection.
+     * This method is called before a test is executed.
+     */
+    protected function setUp()
+    {
+        parent::setUp();
 
-		$this->subject = new FlySystemLocalFilesystemFactory();
-	}
+        $this->subject = new FlySystemLocalFilesystemFactory();
+    }
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed() {
-		
-		$rootPath = __DIR__;
+    /**
+     * @Test
+     * @small
+     */
+    public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed()
+    {
+        $rootPath = __DIR__;
 
-		$privateAccessFile = 0700;
-		$privateAccessDir = 0700;
+        $privateAccessFile = 0700;
+        $privateAccessDir = 0700;
 
-		$publicAccessFile = 0744;
-		$publicAccessDir = 0755;
-		$lockMode = LOCK_EX;
+        $publicAccessFile = 0744;
+        $publicAccessDir = 0755;
+        $lockMode = LOCK_EX;
 
-		$config = new LocalConfig(
-			$rootPath,
-			$publicAccessFile,
-			$privateAccessFile,
-			$publicAccessDir,
-			$privateAccessDir,
-			$lockMode,
-			LocalConfig::SKIP_LINKS
-		);
+        $config = new LocalConfig(
+            $rootPath,
+            $publicAccessFile,
+            $privateAccessFile,
+            $publicAccessDir,
+            $privateAccessDir,
+            $lockMode,
+            LocalConfig::SKIP_LINKS
+        );
 
-		$filesystem = $this->subject->getInstance($config);
-		$this->assertInstanceOf(FilesystemFacade::class, $filesystem, "Filesystem type must be ". FilesystemFacade::class);
+        $filesystem = $this->subject->getInstance($config);
+        $this->assertInstanceOf(FilesystemFacade::class, $filesystem, "Filesystem type must be " . FilesystemFacade::class);
+    }
 
-	}
+    /**
+     * @Test
+     * @small
+     */
+    public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail()
+    {
+        $rootPath = __DIR__;
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail() {
+        $privateAccessFile = 0700;
+        $privateAccessDir = 0700;
 
-		$rootPath = __DIR__;
+        $publicAccessFile = 0744;
+        $publicAccessDir = 0755;
+        $lockMode = LOCK_EX;
+        $invalidLinkBehaviour = 9999;
 
-		$privateAccessFile = 0700;
-		$privateAccessDir = 0700;
+        $config = new LocalConfig(
+            $rootPath,
+            $publicAccessFile,
+            $privateAccessFile,
+            $publicAccessDir,
+            $privateAccessDir,
+            $lockMode,
+            $invalidLinkBehaviour
+        );
 
-		$publicAccessFile = 0744;
-		$publicAccessDir = 0755;
-		$lockMode = LOCK_EX;
-		$invalidLinkBehaviour = 9999;
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("The supplied value \"$invalidLinkBehaviour\" is not a valid LocalConfig link behaviour constant.");
 
-		$config = new LocalConfig(
-			$rootPath,
-			$publicAccessFile,
-			$privateAccessFile,
-			$publicAccessDir,
-			$privateAccessDir,
-			$lockMode,
-			$invalidLinkBehaviour
-		);
+        $this->subject->getInstance($config);
+    }
 
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage("The supplied value \"$invalidLinkBehaviour\" is not a valid LocalConfig link behaviour constant.");
+    /**
+     * @Test
+     * @small
+     */
+    public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail()
+    {
+        $rootPath = __DIR__;
 
-		$this->subject->getInstance($config);
-	}
+        $privateAccessFile = 0700;
+        $privateAccessDir = 0700;
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail() {
+        $publicAccessFile = 0744;
+        $publicAccessDir = 0755;
+        $invalidLockMode = 9999;
 
-		$rootPath = __DIR__;
+        $config = new LocalConfig(
+            $rootPath,
+            $publicAccessFile,
+            $privateAccessFile,
+            $publicAccessDir,
+            $privateAccessDir,
+            $invalidLockMode,
+            LocalConfig::SKIP_LINKS
+        );
 
-		$privateAccessFile = 0700;
-		$privateAccessDir = 0700;
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("The supplied value \"$invalidLockMode\" is not a valid file lock mode please check your local file storage configurations.");
 
-		$publicAccessFile = 0744;
-		$publicAccessDir = 0755;
-		$invalidLockMode = 9999;
-
-		$config = new LocalConfig(
-			$rootPath,
-			$publicAccessFile,
-			$privateAccessFile,
-			$publicAccessDir,
-			$privateAccessDir,
-			$invalidLockMode,
-			LocalConfig::SKIP_LINKS
-		);
-
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage("The supplied value \"$invalidLockMode\" is not a valid file lock mode please check your local file storage configurations.");
-
-		$this->subject->getInstance($config);
-	}
+        $this->subject->getInstance($config);
+    }
 }

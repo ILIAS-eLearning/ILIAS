@@ -48,9 +48,10 @@ class ProviderFactory implements ProviderFactoryInterface
     protected function registerInternal(array $providers)
     {
         array_walk(
-            $providers, function (Provider $item) {
-            $this->all_providers[get_class($item)] = $item;
-        }
+            $providers,
+            function (Provider $item) {
+                $this->all_providers[get_class($item)] = $item;
+            }
         );
     }
 

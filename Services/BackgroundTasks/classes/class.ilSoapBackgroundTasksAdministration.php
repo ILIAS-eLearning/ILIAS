@@ -24,24 +24,21 @@
 
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
-class ilSoapBackgroundTasksAdministration extends ilSoapAdministration {
+class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
+{
+    public function runAsync($sid)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
 
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+        global $DIC;
 
+        $tm = new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($DIC->backgroundTasks()->persistence());
+        $tm->runAsync();
 
-	public function runAsync($sid) {
-		$this->initAuth($sid);
-		$this->initIlias();
-
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-		global $DIC;
-
-		$tm = new \ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager($DIC->backgroundTasks()->persistence());
-		$tm->runAsync();
-
-		return true;
-
-	}
+        return true;
+    }
 }

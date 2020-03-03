@@ -16,7 +16,6 @@
  */
 class ilObjFileGUI extends ilObject2GUI
 {
-
     const CMD_EDIT = "edit";
     const CMD_VERSIONS = "versions";
     /**
@@ -33,20 +32,20 @@ class ilObjFileGUI extends ilObject2GUI
      * @param int $a_id_type
      * @param int $a_parent_node_id
      */
-    function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         $this->log = ilLoggerFactory::getLogger('file');
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
 
-    function getType()
+    public function getType()
     {
         return "file";
     }
 
 
-    function executeCommand()
+    public function executeCommand()
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -72,8 +71,11 @@ class ilObjFileGUI extends ilObject2GUI
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 
                 // add entry to navigation history
-                $ilNavigationHistory->addItem($this->node_id,
-                    $link, "file");
+                $ilNavigationHistory->addItem(
+                    $this->node_id,
+                    $link,
+                    "file"
+                );
             }
         }
 
@@ -120,7 +122,7 @@ class ilObjFileGUI extends ilObject2GUI
                 break;
 
             // personal workspace permissions
-            case "ilworkspaceaccessgui";
+            case "ilworkspaceaccessgui":
                 $ilTabs->activateTab("id_permissions");
                 $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
                 $this->ctrl->forwardCommand($wspacc);
@@ -259,7 +261,7 @@ class ilObjFileGUI extends ilObject2GUI
      *
      * @access    public
      */
-    function save()
+    public function save()
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -295,7 +297,10 @@ class ilObjFileGUI extends ilObject2GUI
             $fileObj->setFileName($upload_file["name"]);
 
             $fileObj->setFileType(ilMimeTypeUtil::getMimeType(
-                "", $upload_file["name"], $upload_file["type"]));
+                "",
+                $upload_file["name"],
+                $upload_file["type"]
+            ));
             $fileObj->setFileSize($upload_file["size"]);
             $this->object_id = $fileObj->create();
 
@@ -334,7 +339,7 @@ class ilObjFileGUI extends ilObject2GUI
      *
      * @access    public
      */
-    function saveAndMeta()
+    public function saveAndMeta()
     {
         $this->save();
     }
@@ -384,7 +389,7 @@ class ilObjFileGUI extends ilObject2GUI
      *
      * @access    public
      */
-    function saveUnzip()
+    public function saveUnzip()
     {
         $zip_form_gui = $this->initZipUploadForm();
 
@@ -401,7 +406,6 @@ class ilObjFileGUI extends ilObject2GUI
 
                 // Check if permission is granted for creation of object, if necessary
                 if ($this->id_type != self::WORKSPACE_NODE_ID) {
-
                     $type = ilObject::_lookupType((int) $this->parent_id, true);
                 } else {
                     $type = ilObject::_lookupType($this->tree->lookupObjectId($this->parent_id), false);
@@ -439,13 +443,15 @@ class ilObjFileGUI extends ilObject2GUI
                 //		object that contains files (folder or category)
                 //		should sendInfo be persistent?)
                 try {
-                    $processDone = ilFileUtils::processZipFile($newDir,
+                    $processDone = ilFileUtils::processZipFile(
+                        $newDir,
                         $zip_file["tmp_name"],
                         ($adopt_structure && $permission),
                         $this->parent_id,
                         $containerType,
                         $tree,
-                        $access_handler);
+                        $access_handler
+                    );
                     ilUtil::sendSuccess($this->lng->txt("file_added"), true);
                 } catch (ilFileUtilsException $e) {
                     ilUtil::sendFailure($e->getMessage(), true);
@@ -635,7 +641,10 @@ class ilObjFileGUI extends ilObject2GUI
 
                 // Record read event and catchup with write events
                 ilChangeEvent::_recordReadEvent(
-                    $this->object->getType(), $this->object->getRefId(), $this->object->getId(), $DIC->user()->getId()
+                    $this->object->getType(),
+                    $this->object->getRefId(),
+                    $this->object->getId(),
+                    $DIC->user()->getId()
                 );
                 // END ChangeEvent: Record read event.
 
@@ -669,7 +678,7 @@ class ilObjFileGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    function infoScreen()
+    public function infoScreen()
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -680,7 +689,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    function infoScreenForward()
+    public function infoScreenForward()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -802,7 +811,7 @@ class ilObjFileGUI extends ilObject2GUI
 
 
     // get tabs
-    function setTabs()
+    public function setTabs()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -814,21 +823,27 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->setParameter($this, "ref_id", $this->node_id);
 
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab("id_versions",
+            $ilTabs->addTab(
+                "id_versions",
                 $lng->txt(self::CMD_VERSIONS),
-                $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT));
+                $this->ctrl->getLinkTargetByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_DEFAULT)
+            );
         }
 
         if ($this->checkPermissionBool("visible") || $this->checkPermissionBool("read")) {
-            $ilTabs->addTab("id_info",
+            $ilTabs->addTab(
+                "id_info",
                 $lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary"));
+                $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary")
+            );
         }
 
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab("settings",
+            $ilTabs->addTab(
+                "settings",
                 $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT));
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT)
+            );
         }
 
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
@@ -844,17 +859,21 @@ class ilObjFileGUI extends ilObject2GUI
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
-                $ilTabs->addTab("id_meta",
+                $ilTabs->addTab(
+                    "id_meta",
                     $lng->txt("meta_data"),
-                    $mdtab);
+                    $mdtab
+                );
             }
         }
 
         // export
         if ($this->checkPermissionBool("write")) {
-            $ilTabs->addTab("export",
+            $ilTabs->addTab(
+                "export",
                 $lng->txt("export"),
-                $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+            );
         }
 
         // will add permission tab if needed
@@ -889,8 +908,10 @@ class ilObjFileGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
+                ilUtil::sendFailure(sprintf(
+                    $lng->txt("msg_no_perm_read_item"),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ), true);
                 ilObjectGUI::_gotoRepositoryRoot();
             }
         }
@@ -902,7 +923,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      *
      */
-    function addLocatorItems()
+    public function addLocatorItems()
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -1150,10 +1171,10 @@ class ilObjFileGUI extends ilObject2GUI
             // create and insert file in grp_tree
             $fileObj = new ilObjFile();
             // bugfix mantis 0026043
-            if(strlen(trim($title)) == 0) {
+            if (strlen(trim($title)) == 0) {
                 $title = $filename;
             } else {
-                $title = $fileObj->checkFileExtension($filename,$title);
+                $title = $fileObj->checkFileExtension($filename, $title);
             }
             $fileObj->setTitle($title);
             $fileObj->setDescription($description);
@@ -1196,8 +1217,12 @@ class ilObjFileGUI extends ilObject2GUI
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if (is_object($lg)) {
             if ($this->object->hasRating()) {
-                $lg->enableRating(true, null, false,
-                    array("ilcommonactiondispatchergui", "ilratinggui"));
+                $lg->enableRating(
+                    true,
+                    null,
+                    false,
+                    array("ilcommonactiondispatchergui", "ilratinggui")
+                );
             }
         }
 
