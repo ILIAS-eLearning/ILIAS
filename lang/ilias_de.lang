@@ -16090,3 +16090,4 @@ prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsr
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
 notes#:#note_without_object#:#Ohne Objektbezug
+prg#:#msg_fill_required#:#Bitte füllen Sie alle Pflichtfelder aus.

@@ -471,12 +471,7 @@ class ilStudyProgrammeType
     }
 
 
-    /**
-     * Returns the loaded translation objects
-     *
-     * @return array
-     */
-    public function getTranslations() : array
+    public function getTranslations() : ?array
     {
         return $this->translations;
     }

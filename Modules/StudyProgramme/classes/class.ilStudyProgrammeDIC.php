@@ -69,7 +69,6 @@ class ilStudyProgrammeDIC
                 (int) $DIC['ilUser']->getId()
             );
         };
-
         $dic['ilObjStudyProgrammeSettingsGUI'] = function ($dic) use ($DIC) {
             return new ilObjStudyProgrammeSettingsGUI(
                 $DIC['tpl'],
@@ -131,7 +130,11 @@ class ilStudyProgrammeDIC
                 $DIC['lng'],
                 $DIC['ilias'],
                 $DIC['ilTabs'],
-                $dic['model.Type.ilStudyProgrammeTypeRepository']
+                $dic['model.Type.ilStudyProgrammeTypeRepository'],
+                $DIC->ui()->factory()->input(),
+                $DIC->ui()->renderer(),
+                $DIC->http()->request(),
+                $DIC->refinery()
             );
         };
         $dic['ilStudyProgrammeRepositorySearchGUI'] = function ($dic) {
