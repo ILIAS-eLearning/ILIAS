@@ -1375,7 +1375,7 @@ $ilDB->modifyTableColumn('il_cert_template', 'version', array(
 ?>
 <#5521>
 <?php
-if(!$ilDB->indexExistsByFields('rbac_log',['created'])) {
+if (!$ilDB->indexExistsByFields('rbac_log', ['created'])) {
     $ilDB->addIndex('rbac_log', ['created'], 'i2');
 }
 ?>
@@ -2907,9 +2907,9 @@ switch ($tree_type) {
 <?php
 if (!$ilDB->tableColumnExists('object_reference', 'deleted_by')) {
     $ilDB->addTableColumn(
-            'object_reference',
-            'deleted_by',
-            [
+        'object_reference',
+        'deleted_by',
+        [
                         'type' => 'integer',
                         'notnull' => false,
                         'length' => 4,
@@ -2978,18 +2978,18 @@ if (!$ilDB->tableExists('webdav_instructions')) {
 
 if (!$ilDB->tableColumnExists('crs_settings', 'period_start')) {
     $ilDB->addTableColumn(
-            'crs_settings',
-            'period_start',
-            [
+        'crs_settings',
+        'period_start',
+        [
                         'type' => \ilDBConstants::T_TIMESTAMP,
                         'notnull' => false,
                         'default' => null
                 ]
         );
     $ilDB->addTableColumn(
-            'crs_settings',
-            'period_end',
-            [
+        'crs_settings',
+        'period_end',
+        [
                         'type' => \ilDBConstants::T_TIMESTAMP,
                         'notnull' => false,
                         'default' => null
@@ -3029,9 +3029,9 @@ while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
 <?php
 if (!$ilDB->tableColumnExists('crs_settings', 'period_time_indication')) {
     $ilDB->addTableColumn(
-            'crs_settings',
-            'period_time_indication',
-            [
+        'crs_settings',
+        'period_time_indication',
+        [
                         'type' => \ilDBConstants::T_INTEGER,
                         'notnull' => true,
                         'default' => 0
@@ -3049,18 +3049,18 @@ if (!$ilDB->tableColumnExists('crs_settings', 'period_time_indication')) {
 
 if (!$ilDB->tableColumnExists('grp_settings', 'period_start')) {
     $ilDB->addTableColumn(
-            'grp_settings',
-            'period_start',
-            [
+        'grp_settings',
+        'period_start',
+        [
                         'type' => \ilDBConstants::T_TIMESTAMP,
                         'notnull' => false,
                         'default' => null
                 ]
         );
     $ilDB->addTableColumn(
-            'grp_settings',
-            'period_end',
-            [
+        'grp_settings',
+        'period_end',
+        [
                         'type' => \ilDBConstants::T_TIMESTAMP,
                         'notnull' => false,
                         'default' => null
@@ -3100,9 +3100,9 @@ while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
 <?php
 if (!$ilDB->tableColumnExists('grp_settings', 'period_time_indication')) {
     $ilDB->addTableColumn(
-            'grp_settings',
-            'period_time_indication',
-            [
+        'grp_settings',
+        'period_time_indication',
+        [
                         'type' => \ilDBConstants::T_INTEGER,
                         'notnull' => true,
                         'default' => 0
@@ -3351,9 +3351,9 @@ if (!$ilDB->tableColumnExists('il_blog_posting', 'last_withdrawn')) {
 global $ilDB;
 if (!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
     $ilDB->addTableColumn(
-            'crs_settings',
-            'target_group',
-            [
+        'crs_settings',
+        'target_group',
+        [
                                 'type' => \ilDBConstants::T_TEXT,
                                 'length' => 4000,
                                 'notnull' => false
@@ -3530,9 +3530,9 @@ global $ilDB;
 
 if (!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
     $ilDB->addTableColumn(
-            'crs_settings',
-            'target_group',
-            [
+        'crs_settings',
+        'target_group',
+        [
                                 'type' => \ilDBConstants::T_TEXT,
                                 'length' => 4000,
                                 'notnull' => false
@@ -4017,9 +4017,9 @@ ilOrgUnitOperationQueries::registerNewOperation(
 <?php
 if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification')) {
     $ilDB->addTableColumn(
-            'grp_settings',
-            'auto_notification',
-            [
+        'grp_settings',
+        'auto_notification',
+        [
                         'type'    => 'integer',
                         'notnull' => true,
                         'default' => 1
@@ -4031,9 +4031,9 @@ if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification')) {
 <?php
 if (!$ilDB->tableColumnExists('event_participants', 'excused')) {
     $ilDB->addTableColumn(
-            'event_participants',
-            'excused',
-            [
+        'event_participants',
+        'excused',
+        [
                         'type'    => 'integer',
                         'length' => 1,
                         'notnull' => true,
@@ -4108,4 +4108,11 @@ ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOper
     ilOrgUnitOperationContext::CONTEXT_CRS,
     ilOrgUnitOperationContext::CONTEXT_SVY,
 ]);
+?>
+
+<#5650>
+<?php
+if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
+    $ilDB->dropTableColumn('prg_settings', 'access_ctrl_org_pos');
+}
 ?>

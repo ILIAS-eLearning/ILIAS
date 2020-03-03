@@ -284,13 +284,12 @@ class ilObjStudyProgrammeSettingsGUI
                     );
 
                     $prg->setAutoMailSettings($values["automail_settings"]);
-                    $prg->setAccessCtrlByOrguPositionSettings($values['prg_additional_settings']);
 
-                    $orgu_object_settings = new ilOrgUnitObjectPositionSetting($prg->getId());
-                    $orgu_object_settings->setActive(
-                        $prg->getAccessCtrlByOrguPositionSettings()->getAccessByOrgu()
-                    );
-                    $orgu_object_settings->update();
+                    if (!is_null($values['prg_additional_settings'])) {
+                        $prg->setAdditionalSettings(
+                            $values['prg_additional_settings']
+                        );
+                    }
 
                     return $prg;
                 }
@@ -337,7 +336,7 @@ class ilObjStudyProgrammeSettingsGUI
         ) {
             $return['prg_additional_settings'] =
                 $prg
-                    ->getAccessCtrlByOrguPositionSettings()
+                    ->getAdditionalSettings()
                     ->toFormInput($ff, $ilLng, $refinery)
             ;
         }
