@@ -6,21 +6,21 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-class ilStudyProgrammeAccessCtrlByOrguPositionSettingsTest extends TestCase
+class ilStudyProgrammeAdditionalSettingsTest extends TestCase
 {
     const VALID_ACCESSS_BY_ORGU_1 = true;
     const VALID_ACCESSS_BY_ORGU_2 = false;
 
     public function testSuccessfulCreate()
     {
-        $obj = new ilStudyProgrammeAccessCtrlByOrguPositionSettings(self::VALID_ACCESSS_BY_ORGU_1);
+        $obj = new ilStudyProgrammeAdditionalSettings(self::VALID_ACCESSS_BY_ORGU_1);
 
         $this->assertEquals(self::VALID_ACCESSS_BY_ORGU_1, $obj->getAccessByOrgu());
     }
 
     public function testSuccessfulWithAccessByOrgu() : void
     {
-        $obj = new ilStudyProgrammeAccessCtrlByOrguPositionSettings(self::VALID_ACCESSS_BY_ORGU_1);
+        $obj = new ilStudyProgrammeAdditionalSettings(self::VALID_ACCESSS_BY_ORGU_1);
 
         $new = $obj->withAccessByOrgu(self::VALID_ACCESSS_BY_ORGU_2);
 
@@ -40,7 +40,7 @@ class ilStudyProgrammeAccessCtrlByOrguPositionSettingsTest extends TestCase
             $refinery
         );
 
-        $obj = new ilStudyProgrammeAccessCtrlByOrguPositionSettings(self::VALID_ACCESSS_BY_ORGU_1);
+        $obj = new ilStudyProgrammeAdditionalSettings(self::VALID_ACCESSS_BY_ORGU_1);
 
         $lng->expects($this->atLeastOnce())
             ->method('txt')

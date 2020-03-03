@@ -102,9 +102,9 @@ class ilStudyProgrammeSettings
     protected $validity_of_qualification_settings;
 
     /**
-     * @var \ilStudyProgrammeAccessCtrlByOrguPositionSettings
+     * @var \ilStudyProgrammeAdditionalSettings
      */
-    protected $access_ctrl_by_org_unit_position_settings;
+    protected $additional_settings;
 
     /**
      * Is the access control governed by positions?
@@ -125,7 +125,7 @@ class ilStudyProgrammeSettings
         \ilStudyProgrammeDeadlineSettings $deadline_settings,
         \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
         \ilStudyProgrammeAutoMailSettings $automail_settings,
-        \ilStudyProgrammeAccessCtrlByOrguPositionSettings $access_ctrl_by_orgu_position_settings
+        \ilStudyProgrammeAdditionalSettings $additional_settings
     ) {
         $this->obj_id = $a_id;
         $this->type_settings = $type_settings;
@@ -133,7 +133,7 @@ class ilStudyProgrammeSettings
         $this->deadline_settings = $deadline_settings;
         $this->validity_of_qualification_settings = $validity_of_qualification_settings;
         $this->automail_settings = $automail_settings;
-        $this->access_ctrl_by_org_unit_position_settings = $access_ctrl_by_orgu_position_settings;
+        $this->additional_settings = $additional_settings;
     }
     
     /**
@@ -264,16 +264,16 @@ class ilStudyProgrammeSettings
         return $clone;
     }
 
-    public function getAccessCtrlByOrguPositionSettings() : \ilStudyProgrammeAccessCtrlByOrguPositionSettings
+    public function getAdditionalSettings() : \ilStudyProgrammeAdditionalSettings
     {
-        return $this->access_ctrl_by_org_unit_position_settings;
+        return $this->additional_settings;
     }
 
-    public function withAccessCtrlByOrguPositionsSettings(
-        \ilStudyProgrammeAccessCtrlByOrguPositionSettings $access_ctrl_by_org_unit_position_settings
+    public function withAdditionalSettings(
+        \ilStudyProgrammeAdditionalSettings $additional_settings
     ) : ilStudyProgrammeSettings {
         $clone = clone $this;
-        $clone->access_ctrl_by_org_unit_position_settings = $access_ctrl_by_org_unit_position_settings;
+        $clone->additional_settings = $additional_settings;
         return $clone;
     }
 
