@@ -7,7 +7,7 @@ declare(strict_types=1);
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Refinery\Factory as Refinery;
 
-class ilStudyProgrammeAccessCtrlByOrguPositionSettings
+class ilStudyProgrammeAdditionalSettings
 {
     /**
      * @var bool
@@ -24,7 +24,7 @@ class ilStudyProgrammeAccessCtrlByOrguPositionSettings
         return $this->access_by_orgu;
     }
 
-    public function withAccessByOrgu(bool $access_by_orgu) : ilStudyProgrammeAccessCtrlByOrguPositionSettings
+    public function withAccessByOrgu(bool $access_by_orgu) : ilStudyProgrammeAdditionalSettings
     {
         $clone = clone $this;
         $clone->access_by_orgu = $access_by_orgu;
@@ -48,7 +48,7 @@ class ilStudyProgrammeAccessCtrlByOrguPositionSettings
             $lng->txt('prg_additional_settings')
         )
         ->withAdditionalTransformation($refinery->custom()->transformation(function ($vals) {
-            return new ilStudyProgrammeAccessCtrlByOrguPositionSettings(
+            return new ilStudyProgrammeAdditionalSettings(
                 (bool) $vals['access_ctr_by_orgu_position']
             );
         }));
