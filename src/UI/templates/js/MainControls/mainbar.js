@@ -539,8 +539,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			},
 			readStates = function() {
 				cs = storage();
-				cs.items.entries = decompressEntries(cs.items.entries);
-				cs.items.tools = decompressEntries(cs.items.tools);
+				if (("entries" in cs.items) && ("tools" in cs.items)) {
+					cs.items.entries = decompressEntries(cs.items.entries);
+					cs.items.tools = decompressEntries(cs.items.tools);
+				}
 				return cs.items;
 			},
 			/**
