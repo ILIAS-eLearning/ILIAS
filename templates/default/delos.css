@@ -9051,12 +9051,16 @@ footer {
 **************************************************************
 */
 @media print {
-  .il-layout-page {
-    display: block;
+  html body {
+    overflow: visible;
   }
-  .il-layout-page header,
-  .il-layout-page nav,
-  .il-layout-page footer {
+  html body section.il-layout-page {
+    display: block;
+    overflow: visible;
+  }
+  html body section.il-layout-page header,
+  html body section.il-layout-page nav,
+  html body section.il-layout-page footer {
     display: none;
   }
 }
