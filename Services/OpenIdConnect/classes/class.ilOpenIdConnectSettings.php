@@ -12,6 +12,7 @@ class ilOpenIdConnectSettings
 {
     const FILE_STORAGE = 'openidconnect/login_form_image';
     const STORAGE_ID = 'oidc';
+    const DEFAULT_SCOPE = 'openid';
 
     const LOGIN_ELEMENT_TYPE_TXT = 0;
     const LOGIN_ELEMENT_TYPE_IMG = 1;
@@ -125,6 +126,11 @@ class ilOpenIdConnectSettings
      * @var array
      */
     private $role_mappings = [];
+
+    /**
+     * @var array
+     */
+    private $additional_scopes = [];
 
 
     /**
@@ -371,6 +377,32 @@ class ilOpenIdConnectSettings
     }
 
     /**
+     * @return array
+     */
+    public function getAdditionalScopes() : array
+    {
+        return $this->additional_scopes;
+    }
+
+    /**
+     * @param array $additional_scopes
+     */
+    public function setAdditionalScopes(array $additional_scopes)
+    {
+        $this->additional_scopes = $additional_scopes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllScopes() : array {
+        $scopes = $this->additional_scopes;
+        array_unshift($scopes, self::DEFAULT_SCOPE);
+
+        return $scopes;
+    }
+
+    /**
      * Delete image file
      *
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -453,6 +485,36 @@ class ilOpenIdConnectSettings
         return '';
     }
 
+    public function validateScopes(string $provider, array $custom_scopes) {
+        try {
+            $curl = new ilCurlConnection($provider . '/.well-known/openid-configuration');
+            $curl->init();
+
+            $curl->setOpt(CURLOPT_HEADER, 0);
+            $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
+            $curl->setOpt(CURLOPT_TIMEOUT, 4);
+
+            $response =  json_decode($curl->exec());
+
+            if($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
+                return array();
+            }
+
+            $available_scopes = $response->scopes_supported;
+            array_unshift($custom_scopes, self::DEFAULT_SCOPE);
+
+            $result = array_diff($custom_scopes, $available_scopes);
+
+
+        } catch (ilCurlConnectionException $e){
+            throw $e;
+        } finally {
+            $curl->close();
+        }
+
+        return $result;
+    }
+
     /**
      * Save in settings
      */
@@ -462,6 +524,7 @@ class ilOpenIdConnectSettings
         $this->storage->set('provider', $this->getProvider());
         $this->storage->set('client_id', $this->getClientId());
         $this->storage->set('secret', $this->getSecret());
+        $this->storage->set('scopes', (string) serialize($this->getAdditionalScopes()));
         $this->storage->set('le_img', $this->getLoginElementImage());
         $this->storage->set('le_text', $this->getLoginElemenText());
         $this->storage->set('le_type', $this->getLoginElementType());
@@ -494,6 +557,7 @@ class ilOpenIdConnectSettings
         $this->setProvider($this->storage->get('provider', ''));
         $this->setClientId($this->storage->get('client_id', ''));
         $this->setSecret($this->storage->get('secret', ''));
+        $this->setAdditionalScopes((array) unserialize($this->storage->get('scopes', serialize([]))));
         $this->setLoginElementImage($this->storage->get('le_img', ''));
         $this->setLoginElementText($this->storage->get('le_text'));
         $this->setLoginElementType($this->storage->get('le_type'));

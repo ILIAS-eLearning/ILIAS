@@ -190,6 +190,24 @@ class ilOpenIdConnectSettingsGUI
         }
         $form->addItem($secret);
 
+        $default_scope = new ilTextInputGUI(
+            $this->lng->txt('auth_oidc_settings_additional_scopes'),
+            "default_scope"
+        );
+        $default_scope->setValue(ilOpenIdConnectSettings::DEFAULT_SCOPE);
+        $default_scope->setDisabled(true);
+        $form->addItem($default_scope);
+
+        $scopes = new ilTextInputGUI(
+            "",
+            "scopes"
+        );
+        $scopes->setMulti(true);
+        $scopeValues = $this->settings->getAdditionalScopes();
+        $scopes->setValue($scopeValues[0]);
+        $scopes->setMultiValues($scopeValues);
+        $form->addItem($scopes);
+
         // login element
         $login_element = new ilRadioGroupInputGUI(
             $this->lng->txt('auth_oidc_settings_le'),
@@ -364,12 +382,32 @@ class ilOpenIdConnectSettingsGUI
             return;
         }
 
+        if(!empty($form->getInput('scopes'))) {
+            $scopes = $form->getInput('scopes');
+            foreach ($scopes as $key => $value) {
+                if(empty($value)) {
+                    array_splice($scopes, $key, 1);
+                }
+            }
+        }
+
+        $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
+        if(!empty($invalid_scopes)) {
+            ilUtil::sendFailure(
+                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'),implode(",", $invalid_scopes))
+            );
+            $form->setValuesByPost();
+            $this->settings($form);
+            return;
+        }
+
         $this->settings->setActive((bool) $form->getInput('activation'));
         $this->settings->setProvider((string) $form->getInput('provider'));
         $this->settings->setClientId((string) $form->getInput('client_id'));
         if (strlen($form->getInput('secret')) && strcmp($form->getInput('secret'), '******') !== 0) {
             $this->settings->setSecret((string) $form->getInput('secret'));
         }
+        $this->settings->setAdditionalScopes((array) $scopes);
         $this->settings->setLoginElementType((int) $form->getInput('le'));
         $this->settings->setLoginElementText((string) $form->getInput('le_text'));
         $this->settings->setLoginPromptType((int) $form->getInput('login_prompt'));
