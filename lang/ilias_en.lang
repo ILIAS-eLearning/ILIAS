@@ -16087,3 +16087,4 @@ impr#:#impr_page_type_impr#:#Imprint
 prg#:#prg_additional_settings#:#Additional Features
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
+ui#:#ui_numeric_only#:#Please insert a whole number.
