@@ -119,13 +119,12 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
             $documentByline = $this->lng->txt('acc_form_document_new_info');
         }
 
-        $document = new ilFileStandardDropzoneInputGUI($documentLabel, 'document');
+        $document = new ilFileInputGUI($documentLabel, 'document');
         $document->setInfo($documentByline);
         if (!$this->document->getId()) {
             $document->setRequired(true);
         }
         $document->setDisabled(!$this->isEditable);
-        $document->setMaxFiles(1);
         $document->setSuffixes(['html', 'txt']);
         $this->addItem($document);
 

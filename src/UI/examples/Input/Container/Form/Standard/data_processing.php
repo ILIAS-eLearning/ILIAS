@@ -7,8 +7,6 @@ function data_processing()
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
-    $lng = $DIC->language();
-    $data = new \ILIAS\Data\Factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $refinery = $DIC->refinery();

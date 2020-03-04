@@ -258,10 +258,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $res = $user_query->query();
             $all_participants = $res['set'];
         }
-        
+
+        $part = [];
         foreach ($all_participants as $counter => $participant) {
             $usr_data = $this->getParticipants()->getEventParticipants()->getUser($participant['usr_id']);
-            
+
             $tmp_data = [];
             $tmp_data['id'] = $participant['usr_id'];
             
@@ -304,7 +305,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
                 $part[] = $tmp_data;
             }
         }
-        $this->setData($part ? $part : array());
+        $this->setData($part);
     }
     
     /**

@@ -102,6 +102,11 @@ class ilStudyProgrammeSettings
     protected $validity_of_qualification_settings;
 
     /**
+     * @var \ilStudyProgrammeAdditionalSettings
+     */
+    protected $additional_settings;
+
+    /**
      * Is the access control governed by positions?
      *
      * @var bool
@@ -119,7 +124,8 @@ class ilStudyProgrammeSettings
         \ilStudyProgrammeAssessmentSettings $assessment_settings,
         \ilStudyProgrammeDeadlineSettings $deadline_settings,
         \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
-        \ilStudyProgrammeAutoMailSettings $automail_settings
+        \ilStudyProgrammeAutoMailSettings $automail_settings,
+        \ilStudyProgrammeAdditionalSettings $additional_settings
     ) {
         $this->obj_id = $a_id;
         $this->type_settings = $type_settings;
@@ -127,6 +133,7 @@ class ilStudyProgrammeSettings
         $this->deadline_settings = $deadline_settings;
         $this->validity_of_qualification_settings = $validity_of_qualification_settings;
         $this->automail_settings = $automail_settings;
+        $this->additional_settings = $additional_settings;
     }
     
     /**
@@ -257,20 +264,17 @@ class ilStudyProgrammeSettings
         return $clone;
     }
 
-    /**
-     * Choose whether the corresponding prg feature access is governed by positions.
-     */
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
+    public function getAdditionalSettings() : \ilStudyProgrammeAdditionalSettings
     {
-        $this->access_ctrl_positions = $access_ctrl_positions;
+        return $this->additional_settings;
     }
 
-    /**
-     * Is the corresponding prg feature access governed by positions?
-     */
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->access_ctrl_positions;
+    public function withAdditionalSettings(
+        \ilStudyProgrammeAdditionalSettings $additional_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->additional_settings = $additional_settings;
+        return $clone;
     }
 
     public function validationExpires() : bool

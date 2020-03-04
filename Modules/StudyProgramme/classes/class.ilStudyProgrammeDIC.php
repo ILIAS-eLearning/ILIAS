@@ -197,6 +197,9 @@ class ilStudyProgrammeDIC
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };
+        $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
+            return new ilOrgUnitObjectTypePositionSetting('prg');
+        };
         $dic['ilStudyProgrammePostionBasedAccess'] = function ($dic) {
             return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
         };
