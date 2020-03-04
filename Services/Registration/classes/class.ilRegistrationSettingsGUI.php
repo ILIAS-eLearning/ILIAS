@@ -104,7 +104,6 @@ class ilRegistrationSettingsGUI
     
     public function initForm()
     {
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -315,36 +314,51 @@ class ilRegistrationSettingsGUI
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
+        $ilTabs = $DIC['ilTabs'];
+        $ilCtrl = $DIC['ilCtrl'];
         $rbacreview = $DIC['rbacreview'];
         
         if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
         }
-        
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.edit_roles.html', 'Services/Registration');
 
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_SELECTABLE_ROLES", $this->lng->txt('reg_selectable_roles'));
-        $this->tpl->setVariable("ARR_DOWNRIGHT", ilUtil::getImagePath('arrow_downright.svg'));
-        $this->tpl->setVariable("ACTIONS", $this->lng->txt('actions'));
-        $this->tpl->setVariable("UPDATE", $this->lng->txt('save'));
-        $this->tpl->setVariable("CANCEL", $this->lng->txt('cancel'));
+        $ilTabs->clearTargets();
+        $ilTabs->setBackTarget(
+            $this->lng->txt("registration_settings"),
+            $ilCtrl->getLinkTarget($this, "view")
+        );
 
-        $counter = 0;
+        $role_form = new ilPropertyFormGUI();
+        $role_form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+        $role_form->setTitle($this->lng->txt('reg_selectable_roles'));
+
+        $roles = new \ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'),'roles');
+        $allowed_roles = array();
         foreach ($rbacreview->getGlobalRoles() as $role) {
             if ($role == SYSTEM_ROLE_ID or $role == ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $this->tpl->setCurrentBlock("roles");
-            $this->tpl->setVariable("CSSROW", ilUtil::switchColor(++$counter, 'tblrow1', 'tblrow2'));
-            $this->tpl->setVariable("CHECK_ROLE", ilUtil::formCheckbox(
-                ilObjRole::_lookupAllowRegister($role),
-                "roles[$role]",
-                1
-            ));
-            $this->tpl->setVariable("ROLE", ilObjRole::_lookupTitle($role));
-            $this->tpl->parseCurrentBlock();
+            $role_option = new \ilCheckboxOption(ilObjRole::_lookupTitle($role));
+            $role_option->setValue($role);
+            $roles->addOption($role_option);
+
+            $allowed_roles[$role] = ilObjRole::_lookupAllowRegister($role);
+
         }
+
+        $roles->setUseValuesAsKeys(true);
+        $roles->setValue($allowed_roles);
+        $role_form->addItem($roles);
+
+
+        if ($this->rbacsystem->system()->checkAccess("write", $this->ref_id)) {
+            $role_form->addCommandButton("updateRoles", $this->lng->txt("save"));
+        }
+        $role_form->addCommandButton("view", $this->lng->txt("cancel"));
+
+
+        $this->tpl->setContent($role_form->getHTML());
+
     }
 
     public function updateRoles()
