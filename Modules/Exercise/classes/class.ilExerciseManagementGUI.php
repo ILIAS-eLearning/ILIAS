@@ -567,7 +567,9 @@ class ilExerciseManagementGUI
                     $data["peer"] = array_keys($peer_data[$file["user_id"]]);
                 }
 
-                $data["fb_received"] = count($data["peer"]);
+                $data["fb_received"] = (is_array($data["peer"]))
+                    ? count($data["peer"])
+                    : 0;
                 $data["fb_given"] = $peer_review->countGivenFeedback(true, $file["user_id"]);
 
                 $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
