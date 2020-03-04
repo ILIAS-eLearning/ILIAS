@@ -45,7 +45,7 @@ class SelectInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($select->_isClientSideValueOk(""));
     }
 
-    public function testEmptyStringIsNoAcceptableClientSideValueIfSelectIsRequired()
+    public function testEmptyStringIsAnAcceptableClientSideValueEvenIfSelectIsRequired()
     {
         $options = [];
         $select = (new SelectForTest(
@@ -56,6 +56,6 @@ class SelectInputTest extends ILIAS_UI_TestBase
             ""
         ))->withRequired(true);
 
-        $this->assertFalse($select->_isClientSideValueOk(""));
+        $this->assertTrue($select->_isClientSideValueOk(""));
     }
 }
