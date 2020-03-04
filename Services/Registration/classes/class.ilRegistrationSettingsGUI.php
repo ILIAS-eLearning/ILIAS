@@ -739,57 +739,6 @@ class ilRegistrationSettingsGUI
 
         $this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
     }
-
-    public function __buildRoleSelection($assignment_id)
-    {
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
-        $assignments = $this->assignments_obj->getAssignments();
-        $selected = ($assignment_id > 0) ?
-            $assignments[$assignment_id]['role'] :
-            $this->assignments_obj->getDefaultRole();
-
-        if (!$selected) {
-            $roles[0] = $this->lng->txt('please_choose');
-        }
-
-        foreach ($rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
-                continue;
-            }
-            $roles[$role_id] = ilObjRole::_lookupTitle($role_id);
-        }
-
-        if ($assignment_id > 0) {
-            $selectInput = new ilSelectInputGUI($selected, "roles[$assignment_id][role]");
-            $selectInput->setOptions($roles);
-
-            return $selectInput;
-            /*return ilUtil::formSelect(
-                $selected,
-                "role[$assignment_id][role]",
-                $roles,
-                false,
-                true
-            );*/
-        } else {
-            $selectInput = new ilSelectInputGUI($selected, "roles[$assignment_id][role]");
-            $selectInput->setOptions($roles);
-
-            return $selectInput;
-            /*return ilUtil::formSelect(
-                $selected,
-                "default_role",
-                $roles,
-                false,
-                true
-            );*/
-        }
-    }
     
     public function __buildAccessLimitationSelection($a_role_id)
     {
