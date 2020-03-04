@@ -764,6 +764,7 @@ class ilObjLTIConsumer extends ilObject2
         }
 
         $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getUserIdent(), $DIC->user());
+        $resource_link_id .= '_'.$userIdLTI;
 
         $emailPrimary = $cmixUser->getUsrIdent();
         
