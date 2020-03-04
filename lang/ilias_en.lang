@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -15070,3 +15070,25 @@ exc#:#exc_members_already_assigned_team#:#This user is already assigned to a tea
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 common#:#msg_unknown_value#:#An unknown value has been passed.
 exc#:#exc_deleted_user#:#Deleted User
+copg#:#copg_allow_html#:#Enable HTML/Javascript
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
+dcl#:#dcl_page_type_dclf#:#Details View
+crs#:#crs_page_type_lobj#:#Learning Objective Page
+copa#:#copa_page_type_copa#:#Content Page
+mep#:#mep_page_type_mep#:#Content Snippet
+wiki#:#wiki_page_type_wpg#:#Wiki Page
+blog#:#blog_page_type_blp#:#Blog Posting
+prtf#:#prtf_page_type_prtf#:#Portfolio Page
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
+glo#:#glo_page_type_gdf#:#Term Definition
+lm#:#lm_page_type_lm#:#LM Page
+qpl#:#qpl_page_type_qht#:#Hint
+qpl#:#qpl_page_type_qpl#:#Question Page
+qpl#:#qpl_page_type_qfbg#:#General Feedback
+qpl#:#qpl_page_type_qfbs#:#Special Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
+copg#:#copg_page_type_stys#:#Layout Page
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
+auth#:#auth_page_type_auth#:#Login Page
+impr#:#impr_page_type_impr#:#Imprint

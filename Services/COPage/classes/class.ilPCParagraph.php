@@ -982,7 +982,7 @@ class ilPCParagraph extends ilPageContent
     *
     * @return	string	string ready for edit textarea
     */
-    public static function xml2output($a_text, $a_wysiwyg = false, $a_replace_lists = true)
+    public static function xml2output($a_text, $a_wysiwyg = false, $a_replace_lists = true, $unmask = true)
     {
         // note: the order of the processing steps is crucial
         // and should be the same as in input2xml() in REVERSE order!
@@ -1131,8 +1131,10 @@ class ilPCParagraph extends ilPageContent
             $a_text = str_replace("}", "&#125;", $a_text);
 
             // unmask html
-            $a_text = str_replace("&lt;", "<", $a_text);
-            $a_text = str_replace("&gt;", ">", $a_text);
+            if ($unmask) {
+                $a_text = str_replace("&lt;", "<", $a_text);
+                $a_text = str_replace("&gt;", ">", $a_text);
+            }
 
             // this is needed to allow html like <tag attribute="value">... in paragraphs
             $a_text = str_replace("&quot;", "\"", $a_text);
@@ -1142,8 +1144,10 @@ class ilPCParagraph extends ilPageContent
             $a_text = str_replace("&amp;", "&", $a_text);
 
             // make &gt; and $lt; work to allow (disabled) html descriptions
-            $a_text = str_replace("&lt;", "&amp;lt;", $a_text);
-            $a_text = str_replace("&gt;", "&amp;gt;", $a_text);
+            if ($unmask) {
+                $a_text = str_replace("&lt;", "&amp;lt;", $a_text);
+                $a_text = str_replace("&gt;", "&amp;gt;", $a_text);
+            }
         }
         return $a_text;
         //return str_replace("<br />", chr(13).chr(10), $a_text);

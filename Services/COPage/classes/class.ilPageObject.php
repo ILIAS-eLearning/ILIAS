@@ -1384,7 +1384,14 @@ abstract class ilPageObject
                 $cont_node = $res->nodeset[0]->parent_node();
                 $par = new ilPCParagraph($this);
                 $par->setNode($cont_node);
-                return $par->getText();
+                $text = $par->getText();
+
+                if (!$this->getPageConfig()->getPreventHTMLUnmasking()) {
+                    $text = str_replace("<", "&lt;", $text);
+                    $text = str_replace(">", "&gt;", $text);
+                }
+
+                return $text;
             }
         }
         return "";

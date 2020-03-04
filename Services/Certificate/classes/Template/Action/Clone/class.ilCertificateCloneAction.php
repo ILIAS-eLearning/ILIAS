@@ -133,7 +133,9 @@ class ilCertificateCloneAction
                 );
             }
 
-            if ($this->fileSystem->has($backgroundImageThumbnail) &&
+            if (
+                strlen($newBackgroundImageThumbnail) > 0 &&
+                $this->fileSystem->has($backgroundImageThumbnail) &&
                 !$this->fileSystem->hasDir($backgroundImageThumbnail)
             ) {
                 if ($this->fileSystem->has($newBackgroundImageThumbnail) &&

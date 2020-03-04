@@ -11,7 +11,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 //  NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the correspondi
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 acc#:#acc_access_key#:#Přístupový klíč
 acc#:#acc_access_keys#:#Přístupové klíče
 acc#:#acc_comp_frm#:#Fórum
