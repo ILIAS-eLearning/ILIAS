@@ -891,8 +891,8 @@ class ilMail
 
             $to  = array();
             $bcc = array();
-            
-            $as_email = array_unique($as_email);
+
+            $as_email = array_values(array_unique($as_email));
             if (count($as_email) == 1) {
                 $to[] = $as_email[0];
             } else {
