@@ -1028,10 +1028,15 @@ class ilObjFileGUI extends ilObject2GUI
         header('Vary: Accept');
         header('Content-type: text/plain');
 
-        foreach ($DIC->upload()->getResults() as $result) {
-            if (!ilFileUtils::hasValidExtension($result->getName())) {
-                $this->lng->loadLanguageModule('file');
-                ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+        if ($DIC->upload()->hasBeenProcessed()) {
+            foreach ($DIC->upload()->getResults() as $result) {
+                if (!ilFileUtils::hasValidExtension($result->getName())) {
+                    $this->lng->loadLanguageModule('file');
+                    ilUtil::sendInfo(
+                        $this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'),
+                        true
+                    );
+                }
             }
         }
         echo json_encode($response);
