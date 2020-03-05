@@ -101,23 +101,9 @@ class ilLTIConsumerResultService
     {
     }
     
-//    protected function checkToken(ilCmiXapiAuthToken $token)
-//    {
-//        if ($this->result->getUsrId() != $token->getUsrId()) {
-//            return false;
-//        }
-//
-//        if ($this->result->getObjId() != $token->getObjId()) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
-
     /**
      * Handle an incoming request from the LTI tool provider
      */
-//    public function handleRequest(ilCmiXapiAuthToken $token)
     public function handleRequest()
     {
         try {
@@ -129,21 +115,12 @@ class ilLTIConsumerResultService
 
             $token = ilCmiXapiAuthToken::getInstanceByToken($request->resultRecord->sourcedGUID->sourcedId);
 
-//            $result_id = ;
-//
-//            $this->result = ilLTIConsumerResult::getById($result_id);
-//
             $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(),$token->getUsrId(),false);
             if (empty($this->result)) {
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
-//                $this->respondUnauthorized("sourcedId $result_id not found!");
                 return;
             }
 
-//            if (!$this->checkToken($token)) {
-//                $this->respondUnauthorized("invalid access token!");
-//                return;
-//            }
 
             // check the object status
             $this->readProperties($this->result->obj_id);
