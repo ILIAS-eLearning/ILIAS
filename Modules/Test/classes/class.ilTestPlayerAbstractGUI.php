@@ -553,14 +553,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->testSession->setLastFinishedPass($this->testSession->getPass());
         $this->testSession->increaseTestPass();
-        
-        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
+
+        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
         $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
-        $this->tpl->setCurrentBlock("HeadContent");
-        $this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $url . "\">");
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->setVariable("URL", $url);
     }
     
     abstract protected function getCurrentQuestionId();
