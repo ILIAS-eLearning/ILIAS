@@ -285,7 +285,7 @@ class ilForumNotification
             $node_data = array_filter($node_data, function ($forum_node) use ($DIC, $ref_id) {
                 // filter out forum if a grp lies in the path (#0027702)
                 foreach ($DIC->repositoryTree()->getNodePath($forum_node['child'], $ref_id) as $path_node) {
-                    if ((int) $path_node['child'] !== $ref_id && $path_node['type'] === 'grp') {
+                    if ((int) $path_node['child'] !== (int) $ref_id && $path_node['type'] === 'grp') {
                         return false;
                     }
                 }
