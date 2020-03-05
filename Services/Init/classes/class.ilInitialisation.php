@@ -1416,6 +1416,7 @@ class ilInitialisation
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
         $c["ui.factory"] = function ($c) {
+            $c["lng"]->loadLanguageModule("ui");
             return new ILIAS\UI\Implementation\Factory(
                 $c["ui.factory.counter"],
                 $c["ui.factory.button"],

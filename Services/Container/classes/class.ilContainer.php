@@ -1029,7 +1029,7 @@ class ilContainer extends ilObject
 
         $trans = $this->getObjectTranslation();
         $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getDescription());
+        $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
 
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");

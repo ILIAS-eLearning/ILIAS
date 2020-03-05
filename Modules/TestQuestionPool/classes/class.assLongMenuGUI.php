@@ -734,7 +734,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         
         foreach ($this->object->getAnswers() as $lmIndex => $lm) {
             $pointsInput = (float) $form->getInput('points_' . $lmIndex);
-            $correctAnswersInput = $form->getInput('longmenu_' . $lmIndex . '_tags');
+            $correctAnswersInput = (array) $form->getInput('longmenu_' . $lmIndex . '_tags');
             
             foreach ($correctAnswersInput as $idx => $answer) {
                 if (in_array($answer, $lm)) {

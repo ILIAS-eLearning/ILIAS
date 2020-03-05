@@ -90,7 +90,7 @@ class ilWorkspaceTree extends ilTree
             " WHERE " . $this->obj_pk . " = " . $ilDB->quote($a_obj_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
 
-        return $res[$this->ref_pk];
+        return (int) $res[$this->ref_pk];
     }
     
     /**
