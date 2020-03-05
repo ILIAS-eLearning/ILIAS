@@ -2569,7 +2569,7 @@ class ilPageObjectGUI
                             }
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
-                            $lcontent = htmlentities($lcontent);
+                            $lcontent = str_replace("&", "&amp;" ,htmlentities($lcontent));
                         }
                         break;
 
