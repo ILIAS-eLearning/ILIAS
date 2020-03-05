@@ -4202,3 +4202,21 @@ if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
     $ilDB->dropTableColumn('prg_settings', 'access_ctrl_org_pos');
 }
 ?>
+<#5659>
+<?php
+$set = $ilDB->queryF("SELECT * FROM object_description ",
+    [],
+    []
+);
+while ($rec = $ilDB->fetchAssoc($set)) {
+    if ($rec["description"] != "") {
+        $ilDB->update("object_translation", [
+            "description" => ["text", $rec["description"]]
+        ], [    // where
+                "obj_id" => ["integer", $rec["obj_id"]],
+                "lang_default" => ["integer", 1]
+            ]
+        );
+    }
+}
+?>
