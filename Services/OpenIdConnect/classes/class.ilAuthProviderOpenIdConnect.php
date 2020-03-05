@@ -97,6 +97,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $this->getLogger()->dump($claims, \ilLogLevel::DEBUG);
             $status = $this->handleUpdate($status, $claims);
 
+            // @todo : provide a general solution for all authentication methods
+            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
+
             if ($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
                 $token = $oidc->requestClientCredentialsToken();
                 ilSession::set('oidc_auth_token', $token->access_token);
@@ -147,6 +150,10 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             ilSession::set('used_external_auth', true);
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+
+            // @todo : provide a general solution for all authentication methods
+            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
+
         } catch (ilOpenIdConnectSyncForbiddenException $e) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');
