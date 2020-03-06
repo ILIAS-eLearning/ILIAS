@@ -5094,6 +5094,8 @@ class ilObjUser extends ilObject
     ) {
         include_once("./Services/Export/classes/class.ilImport.php");
         $imp = new ilImport();
+        // bookmarks need to be skipped, importer does not exist anymore
+        $imp->addSkipImporter("Services/Bookmarks");
         if (!$a_profile_data) {
             $imp->addSkipEntity("Services/User", "usr_profile");
         }
