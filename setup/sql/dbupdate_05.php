@@ -4109,10 +4109,3 @@ ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOper
     ilOrgUnitOperationContext::CONTEXT_SVY,
 ]);
 ?>
-
-<#5650>
-<?php
-if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
-    $ilDB->dropTableColumn('prg_settings', 'access_ctrl_org_pos');
-}
-?>
