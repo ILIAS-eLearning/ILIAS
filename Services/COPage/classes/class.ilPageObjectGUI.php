@@ -2747,7 +2747,7 @@ class ilPageObjectGUI
                 $anchor = str_replace(
                     "TocH",
                     "TocA",
-                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 3)
+                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 4)
                 );
 
                 // get heading
