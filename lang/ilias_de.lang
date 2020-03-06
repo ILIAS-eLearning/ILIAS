@@ -16050,8 +16050,8 @@ pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###07 02 2020 new
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe###07 02 2020 new variable
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
+exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
+exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
 prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
