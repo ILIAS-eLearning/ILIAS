@@ -87,7 +87,7 @@ class ilExportLimitation
                 $cnt++;
             }
         }
-        if ($cnt > $max) {
+        if ($max > 0 && $cnt > $max) {
             throw new ilExportLimitationExceptionException(str_replace(
                 "%1",
                 $max,
