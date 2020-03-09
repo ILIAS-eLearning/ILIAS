@@ -332,23 +332,30 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
             switch ($this->user_settings->getTimeFormat()) {
                 case ilCalendarSettings::TIME_FORMAT_24:
                     if ($morning_aggr > 0 && $i == $morning_aggr) {
-                        $hours[$i][$num_day]['txt'] = sprintf('%02d:00', 0) . "-" .
+                        $hours[$i][$num_day]['txt'] = sprintf('%02d:00', 0) . ' - ' .
                             sprintf('%02d:00', ceil(($i+1)/60));
                     } else {
                         $hours[$i][$num_day]['txt'].= sprintf('%02d:%02d', floor($i/60), $i%60);
                     }
                     if ($evening_aggr < 23*60 && $i == $evening_aggr) {
-                        $hours[$i][$num_day]['txt'].= "-" . sprintf('%02d:00', 23);
+                        $hours[$i][$num_day]['txt'].= ' - ' . sprintf('%02d:00', 0);
                     }
                     break;
                 
                 case ilCalendarSettings::TIME_FORMAT_12:
                     if ($morning_aggr > 0 && $i == $morning_aggr) {
-                        $hours[$i][$num_day]['txt'] = date('h a', mktime(0, 0, 0, 1, 1, 2000)) . "-";
+                        $hours[$i][$num_day]['txt'] =
+                            date('h a', mktime(0, 0, 0, 1, 1, 2000)) . ' - ' .
+                            date('h a', mktime($this->user_settings->getDayStart(), 0, 0, 1, 1, 2000));
+
+                    } else {
+                        $hours[$i][$num_day]['txt'].= date('h a', mktime(floor($i/60), $i%60, 0, 1, 1, 2000));
                     }
-                    $hours[$i][$num_day]['txt'].= date('h a', mktime(floor($i/60), $i%60, 0, 1, 1, 2000));
-                    if ($evening_aggr < 23 && $i == $evening_aggr) {
-                        $hours[$i][$num_day]['txt'].= "-" . date('h a', mktime(23, 0, 0, 1, 1, 2000));
+                    if ($evening_aggr < 23*60 && $i == $evening_aggr) {
+
+                        $hours[$i][$num_day]['txt'] =
+                            date('h a', mktime($this->user_settings->getDayEnd(), 0, 0, 1, 1, '2000')) . ' - ' .
+                            date('h a', mktime(0, 0, 0, 1, 1, 2000));
                     }
                     break;
             }
