@@ -24,6 +24,8 @@ class ilImport
     protected $skip_entity = array();
     protected $configs = array();
 
+    protected $skip_importer = [];
+
     /**
      * Constructor
      *
@@ -107,6 +109,17 @@ class ilImport
         $this->skip_entity[$a_component][$a_entity] = $skip;
     }
     
+    /**
+     * Add skip entity
+     *
+     * @param string $a_val component
+     * @param string $a_val entity
+     */
+    public function addSkipImporter($a_component, $skip = true)
+    {
+        $this->skip_importer[$a_component] = $skip;
+    }
+
     /**
      * Set currrent dataset
      *
@@ -288,6 +301,11 @@ class ilImport
         $all_importers = array();
         foreach ($expfiles as $expfile) {
             $comp = $expfile["component"];
+
+            if (isset($this->skip_importer[$comp]) && $this->skip_importer[$comp] === true) {
+                continue;
+            }
+
             $class = ilImportExportFactory::getImporterClass($comp);
 
             // log a warning for inactive page component plugins, but continue import

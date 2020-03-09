@@ -4204,19 +4204,33 @@ if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
 ?>
 <#5659>
 <?php
-$set = $ilDB->queryF("SELECT * FROM object_description ",
+$set = $ilDB->queryF(
+    "SELECT * FROM object_description ",
     [],
     []
 );
 while ($rec = $ilDB->fetchAssoc($set)) {
     if ($rec["description"] != "") {
-        $ilDB->update("object_translation", [
+        $ilDB->update(
+            "object_translation",
+            [
             "description" => ["text", $rec["description"]]
-        ], [    // where
+        ],
+            [    // where
                 "obj_id" => ["integer", $rec["obj_id"]],
                 "lang_default" => ["integer", 1]
             ]
         );
     }
+}
+?>
+<#5660>
+<?php
+if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
+    $field = array(
+        'type'    => 'date',
+        'notnull' => false,
+    );
+    $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
 }
 ?>

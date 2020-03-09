@@ -2700,8 +2700,8 @@ class ilPageObjectGUI
                 $anchor = str_replace(
                     "TocH",
                     "TocA",
-                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 3)
-                    );
+                    substr($a_output, $os, strpos($a_output, "<", $os) - $os - 4)
+                );
 
                 // get heading
                 $tag_start = stripos($a_output, "<h" . $level . " ", $os);

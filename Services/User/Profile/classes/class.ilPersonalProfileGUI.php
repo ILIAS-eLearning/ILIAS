@@ -1487,7 +1487,7 @@ class ilPersonalProfileGUI
         $this->form->addItem($cb);
 
         // personal notes
-        $cb = new ilCheckboxInputGUI($this->lng->txt("pd_notes"), "notes");
+        $cb = new ilCheckboxInputGUI($this->lng->txt("notes"), "notes");
         $this->form->addItem($cb);
         
         // calendar entries

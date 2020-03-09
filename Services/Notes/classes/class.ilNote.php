@@ -67,6 +67,11 @@ class ilNote
      */
     protected $news_id;
 
+    /**
+     * @var int
+     */
+    protected $no_repository = 0;
+
 
     /**
     * constructor
