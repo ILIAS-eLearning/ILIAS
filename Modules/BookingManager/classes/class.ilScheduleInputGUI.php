@@ -98,8 +98,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $parts = explode("-", $slot);
                 $from = str_replace(":", "", $parts[0]);
                 $to = str_replace(":", "", $parts[1]);
-
-                if ($from > $to) {
+                if ($from >= $to) {
                     $this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
                     return false;
                 }
