@@ -95,7 +95,7 @@ class ilMStListUsersGUI
         global $DIC;
 
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_INDEX);
-        $this->table->setTitle($DIC->language()->txt('mst_list_users'));
+        $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_users'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 

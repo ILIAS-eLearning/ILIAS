@@ -107,7 +107,7 @@ class ilMStListCoursesGUI
         $this->checkAccessOrFail();
 
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
-        $this->table->setTitle($DIC->language()->txt('mst_list_courses'));
+        $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_list_courses'));
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 

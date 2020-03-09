@@ -58,12 +58,12 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(10)
             ->withAvailableCallable(
-                function () use ($dic) {
-                    return (bool) ($dic->settings()->get("enable_my_staff"));
+                static function () use ($dic) {
+                    return (bool) ($dic->settings()->get('enable_my_staff'));
                 }
             )
             ->withVisibilityCallable(
-                function () {
+                static function () {
                     return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
                 }
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
