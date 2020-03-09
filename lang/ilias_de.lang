@@ -16046,8 +16046,8 @@ ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Me
 survey#:#invited_users#:#Selected Users###07 02 2020 new variable
 acc#:#acc_dashboard#:#Dashboard###07 02 2020 new variable
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.###07 02 2020 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###07 02 2020 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###07 02 2020 new variable
+pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
+pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
