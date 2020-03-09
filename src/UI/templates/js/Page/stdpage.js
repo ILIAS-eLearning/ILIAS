@@ -31,3 +31,6 @@ il.UI = il.UI || {};
 
 	})($);
 })($, il.UI);
+il.Util.addOnLoad(function() {
+    $("main").focus();
+});
