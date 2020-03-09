@@ -6,7 +6,7 @@
  * Skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {
