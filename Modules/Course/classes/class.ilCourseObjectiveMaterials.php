@@ -455,6 +455,9 @@ class ilCourseObjectiveMaterials
                 $this->delete($row->lm_ass_id);
                 continue;
             }
+            if ($row->obj_id > 0 && !ilLMObject::_exists($row->obj_id)) {
+                continue;
+            }
             $lm['ref_id'] = $row->ref_id;
             $lm['obj_id'] = $row->obj_id;
             $lm['type'] = $row->type;
