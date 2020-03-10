@@ -137,7 +137,7 @@ class assLongMenuImport extends assQuestionImport
                 $feedbacks[$ident] = $m;
             }
         }
-        if (count($feedbacksgeneric) > 0) {
+        if (is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
             foreach ($feedbacksgeneric as $correctness => $material) {
                 $m = $this->object->QTIMaterialToString($material);
                 $feedbacksgeneric[$correctness] = $m;
@@ -172,7 +172,7 @@ class assLongMenuImport extends assQuestionImport
                 );
             }
         }
-        if (count($feedbacksgeneric) > 0) {
+        if (is_array($feedbacksgeneric) && count($feedbacksgeneric) > 0) {
             foreach ($feedbacksgeneric as $correctness => $material) {
                 $this->object->feedbackOBJ->importGenericFeedback(
                     $this->object->getId(),
