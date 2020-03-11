@@ -540,12 +540,17 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->ctrl->redirect($this);
         }
         $form = $this->initAdvancedSettingsForm();
-        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+        $gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            'prg',
+            $this->object->getId(),
+            'prg_type',
+            $this->object->getTypeSettings()->getTypeId()
+        );
         $gui->setPropertyForm($form);
         $gui->parse();
         $this->tpl->setContent($form->getHTML());
     }
-
 
     /**
      * Update Advanced Metadata
@@ -558,7 +563,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
 
         $form = $this->initAdvancedSettingsForm();
-        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'prg', $this->object->getId(), 'prg_type', $this->object->getSubtypeId());
+        $gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_EDITOR,
+            'prg',
+            $this->object->getId(),
+            'prg_type',
+            $this->object->getTypeSettings()->getTypeId()
+        );
         $gui->setPropertyForm($form);
         $form->checkInput();
         $gui->parse();
