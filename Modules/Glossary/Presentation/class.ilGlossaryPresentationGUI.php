@@ -1266,16 +1266,15 @@ class ilGlossaryPresentationGUI
                     $ilCtrl->getLinkTarget($this, "infoScreen")
                 );
 
-                $this->tabs_gui->addTab(
-                    "print_view",
-                    $lng->txt("cont_print_view"),
-                    $ilCtrl->getLinkTarget($this, "printViewSelection")
-                );
 
                 // glossary menu
                 if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-                    //if ($this->glossary->isActiveGlossaryMenu())
-                    //{
+                    $this->tabs_gui->addTab(
+                        "print_view",
+                        $lng->txt("cont_print_view"),
+                        $ilCtrl->getLinkTarget($this, "printViewSelection")
+                    );
+
                     // download links
                     if ($this->glossary->isActiveDownloads()) {
                         $this->tabs_gui->addTab(
