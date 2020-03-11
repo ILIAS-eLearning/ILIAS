@@ -116,3 +116,7 @@ if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
     $ilDB->dropTableColumn('prg_settings', 'access_ctrl_org_pos');
 }
 ?>
+<#12>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
