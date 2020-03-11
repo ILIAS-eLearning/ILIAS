@@ -229,7 +229,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     if (is_null($assigned_by)) {
                         $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
                         $assignment_src = (int) $a_set['prg_assignment_origin'];
-                        $assigned_by = $this->lng->txt('prg_autoassingment')
+                        $assigned_by = $this->lng->txt('prg_autoassignment')
                             . ' ' . $this->lng->txt($srcs[$assignment_src]);
                     }
                     $this->tpl->setVariable("ASSIGNED_BY", $assigned_by);

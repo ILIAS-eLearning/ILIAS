@@ -225,7 +225,8 @@ class ilStudyProgrammeDIC
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $dic['DataFactory']
+                $dic['DataFactory'],
+                $dic['ilStudyProgrammeUserProgressDB']
             );
         };
         $dic['ilStudyProgrammeChangeDeadlineGUI'] = function ($dic) use ($DIC) {
@@ -239,7 +240,8 @@ class ilStudyProgrammeDIC
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $dic['DataFactory']
+                $dic['DataFactory'],
+                $dic['ilStudyProgrammeUserProgressDB']
             );
         };
         $dic['ilStudyProgrammeDashboardViewGUI'] = function ($dic) use ($DIC) {
