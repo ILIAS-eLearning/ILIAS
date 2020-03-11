@@ -737,10 +737,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     protected function showEditButton($page_id)
     {
+        if ($page_id == 0) {
+            return;
+        }
         $page_class = ($this->getType() == "prtt")
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
-
         if (ilPortfolioPage::lookupType($page_id) == ilPortfolioPage::TYPE_PAGE) {
             $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
             $button = $this->ui->factory()->button()->standard($this->lng->txt("edit"),
