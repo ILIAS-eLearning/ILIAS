@@ -2904,6 +2904,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'WordLevelDiff' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
         'XML2DOM' => __DIR__ . '/../..' . '/../../Services/Xml/classes/class.ilXML2DOM.php',
+        'XMLSchema' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
         'XMLStruct' => __DIR__ . '/../..' . '/../../Services/Xml/classes/class.ilXML2DOM.php',
         '_DiffEngine' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
         '_DiffOp' => __DIR__ . '/../..' . '/../../Services/COPage/mediawikidiff/class.WordLevelDiff.php',
@@ -7549,6 +7550,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilUserActionGUI' => __DIR__ . '/../..' . '/../../Services/User/Actions/classes/class.ilUserActionGUI.php',
         'ilUserActionProvider' => __DIR__ . '/../..' . '/../../Services/User/Actions/classes/class.ilUserActionProvider.php',
         'ilUserActionProviderFactory' => __DIR__ . '/../..' . '/../../Services/User/Actions/classes/class.ilUserActionProviderFactory.php',
+        'ilUserAppEventListener' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserAppEventListener.php',
         'ilUserAutoComplete' => __DIR__ . '/../..' . '/../../Services/User/classes/class.ilUserAutoComplete.php',
         'ilUserAvatar' => __DIR__ . '/../..' . '/../../Services/User/Avatar/interfaces/ilUserAvatar.php',
         'ilUserAvatarBase' => __DIR__ . '/../..' . '/../../Services/User/Avatar/classes/class.ilUserAvatarBase.php',
@@ -7772,7 +7774,13 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'shibServerData' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/ServerData/class.shibServerData.php',
         'shibUser' => __DIR__ . '/../..' . '/../../Services/AuthShibboleth/classes/User/class.shibUser.php',
         'soap_client' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
+        'soap_fault' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
+        'soap_parser' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
+        'soap_server' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
+        'soap_transport_http' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
+        'soapval' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
         'validator' => __DIR__ . '/../..' . '/../../Services/XHTMLValidator/validator/validator.inc',
+        'wsdl' => __DIR__ . '/../..' . '/../../Services/SOAPAuth/include/nusoap.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
