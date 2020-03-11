@@ -277,7 +277,21 @@ class ilForumNotification
     {
         if (!array_key_exists($ref_id, self::$node_data_cache)) {
             global $DIC;
-            self::$node_data_cache[$ref_id] = $DIC->repositoryTree()->getChildsByType($ref_id, 'frm');
+            $node_data = $DIC->repositoryTree()->getSubTree(
+                $DIC->repositoryTree()->getNodeData($ref_id),
+                true,
+                'frm'
+            );
+            $node_data = array_filter($node_data, function ($forum_node) use ($DIC, $ref_id) {
+                // filter out forum if a grp lies in the path (#0027702)
+                foreach ($DIC->repositoryTree()->getNodePath($forum_node['child'], $ref_id) as $path_node) {
+                    if ((int) $path_node['child'] !== (int) $ref_id && $path_node['type'] === 'grp') {
+                        return false;
+                    }
+                }
+                return true;
+            });
+            self::$node_data_cache[$ref_id] = $node_data;
         }
         
         return self::$node_data_cache[$ref_id];

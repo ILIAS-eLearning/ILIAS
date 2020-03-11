@@ -25,7 +25,7 @@ class ilRTE
     protected $buttons = array();
 
     /**
-     * @var ilTemplate
+     * @var ilGlobalPageTemplate
      */
     protected $tpl;
 

@@ -1,6 +1,7 @@
 <?php namespace ILIAS\Administration;
 
 use ILIAS\DI\Exceptions\Exception;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
@@ -27,8 +28,9 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
-        $dic = $this->dic;
+
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
 
@@ -77,13 +79,9 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
-                        function () use ($dic) {
-                            return (bool) ($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                        }
+                        $access_helper->hasAdministrationAccess()
                     )->withAvailableCallable(
-                        function () use ($dic) {
-                            return ($dic->user()->getId() != ANONYMOUS_USER_ID);
-                        }
+                        $access_helper->isUserLoggedIn()
                     );
                 $position++;
             }

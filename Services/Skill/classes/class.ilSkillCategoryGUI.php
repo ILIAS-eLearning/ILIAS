@@ -1,17 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI
- * @ingroup ServicesSkill
  */
 class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -191,7 +187,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -213,7 +208,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ni->setSize(6);
         $ni->setRequired(true);
         if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
             $ni->setValue($max + 10);
@@ -252,7 +246,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         if (!$this->checkPermissionBool("write")) {
             return;
         }
-        include_once "Services/Skill/classes/class.ilSkillCategory.php";
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getDescription("description"));
@@ -335,8 +328,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             self::addCreationButtons();
         }
         $this->setTabs("content");
-        
-        include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
+
         $table = new ilSkillCatTableGUI(
             $this,
             "listItems",

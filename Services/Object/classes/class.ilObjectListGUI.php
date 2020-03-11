@@ -1375,13 +1375,11 @@ class ilObjectListGUI
                 $txt = $command["txt"];
             }
 
-            // BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
             // Suppress commands that don't make sense for anonymous users
             if ($ilUser->getId() == ANONYMOUS_USER_ID &&
                 $command['enable_anonymous'] == 'false') {
                 continue;
             }
-            // END WebDAV: Suppress commands that don't make sense for anonymous users.
 
             // all access checking should be made within $ilAccess and
             // the checkAccess of the ilObj...Access classes
@@ -1418,7 +1416,6 @@ class ilObjectListGUI
         return $ref_commands;
     }
 
-    // BEGIN WebDAV: Visualize object state in its icon.
     /**
     * Returns the icon image type.
     * For most objects, this is same as the object type, e.g. 'cat','fold'.
@@ -1433,7 +1430,6 @@ class ilObjectListGUI
         }
         return $this->type;
     }
-    // END WebDAV: Visualize object state in its icon.
 
     /**
     * insert item title
@@ -1804,11 +1800,9 @@ class ilObjectListGUI
         $cnt = 1;
         if (is_array($props) && count($props) > 0) {
             foreach ($props as $prop) {
-                // BEGIN WebDAV: Display a separator between properties.
                 if ($cnt > 1) {
                     $this->tpl->touchBlock("separator_prop");
                 }
-                // END WebDAV: Display a separator between properties.
 
                 if ($prop["alert"] == true) {
                     $this->tpl->touchBlock("alert_prop");
@@ -3781,7 +3775,7 @@ class ilObjectListGUI
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->standard($type, $this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon")." ".$this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 

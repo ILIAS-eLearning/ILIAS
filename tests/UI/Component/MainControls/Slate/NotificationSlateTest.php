@@ -35,7 +35,8 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory()
+                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Avatar\Factory()
                 );
             }
             public function item()

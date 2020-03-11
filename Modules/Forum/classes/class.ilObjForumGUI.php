@@ -1225,14 +1225,21 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         );
 
         (in_array($this->ctrl->getCmd(), $active)) ? $force_active = true : $force_active = false;
-        $this->tabs->addTarget(
-            'forums_threads',
-            $this->ctrl->getLinkTarget($this, 'showThreads'),
-            $this->ctrl->getCmd(),
-            get_class($this),
+
+        if ($this->access->checkAccess(
+            'read',
             '',
-            $force_active
-        );
+            $this->ref_id
+        )) {
+            $this->tabs->addTarget(
+                'forums_threads',
+                $this->ctrl->getLinkTarget($this, 'showThreads'),
+                $this->ctrl->getCmd(),
+                get_class($this),
+                '',
+                $force_active
+            );
+        }
 
         // info tab
         if ($this->access->checkAccess('visible', '', $this->ref_id) || $this->access->checkAccess(
@@ -1272,17 +1279,26 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             );
         }
 
-        if ($this->settings->get('enable_fora_statistics', false) &&
-            ($this->objProperties->isStatisticEnabled() || $this->access->checkAccess('write', '', $this->ref_id))) {
-            $force_active = ($this->ctrl->getCmd() == 'showStatistics') ? true : false;
-            $this->tabs->addTarget(
-                'frm_statistics',
-                $this->ctrl->getLinkTarget($this, 'showStatistics'),
-                'showStatistics',
-                get_class($this),
-                '',
-                $force_active
-            ); //false
+        if ($this->settings->get('enable_fora_statistics', false)) {
+            $hasStatisticsAccess = $this->access->checkAccess('write', '', $this->ref_id);
+            if (!$hasStatisticsAccess) {
+                $hasStatisticsAccess = (
+                    $this->objProperties->isStatisticEnabled() &&
+                    $this->access->checkAccess('read', '', $this->ref_id)
+                );
+            }
+
+            if ($hasStatisticsAccess) {
+                $force_active = ($this->ctrl->getCmd() == 'showStatistics') ? true : false;
+                $this->tabs->addTarget(
+                    'frm_statistics',
+                    $this->ctrl->getLinkTarget($this, 'showStatistics'),
+                    'showStatistics',
+                    get_class($this),
+                    '',
+                    $force_active
+                );
+            }
         }
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
@@ -1388,6 +1404,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 include_once('ilias.php');
                 exit();
             }
+        } elseif ($ilAccess->checkAccess('visible', '', $a_target)) {
+            $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $a_target);
+            $DIC->ctrl()->redirectByClass(
+                [
+                    ilRepositoryGUI::class,
+                    self::class,
+                    ilInfoScreenGUI::class
+                ],
+                'showSummary'
+            );
         } elseif ($ilAccess->checkAccess('read', '', ROOT_FOLDER_ID)) {
             $_GET['target'] = '';
             $_GET['ref_id'] = ROOT_FOLDER_ID;

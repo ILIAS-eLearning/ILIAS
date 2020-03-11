@@ -193,4 +193,14 @@ class Factory
         $builder = new DateFormat\FormatBuilder();
         return new DateFormat\Factory($builder);
     }
+
+    /**
+     * @param int $start
+     * @param int $length
+     * @return Range
+     */
+    public function range(int $start, int $length) : Range
+    {
+        return new Range($start, $length);
+    }
 }

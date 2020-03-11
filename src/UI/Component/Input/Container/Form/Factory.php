@@ -47,7 +47,7 @@ interface Factory
      * ---
      *
      * @param    string $post_url
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Input>    $inputs
+     * @param    array<mixed,\ILIAS\UI\Component\Input\FormInput>    $inputs
      *
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */

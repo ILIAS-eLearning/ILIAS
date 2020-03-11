@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Basic Skill Template
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilBasicSkillTemplate extends ilBasicSkill
 {

@@ -7,55 +7,26 @@
  */
 class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 {
-    /**
-     * @var int $ref_id
-     */
+    /** @var int $ref_id */
     protected $ref_id = 0;
-
-    /**
-     * @var int $obj_id
-     */
+    /** @var int $obj_id */
     protected $obj_id = 0;
-
-    /**
-     * @var string|null $post_user_name
-     */
+    /** @var string|null $post_user_name */
     protected $post_user_name = null;
-
-    /**
-     * @var string|null $update_user_name
-     */
+    /** @var string|null $update_user_name */
     protected $update_user_name = null;
-
-    /**
-     * @var int
-     */
+    /** @var int */
     public $pos_author_id = 0;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $forum_id = 0;
-
-    /**
-     * @var string $forum_title
-     */
+    /** @var string $forum_title */
     protected $forum_title = '';
-
-    /**
-     * @var string $thread_title
-     */
+    /** @var string $thread_title */
     protected $thread_title = '';
-
-    /**
-     * @var array $attachments
-     */
-    protected $attachments = array();
-
-    /**
-     * @var ilForumPost
-     */
+    /** @var array $attachments */
+    protected $attachments = [];
+    /** @var ilForumPost */
     public $objPost;
-
     private $db;
     private $access;
     private $user;
@@ -524,22 +495,42 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
+     * @param int $objId
+     * @return int[]
+     */
+    private function getRefIdsByObjId(int $objId) : array
+    {
+        $cacheKey = $this->notificationCache->createKeyByValues([
+            'refs_by_obj_id',
+            $objId
+        ]);
+
+        if (!$this->notificationCache->exists($cacheKey)) {
+            $this->notificationCache->store($cacheKey, (array) ilObject::_getAllReferences($objId));
+        }
+
+        return $this->notificationCache->fetch($cacheKey);
+    }
+
+    /**
      * @param \ilPDOStatement $statement - statement to be executed by the database
      *                                     needs to a 'user_id' as result
-     * @return array
+     * @return int[]
      */
     private function createRecipientArray(\ilPDOStatement $statement) : array
     {
-        $frm_references = ilObject::_getAllReferences($this->getObjId());
-        $rcps = array();
+        $refIds = $this->getRefIdsByObjId((int) $this->getObjId());
+
+        $usrIds = [];
         while ($row = $this->db->fetchAssoc($statement)) {
-            foreach ((array) $frm_references as $ref_id) {
-                if ($this->access->checkAccessOfUser($row['user_id'], 'read', '', $ref_id)) {
-                    $rcps[] = $row['user_id'];
+            foreach ($refIds as $refId) {
+                if ($this->access->checkAccessOfUser($row['user_id'], 'read', '', $refId)) {
+                    $usrIds[] = (int) $row['user_id'];
                 }
             }
         }
-        return $rcps;
+
+        return $usrIds;
     }
 
     /**

@@ -39,6 +39,6 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
                     return $mainbar->withActive($mainbar::NONE_ACTIVE);
                 }
             )
-            ->withHighPriority();
+            ->withLowPriority();
     }
 }

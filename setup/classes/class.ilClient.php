@@ -651,6 +651,10 @@ class ilClient
             return false;
         }
 
+        if (!isset($GLOBALS["ilSetting"])) {
+            $GLOBALS["ilSetting"] = new ilSetting();
+        }
+
         $url = $this->getURLStringForNIC($a_nic_url);
         $req = new ilCurlConnection($url);
         $req->init();

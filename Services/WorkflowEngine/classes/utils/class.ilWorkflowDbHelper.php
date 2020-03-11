@@ -463,17 +463,17 @@ class ilWorkflowDbHelper
     public static function deleteStartEventData($event_id)
     {
         global $DIC;
-        /** @var ilDB $ilDB */
+
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
 
         $result = $ilDB->query(
             'SELECT event_id FROM wfe_startup_events 
 				  WHERE workflow_id = ' . $ilDB->quote($event_id, 'integer')
         );
-
-        $events = array();
+        $events = [];
         while ($row = $ilDB->fetchAssoc($result)) {
-            $events = $row['revent_id'];
+            $events[] = $row['event_id'];
         }
 
         $ilDB->manipulate(
@@ -482,7 +482,7 @@ class ilWorkflowDbHelper
 				WHERE workflow_id = ' . $ilDB->quote($event_id, 'integer')
         );
 
-        if (count($events)) {
+        if (count($events) > 0) {
             $ilDB->manipulate(
                 'DELETE
 				FROM wfe_static_inputs

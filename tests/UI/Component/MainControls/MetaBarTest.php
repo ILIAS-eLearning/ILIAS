@@ -27,7 +27,8 @@ class MetaBarTest extends ILIAS_UI_TestBase
             $this->counter_factory,
             new I\Component\Symbol\Factory(
                 new I\Component\Symbol\Icon\Factory(),
-                new I\Component\Symbol\Glyph\Factory()
+                new I\Component\Symbol\Glyph\Factory(),
+                new I\Component\Symbol\Avatar\Factory()
             )
         );
 
@@ -98,7 +99,8 @@ class MetaBarTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
             public function counter() : C\Counter\Factory

@@ -90,6 +90,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     */
     public function readObject()
     {
+        global $DIC;
         $lng = $this->lng;
         $ilErr = $this->error;
         

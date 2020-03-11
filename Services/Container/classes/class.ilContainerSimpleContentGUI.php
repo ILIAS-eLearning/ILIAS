@@ -109,7 +109,10 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         $this->getItemGroupsHTML();
         
         if (is_array($this->items["_all"])) {
-            $this->renderer->addCustomBlock("_all", $lng->txt("content"));
+            $title = $this->getContainerObject()->filteredSubtree()
+                ? $lng->txt("cont_found_objects")
+                : $lng->txt("content");
+            $this->renderer->addCustomBlock("_all", $title);
             
             $position = 1;
             foreach ($this->items["_all"] as $k => $item_data) {

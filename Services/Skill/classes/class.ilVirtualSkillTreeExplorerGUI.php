@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Virtual skill tree explorer
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesSkill
  */
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
@@ -36,8 +32,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
-        
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+
         $this->vtree = new ilVirtualSkillTree();
         
         $this->setSkipRootNode(false);
@@ -158,7 +153,6 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
             $lng->txt("skmg_skills");
         } else {
             if ($a_node["type"] == "sktr") {
-                //				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
             }
         }
@@ -183,7 +177,6 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         } else {
             $type = $a_node["type"];
             if ($type == "sktr") {
-                include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
                 $type = ilSkillTreeNode::_lookupType($a_skl_template_tree_id);
             }
             if ($type == "sktp") {

@@ -222,7 +222,6 @@ class ilAssQuestionSkillAssignmentList
 
     public function getUniqueAssignedSkills()
     {
-        require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 
         $skills = array();
 

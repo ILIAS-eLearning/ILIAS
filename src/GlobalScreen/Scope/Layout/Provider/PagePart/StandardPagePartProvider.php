@@ -11,6 +11,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUtil;
+use ilUserUtil;
 
 /**
  * Class StandardPagePartProvider
@@ -169,7 +170,15 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getLogo() : ?Image
     {
-        return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
+        $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+        $std_logo_link = ilUserUtil::getStartingPointAsUrl();
+        if (! $std_logo_link) {
+            $std_logo_link = "./goto.php?target=root_1";
+        }
+
+        return $this->ui->factory()->image()
+            ->standard($std_logo, "ILIAS")
+            ->withAction($std_logo_link);
     }
 
 

@@ -90,7 +90,6 @@ class ilPCSkillsGUI extends ilPageContentGUI
         
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            include_once "Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php";
             $exp = new ilPersonalSkillExplorerGUI($this, "insert", $this, "create", "skill_id");
             if (!$exp->handleCommand()) {
                 $tpl->setContent($exp->getHTML());
@@ -118,7 +117,6 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            include_once "Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php";
             $exp = new ilPersonalSkillExplorerGUI($this, "edit", $this, "update", "skill_id");
             if (!$exp->handleCommand()) {
                 $tpl->setContent($exp->getHTML());
@@ -155,8 +153,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
         
         $options = array();
-        include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-                
+
         $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
         if ($skills) {
             foreach ($skills as $skill) {

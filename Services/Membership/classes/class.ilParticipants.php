@@ -528,7 +528,7 @@ abstract class ilParticipants
      * Get admin, tutor which have notification enabled
      *
      * @access public
-     * @return array array of user ids
+     * @return int[] of user ids
      */
     public function getNotificationRecipients()
     {
@@ -540,12 +540,13 @@ abstract class ilParticipants
             "WHERE notification = 1 " .
             "AND obj_id = " . $ilDB->quote($this->obj_id) . " ";
         $res = $ilDB->query($query);
+        $recp = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id)) {
                 $recp[] = $row->usr_id;
             }
         }
-        return $recp ? $recp : array();
+        return $recp;
     }
     
     /**

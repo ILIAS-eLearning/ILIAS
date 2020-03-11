@@ -53,10 +53,16 @@ class ilMediaObjectSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+            'mobs',
+            ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
+        );
+
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/MediaObject",
             false,
-            new ilMediaObjectConfigStoredObjective($config)
+            new ilMediaObjectConfigStoredObjective($config),
+            $dir_objective
         );
     }
 

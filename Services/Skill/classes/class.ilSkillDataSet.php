@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill Data set class
@@ -14,8 +13,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - skl_prof: skill profiles (different mode)
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesSkill
  */
 class ilSkillDataSet extends ilDataSet
 {
@@ -40,7 +37,6 @@ class ilSkillDataSet extends ilDataSet
 
         $this->db = $DIC->database();
         parent::__construct();
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
         $this->skill_tree_root_id = $this->skill_tree->readRootId();
 
@@ -351,8 +347,6 @@ class ilSkillDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
         switch ($a_entity) {
             case "skmg":
 
@@ -445,7 +439,6 @@ class ilSkillDataSet extends ilDataSet
                 }
                 switch ($a_rec["Type"]) {
                     case "scat":
-                        include_once("./Services/Skill/classes/class.ilSkillCategory.php");
                         $scat = new ilSkillCategory();
                         $scat->setTitle($a_rec["Title"]);
                         $scat->setDescription($a_rec["Description"]);
@@ -459,7 +452,6 @@ class ilSkillDataSet extends ilDataSet
                         break;
 
                     case "skll":
-                        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
                         $skll = new ilBasicSkill();
                         $skll->setTitle($a_rec["Title"]);
                         $skll->setDescription($a_rec["Description"]);
@@ -476,7 +468,6 @@ class ilSkillDataSet extends ilDataSet
                         $template_id = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["TemplateId"]);
                         // only create template references, if referenced template is found (template trees are imported first)
                         if ($template_id > 0) {
-                            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                             $sktr = new ilSkillTemplateReference();
                             $sktr->setTitle($a_rec["Title"]);
                             $sktr->setDescription($a_rec["Description"]);
@@ -504,7 +495,6 @@ class ilSkillDataSet extends ilDataSet
                 }
                 switch ($a_rec["Type"]) {
                     case "sctp":
-                        include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
                         $sctp = new ilSkillTemplateCategory();
                         $sctp->setTitle($a_rec["Title"]);
                         $sctp->setDescription($a_rec["Description"]);
@@ -516,7 +506,6 @@ class ilSkillDataSet extends ilDataSet
                         break;
 
                     case "sktp":
-                        include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
                         $sktp = new ilBasicSkillTemplate();
                         $sktp->setTitle($a_rec["Title"]);
                         $sktp->setDescription($a_rec["Description"]);
@@ -544,7 +533,6 @@ class ilSkillDataSet extends ilDataSet
                 break;
 
             case "skl_prof":
-                include_once("./Services/Skill/classes/class.ilSkillProfile.php");
                 $prof = new ilSkillProfile();
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);
@@ -555,8 +543,6 @@ class ilSkillDataSet extends ilDataSet
             case "skl_prof_level":
                 $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
-                    include_once("./Services/Skill/classes/class.ilSkillProfile.php");
-                    include_once("./Services/Skill/classes/class.ilBasicSkill.php");
                     $prof = new ilSkillProfile($profile_id);
                     $level_id_data = ilBasicSkill::getLevelIdForImportId($this->getCurrentInstallationId(), $a_rec["LevelId"]);
                     $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);

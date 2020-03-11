@@ -724,7 +724,54 @@ class ilContainer extends ilObject
     {
         $this->order_type = $a_value;
     }
-    
+
+    /**
+     * Is classification filter active?
+     * @return bool
+     */
+    public function isClassificationFilterActive(): bool
+    {
+        // apply container classification filters
+        $repo = new ilClassificationSessionRepository($this->getRefId());
+        foreach (ilClassificationProvider::getValidProviders($this->getRefId(), $this->getId(), $this->getType()) as $class_provider) {
+            $id = get_class($class_provider);
+            $current = $repo->getValueForProvider($id);
+            if ($current) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Note grp/crs currently allow to filter in their whole subtrees
+     * Catetories only their direct childs
+     * @return bool
+     */
+    public function filteredSubtree(): bool
+    {
+        if ($this->isClassificationFilterActive() && in_array($this->getType(), ["grp", "crs"])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get initial subitems
+     *
+     * @return array
+     */
+    protected function getInitialSubitems(): array
+    {
+        $tree = $this->tree;
+        if ($this->filteredSubtree()) {
+            $objects = $tree->getSubTree($tree->getNodeData($this->getRefId()));
+        } else {
+            $objects = $tree->getChilds($this->getRefId(), "title");
+        }
+        return $objects;
+    }
+
     /**
     * Get subitems of container
     *
@@ -740,7 +787,6 @@ class ilContainer extends ilObject
         \ilContainerUserFilter $container_user_filter = null
     ) {
         $objDefinition = $this->obj_definition;
-        $tree = $this->tree;
 
         // Caching
         if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
@@ -748,8 +794,7 @@ class ilContainer extends ilObject
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
         
-        $type_grps = $this->getGroupedObjTypes();
-        $objects = $tree->getChilds($this->getRefId(), "title");
+        $objects = $this->getInitialSubitems();
         $objects = $this->applyContainerUserFilter($objects, $container_user_filter);
         $objects = self::getCompleteDescriptions($objects);
 
@@ -773,7 +818,6 @@ class ilContainer extends ilObject
             }
         }
 
-
         $found = false;
         $all_ref_ids = array();
         
@@ -789,7 +833,8 @@ class ilContainer extends ilObject
         // get items attached to a session
         include_once './Modules/Session/classes/class.ilEventItems.php';
         $event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
-        
+
+        $classification_filter_active = $this->isClassificationFilterActive();
         foreach ($objects as $key => $object) {
             if ($a_get_single > 0 && $object["child"] != $a_get_single) {
                 continue;
@@ -824,7 +869,7 @@ class ilContainer extends ilObject
             }
             
             // filter out items that are attached to an event
-            if (in_array($object['ref_id'], $event_items)) {
+            if (in_array($object['ref_id'], $event_items) && !$classification_filter_active) {
                 continue;
             }
             
@@ -843,7 +888,7 @@ class ilContainer extends ilObject
             
             self::$data_preloaded = true;
         }
-        
+
         foreach ($objects as $key => $object) {
             // see above, objects were filtered
             if (!in_array($object["child"], $all_ref_ids)) {
@@ -866,7 +911,6 @@ class ilContainer extends ilObject
                 $this->items["_non_sess"][$key] = $object;
             }
         }
-        
         $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
             = $sort->sortItems($this->items);
 
@@ -985,7 +1029,7 @@ class ilContainer extends ilObject
 
         $trans = $this->getObjectTranslation();
         $trans->setDefaultTitle($this->getTitle());
-        $trans->setDefaultDescription($this->getDescription());
+        $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
 
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");

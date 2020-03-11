@@ -250,7 +250,7 @@
         this.setError = function (errorText)
         {
             // set text and show or hide it
-            $html.find(".ilFileUploadEntryErrorText").text(errorText);
+            $html.find(".ilFileUploadEntryErrorText").html(errorText.replace(/<(?!br\s*\/?)[^>]+>/g, ''));
 
             // show error
             $html.addClass("ilFileUploadError");

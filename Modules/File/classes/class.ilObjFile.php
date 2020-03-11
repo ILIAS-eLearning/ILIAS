@@ -275,9 +275,7 @@ class ilObjFile extends ilObject2
         $version_subdir = "";
 
         if ($a_version) {
-            // BEGIN WebDAV Avoid double slash before version subdirectory
             $version_subdir = sprintf("%03d", $a_version);
-            // END WebDAV Avoid  double slash before version subdirectory
         }
 
         if (!is_object($this->file_storage)) {

@@ -669,12 +669,10 @@ class ilSCORM13Package
         $d = ilUtil::getDir($this->packageFolder);
         foreach ($d as $f) {
             //continue;
-            if ($f [type] == 'file' && substr($f [entry], 0, 4) == 'qti_') {
-                include_once "./Services/QTI/classes/class.ilQTIParser.php";
-                include_once "./Modules/Test/classes/class.ilObjTest.php";
-                
+            if ($f["type"] == 'file' && substr($f["entry"], 0, 4) == 'qti_') {
 
-                $qtiParser = new ilQTIParser($this->packageFolder . "/" . $f [entry], IL_MO_VERIFY_QTI, 0, "");
+
+                $qtiParser = new ilQTIParser($this->packageFolder . "/" . $f["entry"], IL_MO_VERIFY_QTI, 0, "");
                 $result = $qtiParser->startParsing();
                 $founditems = &$qtiParser->getFoundItems();
                 //					die(print_r($founditems));
@@ -692,7 +690,7 @@ class ilSCORM13Package
                     //					$newObj->setPermissions ( $sco->getId ());
                     //					$newObj->notify ("new", $_GET["ref_id"], $sco->getId (), $_GET["ref_id"], $newObj->getRefId () );
                     //					$newObj->mark_schema->flush ();
-                    $qtiParser = new ilQTIParser($this->packageFolder . "/" . $f [entry], IL_MO_PARSE_QTI, 0, "");
+                    $qtiParser = new ilQTIParser($this->packageFolder . "/" . $f["entry"], IL_MO_PARSE_QTI, 0, "");
                     $qtiParser->setTestObject($newObj);
                     $result = $qtiParser->startParsing();
                     //					$newObj->saveToDb ();
@@ -717,7 +715,8 @@ class ilSCORM13Package
             $page->setTitle($tnode [0]);
             $page->setSLMId($slm->getId());
             $page->create(true);
-            ilSCORM2004Node::putInTree($page, $sco->getId(), $target);
+            //			ilSCORM2004Node::putInTree ( $page, $sco->getId (), $target );
+            ilSCORM2004Node::putInTree($page, $sco->getId(), "");
             $pmd = $page_xml->xpath("MetaData");
             if ($pmd[0]) {
                 include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
@@ -728,7 +727,7 @@ class ilSCORM13Package
             $tnode = $page_xml->xpath("//MediaObject/MediaAlias | //InteractiveImage/MediaAlias");
             foreach ($tnode as $ttnode) {
                 include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
-                $OriginId = $ttnode[OriginId];
+                $OriginId = $ttnode["OriginId"];
                 $medianodes = $doc->xpath("//MediaObject[MetaData/General/Identifier/@Entry='" . $OriginId . "']");
                 $medianode = $medianodes[0];
                 if ($medianode) {
@@ -749,29 +748,28 @@ class ilSCORM13Package
                     foreach ($medianode->MediaItem as $xMediaItem) {
                         $media_item = new ilMediaItem();
                         $media_object->addMediaItem($media_item);
-                        $media_item->setPurpose($xMediaItem[Purpose]);
+                        $media_item->setPurpose($xMediaItem["Purpose"]);
                         $media_item->setFormat($xMediaItem->Format);
                         $media_item->setLocation($xMediaItem->Location);
-                        $media_item->setLocationType($xMediaItem->Location[Type]);
-                        $media_item->setWidth($xMediaItem->Layout[Width]);
-                        $media_item->setHeight($xMediaItem->Layout[Height]);
-                        $media_item->setHAlign($xMediaItem->Layout[HorizontalAlign]);
+                        $media_item->setLocationType($xMediaItem->Location["Type"]);
+                        $media_item->setWidth($xMediaItem->Layout["Width"]);
+                        $media_item->setHeight($xMediaItem->Layout["Height"]);
+                        $media_item->setHAlign($xMediaItem->Layout["HorizontalAlign"]);
                         $media_item->setCaption($xMediaItem->Caption);
                         $media_item->setTextRepresentation($xMediaItem->TextRepresentation);
                         $nr = 0;
                         
                         // add map areas (external links only)
                         foreach ($xMediaItem->MapArea as $n => $v) {
-                            if ($v->ExtLink[Href] != "") {
-                                include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
+                            if ($v->ExtLink["Href"] != "") {
                                 $ma = new ilMapArea();
                                 
                                 $map_area = new ilMapArea();
-                                $map_area->setShape($v[Shape]);
-                                $map_area->setCoords($v[Coords]);
+                                $map_area->setShape($v["Shape"]);
+                                $map_area->setCoords($v["Coords"]);
                                 $map_area->setLinkType(IL_EXT_LINK);
                                 $map_area->setTitle($v->ExtLink);
-                                $map_area->setHref($v->ExtLink[Href]);
+                                $map_area->setHref($v->ExtLink["Href"]);
                                 
                                 $media_item->addMapArea($map_area);
                             }
@@ -792,7 +790,7 @@ class ilSCORM13Package
                     // when no medianode is given. (id=0 -> fatal error)
                     ilUtil::renameExecutables($mob_dir);
                     $media_object->update(true);
-                    $ttnode [OriginId] = "il__mob_" . $media_object->getId();
+                    $ttnode ["OriginId"] = "il__mob_" . $media_object->getId();
                 }
             }
             include_once("./Modules/File/classes/class.ilObjFile.php");
@@ -804,16 +802,16 @@ class ilSCORM13Package
             //if($intlinks )
             {
                 foreach ($intlinks as $intlink) {
-                    if ($intlink[Type]!="File") {
+                    if ($intlink["Type"]!="File") {
                         continue;
                     }
-                    $path = $this->packageFolder . "/objects/" . str_replace('dfile', 'file', $intlink[Target]);
+                    $path = $this->packageFolder . "/objects/" . str_replace('dfile', 'file', $intlink["Target"]);
                     if (!is_dir($path)) {
                         continue;
                     }
                     $ffiles = array();
                     ilFileUtils::recursive_dirscan($path, $ffiles);
-                    $filename = $ffiles[file][0];
+                    $filename = $ffiles["file"][0];
                     $fileObj = new ilObjFile();
                     $fileObj->setType("file");
                     $fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
@@ -829,20 +827,20 @@ class ilSCORM13Package
                     //$fileObj->setPermissions($slm->getId ());
                     $fileObj->createDirectory();
                     $fileObj->storeUnzipedFile($path . "/" . $filename, ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-                    $intlink[Target]="il__dfile_" . $fileObj->getId();
+                    $intlink["Target"]="il__dfile_" . $fileObj->getId();
                 }
             }
             $fileitems = $page_xml->xpath("//FileItem/Identifier");
             //if($intlinks )
             {
                 foreach ($fileitems as $fileitem) {
-                    $path = $this->packageFolder . "/objects/" . $fileitem[Entry];
+                    $path = $this->packageFolder . "/objects/" . $fileitem["Entry"];
                     if (!is_dir($path)) {
                         continue;
                     }
                     $ffiles = array();
                     ilFileUtils::recursive_dirscan($path, $ffiles);
-                    $filename = $ffiles[file][0];
+                    $filename = $ffiles["file"][0];
                     $fileObj = new ilObjFile();
                     $fileObj->setType("file");
                     $fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
@@ -858,7 +856,7 @@ class ilSCORM13Package
                     //$fileObj->setPermissions($slm->getId ());
                     $fileObj->createDirectory();
                     $fileObj->storeUnzipedFile($path . "/" . $filename, ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-                    $fileitem[Entry]="il__file_" . $fileObj->getId();
+                    $fileitem["Entry"]="il__file_" . $fileObj->getId();
                 }
             }
             $pagex = new ilSCORM2004Page($page->getId());
@@ -1081,23 +1079,6 @@ class ilSCORM13Package
         
                 break;
         }
-    }
-
-    /**
-     * add new sahs and package record
-     */
-    public function dbAddNew()
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        $ilDB->insert('cp_package', array(
-            'obj_id'		=> array('integer', $this->packageId),
-            'xmldata'		=> array('clob', $x->asXML()),
-            'jsdata'		=> array('clob', json_encode($j))
-        ));
-        
-        return true;
     }
 
 

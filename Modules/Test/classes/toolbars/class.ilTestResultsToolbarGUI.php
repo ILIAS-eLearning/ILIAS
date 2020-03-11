@@ -18,7 +18,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
     public $ctrl = null;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalTemplateInterface
      */
     public $tpl = null;
 

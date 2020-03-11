@@ -20,7 +20,7 @@ class ilTestSkillLevelThresholdsGUI
     private $ctrl;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -46,7 +46,7 @@ class ilTestSkillLevelThresholdsGUI
 
     private $questionAssignmentColumnsEnabled;
 
-    public function __construct(ilCtrl $ctrl, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
+    public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
     {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
@@ -114,7 +114,7 @@ class ilTestSkillLevelThresholdsGUI
             $valid = true;
 
             $table    = $this->getPopulatedTable();
-            $elements = $table->getInputElements();
+            $elements = $table->getInputElements((array) ($_POST['rendered'] ?? []));
             foreach ($elements as $elm) {
                 if (!$elm->checkInput()) {
                     $valid = false;
@@ -217,7 +217,13 @@ class ilTestSkillLevelThresholdsGUI
     private function buildTableGUI()
     {
         require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
-        $table = new ilTestSkillLevelThresholdsTableGUI($this, self::CMD_SHOW_SKILL_THRESHOLDS, $this->ctrl, $this->lng);
+        $table = new ilTestSkillLevelThresholdsTableGUI(
+            $this,
+            $this->getTestId(),
+            self::CMD_SHOW_SKILL_THRESHOLDS,
+            $this->ctrl,
+            $this->lng
+        );
         $table->setQuestionAssignmentColumnsEnabled($this->areQuestionAssignmentColumnsEnabled());
         $table->initColumns();
 

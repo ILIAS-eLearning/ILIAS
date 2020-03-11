@@ -252,7 +252,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         );
                     }
 
-                    $short_str = ilPCParagraph::xml2output($short_str);
+                    $short_str = ilPCParagraph::xml2output($short_str, false, true, false);
 
                     $this->tpl->setVariable("DEF_SHORT", $short_str);
                     $this->tpl->parseCurrentBlock();

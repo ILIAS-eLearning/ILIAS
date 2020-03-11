@@ -2,8 +2,6 @@
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\Forbidden;
 
-require_once 'Modules/File/classes/class.ilObjFile.php';
-
 /**
  * Class ilObjFileDAV
  *

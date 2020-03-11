@@ -5,9 +5,11 @@ docs/LICENSE */
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * This describes a group of inputs.
  */
-interface Group extends Input
+interface Group extends Component, FormInput
 {
 }

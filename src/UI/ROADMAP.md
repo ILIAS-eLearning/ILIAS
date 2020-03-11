@@ -149,6 +149,21 @@ are created with methods that share the "group"-suffix. This is a exemplary case
 for the introduction of a new 'Group` family within `Input\Field`, with its own
 description, factory, renderer, directory...
 
+### Improvement of Persistent Node States in `Tree` (advanced)
+
+Currently there is no centralized approach to enhance `TreeRecursion` instances or
+`Node` elements with persistence capabilities for the purpose of storing the state
+(collapsed/expanded) of a `Node`.
+With ILIAS 6 a first low-level approach was introduced in
+[`ilTreeExplorerGUI`](../../Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php#L444),
+which enables derivatives to
+[specify a `ilCtrl` route](../../Services/Mail/classes/class.ilMailExplorer.php#L87) used
+as action for node state HTTP POST requests. This requests can be processed in the
+client/consumer and delegated to the `ilTreeExplorerGUI` by calling
+[`toggleExplorerNodeState`](../..Services/Mail/classes/class.ilMailGUI.php#L288)
+on the explore instance.
+This should be moved to a centralized position, e.g. Services/UI.
+
 ### Remove Snake Cases Functions for Tests (beginner, ~2h)
 
 There are several tests still using snake cases as function names, remove it.
@@ -166,6 +181,16 @@ used to display the perma-link. This should be substituted by a non-input
 block-element, respectively an UI-Component on its own.
 
 ## Long Term
+
+### Glyphs as Toggle
+
+Currently, the Notification Glyph (and maybe others) is used to toggle the activation
+of the notification service at individual objects. The activity then is indicated
+by color only, which violates the general accessibility rule that ["Color MUST not be
+used as the only visual means of conveying information"](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/accessibility.md).
+However, a quick fix seems not to be possible atm, because there also is no other
+means to convey the notion of (in-)activity for a general Glyph, or even only the
+specific Notification Glyph.
 
 ### Tooltips and Tooltippable
 

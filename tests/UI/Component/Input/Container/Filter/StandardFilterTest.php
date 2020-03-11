@@ -89,7 +89,8 @@ class StandardFilterTest extends ILIAS_UI_TestBase
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Factory(
             new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory,
-            new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
+            new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory,
+            new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory
         );
     }
 

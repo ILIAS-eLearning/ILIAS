@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
@@ -35,7 +31,6 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
@@ -67,8 +62,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     public function getChildsOfNode($a_parent_id)
     {
         $childs = parent::getChildsOfNode($a_parent_id);
-        
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
         foreach ($childs as $c) {
             $this->parent[$c["child"]] = $c["parent"];
             if ($this->draft[$c["parent"]]) {
@@ -98,7 +92,6 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             $title = $lng->txt("skmg_skill_templates");
         } else {
             if ($a_node["type"] == "sktr") {
-                include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_node["child"]);
                 $title.= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }

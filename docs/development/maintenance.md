@@ -33,7 +33,11 @@ Responsibilities of a component maintainer:
 - Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically by the [Issue-Tracker](http://mantis.ilias.de).
 
 
-The code base is deviced in several components:
+## Becoming a Maintainer
+
+Applications for maintainerships can be handed in to the product manager. The product manager together with the technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In addition the company the maintainer is working for can be listed, too. In this second case the company can suggest a new maintainer to the product manager, if the employee leaves the company.
+
+## Current Maintainerships
 
 <!-- REMOVE -->
 * **ActiveRecord**
@@ -647,7 +651,7 @@ Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.
 
 * **Refinery**
 	* Coordinators: [mjansen](http://www.ilias.de/docu/goto_docu_usr_8784.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
-	* Used in Directories: 
+	* Used in Directories: src/Refinery
 * **UI-Service**
 	* Coordinators: [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html), [rklees](http://www.ilias.de/docu/goto_docu_usr_34047.html)
 	* Used in Directories: src/UI
@@ -666,6 +670,8 @@ The following directories are currently unmaintained:
 * Services/Membership
 * Services/OpenIdConnect
 * Services/PHPUnit
+* Services/QTI
+* Services/Randomization
 * Services/UI
 * src/ArtifactBuilder
 * src/Setup

@@ -114,7 +114,6 @@ class ilContainerSkills
      */
     public function getOrderedSkills()
     {
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         return $vtree->getOrderedNodeset($this->getSkills(), "skill_id", "tref_id");
     }

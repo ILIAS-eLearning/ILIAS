@@ -1363,17 +1363,10 @@ class ilObjQuestionPool extends ilObject
     */
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
-        global $DIC;
-        $ilLog = $DIC['ilLog'];
-
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-
-        if (!$cp_options->isRootNode($this->getRefId())) {
-            $newObj->setOnline($this->getOnline());
-        }
+        $newObj->setOnline(false);
+        $newObj->update();
 
         $newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
         $newObj->setShowTaxonomies($this->getShowTaxonomies());
@@ -1390,7 +1383,7 @@ class ilObjQuestionPool extends ilObject
         // clone meta data
         include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $new_md =&$md->cloneMD($newObj->getId(), 0, $newObj->getType());
+        $md->cloneMD($newObj->getId(), 0, $newObj->getType());
 
         // update the metadata with the new title of the question pool
         $newObj->updateMetaData();
@@ -1654,7 +1647,6 @@ class ilObjQuestionPool extends ilObject
     public static function isSkillManagementGloballyActivated()
     {
         if (self::$isSkillManagementGloballyActivated === null) {
-            include_once 'Services/Skill/classes/class.ilSkillManagementSettings.php';
             $skmgSet = new ilSkillManagementSettings();
 
             self::$isSkillManagementGloballyActivated = $skmgSet->isActivated();

@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for skill profile levels
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services/Skill
  */
 class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
@@ -36,11 +31,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->tree = new ilSkillTree();
         
         $this->profile = $a_profile;

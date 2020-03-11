@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Modules/Category/classes/class.ilObjCategory.php';
-
 /**
  * Class ilObjCategoryDAV
  *

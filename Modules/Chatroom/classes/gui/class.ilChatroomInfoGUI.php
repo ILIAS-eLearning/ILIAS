@@ -17,18 +17,9 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
      */
     public function executeDefault($method)
     {
-        include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
-        $this->redirectIfNoPermission('read');
+        $this->redirectIfNoPermission('visible');
 
         $this->gui->switchToVisibleMode();
-
-        if (!ilChatroom::checkUserPermissions("visible", $this->gui->ref_id, false)) {
-            $this->gui->ilias->raiseError(
-                $this->ilLng->txt("msg_no_perm_read"),
-                $this->ilias->error_obj->MESSAGE
-            );
-        }
 
         $info = $this->createInfoScreenGUI($this->gui);
 
@@ -57,7 +48,6 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
      */
     protected function createInfoScreenGUI($gui)
     {
-        require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
         return new ilInfoScreenGUI($gui);
     }
 }

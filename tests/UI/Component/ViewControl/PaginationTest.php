@@ -20,7 +20,8 @@ class PaginationTest extends ILIAS_UI_TestBase
             {
                 return new IC\Symbol\Factory(
                     new IC\Symbol\Icon\Factory(),
-                    new IC\Symbol\Glyph\Factory()
+                    new IC\Symbol\Glyph\Factory(),
+                    new IC\Symbol\Avatar\Factory()
                 );
             }
             public function button()
@@ -80,7 +81,6 @@ class PaginationTest extends ILIAS_UI_TestBase
         $this->assertEquals($current_page, $p->getCurrentPage());
         $this->assertEquals($max_page_options, $p->getMaxPaginationButtons());
         $this->assertEquals(2, $p->getNumberOfPages());
-        $this->assertEquals(11, $p->getPageLength());
     }
 
     public function testRenderUnlimited()

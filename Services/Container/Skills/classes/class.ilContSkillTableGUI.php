@@ -44,7 +44,6 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
 
         $this->container_skills = $a_cont_skills;
@@ -83,7 +82,6 @@ class ilContSkillTableGUI extends ilTable2GUI
         }
 
         // order skills per virtual skill tree
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $skills = $vtree->getOrderedNodeset($skills, "skill_id", "tref_id");
 

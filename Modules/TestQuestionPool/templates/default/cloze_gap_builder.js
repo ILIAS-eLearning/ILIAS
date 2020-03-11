@@ -1640,10 +1640,6 @@ il.ClozeHelper = (function () {
 	return pub;
 }());
 
-$(document).ready(function () {
-	ClozeGapBuilder.Init();
-});
-
 (function ($) {
 
 	$.fn.ensureNoArrayIsAnObjectRecursive = function (obj) {

@@ -102,7 +102,6 @@ class ilContSkillPresentationGUI
     {
         $lng = $this->lng;
 
-        include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
         $gui = new ilPersonalSkillsGUI();
         $gui->setGapAnalysisActualStatusModePerObject($this->container->getId());
         $gui->setTriggerObjectsFilter($this->getSubtreeObjectIds());

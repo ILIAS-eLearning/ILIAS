@@ -785,7 +785,60 @@
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
 @il-standard-disabled-icon-filter: grayscale(100%);
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
-@il-standard-outlined-disabled-icon-filter: brightness(0.3);
+@il-standard-outlined-disabled-icon-filter: contrast(0%);
+
+//== Avatar
+//
+//** Size for avatars: used in the header. e.g. standard (and recommended) is @icon-size-large
+@avatar-size: @icon-size-large;
+@avatar-size-small: @avatar-size / 2;
+@avatar-size-large: @avatar-size * 2;
+//** border-radius for image avatar
+@avatar-border-radius: 50%;
+//** border size for letter avatars
+@avatar-border-size: 2px;
+@avatar-small-border-size: 0px;
+//** border style for letter avatars
+@avatar-border-style: solid;
+//** border color for picture avatars
+@avatar-picture-border-color: #dddddd;
+//** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
+@avatar-letter-border-color-contrast-lighten: 40%;
+@avatar-letter-border-color-contrast-darken: 20%;
+//** change the abbreviations font weight
+@avatar-letter-abbreviation-font-weight: lighter;
+//** change the abbreviations font transform
+@avatar-letter-abbreviation-font-transform: inherit;
+//** all variants of letter avatar background colors (MUST be 26)
+@avatar-letter-color-variants:
+	#1abc9c,
+	#16a085,
+	#f1c40f,
+	#f39c12,
+	#2ecc71,
+	#27ae60,
+	#e67e22,
+	#d35400,
+	#3498db,
+	#2980b9,
+	#e74c3c,
+	#c0392b,
+	#9b59b6,
+	#8e44ad,
+	#bdc3c7,
+	#34495e,
+	#2c3e50,
+	#95a5a6,
+	#7f8c8d,
+	#ec87bf,
+	#d870ad,
+	#f69785,
+	#9ba37e,
+	#b49255,
+	#b49255,
+	#a94136
+;
+
 
 //== View Control
 //
@@ -884,7 +937,7 @@
 
 //** slates
 @il-slate-bulky-bg-color: #f2f2f2;
-@il-slate-bulky-level2-bg-color: #e3e3e3;
+@il-slate-bulky-level2-bg-color: #f9f9f9;
 @il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
 @il-slate-content-padding: 10px 20px;
 @il-slate-tree-padding: 4px 0;
