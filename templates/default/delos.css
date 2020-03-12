@@ -7869,7 +7869,7 @@ hr.il-divider-with-label {
   stroke: transparent;
 }
 .il-standard-form {
-  background-color: #fdfdfd;
+  background-color: white;
   margin-top: 6px;
 }
 .il-standard-form .il-standard-form-cmd {
@@ -7910,7 +7910,7 @@ hr.il-divider-with-label {
   padding-top: 0;
 }
 .il-standard-form .il-dependant-group {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .il-standard-form .il-dependant-group .form-group {
@@ -12587,7 +12587,7 @@ div.il_info {
 }
 /* ---------------- headlines ------------------ */
 a#il_mhead_t_focus {
-  color: #6ea03c;
+  color: #3b5620;
   vertical-align: middle;
   font-size: 26px;
   cursor: default;
@@ -13304,7 +13304,7 @@ select {
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background: #fdfdfd;
+  background: white;
 }
 form.form-inline {
   margin-bottom: 20px;
@@ -13411,7 +13411,7 @@ input[type="file"].form-control {
   background-color: #f0f0f0;
 }
 .ilSubForm {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .ilSubForm .form-group {
@@ -19109,3 +19109,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */
