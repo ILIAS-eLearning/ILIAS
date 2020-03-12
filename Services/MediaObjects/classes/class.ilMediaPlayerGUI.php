@@ -338,6 +338,7 @@ class ilMediaPlayerGUI
             }
             $mp_tpl->setVariable("PV", $p["v"]);
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
@@ -410,6 +411,7 @@ class ilMediaPlayerGUI
             }
             
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();

@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * Exporter class for skills
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesSkill
  */
 class ilSkillExporter extends ilXmlExporter
 {
@@ -19,7 +17,6 @@ class ilSkillExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Services/Skill/classes/class.ilSkillDataSet.php");
         $this->ds = new ilSkillDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");

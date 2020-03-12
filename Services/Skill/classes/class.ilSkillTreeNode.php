@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTree.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * A node in the skill tree
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillTreeNode
 {
@@ -301,11 +296,6 @@ class ilSkillTreeNode
      */
     public static function _lookupTitle($a_obj_id, $a_tref_id = 0)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
         if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id) {
             return self::_lookup($a_tref_id, "title");
         }
@@ -594,7 +584,6 @@ class ilSkillTreeNode
     public static function clipboardCut($a_tree_id, $a_ids)
     {
         self::clearClipboard();
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
 
         if (!is_array($a_ids)) {
@@ -639,7 +628,6 @@ class ilSkillTreeNode
         $ilUser = $DIC->user();
         
         self::clearClipboard();
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         
         // put them into the clipboard
@@ -684,15 +672,10 @@ class ilSkillTreeNode
     {
         global $DIC;
 
-        $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
         
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
-        $tree = new ilSkillTree();
-        
         $parent_id = $a_obj_id;
         $target = IL_LAST_NODE;
 
@@ -746,7 +729,6 @@ class ilSkillTreeNode
         $ilUser->clipboardDeleteObjectsOfType("sktr");
         $ilUser->clipboardDeleteObjectsOfType("sktp");
         $ilUser->clipboardDeleteObjectsOfType("sctp");
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::clear();
     }
     
@@ -772,19 +754,14 @@ class ilSkillTreeNode
         $item_type = ilSkillTreeNode::_lookupType($a_item_id);
 
         if ($item_type == "scat") {
-            include_once("./Services/Skill/classes/class.ilSkillCategory.php");
             $item = new ilSkillCategory($a_item_id);
         } elseif ($item_type == "skll") {
-            include_once("./Services/Skill/classes/class.ilBasicSkill.php");
             $item = new ilBasicSkill($a_item_id);
         } elseif ($item_type == "sktr") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $item = new ilSkillTemplateReference($a_item_id);
         } elseif ($item_type == "sktp") {
-            include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
             $item = new ilBasicSkillTemplate($a_item_id);
         } elseif ($item_type == "sctp") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
             $item = new ilSkillTemplateCategory($a_item_id);
         }
 
@@ -909,7 +886,6 @@ class ilSkillTreeNode
      */
     public static function saveChildsOrder($a_par_id, $a_childs_order, $a_templates = false)
     {
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $skill_tree = new ilSkillTree();
         
         if ($a_par_id != $skill_tree->readRootId()) {
@@ -967,7 +943,6 @@ class ilSkillTreeNode
             
         $a_name = "icon_" . $a_type . $a_size . $off . ".svg";
         if ($a_type == "sktr") {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $tid = ilSkillTemplateReference::_lookupTemplateId($a_obj_id);
             $type = ilSkillTreeNode::_lookupType($tid);
             if ($type == "sctp") {
@@ -1000,7 +975,6 @@ class ilSkillTreeNode
             " WHERE " . $ilDB->like("title", "text", "%" . $a_term . "%");
         $sql .= " ORDER BY title";
         $set = $ilDB->query($sql);
-        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
         while ($row = $ilDB->fetchAssoc($set)) {
             if (in_array($row["type"], array("sctp", "sktp"))) {
                 // need to get "top template" first! (if it is already the top level, do not use it!)
@@ -1055,7 +1029,6 @@ class ilSkillTreeNode
      */
     public static function getAllCSkillIdsForNodeIds(array $a_node_ids)
     {
-        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
         $cskill_ids = array();
         foreach ($a_node_ids as $id) {
             if (in_array(self::_lookupType($id), array("skll", "scat", "sktr"))) {

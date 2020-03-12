@@ -14,6 +14,23 @@ body {
 	font-size : 10pt; 
 }
 
+body {
+	height: auto;
+	border: none;
+}
+
+.il-layout-page {
+	display: block;
+}
+
+.il-layout-page-content {
+	display: block;
+}
+
+.il-layout-page-content > div {
+	display: block;
+}
+
 .noprint, .il_Locator, .tabinactive, .tabactive, .il_Footer, .il_Header, .ilMainHeader, .il_SubTab, .submit, .il_ContainerItemCommand {
 	visibility: hidden;
 	display: none;
@@ -62,12 +79,6 @@ input[type="submit"], input[type="button"] {
 	border-spacing: 0px;
 	border: 1px solid gray;
 	vertical-align: top;
-}
-
-body.std
-{
-	height: auto;
-	border: none;
 }
 
 .tblrow1 {
@@ -191,7 +202,8 @@ table.freefield_bottom {
 	visibility: hidden;
 }
 
-#ilTopBar, #ilFooter, .ilMainHeader, .ilMainMenu, .breadcrumb, #ilTab, #ilSubTab, .ilHeadAction {
+#ilTopBar, #ilFooter, .ilMainHeader, .ilMainMenu, .breadcrumb, #ilTab, #ilSubTab, .ilHeadAction,
+nav.il-maincontrols, nav.breadcrumbs {
 	display: none;
 }
 

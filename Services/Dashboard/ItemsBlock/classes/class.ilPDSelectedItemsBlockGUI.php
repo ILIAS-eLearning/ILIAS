@@ -155,8 +155,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function removeFromDeskObject()
     {
+        $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
+        ilUtil::sendSuccess($this->lng->txt("rep_removed_from_favourites"), true);
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
@@ -322,7 +323,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'sorting', null);
         }
 
-        if (count($sortingCommands) > 0) {
+        if (count($sortingCommands) > 1) {
             $commandGroups[] = $sortingCommands;
         }
 
@@ -345,7 +346,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'presentation', null);
         }
 
-        if (count($presentationCommands) > 0) {
+        if (count($presentationCommands) > 1) {
             $commandGroups[] = $presentationCommands;
         }
 

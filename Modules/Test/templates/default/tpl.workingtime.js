@@ -1,5 +1,3 @@
-<script type="text/javascript">
-<!--
 	var serverdate = -1;
 	var unsaved = true;
 	
@@ -104,7 +102,6 @@
 		var span = document.getElementById("timeleft");
 		span.innerHTML = timeleft.replace(/%s/, output);
 	}
+	window.setWorkingTime = setWorkingTime;
 	
 	window.setInterval('setWorkingTime()',1000);
-//-->
-</script>

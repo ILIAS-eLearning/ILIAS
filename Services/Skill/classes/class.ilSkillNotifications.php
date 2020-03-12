@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Cron/classes/class.ilCronJob.php";
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Course/group skill notification
@@ -126,7 +124,6 @@ class ilSkillNotifications extends ilCronJob
         // $last_run = "2017-07-20 12:00:00";
 
         // get latest course/group skill changes per user
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $achievements = ilBasicSkill::getNewAchievementsPerUser($last_run);
 
         foreach ($achievements as $user_id => $a) {
@@ -167,29 +164,20 @@ class ilSkillNotifications extends ilCronJob
      */
     protected function sendMail($a_user_id, array $a_achievements, $a_last_run)
     {
-        $lng = $this->lng;
-        $ilUser = $this->user;
         $ilClientIniFile = $this->client_ini;
         $tree = $this->tree;
 
-        include_once "./Services/Notification/classes/class.ilSystemNotification.php";
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("skll"));
 
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        include_once './Services/Locator/classes/class.ilLocatorGUI.php';
-        require_once "./Services/UICore/classes/class.ilTemplate.php";
-        require_once "./Services/Link/classes/class.ilLink.php";
-
-
         $tmp = array();
         $txt = "";
         $last_obj_id = 0;
 
         // order skill achievements per virtual skill tree
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 

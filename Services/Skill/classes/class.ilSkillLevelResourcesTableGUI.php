@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for skill level resources
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 {
@@ -52,7 +47,6 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         
         $this->level_id = $a_level_id;
         
-        include_once("./Services/Skill/classes/class.ilSkillResources.php");
         $this->resources = new ilSkillResources($a_skill_id, $a_tref_id);
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -91,7 +85,6 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
             $this->tpl->touchBlock("sugg_checked");
         }
 
-        include_once "Services/Object/classes/class.ilObjectLP.php";
         if (ilObjectLP::isSupportedObjectType($obj_type)) {
             if ($a_set["trigger"]) {
                 $this->tpl->touchBlock("trig_checked");

@@ -1,17 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
-include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 /**
  * Skill template reference GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ilCtrl_isCalledBy ilSkillTemplateReferenceGUI: ilObjSkillManagementGUI
- * @ingroup ServicesSkill
  */
 class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 {
@@ -178,11 +174,9 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // select skill template
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $tmplts = ilSkillTreeNode::getTopTemplates();
         
         // title
@@ -208,7 +202,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $ni->setSize(6);
         $ni->setRequired(true);
         if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
             $ni->setValue($max + 10);
@@ -374,7 +367,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $obj_type = ilSkillTreeNode::_lookupType($sk_id);
 
         if ($obj_type == "sctp") {
-            include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
             $table = new ilSkillCatTableGUI(
                 $this,
                 "listItems",
@@ -384,7 +376,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             );
             $tpl->setContent($table->getHTML());
         } elseif ($obj_type == "sktp") {
-            include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
             $table = new ilSkillLevelTableGUI((int) $sk_id, $this, "edit", $this->node_object->getId());
             $tpl->setContent($table->getHTML());
         }

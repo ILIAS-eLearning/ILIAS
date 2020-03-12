@@ -34,7 +34,8 @@ class FooterTest extends ILIAS_UI_TestBase
             $counter_factory,
             new I\Symbol\Factory(
                 new I\Symbol\Icon\Factory(),
-                new I\Symbol\Glyph\Factory()
+                new I\Symbol\Glyph\Factory(),
+                new I\Symbol\Avatar\Factory()
             )
         );
         $factory = new I\MainControls\Factory($sig_gen, $slate_factory);

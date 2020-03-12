@@ -23,7 +23,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * Inputs that are contained by this group
      *
-     * @var    Input[]
+     * @var    FormInput[]
      */
     protected $inputs = [];
 
@@ -37,7 +37,7 @@ class Group extends Input implements C\Input\Field\Group
      *
      * @param DataFactory           $data_factory
      * @param \ILIAS\Refinery\Factory $refinery
-     * @param InputInternal[]       $inputs
+     * @param FormInputInternal[]   $inputs
      * @param                       $label
      * @param                       $byline
      */
@@ -49,7 +49,7 @@ class Group extends Input implements C\Input\Field\Group
         string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->checkArgListElements("inputs", $inputs, InputInternal::class);
+        $this->checkArgListElements("inputs", $inputs, FormInputInternal::class);
         $this->inputs = $inputs;
     }
 
@@ -201,7 +201,7 @@ class Group extends Input implements C\Input\Field\Group
     }
 
     /**
-     * @return Input[]
+     * @return FormInput[]
      */
     public function getInputs()
     {

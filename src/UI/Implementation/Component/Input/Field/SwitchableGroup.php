@@ -27,7 +27,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
      *
      * @param DataFactory           $data_factory
      * @param \ILIAS\Refinery\Factory $refinery
-     * @param InputInternal[]       $inputs
+     * @param FormInputInternal[]     $inputs
      * @param                       $label
      * @param                       $byline
      */

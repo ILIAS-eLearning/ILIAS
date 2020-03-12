@@ -101,8 +101,6 @@ class ilTestSkillLevelThresholdImportFails
      */
     public function getFailedImportsMessage(ilLanguage $lng)
     {
-        require_once 'Services/Skill/classes/class.ilBasicSkill.php';
-        
         $msg = $lng->txt('tst_failed_imp_skl_thresholds');
         
         $msg .= '<ul>';

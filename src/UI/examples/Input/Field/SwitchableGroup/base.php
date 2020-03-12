@@ -34,7 +34,7 @@ function base()
             "g2"=>$group2,
             "g3"=>$group3
         ],
-        "pick one",
+        "Pick One",
         "...or the other"
     );
 
@@ -42,7 +42,12 @@ function base()
         '#',
         [
             'switchable_group' => $sg,
+            //A group like the first, with different Label and Byline and
+            //g2 selected by default.
             'switchable_group2' => $sg->withValue("g2")
+                                      ->withLabel("Again, Pick One")
+                                      ->withByline("... or the other. 
+                                      Note, the second option is selected by default here.")
         ]
     );
 

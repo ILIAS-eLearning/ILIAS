@@ -8,7 +8,7 @@ function many_pages_dropdown()
     $url = $DIC->http()->request()->getRequestTarget();
     $lng = $DIC['lng'];
 
-    $parameter_name = 'page2';
+    $parameter_name = 'page3';
     $current_page = (int) @$_GET[$parameter_name];
 
     $pagination = $factory->viewControl()->pagination()
@@ -21,9 +21,9 @@ function many_pages_dropdown()
     $custom_pagination = $pagination
         ->withDropdownLabel('current page is %1$d (of %2$d pages in total)');
 
-    $start = $pagination->getOffset();
-    $stop = $start + $pagination->getPageLength();
-    $result = "entries $start to $stop";
+    list($range_offset, $range_length) = $pagination->getRange()->unpack();
+    $result = "Show $range_length entries starting at $range_offset";
+
     return $renderer->render([$pagination, $custom_pagination])
         . '<hr>'
         . $result;

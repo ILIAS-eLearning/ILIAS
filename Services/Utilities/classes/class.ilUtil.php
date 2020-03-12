@@ -4,9 +4,10 @@
 /**
  * @defgroup ServicesUtilities Services/Utilities
  */
+
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\Filesystem\MetadataType;
+use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
 * Util class
@@ -1972,7 +1973,6 @@ class ilUtil
         exit;
     }
 
-    // BEGIN WebDAV: Show file in browser or provide it as attachment
     /**
     *   deliver file for download via browser.
     * @param $mime Mime of the file
@@ -3060,11 +3060,9 @@ class ilUtil
     ) {
         include_once("./Services/Utilities/classes/class.ilStr.php");
 
-        // BEGIN WebDAV: Provide a 'stable' sort algorithm
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby, $a_array_sortorder, $a_numeric, $a_keep_keys);
         }
-        // END WebDAV Provide a 'stable' sort algorithm
 
         global $array_sortby,$array_sortorder;
         $array_sortby = $a_array_sortby;
@@ -3091,7 +3089,7 @@ class ilUtil
 
         return $array;
     }
-    // BEGIN WebDAV: Provide a 'stable' sort algorithm
+
     /**
     * Sort an aray using a stable sort algorithm, which preveserves the sequence
     * of array elements which have the same sort value.
@@ -3129,6 +3127,7 @@ class ilUtil
 
         return $sort_array;
     }
+
     public static function mergesort(&$array, $cmp_function = 'strcmp')
     {
         // Arrays of size < 2 require no action.
@@ -3172,7 +3171,6 @@ class ilUtil
 
         return;
     }
-    // END WebDAV: Provide a 'stable' sort algorithm
 
     /**
     * Make a multi-dimensional array to have only DISTINCT values for a certain "column".
@@ -3815,13 +3813,13 @@ class ilUtil
     public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
     {
         global $DIC;
-        $targetFilename = basename($a_target);
+        $target_filename = basename($a_target);
 
         include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-        $targetFilename = ilFileUtils::getValidFilename($targetFilename);
+        $target_filename = ilFileUtils::getValidFilename($target_filename);
 
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
-        list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+        list($target_filesystem, $target_dir) = self::sanitateTargetPath($a_target);
 
         $upload = $DIC->upload();
 
@@ -3834,25 +3832,27 @@ class ilUtil
             if (!$upload->hasUploads()) {
                 throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
             }
-            /**
-             * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
-             */
-            $UploadResult = $upload->getResults()[$a_file];
-            $ProcessingStatus = $UploadResult->getStatus();
-            if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage()." ($targetFilename)");
-            }
-        } catch (ilException $e) {
-            if ($a_raise_errors) {
-                throw $e;
+            $upload_result = $upload->getResults()[$a_file];
+            if ($upload_result instanceof UploadResult) {
+                $processing_status = $upload_result->getStatus();
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    throw new ilException($processing_status->getMessage());
+                }
             } else {
+                return false;
+            }
+
+        } catch (ilException $e) {
+            if (!$a_raise_errors) {
                 ilUtil::sendFailure($e->getMessage(), true);
+            } else {
+                throw $e;
             }
 
             return false;
         }
 
-        $upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
+        $upload->moveOneFileTo($upload_result, $target_dir, $target_filesystem, $target_filename, true);
 
         return true;
     }

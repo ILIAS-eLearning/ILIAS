@@ -3506,7 +3506,6 @@ class ilSetupGUI
         $GLOBALS["DIC"]["ilDB"] = function ($c) {
             return $GLOBALS["ilDB"];
         };
-        // BEGIN WebDAV
         // read module and service information into db
 
         $modules = ilModule::getAvailableCoreModules();
@@ -3539,7 +3538,6 @@ class ilSetupGUI
             $sr->getServices();
             unset($sr);
         }
-        // END WebDAV
 
         ilUtil::sendInfo($this->lng->txt("ctrl_structure_reloaded"), true);
         $this->displayTools();

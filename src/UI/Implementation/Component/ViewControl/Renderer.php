@@ -100,6 +100,10 @@ class Renderer extends AbstractComponentRenderer
 
         $action = $component->getAction();
         $tpl->setVariable($uptype . "_ACTION", $action);
+        $label = ($type == "next")
+            ? $this->txt("next")
+            : $this->txt("previous");
+        $tpl->setVariable($uptype . "_LABEL", $label);
         if ($component->isActive()) {
             $tpl->setCurrentBlock($type . "_with_href");
             $tpl->setVariable($uptype . "_HREF", $action);

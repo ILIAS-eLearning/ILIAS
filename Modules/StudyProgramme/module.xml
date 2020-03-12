@@ -58,6 +58,7 @@
 		<cron id="prg_restart_assignments_temporal_progress" class="ilPrgRestartAssignmentsCronJob" />
 		<cron id="prg_user_not_restarted" class="ilPrgUserNotRestartedCronJob" />
 		<cron id="prg_user_risky_to_fail" class="ilPrgUserRiskyToFailCronJob" />
+		<cron id="prg_update_progress" class="ilPrgUpdateProgressCronJob" />
 	</crons>
 	<mailtemplates>
 		<context id="prg_context_manual" class="ilStudyProgrammeMailTemplateContext" />

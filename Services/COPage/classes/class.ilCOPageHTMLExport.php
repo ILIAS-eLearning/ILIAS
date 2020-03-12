@@ -422,23 +422,16 @@ class ilCOPageHTMLExport
                 if ($user_id) {
                     // we only need 1 instance each
                     if (!$skill_tree) {
-                        include_once "Services/Skill/classes/class.ilSkillTree.php";
                         $skill_tree = new ilSkillTree();
 
-                        include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-
-                        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                         $ws_tree = new ilWorkspaceTree($user_id);
                     }
 
                     // walk skill tree
-                    include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
                     $vtree = new ilVirtualSkillTree();
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
-                    include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
-                        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                         $tref_id = $skill_id;
                         $skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
                     }

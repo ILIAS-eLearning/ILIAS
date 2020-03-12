@@ -345,6 +345,10 @@ class ilInitialisation
         $iliasHttpPath = implode('', [$protocol, $host, $uri]);
         if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
             $iliasHttpPath = dirname($iliasHttpPath);
+        } elseif (ilContext::getType() === ilContext::CONTEXT_SAML) {
+            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
+                $iliasHttpPath = substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'));
+            }
         }
 
         $f = new \ILIAS\Data\Factory();
@@ -1412,6 +1416,7 @@ class ilInitialisation
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
         $c["ui.factory"] = function ($c) {
+            $c["lng"]->loadLanguageModule("ui");
             return new ILIAS\UI\Implementation\Factory(
                 $c["ui.factory.counter"],
                 $c["ui.factory.button"],
@@ -1525,10 +1530,14 @@ class ilInitialisation
         $c["ui.factory.symbol.icon"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
         };
+        $c["ui.factory.symbol.avatar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory();
+        };
         $c["ui.factory.symbol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Factory(
                 $c["ui.factory.symbol.icon"],
-                $c["ui.factory.symbol.glyph"]
+                $c["ui.factory.symbol.glyph"],
+                $c["ui.factory.symbol.avatar"]
             );
         };
         $c["ui.factory.progressmeter"] = function ($c) {

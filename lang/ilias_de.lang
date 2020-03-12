@@ -129,38 +129,38 @@ auth#:#auth_oidc_settings_client_id#:#Client-ID
 auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenI-Connect-Anmeldeskript.
 auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenID-Connect-Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenID-Connect-Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenID-Connect-Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
 auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer automatisch ein neues Benutzerkonto erzeugt, wenn sie sich erfolgreich gegen OpenID-Connect authentifiziert haben, aber kein ILIAS-Benutzerkonto besitzen.
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
-auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
+auth#:#auth_oidc#:#OpenID-Connect
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
-auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
+auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
@@ -1032,7 +1032,6 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Ermittlung der Kompetenzpunk
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Ermittlung der Kompetenzpunkte durch Lösungsvergleich
 assessment#:#tst_solution_compare_cfg#:#Konfiguration für Antwortvergleich
 assessment#:#tst_sol_comp_expressions#:#Vergleichsausdrücke
-assessment#:#ass_lac_hide_legend_btn#:#Verstecke Legende
 assessment#:#ass_lac_show_legend_btn#:#Zeige Legende
 assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
 assessment#:#ass_lac_expression#:#Ausdruck
@@ -1912,7 +1911,7 @@ auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_login_editor#:#Loginseite gestalten
-auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
+auth#:#auth_oidc_role_info#:#OpenID-Connect-Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_rad_migration#:#Account-Migration:
 auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
 auth#:#auth_radius_charset#:#Zeichenkodierung
@@ -14713,7 +14712,7 @@ rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Loginmaske
-content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenID-Loginmaske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
 content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
 content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
@@ -15899,11 +15898,11 @@ prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zei
 prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
-prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
-prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
-prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
-prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
-prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qualification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qualification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
 prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
 prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
 prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
@@ -16051,11 +16050,45 @@ ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Me
 survey#:#invited_users#:#Selected Users###07 02 2020 new variable
 acc#:#acc_dashboard#:#Dashboard###07 02 2020 new variable
 forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.###07 02 2020 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###07 02 2020 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###07 02 2020 new variable
+pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
+pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
+exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
+exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
 prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
+exc#:#exc_deleted_user#:#Gelöschter Benutzer
+prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
+prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, wenn sie dieses Programm erfolgreich absolviert haben, und müssen diese Anzahl von Punkten in nachfolgenden Programmen ereichen.
+prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
+prg#:#prg_description#:#Beschreibung
+prg#:#prg_link#:#Link
+prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
+copg#:#copg_allow_html#:#HTML/Javascript erlauben
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdige Benutzern verwendet werden. Die Möglichkeit HTML in dieser Art einzubinden wird evtl. in einer zukünftigen Version komplett entfallen.
+dcl#:#dcl_page_type_dclf#:#Detailansicht
+crs#:#crs_page_type_lobj#:#Lernzieleinleitung
+copa#:#copa_page_type_copa#:#Inhaltsseite
+mep#:#mep_page_type_mep#:#Inhaltsbaustein
+wiki#:#wiki_page_type_wpg#:#Wikiseite
+blog#:#blog_page_type_blp#:#Blogbeitrag
+prtf#:#prtf_page_type_prtf#:#Portfolioseite
+prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
+glo#:#glo_page_type_gdf#:#Begriffsdefinition
+lm#:#lm_page_type_lm#:#Lernmodulseite
+qpl#:#qpl_page_type_qht#:#Hinweis
+qpl#:#qpl_page_type_qpl#:#Fragenseite
+qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
+qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
+copg#:#copg_page_type_stys#:#Seitenlayout
+cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
+cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
+auth#:#auth_page_type_auth#:#Loginseite
+impr#:#impr_page_type_impr#:#Impressum
+prg#:#prg_additional_settings#:#Zusätzliche Funktionen
+prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
+prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.

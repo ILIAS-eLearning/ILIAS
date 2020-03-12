@@ -116,10 +116,8 @@ class ilObjGroupListGUI extends ilObjectListGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
 
-        // BEGIN WebDAV get parent properties
         $props = parent::getProperties();
-        // END WebDAV get parent properties
-        
+
         include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
         $info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
         //var_dump($info);

@@ -1,17 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Self evaluation overview table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSelfEvaluationTableGUI extends ilTable2GUI
 {
@@ -49,7 +43,6 @@ class ilSelfEvaluationTableGUI extends ilTable2GUI
         $ilUser = $DIC->user();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
         $this->setData(ilSkillSelfEvaluation::getAllSelfEvaluationsOfUser($ilUser->getId()));
         $this->setTitle($lng->txt("skmg_self_evaluations"));
 

@@ -768,7 +768,6 @@ class ilSCORM13Player
                 }
             }
         }
-  
         return $g_data;
     }
 
@@ -1362,7 +1361,7 @@ class ilSCORM13Player
         if (!file_exists($filename)) {
             umask(0000);
             $fHandle = fopen($filename, 'a') or die("can't open file");
-            fwrite($fHandle, $string);
+            fwrite($fHandle, "");
             fclose($fHandle);
         }
         return $filename;
@@ -1383,7 +1382,7 @@ class ilSCORM13Player
         if (!file_exists($retname)) {
             umask(0000);
             $fHandle = fopen($retname, 'a') or die("can't open file");
-            fwrite($fHandle, $string);
+            fwrite($fHandle, "");
             fclose($fHandle);
         }
         return $retname;

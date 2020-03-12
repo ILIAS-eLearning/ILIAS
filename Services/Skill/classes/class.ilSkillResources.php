@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Manages resources for skills. This is not about user assigned materials,
@@ -15,8 +13,6 @@ include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
  *
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup Services/Skill
  */
 class ilSkillResources implements ilSkillUsageInfo
 {
@@ -232,11 +228,6 @@ class ilSkillResources implements ilSkillUsageInfo
      */
     public static function getUsageInfo($a_cskill_ids, &$a_usages)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
             $a_usages,

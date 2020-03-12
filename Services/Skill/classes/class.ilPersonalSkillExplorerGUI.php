@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Explorer for selecting a personal skill
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
@@ -44,8 +39,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
 
-        
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
+
         $this->tree = new ilSkillTree();
         $this->root_id = $this->tree->readRootId();
         

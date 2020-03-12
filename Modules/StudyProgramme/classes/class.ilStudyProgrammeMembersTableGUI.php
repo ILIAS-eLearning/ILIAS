@@ -150,7 +150,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $may_read_learning_progress =
             !$this->prg->getAccessControlByOrguPositionsGlobal() ||
-            in_array($usr_id, $this->getParentObject()->readLeadningProgress())
+            in_array($usr_id, $this->getParentObject()->readLearningProgress())
         ;
 
         $this->tpl->setCurrentBlock("checkb");
@@ -366,7 +366,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "prgrs.usr_id," . PHP_EOL
             . "prgrs.points," . PHP_EOL
             . "prgrs.points_cur * ABS(prgrs.status - $accredited) /" . PHP_EOL
-            . "    (GREATEST(ABS(prgrs.status - $accredited),1))," . PHP_EOL
+            . "    (GREATEST(ABS(prgrs.status - $accredited),1))" . PHP_EOL
             . "+ prgrs.points * (1 - ABS(prgrs.status - $accredited) /" . PHP_EOL
             . "    (GREATEST(ABS(prgrs.status - $accredited),1))) AS points_current," . PHP_EOL
             . "prgrs.last_change_by," . PHP_EOL
@@ -639,7 +639,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
             $operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
-            if ($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
+            if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
                 $operator = '>';
             }
             $buf[] = 'AND prgrs.vq_date ' . $operator . ' NOW()';

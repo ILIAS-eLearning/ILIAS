@@ -41,7 +41,7 @@ class ilJavaScriptBinding implements JavaScriptBinding
      */
     public function addOnLoadCode($code)
     {
-        $this->global_tpl->addOnLoadCode($code);
+        $this->global_tpl->addOnLoadCode($code, 1);
         $this->code[] = $code;
     }
 

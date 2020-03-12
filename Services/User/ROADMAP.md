@@ -18,6 +18,10 @@ A decent user service interface needs to be defined that should fit the needs of
 - Custom properties
 - Preferences
 
+### User Actions vs. Contact Widget
+
+The user actions and the contact widgets activation are a source of confusion, see e.g. bug #27266. This should be conceptually fixed.
+
 
 ## Long Term
 

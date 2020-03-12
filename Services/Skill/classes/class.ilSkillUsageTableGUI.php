@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for skill usages
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
@@ -53,7 +48,6 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->setData($data);
         $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         $path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
         $this->setDescription($path);

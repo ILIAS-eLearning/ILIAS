@@ -242,7 +242,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $this->object->getId(),
             true
         );
-        if (strlen($feedback_allcorrect)) {
+        if (strlen($feedback_allcorrect) && count($answers) > 0) {
             $attrs = array(
                 "continue" => "Yes"
             );
@@ -258,10 +258,7 @@ class assImagemapQuestionExport extends assQuestionExport
                         $bestindex = $index;
                     }
                 }
-                $attrs = array(
-                    "respident" => "IM"
-                );
-    
+
                 $areatype = "";
                 $answer = $answers[$bestindex];
                 switch ($answer->getArea()) {
@@ -321,7 +318,7 @@ class assImagemapQuestionExport extends assQuestionExport
             $this->object->getId(),
             false
         );
-        if (strlen($feedback_onenotcorrect)) {
+        if (strlen($feedback_onenotcorrect) && count($answers) > 0) {
             $attrs = array(
                 "continue" => "Yes"
             );

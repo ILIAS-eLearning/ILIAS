@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 {

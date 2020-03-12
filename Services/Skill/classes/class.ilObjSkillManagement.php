@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill management main application class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilObjSkillManagement extends ilObject
 {
@@ -85,10 +80,7 @@ class ilObjSkillManagement extends ilObject
      */
     public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
     {
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
-
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
 
         $source_obj = ilSkillTreeNodeFactory::getInstance($source_id);
 

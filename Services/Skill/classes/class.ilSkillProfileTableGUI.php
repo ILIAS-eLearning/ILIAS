@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for skill profiles
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSkillProfileTableGUI extends ilTable2GUI
 {
@@ -70,7 +65,6 @@ class ilSkillProfileTableGUI extends ilTable2GUI
      */
     public function getProfiles()
     {
-        include_once("./Services/Skill/classes/class.ilSkillProfile.php");
         return ilSkillProfile::getProfiles();
     }
     
