@@ -17520,6 +17520,9 @@ span.ilNewsRssIcon:hover {
   clear: right;
   margin-top: 8px;
 }
+.ilTimeline div.ilNotesHeader {
+  background-color: white;
+}
 .ilNewsTimelineTruncatedText {
   overflow: hidden;
   text-overflow: ellipsis;
