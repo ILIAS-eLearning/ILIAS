@@ -155,8 +155,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function removeFromDeskObject()
     {
+        $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
+        ilUtil::sendSuccess($this->lng->txt("rep_removed_from_favourites"), true);
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
