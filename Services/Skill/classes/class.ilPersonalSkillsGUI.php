@@ -1754,7 +1754,7 @@ class ilPersonalSkillsGUI
             foreach ($level_data as $l) {
                 $tpl->setCurrentBlock("level");
                 $tpl->setVariable("LEVEL_VAL", $l["title"]);
-                $tpl->setVariable("LEVEL_DESC", $l["description"]);
+                $tpl->setVariable("LEVEL_DESC", nl2br($l["description"]));
                 $tpl->parseCurrentBlock();
             }
         }

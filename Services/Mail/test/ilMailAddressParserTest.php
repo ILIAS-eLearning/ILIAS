@@ -58,6 +58,10 @@ class ilMailAddressParserTest extends \ilMailBaseTest
      */
     public function testBuiltInAddressParser(string $addresses, array $expected)
     {
+        if (!function_exists('imap_rfc822_parse_adrlist')) {
+            $this->markTestSkipped('Skipped test, imap extension required');
+        }
+
         $parser = new \ilMailImapRfc822AddressParser($addresses);
         $parsedAddresses = $parser->parse();
 
