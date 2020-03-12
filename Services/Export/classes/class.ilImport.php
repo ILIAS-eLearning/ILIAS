@@ -57,12 +57,6 @@ class ilImport
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
         $a_class = "il" . $comp_arr[1] . "ImportConfig";
-        $import_config_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
-        if (!is_file($import_config_file)) {
-            include_once("./Services/Export/exceptions/class.ilImportException.php");
-            throw new ilImportException('Component "' . $a_comp . '" does not provide ImportConfig class.');
-        }
-        include_once($import_config_file);
         $imp_config = new $a_class();
         $this->configs[$a_comp] = $imp_config;
 
