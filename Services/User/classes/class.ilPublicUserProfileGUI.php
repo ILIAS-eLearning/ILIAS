@@ -241,6 +241,7 @@ class ilPublicUserProfileGUI
         if (strtolower($_GET["baseClass"]) == "ilpublicuserprofilegui") {
             $tpl->printToStdout();
         }
+        return $ret;
     }
     
     /**
@@ -309,7 +310,6 @@ class ilPublicUserProfileGUI
             }
 
             $this->renderTitle();
-
             return $this->getEmbeddable(true);
         }
     }
@@ -687,11 +687,23 @@ class ilPublicUserProfileGUI
 
         $goto = "";
         if ($a_add_goto) {
-            include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
-            $goto = new ilPermanentLinkGUI("usr", $user->getId());
-            $goto = $goto->getHTML();
-        }
 
+
+            global $DIC;
+
+            $mtpl = $DIC->ui()->mainTemplate();
+
+            $mtpl->setPermanentLink(
+                "usr",
+                $user->getId(),
+                "",
+                "_top"
+            );
+
+            /*include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+            $goto = new ilPermanentLinkGUI("usr", $user->getId());
+            $goto = $goto->getHTML();*/
+        }
         return $tpl->get() . $goto;
     }
     

@@ -9,7 +9,7 @@
  * @version $Id$
  * @ingroup ServicesObject
  *
- * @ilCtrl_IsCalledBy ilTranslationGUI: ilDidacticTemplateSettingsGUI
+ * @ilCtrl_IsCalledBy ilMultilingualismeGUI: ilDidacticTemplateSettingsGUI
  */
 class ilMultilingualismGUI
 {

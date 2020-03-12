@@ -4234,3 +4234,7 @@ if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
 }
 ?>
+<#5661>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

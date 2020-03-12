@@ -743,7 +743,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
 
         $input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"));
-        $input_tag = $input_tag->withValue($keywords);
+        if (count($keywords) > 0) {
+            $input_tag = $input_tag->withValue($keywords);
+        }
 
         $DIC->ctrl()->setParameter(
             $this,
@@ -781,13 +783,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             && $request->getQueryParams()['tags'] == 'tags_processing') {
             $form = $form->withRequest($request);
             $result = $form->getData();
-
             //TODO identify the input instead of use 0
             $keywords = $result["tags"][0];
 
             if ($this->checkAccess("write") || $this->checkAccess("contribute")) {
                 if (is_array($keywords)) {
                     $this->getBlogPosting()->updateKeywords($keywords);
+                } else {
+                    $this->getBlogPosting()->updateKeywords([]);
                 }
             }
 
