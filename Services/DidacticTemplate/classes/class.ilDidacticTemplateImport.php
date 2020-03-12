@@ -151,7 +151,7 @@ class ilDidacticTemplateImport
         include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
 
         if ($actions === null) {
-            return void;
+            return;
         }
 
         ////////////////////////////////////////////////
