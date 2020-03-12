@@ -1299,3 +1299,7 @@ while ($rec = $ilDB->fetchAssoc($set)) {
     }
 }
 ?>
+<#87>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
