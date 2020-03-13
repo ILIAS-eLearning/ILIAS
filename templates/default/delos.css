@@ -17370,6 +17370,30 @@ div.ilRatingOverlay {
   min-width: 30px;
 }
 /* Services/News */
+td.il-news {
+  white-space: normal;
+}
+td.il-news .il-news-locator {
+  margin: 2px 0px 4px 0px;
+}
+td.il-news .ilIcon {
+  vertical-align: middle;
+}
+td.il-news .il-news-content {
+  clear: both;
+}
+td.il-news .il-news-player {
+  margin-top: 15px;
+  max-width: 600px;
+}
+td.il-news .il_BlockInfo {
+  text-align: right;
+}
+@media only screen and (max-width: 768px) {
+  td.il-news {
+    white-space: normal !important;
+  }
+}
 span.ilNewsRssIcon {
   background-color: #ea6705;
   color: white;
