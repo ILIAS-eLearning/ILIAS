@@ -392,49 +392,78 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function editEmailAssignments()
+    public function editEmailAssignments(ilPropertyFormGUI $form = null)
     {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
-        $rbacreview = $DIC['rbacreview'];
+        $ilTabs = $DIC['ilTabs'];
+        $ilCtrl = $DIC['ilCtrl'];
         
         if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
         }
 
+        $ilTabs->clearTargets();
+        $ilTabs->setBackTarget(
+            $this->lng->txt("registration_settings"),
+            $ilCtrl->getLinkTarget($this, "view")
+        );
+
         $this->__initRoleAssignments();
 
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.reg_email_role_assignments.html', 'Services/Registration');
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_EMAIL_ROLE_ASSIGN", $this->lng->txt('reg_email_role_assignment'));
-        $this->tpl->setVariable("TXT_MAIL", $this->lng->txt('reg_email'));
-        $this->tpl->setVariable("TXT_ROLE", $this->lng->txt('obj_role'));
-        $this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt('reg_default'));
-        $this->tpl->setVariable("ARR_DOWNRIGHT", ilUtil::getImagePath('arrow_downright.svg'));
-        $this->tpl->setVariable("TXT_DOMAIN", $this->lng->txt('reg_domain'));
 
-        
-        $this->tpl->setVariable("BTN_DELETE", $this->lng->txt('delete'));
-        $this->tpl->setVariable("BTN_SAVE", $this->lng->txt('save'));
-        $this->tpl->setVariable("BTN_ADD", $this->lng->txt('reg_add_assignment'));
-        $this->tpl->setVariable("BTN_CANCEL", $this->lng->txt('cancel'));
+        $form = (empty($form)) ? $this->initEmailAssignmentForm() : $form;
+        $this->tpl->setContent($form->getHTML());
+    }
 
-        $counter = 0;
-        foreach ($this->assignments_obj->getAssignments() as $assignment) {
-            $this->tpl->setCurrentBlock("roles");
-            $this->tpl->setVariable("CSSROW", ilUtil::switchColor(++$counter, 'tblrow1', 'tblrow1'));
-            $this->tpl->setVariable("ASSIGN_ID", $assignment['id']);
-            $this->tpl->setVariable("DOMAIN", $assignment['domain']);
-            $this->tpl->setVariable("CHECK_ROLE", ilUtil::formCheckbox(0, 'del_assign[]', $assignment['id']));
-            $this->tpl->setVariable("ROLE_SEL", $this->__buildRoleSelection($assignment['id']));
-            $this->tpl->parseCurrentBlock();
+    public function initEmailAssignmentForm() : ilPropertyFormGUI
+    {
+
+        global $DIC;
+
+        $rbacreview = $DIC['rbacreview'];
+
+        $role_assignment_form = new ilPropertyFormGUI();
+        $role_assignment_form->setFormAction($this->ctrl->getFormAction($this));
+        $role_assignment_form->setTitle($this->lng->txt('reg_email_role_assignment'));
+
+        $global_roles = ["" => $this->lng->txt("links_select_one")];
+        foreach ($rbacreview->getGlobalRoles() as $role_id) {
+            if ($role_id == ANONYMOUS_ROLE_ID) {
+                continue;
+            }
+
+            $global_roles[$role_id] = ilObjRole::_lookupTitle($role_id);
+            $role_assignments = new ilCheckboxInputGUI(ilObjRole::_lookupTitle($role_id), "role_assigned_$role_id");
+
+            $domains = $this->assignments_obj->getDomainsByRole($role_id);
+
+            $domain = new ilTextInputGUI($this->lng->txt('reg_domain'), "domain_$role_id");
+            $domain->setMulti(true);
+            $domain->setValidationRegexp("/^@.*\.[a-zA-Z]{1,4}$/");
+            if(!empty($domains)) {
+                $domain->setValue($domains[0]);
+                $domain->setMultiValues($domains);
+                $role_assignments->setChecked(true);
+            }
+
+            $role_assignments->addSubItem($domain);
+            $role_assignment_form->addItem($role_assignments);
         }
 
-        $this->tpl->setVariable("DEF_CSSROW", ilUtil::switchColor(++$counter, 'tblrow1', 'tblrow1'));
-        $this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt('default'));
-        $this->tpl->setVariable("DEF_ROLE", $this->__buildRoleSelection(-1));
+        $default_role = new ilSelectInputGUI($this->lng->txt('reg_default'));
+        $default_role->setPostVar("default_role");
+        $default_role->setOptions($global_roles);
+        $default_role->setValue($this->assignments_obj->getDefaultRole());
+        $default_role->setRequired(true);
+        $role_assignment_form->addItem($default_role);
+
+        $role_assignment_form->addCommandButton("saveAssignment", $this->lng->txt("save"));
+        $role_assignment_form->addCommandButton("view", $this->lng->txt("cancel"));
+
+        return $role_assignment_form;
     }
     
     public function editRoleAccessLimitations()
@@ -490,57 +519,6 @@ class ilRegistrationSettingsGUI
         }
     }
 
-    public function addAssignment()
-    {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $rbacreview = $DIC['rbacreview'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
-        }
-
-        $this->__initRoleAssignments();
-        $this->assignments_obj->add();
-
-        ilUtil::sendSuccess($this->lng->txt('reg_added_assignment'));
-        $this->editEmailAssignments();
-
-        return true;
-    }
-
-    public function deleteAssignment()
-    {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $ilErr = $DIC['ilErr'];
-        $rbacreview = $DIC['rbacreview'];
-        
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
-        }
-
-        if (!count($_POST['del_assign'])) {
-            ilUtil::sendFailure($this->lng->txt('reg_select_one'));
-            $this->editEmailAssignments();
-            return false;
-        }
-
-        $this->__initRoleAssignments();
-
-        foreach ($_POST['del_assign'] as $assignment_id) {
-            $this->assignments_obj->delete($assignment_id);
-        }
-
-        ilUtil::sendSuccess($this->lng->txt('reg_deleted_assignment'));
-        $this->editEmailAssignments();
-
-        return true;
-    }
-
     public function saveAssignment()
     {
         global $DIC;
@@ -554,31 +532,39 @@ class ilRegistrationSettingsGUI
         }
 
         $this->__initRoleAssignments();
-        
-        if (!is_array($_POST['domain'])) {
-            $_POST['domain'] = array();
-        }
 
-        foreach ($_POST['domain'] as $id => $data) {
-            $this->assignments_obj->setDomain($id, ilUtil::stripSlashes($_POST['domain'][$id]['domain']));
-            $this->assignments_obj->setRole($id, ilUtil::stripSlashes($_POST['role'][$id]['role']));
-        }
-        $this->assignments_obj->setDefaultRole((int) $_POST['default_role']);
-
-        if ($err = $this->assignments_obj->validate()) {
-            switch ($err) {
-                case IL_REG_MISSING_DOMAIN:
-                    ilUtil::sendFailure($this->lng->txt('reg_missing_domain'));
-                    break;
-                    
-                case IL_REG_MISSING_ROLE:
-                    ilUtil::sendFailure($this->lng->txt('reg_missing_role'));
-                    break;
-            }
-            $this->editEmailAssignments();
+        $form = $this->initEmailAssignmentForm();
+        if(!$form->checkInput()) {
+            $form->setValuesByPost();
+            $this->editEmailAssignments($form);
             return false;
         }
 
+        $this->assignments_obj->deleteAll();
+
+        $counter = 0;
+        foreach ($rbacreview->getGlobalRoles() as $role_id) {
+            if ($role_id == ANONYMOUS_ROLE_ID) {
+                continue;
+            }
+
+            $domain_input        = $form->getInput("domain_$role_id");
+            $role_assigned_input = $form->getInput("role_assigned_$role_id");
+
+
+            if(!empty($role_assigned_input)) {
+                foreach ($domain_input as $domain) {
+                    if(!empty($domain)) {
+                        $this->assignments_obj->setDomain($counter, ilUtil::stripSlashes($domain));
+                        $this->assignments_obj->setRole($counter, ilUtil::stripSlashes($role_id));
+                        $counter++;
+                    }
+                }
+            }
+        }
+
+        $default_role        = $form->getInput("default_role");
+        $this->assignments_obj->setDefaultRole((int) $default_role);
 
         $this->assignments_obj->save();
         ilUtil::sendSuccess($this->lng->txt('settings_saved'));
@@ -766,49 +752,6 @@ class ilRegistrationSettingsGUI
         include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
 
         $this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
-    }
-
-    public function __buildRoleSelection($assignment_id)
-    {
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
-        $assignments = $this->assignments_obj->getAssignments();
-        $selected = ($assignment_id > 0) ?
-            $assignments[$assignment_id]['role'] :
-            $this->assignments_obj->getDefaultRole();
-
-        if (!$selected) {
-            $roles[0] = $this->lng->txt('please_choose');
-        }
-
-        foreach ($rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
-                continue;
-            }
-            $roles[$role_id] = ilObjRole::_lookupTitle($role_id);
-        }
-
-        if ($assignment_id > 0) {
-            return ilUtil::formSelect(
-                $selected,
-                "role[$assignment_id][role]",
-                $roles,
-                false,
-                true
-            );
-        } else {
-            return ilUtil::formSelect(
-                $selected,
-                "default_role",
-                $roles,
-                false,
-                true
-            );
-        }
     }
     
     public function __buildAccessLimitationSelection($a_role_id)
