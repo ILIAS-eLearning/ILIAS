@@ -27,7 +27,7 @@ return PhpCsFixer\Config::create()
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
         'binary_operator_spaces' => [
-         'operators' => ['=' => 'align_single_space']
+         'operators' => ['=' => 'single_space']
          ]
 	])
 	->setFinder($finder);
