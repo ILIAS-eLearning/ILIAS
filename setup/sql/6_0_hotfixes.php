@@ -120,3 +120,7 @@ if ($ilDB->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#13>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
