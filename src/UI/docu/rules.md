@@ -44,10 +44,12 @@ rules and propose changes.
   non-developers to follow the discussion, the description and mock MUST be made
   available in the description of the PR, e.g. by using a link to the changed or
   added factory classes and mock MUST be provided in the description provided for
-  the PR.
-* There MUST be at least one test case on [testrail.ilias.de](https://testrail.ilias.de)
-  for the component to be merged. There SHOULD be a test case for all relevant
-  client-side interaction.
+  the PR. 
+* Examples MUST be provided, showcasing the key features of the new component.
+* There MUST be Test Cases in [Testrail section UI Components](https://testrail.ilias.de/index.php?/suites/view/390) 
+  so that a tester with no technical expertise can confirm that all examples work as intended. 
+  They must be available and linked to the PR.
+  
   
 ### Modification of existing UI components
 
@@ -162,8 +164,3 @@ to render a certain component.
 There most propably will be changes in the handling of resources in the future, as
 the seems to be the need to introduce some common patterns for handling javascript
 or compiling css from different less files.
-
-## Examples
-
-* There SHOULD be examples for every implemented component that showcase
-  the usage of the component from developers perspective.
