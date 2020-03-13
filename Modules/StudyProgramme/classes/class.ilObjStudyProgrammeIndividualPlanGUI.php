@@ -49,12 +49,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
         \ilCtrl $ilCtrl,
         \ilLanguage $lng,
         \ilObjUser $ilUser,
+        \ilAccess $ilAccess,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
         ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
+        $this->ilAccess = $ilAccess;
         $this->user = $ilUser;
 
         $this->assignment_object = null;
@@ -346,10 +348,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
     {
         $tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
         $ass = $this->getAssignmentObject();
+        $ref_id = $ass->getStudyProgramme()->getRefId();
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
-        if ($this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
+        if (
+            $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal() ||
+            $this->ilAccess->checkAccess("manage_members", "", $ref_id)
+        ) {
             if (in_array($user_id, $this->parent_gui->viewIndividualPlan())) {
                 $tabs[] = 'view';
             }
@@ -357,6 +363,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 $tabs[] = 'manage';
             }
         }
+
         foreach ($tabs as $_tab) {
             $tpl->setCurrentBlock("sub_tab");
             $tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");

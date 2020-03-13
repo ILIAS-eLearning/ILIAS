@@ -104,7 +104,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         $listener = new static(
             $DIC->database(),
             $DIC['ilObjDataCache'],
-            $DIC->logger()->cert()
+            $DIC->logger()->sess()
         );
 
         $listener

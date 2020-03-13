@@ -79,7 +79,7 @@ class ilSCORM2004PageLayout
             array('integer'),
             array($this->layout_id)
         );
-        $row->$ilDB->fetchAssoc($r);
+        $row = $ilDB->fetchAssoc($r);
         
         return $row['title'];
     }

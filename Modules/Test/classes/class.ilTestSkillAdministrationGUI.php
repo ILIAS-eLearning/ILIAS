@@ -36,7 +36,7 @@ class ilTestSkillAdministrationGUI
     private $tabs;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -65,7 +65,7 @@ class ilTestSkillAdministrationGUI
      */
     private $testOBJ;
 
-    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplate $tpl, ilLanguage $lng, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
+    public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
     {
         $this->ilias = $ilias;
         $this->ctrl = $ctrl;

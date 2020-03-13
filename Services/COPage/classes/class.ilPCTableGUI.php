@@ -437,13 +437,15 @@ class ilPCTableGUI extends ilPageContentGUI
 
         $content = $content . $mobs . $trans . $template_xml;
         
-        return ilPCTableGUI::_renderTable($content, $a_mode, $a_submode, $this->content_obj);
+        return ilPCTableGUI::_renderTable($content, $a_mode, $a_submode, $this->content_obj,
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking());
     }
         
     /**
     * Static render table function
     */
-    public static function _renderTable($content, $a_mode = "table_edit", $a_submode = "", $a_table_obj = null)
+    public static function _renderTable($content, $a_mode = "table_edit", $a_submode = "", $a_table_obj = null,
+        $unmask = true)
     {
         global $DIC;
 
@@ -467,9 +469,11 @@ class ilPCTableGUI extends ilPageContentGUI
         xslt_free($xh);
 
         // unmask user html
-        $output = str_replace("&lt;", "<", $output);
-        $output = str_replace("&gt;", ">", $output);
-        $output = str_replace("&amp;", "&", $output);
+        if ($unmask) {
+            $output = str_replace("&lt;", "<", $output);
+            $output = str_replace("&gt;", ">", $output);
+            $output = str_replace("&amp;", "&", $output);
+        }
         
         if ($a_mode == "table_edit" && !is_null($a_table_obj)) {
             switch ($a_submode) {

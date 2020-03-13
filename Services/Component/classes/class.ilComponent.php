@@ -324,4 +324,22 @@ abstract class ilComponent
             return $row->name;
         }
     }
+
+    /**
+     * Get all
+     * @return array
+     */
+    public static function getAll()
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $set = $ilDB->query("SELECT * FROM il_component");
+        $comps = [];
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $comps[$rec["id"]] = $rec;
+        }
+        return $comps;
+    }
+
 }

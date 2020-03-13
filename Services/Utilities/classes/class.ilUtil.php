@@ -4,9 +4,10 @@
 /**
  * @defgroup ServicesUtilities Services/Utilities
  */
+
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\Filesystem\MetadataType;
+use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
 * Util class
@@ -3815,13 +3816,13 @@ class ilUtil
     public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
     {
         global $DIC;
-        $targetFilename = basename($a_target);
+        $target_filename = basename($a_target);
 
         include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-        $targetFilename = ilFileUtils::getValidFilename($targetFilename);
+        $target_filename = ilFileUtils::getValidFilename($target_filename);
 
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
-        list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+        list($target_filesystem, $target_dir) = self::sanitateTargetPath($a_target);
 
         $upload = $DIC->upload();
 
@@ -3834,25 +3835,27 @@ class ilUtil
             if (!$upload->hasUploads()) {
                 throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
             }
-            /**
-             * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
-             */
-            $UploadResult = $upload->getResults()[$a_file];
-            $ProcessingStatus = $UploadResult->getStatus();
-            if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage()." ($targetFilename)");
-            }
-        } catch (ilException $e) {
-            if ($a_raise_errors) {
-                throw $e;
+            $upload_result = $upload->getResults()[$a_file];
+            if ($upload_result instanceof UploadResult) {
+                $processing_status = $upload_result->getStatus();
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    throw new ilException($processing_status->getMessage());
+                }
             } else {
+                return false;
+            }
+
+        } catch (ilException $e) {
+            if (!$a_raise_errors) {
                 ilUtil::sendFailure($e->getMessage(), true);
+            } else {
+                throw $e;
             }
 
             return false;
         }
 
-        $upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
+        $upload->moveOneFileTo($upload_result, $target_dir, $target_filesystem, $target_filename, true);
 
         return true;
     }

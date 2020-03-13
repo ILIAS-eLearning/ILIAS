@@ -135,8 +135,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return true;
         });*/
 
-        $this->map->walk(function (\Iterator $i) {
-            $item = $i->current();
+        $this->map->walk(function (isItem &$item) : isItem {
             $item->setTypeInformation($this->getTypeInformationForItem($item));
 
             // Apply the TypeHandler
@@ -151,20 +150,18 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             // Custom Position
             $item = $this->getItemInformation()->customPosition($item);
-            return true;
+
+            return $item;
         });
 
-        $this->map->sort();
-
-        $this->map->walk(function (\Iterator $i) {
-            $item = $i->current();
+        $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isChild && $item->hasParent()) {
                 if (!$this->map->existsInFilter($item->getProviderIdentification())) {
                     $parent = $this->map->getSingleItemFromFilter($item->getParent(), true);
                     if ($parent instanceof isParent) {
                         $parent->removeChild($item);
                     }
-                    return true;
+                    return $item;
                 }
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
@@ -172,7 +169,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                     $item->overrideParent($parent->getProviderIdentification());
                 }
             }
-            return true;
+            return $item;
         });
         // filter empty slates
         $this->map->filter(static function (isItem $i) : bool {
@@ -183,6 +180,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return true;
         });
 
+        $this->map->sort();
     }
 
     /**
@@ -207,7 +205,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function getRawItems() : \Generator
     {
-        yield from $this->map->getAllFromRaw();
+        yield from $this->map->getAllFromFilter();
     }
 
     /**
@@ -215,7 +213,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function hasItems() : bool
     {
-        return $this->map->hasInRaw();
+        return $this->map->has();
     }
 
     /**

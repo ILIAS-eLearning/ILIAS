@@ -10,6 +10,9 @@ il.MediaObjects = {
 		$(".ilPlayerPreviewOverlayOuter").click(function (e) {
 				il.MediaObjects.processMediaPreviewClick(this, e);
 		});
+		$(".ilPlayerPreviewOverlayOuter").keypress(function (e) {
+				il.MediaObjects.processMediaPreviewClick(this, e);
+		});
 		$(".ilPlayerPreviewDescriptionDownload a").click(function (e) {
 			il.MediaObjects.processDownloadLink(this, e);
 		});

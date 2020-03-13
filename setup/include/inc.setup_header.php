@@ -33,7 +33,7 @@
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
 use ILIAS\GlobalScreen\Services;
 
-error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
+error_reporting(((int) (ini_get("error_reporting")) & ~E_NOTICE) & ~E_DEPRECATED);
 
 require_once __DIR__ . "/../../libs/composer/vendor/autoload.php";
 

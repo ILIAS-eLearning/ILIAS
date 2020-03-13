@@ -1,14 +1,21 @@
 {
-	"name": "ilias/deps",
-	"description": "Dependencies of ILIAS",
+	"name": "ilias/ilias",
+	"description": "ILIAS",
 	"license": "GPL v3",
 	"authors": [],
 	"config": {
-		"optimize-autoloader": true
+		"optimize-autoloader": true,
+		"vendor-dir": "./libs/composer/vendor"
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "cd .. && cd .. && php setup/cli.php build-artifacts --yes"
+		  "php setup/cli.php build-artifacts --yes"
+		],
+		"test-php-all": [
+		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+		],
+		"test-php": [
+		  "./CI/PHPUnit/run_tests.sh"
 		]
 	},
 	"require": {
@@ -17,7 +24,7 @@
 		"monolog/monolog": "^1.23.0",
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "4.12.0",
-		"phpmailer/phpmailer": "^6.1.1",
+		"phpmailer/phpmailer": "^6.1.4",
 		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.2.26",
 		"pimple/pimple" : "^3.0",
@@ -56,18 +63,18 @@
 	},
 	"autoload": {
 		"psr-4" : {
-			"ILIAS\\Tests\\" : "../../tests",
-			"ILIAS\\" : "../../src"
+			"ILIAS\\Tests\\" : "./tests",
+			"ILIAS\\" : "./src"
 		},
 		"classmap": [
-			"../../Services/",
-			"../../Modules",
-			"../ilias"
+			"./Services/",
+			"./Modules",
+			"./libs/ilias"
 		],
 		"exclude-from-classmap": [
-			"../../Services/Migration",
-			"../../*/*/lib", "../../*/*/test",
-			"../../Services/CAS/phpcas"
+			"./Services/Migration",
+			"./*/*/lib", "./*/*/test",
+			"./Services/CAS/phpcas"
 		]
 	},
 	"extra": {
@@ -124,10 +131,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.1.1",
+			"used_version" : "v6.1.4",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2019-11-05",
+			"last_update" : "2020-02-28",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -265,10 +272,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.16.2",
+			"used_version": "v1.18.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2018-10-24",
+			"last_update": "2020-02-14",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -394,19 +401,19 @@
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
-				"ILIAS TCPDF Patches": "patches/tcpdf.patch"
+				"ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
 			},
 			"phpmailer/phpmailer": {
-				"ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+				"ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
 			},
 			"simplesamlphp/simplesamlphp": {
-				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
 			},
 			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "patches/zend-httphandlerrunner.patch"
+				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
 			},
 			"imsglobal/lti": {
-				"ILIAS LTI Patches": "patches/lti.patch"
+				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
 			}
 		}
 	}

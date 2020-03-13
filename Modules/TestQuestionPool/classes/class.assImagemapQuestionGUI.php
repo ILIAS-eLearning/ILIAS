@@ -262,9 +262,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function areaEditor($shape = '')
     {
         $shape = (strlen($shape)) ? $shape : $_POST['shape'];
-        include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
+
         $this->getQuestionTemplate();
-        $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", "Modules/TestQuestionPool");
+
+        $editorTpl = new ilTemplate('tpl.il_as_qpl_imagemap_question.html', true, true, 'Modules/TestQuestionPool');
+
         $coords = array();
         if (is_array($_POST['image']['mapcoords'])) {
             foreach ($_POST['image']['mapcoords'] as $value) {
@@ -275,16 +277,16 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             array_push($coords, $_POST['cmd']['areaEditor']['image'][0] . "," . $_POST['cmd']['areaEditor']['image'][1]);
         }
         foreach ($coords as $value) {
-            $this->tpl->setCurrentBlock("hidden");
-            $this->tpl->setVariable("HIDDEN_NAME", 'image[mapcoords][]');
-            $this->tpl->setVariable("HIDDEN_VALUE", $value);
-            $this->tpl->parseCurrentBlock();
+            $editorTpl->setCurrentBlock("hidden");
+            $editorTpl->setVariable("HIDDEN_NAME", 'image[mapcoords][]');
+            $editorTpl->setVariable("HIDDEN_VALUE", $value);
+            $editorTpl->parseCurrentBlock();
         }
-        
-        $this->tpl->setCurrentBlock("hidden");
-        $this->tpl->setVariable("HIDDEN_NAME", 'shape');
-        $this->tpl->setVariable("HIDDEN_VALUE", $shape);
-        $this->tpl->parseCurrentBlock();
+
+        $editorTpl->setCurrentBlock("hidden");
+        $editorTpl->setVariable("HIDDEN_NAME", 'shape');
+        $editorTpl->setVariable("HIDDEN_VALUE", $shape);
+        $editorTpl->parseCurrentBlock();
 
         $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
         foreach ($this->object->answers as $index => $answer) {
@@ -339,39 +341,41 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $preview->createPreview();
         $imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->getImageFilename()) . "?img=" . time();
         if (!$hidearea) {
-            $this->tpl->setCurrentBlock("maparea");
-            $this->tpl->setVariable("IMAGE_SOURCE", "$imagepath");
-            $this->tpl->setVariable("IMAGEMAP_NAME", "image");
-            $this->tpl->parseCurrentBlock();
+            $editorTpl->setCurrentBlock("maparea");
+            $editorTpl->setVariable("IMAGE_SOURCE", "$imagepath");
+            $editorTpl->setVariable("IMAGEMAP_NAME", "image");
+            $editorTpl->parseCurrentBlock();
         } else {
-            $this->tpl->setCurrentBlock("imagearea");
-            $this->tpl->setVariable("IMAGE_SOURCE", "$imagepath");
-            $this->tpl->setVariable("ALT_IMAGE", $this->lng->txt("imagemap"));
-            $this->tpl->parseCurrentBlock();
+            $editorTpl->setCurrentBlock("imagearea");
+            $editorTpl->setVariable("IMAGE_SOURCE", "$imagepath");
+            $editorTpl->setVariable("ALT_IMAGE", $this->lng->txt("imagemap"));
+            $editorTpl->parseCurrentBlock();
         }
 
         if (strlen($_POST['shapetitle'])) {
-            $this->tpl->setCurrentBlock("shapetitle");
-            $this->tpl->setVariable("VALUE_SHAPETITLE", $_POST["shapetitle"]);
-            $this->tpl->parseCurrentBlock();
+            $editorTpl->setCurrentBlock("shapetitle");
+            $editorTpl->setVariable("VALUE_SHAPETITLE", $_POST["shapetitle"]);
+            $editorTpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
-        $this->tpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("ass_imap_hint"));
-        $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-        $this->tpl->setVariable("DISABLED_SAVE", $disabled_save);
+        $editorTpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
+        $editorTpl->setVariable("TEXT_SHAPETITLE", $this->lng->txt("ass_imap_hint"));
+        $editorTpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+        $editorTpl->setVariable("SAVE", $this->lng->txt("save"));
+        $editorTpl->setVariable("DISABLED_SAVE", $disabled_save);
         switch ($shape) {
             case "rect":
-                $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addRect'));
+                $editorTpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addRect'));
                 break;
             case 'circle':
-                $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addCircle'));
+                $editorTpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addCircle'));
                 break;
             case 'poly':
-                $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addPoly'));
+                $editorTpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this, 'addPoly'));
                 break;
         }
+        
+        $this->tpl->setVariable('QUESTION_DATA', $editorTpl->get());
     }
 
     public function back()
@@ -471,15 +475,40 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
             $preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->getImageFilename());
             foreach ($solutions as $idx => $solution_value) {
-                if (strcmp($solution_value["value1"], "") != 0) {
-                    $preview->addArea($solution_value["value1"], $this->object->answers[$solution_value["value1"]]->getArea(), $this->object->answers[$solution_value["value1"]]->getCoords(), $this->object->answers[$solution_value["value1"]]->getAnswertext(), "", "", true, $this->linecolor);
-                    $solution_id = $solution_value["value1"];
+                $value1 = $solution_value["value1"];
+                if (
+                    strcmp($value1, '') === 0 ||
+                    !isset($this->object->answers[$value1])
+                ) {
+                    continue;
                 }
+
+                /** @var ASS_AnswerImagemap $shape */
+                $shape = $this->object->answers[$value1];
+                $preview->addArea(
+                    $value1,
+                    $shape->getArea(),
+                    $shape->getCoords(),
+                    $shape->getAnswertext()
+                    ,
+                    '',
+                    '',
+                    true,
+                    $this->linecolor
+                );
+
+                $solution_id = $value1;
             }
             $preview->createPreview();
-            $imagepath = $this->object->getImagePathWeb() . $preview->getPreviewFilename($this->object->getImagePath(), $this->object->getImageFilename());
+            $imagepath = implode('', [
+                $this->object->getImagePathWeb(),
+                $preview->getPreviewFilename(
+                    $this->object->getImagePath(),
+                    $this->object->getImageFilename()
+                ),
+            ]);
         }
-        
+
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", true, true, "Modules/TestQuestionPool");

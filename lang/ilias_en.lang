@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -952,7 +952,6 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Poi
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions
-assessment#:#ass_lac_hide_legend_btn#:#Hide Legend
 assessment#:#ass_lac_show_legend_btn#:#Show Legend
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!
 assessment#:#ass_lac_expression#:#Expression
@@ -15906,12 +15905,12 @@ prg#:#prg_deadline_period#:#Processing time is determined inividually
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
 prg#:#prg_deadline_date#:#Processing time expires at fixed date
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
-prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
+prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
 prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
-prg#:#validity_qalification_period#:#Qualification expires individually
-prg#:#validity_qalification_period_desc#:#days after completion
-prg#:#validity_qalification_date#:#Qualification expires at fixed date
-prg#:#validity_qalification_date_desc#:#expiry date
+prg#:#validity_qualification_period#:#Qualification expires individually
+prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_date#:#Qualification expires at fixed date
+prg#:#validity_qualification_date_desc#:#expiry date
 prg#:#prg_no_restart#:#No restart required
 prg#:#restart_period#:#Restart obligatory
 prg#:#restart_period_desc#:#days before expiry
@@ -16055,3 +16054,40 @@ prg#:#prg_quali_not_valid#:#Qualification not valid
 rep#:#rep_configure#:#Configure
 cont#:#cont_found_objects#:#Found Objects
 common#:#msg_unknown_value#:#An unknown value has been passed.
+exc#:#exc_deleted_user#:#Deleted User
+prg#:#prg_type_byline#:#Set a type to use certain custom metadata sets or icons.
+prg#:#prg_points_byline#:#Students get a certain amount of points when they succeed in this programme and need to get this many points in subsequent programmes.
+prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.
+prg#:#prg_description#:#Description
+prg#:#prg_link#:#Link
+prg#:#prg_mail_context_title#:#Mail to Members
+prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme
+copg#:#copg_allow_html#:#Enable HTML/Javascript
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
+dcl#:#dcl_page_type_dclf#:#Details View
+crs#:#crs_page_type_lobj#:#Learning Objective Page
+copa#:#copa_page_type_copa#:#Content Page
+mep#:#mep_page_type_mep#:#Content Snippet
+wiki#:#wiki_page_type_wpg#:#Wiki Page
+blog#:#blog_page_type_blp#:#Blog Posting
+prtf#:#prtf_page_type_prtf#:#Portfolio Page
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
+glo#:#glo_page_type_gdf#:#Term Definition
+lm#:#lm_page_type_lm#:#LM Page
+qpl#:#qpl_page_type_qht#:#Hint
+qpl#:#qpl_page_type_qpl#:#Question Page
+qpl#:#qpl_page_type_qfbg#:#General Feedback
+qpl#:#qpl_page_type_qfbs#:#Special Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
+copg#:#copg_page_type_stys#:#Layout Page
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
+auth#:#auth_page_type_auth#:#Login Page
+impr#:#impr_page_type_impr#:#Imprint
+prg#:#prg_additional_settings#:#Additional Features
+prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
+prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
+ui#:#ui_numeric_only#:#Please insert a whole number.
+mmbr#:#mmbr_memberships#:#Memberships
+notes#:#note_without_object#:#Without reference
+prg#:#msg_fill_required#:#Please fill all required fields.

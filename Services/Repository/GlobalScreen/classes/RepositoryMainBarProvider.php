@@ -48,15 +48,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10);
 
         // Tree-View
-        $mode = ($_SESSION["il_rep_mode"] == "flat")
-            ? "tree"
-            : "flat";
-        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=" . $mode . "&ref_id=" . $_GET["ref_id"];
-        $title = ($mode == "flat")
-            ? $this->dic->language()->txt("mm_repo_tree_view_act")
-            : $this->dic->language()->txt("mm_repo_tree_view_deact");
+        $title = $this->dic->language()->txt("mm_rep_tree_view");
 
-//        $title = $this->dic->language()->txt("mm_rep_tree_view");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         /*

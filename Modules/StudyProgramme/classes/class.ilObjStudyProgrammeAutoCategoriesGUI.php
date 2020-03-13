@@ -285,7 +285,11 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         $form->setId(uniqid((string) $current_ref_id));
 
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $cat = new ilRepositorySelector2InputGUI($this->lng->txt("category"), self::F_CATEGORY_ORIGINAL_REF, false);
+        $cat = new ilRepositorySelector2InputGUI(
+            $this->lng->txt("category"),
+            self::F_CATEGORY_REF,
+            false
+        );
         $cat->getExplorerGUI()->setSelectableTypes(["cat"]);
         $cat->getExplorerGUI()->setTypeWhiteList(["root", "cat"]);
         if ($current_ref_id != "") {
@@ -309,7 +313,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     protected function getToolbar(\ILIAS\UI\Component\Signal $add_cat_signal)
     {
         $btn = $this->ui_factory->button()->primary($this->lng->txt('add_category'), '')
-            ->withOnClick($add_cat_signal);
+                                ->withOnClick($add_cat_signal);
         $this->toolbar->addComponent($btn);
     }
 
@@ -319,7 +323,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     ) : \ILIAS\UI\Component\Dropdown\Standard {
         $items = [];
         $items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
-            ->withOnClick($signal);
+                                     ->withOnClick($signal);
 
         $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $cat_ref_id);
         $items[] =  $this->ui_factory->button()->shy(

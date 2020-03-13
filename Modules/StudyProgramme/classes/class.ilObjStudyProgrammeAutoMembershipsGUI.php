@@ -210,13 +210,17 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $post = $_POST;
         $src_type = $post[self::F_SOURCE_TYPE];
-        $src_id = (int) $post[self::F_SOURCE_ID . $src_type];
+        $src_id = $post[self::F_SOURCE_ID . $src_type];
 
         if (
             (is_null($src_type) || $src_type == "") ||
             (is_null($src_id) || $src_id == 0)
         ) {
             return;
+        }
+
+        if ($src_type === 'orgu') {
+            $src_id = array_pop($src_id);
         }
 
         if (in_array($src_type, self::$switch_to_ref_id)) {
@@ -235,7 +239,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             );
         }
 
-        $this->getObject()->storeAutomaticMembershipSource($src_type, $src_id);
+        $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
     }
 
     /**
@@ -475,15 +479,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         );
         $orgu = new ilRepositorySelector2InputGUI(
             "",
-            false,
-            self::F_SOURCE_ID . ilStudyProgrammeAutoMembershipSource::TYPE_ORGU
+            self::F_SOURCE_ID . ilStudyProgrammeAutoMembershipSource::TYPE_ORGU,
+            false
         );
         $orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
         $orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
-        if ($current_ref_id != "") {
-            $orgu->getExplorerGUI()->setPathOpen($current_ref_id);
-            $orgu->setValue($current_ref_id);
-        }
+
         $orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $orgu->getExplorerGUI()->setAjax(false);
         $radio_orgu->addSubItem($orgu);

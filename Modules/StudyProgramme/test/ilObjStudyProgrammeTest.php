@@ -52,18 +52,14 @@ class ilObjStudyProgrammeTest extends TestCase
             }
         }
 
-        
         $this->root_object = ilObjStudyProgramme::createInstance();
         $this->root_object_obj_id = $this->root_object->getId();
         $this->root_object_ref_id = $this->root_object->getRefId();
         $this->root_object->putInTree(ROOT_FOLDER_ID);
-        
-        //
-        
+
         global $DIC;
         $tree = $DIC['tree'];
         $this->tree = $tree;
-        
 
         $objDefinition = $DIC['objDefinition'];
         $this->obj_definition = $objDefinition;
@@ -168,37 +164,83 @@ class ilObjStudyProgrammeTest extends TestCase
     }
 
     /**
-     * Test 	tings on ilObjStudyProgramme
+     * Test settings on ilObjStudyProgramme
      *
      * @depends testCreation
      */
     public function testSettings()
     {
+        $date = new DateTime();
         $obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
-        $obj->setPoints(10);
-        $obj->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
-        $obj->setDeadlinePeriod(20);
+        $assessment_settings = $obj->getAssessmentSettings();
+        $auto_mail_settings = $obj->getAutoMailSettings();
+        $validity_of_qualification_settings = $obj->getValidityOfQualificationSettings();
+        $deadline_settings = $obj->getDeadlineSettings();
+        $type_settings = $obj->getTypeSettings();
+
+        $this->assertInstanceOf(ilStudyProgrammeAssessmentSettings::class, $assessment_settings);
+        $this->assertInstanceOf(ilStudyProgrammeAutoMailSettings::class, $auto_mail_settings);
+        $this->assertInstanceOf(
+            ilStudyProgrammeValidityOfAchievedQualificationSettings::class,
+            $validity_of_qualification_settings
+        );
+        $this->assertInstanceOf(ilStudyProgrammeDeadlineSettings::class, $deadline_settings);
+        $this->assertInstanceOf(ilStudyProgrammeTypeSettings::class, $type_settings);
+
+        $assessment_settings = $assessment_settings
+            ->withStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)
+            ->withPoints(10)
+        ;
+
+        $auto_mail_settings = $auto_mail_settings
+            ->withProcessingEndsNotSuccessfulDays(10)
+            ->withReminderNotRestartedByUserDays(10)
+            ->withSendReAssignedMail(true)
+        ;
+
+        $validity_of_qualification_settings = $validity_of_qualification_settings
+            ->withRestartPeriod(10)
+            ->withQualificationPeriod(10)
+            ->withQualificationDate($date)
+        ;
+
+        $deadline_settings = $deadline_settings
+            ->withDeadlinePeriod(10)
+            ->withDeadlineDate($date)
+        ;
+
+        $type_settings = $type_settings->withTypeId(10);
+
+        $obj->setAssessmentSettings($assessment_settings);
+        $obj->setAutoMailSettings($auto_mail_settings);
+        $obj->setValidityOfQualificationSettings($validity_of_qualification_settings);
+        $obj->setDeadlineSettings($deadline_settings);
+        $obj->setTypeSettings($type_settings);
         $obj->update();
-        
+
         $obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 
-        $this->assertEquals(10, $obj->getPoints());
-        $this->assertEquals(ilStudyProgrammeSettings::STATUS_ACTIVE, $obj->getStatus());
-        $this->assertEquals(20, $obj->getDeadlinePeriod());
-        $this->assertNull($obj->getDeadlineDate());
+        $assessment_settings = $obj->getAssessmentSettings();
+        $auto_mail_settings = $obj->getAutoMailSettings();
+        $validity_of_qualification_settings = $obj->getValidityOfQualificationSettings();
+        $deadline_settings = $obj->getDeadlineSettings();
+        $type_settings = $obj->getTypeSettings();
 
-        $obj->setDeadlineDate(new DateTime());
-        $obj->update();
-        $obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
-        $this->assertEquals(0, $obj->getDeadlinePeriod());
-        $this->assertEquals((new DateTime())->format('Ymd'), $obj->getDeadlineDate()->format('Ymd'));
-
-        $obj->setDeadlineDate(null);
-        $obj->update();
-
-        $midnight = strtotime("today midnight");
-        $this->assertGreaterThan($midnight, $obj->getLastChange()->getTimestamp());
+        $this->assertEquals(
+            ilStudyProgrammeSettings::STATUS_ACTIVE,
+            $assessment_settings->getStatus()
+        );
+        $this->assertEquals(10, $assessment_settings->getPoints());
+        $this->assertEquals(10, $auto_mail_settings->getProcessingEndsNotSuccessfulDays());
+        $this->assertEquals(10, $auto_mail_settings->getReminderNotRestartedByUserDays());
+        $this->assertTrue($auto_mail_settings->getSendReAssignedMail());
+        $this->assertEquals(10, $validity_of_qualification_settings->getRestartPeriod());
+        $this->assertEquals(10, $validity_of_qualification_settings->getQualificationPeriod());
+        $this->assertSame($date, $validity_of_qualification_settings->getQualificationDate());
+        $this->assertEquals(10, $deadline_settings->getDeadlinePeriod());
+        $this->assertSame($date, $deadline_settings->getDeadlineDate());
+        $this->assertEquals(10, $type_settings->getTypeId());
     }
 
     /**

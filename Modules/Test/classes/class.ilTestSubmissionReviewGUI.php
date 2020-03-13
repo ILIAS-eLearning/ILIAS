@@ -69,7 +69,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     private function getContentBlockName()
     {
         if ($this->object->getKioskMode()) {
-            $this->tpl->setBodyClass("kiosk");
+            // See: https://mantis.ilias.de/view.php?id=27784
+            //$this->tpl->setBodyClass("kiosk"); 
             $this->tpl->hideFooter();
             return "CONTENT";
         } else {
@@ -194,7 +195,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
         $reviewOutput = $this->buildUserReviewOutput();
         
-        require_once 'class.ilTestPDFGenerator.php';
         ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, null, PDF_USER_RESULT);
         
         exit;

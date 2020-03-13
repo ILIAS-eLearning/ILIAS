@@ -877,13 +877,18 @@ class ilNewsItem
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
             if (!ilContainer::_lookupContainerSetting(
+                $obj_id,
+                'cont_use_news',
+                true
+            ) || (
+                !ilContainer::_lookupContainerSetting(
                     $obj_id,
                     'cont_show_news',
                     true
                 ) && !ilContainer::_lookupContainerSetting(
                     $obj_id,
                     'news_timeline'
-                )) {
+                ))) {
                 return [];
             }
 

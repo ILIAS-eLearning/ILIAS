@@ -150,7 +150,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $may_read_learning_progress =
             !$this->prg->getAccessControlByOrguPositionsGlobal() ||
-            in_array($usr_id, $this->getParentObject()->readLeadningProgress())
+            in_array($usr_id, $this->getParentObject()->readLearningProgress())
         ;
 
         $this->tpl->setCurrentBlock("checkb");
@@ -229,7 +229,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     if (is_null($assigned_by)) {
                         $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
                         $assignment_src = (int) $a_set['prg_assignment_origin'];
-                        $assigned_by = $this->lng->txt('prg_autoassingment')
+                        $assigned_by = $this->lng->txt('prg_autoassignment')
                             . ' ' . $this->lng->txt($srcs[$assignment_src]);
                     }
                     $this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
@@ -366,7 +366,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "prgrs.usr_id," . PHP_EOL
             . "prgrs.points," . PHP_EOL
             . "prgrs.points_cur * ABS(prgrs.status - $accredited) /" . PHP_EOL
-            . "    (GREATEST(ABS(prgrs.status - $accredited),1))," . PHP_EOL
+            . "    (GREATEST(ABS(prgrs.status - $accredited),1))" . PHP_EOL
             . "+ prgrs.points * (1 - ABS(prgrs.status - $accredited) /" . PHP_EOL
             . "    (GREATEST(ABS(prgrs.status - $accredited),1))) AS points_current," . PHP_EOL
             . "prgrs.last_change_by," . PHP_EOL
@@ -433,6 +433,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         ", ",
                         $prgrs->getNamesOfCompletedOrAccreditedChildren()
                     );
+                }
+                // This case should only occur if the status completed is set
+                // by an already deleted crs.
+                if (!$rec["completion_by"]) {
+                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    if (!is_null($title["title"])) {
+                        $rec["completion_by"] = $title["title"];
+                    }
                 }
             } elseif ($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                 $rec["completion_by"] = $rec["accredited_by"];
@@ -639,7 +647,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
             $operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
-            if ($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
+            if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
                 $operator = '>';
             }
             $buf[] = 'AND prgrs.vq_date ' . $operator . ' NOW()';

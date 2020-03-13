@@ -36,6 +36,7 @@ class ilTestServiceGUI
     protected $db;
 
     public $lng;
+    /** @var ilGlobalTemplateInterface */
     public $tpl;
     
     /**
@@ -1075,8 +1076,6 @@ class ilTestServiceGUI
     protected function populateContent($content)
     {
         if ($this->isPdfDeliveryRequest()) {
-            require_once 'class.ilTestPDFGenerator.php';
-
             ilTestPDFGenerator::generatePDF(
                 $content,
                 ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD,

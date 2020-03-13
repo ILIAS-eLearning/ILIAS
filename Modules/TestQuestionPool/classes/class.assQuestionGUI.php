@@ -36,6 +36,7 @@ abstract class assQuestionGUI
     */
     public $object;
 
+    /** @var ilGlobalTemplateInterface */
     public $tpl;
     public $lng;
     public $error;
