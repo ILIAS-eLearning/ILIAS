@@ -357,8 +357,8 @@ If you would like to implement a new component to the framework you should perfo
     <h1 class="il-demo">{CONTENT}</h1>
      ```
 12. Execute the UI tests again. At this point, everything should pass. Thanks, you just made ILIAS more powerful!
-13. You MUST add examples demonstrating the usage of your new component.
-    Those examples SHOULD showcase the key features of the new component.
+13. Remember to add examples demonstrating the usage of your new component.
+    Those examples should showcase the key features of the new component.
     Note that they will be used as basis for the test cases in testrail (see
     next point). The example for the demo looks as follows (located at
     src/UI/examples/Demo/render.php):
@@ -376,10 +376,10 @@ If you would like to implement a new component to the framework you should perfo
           return $renderer->render($demo);
       }
     ```
-14. You MUST adapt/add the Test Cases in 
+14. Remember to adapt/add the Test Cases in 
     [Testrail section UI Components](https://testrail.ilias.de/index.php?/suites/view/390) 
     so that a tester with no technical expertise can confirm that all examples
-    work as intended. They MUST be available and linked to the PR before the PR will be merged.
+    work as intended. They must be available and linked to the PR before the PR will be merged.
   
 15. Optional: You might need to add some less, to make your new component look nice. However, only do that
  if this is really required. Use bootstrap classes as much as possible. If you really need to add
