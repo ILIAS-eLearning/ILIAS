@@ -189,7 +189,7 @@ class ilLikeGUI
      * @return string
      * @throws ilLikeDataException
      */
-    protected function renderEmoCounters($modal_signal = null)
+    protected function renderEmoCounters($modal_signal = null, $unavailable = false)
     {
         $ilCtrl = $this->ctrl;
 
@@ -207,7 +207,7 @@ class ilLikeGUI
         $comps = array();
         foreach ($this->data->getExpressionTypes() as $k => $txt) {
             if ($cnts[$k] > 0) {
-                $glyph = $this->getGlyphForConst($k);
+                $glyph = $this->getGlyphForConst($k, $unavailable);
                 if ($modal_signal !== null) {
                     $glyph = $glyph->withOnClick($modal_signal);
                 }
@@ -238,7 +238,7 @@ class ilLikeGUI
      * @param int $a_const
      * @return \ILIAS\UI\Component\Glyph\Glyph|null
      */
-    protected function getGlyphForConst($a_const)
+    protected function getGlyphForConst($a_const, $unavailable = false)
     {
         $f = $this->ui->factory();
         $like = null;
@@ -250,6 +250,9 @@ class ilLikeGUI
             case ilLikeData::TYPE_ASTOUNDED: $like = $f->symbol()->glyph()->astounded(); break;
             case ilLikeData::TYPE_SAD: $like = $f->symbol()->glyph()->sad(); break;
             case ilLikeData::TYPE_ANGRY: $like = $f->symbol()->glyph()->angry(); break;
+        }
+        if ($unavailable) {
+            $like = $like->withUnavailableAction();
         }
         return $like;
     }
@@ -363,7 +366,7 @@ class ilLikeGUI
                 $name
             );
 
-            $g = $this->getGlyphForConst($exp["expression"]);
+            $g = $this->getGlyphForConst($exp["expression"], true);
 
             $list_items[] = $f->item()->standard($name)
                 ->withDescription($r->render($g) . " " .
@@ -375,7 +378,7 @@ class ilLikeGUI
             $f->item()->group("", $list_items)
         ));
 
-        $header = $f->legacy($this->renderEmoCounters());
+        $header = $f->legacy($this->renderEmoCounters(null, true));
         //$header = $f->legacy("---");
 
         $modal = $f->modal()->roundtrip('', [$header, $std_list]);
