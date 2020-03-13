@@ -434,6 +434,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         $prgrs->getNamesOfCompletedOrAccreditedChildren()
                     );
                 }
+                // This case should only occur if the status completed is set
+                // by an already deleted crs.
+                if (!$rec["completion_by"]) {
+                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    if (!is_null($title["title"])) {
+                        $rec["completion_by"] = $title["title"];
+                    }
+                }
             } elseif ($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                 $rec["completion_by"] = $rec["accredited_by"];
             }
