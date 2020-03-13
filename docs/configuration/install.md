@@ -109,7 +109,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+
   * PhantomJS: 2.0.0+
-  * Node.js: 10 (TLS), 12 (LTS)
+  * Node.js: 12 (LTS)
   * Java: Version 7 and 8 are suported
 
 <a name="client"></a>
@@ -627,7 +627,7 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (https://test54.ilias.de) is currently configured as follows:
+The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
@@ -640,6 +640,6 @@ The ILIAS Testserver (https://test54.ilias.de) is currently configured as follow
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
 | JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
-| Node.js        | 8.9.4 LTS                   |
+| Node.js        | 12 LTS                      |
 
 Please note: Shibboleth won't work with Nginx.
