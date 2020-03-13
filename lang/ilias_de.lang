@@ -16089,3 +16089,4 @@ prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
 prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
+notes#:#note_without_object#:#Ohne Objektbezug

@@ -258,11 +258,11 @@ class ilPDNotesGUI
                 if ($obj["rep_obj_id"] > 0) {
                     $type = ilObject::_lookupType($obj["rep_obj_id"]);
                     $type_str = (in_array($type, array("lm", "htlm", "sahs")))
-                        ? $lng->txt("learning_module")
+                        ? $lng->txt("obj_lm")
                         : $lng->txt("obj_" . $type);
                     $caption = $type_str . ": " . ilObject::_lookupTitle($obj["rep_obj_id"]);
                 } else {
-                    $caption = $lng->txt("personal_desktop");
+                    $caption = $lng->txt("note_without_object");
                 }
                 
                 $options[$obj["rep_obj_id"]] = $caption;
