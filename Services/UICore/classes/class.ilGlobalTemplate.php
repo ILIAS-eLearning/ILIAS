@@ -695,7 +695,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 // determine default screen id
                 $this->getTabsHTML();
             }
-
             // to get also the js files for the main menu
             if (!$a_skip_main_menu) {
                 $this->getMainMenu();
