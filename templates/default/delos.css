@@ -17803,7 +17803,7 @@ div.ilPrtfToc {
 body.ilPrtfPdfBody {
   margin: 0;
 }
-body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
+body.ilPrtfPdfBody > div.ilInvisibleBorder {
   padding: 0;
   padding-left: 40px;
 }
