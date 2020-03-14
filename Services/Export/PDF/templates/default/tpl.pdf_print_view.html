@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}" class="ilc_Fullscreen" style="overflow: visible;">
+<html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}" style="overflow:visible;">
 <head>
 	<title>{WINDOW_TITLE} {PAGETITLE}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -14,13 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
 	<!-- END css_file -->
 </head><!-- BEGIN tree_icons --><!-- END tree_icons -->
-<body class="ilc_Fullscreen" style="overflow: visible;">
-{INLINE_JS}
-<table class = "ilc_Fullscreen"><tr><td valign="middle">
-	<!-- BEGIN ilMedia -->
-	{MEDIA_CONTENT}
-	<!-- END ilMedia -->
-</td></tr></table>
+<body style="overflow: visible;">
+{CONTENT}
+</body>
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
   il.Util.addOnLoad(function() {
@@ -29,5 +25,4 @@
   });
 </script>
 <!-- END on_load_code -->
-</body>
 </html>
