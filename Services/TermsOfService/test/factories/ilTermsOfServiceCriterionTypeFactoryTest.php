@@ -16,13 +16,11 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
         $dataCache = $this
             ->getMockBuilder(ilObjectDataCache::class)
             ->disableOriginalConstructor()
-            ->setMethods(null)
             ->getMock();
 
         $rbacReview = $this
             ->getMockBuilder(ilRbacReview::class)
             ->disableOriginalConstructor()
-            ->setMethods(null)
             ->getMock();
 
         $criterionTypeFactory = new ilTermsOfServiceCriterionTypeFactory($rbacReview, $dataCache);

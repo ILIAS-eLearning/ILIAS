@@ -65,7 +65,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $radioGroup = $this
             ->getMockBuilder(ilRadioGroupInputGUI::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getPostVar', 'addOption'])
+            ->onlyMethods(['getPostVar', 'addOption'])
             ->getMock();
 
         $form->addItem($radioGroup);

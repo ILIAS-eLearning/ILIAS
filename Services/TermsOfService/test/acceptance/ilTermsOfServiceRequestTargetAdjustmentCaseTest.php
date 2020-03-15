@@ -18,7 +18,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl = $this
             ->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
-            ->setMethods(['redirectToURL', 'getCmdClass', 'getCmd'])
+            ->onlyMethods(['redirectToURL', 'getCmdClass', 'getCmd'])
             ->getMock();
 
         $ctrl
@@ -38,7 +38,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user
@@ -76,7 +76,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl = $this
             ->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCmdClass', 'getCmd'])
+            ->onlyMethods(['getCmdClass', 'getCmd'])
             ->getMock();
 
         $ctrl
@@ -92,7 +92,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user
@@ -129,7 +129,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $user1 = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user1
@@ -150,7 +150,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $user2 = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user2
@@ -171,7 +171,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $user3 = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user3
@@ -206,7 +206,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl = $this
             ->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getCmdClass', 'getCmd'])
+            ->onlyMethods(['getCmdClass', 'getCmd'])
             ->getMock();
 
         $ctrl

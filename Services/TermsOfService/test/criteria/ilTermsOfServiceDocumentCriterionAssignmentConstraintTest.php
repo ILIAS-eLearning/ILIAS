@@ -81,7 +81,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment1
@@ -102,7 +103,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $criterionAssignment2 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment2
@@ -122,7 +124,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
         $criterionAssignment3 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -144,7 +147,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $criterionAssignment4 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment4
@@ -184,7 +188,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -222,7 +226,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -275,7 +279,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -313,7 +317,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -361,7 +365,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -399,7 +403,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document1
@@ -449,7 +453,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['criteria'])
+            ->onlyMethods(['criteria'])
             ->getMock();
 
         $document
@@ -486,7 +490,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
         $criterionWithSameNature = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->disableOriginalConstructor()
             ->getMock();
 

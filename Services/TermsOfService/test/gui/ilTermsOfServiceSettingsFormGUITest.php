@@ -76,7 +76,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          true
                      ])
-                     ->setMethods(['checkInput', 'getInput'])
+                     ->onlyMethods(['checkInput', 'getInput'])
                      ->getMock();
 
         $form
@@ -124,7 +124,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          true
                      ])
-                     ->setMethods(['checkInput', 'getInput'])
+                     ->onlyMethods(['checkInput', 'getInput'])
                      ->getMock();
 
         $form
@@ -189,7 +189,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          true
                      ])
-                     ->setMethods(['checkInput', 'getInput'])
+                     ->onlyMethods(['checkInput', 'getInput'])
                      ->getMock();
 
         $form
@@ -245,7 +245,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          true
                      ])
-                     ->setMethods(['checkInput', 'getInput'])
+                     ->onlyMethods(['checkInput', 'getInput'])
                      ->getMock();
 
         $form

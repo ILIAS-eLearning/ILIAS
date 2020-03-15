@@ -20,7 +20,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $criterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionId'])
+            ->onlyMethods(['getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment
@@ -104,7 +105,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $criterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionId', 'getCriterionValue'])
+            ->onlyMethods(['getCriterionId', 'getCriterionValue'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment
@@ -201,7 +203,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $criterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionId', 'getCriterionValue'])
+            ->onlyMethods(['getCriterionId', 'getCriterionValue'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment
@@ -262,7 +265,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $user
@@ -280,7 +283,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          'cancel'
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -329,7 +332,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $criterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionId', 'getCriterionValue'])
+            ->onlyMethods(['getCriterionId', 'getCriterionValue'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment
@@ -405,7 +409,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $anotherCriterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionId', 'getCriterionValue'])
+            ->onlyMethods(['getCriterionId', 'getCriterionValue'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $anotherCriterionAssignment
@@ -431,7 +436,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $user
@@ -449,7 +454,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
                          'save',
                          'cancel'
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
