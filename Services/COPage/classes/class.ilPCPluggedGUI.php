@@ -160,8 +160,10 @@ class ilPCPluggedGUI extends ilPageContentGUI
             }
             $html = $ilCtrl->getHTML($gui_obj);
         }
-        
-        $tpl->setContent($html);
+
+        if ($html != "") {
+            $tpl->setContent($html);
+        }
     }
 
 
