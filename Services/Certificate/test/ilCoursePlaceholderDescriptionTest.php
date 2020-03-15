@@ -9,7 +9,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $templateMock = $this->getMockBuilder('ilTemplate')
@@ -24,10 +24,10 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilCoursePlaceholderDescription(null, $languageMock, $userDefinePlaceholderMock);
 
@@ -40,7 +40,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt'))
+            ->onlyMethods(['txt'])
             ->getMock();
 
         $languageMock->expects($this->exactly(3))
