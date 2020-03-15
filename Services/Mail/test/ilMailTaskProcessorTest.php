@@ -46,7 +46,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     public function testOneTask() : void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
-            ->setMethods(['run'])
+            ->onlyMethods(['run'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -55,7 +55,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(ILIAS\BackgroundTasks\Task\TaskFactory::class)
-            ->setMethods(['createTask'])
+            ->onlyMethods(['createTask'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -115,7 +115,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     public function testRunTwoTasks() : void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
-            ->setMethods(['run'])
+            ->onlyMethods(['run'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -124,7 +124,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(TaskFactory::class)
-            ->setMethods(['createTask'])
+            ->onlyMethods(['createTask'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -193,7 +193,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     public function testRunThreeTasksInDifferentBuckets() : void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
-            ->setMethods(['run'])
+            ->onlyMethods(['run'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -202,7 +202,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(TaskFactory::class)
-            ->setMethods(['createTask'])
+            ->onlyMethods(['createTask'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -284,7 +284,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $this->expectException(ilException::class);
 
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
-            ->setMethods(['run'])
+            ->onlyMethods(['run'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -293,7 +293,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(TaskFactory::class)
-            ->setMethods(['createTask'])
+            ->onlyMethods(['createTask'])
             ->disableOriginalConstructor()
             ->getMock();
 
