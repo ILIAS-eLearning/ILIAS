@@ -1,6 +1,8 @@
 'use strict';
 
 var Suite = require('../suite');
+var errors = require('../errors');
+var createMissingArgumentError = errors.createMissingArgumentError;
 
 /**
  * Functions common to more than one interface.
@@ -11,6 +13,22 @@ var Suite = require('../suite');
  * @return {Object} An object containing common functions.
  */
 module.exports = function(suites, context, mocha) {
+  /**
+   * Check if the suite should be tested.
+   *
+   * @private
+   * @param {Suite} suite - suite to check
+   * @returns {boolean}
+   */
+  function shouldBeTested(suite) {
+    return (
+      !mocha.options.grep ||
+      (mocha.options.grep &&
+        mocha.options.grep.test(suite.fullTitle()) &&
+        !mocha.options.invert)
+    );
+  }
+
   return {
     /**
      * This is only present if flag --delay is passed into Mocha. It triggers
@@ -92,6 +110,7 @@ module.exports = function(suites, context, mocha) {
 
       /**
        * Creates a suite.
+       *
        * @param {Object} opts Options
        * @param {string} opts.title Title of Suite
        * @param {Function} [opts.fn] Suite Function (not always applicable)
@@ -106,16 +125,28 @@ module.exports = function(suites, context, mocha) {
         suite.file = opts.file;
         suites.unshift(suite);
         if (opts.isOnly) {
-          suite.parent._onlySuites = suite.parent._onlySuites.concat(suite);
+          if (mocha.options.forbidOnly && shouldBeTested(suite)) {
+            throw new Error('`.only` forbidden');
+          }
+
+          suite.parent.appendOnlySuite(suite);
+        }
+        if (suite.pending) {
+          if (mocha.options.forbidPending && shouldBeTested(suite)) {
+            throw new Error('Pending test forbidden');
+          }
         }
         if (typeof opts.fn === 'function') {
           opts.fn.call(suite);
           suites.shift();
         } else if (typeof opts.fn === 'undefined' && !suite.pending) {
-          throw new Error(
+          throw createMissingArgumentError(
             'Suite "' +
               suite.fullTitle() +
-              '" was defined but no callback was supplied. Supply a callback or explicitly skip the suite.'
+              '" was defined but no callback was supplied. ' +
+              'Supply a callback or explicitly skip the suite.',
+            'callback',
+            'function'
           );
         } else if (!opts.fn && suite.pending) {
           suites.shift();
@@ -134,7 +165,7 @@ module.exports = function(suites, context, mocha) {
        * @returns {*}
        */
       only: function(mocha, test) {
-        test.parent._onlyTests = test.parent._onlyTests.concat(test);
+        test.parent.appendOnlyTest(test);
         return test;
       },
 
