@@ -199,12 +199,12 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
             $this->db->replace(
                 'auth_ext_attr_mapping',
                 array(
-                    'auth_mode'   => array('text', $this->getAuthMode()),
+                    'auth_mode' => array('text', $this->getAuthMode()),
                     'auth_src_id' => array('integer', $this->getAuthSourceId()),
-                    'attribute'   => array('text', $rule->getAttribute())
+                    'attribute' => array('text', $rule->getAttribute())
                 ),
                 array(
-                    'ext_attribute'        => array('text', $rule->getExternalAttribute()),
+                    'ext_attribute' => array('text', $rule->getExternalAttribute()),
                     'update_automatically' => array('integer', (int) $rule->isAutomaticallyUpdated())
                 )
             );

@@ -30,9 +30,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        $this->rbacsystem 	= $rbacsystem;
-        $this->ilTabs		= $ilTabs;
-        $this->lng			= $lng;
+        $this->rbacsystem = $rbacsystem;
+        $this->ilTabs = $ilTabs;
+        $this->lng = $lng;
     }
 
     /**
@@ -76,7 +76,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);
         $custom_check = $this->object->checkQuestionCustomPart($form);
-        if (!$form->checkInput() ||  !$custom_check) {
+        if (!$form->checkInput() || !$custom_check) {
             if (!$custom_check) {
                 ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
             }
@@ -283,7 +283,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $correct_solution 	= $this->getUserSolution($active_id, $pass);
+            $correct_solution = $this->getUserSolution($active_id, $pass);
         } else {
             $correct_solution = $this->object->getCorrectAnswersForQuestionSolution($this->object->getId());
         }
@@ -298,7 +298,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -532,7 +532,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl = new ilTemplate('tpl.il_as_aggregated_long_menu_answers_table.html', true, true, "Modules/TestQuestionPool");
         $json = json_decode($this->object->getJsonStructure());
         foreach ($json as $key => $value) {
-            $tpl->setVariable('TITLE', 'Longmenu ' . ($key+1));
+            $tpl->setVariable('TITLE', 'Longmenu ' . ($key + 1));
             if (array_key_exists($key, $aggregation)) {
                 $aggregate = $aggregation[$key];
                 foreach ($aggregate as $answer => $counts) {
@@ -565,7 +565,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                         }
                     }
                     
-                    $return_value .=  $this->getTextGapTemplate($key, $user_value, $solution, $answer_is_correct, $graphical);
+                    $return_value .= $this->getTextGapTemplate($key, $user_value, $solution, $answer_is_correct, $graphical);
                 } elseif ($correct_answers[$key][2] == assLongMenu::ANSWER_TYPE_SELECT_VAL) {
                     if (array_key_exists($key, $user_solution)) {
                         $user_value = $user_solution[$key];
@@ -573,7 +573,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                             $answer_is_correct = true;
                         }
                     }
-                    $return_value .=  $this->getSelectGapTemplate($key, $answers[$key], $user_value, $solution, $answer_is_correct, $graphical);
+                    $return_value .= $this->getSelectGapTemplate($key, $answers[$key], $user_value, $solution, $answer_is_correct, $graphical);
                 }
             }
         }

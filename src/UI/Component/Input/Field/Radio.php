@@ -19,7 +19,7 @@ interface Radio extends FormInput
      *
      * @return 	Radio
      */
-    public function withOption(string $value, string $label, string $byline=null) : Radio;
+    public function withOption(string $value, string $label, string $byline = null) : Radio;
 
     /**
      * Get all options as value=>label.

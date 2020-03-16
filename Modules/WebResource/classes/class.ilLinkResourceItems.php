@@ -43,17 +43,17 @@ class ilLinkResourceItems
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title']				= $row->title;
-            $item['description']		= $row->description;
-            $item['target']				= $row->target;
-            $item['active']				= (bool) $row->active;
-            $item['disable_check']		= $row->disable_check;
-            $item['create_date']		= $row->create_date;
-            $item['last_update']		= $row->last_update;
-            $item['last_check']			= $row->last_check;
-            $item['valid']				= $row->valid;
-            $item['link_id']			= $row->link_id;
-            $item['internal']			= $row->internal;
+            $item['title'] = $row->title;
+            $item['description'] = $row->description;
+            $item['target'] = $row->target;
+            $item['active'] = (bool) $row->active;
+            $item['disable_check'] = $row->disable_check;
+            $item['create_date'] = $row->create_date;
+            $item['last_update'] = $row->last_update;
+            $item['last_check'] = $row->last_check;
+            $item['valid'] = $row->valid;
+            $item['link_id'] = $row->link_id;
+            $item['internal'] = $row->internal;
         }
         return $item ? $item : array();
     }
@@ -462,17 +462,17 @@ class ilLinkResourceItems
             
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title']				= $row->title;
-            $item['description']		= $row->description;
-            $item['target']				= $row->target;
-            $item['active']				= (bool) $row->active;
-            $item['disable_check']		= $row->disable_check;
-            $item['create_date']		= $row->create_date;
-            $item['last_update']		= $row->last_update;
-            $item['last_check']			= $row->last_check;
-            $item['valid']				= $row->valid;
-            $item['link_id']			= $row->link_id;
-            $item['internal']			= $row->internal;
+            $item['title'] = $row->title;
+            $item['description'] = $row->description;
+            $item['target'] = $row->target;
+            $item['active'] = (bool) $row->active;
+            $item['disable_check'] = $row->disable_check;
+            $item['create_date'] = $row->create_date;
+            $item['last_update'] = $row->last_update;
+            $item['last_check'] = $row->last_check;
+            $item['valid'] = $row->valid;
+            $item['link_id'] = $row->link_id;
+            $item['internal'] = $row->internal;
         }
         return $item ? $item : array();
     }
@@ -508,17 +508,17 @@ class ilLinkResourceItems
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $items[$row->link_id]['title']				= $row->title;
-            $items[$row->link_id]['description']		= $row->description;
-            $items[$row->link_id]['target']				= $row->target;
-            $items[$row->link_id]['active']				= (bool) $row->active;
-            $items[$row->link_id]['disable_check']		= $row->disable_check;
-            $items[$row->link_id]['create_date']		= $row->create_date;
-            $items[$row->link_id]['last_update']		= $row->last_update;
-            $items[$row->link_id]['last_check']			= $row->last_check;
-            $items[$row->link_id]['valid']				= $row->valid;
-            $items[$row->link_id]['link_id']			= $row->link_id;
-            $items[$row->link_id]['internal']			= $row->internal;
+            $items[$row->link_id]['title'] = $row->title;
+            $items[$row->link_id]['description'] = $row->description;
+            $items[$row->link_id]['target'] = $row->target;
+            $items[$row->link_id]['active'] = (bool) $row->active;
+            $items[$row->link_id]['disable_check'] = $row->disable_check;
+            $items[$row->link_id]['create_date'] = $row->create_date;
+            $items[$row->link_id]['last_update'] = $row->last_update;
+            $items[$row->link_id]['last_check'] = $row->last_check;
+            $items[$row->link_id]['valid'] = $row->valid;
+            $items[$row->link_id]['link_id'] = $row->link_id;
+            $items[$row->link_id]['internal'] = $row->internal;
         }
         return $items ? $items : array();
     }
@@ -684,12 +684,12 @@ class ilLinkResourceItems
             $writer->xmlStartTag(
                 'WebLink',
                 array(
-                    'id'				=> $link['link_id'],
-                    'active'			=> $link['active'] ? 1 : 0,
-                    'valid'				=> $link['valid'] ? 1 : 0,
-                    'disableValidation'	=> $link['disable_check'] ? 1 : 0,
-                    'position'			=> $position,
-                    'internal'			=> $link['internal']
+                    'id' => $link['link_id'],
+                    'active' => $link['active'] ? 1 : 0,
+                    'valid' => $link['valid'] ? 1 : 0,
+                    'disableValidation' => $link['disable_check'] ? 1 : 0,
+                    'position' => $position,
+                    'internal' => $link['internal']
                 )
             );
             $writer->xmlElement('Title', array(), $link['title']);
@@ -722,9 +722,9 @@ class ilLinkResourceItems
                 $writer->xmlElement(
                     'DynamicParameter',
                     array(
-                        'id'	=> $param_id,
-                        'name'	=> $param['name'],
-                        'type'	=> $value
+                        'id' => $param_id,
+                        'name' => $param['name'],
+                        'type' => $value
                     )
                 );
             }

@@ -50,9 +50,9 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
         include_once("./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php");
         if (!ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
             $props[] = array(
-                "alert"    => true,
+                "alert" => true,
                 "property" => $lng->txt("status"),
-                "value"    => $lng->txt("offline"),
+                "value" => $lng->txt("offline"),
             );
         }
 

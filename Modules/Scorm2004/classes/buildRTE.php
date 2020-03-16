@@ -79,13 +79,13 @@
         $out[] = $inp;
     }
     $timestamp = time();
-    $f_time=date("YndHis", $timestamp);
-    $comment="// Build: $f_time \n";
+    $f_time = date("YndHis", $timestamp);
+    $comment = "// Build: $f_time \n";
     $outjsmin = implode("", $outjsmin);
     $out = implode("", $out);
-    $outjsmin=$comment . $outjsmin;
-    $out=$comment . $out;
-    $filenamemin="../scripts/buildrte/rte-min.js";
-    $filename="../scripts/buildrte/rte.js";
+    $outjsmin = $comment . $outjsmin;
+    $out = $comment . $out;
+    $filenamemin = "../scripts/buildrte/rte-min.js";
+    $filename = "../scripts/buildrte/rte.js";
     file_put_contents($filenamemin, $outjsmin);
     file_put_contents($filename, $out);

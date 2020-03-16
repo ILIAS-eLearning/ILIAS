@@ -2368,16 +2368,16 @@ class ilObjContentObject extends ilObject
                     ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this, $page["obj_id"]);
-                    $mess.= $this->lng->txt("obj_pg") . ": " . $title;
-                    $mess.= '<div class="small">';
+                    $mess .= $this->lng->txt("obj_pg") . ": " . $title;
+                    $mess .= '<div class="small">';
                     foreach ($error as $e) {
                         $err_mess = implode($e, " - ");
                         if (!is_int(strpos($err_mess, ":0:"))) {
-                            $mess.= htmlentities($err_mess) . "<br />";
+                            $mess .= htmlentities($err_mess) . "<br />";
                         }
                     }
-                    $mess.= '</div>';
-                    $mess.= "<br />";
+                    $mess .= '</div>';
+                    $mess .= "<br />";
                 }
             }
         }
@@ -2417,7 +2417,7 @@ class ilObjContentObject extends ilObject
 
         $subdir = basename($file["basename"], "." . $file["extension"]);
 
-        $mess =  $this->importFromDirectory(
+        $mess = $this->importFromDirectory(
             $this->getImportDirectory() . "/" . $subdir,
             $a_validate
         );

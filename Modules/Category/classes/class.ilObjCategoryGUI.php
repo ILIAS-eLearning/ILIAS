@@ -98,11 +98,11 @@ class ilObjCategoryGUI extends ilContainerGUI
                 if (!$_GET['obj_id']) {
                     $this->gui_obj = new ilObjUserGUI("", $_GET['ref_id'], true, false);
                     $this->gui_obj->setCreationMode($this->creation_mode);
-                    $ret =&$this->ctrl->forwardCommand($this->gui_obj);
+                    $ret = &$this->ctrl->forwardCommand($this->gui_obj);
                 } else {
                     $this->gui_obj = new ilObjUserGUI("", $_GET['obj_id'], false, false);
                     $this->gui_obj->setCreationMode($this->creation_mode);
-                    $ret =&$this->ctrl->forwardCommand($this->gui_obj);
+                    $ret = &$this->ctrl->forwardCommand($this->gui_obj);
                 }
                 
                 $ilTabs->clearTargets();
@@ -119,7 +119,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->gui_obj = new ilObjUserFolderGUI("", (int) $_GET['ref_id'], true, false);
                 $this->gui_obj->setUserOwnerId((int) $_GET['ref_id']);
                 $this->gui_obj->setCreationMode($this->creation_mode);
-                $ret =&$this->ctrl->forwardCommand($this->gui_obj);
+                $ret = &$this->ctrl->forwardCommand($this->gui_obj);
 
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTarget($this, 'listUsers'));
@@ -145,7 +145,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->tabs_gui->setTabActive('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'ilinfoscreengui':
@@ -158,7 +158,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             case 'ilcontainerlinklistgui':
                 include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
                 $link_list_gui = new ilContainerLinkListGUI();
-                $ret =&$this->ctrl->forwardCommand($link_list_gui);
+                $ret = &$this->ctrl->forwardCommand($link_list_gui);
                 break;
 
             // container page editing
@@ -511,7 +511,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilTabs = $this->tabs;
         
         $ilTabs->activateTab("view_content");
-        $ret =  parent::renderObject();
+        $ret = parent::renderObject();
         return $ret;
     }
 
@@ -1183,7 +1183,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->object->getRefId()))) {
                 die('user id not valid');
             }
-            if (!$tmp_obj =&ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -1262,7 +1262,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $f_result = array();
         
         foreach ($roles as $role) {
-            $role_obj =&ilObjectFactory::getInstanceByObjId($role['obj_id']);
+            $role_obj = &ilObjectFactory::getInstanceByObjId($role['obj_id']);
             
             $disabled = false;
             $f_result[$counter]['checkbox'] = ilUtil::formCheckbox(
@@ -1283,7 +1283,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         include_once('./Modules/Category/classes/class.ilCategoryAssignRoleTableGUI.php');
         $table = new ilCategoryAssignRoleTableGUI($this, "assignRoles");
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
         $table->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
         $table->setData($f_result);
@@ -1337,7 +1337,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilUser = $this->user;
 
         // check local user
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         // Admin => all roles
         if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
             $global_roles = $rbacreview->getGlobalRolesArray();
@@ -1360,7 +1360,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->checkPermission("cat_administrate_users");
 
         // return true if it's not a local user
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         if ($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
            !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
             return true;

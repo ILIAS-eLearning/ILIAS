@@ -222,7 +222,6 @@ class ilAssQuestionSkillAssignmentList
 
     public function getUniqueAssignedSkills()
     {
-
         $skills = array();
 
         foreach ($this->assignments as $assignmentsByQuestion) {

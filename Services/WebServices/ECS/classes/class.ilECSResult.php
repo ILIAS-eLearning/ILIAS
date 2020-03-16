@@ -211,7 +211,7 @@ class ilECSResult
         
         $ecs_sender = strpos($this->result_header, self::HEADER_ECS_SENDER);
         if ($ecs_sender !== false) {
-            $sender_start =+13;
+            $sender_start = +13;
             $sender_end = strpos($this->result_header, "\r\n", $sender_start);
             $sender = substr($this->result_header, $sender_start, $sender_end - $sender_start);
             

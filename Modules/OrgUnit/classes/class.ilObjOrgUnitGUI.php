@@ -378,7 +378,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     protected function initCreationForms($a_new_type)
     {
         $forms = array(
-            self::CFORM_NEW    => $this->initCreateForm($a_new_type),
+            self::CFORM_NEW => $this->initCreateForm($a_new_type),
             self::CFORM_IMPORT => $this->initImportForm($a_new_type),
         );
 

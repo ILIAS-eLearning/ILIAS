@@ -110,12 +110,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case "ilsurveyphrasesgui":
                 $phrases_gui = new ilSurveyPhrasesGUI($this);
-                $ret =&$this->ctrl->forwardCommand($phrases_gui);
+                $ret = &$this->ctrl->forwardCommand($phrases_gui);
                 break;
                 
             case 'ilobjectcopygui':
@@ -134,8 +134,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
                 break;
 
             case "":
-                $cmd.= "Object";
-                $ret =&$this->$cmd();
+                $cmd .= "Object";
+                $ret = &$this->$cmd();
                 break;
                 
             default:
@@ -143,7 +143,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
                 $this->log->debug("- This is the switch/case default, going to question id =" . $_GET["q_id"]);
                 // $q_gui->object->setObjId($this->object->getId());
                 $q_gui->setQuestionTabs();
-                $ret =&$this->ctrl->forwardCommand($q_gui);
+                $ret = &$this->ctrl->forwardCommand($q_gui);
                 
                 // not on create
                 if ($q_gui->object->isComplete()) {
@@ -686,7 +686,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         
         $ilUser->writePref("svy_lastquestiontype", $_POST["sel_question_types"]);
         
-        $q_gui =&SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+        $q_gui = &SurveyQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->createNewQuestion();
         
@@ -700,7 +700,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     */
     public function &previewObject()
     {
-        $q_gui =&SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
+        $q_gui = &SurveyQuestionGUI::_getQuestionGUI("", $_GET["preview"]);
         $this->ctrl->setParameterByClass(get_class($q_gui), "sel_question_types", $q_gui->getQuestionType());
         $this->ctrl->setParameterByClass(get_class($q_gui), "q_id", $_GET["preview"]);
         $this->ctrl->redirectByClass(get_class($q_gui), "preview");
@@ -886,7 +886,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         $obligatory = array();
         foreach ($_POST as $key => $value) {
             if (preg_match("/obligatory_(\d+)/", $key, $matches)) {
-                $obligatory[]= $matches[1];
+                $obligatory[] = $matches[1];
             }
         }
         $this->object->setObligatoryStates($obligatory);

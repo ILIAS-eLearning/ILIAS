@@ -257,7 +257,7 @@ class ilMD extends ilMDBase
         $writer->xmlStartTag('MetaData');
 
         // General
-        if (is_object($gen =&$this->getGeneral())) {
+        if (is_object($gen = &$this->getGeneral())) {
             $gen->setExportMode($this->getExportMode());
             $gen->toXML($writer);
         } else {
@@ -270,45 +270,45 @@ class ilMD extends ilMDBase
             
 
         // Lifecycle
-        if (is_object($lif =&$this->getLifecycle())) {
+        if (is_object($lif = &$this->getLifecycle())) {
             $lif->toXML($writer);
         }
 
         // Meta-Metadata
-        if (is_object($met =&$this->getMetaMetadata())) {
+        if (is_object($met = &$this->getMetaMetadata())) {
             $met->toXML($writer);
         }
 
         // Technical
-        if (is_object($tec =&$this->getTechnical())) {
+        if (is_object($tec = &$this->getTechnical())) {
             $tec->toXML($writer);
         }
 
         // Educational
-        if (is_object($edu =&$this->getEducational())) {
+        if (is_object($edu = &$this->getEducational())) {
             $edu->toXML($writer);
         }
 
         // Rights
-        if (is_object($rig =&$this->getRights())) {
+        if (is_object($rig = &$this->getRights())) {
             $rig->toXML($writer);
         }
 
         // Relations
         foreach ($this->getRelationIds() as $id) {
-            $rel =&$this->getRelation($id);
+            $rel = &$this->getRelation($id);
             $rel->toXML($writer);
         }
 
         // Annotations
         foreach ($this->getAnnotationIds() as $id) {
-            $ann =&$this->getAnnotation($id);
+            $ann = &$this->getAnnotation($id);
             $ann->toXML($writer);
         }
         
         // Classification
         foreach ($this->getClassificationIds() as $id) {
-            $cla =&$this->getClassification($id);
+            $cla = &$this->getClassification($id);
             $cla->toXML($writer);
         }
         

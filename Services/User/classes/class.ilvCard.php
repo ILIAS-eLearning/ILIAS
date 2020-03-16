@@ -159,7 +159,7 @@ class ilvCard
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
         for ($i = 0; $i < count($matches[1]); $i++) {
-            if ($i < (count($matches[1])-1)) {
+            if ($i < (count($matches[1]) - 1)) {
                 $matches[1][$i] .= "\n";
             }
             if ($i > 0) {
@@ -628,7 +628,7 @@ class ilvCard
         $escape = "=";
         $output = "";
     
-        for ($j=0;$j<count($lines);$j++) {
+        for ($j = 0;$j < count($lines);$j++) {
             $line = $lines[$j];
             $linlen = strlen($line);
             $newline = "";
@@ -638,8 +638,8 @@ class ilvCard
                 if (($dec == 32) && ($i == ($linlen - 1))) { // convert space at eol only
                     $c = "=20";
                 } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
-                    $h2 = floor($dec/16);
-                    $h1 = floor($dec%16);
+                    $h2 = floor($dec / 16);
+                    $h1 = floor($dec % 16);
                     $c = $escape . $hex["$h2"] . $hex["$h1"];
                 }
                 if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
@@ -649,7 +649,7 @@ class ilvCard
                 $newline .= $c;
             } // end of for
             $output .= $newline;
-            if ($j<count($lines)-1) {
+            if ($j < count($lines) - 1) {
                 $output .= $linebreak;
             }
         }
@@ -712,11 +712,11 @@ class ilvCard
     */
     public function setName($family_name, $given_name = "", $additional_names = "", $honorific_prefixes = "", $honorific_suffixes = "")
     {
-        $familynames =&$this->explodeVar($family_name);
-        $givennames =&$this->explodeVar($given_name);
-        $addnames =&$this->explodeVar($additional_names);
-        $prefixes =&$this->explodeVar($honorific_prefixes);
-        $suffixes =&$this->explodeVar($honorific_suffixes);
+        $familynames = &$this->explodeVar($family_name);
+        $givennames = &$this->explodeVar($given_name);
+        $addnames = &$this->explodeVar($additional_names);
+        $prefixes = &$this->explodeVar($honorific_prefixes);
+        $suffixes = &$this->explodeVar($honorific_suffixes);
 
         $this->types["N"] =
             join(",", $familynames) .
@@ -759,7 +759,7 @@ class ilvCard
     */
     public function setNickname($nickname)
     {
-        $nicknames =&$this->explodeVar($nickname);
+        $nicknames = &$this->explodeVar($nickname);
         $this->types["NICKNAME"] = join(",", $nicknames);
     }
     
@@ -975,7 +975,7 @@ class ilvCard
     public function setLabel($label = "", $type = ADR_TYPE_NONE)
     {
         if ($type == ADR_TYPE_NONE) {
-            $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL+ ADR_TYPE_PARCEL + ADR_TYPE_WORK;
+            $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
         $this->types["LABEL"] = array(
             "LABEL" => $this->escape($label),

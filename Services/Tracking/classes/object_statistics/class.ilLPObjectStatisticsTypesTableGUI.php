@@ -89,9 +89,9 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         // figure
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
-        $options = array("objects"=>$lng->txt("objects"),
-            "references"=>$lng->txt("trac_reference"),
-            "deleted"=>$lng->txt("trac_trash"));
+        $options = array("objects" => $lng->txt("objects"),
+            "references" => $lng->txt("trac_reference"),
+            "deleted" => $lng->txt("trac_trash"));
         $si->setOptions($options);
         $this->addFilterItem($si);
         $si->readFromSession();
@@ -118,7 +118,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $si = new ilSelectInputGUI($lng->txt("year"), "year");
         $options = array();
         for ($loop = 0; $loop < 4; $loop++) {
-            $year = date("Y")-$loop;
+            $year = date("Y") - $loop;
             $options[$year] = $year;
         }
         $si->setOptions($options);
@@ -239,7 +239,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         }
 
         foreach (array_values($this->getMonthsYear($this->filter["year"], true)) as $idx => $caption) {
-            $labels[$idx+1] = $caption;
+            $labels[$idx + 1] = $caption;
         }
         $chart->setTicks($labels, false, true);
                 
@@ -249,7 +249,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
                 $series->setLabel($types[$type]);
                 
                 foreach (array_keys($this->getMonthsYear($this->filter["year"])) as $idx => $month) {
-                    $series->addPoint($idx+1, (int) $object["month_" . $month]);
+                    $series->addPoint($idx + 1, (int) $object["month_" . $month]);
                 }
             
                 $chart->addData($series);

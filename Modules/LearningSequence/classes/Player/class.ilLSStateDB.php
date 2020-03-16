@@ -187,7 +187,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
 
-        foreach ($all_states as $usr_id=>$state_entry) {
+        foreach ($all_states as $usr_id => $state_entry) {
             $current_item = $state_entry['current_item'];
             $states = $state_entry['states'];
 

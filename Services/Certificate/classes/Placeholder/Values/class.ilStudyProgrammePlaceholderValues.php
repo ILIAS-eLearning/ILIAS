@@ -129,7 +129,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId)
     {
-        $placeholders =  $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $type = $object->getSubType();

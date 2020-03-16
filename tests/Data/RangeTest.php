@@ -11,7 +11,7 @@ class RangeTest extends TestCase
     public function testFactory()
     {
         $f = new ILIAS\Data\Factory();
-        $range = $f->range(1,2);
+        $range = $f->range(1, 2);
         $this->assertInstanceOf(Range::class, $range);
         return $range;
     }

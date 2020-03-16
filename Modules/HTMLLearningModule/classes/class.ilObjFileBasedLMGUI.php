@@ -219,7 +219,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $cmd = $this->ctrl->getCmd("frameset");
                 if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
                     $this->getCreationMode() == true) {
-                    $cmd.= "Object";
+                    $cmd .= "Object";
                 }
                 $ret = $this->$cmd();
                 break;

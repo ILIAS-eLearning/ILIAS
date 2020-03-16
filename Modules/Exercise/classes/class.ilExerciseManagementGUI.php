@@ -376,10 +376,10 @@ class ilExerciseManagementGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $lng->txt('user'),
-                    'submit_name'			=> $lng->txt('add'),
-                    'add_search'			=> true,
-                    'add_from_container'    => $this->exercise->getRefId()
+                    'auto_complete_name' => $lng->txt('user'),
+                    'submit_name' => $lng->txt('add'),
+                    'add_search' => true,
+                    'add_from_container' => $this->exercise->getRefId()
                 )
             );
         }
@@ -1379,7 +1379,7 @@ class ilExerciseManagementGUI
      */
     public function saveCommentForLearnersObject()
     {
-        $res = array("result"=>false);
+        $res = array("result" => false);
         
         if ($this->ctrl->isAsynch()) {
             $ass_id = (int) $_POST["ass_id"];
@@ -1417,7 +1417,7 @@ class ilExerciseManagementGUI
                     );
                 }
                 
-                $res = array("result"=>true, "snippet"=>nl2br($comment));
+                $res = array("result" => true, "snippet" => nl2br($comment));
             }
         }
         
@@ -1623,7 +1623,7 @@ class ilExerciseManagementGUI
                     $existing_users = array_keys(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
                     
                     // create teams from group selections
-                    $sum = array("added"=>0, "blocked"=>0);
+                    $sum = array("added" => 0, "blocked" => 0);
                     foreach ($teams as $members) {
                         foreach ($members as $user_id) {
                             if (!$this->exercise->members_obj->isAssigned($user_id)) {

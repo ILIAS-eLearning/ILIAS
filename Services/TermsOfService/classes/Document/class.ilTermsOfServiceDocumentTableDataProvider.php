@@ -16,7 +16,7 @@ class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTable
 
         return [
             'items' => $items,
-            'cnt'   => count($items)
+            'cnt' => count($items)
         ];
     }
 }

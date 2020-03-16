@@ -71,7 +71,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withVisibilityCallable(callable $is_visible) : isItem
     {
-        $clone                       = clone($this);
+        $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
 
         return $clone;
@@ -104,7 +104,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withAvailableCallable(callable $is_available) : isItem
     {
-        $clone                     = clone($this);
+        $clone = clone($this);
         $clone->available_callable = $is_available;
 
         return $clone;
@@ -132,7 +132,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withNonAvailableReason(Legacy $element) : isItem
     {
-        $clone                       = clone $this;
+        $clone = clone $this;
         $clone->non_available_reason = $element;
 
         return $clone;
@@ -161,7 +161,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withAlwaysAvailable(bool $always_active) : isItem
     {
-        $clone                      = clone($this);
+        $clone = clone($this);
         $clone->is_always_available = $always_active;
 
         return $clone;
@@ -180,7 +180,7 @@ abstract class AbstractBaseItem implements isItem
      */
     public function withPosition(int $position) : isItem
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->position = $position;
 
         return $clone;

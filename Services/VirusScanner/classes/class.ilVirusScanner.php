@@ -131,13 +131,13 @@ class ilVirusScanner
         $lng = $DIC['lng'];
         $log = $DIC['log'];
 
-        $this->ilias        = $ilias;
-        $this->lng          = $lng;
-        $this->log          = $log;
-        $this->scanCommand  = $a_scancommand;
+        $this->ilias = $ilias;
+        $this->lng = $lng;
+        $this->log = $log;
+        $this->scanCommand = $a_scancommand;
         $this->cleanCommand = $a_cleancommand;
 
-        $this->type         = "simulate";
+        $this->type = "simulate";
         $this->scanZipFiles = false;
     }
     
@@ -204,18 +204,18 @@ class ilVirusScanner
         // - return the output message, if file is infected
         // - return an empty string, if file is not infected
 
-        $this->scanFilePath     = $a_filepath;
+        $this->scanFilePath = $a_filepath;
         $this->scanFileOrigName = $a_origname;
 
         if ($a_origname == "infected.txt" or $a_origname == "cleanable.txt") {
             $this->scanFileIsInfected = true;
-            $this->scanResult         =
+            $this->scanResult =
                 "FILE INFECTED: [" . $a_filepath . "] (VIRUS: simulated)";
             $this->logScanResult();
             return $this->scanResult;
         } else {
             $this->scanFileIsInfected = false;
-            $this->scanResult         = "";
+            $this->scanResult = "";
             return "";
         }
     }
@@ -243,18 +243,18 @@ class ilVirusScanner
         // - return the output message, if file is cleaned
         // - return an empty string, if file is not cleaned
 
-        $this->cleanFilePath     = $a_filepath;
+        $this->cleanFilePath = $a_filepath;
         $this->cleanFileOrigName = $a_origname;
 
         if ($a_origname == "cleanable.txt") {
             $this->cleanFileIsCleaned = true;
-            $this->cleanResult        =
+            $this->cleanResult =
                 "FILE CLEANED: [" . $a_filepath . "] (VIRUS: simulated)";
             $this->logCleanResult();
             return $this->cleanResult;
         } else {
             $this->cleanFileIsCleaned = false;
-            $this->cleanResult        =
+            $this->cleanResult =
                 "FILE NOT CLEANED: [" . $a_filepath . "] (VIRUS: simulated)";
             $this->logCleanResult();
             return "";

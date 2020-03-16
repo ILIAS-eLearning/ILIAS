@@ -63,8 +63,8 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
                 $pos2 = strpos($string, $le, $pos1);
                 if (is_int($pos2)) {
                     // both found: replace end tag
-                    $string = substr($string, 0, $pos2) . "[/tex]" . substr($string, $pos2+7);
-                    $string = substr($string, 0, $pos1) . "[tex]" . substr($string, $pos1+20);
+                    $string = substr($string, 0, $pos2) . "[/tex]" . substr($string, $pos2 + 7);
+                    $string = substr($string, 0, $pos1) . "[tex]" . substr($string, $pos1 + 20);
                 } else {
                     $try = false;
                 }
@@ -87,7 +87,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
         $tstr = "";
         
         foreach ($tags as $t) {
-            $tstr.="<" . $t . ">";
+            $tstr .= "<" . $t . ">";
         }
 
         $string = ilUtil::secureString($string, true, $tstr);

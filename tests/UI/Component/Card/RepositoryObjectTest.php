@@ -19,8 +19,8 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
     public function getFactory()
     {
         $mocks = [
-            'button' =>  $this->createMock(C\Button\Factory::class),
-            'divider' =>  $this->createMock(C\Divider\Factory::class),
+            'button' => $this->createMock(C\Button\Factory::class),
+            'divider' => $this->createMock(C\Divider\Factory::class),
         ];
         $factory = new class($mocks) extends NoUIFactory {
             public function __construct($mocks)

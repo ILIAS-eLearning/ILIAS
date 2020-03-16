@@ -73,9 +73,10 @@ class ilFavouritesListGUI
         $panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard(
             $this->lng->txt("rep_configure"),
             $ctrl->getLinkTargetByClass(
-            ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-            "manage"
-        ))]));
+                ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
+                "manage"
+        )
+        )]));
         return $this->ui->renderer()->render([$panel]);
     }
 }

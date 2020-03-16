@@ -167,7 +167,7 @@ class ilAssFileUploadUploadsExporter
     
     private function getFileUploadSolutionData()
     {
-        $query  = "
+        $query = "
 			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
 				tst_solutions.value1, tst_solutions.value2, tst_solutions.tstamp 
 			FROM tst_solutions, tst_active, qpl_questions 

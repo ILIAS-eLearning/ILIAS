@@ -17,7 +17,7 @@ class ilPasswordUtils
     {
         if (!defined('PHP_WINDOWS_VERSION_BUILD') && extension_loaded('openssl')) {
             $secure = null;
-            $rand   = openssl_random_pseudo_bytes($length, $secure);
+            $rand = openssl_random_pseudo_bytes($length, $secure);
             if (false !== $rand && $secure === true) {
                 return $rand;
             }

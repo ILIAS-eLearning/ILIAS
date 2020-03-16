@@ -537,7 +537,7 @@ class ilLMContentRendererGUI
         $act_data = ilLMPage::_lookupActivationData($this->requested_obj_id, $this->lm->getType());
         if ($act_data["show_activation_info"] &&
             (ilUtil::now() < $act_data["activation_start"])) {
-            $m.= "<p>" . sprintf(
+            $m .= "<p>" . sprintf(
                 $this->lng->txt("cont_page_activation_on"),
                 ilDatePresentation::formatDate(
                     new ilDateTime($act_data["activation_start"], IL_CAL_DATETIME)
@@ -600,13 +600,13 @@ class ilLMContentRendererGUI
         $parent = $this->lm_tree->getParentId($topchap);
         $childs = $this->lm_tree->getChildsByType($parent, "st");
         $next = "";
-        $j=-2;
-        $i=1;
+        $j = -2;
+        $i = 1;
         foreach ($childs as $child) {
             if ($child["child"] == $topchap) {
                 $j = $i;
             }
-            if ($i++ == ($j+1)) {
+            if ($i++ == ($j + 1)) {
                 $succ_node = $this->lm_tree->fetchSuccessorNode($child["child"], "pg");
             }
         }

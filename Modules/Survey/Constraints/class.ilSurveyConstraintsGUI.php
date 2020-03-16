@@ -106,8 +106,8 @@ class ilSurveyConstraintsGUI
             ilUtil::sendFailure($this->lng->txt("msg_enter_value_for_valid_constraint"));
             return $this->constraintStep3Object();
         }
-        $survey_questions =&$this->object->getSurveyQuestions();
-        $structure =&$_SESSION["constraintstructure"];
+        $survey_questions = &$this->object->getSurveyQuestions();
+        $structure = &$_SESSION["constraintstructure"];
         $include_elements = $_SESSION["includeElements"];
         foreach ($include_elements as $elementCounter) {
             if (is_array($structure[$elementCounter])) {
@@ -134,8 +134,8 @@ class ilSurveyConstraintsGUI
     */
     public function constraintStep1Object()
     {
-        $survey_questions =&$this->object->getSurveyQuestions();
-        $structure =&$_SESSION["constraintstructure"];
+        $survey_questions = &$this->object->getSurveyQuestions();
+        $structure = &$_SESSION["constraintstructure"];
         $start = $_GET["start"];
         $option_questions = array();
         for ($i = 1; $i < $start; $i++) {
@@ -161,7 +161,7 @@ class ilSurveyConstraintsGUI
     */
     public function constraintStep2Object()
     {
-        $survey_questions =&$this->object->getSurveyQuestions();
+        $survey_questions = &$this->object->getSurveyQuestions();
         $option_questions = array();
         array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
         $this->constraintForm(2, $_POST, $survey_questions, $option_questions);
@@ -172,7 +172,7 @@ class ilSurveyConstraintsGUI
     */
     public function constraintStep3Object()
     {
-        $survey_questions =&$this->object->getSurveyQuestions();
+        $survey_questions = &$this->object->getSurveyQuestions();
         $option_questions = array();
         if (strlen($_GET["precondition"])) {
             if (!$this->validateConstraintForEdit($_GET["precondition"])) {
@@ -258,7 +258,7 @@ class ilSurveyConstraintsGUI
         }
         
         if ($step > 2) {
-            $variables =&$this->object->getVariables($postvalues["q"]);
+            $variables = &$this->object->getVariables($postvalues["q"]);
             $question_type = $survey_questions[$postvalues["q"]]["type_tag"];
             SurveyQuestion::_includeClass($question_type);
             $question = new $question_type();

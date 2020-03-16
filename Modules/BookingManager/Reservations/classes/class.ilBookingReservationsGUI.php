@@ -365,7 +365,7 @@ class ilBookingReservationsGUI
             if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
                 $details .= ", " . ilDatePresentation::formatPeriod(
                     new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                    new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX)
+                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
                 );
             }
 
@@ -430,7 +430,7 @@ class ilBookingReservationsGUI
 
             $caption = $obj->getTitle() . ", " . ilDatePresentation::formatPeriod(
                 new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX)
+                new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
             );
 
             // #17869

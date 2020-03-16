@@ -80,7 +80,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $form->getItemByPostVar("par_subcharacteristic")->setValue($this->content_obj->getSubCharacteristic());
             $form->getItemByPostVar("par_downloadtitle")->setValue($this->content_obj->getDownloadTitle());
             $form->getItemByPostVar("par_showlinenumbers")->setChecked(
-                $this->content_obj->getShowLineNumbers()=="y"?true:false
+                $this->content_obj->getShowLineNumbers() == "y"?true:false
             );
             //			$form->getItemByPostVar("par_autoindent")->setChecked(
             //				$this->content_obj->getAutoIndent()=="y"?true:false);

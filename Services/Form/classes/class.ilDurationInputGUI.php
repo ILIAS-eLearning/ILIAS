@@ -330,7 +330,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $tpl->setCurrentBlock("dur_months");
             $tpl->setVariable("TXT_MONTHS", $lng->txt("form_months"));
             $val = array();
-            for ($i=0; $i<=36; $i++) {
+            for ($i = 0; $i <= 36; $i++) {
                 $val[$i] = $i;
             }
             $tpl->setVariable(
@@ -353,7 +353,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $tpl->setCurrentBlock("dur_days");
             $tpl->setVariable("TXT_DAYS", $lng->txt("form_days"));
             $val = array();
-            for ($i=0; $i<=366; $i++) {
+            for ($i = 0; $i <= 366; $i++) {
                 $val[$i] = $i;
             }
             $tpl->setVariable(
@@ -376,7 +376,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $tpl->setCurrentBlock("dur_hours");
             $tpl->setVariable("TXT_HOURS", $lng->txt("form_hours"));
             $val = array();
-            for ($i=0; $i<=23; $i++) {
+            for ($i = 0; $i <= 23; $i++) {
                 $val[$i] = $i;
             }
             $tpl->setVariable(
@@ -399,7 +399,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $tpl->setCurrentBlock("dur_minutes");
             $tpl->setVariable("TXT_MINUTES", $lng->txt("form_minutes"));
             $val = array();
-            for ($i=0; $i<=59; $i++) {
+            for ($i = 0; $i <= 59; $i++) {
                 $val[$i] = $i;
             }
             $tpl->setVariable(
@@ -422,7 +422,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             $tpl->setCurrentBlock("dur_seconds");
             $tpl->setVariable("TXT_SECONDS", $lng->txt("form_seconds"));
             $val = array();
-            for ($i=0; $i<=59; $i++) {
+            for ($i = 0; $i <= 59; $i++) {
                 $val[$i] = $i;
             }
             $tpl->setVariable(
@@ -491,16 +491,16 @@ class ilDurationInputGUI extends ilFormPropertyGUI
     {
         $value = 0;
         if ($this->getShowMonths()) {
-            $value += $this->getMonths()*30*24*60*60;
+            $value += $this->getMonths() * 30 * 24 * 60 * 60;
         }
         if ($this->getShowDays()) {
-            $value += $this->getDays()*24*60*60;
+            $value += $this->getDays() * 24 * 60 * 60;
         }
         if ($this->getShowHours()) {
-            $value += $this->getHours()*60*60;
+            $value += $this->getHours() * 60 * 60;
         }
         if ($this->getShowMinutes()) {
-            $value += $this->getMinutes()*60;
+            $value += $this->getMinutes() * 60;
         }
         if ($this->getShowSeconds()) {
             $value += $this->getSeconds();

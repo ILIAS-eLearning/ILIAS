@@ -169,7 +169,7 @@ class ilStudyProgrammeDIC
         $dic['ilStudyProgrammeUserProgressDB'] = function ($dic) use ($DIC) {
             $lng = $DIC['lng'];
             if (strpos(get_class($lng), 'class@anonymous') === 0) {
-                $lng =  new \ilSetupLanguage("en");
+                $lng = new \ilSetupLanguage("en");
             }
 
             return new ilStudyProgrammeUserProgressDB(

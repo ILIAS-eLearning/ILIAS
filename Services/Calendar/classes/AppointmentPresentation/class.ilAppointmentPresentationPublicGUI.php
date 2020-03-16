@@ -60,10 +60,10 @@ class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI im
             foreach ($recipients as $rcp) {
                 switch ($rcp['type']) {
                     case ilCalendarUserNotification::TYPE_USER:
-                        $str_notification.= $this->getUserName($rcp['usr_id']) . "<br>";
+                        $str_notification .= $this->getUserName($rcp['usr_id']) . "<br>";
                         break;
                     case ilCalendarUserNotification::TYPE_EMAIL:
-                        $str_notification.=$rcp['email'] . "<br>";
+                        $str_notification .= $rcp['email'] . "<br>";
                         break;
                 }
             }

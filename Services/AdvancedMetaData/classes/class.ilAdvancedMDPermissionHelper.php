@@ -125,7 +125,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     protected function buildPermissionMap()
     {
         return array(
-            self::CONTEXT_MD =>	array(
+            self::CONTEXT_MD => array(
                 "actions" => array(
                     self::ACTION_MD_CREATE_RECORD
                     ,self::ACTION_MD_IMPORT_RECORDS
@@ -260,10 +260,10 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         
         foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "AdvancedMetaData", "amdc") as $plugin_name) {
             $res[] = $ilPluginAdmin->getPluginObject(
-                 IL_COMP_SERVICE,
-                 "AdvancedMetaData",
-                 "amdc",
-                 $plugin_name
+                IL_COMP_SERVICE,
+                "AdvancedMetaData",
+                "amdc",
+                $plugin_name
              );
         }
         

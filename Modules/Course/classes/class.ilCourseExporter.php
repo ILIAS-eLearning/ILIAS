@@ -59,9 +59,9 @@ class ilCourseExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return array(
             array(
-                'component'		=> 'Services/Container',
-                'entity'		=> 'struct',
-                'ids'			=> $a_ids
+                'component' => 'Services/Container',
+                'entity' => 'struct',
+                'ids' => $a_ids
             )
         );
     }
@@ -77,9 +77,9 @@ class ilCourseExporter extends ilXmlExporter
             }
 
             $dependencies[] = array(
-                    'component'			=> 'Modules/Course',
-                    'entity'			=> self::ENTITY_OBJECTIVE,
-                    'ids'				=> $obj_id
+                    'component' => 'Modules/Course',
+                    'entity' => self::ENTITY_OBJECTIVE,
+                    'ids' => $obj_id
             );
             
             include_once './Modules/Course/classes/Objectives/class.ilLOPage.php';

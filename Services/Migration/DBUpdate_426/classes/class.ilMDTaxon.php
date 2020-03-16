@@ -112,14 +112,14 @@ class ilMDTaxon extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'taxon'	=> ilUtil::prepareDBString($this->getTaxon()),
+                     'taxon' => ilUtil::prepareDBString($this->getTaxon()),
                      'taxon_language' => ilUtil::prepareDBString($this->getTaxonLanguageCode()),
-                     'taxon_id'	=> ilUtil::prepareDBString($this->getTaxonId()));
+                     'taxon_id' => ilUtil::prepareDBString($this->getTaxonId()));
     }
 
     public function read()
@@ -155,7 +155,7 @@ class ilMDTaxon extends ilMDBase
     public function toXML(&$writer)
     {
         $writer->xmlElement('Taxon', array('Language' => $this->getTaxonLanguageCode(),
-                                          'Id'		 => $this->getTaxonId()), $this->getTaxon());
+                                          'Id' => $this->getTaxonId()), $this->getTaxon());
     }
 
 

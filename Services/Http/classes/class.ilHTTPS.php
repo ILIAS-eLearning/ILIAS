@@ -12,7 +12,7 @@
 
 class ilHTTPS
 {
-    const PROTOCOL_HTTP  = 1;
+    const PROTOCOL_HTTP = 1;
     const PROTOCOL_HTTPS = 2;
     
     private static $instance = null;
@@ -133,7 +133,7 @@ class ilHTTPS
             $headerName = "HTTP_" . str_replace("-", "_", strtoupper($this->headerName));
             /* echo $headerName;
              echo $_SERVER[$headerName];*/
-            if (strcasecmp($_SERVER[$headerName], $this->headerValue)==0) {
+            if (strcasecmp($_SERVER[$headerName], $this->headerValue) == 0) {
                 $_SERVER["HTTPS"] = "on";
                 return true;
             }

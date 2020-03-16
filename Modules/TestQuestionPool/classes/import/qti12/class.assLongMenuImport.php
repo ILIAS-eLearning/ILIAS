@@ -127,13 +127,13 @@ class assLongMenuImport extends assQuestionImport
 
         $sum = 0;
         foreach ($correct_answers as $row) {
-            $sum 				+=  $row[1];
+            $sum += $row[1];
         }
         $this->object->setAnswers($answers);
         // handle the import of media objects in XHTML code
         if (count($feedbacks) > 0) {
             foreach ($feedbacks as $ident => $material) {
-                $m                 = $this->object->QTIMaterialToString($material);
+                $m = $this->object->QTIMaterialToString($material);
                 $feedbacks[$ident] = $m;
             }
         }
@@ -202,6 +202,6 @@ class assLongMenuImport extends assQuestionImport
     private function getIdFromGapIdent($ident)
     {
         $id = preg_split('/_/', $ident);
-        return $id[1] -1;
+        return $id[1] - 1;
     }
 }

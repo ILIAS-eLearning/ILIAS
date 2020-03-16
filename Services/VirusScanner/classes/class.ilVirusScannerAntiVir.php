@@ -20,7 +20,7 @@ class ilVirusScannerAntiVir extends ilVirusScanner
     public function __construct($a_scancommand, $a_cleancommand)
     {
         parent::__construct($a_scancommand, $a_cleancommand);
-        $this->type         = "antivir";
+        $this->type = "antivir";
         $this->scanZipFiles = true;
     }
 
@@ -43,7 +43,7 @@ class ilVirusScannerAntiVir extends ilVirusScanner
         // - return the scanResult, if file is infected
         // - return an empty string, if file is not infected
 
-        $this->scanFilePath     = $a_filepath;
+        $this->scanFilePath = $a_filepath;
         $this->scanFileOrigName = $a_origname;
 
         // Call of antivir command

@@ -7,7 +7,6 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
 
 class Letter extends Avatar implements C\Symbol\Avatar\Letter
 {
-
     public function getAbbreviation() : string
     {
         return (substr($this->getUsername(), 0, 2));
@@ -17,5 +16,4 @@ class Letter extends Avatar implements C\Symbol\Avatar\Letter
     {
         return (crc32($this->getUsername()) % 26) + 1;
     }
-
 }

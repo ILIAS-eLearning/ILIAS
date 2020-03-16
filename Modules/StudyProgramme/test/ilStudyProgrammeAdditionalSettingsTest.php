@@ -51,9 +51,9 @@ class ilStudyProgrammeAdditionalSettingsTest extends TestCase
             )
             ->will(
                 $this->onConsecutiveCalls(
-                'prg_access_by_orgu',
-                'prg_access_by_orgu_byline',
-                'prg_additional_settings'
+                    'prg_access_by_orgu',
+                    'prg_access_by_orgu_byline',
+                    'prg_additional_settings'
             )
             )
         ;

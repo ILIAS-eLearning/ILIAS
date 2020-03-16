@@ -90,9 +90,9 @@ class ilAppEventHandlerMock
 
     public function raise($a_component, $a_event, $a_parameters)
     {
-        $this->events[] = array( "component"	=> $a_component
-                               , "event"		=> $a_event
-                               , "parameters"	=> $a_parameters
+        $this->events[] = array( "component" => $a_component
+                               , "event" => $a_event
+                               , "parameters" => $a_parameters
                                );
     }
 }

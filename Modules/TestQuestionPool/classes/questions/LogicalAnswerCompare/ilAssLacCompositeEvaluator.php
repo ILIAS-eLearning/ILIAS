@@ -77,7 +77,7 @@ class ilAssLacCompositeEvaluator
                  * @var $answer assAnswerCloze
                  */
                 $result = $solutions->getSolutionForKey($index);
-                $gap    = $question->getAvailableAnswerOptions($index-1);
+                $gap = $question->getAvailableAnswerOptions($index - 1);
 
                 if ($rightNode instanceof ilAssLacStringResultExpression) {
                     if ($gap->getType() == 1) {
@@ -99,13 +99,13 @@ class ilAssLacCompositeEvaluator
                         }
                     }
 
-                    $item           = null;
+                    $item = null;
                     $reached_points = null;
                     // @todo for Thomas J.: Maybe handle identical scoring for every type
                     switch ($gap->getType()) {
                         case CLOZE_TEXT:
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
-                                $answer      = $gap->getItem($order);
+                                $answer = $gap->getItem($order);
                                 $item_points = $question->getTextgapPoints($answer->getAnswertext(), $result['value'], $answer->getPoints());
                                 if ($item_points > $reached_points) {
                                     $reached_points = $item_points;
@@ -115,7 +115,7 @@ class ilAssLacCompositeEvaluator
 
                         case CLOZE_NUMERIC:
                             for ($order = 0; $order < $gap->getItemCount(); $order++) {
-                                $answer      = $gap->getItem($order);
+                                $answer = $gap->getItem($order);
                                 $item_points = $question->getNumericgapPoints($answer->getAnswertext(), $result["value"], $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
                                 if ($item_points > $reached_points) {
                                     $reached_points = $item_points;
@@ -125,7 +125,7 @@ class ilAssLacCompositeEvaluator
 
                         case CLOZE_SELECT:
                             if ($result['value'] != null) {
-                                $answer         = $gap->getItem($result['value'] - 1);
+                                $answer = $gap->getItem($result['value'] - 1);
                                 $reached_points = $answer->getPoints();
                             }
                             break;
@@ -146,7 +146,7 @@ class ilAssLacCompositeEvaluator
             ) {
                 // @todo for Thomas J.: Move to interface / implement in concrete class (req. for future releases)
                 $result = $solutions->getSolutionForKey($index);
-                $answer = $question->getAvailableAnswerOptions($index-1);
+                $answer = $question->getAvailableAnswerOptions($index - 1);
 
                 $unit = $solutions->getSolutionForKey($index . "_unit");
                 $key = null;
@@ -159,7 +159,7 @@ class ilAssLacCompositeEvaluator
 
                 $percentage = 0;
                 if ($max_points != 0) {
-                    $percentage = (int) (($points/$max_points)*100);
+                    $percentage = (int) (($points / $max_points) * 100);
                 }
                 $solutions->setReachedPercentage($percentage);
             }

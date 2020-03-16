@@ -150,7 +150,7 @@ class ilSystemStyleOverviewGUI
             $add_substyle_btn = ilLinkButton::getInstance();
             $add_substyle_btn->setCaption($this->lng->txt("add_substyle"), false);
             $add_substyle_btn->setUrl($this->ctrl->getLinkTarget($this, 'addSubStyle'));
-            if (count(ilStyleDefinition::getAllSkins()) ==1) {
+            if (count(ilStyleDefinition::getAllSkins()) == 1) {
                 $add_substyle_btn->setDisabled(true);
             }
             $this->toolbar->addButtonInstance($add_substyle_btn);
@@ -425,7 +425,7 @@ class ilSystemStyleOverviewGUI
         $options = array();
         foreach ($styles as $id => $style) {
             $system_style_conf = new ilSystemStyleConfig();
-            if ($style["skin_id"]!=$system_style_conf->getDefaultSkinId()) {
+            if ($style["skin_id"] != $system_style_conf->getDefaultSkinId()) {
                 $options[$id] = $style['title'];
             }
         }
@@ -689,7 +689,7 @@ class ilSystemStyleOverviewGUI
         $options = array();
         foreach ($styles as $id => $style) {
             $system_style_conf = new ilSystemStyleConfig();
-            if ($style["skin_id"]!=$system_style_conf->getDefaultSkinId() && !$style["substyle_of"]) {
+            if ($style["skin_id"] != $system_style_conf->getDefaultSkinId() && !$style["substyle_of"]) {
                 $options[$id] = $style['title'];
             }
         }

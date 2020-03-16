@@ -65,12 +65,12 @@ class ilPageContentUsage
             " AND pc_id = " . $ilDB->quote($a_pc_id, "integer");
             
         if (!$a_incl_hist) {
-            $q.= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
+            $q .= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
         }
             
         $set = $ilDB->query($q);
         $usages = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $usages[] = $rec;
         }
         return $usages;

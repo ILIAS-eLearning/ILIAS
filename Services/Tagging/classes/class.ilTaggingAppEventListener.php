@@ -46,7 +46,7 @@ class ilTaggingAppEventListener
                         break;
 
                     case "delete":
-                        $ref_ids  = ilObject::_getAllReferences($a_parameter["obj_id"]);
+                        $ref_ids = ilObject::_getAllReferences($a_parameter["obj_id"]);
                         if (count($ref_ids) == 0) {
                             ilTagging::deleteTagsOfObject(
                                 $a_parameter["obj_id"],

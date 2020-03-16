@@ -211,7 +211,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
             60 => "2 " . $lng->txt("months"),
             120 => "4 " . $lng->txt("months"),
             180 => "6 " . $lng->txt("months"),
-            366 =>  "1 " . $lng->txt("year"));
+            366 => "1 " . $lng->txt("year"));
         $per_sel = new ilSelectInputGUI(
             $lng->txt("news_pd_period"),
             "news_pd_period"
@@ -360,7 +360,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         
         $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
 
-        if ($_POST["enable_internal_rss"]!=0) {
+        if ($_POST["enable_internal_rss"] != 0) {
             $news_set->set("enable_private_feed", $_POST["enable_private_feed"]);
         } else {
             $news_set->set("enable_private_feed", 0);

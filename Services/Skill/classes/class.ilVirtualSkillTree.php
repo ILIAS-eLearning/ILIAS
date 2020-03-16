@@ -282,7 +282,7 @@ class ilVirtualSkillTree
             $lng->txt("skmg_skills");
         } else {
             if ($a_node["type"] == "sktr") {
-//				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
+                //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
             }
         }
         

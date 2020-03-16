@@ -26,7 +26,7 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
     {
         global $DIC;
 
-        $this->lng        = $DIC['lng'];
+        $this->lng = $DIC['lng'];
         $this->rbacreview = $DIC['rbacreview'];
     }
 
@@ -47,7 +47,7 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
         $sorted_role_ids = array();
-        $counter         = 2;
+        $counter = 2;
 
         foreach ($role_ids as $role_id) {
             $role_title = ilObject::_lookupTitle($role_id);
@@ -56,9 +56,9 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
 
             switch (substr($role_title, 0, 12)) {
                 case 'il_sess_part':
-                    $sorted_role_ids[1]['default_checked']  = true;
-                    $sorted_role_ids[1]['role_id']           = $role_id;
-                    $sorted_role_ids[1]['mailbox']           = $mailbox;
+                    $sorted_role_ids[1]['default_checked'] = true;
+                    $sorted_role_ids[1]['role_id'] = $role_id;
+                    $sorted_role_ids[1]['mailbox'] = $mailbox;
                     $sorted_role_ids[1]['form_option_title'] = $this->lng->txt('send_mail_participants');
                     break;
 

@@ -14,7 +14,7 @@ class ilBirthdayInputGUI extends ilDateTimeInputGUI
 {
     public function getStartYear()
     {
-        return date("Y")-100;
+        return date("Y") - 100;
     }
     
     protected function parseDatePickerConfig()

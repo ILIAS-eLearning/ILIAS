@@ -980,7 +980,7 @@ class ilObjectListGUI
      * @param
      * @return
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id="")
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
     {
         $ilAccess = $this->access;
         
@@ -1237,7 +1237,7 @@ class ilObjectListGUI
                             "alert" => false,
                             "property" => $lng->txt("in_use_by"),
                             "value" => $lock_user->getLogin(),
-                            "link" => 	"./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
+                            "link" => "./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
                         );
                     }
                 }
@@ -3114,7 +3114,7 @@ class ilObjectListGUI
                 $om++;
             }
             if ($om != 0 && !$DIC['ilBrowser']->isMobile()) {
-                $this->default_command["frame"]="";
+                $this->default_command["frame"] = "";
                 $a_link = "javascript:void(0); onclick=startSAHS('" . $a_link . "','" . $wtarget . "'," . $om . "," . $width . "," . $height . ");";
             }
         }
@@ -3394,7 +3394,7 @@ class ilObjectListGUI
         }
         
         // BEGIN WEBDAV
-        if ($type=='file' and ilObjFileAccess::_isFileHidden($a_title)) {
+        if ($type == 'file' and ilObjFileAccess::_isFileHidden($a_title)) {
             $this->resetCustomData();
             return "";
         }
@@ -3591,7 +3591,7 @@ class ilObjectListGUI
         $ilUser = $DIC->user();
         
         if ($a_context == self::CONTEXT_REPOSITORY) {
-            $active_notes =	!$ilSetting->get("disable_notes");
+            $active_notes = !$ilSetting->get("disable_notes");
             $active_comments = !$ilSetting->get("disable_comments");
         
             if ($active_notes || $active_comments) {
@@ -3775,7 +3775,7 @@ class ilObjectListGUI
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon")." ".$this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon") . " " . $this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 

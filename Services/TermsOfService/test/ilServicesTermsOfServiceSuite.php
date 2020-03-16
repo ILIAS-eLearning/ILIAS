@@ -22,8 +22,8 @@ class ilServicesTermsOfServiceSuite extends TestSuite
 
         foreach (new RegExIterator(
             new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                         RecursiveIteratorIterator::LEAVES_ONLY
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
                      ),
             '/BaseTest\.php$/'
         ) as $file) {
@@ -33,8 +33,8 @@ class ilServicesTermsOfServiceSuite extends TestSuite
 
         foreach (new RegExIterator(
             new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                         RecursiveIteratorIterator::LEAVES_ONLY
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
                      ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {

@@ -152,7 +152,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             'import_type[' . $this->getServer()->getServerId() . '][' . $a_set['mid'] . ']',
             array(
                 ilECSParticipantSetting::IMPORT_RCRS => $this->lng->txt('obj_rcrs'),
-                ilECSParticipantSetting::IMPORT_CRS	=> $this->lng->txt('obj_crs'),
+                ilECSParticipantSetting::IMPORT_CRS => $this->lng->txt('obj_crs'),
                 ilECSParticipantSetting::IMPORT_CMS => $this->lng->txt('ecs_import_cms')
             ),
             false,

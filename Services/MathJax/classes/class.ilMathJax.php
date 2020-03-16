@@ -124,10 +124,10 @@ class ilMathJax
         "png" => false,
         "speakText" => false,
         "speakRuleset" => "mathspeak",
-        "speakStyle"=> "default",
-        "ex"=> 6,
-        "width"=> 1000000,
-        "linebreaks"=> false,
+        "speakStyle" => "default",
+        "ex" => 6,
+        "width" => 1000000,
+        "linebreaks" => false,
     );
 
 

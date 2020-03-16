@@ -1884,10 +1884,10 @@ class ilStartUpGUI
 
         if (is_array($a_tmpl)) {
             $template_file = $a_tmpl[0];
-            $template_dir  = $a_tmpl[1];
+            $template_dir = $a_tmpl[1];
         } else {
             $template_file = $a_tmpl;
-            $template_dir  = 'Services/Init';
+            $template_dir = 'Services/Init';
         }
 
         $tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
@@ -2034,7 +2034,7 @@ class ilStartUpGUI
         $this->getLogger()->debug('Trying saml authentication');
 
         $request = $DIC->http()->request();
-        $params  = $request->getQueryParams();
+        $params = $request->getQueryParams();
 
         $factory = new ilSamlAuthFactory();
         $auth = $factory->auth();
@@ -2124,8 +2124,8 @@ class ilStartUpGUI
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
-        $mainTpl  = $DIC->ui()->mainTemplate();
-        $factory  = $DIC->ui()->factory();
+        $mainTpl = $DIC->ui()->mainTemplate();
+        $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
         $DIC->ctrl()->setTargetScript('saml.php');

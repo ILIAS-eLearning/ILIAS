@@ -35,8 +35,8 @@ class Factory implements Component\Symbol\Factory
         Glyph\Factory $glyph_factory,
         Avatar\Factory $avatar_factory
     ) {
-        $this->icon_factory   = $icon_factory;
-        $this->glyph_factory  = $glyph_factory;
+        $this->icon_factory = $icon_factory;
+        $this->glyph_factory = $glyph_factory;
         $this->avatar_factory = $avatar_factory;
     }
 

@@ -110,7 +110,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $instance->setType(false);
 
         $expected = array($item1, $item2, $item3, $item4);
-        $actual   = $instance->getItems(new ilArrayElementOrderKeeper());
+        $actual = $instance->getItems(new ilArrayElementOrderKeeper());
 
         $this->assertEquals($expected, $actual);
     }

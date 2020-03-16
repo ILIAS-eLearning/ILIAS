@@ -103,7 +103,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
     {
         if ($this->container->getInformation()) {
             $imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), '', true);
-            $value =  nl2br(ilUtil::makeClickable($this->container->getInformation(), true));
+            $value = nl2br(ilUtil::makeClickable($this->container->getInformation(), true));
             $imp->setValue($value);
             $this->form->addItem($imp);
         }

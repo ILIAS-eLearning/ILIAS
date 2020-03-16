@@ -74,9 +74,9 @@ class ilBiblLibraryFormGUI extends ilPropertyFormGUI
     private function fillForm()
     {
         $this->setValuesByArray(array(
-            'name'         => $this->object->getName(),
-            'url'          => $this->object->getUrl(),
-            'img'          => $this->object->getImg(),
+            'name' => $this->object->getName(),
+            'url' => $this->object->getUrl(),
+            'img' => $this->object->getImg(),
             'show_in_list' => $this->object->getShowInList(),
         ));
     }

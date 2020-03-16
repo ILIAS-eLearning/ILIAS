@@ -146,8 +146,8 @@ class ilWikiStatGUI
             // data
             
             $tfr = explode("-", (string) $params["month"]);
-            $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1]-($params["scope"]-1), 1, $tfr[0]));
-            $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1]+1, 0, $tfr[0]));
+            $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1] - ($params["scope"] - 1), 1, $tfr[0]));
+            $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1] + 1, 0, $tfr[0]));
             unset($tfr);
             
             $chart_data = $this->getChartData($params["figure"], $params["scope"], $day_from, $day_to);
@@ -197,8 +197,8 @@ class ilWikiStatGUI
             // data
             
             $tfr = explode("-", (string) $params["month"]);
-            $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1]-($params["scope"]-1), 1, $tfr[0]));
-            $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1]+1, 0, $tfr[0]));
+            $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1] - ($params["scope"] - 1), 1, $tfr[0]));
+            $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1] + 1, 0, $tfr[0]));
             unset($tfr);
             
             $chart_data = $this->getChartData($params["figure"], $params["scope"], $day_from, $day_to);
@@ -218,7 +218,7 @@ class ilWikiStatGUI
             $counter = 0;
             foreach ($list_data as $figure => $values) {
                 $day = (int) substr($day, 8);
-                $vtpl->setVariable("CSS_ROW", ($counter++%2) ? "tblrow1" : "tblrow2");
+                $vtpl->setVariable("CSS_ROW", ($counter++ % 2) ? "tblrow1" : "tblrow2");
                 $vtpl->setVariable("FIGURE", $figure);
                 $vtpl->setVariable("YESTERDAY_VALUE", $values["yesterday"]);
                 $vtpl->setVariable("TODAY_VALUE", $values["today"]);
@@ -246,8 +246,8 @@ class ilWikiStatGUI
             : ilWikiStat::getFigureData($this->wiki_id, $a_figure, $a_from, $a_to);
                 
         $parts = explode("-", $a_from);
-        for ($loop = 0; $loop <= ($a_scope*31); $loop++) {
-            $current_day = date("Y-m-d", mktime(0, 0, 1, $parts[1], $parts[2]+$loop, $parts[0]));
+        for ($loop = 0; $loop <= ($a_scope * 31); $loop++) {
+            $current_day = date("Y-m-d", mktime(0, 0, 1, $parts[1], $parts[2] + $loop, $parts[0]));
             if ($current_day <= $a_to) {
                 $data[$current_day] = (float) $raw[$current_day];
             }
@@ -283,7 +283,7 @@ class ilWikiStatGUI
     
     protected function renderGraph($a_figure, array $a_data)
     {
-        $scope = ceil(sizeof($a_data)/31);
+        $scope = ceil(sizeof($a_data) / 31);
         
         include_once "Services/Chart/classes/class.ilChartGrid.php";
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
@@ -320,7 +320,7 @@ class ilWikiStatGUI
             $series->setFill(true, "#E0F0FF");
         } else {
             $series = $chart->getDataInstance(ilChartGrid::DATA_BARS);
-            $series->setBarOptions(round(10/($scope*2))/10);
+            $series->setBarOptions(round(10 / ($scope * 2)) / 10);
         }
         $series->setLabel(ilWikiStat::getFigureTitle($a_figure));
                 
@@ -337,12 +337,12 @@ class ilWikiStatGUI
                 $labels[$x] = substr($date, 8, 2);
             } elseif ($scope == 2) {
                 // weekly
-                if (!($x%7)) {
+                if (!($x % 7)) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
             } else {
                 // 1st/15th
-                if ($day == 1 || $day == 15 || $x == sizeof($a_data)-1) {
+                if ($day == 1 || $day == 15 || $x == sizeof($a_data) - 1) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
             }

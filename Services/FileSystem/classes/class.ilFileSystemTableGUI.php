@@ -50,7 +50,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_files") . " " . $this->cur_subdir);
         
         $this->has_multi = false;
-        for ($i=0; $i < count($a_commands); $i++) {
+        for ($i = 0; $i < count($a_commands); $i++) {
             if (!$a_commands[$i]["single"]) {
                 // does also handle internal commands
                 $this->addMultiCommand("extCommand_" . $i, $a_commands[$i]["name"]);

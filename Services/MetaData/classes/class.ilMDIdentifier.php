@@ -103,13 +103,13 @@ class ilMDIdentifier extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'catalog'	=> array('text',$this->getCatalog()),
-                     'entry'	=> array('text',$this->getEntry()));
+                     'catalog' => array('text',$this->getCatalog()),
+                     'entry' => array('text',$this->getEntry()));
     }
 
     public function read()
@@ -157,7 +157,7 @@ class ilMDIdentifier extends ilMDBase
 
         if (strlen($catalog)) {
             $writer->xmlElement('Identifier', array('Catalog' => $catalog,
-                                                   'Entry'	 => $entry));
+                                                   'Entry' => $entry));
         } else {
             $writer->xmlElement('Identifier', array('Entry' => $entry));
         }
@@ -227,7 +227,7 @@ class ilMDIdentifier extends ilMDBase
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer');
 
         if ($a_obj_type != "") {
-            $query.=
+            $query .=
                 " AND obj_type = " . $ilDB->quote($a_obj_type, 'text');
         }
 

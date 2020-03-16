@@ -19,7 +19,7 @@ class ilOrgUnitTypePluginException extends ilObjOrgUnitException
     protected $plugins = array();
 
 
-    public function __construct($a_message, $plugins=array())
+    public function __construct($a_message, $plugins = array())
     {
         parent::__construct($a_message);
         $this->plugins = $plugins;

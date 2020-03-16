@@ -124,14 +124,14 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         $earth_radius = 6371;
         
         // http://www.d-mueller.de/blog/umkreissuche-latlong-und-der-radius/
-        $max_lat = $a_latitude + rad2deg($a_radius/$earth_radius);
-        $min_lat = $a_latitude - rad2deg($a_radius/$earth_radius);
-        $max_long = $a_longitude + rad2deg($a_radius/$earth_radius/cos(deg2rad($a_latitude)));
-        $min_long = $a_longitude - rad2deg($a_radius/$earth_radius/cos(deg2rad($a_latitude)));
+        $max_lat = $a_latitude + rad2deg($a_radius / $earth_radius);
+        $min_lat = $a_latitude - rad2deg($a_radius / $earth_radius);
+        $max_long = $a_longitude + rad2deg($a_radius / $earth_radius / cos(deg2rad($a_latitude)));
+        $min_long = $a_longitude - rad2deg($a_radius / $earth_radius / cos(deg2rad($a_latitude)));
 
         return array(
-            "lat" => array("min"=>$min_lat, "max"=>$max_lat)
-            ,"long" => array("min"=>$min_long, "max"=>$max_long)
+            "lat" => array("min" => $min_lat, "max" => $max_lat)
+            ,"long" => array("min" => $min_long, "max" => $max_long)
         );
     }
 

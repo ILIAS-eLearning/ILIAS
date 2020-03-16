@@ -61,7 +61,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         } else {
             if ($a_node["type"] == "sktr") {
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);
-                $title.= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
+                $title .= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }
             
             // @todo: fix this if possible for skill/tref_id combination

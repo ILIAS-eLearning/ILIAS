@@ -239,7 +239,7 @@ class ilTestSkillEvaluation
     
     private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList)
     {
-        $questionProvider  = new ilAssLacQuestionProvider();
+        $questionProvider = new ilAssLacQuestionProvider();
         $questionProvider->setQuestionId($expressionList->getQuestionId());
 
         foreach ($expressionList->get() as $expression) {

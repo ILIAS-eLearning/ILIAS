@@ -115,7 +115,7 @@ class ilXMLChecker extends ilSaxParser
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
         $this->elements++;
-        $this->attributes+=count($a_attribs);
+        $this->attributes += count($a_attribs);
     }
 
     /**
@@ -131,7 +131,7 @@ class ilXMLChecker extends ilSaxParser
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
         $this->texts++;
-        $this->text_size+=strlen($a_data);
+        $this->text_size += strlen($a_data);
     }
 
     public function getErrorCode()

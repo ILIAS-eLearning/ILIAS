@@ -170,7 +170,7 @@ class ilUserStartingPointGUI
             }
         }
         //create
-        elseif (!$spoint_id || $spoint_id !='default') {
+        elseif (!$spoint_id || $spoint_id != 'default') {
             //starting point role based
             if (ilStartingPoint::ROLE_BASED) {
                 $roles = ilStartingPoint::getGlobalRolesWithoutStartingPoint();
@@ -211,7 +211,7 @@ class ilUserStartingPointGUI
         //$i has the starting_point value, so we are here only when edit one role or setting the default role.
         if ($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ) {
             if ($st_point) {
-                $start_ref_id  = $st_point->getStartingObject();
+                $start_ref_id = $st_point->getStartingObject();
             } else {
                 $start_ref_id = ilUserUtil::getStartingObject();
             }

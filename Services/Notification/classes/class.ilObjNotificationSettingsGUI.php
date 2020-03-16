@@ -95,7 +95,7 @@ class ilObjNotificationSettingsGUI
         $radio_grp = new ilRadioGroupInputGUI($lng->txt("obj_activation"), 'notification_type');
         $radio_grp->setValue('0');
 
-        $opt_default  = new ilRadioOption($lng->txt("obj_user_decides_notification"), '0');
+        $opt_default = new ilRadioOption($lng->txt("obj_user_decides_notification"), '0');
         $opt_0 = new ilRadioOption($lng->txt("obj_settings_for_all_members"), '1');
 
         $radio_grp->addOption($opt_default);

@@ -45,7 +45,7 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
     public function setComment($comment)
     {
         $comment = str_replace(PHP_EOL, '', $comment);
-        $this->comment  = str_replace("\n", '', $comment);
+        $this->comment = str_replace("\n", '', $comment);
     }
 
     /**

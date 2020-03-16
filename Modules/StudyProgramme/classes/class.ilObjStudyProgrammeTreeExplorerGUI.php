@@ -140,7 +140,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $is_creation_enabled = ($this->checkAccess("create", $current_ref_id));
 
         $node_config = array(
-            'current_ref_id' =>$current_ref_id,
+            'current_ref_id' => $current_ref_id,
             'is_current_node' => $is_current_node,
             'is_delete_enabled' => $is_delete_enabled,
             'is_creation_enabled' => $is_creation_enabled,
@@ -208,18 +208,18 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $tpl->setCurrentBlock('enable-tree-buttons');
 
         // show info button only when it not the current node
-        $info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id'=>$node->getRefId(), 'currentNode'=>$node_config['is_current_node']), ilGlyphGUI::get(ilGlyphGUI::INFO));
+        $info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id' => $node->getRefId(), 'currentNode' => $node_config['is_current_node']), ilGlyphGUI::get(ilGlyphGUI::INFO));
         $tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 
         // only show add button when create permission is set
         if ($node_config['is_creation_enabled']) {
-            $create_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'create', array('ref_id'=>$node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+            $create_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'create', array('ref_id' => $node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
         }
 
         // only show delete button when its not the current node, not the root-node and delete permissions are set
         if ($node_config['is_delete_enabled']) {
-            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
 
@@ -239,7 +239,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
         // only show delete button when its not the current node
         if ($node_config['is_delete_enabled']) {
-            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id'=>$node->getRefId(), 'item_ref_id'=>$node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
 
@@ -281,7 +281,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      */
     protected function getNodeButtonActionLink($target_class, $cmd, $params, $content, $async = true)
     {
-        foreach ($params as $param_name=>$param_value) {
+        foreach ($params as $param_name => $param_value) {
             $this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
         }
 

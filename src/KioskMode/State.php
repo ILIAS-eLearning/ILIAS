@@ -39,7 +39,7 @@ class State
      */
     public function getValueFor(string $key) : ?string
     {
-        if(!$this->store) {
+        if (!$this->store) {
             return null;
         }
         return $this->store[$key];

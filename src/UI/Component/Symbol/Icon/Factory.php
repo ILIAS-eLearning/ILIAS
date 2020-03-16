@@ -42,7 +42,7 @@ interface Factory
      * @param   string $size
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Standard
      **/
-    public function standard($name, $aria_label, $size='small', $is_disabled = false);
+    public function standard($name, $aria_label, $size = 'small', $is_disabled = false);
 
     /**
      * ---
@@ -74,5 +74,5 @@ interface Factory
      * @param   string $size
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Custom
      **/
-    public function custom($icon_path, $aria_label, $size='small', $is_disabled = false);
+    public function custom($icon_path, $aria_label, $size = 'small', $is_disabled = false);
 }

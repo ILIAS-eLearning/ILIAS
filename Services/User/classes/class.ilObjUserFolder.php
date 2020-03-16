@@ -186,7 +186,7 @@ class ilObjUserFolder extends ilObject
     protected function getUserDefinedExportFields()
     {
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $udf_obj =&ilUserDefinedFields::_getInstance();
+        $udf_obj = &ilUserDefinedFields::_getInstance();
 
         $udf_ex_fields = array();
         foreach ($udf_obj->getDefinitions() as $definition) {
@@ -214,7 +214,7 @@ class ilObjUserFolder extends ilObject
 
         $separator = ";";
         $file = fopen($filename, "w");
-        $formattedrow =&ilUtil::processCSVRow($headerrow, true, $separator);
+        $formattedrow = &ilUtil::processCSVRow($headerrow, true, $separator);
         fwrite($file, join($separator, $formattedrow) . "\n");
         foreach ($data as $row) {
             $csvrow = array();
@@ -237,7 +237,7 @@ class ilObjUserFolder extends ilObject
                 }
             }
 
-            $formattedrow =&ilUtil::processCSVRow($csvrow, true, $separator);
+            $formattedrow = &ilUtil::processCSVRow($csvrow, true, $separator);
             fwrite($file, join($separator, $formattedrow) . "\n");
         }
         fclose($file);
@@ -266,7 +266,7 @@ class ilObjUserFolder extends ilObject
             $worksheet->setCell($row, $col, $f["name"]);
             $col++;
         }
-        $worksheet->setBold("A1:" . $worksheet->getColumnCoord($col-1) . "1");
+        $worksheet->setBold("A1:" . $worksheet->getColumnCoord($col - 1) . "1");
 
         $this->lng->loadLanguageModule("meta");
         foreach ($data as $index => $rowdata) {
@@ -431,7 +431,7 @@ class ilObjUserFolder extends ilObject
 
         //get data
         //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
-        $settings =&$this->getExportSettings();
+        $settings = &$this->getExportSettings();
         
         // user languages
         $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');
@@ -546,11 +546,11 @@ class ilObjUserFolder extends ilObject
         
         if (self::_lookupNewAccountMail($a_lang)) {
             $values = array(
-                'subject'		=> array('text',$a_subject),
-                'body'			=> array('clob',$a_body),
-                'sal_g'			=> array('text',$a_sal_g),
-                'sal_f'			=> array('text',$a_sal_f),
-                'sal_m'			=> array('text',$a_sal_m)
+                'subject' => array('text',$a_subject),
+                'body' => array('clob',$a_body),
+                'sal_g' => array('text',$a_sal_g),
+                'sal_f' => array('text',$a_sal_f),
+                'sal_m' => array('text',$a_sal_m)
                 );
             $ilDB->update(
                 'mail_template',
@@ -559,13 +559,13 @@ class ilObjUserFolder extends ilObject
             );
         } else {
             $values = array(
-                'subject'		=> array('text',$a_subject),
-                'body'			=> array('clob',$a_body),
-                'sal_g'			=> array('text',$a_sal_g),
-                'sal_f'			=> array('text',$a_sal_f),
-                'sal_m'			=> array('text',$a_sal_m),
-                'lang'			=> array('text',$a_lang),
-                'type'			=> array('text','nacc')
+                'subject' => array('text',$a_subject),
+                'body' => array('clob',$a_body),
+                'sal_g' => array('text',$a_sal_g),
+                'sal_f' => array('text',$a_sal_f),
+                'sal_m' => array('text',$a_sal_m),
+                'lang' => array('text',$a_lang),
+                'type' => array('text','nacc')
                 );
             $ilDB->insert('mail_template', $values);
         }

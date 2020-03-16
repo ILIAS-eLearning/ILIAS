@@ -101,7 +101,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             $contParser->startParsing();
             
             foreach ($qtiParser->getImportMapping() as $k => $v) {
-                $oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
+                $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
                 $newQuestionId = $v['pool']; // yes, this is the new question id ^^
                 
                 $a_mapping->addMapping(

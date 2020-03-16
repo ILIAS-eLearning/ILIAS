@@ -166,7 +166,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->initPropertiesForm();
         $this->getPropertiesFormValues();
         $html = $this->form->getHTML();
-        $html.= "<br />" . $this->renderTable("");
+        $html .= "<br />" . $this->renderTable("");
         $tpl->setContent($html);
     }
     
@@ -191,7 +191,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
         if ($a_mode == "create") {
             $nr = array();
-            for ($i=1; $i<=20; $i++) {
+            for ($i = 1; $i <= 20; $i++) {
                 $nr[$i] = $i;
             }
             
@@ -271,7 +271,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->form->addItem($char_prop);
         
         $nr = array();
-        for ($i=0; $i<=3; $i++) {
+        for ($i = 0; $i <= 3; $i++) {
             $nr[$i] = $i;
         }
             
@@ -437,16 +437,25 @@ class ilPCTableGUI extends ilPageContentGUI
 
         $content = $content . $mobs . $trans . $template_xml;
         
-        return ilPCTableGUI::_renderTable($content, $a_mode, $a_submode, $this->content_obj,
-            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking());
+        return ilPCTableGUI::_renderTable(
+            $content,
+            $a_mode,
+            $a_submode,
+            $this->content_obj,
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking()
+        );
     }
         
     /**
     * Static render table function
     */
-    public static function _renderTable($content, $a_mode = "table_edit", $a_submode = "", $a_table_obj = null,
-        $unmask = true)
-    {
+    public static function _renderTable(
+        $content,
+        $a_mode = "table_edit",
+        $a_submode = "",
+        $a_table_obj = null,
+        $unmask = true
+    ) {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -590,20 +599,20 @@ class ilPCTableGUI extends ilPageContentGUI
                 $sel_str = ($i == $v["colspan"])
                     ? 'selected="selected"'
                     : '';
-                $selects.= '<option value="' . $i . '" ' . $sel_str . '>' . $i . '</option>';
+                $selects .= '<option value="' . $i . '" ' . $sel_str . '>' . $i . '</option>';
             }
-            $selects.= "</select></div>";
+            $selects .= "</select></div>";
 
             // rowspans
-            $selects.= '<div style="margin-top:3px; white-space:nowrap;">' . $lng->txt("cont_rowspan") . ": " .
+            $selects .= '<div style="margin-top:3px; white-space:nowrap;">' . $lng->txt("cont_rowspan") . ": " .
                 '<select class="small" name="rowspan[' . $k . ']">';
             for ($i = 1; $i <= $v["max_y"] - $v["y"] + 1; $i++) {
                 $sel_str = ($i == $v["rowspan"])
                     ? 'selected="selected"'
                     : '';
-                $selects.= '<option value="' . $i . '" ' . $sel_str . '>' . $i . '</option>';
+                $selects .= '<option value="' . $i . '" ' . $sel_str . '>' . $i . '</option>';
             }
-            $selects.= "</select></div>";
+            $selects .= "</select></div>";
 
             $a_output = str_replace("{{{{{TableEdit;" . $k . "}}}}}", $selects, $a_output);
         }
@@ -655,7 +664,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $form->addCommandButton("setStyles", $lng->txt("cont_set_styles"));
 
         $html = $form->getHTML();
-        $html.= "<br />" . $this->renderTable("table_edit", "style") . "</form>";
+        $html .= "<br />" . $this->renderTable("table_edit", "style") . "</form>";
         $tpl->setContent($html);
     }
 
@@ -681,7 +690,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $ctpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
         $html = $ctpl->get();
-        $html.= "<br />" . $this->renderTable("table_edit", "width") . "</form>";
+        $html .= "<br />" . $this->renderTable("table_edit", "width") . "</form>";
         $tpl->setContent($html);
     }
 
@@ -707,7 +716,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $ctpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
 
         $html = $ctpl->get();
-        $html.= "<br />" . $this->renderTable("table_edit", "span") . "</form>";
+        $html .= "<br />" . $this->renderTable("table_edit", "span") . "</form>";
         $tpl->setContent($html);
     }
 
@@ -1004,7 +1013,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $form->addCommandButton("setAlignment", $lng->txt("cont_set_alignment"));
 
         $html = $form->getHTML();
-        $html.= "<br />" . $this->renderTable("table_edit", "alignment") . "</form>";
+        $html .= "<br />" . $this->renderTable("table_edit", "alignment") . "</form>";
         $tpl->setContent($html);
     }
 

@@ -11,8 +11,8 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 {
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd="",
-        $a_template_context=""
+        $a_parent_cmd = "",
+        $a_template_context = ""
     ) {
         $this->setId("sp_ac_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);

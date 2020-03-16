@@ -126,7 +126,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
              */
             $data[] = array(
                 'category_id' => $category->getId(),
-                'category'    => $category->getDisplayString()
+                'category' => $category->getDisplayString()
             );
         }
 

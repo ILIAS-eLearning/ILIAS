@@ -434,7 +434,7 @@ class ilPublicUserProfileGUI
             $imagefile = ilWACSignedPath::signFile($imagefile . "?t=1");
         }
 
-        if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
+        if ($this->getPublicPref($user, "public_upload") == "y" && $imagefile != "" &&
             ($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g")) {
             //Getting the flexible path of image form ini file
             //$webspace_dir = ilUtil::getWebspaceDir("output");
@@ -518,8 +518,8 @@ class ilPublicUserProfileGUI
                 $sep = " / ";
             }
             if ($this->getPublicPref($user, "public_department") == "y") {
-                $h.= $sep . $lng->txt("department");
-                $v.= $sep . $user->getDepartment();
+                $h .= $sep . $lng->txt("department");
+                $v .= $sep . $user->getDepartment();
             }
             $tpl->setVariable("TXT_INST_DEP", $h);
             $tpl->setVariable("INST_DEP", $v);
@@ -534,7 +534,7 @@ class ilPublicUserProfileGUI
         foreach ($val_arr as $key => $value) {
             // if value "y" show information
             if ($this->getPublicPref($user, "public_" . $value) == "y") {
-                $v.= $sep . $lng->txt($value) . ": " . $user->$key();
+                $v .= $sep . $lng->txt($value) . ": " . $user->$key();
                 $sep = "<br />";
             }
         }
@@ -571,7 +571,7 @@ class ilPublicUserProfileGUI
             ? $this->getBackUrl()
             : ilLink::_getStaticLink($this->getUserId(), "usr", true);
         $port = ilObjPortfolio::getAvailablePortfolioLinksForUserIds(array($this->getUserId()), $back);
-        $cnt=0;
+        $cnt = 0;
         if (count($port) > 0) {
             foreach ($port as $u) {
                 $tpl->setCurrentBlock("portfolio");
@@ -614,7 +614,7 @@ class ilPublicUserProfileGUI
         
         // additional defined user data fields
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
         $user_defined_data = $user->getUserDefinedData();
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
@@ -695,8 +695,6 @@ class ilPublicUserProfileGUI
 
         $goto = "";
         if ($a_add_goto) {
-
-
             global $DIC;
 
             $mtpl = $DIC->ui()->mainTemplate();
@@ -743,7 +741,7 @@ class ilPublicUserProfileGUI
         
         $webspace_dir = ilUtil::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
-        if ($user->getPref("public_upload")=="y" && @is_file($imagefile)) {
+        if ($user->getPref("public_upload") == "y" && @is_file($imagefile)) {
             $fh = fopen($imagefile, "r");
             if ($fh) {
                 $image = fread($fh, filesize($imagefile));
@@ -905,7 +903,7 @@ class ilPublicUserProfileGUI
         if (in_array($a_field_id, $multi_fields) && $a_term) {
             // registration has no current user
             $user_id = null;
-            if ($ilUser && $ilUser->getId() &&  $ilUser->getId() != ANONYMOUS_USER_ID) {
+            if ($ilUser && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $user_id = $ilUser->getId();
             }
                         
@@ -914,7 +912,7 @@ class ilPublicUserProfileGUI
             
             // term is searched in ALL interest fields, no distinction
             foreach (ilObjUser::findInterests($a_term, $ilUser->getId()) as $item) {
-                $result[$cnt]        = new stdClass();
+                $result[$cnt] = new stdClass();
                 $result[$cnt]->value = $item;
                 $result[$cnt]->label = $item;
                 $cnt++;
@@ -922,7 +920,7 @@ class ilPublicUserProfileGUI
             
             // :TODO: search in skill data
             foreach (ilSkillTreeNode::findSkills($a_term) as $skill) {
-                $result[$cnt]        = new stdClass();
+                $result[$cnt] = new stdClass();
                 $result[$cnt]->value = $skill;
                 $result[$cnt]->label = $skill;
                 $cnt++;
