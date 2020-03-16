@@ -146,8 +146,8 @@ class ilLearningModuleNotification
                     "",
                     $subject,
                     $message,
-                    array(),
-                    array("system")
+                    [],
+                    false
                 );
             }
         }
