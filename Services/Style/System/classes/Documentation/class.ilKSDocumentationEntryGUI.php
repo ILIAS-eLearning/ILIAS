@@ -68,6 +68,7 @@ class ilKSDocumentationEntryGUI
         $current_opened_node_id = $_GET["node_id"];
 
         if ($current_opened_node_id) {
+            $DIC->ctrl()->setParameterByClass("ilsystemstyledocumentationgui","node_id",$current_opened_node_id);
             $this->setEntry($entries->getEntryById($_GET["node_id"]));
         } else {
             $this->setEntry($entries->getRootEntry());

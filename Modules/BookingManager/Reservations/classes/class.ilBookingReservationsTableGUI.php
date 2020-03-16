@@ -676,7 +676,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         
         $a_excel->setCell($a_row, ++$col, $this->lng->txt("user"));
         
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col-1) . $a_row);
+        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col) . $a_row);
     }
 
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
@@ -696,8 +696,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_excel->setCell($a_row, ++$col, $status);
         }
-        $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
@@ -711,6 +710,17 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $a_excel->setCell($a_row, ++$col, $val);
             }
         }
+
+        // additional user fields
+        $user_cols = $this->getSelectableUserColumns();
+        foreach ($this->getSelectedColumns() as $scol) {
+            if (isset($user_cols[$scol])) {
+                $a_excel->setCell($a_row, ++$col, $a_set[$scol]);
+            }
+        }
+
+        $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
+        
     }
 
     protected function fillHeaderCSV($a_csv)
@@ -750,7 +760,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_csv->addColumn($status);
         }
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
@@ -764,8 +774,17 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $a_csv->addColumn($val);
             }
         }
-        
+
+        // additional user fields
+        $user_cols = $this->getSelectableUserColumns();
+        foreach ($this->getSelectedColumns() as $scol) {
+            if (isset($user_cols[$scol])) {
+                $a_csv->addColumn($a_set[$scol]);
+            }
+        }
+
         $a_csv->addColumn($a_set['user_name']);
+
         $a_csv->addRow();
     }
 }

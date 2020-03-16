@@ -766,7 +766,8 @@ class ilObjLTIConsumer extends ilObject2
         $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getUserIdent(), $DIC->user());
 
         $emailPrimary = $cmixUser->getUsrIdent();
-        
+
+        ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
         
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
@@ -798,8 +799,8 @@ class ilObjLTIConsumer extends ilObject2
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
             "tool_consumer_info_version" =>  $DIC->settings()->get("ilias_version"),
-            "lis_result_sourcedid" => ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true)->getId(),
-            "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID . "&token=" . $token,
+            "lis_result_sourcedid" => $token,
+            "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
         

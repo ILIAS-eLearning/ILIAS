@@ -1031,6 +1031,7 @@ class ilObjTestGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $this->ctrl->setParameter($this, "new_type", $this->type);
             $this->uploadTstObject();
+            return;
         }
 
         // display form to correct errors
@@ -1172,105 +1173,107 @@ class ilObjTestGUI extends ilObjectGUI
             $this->importVerifiedFileObject();
             return;
         }
-        
-        // display of found questions
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tst_import_verification.html", "Modules/Test");
-        $row_class = array("tblrow1", "tblrow2");
-        $counter = 0;
-        foreach ($founditems as $item) {
-            $this->tpl->setCurrentBlock("verification_row");
-            $this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
-            $this->tpl->setVariable("QUESTION_TITLE", $item["title"]);
-            $this->tpl->setVariable("QUESTION_IDENT", $item["ident"]);
-            include_once "./Services/QTI/classes/class.ilQTIItem.php";
-            switch ($item["type"]) {
-                case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                case QT_MULTIPLE_CHOICE_MR:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
-                    break;
-                case SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                case QT_MULTIPLE_CHOICE_SR:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
-                    break;
-                case KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                case QT_KPRIM_CHOICE:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
-                    break;
-                case LONG_MENU_QUESTION_IDENTIFIER:
-                case QT_LONG_MENU:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
-                    break;
-                case NUMERIC_QUESTION_IDENTIFIER:
-                case QT_NUMERIC:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
-                    break;
-                case FORMULA_QUESTION_IDENTIFIER:
-                case QT_FORMULA:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
-                    break;
-                case TEXTSUBSET_QUESTION_IDENTIFIER:
-                case QT_TEXTSUBSET:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
-                    break;
-                case CLOZE_TEST_IDENTIFIER:
-                case QT_CLOZE:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
-                    break;
-                case ERROR_TEXT_IDENTIFIER:
-                case QT_ERRORTEXT:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
-                    break;
-                case IMAGEMAP_QUESTION_IDENTIFIER:
-                case QT_IMAGEMAP:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
-                    break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                case QT_JAVAAPPLET:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
-                    break;
-                case FLASHAPPLET_QUESTION_IDENTIFIER:
-                case QT_FLASHAPPLET:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFlashApplet"));
-                    break;
-                case MATCHING_QUESTION_IDENTIFIER:
-                case QT_MATCHING:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
-                    break;
-                case ORDERING_QUESTION_IDENTIFIER:
-                case QT_ORDERING:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
-                    break;
-                case ORDERING_HORIZONTAL_IDENTIFIER:
-                case QT_ORDERING_HORIZONTAL:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
-                    break;
-                case TEXT_QUESTION_IDENTIFIER:
-                case QT_TEXT:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
-                    break;
-                case FILE_UPLOAD_IDENTIFIER:
-                case QT_FILEUPLOAD:
-                    $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
-                    break;
-            }
-            $this->tpl->parseCurrentBlock();
-        }
+
+        $importVerificationTpl = new ilTemplate('tpl.tst_import_verification.html', true, true, 'Modules/Test');
+        // Keep this include because of global constants
+        include_once "./Services/QTI/classes/class.ilQTIItem.php";
 
         // on import creation screen the pool was chosen (-1 for no pool)
         // BUT when no pool is available the input on creation screen is missing, so the field value -1 for no pool is not submitted.
         $QplOrTstID = isset($_POST["qpl"]) && (int) $_POST["qpl"] != 0 ? $_POST["qpl"] : -1;
-        
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
-        $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
-        $this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
-        $this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-        $this->tpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
-        $this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
-        $this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->parseCurrentBlock();
+
+        $importVerificationTpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
+        $importVerificationTpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
+        $importVerificationTpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
+        $importVerificationTpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
+        $importVerificationTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+        $importVerificationTpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.svg"));
+        $importVerificationTpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
+        $importVerificationTpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
+        $importVerificationTpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
+
+        $row_class = ["tblrow1", "tblrow2"];
+        $counter = 0;
+        foreach ($founditems as $item) {
+            $importVerificationTpl->setCurrentBlock("verification_row");
+            $importVerificationTpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
+            $importVerificationTpl->setVariable("QUESTION_TITLE", $item["title"]);
+            $importVerificationTpl->setVariable("QUESTION_IDENT", $item["ident"]);
+
+            switch ($item["type"]) {
+                case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+                case QT_MULTIPLE_CHOICE_MR:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
+                    break;
+                case SINGLE_CHOICE_QUESTION_IDENTIFIER:
+                case QT_MULTIPLE_CHOICE_SR:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
+                    break;
+                case KPRIM_CHOICE_QUESTION_IDENTIFIER:
+                case QT_KPRIM_CHOICE:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
+                    break;
+                case LONG_MENU_QUESTION_IDENTIFIER:
+                case QT_LONG_MENU:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
+                    break;
+                case NUMERIC_QUESTION_IDENTIFIER:
+                case QT_NUMERIC:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
+                    break;
+                case FORMULA_QUESTION_IDENTIFIER:
+                case QT_FORMULA:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
+                    break;
+                case TEXTSUBSET_QUESTION_IDENTIFIER:
+                case QT_TEXTSUBSET:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
+                    break;
+                case CLOZE_TEST_IDENTIFIER:
+                case QT_CLOZE:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
+                    break;
+                case ERROR_TEXT_IDENTIFIER:
+                case QT_ERRORTEXT:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
+                    break;
+                case IMAGEMAP_QUESTION_IDENTIFIER:
+                case QT_IMAGEMAP:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
+                    break;
+                case JAVAAPPLET_QUESTION_IDENTIFIER:
+                case QT_JAVAAPPLET:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
+                    break;
+                case FLASHAPPLET_QUESTION_IDENTIFIER:
+                case QT_FLASHAPPLET:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFlashApplet"));
+                    break;
+                case MATCHING_QUESTION_IDENTIFIER:
+                case QT_MATCHING:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
+                    break;
+                case ORDERING_QUESTION_IDENTIFIER:
+                case QT_ORDERING:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
+                    break;
+                case ORDERING_HORIZONTAL_IDENTIFIER:
+                case QT_ORDERING_HORIZONTAL:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
+                    break;
+                case TEXT_QUESTION_IDENTIFIER:
+                case QT_TEXT:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
+                    break;
+                case FILE_UPLOAD_IDENTIFIER:
+                case QT_FILEUPLOAD:
+                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
+                    break;
+            }
+            $importVerificationTpl->parseCurrentBlock();
+        }
+
+        $this->tpl->setContent($importVerificationTpl->get());
     }
     
     /**

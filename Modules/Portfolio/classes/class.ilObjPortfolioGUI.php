@@ -1326,38 +1326,27 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
     public function printView($a_pdf_export = false)
     {
-        global $tpl;
+        //global $tpl;
 
         $lng = $this->lng;
 
         $pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+        $tpl = new ilGlobalTemplate("tpl.pdf_print_view.html", true, true, "Services/Export/PDF");
+
+        $resource_collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE,
+            new ilPortfolioPage());
+        $resource_injector = new \ILIAS\COPage\ResourcesInjector($resource_collector);
 
         $tpl->setBodyClass("ilPrtfPdfBody");
 
-        $tpl->setCurrentBlock("AdditionalStyle");
-        $tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("filesystem"));
-        $tpl->parseCurrentBlock();
+        $tpl->addCss(ilUtil::getStyleSheetLocation("filesystem"));
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId(), false));
+        $tpl->addCss(ilObjStyleSheet::getContentPrintStyle());
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId(), false)
-        );
-        $tpl->parseCurrentBlock();
-
-        $tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-        //$this->setContentStyleSheet($tpl);
-
-        // syntax style
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->parseCurrentBlock();
+        $resource_injector->inject($tpl);
 
 
         $page_content = "";
@@ -1473,8 +1462,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $tpl->printToStdout(false);
             exit;
         } else {
-            $tpl->fillJavaScriptFiles();
-            $ret = $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
+            $ret = $tpl->printToString();
+            //$tpl->fillJavaScriptFiles();
+            //$ret = $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
             return $ret;
         }
     }

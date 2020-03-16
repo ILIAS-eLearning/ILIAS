@@ -178,6 +178,20 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     }
 
     /**
+     * @inheritDoc
+     *
+     * @throws ilException
+     */
+    public function readPassedDeadline() : array
+    {
+        $return = [];
+        foreach ($this->loadPassedDeadline() as $row) {
+            $return[] = $this->buildByRow($row);
+        }
+        return $return;
+    }
+
+    /**
      * @inheritdoc
      *
      * @throws ilException
@@ -423,6 +437,31 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             )
             . '    AND ' . self::FIELD_INVALIDATED . ' != 1 OR ' . self::FIELD_INVALIDATED . ' IS NULL';
 
+        $res = $this->db->query($q);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            yield $rec;
+        }
+    }
+
+    protected function loadPassedDeadline()
+    {
+        $q =
+             $this->getSQLHeader() . PHP_EOL
+            . 'WHERE ' . $this->db->in(
+                self::FIELD_STATUS,
+                [
+                    ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
+                    ilStudyProgrammeProgress::STATUS_ACCREDITED
+                ],
+                false,
+                'integer'
+             ) . PHP_EOL
+            . 'AND ' . self::FIELD_DEADLINE . ' IS NOT NULL' . PHP_EOL
+            . 'AND DATE(' . self::FIELD_DEADLINE . ') < ' . $this->db->quote(
+                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                'text'
+             ) . PHP_EOL
+        ;
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
             yield $rec;

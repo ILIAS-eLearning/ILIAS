@@ -319,7 +319,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $writer->appendXML($exp->xmlDumpMem(false));
         $writer->xmlEndTag('localPolicyTemplate');
         $writer->xmlEndTag('localPolicyAction');
-        return void;
+        return;
     }
 
     /**

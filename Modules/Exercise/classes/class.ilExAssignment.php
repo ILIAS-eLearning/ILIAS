@@ -1272,6 +1272,23 @@ class ilExAssignment
                 ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
             }
 
+            // clone reminders
+            foreach ([ilExAssignmentReminder::SUBMIT_REMINDER,
+                      ilExAssignmentReminder::GRADE_REMINDER,
+                      ilExAssignmentReminder::FEEDBACK_REMINDER] as $rem_type) {
+                $rmd_sub = new ilExAssignmentReminder($a_old_exc_id, $d->getId(), $rem_type);
+                if ($rmd_sub->getReminderStatus()) {
+                    $new_rmd_sub = new ilExAssignmentReminder($a_new_exc_id, $new_ass->getId(), $rem_type);
+                    $new_rmd_sub->setReminderStatus($rmd_sub->getReminderStatus());
+                    $new_rmd_sub->setReminderStart($rmd_sub->getReminderStart());
+                    $new_rmd_sub->setReminderEnd($rmd_sub->getReminderEnd());
+                    $new_rmd_sub->setReminderFrequency($rmd_sub->getReminderFrequency());
+                    $new_rmd_sub->setReminderMailTemplate($rmd_sub->getReminderMailTemplate());
+                    $new_rmd_sub->save();
+                }
+            }
+
+
             // type specific properties
             $ass_type = $d->getAssignmentType();
             $ass_type->cloneSpecificProperties($d, $new_ass);

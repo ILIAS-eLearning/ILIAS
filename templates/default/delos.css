@@ -7469,6 +7469,10 @@ hr.il-divider-with-label {
   color: #262626;
   background-color: #ecf0f4;
 }
+.il-maincontrols-slate-content .dropdown-menu {
+  right: 0;
+  left: inherit;
+}
 .il-std-item-container:not(:last-child) {
   border-bottom: 2px solid #f0f0f0;
 }
@@ -7865,7 +7869,7 @@ hr.il-divider-with-label {
   stroke: transparent;
 }
 .il-standard-form {
-  background-color: #fdfdfd;
+  background-color: white;
   margin-top: 6px;
 }
 .il-standard-form .il-standard-form-cmd {
@@ -7906,7 +7910,7 @@ hr.il-divider-with-label {
   padding-top: 0;
 }
 .il-standard-form .il-dependant-group {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .il-standard-form .il-dependant-group .form-group {
@@ -9047,12 +9051,16 @@ footer {
 **************************************************************
 */
 @media print {
-  .il-layout-page {
-    display: block;
+  html body {
+    overflow: visible;
   }
-  .il-layout-page header,
-  .il-layout-page nav,
-  .il-layout-page footer {
+  html body section.il-layout-page {
+    display: block;
+    overflow: visible;
+  }
+  html body section.il-layout-page header,
+  html body section.il-layout-page nav,
+  html body section.il-layout-page footer {
     display: none;
   }
 }
@@ -10890,8 +10898,8 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-3 {
   background-color: #f1c40f;
-  border-color: #312803;
-  color: #312803;
+  border-color: #927608;
+  color: #927608;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-4 {
   background-color: #f39c12;
@@ -10900,8 +10908,8 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-5 {
   background-color: #2ecc71;
-  border-color: #082615;
-  color: #082615;
+  border-color: #1b7943;
+  color: #1b7943;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-6 {
   background-color: #27ae60;
@@ -10950,8 +10958,8 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-15 {
   background-color: #bdc3c7;
-  border-color: #545e64;
-  color: #545e64;
+  border-color: #869198;
+  color: #869198;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-16 {
   background-color: #34495e;
@@ -10985,8 +10993,8 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-22 {
   background-color: #f69785;
-  border-color: #a3240c;
-  color: #a3240c;
+  border-color: #ef4626;
+  color: #ef4626;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-23 {
   background-color: #9ba37e;
@@ -12579,7 +12587,7 @@ div.il_info {
 }
 /* ---------------- headlines ------------------ */
 a#il_mhead_t_focus {
-  color: #6ea03c;
+  color: #3b5620;
   vertical-align: middle;
   font-size: 26px;
   cursor: default;
@@ -13296,7 +13304,7 @@ select {
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background: #fdfdfd;
+  background: white;
 }
 form.form-inline {
   margin-bottom: 20px;
@@ -13403,7 +13411,7 @@ input[type="file"].form-control {
   background-color: #f0f0f0;
 }
 .ilSubForm {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .ilSubForm .form-group {
@@ -14505,6 +14513,13 @@ div.ilCOPGMediaPrint {
   padding: 0;
   margin: 0;
   border: 0;
+}
+#ilAdvSelListTable_style_selection,
+#ilTinyMenuButtons ul.dropdown-menu {
+  right: auto;
+}
+#iltinymenu .dropdown-menu li {
+  padding: 0;
 }
 /* Services/Calendar */
 td.even {
@@ -17351,6 +17366,30 @@ div.ilRatingOverlay {
   min-width: 30px;
 }
 /* Services/News */
+td.il-news {
+  white-space: normal;
+}
+td.il-news .il-news-locator {
+  margin: 2px 0px 4px 0px;
+}
+td.il-news .ilIcon {
+  vertical-align: middle;
+}
+td.il-news .il-news-content {
+  clear: both;
+}
+td.il-news .il-news-player {
+  margin-top: 15px;
+  max-width: 600px;
+}
+td.il-news .il_BlockInfo {
+  text-align: right;
+}
+@media only screen and (max-width: 768px) {
+  td.il-news {
+    white-space: normal !important;
+  }
+}
 span.ilNewsRssIcon {
   background-color: #ea6705;
   color: white;
@@ -17511,6 +17550,9 @@ span.ilNewsRssIcon:hover {
 .ilTimeline .media-heading {
   clear: right;
   margin-top: 8px;
+}
+.ilTimeline div.ilNotesHeader {
+  background-color: white;
 }
 .ilNewsTimelineTruncatedText {
   overflow: hidden;
@@ -17757,7 +17799,7 @@ div.ilPrtfToc {
 body.ilPrtfPdfBody {
   margin: 0;
 }
-body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
+body.ilPrtfPdfBody > div.ilInvisibleBorder {
   padding: 0;
   padding-left: 40px;
 }
@@ -19101,3 +19143,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */

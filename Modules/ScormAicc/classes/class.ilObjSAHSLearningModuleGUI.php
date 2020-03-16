@@ -430,6 +430,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         $subType = $_POST["sub_type"];
+
+        // always import authoring packages as scorm2004, see bug #27801
+        if ($_POST["editable"]=='y') {
+            $subType = "scorm2004";
+        }
+
         // create and insert object in objecttree
         switch ($subType) {
         case "scorm2004":
@@ -485,7 +491,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         $newObj->setTitle($name);
-        $newObj->setSubType($_POST["sub_type"]);
+        $newObj->setSubType($subType);
         $newObj->setDescription("");
         $newObj->setOfflineStatus(true);
         $newObj->create(true);

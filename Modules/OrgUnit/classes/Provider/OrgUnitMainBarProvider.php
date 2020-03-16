@@ -1,5 +1,6 @@
 <?php namespace ILIAS\OrgUnit\Provider;
 
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilObjOrgUnit;
@@ -28,6 +29,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $this->dic->language()->loadLanguageModule('mst');
         $items = [];
+        $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
         $title = $this->dic->language()->txt("objs_orgu");
@@ -36,19 +38,17 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
             ->withIsOutlined(true);
 
         $items[] = $this->mainmenu->link($this->if->identifier('mm_adm_orgu'))
+            ->withAlwaysAvailable(false)
             ->withAction($action)
+            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
             ->withParent($top)
             ->withTitle($title)
             ->withSymbol($icon)
             ->withPosition(7)
             ->withVisibilityCallable(
-                function () {
-                    return (bool) ($this->dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                }
+                $access_helper->hasAdministrationAccess()
             )->withAvailableCallable(
-                function () {
-                    return ($this->dic->user()->getId() != ANONYMOUS_USER_ID);
-                }
+                $access_helper->isUserLoggedIn()
             );
         ;
 

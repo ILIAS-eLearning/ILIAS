@@ -69,7 +69,6 @@ class ilStudyProgrammeDIC
                 (int) $DIC['ilUser']->getId()
             );
         };
-
         $dic['ilObjStudyProgrammeSettingsGUI'] = function ($dic) use ($DIC) {
             return new ilObjStudyProgrammeSettingsGUI(
                 $DIC['tpl'],
@@ -131,7 +130,11 @@ class ilStudyProgrammeDIC
                 $DIC['lng'],
                 $DIC['ilias'],
                 $DIC['ilTabs'],
-                $dic['model.Type.ilStudyProgrammeTypeRepository']
+                $dic['model.Type.ilStudyProgrammeTypeRepository'],
+                $DIC->ui()->factory()->input(),
+                $DIC->ui()->renderer(),
+                $DIC->http()->request(),
+                $DIC->refinery()
             );
         };
         $dic['ilStudyProgrammeRepositorySearchGUI'] = function ($dic) {
@@ -197,6 +200,9 @@ class ilStudyProgrammeDIC
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };
+        $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
+            return new ilOrgUnitObjectTypePositionSetting('prg');
+        };
         $dic['ilStudyProgrammePostionBasedAccess'] = function ($dic) {
             return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
         };
@@ -219,7 +225,8 @@ class ilStudyProgrammeDIC
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $dic['DataFactory']
+                $dic['DataFactory'],
+                $dic['ilStudyProgrammeUserProgressDB']
             );
         };
         $dic['ilStudyProgrammeChangeDeadlineGUI'] = function ($dic) use ($DIC) {
@@ -233,7 +240,8 @@ class ilStudyProgrammeDIC
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC->refinery(),
-                $dic['DataFactory']
+                $dic['DataFactory'],
+                $dic['ilStudyProgrammeUserProgressDB']
             );
         };
         $dic['ilStudyProgrammeDashboardViewGUI'] = function ($dic) use ($DIC) {

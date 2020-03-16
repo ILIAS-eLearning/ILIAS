@@ -413,7 +413,7 @@
 //** Textcolor used in the labels (identifiers) of the input fields of a form
 @il-standard-form-label-color:   darken(@il-standard-form-color, 20%);
 //** Background color used in the
-@il-standard-form-bg:    #fdfdfd;
+@il-standard-form-bg: @il-primary-container-bg;
 //** Textsize used in the forms body
 @il-standard-form-font-size: @font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
@@ -803,7 +803,8 @@
 //** border color for picture avatars
 @avatar-picture-border-color: #dddddd;
 //** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
-@avatar-letter-border-color-contrast: 40%;
+@avatar-letter-border-color-contrast-lighten: 40%;
+@avatar-letter-border-color-contrast-darken: 20%;
 //** change the abbreviations font weight
 @avatar-letter-abbreviation-font-weight: lighter;
 //** change the abbreviations font transform

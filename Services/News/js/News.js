@@ -36,17 +36,22 @@ il.News = {
 		t.moreOnScroll();
 	},
 
-	moreOnScroll: function() {
-		var w = $(window), t = il.News;
-		if (!t.scroll_init) {
-			w.on('scroll', function () {
-				if ($(window).scrollTop() + $(window).height() + 60 > $(document).height()) {
-					t.moreNews();
-				}
-			});
-			t.scroll_init = true;
-		}
-	},
+  moreOnScroll: function() {
+    var w = $('main'), t = il.News;
+    console.log(w);
+    if (!t.scroll_init) {
+      w.on('scroll', function () {
+        var main = $('main');
+        var sp = main.scrollTop();    // scroll position (starting with 0)
+        var vh = main.height();       // visible height
+        var th = main[0].scrollHeight;  // total height
+        if (sp + vh + 60 > th) {
+          t.moreNews();
+        }
+      });
+      t.scroll_init = true;
+    }
+  },
 
 	startMoreRequest: function () {
 		var t = il.News;

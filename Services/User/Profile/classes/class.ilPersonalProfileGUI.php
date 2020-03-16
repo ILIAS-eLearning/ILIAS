@@ -752,14 +752,15 @@ class ilPersonalProfileGUI
                 ? $ilUser->prefs["public_profile"]
                 : "n";
             if ($pub_prof == "n") {
-                $button = $DIC->ui()->factory()->button()->shy(
-                    "» " . $lng->txt("user_make_profile_public"),
-                    $ctrl->getLinkTarget($this, "showPublicProfile")
+
+                $box = $DIC->ui()->factory()->messageBox()->info($it)->withLinks(
+                    [$DIC->ui()->factory()->link()->standard($lng->txt("user_make_profile_public"),
+                        $ctrl->getLinkTarget($this, "showPublicProfile")
+                        )]
                 );
-                $it.= "<br><br>" . $DIC->ui()->renderer()->render($button);
+
+                $it = $DIC->ui()->renderer()->render($box);
             }
-            
-            ilUtil::sendInfo(nl2br($it));
         }
 
         $this->setHeader();
@@ -774,7 +775,7 @@ class ilPersonalProfileGUI
             }
         }
 
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($it.$this->form->getHTML());
 
         $this->tpl->printToStdout();
     }
@@ -1486,7 +1487,7 @@ class ilPersonalProfileGUI
         $this->form->addItem($cb);
 
         // personal notes
-        $cb = new ilCheckboxInputGUI($this->lng->txt("pd_notes"), "notes");
+        $cb = new ilCheckboxInputGUI($this->lng->txt("notes"), "notes");
         $this->form->addItem($cb);
         
         // calendar entries

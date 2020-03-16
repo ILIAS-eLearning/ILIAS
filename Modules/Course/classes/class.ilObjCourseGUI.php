@@ -1934,7 +1934,6 @@ class ilObjCourseGUI extends ilContainerGUI
         }
                 
         $this->tabs_gui->setTabActive('crs_unsubscribe');
-        
         include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('crs_unsubscribe_sure'));

@@ -15,13 +15,19 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     public static $block_type = 'pdmem';
 
     /**
+     * Is block displayed on membership overview?
+     */
+    protected $on_mem_overview;
+
+    /**
      * ilPDSelectedItemsBlockGUI constructor.
      */
-    public function __construct()
+    public function __construct($on_mem_overview = false)
     {
         parent::__construct();
         $this->lng->loadLanguageModule("dash");
         $this->lng->loadLanguageModule("mmbr");
+        $this->on_mem_overview = $on_mem_overview;
     }
 
     /**
@@ -39,6 +45,32 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
+
+    /**
+     * Return to context
+     * @param
+     * @return
+     */
+    protected function returnToContext()
+    {
+        if ($this->on_mem_overview) {
+            $this->ctrl->redirectByClass('ilmembershipoverviewgui', '');
+        }
+        parent::returnToContext();
+    }
+
+    /**
+     * Get view title
+     * @return string
+     */
+    protected function getViewTitle()
+    {
+        if ($this->on_mem_overview) {
+            return $this->lng->txt("mmbr_memberships");
+        }
+        return parent::getViewTitle();
+    }
+
 
     /**
      * No item entry

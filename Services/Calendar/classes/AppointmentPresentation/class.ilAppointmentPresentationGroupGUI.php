@@ -69,7 +69,7 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
                 }
                 $registered = $reg->getRegisteredUsers(
                     new \ilDateTime($app['dstart'], IL_CAL_UNIX),
-                    new \ilDateTime($app,'dend', IL_CAL_UNIX)
+                    new \ilDateTime($app['dend'], IL_CAL_UNIX)
                 );
 
                 $users = "";

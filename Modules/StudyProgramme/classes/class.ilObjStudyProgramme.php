@@ -531,21 +531,24 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions) : void
-    {
-        $this->settings->setAccessControlByOrguPositions($access_ctrl_positions);
+    public function setAdditionalSettings(
+        ilStudyProgrammeAdditionalSettings $additional_settings
+    ) : void {
+        $this->settings = $this->settings->withAdditionalSettings(
+            $additional_settings
+        );
     }
 
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->settings->getAccessControlByOrguPositions();
+    public function getAdditionalSettings(
+    ) : \ilStudyProgrammeAdditionalSettings {
+        return $this->settings->getAdditionalSettings();
     }
 
     public function getAccessControlByOrguPositionsGlobal() : bool
     {
         return $this->getPositionSettingsIsActiveForPrg()
             && (
-                $this->settings->getAccessControlByOrguPositions()
+                $this->getAdditionalSettings()->getAccessByOrgu()
                 || !$this->getPositionSettingsIsChangeableForPrg()
             );
     }
