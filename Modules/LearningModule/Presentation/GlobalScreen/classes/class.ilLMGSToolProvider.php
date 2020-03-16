@@ -35,6 +35,8 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         global $DIC;
 
         $lng = $DIC->language();
+        $access = $DIC->access();
+        
         $lng->loadLanguageModule("content");
 
         $tools = [];
@@ -47,6 +49,11 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 return $this->dic->ui()->factory()->legacy($content);
             };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
+            
+            if (!$access->checkAccess("read", "", $ref_id)) {
+                return $tools;
+            }
+            
 
             $tools[] = $this->getTocTool($additional_data);
 

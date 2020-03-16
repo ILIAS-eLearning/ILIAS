@@ -15316,9 +15316,9 @@ content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
-exc#:#exc_tbl_action_open_submission#:#Open Submission
-exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
-exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
+exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
+exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
@@ -16052,7 +16052,7 @@ common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new va
 rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
 exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
-prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
+prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
 prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
@@ -16088,3 +16088,6 @@ prg#:#prg_additional_settings#:#Zusätzliche Funktionen
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
 prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+mmbr#:#mmbr_memberships#:#Mitgliedschaften
+notes#:#note_without_object#:#Ohne Objektbezug
+prg#:#msg_fill_required#:#Bitte füllen Sie alle Pflichtfelder aus.

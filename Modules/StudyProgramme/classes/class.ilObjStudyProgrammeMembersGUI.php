@@ -152,7 +152,7 @@ class ilObjStudyProgrammeMembersGUI
                 $dic = ilStudyProgrammeDIC::dic();
                 $gui = $dic['ilStudyProgrammeChangeExpireDateGUI'];
                 $gui->setRefId($this->ref_id);
-                $gui->setAssignmentIds($this->getGetPrgsIds());
+                $gui->setProgressIds($this->getGetPrgsIds());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilstudyprogrammechangedeadlinegui":
@@ -164,7 +164,7 @@ class ilObjStudyProgrammeMembersGUI
                 $dic = ilStudyProgrammeDIC::dic();
                 $gui = $dic['ilStudyProgrammeChangeDeadlineGUI'];
                 $gui->setRefId($this->ref_id);
-                $gui->setAssignmentIds($this->getGetPrgsIds());
+                $gui->setProgressIds($this->getGetPrgsIds());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case false:

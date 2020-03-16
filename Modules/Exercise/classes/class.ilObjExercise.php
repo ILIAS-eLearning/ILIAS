@@ -323,7 +323,19 @@ class ilObjExercise extends ilObject
         );
 
         $cloneAction->cloneCertificate($this, $new_obj);
-            
+
+        // additional features
+        foreach (ilContainer::_getContainerSettings($this->getId()) as $keyword => $value) {
+            ilContainer::_writeContainerSetting($new_obj->getId(), $keyword, $value);
+        }
+
+        // org unit setting
+        $orgu_object_settings = new ilOrgUnitObjectPositionSetting($new_obj->getId());
+        $orgu_object_settings->setActive(
+            (int) ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->getId())
+        );
+        $orgu_object_settings->update();
+
         return $new_obj;
     }
     

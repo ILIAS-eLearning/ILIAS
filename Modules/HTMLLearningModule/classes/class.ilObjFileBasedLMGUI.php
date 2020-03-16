@@ -711,14 +711,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
-
-        if ($startfile != "") {
-            $ilTabs->addNonTabbedLink(
-                "presentation_view",
-                $this->lng->txt("glo_presentation_view"),
-                "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefID(),
-                "_blank"
-            );
+        if ($ilAccess->checkAccess('read', '', $this->ref_id)) {
+            if ($startfile != "") {
+                $ilTabs->addNonTabbedLink(
+                    "presentation_view",
+                    $this->lng->txt("glo_presentation_view"),
+                    "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefID(),
+                    "_blank"
+                );
+            }
         }
     }
     

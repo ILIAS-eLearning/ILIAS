@@ -344,7 +344,7 @@ class ilRepositoryGUI
                     $cmd = $this->ctrl->getCmd("");
                     
                     // check read access for category
-                    if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id)) {
+                    if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id) && $cmd != "showRepTree") {
                         $_SESSION["il_rep_ref_id"] = "";
                         $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
                         $this->tpl->printToStdout();
