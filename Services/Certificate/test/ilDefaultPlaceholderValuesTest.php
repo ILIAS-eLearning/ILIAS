@@ -10,8 +10,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
     {
         $objectMock = $this->getMockBuilder('ilObjUser')
             ->disableOriginalConstructor()
-            ->setMethods(
-                array(
+            ->onlyMethods(
+                [
                     'getLogin',
                     'getFullname',
                     'getFirstname',
@@ -26,7 +26,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                     'getZipcode',
                     'getCountry',
                     'getMatriculation'
-                )
+                ]
             )
             ->getMock();
 

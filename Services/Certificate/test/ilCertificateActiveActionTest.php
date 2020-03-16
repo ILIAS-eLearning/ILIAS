@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class IlCertificateActiveActionTest extends ilCertificateBaseTestCase
+class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 {
     public function testCertificateIsActive()
     {

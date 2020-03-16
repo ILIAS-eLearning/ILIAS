@@ -7,31 +7,30 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
     public function testPlaceholderGetHtmlDescription()
     {
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('txt'))
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $templateMock = $this->getMockBuilder('ilTemplate')
+        $templateMock = $this->getMockBuilder(ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $templateMock->method('get')
             ->willReturn('');
 
-        $collectionInstance = $this->getMockBuilder('ilLPCollection')
+        $collectionInstance = $this->getMockBuilder(ilLPCollectionOfSCOs::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getPossibleItems'))
+            ->onlyMethods(['getPossibleItems'])
             ->getMock();
 
-        $learningProgressMock = $this->getMockBuilder('ilObjectLP')
+        $learningProgressMock = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollectionInstance'))
+            ->onlyMethods(['getCollectionInstance'])
             ->getMock();
 
         $collectionInstance->method('getPossibleItems')
@@ -40,7 +39,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $learningProgressMock->method('getCollectionInstance')
             ->willReturn($collectionInstance);
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -65,26 +64,26 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
     public function testPlaceholderDescriptions()
     {
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('txt'))
+            ->onlyMethods([])
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $languageMock->expects($this->exactly(21))
             ->method('txt')
             ->willReturn('Something translated');
 
-        $learningProgressMock = $this->getMockBuilder('ilObjectLP')
+        $learningProgressMock = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollectionInstance'))
+            ->onlyMethods(['getCollectionInstance'])
             ->getMock();
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -9,7 +9,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $templateMock = $this->getMockBuilder('ilTemplate')
@@ -40,7 +40,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $languageMock->expects($this->exactly(21))
