@@ -28,9 +28,9 @@ class Foo extends Bar implements FooInterface
 
 /** thx to https://mlocati.github.io/php-cs-fixer-configurator for the examples **/
 // cast_spaces
-$a    = 0; $b    = 0; $c    = 0; $d   = 0; $e   = 0 ; $f    = 0;
-$bar  = (string) $a;
-$foo  =  (int) $b;
+$a = 0; $b = 0; $c = 0; $d = 0; $e = 0 ; $f = 0;
+$bar = (string) $a;
+$foo = (int) $b;
 // concat_space
 $foo = 'bar' . 3 . 'baz' . 'qux';
 // binary_operator_spaces
