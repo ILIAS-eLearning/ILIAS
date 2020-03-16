@@ -15,7 +15,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
-            ->setMethods(['updateOptions'])
+            ->onlyMethods(['updateOptions'])
             ->getMock();
 
         $mailOptions->setIncomingType(0);
@@ -35,7 +35,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
-            ->setMethods(['updateOptions'])
+            ->onlyMethods(['updateOptions'])
             ->getMock();
 
         $mailOptions->expects($this->once())->method('updateOptions');
@@ -55,7 +55,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
-            ->setMethods(['updateOptions'])
+            ->onlyMethods(['updateOptions'])
             ->getMock();
 
         $mailOptions->expects($this->once())->method('updateOptions');
@@ -75,7 +75,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
-            ->setMethods(['updateOptions'])
+            ->onlyMethods(['updateOptions'])
             ->getMock();
 
         $mailOptions->expects($this->once())->method('updateOptions');
@@ -95,7 +95,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
-            ->setMethods(['updateOptions'])
+            ->onlyMethods(['updateOptions'])
             ->getMock();
 
         $mailOptions->expects($this->never())->method('updateOptions');

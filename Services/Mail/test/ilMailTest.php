@@ -37,7 +37,7 @@ class ilMailTest extends ilMailBaseTest
             $user = $this
                 ->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
-                ->setMethods(['getId', 'hasToAcceptTermsOfService', 'checkTimeLimit', 'getActive'])
+                ->onlyMethods(['getId', 'hasToAcceptTermsOfService', 'checkTimeLimit', 'getActive'])
                 ->getMock();
             $user->expects($this->any())->method('getId')->willReturn($usrId);
             $user->expects($this->any())->method('getActive')->willReturn(true);
@@ -48,7 +48,7 @@ class ilMailTest extends ilMailBaseTest
             $mailOptions = $this
                 ->getMockBuilder(ilMailOptions::class)
                 ->disableOriginalConstructor()
-                ->setMethods(['getExternalEmailAddresses', 'getIncomingType'])
+                ->onlyMethods(['getExternalEmailAddresses', 'getIncomingType'])
                 ->getMock();
             $mailOptions->expects($this->any())->method('getExternalEmailAddresses')->willReturn([
                 'phpunit' . $usrId . '@ilias.de',
@@ -63,7 +63,7 @@ class ilMailTest extends ilMailBaseTest
         $addressTypeFactory = $this
             ->getMockBuilder(ilMailAddressTypeFactory::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getByPrefix'])
+            ->onlyMethods(['getByPrefix'])
             ->getMock();
         $addressTypeFactory->expects($this->any())
             ->method('getByPrefix')
