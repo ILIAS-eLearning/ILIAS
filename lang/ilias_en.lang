@@ -16091,3 +16091,6 @@ ui#:#ui_numeric_only#:#Please insert a whole number.
 mmbr#:#mmbr_memberships#:#Memberships
 notes#:#note_without_object#:#Without reference
 prg#:#msg_fill_required#:#Please fill all required fields.
+iass#:#iass_file_dropzone#:#you can drop your files here
+iass#:#iass_confirm_finalize#:#Finalize
+iass#:#iass_cancel#:#Cancel

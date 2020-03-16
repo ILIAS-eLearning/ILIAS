@@ -1,4 +1,7 @@
 <?php
+
+use ILIAS\FileUpload\DTO\UploadResult;
+
 require_once("Modules/IndividualAssessment/interfaces/FileStorage/interface.IndividualAssessmentFileStorage.php");
 include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
@@ -113,17 +116,17 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
      *
      * @param string[]
      *
-     * @return boolen
+     * @return bool
      */
-    public function uploadFile($file)
+    public function uploadFile(UploadResult $result)
     {
         $path = $this->getAbsolutePath();
 
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $file["name"]);
+        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $result->getName());
         $new_file = $path . "/" . $clean_name;
 
         ilUtil::moveUploadedFile(
-            $file["tmp_name"],
+            $result->getPath(),
             $clean_name, // This parameter does not do a thing
             $new_file
         );

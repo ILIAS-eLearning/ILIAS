@@ -206,7 +206,7 @@ class ilIndividualAssessmentMembersTableGUI
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 
         if ($this->checkEditable($finalized, $examiner_id, $usr_id)) {
-            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'edit');
+            $target = $this->ctrl->getLinkTargetByClass(ilIndividualAssessmentMemberGUI::class, 'edit');
             $items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
         }
 

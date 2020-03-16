@@ -209,7 +209,7 @@ class ilIndividualAssessmentMember
      * Clone this object and set an internal note
      *
      * @param	string	$place
-     * @return	ilManualAssessmentMember
+     * @return	ilIndividualAssessmentMember
      */
     public function withPlace($place)
     {
@@ -223,7 +223,7 @@ class ilIndividualAssessmentMember
      * Clone this object and set an internal note
      *
      * @param	ilDate | null	$internal_note
-     * @return	ilManualAssessmentMember
+     * @return	ilIndividualAssessmentMember
      */
     public function withEventTime($event_time)
     {
@@ -267,7 +267,7 @@ class ilIndividualAssessmentMember
      * Clone this object and set an change time
      *
      * @param	ilDateTime | null	$change_time
-     * @return	ilManualAssessmentMember
+     * @return	ilIndividualAssessmentMember
      */
     public function withChangeTime($change_time)
     {
@@ -424,7 +424,7 @@ class ilIndividualAssessmentMember
      *
      * @param string 	$file_name
      *
-     * @return ilManualAssessmentMember
+     * @return ilIndividualAssessmentMember
      */
     public function withFileName($file_name)
     {
@@ -449,7 +449,7 @@ class ilIndividualAssessmentMember
      *
      * @param boolean 	$view_file
      *
-     * @return ilManualAssessmentMember
+     * @return ilIndividualAssessmentMember
      */
     public function withViewFile($view_file)
     {
