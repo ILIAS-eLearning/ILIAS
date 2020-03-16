@@ -790,8 +790,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             if (trim($objtv["desc"])) {
                                 $desc = nl2br($objtv["desc"]);
                                 $tt_id = "objtvtt_" . $objtv["id"] . "_" . ((int) self::$initialized);
-                                
-                                ilToolTipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
+
+                                ilTooltipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
                                 
                                 $tpl->setVariable("OBJECTIVE_LINK_ID", $tt_id);
                             }

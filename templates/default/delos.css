@@ -17777,6 +17777,10 @@ div.ilChecklist ul li img {
 ul.ilPCMyCoursesCourseList > li {
   margin-bottom: 10px;
 }
+ul.ilPCMyCoursesCourseList > li .course-list-tree-icon {
+  width: 20px;
+  height: 20px;
+}
 ul.ilPCMyCoursesObjectiveList > li {
   margin-top: 5px;
   margin-left: 40px;
