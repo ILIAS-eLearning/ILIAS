@@ -24,7 +24,12 @@ class ilPublicUserProfileGUI
      * @var ilObjUser
      */
     protected $current_user;
-    
+
+    /**
+     * @var \ilSetting
+     */
+    protected $setting;
+
     /**
     * Constructor
     *
@@ -38,6 +43,8 @@ class ilPublicUserProfileGUI
         $lng = $DIC['lng'];
 
         $this->current_user = $DIC->user();
+
+        $this->setting = $DIC["ilSetting"];
 
         if ($a_user_id) {
             $this->setUserId($a_user_id);
@@ -257,10 +264,11 @@ class ilPublicUserProfileGUI
      */
     protected function isProfilePublic()
     {
+        $setting = $this->setting;
         $user = new ilObjUser($this->getUserId());
         $current = $user->getPref("public_profile");
         // #17462 - see ilPersonalProfileGUI::initPublicProfileForm()
-        if ($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles')) {
+        if ($user->getPref("public_profile") == "g" && !$setting->get('enable_global_profiles')) {
             $current = "y";
         }
         return in_array($current, ["g", "y"]);

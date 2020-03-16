@@ -127,6 +127,8 @@ class PortfolioHtmlExport
             }
         }
         // page element: profile picture
+        \ilObjUser::copyProfilePicturesToDirectory($this->portfolio->getOwner(), $this->target_dir);
+        /*
         $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "big", true, true);
         if ($ppic) {
             $ppic = array_shift(explode("?", $ppic));
@@ -137,7 +139,7 @@ class PortfolioHtmlExport
         if ($ppic) {
             $ppic = array_shift(explode("?", $ppic));
             copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }
+        }*/
     }
 
 
