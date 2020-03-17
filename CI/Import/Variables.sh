@@ -1,18 +1,26 @@
 #!/bin/bash
-TMP_DIR="/tmp"
 
+# CS fixer (Todo for later)
+TMP_DIR="/tmp"
 PHP_CS_FIXER_RESULTS_PATH="$TMP_DIR/phpfix_results"
 PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 
-PHPUNIT_PATH="$TMP_DIR/phpunit_latest.csv"
-PHPUNIT_PATH_TMP="$TMP_DIR/phpunit_changed.csv"
-PHPUNIT_RESULTS_PATH="$TMP_DIR/phpunit_results"
+# Setup the results data directories
+RESULTS_DATA_DIRECTORY="CI/results/data"
 
-DICTO_PATH="$TMP_DIR/dicto_latest.csv"
+RESULTS_DATA_DIRECTORY_CSFIXER="$RESULTS_DATA_DIRECTORY/phpfix_results"
 
-TRAVIS_RESULTS_DIRECTORY="$TMP_DIR/CI-Results/"
+RESULTS_DATA_DIRECTORY_PHPUNIT="$RESULTS_DATA_DIRECTORY/phpunit_latest.csv"
+RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH="/tmp/phpunit_results"
+RESULTS_DATA_DIRECTORY_PHPUNIT_TMP="$RESULTS_DATA_DIRECTORY/phpunit_changed.csv"
 
+RESULTS_DATA_DIRECTORY_DICTO="$RESULTS_DATA_DIRECTORY/dicto_latest.csv"
+
+TRAVIS_RESULTS_DIRECTORY="/tmp/CI-Results"
+
+# Why???
 DATE=`date '+%Y-%m-%d %H:%M:%S'`
 UNIXDATE=`date '+%s'`
 
+# Why??
 PRE="\t*** "
