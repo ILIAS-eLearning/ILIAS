@@ -1898,7 +1898,9 @@ class ilStartUpGUI
             $short_title = 'ILIAS';
         }
         PageContentProvider::setShortTitle($short_title);
-        PageContentProvider::setTitle($short_title);
+
+        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        PageContentProvider::setTitle($header_title);
 
         return $tpl;
     }
