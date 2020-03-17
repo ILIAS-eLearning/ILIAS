@@ -172,7 +172,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     public function setPermaLink($a_obj_id, $a_type)
     {
-        $this->perma_link = array("obj_id"=>$a_obj_id, "type"=>$a_type);
+        $this->perma_link = array("obj_id" => $a_obj_id, "type" => $a_type);
     }
         
     

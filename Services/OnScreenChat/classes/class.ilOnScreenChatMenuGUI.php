@@ -62,7 +62,7 @@ class ilOnScreenChatMenuGUI
         $chatSettings = new ilSetting('chatroom');
 
         $this->publicChatRoomAccess = $DIC->rbac()->system()->checkAccessOfUser($DIC->user()->getId(), 'read', $this->pub_ref_id);
-        $this->oscAccess            = $chatSettings->get('enable_osc');
+        $this->oscAccess = $chatSettings->get('enable_osc');
 
         $this->accessible = $chatSettings->get('chat_enabled') && ($this->oscAccess || $this->publicChatRoomAccess);
     }
@@ -86,9 +86,9 @@ class ilOnScreenChatMenuGUI
 
         $config = array(
             'conversationTemplate' => (new ilTemplate('tpl.chat-menu-item.html', false, false, 'Services/OnScreenChat'))->get(),
-            'roomTemplate'         => (new ilTemplate('tpl.chat-menu-item-room.html', false, false, 'Services/OnScreenChat'))->get(),
-            'infoTemplate'         => (new ilTemplate('tpl.chat-menu-item-info.html', false, false, 'Services/OnScreenChat'))->get(),
-            'userId'               => $DIC->user()->getId()
+            'roomTemplate' => (new ilTemplate('tpl.chat-menu-item-room.html', false, false, 'Services/OnScreenChat'))->get(),
+            'infoTemplate' => (new ilTemplate('tpl.chat-menu-item-info.html', false, false, 'Services/OnScreenChat'))->get(),
+            'userId' => $DIC->user()->getId()
         );
 
         $config['rooms'] = array();
@@ -96,7 +96,7 @@ class ilOnScreenChatMenuGUI
         if ($this->publicChatRoomAccess) {
             $config['rooms'][] = array(
                 'name' => $DIC['ilObjDataCache']->lookupTitle($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id)),
-                'url'  => './ilias.php?baseClass=ilRepositoryGUI&amp;cmd=view&amp;ref_id=' . $this->pub_ref_id,
+                'url' => './ilias.php?baseClass=ilRepositoryGUI&amp;cmd=view&amp;ref_id=' . $this->pub_ref_id,
                 'icon' => ilObject::_getIcon($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id), 'small', 'chtr')
             );
         }
@@ -126,7 +126,7 @@ class ilOnScreenChatMenuGUI
 
         $tpl = new ilTemplate('tpl.chat-menu.html', true, true, 'Services/OnScreenChat');
 
-        $f        = $this->ui->factory();
+        $f = $this->ui->factory();
         $renderer = $this->ui->renderer();
 
         $glyph = $f->glyph()->comment();

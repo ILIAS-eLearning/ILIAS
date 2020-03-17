@@ -65,10 +65,10 @@ class ilCoursePlaceholderDescriptionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'COURSE_TITLE'       => 'Something translated',
-                'SOMETHING'          => 'SOMEWHAT',
-                'SOMETHING_ELSE'     => 'ANYTHING',
-                'DATE_COMPLETED'     => 'Something translated',
+                'COURSE_TITLE' => 'Something translated',
+                'SOMETHING' => 'SOMEWHAT',
+                'SOMETHING_ELSE' => 'ANYTHING',
+                'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
             ),
             $placeHolders

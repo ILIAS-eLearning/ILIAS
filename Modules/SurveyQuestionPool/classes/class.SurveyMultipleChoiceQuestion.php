@@ -451,8 +451,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 
                         $affectedRows = $ilDB->insert("svy_answer", $fields);
                     } else {
-                        $return_data[] = array("value"=>$entered_value,
-                                "textanswer"=>$post_data[$this->getId() . "_" . $entered_value . "_other"]);
+                        $return_data[] = array("value" => $entered_value,
+                                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]);
                     }
                 }
             }
@@ -547,7 +547,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $category = $this->categories->getCategory($i);
-            $options[$category->scale-1] = $category->scale . " - " . $category->title;
+            $options[$category->scale - 1] = $category->scale . " - " . $category->title;
         }
         return $options;
     }
@@ -578,7 +578,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
     public function getPreconditionValueOutput($value)
     {
         // #18136
-        $category = $this->categories->getCategoryForScale($value+1);
+        $category = $this->categories->getCategoryForScale($value + 1);
         
         // #17895 - see getPreconditionOptions()
         return $category->scale .

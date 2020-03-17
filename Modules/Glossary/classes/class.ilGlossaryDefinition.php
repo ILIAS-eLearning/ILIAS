@@ -408,7 +408,7 @@ class ilGlossaryDefinition
         if ($ltexs > $ltexe) {
             $ltexe = strpos($text, "[/tex]", $ltexs);
             if ($ltexe > 0) {
-                $short = ilUtil::shortenText($text, $ltexe+6, true);
+                $short = ilUtil::shortenText($text, $ltexe + 6, true);
             }
         }
         
@@ -675,9 +675,9 @@ class ilGlossaryDefinition
 
         $ilDB = $DIC->database();
 
-        $ilDB->manipulate("UPDATE glossary_definition SET " .
+        $ilDB->manipulate(
+            "UPDATE glossary_definition SET " .
             " short_text_dirty = " . $ilDB->quote(1, "integer")
         );
     }
-
 }

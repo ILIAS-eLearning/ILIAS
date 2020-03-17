@@ -252,6 +252,6 @@ class ilSkinStyleXML
         return $this->getCssFile() == $resource
             || $this->getImageDirectory() == $resource
             || $this->getFontDirectory() == $resource
-            || $this->getSoundDirectory()== $resource;
+            || $this->getSoundDirectory() == $resource;
     }
 }

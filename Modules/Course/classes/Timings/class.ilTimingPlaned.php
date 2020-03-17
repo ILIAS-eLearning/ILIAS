@@ -51,9 +51,9 @@ class ilTimingPlaned
         $lng = $DIC['lng'];
         $tree = $DIC['tree'];
 
-        $this->ilErr =&$ilErr;
-        $this->db  =&$ilDB;
-        $this->lng =&$lng;
+        $this->ilErr = &$ilErr;
+        $this->db = &$ilDB;
+        $this->lng = &$lng;
 
         $this->item_id = $item_id;
         $this->user_id = $a_usr_id;
@@ -164,7 +164,7 @@ class ilTimingPlaned
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $data[$row->usr_id]['start'] = $row->planed_start;
-            $data[$row->usr_id]['end']   = $row->planed_end;
+            $data[$row->usr_id]['end'] = $row->planed_end;
         }
         return $data ? $data : array();
     }

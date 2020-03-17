@@ -1051,9 +1051,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
                             $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
                                 ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                                 : null;
-                            $answer_data[] = array("value"=>$value,
-                                "textanswer"=>$other_value,
-                                "rowvalue"=>$matches[1]);
+                            $answer_data[] = array("value" => $value,
+                                "textanswer" => $other_value,
+                                "rowvalue" => $matches[1]);
                         }
                     }
                 }
@@ -1066,9 +1066,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
                             ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                             : null;
                         foreach ($value as $checked) {
-                            $answer_data[] = array("value"=>$checked,
-                                "textanswer"=>$other_value,
-                                "rowvalue"=>$matches[1]);
+                            $answer_data[] = array("value" => $checked,
+                                "textanswer" => $other_value,
+                                "rowvalue" => $matches[1]);
                         }
                     }
                 }

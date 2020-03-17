@@ -253,7 +253,7 @@ class ilPCTabs extends ilPageContent
         // File Item
         $childs = $this->tabs_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "Tab") {
                 $pc_id = $childs[$i]->get_attribute("PCID");
                 $hier_id = $childs[$i]->get_attribute("HierId");
@@ -306,7 +306,7 @@ class ilPCTabs extends ilPageContent
         // File Item
         $childs = $this->tabs_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "Tab") {
                 if ($a_pc_id == $childs[$i]->get_attribute("PCID") &&
                     $a_hier_id == $childs[$i]->get_attribute("HierId")) {

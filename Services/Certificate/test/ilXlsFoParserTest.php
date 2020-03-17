@@ -11,10 +11,10 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
             'margin_body' => array(
-                'top'    => '1cm',
-                'right'  => '2cm',
+                'top' => '1cm',
+                'right' => '2cm',
                 'bottom' => '3cm',
-                'left'   => '4cm'
+                'left' => '4cm'
             ),
             'pageformat' => 'a4'
         );
@@ -66,10 +66,10 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
                     '/_xsl' => '<xml>Some XLS Content</xml>'
                 ),
                 array(
-                    'pageheight'      => '297mm',
-                    'pagewidth'       => '210mm',
+                    'pageheight' => '297mm',
+                    'pagewidth' => '210mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
-                    'marginbody'      => '1cm 2cm 3cm 4cm'
+                    'marginbody' => '1cm 2cm 3cm 4cm'
                 )
             )
             ->willReturn('Something Processed');
@@ -107,10 +107,10 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
             'margin_body' => array(
-                'top'    => '1cm',
-                'right'  => '2cm',
+                'top' => '1cm',
+                'right' => '2cm',
                 'bottom' => '3cm',
-                'left'   => '4cm'
+                'left' => '4cm'
             ),
             'pageformat' => 'custom'
         );
@@ -178,10 +178,10 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
             'margin_body' => array(
-                'top'    => '1cm',
-                'right'  => '2cm',
+                'top' => '1cm',
+                'right' => '2cm',
                 'bottom' => '3cm',
-                'left'   => '4cm'
+                'left' => '4cm'
             ),
             'pageformat' => 'custom',
             'pagewidth' => '210mm',
@@ -235,8 +235,8 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
                     '/_xsl' => '<xml>Some XLS Content</xml>'
                 ),
                 array(
-                    'pageheight'      => '297mm',
-                    'pagewidth'       => '210mm',
+                    'pageheight' => '297mm',
+                    'pagewidth' => '210mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
                     'marginbody' => '1cm 2cm 3cm 4cm'
                 )
@@ -273,10 +273,10 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
             'margin_body' => array(
-                'top'    => '1cm',
-                'right'  => '2cm',
+                'top' => '1cm',
+                'right' => '2cm',
                 'bottom' => '3cm',
-                'left'   => '4cm'
+                'left' => '4cm'
             ),
             'pageformat' => 'custom',
             'pagewidth' => '210mm',
@@ -330,8 +330,8 @@ class ilXlsFoParserTest extends PHPUnit_Framework_TestCase
                     '/_xsl' => '<xml>Some XLS Content</xml>'
                 ),
                 array(
-                    'pageheight'      => '29.7mm',
-                    'pagewidth'       => '21.0mm',
+                    'pageheight' => '29.7mm',
+                    'pagewidth' => '21.0mm',
                     'backgroundimage' => '[BACKGROUND_IMAGE]',
                     'marginbody' => '1cm 2cm 3cm 4cm'
                 )

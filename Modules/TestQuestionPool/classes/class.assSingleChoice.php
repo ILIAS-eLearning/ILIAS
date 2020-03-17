@@ -429,7 +429,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             array_push($newchoices, $answer);
             for ($i = $order; $i < count($this->answers); $i++) {
                 $changed = $this->answers[$i];
-                $changed->setOrder($i+1);
+                $changed->setOrder($i + 1);
                 array_push($newchoices, $changed);
             }
             $this->answers = $newchoices;
@@ -617,7 +617,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
             $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-            $row    = $ilDB->fetchAssoc($result);
+            $row = $ilDB->fetchAssoc($result);
             $update = $row["solution_id"];
 
             if ($update) {
@@ -703,7 +703,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         foreach ($this->answers as $key => $value) {
             /** @var ASS_AnswerMultipleResponseImage $answer_obj */
             $answer_obj = $this->answers[$key];
-            $next_id    = $ilDB->nextId('qpl_a_sc');
+            $next_id = $ilDB->nextId('qpl_a_sc');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_sc (answer_id, question_fi, answertext, points, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 array( 'integer', 'integer', 'text', 'float', 'integer', 'text', 'integer' ),
@@ -1001,7 +1001,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         
@@ -1050,7 +1050,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
     public function createRandomSolution($active_id, $pass)
     {
-        $value = rand(0, count($this->answers)-1);
+        $value = rand(0, count($this->answers) - 1);
         $_POST["multiple_choice_result"] = (strlen($value)) ? (string) $value : '0';
         $this->saveWorkingData($active_id, $pass);
         $this->calculateResultsFromSolution($active_id, $pass);
@@ -1122,7 +1122,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass  = null)
+    public function isAnswered($active_id, $pass = null)
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1212,7 +1212,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }
@@ -1242,7 +1242,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 
         $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath  = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+        $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
 
         ilUtil::delDir($origImagePath);
         if (is_dir($dupImagePath)) {

@@ -175,9 +175,9 @@ class ilTree
             $a_root_id = ROOT_FOLDER_ID;
         }
 
-        $this->tree_id		  = $a_tree_id;
-        $this->root_id		  = $a_root_id;
-        $this->table_tree     = 'tree';
+        $this->tree_id = $a_tree_id;
+        $this->root_id = $a_root_id;
+        $this->table_tree = 'tree';
         $this->table_obj_data = 'object_data';
         $this->table_obj_reference = 'object_reference';
         $this->ref_pk = 'ref_id';
@@ -627,7 +627,7 @@ class ilTree
             throw new InvalidArgumentException($message);
         }
 
-        if ($a_type=='rolf' && $this->table_obj_reference) {
+        if ($a_type == 'rolf' && $this->table_obj_reference) {
             // Performance optimization: A node can only have exactly one
             // role folder as its child. Therefore we don't need to sort the
             // results, and we can let the database know about the expected limit.
@@ -809,9 +809,9 @@ class ilTree
                 "Services/Tree",
                 "insertNode",
                 array(
-                        'tree'		=> $this->table_tree,
-                        'node_id' 	=> $a_node_id,
-                        'parent_id'	=> $a_parent_id)
+                        'tree' => $this->table_tree,
+                        'node_id' => $a_node_id,
+                        'parent_id' => $a_parent_id)
             );
         }
     }
@@ -1001,7 +1001,7 @@ class ilTree
         }
 
         $inClause = 'child IN (';
-        for ($i=0; $i < count($pathIds); $i++) {
+        for ($i = 0; $i < count($pathIds); $i++) {
             if ($i > 0) {
                 $inClause .= ',';
             }
@@ -1141,7 +1141,7 @@ class ilTree
         require_once('include/Unicode/UtfNormal.php');
         include_once './Services/Utilities/classes/class.ilStr.php';
         $inClause = 'd.title IN (';
-        for ($i=0; $i < count($titlePath); $i++) {
+        for ($i = 0; $i < count($titlePath); $i++) {
             $titlePath[$i] = ilStr::strToLower(UtfNormal::toNFC($titlePath[$i]));
             if ($i > 0) {
                 $inClause .= ',';
@@ -1166,7 +1166,7 @@ class ilTree
             'FROM ' . $this->table_tree . '  t ' .
             $joinClause . ' ' .
             'WHERE ' . $inClause . ' ' .
-            'AND t.depth <= ' . (count($titlePath)+count($nodePath)) . ' ' .
+            'AND t.depth <= ' . (count($titlePath) + count($nodePath)) . ' ' .
             'AND t.tree = 1 ' .
             'ORDER BY t.depth, t.child ASC';
         $r = $ilDB->query($q);
@@ -1732,7 +1732,7 @@ class ilTree
         }
 
         if (!isset($a_tree_id)) {
-            $message  = "No tree_id given!";
+            $message = "No tree_id given!";
             $this->log->error($message);
             throw new InvalidArgumentException($message);
         }
@@ -2359,7 +2359,7 @@ class ilTree
         $childs = $this->getChildIds($node_id);
 
         foreach ($childs as $child) {
-            $i = $this->__renumber($child, $i+1);
+            $i = $this->__renumber($child, $i + 1);
         }
         $i++;
         
@@ -2628,10 +2628,10 @@ class ilTree
                 "Services/Tree",
                 "moveTree",
                 array(
-                        'tree'			=> $this->table_tree,
-                        'source_id' 	=> $a_source_id,
-                        'target_id' 	=> $a_target_id,
-                        'old_parent_id'	=> $old_parent_id
+                        'tree' => $this->table_tree,
+                        'source_id' => $a_source_id,
+                        'target_id' => $a_target_id,
+                        'old_parent_id' => $old_parent_id
                         )
             );
         }

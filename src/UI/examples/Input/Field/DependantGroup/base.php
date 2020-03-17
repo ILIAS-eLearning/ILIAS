@@ -14,7 +14,7 @@ function base()
     $dependant_field1 = $ui->input()->field()->text("Item 1", "Just some dependent group field");
     $dependant_field2 = $ui->input()->field()->text("Item 1", "Just another dependent group field");
 
-    $dependant_group = $ui->input()->field()->dependantGroup([ "Sub Part 1"=>$dependant_field1, "Sub Part 2"=>$dependant_field2]);
+    $dependant_group = $ui->input()->field()->dependantGroup([ "Sub Part 1" => $dependant_field1, "Sub Part 2" => $dependant_field2]);
 
     //Step 2: Define input and attach sub section
     $checkbox_input = $ui->input()->field()->checkbox("Checkbox", "Check to display dependant field.")
@@ -29,12 +29,12 @@ function base()
     );
 
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [ "checkbox"=>$checkbox_input]);
+    $form = $ui->input()->container()->form()->standard($form_action, [ "checkbox" => $checkbox_input]);
 
 
     //Step 4: Implement some form data processing.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='checkbox') {
+        && $request->getQueryParams()['example_name'] == 'checkbox') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

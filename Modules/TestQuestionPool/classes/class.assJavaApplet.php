@@ -995,7 +995,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

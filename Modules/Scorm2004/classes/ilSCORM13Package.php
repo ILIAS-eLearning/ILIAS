@@ -18,12 +18,12 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 class ilSCORM13Package
 {
     const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
-    const CONVERT_XSL   = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
     const DB_DECODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
-    const VALIDATE_XSD  = './libs/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
+    const VALIDATE_XSD = './libs/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
     
-    const WRAPPER_HTML  = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    const WRAPPER_JS  	= './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
     
 
     private $packageFile;
@@ -141,7 +141,7 @@ class ilSCORM13Package
     * @access       public
     * @return       string title of package
     */
-    public function il_import($packageFolder, $packageId, $ilias, $validate, $reimport=false)
+    public function il_import($packageFolder, $packageId, $ilias, $validate, $reimport = false)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -155,8 +155,8 @@ class ilSCORM13Package
             $this->dbRemoveAll();
         }
         
-        $this->packageFolder=$packageFolder;
-        $this->packageId=$packageId;
+        $this->packageFolder = $packageFolder;
+        $this->packageId = $packageId;
         $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
         //step 1 - parse Manifest-File and validate
         $this->imsmanifest = new DOMDocument;
@@ -188,7 +188,7 @@ class ilSCORM13Package
         }
         //$this->manifest->save("C:\Users\gratat\after.xml");
         //step 3 validation -just for normalized XML
-        if ($validate=="y") {
+        if ($validate == "y") {
             if (!$this->validate($this->manifest, self::VALIDATE_XSD)) {
                 $ilErr->raiseError(
                     "<b>The uploaded SCORM 1.2 / SCORM 2004 is not valid. You can try to import the package without the validation option checked on your own risk. </b><br><br>Validation Error(s):</b><br> Normalized XML is not conform to " . self::VALIDATE_XSD,
@@ -239,7 +239,7 @@ class ilSCORM13Package
             if ($b = $r[strval($xe['resourceId'])]) {
                 $xe['href'] = strval($b['base']) . strval($b['href']);
                 unset($xe['resourceId']);
-                if (strval($b['scormType'])=='sco') {
+                if (strval($b['scormType']) == 'sco') {
                     $xe['sco'] = true;
                 }
             }
@@ -265,14 +265,14 @@ class ilSCORM13Package
         $ilDB->update(
             'cp_package',
             array(
-                'xmldata'			=> array('clob', $x->asXML()),
-                'jsdata'			=> array('clob', json_encode($j)),
-                'activitytree'		=> array('clob', json_encode($adl_tree['tree'])),
-                'global_to_system'	=> array('integer', (int) $adl_tree['global']),
+                'xmldata' => array('clob', $x->asXML()),
+                'jsdata' => array('clob', json_encode($j)),
+                'activitytree' => array('clob', json_encode($adl_tree['tree'])),
+                'global_to_system' => array('integer', (int) $adl_tree['global']),
                 'shared_data_global_to_system' => array('integer', (int) $adl_tree['dataglobal'])
             ),
             array(
-                'obj_id'			=> array('integer', (int) $this->packageId)
+                'obj_id' => array('integer', (int) $this->packageId)
             )
         );
 
@@ -297,8 +297,8 @@ class ilSCORM13Package
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         
-        $this->packageFolder=$packageFolder;
-        $this->packageId=$packageId;
+        $this->packageFolder = $packageFolder;
+        $this->packageId = $packageId;
         $this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
         $this->imsmanifest = new DOMDocument;
         $this->imsmanifest->async = false;
@@ -358,8 +358,8 @@ class ilSCORM13Package
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         
-        $this->packageFolder=$packageFolder;
-        $this->packageId=$packageId;
+        $this->packageFolder = $packageFolder;
+        $this->packageId = $packageId;
         $this->imsmanifestFile = $this->packageFolder . '/' . 'index.xml';
         $this->imsmanifest = new DOMDocument;
         $this->imsmanifest->async = false;
@@ -422,8 +422,8 @@ class ilSCORM13Package
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
 
-        $this->packageFolder=$packageFolder;
-        $this->packageId=$slm->getId();
+        $this->packageFolder = $packageFolder;
+        $this->packageId = $slm->getId();
         $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
         $this->imsmanifest = new DOMDocument;
         $this->imsmanifest->async = false;
@@ -519,12 +519,12 @@ class ilSCORM13Package
                 }
                 break;
             case "organization":
-                $this->slm->title=$node->title;
+                $this->slm->title = $node->title;
                 break;
             case "item":
                 $a = $node->attributes();
                 if (preg_match("/il_\d+_chap_\d+/", $a['identifier'])) {
-                    $chap= new ilSCORM2004Chapter($this->slm);
+                    $chap = new ilSCORM2004Chapter($this->slm);
                     $chap->setTitle($node->title);
                     $chap->setSLMId($this->slm->getId());
                     $chap->create(true);
@@ -650,9 +650,9 @@ class ilSCORM13Package
         foreach ($node->attributes() as $k => $v) {
             // cast to boolean and number if possible
             $v = strval($v);
-            if ($v==="true") {
+            if ($v === "true") {
                 $v = true;
-            } elseif ($v==="false") {
+            } elseif ($v === "false") {
                 $v = false;
             } elseif (is_numeric($v)) {
                 $v = (float) $v;
@@ -779,7 +779,7 @@ class ilSCORM13Package
                             }
                         }
                         
-                        if ($media_item->getLocationType()=="LocalFile") {
+                        if ($media_item->getLocationType() == "LocalFile") {
                             //							$tmp_name = $this->packageFolder."/objects/".$OriginId."/".$xMediaItem->Location;
 //							copy($tmp_name,  $mob_dir."/".$xMediaItem->Location);
                         }
@@ -806,7 +806,7 @@ class ilSCORM13Package
             //if($intlinks )
             {
                 foreach ($intlinks as $intlink) {
-                    if ($intlink[Type]!="File") {
+                    if ($intlink[Type] != "File") {
                         continue;
                     }
                     $path = $this->packageFolder . "/objects/" . str_replace('dfile', 'file', $intlink[Target]);
@@ -831,7 +831,7 @@ class ilSCORM13Package
                     //$fileObj->setPermissions($slm->getId ());
                     $fileObj->createDirectory();
                     $fileObj->storeUnzipedFile($path . "/" . $filename, ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-                    $intlink[Target]="il__dfile_" . $fileObj->getId();
+                    $intlink[Target] = "il__dfile_" . $fileObj->getId();
                 }
             }
             $fileitems = $page_xml->xpath("//FileItem/Identifier");
@@ -860,7 +860,7 @@ class ilSCORM13Package
                     //$fileObj->setPermissions($slm->getId ());
                     $fileObj->createDirectory();
                     $fileObj->storeUnzipedFile($path . "/" . $filename, ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
-                    $fileitem[Entry]="il__file_" . $fileObj->getId();
+                    $fileitem[Entry] = "il__file_" . $fileObj->getId();
                 }
             }
             $pagex = new ilSCORM2004Page($page->getId());
@@ -870,14 +870,14 @@ class ilSCORM13Package
             $ddoc->preserveWhiteSpace = false;
             $ddoc->formatOutput = false;
             $ddoc->loadXML($page_xml->asXML());
-            $xpath  = new DOMXPath($ddoc);
+            $xpath = new DOMXPath($ddoc);
             $tnode = $xpath->query('PageContent');
             $t = "<PageObject>";
             foreach ($tnode as $ttnode) {
                 $t .= str_replace("&amp;", "&", $ddoc->saveXML($ttnode));
             }
-            $t .="</PageObject>";
-            foreach ($qtis as $old=>$q) {
+            $t .= "</PageObject>";
+            foreach ($qtis as $old => $q) {
                 $t = str_replace($old, 'il__qst_' . $q['pool'], $t);
             }
             $pagex->setXMLContent($t);
@@ -885,7 +885,7 @@ class ilSCORM13Package
         }
     }
     
-    public function dbImport($node, &$lft=1, $depth=1, $parent=0)
+    public function dbImport($node, &$lft = 1, $depth = 1, $parent = 0)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -924,8 +924,8 @@ class ilSCORM13Package
                 break;
 
             case XML_ELEMENT_NODE:
-                if ($node->nodeName==='manifest') {
-                    if ($node->getAttribute('uri')=="") {
+                if ($node->nodeName === 'manifest') {
+                    if ($node->getAttribute('uri') == "") {
                         // default URI is md5 hash of zip file, i.e. packageHash
                         $node->setAttribute('uri', 'md5:' . $this->packageHash);
                     }
@@ -1048,7 +1048,7 @@ class ilSCORM13Package
                     }
                 }
                 
-                if ($node->nodeName==='datamap') {
+                if ($node->nodeName === 'datamap') {
                     $names[] = 'slm_id';
                     $values[] = $this->packageId;
                     $types[] = 'integer';
@@ -1177,7 +1177,7 @@ class ilSCORM13Package
         $prc = new XSLTProcessor;
         $prc->registerPHPFunctions();
         $r = @$prc->importStyleSheet($xsl);
-        if (false===@$prc->importStyleSheet($xsl)) {
+        if (false === @$prc->importStyleSheet($xsl)) {
             die('ERROR: importStyleSheet ' . $xslfile);
         }
         if ($outputpath) {

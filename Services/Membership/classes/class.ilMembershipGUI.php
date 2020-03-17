@@ -319,7 +319,7 @@ class ilMembershipGUI
                 require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
 
 
-                $provider    = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
+                $provider = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
                 $gallery_gui = new ilUsersGalleryGUI($provider);
                 $this->ctrl->forwardCommand($gallery_gui);
                 break;
@@ -778,7 +778,7 @@ class ilMembershipGUI
                 'participants',
                 array(),
                 array(
-                    'type'   => 'new',
+                    'type' => 'new',
                     'sig' => $this->createMailSignature()
                 ),
                 $context_options
@@ -863,10 +863,10 @@ class ilMembershipGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $this->lng->txt('user'),
-                    'user_type'				=> $this->getParentGUI()->getLocalRoles(),
-                    'user_type_default'		=> $this->getDefaultRole(),
-                    'submit_name'			=> $this->lng->txt('add')
+                    'auto_complete_name' => $this->lng->txt('user'),
+                    'user_type' => $this->getParentGUI()->getLocalRoles(),
+                    'user_type_default' => $this->getDefaultRole(),
+                    'submit_name' => $this->lng->txt('add')
                 )
             );
 

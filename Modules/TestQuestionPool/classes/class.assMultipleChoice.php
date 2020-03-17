@@ -451,7 +451,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             array_push($newchoices, $answer);
             for ($i = $order; $i < count($this->answers); $i++) {
                 $changed = $this->answers[$i];
-                $changed->setOrder($i+1);
+                $changed->setOrder($i + 1);
                 array_push($newchoices, $changed);
             }
             $this->answers = $newchoices;
@@ -692,7 +692,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
                 array( $this->getId() )
             );
             if ($result->numRows() == 1) {
-                $data         = $ilDB->fetchAssoc($result);
+                $data = $ilDB->fetchAssoc($result);
                 $oldthumbsize = $data['thumb_size'];
             }
         }
@@ -730,7 +730,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
         foreach ($this->answers as $key => $value) {
             $answer_obj = $this->answers[$key];
-            $next_id    = $ilDB->nextId('qpl_a_mc');
+            $next_id = $ilDB->nextId('qpl_a_mc');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_mc (answer_id, question_fi, answertext, points, points_unchecked, aorder, imagefile, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 array( 'integer', 'integer', 'text', 'float', 'float', 'integer', 'text', 'integer' ),
@@ -1036,7 +1036,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['selection_limit'] = (int) $this->getSelectionLimit();
@@ -1352,7 +1352,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

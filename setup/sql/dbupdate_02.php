@@ -3151,7 +3151,7 @@ while ($row = $result->fetchRow(MDB2_FETCHMODE_ASSOC)) {
 $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
         "VALUES ('typ', 'facs', 'File Access settings object', -1, now(), now())";
 $ilDB->query($query);
-$typ_id =  $ilDB->getLastInsertId();
+$typ_id = $ilDB->getLastInsertId();
 
 // REGISTER RBAC OPERATIONS FOR OBJECT TYPE
 // 1: edit_permissions, 2: visible, 3: read, 4:write
@@ -3445,7 +3445,7 @@ $ilCtrlStructureReader->getStructure();
 $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
         "VALUES ('typ', 'sess', 'Session object', -1, now(), now())";
 $ilDB->query($query);
-$typ_id =  $ilDB->getLastInsertId();
+$typ_id = $ilDB->getLastInsertId();
 
 // Register permissions for sessions
 // 1: edit_permissions, 2: visible, 3: read, 4:write
@@ -3803,7 +3803,7 @@ if ($permissions_empty) {
     $query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
                         "VALUES ('typ', 'sess', 'Session object', -1, now(), now())";
     $ilDB->query($query);
-    $typ_id =  $ilDB->getLastInsertId();
+    $typ_id = $ilDB->getLastInsertId();
 
     // Register permissions for sessions
     // 1: edit_permissions, 2: visible, 3: read, 4:write
@@ -4985,9 +4985,9 @@ if (!$ilDB->tableColumnExists("tst_test_pass_result", "workingtime")) {
         global $ilDB;
 
         $query = sprintf(
-          "SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-          $ilDB->quote($active_id . "")
-      );
+            "SELECT tst_tests.random_test FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
+            $ilDB->quote($active_id . "")
+        );
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(MDB2_FETCHMODE_ASSOC)) {
             return $row['random_test'];
@@ -6239,7 +6239,7 @@ remove_on_update TINYINT( 1 ) NOT NULL
                 "page_id = ? AND (parent_type = ? OR parent_type = ?) AND parent_id = ?",
                 array("boolean", "integer", "text", "text", "integer")
             );
-            $ilDB->execute($st2, array(($rec["active"]!="n"), $rec["obj_id"], "lm", "dbk", $rec["lm_id"]));
+            $ilDB->execute($st2, array(($rec["active"] != "n"), $rec["obj_id"], "lm", "dbk", $rec["lm_id"]));
         }
     }
 ?>
@@ -6501,8 +6501,8 @@ if ($result->numRows() > 0) {
 <?php
 
 if (!$ilDB->tableColumnExists('usr_search', 'query')) {
-    $ilDB->alterTable('usr_search', array('add'	=> array('query' => array('type' => 'text',
-                                                                        'notnull'	=> false))));
+    $ilDB->alterTable('usr_search', array('add' => array('query' => array('type' => 'text',
+                                                                        'notnull' => false))));
 }
 ?>
 <#1397>
@@ -6512,21 +6512,21 @@ $ilCtrlStructureReader->getStructure();
 <#1398>
 <?php
 if (!$ilDB->tableColumnExists("qpl_question_matching", "thumb_geometry")) {
-    $ilDB->alterTable('qpl_question_matching', array('add'	=> array('thumb_geometry' => array('type' => 'integer','notnull'	=> true, "default" => 100))));
+    $ilDB->alterTable('qpl_question_matching', array('add' => array('thumb_geometry' => array('type' => 'integer','notnull' => true, "default" => 100))));
 }
 ?>
 <#1399>
 <?php
 if (!$ilDB->tableColumnExists("qpl_question_matching", "element_height")) {
-    $ilDB->alterTable('qpl_question_matching', array('add'	=> array('element_height' => array('type' => 'integer','notnull'	=> false))));
+    $ilDB->alterTable('qpl_question_matching', array('add' => array('element_height' => array('type' => 'integer','notnull' => false))));
 }
 ?>
 <#1400>
 <?php
 if (!$ilDB->tableColumnExists('usr_search', 'root')) {
-    $ilDB->alterTable('usr_search', array('add'	=> array('root' => array('type' => 'integer',
-                                                                        'notnull'	=> false,
-                                                                        'default'	=> ROOT_FOLDER_ID))));
+    $ilDB->alterTable('usr_search', array('add' => array('root' => array('type' => 'integer',
+                                                                        'notnull' => false,
+                                                                        'default' => ROOT_FOLDER_ID))));
 }
 ?>
 <#1401>
@@ -12128,7 +12128,7 @@ $ilDB->addTableColumn("frm_thread_access", "access_old_ts", $atts);
 $set = $ilDB->query(
     "SELECT * FROM frm_thread_access "
 );
-while ($rec  = $ilDB->fetchAssoc($set)) {
+while ($rec = $ilDB->fetchAssoc($set)) {
     $ilDB->manipulate(
         "UPDATE frm_thread_access SET " .
         " access_old_ts = " . $ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp") .
@@ -14111,7 +14111,7 @@ while ($data = $ilDB->fetchAssoc($result)) {
 <?php
     $ilDB->renameTable('usr_new_account_mail', 'mail_template');
     $ilDB->manipulate('ALTER TABLE mail_template DROP PRIMARY KEY');
-    $ilDB->addTableColumn("mail_template", "type", array("type" => "text", "length" => 4, "notnull" => true, 'default'=>''));
+    $ilDB->addTableColumn("mail_template", "type", array("type" => "text", "length" => 4, "notnull" => true, 'default' => ''));
     $ilDB->addPrimaryKey("mail_template", array("type", "lang"));
     $ilDB->manipulate("UPDATE mail_template SET type = 'nacc'");
 ?>
@@ -14182,23 +14182,23 @@ $ilDB->manipulateF(
 <?php
 $ilDB->createTable("mep_item", array(
     'id' => array(
-        'type'     => 'integer',
-        'length'   => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true
     ),
     'type' => array(
-        'type'     => 'text',
-        'length'   => 10,
+        'type' => 'text',
+        'length' => 10,
         'notnull' => false
     ),
     'title' => array(
-        'type'     => 'text',
-        'length'   => 128,
+        'type' => 'text',
+        'length' => 128,
         'notnull' => false
     ),
     'foreign_id' => array(
-        'type'     => 'integer',
-        'length'   => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => false
     )
 ));
@@ -14255,19 +14255,19 @@ $ilDB->renameTableColumn("mep_item", "id", "obj_id");
 ?>
 <#2751>
 <?php
-$ilDB->addTableColumn("svy_material", "text_material", array("type" => "text", "length" => 4000, "notnull" => false, 'default'=>null));
+$ilDB->addTableColumn("svy_material", "text_material", array("type" => "text", "length" => 4000, "notnull" => false, 'default' => null));
 ?>
 <#2752>
 <?php
-$ilDB->addTableColumn("svy_material", "external_link", array("type" => "text", "length" => 500, "notnull" => false, 'default'=>null));
+$ilDB->addTableColumn("svy_material", "external_link", array("type" => "text", "length" => 500, "notnull" => false, 'default' => null));
 ?>
 <#2753>
 <?php
-$ilDB->addTableColumn("svy_material", "file_material", array("type" => "text", "length" => 200, "notnull" => false, 'default'=>null));
+$ilDB->addTableColumn("svy_material", "file_material", array("type" => "text", "length" => 200, "notnull" => false, 'default' => null));
 ?>
 <#2754>
 <?php
-$ilDB->addTableColumn("svy_material", "material_type", array("type" => "integer", "length" => 4, "notnull" => false, 'default'=>0));
+$ilDB->addTableColumn("svy_material", "material_type", array("type" => "integer", "length" => 4, "notnull" => false, 'default' => 0));
 ?>
 <#2755>
 <?php
@@ -14336,7 +14336,7 @@ $ilDB->dropTableColumn('svy_qst_nominal', 'subtype');
 ?>
 <#2763>
 <?php
-$ilDB->addTableColumn("udf_definition", "registration_visible", array("type" => "integer", "length" => 1, "notnull" => false, 'default'=>0));
+$ilDB->addTableColumn("udf_definition", "registration_visible", array("type" => "integer", "length" => 1, "notnull" => false, 'default' => 0));
 ?>
 <#2764>
 <?php
@@ -14350,18 +14350,18 @@ $ilCtrlStructureReader->getStructure();
 <?php
     $ilDB->createTable("udf_text", array(
         'usr_id' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
         'field_id' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
         'value' => array(
-            'type'     => 'text',
-            'length'   => 4000,
+            'type' => 'text',
+            'length' => 4000,
             'fixed' => false,
             'notnull' => false
         )
@@ -14372,17 +14372,17 @@ $ilCtrlStructureReader->getStructure();
 <?php
     $ilDB->createTable("udf_clob", array(
         'usr_id' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
         'field_id' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
         'value' => array(
-            'type'     => 'clob'
+            'type' => 'clob'
         )
     ));
     $ilDB->addPrimaryKey("udf_clob", array("usr_id", "field_id"));
@@ -14390,7 +14390,7 @@ $ilCtrlStructureReader->getStructure();
 <#2768>
 <?php
     $set = $ilDB->query("SELECT * FROM udf_data");
-    while ($rec  = $ilDB->fetchAssoc($set)) {
+    while ($rec = $ilDB->fetchAssoc($set)) {
         $user_id = $rec["usr_id"];
         foreach ($rec as $f => $v) {
             if ($f != "usr_id") {
@@ -14408,25 +14408,25 @@ $ilCtrlStructureReader->getStructure();
 <?php
     $ilDB->createTable("license_data", array(
         'obj_id' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
         'licenses' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
         'used' => array(
-            'type'     => 'integer',
-            'length'   => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
         'remarks' => array(
-            'type'     => 'clob'
+            'type' => 'clob'
         )
     ));
     $ilDB->addPrimaryKey("license_data", array("obj_id"));
@@ -14445,7 +14445,7 @@ if ($ilDB->tableExists('svy_inv_grp_seq')) {
 ?>
 <#2772>
 <?php
-$ilDB->addTableColumn("tst_tests", "mailnotification", array("type" => "integer", "length" => 1, "notnull" => false, 'default'=> 0));
+$ilDB->addTableColumn("tst_tests", "mailnotification", array("type" => "integer", "length" => 1, "notnull" => false, 'default' => 0));
 ?>
 ?>
 <#2773>
@@ -14495,7 +14495,7 @@ mysql_query("UPDATE il_tag SET sub_obj_type = '-' " .
 ?>
 <#2776>
 <?php
-$ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" => false, 'default'=> null));
+$ilDB->addTableColumn("usr_data", "birthday", array("type" => "date", "notnull" => false, 'default' => null));
 ?>
 <#2777>
 <?php
@@ -15029,7 +15029,7 @@ $ilDB->addPrimaryKey("cache_clob", array("component", "name", "entry_id"));
 <?php
     $ilDB->modifyTableColumn("write_event", "write_id", array("type" => "integer", "length" => 4, "notnull" => true));
     $set = $ilDB->query("SELECT MAX(write_id) ma FROM write_event");
-    $rec  = $ilDB->fetchAssoc($set);
+    $rec = $ilDB->fetchAssoc($set);
     $next = $rec["ma"] + 1;
     $ilDB->createSequence("write_event", $next);
 ?>
@@ -15059,20 +15059,20 @@ $ilCtrlStructureReader->getStructure();
         $ilDB->update(
             'settings',
             array(
-                'value'		=> array('clob', $max)
+                'value' => array('clob', $max)
             ),
             array(
-                'module'	=> array('text', 'common'),
-                'keyword'	=> array('text', 'search_max_hits')
+                'module' => array('text', 'common'),
+                'keyword' => array('text', 'search_max_hits')
             )
         );
     } else {
         $ilDB->insert(
             'settings',
             array(
-                'value'		=> array('clob',$max),
-                'module'	=> array('text','common'),
-                'keyword'	=> array('text','search_max_hits')
+                'value' => array('clob',$max),
+                'module' => array('text','common'),
+                'keyword' => array('text','search_max_hits')
             )
         );
     }
@@ -15511,7 +15511,7 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
         " WHERE type = " . $ilDB->quote("typ", "text") .
         " AND title = " . $ilDB->quote("root", "text")
     );
-    if ($rec  = $ilDB->fetchAssoc($set)) {
+    if ($rec = $ilDB->fetchAssoc($set)) {
         $root_type_id = $rec["obj_id"];
     
         foreach ($all_types as $t) {
@@ -15538,7 +15538,7 @@ $ilDB->addTableColumn("il_news_item", "end_date", array(
         " WHERE type = " . $ilDB->quote("typ", "text") .
         " AND title = " . $ilDB->quote("root", "text")
 );
-    if ($rec  = $ilDB->fetchAssoc($set)) {
+    if ($rec = $ilDB->fetchAssoc($set)) {
         $root_type_id = $rec["obj_id"];
     
         $set = $ilDB->query("SELECT * FROM rbac_operations WHERE operation = " .
@@ -15684,41 +15684,41 @@ $ilDB->addPrimaryKey('style_usage', array('obj_id'));
 if (!$ilDB->tableExists("payment_erp")) {
     $fields = array(
     'erp_id' => array(
-      'type'    => 'integer',
-      'length'  => 4,
+      'type' => 'integer',
+      'length' => 4,
       'notnull' => true
     ),
     'erp_short' => array(
-      'type'    => 'text',
-      'length'  => 12,
+      'type' => 'text',
+      'length' => 12,
       'notnull' => true
     ),
     'name' => array(
-      'type'    => 'text',
-      'length'  => 32,
+      'type' => 'text',
+      'length' => 32,
       'notnull' => true
     ),
     'description' => array(
-      'type'    => 'text',
-      'length'  => 2000
+      'type' => 'text',
+      'length' => 2000
     ),
     'url' => array(
-      'type'    => 'text',
-      'length'   => 255
+      'type' => 'text',
+      'length' => 255
     )
   );
     $ilDB->createTable('payment_erp', $fields);
     $ilDB->addPrimaryKey('payment_erp', array('erp_id'));
     $ilDB->manipulateF(
-      "INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
-      array("integer", "text", "text", "text", "text"),
-      array(0, 'none', 'none', 'No ERP system', '')
-  );
+        "INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
+        array("integer", "text", "text", "text", "text"),
+        array(0, 'none', 'none', 'No ERP system', '')
+    );
     $ilDB->manipulateF(
-      "INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
-      array("integer", "text", "text", "text", "text"),
-      array(1, "eco", "E-conomic", "E-conomic online accounting system. Available in Danish, Deutch, Spanish, Norwegian, Swedish and English.", "http://www.e-conomic.dk")
-  );
+        "INSERT INTO payment_erp (erp_id, erp_short, name, description, url) VALUES (%s, %s, %s, %s, %s)",
+        array("integer", "text", "text", "text", "text"),
+        array(1, "eco", "E-conomic", "E-conomic online accounting system. Available in Danish, Deutch, Spanish, Norwegian, Swedish and English.", "http://www.e-conomic.dk")
+    );
 }
 ?>
 <#2886>
@@ -15726,30 +15726,30 @@ if (!$ilDB->tableExists("payment_erp")) {
 if (!$ilDB->tableExists("payment_erps")) {
     $fields = array(
     'erps_id' => array(
-      'type'    => 'integer',
-      'length'  => 4
+      'type' => 'integer',
+      'length' => 4
     ),
     'erp_id' => array(
-      'type'    => 'integer',
-      'length'  => 4
+      'type' => 'integer',
+      'length' => 4
     ),
     'active' => array(
-      'type'    => 'integer',
-      'length'  => 4
+      'type' => 'integer',
+      'length' => 4
     ),
     'settings' => array(
-      'type'    => 'text',
-      'length'  => 4000,
+      'type' => 'text',
+      'length' => 4000,
       'notnull' => true
     )
   );
     $ilDB->createTable('payment_erps', $fields);
     $ilDB->addPrimaryKey('payment_erps', array('erps_id'));
     $ilDB->manipulateF(
-      "INSERT INTO payment_erps (erps_id, erp_id, active, settings) VALUES (%s, %s, %s, %s)",
-      array("integer", "integer", "integer", "text"),
-      array(0, 0, 1, ' ')
-  );
+        "INSERT INTO payment_erps (erps_id, erp_id, active, settings) VALUES (%s, %s, %s, %s)",
+        array("integer", "integer", "integer", "text"),
+        array(0, 0, 1, ' ')
+    );
 }
 ?>
 <#2887>
@@ -15812,10 +15812,10 @@ if (!$ilDB->tableExists("payment_erps")) {
 <?php
 if (!$ilDB->tableExists("payment_erps")) {
     $fields = array(
-    'erp_id'    => array('type' => 'integer', 'length'  => 4),
-    'erps_id'   => array('type' => 'integer', 'length'  => 4),
-    'active'    => array('type' => 'integer', 'length'  => 4),
-    'settings'  => array('type' => 'text', 'length'  => 4000, 'notnull' => false, 'fixed' => false, "default" => null)
+    'erp_id' => array('type' => 'integer', 'length' => 4),
+    'erps_id' => array('type' => 'integer', 'length' => 4),
+    'active' => array('type' => 'integer', 'length' => 4),
+    'settings' => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'fixed' => false, "default" => null)
   );
     $ilDB->createTable('payment_erps', $fields);
     $ilDB->addPrimaryKey('payment_erps', array('erp_id', 'erps_id'));
@@ -15891,7 +15891,7 @@ if ((int) $rowType['obj_id'] && (int) $rowOperation['ops_id']) {
 <#2904>
 <?php
     $set = $ilDB->query('SELECT * FROM payment_settings');
-    if ($rec  = $ilDB->fetchAssoc($set)) {
+    if ($rec = $ilDB->fetchAssoc($set)) {
         $save_user_adr = $rec["save_customer_address_enabled"];
     }
     if ($save_user_adr == '1') {
@@ -16024,8 +16024,8 @@ if (!$ilDB->tableExists("cal_auth_token")) {
     'cal_auth_token',
     'ical',
     array(
-            'type'		=> 'clob',
-            'notnull'	=> false
+            'type' => 'clob',
+            'notnull' => false
         )
 );
 ?>
@@ -16035,10 +16035,10 @@ if (!$ilDB->tableExists("cal_auth_token")) {
     'cal_auth_token',
     'c_time',
     array(
-            'type'		=> 'integer',
-            'length'	=> 4,
-            'notnull'	=> true,
-            'default'	=> 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         )
 );
 ?>
@@ -16127,32 +16127,32 @@ if (!$ilDB->tableExists("tst_result_cache")) {
 $ilDB->createTable(
     'ut_lp_user_status',
     array(
-        'obj_id'	=>
+        'obj_id' =>
             array(
-                'type'		=> 'integer',
-                'length'	=> 4,
-                'default'	=> 0,
-                'notnull'	=> true
+                'type' => 'integer',
+                'length' => 4,
+                'default' => 0,
+                'notnull' => true
             ),
-        'usr_id'	=>
+        'usr_id' =>
             array(
-                'type'		=> 'integer',
-                'length'	=> 4,
-                'default'	=> 0,
-                'notnull'	=> true
+                'type' => 'integer',
+                'length' => 4,
+                'default' => 0,
+                'notnull' => true
             ),
-        'status'	=>
+        'status' =>
             array(
-                'type'		=> 'integer',
-                'length'	=> 1,
-                'default'	=> 0,
-                'notnull'	=> true
+                'type' => 'integer',
+                'length' => 1,
+                'default' => 0,
+                'notnull' => true
             ),
-        'additional_info'	=>
+        'additional_info' =>
             array(
-                'type'		=> 'text',
-                'length'	=> 4000,
-                'notnull'	=> false
+                'type' => 'text',
+                'length' => 4000,
+                'notnull' => false
             )
         ),
     true

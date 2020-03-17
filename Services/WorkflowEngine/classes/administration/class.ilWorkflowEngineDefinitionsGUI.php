@@ -164,7 +164,7 @@ class ilWorkflowEngineDefinitionsGUI
             return $form->getHTML();
         }
 
-        $fs     = $this->dic->filesystem()->storage();
+        $fs = $this->dic->filesystem()->storage();
         $upload = $this->dic->upload();
 
         $repositoryDirectory = ilObjWorkflowEngine::getRepositoryDir(true);
@@ -172,7 +172,7 @@ class ilWorkflowEngineDefinitionsGUI
             $fs->createDir($repositoryDirectory);
         }
 
-        $tmpDirectory =  ilObjWorkflowEngine::getTempDir(true);
+        $tmpDirectory = ilObjWorkflowEngine::getTempDir(true);
         if (!$fs->hasDir($tmpDirectory)) {
             $fs->createDir($tmpDirectory);
         }
@@ -200,8 +200,8 @@ class ilWorkflowEngineDefinitionsGUI
         );
 
         $repo_base_name = 'il' . substr($uploadResult->getName(), 0, strpos($uploadResult->getName(), '.'));
-        $wf_base_name   = 'wfd.' . $repo_base_name . '_v';
-        $version        = 0;
+        $wf_base_name = 'wfd.' . $repo_base_name . '_v';
+        $version = 0;
 
         $fileList = $fs->listContents($repositoryDirectory, true);
 
@@ -272,8 +272,8 @@ class ilWorkflowEngineDefinitionsGUI
             ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
             ilUtil::redirect(
                 html_entity_decode(
-                        $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                    )
+                    $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+                )
             );
         }
     }
@@ -319,12 +319,12 @@ class ilWorkflowEngineDefinitionsGUI
         }
 
         $event_data = array(
-            'type'			=> stripslashes($_POST['se_type']),
-            'content'		=> stripslashes($_POST['se_content']),
-            'subject_type'	=> stripslashes($_POST['se_subject_type']),
-            'subject_id'	=> (int) $_POST['se_subject_id'],
-            'context_type'	=> stripslashes($_POST['se_context_type']),
-            'context_id'	=> (int) $_POST['se_context_id']
+            'type' => stripslashes($_POST['se_type']),
+            'content' => stripslashes($_POST['se_content']),
+            'subject_type' => stripslashes($_POST['se_subject_type']),
+            'subject_id' => (int) $_POST['se_subject_id'],
+            'context_type' => stripslashes($_POST['se_context_type']),
+            'context_id' => (int) $_POST['se_context_id']
         );
         $process_id = stripslashes($_POST['process_id']);
 
@@ -369,8 +369,8 @@ class ilWorkflowEngineDefinitionsGUI
             ilUtil::sendInfo($this->parent_gui->lng->txt('action_aborted'), true);
             ilUtil::redirect(
                 html_entity_decode(
-                        $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                    )
+                    $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+                )
             );
         }
 
@@ -426,8 +426,8 @@ class ilWorkflowEngineDefinitionsGUI
         ilUtil::sendSuccess($this->parent_gui->lng->txt('process_started'), true);
         ilUtil::redirect(
             html_entity_decode(
-                    $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                )
+                $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
+            )
         );
     }
 
@@ -461,7 +461,7 @@ class ilWorkflowEngineDefinitionsGUI
 
         $processId = $this->getProcessIdFromRequest();
 
-        $pathToProcessPhpFile   = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId . '.php';
+        $pathToProcessPhpFile = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId . '.php';
         $pathToProcessBpmn2File = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId . '.bpmn2';
 
         if (file_exists($pathToProcessPhpFile)) {

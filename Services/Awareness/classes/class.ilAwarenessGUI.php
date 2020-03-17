@@ -151,7 +151,7 @@ class ilAwarenessGUI
                 $glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
             }
             if ($hcnt > 0) {
-                $glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+                $glyph = $glyph->withCounter($f->counter()->novelty((int) $hcnt));
             }
             $glyph_html = $renderer->render($glyph);
             $tpl->setVariable("GLYPH", $glyph_html);

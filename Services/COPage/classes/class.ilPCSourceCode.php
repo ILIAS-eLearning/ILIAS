@@ -66,7 +66,7 @@ class ilPCSourceCode extends ilPCParagraph
             // get XML Content
             $childs = $context_node->child_nodes();
 
-            for ($j=0; $j<count($childs); $j++) {
+            for ($j = 0; $j < count($childs); $j++) {
                 $content .= $dom->dump_node($childs[$j]);
             }
 
@@ -103,20 +103,20 @@ class ilPCSourceCode extends ilPCParagraph
             $content = str_replace("&amp;gt;", "&gt;", $content);
             //			$content = str_replace("&", "&amp;", $content);
             //var_dump($content);
-            $rows  	 = "<tr valign=\"top\">";
+            $rows = "<tr valign=\"top\">";
             $rownumbers = "";
-            $linenumbers= "";
+            $linenumbers = "";
 
             //if we have to show line numbers
-            if (strcmp($showlinenumbers, "y")==0) {
+            if (strcmp($showlinenumbers, "y") == 0) {
                 $linenumbers = "<td nowrap=\"nowrap\" class=\"ilc_LineNumbers\" >";
                 $linenumbers .= "<pre class=\"ilc_Code ilc_code_block_Code\">";
 
-                for ($j=0; $j < $rownums; $j++) {
-                    $indentno      = strlen($rownums) - strlen($j+1) + 2;
-                    $rownumeration = ($j+1);
-                    $linenumbers   .= "<span class=\"ilc_LineNumber\">$rownumeration</span>";
-                    if ($j < $rownums-1) {
+                for ($j = 0; $j < $rownums; $j++) {
+                    $indentno = strlen($rownums) - strlen($j + 1) + 2;
+                    $rownumeration = ($j + 1);
+                    $linenumbers .= "<span class=\"ilc_LineNumber\">$rownumeration</span>";
+                    if ($j < $rownums - 1) {
                         $linenumbers .= "\n";
                     }
                 }

@@ -42,7 +42,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
     {
         global $DIC;
         
-        $this->obj =&$a_obj;
+        $this->obj = &$a_obj;
         $this->ref_id = $a_obj->getRefId();
 
         $this->dav_helper = $dav_helper;

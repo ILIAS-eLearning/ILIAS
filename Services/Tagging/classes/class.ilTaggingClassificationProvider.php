@@ -89,7 +89,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             
             $map = array(
                 "personal" => $lng->txt("tagging_my_tags"),
-                "other" =>  $lng->txt("tagging_other_users")
+                "other" => $lng->txt("tagging_other_users")
             );
             foreach ($map as $type => $title) {
                 $tags = $all_tags[$type];

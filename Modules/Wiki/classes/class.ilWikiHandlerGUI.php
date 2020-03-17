@@ -70,7 +70,7 @@ class ilWikiHandlerGUI
         $ilCtrl = $DIC->ctrl();
 
         // initialisation stuff
-        $this->ctrl =  $ilCtrl;
+        $this->ctrl = $ilCtrl;
     }
     
     /**
@@ -111,7 +111,7 @@ class ilWikiHandlerGUI
                 $page_id = ilWikiPage::getPageIdForTitle($obj_id, $page);
                 $ptitle = ilWikiPage::lookupTitle($page_id);
                 
-                $title.= ": " . $ptitle;
+                $title .= ": " . $ptitle;
                 
                 $append = ($_GET["page"] != "")
                     ? "_" . ilWikiUtil::makeUrlTitle($page)

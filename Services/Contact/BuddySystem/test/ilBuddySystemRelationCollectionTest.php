@@ -171,10 +171,10 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $relation_5 = $this->getMockBuilder('ilBuddySystemRelation')->disableOriginalConstructor()->getMock();
 
         return array(
-            'indexed'     => array(array(0, 1, 2, 3, 4, 5)),
+            'indexed' => array(array(0, 1, 2, 3, 4, 5)),
             'associative' => array(array('A' => 'a', 'B' => 'b', 'C' => 'c')),
-            'mixed'       => array(array(0, 'A' => 'a', 1, 'B' => 'b', 2, 3)),
-            'relations'   => array(array($relation_1, $relation_2, $relation_3, $relation_4, $relation_5))
+            'mixed' => array(array(0, 'A' => 'a', 1, 'B' => 'b', 2, 3)),
+            'relations' => array(array($relation_1, $relation_2, $relation_3, $relation_4, $relation_5))
         );
     }
 }

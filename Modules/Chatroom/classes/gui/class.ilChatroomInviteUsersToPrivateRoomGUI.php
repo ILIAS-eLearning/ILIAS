@@ -37,7 +37,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $room      = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $subRoomId = (int) $_REQUEST['sub'];
         $chat_user = new ilChatroomUser($this->ilUser, $room);
 
@@ -49,7 +49,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         }
 
         $connector = $this->gui->getConnector();
-        $response  = $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $invited_id);
+        $response = $connector->sendInviteToPrivateRoom($room->getRoomId(), $subRoomId, $chat_user->getUserId(), $invited_id);
 
         $room->sendInvitationNotification($this->gui, $chat_user, $invited_id, $subRoomId);
 

@@ -212,13 +212,13 @@ class assSingleChoiceImport extends assQuestionImport
         $this->object->saveToDb();
         foreach ($answers as $answer) {
             if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0)) {
-                $image =&base64_decode($answer["imagefile"]["content"]);
+                $image = &base64_decode($answer["imagefile"]["content"]);
                 $imagepath = $this->object->getImagePath();
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
                 if (!file_exists($imagepath)) {
                     ilUtil::makeDirParents($imagepath);
                 }
-                $imagepath .=  $answer["imagefile"]["label"];
+                $imagepath .= $answer["imagefile"]["label"];
                 $fh = fopen($imagepath, "wb");
                 if ($fh == false) {
                 } else {
@@ -243,7 +243,7 @@ class assSingleChoiceImport extends assQuestionImport
         }
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
-        $answers =&$this->object->getAnswers();
+        $answers = &$this->object->getAnswers();
         if (is_array($_SESSION["import_mob_xhtml"])) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
@@ -257,7 +257,7 @@ class assSingleChoiceImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($answers as $key => $value) {
@@ -274,7 +274,7 @@ class assSingleChoiceImport extends assQuestionImport
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
         foreach ($answers as $key => $value) {
-            $answer_obj =&$answers[$key];
+            $answer_obj = &$answers[$key];
             $answer_obj->setAnswertext(ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 1));
         }
         foreach ($feedbacks as $ident => $material) {

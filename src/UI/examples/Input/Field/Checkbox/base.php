@@ -26,7 +26,7 @@ function base()
     //Step 3: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='base_checkbox') {
+        && $request->getQueryParams()['example_name'] == 'base_checkbox') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

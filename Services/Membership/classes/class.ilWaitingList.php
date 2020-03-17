@@ -371,9 +371,9 @@ abstract class ilWaitingList
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ++$counter;
-            $this->users[$row->usr_id]['position']	= $counter;
-            $this->users[$row->usr_id]['time']		= $row->sub_time;
-            $this->users[$row->usr_id]['usr_id']	= $row->usr_id;
+            $this->users[$row->usr_id]['position'] = $counter;
+            $this->users[$row->usr_id]['time'] = $row->sub_time;
+            $this->users[$row->usr_id]['usr_id'] = $row->usr_id;
             
             $this->user_ids[] = $row->usr_id;
         }

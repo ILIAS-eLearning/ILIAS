@@ -50,7 +50,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
      * @var array
      */
     private static $state_to_perm_link_map = array(
-        'ilBuddySystemLinkedRelationState'         => '_contact_approved',
+        'ilBuddySystemLinkedRelationState' => '_contact_approved',
         'ilBuddySystemIgnoredRequestRelationState' => '_contact_ignored'
     );
 
@@ -93,9 +93,9 @@ class ilContactUserActionProvider extends ilUserActionProvider
                 $f->setData(
                     array(
                     'current-state' => get_class($relation->getState()),
-                    'target-state'  => get_class($target_state),
-                    'buddy-id'      => $a_target_user,
-                    'action'        => $target_state->getAction())
+                    'target-state' => get_class($target_state),
+                    'buddy-id' => $a_target_user,
+                    'action' => $target_state->getAction())
                 );
                 $coll->addAction($f);
             }

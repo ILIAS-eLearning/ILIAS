@@ -346,7 +346,7 @@ class SurveyTextQuestion extends SurveyQuestion
         }
         
         if ($a_return) {
-            return array(array("value"=>null, "textanswer"=>$entered_value));
+            return array(array("value" => null, "textanswer" => $entered_value));
         }
         if (strlen($entered_value) == 0) {
             return;

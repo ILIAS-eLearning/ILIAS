@@ -31,27 +31,27 @@ abstract class ilDBPdoFieldDefinition
      * @var array
      */
     public $allowed_attributes_old = array(
-        self::T_TEXT      => array( 'length', 'notnull', 'default', 'fixed' ),
-        self::T_INTEGER   => array( 'length', 'notnull', 'default', 'unsigned' ),
-        self::T_FLOAT     => array( 'notnull', 'default' ),
-        self::T_DATE      => array( 'notnull', 'default' ),
-        self::T_TIME      => array( 'notnull', 'default' ),
+        self::T_TEXT => array( 'length', 'notnull', 'default', 'fixed' ),
+        self::T_INTEGER => array( 'length', 'notnull', 'default', 'unsigned' ),
+        self::T_FLOAT => array( 'notnull', 'default' ),
+        self::T_DATE => array( 'notnull', 'default' ),
+        self::T_TIME => array( 'notnull', 'default' ),
         self::T_TIMESTAMP => array( 'notnull', 'default' ),
-        self::T_CLOB      => array( 'notnull', 'default' ),
-        self::T_BLOB      => array( 'notnull', 'default' ),
+        self::T_CLOB => array( 'notnull', 'default' ),
+        self::T_BLOB => array( 'notnull', 'default' ),
     );
     /**
      * @var array
      */
     public $allowed_attributes = array(
-        "text"      => array( "length", "notnull", "default", "fixed" ),
-        "integer"   => array( "length", "notnull", "default", "unsigned" ),
-        "float"     => array( "notnull", "default" ),
-        "date"      => array( "notnull", "default" ),
-        "time"      => array( "notnull", "default" ),
+        "text" => array( "length", "notnull", "default", "fixed" ),
+        "integer" => array( "length", "notnull", "default", "unsigned" ),
+        "float" => array( "notnull", "default" ),
+        "date" => array( "notnull", "default" ),
+        "time" => array( "notnull", "default" ),
         "timestamp" => array( "notnull", "default" ),
-        "clob"      => array( "length", "notnull", "default" ),
-        "blob"      => array( "length", "notnull", "default" ),
+        "clob" => array( "length", "notnull", "default" ),
+        "blob" => array( "length", "notnull", "default" ),
     );
     /**
      * @var ilDBInterface
@@ -62,7 +62,7 @@ abstract class ilDBPdoFieldDefinition
      */
     protected $max_length = array(
         self::T_INTEGER => array( 1, 2, 3, 4, 8 ),
-        self::T_TEXT    => 4000,
+        self::T_TEXT => 4000,
     );
     /**
      * @var array
@@ -841,16 +841,16 @@ abstract class ilDBPdoFieldDefinition
      * @var array
      */
     protected $valid_default_values = array(
-        'text'      => '',
-        'boolean'   => true,
-        'integer'   => 0,
-        'decimal'   => 0.0,
-        'float'     => 0.0,
+        'text' => '',
+        'boolean' => true,
+        'integer' => 0,
+        'decimal' => 0.0,
+        'float' => 0.0,
         'timestamp' => '1970-01-01 00:00:00',
-        'time'      => '00:00:00',
-        'date'      => '1970-01-01',
-        'clob'      => '',
-        'blob'      => '',
+        'time' => '00:00:00',
+        'date' => '1970-01-01',
+        'clob' => '',
+        'blob' => '',
     );
 
 
@@ -1201,13 +1201,13 @@ abstract class ilDBPdoFieldDefinition
             case 'clob':
             case 'blob':
                 $this->lobs[] = array(
-                    'buffer'    => null,
-                    'position'  => 0,
+                    'buffer' => null,
+                    'position' => 0,
                     'lob_index' => null,
-                    'endOfLOB'  => false,
-                    'resource'  => $value,
-                    'value'     => null,
-                    'loaded'    => false,
+                    'endOfLOB' => false,
+                    'resource' => $value,
+                    'value' => null,
+                    'loaded' => false,
                 );
                 end($this->lobs);
                 $lob_index = key($this->lobs);

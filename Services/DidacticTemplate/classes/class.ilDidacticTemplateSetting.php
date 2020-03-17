@@ -601,7 +601,7 @@ class ilDidacticTemplateSetting
 
 
         if (count($this->getEffectiveFrom()) > 0) {
-            $writer->xmlStartTag('effectiveFrom', array('nic_id'=> $ilSetting->get('inst_id')));
+            $writer->xmlStartTag('effectiveFrom', array('nic_id' => $ilSetting->get('inst_id')));
 
             foreach ($this->getEffectiveFrom() as $node) {
                 $writer->xmlElement('node', array(), $node);
@@ -659,7 +659,7 @@ class ilDidacticTemplateSetting
 
         $tree = $DIC['tree'];
 
-        if (!count($this->getEffectiveFrom()) ||  in_array($a_node_id, $this->getEffectiveFrom())) {
+        if (!count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
             return true;
         }
         

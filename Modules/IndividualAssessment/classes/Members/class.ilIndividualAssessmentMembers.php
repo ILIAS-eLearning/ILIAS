@@ -183,23 +183,23 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     protected function buildNewRecordOfUser(ilObjUser $usr)
     {
         return array(
-              self::FIELD_USR_ID				=> $usr->getId()
-            , self::FIELD_RECORD				=> $this->iass->getSettings()->recordTemplate()
-            , self::FIELD_NOTIFY				=> 0
-            , self::FIELD_FIRSTNAME				=> $usr->getFirstname()
-            , self::FIELD_LASTNAME				=> $usr->getLastname()
-            , self::FIELD_LOGIN					=> $usr->getLogin()
-            , self::FIELD_LEARNING_PROGRESS		=> self::LP_NOT_ATTEMPTED
-            , self::FIELD_EXAMINER_ID			=> null
-            , self::FIELD_EXAMINER_FIRSTNAME	=> null
-            , self::FIELD_EXAMINER_LASTNAME		=> null
-            , self::FIELD_INTERNAL_NOTE			=> null
-            , self::FIELD_FILE_NAME				=> null
-            , self::FIELD_USER_VIEW_FILE		=> false
-            , self::FIELD_FINALIZED				=> 0
-            , self::FIELD_CHANGER_ID			=> null
-            , self::FIELD_CHANGER_FIRSTNAME		=> null
-            , self::FIELD_CHANGER_LASTNAME		=> null
+              self::FIELD_USR_ID => $usr->getId()
+            , self::FIELD_RECORD => $this->iass->getSettings()->recordTemplate()
+            , self::FIELD_NOTIFY => 0
+            , self::FIELD_FIRSTNAME => $usr->getFirstname()
+            , self::FIELD_LASTNAME => $usr->getLastname()
+            , self::FIELD_LOGIN => $usr->getLogin()
+            , self::FIELD_LEARNING_PROGRESS => self::LP_NOT_ATTEMPTED
+            , self::FIELD_EXAMINER_ID => null
+            , self::FIELD_EXAMINER_FIRSTNAME => null
+            , self::FIELD_EXAMINER_LASTNAME => null
+            , self::FIELD_INTERNAL_NOTE => null
+            , self::FIELD_FILE_NAME => null
+            , self::FIELD_USER_VIEW_FILE => false
+            , self::FIELD_FINALIZED => 0
+            , self::FIELD_CHANGER_ID => null
+            , self::FIELD_CHANGER_FIRSTNAME => null
+            , self::FIELD_CHANGER_LASTNAME => null
             );
     }
 
@@ -250,11 +250,11 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     {
         return $this->withOnlyUsersByIds(
             $access_handler->filterUserIdsByRbacOrPositionOfCurrentUser(
-            "read_learning_progress",
-            "read_learning_progress",
-            $this->referencedObject()->getRefId(),
-            $this->membersIds()
-        )
+                "read_learning_progress",
+                "read_learning_progress",
+                $this->referencedObject()->getRefId(),
+                $this->membersIds()
+            )
         );
     }
 

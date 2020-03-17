@@ -32,13 +32,13 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
             ->with(
                 'il_cert_cron_queue',
                 array(
-                    'id'                => array('integer', 20),
-                    'obj_id'            => array('integer', 10),
-                    'usr_id'            => array('integer', 500),
-                    'adapter_class'     => array('text', 'SomeClass'),
-                    'state'             => array('text', 'SomeState'),
+                    'id' => array('integer', 20),
+                    'obj_id' => array('integer', 10),
+                    'usr_id' => array('integer', 500),
+                    'adapter_class' => array('text', 'SomeClass'),
+                    'state' => array('text', 'SomeState'),
                     'started_timestamp' => array('integer', $timestamp),
-                    'template_id'       => array('integer', 10000)
+                    'template_id' => array('integer', 10000)
                 )
             );
 
@@ -104,21 +104,21 @@ class ilCertificateQueueRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
                 array(
-                    'id'                => 10,
-                    'obj_id'            => 100,
-                    'usr_id'            => 5000,
-                    'adapter_class'     => 'SomeClass',
-                    'state'             => 'SomeState',
-                    'template_id'       => 1000,
+                    'id' => 10,
+                    'obj_id' => 100,
+                    'usr_id' => 5000,
+                    'adapter_class' => 'SomeClass',
+                    'state' => 'SomeState',
+                    'template_id' => 1000,
                     'started_timestamp' => 123456789
                 ),
                 array(
-                    'id'                => 20,
-                    'obj_id'            => 100,
-                    'usr_id'            => 5000,
-                    'adapter_class'     => 'SomeClass',
-                    'state'             => 'SomeState',
-                    'template_id'       => 1000,
+                    'id' => 20,
+                    'obj_id' => 100,
+                    'usr_id' => 5000,
+                    'adapter_class' => 'SomeClass',
+                    'state' => 'SomeState',
+                    'template_id' => 1000,
                     'started_timestamp' => 123456789
                 )
             );

@@ -80,7 +80,7 @@ class ilPCParagraph extends ilPageContent
         parent::setNode($a_node);		// this is the PageContent node
 
         $childs = $a_node->child_nodes();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "Paragraph") {
                 $this->par_node = $childs[$i];		//... and this the Paragraph node
             }
@@ -178,7 +178,7 @@ class ilPCParagraph extends ilPageContent
         // DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
         $check = "";
         foreach ($text as $t) {
-            $check.= "<Paragraph>" . $t["text"] . "</Paragraph>";
+            $check .= "<Paragraph>" . $t["text"] . "</Paragraph>";
         }
         /*$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
             DOMXML_LOAD_PARSING, $error);*/
@@ -199,7 +199,7 @@ class ilPCParagraph extends ilPageContent
 
             // delete children of paragraph node
             $children = $this->par_node->child_nodes();
-            for ($i=0; $i<count($children); $i++) {
+            for ($i = 0; $i < count($children); $i++) {
                 $this->par_node->remove_child($children[$i]);
             }
 
@@ -211,7 +211,7 @@ class ilPCParagraph extends ilPageContent
                 $new_par_node = $res->nodeset[0];
                 $new_childs = $new_par_node->child_nodes();
 
-                for ($i=0; $i<count($new_childs); $i++) {
+                for ($i = 0; $i < count($new_childs); $i++) {
                     $cloned_child = $new_childs[$i]->clone_node(true);
                     $this->par_node->append_child($cloned_child);
                 }
@@ -231,7 +231,7 @@ class ilPCParagraph extends ilPageContent
 
             $c_node = $this->node;
             // add other chunks afterwards
-            for ($i=1; $i<count($text); $i++) {
+            for ($i = 1; $i < count($text); $i++) {
                 if ($ok) {
                     $next_par = new ilPCParagraph($this->getPage());
                     $next_par->createAfter($c_node);
@@ -266,10 +266,10 @@ class ilPCParagraph extends ilPageContent
             $estr = "";
             foreach ($error as $e) {
                 $e = str_replace(" in Entity", "", $e);
-                $estr.= $e . "<br />";
+                $estr .= $e . "<br />";
             }
             if (DEVMODE) {
-                $estr.= "<br />" . $text;
+                $estr .= "<br />" . $text;
             }
 
             return $estr;
@@ -286,7 +286,7 @@ class ilPCParagraph extends ilPageContent
         if (is_object($this->par_node)) {
             $content = "";
             $childs = $this->par_node->child_nodes();
-            for ($i=0; $i<count($childs); $i++) {
+            for ($i = 0; $i < count($childs); $i++) {
                 $content .= $this->dom->dump_node($childs[$i]);
             }
             return $content;
@@ -306,7 +306,7 @@ class ilPCParagraph extends ilPageContent
         $found = false;
         $pc_id = $this->readPCId();
         $hier_id = $this->readHierId();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             $pchilds = $childs[$i]->child_nodes();
             if ($pchilds[0]->node_name() == "Paragraph" &&
                 $pchilds[0]->get_attribute("Characteristic") != "Code") {
@@ -333,7 +333,7 @@ class ilPCParagraph extends ilPageContent
         $ids = "###";
         $id_sep = "";
         foreach ($seq as $p_node) {
-            $ids.= $id_sep . $p_node->get_attribute("HierId") . ":" . $p_node->get_attribute("PCID");
+            $ids .= $id_sep . $p_node->get_attribute("HierId") . ":" . $p_node->get_attribute("PCID");
             $po = $a_pg_obj->getContentObject(
                 $p_node->get_attribute("HierId"),
                 $p_node->get_attribute("PCID")
@@ -345,10 +345,10 @@ class ilPCParagraph extends ilPageContent
                 $char = "Standard";
             }
             $s_text = ilPCParagraphGUI::xml2outputJS($s_text, $char, $po->readPCId());
-            $content.= $s_text;
+            $content .= $s_text;
             $id_sep = ";";
         }
-        $ids.= "###";
+        $ids .= "###";
 
         return $ids . $content;
     }
@@ -563,7 +563,7 @@ class ilPCParagraph extends ilPageContent
         $a_text = self::intLinks2xml($a_text);
 
         // external link
-        $ws= "[ \t\r\f\v\n]*";
+        $ws = "[ \t\r\f\v\n]*";
         // remove empty external links
         while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]\[\/xln\]~i", $a_text, $found)) {
             $a_text = str_replace($found[0], "", $a_text);
@@ -597,7 +597,7 @@ class ilPCParagraph extends ilPageContent
         $a_text = preg_replace('~\[\/xln\]~i', "</ExtLink>", $a_text);
 
         // anchor
-        $ws= "[ \t\r\f\v\n]*";
+        $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
             $attribs = ilUtil::attribsToArray($found[2]);
             $a_text = str_replace("[" . $found[1] . "]", "<Anchor Name=\"" . $attribs["name"] . "\">", $a_text);
@@ -636,7 +636,7 @@ class ilPCParagraph extends ilPageContent
 
         // internal links
         //$any = "[^\]]*";	// this doesn't work :-(
-        $ws= "[ \t\r\f\v\n]*";
+        $ws = "[ \t\r\f\v\n]*";
         $ltypes = "page|chap|term|media|obj|dfile|sess|wpage|ppage|" . implode($rtypes, "|");
         // empty internal links
         while (preg_match('~\[(iln' . $ws . '((inst' . $ws . '=' . $ws . '([\"0-9])*)?' . $ws .
@@ -828,15 +828,15 @@ class ilPCParagraph extends ilPageContent
             // end previous line
             if ($level < $old_level) {
                 for ($i = $old_level; $i > $level; $i--) {
-                    $text.= "</SimpleListItem></" . $clist[$i] . ">";
+                    $text .= "</SimpleListItem></" . $clist[$i] . ">";
                 }
                 if ($level > 0) {
-                    $text.= "</SimpleListItem>";
+                    $text .= "</SimpleListItem>";
                 }
             } elseif ($old_level > 0 && $level > 0 && ($level == $old_level)) {
-                $text.= "</SimpleListItem>";
+                $text .= "</SimpleListItem>";
             } elseif (($level == $old_level) && $text != "") {
-                $text.= "<br />";
+                $text .= "<br />";
             }
 
             // start next line
@@ -847,12 +847,12 @@ class ilPCParagraph extends ilPageContent
                     } else {
                         $clist[$i] = "SimpleNumberedList";
                     }
-                    $text.= "<" . $clist[$i] . "><SimpleListItem>";
+                    $text .= "<" . $clist[$i] . "><SimpleListItem>";
                 }
             } elseif ($old_level > 0 && $level > 0) {
-                $text.= "<SimpleListItem>";
+                $text .= "<SimpleListItem>";
             }
-            $text.= substr($row, $level);
+            $text .= substr($row, $level);
 
             $old_level = $level;
         }
@@ -879,7 +879,7 @@ class ilPCParagraph extends ilPageContent
 
         $current_list = array();
         $text = "";
-        for ($i=0; $i<= count($segments); $i++) {
+        for ($i = 0; $i <= count($segments); $i++) {
             if ($segments[$i] == "<SimpleBulletList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
@@ -904,27 +904,27 @@ class ilPCParagraph extends ilPageContent
                 $li = false;
             } elseif ($segments[$i] == "<SimpleListItem/>") {
                 if ($list_start) {
-                    $text.= "<br />";
+                    $text .= "<br />";
                     $list_start = false;
                 }
                 foreach ($current_list as $list) {
-                    $text.= $list;
+                    $text .= $list;
                 }
-                $text.= "<br />";
+                $text .= "<br />";
                 $li = false;
             } else {
                 if ($li) {
                     if ($list_start) {
-                        $text.= "<br />";
+                        $text .= "<br />";
                         $list_start = false;
                     }
                     foreach ($current_list as $list) {
-                        $text.= $list;
+                        $text .= $list;
                     }
                 }
-                $text.= $segments[$i];
+                $text .= $segments[$i];
                 if ($li) {
-                    $text.= "<br />";
+                    $text .= "<br />";
                 }
                 $li = false;
             }
@@ -1183,7 +1183,7 @@ class ilPCParagraph extends ilPageContent
                     if (is_int($s3) && $s3 <= $s2) {		// possible level three header
                         //echo "4";
                         $n = strpos($c_text, "<br />", $s3 + 1);
-                        if ($n > ($s3+9) && substr($c_text, $n-3, 9) == "===<br />") {
+                        if ($n > ($s3 + 9) && substr($c_text, $n - 3, 9) == "===<br />") {
                             //echo "5";
                             // found level three header
                             if ($s3 > 0 || $head != "") {
@@ -1193,17 +1193,17 @@ class ilPCParagraph extends ilPageContent
                                 $head = "";
                             }
                             $chunks[] = array("level" => 3,
-                                "text" => trim(substr($c_text, $s3+9, $n-$s3-12)));
-                            $c_text = $this->handleNextBr(substr($c_text, $n+6));
+                                "text" => trim(substr($c_text, $s3 + 9, $n - $s3 - 12)));
+                            $c_text = $this->handleNextBr(substr($c_text, $n + 6));
                         } else {
                             //echo "7";
-                            $head.= substr($c_text, 0, $n);
+                            $head .= substr($c_text, 0, $n);
                             $c_text = substr($c_text, $n);
                         }
                     } else {	// possible level two header
                         //echo "8";
                         $n = strpos($c_text, "<br />", $s2 + 1);
-                        if ($n > ($s2+8) && substr($c_text, $n-2, 8) == "==<br />") {
+                        if ($n > ($s2 + 8) && substr($c_text, $n - 2, 8) == "==<br />") {
                             //echo "9";
                             // found level two header
                             if ($s2 > 0 || $head != "") {
@@ -1212,18 +1212,18 @@ class ilPCParagraph extends ilPageContent
                                     "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s2)));
                                 $head = "";
                             }
-                            $chunks[] = array("level" => 2, "text" => trim(substr($c_text, $s2+8, $n-$s2-10)));
-                            $c_text = $this->handleNextBr(substr($c_text, $n+6));
+                            $chunks[] = array("level" => 2, "text" => trim(substr($c_text, $s2 + 8, $n - $s2 - 10)));
+                            $c_text = $this->handleNextBr(substr($c_text, $n + 6));
                         } else {
                             //echo "B";
-                            $head.= substr($c_text, 0, $n);
+                            $head .= substr($c_text, 0, $n);
                             $c_text = substr($c_text, $n);
                         }
                     }
                 } else {	// possible level one header
                     //echo "C";
                     $n = strpos($c_text, "<br />", $s1 + 1);
-                    if ($n > ($s1+7) && substr($c_text, $n-1, 7) == "=<br />") {
+                    if ($n > ($s1 + 7) && substr($c_text, $n - 1, 7) == "=<br />") {
                         //echo "D";
                         // found level one header
                         if ($s1 > 0 || $head != "") {
@@ -1232,11 +1232,11 @@ class ilPCParagraph extends ilPageContent
                                 "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s1)));
                             $head = "";
                         }
-                        $chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1+7, $n-$s1-8)));
-                        $c_text = $this->handleNextBr(substr($c_text, $n+6));
+                        $chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1 + 7, $n - $s1 - 8)));
+                        $c_text = $this->handleNextBr(substr($c_text, $n + 6));
                     //echo "<br>ctext:".htmlentities($c_text)."<br>";
                     } else {
-                        $head.= substr($c_text, 0, $n);
+                        $head .= substr($c_text, 0, $n);
                         $c_text = substr($c_text, $n);
                         //echo "<br>head:".$head."c_text:".$c_text."<br>";
                     }
@@ -1391,10 +1391,10 @@ class ilPCParagraph extends ilPageContent
             );
             foreach ($combined as $pc_id => $hier_id) {
                 //echo "1";
-                $ids.= $sep . $hier_id . ":" . $pc_id;
+                $ids .= $sep . $hier_id . ":" . $pc_id;
                 $sep = ";";
             }
-            $ids.= "###";
+            $ids .= "###";
             return $ids;
         }
 
@@ -1708,7 +1708,7 @@ class ilPCParagraph extends ilPageContent
                             $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
                             $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
                             if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
-                                $pos+= ilStr::strLen($t["term"]);
+                                $pos += ilStr::strLen($t["term"]);
                             } else {
 
                                 // check if the string is not included in another word
@@ -1943,7 +1943,7 @@ class ilPCParagraph extends ilPageContent
             $xpath = new DOMXPath($a_domdoc);
             $nodes = $xpath->query('//Keyw');
             foreach ($nodes as $node) {
-                $k =  trim(strip_tags($node->nodeValue));
+                $k = trim(strip_tags($node->nodeValue));
                 if (!in_array($k, $keywords)) {
                     $keywords[] = $k;
                 }

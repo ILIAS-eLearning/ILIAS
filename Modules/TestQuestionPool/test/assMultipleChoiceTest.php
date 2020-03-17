@@ -37,7 +37,7 @@ class assMultipleChoiceTest extends PHPUnit_Framework_TestCase
         {
             $obj_id = ($obj_id) ? $obj_id : 99999999;
             include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-    
+
             $mc = new assMultipleChoice('unit test multiple choice question', 'unit test multiple choice question comment', 'Helmut Schottmüller', -1, '<p><strong>unit tests</strong> are...</p>');
             $mc->addAnswer(
                 'important',
@@ -77,7 +77,7 @@ class assMultipleChoiceTest extends PHPUnit_Framework_TestCase
         {
             global $DIC;
             $ilDB = $DIC['ilDB'];
-    
+
             include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
             $insert_id = self::createSampleQuestion(null);
             $this->assertGreaterThan(0, $insert_id);

@@ -71,7 +71,7 @@ class ilDclInputException extends ilException
                 $message = $lng->txt('dcl_wrong_input_type');
                 break;
             case self::LENGTH_EXCEPTION:
-                $message =  $lng->txt('dcl_wrong_length');
+                $message = $lng->txt('dcl_wrong_length');
                 break;
             case self::REGEX_EXCEPTION:
                 $message = $lng->txt('dcl_wrong_regex');

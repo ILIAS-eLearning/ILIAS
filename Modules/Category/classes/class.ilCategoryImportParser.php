@@ -104,15 +104,15 @@ class ilCategoryImportParser extends ilSaxParser
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -120,7 +120,7 @@ class ilCategoryImportParser extends ilSaxParser
             }
         }
 
-        $tag.= ">";
+        $tag .= ">";
 
         return $tag;
     }

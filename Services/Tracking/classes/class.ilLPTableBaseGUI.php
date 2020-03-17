@@ -134,7 +134,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $template = array(
                     ilMailFormCall::CONTEXT_KEY => $tmpl_id,
                     'ref_id' => $ref_id,
-                    'ts'     => time()
+                    'ts' => time()
                 );
             } else {
                 include_once './Services/Link/classes/class.ilLink.php';
@@ -197,7 +197,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if ($preset_obj_ids) {
             $object_search->setIdFilter($preset_obj_ids);
         }
-        $res =&$object_search->performSearch();
+        $res = &$object_search->performSearch();
 
         if ($permission) {
             $res->setRequiredPermission($permission);
@@ -346,7 +346,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $counter = 0;
             $path_full = $tree->getPathFull($ref_id);
             foreach ($path_full as $data) {
-                if (++$counter < (count($path_full)-1)) {
+                if (++$counter < (count($path_full) - 1)) {
                     continue;
                 }
                 $path .= " &raquo; ";
@@ -430,7 +430,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         // get rid of aggregation
         $pos = strrpos($id, "_");
         if ($pos !== false) {
-            $function = strtoupper(substr($id, $pos+1));
+            $function = strtoupper(substr($id, $pos + 1));
             if (in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT"))) {
                 $id = substr($id, 0, $pos);
             }
@@ -761,7 +761,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if ($step <= 1) {
             $step = 1;
         }
-        $ticks = range(0, $a_max_value+$step, $step);
+        $ticks = range(0, $a_max_value + $step, $step);
         
         $value_ticks = array(0 => 0);
         foreach ($ticks as $tick) {
@@ -787,7 +787,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         $options = array();
         for ($loop = 0; $loop < 10; $loop++) {
-            $year = date("Y")-$loop;
+            $year = date("Y") - $loop;
             $options[$year] = $year;
             for ($loop2 = 12; $loop2 > 0; $loop2--) {
                 $month = str_pad($loop2, 2, "0", STR_PAD_LEFT);
@@ -815,7 +815,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         }
         
         $all = array();
-        for ($loop = 1; $loop<13; $loop++) {
+        for ($loop = 1; $loop < 13; $loop++) {
             $month = str_pad($loop, 2, "0", STR_PAD_LEFT);
             if ($a_year . "-" . $month <= date("Y-m")) {
                 if (!$a_short) {

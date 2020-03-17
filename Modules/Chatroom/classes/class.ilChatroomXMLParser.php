@@ -48,27 +48,27 @@ class ilChatroomXMLParser extends ilSaxParser
     /**
      * @var array
      */
-    protected $userIds  = array();
+    protected $userIds = array();
 
     /**
      * @var int|null
      */
-    protected $exportSubRoomId  = 0;
+    protected $exportSubRoomId = 0;
 
     /**
      * @var int|null
      */
-    protected $owner  = 0;
+    protected $owner = 0;
 
     /**
      * @var int|null
      */
-    protected $closed  = 0;
+    protected $closed = 0;
 
     /**
      * @var int|null
      */
-    protected $public  = 0;
+    protected $public = 0;
 
     /**
      * @var int|null
@@ -255,9 +255,9 @@ class ilChatroomXMLParser extends ilSaxParser
                         $this->title,
                         $chat_user,
                         array(
-                            'public'  => (bool) $this->public,
+                            'public' => (bool) $this->public,
                             'created' => (int) $this->timestamp,
-                            'closed'  => (bool) $this->closed
+                            'closed' => (bool) $this->closed
                         )
                     );
 
@@ -269,12 +269,12 @@ class ilChatroomXMLParser extends ilSaxParser
                 }
 
                 $this->exportSubRoomId = 0;
-                $this->title           = '';
-                $this->owner           = 0;
-                $this->closed          = 0;
-                $this->public          = 0;
-                $this->timestamp       = 0;
-                $this->userIds         = array();
+                $this->title = '';
+                $this->owner = 0;
+                $this->closed = 0;
+                $this->public = 0;
+                $this->timestamp = 0;
+                $this->userIds = array();
                 break;
 
             case 'SubRooms':
@@ -292,7 +292,7 @@ class ilChatroomXMLParser extends ilSaxParser
                         is_array($message) &&
                         (!$this->exportSubRoomId || array_key_exists($this->exportSubRoomId, $this->subRoomIdMapping))
                     ) {
-                        $message['roomId']    = $this->room->getRoomId();
+                        $message['roomId'] = $this->room->getRoomId();
                         $message['subRoomId'] = $this->exportSubRoomId ? $this->subRoomIdMapping[$this->exportSubRoomId] : 0;
                         $message['timestamp'] = $this->timestamp;
 
@@ -300,7 +300,7 @@ class ilChatroomXMLParser extends ilSaxParser
                     }
                 }
 
-                $this->timestamp       = 0;
+                $this->timestamp = 0;
                 $this->exportSubRoomId = 0;
                 break;
 

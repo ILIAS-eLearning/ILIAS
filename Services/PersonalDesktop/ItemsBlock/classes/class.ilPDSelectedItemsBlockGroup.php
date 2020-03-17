@@ -9,7 +9,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @var bool
      */
-    protected $has_icon  = false;
+    protected $has_icon = false;
 
     /**
      * @var string

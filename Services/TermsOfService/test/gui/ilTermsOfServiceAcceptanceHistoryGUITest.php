@@ -51,16 +51,16 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends \ilTermsOfServiceBaseTest
     {
         parent::setUp();
 
-        $this->tos                      = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
-        $this->criterionTypeFactory     = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-        $this->tpl                      = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
-        $this->ctrl                     = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $this->lng                      = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $this->rbacsystem               = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
-        $this->error                    = $this->getMockBuilder(\ilErrorHandling::class)->disableOriginalConstructor()->getMock();
-        $this->request                  = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
-        $this->uiFactory                = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $this->uiRenderer               = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
+        $this->tos = $this->getMockBuilder(\ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
+        $this->criterionTypeFactory = $this->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
+        $this->tpl = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->setMethods(['g'])->getMock();
+        $this->ctrl = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock();
+        $this->lng = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $this->rbacsystem = $this->getMockBuilder(\ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+        $this->error = $this->getMockBuilder(\ilErrorHandling::class)->disableOriginalConstructor()->getMock();
+        $this->request = $this->getMockBuilder(ServerRequestInterface::class)->disableOriginalConstructor()->getMock();
+        $this->uiFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $this->uiRenderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
         $this->tableDataProviderFactory = $this->getMockBuilder(\ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
     }
 

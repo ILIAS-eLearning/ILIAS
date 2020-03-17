@@ -77,7 +77,7 @@ class ilTableTemplatesStorage
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND context = " . $ilDB->quote($a_context, "text")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         return unserialize($rec["value"]);
     }
 
@@ -126,7 +126,7 @@ class ilTableTemplatesStorage
             " ORDER BY name"
         );
         $result = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec["name"];
         }
         return $result;

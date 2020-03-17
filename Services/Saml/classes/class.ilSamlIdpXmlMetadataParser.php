@@ -29,7 +29,7 @@ class ilSamlIdpXmlMetadataParser
         $xml->registerXPathNamespace('md', 'urn:oasis:names:tc:SAML:2.0:metadata');
         $xml->registerXPathNamespace('mdui', 'urn:oasis:names:tc:SAML:metadata:ui');
 
-        $idps     = $xml->xpath('//md:EntityDescriptor[//md:IDPSSODescriptor]');
+        $idps = $xml->xpath('//md:EntityDescriptor[//md:IDPSSODescriptor]');
         $entityid = null;
         if ($idps && isset($idps[0])) {
             $entityid = (string) $idps[0]->attributes('', true)->entityID[0];

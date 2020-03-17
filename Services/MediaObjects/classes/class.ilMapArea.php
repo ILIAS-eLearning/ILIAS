@@ -72,7 +72,7 @@ class ilMapArea
 
         $this->db = $DIC->database();
         $this->title = "";
-        if ($a_item_id !=0 && $a_nr != 0) {
+        if ($a_item_id != 0 && $a_nr != 0) {
             $this->setItemId($a_item_id);
             $this->setNr($a_nr);
             $this->read();
@@ -435,7 +435,7 @@ class ilMapArea
     */
     public function appendTitle($a_title_str)
     {
-        $this->title.= $a_title_str;
+        $this->title .= $a_title_str;
     }
 
     /**
@@ -640,10 +640,10 @@ class ilMapArea
     */
     public function drawLine(&$im, $x1, $y1, $x2, $y2, $c1, $c2)
     {
-        imageline($im, $x1+1, $y1, $x2+1, $y2, $c1);
-        imageline($im, $x1-1, $y1, $x2-1, $y2, $c1);
-        imageline($im, $x1, $y1+1, $x2, $y2+1, $c1);
-        imageline($im, $x1, $y1-1, $x2, $y2-1, $c1);
+        imageline($im, $x1 + 1, $y1, $x2 + 1, $y2, $c1);
+        imageline($im, $x1 - 1, $y1, $x2 - 1, $y2, $c1);
+        imageline($im, $x1, $y1 + 1, $x2, $y2 + 1, $c1);
+        imageline($im, $x1, $y1 - 1, $x2, $y2 - 1, $c1);
         imageline($im, $x1, $y1, $x2, $y2, $c2);
     }
 
@@ -658,7 +658,7 @@ class ilMapArea
     */
     public function drawRect(&$im, $coords, $c1, $c2, $a_x_ratio = 1, $a_y_ratio = 1)
     {
-        $coord=explode(",", $coords);
+        $coord = explode(",", $coords);
 
         $this->drawLine(
             $im,
@@ -725,13 +725,13 @@ class ilMapArea
 
         $c = explode(",", $coords);
 
-        for ($i=0; $i<$anz-$p; $i++) {
+        for ($i = 0; $i < $anz - $p; $i++) {
             $this->drawLine(
                 $im,
-                $c[$i*2] / $a_x_ratio,
-                $c[$i*2+1] / $a_y_ratio,
-                $c[($i*2+2)%(2*$anz)] / $a_x_ratio,
-                $c[($i*2+3)%(2*$anz)] / $a_y_ratio,
+                $c[$i * 2] / $a_x_ratio,
+                $c[$i * 2 + 1] / $a_y_ratio,
+                $c[($i * 2 + 2) % (2 * $anz)] / $a_x_ratio,
+                $c[($i * 2 + 3) % (2 * $anz)] / $a_y_ratio,
                 $c1,
                 $c2
             );
@@ -755,8 +755,8 @@ class ilMapArea
             $im,
             $c[0] / $a_x_ratio,
             $c[1] / $a_y_ratio,
-            ($c[2]+1)*2 / $a_x_ratio,
-            ($c[2]+1)*2 / $a_y_ratio,
+            ($c[2] + 1) * 2 / $a_x_ratio,
+            ($c[2] + 1) * 2 / $a_y_ratio,
             1,
             360,
             $c1
@@ -765,8 +765,8 @@ class ilMapArea
             $im,
             $c[0] / $a_x_ratio,
             $c[1] / $a_y_ratio,
-            ($c[2]-1)*2 / $a_x_ratio,
-            ($c[2]-1)*2 / $a_y_ratio,
+            ($c[2] - 1) * 2 / $a_x_ratio,
+            ($c[2] - 1) * 2 / $a_y_ratio,
             1,
             360,
             $c1
@@ -775,8 +775,8 @@ class ilMapArea
             $im,
             $c[0] / $a_x_ratio,
             $c[1] / $a_y_ratio,
-            $c[2]*2 / $a_x_ratio,
-            $c[2]*2 / $a_y_ratio,
+            $c[2] * 2 / $a_x_ratio,
+            $c[2] * 2 / $a_y_ratio,
             1,
             360,
             $c2

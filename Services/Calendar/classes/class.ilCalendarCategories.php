@@ -193,9 +193,9 @@ class ilCalendarCategories
     {
         return serialize(
             array(
-                'categories'		=> $this->categories,
-                'categories_info'	=> $this->categories_info,
-                'subitem_categories'=> $this->subitem_categories
+                'categories' => $this->categories,
+                'categories_info' => $this->categories_info,
+                'subitem_categories' => $this->subitem_categories
             )
         );
     }
@@ -879,7 +879,7 @@ class ilCalendarCategories
 
             // limit only to user if no cat id is given
             if ($a_cat_id == 0) {
-                $query.= 'AND cc.obj_id = ' . $ilDB->quote($this->getCHUserId(), 'integer');
+                $query .= 'AND cc.obj_id = ' . $ilDB->quote($this->getCHUserId(), 'integer');
             }
             
 

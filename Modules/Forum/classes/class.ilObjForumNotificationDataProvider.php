@@ -54,8 +54,8 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->notificationCache = $notificationCache;
 
         $this->objPost = $objPost;
-        $this->ref_id  = $ref_id;
-        $this->obj_id  = ilObject::_lookupObjId($ref_id);
+        $this->ref_id = $ref_id;
+        $this->obj_id = ilObject::_lookupObjId($ref_id);
         $this->read();
     }
 
@@ -220,7 +220,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public function getPostUserName(\ilLanguage $user_lang)
     {
         if ($this->post_user_name === null) {
-            $authorinfo           = new ilForumAuthorInformation(
+            $authorinfo = new ilForumAuthorInformation(
                 $this->getPosAuthorId(),
                 $this->getPosDisplayUserId(),
                 $this->getPosUserAlias(),
@@ -240,7 +240,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     public function getPostUpdateUserName(\ilLanguage $user_lang)
     {
         if ($this->update_user_name === null) {
-            $authorinfo             = new ilForumAuthorInformation(
+            $authorinfo = new ilForumAuthorInformation(
                 $this->getPosAuthorId(),
                 $this->getPostUpdateUserId(),
                 $this->getPosUserAlias(),
@@ -343,7 +343,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         }
 
         $row = $this->notificationCache->fetch($cacheKey);
-        $this->forum_id    = $row['top_pk'];
+        $this->forum_id = $row['top_pk'];
         $this->forum_title = $row['top_name'];
         $this->is_anonymized = (bool) $row['anonymized'];
     }
@@ -355,7 +355,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     {
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
             $fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
-            $filesOfPost   = $fileDataForum->getFilesOfPost();
+            $filesOfPost = $fileDataForum->getFilesOfPost();
             
             $fileDataMail = new ilFileDataMail(ANONYMOUS_USER_ID);
             

@@ -12,7 +12,7 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
 class ilSessionMembershipMailNotification extends ilMailNotification
 {
     const TYPE_ADMISSION_MEMBER = 20;
-    const TYPE_DISMISS_MEMBER 	= 21;
+    const TYPE_DISMISS_MEMBER = 21;
     
     const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
     const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;

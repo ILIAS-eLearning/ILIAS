@@ -66,7 +66,7 @@ class PanelTest extends ILIAS_UI_TestBase
     public function test_standard_get_content()
     {
         $f = $this->getPanelFactory();
-        $c =  new ComponentDummy();
+        $c = new ComponentDummy();
         $p = $f->standard("Title", array($c));
 
         $this->assertEquals($p->getContent(), array($c));

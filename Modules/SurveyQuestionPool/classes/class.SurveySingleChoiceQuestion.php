@@ -536,8 +536,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $entered_value = $post_data[$this->getId() . "_value"];
         
         if ($a_return) {
-            return array(array("value"=>$entered_value,
-                "textanswer"=>$post_data[$this->getId() . "_" . $entered_value . "_other"]));
+            return array(array("value" => $entered_value,
+                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]));
         }
         if (strlen($entered_value) == 0) {
             return;
@@ -617,7 +617,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $category = $this->categories->getCategory($i);
-            $options[$category->scale-1] = $category->scale . " - " . $category->title;
+            $options[$category->scale - 1] = $category->scale . " - " . $category->title;
         }
         return $options;
     }
@@ -648,7 +648,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function getPreconditionValueOutput($value)
     {
         // #18136
-        $category = $this->categories->getCategoryForScale($value+1);
+        $category = $this->categories->getCategoryForScale($value + 1);
         
         // #17895 - see getPreconditionOptions()
         return $category->scale .

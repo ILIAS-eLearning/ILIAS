@@ -174,10 +174,10 @@ class ilForumXMLWriter extends ilXmlWriter
                             $media_exists = true;
                         }
                         
-                        $mob_obj  = new ilObjMediaObject($mob);
+                        $mob_obj = new ilObjMediaObject($mob);
                         $imgattrs = array(
-                            "label"                 => $moblabel,
-                            "uri"                   => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
+                            "label" => $moblabel,
+                            "uri" => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
                         );
 
                         $this->xmlElement("MediaObject", $imgattrs, null);

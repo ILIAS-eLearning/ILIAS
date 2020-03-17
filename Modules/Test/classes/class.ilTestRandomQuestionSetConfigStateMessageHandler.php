@@ -208,16 +208,16 @@ class ilTestRandomQuestionSetConfigStateMessageHandler
             if ($this->isQuestionAmountConfigPerTestHintRequired()) {
                 $this->addValidationReport(
                     sprintf(
-                    $this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
-                    $this->buildGeneralConfigSubTabLink()
-                )
+                        $this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
+                        $this->buildGeneralConfigSubTabLink()
+                    )
                 );
             } elseif ($this->isQuestionAmountConfigPerPoolHintRequired()) {
                 $this->addValidationReport(
                     sprintf(
-                    $this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
-                    $this->buildQuestionSelectionSubTabLink()
-                )
+                        $this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
+                        $this->buildQuestionSelectionSubTabLink()
+                    )
                 );
             }
         } elseif (!$this->questionSetConfig->hasSourcePoolDefinitions()) {

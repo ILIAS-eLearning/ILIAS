@@ -203,9 +203,9 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'EDIT_LINK',
             $this->ctrl->getLinkTargetByClass(
-                    "ilcalendarpresentationgui",
-                    ''
-                )
+                "ilcalendarpresentationgui",
+                ''
+            )
         );
         $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $_GET["category_id"]);
 

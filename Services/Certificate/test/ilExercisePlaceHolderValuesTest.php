@@ -162,9 +162,9 @@ class ilExercisePlaceholderValuesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 'SOME_PLACEHOLDER' => 'something',
-                'RESULT_PASSED'    => 'Something',
-                'EXERCISE_TITLE'   => 'SomeTitle',
-                'RESULT_MARK'      => 'Something'
+                'RESULT_PASSED' => 'Something',
+                'EXERCISE_TITLE' => 'SomeTitle',
+                'RESULT_MARK' => 'Something'
             ),
             $result
         );

@@ -67,7 +67,7 @@ class ilBookingScheduleGUI
         $this->help = $DIC["ilHelp"];
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->ref_id = $a_parent_obj->ref_id;
-        $this->schedule_id  = (int) $_REQUEST['schedule_id'];
+        $this->schedule_id = (int) $_REQUEST['schedule_id'];
     }
 
     /**

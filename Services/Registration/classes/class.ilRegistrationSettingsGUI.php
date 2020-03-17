@@ -809,10 +809,10 @@ class ilRegistrationSettingsGUI
         $lng = $DIC['lng'];
 
         $options = array(
-                        'null'		=> $lng->txt('please_choose'),
+                        'null' => $lng->txt('please_choose'),
                         'unlimited' => $lng->txt('reg_access_limitation_mode_unlimited'),
-                        'absolute'	=> $lng->txt('reg_access_limitation_mode_absolute'),
-                        'relative'	=> $lng->txt('reg_access_limitation_mode_relative')
+                        'absolute' => $lng->txt('reg_access_limitation_mode_absolute'),
+                        'relative' => $lng->txt('reg_access_limitation_mode_relative')
                         );
         
         $attribs = array('onchange' => 'displayAccessLimitationSelectionForm(document.cmd.access_limitation_mode_' . $a_role_id . ',' . $a_role_id . ')');
@@ -886,17 +886,17 @@ class ilRegistrationSettingsGUI
         
         $code_type->addOption(
             new ilCheckboxOption(
-                    $this->lng->txt('registration_codes_type_reg'),
-                    self::CODE_TYPE_REGISTRATION,
-                    $this->lng->txt('registration_codes_type_reg_info')
-                )
+                $this->lng->txt('registration_codes_type_reg'),
+                self::CODE_TYPE_REGISTRATION,
+                $this->lng->txt('registration_codes_type_reg_info')
+            )
         );
         $code_type->addOption(
             new ilCheckboxOption(
-                    $this->lng->txt('registration_codes_type_ext'),
-                    self::CODE_TYPE_EXTENSION,
-                    $this->lng->txt('registration_codes_type_ext_info')
-                )
+                $this->lng->txt('registration_codes_type_ext'),
+                self::CODE_TYPE_EXTENSION,
+                $this->lng->txt('registration_codes_type_ext_info')
+            )
         );
         $this->form_gui->addItem($code_type);
 
@@ -1046,8 +1046,8 @@ class ilRegistrationSettingsGUI
                     } else {
                         $date = array(
                             "d" => $date["dd"],
-                            "m" => $date["MM"]%12,
-                            "y" => floor($date["MM"]/12)
+                            "m" => $date["MM"] % 12,
+                            "y" => floor($date["MM"] / 12)
                         );
                     }
                     break;

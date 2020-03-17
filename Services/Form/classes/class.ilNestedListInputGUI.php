@@ -122,9 +122,9 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
                 $n["disabled"]
             );
             if ($n["img_src"] != "") {
-                $item_html.= ilUtil::img($n["img_src"], $n["img_alt"]) . " ";
+                $item_html .= ilUtil::img($n["img_src"], $n["img_alt"]) . " ";
             }
-            $item_html.= $n["text"];
+            $item_html .= $n["text"];
 
             $this->list->addListNode($item_html, $id, $n["parent"]);
         }

@@ -235,7 +235,7 @@ class ilImageMapEditorGUI
         
         $st_item = $this->media_object->getMediaItem("Standard");
         $max = ilMapArea::_getMaxNr($st_item->getId());
-        for ($i=1; $i<=$max; $i++) {
+        for ($i = 1; $i <= $max; $i++) {
             $area = new ilMapArea($st_item->getId(), $i);
             $area->setTitle(ilUtil::stripSlashes($_POST["name_" . $i]));
             $area->setHighlightMode(ilUtil::stripSlashes($_POST["hl_mode_" . $i]));
@@ -354,7 +354,7 @@ class ilImageMapEditorGUI
                     if ($cnt_coords == 2) {
                         $c = explode(",", $coords);
                         $coords = $c[0] . "," . $c[1] . ",";	// determine radius
-                        $coords .= round(sqrt(pow(abs($c[3]-$c[1]), 2)+pow(abs($c[2]-$c[0]), 2)));
+                        $coords .= round(sqrt(pow(abs($c[3] - $c[1]), 2) + pow(abs($c[2] - $c[0]), 2)));
                     }
                     $_SESSION["il_map_edit_coords"] = $coords;
 
@@ -614,10 +614,10 @@ class ilImageMapEditorGUI
         
         // output image map
         $xml = "<dummy>";
-        $xml.= $this->getAliasXML();
-        $xml.= $this->media_object->getXML(IL_MODE_OUTPUT);
-        $xml.= $this->getAdditionalPageXML();
-        $xml.="</dummy>";
+        $xml .= $this->getAliasXML();
+        $xml .= $this->media_object->getXML(IL_MODE_OUTPUT);
+        $xml .= $this->getAdditionalPageXML();
+        $xml .= "</dummy>";
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         //echo htmlentities($xml); exit;
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -1099,7 +1099,7 @@ class ilImageMapEditorGUI
                     if ($cnt_coords == 2) {
                         $c = explode(",", $coords);
                         $coords = $c[0] . "," . $c[1] . ",";	// determine radius
-                        $coords .= round(sqrt(pow(abs($c[3]-$c[1]), 2)+pow(abs($c[2]-$c[0]), 2)));
+                        $coords .= round(sqrt(pow(abs($c[3] - $c[1]), 2) + pow(abs($c[2] - $c[0]), 2)));
                     }
                     $_SESSION["il_map_edit_coords"] = $coords;
 

@@ -110,7 +110,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
             $completionDate !== null &&
             $completionDate !== ''
         ) {
-            $placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 
@@ -130,7 +130,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId)
     {
-        $placeholders =  $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

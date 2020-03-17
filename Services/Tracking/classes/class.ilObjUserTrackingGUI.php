@@ -50,28 +50,28 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'illearningprogressgui':
                 $this->tabs_gui->setTabActive('learning_progress');
                 include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
                 $lp_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret =&$this->ctrl->forwardCommand($lp_gui);
+                $ret = &$this->ctrl->forwardCommand($lp_gui);
                 break;
             
             case 'illpobjectstatisticsgui':
                 $this->tabs_gui->setTabActive('statistics');
                 include_once("./Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php");
                 $os_gui = new ilLPObjectStatisticsGUI(ilLPObjectStatisticsGUI::LP_CONTEXT_ADMINISTRATION);
-                $ret =&$this->ctrl->forwardCommand($os_gui);
+                $ret = &$this->ctrl->forwardCommand($os_gui);
                 break;
             
             case 'ilsessionstatisticsgui':
                 $this->tabs_gui->setTabActive('session_statistics');
                 include_once("./Services/Authentication/classes/class.ilSessionStatisticsGUI.php");
                 $sess_gui = new ilSessionStatisticsGUI();
-                $ret =&$this->ctrl->forwardCommand($sess_gui);
+                $ret = &$this->ctrl->forwardCommand($sess_gui);
                 break;
                 
             default:
@@ -458,7 +458,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
             $res = array();
             foreach ($objDefinition->getAllRepositoryTypes() as $type) {
                 if (ilObjectLP::isSupportedObjectType($type)) {
-                    $mode =  $form->getInput("def_" . $type);
+                    $mode = $form->getInput("def_" . $type);
                     $res[$type] = $mode
                         ? $mode
                         : ilLPObjSettings::LP_MODE_DEACTIVATED;

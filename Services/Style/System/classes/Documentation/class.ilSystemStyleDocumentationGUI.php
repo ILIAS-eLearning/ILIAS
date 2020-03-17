@@ -51,7 +51,7 @@ class ilSystemStyleDocumentationGUI
 
         $this->setIsReadOnly($read_only);
 
-        self::$DATA_PATH= self::DATA_DIRECTORY . "/" . self::DATA_FILE;
+        self::$DATA_PATH = self::DATA_DIRECTORY . "/" . self::DATA_FILE;
     }
 
     /**
@@ -82,7 +82,7 @@ class ilSystemStyleDocumentationGUI
         $content = "";
 
         //The button to parse the entries from code should only be shown in DEVMODE. Other users do not need that.
-        if (DEVMODE == 1  && !$this->isReadOnly()) {
+        if (DEVMODE == 1 && !$this->isReadOnly()) {
             $toolbar = new ilToolbarGUI();
             $reload_btn = ilLinkButton::getInstance();
             $reload_btn->setCaption($this->lng->txt('refresh_entries'), false);

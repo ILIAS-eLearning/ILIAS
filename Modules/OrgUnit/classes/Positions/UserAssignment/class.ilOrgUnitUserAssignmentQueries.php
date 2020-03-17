@@ -57,7 +57,7 @@ class ilOrgUnitUserAssignmentQueries
     public function getAssignmentOrFail($user_id, $position_id, $orgu_id)
     {
         $ua = ilOrgUnitUserAssignment::where([
-            'user_id'     => $user_id,
+            'user_id' => $user_id,
             'position_id' => $position_id,
             'orgu_id' => $orgu_id,
         ])->first();
@@ -134,7 +134,7 @@ class ilOrgUnitUserAssignmentQueries
     public function getUserIdsOfOrgUnitsInPosition(array $orgu_ids, $position_id)
     {
         return ilOrgUnitUserAssignment::where([
-            'orgu_id'    => $orgu_ids,
+            'orgu_id' => $orgu_ids,
             'position_id' => $position_id,
         ])->getArray(null, 'user_id');
     }
@@ -152,7 +152,7 @@ class ilOrgUnitUserAssignmentQueries
     public function getUserIdsOfUsersOrgUnitsInPosition($user_id, $users_position_id, $position_id, $recursive = false)
     {
         return ilOrgUnitUserAssignment::where([
-            'orgu_id'     => $this->getOrgUnitIdsOfUsersPosition($users_position_id, $user_id, $recursive),
+            'orgu_id' => $this->getOrgUnitIdsOfUsersPosition($users_position_id, $user_id, $recursive),
             'position_id' => $position_id,
         ])->getArray(null, 'user_id');
     }
@@ -170,7 +170,7 @@ class ilOrgUnitUserAssignmentQueries
     {
         $orgu_ids = ilOrgUnitUserAssignment::where([
             'position_id' => $position_id,
-            'user_id'     => $user_id,
+            'user_id' => $user_id,
         ])->getArray(null, 'orgu_id');
 
         if (!$recursive) {

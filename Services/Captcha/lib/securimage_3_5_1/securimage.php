@@ -177,18 +177,18 @@ class Securimage
      * Renders captcha as a PNG image (default)
      * @var int
      */
-    const SI_IMAGE_PNG  = 2;
+    const SI_IMAGE_PNG = 2;
     /**
      * Renders captcha as a GIF image
      * @var int
      */
-    const SI_IMAGE_GIF  = 3;
+    const SI_IMAGE_GIF = 3;
 
     /**
      * Create a normal alphanumeric captcha
      * @var int
      */
-    const SI_CAPTCHA_STRING     = 0;
+    const SI_CAPTCHA_STRING = 0;
     /**
      * Create a captcha consisting of a simple math problem
      * @var int
@@ -198,21 +198,21 @@ class Securimage
      * Create a word based captcha using 2 words
      * @var int
      */
-    const SI_CAPTCHA_WORDS      = 2;
+    const SI_CAPTCHA_WORDS = 2;
 
     /**
      * MySQL option identifier for database storage option
      *
      * @var string
      */
-    const SI_DRIVER_MYSQL   = 'mysql';
+    const SI_DRIVER_MYSQL = 'mysql';
 
     /**
      * PostgreSQL option identifier for database storage option
      *
      * @var string
      */
-    const SI_DRIVER_PGSQL   = 'pgsql';
+    const SI_DRIVER_PGSQL = 'pgsql';
 
     /**
      * SQLite option identifier for database storage option
@@ -238,7 +238,7 @@ class Securimage
      * The type of the image, default = png
      * @var int
      */
-    public $image_type   = self::SI_IMAGE_PNG;
+    public $image_type = self::SI_IMAGE_PNG;
 
     /**
      * The background color of the captcha
@@ -249,17 +249,17 @@ class Securimage
      * The color of the captcha text
      * @var Securimage_Color
      */
-    public $text_color     = '#707070';
+    public $text_color = '#707070';
     /**
      * The color of the lines over the captcha
      * @var Securimage_Color
      */
-    public $line_color     = '#707070';
+    public $line_color = '#707070';
     /**
      * The color of the noise that is drawn
      * @var Securimage_Color
      */
-    public $noise_color    = '#707070';
+    public $noise_color = '#707070';
 
     /**
      * How transparent to make the text 0 = completely opaque, 100 = invisible
@@ -270,13 +270,13 @@ class Securimage
      * Whether or not to draw the text transparently, true = use transparency, false = no transparency
      * @var bool
      */
-    public $use_transparent_text         = true;
+    public $use_transparent_text = true;
 
     /**
      * The length of the captcha code
      * @var int
      */
-    public $code_length    = 6;
+    public $code_length = 6;
     /**
      * Whether the captcha should be case sensitive (not recommended, use only for maximum protection)
      * @var bool
@@ -286,25 +286,25 @@ class Securimage
      * The character set to use for generating the captcha code
      * @var string
      */
-    public $charset        = 'ABCDEFGHKLMNPRSTUVWYZabcdefghklmnprstuvwyz23456789';
+    public $charset = 'ABCDEFGHKLMNPRSTUVWYZabcdefghklmnprstuvwyz23456789';
     /**
      * How long in seconds a captcha remains valid, after this time it will not be accepted
      * @var unknown_type
      */
-    public $expiry_time    = 900;
+    public $expiry_time = 900;
 
     /**
      * The session name securimage should use, only set this if your application uses a custom session name
      * It is recommended to set this value below so it is used by all securimage scripts
      * @var string
      */
-    public $session_name   = null;
+    public $session_name = null;
 
     /**
      * true to use the wordlist file, false to generate random captcha codes
      * @var bool
      */
-    public $use_wordlist   = false;
+    public $use_wordlist = false;
 
     /**
      * The level of distortion, 0.75 = normal, 1.0 = very high distortion
@@ -315,12 +315,12 @@ class Securimage
      * How many lines to draw over the captcha code to increase security
      * @var int
      */
-    public $num_lines    = 5;
+    public $num_lines = 5;
     /**
      * The level of noise (random dots) to place on the image, 0-10
      * @var int
      */
-    public $noise_level  = 2;
+    public $noise_level = 2;
 
     /**
      * The signature text to draw on the bottom corner of the image
@@ -373,7 +373,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_host   = 'localhost';
+    public $database_host = 'localhost';
 
     /**
      * Database username for connection (mysql, postgres only)
@@ -381,7 +381,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_user   = '';
+    public $database_user = '';
 
     /**
      * Database password for connection (mysql, postgres only)
@@ -389,7 +389,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_pass   = '';
+    public $database_pass = '';
 
     /**
      * Name of the database to select (mysql, postgres only)
@@ -397,7 +397,7 @@ class Securimage
      * @see Securimage::$database_file for SQLite
      * @var string
      */
-    public $database_name   = '';
+    public $database_name = '';
 
     /**
      * Database table where captcha codes are stored
@@ -406,7 +406,7 @@ class Securimage
      *
      * @var string
      */
-    public $database_table  = 'captcha_codes';
+    public $database_table = 'captcha_codes';
 
     /**
      * Fully qualified path to the database file when using SQLite3.
@@ -422,7 +422,7 @@ class Securimage
      * Securimage::SI_CAPTCHA_STRING or Securimage::SI_CAPTCHA_MATHEMATIC
      * @var int
      */
-    public $captcha_type  = self::SI_CAPTCHA_STRING; // or self::SI_CAPTCHA_MATHEMATIC;
+    public $captcha_type = self::SI_CAPTCHA_STRING; // or self::SI_CAPTCHA_MATHEMATIC;
 
     /**
      * The captcha namespace, use this if you have multiple forms on a single page, blank if you do not use multiple forms on one page
@@ -631,11 +631,11 @@ class Securimage
         $this->securimage_path = dirname(__FILE__);
 
         if (is_array($options) && sizeof($options) > 0) {
-            foreach($options as $prop => $val) {
+            foreach ($options as $prop => $val) {
                 if ($prop == 'captchaId') {
                     Securimage::$_captchaId = $val;
-                    $this->use_database     = true;
-                } else if ($prop == 'use_sqlite_db') {
+                    $this->use_database = true;
+                } elseif ($prop == 'use_sqlite_db') {
                     trigger_error("The use_sqlite_db option is deprecated, use 'use_database' instead", E_USER_NOTICE);
                 } else {
                     $this->$prop = $val;
@@ -643,10 +643,10 @@ class Securimage
             }
         }
 
-        $this->image_bg_color  = $this->initColor($this->image_bg_color,  '#ffffff');
-        $this->text_color      = $this->initColor($this->text_color,      '#616161');
-        $this->line_color      = $this->initColor($this->line_color,      '#616161');
-        $this->noise_color     = $this->initColor($this->noise_color,     '#616161');
+        $this->image_bg_color = $this->initColor($this->image_bg_color, '#ffffff');
+        $this->text_color = $this->initColor($this->text_color, '#616161');
+        $this->line_color = $this->initColor($this->line_color, '#616161');
+        $this->noise_color = $this->initColor($this->noise_color, '#616161');
         $this->signature_color = $this->initColor($this->signature_color, '#616161');
 
         if (is_null($this->ttf_file)) {
@@ -679,7 +679,7 @@ class Securimage
             $this->degrade_audio = true;
         }
 
-        if (is_null($this->code_length) || (int)$this->code_length < 1) {
+        if (is_null($this->code_length) || (int) $this->code_length < 1) {
             $this->code_length = 6;
         }
 
@@ -705,7 +705,7 @@ class Securimage
 
         if ($this->no_session != true) {
             // Initialize session or attach to existing
-            if ( session_id() == '' ) { // no session has been started yet, which is needed for validation
+            if (session_id() == '') { // no session has been started yet, which is needed for validation
                 if (!is_null($this->session_name) && trim($this->session_name) != '') {
                     session_name(trim($this->session_name)); // set session name if provided
                 }
@@ -734,11 +734,13 @@ class Securimage
      */
     public static function getCaptchaId($new = true, array $options = array())
     {
-        if (is_null($new) || (bool)$new == true) {
+        if (is_null($new) || (bool) $new == true) {
             $id = sha1(uniqid($_SERVER['REMOTE_ADDR'], true));
-            $opts = array('no_session'    => true,
-                          'use_database'  => true);
-            if (sizeof($options) > 0) $opts = array_merge($options, $opts);
+            $opts = array('no_session' => true,
+                          'use_database' => true);
+            if (sizeof($options) > 0) {
+                $opts = array_merge($options, $opts);
+            }
             $si = new self($opts);
             Securimage::$_captchaId = $id;
             $si->createCode();
@@ -762,11 +764,13 @@ class Securimage
      */
     public static function checkByCaptchaId($id, $value, array $options = array())
     {
-        $opts = array('captchaId'    => $id,
-                      'no_session'   => true,
+        $opts = array('captchaId' => $id,
+                      'no_session' => true,
                       'use_database' => true);
 
-        if (sizeof($options) > 0) $opts = array_merge($options, $opts);
+        if (sizeof($options) > 0) {
+            $opts = array_merge($options, $opts);
+        }
 
         $si = new self($opts);
 
@@ -774,7 +778,7 @@ class Securimage
             $code = $si->getCodeFromDatabase();
 
             if (is_array($code)) {
-                $si->code         = $code['code'];
+                $si->code = $code['code'];
                 $si->code_display = $code['code_disp'];
             }
 
@@ -808,7 +812,7 @@ class Securimage
     {
         set_error_handler(array(&$this, 'errorHandler'));
 
-        if($background_image != '' && is_readable($background_image)) {
+        if ($background_image != '' && is_readable($background_image)) {
             $this->bgimg = $background_image;
         }
 
@@ -880,14 +884,16 @@ class Securimage
             echo $audio;
         } else {
             echo '<hr /><strong>'
-                .'Failed to generate audio file, content has already been '
-                .'output.<br />This is most likely due to misconfiguration or '
-                .'a PHP error was sent to the browser.</strong>';
+                . 'Failed to generate audio file, content has already been '
+                . 'output.<br />This is most likely due to misconfiguration or '
+                . 'a PHP error was sent to the browser.</strong>';
         }
 
         restore_error_handler();
 
-        if (!$this->no_exit) exit;
+        if (!$this->no_exit) {
+            exit;
+        }
     }
 
     /**
@@ -917,7 +923,8 @@ class Securimage
             if (isset($_SESSION['securimage_code_value'][$this->namespace]) &&
                     trim($_SESSION['securimage_code_value'][$this->namespace]) != '') {
                 if ($this->isCodeExpired(
-                        $_SESSION['securimage_code_ctime'][$this->namespace]) == false) {
+                    $_SESSION['securimage_code_ctime'][$this->namespace]
+                ) == false) {
                     $code = $_SESSION['securimage_code_value'][$this->namespace];
                     $time = $_SESSION['securimage_code_ctime'][$this->namespace];
                     $disp = $_SESSION['securimage_code_disp'] [$this->namespace];
@@ -929,7 +936,8 @@ class Securimage
             // no code in session - may mean user has cookies turned off
             $this->openDatabase();
             $code = $this->getCodeFromDatabase();
-        } else { /* no code stored in session or sqlite database, validation will fail */ }
+        } else { /* no code stored in session or sqlite database, validation will fail */
+        }
 
         if ($array == true) {
             return array('code' => $code, 'ctime' => $time, 'display' => $disp);
@@ -943,13 +951,13 @@ class Securimage
      */
     protected function doImage()
     {
-        if( ($this->use_transparent_text == true || $this->bgimg != '') && function_exists('imagecreatetruecolor')) {
+        if (($this->use_transparent_text == true || $this->bgimg != '') && function_exists('imagecreatetruecolor')) {
             $imagecreate = 'imagecreatetruecolor';
         } else {
             $imagecreate = 'imagecreate';
         }
 
-        $this->im     = $imagecreate($this->image_width, $this->image_height);
+        $this->im = $imagecreate($this->image_width, $this->image_height);
         $this->tmpimg = $imagecreate($this->image_width * $this->iscale, $this->image_height * $this->iscale);
 
         $this->allocateColors();
@@ -965,17 +973,17 @@ class Securimage
             // check to see if a display_value for the captcha image was set
             if (is_string($this->display_value) && strlen($this->display_value) > 0) {
                 $this->code_display = $this->display_value;
-                $this->code         = ($this->case_sensitive) ?
+                $this->code = ($this->case_sensitive) ?
                                        $this->display_value   :
                                        strtolower($this->display_value);
                 $code = $this->code;
-            } else if ($this->openDatabase()) {
+            } elseif ($this->openDatabase()) {
                 // no display_value, check the database for existing captchaId
                 $code = $this->getCodeFromDatabase();
 
                 // got back a result from the database with a valid code for captchaId
                 if (is_array($code)) {
-                    $this->code         = $code['code'];
+                    $this->code = $code['code'];
                     $this->code_display = $code['code_disp'];
                     $code = $code['code'];
                 }
@@ -1015,49 +1023,64 @@ class Securimage
     protected function allocateColors()
     {
         // allocate bg color first for imagecreate
-        $this->gdbgcolor = imagecolorallocate($this->im,
-                                              $this->image_bg_color->r,
-                                              $this->image_bg_color->g,
-                                              $this->image_bg_color->b);
+        $this->gdbgcolor = imagecolorallocate(
+            $this->im,
+            $this->image_bg_color->r,
+            $this->image_bg_color->g,
+            $this->image_bg_color->b
+        );
 
         $alpha = intval($this->text_transparency_percentage / 100 * 127);
 
         if ($this->use_transparent_text == true) {
-            $this->gdtextcolor = imagecolorallocatealpha($this->im,
-                                                         $this->text_color->r,
-                                                         $this->text_color->g,
-                                                         $this->text_color->b,
-                                                         $alpha);
-            $this->gdlinecolor = imagecolorallocatealpha($this->im,
-                                                         $this->line_color->r,
-                                                         $this->line_color->g,
-                                                         $this->line_color->b,
-                                                         $alpha);
-            $this->gdnoisecolor = imagecolorallocatealpha($this->im,
-                                                          $this->noise_color->r,
-                                                          $this->noise_color->g,
-                                                          $this->noise_color->b,
-                                                          $alpha);
+            $this->gdtextcolor = imagecolorallocatealpha(
+                $this->im,
+                $this->text_color->r,
+                $this->text_color->g,
+                $this->text_color->b,
+                $alpha
+            );
+            $this->gdlinecolor = imagecolorallocatealpha(
+                $this->im,
+                $this->line_color->r,
+                $this->line_color->g,
+                $this->line_color->b,
+                $alpha
+            );
+            $this->gdnoisecolor = imagecolorallocatealpha(
+                $this->im,
+                $this->noise_color->r,
+                $this->noise_color->g,
+                $this->noise_color->b,
+                $alpha
+            );
         } else {
-            $this->gdtextcolor = imagecolorallocate($this->im,
-                                                    $this->text_color->r,
-                                                    $this->text_color->g,
-                                                    $this->text_color->b);
-            $this->gdlinecolor = imagecolorallocate($this->im,
-                                                    $this->line_color->r,
-                                                    $this->line_color->g,
-                                                    $this->line_color->b);
-            $this->gdnoisecolor = imagecolorallocate($this->im,
-                                                          $this->noise_color->r,
-                                                          $this->noise_color->g,
-                                                          $this->noise_color->b);
+            $this->gdtextcolor = imagecolorallocate(
+                $this->im,
+                $this->text_color->r,
+                $this->text_color->g,
+                $this->text_color->b
+            );
+            $this->gdlinecolor = imagecolorallocate(
+                $this->im,
+                $this->line_color->r,
+                $this->line_color->g,
+                $this->line_color->b
+            );
+            $this->gdnoisecolor = imagecolorallocate(
+                $this->im,
+                $this->noise_color->r,
+                $this->noise_color->g,
+                $this->noise_color->b
+            );
         }
 
-        $this->gdsignaturecolor = imagecolorallocate($this->im,
-                                                     $this->signature_color->r,
-                                                     $this->signature_color->g,
-                                                     $this->signature_color->b);
-
+        $this->gdsignaturecolor = imagecolorallocate(
+            $this->im,
+            $this->signature_color->r,
+            $this->signature_color->g,
+            $this->signature_color->b
+        );
     }
 
     /**
@@ -1066,18 +1089,27 @@ class Securimage
     protected function setBackground()
     {
         // set background color of image by drawing a rectangle since imagecreatetruecolor doesn't set a bg color
-        imagefilledrectangle($this->im, 0, 0,
-                             $this->image_width, $this->image_height,
-                             $this->gdbgcolor);
-        imagefilledrectangle($this->tmpimg, 0, 0,
-                             $this->image_width * $this->iscale, $this->image_height * $this->iscale,
-                             $this->gdbgcolor);
+        imagefilledrectangle(
+            $this->im,
+            0,
+            0,
+            $this->image_width,
+            $this->image_height,
+            $this->gdbgcolor
+        );
+        imagefilledrectangle(
+            $this->tmpimg,
+            0,
+            0,
+            $this->image_width * $this->iscale,
+            $this->image_height * $this->iscale,
+            $this->gdbgcolor
+        );
 
         if ($this->bgimg == '') {
             if ($this->background_directory != null &&
                 is_dir($this->background_directory) &&
-                is_readable($this->background_directory))
-            {
+                is_readable($this->background_directory)) {
                 $img = $this->getBackgroundFromDirectory();
                 if ($img != false) {
                     $this->bgimg = $img;
@@ -1090,22 +1122,33 @@ class Securimage
         }
 
         $dat = @getimagesize($this->bgimg);
-        if($dat == false) {
+        if ($dat == false) {
             return;
         }
 
-        switch($dat[2]) {
+        switch ($dat[2]) {
             case 1:  $newim = @imagecreatefromgif($this->bgimg); break;
             case 2:  $newim = @imagecreatefromjpeg($this->bgimg); break;
             case 3:  $newim = @imagecreatefrompng($this->bgimg); break;
             default: return;
         }
 
-        if(!$newim) return;
+        if (!$newim) {
+            return;
+        }
 
-        imagecopyresized($this->im, $newim, 0, 0, 0, 0,
-                         $this->image_width, $this->image_height,
-                         imagesx($newim), imagesy($newim));
+        imagecopyresized(
+            $this->im,
+            $newim,
+            0,
+            0,
+            0,
+            0,
+            $this->image_width,
+            $this->image_height,
+            imagesx($newim),
+            imagesy($newim)
+        );
     }
 
     /**
@@ -1115,15 +1158,17 @@ class Securimage
     {
         $images = array();
 
-        if ( ($dh = opendir($this->background_directory)) !== false) {
+        if (($dh = opendir($this->background_directory)) !== false) {
             while (($file = readdir($dh)) !== false) {
-                if (preg_match('/(jpg|gif|png)$/i', $file)) $images[] = $file;
+                if (preg_match('/(jpg|gif|png)$/i', $file)) {
+                    $images[] = $file;
+                }
             }
 
             closedir($dh);
 
             if (sizeof($images) > 0) {
-                return rtrim($this->background_directory, '/') . '/' . $images[mt_rand(0, sizeof($images)-1)];
+                return rtrim($this->background_directory, '/') . '/' . $images[mt_rand(0, sizeof($images) - 1)];
             }
         }
 
@@ -1137,23 +1182,23 @@ class Securimage
     {
         $this->code = false;
 
-        switch($this->captcha_type) {
+        switch ($this->captcha_type) {
             case self::SI_CAPTCHA_MATHEMATIC:
             {
                 do {
                     $signs = array('+', '-', 'x');
-                    $left  = mt_rand(1, 10);
+                    $left = mt_rand(1, 10);
                     $right = mt_rand(1, 5);
-                    $sign  = $signs[mt_rand(0, 2)];
+                    $sign = $signs[mt_rand(0, 2)];
 
-                    switch($sign) {
+                    switch ($sign) {
                         case 'x': $c = $left * $right; break;
                         case '-': $c = $left - $right; break;
                         default:  $c = $left + $right; break;
                     }
                 } while ($c <= 0); // no negative #'s or 0
 
-                $this->code         = $c;
+                $this->code = $c;
                 $this->code_display = "$left $sign $right";
                 break;
             }
@@ -1175,7 +1220,7 @@ class Securimage
                 }
 
                 $this->code_display = $this->code;
-                $this->code         = ($this->case_sensitive) ? $this->code : strtolower($this->code);
+                $this->code = ($this->case_sensitive) ? $this->code : strtolower($this->code);
             } // default
         }
 
@@ -1187,7 +1232,7 @@ class Securimage
      */
     protected function drawWord()
     {
-        $width2  = $this->image_width * $this->iscale;
+        $width2 = $this->image_width * $this->iscale;
         $height2 = $this->image_height * $this->iscale;
 
         if (!is_readable($this->ttf_file)) {
@@ -1198,8 +1243,8 @@ class Securimage
                 $bb = imageftbbox($font_size, 0, $this->ttf_file, $this->code_display);
                 $tx = $bb[4] - $bb[0];
                 $ty = $bb[5] - $bb[1];
-                $x  = floor($width2 / 2 - $tx / 2 - $bb[0]);
-                $y  = round($height2 / 2 - $ty / 2 - $bb[1]);
+                $x = floor($width2 / 2 - $tx / 2 - $bb[0]);
+                $y = round($height2 / 2 - $ty / 2 - $bb[1]);
 
                 imagettftext($this->tmpimg, $font_size, 0, $x, $y, $this->gdtextcolor, $this->ttf_file, $this->code_display);
             } else {
@@ -1207,8 +1252,8 @@ class Securimage
                 $bb = imageftbbox($font_size, 0, $this->ttf_file, $this->code_display);
                 $tx = $bb[4] - $bb[0];
                 $ty = $bb[5] - $bb[1];
-                $x  = floor($this->image_width / 2 - $tx / 2 - $bb[0]);
-                $y  = round($this->image_height / 2 - $ty / 2 - $bb[1]);
+                $x = floor($this->image_width / 2 - $tx / 2 - $bb[0]);
+                $y = round($this->image_height / 2 - $ty / 2 - $bb[1]);
 
                 imagettftext($this->im, $font_size, 0, $x, $y, $this->gdtextcolor, $this->ttf_file, $this->code_display);
             }
@@ -1217,7 +1262,6 @@ class Securimage
         // DEBUG
         //$this->im = $this->tmpimg;
         //$this->output();
-
     }
 
     /**
@@ -1227,11 +1271,11 @@ class Securimage
     {
         $numpoles = 3; // distortion factor
         // make array of poles AKA attractor points
-        for ($i = 0; $i < $numpoles; ++ $i) {
-            $px[$i]  = mt_rand($this->image_width  * 0.2, $this->image_width  * 0.8);
-            $py[$i]  = mt_rand($this->image_height * 0.2, $this->image_height * 0.8);
+        for ($i = 0; $i < $numpoles; ++$i) {
+            $px[$i] = mt_rand($this->image_width * 0.2, $this->image_width * 0.8);
+            $py[$i] = mt_rand($this->image_height * 0.2, $this->image_height * 0.8);
             $rad[$i] = mt_rand($this->image_height * 0.2, $this->image_height * 0.8);
-            $tmp     = ((- $this->frand()) * 0.15) - .15;
+            $tmp = ((-$this->frand()) * 0.15) - .15;
             $amp[$i] = $this->perturbation * $tmp;
         }
 
@@ -1240,11 +1284,11 @@ class Securimage
         $height2 = $this->iscale * $this->image_height;
         imagepalettecopy($this->im, $this->tmpimg); // copy palette to final image so text colors come across
         // loop over $img pixels, take pixels from $tmpimg with distortion field
-        for ($ix = 0; $ix < $this->image_width; ++ $ix) {
-            for ($iy = 0; $iy < $this->image_height; ++ $iy) {
+        for ($ix = 0; $ix < $this->image_width; ++$ix) {
+            for ($iy = 0; $iy < $this->image_height; ++$iy) {
                 $x = $ix;
                 $y = $iy;
-                for ($i = 0; $i < $numpoles; ++ $i) {
+                for ($i = 0; $i < $numpoles; ++$i) {
                     $dx = $ix - $px[$i];
                     $dy = $iy - $py[$i];
                     if ($dx == 0 && $dy == 0) {
@@ -1276,7 +1320,7 @@ class Securimage
      */
     protected function drawLines()
     {
-        for ($line = 0; $line < $this->num_lines; ++ $line) {
+        for ($line = 0; $line < $this->num_lines; ++$line) {
             $x = $this->image_width * (1 + $line) / ($this->num_lines + 1);
             $x += (0.5 - $this->frand()) * $this->image_width / $this->num_lines;
             $y = mt_rand($this->image_height * 0.1, $this->image_height * 0.9);
@@ -1297,10 +1341,10 @@ class Securimage
             $x0 = $x - 0.5 * $len * cos($theta);
             $y0 = $y - 0.5 * $len * sin($theta);
 
-            $ldx = round(- $dy * $lwid);
+            $ldx = round(-$dy * $lwid);
             $ldy = round($dx * $lwid);
 
-            for ($i = 0; $i < $n; ++ $i) {
+            for ($i = 0; $i < $n; ++$i) {
                 $x = $x0 + $i * $dx + $amp * $dy * sin($k * $i * $step + $phi);
                 $y = $y0 + $i * $dy - $amp * $dx * sin($k * $i * $step + $phi);
                 imagefilledrectangle($this->im, $x, $y, $x + $lwid, $y + $lwid, $this->gdlinecolor);
@@ -1325,12 +1369,14 @@ class Securimage
 
         $points = $this->image_width * $this->image_height * $this->iscale;
         $height = $this->image_height * $this->iscale;
-        $width  = $this->image_width * $this->iscale;
+        $width = $this->image_width * $this->iscale;
         for ($i = 0; $i < $noise_level; ++$i) {
             $x = mt_rand(10, $width);
             $y = mt_rand(10, $height);
             $size = mt_rand(7, 10);
-            if ($x - $size <= 0 && $y - $size <= 0) continue; // dont cover 0,0 since it is used by imagedistortedcopy
+            if ($x - $size <= 0 && $y - $size <= 0) {
+                continue;
+            } // dont cover 0,0 since it is used by imagedistortedcopy
             imagefilledarc($this->tmpimg, $x, $y, $size, $size, 0, 360, $this->gdnoisecolor, IMG_ARC_PIE);
         }
 
@@ -1380,29 +1426,37 @@ class Securimage
 
             switch ($this->image_type) {
                 case self::SI_IMAGE_JPEG:
-                    if ($this->send_headers) header("Content-Type: image/jpeg");
+                    if ($this->send_headers) {
+                        header("Content-Type: image/jpeg");
+                    }
                     imagejpeg($this->im, null, 90);
                     break;
                 case self::SI_IMAGE_GIF:
-                    if ($this->send_headers) header("Content-Type: image/gif");
+                    if ($this->send_headers) {
+                        header("Content-Type: image/gif");
+                    }
                     imagegif($this->im);
                     break;
                 default:
-                    if ($this->send_headers) header("Content-Type: image/png");
+                    if ($this->send_headers) {
+                        header("Content-Type: image/png");
+                    }
                     imagepng($this->im);
                     break;
             }
         } else {
             echo '<hr /><strong>'
-                .'Failed to generate captcha image, content has already been '
-                .'output.<br />This is most likely due to misconfiguration or '
-                .'a PHP error was sent to the browser.</strong>';
+                . 'Failed to generate captcha image, content has already been '
+                . 'output.<br />This is most likely due to misconfiguration or '
+                . 'a PHP error was sent to the browser.</strong>';
         }
 
         imagedestroy($this->im);
         restore_error_handler();
 
-        if (!$this->no_exit) exit;
+        if (!$this->no_exit) {
+            exit;
+        }
     }
 
     /**
@@ -1413,7 +1467,7 @@ class Securimage
     protected function getAudibleCode()
     {
         $letters = array();
-        $code    = $this->getCode(true, true);
+        $code = $this->getCode(true, true);
 
         if ($code['code'] == '') {
             if (strlen($this->display_value) > 0) {
@@ -1427,8 +1481,8 @@ class Securimage
         if (preg_match('/(\d+) (\+|-|x) (\d+)/i', $code['display'], $eq)) {
             $math = true;
 
-            $left  = $eq[1];
-            $sign  = str_replace(array('+', '-', 'x'), array('plus', 'minus', 'times'), $eq[2]);
+            $left = $eq[1];
+            $sign = str_replace(array('+', '-', 'x'), array('plus', 'minus', 'times'), $eq[2]);
             $right = $eq[3];
 
             $letters = array($left, $sign, $right);
@@ -1437,15 +1491,15 @@ class Securimage
 
             $length = strlen($code['display']);
 
-            for($i = 0; $i < $length; ++$i) {
-                $letter    = $code['display']{$i};
+            for ($i = 0; $i < $length; ++$i) {
+                $letter = $code['display']{$i};
                 $letters[] = $letter;
             }
         }
 
         try {
             return $this->generateWAV($letters);
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             throw $ex;
         }
     }
@@ -1456,12 +1510,18 @@ class Securimage
     protected function readCodeFromFile($numWords = 1)
     {
         $fp = fopen($this->wordlist_file, 'rb');
-        if (!$fp) return false;
+        if (!$fp) {
+            return false;
+        }
 
         $fsize = filesize($this->wordlist_file);
-        if ($fsize < 128) return false; // too small of a list to be effective
+        if ($fsize < 128) {
+            return false;
+        } // too small of a list to be effective
 
-        if ((int)$numWords < 1 || (int)$numWords > 5) $numWords = 1;
+        if ((int) $numWords < 1 || (int) $numWords > 5) {
+            $numWords = 1;
+        }
 
         $words = array();
         $i = 0;
@@ -1471,12 +1531,12 @@ class Securimage
             $data = preg_replace("/\r?\n/", "\n", $data);
 
             $start = @strpos($data, "\n", mt_rand(0, 56)) + 1; // random start position
-            $end   = @strpos($data, "\n", $start);          // find end of word
+            $end = @strpos($data, "\n", $start);          // find end of word
 
             if ($start === false) {
                 // picked start position at end of file
                 continue;
-            } else if ($end === false) {
+            } elseif ($end === false) {
                 $end = strlen($data);
             }
 
@@ -1501,11 +1561,11 @@ class Securimage
         $code = '';
 
         if (function_exists('mb_strlen')) {
-            for($i = 1, $cslen = mb_strlen($this->charset); $i <= $this->code_length; ++$i) {
+            for ($i = 1, $cslen = mb_strlen($this->charset); $i <= $this->code_length; ++$i) {
                 $code .= mb_substr($this->charset, mt_rand(0, $cslen - 1), 1, 'UTF-8');
             }
         } else {
-            for($i = 1, $cslen = strlen($this->charset); $i <= $this->code_length; ++$i) {
+            for ($i = 1, $cslen = strlen($this->charset); $i <= $this->code_length; ++$i) {
                 $code .= substr($this->charset, mt_rand(0, $cslen - 1), 1);
             }
         }
@@ -1521,7 +1581,7 @@ class Securimage
     {
         if (!is_string($this->code) || strlen($this->code) == 0) {
             $code = $this->getCode();
-            // returns stored code, or an empty string if no stored code was found
+        // returns stored code, or an empty string if no stored code was found
             // checks the session and database if enabled
         } else {
             $code = $this->code;
@@ -1533,9 +1593,10 @@ class Securimage
             $this->case_sensitive = true;
         }
 
-        $code_entered = trim( (($this->case_sensitive) ? $this->code_entered
+        $code_entered = trim(
+            (($this->case_sensitive) ? $this->code_entered
                                                        : strtolower($this->code_entered))
-                        );
+        );
         $this->correct_code = false;
 
         if ($code != '') {
@@ -1594,18 +1655,18 @@ class Securimage
                 $id = $ip;
             }
 
-            $time      = time();
-            $code      = $this->code;
+            $time = time();
+            $code = $this->code;
             $code_disp = $this->code_display;
 
             // This is somewhat expensive in PDO Sqlite3 (when there is something to delete)
             $this->clearCodeFromDatabase();
 
             $query = "INSERT INTO {$this->database_table} ("
-                    ."id, code, code_display, namespace, created) "
-                    ."VALUES(?, ?, ?, ?, ?)";
+                    . "id, code, code_display, namespace, created) "
+                    . "VALUES(?, ?, ?, ?, ?)";
 
-            $stmt    = $this->pdo_conn->prepare($query);
+            $stmt = $this->pdo_conn->prepare($query);
             $success = $stmt->execute(array($id, $code, $code_disp, $this->namespace, $time));
 
             if (!$success) {
@@ -1643,7 +1704,7 @@ class Securimage
                 }
                 fclose($fp);
                 chmod($this->database_file, 0666);
-            } else if (!is_writeable($this->database_file)) {
+            } elseif (!is_writeable($this->database_file)) {
                 trigger_error("Securimage does not have read/write access to database file '{$this->database_file}. Make sure permissions are 0666 and writeable by user '" . get_current_user() . "'", E_USER_WARNING);
                 return false;
             }
@@ -1652,7 +1713,7 @@ class Securimage
         $dsn = $this->getDsn();
 
         try {
-            $options        = array();
+            $options = array();
             $this->pdo_conn = new PDO($dsn, $this->database_user, $this->database_pass, $options);
         } catch (PDOException $pdoex) {
             trigger_error("Database connection failed: " . $pdoex->getMessage(), E_USER_WARNING);
@@ -1681,16 +1742,18 @@ class Securimage
     {
         $dsn = sprintf('%s:', $this->database_driver);
 
-        switch($this->database_driver) {
+        switch ($this->database_driver) {
             case self::SI_DRIVER_SQLITE3:
                 $dsn .= $this->database_file;
                 break;
 
             case self::SI_DRIVER_MYSQL:
             case self::SI_DRIVER_PGSQL:
-                $dsn .= sprintf('host=%s;dbname=%s',
-                                $this->database_host,
-                                $this->database_name);
+                $dsn .= sprintf(
+                    'host=%s;dbname=%s',
+                    $this->database_host,
+                    $this->database_name
+                );
                 break;
 
         }
@@ -1702,7 +1765,7 @@ class Securimage
     {
         $table = $this->pdo_conn->quote($this->database_table);
 
-        switch($this->database_driver) {
+        switch ($this->database_driver) {
             case self::SI_DRIVER_SQLITE3:
                 // query row count for sqlite, PRAGMA queries seem to return no
                 // rowCount using PDO even if there are rows returned
@@ -1724,16 +1787,15 @@ class Securimage
             $err = $this->pdo_conn->errorInfo();
 
             if ($this->database_driver == self::SI_DRIVER_SQLITE3 &&
-                $err[1] === 1 && strpos($err[2], 'no such table') !== false)
-            {
+                $err[1] === 1 && strpos($err[2], 'no such table') !== false) {
                 return false;
             }
 
             throw new Exception("Failed to check tables: {$err[0]} - {$err[1]}: {$err[2]}");
-        } else if ($this->database_driver == self::SI_DRIVER_SQLITE3) {
+        } elseif ($this->database_driver == self::SI_DRIVER_SQLITE3) {
             // successful here regardless of row count for sqlite
             return true;
-        } else if ($result->rowCount() == 0) {
+        } elseif ($result->rowCount() == 0) {
             return false;
         } else {
             return true;
@@ -1744,7 +1806,7 @@ class Securimage
     {
         $queries = array();
 
-        switch($this->database_driver) {
+        switch ($this->database_driver) {
             case self::SI_DRIVER_SQLITE3:
                 $queries[] = "CREATE TABLE \"{$this->database_table}\" (
                                 id VARCHAR(40),
@@ -1786,7 +1848,7 @@ class Securimage
 
         $this->pdo_conn->beginTransaction();
 
-        foreach($queries as $query) {
+        foreach ($queries as $query) {
             $result = $this->pdo_conn->query($query);
 
             if (!$result) {
@@ -1816,16 +1878,16 @@ class Securimage
 
         if ($this->use_database == true && $this->pdo_conn) {
             if (Securimage::$_captchaId !== null) {
-                $query  = "SELECT * FROM {$this->database_table} WHERE id = ?";
-                $stmt   = $this->pdo_conn->prepare($query);
+                $query = "SELECT * FROM {$this->database_table} WHERE id = ?";
+                $stmt = $this->pdo_conn->prepare($query);
                 $result = $stmt->execute(array(Securimage::$_captchaId));
             } else {
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $ns = $this->namespace;
 
                 // ip is stored in id column when no captchaId
-                $query  = "SELECT * FROM {$this->database_table} WHERE id = ? AND namespace = ?";
-                $stmt   = $this->pdo_conn->prepare($query);
+                $query = "SELECT * FROM {$this->database_table} WHERE id = ? AND namespace = ?";
+                $stmt = $this->pdo_conn->prepare($query);
                 $result = $stmt->execute(array($ip, $ns));
             }
 
@@ -1833,11 +1895,11 @@ class Securimage
                 $err = $this->pdo_conn->errorInfo();
                 trigger_error("Failed to select code from database.  {$err[0]}: {$err[1]}", E_USER_WARNING);
             } else {
-                if ( ($row = $stmt->fetch()) !== false ) {
+                if (($row = $stmt->fetch()) !== false) {
                     if (false == $this->isCodeExpired($row['created'])) {
                         if (Securimage::$_captchaId !== null) {
                             // return an array when using captchaId
-                            $code = array('code'      => $row['code'],
+                            $code = array('code' => $row['code'],
                                           'code_disp' => $row['code_display']);
                         } else {
                             $code = $row['code'];
@@ -1866,8 +1928,12 @@ class Securimage
 
             $id = $this->pdo_conn->quote($id);
 
-            $query = sprintf("DELETE FROM %s WHERE id = %s AND namespace = %s",
-                             $this->database_table, $id, $ns);
+            $query = sprintf(
+                "DELETE FROM %s WHERE id = %s AND namespace = %s",
+                $this->database_table,
+                $id,
+                $ns
+            );
 
             $result = $this->pdo_conn->query($query);
             if (!$result) {
@@ -1882,13 +1948,15 @@ class Securimage
     protected function purgeOldCodesFromDatabase()
     {
         if ($this->use_database && $this->pdo_conn) {
-            $now   = time();
+            $now = time();
             $limit = (!is_numeric($this->expiry_time) || $this->expiry_time < 1) ? 86400 : $this->expiry_time;
 
-            $query = sprintf("DELETE FROM %s WHERE %s - created > %s",
-                             $this->database_table,
-                             $this->pdo_conn->quote($now, PDO::PARAM_INT),
-                             $this->pdo_conn->quote($limit, PDO::PARAM_INT));
+            $query = sprintf(
+                "DELETE FROM %s WHERE %s - created > %s",
+                $this->database_table,
+                $this->pdo_conn->quote($now, PDO::PARAM_INT),
+                $this->pdo_conn->quote($limit, PDO::PARAM_INT)
+            );
 
             $result = $this->pdo_conn->query($query);
         }
@@ -1904,7 +1972,7 @@ class Securimage
 
         if (!is_numeric($this->expiry_time) || $this->expiry_time < 1) {
             $expired = false;
-        } else if (time() - $creation_time < $this->expiry_time) {
+        } elseif (time() - $creation_time < $this->expiry_time) {
             $expired = false;
         }
 
@@ -1920,7 +1988,7 @@ class Securimage
     protected function generateWAV($letters)
     {
         $wavCaptcha = new WavFile();
-        $first      = true;     // reading first wav file
+        $first = true;     // reading first wav file
 
         foreach ($letters as $letter) {
             $letter = strtoupper($letter);
@@ -1941,7 +2009,7 @@ class Securimage
 
                 // random length of silence between $audio_gap_min and $audio_gap_max
                 if ($this->audio_gap_max > 0 && $this->audio_gap_max > $this->audio_gap_min) {
-                    $wavCaptcha->insertSilence( mt_rand($this->audio_gap_min, $this->audio_gap_max) / 1000.0 );
+                    $wavCaptcha->insertSilence(mt_rand($this->audio_gap_min, $this->audio_gap_max) / 1000.0);
                 }
             } catch (Exception $ex) {
                 // failed to open file, or the wav file is broken or not supported
@@ -1960,7 +2028,7 @@ class Securimage
             if ($noiseFile !== false && is_readable($noiseFile)) {
                 try {
                     $wavNoise = new WavFile($noiseFile, false);
-                } catch(Exception $ex) {
+                } catch (Exception $ex) {
                     throw $ex;
                 }
 
@@ -1976,11 +2044,11 @@ class Securimage
                 }
 
 
-                $mixOpts = array('wav'  => $wavNoise,
+                $mixOpts = array('wav' => $wavNoise,
                                  'loop' => true,
                                  'blockOffset' => $randOffset);
 
-                $filters[WavFile::FILTER_MIX]       = $mixOpts;
+                $filters[WavFile::FILTER_MIX] = $mixOpts;
                 $filters[WavFile::FILTER_NORMALIZE] = $this->audio_mix_normalization;
             }
         }
@@ -2002,12 +2070,16 @@ class Securimage
     {
         $return = false;
 
-        if ( ($dh = opendir($this->audio_noise_path)) !== false ) {
+        if (($dh = opendir($this->audio_noise_path)) !== false) {
             $list = array();
 
-            while ( ($file = readdir($dh)) !== false ) {
-                if ($file == '.' || $file == '..') continue;
-                if (strtolower(substr($file, -4)) != '.wav') continue;
+            while (($file = readdir($dh)) !== false) {
+                if ($file == '.' || $file == '..') {
+                    continue;
+                }
+                if (strtolower(substr($file, -4)) != '.wav') {
+                    continue;
+                }
 
                 $list[] = $file;
             }
@@ -2015,7 +2087,7 @@ class Securimage
             closedir($dh);
 
             if (sizeof($list) > 0) {
-                $file   = $list[array_rand($list, 1)];
+                $file = $list[array_rand($list, 1)];
                 $return = $this->audio_noise_path . DIRECTORY_SEPARATOR . $file;
             }
         }
@@ -2043,7 +2115,7 @@ class Securimage
         if (headers_sent()) {
             // output has been flushed and headers have already been sent
             return false;
-        } else if (strlen((string)ob_get_contents()) > 0) {
+        } elseif (strlen((string) ob_get_contents()) > 0) {
             // headers haven't been sent, but there is data in the buffer that will break image and audio data
             return false;
         }
@@ -2056,9 +2128,9 @@ class Securimage
      *
      * @return float Random float between 0 and 0.9999
      */
-    function frand()
+    public function frand()
     {
-        return 0.0001 * mt_rand(0,9999);
+        return 0.0001 * mt_rand(0, 9999);
     }
 
     /**
@@ -2070,13 +2142,13 @@ class Securimage
     {
         if ($color == null) {
             return new Securimage_Color($default);
-        } else if (is_string($color)) {
+        } elseif (is_string($color)) {
             try {
                 return new Securimage_Color($color);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 return new Securimage_Color($default);
             }
-        } else if (is_array($color) && sizeof($color) == 3) {
+        } elseif (is_array($color) && sizeof($color) == 3) {
             return new Securimage_Color($color[0], $color[1], $color[2]);
         } else {
             return new Securimage_Color($default);
@@ -2147,7 +2219,7 @@ class Securimage_Color
             $this->r = 255;
             $this->g = 255;
             $this->b = 255;
-        } else if (sizeof($args) == 1) {
+        } elseif (sizeof($args) == 1) {
             // set based on html code
             if (substr($color, 0, 1) == '#') {
                 $color = substr($color, 1);
@@ -2155,16 +2227,16 @@ class Securimage_Color
 
             if (strlen($color) != 3 && strlen($color) != 6) {
                 throw new InvalidArgumentException(
-                  'Invalid HTML color code passed to Securimage_Color'
+                    'Invalid HTML color code passed to Securimage_Color'
                 );
             }
 
             $this->constructHTML($color);
-        } else if (sizeof($args) == 3) {
+        } elseif (sizeof($args) == 3) {
             $this->constructRGB($args[0], $args[1], $args[2]);
         } else {
             throw new InvalidArgumentException(
-              'Securimage_Color constructor expects 0, 1 or 3 arguments; ' . sizeof($args) . ' given'
+                'Securimage_Color constructor expects 0, 1 or 3 arguments; ' . sizeof($args) . ' given'
             );
         }
     }
@@ -2177,12 +2249,24 @@ class Securimage_Color
      */
     protected function constructRGB($red, $green, $blue)
     {
-        if ($red < 0)     $red   = 0;
-        if ($red > 255)   $red   = 255;
-        if ($green < 0)   $green = 0;
-        if ($green > 255) $green = 255;
-        if ($blue < 0)    $blue  = 0;
-        if ($blue > 255)  $blue  = 255;
+        if ($red < 0) {
+            $red = 0;
+        }
+        if ($red > 255) {
+            $red = 255;
+        }
+        if ($green < 0) {
+            $green = 0;
+        }
+        if ($green > 255) {
+            $green = 255;
+        }
+        if ($blue < 0) {
+            $blue = 0;
+        }
+        if ($blue > 255) {
+            $blue = 255;
+        }
 
         $this->r = $red;
         $this->g = $green;
@@ -2196,13 +2280,13 @@ class Securimage_Color
     protected function constructHTML($color)
     {
         if (strlen($color) == 3) {
-            $red   = str_repeat(substr($color, 0, 1), 2);
+            $red = str_repeat(substr($color, 0, 1), 2);
             $green = str_repeat(substr($color, 1, 1), 2);
-            $blue  = str_repeat(substr($color, 2, 1), 2);
+            $blue = str_repeat(substr($color, 2, 1), 2);
         } else {
-            $red   = substr($color, 0, 2);
+            $red = substr($color, 0, 2);
             $green = substr($color, 2, 2);
-            $blue  = substr($color, 4, 2);
+            $blue = substr($color, 4, 2);
         }
 
         $this->r = hexdec($red);

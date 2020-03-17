@@ -42,7 +42,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
                         break;
                     case 'createdPost':
-                        $post              = $a_parameter['post'];
+                        $post = $a_parameter['post'];
                         $notify_moderators = $a_parameter['notify_moderators'];
 
                         $logger->debug(sprintf(
@@ -167,7 +167,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         break;
 
                     case 'updatedPost':
-                        $post              = $a_parameter['post'];
+                        $post = $a_parameter['post'];
                         $notify_moderators = $a_parameter['notify_moderators'];
 
                         $logger->debug(sprintf(
@@ -337,7 +337,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         /**
                          * var $draftObj ilForumPostDraft
                          */
-                        $draftObj   = $a_parameter['draftObj'];
+                        $draftObj = $a_parameter['draftObj'];
 
                         $historyObj = new ilForumDraftsHistory();
                         $historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
@@ -347,7 +347,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         /**
                          * var $draftObj ilForumPostDraft
                          */
-                        $draftObj   = $a_parameter['draftObj'];
+                        $draftObj = $a_parameter['draftObj'];
 
                         $historyObj = new ilForumDraftsHistory();
                         $historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));

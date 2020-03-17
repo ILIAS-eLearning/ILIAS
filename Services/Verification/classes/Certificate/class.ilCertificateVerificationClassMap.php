@@ -7,9 +7,9 @@
 class ilCertificateVerificationClassMap
 {
     private $map = array(
-        'crs'  => 'crsv',
-        'tst'  => 'tstv',
-        'exc'  => 'excv',
+        'crs' => 'crsv',
+        'tst' => 'tstv',
+        'exc' => 'excv',
         'sahs' => 'scov'
     );
 

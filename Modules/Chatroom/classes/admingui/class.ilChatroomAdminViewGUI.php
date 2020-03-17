@@ -37,7 +37,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         parent::__construct($gui);
         $this->commonSettings = new ilSetting('common');
-        $this->ilTpl          = $DIC->ui()->mainTemplate();
+        $this->ilTpl = $DIC->ui()->mainTemplate();
     }
 
     /**
@@ -56,7 +56,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->redirectIfNoPermission('write');
 
         $factory = new ilChatroomFormFactory();
-        $form    = $factory->getGeneralSettingsForm();
+        $form = $factory->getGeneralSettingsForm();
 
         if (!$form->checkInput()) {
             $form->setValuesByPost();
@@ -65,22 +65,22 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $settings = array(
-            'protocol'     => $form->getInput('protocol'),
-            'port'         => $form->getInput('port'),
-            'address'      => $form->getInput('address'),
-            'cert'         => $form->getInput('cert'),
-            'key'          => $form->getInput('key'),
-            'dhparam'      => $form->getInput('dhparam'),
-            'log'          => $form->getInput('log'),
-            'error_log'    => $form->getInput('error_log'),
-            'ilias_proxy'  => $form->getInput('ilias_proxy'),
-            'ilias_url'    => $form->getInput('ilias_url'),
+            'protocol' => $form->getInput('protocol'),
+            'port' => $form->getInput('port'),
+            'address' => $form->getInput('address'),
+            'cert' => $form->getInput('cert'),
+            'key' => $form->getInput('key'),
+            'dhparam' => $form->getInput('dhparam'),
+            'log' => $form->getInput('log'),
+            'error_log' => $form->getInput('error_log'),
+            'ilias_proxy' => $form->getInput('ilias_proxy'),
+            'ilias_url' => $form->getInput('ilias_url'),
             'client_proxy' => $form->getInput('client_proxy'),
-            'client_url'   => $form->getInput('client_url'),
-            'sub_directory'=> $form->getInput('sub_directory'),
-            'deletion_mode'=> $form->getInput('deletion_mode'),
-            'deletion_unit'=> $form->getInput('deletion_unit'),
-            'deletion_value'=> $form->getInput('deletion_value'),
+            'client_url' => $form->getInput('client_url'),
+            'sub_directory' => $form->getInput('sub_directory'),
+            'deletion_mode' => $form->getInput('deletion_mode'),
+            'deletion_unit' => $form->getInput('deletion_unit'),
+            'deletion_value' => $form->getInput('deletion_value'),
             'deletion_time' => $form->getInput('deletion_time'),
         );
 
@@ -105,12 +105,12 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->defaultActions();
         $this->gui->switchToVisibleMode();
 
-        $adminSettings  = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
         $serverSettings = $adminSettings->loadGeneralSettings();
 
         if ($form === null) {
             $factory = new ilChatroomFormFactory();
-            $form    = $factory->getGeneralSettingsForm();
+            $form = $factory->getGeneralSettingsForm();
             $form->setValuesByArray($serverSettings);
         }
 
@@ -203,7 +203,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     protected function createSettingTemplate(ilPropertyFormGUI $form)
     {
         $furtherInformation = sprintf($this->ilLng->txt('server_further_information'), $this->getReadmePath());
-        $serverTpl          = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
+        $serverTpl = new ilTemplate('tpl.chatroom_serversettings.html', true, true, 'Modules/Chatroom');
         $serverTpl->setVariable('VAL_SERVERSETTINGS_FORM', $form->getHTML());
         $serverTpl->setVariable('LBL_SERVERSETTINGS_FURTHER_INFORMATION', $furtherInformation);
 
@@ -227,7 +227,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->redirectIfNoPermission('write');
 
         $factory = new ilChatroomFormFactory();
-        $form    = $factory->getClientSettingsForm();
+        $form = $factory->getClientSettingsForm();
 
         if (!$form->checkInput()) {
             $form->setValuesByPost();
@@ -236,14 +236,14 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $settings = array(
-            'name'                  => (string) $form->getInput('client_name'),
-            'enable_osd'            => (boolean) $form->getInput('enable_osd'),
-            'enable_osc'            => (boolean) $form->getInput('enable_osc'),
-            'osd_intervall'         => (int) $form->getInput('osd_intervall'),
-            'chat_enabled'          => ((boolean) $form->getInput('chat_enabled')),
-            'enable_smilies'        => (boolean) $form->getInput('enable_smilies'),
+            'name' => (string) $form->getInput('client_name'),
+            'enable_osd' => (boolean) $form->getInput('enable_osd'),
+            'enable_osc' => (boolean) $form->getInput('enable_osc'),
+            'osd_intervall' => (int) $form->getInput('osd_intervall'),
+            'chat_enabled' => ((boolean) $form->getInput('chat_enabled')),
+            'enable_smilies' => (boolean) $form->getInput('enable_smilies'),
             'play_invitation_sound' => (boolean) $form->getInput('play_invitation_sound'),
-            'auth'                  => $form->getInput('auth')
+            'auth' => $form->getInput('auth')
         );
 
         if (!$settings['chat_enabled']) {
@@ -279,13 +279,13 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $this->defaultActions();
         $this->gui->switchToVisibleMode();
 
-        $adminSettings  = new ilChatroomAdmin($this->gui->object->getId());
+        $adminSettings = new ilChatroomAdmin($this->gui->object->getId());
         $serverSettings = $adminSettings->loadGeneralSettings();
 
         if ($form === null) {
             $clientSettings = $adminSettings->loadClientSettings();
-            $factory        = new ilChatroomFormFactory();
-            $form           = $factory->getClientSettingsForm();
+            $factory = new ilChatroomFormFactory();
+            $form = $factory->getClientSettingsForm();
             $form->setValuesByArray($clientSettings);
         }
 

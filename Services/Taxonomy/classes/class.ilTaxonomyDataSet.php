@@ -265,7 +265,7 @@ class ilTaxonomyDataSet extends ilDataSet
                     "tax_item_obj_id",
                     $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
                 );
-                if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj  > 0) {
+                if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj > 0) {
                     include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
                     $node_ass = new ilTaxNodeAssignment($a_rec["Component"], $new_item_id_obj, $a_rec["ItemType"], $this->current_obj->getId());
                     $node_ass->addAssignment($new_node_id, $new_item_id);
@@ -275,7 +275,7 @@ class ilTaxonomyDataSet extends ilDataSet
             case "tax_usage":
                 $usage = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $a_rec["ObjId"]);
                 if ($usage != "") {
-                    $usage.=":";
+                    $usage .= ":";
                 }
                 $a_mapping->addMapping(
                     "Services/Taxonomy",

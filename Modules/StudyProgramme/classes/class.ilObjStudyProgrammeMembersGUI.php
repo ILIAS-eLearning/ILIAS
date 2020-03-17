@@ -597,9 +597,9 @@ class ilObjStudyProgrammeMembersGUI
             $this,
             $this->toolbar,
             array(
-                "auto_complete_name"	=> $this->lng->txt("user"),
-                "submit_name"			=> $this->lng->txt("add"),
-                "add_search"			=> true
+                "auto_complete_name" => $this->lng->txt("user"),
+                "submit_name" => $this->lng->txt("add"),
+                "add_search" => true
             )
         );
     }

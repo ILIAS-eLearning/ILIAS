@@ -409,7 +409,7 @@ class ilLOUserResults
         
         $res = array();
         
-        $sql =  "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final" .
+        $sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final" .
             " FROM loc_user_results lor" .
             " JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)" .
             " WHERE " . $ilDB->in("lor.objective_id", $a_objective_ids, "", "integer");
@@ -566,7 +566,7 @@ class ilLOUserResults
 
         $res = array();
 
-        $sql =  "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final, lor.tstamp, lor.course_id, cobj.title" .
+        $sql = "SELECT lor.objective_id, lor.user_id, lor.status, lor.is_final, lor.tstamp, lor.course_id, cobj.title" .
             " FROM loc_user_results lor" .
             " JOIN crs_objectives cobj ON (cobj.objective_id = lor.objective_id)" .
             " WHERE lor.user_id = " . $ilDB->quote($a_user_id, "integer") .

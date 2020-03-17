@@ -110,15 +110,15 @@ class ILIAS
     {
         global $ilErr, $ilDB, $ilIliasIniFile, $ilClientIniFile, $ilAuth;
 
-        $this->ini_ilias =&$ilIliasIniFile;
+        $this->ini_ilias = &$ilIliasIniFile;
         $this->client_id = '';
         if (defined('CLIENT_ID')) {
             $this->client_id = CLIENT_ID;
         }
-        $this->ini =&$ilClientIniFile;
-        $this->db =&$ilDB;
-        $this->error_obj =&$ilErr;
-        $this->auth =&$ilAuth;
+        $this->ini = &$ilClientIniFile;
+        $this->db = &$ilDB;
+        $this->error_obj = &$ilErr;
+        $this->auth = &$ilAuth;
 
         // create instance of object factory
         include_once("./Services/Object/classes/class.ilObjectFactory.php");
@@ -135,7 +135,7 @@ class ILIAS
     */
     public function setAuthError($a_error_obj)
     {
-        $this->auth_error =&$a_error_obj;
+        $this->auth_error = &$a_error_obj;
     }
     
     /**

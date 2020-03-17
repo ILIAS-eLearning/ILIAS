@@ -102,7 +102,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $ilTabs->activateTab("permissions");
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
             break;
     
             case "illearningprogressgui":
@@ -750,7 +750,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                     break;
 
                 case "grades":
-                    $action= $parts[2];
+                    $action = $parts[2];
                     $ass_id = $parts[1];
                     break;
             }

@@ -38,8 +38,8 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
     {
         global $DIC;
 
-        $this->user_id   = $user_id;
-        $this->relation  = $relation;
+        $this->user_id = $user_id;
+        $this->relation = $relation;
 
         $this->tpl = new ilTemplate(
             'tpl.buddy_system_state_' . ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
@@ -104,7 +104,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
      */
     protected function renderTargetState(ilBuddySystemRelationState $target_state)
     {
-        $state_id        = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
+        $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
         $target_state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
 
         $this->tpl->setVariable(

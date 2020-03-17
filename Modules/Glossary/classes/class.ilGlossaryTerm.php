@@ -90,7 +90,7 @@ class ilGlossaryTerm
         while ($term_rec = $ilDB->fetchAssoc($term_set)) {
             $glo_id = ilGlossaryTerm::_lookGlossaryID($term_rec["id"]);
 
-            $ref_ids  = ilObject::_getAllReferences($glo_id);	// will be 0 if import of lm is in progress (new import)
+            $ref_ids = ilObject::_getAllReferences($glo_id);	// will be 0 if import of lm is in progress (new import)
             if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($glo_id)) {
                 return $term_rec["id"];
             }
@@ -424,13 +424,13 @@ class ilGlossaryTerm
             : "";
             
         if ($a_first_letter != "") {
-            $searchterm.= " AND " . $ilDB->upper($ilDB->substr("term", 1, 1)) . " = " . $ilDB->upper($ilDB->quote($a_first_letter, "text")) . " ";
+            $searchterm .= " AND " . $ilDB->upper($ilDB->substr("term", 1, 1)) . " = " . $ilDB->upper($ilDB->quote($a_first_letter, "text")) . " ";
         }
 
         // include references
         $where_glo_id_or = "";
         if ($a_include_references) {
-            $join.= " LEFT JOIN glo_term_reference tr ON (gt.id = tr.term_id) ";
+            $join .= " LEFT JOIN glo_term_reference tr ON (gt.id = tr.term_id) ";
             if (is_array($a_glo_id)) {
                 $where_glo_id_or = " OR " . $ilDB->in("tr.glo_id", $a_glo_id, false, "integer");
             } else {
@@ -445,7 +445,7 @@ class ilGlossaryTerm
             $where = "(gt.glo_id = " . $ilDB->quote($a_glo_id, "integer") . $where_glo_id_or . ")";
         }
         
-        $where.= $in;
+        $where .= $in;
 
 
         $q = "SELECT DISTINCT(gt.term), gt.id, gt.glo_id, gt.language FROM glossary_term gt " . $join . " WHERE " . $where . $searchterm . " ORDER BY term";
@@ -504,7 +504,7 @@ class ilGlossaryTerm
                 }
             }
             
-            $where.= $in;
+            $where .= $in;
         }
         
         $q = "SELECT DISTINCT " . $ilDB->upper($ilDB->substr("term", 1, 1)) . " let FROM glossary_term WHERE " . $where . " ORDER BY let";
@@ -640,11 +640,11 @@ class ilGlossaryTerm
                         // how?
                         // clone values
 
-                        $source_primary = array("obj_id"=>array("integer", $old_term->getGlossaryId()));
+                        $source_primary = array("obj_id" => array("integer", $old_term->getGlossaryId()));
                         $source_primary["sub_type"] = array("text", "term");
                         $source_primary["sub_id"] = array("integer", $old_term->getId());
                         $source_primary["field_id"] = array("integer", $def->getFieldId());
-                        $target_primary = array("obj_id"=>array("integer", $new_term->getGlossaryId()));
+                        $target_primary = array("obj_id" => array("integer", $new_term->getGlossaryId()));
                         $target_primary["sub_type"] = array("text", "term");
                         $target_primary["sub_id"] = array("integer", $new_term->getId());
 
@@ -659,7 +659,7 @@ class ilGlossaryTerm
                             ),
                             $source_primary,
                             $target_primary,
-                            array("disabled"=>"integer")
+                            array("disabled" => "integer")
                         );
                     }
                 }

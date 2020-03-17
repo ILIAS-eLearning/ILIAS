@@ -467,9 +467,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
-        $i= 0;
+        $i = 0;
         $selections = array();
-        $solutions =&$this->getSolutionValues($active_id, $pass);
+        $solutions = &$this->getSolutionValues($active_id, $pass);
         if (is_array($solutions)) {
             foreach ($solutions as $solution) {
                 array_push($selections, $solution['value1']);
@@ -478,7 +478,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
         $errortext = $this->createErrorTextExport($selections);
         $i++;
-        $worksheet->setCell($startrow+$i, 0, $errortext);
+        $worksheet->setCell($startrow + $i, 0, $errortext);
         $i++;
 
         return $startrow + $i + 1;
@@ -556,8 +556,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $matches[3] = array_diff($matches[3], array(''));
 
             return array(
-                "passages"  => $matches[2],
-                "words"		=> $matches[3],);
+                "passages" => $matches[2],
+                "words" => $matches[3],);
         }
 
         return array();
@@ -599,7 +599,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
 
         foreach ($textarray as $textidx => $text) {
-            $in_passage	 = false;
+            $in_passage = false;
             $passage_end = false;
             $items = preg_split("/\s+/", $text);
             foreach ($items as $idx => $item) {
@@ -616,7 +616,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $item = ilStr::substr($item, 1, ilStr::strlen($item) - 1);
                         $passage_end = false;
                     } elseif ($posOpeningBrackets !== false) {
-                        $in_passage  = true;
+                        $in_passage = true;
                         $passage_start_idx = $counter;
                         $items_in_passage = array();
                         $passage_end = false;
@@ -650,7 +650,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
 
                 if ($in_passage && $passage_end) {
-                    $in_passage  = false;
+                    $in_passage = false;
                     $passage_end = false;
                     if ($correct_solution) {
                         $class = (
@@ -789,7 +789,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                     } else {
                         $appendComma = "";
-                        if ($item{$posClosingBrackets+2} == ',') {
+                        if ($item{$posClosingBrackets + 2} == ',') {
                             $appendComma = ",";
                         }
 
@@ -815,14 +815,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function getBestSelection($withPositivePointsOnly = true)
     {
-        $passages	= array();
-        $words		= array();
-        $counter	= 0;
+        $passages = array();
+        $words = array();
+        $counter = 0;
         $errorcounter = 0;
         $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
         foreach ($textarray as $textidx => $text) {
-            $items		= preg_split("/\s+/", $text);
-            $inPassage  = false;
+            $items = preg_split("/\s+/", $text);
+            $inPassage = false;
             foreach ($items as $word) {
                 $points = $this->getPointsWrong();
                 $isErrorItem = false;
@@ -841,10 +841,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
                     if ($posOpeningBracket !== false) {
                         $passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
-                        $inPassage  = true;
+                        $inPassage = true;
                     } elseif ($posClosingBracket !== false) {
                         $inPassage = false;
-                        $cur_pidx  = count($passages) - 1;
+                        $cur_pidx = count($passages) - 1;
                         $passages[$cur_pidx]['end_pos'] = $counter;
 
                         $errorobject = $this->errordata[$errorcounter];
@@ -889,16 +889,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected function getPointsForSelectedPositions($positions)
     {
-        $passages	= array();
-        $words		= array();
-        $counter	= 0;
+        $passages = array();
+        $words = array();
+        $counter = 0;
         $errorcounter = 0;
-        $textarray	  = preg_split("/[\n\r]+/", $this->getErrorText());
+        $textarray = preg_split("/[\n\r]+/", $this->getErrorText());
         foreach ($textarray as $textidx => $text) {
-            $items		= preg_split("/\s+/", $text);
-            $inPassage  = false;
+            $items = preg_split("/\s+/", $text);
+            $inPassage = false;
             foreach ($items as $word) {
-                $points  = $this->getPointsWrong();
+                $points = $this->getPointsWrong();
                 if (strpos($word, '#') === 0) {
                     /* Word selection detected */
                     $errorobject = $this->errordata[$errorcounter];
@@ -913,10 +913,10 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
                     if ($posOpeningBracket !== false) {
                         $passages[] = array('begin_pos' => $counter, 'cnt_words' => 0);
-                        $inPassage  = true;
+                        $inPassage = true;
                     } elseif ($posClosingBracket !== false) {
                         $inPassage = false;
-                        $cur_pidx  = count($passages) - 1;
+                        $cur_pidx = count($passages) - 1;
                         $passages[$cur_pidx]['end_pos'] = $counter;
 
                         $errorobject = $this->errordata[$errorcounter];
@@ -937,7 +937,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         /* Calculate reached points */
-        $total 		 = 0;
+        $total = 0;
         foreach ($positions as $position) {
             /* First iterate through positions
                to identify single-word-selections. */
@@ -954,7 +954,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
             for ($i = 0; $i < $p_data['cnt_words']; $i++) {
                 $current_pos = $p_data['begin_pos'] + $i;
-                $isSelected  = $isSelected && in_array($current_pos, $positions);
+                $isSelected = $isSelected && in_array($current_pos, $positions);
             }
 
             $total += $isSelected ? $p_data['score'] : 0;
@@ -1104,8 +1104,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
-        $result['text'] =  (string) ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
+        $result['text'] = (string) ilRTE::_replaceMediaObjectImageSrc($this->getErrorText(), 0);
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['feedback'] = array(
@@ -1119,7 +1119,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 "answertext_wrong" => (string) $answer_obj->text_wrong,
                 "answertext_correct" => (string) $answer_obj->text_correct,
                 "points" => (float) $answer_obj->points,
-                "order" => (int) $idx+1
+                "order" => (int) $idx + 1
             ));
         }
         $result['correct_answers'] = $answers;
@@ -1135,20 +1135,20 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                     // #14115 - add position to correct answer
                     foreach ($result["correct_answers"] as $aidx => $answer) {
                         if ($answer["answertext_wrong"] == $item && !$answer["pos"]) {
-                            $result["correct_answers"][$aidx]["pos"] = $this->getId() . "_" . $textidx . "_" . ($idx+1);
+                            $result["correct_answers"][$aidx]["pos"] = $this->getId() . "_" . $textidx . "_" . ($idx + 1);
                             break;
                         }
                     }
                 }
                 array_push($answers, array(
                     "answertext" => (string) ilUtil::prepareFormOutput($item),
-                    "order" => $this->getId() . "_" . $textidx . "_" . ($idx+1)
+                    "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 1)
                 ));
             }
-            if ($textidx != sizeof($textarray)-1) {
+            if ($textidx != sizeof($textarray) - 1) {
                 array_push($answers, array(
                         "answertext" => "###",
-                        "order" => $this->getId() . "_" . $textidx . "_" . ($idx+2)
+                        "order" => $this->getId() . "_" . $textidx . "_" . ($idx + 2)
                     ));
             }
         }
@@ -1218,7 +1218,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

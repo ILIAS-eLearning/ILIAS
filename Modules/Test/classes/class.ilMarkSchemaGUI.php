@@ -50,9 +50,9 @@ class ilMarkSchemaGUI
         $tpl = $DIC['tpl'];
         $ilToolbar = $DIC['ilToolbar'];
 
-        $this->ctrl    = $ilCtrl;
-        $this->lng     = $lng;
-        $this->tpl     = $tpl;
+        $this->ctrl = $ilCtrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
         $this->toolbar = $ilToolbar;
 
         $this->object = $object;
@@ -256,8 +256,8 @@ class ilMarkSchemaGUI
     {
         $data = array();
 
-        $data['ectcs_status']      = $this->object->getECTSOutput();
-        $data['use_ects_fx']       = preg_match('/\d+/', $this->object->getECTSFX());
+        $data['ectcs_status'] = $this->object->getECTSOutput();
+        $data['use_ects_fx'] = preg_match('/\d+/', $this->object->getECTSFX());
         $data['ects_fx_threshold'] = $this->object->getECTSFX();
 
         $ects_grades = $this->object->getECTSGrades();

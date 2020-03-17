@@ -661,7 +661,7 @@ class ilMySQLAbstraction
                     $a_table,
                     $name,
                     array(
-                        "type"    => "clob",
+                        "type" => "clob",
                         "notnull" => false,
                     )
                 );
@@ -686,7 +686,7 @@ class ilMySQLAbstraction
                 && ($def["notnull"] == true || $def["default"] == "0000-00-00 00:00:00")
             ) {
                 $nd = array(
-                    "type"    => "timestamp",
+                    "type" => "timestamp",
                     "notnull" => false,
                 );
                 if ($def["default"] == "0000-00-00 00:00:00") {
@@ -698,7 +698,7 @@ class ilMySQLAbstraction
                 && ($def["notnull"] == true || $def["default"] == "0000-00-00")
             ) {
                 $nd = array(
-                    "type"    => "date",
+                    "type" => "date",
                     "notnull" => false,
                 );
                 if ($def["default"] == "0000-00-00") {

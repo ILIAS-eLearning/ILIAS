@@ -236,7 +236,7 @@ class ilObjLearningSequence extends ilContainer
     protected function getSettingsDB() : ilLearningSequenceSettingsDB
     {
         if (!$this->settings_db) {
-            $fs =$this->getLSFileSystem();
+            $fs = $this->getLSFileSystem();
             $this->settings_db = new ilLearningSequenceSettingsDB(
                 $this->database,
                 $fs
@@ -447,7 +447,7 @@ class ilObjLearningSequence extends ilContainer
      */
     public function getCurrentItemForLearner(int $usr_id) : int
     {
-        $db =  $this->getStateDB();
+        $db = $this->getStateDB();
         $current = $db->getCurrentItemsFor($this->getRefId(), [$usr_id]);
         $ref_id = $current[$usr_id];
 
@@ -461,7 +461,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * @param LSLearnerItem[] 	$items
      */
-    public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder=null) : ilLSCurriculumBuilder
+    public function getCurriculumBuilder(array $items, LSUrlBuilder $url_builder = null) : ilLSCurriculumBuilder
     {
         global $DIC;
 
@@ -739,7 +739,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->getLSRoles()->getLearningSequenceAdminIds();
     }
 
-    public function getDefaultLearningSequenceRoles($a_grp_id="")
+    public function getDefaultLearningSequenceRoles($a_grp_id = "")
     {
         return $this->getLSRoles()->getDefaultLearningSequenceRoles($a_grp_id);
     }

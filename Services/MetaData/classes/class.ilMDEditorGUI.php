@@ -306,10 +306,10 @@ class ilMDEditorGUI
         }
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $this->tpl->setVariable("SEL_STATUS", ilMDUtilSelect::_getStatusSelect(
-            $this->md_section->getStatus(),
-            "lif_status",
-            array(0 => $this->lng->txt('meta_please_select'))
-        ));
+                $this->md_section->getStatus(),
+                "lif_status",
+                array(0 => $this->lng->txt('meta_please_select'))
+            ));
         }
 
         // Rights...
@@ -850,7 +850,7 @@ class ilMDEditorGUI
     public function updateQuickEdit_scorm_propagate($request, $type)
     {
         $module_id = $this->md_obj->obj_id;
-        if ($this->md_obj->obj_type=='sco') {
+        if ($this->md_obj->obj_type == 'sco') {
             $module_id = $this->md_obj->rbac_id;
         }
         $tree = new ilTree($module_id);
@@ -1597,7 +1597,7 @@ class ilMDEditorGUI
 
         // Format
         foreach ($ids = $this->md_section->getFormatIds() as $id) {
-            $md_for =&$this->md_section->getFormat($id);
+            $md_for = &$this->md_section->getFormat($id);
 
             $this->tpl->setCurrentBlock("format_loop");
 
@@ -1618,7 +1618,7 @@ class ilMDEditorGUI
 
         // Location
         foreach ($ids = $this->md_section->getLocationIds() as $id) {
-            $md_loc =&$this->md_section->getLocation($id);
+            $md_loc = &$this->md_section->getLocation($id);
 
             $this->tpl->setCurrentBlock("location_loop");
 
@@ -1635,16 +1635,16 @@ class ilMDEditorGUI
             $this->tpl->setVariable(
                 "SEL_LOCATION_TYPE",
                 ilMDUtilSelect::_getLocationTypeSelect(
-                                        $md_loc->getLocationType(),
-                                        "met_location[" . $id . "][Type]",
-                                        array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                    $md_loc->getLocationType(),
+                    "met_location[" . $id . "][Type]",
+                    array(0 => $this->lng->txt('meta_please_select'))
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
         // Requirement
         foreach ($ids = $this->md_section->getRequirementIds() as $id) {
-            $md_re =&$this->md_section->getRequirement($id);
+            $md_re = &$this->md_section->getRequirement($id);
 
             $this->tpl->setCurrentBlock("requirement_loop");
 
@@ -1665,18 +1665,18 @@ class ilMDEditorGUI
             $this->tpl->setVariable(
                 "REQUIREMENT_SEL_OS_NAME",
                 ilMDUtilSelect::_getOperatingSystemSelect(
-                                        $md_re->getOperatingSystemName(),
-                                        "met_re[" . $id . "][os][name]",
-                                        array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                    $md_re->getOperatingSystemName(),
+                    "met_re[" . $id . "][os][name]",
+                    array(0 => $this->lng->txt('meta_please_select'))
+                )
             );
             $this->tpl->setVariable(
                 "REQUIREMENT_SEL_BROWSER_NAME",
                 ilMDUtilSelect::_getBrowserSelect(
-                                        $md_re->getBrowserName(),
-                                        "met_re[" . $id . "][browser][name]",
-                                        array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                    $md_re->getBrowserName(),
+                    "met_re[" . $id . "][browser][name]",
+                    array(0 => $this->lng->txt('meta_please_select'))
+                )
             );
 
             $this->tpl->setVariable(
@@ -1702,9 +1702,9 @@ class ilMDEditorGUI
         }
         // OrComposite
         foreach ($ids = $this->md_section->getOrCompositeIds() as $or_id) {
-            $md_or =&$this->md_section->getOrComposite($or_id);
+            $md_or = &$this->md_section->getOrComposite($or_id);
             foreach ($ids = $md_or->getRequirementIds() as $id) {
-                $md_re =&$this->md_section->getRequirement($id);
+                $md_re = &$this->md_section->getRequirement($id);
 
                 $this->tpl->setCurrentBlock("orrequirement_loop");
 
@@ -1725,18 +1725,18 @@ class ilMDEditorGUI
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_SEL_OS_NAME",
                     ilMDUtilSelect::_getOperatingSystemSelect(
-                                            $md_re->getOperatingSystemName(),
-                                            "met_re[" . $id . "][os][name]",
-                                            array(0 => $this->lng->txt('meta_please_select'))
-                                        )
+                        $md_re->getOperatingSystemName(),
+                        "met_re[" . $id . "][os][name]",
+                        array(0 => $this->lng->txt('meta_please_select'))
+                    )
                 );
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_SEL_BROWSER_NAME",
                     ilMDUtilSelect::_getBrowserSelect(
-                                            $md_re->getBrowserName(),
-                                            "met_re[" . $id . "][browser][name]",
-                                            array(0 => $this->lng->txt('meta_please_select'))
-                                        )
+                        $md_re->getBrowserName(),
+                        "met_re[" . $id . "][browser][name]",
+                        array(0 => $this->lng->txt('meta_please_select'))
+                    )
                 );
 
                 $this->tpl->setVariable(
@@ -1780,9 +1780,9 @@ class ilMDEditorGUI
         $this->tpl->setVariable(
             "INSTALLATIONREMARKS_VAL_LANGUAGE",
             $this->__showLanguageSelect(
-                                    'inst_language',
-                                    $this->md_section->getInstallationRemarksLanguageCode()
-                                )
+                'inst_language',
+                $this->md_section->getInstallationRemarksLanguageCode()
+            )
         );
 
         // Other platform requirement
@@ -1799,9 +1799,9 @@ class ilMDEditorGUI
         $this->tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE",
             $this->__showLanguageSelect(
-                                    'opr_language',
-                                    $this->md_section->getOtherPlatformRequirementsLanguageCode()
-                                )
+                'opr_language',
+                $this->md_section->getOtherPlatformRequirementsLanguageCode()
+            )
         );
 
         // Duration
@@ -1951,14 +1951,14 @@ class ilMDEditorGUI
         // Contribute
         if (is_array($_POST['met_contribute'])) {
             foreach ($_POST['met_contribute'] as $id => $data) {
-                $md_con =&$this->md_section->getContribute($id);
+                $md_con = &$this->md_section->getContribute($id);
                 $md_con->setRole(ilUtil::stripSlashes($data['Role']));
                 $md_con->setDate(ilUtil::stripSlashes($data['Date']));
                 $md_con->update();
 
                 if (is_array($_POST['met_entity'][$id])) {
                     foreach ($_POST['met_entity'][$id] as $ent_id => $data) {
-                        $md_ent =&$md_con->getEntity($ent_id);
+                        $md_ent = &$md_con->getEntity($ent_id);
                         $md_ent->setEntity(ilUtil::stripSlashes($data['Entity']));
                         $md_ent->update();
                     }
@@ -2127,14 +2127,14 @@ class ilMDEditorGUI
         // Contribute
         if (is_array($_POST['met_contribute'])) {
             foreach ($_POST['met_contribute'] as $id => $data) {
-                $md_con =&$this->md_section->getContribute($id);
+                $md_con = &$this->md_section->getContribute($id);
                 $md_con->setRole(ilUtil::stripSlashes($data['Role']));
                 $md_con->setDate(ilUtil::stripSlashes($data['Date']));
                 $md_con->update();
 
                 if (is_array($_POST['met_entity'][$id])) {
                     foreach ($_POST['met_entity'][$id] as $ent_id => $data) {
-                        $md_ent =&$md_con->getEntity($ent_id);
+                        $md_ent = &$md_con->getEntity($ent_id);
                         $md_ent->setEntity(ilUtil::stripSlashes($data['Entity']));
                         $md_ent->update();
                     }
@@ -2199,9 +2199,9 @@ class ilMDEditorGUI
             $this->tpl->setVariable(
                 "DESCRIPTION_LOOP_VAL_LANGUAGE",
                 $this->__showLanguageSelect(
-                'rights[DescriptionLanguage]',
-                $this->md_section->getDescriptionLanguageCode()
-            )
+                    'rights[DescriptionLanguage]',
+                    $this->md_section->getDescriptionLanguageCode()
+                )
             );
 
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -3154,18 +3154,18 @@ class ilMDEditorGUI
         // Switch section
         switch ($_GET['section']) {
             case 'meta_technical':
-                $this->md_section =&$this->md_obj->addTechnical();
+                $this->md_section = &$this->md_obj->addTechnical();
                 $this->md_section->save();
                 break;
 
 
             case 'meta_lifecycle':
-                $this->md_section =&$this->md_obj->addLifecycle();
+                $this->md_section = &$this->md_obj->addLifecycle();
                 $this->md_section->save();
-                $con =&$this->md_section->addContribute();
+                $con = &$this->md_section->addContribute();
                 $con->save();
 
-                $ent =&$con->addEntity();
+                $ent = &$con->addEntity();
                 $ent->save();
                 break;
 
@@ -3173,13 +3173,13 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addMetaMetadata();
                 $this->md_section->save();
 
-                $ide =&$this->md_section->addIdentifier();
+                $ide = &$this->md_section->addIdentifier();
                 $ide->save();
 
-                $con =&$this->md_section->addContribute();
+                $con = &$this->md_section->addContribute();
                 $con->save();
 
-                $ent =&$con->addEntity();
+                $ent = &$con->addEntity();
                 $ent->save();
                 break;
 
@@ -3211,13 +3211,13 @@ class ilMDEditorGUI
                 $this->md_section = $this->md_obj->addClassification();
                 $this->md_section->save();
 
-                $taxon_path =&$this->md_section->addTaxonPath();
+                $taxon_path = &$this->md_section->addTaxonPath();
                 $taxon_path->save();
 
-                $taxon =&$taxon_path->addTaxon();
+                $taxon = &$taxon_path->addTaxon();
                 $taxon->save();
 
-                $key =&$this->md_section->addKeyword();
+                $key = &$this->md_section->addKeyword();
                 $key->save();
                 break;
 
@@ -3237,15 +3237,15 @@ class ilMDEditorGUI
         // Switch section
         switch ($_GET['section']) {
             case 'meta_technical':
-                $this->md_section =&$this->md_obj->getTechnical();
+                $this->md_section = &$this->md_obj->getTechnical();
                 break;
 
             case 'meta_lifecycle':
-                $this->md_section =&$this->md_obj->getLifecycle();
+                $this->md_section = &$this->md_obj->getLifecycle();
                 break;
 
             case 'meta_meta_metadata':
-                $this->md_section =&$this->md_obj->getMetaMetadata();
+                $this->md_section = &$this->md_obj->getMetaMetadata();
                 break;
 
             case 'meta_general':
@@ -3266,16 +3266,16 @@ class ilMDEditorGUI
         // Switch new element
         switch ($section_element) {
             case 'meta_or_composite':
-                $md_new =&$this->md_section->addOrComposite();
+                $md_new = &$this->md_section->addOrComposite();
                 $md_new = $md_new->addRequirement();
                 break;
 
             case 'meta_requirement':
-                $md_new =&$this->md_section->addRequirement();
+                $md_new = &$this->md_section->addRequirement();
                 break;
 
             case 'meta_location':
-                $md_new =&$this->md_section->addLocation();
+                $md_new = &$this->md_section->addLocation();
                 break;
 
             case 'meta_format':
@@ -3292,7 +3292,7 @@ class ilMDEditorGUI
                 break;
 
             case 'meta_contribute':
-                $md_new =&$this->md_section->addContribute();
+                $md_new = &$this->md_section->addContribute();
                 $md_new->save();
                 $md_new = $md_new->addEntity();
                 break;
@@ -3379,7 +3379,7 @@ class ilMDEditorGUI
                 return $this->listClassification();
 
             default:
-                if ($this->md_obj->obj_type=='sahs'||$this->md_obj->obj_type=='sco') {
+                if ($this->md_obj->obj_type == 'sahs' || $this->md_obj->obj_type == 'sco') {
                     return $this->listQuickEdit_scorm();
                 } else {
                     return $this->listQuickEdit();
@@ -3415,7 +3415,7 @@ class ilMDEditorGUI
         $tabs = array('meta_quickedit' => 'listQuickEdit',
                       'meta_general' => 'listGeneral',
                       'meta_lifecycle' => 'listLifecycle',
-                      'meta_meta_metadata'	=> 'listMetaMetadata',
+                      'meta_meta_metadata' => 'listMetaMetadata',
                       'meta_technical' => 'listTechnical',
                       'meta_educational' => 'listEducational',
                       'meta_rights' => 'listRights',
@@ -3432,7 +3432,7 @@ class ilMDEditorGUI
 
         $options = array();
         foreach (array_keys($tabs) as $key) {
-            $options[$key]= $this->lng->txt($key);
+            $options[$key] = $this->lng->txt($key);
         }
         $section->setOptions($options);
         $section->setValue($a_active);
@@ -3508,15 +3508,15 @@ class ilMDEditorGUI
     // Observer methods
     public function addObserver(&$a_class, $a_method, $a_element)
     {
-        $this->observers[$a_element]['class'] =&$a_class;
-        $this->observers[$a_element]['method'] =&$a_method;
+        $this->observers[$a_element]['class'] = &$a_class;
+        $this->observers[$a_element]['method'] = &$a_method;
 
         return true;
     }
     public function callListeners($a_element)
     {
         if (isset($this->observers[$a_element])) {
-            $class =&$this->observers[$a_element]['class'];
+            $class = &$this->observers[$a_element]['class'];
             $method = $this->observers[$a_element]['method'];
 
             return $class->$method($a_element);

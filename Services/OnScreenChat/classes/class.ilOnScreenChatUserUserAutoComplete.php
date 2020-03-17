@@ -16,7 +16,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
     {
         global $DIC;
 
-        $from_part  = parent::getFromPart();
+        $from_part = parent::getFromPart();
         $from_part .= '
 			INNER JOIN usr_pref chat_osc_am
 				ON chat_osc_am.usr_id = ud.usr_id
@@ -33,7 +33,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
     {
         global $DIC;
 
-        $where  = parent::getWherePart($search_query);
+        $where = parent::getWherePart($search_query);
         $where .= ' AND (ud.usr_id != ' . $DIC->database()->quote($this->getUser()->getId(), 'integer') . ') ';
 
         return $where;

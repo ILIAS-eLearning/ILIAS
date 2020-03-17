@@ -77,7 +77,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         $this->tree = new ilWorkspaceTree($a_user_id);
         $this->root_id = $this->tree->readRootId();
         $this->user_id = $a_user_id;
-        $this->allowed_types= array('wfld', 'wsrt');
+        $this->allowed_types = array('wfld', 'wsrt');
         $this->enablesmallmode = false;
     }
 
@@ -115,7 +115,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         $lng = $this->lng;
         static $counter = 0;
 
-        if ($objects =  $this->tree->getChilds($a_parent, "type DESC,title")) {
+        if ($objects = $this->tree->getChilds($a_parent, "type DESC,title")) {
             $tab = ++$a_depth - 2;
 
             foreach ($objects as $key => $object) {
@@ -136,14 +136,14 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                 $this->format_options["$counter"]["type"] = $object["type"];
                 $this->format_options["$counter"]["depth"] = $tab;
                 $this->format_options["$counter"]["container"] = false;
-                $this->format_options["$counter"]["visible"]	  = true;
+                $this->format_options["$counter"]["visible"] = true;
 
                 // Create prefix array
                 for ($i = 0; $i < $tab; ++$i) {
                     $this->format_options["$counter"]["tab"][] = 'blank';
                 }
                 // only if parent is expanded and visible, object is visible
-                if ($object["child"] != $this->root_id  and (!in_array($object["parent"], $this->expanded)
+                if ($object["child"] != $this->root_id and (!in_array($object["parent"], $this->expanded)
                                                           or !$this->format_options["$parent_index"]["visible"])) {
                     $this->format_options["$counter"]["visible"] = false;
                 }
@@ -153,9 +153,9 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                     $this->format_options["$parent_index"]["container"] = true;
 
                     if (in_array($object["parent"], $this->expanded)) {
-                        $this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+                        $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'minus';
                     } else {
-                        $this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+                        $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'plus';
                     }
                 }
 
@@ -281,7 +281,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     */
     public function buildDescription($a_desc, $a_id, $a_type)
     {
-        if ($this->show_details=='y' && !empty($a_desc)) {
+        if ($this->show_details == 'y' && !empty($a_desc)) {
             return $a_desc;
         } else {
             return "";

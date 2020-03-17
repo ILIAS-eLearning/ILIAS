@@ -92,7 +92,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
             $this->objects[$item["booking_object_id"]] = $item["title"];
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+        $item->setOptions(array("" => $this->lng->txt('book_all')) + $this->objects);
         $this->filter["object"] = $item->getValue();
 
         $title = $this->addFilterItemByMetaType(
@@ -105,7 +105,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 
         //user
         require_once("./Modules/BookingManager/classes/class.ilBookingParticipant.php");
-        $options = array(""=>$this->lng->txt('book_all'))+
+        $options = array("" => $this->lng->txt('book_all')) +
             ilBookingParticipant::getUserFilter($this->pool_id);
         $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
         $item->setOptions($options);

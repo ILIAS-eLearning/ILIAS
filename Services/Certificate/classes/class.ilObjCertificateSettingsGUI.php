@@ -67,8 +67,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("certificate");
         $this->lng->loadLanguageModule("trac");
 
-        $this->access              = $DIC['rbacsystem'];
-        $this->error               = $DIC['ilErr'];
+        $this->access = $DIC['rbacsystem'];
+        $this->error = $DIC['ilErr'];
         $this->hierarchical_access = $DIC['ilAccess'];
     }
 

@@ -95,7 +95,7 @@ class ilPCSection extends ilPageContent
     public function getCharacteristic()
     {
         if (is_object($this->sec_node)) {
-            $char =  $this->sec_node->get_attribute("Characteristic");
+            $char = $this->sec_node->get_attribute("Characteristic");
             if (substr($char, 0, 4) == "ilc_") {
                 $char = substr($char, 4);
             }
@@ -402,7 +402,7 @@ class ilPCSection extends ilPageContent
         $xpc = xpath_new_context($doc);
         $path = "//Section";
         $res = xpath_eval($xpc, $path);
-        for ($i=0; $i < count($res->nodeset); $i++) {
+        for ($i = 0; $i < count($res->nodeset); $i++) {
             $from = $res->nodeset[$i]->get_attribute("ActiveFrom");
             if ($from != "") {
                 $ilDB->replace(
@@ -453,9 +453,9 @@ class ilPCSection extends ilPageContent
         while ($rec = $ilDB->fetchAssoc($set)) {
             $unix_ts = $rec["unix_ts"];
             if ($unix_ts < $current_ts) {
-                $unix_ts.= "a";
+                $unix_ts .= "a";
             }
-            $str.= "-" . $unix_ts;
+            $str .= "-" . $unix_ts;
         }
 
         return $str;
@@ -487,11 +487,11 @@ class ilPCSection extends ilPageContent
             if ($from != "") {
                 ilDatePresentation::setUseRelativeDates(false);
                 $from = new ilDateTime($from, IL_CAL_UNIX);
-                $html.= $lng->txt("cont_active_from") . ": " . ilDatePresentation::formatDate($from);
+                $html .= $lng->txt("cont_active_from") . ": " . ilDatePresentation::formatDate($from);
             }
             if ($to != "") {
                 $to = new ilDateTime($to, IL_CAL_UNIX);
-                $html.= " " . $lng->txt("cont_active_to") . ": " . ilDatePresentation::formatDate($to);
+                $html .= " " . $lng->txt("cont_active_to") . ": " . ilDatePresentation::formatDate($to);
             }
 
             $h2 = substr($a_html, 0, $start) .

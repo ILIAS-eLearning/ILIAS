@@ -62,7 +62,7 @@ class ilObjFolder extends ilContainer
 
     public function setFolderTree($a_tree)
     {
-        $this->folder_tree =&$a_tree;
+        $this->folder_tree = &$a_tree;
     }
     
     /**
@@ -95,7 +95,7 @@ class ilObjFolder extends ilContainer
         $tree = $this->tree;
         
         if (!is_object($this->folder_tree)) {
-            $this->folder_tree =&$tree;
+            $this->folder_tree = &$tree;
         }
 
         if ($this->withReferences()) {
@@ -215,7 +215,7 @@ class ilObjFolder extends ilContainer
         // copy_number can be determined correctly for other duplicates of this file
         if (!$duplicate_has_array_entry) {
             self::$duplicate_files[] = [
-                'file_name'   => $duplicate_filename,
+                'file_name' => $duplicate_filename,
                 'copy_number' => 2 // set as 2 because 1 is already used for this duplicate
             ];
         }

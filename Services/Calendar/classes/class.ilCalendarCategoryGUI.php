@@ -1543,10 +1543,10 @@ class ilCalendarCategoryGUI
         //if (count($calendars) > 0)
         //{
         $ilTabs->addSubTab(
-                "invitations",
-                $lng->txt("cal_shared_calendars"),
-                $ilCtrl->getLinkTarget($this, "invitations")
-            );
+            "invitations",
+            $lng->txt("cal_shared_calendars"),
+            $ilCtrl->getLinkTarget($this, "invitations")
+        );
         //}
 
         $ilTabs->activateSubTab($a_active);

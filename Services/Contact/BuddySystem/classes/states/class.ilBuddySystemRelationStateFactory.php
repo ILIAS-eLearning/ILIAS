@@ -72,7 +72,7 @@ class ilBuddySystemRelationStateFactory
             }
 
             require_once $file->getFilename();
-            $class      = str_replace(array('class.', '.php'), '', $file->getBasename());
+            $class = str_replace(array('class.', '.php'), '', $file->getBasename());
             $reflection = new ReflectionClass($class);
             if (
                 !$reflection->isAbstract() &&
@@ -129,9 +129,9 @@ class ilBuddySystemRelationStateFactory
      */
     public function getRendererByOwnerAndRelation($owner_id, ilBuddySystemRelation $relation)
     {
-        $state_class    = get_class($relation->getState());
+        $state_class = get_class($relation->getState());
         $renderer_class = $state_class . 'ButtonRenderer';
-        $renderer_path  = "Services/Contact/BuddySystem/classes/states/renderer/class.{$renderer_class}.php";
+        $renderer_path = "Services/Contact/BuddySystem/classes/states/renderer/class.{$renderer_class}.php";
 
         if (!file_exists($renderer_path)) {
             throw new ilBuddySystemException(sprintf("Could not find a renderer file for state: %s", $state_class));

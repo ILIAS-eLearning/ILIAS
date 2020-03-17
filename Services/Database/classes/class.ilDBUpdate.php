@@ -45,7 +45,7 @@ class ilDBUpdate
         // workaround to allow setup migration
         $this->client_ini = $client_ini;
         if ($a_db_handler) {
-            $this->db =&$a_db_handler;
+            $this->db = &$a_db_handler;
             $this->PATH = "./";
         } else {
             global $DIC;
@@ -366,13 +366,13 @@ class ilDBUpdate
 
                 if ($this->applyUpdateNr($i, $inifile) == false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                     $this->updateMsg = $msg;
 
                     return false;
                 } else {
                     $msg[] = array("msg" => "update_applied",
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                 }
             }
 
@@ -567,8 +567,8 @@ class ilDBUpdate
         $res = $this->db->query($query);
         while ($row = $res->fetchRow()) {
             $status = $this->getTableStatus($row[0]);
-            $a[] = array("name"   => $status["Table"],
-                         "table"  => $row[0],
+            $a[] = array("name" => $status["Table"],
+                         "table" => $row[0],
                          "status" => $status["Msg_text"],);
         }
 
@@ -717,13 +717,13 @@ class ilDBUpdate
 
                 if ($this->applyUpdateNr($i, true) == false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                     $this->updateMsg = $msg;
 
                     return false;
                 } else {
                     $msg[] = array("msg" => "hotfix_applied",
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                 }
             }
 
@@ -833,13 +833,13 @@ class ilDBUpdate
 
                 if ($this->applyUpdateNr($i, false, true) == false) {
                     $msg[] = array("msg" => "update_error: " . $this->error,
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                     $this->updateMsg = $msg;
 
                     return false;
                 } else {
                     $msg[] = array("msg" => "custom_update_applied",
-                                   "nr"  => $i,);
+                                   "nr" => $i,);
                 }
             }
 

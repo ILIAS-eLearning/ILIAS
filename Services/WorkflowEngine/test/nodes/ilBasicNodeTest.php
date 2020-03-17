@@ -27,7 +27,7 @@ class ilBasicNodeTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         global $ilSetting;
-        if ($ilSetting !=  null) {
+        if ($ilSetting != null) {
             $ilSetting->delete('IL_PHPUNIT_TEST_TIME');
             $ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
@@ -201,7 +201,7 @@ class ilBasicNodeTest extends PHPUnit_Framework_TestCase
         $expected = ' :: MESSAGE :: TEST';
         $fp = fopen('ilTransitionLog.txt', 'r');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line)-27);
+        $actual = substr($line, 25, strlen($line) - 27);
         @unlink('ilTransitionLog.txt'); // TODO: Use vfsStream
         $this->assertEquals(
             $actual,

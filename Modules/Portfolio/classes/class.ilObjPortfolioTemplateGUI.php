@@ -120,7 +120,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
 
@@ -267,7 +267,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
         $all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
         if (sizeof($all)) {
-            $opts = array(""=>$this->lng->txt("please_select"));
+            $opts = array("" => $this->lng->txt("please_select"));
             foreach ($all as $item) {
                 $opts[$item["id"]] = $item["title"];
             }

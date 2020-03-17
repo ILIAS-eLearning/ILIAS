@@ -60,7 +60,7 @@ class ilMDAnnotation extends ilMDBase
     public function setDescriptionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->description_language =&$lng_obj;
+            $this->description_language = &$lng_obj;
         }
     }
     public function &getDescriptionLanguage()
@@ -124,11 +124,11 @@ class ilMDAnnotation extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'entity'	=> ilUtil::prepareDBString($this->getEntity()),
-                     'date'		=> ilUtil::prepareDBString($this->getDate()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'entity' => ilUtil::prepareDBString($this->getEntity()),
+                     'date' => ilUtil::prepareDBString($this->getDate()),
                      'description' => ilUtil::prepareDBString($this->getDescription()),
                      'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
     }

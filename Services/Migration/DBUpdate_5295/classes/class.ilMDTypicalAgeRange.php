@@ -127,12 +127,12 @@ class ilMDTypicalAgeRange extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'typical_age_range'	=> array('text',$this->getTypicalAgeRange()),
+                     'typical_age_range' => array('text',$this->getTypicalAgeRange()),
                      'tar_language' => array('text',$this->getTypicalAgeRangeLanguageCode()),
                      'tar_min' => array('text',$this->getTypicalAgeRangeMinimum()),
                      'tar_max' => array('text',$this->getTypicalAgeRangeMaximum()));

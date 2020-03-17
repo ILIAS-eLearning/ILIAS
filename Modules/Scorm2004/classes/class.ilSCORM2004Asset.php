@@ -155,7 +155,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         // set xml header
         $a_xml_writer->xmlHeader();
 
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
 
         $this->exportXMLMetaData($a_xml_writer);
 
@@ -166,7 +166,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $this->exportHTML($a_inst, $a_target_dir, $expLog);
 
         //overwrite scorm.js for scrom 1.2
-        if ($ver=="12") {
+        if ($ver == "12") {
             copy('./Modules/Scorm2004/scripts/scorm_12.js', $a_target_dir . '/js/scorm.js');
         }
 
@@ -183,7 +183,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             
             $tr_data = $this->getObjectives();
             foreach ($tr_data as $data) {
-                $objectives_text.= $data->getObjectiveID();
+                $objectives_text .= $data->getObjectiveID();
             }
             $a_xml_writer->xmlStartTag("sco");
             $a_xml_writer->xmlElement("objective", null, $objectives_text);
@@ -227,7 +227,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
         $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
         $a_xml_writer->xmlEndTag("ContentObject");
         include_once 'Services/Transformation/classes/class.ilXML2FO.php';
@@ -501,7 +501,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         }
 
         // glossary
-        if ($mode!='pdf') {
+        if ($mode != 'pdf') {
             $sco_tpl->setVariable(
                 "GLOSSARY_HTML",
                 ilSCORM2004PageGUI::getGlossaryHTML($this)
@@ -514,7 +514,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             $output = $sco_tpl->get("page");
         }
 
-        if ($mode=='pdf') {
+        if ($mode == 'pdf') {
             $output = preg_replace("/<div class=\"ilc_page_title_PageTitle\">(.*?)<\/div>/i", "<h2>$1</h2>", $output);
         }
 
@@ -523,7 +523,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i", "./players", $output);
         $output = preg_replace("/file=..\/..\/..\/.\//i", "file=../", $output);
 
-        if ($mode!='pdf') {
+        if ($mode != 'pdf') {
             $output = preg_replace_callback("/href=\"&mob_id=(\d+)&pg_id=(\d+)\"/", array(get_class($this), 'fixFullscreeenLink'), $output);
             // this one is for fullscreen in glossary entries
             $output = preg_replace_callback("/href=\"fullscreen_(\d+)\.html\"/", array(get_class($this), 'fixFullscreeenLink'), $output);
@@ -539,13 +539,13 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             if ($a_one_file != "") {
                 $output = '<script type="text/javascript">' . ilQuestionExporter::questionsJS() . '</script>' . $output;
                 if (count($sco_q_ids) > 0) {
-                    $output.= '<script type="text/javascript">';
+                    $output .= '<script type="text/javascript">';
                     foreach ($sco_q_ids as $i) {
                         if ($i > 0) {
-                            $output.= "ilias.questions.showCorrectAnswers(" . $i . "); \n";
+                            $output .= "ilias.questions.showCorrectAnswers(" . $i . "); \n";
                         }
                     }
-                    $output.= '</script>';
+                    $output .= '</script>';
                 }
             }
 
@@ -846,7 +846,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
         //media files in questions
         foreach ($this->q_media as $media) {
-            if ($media !="") {
+            if ($media != "") {
                 error_log($media);
                 if (is_file($media)) {
                     copy($media, $a_target_dir . "/objects/" . basename($media));

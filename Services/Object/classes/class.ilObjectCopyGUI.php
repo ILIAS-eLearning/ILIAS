@@ -447,7 +447,7 @@ class ilObjectCopyGUI
         $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
-        $output.= "<br />" . $t->getHTML();
+        $output .= "<br />" . $t->getHTML();
 
         $this->tpl->setContent($output);
 

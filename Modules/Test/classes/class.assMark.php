@@ -60,11 +60,11 @@ class ASS_Mark
     * @access public
     */
     public function __construct(
-      $short_name = "",
-      $official_name = "",
-      $minimum_level = 0,
-      $passed = 0
-  ) {
+        $short_name = "",
+        $official_name = "",
+        $minimum_level = 0,
+        $passed = 0
+    ) {
         $this->setShortName($short_name);
         $this->setOfficialName($official_name);
         $this->setMinimumLevel($minimum_level);

@@ -81,7 +81,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
         $this->settings = $ilSetting;
 
-        $this->actor       = $actor;
+        $this->actor = $actor;
         $this->currentView = $view;
     }
 
@@ -271,7 +271,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
         $this->validViews = self::$availableViews;
 
         foreach (array_filter([
-            $this->getMembershipsView()   => !$this->enabledMemberships(),
+            $this->getMembershipsView() => !$this->enabledMemberships(),
             $this->getSelectedItemsView() => !$this->enabledSelectedItems()
         ]) as $viewId => $status) {
             $key = array_search($viewId, $this->validViews);

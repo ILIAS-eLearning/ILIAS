@@ -214,7 +214,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         
-        $path =  ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
+        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
         
         if (!is_dir($path)) {
             ilUtil::makeDirParents($path);

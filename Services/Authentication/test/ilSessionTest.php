@@ -48,27 +48,27 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
         $result = "";
         ilSession::_writeData("123456", "Testdata");
         if (ilSession::_exists("123456")) {
-            $result.= "exists-";
+            $result .= "exists-";
         }
         if (ilSession::_getData("123456") == "Testdata") {
-            $result.= "write-get-";
+            $result .= "write-get-";
         }
         $duplicate = ilSession::_duplicate("123456");
         if (ilSession::_getData($duplicate) == "Testdata") {
-            $result.= "duplicate-";
+            $result .= "duplicate-";
         }
         ilSession::_destroy("123456");
         if (!ilSession::_exists("123456")) {
-            $result.= "destroy-";
+            $result .= "destroy-";
         }
         ilSession::_destroyExpiredSessions();
         if (ilSession::_exists($duplicate)) {
-            $result.= "destroyExp-";
+            $result .= "destroyExp-";
         }
         
         ilSession::_destroyByUserId($ilUser->getId());
         if (!ilSession::_exists($duplicate)) {
-            $result.= "destroyByUser-";
+            $result .= "destroyByUser-";
         }
         $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
     }
@@ -92,20 +92,20 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
         // find
         $res = db_pwassist_session_find($ilUser->getId());
         if ($res["pwassist_id"] == "12345") {
-            $result.= "find-";
+            $result .= "find-";
         }
         
         // read
         $res = db_pwassist_session_read("12345");
         if ($res["user_id"] == $ilUser->getId()) {
-            $result.= "read-";
+            $result .= "read-";
         }
         
         // destroy
         db_pwassist_session_destroy("12345");
         $res = db_pwassist_session_read("12345");
         if (!$res) {
-            $result.= "destroy-";
+            $result .= "destroy-";
         }
 
         db_pwassist_session_gc();

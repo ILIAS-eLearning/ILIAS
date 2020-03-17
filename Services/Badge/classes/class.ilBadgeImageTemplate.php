@@ -264,7 +264,7 @@ class ilBadgeImageTemplate
         $ilDB->update(
             "badge_image_template",
             $fields,
-            array("id"=>array("integer", $this->getId()))
+            array("id" => array("integer", $this->getId()))
         );
         
         $this->saveTypes();

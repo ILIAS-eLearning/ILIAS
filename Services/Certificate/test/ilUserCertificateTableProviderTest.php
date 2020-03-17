@@ -25,7 +25,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
                     'obj_type' => 'crs',
                     'acquired_timestamp' => 1539867618,
                     'thumbnail_image_path' => 'some/path/test.svg',
-                    'description'          => 'some description',
+                    'description' => 'some description',
                     'firstname' => 'ilyas',
                     'lastname' => 'homer',
                 ),
@@ -73,15 +73,15 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
         $expected = array();
 
         $expected['items'][] = array(
-            'id'                   => 600,
-            'title'                => 'CourseTest',
-            'obj_id'               => 100,
-            'obj_type'             => 'crs',
-            'date'                 => 1539867618,
+            'id' => 600,
+            'title' => 'CourseTest',
+            'obj_id' => 100,
+            'obj_type' => 'crs',
+            'date' => 1539867618,
             'thumbnail_image_path' => 'some/path/test.svg',
-            'description'          => 'some description',
-            'firstname'            => 'ilyas',
-            'lastname'             => 'homer',
+            'description' => 'some description',
+            'firstname' => 'ilyas',
+            'lastname' => 'homer',
         );
 
         $expected['cnt'] = 1;
@@ -108,7 +108,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
                     'obj_type' => 'crs',
                     'acquired_timestamp' => 1539867618,
                     'thumbnail_image_path' => 'some/path/test.svg',
-                    'description'          => 'some description',
+                    'description' => 'some description',
                     'firstname' => 'ilyas',
                     'lastname' => 'homer',
                 ),
@@ -166,7 +166,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
             'obj_type' => 'crs',
             'date' => 1539867618,
             'thumbnail_image_path' => 'some/path/test.svg',
-            'description'          => 'some description',
+            'description' => 'some description',
             'firstname' => 'ilyas',
             'lastname' => 'homer',
         );
@@ -195,7 +195,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
                     'obj_type' => 'crs',
                     'acquired_timestamp' => 1539867618,
                     'thumbnail_image_path' => 'some/path/test.svg',
-                    'description'          => 'some description',
+                    'description' => 'some description',
                     'firstname' => 'ilyas',
                     'lastname' => 'homer',
                 ),
@@ -253,7 +253,7 @@ class ilUserCertificateTableProviderTest extends PHPUnit_Framework_TestCase
             'obj_type' => 'crs',
             'date' => 1539867618,
             'thumbnail_image_path' => 'some/path/test.svg',
-            'description'          => 'some description',
+            'description' => 'some description',
             'firstname' => 'ilyas',
             'lastname' => 'homer',
         );

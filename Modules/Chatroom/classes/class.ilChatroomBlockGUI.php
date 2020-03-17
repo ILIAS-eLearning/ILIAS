@@ -131,7 +131,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
         $body_tpl->setVariable('SMILIES', json_encode($smilieys));
 
         $js_translations = array(
-            'LBL_CONNECT'    => 'chat_connection_established',
+            'LBL_CONNECT' => 'chat_connection_established',
             'LBL_DISCONNECT' => 'chat_connection_disconnected',
             'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
             'LBL_DATEFORMAT' => 'lang_dateformat'
@@ -163,11 +163,11 @@ class ilChatroomBlockGUI extends ilBlockGUI
 
     protected function getChatroomSelectionList()
     {
-        $result     = new stdClass();
+        $result = new stdClass();
         $result->ok = true;
         $result->has_records = false;
 
-        $chatblock    = new ilChatroomBlock();
+        $chatblock = new ilChatroomBlock();
         $result->html = $chatblock->getRoomSelect($result);
 
         include_once 'Services/JSON/classes/class.ilJsonUtil.php';
@@ -181,7 +181,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
-        $result     = new stdClass();
+        $result = new stdClass();
         $result->ok = false;
 
         if (!(int) $_REQUEST['ref_id']) {
@@ -209,7 +209,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
         $room = ilChatroom::byObjectId($object->getId());
 
         $block = new ilChatroomBlock();
-        $msg   = $block->getMessages($room);
+        $msg = $block->getMessages($room);
 
         $DIC->user()->setPref(
             'chatviewer_last_selected_room',
@@ -222,7 +222,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
         );
 
         $result->messages = array_reverse($msg);
-        $result->ok       = true;
+        $result->ok = true;
 
         include_once 'Services/JSON/classes/class.ilJsonUtil.php';
         echo ilJsonUtil::encode($result);

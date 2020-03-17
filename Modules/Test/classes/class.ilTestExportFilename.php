@@ -25,7 +25,7 @@ class ilTestExportFilename
      */
     public function __construct(ilObjTest $test)
     {
-        $this->test      = $test;
+        $this->test = $test;
         $this->timestamp = time();
     }
 

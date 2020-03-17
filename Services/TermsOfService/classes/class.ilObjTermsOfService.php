@@ -27,7 +27,7 @@ class ilObjTermsOfService extends \ilObject2
 
         parent::__construct($a_id, $a_reference);
 
-        $this->db       = $DIC['ilDB'];
+        $this->db = $DIC['ilDB'];
         $this->settings = $DIC['ilSetting'];
     }
 

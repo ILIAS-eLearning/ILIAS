@@ -153,7 +153,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     {
         parent::addPropertiesToXML($a_writer);
         
-        $a_writer->xmlElement('FieldValue', array("id"=>"decimals"), $this->getDecimals());
+        $a_writer->xmlElement('FieldValue', array("id" => "decimals"), $this->getDecimals());
     }
     
     public function importXMLProperty($a_key, $a_value)

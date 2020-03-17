@@ -497,7 +497,7 @@ class ilWikiStat
             array(
                 "del_pages" => array("increment", 1),
                 "num_pages" => array("integer", self::countPages($a_page_obj->getWikiId())),
-                "avg_rating" => array("integer", $rating["avg"]*100)
+                "avg_rating" => array("integer", $rating["avg"] * 100)
             )
         );
     }
@@ -519,7 +519,7 @@ class ilWikiStat
             $a_page_obj->getId(),
             array(
                 "num_ratings" => array("integer", $rating["cnt"]),
-                "avg_rating" => array("integer", $rating["avg"]*100),
+                "avg_rating" => array("integer", $rating["avg"] * 100),
             )
         );
         
@@ -529,7 +529,7 @@ class ilWikiStat
         $is_update = self::writeStat(
             $a_page_obj->getWikiId(),
             array(
-                "avg_rating" => array("integer", $rating["avg"]*100)
+                "avg_rating" => array("integer", $rating["avg"] * 100)
             )
         );
         
@@ -753,7 +753,7 @@ class ilWikiStat
             foreach ($res as $day => $values) {
                 switch ($a_aggr_value) {
                     case "AVG(%s)":
-                        $res[$day] = array_sum($values)/sizeof($values);
+                        $res[$day] = array_sum($values) / sizeof($values);
                         break;
                     
                     case "SUM(%s)":
@@ -796,7 +796,7 @@ class ilWikiStat
             }
             
             $current = explode("-", $current);
-            $current = date("Y-m-d", mktime(0, 0, 1, $current[1], $current[2]+1, $current[0]));
+            $current = date("Y-m-d", mktime(0, 0, 1, $current[1], $current[2] + 1, $current[0]));
         }
     }
     
@@ -959,7 +959,7 @@ class ilWikiStat
         
         foreach (array_keys($res) as $day) {
             // int-to-float
-            $res[$day] = $res[$day]/100;
+            $res[$day] = $res[$day] / 100;
         }
         
         return $res;

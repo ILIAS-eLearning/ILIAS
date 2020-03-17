@@ -56,7 +56,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_only_accepts_actual_options_from_client_side() {
+    public function test_only_accepts_actual_options_from_client_side()
+    {
         $this->expectException(\InvalidArgumentException::class);
         $f = $this->buildFactory();
         $options = array(
@@ -64,11 +65,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $ms = $f->multiSelect("label", $options, "byline");
-        $ms = $ms->withInput(new class () implements PostData {
-            public function getOr($_, $__) {
+        $ms = $ms->withInput(new class() implements PostData {
+            public function getOr($_, $__)
+            {
                 return ["3"];
             }
-            public function get($_) {}
+            public function get($_)
+            {
+            }
         });
         $content = $ms->getContent();
     }
@@ -94,7 +98,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                         . "<li>"
                             . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
@@ -133,7 +137,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             if ($opt_value === $value) {
                 $expected .= ""
                         . "<li>"

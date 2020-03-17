@@ -131,15 +131,15 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $title = $row['title'];
 
             $data['items'][] = array(
-                'id'                   => $row['id'],
-                'title'                => $title,
-                'obj_id'               => $row['obj_id'],
-                'obj_type'             => $row['obj_type'],
-                'date'                 => $row['acquired_timestamp'],
+                'id' => $row['id'],
+                'title' => $title,
+                'obj_id' => $row['obj_id'],
+                'obj_type' => $row['obj_type'],
+                'date' => $row['acquired_timestamp'],
                 'thumbnail_image_path' => $row['thumbnail_image_path'],
-                'description'          => $row['description'],
-                'firstname'            => $row['firstname'],
-                'lastname'             => $row['lastname'],
+                'description' => $row['description'],
+                'firstname' => $row['firstname'],
+                'lastname' => $row['lastname'],
             );
         }
 

@@ -149,7 +149,7 @@ class ilSCORM2004NodeGUI
     /*	function delete()
         {
             $this->setTabs();
-    
+
             $cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
                 true, false);
             $cont_obj_gui->delete($this->obj->getId());
@@ -366,7 +366,7 @@ class ilSCORM2004NodeGUI
             $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
             $tree->setTreeTablePK("slm_id");
             $path = $tree->getPathFull($_GET["obj_id"]);
-            for ($i =  1; $i < count($path); $i++) {
+            for ($i = 1; $i < count($path); $i++) {
                 //var_dump($path[$i]);
                 switch ($path[$i]["type"]) {
                     case "chap":

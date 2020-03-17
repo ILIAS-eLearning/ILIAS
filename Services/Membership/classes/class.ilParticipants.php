@@ -1246,7 +1246,7 @@ abstract class ilParticipants
         $this->participants_status = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
-            $this->participants_status[$row->usr_id]['notification']  = $row->notification;
+            $this->participants_status[$row->usr_id]['notification'] = $row->notification;
             $this->participants_status[$row->usr_id]['passed'] = $row->passed;
             // cognos-blu-patch: begin
             $this->participants_status[$row->usr_id]['contact'] = $row->contact;
@@ -1273,7 +1273,7 @@ abstract class ilParticipants
         if ($a_field) {
             include_once './Services/User/classes/class.ilObjUser.php';
 
-            $tmp_user =&ilObjectFactory::getInstanceByObjId($a_usr_id);
+            $tmp_user = &ilObjectFactory::getInstanceByObjId($a_usr_id);
             switch ($a_field) {
                 case 'login':
                     $and = "AND login = " . $ilDB->quote($tmp_user->getLogin(), 'text') . " ";
@@ -1398,7 +1398,7 @@ abstract class ilParticipants
             return false;
         }
 
-        if (!$tmp_obj =&ilObjectFactory::getInstanceByObjId($a_usr_id)) {
+        if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($a_usr_id)) {
             $ilErr->appendMessage($this->lng->txt("crs_user_not_exists"));
 
             return false;

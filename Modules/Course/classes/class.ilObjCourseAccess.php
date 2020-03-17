@@ -207,10 +207,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 
         // on waiting list
-        $commands[]	= array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
+        $commands[] = array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
         
         // regualar users
-        $commands[]	= array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
+        $commands[] = array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
 
         include_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {

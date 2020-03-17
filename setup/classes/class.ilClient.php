@@ -515,7 +515,7 @@ class ilClient
     */
     public function getDbType()
     {
-        $val =  $this->ini->readVariable("db", "type");
+        $val = $this->ini->readVariable("db", "type");
         if ($val == "") {
             return "mysql";
         } else {
@@ -635,7 +635,7 @@ class ilClient
         // send host information to ilias-nic
         //#18132: removed ipadr, server_port, server_software, institution, contact_title, contact_position,
         // contact_institution, contact_street, contact_pcode, contact_city, contact_country, contact_phone
-        $url = 	$a_nic_url .
+        $url = $a_nic_url .
                 "?cmd=getid" .
                 "&inst_id=" . rawurlencode($inst_id) .
                 "&hostname=" . rawurlencode($_SERVER["SERVER_NAME"]) .
@@ -718,8 +718,8 @@ class ilClient
     */
     public function setNICkey()
     {
-        mt_srand((double) microtime()*1000000);
-        $nic_key =	md5(str_replace(".", "", $_SERVER["SERVER_ADDR"]) +
+        mt_srand((double) microtime() * 1000000);
+        $nic_key = md5(str_replace(".", "", $_SERVER["SERVER_ADDR"]) +
                     mt_rand(100000, 999999));
 
         $this->setSetting("nic_key", $nic_key);

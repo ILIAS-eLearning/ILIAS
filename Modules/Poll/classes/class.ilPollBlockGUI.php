@@ -271,7 +271,7 @@ class ilPollBlockGUI extends ilBlockGUI
                         }
                     }
                 } else {
-                    $rel =  ilDatePresentation::useRelativeDates();
+                    $rel = ilDatePresentation::useRelativeDates();
                     ilDatePresentation::setUseRelativeDates(false);
                     $end = $this->poll_block->getPoll()->getVotingPeriodEnd();
                     $end = ilDatePresentation::formatDate(new ilDateTime($end, IL_CAL_UNIX));

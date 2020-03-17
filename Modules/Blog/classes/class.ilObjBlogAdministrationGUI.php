@@ -205,7 +205,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $ne = new ilNonEditableValueGUI($lng->txt("blog_allow_html"), "", true);
         $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
         $link = $this->ctrl->getLinkTarget($gui);
-        $ne->setValue("<a href='$link'> >> ".$this->lng->txt("settings")."</a>");
+        $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
         $form->addItem($ne);
 
 

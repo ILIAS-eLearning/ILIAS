@@ -660,8 +660,8 @@ class ilObjRole extends ilObject
             if ($objDefinition->getDevMode($info['type'])) {
                 continue;
             }
-            $rbac_objects[$info['typ_id']] = array("obj_id"	=> $info['typ_id'],
-                                                   "type"	=> $info['type']);
+            $rbac_objects[$info['typ_id']] = array("obj_id" => $info['typ_id'],
+                                                   "type" => $info['type']);
             
             // handle plugin permission texts
             $txt = $objDefinition->isPlugin($info['type'])
@@ -672,9 +672,9 @@ class ilObjRole extends ilObject
                 $txt = ilObjectPlugin::lookupTxtById(substr($info['operation'], 7), $info['type'] . "_" . $info['operation']);
             }
             $rbac_operations[$info['typ_id']][$info['ops_id']] = array(
-                                                                "ops_id"	=> $info['ops_id'],
-                                                                "title"		=> $info['operation'],
-                                                                "name"		=> $txt);
+                                                                "ops_id" => $info['ops_id'],
+                                                                "title" => $info['operation'],
+                                                                "name" => $txt);
         }
         return array($rbac_objects,$rbac_operations);
     }
@@ -1061,13 +1061,13 @@ class ilObjRole extends ilObject
             //$rolf = $rbacreview->getRoleFolderIdOfObject($a_id);
                 
             $rbacadmin->copyRolePermissionIntersection(
-                    $template_id,
-                    ROLE_FOLDER_ID,
-                    $this->getId(),
-                    end($policy_stack),
-                    $a_id,
-                    $this->getId()
-                );
+                $template_id,
+                ROLE_FOLDER_ID,
+                $this->getId(),
+                end($policy_stack),
+                $a_id,
+                $this->getId()
+            );
         } else {
             #echo "No template id for ".$a_id.' of type'.$a_type.'<br>';
         }

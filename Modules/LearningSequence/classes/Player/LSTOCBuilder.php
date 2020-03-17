@@ -28,7 +28,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * LSControlBuilder|LSTOCBuilder 	$parent
      */
-    public function __construct($parent, string $command, string $label = '', int $parameter=null, $state=null)
+    public function __construct($parent, string $command, string $label = '', int $parameter = null, $state = null)
     {
         $this->structure = [
             'label' => $label,

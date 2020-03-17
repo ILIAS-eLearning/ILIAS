@@ -158,7 +158,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
                 continue;
             }
 
-            $skill  = $data['skill'];
+            $skill = $data['skill'];
             $levels = $skill->getLevelData();
             for ($i = 0, $max = count($levels); $i < $max; $i++) {
                 $level = $levels[$i];

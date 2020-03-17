@@ -11,34 +11,34 @@ use \ILIAS\Transformation;
 class FieldFactoryTest extends AbstractFactoryTest
 {
     public $kitchensink_info_settings = array(
-        "text"           => array(
+        "text" => array(
             "context" => false,
         ),
-        "numeric"        => array(
+        "numeric" => array(
             "context" => false,
         ),
-        "group"          => array(
+        "group" => array(
             "context" => false,
         ),
-        "section"        => array(
+        "section" => array(
             "context" => false,
         ),
         "dependantGroup" => array(
             "context" => false,
         ),
-        "checkbox"       => array(
+        "checkbox" => array(
             "context" => false,
         ),
-        "select"		=> array(
+        "select" => array(
             "context" => false,
         ),
-        "textarea"	=> array(
+        "textarea" => array(
             "context" => false,
         ),
-        "radio"			=> array(
+        "radio" => array(
             "context" => false,
         ),
-        "multiSelect"	=> array(
+        "multiSelect" => array(
             "context" => false,
         )
     );

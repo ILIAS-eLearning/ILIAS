@@ -31,7 +31,7 @@ class ilMembershipRegistrationCodeUtils
         $lng->loadLanguageModule($a_type);
         try {
             self::useCode($a_code, $a_ref_id);
-            $title =  ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
+            $title = ilObject::_lookupTitle(ilObject::_lookupObjectId($a_ref_id));
             ilUtil::sendSuccess(sprintf($lng->txt($a_type . "_admission_link_success_registration"), $title), true);
             ilUtil::redirect(ilLink::_getLink($a_ref_id));
         } catch (ilMembershipRegistrationException $e) {
@@ -113,7 +113,7 @@ class ilMembershipRegistrationCodeUtils
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
         
         $code = "";
-        $max = strlen($map)-1;
+        $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
             $code .= $map[mt_rand(0, $max)];
         }

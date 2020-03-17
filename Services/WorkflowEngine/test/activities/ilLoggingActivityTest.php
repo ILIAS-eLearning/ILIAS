@@ -51,7 +51,7 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         global $ilSetting;
-        if ($ilSetting !=  null) {
+        if ($ilSetting != null) {
             //$ilSetting->delete('IL_PHPUNIT_TEST_TIME');
             //$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
@@ -215,7 +215,7 @@ class ilLoggingActivityTest extends PHPUnit_Framework_TestCase
         $expected = ' :: MESSAGE :: TEST';
         $fp = fopen(vfs\vfsStream::url('example/log.txt'), 'r');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line)-27);
+        $actual = substr($line, 25, strlen($line) - 27);
 
         $this->assertEquals(
             $actual,

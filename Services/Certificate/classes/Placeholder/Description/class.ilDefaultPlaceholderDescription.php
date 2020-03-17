@@ -31,22 +31,22 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
         $this->language = $language;
 
         $this->placeholder = array(
-            'USER_LOGIN'         => $language->txt('certificate_ph_login'),
-            'USER_FULLNAME'      => $language->txt('certificate_ph_fullname'),
-            'USER_FIRSTNAME'     => $language->txt('certificate_ph_firstname'),
-            'USER_LASTNAME'      => $language->txt('certificate_ph_lastname'),
-            'USER_TITLE'         => $language->txt('certificate_ph_title'),
-            'USER_SALUTATION'    => $language->txt('certificate_ph_salutation'),
-            'USER_BIRTHDAY'      => $language->txt('certificate_ph_birthday'),
-            'USER_INSTITUTION'   => $language->txt('certificate_ph_institution'),
-            'USER_DEPARTMENT'    => $language->txt('certificate_ph_department'),
-            'USER_STREET'        => $language->txt('certificate_ph_street'),
-            'USER_CITY'          => $language->txt('certificate_ph_city'),
-            'USER_ZIPCODE'       => $language->txt('certificate_ph_zipcode'),
-            'USER_COUNTRY'       => $language->txt('certificate_ph_country'),
+            'USER_LOGIN' => $language->txt('certificate_ph_login'),
+            'USER_FULLNAME' => $language->txt('certificate_ph_fullname'),
+            'USER_FIRSTNAME' => $language->txt('certificate_ph_firstname'),
+            'USER_LASTNAME' => $language->txt('certificate_ph_lastname'),
+            'USER_TITLE' => $language->txt('certificate_ph_title'),
+            'USER_SALUTATION' => $language->txt('certificate_ph_salutation'),
+            'USER_BIRTHDAY' => $language->txt('certificate_ph_birthday'),
+            'USER_INSTITUTION' => $language->txt('certificate_ph_institution'),
+            'USER_DEPARTMENT' => $language->txt('certificate_ph_department'),
+            'USER_STREET' => $language->txt('certificate_ph_street'),
+            'USER_CITY' => $language->txt('certificate_ph_city'),
+            'USER_ZIPCODE' => $language->txt('certificate_ph_zipcode'),
+            'USER_COUNTRY' => $language->txt('certificate_ph_country'),
             'USER_MATRICULATION' => $language->txt('certificate_ph_matriculation'),
-            'DATE'               => $language->txt("certificate_ph_date"),
-            'DATETIME'           => $language->txt("certificate_ph_datetime"),
+            'DATE' => $language->txt("certificate_ph_date"),
+            'DATETIME' => $language->txt("certificate_ph_datetime"),
         );
 
         $this->placeholder = array_merge($this->placeholder, $userDefinedPlaceholderHtmlDescription);

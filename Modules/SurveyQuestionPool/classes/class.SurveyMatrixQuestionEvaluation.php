@@ -74,7 +74,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
             if ($vars) {
                 foreach ($vars as $var) {
                     $perc = $var->perc
-                        ? sprintf("%.2f", $var->perc*100) . "%"
+                        ? sprintf("%.2f", $var->perc * 100) . "%"
                         : "0%";
                     
                     if ((bool) $a_abs && (bool) $a_perc) {
@@ -167,7 +167,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         }
 
         //Chart height depending on the number of questions. Not fixed anymore.
-        $this->chart_height = count($a_results)*40;
+        $this->chart_height = count($a_results) * 40;
         //Chart width 500px if one or + question string are longer than 60 char. Otherwise the default width still aplied.
         if ($text_shortened) {
             $this->chart_width = 500;

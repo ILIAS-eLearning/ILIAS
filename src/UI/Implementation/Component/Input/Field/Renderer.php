@@ -484,7 +484,7 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($input);
         $input_tpl->setVariable("ID", $id);
 
-        foreach ($input->getOptions() as $value=>$label) {
+        foreach ($input->getOptions() as $value => $label) {
             $group_id = $id . '_' . $value . '_group';
             $opt_id = $id . '_' . $value . '_opt';
 
@@ -494,7 +494,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue()===$value) {
+            if ($input->getValue() !== null && $input->getValue() === $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
 

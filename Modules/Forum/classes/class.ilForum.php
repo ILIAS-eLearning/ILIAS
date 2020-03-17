@@ -41,7 +41,7 @@ class ilForum
     * @var string class name
     * @access private
     */
-    private $className="ilForum";
+    private $className = "ilForum";
     
     /**
     * database table field for sorting the results
@@ -441,7 +441,7 @@ class ilForum
         if ($date == "") {
             $objNewPost->setCreateDate(date("Y-m-d H:i:s"));
         } else {
-            if (strpos($date, "-") >  0) {		// in mysql format
+            if (strpos($date, "-") > 0) {		// in mysql format
                 $objNewPost->setCreateDate($date);
             } else {								// a timestamp
                 $objNewPost->setCreateDate(date("Y-m-d H:i:s", $date));
@@ -772,7 +772,7 @@ class ilForum
             'censoredPost',
             array(
                 'ref_id' => $this->getForumRefId(),
-                'post'   => new ilForumPost($pos_pk)
+                'post' => new ilForumPost($pos_pk)
             )
         );
 
@@ -895,12 +895,12 @@ class ilForum
             // delete this post and its sub-posts
             for ($i = 0; $i < $dead_pos; $i++) {
                 $this->db->manipulateF(
-                     '
+                    '
 					DELETE FROM frm_posts
 					WHERE pos_pk = %s',
-                     array('integer'),
-                     array($del_id[$i])
-                 );
+                    array('integer'),
+                    array($del_id[$i])
+                );
                 
                 // delete related news item
                 $news_id = ilNewsItem::getFirstNewsIdForContext(
@@ -974,13 +974,13 @@ class ilForum
         
         // update num_posts in frm_data
         $this->db->manipulateF(
-             '
+            '
 			UPDATE frm_data
 			SET top_num_posts = top_num_posts - %s
 			WHERE top_frm_fk = %s',
-             array('integer', 'integer'),
-             array($dead_pos, $this->id)
-         );
+            array('integer', 'integer'),
+            array($dead_pos, $this->id)
+        );
         
         // get latest post of forum and update last_post
         $res2 = $this->db->queryf(
@@ -1029,8 +1029,8 @@ class ilForum
      */
     public function getAllThreads($a_topic_id, array $params = array(), $limit = 0, $offset = 0)
     {
-        $frm_overview_setting       = (int) $this->settings->get('forum_overview');
-        $frm_props                  = ilForumProperties::getInstance($this->getForumId());
+        $frm_overview_setting = (int) $this->settings->get('forum_overview');
+        $frm_props = ilForumProperties::getInstance($this->getForumId());
         $is_post_activation_enabled = $frm_props->isPostActivationEnabled();
         
         $user_id = $this->user->getId();
@@ -1048,10 +1048,10 @@ class ilForum
         }
 
         $cnt_active_pos_query = '';
-        $cnt_join_type        = 'LEFT';
+        $cnt_join_type = 'LEFT';
         if ($is_post_activation_enabled && !$params['is_moderator']) {
             $cnt_active_pos_query = " AND (pos_status = {$this->db->quote(1, 'integer')} OR pos_author_id = {$this->db->quote($user_id, 'integer')}) ";
-            $cnt_join_type        = "INNER";
+            $cnt_join_type = "INNER";
         }
         $query =
             "SELECT COUNT(DISTINCT(thr_pk)) cnt
@@ -1060,21 +1060,21 @@ class ilForum
 			 	ON pos_thr_fk = thr_pk {$cnt_active_pos_query}
 			 WHERE thr_top_fk = %s {$excluded_ids_condition}
 		";
-        $res      = $this->db->queryF($query, array('integer'), array($a_topic_id));
-        $cntData  = $this->db->fetchAssoc($res);
-        $cnt      = (int) $cntData['cnt'];
+        $res = $this->db->queryF($query, array('integer'), array($a_topic_id));
+        $cntData = $this->db->fetchAssoc($res);
+        $cnt = (int) $cntData['cnt'];
 
-        $active_query               = '';
-        $active_inner_query         = '';
-        $having                     = '';
+        $active_query = '';
+        $active_inner_query = '';
+        $having = '';
         if ($is_post_activation_enabled && !$params['is_moderator']) {
-            $active_query       = ' AND (pos_status = %s OR pos_author_id = %s) ';
+            $active_query = ' AND (pos_status = %s OR pos_author_id = %s) ';
             $active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_author_id = %s) ';
             $having = ' HAVING num_posts > 0';
         }
 
-        $threads    = array();
-        $data       = array();
+        $threads = array();
+        $data = array();
         $data_types = array();
 
         $optional_fields = '';
@@ -1330,7 +1330,7 @@ class ilForum
             $statistic[$counter][] = $row['ranking'];
             $statistic[$counter][] = $row['login'];
 
-            $lastname ='';
+            $lastname = '';
             $firstname = '';
             if (!$this->user->isAnonymous() && in_array($row['value'], array('y', 'g')) ||
                 $this->user->isAnonymous() && 'g' == $row['value']) {
@@ -1567,7 +1567,7 @@ class ilForum
         // insert node
         $nextId = $this->db->nextId('frm_posts_tree');
         $this->db->manipulateF(
-             '
+            '
 			INSERT INTO frm_posts_tree
 			(	fpt_pk,
 				thr_fk,
@@ -1579,8 +1579,8 @@ class ilForum
 				fpt_date
 			)
 			VALUES(%s,%s,%s, %s, %s, %s,%s, %s)',
-             array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
-             array(	$nextId,
+            array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
+            array(	$nextId,
                     $tree_id,
                     $a_node_id,
                     $a_parent_id,
@@ -1588,7 +1588,7 @@ class ilForum
                     $rgt,
                     $depth,
                     $a_date)
-         );
+        );
     }
 
     /**
@@ -1680,31 +1680,31 @@ class ilForum
         $fullname = $fullname ? $fullname : ($a_row->import_name ? $a_row->import_name : $this->lng->txt("unknown"));
 
         $data = array(
-                    "pos_pk"		=> $a_row->pos_pk,
-                    "child"         => $a_row->pos_pk,
-                    "author"		=> $a_row->pos_display_user_id,
-                    "alias"			=> $a_row->pos_usr_alias,
-                    "title"         => $fullname,
-                    "loginname"		=> $loginname,
-                    "type"          => "post",
-                    "message"		=> $a_row->pos_message,
-                    "subject"		=> $a_row->pos_subject,
-                    "pos_cens_com"	=> $a_row->pos_cens_com,
-                    "pos_cens"		=> $a_row->pos_cens,
+                    "pos_pk" => $a_row->pos_pk,
+                    "child" => $a_row->pos_pk,
+                    "author" => $a_row->pos_display_user_id,
+                    "alias" => $a_row->pos_usr_alias,
+                    "title" => $fullname,
+                    "loginname" => $loginname,
+                    "type" => "post",
+                    "message" => $a_row->pos_message,
+                    "subject" => $a_row->pos_subject,
+                    "pos_cens_com" => $a_row->pos_cens_com,
+                    "pos_cens" => $a_row->pos_cens,
                 //	"date"			=> $a_row->date,
-                    "date"			=> $a_row->fpt_date,
-                    "create_date"	=> $a_row->pos_date,
-                    "update"		=> $a_row->pos_update,
-                    "update_user"	=> $a_row->update_user,
-                    "tree"			=> $a_row->thr_fk,
-                    "parent"		=> $a_row->parent_pos,
-                    "lft"			=> $a_row->lft,
-                    "rgt"			=> $a_row->rgt,
-                    "depth"			=> $a_row->depth,
-                    "id"			=> $a_row->fpt_pk,
-                    "notify"		=> $a_row->notify,
-                    "import_name"   => $a_row->import_name,
-                    "pos_status"   => $a_row->pos_status
+                    "date" => $a_row->fpt_date,
+                    "create_date" => $a_row->pos_date,
+                    "update" => $a_row->pos_update,
+                    "update_user" => $a_row->update_user,
+                    "tree" => $a_row->thr_fk,
+                    "parent" => $a_row->parent_pos,
+                    "lft" => $a_row->lft,
+                    "rgt" => $a_row->rgt,
+                    "depth" => $a_row->depth,
+                    "id" => $a_row->fpt_pk,
+                    "notify" => $a_row->notify,
+                    "import_name" => $a_row->import_name,
+                    "pos_status" => $a_row->pos_status
                     );
         
         return $data ? $data : array();
@@ -1791,7 +1791,7 @@ class ilForum
     */
     public function updateVisits($ID)
     {
-        $checkTime = time() - (60*60);
+        $checkTime = time() - (60 * 60);
             
         if ($_SESSION["frm_visit_" . $this->dbTable . "_" . $ID] < $checkTime) {
             $_SESSION["frm_visit_" . $this->dbTable . "_" . $ID] = time();
@@ -1817,7 +1817,7 @@ class ilForum
     * @param	integer
     * @return	string
     */
-    public function prepareText($text, $edit=0, $quote_user = '', $type = '')
+    public function prepareText($text, $edit = 0, $quote_user = '', $type = '')
     {
         if ($type == 'export') {
             $this->replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">";

@@ -387,7 +387,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
             // view mode: pool view (folders/all media objects)
             $f = $ui->factory();
-            $tcmd =  ($a_change_obj_ref)
+            $tcmd = ($a_change_obj_ref)
                 ? "changeObjectReference"
                 : "insert";
             $lng->loadLanguageModule("mep");
@@ -455,7 +455,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $this->pool_view == "all"
             );
 
-            $html.= $mpool_table->getHTML();
+            $html .= $mpool_table->getHTML();
 
             $tpl->setContent($html);
         } else {
@@ -552,7 +552,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         
         if ($_GET["subCmd"] == "insertFromPool") {
             if (is_array($_POST["id"])) {
-                for ($i = count($_POST["id"]) - 1; $i>=0; $i--) {
+                for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
                     include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
                     $fid = ilMediaPoolItem::lookupForeignId($_POST["id"][$i]);
                     include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
@@ -1105,7 +1105,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if ($this->content_obj->getMediaObject()->hasFullscreenItem()) {
-            if ($_POST["fullscreen"] ==  "y") {
+            if ($_POST["fullscreen"] == "y") {
                 if (!$full_alias_item->exists()) {
                     $full_alias_item->insert();
                 }

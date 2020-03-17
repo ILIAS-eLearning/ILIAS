@@ -82,12 +82,12 @@ class ilBackgroundTaskTableGUI extends ilTable2GUI
             }
             // visible data part
             $clients[] = array(
-                "name"          => $client_name,
-                "desc"          => $client->getDescription(),
-                "id"            => $key,
+                "name" => $client_name,
+                "desc" => $client->getDescription(),
+                "id" => $key,
                 "running_tasks" => $running_tasks,
                 "waiting_tasks" => $waiting_tasks,
-                "bt_available"  => $bt_available
+                "bt_available" => $bt_available
 
             );
         }

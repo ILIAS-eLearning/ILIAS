@@ -351,7 +351,7 @@ class ilUserProfile
                         "options" => array(
                             ilMailOptions::INCOMING_LOCAL => "mail_incoming_local",
                             ilMailOptions::INCOMING_EMAIL => "mail_incoming_smtp",
-                            ilMailOptions::INCOMING_BOTH  => "mail_incoming_both"),
+                            ilMailOptions::INCOMING_BOTH => "mail_incoming_both"),
                         "required_hide" => true,
                         "visib_reg_hide" => true,
                         "course_export_hide" => true,

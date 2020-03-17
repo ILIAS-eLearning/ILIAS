@@ -358,7 +358,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         $tplrow->parseCurrentBlock();
                     }
                 }
-                if (($i == 0) && ($j == $this->object->getColumnCount()-1)) {
+                if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_end");
                         $tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
@@ -681,7 +681,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                         $tplrow->parseCurrentBlock();
                     }
                 }
-                if (($i == 0) && ($j == $this->object->getColumnCount()-1)) {
+                if (($i == 0) && ($j == $this->object->getColumnCount() - 1)) {
                     if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
                         $tplrow->setCurrentBlock("bipolar_end");
                         $tplrow->setVariable("TEXT_BIPOLAR_END", ilUtil::prepareFormOutput($this->object->getBipolarAdjective(1)));
@@ -698,7 +698,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                             $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
                             if (is_array($working_data)) {
                                 foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale-1) && ($data["rowvalue"] == $i)) {
+                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
                                         $tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
                                     }
                                 }
@@ -711,7 +711,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                             $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
                             if (is_array($working_data)) {
                                 foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale-1) && ($data["rowvalue"] == $i)) {
+                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
                                         $tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
                                     }
                                 }
@@ -727,7 +727,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                             $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
                             if (is_array($working_data)) {
                                 foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale-1) && ($data["rowvalue"] == $i)) {
+                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
                                         $tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
                                     }
                                 }
@@ -740,7 +740,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                             $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
                             if (is_array($working_data)) {
                                 foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale-1) && ($data["rowvalue"] == $i)) {
+                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
                                         $tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
                                     }
                                 }

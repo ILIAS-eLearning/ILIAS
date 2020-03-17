@@ -74,43 +74,43 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         
         
         $placeholders['crs_title'] = array(
-            'placeholder'	=> 'COURSE_TITLE',
-            'label'			=> $lng->txt('crs_title')
+            'placeholder' => 'COURSE_TITLE',
+            'label' => $lng->txt('crs_title')
         );
         
         $placeholders['crs_status'] = array(
-            'placeholder'	=> 'COURSE_STATUS',
-            'label'			=> $lng->txt('trac_status')
+            'placeholder' => 'COURSE_STATUS',
+            'label' => $lng->txt('trac_status')
         );
 
         $placeholders['crs_mark'] = array(
-            'placeholder'	=> 'COURSE_MARK',
-            'label'			=> $lng->txt('trac_mark')
+            'placeholder' => 'COURSE_MARK',
+            'label' => $lng->txt('trac_mark')
         );
         
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
             $placeholders['crs_time_spent'] = array(
-                'placeholder'	=> 'COURSE_TIME_SPENT',
-                'label'			=> $lng->txt('trac_spent_seconds')
+                'placeholder' => 'COURSE_TIME_SPENT',
+                'label' => $lng->txt('trac_spent_seconds')
             );
         }
         
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $placeholders['crs_first_access'] = array(
-                'placeholder'	=> 'COURSE_FIRST_ACCESS',
-                'label'			=> $lng->txt('trac_first_access')
+                'placeholder' => 'COURSE_FIRST_ACCESS',
+                'label' => $lng->txt('trac_first_access')
             );
 
             $placeholders['crs_last_access'] = array(
-                'placeholder'	=> 'COURSE_LAST_ACCESS',
-                'label'			=> $lng->txt('trac_last_access')
+                'placeholder' => 'COURSE_LAST_ACCESS',
+                'label' => $lng->txt('trac_last_access')
             );
         }
 
 
         $placeholders['crs_link'] = array(
-            'placeholder'	=> 'COURSE_LINK',
-            'label'			=> $lng->txt('crs_mail_permanent_link')
+            'placeholder' => 'COURSE_LINK',
+            'label' => $lng->txt('crs_mail_permanent_link')
         );
         
         return $placeholders;

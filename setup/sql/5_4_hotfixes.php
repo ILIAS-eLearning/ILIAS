@@ -262,7 +262,7 @@ $tpl_perms = [
     ]
 ];
 
-foreach ($tpl_perms as $template=>$perms) {
+foreach ($tpl_perms as $template => $perms) {
     $query = "SELECT obj_id FROM object_data"
         . " WHERE object_data.type = " . $ilDB->quote('rolt', 'text')
         . " AND title = " . $ilDB->quote($template, 'text');
@@ -307,8 +307,8 @@ if (!$ilDB->tableColumnExists('cal_entries', 'context_info')) {
 if (!$ilDB->tableExists('frm_thread_tree_mig')) {
     $fields = [
         'thread_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ]
@@ -383,20 +383,20 @@ while ($row = $ilDB->fetchAssoc($res)) {
     // Create a posting as new root
     $postId = $ilDB->nextId('frm_posts');
     $ilDB->insert('frm_posts', array(
-        'pos_pk'		=> array('integer', $postId),
-        'pos_top_fk'	=> array('integer', $row['pos_top_fk']),
-        'pos_thr_fk'	=> array('integer', $row['pos_thr_fk']),
-        'pos_display_user_id'	=> array('integer', $row['pos_display_user_id']),
-        'pos_usr_alias'	=> array('text', $row['pos_usr_alias']),
-        'pos_subject'	=> array('text', $row['pos_subject']),
-        'pos_message'	=> array('clob', $row['pos_message']),
-        'pos_date'		=> array('timestamp', $row['pos_date']),
-        'pos_update'	=> array('timestamp', null),
-        'update_user'	=> array('integer', 0),
-        'pos_cens'		=> array('integer', 0),
-        'notify'		=> array('integer', 0),
-        'import_name'	=> array('text', (string) $row['import_name']),
-        'pos_status'	=> array('integer', 1),
+        'pos_pk' => array('integer', $postId),
+        'pos_top_fk' => array('integer', $row['pos_top_fk']),
+        'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
+        'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
+        'pos_usr_alias' => array('text', $row['pos_usr_alias']),
+        'pos_subject' => array('text', $row['pos_subject']),
+        'pos_message' => array('clob', $row['pos_message']),
+        'pos_date' => array('timestamp', $row['pos_date']),
+        'pos_update' => array('timestamp', null),
+        'update_user' => array('integer', 0),
+        'pos_cens' => array('integer', 0),
+        'notify' => array('integer', 0),
+        'import_name' => array('text', (string) $row['import_name']),
+        'pos_status' => array('integer', 1),
         'pos_author_id' => array('integer', (int) $row['pos_author_id']),
         'is_author_moderator' => array('integer', $row['is_author_moderator']),
         'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
@@ -480,8 +480,8 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 if (!$ilDB->tableExists('lso_activation')) {
     $ilDB->createTable('lso_activation', array(
         'ref_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'online' => array(
@@ -515,9 +515,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
         'lso_activation',
         'effective_online',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 1,
+            "length" => 1,
             "default" => 0
         )
     );
@@ -681,9 +681,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
         'lso_activation',
         'activation_start_ts',
         array(
-                                "type"    => "integer",
+                                "type" => "integer",
                                 "notnull" => false,
-                                "length"  => 4
+                                "length" => 4
                           )
     );
 }
@@ -695,9 +695,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
         'lso_activation',
         'activation_end_ts',
         array(
-                                "type"    => "integer",
+                                "type" => "integer",
                                 "notnull" => false,
-                                "length"  => 4
+                                "length" => 4
                           )
     );
 }
@@ -852,9 +852,9 @@ ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 <?php
 if ($ilDB->tableColumnExists("map_area", "href")) {
     $field = array(
-        'type' 		=> 'text',
-        'length' 	=> 800,
-        'notnull' 	=> false
+        'type' => 'text',
+        'length' => 800,
+        'notnull' => false
     );
 
     $ilDB->modifyTableColumn("map_area", "href", $field);
@@ -1061,8 +1061,8 @@ if (!$idx) {
 <#71>
 <?php
 $ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1070,8 +1070,8 @@ $ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
 <#72>
 <?php
 $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1079,8 +1079,8 @@ $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
 <#73>
 <?php
 $ilDB->modifyTableColumn('il_cert_template', 'version', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1124,8 +1124,8 @@ $ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE ' . $ilDB->in('obj_
 <?php
 if ($ilDB->tableColumnExists("lng_data", "identifier")) {
     $field = array(
-        'type'    => 'text',
-        'length'  => 200,
+        'type' => 'text',
+        'length' => 200,
         'notnull' => true,
         'default' => ' '
     );
@@ -1136,8 +1136,8 @@ if ($ilDB->tableColumnExists("lng_data", "identifier")) {
 <?php
 if ($ilDB->tableColumnExists("lng_log", "identifier")) {
     $field = array(
-        'type'    => 'text',
-        'length'  => 200,
+        'type' => 'text',
+        'length' => 200,
         'notnull' => true,
         'default' => ' '
     );
@@ -1252,7 +1252,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <?php
 if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $field = array(
-        'type'    => 'date',
+        'type' => 'date',
         'notnull' => false,
     );
     $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
@@ -1260,17 +1260,20 @@ if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
 ?>
 <#84>
 <?php
-$set = $ilDB->queryF("SELECT * FROM exc_ass_reminders ".
+$set = $ilDB->queryF(
+    "SELECT * FROM exc_ass_reminders " .
     " WHERE last_send > %s ",
     ["integer"],
     [0]
 );
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$last_send_day = date("Y-m-d", $rec["last_send"]);
-    $ilDB->update("exc_ass_reminders", [
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $last_send_day = date("Y-m-d", $rec["last_send"]);
+    $ilDB->update(
+        "exc_ass_reminders",
+        [
         "last_send_day" => ["date", $last_send_day]
-    ], [    // where
+    ],
+        [    // where
             "ass_id" => ["integer", $rec["ass_id"]],
             "last_send" => ["integer", $rec["last_send"]]
         ]
@@ -1283,15 +1286,19 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#86>
 <?php
-$set = $ilDB->queryF("SELECT * FROM object_description ",
+$set = $ilDB->queryF(
+    "SELECT * FROM object_description ",
     [],
     []
 );
 while ($rec = $ilDB->fetchAssoc($set)) {
-	if ($rec["description"] != "") {
-        $ilDB->update("object_translation", [
+    if ($rec["description"] != "") {
+        $ilDB->update(
+            "object_translation",
+            [
             "description" => ["text", $rec["description"]]
-        ], [    // where
+        ],
+            [    // where
                 "obj_id" => ["integer", $rec["obj_id"]],
                 "lang_default" => ["integer", 1]
             ]

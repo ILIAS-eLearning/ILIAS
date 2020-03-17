@@ -98,7 +98,7 @@ class ilContObjLocatorGUI
         $modifier = 1;
 
         foreach ($path as $key => $row) {
-            if ($key < count($path)-$modifier) {
+            if ($key < count($path) - $modifier) {
                 $this->tpl->touchBlock("locator_separator");
             }
 

@@ -58,14 +58,14 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
         
         parent::__construct();
 
-        $this->user     = $DIC->user();
-        $this->ctrl     = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC['ilSetting'];
-        $this->mainTpl  = $DIC['tpl'];
-        $this->lng      = $DIC['lng'];
-        $this->event    = $DIC->event();
+        $this->mainTpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->event = $DIC->event();
 
-        $this->chatSettings         = new ilSetting('chatroom');
+        $this->chatSettings = new ilSetting('chatroom');
         $this->notificationSettings = new ilSetting('notifications');
 
         if ($init_form) {
@@ -158,7 +158,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
 
         $this->setValuesByArray(array(
             'play_invitation_sound' => $this->user->getPref('chat_play_invitation_sound'),
-            'chat_osc_accept_msg'   => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
+            'chat_osc_accept_msg' => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
         ));
 
         $this->mainTpl->setContent($this->getHTML());

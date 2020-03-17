@@ -258,11 +258,11 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
                         break;
 
                 }
-                $link_info.="<IntLinkInfo $onclick Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
+                $link_info .= "<IntLinkInfo $onclick Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
                     "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
         $this->setLinkXML($link_info);
         //var_dump($link_info);
     }
@@ -388,7 +388,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
             if ($glossary && $this->scorm_mode != "export") {
                 $ret = $a_output . $tpl->get();
                 if ($this->getGlossaryOverviewId() != "") {
-                    $ret.= ilSCORM2004ScoGUI::getGloOverviewOv($this->sco);
+                    $ret .= ilSCORM2004ScoGUI::getGloOverviewOv($this->sco);
                 }
                 return $ret;
             }
@@ -412,7 +412,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
     {
         $ret = self::$export_glo_tpl->get();
         
-        $ret.= ilSCORM2004ScoGUI::getGloOverviewOv($a_sco);
+        $ret .= ilSCORM2004ScoGUI::getGloOverviewOv($a_sco);
         
         return $ret;
     }

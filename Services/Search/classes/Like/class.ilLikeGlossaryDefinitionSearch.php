@@ -42,7 +42,7 @@ class ilLikeGlossaryDefinitionSearch extends ilGlossaryDefinitionSearch
 
         $ilDB = $DIC['ilDB'];
         
-        $concat  = " term ";
+        $concat = " term ";
 
         $and = "  WHERE ( ";
         $counter = 0;

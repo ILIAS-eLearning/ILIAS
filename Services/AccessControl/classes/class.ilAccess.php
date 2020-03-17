@@ -195,9 +195,9 @@ class ilAccess implements ilAccessHandler
         $res = $ilDB->manipulate($query);
 
         $ilDB->insert('acc_cache', array(
-            'user_id'	=>	array('integer',$ilUser->getId()),
-            'time'		=>	array('integer',time()),
-            'result'	=>	array('clob',serialize($this->results))
+            'user_id' => array('integer',$ilUser->getId()),
+            'time' => array('integer',time()),
+            'result' => array('clob',serialize($this->results))
             ));
     }
     /**
@@ -249,7 +249,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
+    public function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id = "")
     {
         global $DIC;
 
@@ -261,7 +261,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
+    public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id = "")
     {
         global $DIC;
 
@@ -502,10 +502,10 @@ class ilAccess implements ilAccessHandler
 
         if ($a_permission == "") {
             $message = sprintf(
-                    '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
-                    get_class($this),
-                    $a_ref_id
-                );
+                '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
+                get_class($this),
+                $a_ref_id
+            );
             $ilLog->write($message, $ilLog->FATAL);
             $ilErr->raiseError($message, $ilErr->MESSAGE);
         }

@@ -190,46 +190,46 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
 
-        if ($res_con =&$this->__performContentSearch()) {
+        if ($res_con = &$this->__performContentSearch()) {
             $this->__storeEntries($res, $res_con);
         }
-        if ($res_lan =&$this->__performLanguageSearch()) {
+        if ($res_lan = &$this->__performLanguageSearch()) {
             $this->__storeEntries($res, $res_lan);
         }
-        if ($res_gen =&$this->__performGeneralSearch()) {
+        if ($res_gen = &$this->__performGeneralSearch()) {
             $this->__storeEntries($res, $res_gen);
         }
-        if ($res_lif =&$this->__performLifecycleSearch()) {
+        if ($res_lif = &$this->__performLifecycleSearch()) {
             $this->__storeEntries($res, $res_lif);
         }
-        if ($res_con =&$this->__performContributeSearch()) {
+        if ($res_con = &$this->__performContributeSearch()) {
             $this->__storeEntries($res, $res_con);
         }
-        if ($res_ent =&$this->__performEntitySearch()) {
+        if ($res_ent = &$this->__performEntitySearch()) {
             $this->__storeEntries($res, $res_ent);
         }
-        if ($res_req =&$this->__performRequirementSearch()) {
+        if ($res_req = &$this->__performRequirementSearch()) {
             $this->__storeEntries($res, $res_req);
         }
-        if ($res_for =&$this->__performFormatSearch()) {
+        if ($res_for = &$this->__performFormatSearch()) {
             $this->__storeEntries($res, $res_for);
         }
-        if ($res_edu =&$this->__performEducationalSearch()) {
+        if ($res_edu = &$this->__performEducationalSearch()) {
             $this->__storeEntries($res, $res_edu);
         }
-        if ($res_typ =&$this->__performTypicalAgeRangeSearch()) {
+        if ($res_typ = &$this->__performTypicalAgeRangeSearch()) {
             $this->__storeEntries($res, $res_typ);
         }
-        if ($res_rig =&$this->__performRightsSearch()) {
+        if ($res_rig = &$this->__performRightsSearch()) {
             $this->__storeEntries($res, $res_rig);
         }
-        if ($res_cla =&$this->__performClassificationSearch()) {
+        if ($res_cla = &$this->__performClassificationSearch()) {
             $this->__storeEntries($res, $res_cla);
         }
-        if ($res_tax =&$this->__performTaxonSearch()) {
+        if ($res_tax = &$this->__performTaxonSearch()) {
             $this->__storeEntries($res, $res_tax);
         }
-        if ($res_key =&$this->__performKeywordSearch()) {
+        if ($res_key = &$this->__performKeywordSearch()) {
             $this->__storeEntries($res, $res_key);
         }
                 
@@ -341,7 +341,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
         
-        if ($res_tit =&$this->__performTitleSearch()) {
+        if ($res_tit = &$this->__performTitleSearch()) {
             $this->__storeEntries($res, $res_tit);
         }
         $this->searchAdvancedMD($res);
@@ -569,28 +569,28 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         if ($this->options['type'] == 'all' or $this->options['type'] == 'lms') {
             // LM content search
-            $lm_search =&ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
-            $res_cont =&$lm_search->performSearch();
+            $lm_search = &ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+            $res_cont = &$lm_search->performSearch();
             $res->mergeEntries($res_cont);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'tst') {
-            $tst_search =&ilObjectSearchFactory::_getTestSearchInstance($query_parser);
-            $res_tes =&$tst_search->performSearch();
+            $tst_search = &ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+            $res_tes = &$tst_search->performSearch();
             $res->mergeEntries($res_tes);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'mep') {
-            $med_search =&ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
-            $res_med =&$med_search->performSearch();
+            $med_search = &ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+            $res_med = &$med_search->performSearch();
             $res->mergeEntries($res_med);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'glo') {
-            $glo_search =&ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
-            $res_glo =&$glo_search->performSearch();
+            $glo_search = &ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
+            $res_glo = &$glo_search->performSearch();
             $res->mergeEntries($res_glo);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'webr') {
-            $web_search =&ilObjectSearchFactory::_getWebresourceSearchInstance($query_parser);
-            $res_web =&$web_search->performSearch();
+            $web_search = &ilObjectSearchFactory::_getWebresourceSearchInstance($query_parser);
+            $res_web = &$web_search->performSearch();
             $res->mergeEntries($res_web);
         }
         if ($tit_res = $this->__performTitleSearch()) {
@@ -614,15 +614,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         #$query_parser->setCombination($this->options['title_ao']);
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('title_description');
         $meta_search->setOptions($this->options);
-        $res_tit =&$meta_search->performSearch();
+        $res_tit = &$meta_search->performSearch();
         
         $meta_search->setMode('keyword_all');
-        $res_key =&$meta_search->performSearch();
+        $res_key = &$meta_search->performSearch();
         
         // merge them
         $res_tit->mergeEntries($res_key);
@@ -650,11 +650,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         } else {
             $query_parser = new ilQueryParser('');
         }
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('general');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -673,11 +673,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('lifecycle');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -690,11 +690,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('language');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -707,11 +707,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('contribute');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -730,11 +730,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('entity');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -746,11 +746,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('requirement');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -760,11 +760,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('format');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -774,11 +774,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('educational');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -788,11 +788,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('typical_age_range');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -805,11 +805,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('rights');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -824,11 +824,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('classification');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -846,11 +846,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('taxon');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
 
         return $res;
     }
@@ -917,11 +917,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search =&ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('keyword');
         $meta_search->setOptions($this->options);
-        $res =&$meta_search->performSearch();
+        $res = &$meta_search->performSearch();
         
         return $res;
     }
@@ -1017,7 +1017,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                          'glo' => $this->lng->txt('objs_glo'),
                          'mep' => $this->lng->txt('objs_mep'),
                          'tst' => $this->lng->txt('search_tst_svy'),
-                         'file'=> $this->lng->txt('objs_file'),
+                         'file' => $this->lng->txt('objs_file'),
                          'webr' => $this->lng->txt('objs_webr'),
                          'sess' => $this->lng->txt('objs_sess')
             );

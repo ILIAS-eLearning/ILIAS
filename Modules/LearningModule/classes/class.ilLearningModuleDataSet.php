@@ -290,7 +290,7 @@ class ilLearningModuleDataSet extends ilDataSet
 
                     $set = $ilDB->query($q);
                     $this->data = array();
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         // comments activated?
                         include_once("./Services/Notes/classes/class.ilNote.php");
                         $rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
@@ -328,7 +328,7 @@ class ilLearningModuleDataSet extends ilDataSet
                     $set = $ilDB->query($q);
                     $this->data = array();
                     $obj_ids = array();
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         $set2 = $ilDB->query("SELECT for_translation FROM content_object WHERE id = " . $ilDB->quote($rec["lm_id"], "integer"));
                         $rec2 = $ilDB->fetchAssoc($set2);
                         if (!$rec2["for_translation"]) {

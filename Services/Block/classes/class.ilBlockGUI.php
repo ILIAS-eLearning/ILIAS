@@ -1227,7 +1227,7 @@ abstract class ilBlockGUI
             }
 
             // show next link (if not last page)
-            if (!(($this->getOffset() / $this->getLimit())==($pages-1)) && ($pages!=1)) {
+            if (!(($this->getOffset() / $this->getLimit()) == ($pages - 1)) && ($pages != 1)) {
                 $newoffset = $this->getOffset() + $this->getLimit();
 
                 $ilCtrl->setParameterByClass(

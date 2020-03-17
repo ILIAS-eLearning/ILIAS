@@ -26,7 +26,7 @@ class ilMailTransportSettings
             return;
         }
 
-        $hasFirstEmail  = strlen($firstMail);
+        $hasFirstEmail = strlen($firstMail);
         $hasSecondEmail = strlen($secondMail);
 
         if (!$hasFirstEmail && !$hasSecondEmail) {

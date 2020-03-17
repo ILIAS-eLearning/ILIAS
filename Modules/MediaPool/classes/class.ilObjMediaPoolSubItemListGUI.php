@@ -132,8 +132,8 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     $wr = $size[0] / 80;
                     $hr = $size[1] / 80;
                     $r = max($wr, hr);
-                    $w = (int) ($size[0]/$r);
-                    $h = (int) ($size[1]/$r);
+                    $w = (int) ($size[0] / $r);
+                    $h = (int) ($size[1] / $r);
                     $this->tpl->setVariable("SUB_ITEM_IMAGE", ilUtil::img($med->getLocation(), "", $w, $h));
                     return true;
                 }

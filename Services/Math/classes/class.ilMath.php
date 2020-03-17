@@ -156,7 +156,7 @@ class ilMath
             return static::getFirstValidAdapter();
         }
 
-        $class_name    = 'ilMath' . $adapter . 'Adapter';
+        $class_name = 'ilMath' . $adapter . 'Adapter';
         $path_to_class = realpath('Services/Math/classes/class.' . $class_name . '.php');
 
         if (!is_file($path_to_class) || !is_readable($path_to_class)) {

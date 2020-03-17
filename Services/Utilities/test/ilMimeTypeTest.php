@@ -12,7 +12,7 @@ class ilMimeTypeTest extends \PHPUnit_Framework_TestCase
     public function testMimeTypeForYoutubeUrlCouldBeCorrectlyDetected()
     {
         $expected = 'video/youtube';
-        $actual   = \ilMimeTypeUtil::lookupMimeType(
+        $actual = \ilMimeTypeUtil::lookupMimeType(
             'https://www.youtube.com/watch?v=WSgP85kr6eU',
             \ilMimeTypeUtil::APPLICATION__OCTET_STREAM
         );
@@ -26,7 +26,7 @@ class ilMimeTypeTest extends \PHPUnit_Framework_TestCase
     public function testMimeTypeForVimeoUrlCouldBeCorrectlyDetected()
     {
         $expected = 'video/vimeo';
-        $actual   = \ilMimeTypeUtil::lookupMimeType(
+        $actual = \ilMimeTypeUtil::lookupMimeType(
             'https://vimeo.com/180157999',
             \ilMimeTypeUtil::APPLICATION__OCTET_STREAM
         );

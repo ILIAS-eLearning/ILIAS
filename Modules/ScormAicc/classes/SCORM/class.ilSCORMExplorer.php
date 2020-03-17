@@ -154,14 +154,14 @@ class ilSCORMExplorer extends ilExplorer
             }
 
             $option = array();
-            $option["parent"]		= $child["parent"];
-            $option["id"]			= $child["child"];
-            $option["title"]		= $child["title"];
-            $option["c_type"]		= $child["c_type"];
-            $option["obj_id"]		= $child["obj_id"];
-            $option["desc"] 		= "obj_" . $child["c_type"];
-            $option["container"]	= false;
-            $option["visible"]		= !in_array($child["c_type"], $types_do_not_display);
+            $option["parent"] = $child["parent"];
+            $option["id"] = $child["child"];
+            $option["title"] = $child["title"];
+            $option["c_type"] = $child["c_type"];
+            $option["obj_id"] = $child["obj_id"];
+            $option["desc"] = "obj_" . $child["c_type"];
+            $option["container"] = false;
+            $option["visible"] = !in_array($child["c_type"], $types_do_not_display);
 
             if ($this->showChilds($option["id"])) {
                 $option = $this->createOutputArray($option["id"], $option);
@@ -323,7 +323,7 @@ class ilSCORMExplorer extends ilExplorer
      * @param int 			$a_node_id
      * @param string 		$scormtype
      */
-    public function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype="sco")
+    public function getOutputIcons(&$tpl, $a_option, $a_node_id, $scormtype = "sco")
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -338,29 +338,29 @@ class ilSCORMExplorer extends ilExplorer
         }
 
         $trdata = ilSCORMItem::_lookupTrackingDataOfUser(
-                $a_node_id,
-                0,
-                $this->slm_obj->getId()
-            );
+            $a_node_id,
+            0,
+            $this->slm_obj->getId()
+        );
 
         // status
         $status = ($trdata["cmi.core.lesson_status"] == "")
                 ? "not attempted"
                 : $trdata["cmi.core.lesson_status"];
 
-        $statusChar=strtolower(substr($status, 0, 1));
-        if ($statusChar=="f") {
-            $status="failed";
-        } elseif ($statusChar=="b") {
-            $status="browsed";
-        } elseif ($statusChar=="c") {
-            $status="completed";
-        } elseif ($statusChar=="n") {
-            $status="not_attempted";
-        } elseif ($statusChar=="p") {
-            $status="passed";
-        } elseif ($statusChar=="r") {
-            $status="running";
+        $statusChar = strtolower(substr($status, 0, 1));
+        if ($statusChar == "f") {
+            $status = "failed";
+        } elseif ($statusChar == "b") {
+            $status = "browsed";
+        } elseif ($statusChar == "c") {
+            $status = "completed";
+        } elseif ($statusChar == "n") {
+            $status = "not_attempted";
+        } elseif ($statusChar == "p") {
+            $status = "passed";
+        } elseif ($statusChar == "r") {
+            $status = "running";
         }
             
         $alt = $lng->txt("cont_status") . ": " .
@@ -368,14 +368,14 @@ class ilSCORMExplorer extends ilExplorer
 
         // score
         if ($trdata["cmi.core.score.raw"] != "") {
-            $alt.= ", " . $lng->txt("cont_credits") .
+            $alt .= ", " . $lng->txt("cont_credits") .
                 ": " . $trdata["cmi.core.score.raw"];
         }
 
         // total time
         if ($trdata["cmi.core.total_time"] != "" &&
                 $trdata["cmi.core.total_time"] != "0000:00:00.00") {
-            $alt.= ", " . $lng->txt("cont_total_time") .
+            $alt .= ", " . $lng->txt("cont_total_time") .
                 ": " . $trdata["cmi.core.total_time"];
         }
 

@@ -129,7 +129,7 @@ class ilObjectServiceSettingsGUI
             $news->setChecked($checked);
             $info = $lng->txt('obj_tool_setting_use_news_info');
             if ($checked) {
-                $info.=" <a href='" . $ilCtrl->getLinkTargetByClass("ilcontainernewssettingsgui", "") .
+                $info .= " <a href='" . $ilCtrl->getLinkTargetByClass("ilcontainernewssettingsgui", "") .
                     "'>» " . $lng->txt('obj_tool_setting_use_news_open_settings') . "</a>";
             }
             $news->setInfo($info);

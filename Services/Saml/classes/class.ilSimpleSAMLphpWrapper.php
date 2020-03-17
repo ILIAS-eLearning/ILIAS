@@ -30,10 +30,10 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $this->initConfigFiles($configurationPath);
 
         SimpleSAML_Configuration::setConfigDir($configurationPath);
-        $this->config   = SimpleSAML_Configuration::getInstance();
+        $this->config = SimpleSAML_Configuration::getInstance();
 
         $sessionHandler = $this->config->getString('session.handler', false);
-        $storageType    = $this->config->getString('store.type', false);
+        $storageType = $this->config->getString('store.type', false);
 
         if (
             $storageType == 'phpsession' || $sessionHandler == 'phpsession' ||
@@ -54,16 +54,16 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
 
         $templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
         $templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
-            'DB_PATH'             => rtrim($configurationPath, '/') . '/ssphp.sq3',
-            'SQL_INITIAL_PASSWORD'=> function () {
+            'DB_PATH' => rtrim($configurationPath, '/') . '/ssphp.sq3',
+            'SQL_INITIAL_PASSWORD' => function () {
                 require_once 'Services/Password/classes/class.ilPasswordUtils.php';
                 return substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(20))), 0, 10);
             },
-            'COOKIE_PATH'         => IL_COOKIE_PATH,
-            'LOG_DIRECTORY'       => ilLoggingDBSettings::getInstance()->getLogDir()
+            'COOKIE_PATH' => IL_COOKIE_PATH,
+            'LOG_DIRECTORY' => ilLoggingDBSettings::getInstance()->getLogDir()
         ]);
         $templateHandler->copy('./Services/Saml/lib/authsources.php.dist', 'auth/saml/config/authsources.php', [
-            'RELAY_STATE'  => rtrim(ILIAS_HTTP_PATH, '/') . '/saml.php',
+            'RELAY_STATE' => rtrim(ILIAS_HTTP_PATH, '/') . '/saml.php',
             'SP_ENTITY_ID' => rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php'
         ]);
     }
@@ -146,7 +146,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         );
 
         if (strlen($returnUrl) > 0) {
-            $params['ReturnTo']= $returnUrl;
+            $params['ReturnTo'] = $returnUrl;
         }
 
         $this->authSource->logout($params);

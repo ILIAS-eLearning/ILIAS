@@ -36,7 +36,7 @@ class ilUserDefinedFields
 
         $ilDB = $DIC['ilDB'];
 
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
 
         $this->__read();
     }
@@ -422,21 +422,21 @@ class ilUserDefinedFields
         $next_id = $ilDB->nextId('udf_definition');
         
         $values = array(
-            'field_id'					=> array('integer',$next_id),
-            'field_name'				=> array('text',$this->getFieldName()),
-            'field_type'				=> array('integer', (int) $this->getFieldType()),
-            'field_values'				=> array('clob',serialize($this->getFieldValues())),
-            'visible'					=> array('integer', (int) $this->enabledVisible()),
-            'changeable'				=> array('integer', (int) $this->enabledChangeable()),
-            'required'					=> array('integer', (int) $this->enabledRequired()),
-            'searchable'				=> array('integer', (int) $this->enabledSearchable()),
-            'export'					=> array('integer', (int) $this->enabledExport()),
-            'course_export'			=> array('integer', (int) $this->enabledCourseExport()),
-            'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
-            'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-            'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-            'group_export'				=> array('integer', (int) $this->enabledGroupExport()),
-            'certificate'				=> array('integer', (int) $this->enabledCertificate()),
+            'field_id' => array('integer',$next_id),
+            'field_name' => array('text',$this->getFieldName()),
+            'field_type' => array('integer', (int) $this->getFieldType()),
+            'field_values' => array('clob',serialize($this->getFieldValues())),
+            'visible' => array('integer', (int) $this->enabledVisible()),
+            'changeable' => array('integer', (int) $this->enabledChangeable()),
+            'required' => array('integer', (int) $this->enabledRequired()),
+            'searchable' => array('integer', (int) $this->enabledSearchable()),
+            'export' => array('integer', (int) $this->enabledExport()),
+            'course_export' => array('integer', (int) $this->enabledCourseExport()),
+            'registration_visible' => array('integer', (int) $this->enabledVisibleRegistration()),
+            'visible_lua' => array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
+            'changeable_lua' => array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
+            'group_export' => array('integer', (int) $this->enabledGroupExport()),
+            'certificate' => array('integer', (int) $this->enabledCertificate()),
         );
             
         $ilDB->insert('udf_definition', $values);
@@ -477,20 +477,20 @@ class ilUserDefinedFields
         $ilDB = $DIC['ilDB'];
         
         $values = array(
-            'field_name'				=> array('text',$this->getFieldName()),
-            'field_type'				=> array('integer', (int) $this->getFieldType()),
-            'field_values'				=> array('clob',serialize($this->getFieldValues())),
-            'visible'					=> array('integer', (int) $this->enabledVisible()),
-            'changeable'				=> array('integer', (int) $this->enabledChangeable()),
-            'required'					=> array('integer', (int) $this->enabledRequired()),
-            'searchable'				=> array('integer', (int) $this->enabledSearchable()),
-            'export'					=> array('integer', (int) $this->enabledExport()),
-            'course_export'				=> array('integer', (int) $this->enabledCourseExport()),
-            'registration_visible'		=> array('integer', (int) $this->enabledVisibleRegistration()),
-            'visible_lua'				=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
-            'changeable_lua'			=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-            'group_export'				=> array('integer', (int) $this->enabledGroupExport()),
-            'certificate'				=> array('integer', (int) $this->enabledCertificate())
+            'field_name' => array('text',$this->getFieldName()),
+            'field_type' => array('integer', (int) $this->getFieldType()),
+            'field_values' => array('clob',serialize($this->getFieldValues())),
+            'visible' => array('integer', (int) $this->enabledVisible()),
+            'changeable' => array('integer', (int) $this->enabledChangeable()),
+            'required' => array('integer', (int) $this->enabledRequired()),
+            'searchable' => array('integer', (int) $this->enabledSearchable()),
+            'export' => array('integer', (int) $this->enabledExport()),
+            'course_export' => array('integer', (int) $this->enabledCourseExport()),
+            'registration_visible' => array('integer', (int) $this->enabledVisibleRegistration()),
+            'visible_lua' => array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
+            'changeable_lua' => array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
+            'group_export' => array('integer', (int) $this->enabledGroupExport()),
+            'certificate' => array('integer', (int) $this->enabledCertificate())
         );
         $ilDB->update('udf_definition', $values, array('field_id' => array('integer',$a_id)));
         $this->__read();
@@ -524,7 +524,7 @@ class ilUserDefinedFields
                 if (!is_numeric($item)) {
                     $is_numeric = false;
                 }
-                $sort[] = array("value"=>$item);
+                $sort[] = array("value" => $item);
             }
             foreach (ilUtil::sortArray($sort, "value", "asc", $is_numeric) as $item) {
                 $tmp[] = $item["value"];
@@ -569,7 +569,7 @@ class ilUserDefinedFields
         }
         
         $values = array(
-            'field_values'		=> array('clob',serialize($new_values)));
+            'field_values' => array('clob',serialize($new_values)));
         $ilDB->update('udf_definition', $values, array('field_id' => array('integer',$a_field_id)));
         
 

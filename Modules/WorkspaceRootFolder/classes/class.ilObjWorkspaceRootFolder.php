@@ -49,9 +49,9 @@ class ilObjWorkspaceRootFolder extends ilObject2
 
         $data["Fobject"] = array();
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["Fobject"][$num]= array("title"	=> $row->title,
-                                          "desc"	=> $row->description,
-                                          "lang"	=> $row->lang_code
+            $data["Fobject"][$num] = array("title" => $row->title,
+                                          "desc" => $row->description,
+                                          "lang" => $row->lang_code
                                           );
             $num++;
         }

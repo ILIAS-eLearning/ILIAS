@@ -186,7 +186,7 @@ class ilAdvancedMDRecord
                 $text = $lng->txt("obj_" . $at["obj_type"]);
                 if ($at["sub_type"] != "") {
                     $lng->loadLanguageModule($at["obj_type"]);
-                    $text.= ": " . $lng->txt($at["obj_type"] . "_" . $at["sub_type"]);
+                    $text .= ": " . $lng->txt($at["obj_type"] . "_" . $at["sub_type"]);
                 } else {
                     $at["sub_type"] = "-";
                 }
@@ -773,9 +773,9 @@ class ilAdvancedMDRecord
     public function appendAssignedObjectType($a_obj_type, $a_sub_type, $a_optional = false)
     {
         $this->obj_types[] = array(
-            "obj_type"=>$a_obj_type,
-            "sub_type"=>$a_sub_type,
-            "optional"=>(bool) $a_optional
+            "obj_type" => $a_obj_type,
+            "sub_type" => $a_sub_type,
+            "optional" => (bool) $a_optional
         );
     }
     
@@ -834,7 +834,7 @@ class ilAdvancedMDRecord
         $writer->xmlElement('Description', null, $this->getDescription());
         
         foreach ($this->getAssignedObjectTypes() as $obj_type) {
-            $optional = array("optional"=>$obj_type["optional"]);
+            $optional = array("optional" => $obj_type["optional"]);
             if ($obj_type["sub_type"] == "") {
                 $writer->xmlElement('ObjectType', $optional, $obj_type["obj_type"]);
             } else {
@@ -991,7 +991,7 @@ class ilAdvancedMDRecord
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND sub_type = " . $ilDB->quote($a_sub_type, "text")
         );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $recs[] = $rec["rec_id"];
         }
         return $recs;

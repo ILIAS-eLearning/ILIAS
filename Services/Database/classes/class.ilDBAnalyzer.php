@@ -85,15 +85,15 @@ class ilDBAnalyzer
             }
 
             $inf[$field] = array(
-                "notnull"       => $rdef[$best_alt]["notnull"],
-                "nativetype"    => $rdef[$best_alt]["nativetype"],
-                "length"        => $rdef[$best_alt]["length"],
-                "unsigned"      => $rdef[$best_alt]["unsigned"],
-                "default"       => $rdef[$best_alt]["default"],
-                "fixed"         => $rdef[$best_alt]["fixed"],
+                "notnull" => $rdef[$best_alt]["notnull"],
+                "nativetype" => $rdef[$best_alt]["nativetype"],
+                "length" => $rdef[$best_alt]["length"],
+                "unsigned" => $rdef[$best_alt]["unsigned"],
+                "default" => $rdef[$best_alt]["default"],
+                "fixed" => $rdef[$best_alt]["fixed"],
                 "autoincrement" => $rdef[$best_alt]["autoincrement"],
-                "type"          => $rdef[$best_alt]["type"],
-                "alt_types"     => $alt_types,
+                "type" => $rdef[$best_alt]["type"],
+                "alt_types" => $alt_types,
             );
 
             if ($a_remove_not_allowed_attributes) {
@@ -117,16 +117,16 @@ class ilDBAnalyzer
     {
         // determine which type to choose
         $car = array(
-            "boolean"   => 10,
-            "integer"   => 20,
-            "decimal"   => 30,
-            "float"     => 40,
-            "date"      => 50,
-            "time"      => 60,
+            "boolean" => 10,
+            "integer" => 20,
+            "decimal" => 30,
+            "float" => 40,
+            "date" => 50,
+            "time" => 60,
             "timestamp" => 70,
-            "text"      => 80,
-            "clob"      => 90,
-            "blob"      => 100,
+            "text" => 80,
+            "clob" => 90,
+            "blob" => 100,
         );
 
         $cur_car = 0;
@@ -184,7 +184,7 @@ class ilDBAnalyzer
                 foreach ($info["fields"] as $k => $f) {
                     $pk["fields"][$k] = array(
                         "position" => $f["position"],
-                        "sorting"  => $f["sorting"],
+                        "sorting" => $f["sorting"],
                     );
                 }
             }
@@ -240,7 +240,7 @@ class ilDBAnalyzer
                 foreach ($info["fields"] as $k => $f) {
                     $i["fields"][$k] = array(
                         "position" => $f["position"],
-                        "sorting"  => $f["sorting"],
+                        "sorting" => $f["sorting"],
                     );
                 }
                 $ind[] = $i;
@@ -274,7 +274,7 @@ class ilDBAnalyzer
                 foreach ($info["fields"] as $k => $f) {
                     $i["fields"][$k] = array(
                         "position" => $f["position"],
-                        "sorting"  => $f["sorting"],
+                        "sorting" => $f["sorting"],
                     );
                 }
                 $cons[] = $i;

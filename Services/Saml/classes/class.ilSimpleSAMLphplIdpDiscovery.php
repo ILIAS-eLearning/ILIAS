@@ -15,11 +15,11 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements 
      */
     public function __construct()
     {
-        $this->config       = SimpleSAML_Configuration::getInstance();
-        $this->metadata     = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
-        $this->instance     = 'saml';
+        $this->config = SimpleSAML_Configuration::getInstance();
+        $this->metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+        $this->instance = 'saml';
         $this->metadataSets = array('saml20-idp-remote');
-        $this->isPassive    = false;
+        $this->isPassive = false;
     }
 
     /**

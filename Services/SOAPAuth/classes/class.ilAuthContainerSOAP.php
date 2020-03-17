@@ -34,12 +34,12 @@ include_once("./webservice/soap/lib/nusoap.php");
  */
 class ilAuthContainerSOAP extends Auth_Container
 {
-    protected $server_host	= null;
-    protected $server_port	= null;
-    protected $server_uri	= null;
-    protected $server_https	= null;
-    protected $server_nms	= null;
-    protected $use_dot_net	= null;
+    protected $server_host = null;
+    protected $server_port = null;
+    protected $server_uri = null;
+    protected $server_https = null;
+    protected $server_nms = null;
+    protected $use_dot_net = null;
     
     protected $uri = null;
     
@@ -66,14 +66,14 @@ class ilAuthContainerSOAP extends Auth_Container
     {
         global $ilSetting;
         
-        $this->server_host	= $ilSetting->get('soap_auth_server');
-        $this->server_port	= $ilSetting->get('soap_auth_port');
-        $this->server_uri	= $ilSetting->get('soap_auth_uri');
-        $this->server_https	= $ilSetting->get('soap_auth_use_https');
-        $this->server_nms	= $ilSetting->get('soap_auth_namespace');
-        $this->use_dot_net	= $ilSetting->get('use_dotnet');
+        $this->server_host = $ilSetting->get('soap_auth_server');
+        $this->server_port = $ilSetting->get('soap_auth_port');
+        $this->server_uri = $ilSetting->get('soap_auth_uri');
+        $this->server_https = $ilSetting->get('soap_auth_use_https');
+        $this->server_nms = $ilSetting->get('soap_auth_namespace');
+        $this->use_dot_net = $ilSetting->get('use_dotnet');
         
-        $this->uri  = $this->server_https ? 'https://' : 'http://';
+        $this->uri = $this->server_https ? 'https://' : 'http://';
         $this->uri .= $this->server_host;
         
         if ($this->server_port > 0) {

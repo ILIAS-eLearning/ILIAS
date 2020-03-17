@@ -74,15 +74,15 @@ class ilMailSearchGroupsGUI
     {
         global $DIC;
 
-        $this->tpl        = $DIC['tpl'];
-        $this->ctrl       = $DIC['ilCtrl'];
-        $this->lng        = $DIC['lng'];
-        $this->user       = $DIC['ilUser'];
-        $this->error      = $DIC['ilErr'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->user = $DIC['ilUser'];
+        $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->rbacreview = $DIC['rbacreview'];
-        $this->tree       = $DIC['tree'];
-        $this->cache      = $DIC['ilObjDataCache'];
+        $this->tree = $DIC['tree'];
+        $this->cache = $DIC['ilObjDataCache'];
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -319,7 +319,7 @@ class ilMailSearchGroupsGUI
                     foreach ($grp_members as $key => $member) {
                         $tmp_usr = new ilObjUser($member);
                         
-                        if ($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false) {
+                        if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
                             unset($grp_members[$key]);
                         }
                     }
@@ -426,7 +426,7 @@ class ilMailSearchGroupsGUI
 
                     foreach ($grp_members as $member) {
                         $tmp_usr = new ilObjUser($member['id']);
-                        if ($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false) {
+                        if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
                             unset($tmp_usr);
                             continue;
                         }
@@ -438,11 +438,11 @@ class ilMailSearchGroupsGUI
                         }
 
                         $rowData = array(
-                            'members_id'      => $member["id"],
-                            'members_login'   => $member["login"],
-                            'members_name'    => $fullname,
+                            'members_id' => $member["id"],
+                            'members_login' => $member["login"],
+                            'members_name' => $fullname,
                             'members_crs_grp' => $group_obj->getTitle(),
-                            'search_grp'      => $grp_id,
+                            'search_grp' => $grp_id,
                         );
 
                         if ('mail' == $context && ilBuddySystem::getInstance()->isEnabled()) {

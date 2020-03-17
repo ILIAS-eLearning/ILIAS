@@ -265,7 +265,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $current_auth_mode = $ilSetting->get('auth_mode','');
+        $current_auth_mode = $ilSetting->get('auth_mode', '');
         if ($_POST["auth_mode"] == $current_auth_mode) {
             ilUtil::sendInfo($this->lng->txt("auth_mode") . ": " . $this->getAuthModeTitle() . " " . $this->lng->txt("auth_mode_not_changed"), true);
             $this->ctrl->redirect($this, 'authSettings');
@@ -869,7 +869,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'illdapsettingsgui':

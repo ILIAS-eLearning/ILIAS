@@ -292,7 +292,7 @@ class ilLearningProgressBaseGUI
                         //$this->tpl->setVariable("LINK_ITEM",
                         //						$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
                         //$this->tpl->parseCurrentBlock();
-            
+
                         $this->tpl->setCurrentBlock("locator_item");
                         $this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
                         $this->tpl->setVariable("LINK_ITEM",

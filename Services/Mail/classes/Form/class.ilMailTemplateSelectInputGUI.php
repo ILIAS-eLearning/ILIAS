@@ -29,7 +29,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
     {
         parent::__construct($a_title, $a_postvar);
 
-        $this->url    = $url;
+        $this->url = $url;
         $this->fields = $fields;
     }
 

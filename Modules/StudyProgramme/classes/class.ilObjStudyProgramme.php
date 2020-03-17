@@ -147,7 +147,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     public static function createInstance()
     {
-        $obj =  new ilObjStudyProgramme();
+        $obj = new ilObjStudyProgramme();
         $obj->create();
         $obj->createReference();
         self::$study_programme_cache->addInstance($obj);
@@ -468,7 +468,7 @@ class ilObjStudyProgramme extends ilContainer
 
             // apply container sorting to tree
             $sorting = ilContainerSorting::_getInstance($this->getId());
-            $ref_ids = $sorting->sortItems(array('prg'=>$ref_ids));
+            $ref_ids = $sorting->sortItems(array('prg' => $ref_ids));
             $ref_ids = $ref_ids['prg'];
 
             $this->children = array_map(function ($node_data) {
@@ -595,7 +595,7 @@ class ilObjStudyProgramme extends ilContainer
 
             // apply container sorting to tree
             $sorting = ilContainerSorting::_getInstance($this->getId());
-            $ref_ids = $sorting->sortItems(array('crs_ref'=>$ref_ids));
+            $ref_ids = $sorting->sortItems(array('crs_ref' => $ref_ids));
             $ref_ids = $ref_ids['crs_ref'];
 
             $lp_children = array_map(function ($node_data) {
@@ -1255,7 +1255,7 @@ class ilObjStudyProgramme extends ilContainer
      */
     protected function getIdsFromNodesOnPathFromRootToHere()
     {
-        $prg_ids =array_map(function ($par) {
+        $prg_ids = array_map(function ($par) {
             return $par->getId();
         }, $this->getParents());
         $prg_ids[] = $this->getId();
@@ -1355,7 +1355,7 @@ class ilObjStudyProgramme extends ilContainer
 
         /** @var \ilObjectCustomIconFactory  $customIconFactory */
         $customIconFactory = $DIC['object.customicons.factory'];
-        $customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
+        $customIcon = $customIconFactory->getByObjId($this->getId(), $this->getType());
 
         $subtype = $this->getSubType();
 

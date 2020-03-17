@@ -32,9 +32,9 @@
 
 class Session
 {
-    public $version     = 106;     // V1.06
+    public $version = 106;     // V1.06
     public $usesCookies = false;   // Client nimmt Cookies an
-    public $transSID    = false;   // Wurde mit --enable-trans-sid
+    public $transSID = false;   // Wurde mit --enable-trans-sid
                                 // kompiliert
 
 //---------------------------------------------------------
@@ -43,7 +43,7 @@ class Session
     *   Konstruktor - nimmt, wenn gewuenscht einen neuen
     *   Session-Namen entgegen
     */
-    public function __construct($sessionName="SESSID")
+    public function __construct($sessionName = "SESSID")
     {
         $this->sendNoCacheHeader();
         
@@ -66,7 +66,7 @@ class Session
         //  von 32 Zeichen hat,
         //  ansonsten Session-ID neu setzen
         if (strlen(session_id()) < 32) {
-            mt_srand((double) microtime()*1000000);
+            mt_srand((double) microtime() * 1000000);
             session_id(md5(uniqid(mt_rand())));
         }
         
@@ -141,13 +141,13 @@ class Session
             $pathInfo = substr(
                 getenv("PATH_INFO"),
                 0,
-                strrpos(getenv("PATH_INFO"), "/")+1
+                strrpos(getenv("PATH_INFO"), "/") + 1
             )
                             . $pathInfo;
         }
 
         // Läuft dieses Script auf einem non-standard Port?
-        $port    = !preg_match(
+        $port = !preg_match(
             "/^(80|443)$/",
             getenv("SERVER_PORT"),
             $portMatch

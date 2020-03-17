@@ -275,7 +275,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         if ($this->period != self::PERIOD_DAY) {
             $end_day = new ilDate($this->period_end_day, IL_CAL_DATE);
             $end_day->increment(ilDateTime::DAY, -1);
-            $list_title.= " - " . ilDatePresentation::formatDate($end_day);
+            $list_title .= " - " . ilDatePresentation::formatDate($end_day);
         }
 
         $list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)
@@ -284,11 +284,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         $comps = array_merge($modals, array($list));
 
-        $html =  $this->ui_renderer->render($comps);
+        $html = $this->ui_renderer->render($comps);
 
         if (count($groups) == 0) {
             $tpl = $this->ui->mainTemplate();
-            $html.= $tpl->getMessageHTML($this->lng->txt("cal_no_events_info"));
+            $html .= $tpl->getMessageHTML($this->lng->txt("cal_no_events_info"));
         }
 
         return $html;

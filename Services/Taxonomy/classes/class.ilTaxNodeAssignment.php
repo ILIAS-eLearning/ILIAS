@@ -165,7 +165,7 @@ class ilTaxNodeAssignment
             );
         }
         $ass = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $ass[] = $rec;
         }
         
@@ -191,7 +191,7 @@ class ilTaxNodeAssignment
             " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer")
         );
         $ass = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $ass[] = $rec;
         }
         return $ass;
@@ -424,7 +424,7 @@ class ilTaxNodeAssignment
                 " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer") .
                 " AND item_id = " . $ilDB->quote($rec["item_id"], "integer")
             );
-            $cnt+= 10;
+            $cnt += 10;
         }
     }
 

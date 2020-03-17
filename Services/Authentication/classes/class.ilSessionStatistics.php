@@ -146,20 +146,20 @@ class ilSessionStatistics
         // no previous slot?  calculate last complete slot
         // should we use minimum session raw date instead? (problem: table lock)
         if (!$previous_slot_end) {
-            $slot = floor(date("i")/self::SLOT_SIZE);
+            $slot = floor(date("i") / self::SLOT_SIZE);
             // last slot of previous hour
             if (!$slot) {
-                $current_slot_begin = mktime(date("H", $a_now)-1, 60-self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime(date("H", $a_now) - 1, 60 - self::SLOT_SIZE, 0);
             }
             // "normalize" to slot
             else {
-                $current_slot_begin = mktime(date("H", $a_now), ($slot-1)*self::SLOT_SIZE, 0);
+                $current_slot_begin = mktime(date("H", $a_now), ($slot - 1) * self::SLOT_SIZE, 0);
             }
         } else {
-            $current_slot_begin = $previous_slot_end+1;
+            $current_slot_begin = $previous_slot_end + 1;
         }
         
-        $current_slot_end = $current_slot_begin+(60*self::SLOT_SIZE)-1;
+        $current_slot_end = $current_slot_begin + (60 * self::SLOT_SIZE) - 1;
         
         // no complete slot: nothing to do yet
         if ($current_slot_end < $a_now) {
@@ -321,13 +321,13 @@ class ilSessionStatistics
         }
         
         // initialising active statistical values
-        $active_begin = self::getNumberOfActiveRawSessions($a_begin-1);
+        $active_begin = self::getNumberOfActiveRawSessions($a_begin - 1);
         $active_end = $active_min = $active_max = $active_avg = $active_begin;
         
         // parsing events / building avergages
         if (sizeof($events)) {
-            $last_update_avg = $a_begin-1;
-            $slot_seconds = self::SLOT_SIZE*60;
+            $last_update_avg = $a_begin - 1;
+            $slot_seconds = self::SLOT_SIZE * 60;
             $active_avg = 0;
             
             // parse all open/closing events
@@ -356,16 +356,16 @@ class ilSessionStatistics
                 }
                 
                 // avg
-                $diff = $ts-$last_update_avg;
-                $active_avg += $diff/$slot_seconds*$active_end;
+                $diff = $ts - $last_update_avg;
+                $active_avg += $diff / $slot_seconds * $active_end;
                 $last_update_avg = $ts;
             }
             unset($actions);
             
             // add up to end of slot if needed
             if ($last_update_avg < $a_end) {
-                $diff = $a_end-$last_update_avg;
-                $active_avg += $diff/$slot_seconds*$active_end;
+                $diff = $a_end - $last_update_avg;
+                $active_avg += $diff / $slot_seconds * $active_end;
             }
             
             $active_avg = round($active_avg);
@@ -413,7 +413,7 @@ class ilSessionStatistics
         $ilDB = $DIC['ilDB'];
     
         // we are rather defensive here - 7 days BEFORE current aggregation
-        $cut = $a_now-(60*60*24*7);
+        $cut = $a_now - (60 * 60 * 24 * 7);
         
         $ilDB->manipulate("DELETE FROM usr_session_stats_raw" .
             " WHERE start_time <= " . $ilDB->quote($cut, "integer"));

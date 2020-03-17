@@ -154,19 +154,19 @@ class Mail_RFC822
     public function __construct($address = null, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
     {
         if (isset($address)) {
-            $this->address        = $address;
+            $this->address = $address;
         }
         if (isset($default_domain)) {
             $this->default_domain = $default_domain;
         }
         if (isset($nest_groups)) {
-            $this->nestGroups     = $nest_groups;
+            $this->nestGroups = $nest_groups;
         }
         if (isset($validate)) {
-            $this->validate       = $validate;
+            $this->validate = $validate;
         }
         if (isset($limit)) {
-            $this->limit          = $limit;
+            $this->limit = $limit;
         }
     }
 
@@ -189,25 +189,25 @@ class Mail_RFC822
         }
 
         if (isset($address)) {
-            $this->address        = $address;
+            $this->address = $address;
         }
         if (isset($default_domain)) {
             $this->default_domain = $default_domain;
         }
         if (isset($nest_groups)) {
-            $this->nestGroups     = $nest_groups;
+            $this->nestGroups = $nest_groups;
         }
         if (isset($validate)) {
-            $this->validate       = $validate;
+            $this->validate = $validate;
         }
         if (isset($limit)) {
-            $this->limit          = $limit;
+            $this->limit = $limit;
         }
 
-        $this->structure  = array();
-        $this->addresses  = array();
-        $this->error      = null;
-        $this->index      = null;
+        $this->structure = array();
+        $this->addresses = array();
+        $this->error = null;
+        $this->index = null;
 
         // Unfold any long lines in $this->address.
         $this->address = preg_replace('/\r?\n/', "\r\n", $this->address);
@@ -256,16 +256,16 @@ class Mail_RFC822
 
         if ($this->_isGroup($address) && !isset($this->error)) {
             $split_char = ';';
-            $is_group   = true;
+            $is_group = true;
         } elseif (!isset($this->error)) {
             $split_char = ',';
-            $is_group   = false;
+            $is_group = false;
         } elseif (isset($this->error)) {
             return false;
         }
 
         // Split the string based on the above ten or so lines.
-        $parts  = explode($split_char, $address);
+        $parts = explode($split_char, $address);
         $string = $this->_splitCheck($parts, $split_char);
 
         // If a group...
@@ -292,7 +292,7 @@ class Mail_RFC822
         // Add to the addresses array.
         $this->addresses[] = array(
                                    'address' => trim($string),
-                                   'group'   => $is_group
+                                   'group' => $is_group
                                    );
 
         // Remove the now stored address from the initial line, the +1
@@ -324,7 +324,7 @@ class Mail_RFC822
     protected function _isGroup($address)
     {
         // First comma not in quotes, angles or escaped:
-        $parts  = explode(',', $address);
+        $parts = explode(',', $address);
         $string = $this->_splitCheck($parts, ',');
 
         // Now we have the first address, we can reliably check for a
@@ -417,7 +417,7 @@ class Mail_RFC822
     protected function _hasUnclosedBrackets($string, $chars)
     {
         $num_angle_start = substr_count($string, $chars[0]);
-        $num_angle_end   = substr_count($string, $chars[1]);
+        $num_angle_end = substr_count($string, $chars[1]);
 
         $this->_hasUnclosedBracketsSub($string, $num_angle_start, $chars[0]);
         $this->_hasUnclosedBracketsSub($string, $num_angle_end, $chars[1]);
@@ -468,7 +468,7 @@ class Mail_RFC822
             $is_group = true;
 
             // Get the group part of the name
-            $parts     = explode(':', $address['address']);
+            $parts = explode(':', $address['address']);
             $groupname = $this->_splitCheck($parts, ':');
             $structure = array();
 
@@ -492,7 +492,7 @@ class Mail_RFC822
         // Otherwise, Just put the whole address in an array.
         if ($is_group) {
             while (strlen($address['address']) > 0) {
-                $parts       = explode(',', $address['address']);
+                $parts = explode(',', $address['address']);
                 $addresses[] = $this->_splitCheck($parts, ',');
                 $address['address'] = trim(substr($address['address'], strlen(end($addresses) . ',')));
             }
@@ -641,7 +641,7 @@ class Mail_RFC822
     public function validateMailbox(&$mailbox)
     {
         // A couple of defaults.
-        $phrase  = '';
+        $phrase = '';
         $comment = '';
         $comments = array();
 
@@ -652,13 +652,13 @@ class Mail_RFC822
             $before_comment = $this->_splitCheck($parts, '(');
             if ($before_comment != $_mailbox) {
                 // First char should be a (.
-                $comment    = substr(str_replace($before_comment, '', $_mailbox), 1);
-                $parts      = explode(')', $comment);
-                $comment    = $this->_splitCheck($parts, ')');
+                $comment = substr(str_replace($before_comment, '', $_mailbox), 1);
+                $parts = explode(')', $comment);
+                $comment = $this->_splitCheck($parts, ')');
                 $comments[] = $comment;
 
                 // +2 is for the brackets
-                $_mailbox = substr($_mailbox, strpos($_mailbox, '(' . $comment)+strlen($comment)+2);
+                $_mailbox = substr($_mailbox, strpos($_mailbox, '(' . $comment) + strlen($comment) + 2);
             } else {
                 break;
             }
@@ -672,10 +672,10 @@ class Mail_RFC822
 
         // Check for name + route-addr
         if (substr($mailbox, -1) == '>' && substr($mailbox, 0, 1) != '<') {
-            $parts  = explode('<', $mailbox);
-            $name   = $this->_splitCheck($parts, '<');
+            $parts = explode('<', $mailbox);
+            $name = $this->_splitCheck($parts, '<');
 
-            $phrase     = trim($name);
+            $phrase = trim($name);
             $route_addr = trim(substr($mailbox, strlen($name . '<'), -1));
 
             if ($this->_validatePhrase($phrase) === false || ($route_addr = $this->_validateRouteAddr($route_addr)) === false) {
@@ -701,15 +701,15 @@ class Mail_RFC822
 
         // Add the phrase (even if empty) and comments
         $mbox->personal = $phrase;
-        $mbox->comment  = isset($comments) ? $comments : array();
+        $mbox->comment = isset($comments) ? $comments : array();
 
         if (isset($route_addr)) {
             $mbox->mailbox = $route_addr['local_part'];
-            $mbox->host    = $route_addr['domain'];
+            $mbox->host = $route_addr['domain'];
             $route_addr['adl'] !== '' ? $mbox->adl = $route_addr['adl'] : '';
         } else {
             $mbox->mailbox = $addr_spec['local_part'];
-            $mbox->host    = $addr_spec['domain'];
+            $mbox->host = $addr_spec['domain'];
         }
 
         $mailbox = $mbox;
@@ -873,20 +873,20 @@ class Mail_RFC822
         // mjansen patch 16 Sep 2016 end
         // Split on @ sign if there is one.
         if (strpos($addr_spec, '@') !== false) {
-            $parts      = explode('@', $addr_spec);
+            $parts = explode('@', $addr_spec);
             $local_part = $this->_splitCheck($parts, '@');
-            $domain     = substr($addr_spec, strlen($local_part . '@'));
+            $domain = substr($addr_spec, strlen($local_part . '@'));
             // mjansen patch 16 Sep 2016 start
             if (substr_count($addr_spec, '@') != 1 && $local_part == '') {
                 $this->validate = false;
                 $local_part = $addr_spec;
-                $domain     = $this->default_domain;
+                $domain = $this->default_domain;
             }
             // mjansen patch 16 Sep 2016 end
         // No @ sign so assume the default domain.
         } else {
             $local_part = $addr_spec;
-            $domain     = $this->default_domain;
+            $domain = $this->default_domain;
         }
 
         if (($local_part = $this->_validateLocalPart($local_part)) === false) {
@@ -897,7 +897,7 @@ class Mail_RFC822
             $this->validate = $validateState;
         }
         // mjansen patch 16 Sep 2016 end
-        if (($domain     = $this->_validateDomain($domain)) === false) {
+        if (($domain = $this->_validateDomain($domain)) === false) {
             return false;
         }
 

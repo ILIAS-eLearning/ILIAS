@@ -27,7 +27,7 @@ class ilLearnerProgressDB
      */
     public function getLearnerItems(int $usr_id, int $container_ref_id, array $ls_items) : array
     {
-        $items =[];
+        $items = [];
         $states = $this->state_db->getStatesFor($container_ref_id, [$usr_id]);
         foreach ($ls_items as $ls_item) {
             if ($this->isItemVisibleForUser($usr_id, $ls_item) === false) {

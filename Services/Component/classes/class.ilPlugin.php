@@ -349,7 +349,7 @@ abstract class ilPlugin
                     if (substr($file, 0, 6) == "ilias_"
                         && substr($file, strlen($file) - 5) == ".lang"
                     ) {
-                        $langs[] = array("key"  => substr($file, 6, 2), "file" => $file,
+                        $langs[] = array("key" => substr($file, 6, 2), "file" => $file,
                                          "path" => $a_lang_directory . "/" . $file);
                     }
                 }

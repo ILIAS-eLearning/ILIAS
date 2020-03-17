@@ -76,15 +76,15 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $this->dic        = $DIC;
-        $this->request    = $this->dic->http()->request();
-        $this->settings   = $this->dic->settings();
-        $this->access     = $this->dic->access();
-        $this->ctrl       = $this->dic->ctrl();
-        $this->tabs       = $this->dic->tabs();
-        $this->user       = $this->dic->user();
+        $this->dic = $DIC;
+        $this->request = $this->dic->http()->request();
+        $this->settings = $this->dic->settings();
+        $this->access = $this->dic->access();
+        $this->ctrl = $this->dic->ctrl();
+        $this->tabs = $this->dic->tabs();
+        $this->user = $this->dic->user();
         $this->navHistory = $this->dic['ilNavigationHistory'];
-        $this->error      = $this->dic['ilErr'];
+        $this->error = $this->dic['ilErr'];
 
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
@@ -241,7 +241,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     public function executeCommand()
     {
         $nextClass = $this->ctrl->getNextClass($this);
-        $cmd       = $this->ctrl->getCmd(self::UI_CMD_VIEW);
+        $cmd = $this->ctrl->getCmd(self::UI_CMD_VIEW);
 
         $this->addToNavigationHistory();
 
@@ -518,7 +518,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         global $DIC;
 
         $targetAttributes = explode('_', $target);
-        $refId            = (int) $targetAttributes[0];
+        $refId = (int) $targetAttributes[0];
 
         if ((int) $refId <= 0) {
             $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);

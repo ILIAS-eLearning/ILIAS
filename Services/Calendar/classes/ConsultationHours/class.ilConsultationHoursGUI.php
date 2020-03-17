@@ -600,13 +600,13 @@ class ilConsultationHoursGUI
                 'bookuser[]',
                 $bookuser,
                 ilUserUtil::getNamePresentation(
-                        $ids[1],
-                        true,
-                        false,
-                        '',
-                        true,
-                        true
-                    ) . ', ' . ilDatePresentation::formatDate($entry->getStart())
+                    $ids[1],
+                    true,
+                    false,
+                    '',
+                    true,
+                    true
+                ) . ', ' . ilDatePresentation::formatDate($entry->getStart())
             );
         }
         $tpl->setContent($confirm->getHTML());
@@ -1039,8 +1039,8 @@ class ilConsultationHoursGUI
         $this->form->getItemByPostVar('tgt')->setValue(implode(',', $ref_ids));
         
         $deadline = $booking->getDeadlineHours();
-        $this->form->getItemByPostVar('dead')->setDays(floor($deadline/24));
-        $this->form->getItemByPostVar('dead')->setHours($deadline%24);
+        $this->form->getItemByPostVar('dead')->setDays(floor($deadline / 24));
+        $this->form->getItemByPostVar('dead')->setHours($deadline % 24);
         
         if ($booking->getBookingGroup()) {
             $this->form->getItemByPostVar('grp')->setValue($booking->getBookingGroup());
@@ -1088,7 +1088,7 @@ class ilConsultationHoursGUI
             $booking->setNumberOfBookings($this->form->getInput('bo'));
 
             $deadline = $this->form->getInput('dead');
-            $deadline = $deadline['dd']*24+$deadline['hh'];
+            $deadline = $deadline['dd'] * 24 + $deadline['hh'];
             $booking->setDeadlineHours($deadline);
 
             $tgt = explode(',', $this->form->getInput('tgt'));

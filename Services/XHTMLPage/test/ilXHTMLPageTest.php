@@ -50,39 +50,39 @@ class ilXHTMLPageTest extends PHPUnit_Framework_TestCase
         // save/read
         $page = new ilXHTMLPage($page_id);
         if ($page->getContent() == "aaa") {
-            $result.= "saveread-";
+            $result .= "saveread-";
         }
         $page->setContent("bbb");
         $page->save();
         
         // lookups
         if (ilXHTMLPage::_lookupContent($page_id) == "bbb") {
-            $result.= "lookupContent-";
+            $result .= "lookupContent-";
         }
 
         if (ilXHTMLPage::_lookupSavedContent($page_id) == "aaa") {
-            $result.= "lookupSavedContent-";
+            $result .= "lookupSavedContent-";
         }
         
         // undo
         $page->undo();
         
         if (ilXHTMLPage::_lookupContent($page_id) == "aaa") {
-            $result.= "undo1-";
+            $result .= "undo1-";
         }
 
         if (ilXHTMLPage::_lookupSavedContent($page_id) == "bbb") {
-            $result.= "undo2-";
+            $result .= "undo2-";
         }
         
         // clear
         $page->clear();
         if (ilXHTMLPage::_lookupContent($page_id) == "") {
-            $result.= "clear1-";
+            $result .= "clear1-";
         }
 
         if (ilXHTMLPage::_lookupSavedContent($page_id) == "aaa") {
-            $result.= "clear2-";
+            $result .= "clear2-";
         }
 
         $this->assertEquals("saveread-lookupContent-lookupSavedContent-undo1-undo2-clear1-clear2-", $result);

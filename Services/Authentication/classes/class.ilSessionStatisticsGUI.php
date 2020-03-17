@@ -104,25 +104,25 @@ class ilSessionStatisticsGUI
         switch ($mode) {
             case self::MODE_TODAY:
                 $time_from = strtotime("today");
-                $time_to = strtotime("tomorrow")-1;
+                $time_to = strtotime("tomorrow") - 1;
                 $scale = self::SCALE_DAY;
                 break;
             
             case self::MODE_LAST_DAY:
                 $time_to = time();
-                $time_from = $time_to-60*60*24;
+                $time_from = $time_to - 60 * 60 * 24;
                 $scale = self::SCALE_DAY;
                 break;
             
             case self::MODE_LAST_WEEK:
                 $time_to = time();
-                $time_from = $time_to-60*60*24*7;
+                $time_from = $time_to - 60 * 60 * 24 * 7;
                 $scale = self::SCALE_WEEK;
                 break;
             
             case self::MODE_LAST_MONTH:
                 $time_to = time();
-                $time_from = $time_to-60*60*24*30;
+                $time_from = $time_to - 60 * 60 * 24 * 30;
                 $scale = self::SCALE_MONTH;
                 break;
         }
@@ -218,12 +218,12 @@ class ilSessionStatisticsGUI
                                 
         switch ($mode) {
             case self::MODE_DAY:
-                $time_from = $time_to-60*60*24;
+                $time_from = $time_to - 60 * 60 * 24;
                 $scale = self::SCALE_DAY;
                 break;
             
             case self::MODE_WEEK:
-                $time_from = $time_to-60*60*24*7;
+                $time_from = $time_to - 60 * 60 * 24 * 7;
                 $scale = self::SCALE_WEEK;
                 break;
         }
@@ -301,17 +301,17 @@ class ilSessionStatisticsGUI
         
         switch ($mode) {
             case self::MODE_WEEK:
-                $time_from = $time_to-60*60*24*7;
+                $time_from = $time_to - 60 * 60 * 24 * 7;
                 $scale = self::SCALE_WEEK;
                 break;
             
             case self::MODE_MONTH:
-                $time_from = $time_to-60*60*24*30;
+                $time_from = $time_to - 60 * 60 * 24 * 30;
                 $scale = self::SCALE_MONTH;
                 break;
             
             case self::MODE_YEAR:
-                $time_from = $time_to-60*60*24*365;
+                $time_from = $time_to - 60 * 60 * 24 * 365;
                 $scale = self::SCALE_YEAR;
                 break;
         }
@@ -496,7 +496,7 @@ class ilSessionStatisticsGUI
         
         // basic data - time related
         
-        $maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($a_time_from, $a_time_to)/60);
+        $maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($a_time_from, $a_time_to) / 60);
         $counters = ilSessionStatistics::getNumberOfSessionsByType($a_time_from, $a_time_to);
         $opened = (int) $counters["opened"];
         $closed_limit = (int) $counters["closed_limit"];
@@ -621,7 +621,7 @@ class ilSessionStatisticsGUI
         $chart_data = $this->adaptDataToScale($a_scale, $a_data, 700);
         unset($a_data);
         
-        $scale = ceil(sizeof($chart_data)/5);
+        $scale = ceil(sizeof($chart_data) / 5);
         $labels = array();
         foreach ($chart_data as $idx => $item) {
             $date = $item["slot_begin"];
@@ -650,11 +650,11 @@ class ilSessionStatisticsGUI
                         $min = substr($date, 3, 2);
                         
                         // build ascending scale from day values
-                        $day_value = ($day-1)*60*60*24;
-                        $date = $day_value+$hour*60*60+$min*60;
+                        $day_value = ($day - 1) * 60 * 60 * 24;
+                        $date = $day_value + $hour * 60 * 60 + $min * 60;
                         
                         // 6-hour interval labels
-                        if ($hour != $old_hour && $hour && $hour%6 == 0) {
+                        if ($hour != $old_hour && $hour && $hour % 6 == 0) {
                             $labels[$date] = $hour;
                             $old_hour = $hour;
                         }
@@ -751,7 +751,7 @@ class ilSessionStatisticsGUI
         }
         
         foreach ($tmp as $slot => $attr) {
-            $tmp[$slot]["active_avg"] = (int) round(array_sum($attr["active_avg"])/sizeof($attr["active_avg"]));
+            $tmp[$slot]["active_avg"] = (int) round(array_sum($attr["active_avg"]) / sizeof($attr["active_avg"]));
             $tmp[$slot]["slot_begin"] = $slot;
         }
         ksort($tmp);

@@ -2267,8 +2267,8 @@ class ilObjContentObject extends ilObject
                 $this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs2);
             }
         }
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["obj_id"]  = $a_mob_id;
+        $_GET["obj_type"] = "MediaObject";
+        $_GET["obj_id"] = $a_mob_id;
         $_GET["cmd"] = "";
 
         // export all file objects
@@ -2531,8 +2531,8 @@ class ilObjContentObject extends ilObject
         
         $tpl = new ilTemplate("tpl.main.html", true, true);
         $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["mob_id"]  = $a_mob_id;
+        $_GET["obj_type"] = "MediaObject";
+        $_GET["mob_id"] = $a_mob_id;
         $_GET["frame"] = $a_frame;
         $_GET["cmd"] = "";
         $content = $a_lm_gui->media();
@@ -2553,9 +2553,9 @@ class ilObjContentObject extends ilObject
         if ($mob_obj->hasFullscreenItem()) {
             $tpl = new ilTemplate("tpl.main.html", true, true);
             $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-            $_GET["obj_type"]  = "";
-            $_GET["frame"]  = "";
-            $_GET["mob_id"]  = $a_mob_id;
+            $_GET["obj_type"] = "";
+            $_GET["frame"] = "";
+            $_GET["mob_id"] = $a_mob_id;
             $_GET["cmd"] = "fullscreen";
             $content = $a_lm_gui->fullscreen();
             $file = $a_target_dir . "/fullscreen_" . $a_mob_id . ".html";
@@ -3111,16 +3111,16 @@ class ilObjContentObject extends ilObject
                     ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this, $page["obj_id"]);
-                    $mess.= $this->lng->txt("obj_pg") . ": " . $title;
-                    $mess.= '<div class="small">';
+                    $mess .= $this->lng->txt("obj_pg") . ": " . $title;
+                    $mess .= '<div class="small">';
                     foreach ($error as $e) {
                         $err_mess = implode($e, " - ");
                         if (!is_int(strpos($err_mess, ":0:"))) {
-                            $mess.= htmlentities($err_mess) . "<br />";
+                            $mess .= htmlentities($err_mess) . "<br />";
                         }
                     }
-                    $mess.= '</div>';
-                    $mess.= "<br />";
+                    $mess .= '</div>';
+                    $mess .= "<br />";
                 }
             }
         }
@@ -3160,7 +3160,7 @@ class ilObjContentObject extends ilObject
 
         $subdir = basename($file["basename"], "." . $file["extension"]);
 
-        $mess =  $this->importFromDirectory(
+        $mess = $this->importFromDirectory(
             $this->getImportDirectory() . "/" . $subdir,
             $a_validate
         );

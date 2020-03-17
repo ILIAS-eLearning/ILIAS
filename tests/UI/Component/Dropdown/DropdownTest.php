@@ -143,5 +143,4 @@ EOT;
 
         $this->assertHTMLEquals($expected, $html);
     }
-
 }

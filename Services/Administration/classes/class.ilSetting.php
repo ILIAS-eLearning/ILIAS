@@ -94,11 +94,11 @@ class ilSetting
         // This is the same behaviour as if the are read from the DB.
         if (!$this->cache_disabled) {
             if (isset(self::$settings_cache[$this->module])) {
-                $this->setting =&self::$settings_cache[$this->module];
+                $this->setting = &self::$settings_cache[$this->module];
                 return;
             } else {
                 $this->setting = array();
-                self::$settings_cache[$this->module] =&$this->setting;
+                self::$settings_cache[$this->module] = &$this->setting;
             }
         }
 

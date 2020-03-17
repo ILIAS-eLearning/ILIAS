@@ -171,7 +171,7 @@ class ilECSCourseCreationHandler
         }
         
         // Get all rules
-        $matching_rules =  [];
+        $matching_rules = [];
         include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseMappingRule.php';
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getServer()->getServerId(), $this->getMid()) as $ref_id) {
             $matching_index = ilECSCourseMappingRule::isMatching(

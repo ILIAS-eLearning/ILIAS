@@ -126,16 +126,16 @@ class ilRepositoryGUI
                     //echo "hhh";
                     $get_str = $post_str = "";
                     foreach ($_GET as $key => $value) {
-                        $get_str.= "-$key:$value";
+                        $get_str .= "-$key:$value";
                     }
                     foreach ($_POST as $key => $value) {
-                        $post_str.= "-$key:$value";
+                        $post_str .= "-$key:$value";
                     }
                     $ilLog->write("Repository: command called without ref_id." .
                         "GET:" . $get_str . "-POST:" . $post_str, $ilLog->WARNING);
                 }
                 // #10033
-                $_GET = array("baseClass"=>"ilRepositoryGUI");
+                $_GET = array("baseClass" => "ilRepositoryGUI");
                 $_POST = array();
                 $this->ctrl->setCmd("frameset");
             }
@@ -149,10 +149,10 @@ class ilRepositoryGUI
             if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset") {
                 $get_str = $post_str = "";
                 foreach ($_GET as $key => $value) {
-                    $get_str.= "-$key:$value";
+                    $get_str .= "-$key:$value";
                 }
                 foreach ($_POST as $key => $value) {
-                    $post_str.= "-$key:$value";
+                    $post_str .= "-$key:$value";
                 }
                 $ilLog->write("Repository: command called with ref_id that is not in tree." .
                     "GET:" . $get_str . "-POST:" . $post_str, $ilLog->WARNING);

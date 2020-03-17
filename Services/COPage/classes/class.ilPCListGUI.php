@@ -239,7 +239,7 @@ class ilPCListGUI extends ilPageContentGUI
         // nr of items
         $options = array();
         if ($a_mode == "create") {
-            for ($i=1; $i<=10; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 $options[$i] = $i;
             }
             $si = new ilSelectInputGUI($this->lng->txt("cont_nr_items"), "nr_items");

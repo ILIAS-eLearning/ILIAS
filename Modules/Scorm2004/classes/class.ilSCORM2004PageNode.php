@@ -39,8 +39,8 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
         $this->setType("page");
         $this->id = $a_id;
 
-        $this->mobs_contained  = array();
-        $this->files_contained  = array();
+        $this->mobs_contained = array();
+        $this->files_contained = array();
 
         if ($a_id != 0) {
             $this->read();

@@ -29,12 +29,12 @@ class ilPersonalSettingsGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
-        $this->tpl =&$tpl;
-        $this->lng =&$lng;
-        $this->ilias =&$ilias;
-        $this->ctrl =&$ilCtrl;
+        $this->tpl = &$tpl;
+        $this->lng = &$lng;
+        $this->ilias = &$ilias;
+        $this->ctrl = &$ilCtrl;
         $this->settings = $ilias->getAllSettings();
         //		$lng->loadLanguageModule("jsmath");
         $lng->loadLanguageModule('chatroom');
@@ -202,7 +202,7 @@ class ilPersonalSettingsGUI
                 $this->lng->txt('password_change_on_first_login_demand')
             );
         } elseif ($ilUser->isPasswordExpired()) {
-            $msg          = $this->lng->txt('password_expired');
+            $msg = $this->lng->txt('password_expired');
             $password_age = $ilUser->getPasswordAge();
             ilUtil::sendInfo(sprintf($msg, $password_age));
         }

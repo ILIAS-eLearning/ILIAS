@@ -83,7 +83,7 @@ class ilPCPlugged extends ilPageContent
         
         // delete properties
         $children = $this->plug_node->child_nodes();
-        for ($i=0; $i<count($children); $i++) {
+        for ($i = 0; $i < count($children); $i++) {
             $this->plug_node->remove_child($children[$i]);
         }
         // set properties
@@ -109,7 +109,7 @@ class ilPCPlugged extends ilPageContent
         if (is_object($this->plug_node)) {
             // delete properties
             $children = $this->plug_node->child_nodes();
-            for ($i=0; $i<count($children); $i++) {
+            for ($i = 0; $i < count($children); $i++) {
                 if ($children[$i]->node_name() == "PluggedProperty") {
                     $properties[$children[$i]->get_attribute("Name")] =
                         $children[$i]->get_content();
@@ -283,8 +283,8 @@ class ilPCPlugged extends ilPageContent
             $plugin_version = $param[2];
             $properties = array();
 
-            for ($i = 3; $i < count($param); $i+=2) {
-                $properties[$param[$i]] = $param[$i+1];
+            for ($i = 3; $i < count($param); $i += 2) {
+                $properties[$param[$i]] = $param[$i + 1];
             }
             
             // get html from plugin

@@ -37,7 +37,7 @@ class ilObjSAHSLearningModule extends ilObject
     /**
     * create file based lm
     */
-    public function create($upload=false)
+    public function create($upload = false)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -818,8 +818,8 @@ class ilObjSAHSLearningModule extends ilObject
             $set = $ilDB->query("SELECT minnormalmeasure FROM cp_objective, cp_node" .
                 " WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND" .
                 " slm_id = " . $ilDB->quote($this->getID(), "integer"));
-            while ($rec  = $ilDB->fetchAssoc($set)) {
-                $tmpval = $rec["minnormalmeasure"]*100;
+            while ($rec = $ilDB->fetchAssoc($set)) {
+                $tmpval = $rec["minnormalmeasure"] * 100;
                 if (!in_array($tmpval, $a_result)) {
                     $a_result[] = $tmpval;
                 }
@@ -828,7 +828,7 @@ class ilObjSAHSLearningModule extends ilObject
             $set = $ilDB->query("SELECT masteryscore FROM sc_item,scorm_object" .
                 " WHERE sc_item.masteryscore is not null AND sc_item.obj_id=scorm_object.obj_id AND" .
                 " slm_id = " . $ilDB->quote($this->getID(), "integer"));
-            while ($rec  = $ilDB->fetchAssoc($set)) {
+            while ($rec = $ilDB->fetchAssoc($set)) {
                 if (!in_array($rec["masteryscore"], $a_result)) {
                     $a_result[] = $rec["masteryscore"];
                 }
@@ -901,7 +901,7 @@ class ilObjSAHSLearningModule extends ilObject
                 $this->setDescription($this->meta_data->getDescription());
             }
             parent::update();
-    
+
         }
     */
 
@@ -1096,7 +1096,7 @@ class ilObjSAHSLearningModule extends ilObject
         $set = $ilDB->query("SELECT DISTINCT id FROM sahs_lm WHERE " .
             " glossary = " . $ilDB->quote($a_glo_id, "integer"));
         $sms = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             if (ilObject::_hasUntrashedReference($rec["id"])) {
                 $sms[] = $rec["id"];
             }
@@ -1117,7 +1117,7 @@ class ilObjSAHSLearningModule extends ilObject
     
         $set = $ilDB->query("SELECT DISTINCT glossary FROM sahs_lm WHERE " .
             " id = " . $ilDB->quote($a_slm_id, "integer"));
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         $glo_id = $rec["glossary"];
         if (ilObject::_lookupType($glo_id) == "glo") {
             return $glo_id;
@@ -1211,11 +1211,11 @@ class ilObjSAHSLearningModule extends ilObject
             while ($row = $ilDB->fetchAssoc($res)) {
                 $obj_id = $row['obj_id'];
                 $ilDB->manipulateF(
-                        '
+                    '
 					DELETE FROM aicc_units WHERE obj_id = %s',
-                        array('integer'),
-                        array($obj_id)
-                    );
+                    array('integer'),
+                    array($obj_id)
+                );
             }
             
             $res = $ilDB->queryF(
@@ -1230,11 +1230,11 @@ class ilObjSAHSLearningModule extends ilObject
             while ($row = $ilDB->fetchAssoc($res)) {
                 $obj_id = $row['obj_id'];
                 $ilDB->manipulateF(
-                        '
+                    '
 					DELETE FROM aicc_course WHERE obj_id = %s',
-                        array('integer'),
-                        array($obj_id)
-                    );
+                    array('integer'),
+                    array($obj_id)
+                );
             }
 
             $ilDB->manipulateF(
@@ -1454,8 +1454,8 @@ class ilObjSAHSLearningModule extends ilObject
     
     public function zipLmForOfflineMode()
     {
-        $lmDir=ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $this->getId();
-        $zipFile=ilUtil::getDataDir() . "/lm_data/lm_" . $this->getId();
+        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $this->getId();
+        $zipFile = ilUtil::getDataDir() . "/lm_data/lm_" . $this->getId();
         return ilUtil::zip($lmDir, $zipFile, true);
     }
 
@@ -1468,7 +1468,7 @@ class ilObjSAHSLearningModule extends ilObject
         $ilias = $DIC['ilias'];
         $idSetting = $this->getIdSetting();
         $studentId = $ilias->account->getId();
-        if ($idSetting%2 == 1) {
+        if ($idSetting % 2 == 1) {
             $studentId = $ilias->account->getLogin();
         }
         if ($idSetting > 3) {

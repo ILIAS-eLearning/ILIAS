@@ -28,7 +28,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     const ACHIEVED = 1;
     const NOT_ACHIEVED = 0;
 
-    const EVAL_BY_OTHERS_= 0;
+    const EVAL_BY_OTHERS_ = 0;
     const EVAL_BY_SELF = 1;
     const EVAL_BY_ALL = 2;
 
@@ -129,7 +129,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $ilDB->insert("skl_level", array(
                 "id" => array("integer", $nid),
                 "skill_id" => array("integer", $this->getId()),
-                "nr" => array("integer", $nr+1),
+                "nr" => array("integer", $nr + 1),
                 "title" => array("text", $a_title),
                 "description" => array("clob", $a_description),
                 "import_id" => array("text", $a_import_id),

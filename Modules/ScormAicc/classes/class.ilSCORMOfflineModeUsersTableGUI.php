@@ -50,7 +50,7 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
         $this->initTable();
 
         include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php';
-        $users=ilSCORMOfflineMode::usersInOfflineMode($this->getObjId());
+        $users = ilSCORMOfflineMode::usersInOfflineMode($this->getObjId());
         foreach ($users as $user) {
             $tmp = array();
             $tmp['user'] = $user['user_id'];

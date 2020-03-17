@@ -414,13 +414,13 @@ class ilLOTestQuestionAdapter
                     $run->getObjectiveId(),
                     $this->getAssignments()->getTypeByTest($session->getRefId()),
                     $comp = ilLOUtils::isCompleted(
-                            $this->container_id,
-                            $session->getRefId(),
-                            $run->getObjectiveId(),
-                            $res['max'],
-                            $res['reached'],
-                            $old_result['limit_perc']
-                        ) ?
+                        $this->container_id,
+                        $session->getRefId(),
+                        $run->getObjectiveId(),
+                        $res['max'],
+                        $res['reached'],
+                        $old_result['limit_perc']
+                    ) ?
                                 ilLOUserResults::STATUS_COMPLETED :
                                 ilLOUserResults::STATUS_FAILED,
                     (int) $res['percentage'],
