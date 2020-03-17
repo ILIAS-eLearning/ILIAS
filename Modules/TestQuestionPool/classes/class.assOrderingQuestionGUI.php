@@ -189,7 +189,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
         $this->object->setThumbGeometry($_POST["thumb_geometry"]);
-        $this->object->setElementHeight($_POST["element_height"]);
+       // $this->object->setElementHeight($_POST["element_height"]);
         //$this->object->setOrderingType( $_POST["ordering_type"] );
         $this->object->setPoints($_POST["points"]);
     }
@@ -300,17 +300,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
     {
-        if (!$this->object->getSelfAssessmentEditingMode()) {
-            $element_height = new ilNumberInputGUI($this->lng->txt("element_height"), "element_height");
-            $element_height->setValue($this->object->getElementHeight());
-            $element_height->setRequired(false);
-            $element_height->setMaxLength(6);
-            $element_height->setMinValue(20);
-            $element_height->setSize(6);
-            $element_height->setInfo($this->lng->txt("element_height_info"));
-            $form->addItem($element_height);
-        }
-
         if ($this->object->isImageOrderingType()) {
             $geometry = new ilNumberInputGUI($this->lng->txt("thumb_geometry"), "thumb_geometry");
             $geometry->setValue($this->object->getThumbGeometry());
