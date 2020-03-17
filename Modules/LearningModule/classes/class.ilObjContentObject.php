@@ -2027,6 +2027,7 @@ class ilObjContentObject extends ilObject
     /**
     * export scorm package
     */
+    /*
     public function exportSCORM($a_target_dir, $log)
     {
         ilUtil::delDir($a_target_dir);
@@ -2065,7 +2066,7 @@ class ilObjContentObject extends ilObject
         
         rename($zip_file, $dest_file);
         ilUtil::delDir($a_target_dir);
-    }
+    }*/
 
     
 
