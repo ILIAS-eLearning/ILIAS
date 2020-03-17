@@ -32,7 +32,7 @@ class GroupTest extends TestCase
     public function setUp() : void
     {
         $this->dataFactory = new Factory();
-        $this->language    = $this->getMockBuilder('\ilLanguage')
+        $this->language = $this->getMockBuilder('\ilLanguage')
             ->disableOriginalConstructor()
             ->getMock();
 

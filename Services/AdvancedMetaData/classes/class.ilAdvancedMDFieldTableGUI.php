@@ -128,7 +128,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
     {
         $counter = 0;
         foreach ($a_definitions as $definition) {
-            $tmp_arr['position'] = ++$counter*10;
+            $tmp_arr['position'] = ++$counter * 10;
             $tmp_arr['id'] = $definition->getFieldId();
             $tmp_arr['title'] = $definition->getTitle();
             $tmp_arr['description'] = $definition->getDescription();

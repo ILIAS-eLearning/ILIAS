@@ -250,8 +250,8 @@ class ilLMTracker
             $time_diff = $read_diff = 0;
 
             // spent_seconds or read_count ?
-            if (($now-$pg_ts) <= $valid_timespan) {
-                $time_diff = $now-$pg_ts;
+            if (($now - $pg_ts) <= $valid_timespan) {
+                $time_diff = $now - $pg_ts;
             } else {
                 $read_diff = 1;
             }
@@ -498,7 +498,6 @@ class ilLMTracker
                 $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
                 $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
             }
-
         } else {	// free pages (currently not called, since only walking through tree structure)
         }
         $this->tree_arr["nodes"][$a_obj_id]["status"] = $status;

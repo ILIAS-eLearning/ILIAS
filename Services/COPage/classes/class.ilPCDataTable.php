@@ -81,7 +81,7 @@ class ilPCDataTable extends ilPCTable
         } else {		// no node -> delete all childs and create paragraph
             $xpc2 = xpath_new_context($this->dom);
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
-                "/Table/TableRow[" . ($i+1) . "]/TableData[" . ($j+1) . "]";
+                "/Table/TableRow[" . ($i + 1) . "]/TableData[" . ($j + 1) . "]";
             //$path2 = "//PageContent";
             
             $res2 = xpath_eval($xpc2, $path2);
@@ -91,7 +91,7 @@ class ilPCDataTable extends ilPCTable
             if (is_object($td_node)) {
                 // delete children of paragraph node
                 $children = $td_node->child_nodes();
-                for ($i=0; $i<count($children); $i++) {
+                for ($i = 0; $i < count($children); $i++) {
                     $td_node->remove_child($children[$i]);
                 }
                 
@@ -120,7 +120,7 @@ class ilPCDataTable extends ilPCTable
     {
         // delete children of paragraph node
         $children = $td_node->child_nodes();
-        for ($i=0; $i<count($children); $i++) {
+        for ($i = 0; $i < count($children); $i++) {
             $td_node->remove_child($children[$i]);
         }
         
@@ -146,8 +146,8 @@ class ilPCDataTable extends ilPCTable
         if (is_object($cell_par)) {
             $content = "";
             $childs = $cell_par->child_nodes();
-            for ($i=0; $i<count($childs); $i++) {
-                $content.= $this->dom->dump_node($childs[$i]);
+            for ($i = 0; $i < count($childs); $i++) {
+                $content .= $this->dom->dump_node($childs[$i]);
             }
             return $content;
         } else {
@@ -180,7 +180,7 @@ class ilPCDataTable extends ilPCTable
                         if (empty($error) && is_object($par_node)) {
                             // delete children of paragraph node
                             $children = $par_node->child_nodes();
-                            for ($k=0; $k < count($children); $k++) {
+                            for ($k = 0; $k < count($children); $k++) {
                                 $par_node->remove_child($children[$k]);
                             }
 

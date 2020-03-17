@@ -195,14 +195,14 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     protected function encode(string $raw, string $userSecret) : string
     {
-        $clientSecret   = $this->getClientSalt();
+        $clientSecret = $this->getClientSalt();
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($userSecret), STR_PAD_BOTH),
             $clientSecret,
             true
         );
-        $salt           = substr(
+        $salt = substr(
             str_shuffle(str_repeat('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 22)),
             0,
             22

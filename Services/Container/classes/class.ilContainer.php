@@ -729,7 +729,7 @@ class ilContainer extends ilObject
      * Is classification filter active?
      * @return bool
      */
-    public function isClassificationFilterActive(): bool
+    public function isClassificationFilterActive() : bool
     {
         // apply container classification filters
         $repo = new ilClassificationSessionRepository($this->getRefId());
@@ -748,7 +748,7 @@ class ilContainer extends ilObject
      * Catetories only their direct childs
      * @return bool
      */
-    public function filteredSubtree(): bool
+    public function filteredSubtree() : bool
     {
         if ($this->isClassificationFilterActive() && in_array($this->getType(), ["grp", "crs"])) {
             return true;
@@ -761,7 +761,7 @@ class ilContainer extends ilObject
      *
      * @return array
      */
-    protected function getInitialSubitems(): array
+    protected function getInitialSubitems() : array
     {
         $tree = $this->tree;
         if ($this->filteredSubtree()) {

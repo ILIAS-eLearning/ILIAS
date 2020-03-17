@@ -403,13 +403,13 @@ class ilObjCourseGrouping
         $target_ref_id = 0;
         $target_obj_id = 0;
 
-        if(array_key_exists($this->getContainerRefId(),$mappings) && $mappings[$this->getContainerRefId()]) {
+        if (array_key_exists($this->getContainerRefId(), $mappings) && $mappings[$this->getContainerRefId()]) {
             $target_ref_id = $mappings[$this->getContainerRefId()];
             $target_obj_id = \ilObject::_lookupObjId($target_ref_id);
             $this->logger->dump($target_ref_id);
             $this->logger->dump($target_obj_id);
         }
-        if(!$target_ref_id || !$target_obj_id) {
+        if (!$target_ref_id || !$target_obj_id) {
             $this->logger->debug('No target ref_id found.');
             return false;
         }
@@ -424,7 +424,7 @@ class ilObjCourseGrouping
         $new_grouping->create($target_ref_id, $target_obj_id);
 
         $obj_instance = \ilObjectFactory::getInstanceByRefId($this->getContainerRefId(), false);
-        if(!$obj_instance instanceof \ilObject) {
+        if (!$obj_instance instanceof \ilObject) {
             $this->logger->info('Cannot create object instance for membership limitation');
             return false;
         }
@@ -432,7 +432,6 @@ class ilObjCourseGrouping
         $this->logger->dump($limitation_items);
 
         foreach ($limitation_items as $item_ref_id) {
-
             $target_item_ref_id = 0;
             $target_item_obj_id = 0;
             if (array_key_exists($item_ref_id, $mappings) && $mappings[$item_ref_id]) {
@@ -546,8 +545,8 @@ class ilObjCourseGrouping
                     if ($tree->isDeleted($target_condition['target_ref_id'])) {
                         continue;
                     }
-                    $course_ids[] = array('id'			=> $target_condition['target_obj_id'],
-                                          'unique'		=> $target_condition['value']);
+                    $course_ids[] = array('id' => $target_condition['target_obj_id'],
+                                          'unique' => $target_condition['value']);
                 }
             }
         }

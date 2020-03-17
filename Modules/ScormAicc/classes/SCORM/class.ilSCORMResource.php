@@ -111,7 +111,7 @@ class ilSCORMResource extends ilSCORMObject
 
     public function addFile(&$a_file_obj)
     {
-        $this->files[] =&$a_file_obj;
+        $this->files[] = &$a_file_obj;
     }
 
     public function &getFiles()
@@ -121,7 +121,7 @@ class ilSCORMResource extends ilSCORMObject
 
     public function addDependency(&$a_dependency)
     {
-        $this->dependencies[] =&$a_dependency;
+        $this->dependencies[] = &$a_dependency;
     }
 
     public function &getDependencies()
@@ -154,7 +154,7 @@ class ilSCORMResource extends ilSCORMObject
             array('integer'),
             array($this->getId())
         );
-        while ($file_rec =$ilDB->fetchAssoc($file_set)) {
+        while ($file_rec = $ilDB->fetchAssoc($file_set)) {
             $res_file = new ilSCORMResourceFile();
             $res_file->setHref($file_rec["href"]);
             $this->addFile($res_file);
@@ -166,7 +166,7 @@ class ilSCORMResource extends ilSCORMObject
             array('integer'),
             array($this->getId())
         );
-        while ($dep_rec =$ilDB->fetchAssoc($dep_set)) {
+        while ($dep_rec = $ilDB->fetchAssoc($dep_set)) {
             $res_dep = new ilSCORMResourceDependency();
             $res_dep->setIdentifierRef($dep_rec["identifierref"]);
             $this->addDependency($res_dep);
@@ -258,7 +258,7 @@ class ilSCORMResource extends ilSCORMObject
         );
 
         // save files
-        for ($i=0; $i<count($this->files); $i++) {
+        for ($i = 0; $i < count($this->files); $i++) {
             $nextId = $ilDB->nextId('sc_resource_file');
 
             $ilDB->manipulateF(
@@ -271,7 +271,7 @@ class ilSCORMResource extends ilSCORMObject
         }
 
         // save dependencies
-        for ($i=0; $i<count($this->dependencies); $i++) {
+        for ($i = 0; $i < count($this->dependencies); $i++) {
             $nextId = $ilDB->nextId('sc_resource_dependen');
 
             $ilDB->manipulateF(
@@ -316,7 +316,7 @@ class ilSCORMResource extends ilSCORMObject
             array($this->getId())
         );
         
-        for ($i=0; $i<count($this->files); $i++) {
+        for ($i = 0; $i < count($this->files); $i++) {
             $nextId = $ilDB->nextId('sc_resource_file');
             
             $ilDB->manipulateF(

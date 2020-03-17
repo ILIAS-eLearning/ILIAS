@@ -13,15 +13,15 @@ class ilObjContentPageAccess extends \ilObjectAccess implements \ilContentPageOb
     {
         $commands = [
             [
-                'permission'=> 'read',
-                'cmd'       => self::UI_CMD_VIEW,
-                'lang_var'  => 'show',
-                'default'   => true
+                'permission' => 'read',
+                'cmd' => self::UI_CMD_VIEW,
+                'lang_var' => 'show',
+                'default' => true
             ],
             [
-                'permission'=> 'write',
-                'cmd'       => 'edit',
-                'lang_var'  => 'settings'
+                'permission' => 'write',
+                'cmd' => 'edit',
+                'lang_var' => 'settings'
             ],
         ];
 

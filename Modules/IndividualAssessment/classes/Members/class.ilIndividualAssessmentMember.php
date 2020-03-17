@@ -173,7 +173,7 @@ class ilIndividualAssessmentMember
             return false;
         }
         return ((string) $this->lp_status === (string) ilIndividualAssessmentMembers::LP_COMPLETED
-                ||(string) $this->lp_status === (string) ilIndividualAssessmentMembers::LP_FAILED)
+                || (string) $this->lp_status === (string) ilIndividualAssessmentMembers::LP_FAILED)
                 && !$this->finalized();
     }
 
@@ -294,9 +294,9 @@ class ilIndividualAssessmentMember
     protected function LPStatusValid($lp_status)
     {
         return (string) $lp_status === (string) ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED
-                ||(string) $lp_status === (string) ilIndividualAssessmentMembers::LP_IN_PROGRESS
-                ||(string) $lp_status === (string) ilIndividualAssessmentMembers::LP_COMPLETED
-                ||(string) $lp_status === (string) ilIndividualAssessmentMembers::LP_FAILED;
+                || (string) $lp_status === (string) ilIndividualAssessmentMembers::LP_IN_PROGRESS
+                || (string) $lp_status === (string) ilIndividualAssessmentMembers::LP_COMPLETED
+                || (string) $lp_status === (string) ilIndividualAssessmentMembers::LP_FAILED;
     }
 
     /**

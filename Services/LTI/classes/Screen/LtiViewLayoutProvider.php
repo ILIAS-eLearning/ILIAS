@@ -28,15 +28,14 @@ use ILIAS\Container\Screen\MemberViewLayoutProvider;
  */
 class LtiViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-
     const GS_EXIT_LTI = 'lti_exit_mode';
 
-    protected function isLTIMode(): bool
+    protected function isLTIMode() : bool
     {
         return $this->dic["lti"]->isActive();
     }
 
-    protected function isLTIExitMode(CalledContexts $screen_context_stack): bool
+    protected function isLTIExitMode(CalledContexts $screen_context_stack) : bool
     {
         $data_collection = $screen_context_stack->current()->getAdditionalData();
         $is_exit_mode = $data_collection->is(self::GS_EXIT_LTI, true);
@@ -53,7 +52,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
 
@@ -64,12 +63,12 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
         return $this->factory->page()
             ->withModification(
-                function (PagePartProvider $parts): Page {
+                function (PagePartProvider $parts) : Page {
                     $p = new StandardPageBuilder();
                     $page = $p->build($parts);
 
                     $mv_modeinfo = MemberViewLayoutProvider::getMemberViewModeInfo($this->dic);
-                    if($mv_modeinfo) {
+                    if ($mv_modeinfo) {
                         $page = $page->withModeInfo($mv_modeinfo);
                     }
 
@@ -84,17 +83,17 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
     {
-        if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
         $is_exit_mode = $this->isLTIExitMode($screen_context_stack);
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) use ($is_exit_mode): ?MainBar {
+                function (MainBar $mainbar) use ($is_exit_mode) : ?MainBar {
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
-                    if($is_exit_mode) {
+                    if ($is_exit_mode) {
                         return $mainbar;
                     }
 
@@ -118,16 +117,16 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification
     {
-        if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
         $is_exit_mode = $this->isLTIExitMode($screen_context_stack);
 
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) use ($is_exit_mode): ?Metabar {
+                function (MetaBar $metabar) use ($is_exit_mode) : ?Metabar {
                     $metabar = $metabar->withClearedEntries();
-                    if($is_exit_mode) {
+                    if ($is_exit_mode) {
                         return $metabar;
                     }
 
@@ -147,7 +146,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
-        if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
         $is_exit_mode = $this->isLTIExitMode($screen_context_stack);
@@ -155,7 +154,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
         return $this->globalScreen()->layout()->factory()->title()
             ->withModification(
                 function (string $content) use ($is_exit_mode) : string {
-                    if($is_exit_mode) {
+                    if ($is_exit_mode) {
                         return $this->dic["lti"]->getTitleForExitPage();
                     }
                     return $this->dic["lti"]->getTitle();
@@ -169,7 +168,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
-       if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
 
@@ -187,7 +186,7 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
      */
     public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
     {
-        if(! $this->isLTIMode()) {
+        if (!$this->isLTIMode()) {
             return null;
         }
 

@@ -411,7 +411,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $cb->setValue("y");
         $cb->setChecked($this->object->getOfflineMode());
         include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode()== true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
+        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
             $cb->setDisabled(true);
             $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
         } else {
@@ -802,7 +802,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         if ($this->object->editable != 1) {
             //check if OfflineMode-Zip has to be created
-            $tmpOfflineMode= ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
             $tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
             $tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
             if ($tmpOfflineMode == true) {
@@ -1235,14 +1235,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             if ($scoSelected != "all") {
                 $scosSelected[] = $scoSelected;
             } else {
-                $tmpscos=$this->object->getTrackedItems();
-                for ($i=0; $i<count($tmpscos); $i++) {
+                $tmpscos = $this->object->getTrackedItems();
+                for ($i = 0; $i < count($tmpscos); $i++) {
                     $scosSelected[] = $tmpscos[$i]["id"];
                 }
             }
             //with check for course ...
             include_once "Services/Tracking/classes/class.ilTrQuery.php";
-            $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+            $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
             //			var_dump($this->object->getTrackedUsers(""));
             include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
             $tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
@@ -1292,16 +1292,16 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
                     $usersSelected[] = $userSelected;
                 } else {
                     include_once "Services/Tracking/classes/class.ilTrQuery.php";
-                    $users=ilTrQuery::getParticipantsForObject($this->ref_id);
+                    $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
                             $usersSelected[] = $user;
                         }
                     }
                 }
                 $scosSelected = array();
-                $tmpscos=$this->object->getTrackedItems();
-                for ($i=0; $i<count($tmpscos); $i++) {
+                $tmpscos = $this->object->getTrackedItems();
+                for ($i = 0; $i < count($tmpscos); $i++) {
                     $scosSelected[] = $tmpscos[$i]["id"];
                 }
                 //with check for course ...
@@ -1808,7 +1808,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             );
         }
         
-        if ($this->object->editable==1) {
+        if ($this->object->editable == 1) {
             // preview
             $this->tabs_gui->addNonTabbedLink(
                 "preview",
@@ -1834,7 +1834,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
                         $ilTabs->addSubTab("general_settings",
                             $lng->txt("general_settings"),
                             $ilCtrl->getLinkTarget($this, 'properties'));
-            
+
                         // style properties
                         $ilTabs->addSubTab("style",
                             $lng->txt("cont_style"),
@@ -2177,13 +2177,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $active = null;
         foreach ($arr_templates as $templ) {
-            $sel= "";
+            $sel = "";
             $item_data = $templ->getMetadataProperties();
             $item_data['identifier'] = $templ->getIdentifier();
             array_push($templates, $item_data);
             if ($default_identifier == $item_data['identifier']) {
                 $sel = 'selected';
-                $active =  $item_data;
+                $active = $item_data;
             }
             $this->tpl->setVariable("VAL_SELECTED", $sel);
             $this->tpl->setVariable("VAL_IDENTIFIER", $item_data['identifier']);
@@ -2287,33 +2287,33 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $count = 0;
         foreach ($arr_templates as $templ) {
             $count++;
-            $sel= "";
+            $sel = "";
             $templ->readObject();
             $ftpl->setCurrentBlock("option_item2");
             $ftpl->setVariable("VAL_LAYOUT_TITLE", $templ->getTitle());
             $ftpl->setVariable("VAL_LAYOUT_IMAGE", $templ->getPreview());
             $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
             $ftpl->setVariable("VAL_DISPLAY", "inline");
-            if ($count==1) {
+            if ($count == 1) {
                 $ftpl->setVariable("VAL_CHECKED", "checked");
             }
-            if ($count%4 == 0) {
+            if ($count % 4 == 0) {
                 $ftpl->setVariable("END_ROW", "</tr>");
             }
-            if ($count == 1 || ($count-1)%4 == 0) {
+            if ($count == 1 || ($count - 1) % 4 == 0) {
                 $ftpl->setVariable("BEGIN_ROW", "<tr>");
             }
             $ftpl->parseCurrentBlock();
         }
         
         //matrix table
-        if ($count%4!=0) {
-            $rest = 4-($count%4);
+        if ($count % 4 != 0) {
+            $rest = 4 - ($count % 4);
         } else {
-            $rest=0;
+            $rest = 0;
         }
         
-        for ($i=1;$i<=$rest;$i++) {
+        for ($i = 1;$i <= $rest;$i++) {
             $ftpl->setVariable("VAL_DISPLAY", "none");
             $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
             
@@ -2753,11 +2753,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $pf = "";
         foreach (ilSCORM2004OrganizationHFormGUI::getPostFields() as $f => $v) {
-            $pf.= '<input type="hidden" name="' . $f . '" value="' . $v . '" />';
+            $pf .= '<input type="hidden" name="' . $f . '" value="' . $v . '" />';
         }
         if ($a_confirm && is_array($_POST["node"])) {
             foreach ($_POST["node"] as $f => $v) {
-                $pf.= '<input type="hidden" name="node[' . $f . ']" value="' . $v . '" />';
+                $pf .= '<input type="hidden" name="node[' . $f . ']" value="' . $v . '" />';
             }
         }
 

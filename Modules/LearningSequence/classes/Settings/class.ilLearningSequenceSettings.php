@@ -101,7 +101,7 @@ class ilLearningSequenceSettings
         return $this->abstract_image;
     }
 
-    public function withAbstractImage(string $path=null) : ilLearningSequenceSettings
+    public function withAbstractImage(string $path = null) : ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->abstract_image = $path;
@@ -113,7 +113,7 @@ class ilLearningSequenceSettings
         return $this->extro_image;
     }
 
-    public function withExtroImage(string $path=null) : ilLearningSequenceSettings
+    public function withExtroImage(string $path = null) : ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->extro_image = $path;

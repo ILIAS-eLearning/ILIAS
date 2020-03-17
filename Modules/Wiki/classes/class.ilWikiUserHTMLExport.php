@@ -132,7 +132,7 @@ class ilWikiUserHTMLExport
             }
 
             // process was already running
-            $ret =  self::PROCESS_OTHER_USER;
+            $ret = self::PROCESS_OTHER_USER;
             $this->log->debug("return: " . self::PROCESS_OTHER_USER);
         });
 

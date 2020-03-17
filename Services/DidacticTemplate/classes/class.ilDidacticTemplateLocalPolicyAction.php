@@ -284,8 +284,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
                     array(
-                        'type'	=> 'overwrite',
-                        'id'	=> $il_role_id
+                        'type' => 'overwrite',
+                        'id' => $il_role_id
                     )
                 );
                 break;
@@ -294,8 +294,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
                     array(
-                        'type'	=> 'intersect',
-                        'id'	=> $il_role_id
+                        'type' => 'intersect',
+                        'id' => $il_role_id
                     )
                 );
                 break;
@@ -304,8 +304,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 $writer->xmlStartTag(
                     'localPolicyTemplate',
                     array(
-                        'type'	=> 'union',
-                        'id'	=> $il_role_id
+                        'type' => 'union',
+                        'id' => $il_role_id
                     )
                 );
                 break;

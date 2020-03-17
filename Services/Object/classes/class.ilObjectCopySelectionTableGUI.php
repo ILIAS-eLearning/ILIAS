@@ -122,15 +122,15 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             
             
             $r = array();
-            $r['last'] 	= false;
-            $r['source']= $first;
-            $r['ref_id']= $node['child'];
+            $r['last'] = false;
+            $r['source'] = $first;
+            $r['ref_id'] = $node['child'];
             $r['depth'] = $node['depth'] - $root['depth'];
-            $r['type']	= $node['type'];
-            $r['title']	= $node['title'];
-            $r['copy']	= $objDefinition->allowCopy($node['type']);
+            $r['type'] = $node['type'];
+            $r['title'] = $node['title'];
+            $r['copy'] = $objDefinition->allowCopy($node['type']);
             $r['perm_copy'] = $ilAccess->checkAccess('copy', '', $node['child']);
-            $r['link']	= $objDefinition->allowLink($node['type']);
+            $r['link'] = $objDefinition->allowLink($node['type']);
             $r['perm_link'] = true;
             
             // #11905

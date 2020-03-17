@@ -219,10 +219,10 @@ class ilCalendarUserNotification
             'cal_notification',
             array(
                 'notification_id' => array('type' => 'integer','length' => 4,'notnull' => true),
-                'cal_id'	=> array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'user_type'	=> array('type' => 'integer','length' => 1, 'notnull' => true, 'default' => 0),
-                'user_id'	=> array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'email'		=> array('type' => 'text','length' => 64, 'notnull' => false)
+                'cal_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
+                'user_type' => array('type' => 'integer','length' => 1, 'notnull' => true, 'default' => 0),
+                'user_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
+                'email' => array('type' => 'text','length' => 64, 'notnull' => false)
             )
         );
         $ilDB->addPrimaryKey(

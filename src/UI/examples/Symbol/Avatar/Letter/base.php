@@ -3,15 +3,15 @@
 function base()
 {
     $examples = array(
-        1  => 'om',
-        2  => 'gk',
-        3  => 'bj',
-        4  => 'ea',
-        5  => 'mf',
-        6  => 'ob',
-        7  => 'bi',
-        8  => 'hu',
-        9  => 'fa',
+        1 => 'om',
+        2 => 'gk',
+        3 => 'bj',
+        4 => 'ea',
+        5 => 'mf',
+        6 => 'ob',
+        7 => 'bi',
+        8 => 'hu',
+        9 => 'fa',
         10 => 'so',
         11 => 'il',
         12 => 'ut',
@@ -37,7 +37,7 @@ function base()
 
     $avatars = [];
     foreach ($examples as $abbreviation) {
-        $letter    = $f->symbol()->avatar()->letter($abbreviation);
+        $letter = $f->symbol()->avatar()->letter($abbreviation);
         $avatars[] = $letter;
     }
 

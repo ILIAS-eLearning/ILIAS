@@ -97,7 +97,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
 
         $thumbfile = $this->style_obj->getThumbnailsDirectory() . "/" . $a_set["entry"];
         $image_file = $this->style_obj->getImagesDirectory() . "/" . $a_set["entry"];
-        if (!is_file($thumbfile) ||  strtolower(pathinfo($a_set["entry"], PATHINFO_EXTENSION)) == "svg") {
+        if (!is_file($thumbfile) || strtolower(pathinfo($a_set["entry"], PATHINFO_EXTENSION)) == "svg") {
             $thumbfile = $image_file;
         }
         if (is_file($thumbfile)) {

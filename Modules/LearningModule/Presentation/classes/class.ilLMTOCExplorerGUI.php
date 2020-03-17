@@ -116,8 +116,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         }
 
         $page_ids = array_column($this->complete_tree["nodes"], "child");
-        $this->activation_data = $this->activation_repo->get("lm", $page_ids,
-            $this->lm_set->get("time_scheduled_page_activation"), $this->lang);
+        $this->activation_data = $this->activation_repo->get(
+            "lm",
+            $page_ids,
+            $this->lm_set->get("time_scheduled_page_activation"),
+            $this->lang
+        );
         $this->initVisibilityData($this->tree->readRootId());
     }
 
@@ -139,7 +143,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         if ($current_node["type"] == "pg") {
             $this->complete_tree["visibility"][$node_id] = ($this->activation_data[$node_id]["active"] ||
                 $this->activation_data[$node_id]["show_info"]);
-        } else if ($current_node["type"] == "st") {
+        } elseif ($current_node["type"] == "st") {
 
             // make chapters visible as soon as there is one visible child
             $this->complete_tree["visibility"][$node_id] = false;

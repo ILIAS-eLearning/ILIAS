@@ -19,10 +19,10 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM		= 'showForm';
-    const CMD_SAVE_FORM		= 'saveForm';
-    const CMD_CANCEL_FORM	= 'cancelForm';
-    const CMD_CONFIRM_FORM	= 'confirmForm';
+    const CMD_SHOW_FORM = 'showForm';
+    const CMD_SAVE_FORM = 'saveForm';
+    const CMD_CANCEL_FORM = 'cancelForm';
+    const CMD_CONFIRM_FORM = 'confirmForm';
     
     /**
      * Execute Command

@@ -19,12 +19,12 @@ class ilIndividualAssessmentLPInterface
 
     public static function determineStatusOfMember($iass_id, $usr_id)
     {
-        if (self::$members_storage  === null) {
+        if (self::$members_storage === null) {
             self::$members_storage = self::getMembersStorage();
         }
         $iass = new ilObjIndividualAssessment($iass_id, false);
         $members = $iass->loadMembers($iass);
-        $usr =  new ilObjUser($usr_id);
+        $usr = new ilObjUser($usr_id);
         if ($members->userAllreadyMember($usr)) {
             $member = self::$members_storage->loadMember($iass, $usr);
             if ($member->finalized()) {
@@ -44,7 +44,7 @@ class ilIndividualAssessmentLPInterface
 
     public static function getMembersHavingStatusIn($iass_id, $status)
     {
-        if (self::$members_storage  === null) {
+        if (self::$members_storage === null) {
             self::$members_storage = self::getMembersStorage();
         }
         $members = self::$members_storage->loadMembers(new ilObjIndividualAssessment($iass_id, false));

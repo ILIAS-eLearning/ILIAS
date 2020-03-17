@@ -9,7 +9,6 @@ use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
-
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);

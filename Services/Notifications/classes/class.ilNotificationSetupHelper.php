@@ -23,8 +23,8 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_userconfig)) {
             $fields = array(
-                'usr_id' =>  array('type' => 'integer', 'notnull' => true, 'length' => 4),
-                'module' =>  array('type' => 'text'   , 'notnull' => true, 'length' => 100),
+                'usr_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+                'module' => array('type' => 'text'   , 'notnull' => true, 'length' => 100),
                 'channel' => array('type' => 'text'   , 'notnull' => true, 'length' => 100),
             );
             $ilDB->createTable(self::$tbl_userconfig, $fields);
@@ -33,10 +33,10 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_userlistener)) {
             $fields = array(
-                'usr_id' =>    array('type' => 'integer', 'notnull' => true, 'length' => 4),
-                'module' =>    array('type' => 'text'   , 'notnull' => true, 'length' => 100),
+                'usr_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+                'module' => array('type' => 'text'   , 'notnull' => true, 'length' => 100),
                 'sender_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
-                'disabled' =>  array('type' => 'integer', 'notnull' => true, 'length' => 1),
+                'disabled' => array('type' => 'integer', 'notnull' => true, 'length' => 1),
             );
             $ilDB->createTable(self::$tbl_userlistener, $fields);
             $ilDB->addPrimaryKey(self::$tbl_userlistener, array('usr_id', 'module', 'sender_id'));
@@ -44,8 +44,8 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_notification_data)) {
             $fields = array(
-                'notification_id' =>  array('type' => 'integer', 'notnull' => true, 'length' => 4),
-                'serialized' =>       array('type' => 'text'   , 'notnull' => true, 'length' => 4000),
+                'notification_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+                'serialized' => array('type' => 'text'   , 'notnull' => true, 'length' => 4000),
             );
             $ilDB->createTable(self::$tbl_notification_data, $fields);
             $ilDB->addPrimaryKey(self::$tbl_notification_data, array('notification_id'));
@@ -55,10 +55,10 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_notification_queue)) {
             $fields = array(
-                'notification_id' =>      array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                'usr_id' =>               array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'notification_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'usr_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
                 #'notification_channel' => array('type' => 'text'     , 'notnull' => true, 'length' => 100),
-                'valid_until' =>          array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'valid_until' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
             );
             $ilDB->createTable(self::$tbl_notification_queue, $fields);
             #$ilDB->addPrimaryKey(self::$tbl_notification_queue, array('notification_id', 'usr_id', 'notification_channel'));
@@ -68,11 +68,11 @@ class ilNotificationSetupHelper
         if (!$ilDB->tableExists(self::$tbl_notification_osd_handler)) {
             $fields = array(
                 'notification_osd_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                'usr_id' =>              array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                'serialized' =>          array('type' => 'text'     , 'notnull' => true, 'length' => 4000),
-                'valid_until' =>         array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                'time_added' =>          array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
-                'type' =>                array('type' => 'text'     , 'notnull' => true, 'length' => 100),
+                'usr_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'serialized' => array('type' => 'text'     , 'notnull' => true, 'length' => 4000),
+                'valid_until' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'time_added' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
+                'type' => array('type' => 'text'     , 'notnull' => true, 'length' => 100),
             );
             $ilDB->createTable(self::$tbl_notification_osd_handler, $fields);
 
@@ -87,11 +87,11 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_notification_channels)) {
             $fields = array(
-                'channel_name'=> array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'title' =>       array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'description'=>  array('type' => 'text', 'notnull' => true, 'length' => 4000),
-                'class' =>       array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'include' =>     array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'channel_name' => array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'title' => array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'description' => array('type' => 'text', 'notnull' => true, 'length' => 4000),
+                'class' => array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'include' => array('type' => 'text', 'notnull' => true, 'length' => 100),
                 'config_type' => array('type' => 'text', 'notnull' => true, 'length' => 30),
             );
             $ilDB->createTable(self::$tbl_notification_channels, $fields);
@@ -104,11 +104,11 @@ class ilNotificationSetupHelper
 
         if (!$ilDB->tableExists(self::$tbl_notification_types)) {
             $fields = array(
-                'type_name'=>           array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'title' =>              array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'description' =>        array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'type_name' => array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'title' => array('type' => 'text', 'notnull' => true, 'length' => 100),
+                'description' => array('type' => 'text', 'notnull' => true, 'length' => 100),
                 'notification_group' => array('type' => 'text', 'notnull' => true, 'length' => 100),
-                'config_type' =>        array('type' => 'text', 'notnull' => true, 'length' => 30),
+                'config_type' => array('type' => 'text', 'notnull' => true, 'length' => 30),
             );
             $ilDB->createTable(self::$tbl_notification_types, $fields);
             $ilDB->addPrimaryKey(self::$tbl_notification_types, array('type_name'));

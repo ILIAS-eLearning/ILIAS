@@ -208,7 +208,7 @@ class IconTest extends ILIAS_UI_TestBase
 
         foreach ($default_icons_abr as $icon_abr) {
             $path = self::ICON_PATH . "icon_" . $icon_abr . ".svg";
-            $this->assertTrue(file_exists($path), "Missing Standard Icon: ".$path);
+            $this->assertTrue(file_exists($path), "Missing Standard Icon: " . $path);
         }
     }
 
@@ -220,7 +220,7 @@ class IconTest extends ILIAS_UI_TestBase
         foreach ($default_icons_abr as $icon_abr) {
             $path = self::ICON_OUTLINED_PATH . "icon_" . $icon_abr . ".svg";
 
-            $this->assertTrue(file_exists($path),"Missing Outlined Icon: ".$path);
+            $this->assertTrue(file_exists($path), "Missing Outlined Icon: " . $path);
         }
     }
 }

@@ -28,7 +28,7 @@ class ilChatroomFormFactory
     {
         global $DIC;
 
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->user = $DIC->user();
     }
 
@@ -50,7 +50,7 @@ class ilChatroomFormFactory
      */
     public function getCreationForm()
     {
-        $form  = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $form->addItem($title);
@@ -81,7 +81,7 @@ class ilChatroomFormFactory
     {
         $this->lng->loadLanguageModule('rep');
 
-        $form  = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $form->addItem($title);
@@ -141,7 +141,7 @@ class ilChatroomFormFactory
      */
     public function getFileUploadForm()
     {
-        $form       = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $file_input = new ilFileInputGUI();
 
         $file_input->setPostVar('file_to_upload');
@@ -222,7 +222,7 @@ class ilChatroomFormFactory
 
         foreach ($sessions as $session) {
             $start = new ilDateTime($session['connected'], IL_CAL_UNIX);
-            $end   = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
+            $end = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
 
             $options[$session['connected'] . ',' .
             $session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
@@ -337,7 +337,7 @@ class ilChatroomFormFactory
         $interval_unit = new ilSelectInputGUI($this->lng->txt('chat_deletion_interval_unit'), 'deletion_unit');
         $interval_unit->setRequired(true);
         $interval_unit->setOptions(array(
-            'days'  => $this->lng->txt('days'),
+            'days' => $this->lng->txt('days'),
             'weeks' => $this->lng->txt('weeks'),
             'months' => $this->lng->txt('months'),
             'years' => $this->lng->txt('years'),

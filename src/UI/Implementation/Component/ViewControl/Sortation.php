@@ -33,7 +33,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @var string
      */
-    protected $paramter_name="sortation";
+    protected $paramter_name = "sortation";
 
     /**
      * @var string
@@ -43,7 +43,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @var arrary<string,string>
      */
-    protected $options=array();
+    protected $options = array();
 
 
     public function __construct(array $options, SignalGeneratorInterface $signal_generator)

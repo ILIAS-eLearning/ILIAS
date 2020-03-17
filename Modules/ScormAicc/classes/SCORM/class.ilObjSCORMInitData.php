@@ -16,7 +16,7 @@ class ilObjSCORMInitData
 {
     public static function encodeURIComponent($str)
     {
-        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')', '%7E'=>'~');
+        $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
@@ -32,30 +32,30 @@ class ilObjSCORMInitData
         //		$slm_obj = new ilObjSCORMLearningModule($_GET["ref_id"]);
 
         //variables to set in administration interface
-        $b_storeObjectives='false';
+        $b_storeObjectives = 'false';
         if ($slm_obj->getObjectives()) {
-            $b_storeObjectives='true';
+            $b_storeObjectives = 'true';
         }
-        $b_storeInteractions='false';
+        $b_storeInteractions = 'false';
         if ($slm_obj->getInteractions()) {
-            $b_storeInteractions='true';
+            $b_storeInteractions = 'true';
         }
-        $b_readInteractions='false';
-        $c_storeSessionTime='s';//n=no, s=sco, i=ilias
+        $b_readInteractions = 'false';
+        $c_storeSessionTime = 's';//n=no, s=sco, i=ilias
         if ($slm_obj->getTime_from_lms()) {
-            $c_storeSessionTime='i';
+            $c_storeSessionTime = 'i';
         }
-        $i_lessonScoreMax='-1';
-        $i_lessonMasteryScore=$slm_obj->getMasteryScore();
+        $i_lessonScoreMax = '-1';
+        $i_lessonMasteryScore = $slm_obj->getMasteryScore();
         
         //other variables
-        $b_messageLog='false';
+        $b_messageLog = 'false';
         if ($ilLog->current_log_level == 30) {
-            $b_messageLog='true';
+            $b_messageLog = 'true';
         }
-        $launchId='0';
+        $launchId = '0';
         if ($_GET["autolaunch"] != "") {
-            $launchId=$_GET["autolaunch"];
+            $launchId = $_GET["autolaunch"];
         }
         $session_timeout = 0; //unlimited sessions
         if ($slm_obj->getSession()) {
@@ -71,37 +71,37 @@ class ilObjSCORMInitData
             }
             $session_timeout -= 10; //buffer
         }
-        $b_autoReview='false';
+        $b_autoReview = 'false';
         if ($slm_obj->getAutoReview()) {
-            $b_autoReview='true';
+            $b_autoReview = 'true';
         }
-        $b_autoSuspend='false';
+        $b_autoSuspend = 'false';
         if ($slm_obj->getAutoSuspend()) {
-            $b_autoSuspend='true';
+            $b_autoSuspend = 'true';
         }
-        $b_debug='false';
+        $b_debug = 'false';
         if ($slm_obj->getDebug()) {
-            $b_debug='true';
+            $b_debug = 'true';
         }
-        $b_autoContinue='false';
+        $b_autoContinue = 'false';
         if ($slm_obj->getAutoContinue()) {
-            $b_autoContinue='true';
+            $b_autoContinue = 'true';
         }
-        $b_checkSetValues='false';
+        $b_checkSetValues = 'false';
         if ($slm_obj->getCheck_values()) {
-            $b_checkSetValues='true';
+            $b_checkSetValues = 'true';
         }
-        $b_autoLastVisited='false';
+        $b_autoLastVisited = 'false';
         if ($slm_obj->getAuto_last_visited()) {
-            $b_autoLastVisited='true';
+            $b_autoLastVisited = 'true';
             if ($launchId == '0') {
-                $launchId=$slm_obj->getLastVisited($ilUser->getID());
+                $launchId = $slm_obj->getLastVisited($ilUser->getID());
             }
         }
 
-        $b_sessionDeactivated='false';
+        $b_sessionDeactivated = 'false';
         if ($slm_obj->getSessionDeactivated()) {
-            $b_sessionDeactivated='true';
+            $b_sessionDeactivated = 'true';
         }
 
         //manifestData //extra to IliasScormManifestData
@@ -118,31 +118,31 @@ class ilObjSCORMInitData
             array('sit',$slm_obj->getId())
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            if ($val_rec["prereq_type"]!=null || $val_rec["prerequisites"]!=null || $val_rec["maxtimeallowed"]!=null || $val_rec["timelimitaction"]!=null || $val_rec["datafromlms"]!=null || $val_rec["masteryscore"]!=null) {
-                $tmp_man=array((int) $val_rec["obj_id"],null,null,null,null,null,null);
-                if ($val_rec["prereq_type"]!=null) {
-                    $tmp_man[1]=self::encodeURIComponent($val_rec["prereq_type"]);
+            if ($val_rec["prereq_type"] != null || $val_rec["prerequisites"] != null || $val_rec["maxtimeallowed"] != null || $val_rec["timelimitaction"] != null || $val_rec["datafromlms"] != null || $val_rec["masteryscore"] != null) {
+                $tmp_man = array((int) $val_rec["obj_id"],null,null,null,null,null,null);
+                if ($val_rec["prereq_type"] != null) {
+                    $tmp_man[1] = self::encodeURIComponent($val_rec["prereq_type"]);
                 }
-                if ($val_rec["prerequisites"]!=null) {
-                    $tmp_man[2]=self::encodeURIComponent($val_rec["prerequisites"]);
+                if ($val_rec["prerequisites"] != null) {
+                    $tmp_man[2] = self::encodeURIComponent($val_rec["prerequisites"]);
                 }
-                if ($val_rec["maxtimeallowed"]!=null) {
-                    $tmp_man[3]=self::encodeURIComponent($val_rec["maxtimeallowed"]);
+                if ($val_rec["maxtimeallowed"] != null) {
+                    $tmp_man[3] = self::encodeURIComponent($val_rec["maxtimeallowed"]);
                 }
-                if ($val_rec["timelimitaction"]!=null) {
-                    $tmp_man[4]=self::encodeURIComponent($val_rec["timelimitaction"]);
+                if ($val_rec["timelimitaction"] != null) {
+                    $tmp_man[4] = self::encodeURIComponent($val_rec["timelimitaction"]);
                 }
-                if ($val_rec["datafromlms"]!=null) {
-                    $tmp_man[5]=self::encodeURIComponent($val_rec["datafromlms"]);
+                if ($val_rec["datafromlms"] != null) {
+                    $tmp_man[5] = self::encodeURIComponent($val_rec["datafromlms"]);
                 }
-                if ($val_rec["masteryscore"]!=null) {
-                    $tmp_man[6]=self::encodeURIComponent($val_rec["masteryscore"]);
+                if ($val_rec["masteryscore"] != null) {
+                    $tmp_man[6] = self::encodeURIComponent($val_rec["masteryscore"]);
                 }
-                $a_man[]=$tmp_man;
+                $a_man[] = $tmp_man;
             }
         }
 
-        $s_out='{'
+        $s_out = '{'
             . '"refId":' . $_GET["ref_id"] . ','
             . '"objId":' . $slm_obj->getId() . ','
             . '"clientId":"' . CLIENT_ID . '",'
@@ -203,13 +203,13 @@ class ilObjSCORMInitData
         $ilias = $DIC['ilias'];
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-        $b_readInteractions='false';
-        $a_out=array();
+        $b_readInteractions = 'false';
+        $a_out = array();
         $tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
                 . 'WHERE user_id = %s AND obj_id = %s '
                 . "AND sco_id > 0 AND lvalue != 'cmi.core.entry' AND lvalue != 'cmi.core.session_time'";
         if ($b_readInteractions == 'false') {
-            $tquery.=" AND SUBSTR(lvalue, 1, 16) != 'cmi.interactions'";
+            $tquery .= " AND SUBSTR(lvalue, 1, 16) != 'cmi.interactions'";
         }
         $val_set = $ilDB->queryF(
             $tquery,
@@ -218,7 +218,7 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             if (!strpos($val_rec["lvalue"], "._count")) {
-                $a_out[]=array( (int) $val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"]) );
+                $a_out[] = array( (int) $val_rec["sco_id"], $val_rec["lvalue"], self::encodeURIComponent($val_rec["rvalue"]) );
             }
         }
         return json_encode($a_out);
@@ -230,8 +230,8 @@ class ilObjSCORMInitData
         $ilias = $DIC['ilias'];
         $ilDB = $DIC['ilDB'];
         //		$s_out="";
-        $a_out=array();
-        $s_resourceIds="";//necessary if resources exist having different href with same identifier
+        $a_out = array();
+        $s_resourceIds = "";//necessary if resources exist having different href with same identifier
         $val_set = $ilDB->queryF(
             "
 			SELECT sc_resource.obj_id
@@ -246,7 +246,7 @@ class ilObjSCORMInitData
         }
         $s_resourceIds = substr($s_resourceIds, 1);
 
-        $tquery="SELECT scorm_tree.lft, scorm_tree.child, 
+        $tquery = "SELECT scorm_tree.lft, scorm_tree.child, 
 			CASE WHEN sc_resource.scormtype = 'asset' THEN 1 ELSE 0 END AS asset,
 			sc_resource.href
 			FROM scorm_tree, sc_resource, sc_item
@@ -262,7 +262,7 @@ class ilObjSCORMInitData
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             //			$s_out.='['.$val_rec["lft"].','.$val_rec["child"].','.$val_rec["asset"].',"'.self::encodeURIComponent($val_rec["href"]).'"],';
-            $a_out[]=array( (int) $val_rec["lft"], (int) $val_rec["child"], (int) $val_rec["asset"], self::encodeURIComponent($val_rec["href"]) );
+            $a_out[] = array( (int) $val_rec["lft"], (int) $val_rec["child"], (int) $val_rec["asset"], self::encodeURIComponent($val_rec["href"]) );
         }
         //		if(substr($s_out,(strlen($s_out)-1))==",") $s_out=substr($s_out,0,(strlen($s_out)-1));
         //		return "[".$s_out."]";
@@ -274,8 +274,8 @@ class ilObjSCORMInitData
         global $DIC;
         $ilias = $DIC['ilias'];
         $ilDB = $DIC['ilDB'];
-        $a_out=array();
-        $tquery="SELECT scorm_tree.child, scorm_tree.depth-3 depth, scorm_object.title, scorm_object.c_type
+        $a_out = array();
+        $tquery = "SELECT scorm_tree.child, scorm_tree.depth-3 depth, scorm_object.title, scorm_object.c_type
 			FROM scorm_tree, scorm_object
 			WHERE scorm_object.obj_id=scorm_tree.child
 			AND scorm_tree.slm_id=%s
@@ -287,18 +287,18 @@ class ilObjSCORMInitData
             array($a_packageId)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            $a_out[]=array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"]),$val_rec["c_type"]);
+            $a_out[] = array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"]),$val_rec["c_type"]);
         }
         return json_encode($a_out);
     }
 
-    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType="1.2")
+    public static function getStatus($a_packageId, $a_user_id, $auto_last_visited, $scormType = "1.2")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         include_once './Services/Tracking/classes/class.ilLPStatus.php';
         $oldStatus = ilLPStatus::_lookupStatus($a_packageId, $a_user_id);
-        $status['saved_global_status']=(int) $oldStatus;
+        $status['saved_global_status'] = (int) $oldStatus;
         include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($a_packageId);
         $status['lp_mode'] = $olp->getCurrentMode();
@@ -322,8 +322,8 @@ class ilObjSCORMInitData
         if ($auto_last_visited) {
             $status['last_visited'] = $val_rec["last_visited"];
         }
-        if ($val_rec["total_time_sec"]==null) {
-            if ($val_rec["sco_total_time_sec"]==null) {
+        if ($val_rec["total_time_sec"] == null) {
+            if ($val_rec["sco_total_time_sec"] == null) {
                 //fall back for old ILIAS-Versions
                 if ($scormType == "2004") {
                     include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
@@ -346,7 +346,7 @@ class ilObjSCORMInitData
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $hash = mt_rand(1000000000, 2147483647);
-        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d')+1, date('Y')));
+        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i'), date('s'), date('m'), date('d') + 1, date('Y')));
 
         $res = $ilDB->queryF(
             'SELECT count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',

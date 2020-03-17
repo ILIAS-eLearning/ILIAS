@@ -529,7 +529,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue()===$value) {
+            if ($input->getValue() !== null && $input->getValue() === $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
             if ($input->isDisabled()) {
@@ -852,7 +852,7 @@ JS;
         $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $input->getValue();
-        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue()??[]);
+        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue() ?? []);
 
         $input = $component->withAdditionalOnLoadCode(
             function ($id) use ($settings) {

@@ -26,9 +26,9 @@ function base()
     $form = $ui->input()->container()->form()->standard(
         '#',
         [
-            'duration'=>$duration,
-            'time'=>$time,
-            'timezone'=>$timezone
+            'duration' => $duration,
+            'time' => $time,
+            'timezone' => $timezone
         ]
     );
 

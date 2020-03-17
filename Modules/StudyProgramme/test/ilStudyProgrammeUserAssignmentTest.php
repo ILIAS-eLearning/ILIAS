@@ -318,7 +318,7 @@ class ilStudyProgrammeUserAssignmentTest extends TestCase
         $this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE);
         $ass = $this->root->assignUser($user1->getId(), 6);
 
-        $root_id  = $this->root->getId();
+        $root_id = $this->root->getId();
         $this->root->delete();
         $this->root = null;
         

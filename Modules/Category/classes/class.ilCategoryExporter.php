@@ -24,9 +24,9 @@ class ilCategoryExporter extends ilXmlExporter
         // always trigger container because of co-page(s)
         return array(
             array(
-                'component'		=> 'Services/Container',
-                'entity'		=> 'struct',
-                'ids'			=> $a_ids
+                'component' => 'Services/Container',
+                'entity' => 'struct',
+                'ids' => $a_ids
             )
         );
         

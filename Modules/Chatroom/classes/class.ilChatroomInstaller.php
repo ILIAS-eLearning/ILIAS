@@ -25,15 +25,15 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_settings')) {
             $fields = array(
-                'room_id'                => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'object_id'              => array('type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => 0),
-                'room_type'              => array('type' => 'text', 'length' => 20, 'notnull' => true),
-                'allow_anonymous'        => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'object_id' => array('type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => 0),
+                'room_type' => array('type' => 'text', 'length' => 20, 'notnull' => true),
+                'allow_anonymous' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
                 'allow_custom_usernames' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
-                'enable_history'         => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
-                'restrict_history'       => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
-                'autogen_usernames'      => array('type' => 'text', 'length' => 50, 'notnull' => false, 'default' => 'Anonymous #'),
-                'allow_private_rooms'    => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
+                'enable_history' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
+                'restrict_history' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
+                'autogen_usernames' => array('type' => 'text', 'length' => 50, 'notnull' => false, 'default' => 'Anonymous #'),
+                'allow_private_rooms' => array('type' => 'integer', 'length' => 1, 'notnull' => false, 'default' => 0),
             );
 
             $ilDB->createTable('chatroom_settings', $fields);
@@ -43,9 +43,9 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_users')) {
             $fields = array(
-                'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'userdata'  => array('type' => 'text', 'length' => 4000, 'notnull' => true),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'userdata' => array('type' => 'text', 'length' => 4000, 'notnull' => true),
                 'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_users', $fields);
@@ -54,10 +54,10 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_sessions')) {
             $fields = array(
-                'room_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'userdata'     => array('type' => 'text', 'length' => 4000, 'notnull' => true),
-                'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'userdata' => array('type' => 'text', 'length' => 4000, 'notnull' => true),
+                'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_sessions', $fields);
@@ -65,8 +65,8 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_history')) {
             $fields = array(
-                'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'message'   => array('type' => 'text', 'length' => 4000, 'notnull' => true),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'message' => array('type' => 'text', 'length' => 4000, 'notnull' => true),
                 'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_history', $fields);
@@ -74,19 +74,19 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_bans')) {
             $fields = array(
-                'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'remark'    => array('type' => 'text', 'length' => 1000, 'notnull' => false),
+                'remark' => array('type' => 'text', 'length' => 1000, 'notnull' => false),
             );
             $ilDB->createTable('chatroom_bans', $fields);
         }
 
         if (!$ilDB->tableExists('chatroom_admconfig')) {
             $fields = array(
-                'instance_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'instance_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'server_settings' => array('type' => 'text', 'length' => 2000, 'notnull' => true),
-                'default_config'  => array('type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0),
+                'default_config' => array('type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0),
             );
             $ilDB->createTable('chatroom_admconfig', $fields);
             $ilDB->addPrimaryKey('chatroom_admconfig', array('instance_id'));
@@ -95,12 +95,12 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_prooms')) {
             $fields = array(
-                'proom_id'  => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'proom_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'parent_id' => array('type' => 'text', 'length' => 2000, 'notnull' => true),
-                'title'     => array('type' => 'text', 'length' => 200, 'notnull' => true, 'default' => 0),
-                'owner'     => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-                'created'   => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-                'closed'    => array('type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => 0),
+                'title' => array('type' => 'text', 'length' => 200, 'notnull' => true, 'default' => 0),
+                'owner' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'created' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'closed' => array('type' => 'integer', 'length' => 4, 'notnull' => false, 'default' => 0),
             );
             $ilDB->createTable('chatroom_prooms', $fields);
             $ilDB->addPrimaryKey('chatroom_prooms', array('proom_id'));
@@ -109,9 +109,9 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_psessions')) {
             $fields = array(
-                'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'proom_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_psessions', $fields);
@@ -120,10 +120,10 @@ class ilChatroomInstaller
         if (!$ilDB->tableExists('chatroom_uploads')) {
             $fields = array(
                 'upload_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'filename'  => array('type' => 'text', 'length' => 200, 'notnull' => true),
-                'filetype'  => array('type' => 'text', 'length' => 200, 'notnull' => true),
+                'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'filename' => array('type' => 'text', 'length' => 200, 'notnull' => true),
+                'filetype' => array('type' => 'text', 'length' => 200, 'notnull' => true),
                 'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true)
             );
             $ilDB->createTable('chatroom_uploads', $fields);
@@ -137,9 +137,9 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_psessions')) {
             $fields = array(
-                'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'proom_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
                 'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_psessions', $fields);
@@ -148,7 +148,7 @@ class ilChatroomInstaller
         if (!$ilDB->tableExists('chatroom_proomaccess')) {
             $fields = array(
                 'proom_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
-                'user_id'  => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
             );
             $ilDB->createTable('chatroom_proomaccess', $fields);
         }
@@ -158,8 +158,8 @@ class ilChatroomInstaller
                 "chatroom_admconfig",
                 "client_settings",
                 array(
-                    "type"    => "text",
-                    "length"  => 1000,
+                    "type" => "text",
+                    "length" => 1000,
                     "notnull" => true
                 )
             );
@@ -167,16 +167,16 @@ class ilChatroomInstaller
 
         if (!$ilDB->tableExists('chatroom_smilies')) {
             $fields = array(
-                'smiley_id'       => array(
-                    'type'   => 'integer',
+                'smiley_id' => array(
+                    'type' => 'integer',
                     'length' => 4,
                 ),
                 'smiley_keywords' => array(
-                    'type'   => 'text',
+                    'type' => 'text',
                     'length' => 100,
                 ),
-                'smiley_path'     => array(
-                    'type'   => 'text',
+                'smiley_path' => array(
+                    'type' => 'text',
                     'length' => 200,
                 )
             );
@@ -216,11 +216,11 @@ class ilChatroomInstaller
             $ilDB->insert(
                 'object_data',
                 array(
-                    'obj_id'      => array('integer', $typ_id),
-                    'type'        => array('text', 'typ'),
-                    'title'       => array('text', 'chtr'),
+                    'obj_id' => array('integer', $typ_id),
+                    'type' => array('text', 'typ'),
+                    'title' => array('text', 'chtr'),
                     'description' => array('text', 'Chatroom Object'),
-                    'owner'       => array('integer', -1),
+                    'owner' => array('integer', -1),
                     'create_date' => array('timestamp', date('Y-m-d H:i:s')),
                     'last_update' => array('timestamp', date('Y-m-d H:i:s'))
                 )
@@ -294,18 +294,18 @@ class ilChatroomInstaller
             $ilDB->insert(
                 'object_data',
                 array(
-                    'obj_id'      => array('integer', $obj_id),
-                    'type'        => array('text', 'chta'),
-                    'title'       => array('text', 'Chatroom Admin'),
+                    'obj_id' => array('integer', $obj_id),
+                    'type' => array('text', 'chta'),
+                    'title' => array('text', 'Chatroom Admin'),
                     'description' => array('text', 'Chatroom General Settings'),
-                    'owner'       => array('integer', -1),
+                    'owner' => array('integer', -1),
                     'create_date' => array('timestamp', date('Y-m-d H:i:s')),
                     'last_update' => array('timestamp', date('Y-m-d H:i:s'))
                 )
             );
 
             $ref_id = $ilDB->nextId('object_reference');
-            $query  = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ilDB->quote($ref_id, 'integer') . ", " . $ilDB->quote($obj_id, 'integer') . ")";
+            $query = "INSERT INTO object_reference (ref_id, obj_id) VALUES(" . $ilDB->quote($ref_id, 'integer') . ", " . $ilDB->quote($obj_id, 'integer') . ")";
             $ilDB->manipulate($query);
 
             $tree = new ilTree(ROOT_FOLDER_ID);
@@ -406,9 +406,9 @@ class ilChatroomInstaller
             foreach ($obj_ids as $obj_id) {
                 $room = new ilChatroom();
                 $room->saveSettings(array(
-                    'object_id'         => $obj_id,
+                    'object_id' => $obj_id,
                     'autogen_usernames' => 'Autogen #',
-                    'room_type'         => 'repository'
+                    'room_type' => 'repository'
                 ));
             }
         }
@@ -426,18 +426,18 @@ class ilChatroomInstaller
             $ilDB->manipulate($query);
             $create = true;
         } else {
-            $query  = 'SELECT * FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
-            $rset   = $ilDB->query($query);
+            $query = 'SELECT * FROM chatroom_settings WHERE room_type = ' . $ilDB->quote('default', 'text');
+            $rset = $ilDB->query($query);
             $create = !$ilDB->fetchAssoc($rset);
         }
         if ($create) {
-            $query             = "
+            $query = "
 				SELECT object_data.obj_id, object_reference.ref_id
 				FROM object_data
 				INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
 				WHERE type = " . $ilDB->quote('chta', 'text');
-            $rset              = $ilDB->query($query);
-            $row               = $ilDB->fetchAssoc($rset);
+            $rset = $ilDB->query($query);
+            $row = $ilDB->fetchAssoc($rset);
             $chatfolder_ref_id = $row['ref_id'];
 
             require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
@@ -458,15 +458,15 @@ class ilChatroomInstaller
             $ilDB->insert(
                 'chatroom_settings',
                 array(
-                    'room_id'                => array('integer', $id),
-                    'object_id'              => array('integer', $obj_id),
-                    'room_type'              => array('text', 'default'),
-                    'allow_anonymous'        => array('integer', 0),
+                    'room_id' => array('integer', $id),
+                    'object_id' => array('integer', $obj_id),
+                    'room_type' => array('text', 'default'),
+                    'allow_anonymous' => array('integer', 0),
                     'allow_custom_usernames' => array('integer', 0),
-                    'enable_history'         => array('integer', 0),
-                    'restrict_history'       => array('integer', 0),
-                    'autogen_usernames'      => array('text', 'Anonymous #'),
-                    'allow_private_rooms'    => array('integer', 1),
+                    'enable_history' => array('integer', 0),
+                    'restrict_history' => array('integer', 0),
+                    'autogen_usernames' => array('text', 'Anonymous #'),
+                    'allow_private_rooms' => array('integer', 1),
                 )
             );
 
@@ -513,15 +513,15 @@ class ilChatroomInstaller
         $rbacadmin = $DIC->rbac()->admin();
 
         $ilDB->setLimit(1);
-        $query             = "
+        $query = "
 			SELECT object_data.obj_id, object_reference.ref_id
 			FROM object_data
 			INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
 			WHERE type = " . $ilDB->quote('chta', 'text');
-        $rset              = $ilDB->query($query);
-        $row               = $ilDB->fetchAssoc($rset);
+        $rset = $ilDB->query($query);
+        $row = $ilDB->fetchAssoc($rset);
         $chatfolder_ref_id = $row['ref_id'];
-        $pid               = $tree->getParentId($ref_id);
+        $pid = $tree->getParentId($ref_id);
 
         if (
             $chatfolder_ref_id &&

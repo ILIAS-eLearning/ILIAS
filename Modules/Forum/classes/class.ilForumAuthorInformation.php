@@ -102,14 +102,14 @@ class ilForumAuthorInformation
         global $DIC;
 
         $this->globalUser = $DIC->user();
-        $this->globalLng  = $DIC->language();
+        $this->globalLng = $DIC->language();
 
-        $this->author_id                      = $author_id;
-        $this->display_id                     = $display_id;
-        $this->alias                          = $alias;
-        $this->import_name                    = $import_name;
+        $this->author_id = $author_id;
+        $this->display_id = $display_id;
+        $this->alias = $alias;
+        $this->import_name = $import_name;
         $this->public_profile_link_attributes = $public_profile_link_attributes;
-        $this->lng                            = $lng;
+        $this->lng = $lng;
 
         $this->init();
     }
@@ -186,7 +186,7 @@ class ilForumAuthorInformation
         }
 
         $this->linked_public_name = $link;
-        $this->linked_short_name  = $linked_login;
+        $this->linked_short_name = $linked_login;
     }
 
     /**
@@ -208,7 +208,7 @@ class ilForumAuthorInformation
                     || $this->getAuthor()->getPref('public_profile') == 'g')
             ) {
                 // Author is NOT anonymous and (the current user session is logged in and the profile is public (y) or the profile is globally public (g))
-                $this->author_name       = $this->getAuthor()->getPublicName();
+                $this->author_name = $this->getAuthor()->getPublicName();
                 $this->author_short_name = $this->getAuthor()->getLogin();
 
                 if ($this->getAuthor()->getPref('public_upload') == 'y') {
@@ -235,19 +235,19 @@ class ilForumAuthorInformation
             // The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
             // We have no import name,so we check the pseudonym
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
-            $this->suffix            = $translationLanguage->txt('deleted');
+            $this->suffix = $translationLanguage->txt('deleted');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
         } elseif (strlen($this->import_name)) {
             // We have no user instance,so we check the import name
             $this->author_short_name = $this->author_name = $this->import_name . ' (' . $translationLanguage->txt('imported') . ')';
-            $this->suffix            = $translationLanguage->txt('imported');
+            $this->suffix = $translationLanguage->txt('imported');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
         } elseif (strlen($this->alias)) {
             // We have no import name,so we check the pseudonym
             $this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('frm_pseudonym') . ')';
-            $this->suffix            = $translationLanguage->txt('frm_pseudonym');
+            $this->suffix = $translationLanguage->txt('frm_pseudonym');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
         } else {

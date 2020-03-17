@@ -435,7 +435,7 @@ class ilMediaAliasItem
             $this->purpose,
             $this->getPcId()
         );
-        for ($i=0; $i < count($par_nodes); $i++) {
+        for ($i = 0; $i < count($par_nodes); $i++) {
             $par_node = $par_nodes[$i];
             $par_node->unlink_node($par_node);
         }
@@ -469,7 +469,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         $par_arr = array();
-        for ($i=0; $i < count($par_nodes); $i++) {
+        for ($i = 0; $i < count($par_nodes); $i++) {
             $par_node = $par_nodes[$i];
             $par_arr[] = $par_node->get_attribute("Name") . "=\"" . $par_node->get_attribute("Value") . "\"";
         }
@@ -487,7 +487,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         $par_arr = array();
-        for ($i=0; $i < count($par_nodes); $i++) {
+        for ($i = 0; $i < count($par_nodes); $i++) {
             $par_node = $par_nodes[$i];
             $par_arr[$par_node->get_attribute("Name")] =
                 $par_node->get_attribute("Value");
@@ -531,7 +531,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         if (count($par_nodes) > 0) {
-            for ($i=0; $i < count($par_nodes); $i++) {
+            for ($i = 0; $i < count($par_nodes); $i++) {
                 $par_node = $par_nodes[$i];
                 $par_node->unlink_node($par_node);
             }
@@ -550,7 +550,7 @@ class ilMediaAliasItem
             $this->getPcId()
         );
         $maparea_arr = array();
-        for ($i=0; $i < count($ma_nodes); $i++) {
+        for ($i = 0; $i < count($ma_nodes); $i++) {
             $maparea_node = $ma_nodes[$i];
             $childs = $maparea_node->child_nodes();
             $link = array();
@@ -942,9 +942,9 @@ class ilMediaAliasItem
 
         // draw map areas
         $areas = $this->getMapAreas();
-        for ($i=0; $i < count($areas); $i++) {
-            if (((($i+1) == $a_area_nr) && !$a_exclude) ||
-                    ((($i+1) != $a_area_nr) && $a_exclude) ||
+        for ($i = 0; $i < count($areas); $i++) {
+            if (((($i + 1) == $a_area_nr) && !$a_exclude) ||
+                    ((($i + 1) != $a_area_nr) && $a_exclude) ||
                     ($a_area_nr == 0)
                 ) {
                 $area = new ilMapArea();

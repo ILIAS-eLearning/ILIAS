@@ -36,9 +36,9 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     public function current()
     {
         return array(
-            'login'     => $this->data['login'],
+            'login' => $this->data['login'],
             'firstname' => $this->data['firstname'],
-            'lastname'  => $this->data['lastname']
+            'lastname' => $this->data['lastname']
         );
     }
 
@@ -60,10 +60,10 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             $this->db->free($this->res);
             $this->res = null;
         }
-        $select_part   = $this->getSelectPart();
-        $where_part    = $this->getWherePart($this->quoted_term);
+        $select_part = $this->getSelectPart();
+        $where_part = $this->getWherePart($this->quoted_term);
         $order_by_part = $this->getOrderByPart();
-        $query         = implode(" ", array(
+        $query = implode(" ", array(
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
             $where_part ? 'WHERE ' . $where_part : '',
@@ -134,7 +134,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     protected function getWherePart($search_query)
     {
-        $outer_conditions   = array();
+        $outer_conditions = array();
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
 
         $field_conditions = array();
@@ -144,9 +144,9 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             if ('email' == $field) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query        = array();
-                $email_query[]      = $field_condition;
-                $email_query[]      = 'pubemail.value = ' . $this->db->quote('y', 'text');
+                $email_query = array();
+                $email_query[] = $field_condition;
+                $email_query[] = 'pubemail.value = ' . $this->db->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
             } else {
                 $field_conditions[] = $field_condition;

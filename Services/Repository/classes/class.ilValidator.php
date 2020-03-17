@@ -73,13 +73,13 @@ class ilValidator
     * @var	array
     */
     public $mode = array(
-                        "scan"			=> true,		// gather information about corrupted entries
-                        "dump_tree"		=> false,		// dump tree
-                        "clean" 		=> false,		// remove all unusable entries & renumber tree
-                        "restore"		=> false,		// restore objects with invalid parent to RecoveryFolder
-                        "purge"			=> false,		// delete all objects with invalid parent from system
-                        "restore_trash"	=> false,		// restore all objects in trash to RecoveryFolder
-                        "purge_trash"	=> false		// delete all objects in trash from system
+                        "scan" => true,		// gather information about corrupted entries
+                        "dump_tree" => false,		// dump tree
+                        "clean" => false,		// remove all unusable entries & renumber tree
+                        "restore" => false,		// restore objects with invalid parent to RecoveryFolder
+                        "purge" => false,		// delete all objects with invalid parent from system
+                        "restore_trash" => false,		// restore all objects in trash to RecoveryFolder
+                        "purge_trash" => false		// delete all objects in trash from system
                     );
 
     /**
@@ -162,7 +162,7 @@ class ilValidator
         $objDefinition = $DIC["objDefinition"];
         $ilDB = $DIC->database();
         
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
         $this->rbac_object_types = "'" . implode("','", $objDefinition->getAllRBACObjects()) . "'";
         $this->rbac_object_types = $objDefinition->getAllRBACObjects();
 
@@ -332,7 +332,7 @@ class ilValidator
         
             $summary .= "<br/>" . $lng->txt("searching_unbound_objs");
             if ($this->findUnboundObjects()) {
-                $summary .=  count($this->getUnboundObjects()) . " " . $lng->txt("found");
+                $summary .= count($this->getUnboundObjects()) . " " . $lng->txt("found");
             } else {
                 $summary .= $lng->txt("found_none");
             }
@@ -536,15 +536,15 @@ class ilValidator
             #if (!in_array($row->type,$this->object_types_exclude))
             if (!$this->isExcludedFromRecovery($row->type, $row->obj_id)) {
                 $this->missing_objects[] = array(
-                                                    "obj_id"		=> $row->obj_id,
-                                                    "type"			=> $row->type,
-                                                    "ref_id"		=> $row->ref_id,
-                                                    "child"			=> $row->child,
-                                                    "title"			=> $row->title,
-                                                    "desc"			=> $row->description,
-                                                    "owner"			=> $row->owner,
-                                                    "create_date"	=> $row->create_date,
-                                                    "last_update"	=> $row->last_update
+                                                    "obj_id" => $row->obj_id,
+                                                    "type" => $row->type,
+                                                    "ref_id" => $row->ref_id,
+                                                    "child" => $row->child,
+                                                    "title" => $row->title,
+                                                    "desc" => $row->description,
+                                                    "owner" => $row->owner,
+                                                    "create_date" => $row->create_date,
+                                                    "last_update" => $row->last_update
                                                 );
             }
         }
@@ -595,15 +595,15 @@ class ilValidator
         
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_rolefolders[] = array(
-                                                "obj_id"		=> $row->obj_id,
-                                                "type"			=> $row->type,
-                                                "ref_id"		=> $row->ref_id,
-                                                "child"			=> $row->child,
-                                                "title"			=> $row->title,
-                                                "desc"			=> $row->description,
-                                                "owner"			=> $row->owner,
-                                                "create_date"	=> $row->create_date,
-                                                "last_update"	=> $row->last_update
+                                                "obj_id" => $row->obj_id,
+                                                "type" => $row->type,
+                                                "ref_id" => $row->ref_id,
+                                                "child" => $row->child,
+                                                "title" => $row->title,
+                                                "desc" => $row->description,
+                                                "owner" => $row->owner,
+                                                "create_date" => $row->create_date,
+                                                "last_update" => $row->last_update
                                             );
         }
         
@@ -617,15 +617,15 @@ class ilValidator
         
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_rolefolders[] = array(
-                                                "obj_id"		=> $row->obj_id,
-                                                "type"			=> $row->type,
-                                                "ref_id"		=> $row->ref_id,
-                                                "child"			=> $row->child,
-                                                "title"			=> $row->title,
-                                                "desc"			=> $row->description,
-                                                "owner"			=> $row->owner,
-                                                "create_date"	=> $row->create_date,
-                                                "last_update"	=> $row->last_update
+                                                "obj_id" => $row->obj_id,
+                                                "type" => $row->type,
+                                                "ref_id" => $row->ref_id,
+                                                "child" => $row->child,
+                                                "title" => $row->title,
+                                                "desc" => $row->description,
+                                                "owner" => $row->owner,
+                                                "create_date" => $row->create_date,
+                                                "last_update" => $row->last_update
                                             );
         }
             
@@ -672,15 +672,15 @@ class ilValidator
         
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_rolefolders[] = array(
-                                                "obj_id"		=> $row->obj_id,
-                                                "type"			=> $row->type,
-                                                "ref_id"		=> $row->ref_id,
-                                                "child"			=> $row->child,
-                                                "title"			=> $row->title,
-                                                "desc"			=> $row->description,
-                                                "owner"			=> $row->owner,
-                                                "create_date"	=> $row->create_date,
-                                                "last_update"	=> $row->last_update
+                                                "obj_id" => $row->obj_id,
+                                                "type" => $row->type,
+                                                "ref_id" => $row->ref_id,
+                                                "child" => $row->child,
+                                                "title" => $row->title,
+                                                "desc" => $row->description,
+                                                "owner" => $row->owner,
+                                                "create_date" => $row->create_date,
+                                                "last_update" => $row->last_update
                                             );
         }
         
@@ -694,15 +694,15 @@ class ilValidator
         
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_rolefolders[] = array(
-                                                "obj_id"		=> $row->obj_id,
-                                                "type"			=> $row->type,
-                                                "ref_id"		=> $row->ref_id,
-                                                "child"			=> $row->child,
-                                                "title"			=> $row->title,
-                                                "desc"			=> $row->description,
-                                                "owner"			=> $row->owner,
-                                                "create_date"	=> $row->create_date,
-                                                "last_update"	=> $row->last_update
+                                                "obj_id" => $row->obj_id,
+                                                "type" => $row->type,
+                                                "ref_id" => $row->ref_id,
+                                                "child" => $row->child,
+                                                "title" => $row->title,
+                                                "desc" => $row->description,
+                                                "owner" => $row->owner,
+                                                "create_date" => $row->create_date,
+                                                "last_update" => $row->last_update
                                             );
         }
             
@@ -765,9 +765,9 @@ class ilValidator
 
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_references[] = array(
-                                            "ref_id"	=> $row->ref_id,
-                                            "obj_id"	=> $row->obj_id,
-                                            "msg"		=> "Object does not exist."
+                                            "ref_id" => $row->ref_id,
+                                            "obj_id" => $row->obj_id,
+                                            "msg" => "Object does not exist."
                                             );
         }
 
@@ -825,9 +825,9 @@ class ilValidator
         $r = $this->db->query($q);
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->invalid_childs[] = array(
-                                            "child"		=> $row->child,
-                                            "ref_id"	=> $row->ref_id,
-                                            "msg"		=> "No object found"
+                                            "child" => $row->child,
+                                            "ref_id" => $row->ref_id,
+                                            "msg" => "No object found"
                                             );
         }
 
@@ -888,10 +888,10 @@ class ilValidator
             // exclude deleted nodes
             if ($row->deleted === null) {
                 $this->unbound_objects[] = array(
-                                                "child"			=> $row->child,
-                                                "parent"		=> $row->parent,
-                                                "tree"			=> $row->tree,
-                                                "msg"			=> "No valid parent node found"
+                                                "child" => $row->child,
+                                                "parent" => $row->parent,
+                                                "tree" => $row->tree,
+                                                "msg" => "No valid parent node found"
                                                 );
             }
         }
@@ -943,17 +943,17 @@ class ilValidator
             $tmp_date = new ilDateTime($row->deleted, IL_CAL_DATETIME);
             
             $this->deleted_objects[] = array(
-                                            "child"			=> $row->child,
-                                            "parent"		=> $row->parent,
-                                            "tree"			=> $row->tree,
-                                            "type"			=> $row->type,
-                                            "title"			=> $row->title,
-                                            "desc"			=> $row->description,
-                                            "owner"			=> $row->owner,
-                                            "deleted"		=> $row->deleted,
-                                            "deleted_timestamp"	=> $tmp_date->get(IL_CAL_UNIX),
-                                            "create_date"	=> $row->create_date,
-                                            "last_update"	=> $row->last_update
+                                            "child" => $row->child,
+                                            "parent" => $row->parent,
+                                            "tree" => $row->tree,
+                                            "type" => $row->type,
+                                            "title" => $row->title,
+                                            "desc" => $row->description,
+                                            "owner" => $row->owner,
+                                            "deleted" => $row->deleted,
+                                            "deleted_timestamp" => $tmp_date->get(IL_CAL_UNIX),
+                                            "create_date" => $row->create_date,
+                                            "last_update" => $row->last_update
                                             );
         }
 
@@ -1031,7 +1031,7 @@ class ilValidator
         $this->writeScanLogLine("\nremoveInvalidReferences:");
 
         if ($a_invalid_refs === null and isset($this->invalid_references)) {
-            $a_invalid_refs =&$this->invalid_references;
+            $a_invalid_refs = &$this->invalid_references;
         }
 
         // handle wrong input
@@ -1097,7 +1097,7 @@ class ilValidator
         $this->writeScanLogLine("\nremoveInvalidChilds:");
 
         if ($a_invalid_childs === null and isset($this->invalid_childs)) {
-            $a_invalid_childs =&$this->invalid_childs;
+            $a_invalid_childs = &$this->invalid_childs;
         }
 
         // handle wrong input
@@ -1758,7 +1758,7 @@ class ilValidator
             $endTime = microtime(true);
             
             $this->writeScanLogLine("purged\t" . $ref_id . "\t" . $node_obj->getId() .
-                "\t" . $node['type'] . "\t" . round($endTime-$startTime, 1) . "\t" . $node['title']);
+                "\t" . $node['type'] . "\t" . round($endTime - $startTime, 1) . "\t" . $node['title']);
         }
         
         $this->findInvalidChilds();
@@ -1815,7 +1815,7 @@ class ilValidator
     */
     public function handleErr($error)
     {
-        $call_loc = $error->backtrace[count($error->backtrace)-1];
+        $call_loc = $error->backtrace[count($error->backtrace) - 1];
         $num_args = count($call_loc["args"]);
 
         if ($num_args > 0) {
@@ -1845,8 +1845,8 @@ class ilValidator
                 }
                 
                 $arg_list[] = array(
-                                    "type"	=> $type,
-                                    "value"	=> "(" . $value . ")"
+                                    "type" => $type,
+                                    "value" => "(" . $value . ")"
                                     );
             }
             
@@ -1916,8 +1916,8 @@ class ilValidator
             return false;
         }
 
-        $scanfile =&file(CLIENT_DATA_DIR . "/" . $this->scan_log_file);
-        if (!$scan_log =&$this->get_last_scan($scanfile)) {
+        $scanfile = &file(CLIENT_DATA_DIR . "/" . $this->scan_log_file);
+        if (!$scan_log = &$this->get_last_scan($scanfile)) {
             return false;
         }
         // Ensure that memory is freed
@@ -1931,7 +1931,7 @@ class ilValidator
         $logs = array_keys($a_scan_log, $this->scan_log_separator . "\n");
         
         if (count($logs) > 0) {
-            return array_slice($a_scan_log, array_pop($logs)+2);
+            return array_slice($a_scan_log, array_pop($logs) + 2);
         }
         
         return false;
@@ -2136,7 +2136,7 @@ class ilValidator
                     $this->writeScanLogLine(
                         '<tr>'
                         . '<td colspan=2><div align="right">'
-                        . '<font color=#00cc00>*gap* for ' . ($gap/2) . ' nodes at end of&nbsp;</font>'
+                        . '<font color=#00cc00>*gap* for ' . ($gap / 2) . ' nodes at end of&nbsp;</font>'
                         . '</div></td>'
                         . '<td>'
                         . '<font color=#00cc00>'
@@ -2226,7 +2226,7 @@ class ilValidator
                     $this->writeScanLogLine(
                         '<tr>'
                         . '<td colspan=2><div align="right">'
-                        . '<font color=#00cc00>*gap* for ' . ($gap/2) . ' nodes between&nbsp;</font>'
+                        . '<font color=#00cc00>*gap* for ' . ($gap / 2) . ' nodes between&nbsp;</font>'
                         . '</div></td>'
                         . '<td>'
                         . '<font color=#00cc00>siblings</font>'
@@ -2314,7 +2314,7 @@ class ilValidator
                 $this->writeScanLogLine(
                     '<tr>'
                     . '<td colspan=2><div align="right">'
-                    . '<font color=#00cc00>*gap* for ' . ($gap/2) . ' nodes at end of&nbsp;</font>'
+                    . '<font color=#00cc00>*gap* for ' . ($gap / 2) . ' nodes at end of&nbsp;</font>'
                     . '</div></td>'
                     . '<td>'
                     . '<font color=#00cc00>'

@@ -27,7 +27,7 @@ class ilLoggingSetupSettings implements ilLoggingSettings
         $ilIliasIniFile->read();
 
 
-        $enabled =  $ilIliasIniFile->readVariable('log', 'enabled');
+        $enabled = $ilIliasIniFile->readVariable('log', 'enabled');
         $this->enabled = (($enabled == '1') ? true : false);
         
         

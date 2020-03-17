@@ -166,7 +166,7 @@ class ilMDTechnical extends ilMDBase
     public function setInstallationRemarksLanguage(&$lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->installation_remarks_language =&$lng_obj;
+            $this->installation_remarks_language = &$lng_obj;
         }
     }
     public function &getInstallationRemarksLanguage()
@@ -188,7 +188,7 @@ class ilMDTechnical extends ilMDBase
     public function setOtherPlatformRequirementsLanguage(&$lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->other_platform_requirements_language =&$lng_obj;
+            $this->other_platform_requirements_language = &$lng_obj;
         }
     }
     public function &getOtherPlatformRequirementsLanguage()
@@ -255,20 +255,20 @@ class ilMDTechnical extends ilMDBase
             $this->db->query($query);
             
             foreach ($this->getFormatIds() as $id) {
-                $for =&$this->getFormat($id);
+                $for = &$this->getFormat($id);
                 $for->delete();
             }
 
             foreach ($this->getLocationIds() as $id) {
-                $loc =&$this->getLocation($id);
+                $loc = &$this->getLocation($id);
                 $loc->delete();
             }
             foreach ($this->getRequirementIds() as $id) {
-                $req =&$this->getRequirement($id);
+                $req = &$this->getRequirement($id);
                 $req->delete();
             }
             foreach ($this->getOrCompositeIds() as $id) {
-                $orc =&$this->getOrComposite($id);
+                $orc = &$this->getOrComposite($id);
                 $orc->delete();
             }
 
@@ -280,10 +280,10 @@ class ilMDTechnical extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'size'		=> ilUtil::prepareDBString($this->getSize()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'size' => ilUtil::prepareDBString($this->getSize()),
                      'installation_remarks' => ilUtil::prepareDBString($this->getInstallationRemarks()),
                      'installation_remarks_language' => ilUtil::prepareDBString($this->getInstallationRemarksLanguageCode()),
                      'other_platform_requirements' => ilUtil::prepareDBString($this->getOtherPlatformRequirements()),
@@ -330,7 +330,7 @@ class ilMDTechnical extends ilMDBase
 
         // Foramt
         foreach ($this->getFormatIds() as $id) {
-            $for =&$this->getFormat($id);
+            $for = &$this->getFormat($id);
             $for->toXML($writer);
         }
 
@@ -341,19 +341,19 @@ class ilMDTechnical extends ilMDBase
         
         // Location
         foreach ($this->getLocationIds() as $id) {
-            $loc =&$this->getLocation($id);
+            $loc = &$this->getLocation($id);
             $loc->toXML($writer);
         }
 
         // Requirement
         foreach ($this->getRequirementIds() as $id) {
-            $req =&$this->getRequirement($id);
+            $req = &$this->getRequirement($id);
             $req->toXML($writer);
         }
 
         // OrComposite
         foreach ($this->getOrCompositeIds() as $id) {
-            $orc =&$this->getOrComposite($id);
+            $orc = &$this->getOrComposite($id);
             $orc->toXML($writer);
         }
         

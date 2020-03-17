@@ -230,7 +230,7 @@ class ilCalendarAppointmentPresentationGUI
                 $this->info_screen = $new_infoscreen;
             }
 
-            $content =  $this->info_screen->getHTML();
+            $content = $this->info_screen->getHTML();
             $extra_content = $plugin->addExtraContent();
             if ($extra_content != '') {
                 $content .= $extra_content;

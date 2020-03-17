@@ -135,7 +135,7 @@ class ilMStListCompetencesGUI
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             foreach (
                 ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
-                    'user_id'                  => $mst_co_usr_id,
+                    'user_id' => $mst_co_usr_id,
                     'object_reference.deleted' => null
                 ), array('user_id' => '=', 'object_reference.deleted' => '!='))->get() as $org_unit_assignment
             ) {

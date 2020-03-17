@@ -1319,7 +1319,7 @@ class ilExAssignment
         );
 
         $data = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $data[$rec['filename']] = $rec;
         }
 
@@ -1439,7 +1439,7 @@ class ilExAssignment
                 " WHERE id = " . $ilDB->quote((int) $k, "integer") .
                 " AND exc_id = " . $ilDB->quote((int) $a_ex_id, "integer")
                 );
-            $nr+=10;
+            $nr += 10;
         }
     }
 
@@ -1457,7 +1457,7 @@ class ilExAssignment
             " ORDER BY time_stamp ASC"
             );
         $nr = 10;
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $ilDB->manipulate(
                 "UPDATE exc_assignment SET " .
                 " order_nr = " . $ilDB->quote($nr, "integer") .
@@ -1540,7 +1540,7 @@ class ilExAssignment
             $user_ids = array($member_id);
         }
 
-        $q="SELECT exc_mem_ass_status.status_time, exc_returned.ts " .
+        $q = "SELECT exc_mem_ass_status.status_time, exc_returned.ts " .
             "FROM exc_mem_ass_status, exc_returned " .
             "WHERE exc_mem_ass_status.status_time < exc_returned.ts " .
             "AND NOT exc_mem_ass_status.status_time IS NULL " .
@@ -1553,7 +1553,7 @@ class ilExAssignment
 
         $array = $ilDB->fetchAssoc($usr_set);
 
-        if (count($array)==0) {
+        if (count($array) == 0) {
             return 0;
         } else {
             return 1;
@@ -2320,7 +2320,7 @@ class ilExAssignment
                 " WHERE id = " . $db->quote((int) $k, "integer") .
                 " AND assignment_id = " . $db->quote((int) $a_ass_id, "integer")
             );
-            $nr+=10;
+            $nr += 10;
         }
     }
 
@@ -2452,7 +2452,7 @@ class ilExAssignment
                     " WHERE assignment_id = " . $db->quote($this->getId(), "integer") .
                     " AND id = " . $db->quote($rec["id"], "integer")
                     );
-                $order_nr+=10;
+                $order_nr += 10;
                 $numbered_files[] = $rec["filename"];
             } else {	// file does not exist, delete entry
                 $db->manipulate(

@@ -60,7 +60,7 @@ class ilRegistrationCode
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
         
         $code = "";
-        $max = strlen($map)-1;
+        $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
             $code .= $map[mt_rand(0, $max)];
         }
@@ -153,13 +153,13 @@ class ilRegistrationCode
             $where[] = $ilDB->like("code", "text", "%" . $filter_code . "%");
         }
         if ($filter_role) {
-            $where[] ="role = " . $ilDB->quote($filter_role, "integer");
+            $where[] = "role = " . $ilDB->quote($filter_role, "integer");
         }
         if ($filter_generated) {
-            $where[] ="generated_on = " . $ilDB->quote($filter_generated, "text");
+            $where[] = "generated_on = " . $ilDB->quote($filter_generated, "text");
         }
         if ($filter_access_limitation) {
-            $where[] ="alimit = " . $ilDB->quote($filter_access_limitation, "text");
+            $where[] = "alimit = " . $ilDB->quote($filter_access_limitation, "text");
         }
         if (sizeof($where)) {
             return " WHERE " . implode(" AND ", $where);
@@ -232,7 +232,7 @@ class ilRegistrationCode
 
         $ilDB = $DIC['ilDB'];
 
-        return (bool) $ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
+        return (bool) $ilDB->update(self::DB_TABLE, array("used" => array("timestamp", time())), array("code" => array("text", $code)));
     }
 
     public static function getCodeRole($code)

@@ -16,10 +16,10 @@ class ilAccessibilityCriterionTypeFactory implements ilAccessibilityCriterionTyp
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
     {
-        $usrLanguageCriterion   = new ilAccessibilityUserHasLanguageCriterion();
+        $usrLanguageCriterion = new ilAccessibilityUserHasLanguageCriterion();
 
         $this->types = [
-            $usrLanguageCriterion->getTypeIdent()   => $usrLanguageCriterion
+            $usrLanguageCriterion->getTypeIdent() => $usrLanguageCriterion
         ];
     }
 
@@ -38,8 +38,7 @@ class ilAccessibilityCriterionTypeFactory implements ilAccessibilityCriterionTyp
     {
         if (count($this->types) == 1) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

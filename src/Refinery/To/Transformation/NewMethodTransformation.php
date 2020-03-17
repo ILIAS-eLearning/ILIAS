@@ -40,7 +40,7 @@ class NewMethodTransformation implements Transformation
         }
 
         $this->object = $object;
-        $this->method    = $methodToCall;
+        $this->method = $methodToCall;
     }
 
     /**

@@ -23,7 +23,7 @@ class TopParentItemRenderer extends BaseTypeRenderer
      */
     public function getComponentWithContent(isItem $item) : Component
     {
-        $f     = $this->ui_factory;
+        $f = $this->ui_factory;
         $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
         /**
          * @var $child isItem

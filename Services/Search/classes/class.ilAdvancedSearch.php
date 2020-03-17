@@ -62,7 +62,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
     public function setOptions(&$options)
     {
-        $this->options =&$options;
+        $this->options = &$options;
     }
 
     public function performSearch()

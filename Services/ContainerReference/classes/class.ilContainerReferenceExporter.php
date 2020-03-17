@@ -37,9 +37,9 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
         if (count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1) {
             return array(
                 array(
-                    'component'		=> 'Services/Container',
-                    'entity'		=> 'struct',
-                    'ids'			=> $a_ids
+                    'component' => 'Services/Container',
+                    'entity' => 'struct',
+                    'ids' => $a_ids
                 )
             );
         }

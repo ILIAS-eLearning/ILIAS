@@ -13,8 +13,8 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
     public function testAskingEvaluatorForDocumentExistenceIfNoDocumentExistAtAllResultsInANegativeAnswer() : void
     {
         $evaluator = $this->getEvaluatorMock();
-        $user      = $this->getUserMock();
-        $log       = $this->getLogMock();
+        $user = $this->getUserMock();
+        $log = $this->getLogMock();
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(
             $evaluator,
@@ -33,8 +33,8 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
     public function testExceptionIsRaisedIfADocumentIsRequestedFromEvaluatorAndNoDocumentExistsAtAll() : void
     {
         $evaluator = $this->getEvaluatorMock();
-        $user      = $this->getUserMock();
-        $log       = $this->getLogMock();
+        $user = $this->getUserMock();
+        $log = $this->getLogMock();
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(
             $evaluator,
@@ -55,8 +55,8 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
     public function testFirstDocumentIsReturnedIfEvaluationOfFirstDocumentSucceeded() : void
     {
         $evaluator = $this->getEvaluatorMock();
-        $user      = $this->getUserMock();
-        $log       = $this->getLogMock();
+        $user = $this->getUserMock();
+        $log = $this->getLogMock();
 
         $doc = $this
             ->getMockBuilder(ilTermsOfServiceSignableDocument::class)
@@ -86,8 +86,8 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
     public function testDocumentOnArbitraryPositionIsReturnedMatchingFirstDocumentWithASucceededEvaluation() : void
     {
         $evaluator = $this->getEvaluatorMock();
-        $user      = $this->getUserMock();
-        $log       = $this->getLogMock();
+        $user = $this->getUserMock();
+        $log = $this->getLogMock();
 
         $doc1 = $this
             ->getMockBuilder(ilTermsOfServiceSignableDocument::class)
@@ -133,8 +133,8 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
     public function testFirstMatchingDocumentIsReturnedIfEvaluationOfMultipleDocumentsSucceeded() : void
     {
         $evaluator = $this->getEvaluatorMock();
-        $user      = $this->getUserMock();
-        $log       = $this->getLogMock();
+        $user = $this->getUserMock();
+        $log = $this->getLogMock();
 
         $doc1 = $this
             ->getMockBuilder(ilTermsOfServiceSignableDocument::class)

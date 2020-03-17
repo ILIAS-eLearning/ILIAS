@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\UI\Implementation\Component\Button\Bulky;
 
-
 /**
  * Who-Is-Online meta bar provider
  *
@@ -120,6 +119,4 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
 
         return [$item];
     }
-
-
 }

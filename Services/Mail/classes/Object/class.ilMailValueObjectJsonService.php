@@ -17,14 +17,14 @@ class ilMailValueObjectJsonService
         foreach ($mailValueObjects as $mailValueObject) {
             $array = array();
 
-            $array['from']                    = $mailValueObject->getFrom();
-            $array['recipients']              = $mailValueObject->getRecipients();
-            $array['recipients_cc']           = $mailValueObject->getRecipientsCC();
-            $array['recipients_bcc']          = $mailValueObject->getRecipientsBCC();
-            $array['attachments']             = $mailValueObject->getAttachments();
-            $array['body']                    = $mailValueObject->getBody();
-            $array['subject']                 = $mailValueObject->getSubject();
-            $array['is_using_placholders']    = $mailValueObject->isUsingPlaceholders();
+            $array['from'] = $mailValueObject->getFrom();
+            $array['recipients'] = $mailValueObject->getRecipients();
+            $array['recipients_cc'] = $mailValueObject->getRecipientsCC();
+            $array['recipients_bcc'] = $mailValueObject->getRecipientsBCC();
+            $array['attachments'] = $mailValueObject->getAttachments();
+            $array['body'] = $mailValueObject->getBody();
+            $array['subject'] = $mailValueObject->getSubject();
+            $array['is_using_placholders'] = $mailValueObject->isUsingPlaceholders();
             $array['should_save_in_sent_box'] = $mailValueObject->shouldSaveInSentBox();
 
             $mailArray[] = $array;

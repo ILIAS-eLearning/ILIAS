@@ -491,7 +491,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     $pinfo = $a_user_data[$user_id]["passed_info"];
                     if ($pinfo["user_id"]) {
                         if ($pinfo["user_id"] < 0) {
-                            $passed_info =  $this->lng->txt("crs_passed_status_system");
+                            $passed_info = $this->lng->txt("crs_passed_status_system");
                         } elseif ($pinfo["user_id"] > 0) {
                             $name = ilObjUser::_lookupName($pinfo["user_id"]);
                             $passed_info = $this->lng->txt("crs_passed_status_manual_by") . ": " . $name["login"];

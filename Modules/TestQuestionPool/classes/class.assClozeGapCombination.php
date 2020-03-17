@@ -33,14 +33,14 @@ class assClozeGapCombination
                 continue;
             }
             
-            $return_array[$data['combination_id'] . '::' . $data['row_id'] . '::' . $data['gap_fi']]=array(
-                                    'cid' 			=> $data['combination_id'],
-                                    'gap_fi' 		=> $data['gap_fi'],
-                                    'answer' 		=> $data['answer'],
-                                    'points' 		=> $data['points'],
-                                    'row_id'		=> $data['row_id'],
-                                    'type'			=> $data['cloze_type'],
-                                    'best_solution'	=> $data['best_solution']
+            $return_array[$data['combination_id'] . '::' . $data['row_id'] . '::' . $data['gap_fi']] = array(
+                                    'cid' => $data['combination_id'],
+                                    'gap_fi' => $data['gap_fi'],
+                                    'answer' => $data['answer'],
+                                    'points' => $data['points'],
+                                    'row_id' => $data['row_id'],
+                                    'type' => $data['cloze_type'],
+                                    'best_solution' => $data['best_solution']
                                  );
         }
         
@@ -53,9 +53,9 @@ class assClozeGapCombination
         $combination_from_db = $assClozeGapCombinationObj->loadFromDb($question_id);
         $clean_array = array();
         foreach ($combination_from_db as $key => $value) {
-            $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['answer'] 	= $value['answer'];
-            $clean_array[$value['cid']][$value['row_id']]['points'] 					= $value['points'];
-            $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['type'] 	= $value['type'];
+            $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['answer'] = $value['answer'];
+            $clean_array[$value['cid']][$value['row_id']]['points'] = $value['points'];
+            $clean_array[$value['cid']][$value['row_id']][$value['gap_fi']]['type'] = $value['type'];
         }
         return $clean_array;
     }
@@ -239,9 +239,9 @@ class assClozeGapCombination
             array($question_id)
         );
         if ($result->numRows() > 0) {
-            $return_string 	='<br>';
+            $return_string = '<br>';
             $combination_id = 0;
-            $points			= 0;
+            $points = 0;
             while ($data = $ilDB->fetchAssoc($result)) {
                 if ($combination_id != $data['combination_id']) {
                     $combination_id = $data['combination_id'];

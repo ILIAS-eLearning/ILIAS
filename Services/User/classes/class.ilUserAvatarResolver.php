@@ -56,15 +56,15 @@ class ilUserAvatarResolver
     public function __construct(int $user_id)
     {
         global $DIC;
-        $this->db      = $DIC->database();
-        $this->ui      = $DIC->ui()->factory();
+        $this->db = $DIC->database();
+        $this->ui = $DIC->ui()->factory();
         $this->user_id = $user_id;
         $this->init();
     }
 
     private function init() : void
     {
-        $in  = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
+        $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
 			SELECT usr_pref.*, ud.login, ud.firstname, ud.lastname
@@ -75,9 +75,9 @@ class ilUserAvatarResolver
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $this->login     = $row['login'];
+            $this->login = $row['login'];
             $this->firstname = $row['firstname'];
-            $this->lastname  = $row['lastname'];
+            $this->lastname = $row['lastname'];
 
             switch ($row['keyword']) {
                 case 'public_upload':
@@ -96,7 +96,7 @@ class ilUserAvatarResolver
         }
         $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
 
-        $image_dir           = $webspace_dir . '/usr_images';
+        $image_dir = $webspace_dir . '/usr_images';
         $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
 
         if ($this->has_public_profile) {
@@ -124,7 +124,8 @@ class ilUserAvatarResolver
     {
         global $DIC;
         if ($this->useUploadedFile()) {
-            return $this->uploaded_file . '?t=' . rand(1, 99999);;
+            return $this->uploaded_file . '?t=' . rand(1, 99999);
+            ;
         }
         /** @var $avatar ilUserAvatarBase */
 
@@ -133,7 +134,6 @@ class ilUserAvatarResolver
         $avatar->setUsrId($this->user_id);
 
         return $avatar->getUrl();
-
     }
 
     /**
@@ -155,5 +155,4 @@ class ilUserAvatarResolver
 
         $this->size = $size;
     }
-
 }

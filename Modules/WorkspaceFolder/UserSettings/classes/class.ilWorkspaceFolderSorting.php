@@ -56,7 +56,7 @@ class ilWorkspaceFolderSorting
         }
 
         if (isset($sort_options[self::SORT_DERIVED])) {
-            $sort_options[self::SORT_DERIVED].= " (" . $this->getLabel($parent_effective) . ")";
+            $sort_options[self::SORT_DERIVED] .= " (" . $this->getLabel($parent_effective) . ")";
         }
 
         if (isset($sort_options[$selected])) {

@@ -39,5 +39,4 @@ class OnLoadCode extends AbstractMedia
     {
         return 'try { ' . parent::getContent() . ' } catch (e) { console.log(e); }';
     }
-
 }

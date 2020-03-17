@@ -133,7 +133,7 @@ class assKprimChoiceExport extends assQuestionExport
         $xml->xmlStartTag("render_choice", $attrs);
 
         // add answers
-        $answers =&$this->object->getAnswers();
+        $answers = &$this->object->getAnswers();
         $akeys = array_keys($answers);
         foreach ($akeys as $index) {
             $answer = $this->object->getAnswer($index);

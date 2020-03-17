@@ -38,15 +38,15 @@ class ilPermission2GUI
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
         } else {
-            $this->ilErr =&$ilErr;
+            $this->ilErr = &$ilErr;
         }
 
-        $this->objDefinition =&$objDefinition;
-        $this->tpl =&$tpl;
-        $this->lng =&$lng;
+        $this->objDefinition = &$objDefinition;
+        $this->tpl = &$tpl;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule("rbac");
 
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
 
         $this->gui_obj = $a_gui_obj;
         

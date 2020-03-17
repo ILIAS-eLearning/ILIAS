@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 class LSItemOnlineStatus
 {
-    const S_LEARNMODULE_IL= "lm";
+    const S_LEARNMODULE_IL = "lm";
     const S_LEARNMODULE_HTML = "htlm";
     const S_SAHS = "sahs";
     const S_TEST = "tst";
     const S_SURVEY = "svy";
     const S_CONTENTPAGE = "copa";
-    const S_EXERCISE= "exc";
-    const S_IND_ASSESSMENT= "iass";
-    const S_FILE= "file";
+    const S_EXERCISE = "exc";
+    const S_IND_ASSESSMENT = "iass";
+    const S_FILE = "file";
 
     private static $obj_with_online_status = array(
         self::S_LEARNMODULE_IL,

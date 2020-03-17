@@ -164,55 +164,55 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $columns = [];
 
         $columns[++$i] = [
-            'field'    => 'sorting',
-            'txt'      => $this->lng->txt('meta_order', 'meta'),
-            'default'  => true,
+            'field' => 'sorting',
+            'txt' => $this->lng->txt('meta_order', 'meta'),
+            'default' => true,
             'optional' => false,
             'sortable' => false,
-            'width'    => '5%'
+            'width' => '5%'
         ];
 
         $columns[++$i] = [
-            'field'    => 'title',
-            'txt'      => $this->lng->txt('webdav_tbl_docs_head_title'),
-            'default'  => true,
+            'field' => 'title',
+            'txt' => $this->lng->txt('webdav_tbl_docs_head_title'),
+            'default' => true,
             'optional' => false,
             'sortable' => false,
-            'width'    => '25%'
+            'width' => '25%'
         ];
 
         $columns[++$i] = [
-            'field'    => 'creation_ts',
-            'txt'      => $this->lng->txt('created'),
-            'default'  => true,
+            'field' => 'creation_ts',
+            'txt' => $this->lng->txt('created'),
+            'default' => true,
             'optional' => true,
             'sortable' => false
         ];
 
         $columns[++$i] = [
-            'field'    => 'modification_ts',
-            'txt'      => $this->lng->txt('last_change'),
-            'default'  => true,
+            'field' => 'modification_ts',
+            'txt' => $this->lng->txt('last_change'),
+            'default' => true,
             'optional' => true,
             'sortable' => false
         ];
 
         $columns[++$i] = [
-            'field'    => 'language',
-            'txt'      => $this->lng->txt('language'),
-            'default'  => true,
+            'field' => 'language',
+            'txt' => $this->lng->txt('language'),
+            'default' => true,
             'optional' => false,
             'sortable' => false
         ];
 
         if ($this->is_editable) {
             $columns[++$i] = [
-                'field'    => 'actions',
-                'txt'      => $this->lng->txt('actions'),
-                'default'  => true,
+                'field' => 'actions',
+                'txt' => $this->lng->txt('actions'),
+                'default' => true,
                 'optional' => false,
                 'sortable' => false,
-                'width'    => '10%'
+                'width' => '10%'
             ];
         };
 
@@ -274,13 +274,13 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
          */
         foreach ($data['items'] as $key => $document) {
             $data['items'][$key] = [
-                'id'                  => $document->getId(),
-                'title'               => $document->getTitle(),
-                'creation_ts'         => $document->getCreationTs(),
-                'modification_ts'     => $document->getModificationTs(),
-                'raw_text'            => $document->getUploadedInstructions(),
-                'processed_text'      => $document->getProcessedInstructions(),
-                'language'            => $document->getLanguage(),
+                'id' => $document->getId(),
+                'title' => $document->getTitle(),
+                'creation_ts' => $document->getCreationTs(),
+                'modification_ts' => $document->getModificationTs(),
+                'raw_text' => $document->getUploadedInstructions(),
+                'processed_text' => $document->getProcessedInstructions(),
+                'language' => $document->getLanguage(),
             ];
         }
     }

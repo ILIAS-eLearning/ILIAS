@@ -50,7 +50,7 @@ class ilDidacticTemplateExcludeFilterPattern extends ilDidacticTemplateFilterPat
                 $writer->xmlElement(
                     'excludePattern',
                     array(
-                        'preg'	=> $this->getPattern()
+                        'preg' => $this->getPattern()
                     )
                 );
         }

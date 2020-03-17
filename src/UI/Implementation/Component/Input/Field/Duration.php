@@ -92,7 +92,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale
         $duration = $this->refinery->custom()->transformation(function ($v) {
             list($from, $until) = $v;
             if ($from && $until) {
-                return ['start'=>$from, 'end'=>$until, 'interval'=>$from->diff($until)];
+                return ['start' => $from, 'end' => $until, 'interval' => $from->diff($until)];
             }
             return null;
         });

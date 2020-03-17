@@ -93,7 +93,7 @@ class ilRpcIniFileWriter
      */
     public function setHost($host)
     {
-        $this->host=$host;
+        $this->host = $host;
     }
     /**
      * Returns $indexPath.
@@ -112,7 +112,7 @@ class ilRpcIniFileWriter
      */
     public function setIndexPath($indexPath)
     {
-        $this->indexPath=$indexPath;
+        $this->indexPath = $indexPath;
     }
     /**
      * Returns $logLevel.
@@ -131,7 +131,7 @@ class ilRpcIniFileWriter
      */
     public function setLogLevel($logLevel)
     {
-        $this->logLevel=$logLevel;
+        $this->logLevel = $logLevel;
     }
     /**
      * Returns $logPath.
@@ -150,7 +150,7 @@ class ilRpcIniFileWriter
      */
     public function setLogPath($logPath)
     {
-        $this->logPath=$logPath;
+        $this->logPath = $logPath;
     }
     /**
      * Returns $numThreads.
@@ -169,7 +169,7 @@ class ilRpcIniFileWriter
      */
     public function setNumThreads($numThreads)
     {
-        $this->numThreads=$numThreads;
+        $this->numThreads = $numThreads;
     }
     /**
      * Returns $port.
@@ -188,7 +188,7 @@ class ilRpcIniFileWriter
      */
     public function setPort($port)
     {
-        $this->port=$port;
+        $this->port = $port;
     }
 
     /**

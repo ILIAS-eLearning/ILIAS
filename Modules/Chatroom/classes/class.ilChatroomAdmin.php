@@ -34,7 +34,7 @@ class ilChatroomAdmin
     public function __construct($config_id, stdClass $settings = null)
     {
         $this->config_id = $config_id;
-        $this->settings  = $settings;
+        $this->settings = $settings;
     }
 
     /**

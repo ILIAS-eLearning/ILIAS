@@ -76,11 +76,11 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                 //visible data part
                 $this->data["data"][] = array(
-                                    "type" 			=> "perm",
-                                    "operation"		=> $val["operation"],
-                                    "description"	=> $val["desc"],
-                                    "status"		=> $ops_status,
-                                    "obj_id"		=> $val["ops_id"]
+                                    "type" => "perm",
+                                    "operation" => $val["operation"],
+                                    "description" => $val["desc"],
+                                    "status" => $ops_status,
+                                    "obj_id" => $val["ops_id"]
                     );
             }
         } //if typedata
@@ -93,8 +93,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
             $this->data["ctrl"][$key] = array(
-                                            "obj_id"	=> $val["obj_id"],
-                                            "type"		=> $val["type"]
+                                            "obj_id" => $val["obj_id"],
+                                            "type" => $val["type"]
                                             );
 
             unset($this->data["data"][$key]["obj_id"]);
@@ -153,12 +153,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         if (is_array($this->data["data"][0])) {
             //table cell
-            for ($i=0; $i < count($this->data["data"]); $i++) {
+            for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
                 $ctrl = $this->data["ctrl"][$i];
 
                 // color changing
-                $css_row = ilUtil::switchColor($i+1, "tblrow1", "tblrow2");
+                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -276,12 +276,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
                 //visible data part
                 $this->data["data"][] = array(
-                            "type"			=> "perm",
-                            "operation"		=> $ops["operation"],
-                            "description"	=> $ops["desc"],
-                            "status"		=> $ops_status,
-                            "status_html"	=> $ops_options,
-                            "obj_id"		=> $val["ops_id"]
+                            "type" => "perm",
+                            "operation" => $ops["operation"],
+                            "description" => $ops["desc"],
+                            "status" => $ops_status,
+                            "status_html" => $ops_options,
+                            "obj_id" => $val["ops_id"]
                 );
             }
         } //if typedata
@@ -294,8 +294,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
             $this->data["ctrl"][$key] = array(
-                                            "obj_id"	=> $val["obj_id"],
-                                            "type"		=> $val["type"]
+                                            "obj_id" => $val["obj_id"],
+                                            "type" => $val["type"]
                                             );
 
             unset($this->data["data"][$key]["obj_id"]);
@@ -351,12 +351,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         if (is_array($this->data["data"][0])) {
             //table cell
-            for ($i=0; $i < count($this->data["data"]); $i++) {
+            for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
                 $ctrl = $this->data["ctrl"][$i];
 
                 // color changing
-                $css_row = ilUtil::switchColor($i+1, "tblrow1", "tblrow2");
+                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
