@@ -18,16 +18,16 @@ class ilStudyProgrammeTypeInfo
      */
     protected $description;
 
-	/**
-	 * @var string
-	 */
+    /**
+     * @var string
+     */
     protected $lng_code;
 
     public function __construct(
-    	string $title = null,
-		string $description = null,
-		string $lng_code = null
-	) {
+        string $title = null,
+        string $description = null,
+        string $lng_code = null
+    ) {
         $this->title = $title;
         $this->description = $description;
         $this->lng_code = $lng_code;
@@ -58,16 +58,16 @@ class ilStudyProgrammeTypeInfo
     }
 
     public function getLanguageCode() : ?string
-	{
-		return $this->lng_code;
-	}
+    {
+        return $this->lng_code;
+    }
 
-	public function withLanguageCode(?string $lng_code) : ilStudyProgrammeTypeInfo
-	{
-		$clone = clone $this;
-		$clone->lng_code = $lng_code;
-		return $clone;
-	}
+    public function withLanguageCode(?string $lng_code) : ilStudyProgrammeTypeInfo
+    {
+        $clone = clone $this;
+        $clone->lng_code = $lng_code;
+        return $clone;
+    }
 
     public function toFormInput(
         Field\Factory $input,

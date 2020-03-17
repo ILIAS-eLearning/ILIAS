@@ -170,7 +170,7 @@ class ilForumNotification
 			WHERE 	user_id = %s
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
-			AND		user_id_noti > %s' ,
+			AND		user_id_noti > %s',
             array('integer', 'integer','integer', 'integer'),
             array($this->getUserId(), $this->getForumId(), 1, 0)
         );
@@ -185,7 +185,7 @@ class ilForumNotification
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
 			AND		user_toggle_noti = %s			
-			AND		user_id_noti > %s' ,
+			AND		user_id_noti > %s',
             array('integer', 'integer','integer','integer', 'integer'),
             array($this->getUserId(),$this->getForumId(),1,1, 0 )
         );

@@ -494,7 +494,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             } elseif ($value == $lng->txt("blog_keywords")) {
                 $order[$idx] = "keywords";
             } else {
-                $order[$idx]= "authors";
+                $order[$idx] = "authors";
             }
         }
         $this->object->setOrder($order);
@@ -797,7 +797,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $rep_search->setTitle($this->lng->txt("blog_add_contributor"));
                 $rep_search->setCallback($this, 'addContributor', $this->object->getAllLocalRoles($this->node_id));
                 $this->ctrl->setReturn($this, 'contributors');
-                $ret =&$this->ctrl->forwardCommand($rep_search);
+                $ret = &$this->ctrl->forwardCommand($rep_search);
                 break;
             
             case 'ilexportgui':
@@ -1166,7 +1166,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $list = $this->renderList($list_items, "previewFullscreen");
             $nav = $this->renderNavigation("preview", "previewFullscreen");
             $this->renderToolbarNavigation($this->items);
-            $list.= $toolbar->getHTML();
+            $list .= $toolbar->getHTML();
         }
                         
         $this->renderFullScreen($list, $nav);
@@ -2065,7 +2065,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
-
         } else {		// month view
             $latest_month = $this->getLatestMonth($a_items);
             if ($latest_month != "" && $this->month != $latest_month) {
@@ -2108,7 +2107,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
             }
-
         }
     }
 
@@ -2373,7 +2371,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         // #15881
         $tmp = array();
         foreach ($keywords as $keyword => $counter) {
-            $tmp[] = array("keyword"=>$keyword, "counter"=>$counter);
+            $tmp[] = array("keyword" => $keyword, "counter" => $counter);
         }
         $tmp = ilUtil::sortArray($tmp, "keyword", "ASC");
         
@@ -2698,11 +2696,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $this,
             $ilToolbar,
             array(
-                'auto_complete_name'	=> $lng->txt('user'),
-                'submit_name'			=> $lng->txt('add'),
-                'add_search'			=> true,
-                'add_from_container'    => $this->node_id,
-                'user_type'				=> $local_roles
+                'auto_complete_name' => $lng->txt('user'),
+                'submit_name' => $lng->txt('add'),
+                'add_search' => true,
+                'add_from_container' => $this->node_id,
+                'user_type' => $local_roles
             ),
             true
         );

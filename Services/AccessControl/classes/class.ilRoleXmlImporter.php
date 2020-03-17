@@ -104,7 +104,7 @@ class ilRoleXmlImporter
         $this->getRole()->setTitle(trim((string) $role->title));
         $this->getRole()->setDescription(trim((string) $role->description));
         
-        $type =  ilObject::_lookupType($this->getRoleFolderId(), true);
+        $type = ilObject::_lookupType($this->getRoleFolderId(), true);
         $exp = explode("_", $this->getRole()->getTitle());
 
         if (count($exp) > 0 && $exp[0] === "il") {

@@ -91,7 +91,7 @@ abstract class ilSCComponentTaskGUI
     public function executeCommand()
     {
         $next_class = $this->getCtrl()->getNextClass($this);
-        $cmd        = $this->getCtrl()->getCmd();
+        $cmd = $this->getCtrl()->getCmd();
 
         switch ($next_class) {
             default:

@@ -26,7 +26,7 @@ function base()
     $form = $ui->input()->container()->form()->standard($form_action, [$textarea_input]);
 
     //Step 4: Define some data processing.
-    if ($request->getMethod() == "POST" && $request->getQueryParams()['example_name'] =='base'){
+    if ($request->getMethod() == "POST" && $request->getQueryParams()['example_name'] == 'base') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

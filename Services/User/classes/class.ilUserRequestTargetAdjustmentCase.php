@@ -25,8 +25,8 @@ abstract class ilUserRequestTargetAdjustmentCase
      */
     public function __construct(ilObjUser $user, ilCtrl $ctrl, ServerRequestInterface $request)
     {
-        $this->user    = $user;
-        $this->ctrl    = $ctrl;
+        $this->user = $user;
+        $this->ctrl = $ctrl;
         $this->request = $request;
     }
 

@@ -171,7 +171,7 @@ class ilCOPageHTMLExport
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
-            $style->copyImagesToDir($this->exp_dir ."/".$style->getImagesDirectory());
+            $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
         }
         
         // export syntax highlighting style
@@ -230,7 +230,7 @@ class ilCOPageHTMLExport
         copy(
             ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
             $this->css_dir . '/yahoo/container.css'
-        );*/		// see #23083
+        );*/        // see #23083
 
 
         // mediaelement.js

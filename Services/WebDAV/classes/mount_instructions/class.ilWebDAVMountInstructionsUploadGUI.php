@@ -32,20 +32,20 @@ class ilWebDAVMountInstructionsUploadGUI
         FileUpload $file_upload,
         ilWebDAVMountInstructionsRepository $mount_instructions_repository
     ) {
-        $this->file_access_settings          = $file_access_settings;
-        $this->tpl                           = $tpl;
-        $this->ctrl                          = $ctrl;
-        $this->lng                           = $lng;
-        $this->rbacsystem                    = $rbacsystem;
-        $this->error                         = $error;
-        $this->user                          = $user;
-        $this->log                           = $log;
-        $this->toolbar                       = $toolbar;
-        $this->http_state                    = $http_state;
-        $this->ui_factory                    = $ui_factory;
-        $this->ui_renderer                   = $ui_renderer;
-        $this->file_systems                  = $file_systems;
-        $this->file_upload                   = $file_upload;
+        $this->file_access_settings = $file_access_settings;
+        $this->tpl = $tpl;
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->rbacsystem = $rbacsystem;
+        $this->error = $error;
+        $this->user = $user;
+        $this->log = $log;
+        $this->toolbar = $toolbar;
+        $this->http_state = $http_state;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
+        $this->file_systems = $file_systems;
+        $this->file_upload = $file_upload;
         $this->mount_instructions_repository = $mount_instructions_repository;
     }
 
@@ -104,7 +104,7 @@ class ilWebDAVMountInstructionsUploadGUI
         if ($a_document->getId() > 0) {
             $this->ctrl->setParameter($this, 'doc_id', $a_document->getId());
 
-            $form_action  = $this->ctrl->getFormAction($this, self::ACTION_SAVE_EDIT_DOCUMENT_FORM);
+            $form_action = $this->ctrl->getFormAction($this, self::ACTION_SAVE_EDIT_DOCUMENT_FORM);
             $save_command = self::ACTION_SAVE_EDIT_DOCUMENT_FORM;
         } else {
             $form_action = $this->ctrl->getFormAction($this, self::ACTION_SAVE_ADD_DOCUMENT_FORM);
@@ -199,7 +199,7 @@ class ilWebDAVMountInstructionsUploadGUI
 
     protected function getDocumentByServerRequest()
     {
-        return $this->httpState->request()-getParsedBody()['instructions_id'] ?? [];
+        return $this->httpState->request() - getParsedBody()['instructions_id'] ?? [];
     }
 
     protected function deleteDocument()

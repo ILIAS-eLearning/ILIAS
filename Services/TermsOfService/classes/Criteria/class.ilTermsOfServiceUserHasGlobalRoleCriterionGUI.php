@@ -43,9 +43,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         ilRbacReview $rbacReview,
         ilObjectDataCache $objectCache
     ) {
-        $this->type        = $type;
-        $this->lng         = $lng;
-        $this->rbacReview  = $rbacReview;
+        $this->type = $type;
+        $this->lng = $lng;
+        $this->rbacReview = $rbacReview;
         $this->objectCache = $objectCache;
 
         $this->lng->loadLanguageModule('rbac');

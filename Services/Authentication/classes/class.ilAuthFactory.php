@@ -17,7 +17,7 @@ class ilAuthFactory
      * @var int
      * Web based authentication
      */
-    const CONTEXT_WEB 	= 1;
+    const CONTEXT_WEB = 1;
 
     /**
      * @var int
@@ -26,25 +26,25 @@ class ilAuthFactory
      * overwrite ilAuthHTTP with ilAuthCalDAV and create new
      * constants.
      */
-    const CONTEXT_HTTP 	= 2;
+    const CONTEXT_HTTP = 2;
     
     
     /**
      * @var int
      * SOAP based authentication
      */
-    const CONTEXT_SOAP	= 3;
+    const CONTEXT_SOAP = 3;
 
     /**
      * @var int
      */
-    const CONTEXT_CAS	= 5;
+    const CONTEXT_CAS = 5;
     
     /**
      * @var int
      * Maybe not required. HTTP based authentication for calendar access
      */
-    const CONTEXT_CALENDAR	= 6;
+    const CONTEXT_CALENDAR = 6;
     
     
     /**
@@ -66,7 +66,7 @@ class ilAuthFactory
      * @var int
      * Apache based authentication
      */
-    const CONTEXT_APACHE	= 10;
+    const CONTEXT_APACHE = 10;
 
     /**
      * @var int

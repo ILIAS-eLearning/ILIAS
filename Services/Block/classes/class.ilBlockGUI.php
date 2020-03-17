@@ -1144,7 +1144,6 @@ abstract class ilBlockGUI
                 );
             }
         }
-
     }
 
     /**

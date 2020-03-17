@@ -197,10 +197,10 @@ class ilCOPageExporter extends ilXmlExporter
                 $a_media = ($this->config->getIncludeMedia())
                     ? ""
                     : 'WithoutMedia="1"';
-                $xml.= '<PageObject Language="' . $l . '" Active="' . $page_object->getActive() . '" ActivationStart="' . $page_object->getActivationStart() . '" ActivationEnd="' .
+                $xml .= '<PageObject Language="' . $l . '" Active="' . $page_object->getActive() . '" ActivationStart="' . $page_object->getActivationStart() . '" ActivationEnd="' .
                     $page_object->getActivationEnd() . '" ShowActivationInfo="' . $page_object->getShowActivationInfo() . '" ' . $a_media . '>';
-                $xml.= $pxml;
-                $xml.= "</PageObject>";
+                $xml .= $pxml;
+                $xml .= "</PageObject>";
                 $page_object->freeDom();
             }
     

@@ -188,7 +188,7 @@ class ilAdvancedMDSubstitution
             
             if ($value === null) {
                 if ($this->hasNewline($field_id) and $counter) {
-                    $substituted[$counter-1]['newline'] = true;
+                    $substituted[$counter - 1]['newline'] = true;
                 }
                 continue;
             }
@@ -369,10 +369,10 @@ class ilAdvancedMDSubstitution
             
         
         $values = array(
-            'obj_type'			=> array('text',$this->type),
-            'substitution'		=> array('clob',serialize($substitutions)),
-            'hide_description'	=> array('integer',!$this->isDescriptionEnabled()),
-            'hide_field_names'	=> array('integer',!$this->enabledFieldNames())
+            'obj_type' => array('text',$this->type),
+            'substitution' => array('clob',serialize($substitutions)),
+            'hide_description' => array('integer',!$this->isDescriptionEnabled()),
+            'hide_field_names' => array('integer',!$this->enabledFieldNames())
             );
         $ilDB->insert('adv_md_substitutions', $values);
     }

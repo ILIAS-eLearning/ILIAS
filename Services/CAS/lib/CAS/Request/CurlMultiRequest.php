@@ -39,8 +39,7 @@
  * @license  http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  * @link     https://wiki.jasig.org/display/CASC/phpCAS
  */
-class CAS_Request_CurlMultiRequest
-implements CAS_Request_MultiRequestInterface
+class CAS_Request_CurlMultiRequest implements CAS_Request_MultiRequestInterface
 {
     private $_requests = array();
     private $_sent = false;
@@ -61,11 +60,11 @@ implements CAS_Request_MultiRequestInterface
      * @throws CAS_InvalidArgumentException If passed a Request of the wrong
      * implmentation.
      */
-    public function addRequest (CAS_Request_RequestInterface $request)
+    public function addRequest(CAS_Request_RequestInterface $request)
     {
         if ($this->_sent) {
             throw new CAS_OutOfSequenceException(
-                'Request has already been sent cannot '.__METHOD__
+                'Request has already been sent cannot ' . __METHOD__
             );
         }
         if (!$request instanceof CAS_Request_CurlRequest) {
@@ -86,7 +85,7 @@ implements CAS_Request_MultiRequestInterface
     {
         if ($this->_sent) {
             throw new CAS_OutOfSequenceException(
-                'Request has already been sent cannot '.__METHOD__
+                'Request has already been sent cannot ' . __METHOD__
             );
         }
         return count($this->_requests);
@@ -103,7 +102,7 @@ implements CAS_Request_MultiRequestInterface
      * @return bool TRUE on success, FALSE on failure.
      * @throws CAS_OutOfSequenceException If called multiple times.
      */
-    public function send ()
+    public function send()
     {
         if ($this->_sent) {
             throw new CAS_OutOfSequenceException(

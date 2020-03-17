@@ -2602,8 +2602,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $news_item->setTitle($this->objCurrentPost->getSubject());
                         $news_item->setContent(
                             ilRTE::_replaceMediaObjectImageSrc($frm->prepareText(
-                            $this->objCurrentPost->getMessage(),
-                            0
+                                $this->objCurrentPost->getMessage(),
+                                0
                         ), 1)
                         );
 
@@ -5016,8 +5016,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if ($is_post) {
             if ($this->objCurrentPost->getId() != $node->getId() || (
                 !in_array(
-                        $action,
-                        ['showreply', 'showedit', 'censor', 'delete']
+                    $action,
+                    ['showreply', 'showedit', 'censor', 'delete']
                     ) && !$this->displayConfirmPostActivation()
                 )) {
                 if ($this->is_moderator || $node->isActivated() || $node->isOwner($this->user->getId())) {
@@ -5321,8 +5321,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $header = $history_date . ' - ' . $history_instance->getPostSubject();
                 $accordion->addItem($header, $message . $this->uiRenderer->render(
                     $this->uiFactory->button()->standard(
-                            $this->lng->txt('restore'),
-                            $this->ctrl->getLinkTarget($this, 'restoreFromHistory')
+                        $this->lng->txt('restore'),
+                        $this->ctrl->getLinkTarget($this, 'restoreFromHistory')
                         )
                     ));
 

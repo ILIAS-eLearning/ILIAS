@@ -83,8 +83,8 @@ class ilObjChatroomAccessTest extends PHPUnit_Framework_TestCase
 
     public function test_checkAccessReturnFalse()
     {
-        $userId            = 1;
-        $refId             = 99;
+        $userId = 1;
+        $refId = 99;
         $GLOBALS['ilUser'] = $this->getMockBuilder('ilUser')->disableOriginalConstructor()->setMethods(
             array('getId')
         )->getMock();
@@ -113,8 +113,8 @@ class ilObjChatroomAccessTest extends PHPUnit_Framework_TestCase
 
     public function test_checkAccessReturnTrueWithRbacAccess()
     {
-        $userId            = 1;
-        $refId             = 99;
+        $userId = 1;
+        $refId = 99;
         $GLOBALS['ilUser'] = $this->getMockBuilder('ilUser')->disableOriginalConstructor()->setMethods(
             array('getId')
         )->getMock();

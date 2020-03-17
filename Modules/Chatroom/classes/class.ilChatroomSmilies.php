@@ -127,14 +127,14 @@ class ilChatroomSmilies
         /** @var $ilDB ilDBInterface */
         $ilDB = $DIC->database();
 
-        $res    = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
+        $res = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
         $result = array();
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $result[] = array(
-                "smiley_id"       => $row['smiley_id'],
+                "smiley_id" => $row['smiley_id'],
                 "smiley_keywords" => $row['smiley_keywords'],
-                "smiley_path"     => $row['smiley_path'],
+                "smiley_path" => $row['smiley_path'],
                 "smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
             );
         }
@@ -195,14 +195,14 @@ class ilChatroomSmilies
         }
 
         $sql .= join(" OR ", $sql_parts);
-        $res    = $ilDB->query($sql);
+        $res = $ilDB->query($sql);
         $result = array();
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $result[] = array(
-                "smiley_id"       => $row['smiley_id'],
+                "smiley_id" => $row['smiley_id'],
                 "smiley_keywords" => $row['smiley_keywords'],
-                "smiley_path"     => $row['smiley_path'],
+                "smiley_path" => $row['smiley_path'],
                 "smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
             );
         }
@@ -271,9 +271,9 @@ class ilChatroomSmilies
         if ($ilDB->numRows($res)) {
             while ($row = $ilDB->fetchAssoc($res)) {
                 return array(
-                    "smiley_id"       => $row['smiley_id'],
+                    "smiley_id" => $row['smiley_id'],
                     "smiley_keywords" => $row['smiley_keywords'],
-                    "smiley_path"     => $row['smiley_path'],
+                    "smiley_path" => $row['smiley_path'],
                     "smiley_fullpath" => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
                 );
             }
@@ -304,7 +304,7 @@ class ilChatroomSmilies
 
         try {
             $smiley = self::_getSmiley($a_id);
-            $path   = ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $smiley["smiley_path"];
+            $path = ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $smiley["smiley_path"];
 
             if (is_file($path)) {
                 unlink($path);
@@ -341,7 +341,7 @@ class ilChatroomSmilies
                 "integer", "text", "text"
             )
         );
-        $row  = array(
+        $row = array(
             $ilDB->nextId("chatroom_smilies"),
             $keywords,
             $path

@@ -57,5 +57,4 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
 
         return [];
     }
-
 }

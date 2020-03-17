@@ -7,7 +7,6 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
 
 class Picture extends Avatar implements C\Symbol\Avatar\Picture
 {
-
     private $picture_path;
 
     public function __construct(string $path_to_picture, string $username)
@@ -20,5 +19,4 @@ class Picture extends Avatar implements C\Symbol\Avatar\Picture
     {
         return $this->picture_path;
     }
-
 }

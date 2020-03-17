@@ -9,16 +9,16 @@ require_once 'Services/Search/classes/class.ilSearchSettings.php';
 class ilMailAutoCompleteRecipientResult
 {
     const MODE_STOP_ON_MAX_ENTRIES = 1;
-    const MODE_FETCH_ALL           = 2;
+    const MODE_FETCH_ALL = 2;
 
-    const MAX_RESULT_ENTRIES       = 1000;
+    const MAX_RESULT_ENTRIES = 1000;
 
-    protected $allow_smtp 	= null;
-    protected $user_id 		= null;
+    protected $allow_smtp = null;
+    protected $user_id = null;
     protected $handled_recipients = array();
-    protected $mode 		= self::MODE_STOP_ON_MAX_ENTRIES;
-    protected $max_entries 	= null;
-    public $result 			= array();
+    protected $mode = self::MODE_STOP_ON_MAX_ENTRIES;
+    protected $max_entries = null;
+    public $result = array();
 
     /**
      * @param int $mode
@@ -27,11 +27,11 @@ class ilMailAutoCompleteRecipientResult
     {
         global $DIC;
 
-        $this->allow_smtp               = $DIC->rbac()->system()->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
-        $this->user_id                  = $DIC->user()->getId();
-        $this->max_entries              = ilSearchSettings::getInstance()->getAutoCompleteLength();
+        $this->allow_smtp = $DIC->rbac()->system()->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
+        $this->user_id = $DIC->user()->getId();
+        $this->max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength();
         
-        $this->result['items']          = array();
+        $this->result['items'] = array();
         $this->result['hasMoreResults'] = false;
 
         $this->initMode($mode);
@@ -76,7 +76,7 @@ class ilMailAutoCompleteRecipientResult
     public function addResult($login, $firstname, $lastname)
     {
         if (!isset($this->handled_recipients[$login])) {
-            $recipient          = array();
+            $recipient = array();
             $recipient['value'] = $login;
 
             $label = $login;
@@ -85,7 +85,7 @@ class ilMailAutoCompleteRecipientResult
             }
             $recipient['label'] = $label;
 
-            $this->result['items'][]          = $recipient;
+            $this->result['items'][] = $recipient;
             $this->handled_recipients[$login] = 1;
         }
     }

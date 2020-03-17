@@ -136,14 +136,14 @@ class Map implements Filterable, Walkable
              * @var $parent isParent
              */
             if ($item_one instanceof isChild) {
-                $parent            = $this->getSingleItemFromFilter($item_one->getParent());
+                $parent = $this->getSingleItemFromFilter($item_one->getParent());
                 $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
             } else {
                 $position_item_one = $item_one->getPosition();
             }
 
             if ($item_two instanceof isChild) {
-                $parent            = $this->getSingleItemFromFilter($item_two->getParent());
+                $parent = $this->getSingleItemFromFilter($item_two->getParent());
                 $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
             } else {
                 $position_item_two = $item_two->getPosition();
@@ -153,7 +153,7 @@ class Map implements Filterable, Walkable
         };
 
         $this->raw->uasort($sorter);
-        $this->walk(static function (isItem &$item) use ($sorter): isItem {
+        $this->walk(static function (isItem &$item) use ($sorter) : isItem {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
                 uasort($children, $sorter);

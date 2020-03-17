@@ -186,7 +186,7 @@ class ilMediaPoolPage extends ilPageObject
             " AND pc_type = " . $ilDB->quote("incl", "text");
             
         if (!$a_incl_hist) {
-            $q.= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
+            $q .= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
         }
             
         $us_set = $ilDB->query($q);

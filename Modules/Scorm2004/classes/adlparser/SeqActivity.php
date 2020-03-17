@@ -123,7 +123,7 @@ class SeqActivity
 
     public $mControl_forwardOnly = false;
 
-    public $mConstrainChoice= false;
+    public $mConstrainChoice = false;
 
     public $mPreventActivation = false;
 
@@ -241,14 +241,14 @@ class SeqActivity
     public function addChild($ioChild)
     {
         if ($this->mChildren == null) {
-            $this->mChildren =  array();
+            $this->mChildren = array();
         }
         if ($this->mActiveChildren == null) {
-            $this->mActiveChildren =  array();
+            $this->mActiveChildren = array();
         }
 
         //set class
-        $c_ioChild['_SeqActivity']=$ioChild;
+        $c_ioChild['_SeqActivity'] = $ioChild;
         
         //keep both in sync
         array_push($this->mChildren, $c_ioChild);
@@ -257,7 +257,7 @@ class SeqActivity
         //$this->mActiveChildren = $this->mChildren;
         
         $ioChild->setOrder(count($this->mChildren) - 1);
-        $ioChild->setActiveOrder(count($this->mChildren)- 1);
+        $ioChild->setActiveOrder(count($this->mChildren) - 1);
         
         //set parents on the client
         //$ioChild->setParent($this);
@@ -313,32 +313,32 @@ class SeqActivity
     
     public function setControlModeChoice($choice)
     {
-        $this->mControl_choice=$choice;
+        $this->mControl_choice = $choice;
     }
     
     public function setControlModeChoiceExit($choiceExit)
     {
-        $this->mControl_choiceExit=$choiceExit;
+        $this->mControl_choiceExit = $choiceExit;
     }
     
     public function setControlModeFlow($flow)
     {
-        $this->mControl_flow=$flow;
+        $this->mControl_flow = $flow;
     }
     
     public function setControlForwardOnly($forwardOnly)
     {
-        $this->mControl_forwardOnly=$forwardOnly;
+        $this->mControl_forwardOnly = $forwardOnly;
     }
     
     public function setUseCurObjective($useCurObjective)
     {
-        $this->mUseCurObj=$useCurObjective;
+        $this->mUseCurObj = $useCurObjective;
     }
 
     public function setUseCurProgress($useCurProgress)
     {
-        $this->mUseCurPro=$useCurProgress;
+        $this->mUseCurPro = $useCurProgress;
     }
     
     public function setAttemptLimit($value)
@@ -531,9 +531,9 @@ class SeqActivity
         $this->mObjectives = $iObjs;
         for ($i = 0; $i < count($iObjs); $i++) {
             $obj = $iObjs[$i];
-            if ($obj['_SeqObjective']->mMaps!=null) {
-                $index=$obj['_SeqObjective']->mObjID;
-                $this->mObjMaps["$index"]=$obj['_SeqObjective']->mMaps;
+            if ($obj['_SeqObjective']->mMaps != null) {
+                $index = $obj['_SeqObjective']->mObjID;
+                $this->mObjMaps["$index"] = $obj['_SeqObjective']->mMaps;
             }
         }
     }

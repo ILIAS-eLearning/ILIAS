@@ -13,7 +13,7 @@ function toRecord()
     $transformation = $refinery->to()->recordOf(
         array(
             'user_id' => new \ILIAS\Refinery\To\Transformation\IntegerTransformation(),
-            'points'  => new \ILIAS\Refinery\To\Transformation\IntegerTransformation()
+            'points' => new \ILIAS\Refinery\To\Transformation\IntegerTransformation()
         )
     );
 

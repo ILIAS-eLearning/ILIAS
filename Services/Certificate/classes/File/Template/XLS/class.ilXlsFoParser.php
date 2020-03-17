@@ -135,10 +135,10 @@ class ilXlsFoParser
         }
 
         $params = array(
-            'pageheight'         => $this->formatNumberString($this->utilHelper->stripSlashes($pageheight)),
-            'pagewidth'          => $this->formatNumberString($this->utilHelper->stripSlashes($pagewidth)),
-            'backgroundimage'    => '[BACKGROUND_IMAGE]',
-            'marginbody'      => implode(
+            'pageheight' => $this->formatNumberString($this->utilHelper->stripSlashes($pageheight)),
+            'pagewidth' => $this->formatNumberString($this->utilHelper->stripSlashes($pagewidth)),
+            'backgroundimage' => '[BACKGROUND_IMAGE]',
+            'marginbody' => implode(
                 ' ',
                 array(
                     $this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['top'])),

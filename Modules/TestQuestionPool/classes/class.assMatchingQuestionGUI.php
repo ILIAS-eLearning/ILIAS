@@ -168,7 +168,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addterms"]);
-        $this->object->insertTerm($position+1);
+        $this->object->insertTerm($position + 1);
         $this->editQuestion();
     }
 
@@ -184,7 +184,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["adddefinitions"]);
-        $this->object->insertDefinition($position+1);
+        $this->object->insertDefinition($position + 1);
         $this->editQuestion();
     }
 
@@ -200,7 +200,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addpairs"]);
-        $this->object->insertMatchingPair($position+1);
+        $this->object->insertMatchingPair($position + 1);
         $this->editQuestion();
     }
 
@@ -362,7 +362,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // shuffle
-            $shuffle         = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
+            $shuffle = new ilSelectInputGUI($this->lng->txt("shuffle_answers"), "shuffle");
             $shuffle_options = array(
                 0 => $this->lng->txt("no"),
                 1 => $this->lng->txt("matching_shuffle_terms_definitions"),
@@ -437,7 +437,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             $solution_script .= "";
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
@@ -546,7 +546,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $questiontext = $this->object->getQuestion();
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         
@@ -560,7 +560,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -718,12 +718,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      */
     protected function sortDefinitionsBySolution(array $solution, array $definitions)
     {
-        $neworder           = array();
+        $neworder = array();
         $handled_defintions = array();
         foreach ($solution as $solution_values) {
             $id = $solution_values['value2'];
             if (!isset($handled_defintions[$id])) {
-                $neworder[]              = $this->object->getDefinitionWithIdentifier($id);
+                $neworder[] = $this->object->getDefinitionWithIdentifier($id);
                 $handled_defintions[$id] = $id;
             }
         }

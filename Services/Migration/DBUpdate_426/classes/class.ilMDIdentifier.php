@@ -100,13 +100,13 @@ class ilMDIdentifier extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'catalog'	=> ilUtil::prepareDBString($this->getCatalog()),
-                     'entry'	=> ilUtil::prepareDBString($this->getEntry()));
+                     'catalog' => ilUtil::prepareDBString($this->getCatalog()),
+                     'entry' => ilUtil::prepareDBString($this->getEntry()));
     }
 
     public function read()
@@ -139,7 +139,7 @@ class ilMDIdentifier extends ilMDBase
     public function toXML(&$writer)
     {
         $writer->xmlElement('Identifier', array('Catalog' => $this->getCatalog(),
-                                                'Entry'	  => $this->getEntry()));
+                                                'Entry' => $this->getEntry()));
     }
 
 

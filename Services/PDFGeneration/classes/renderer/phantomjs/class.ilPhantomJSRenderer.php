@@ -145,7 +145,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
         $op->addSubItem($this->buildMarginForm());
         $op->addSubItem($this->buildOrientationForm());
         $op->addSubItem($this->buildPageSizesForm());
-        $header_select	= new ilRadioGroupInputGUI($this->lng->txt('header_type'), 'header_select');
+        $header_select = new ilRadioGroupInputGUI($this->lng->txt('header_type'), 'header_select');
         $header_select->addOption(new ilRadioOption($this->lng->txt('none'), ilPDFGenerationConstants::HEADER_NONE, ''));
         $header_text = new ilRadioOption($this->lng->txt('text'), ilPDFGenerationConstants::HEADER_TEXT, '');
         $header_text->addSubItem($this->buildHeaderTextForm());
@@ -154,7 +154,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
         $header_select->addOption($header_text);
         $header_select->setValue($this->header_type);
         $op->addSubItem($header_select);
-        $footer_select	= new ilRadioGroupInputGUI($this->lng->txt('footer_type'), 'footer_select');
+        $footer_select = new ilRadioGroupInputGUI($this->lng->txt('footer_type'), 'footer_select');
         $footer_select->addOption(new ilRadioOption($this->lng->txt('none'), ilPDFGenerationConstants::FOOTER_NONE, ''));
         $footer_text = new ilRadioOption($this->lng->txt('text'), ilPDFGenerationConstants::FOOTER_TEXT, '');
         $footer_text->addSubItem($this->buildFooterTextForm());
@@ -234,15 +234,15 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
     public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose)
     {
         $config = array();
-        $config['path'] =$form->getItemByPostVar('path')->getValue();
+        $config['path'] = $form->getItemByPostVar('path')->getValue();
         $config['page_size'] = $form->getItemByPostVar('page_size')->getValue();
-        $config['margin'] =$form->getItemByPostVar('margin')->getValue();
+        $config['margin'] = $form->getItemByPostVar('margin')->getValue();
         $config['javascript_delay'] = $form->getItemByPostVar('javascript_delay')->getValue();
         $config['viewport'] = $form->getItemByPostVar('viewport')->getValue();
         $config['orientation'] = $form->getItemByPostVar('orientation')->getValue();
         $config['header_type'] = $form->getItemByPostVar('header_select')->getValue();
         $config['header_text'] = $form->getItemByPostVar('header_text')->getValue();
-        $config['header_height']  = $form->getItemByPostVar('header_height')->getValue();
+        $config['header_height'] = $form->getItemByPostVar('header_height')->getValue();
         $config['header_show_pages'] = $form->getItemByPostVar('header_show_pages')->getChecked();
         $config['footer_type'] = $form->getItemByPostVar('footer_select')->getValue();
         $config['footer_text'] = $form->getItemByPostVar('footer_text')->getValue();
@@ -277,7 +277,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
         $config['orientation'] = 'Portrait';
         $config['header_type'] = 0;
         $config['header_text'] = '';
-        $config['header_height']  = '0cm';
+        $config['header_height'] = '0cm';
         $config['header_show_pages'] = 0;
         $config['footer_type'] = 0;
         $config['footer_text'] = '';
@@ -318,7 +318,7 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
      */
     public function generatePDF($service, $purpose, $config, $job)
     {
-        $html_file	= $this->getHtmlTempName();
+        $html_file = $this->getHtmlTempName();
         file_put_contents($html_file, implode('', $job->getPages()));
         $this->createPDFFileFromHTMLFile($html_file, $config, $job);
     }
@@ -511,30 +511,30 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
 
         if ($config['header_type'] == ilPDFGenerationConstants::HEADER_TEXT) {
             $h_config = array(
-                'text'			=> $config['header_text'],
-                'height'		=> $config['header_height'],
-                'show_pages'	=> $config['header_show_pages']);
+                'text' => $config['header_text'],
+                'height' => $config['header_height'],
+                'show_pages' => $config['header_show_pages']);
         } else {
             $h_config = null;
         }
 
         if ($config['footer_type'] == ilPDFGenerationConstants::FOOTER_TEXT) {
             $f_config = array(
-                'text'			=> $config['footer_text'],
-                'height'		=> $config['footer_height'],
-                'show_pages'	=> $config['footer_show_pages']);
+                'text' => $config['footer_text'],
+                'height' => $config['footer_height'],
+                'show_pages' => $config['footer_show_pages']);
         } else {
             $f_config = null;
         }
 
-        $r_config['page_size']		= $config['page_size'];
-        $r_config['orientation']	= $config['orientation'];
-        $r_config['margin']			= $config['margin'];
-        $r_config['delay']			= $config['javascript_delay'];
-        $r_config['viewport']		= $config['viewport'];
-        $r_config['header']			= $h_config;
-        $r_config['footer']			= $f_config;
-        $r_config['page_type']		= $config['page_type'];
+        $r_config['page_size'] = $config['page_size'];
+        $r_config['orientation'] = $config['orientation'];
+        $r_config['margin'] = $config['margin'];
+        $r_config['delay'] = $config['javascript_delay'];
+        $r_config['viewport'] = $config['viewport'];
+        $r_config['header'] = $h_config;
+        $r_config['footer'] = $f_config;
+        $r_config['page_type'] = $config['page_type'];
 
         return json_encode(json_encode($r_config));
     }

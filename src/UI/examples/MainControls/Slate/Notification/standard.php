@@ -11,42 +11,42 @@
 function standard()
 {
     global $DIC;
-    $f        = $DIC->ui()->factory();
+    $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
     //Creating a mail Notification Item, note that Additional Content is only to be used
     //if content needs to be provided, for which no UI Component yet exists.
-    $mail_icon              = $f->symbol()->icon()->standard("mail", "mail");
-    $mail_title             = $f->link()->standard("Inbox", "link_to_inbox");
+    $mail_icon = $f->symbol()->icon()->standard("mail", "mail");
+    $mail_title = $f->link()->standard("Inbox", "link_to_inbox");
     $mail_notification_item = $f->item()->notification($mail_title, $mail_icon)
                                 ->withDescription("You have 23 unread mails in your inbox")
                                 ->withProperties(["Time" => "3 days ago"])
                                 ->withAdditionalContent($f->legacy("<b>Additional Content</b>"));
 
     //Creating a badge Notification Item with a specific close action here.
-    $close_url                = $_SERVER['REQUEST_URI'] . '&badge_closed=true';
+    $close_url = $_SERVER['REQUEST_URI'] . '&badge_closed=true';
     if ($_GET['badge_closed']) {
         //Whatever needs to be done, if the badge notification is closed
         exit;
     } else {
-        $badge_icon               = $f->symbol()->icon()->standard("bdga", "mail");
-        $badge_title              = $f->link()->standard("Badges", "link_to_achievement_badges");
+        $badge_icon = $f->symbol()->icon()->standard("bdga", "mail");
+        $badge_title = $f->link()->standard("Badges", "link_to_achievement_badges");
         $badge_notification_item1 = $f->item()->notification($badge_title, $badge_icon)
                                       ->withDescription("You received 1 Badge.")
                                       ->withProperties(["Time" => "2 days ago"])
                                       ->withCloseAction($close_url);
-        $badge_icon               = $f->symbol()->icon()->standard("bdga", "mail");
-        $badge_title              = $f->link()->standard("Badges 2", "link_to_achievement_badges");
-        $close_url                = $_SERVER['REQUEST_URI'] . '&badge_closed=true';
+        $badge_icon = $f->symbol()->icon()->standard("bdga", "mail");
+        $badge_title = $f->link()->standard("Badges 2", "link_to_achievement_badges");
+        $close_url = $_SERVER['REQUEST_URI'] . '&badge_closed=true';
         $badge_notification_item2 = $f->item()->notification($badge_title, $badge_icon)
                                       ->withDescription("You received 1 Badge.")
                                       ->withProperties(["Time" => "2 days ago"])
                                       ->withCloseAction($close_url);
     }
     //Some generic notification Items
-    $generic_icon1                 = $f->symbol()->icon()->standard("cal", "generic");
-    $generic_title1                = $f->link()->standard("Generic 1", "link_to_generic_repo");
-    $generic_item1                 = $f->item()->notification($generic_title1, $generic_icon1)
+    $generic_icon1 = $f->symbol()->icon()->standard("cal", "generic");
+    $generic_title1 = $f->link()->standard("Generic 1", "link_to_generic_repo");
+    $generic_item1 = $f->item()->notification($generic_title1, $generic_icon1)
                                        ->withDescription("Some description.")
                                        ->withProperties(["Property 1" => "Content 1", "Property 2" => "Content 2"])
                                        ->withActions(
@@ -56,15 +56,15 @@ function standard()
                                            ])
                                        );
     $generic_item1_with_aggregates = $generic_item1->withAggregateNotifications([$mail_notification_item]);
-    $generic_title2                = $f->link()->standard("Generic 2", "just_opens_the_list_of_aggregates");
-    $generic_item2                 = $f->item()->notification($generic_title2, $generic_icon1)
+    $generic_title2 = $f->link()->standard("Generic 2", "just_opens_the_list_of_aggregates");
+    $generic_item2 = $f->item()->notification($generic_title2, $generic_icon1)
                                        ->withDescription("Some description describing the aggregates attached.")
                                        ->withProperties(["Property 1" => "Content 1", "Property 2" => "Content 2"])
                                        ->withAggregateNotifications([$generic_item1, $generic_item1]);
 
     //Now, one could fill the Notification Slates for those 3 Services (normally done by global screen)
-    $mail_slate    = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
-    $badge_slate   = $f->mainControls()->slate()->notification("Badge", [$badge_notification_item1, $badge_notification_item2]);
+    $mail_slate = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
+    $badge_slate = $f->mainControls()->slate()->notification("Badge", [$badge_notification_item1, $badge_notification_item2]);
     $generic_slate = $f->mainControls()->slate()->notification("Generic", [
         $generic_item1_with_aggregates,
         $generic_item2

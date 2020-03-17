@@ -28,7 +28,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
-        $this->lng  = $DIC['lng'];
+        $this->lng = $DIC['lng'];
 
         $obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
         $this->setId('mmsearch_' . $obj_id);

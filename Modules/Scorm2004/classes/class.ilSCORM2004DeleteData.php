@@ -44,7 +44,7 @@ class ilSCORM2004DeleteData
         $query = 'DELETE FROM cmi_gobjective WHERE scope_id = %s';
         $ilDB->manipulateF($query, array('integer'), array($packageId));
 
-        $s_globalObjectiveId=self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
+        $s_globalObjectiveId = self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
         if ($s_globalObjectiveId != "") {
             $ilDB->manipulateF(
                 'DELETE FROM cmi_gobjective WHERE scope_id = %s AND objective_id in (' . $s_globalObjectiveId . ')',
@@ -142,7 +142,7 @@ class ilSCORM2004DeleteData
             array($user_id,$packageId)
         );
 
-        $s_globalObjectiveId=self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
+        $s_globalObjectiveId = self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
         if ($s_globalObjectiveId != "") {
             $ilDB->manipulateF(
                 'DELETE FROM cmi_gobjective WHERE user_id = %s AND scope_id = %s AND objective_id in (' . $s_globalObjectiveId . ')',

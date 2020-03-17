@@ -133,7 +133,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                     'tries' => array('integer', $this->getPass()),
                     'submitted' => array('integer', $submitted),
                     'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                    'tstamp' => array('integer', time()-10),
+                    'tstamp' => array('integer', time() - 10),
                     'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
                     'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())
                 ),
@@ -165,7 +165,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                         'tries' => array('integer', $this->getPass()),
                         'submitted' => array('integer', $submitted),
                         'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                        'tstamp' => array('integer', time()-10),
+                        'tstamp' => array('integer', time() - 10),
                         'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
                         'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())
                     )

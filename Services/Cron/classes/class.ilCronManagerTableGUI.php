@@ -186,7 +186,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
         $result_info = array();
         if ($a_item["job_result_dur"]) {
-            $result_info[] = ($a_item["job_result_dur"]/1000) . " sec";
+            $result_info[] = ($a_item["job_result_dur"] / 1000) . " sec";
         }
 
         // #23391 / #11866

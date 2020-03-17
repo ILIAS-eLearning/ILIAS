@@ -60,9 +60,9 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValue($valueArray)
     {
-        $this->top    = $valueArray['top'];
-        $this->left   = $valueArray['left'];
-        $this->right  = $valueArray['right'];
+        $this->top = $valueArray['top'];
+        $this->left = $valueArray['left'];
+        $this->right = $valueArray['right'];
         $this->bottom = $valueArray['bottom'];
     }
 
@@ -186,10 +186,10 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $postVar = $this->getPostVar();
 
         $values = array(
-            'top'    => $a_values[$postVar . '_top'],
+            'top' => $a_values[$postVar . '_top'],
             'bottom' => $a_values[$postVar . '_bottom'],
-            'right'  => $a_values[$postVar . '_right'],
-            'left'   => $a_values[$postVar . '_left'],
+            'right' => $a_values[$postVar . '_right'],
+            'left' => $a_values[$postVar . '_left'],
         );
 
         $this->setValue($values);

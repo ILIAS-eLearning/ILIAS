@@ -24,7 +24,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
         $this->dic = $DIC;
 
-        $f        = $DIC->ui()->factory();
+        $f = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
         $this->setId('saml_idp_list');

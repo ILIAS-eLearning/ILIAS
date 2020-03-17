@@ -122,14 +122,14 @@ class ilTestServiceGUI
         $lng->loadLanguageModule('cert');
 
         $this->db = $ilDB;
-        $this->lng =&$lng;
-        $this->tpl =&$tpl;
-        $this->ctrl =&$ilCtrl;
+        $this->lng = &$lng;
+        $this->tpl = &$tpl;
+        $this->ctrl = &$ilCtrl;
         $this->tabs = $ilTabs;
         $this->objCache = $ilObjDataCache;
-        $this->ilias =&$ilias;
-        $this->object =&$a_object;
-        $this->tree =&$tree;
+        $this->ilias = &$ilias;
+        $this->object = &$a_object;
+        $this->tree = &$tree;
         $this->ref_id = $a_object->ref_id;
 
         $this->service = new ilTestService($a_object);
@@ -288,7 +288,7 @@ class ilTestServiceGUI
         $cmd = $this->getCommand($cmd);
         switch ($next_class) {
             default:
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -405,7 +405,7 @@ class ilTestServiceGUI
                             $compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
                             $compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
                             $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $showFeedback);
-                            $best_output   = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true);
+                            $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true);
 
                             $compare_template->setVariable('PARTICIPANT', $result_output);
                             $compare_template->setVariable('SOLUTION', $best_output);
@@ -517,7 +517,7 @@ class ilTestServiceGUI
             // no scorable questions found
             $maintemplate->setVariable("NO_QUESTIONS_FOUND", $this->lng->txt("manscoring_questions_not_found"));
         }
-        $maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("manscoring_results_pass"), $pass+1));
+        $maintemplate->setVariable("RESULTS_OVERVIEW", sprintf($this->lng->txt("manscoring_results_pass"), $pass + 1));
 
         include_once "./Services/YUI/classes/class.ilYuiUtil.php";
         ilYuiUtil::initDomEvent();
@@ -930,7 +930,7 @@ class ilTestServiceGUI
         );
         
         $foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
-        $output     = '';
+        $output = '';
         foreach ($foundusers as $active_id => $passes) {
             $resultpass = $this->object->_getResultPass($active_id);
             for ($i = 0; $i < count($passes); $i++) {

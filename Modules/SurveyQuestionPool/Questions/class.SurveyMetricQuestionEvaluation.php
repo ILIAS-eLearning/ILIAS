@@ -26,7 +26,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
             }
         }
         if ($total > 0) {
-            $a_results->setMean($sum/$total);
+            $a_results->setMean($sum / $total);
         }
     }
     
@@ -167,7 +167,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
                 $res["rows"][] = array(
                     $value,
                     $count,
-                    sprintf("%.2f", $count/$total*100) . "%"
+                    sprintf("%.2f", $count / $total * 100) . "%"
                 );
             }
         }

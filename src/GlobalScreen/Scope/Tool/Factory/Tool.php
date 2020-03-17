@@ -50,7 +50,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -69,7 +69,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
      */
     public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
-        $clone                  = clone($this);
+        $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
 
         return $clone;
@@ -80,7 +80,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
      */
     public function withContent(Component $ui_component) : hasContent
     {
-        $clone          = clone($this);
+        $clone = clone($this);
         $clone->content = $ui_component;
 
         return $clone;
@@ -112,7 +112,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
 
         return $clone;
@@ -139,7 +139,7 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTe
      */
     public function withTerminatedCallback(Closure $callback) : supportsTerminating
     {
-        $clone                      = clone $this;
+        $clone = clone $this;
         $clone->terminated_callback = $callback;
 
         return $clone;

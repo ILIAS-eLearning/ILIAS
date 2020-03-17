@@ -248,7 +248,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $folder_gui = new ilObjFolderGUI("", 0, false, false);
                 $this->ctrl->setReturn($this, "listMedia");
-                $cmd.="Object";
+                $cmd .= "Object";
                 switch ($cmd) {
                     case "createObject":
                         $this->prepareOutput();
@@ -777,10 +777,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $xml = "<dummy>";
         // todo: we get always the first alias now (problem if mob is used multiple
         // times in page)
-        $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-        $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-        $xml.= $link_xml;
-        $xml.="</dummy>";
+        $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+        $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+        $xml .= $link_xml;
+        $xml .= "</dummy>";
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -1827,7 +1827,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         if (is_array($_POST["file"]) && ilMainMenuGUI::_checkAdministrationPermission()) {
             foreach ($_POST["file"] as $f) {
-                $f  = str_replace("..", "", $f);
+                $f = str_replace("..", "", $f);
                 $fullpath = $upload_dir . "/" . $f;
                 $mob = new ilObjMediaObject();
                 $mob->setTitle(basename($fullpath));
@@ -2129,10 +2129,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $form = $this->initMediaBulkForm($mi["mob_id"], $mob->getTitle());
             $acc->addItem($mob->getTitle(), $form->getHTML());
 
-            $html.= $acc->getHTML();
+            $html .= $acc->getHTML();
         }
 
-        $html.= $tb->getHTML();
+        $html .= $tb->getHTML();
         $tb->setOpenFormTag(false);
         $tb->setCloseFormTag(true);
         $tb->setId("tb_bottom");

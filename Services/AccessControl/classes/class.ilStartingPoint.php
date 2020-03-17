@@ -407,7 +407,7 @@ class ilStartingPoint
                     " position = " . $ilDB->quote($nr, 'integer') .
                     " WHERE id = " . $ilDB->quote($id, 'integer')
                 );
-                $nr+=10;
+                $nr += 10;
             }
         }
     }

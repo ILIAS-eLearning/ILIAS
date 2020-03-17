@@ -246,7 +246,7 @@ class ilNoteGUI
     */
     public function enablePublicNotes($a_enable = true)
     {
-        $this->public_enabled =  $a_enable;
+        $this->public_enabled = $a_enable;
     }
 
     /**
@@ -262,7 +262,7 @@ class ilNoteGUI
     */
     public function enablePublicNotesDeletion($a_enable = true)
     {
-        $this->public_deletion_enabled =  $a_enable;
+        $this->public_deletion_enabled = $a_enable;
     }
 
     /**
@@ -1207,7 +1207,7 @@ class ilNoteGUI
 
                             // for references, get original title
                             // (link will lead to orignal, which basically is wrong though)
-                            if ($a_obj_type == "crsr" || $a_obj_type == "catr" ||  $a_obj_type == "grpr") {
+                            if ($a_obj_type == "crsr" || $a_obj_type == "catr" || $a_obj_type == "grpr") {
                                 include_once "Services/ContainerReference/classes/class.ilContainerReference.php";
                                 $tgt_obj_id = ilContainerReference::_lookupTargetId($target["rep_obj_id"]);
                                 $title = ilObject::_lookupTitle($tgt_obj_id);
@@ -1721,10 +1721,12 @@ class ilNoteGUI
             $ref = (int) $_GET['ref_id'];
             if (in_array($ref, ilObject::_getAllReferences($this->rep_obj_id))) {
                 if ($this->obj_type == "pg") {
-                    $gui = new ilLMPresentationGUI("",
+                    $gui = new ilLMPresentationGUI(
+                        "",
                         false,
                         "",
-                        false);
+                        false
+                    );
                     $gui->observeNoteAction($this->rep_obj_id, $this->obj_id, $this->obj_type, $a_action, $a_note->getId());
                 }
 

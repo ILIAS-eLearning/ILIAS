@@ -89,7 +89,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'ilrepositorysearchgui':
@@ -111,7 +111,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $user_search->addUserAccessFilterCallable(array($this, "searchUserAccessFilterCallable"));
                 $this->tabs_gui->setTabActive('search_user_extended');
                 $this->ctrl->setReturn($this, 'view');
-                $ret =&$this->ctrl->forwardCommand($user_search);
+                $ret = &$this->ctrl->forwardCommand($user_search);
                 break;
             
             case 'ilaccountcodesgui':
@@ -439,7 +439,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $count = 0;
                 if ($row["max"] > 0) {
                     //how many elements are present?
-                    for ($i=0; $i<count($this->data["ctrl"]); $i++) {
+                    for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
                         if ($this->data["ctrl"][$i]["type"] == $row["name"]) {
                             $count++;
                         }
@@ -706,7 +706,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // FOR ALL SELECTED OBJECTS
         foreach ($_POST["id"] as $id) {
             // instatiate correct object class (usr)
-            $obj =&$this->ilias->obj_factory->getInstanceByObjId($id);
+            $obj = &$this->ilias->obj_factory->getInstanceByObjId($id);
             $obj->delete();
         }
 
@@ -1291,9 +1291,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             // that's why whe show only a choice with the the option "ignore",
                             // and the matching roles.
                             $selectable_roles = array();
-                            $selectable_roles[""] =  $this->lng->txt("usrimport_ignore_role");
+                            $selectable_roles[""] = $this->lng->txt("usrimport_ignore_role");
                             foreach ($matching_role_ids as $id) {
-                                $selectable_roles[$id] =  $l_roles[$id];
+                                $selectable_roles[$id] = $l_roles[$id];
                             }
                             $role_select = ilUtil::formSelect($pre_select, "role_assign[" . $role_id . "]", $selectable_roles, false, true);
                         } else {
@@ -1635,7 +1635,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 // END SESSION SETTINGS
                 $ilSetting->set('letter_avatars', (int) $this->form->getInput('letter_avatars'));
 
-                $requestPasswordReset  = false;
+                $requestPasswordReset = false;
                 if ($this->form->getInput('pw_policy_hash')) {
                     $oldSettingsHash = $this->form->getInput('pw_policy_hash');
                     $currentSettingsHash = md5(implode('', $this->getPasswordPolicySettingsMap($security)));
@@ -2333,7 +2333,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $tbl->render();
 
         if (count($export_files) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($export_files as $exp_file) {
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("TXT_FILENAME", $exp_file["filename"]);
@@ -2864,7 +2864,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // show confirmation
         else {
             $cmds = array(
-                'activateUsers'	=> $this->lng->txt('activate'),
+                'activateUsers' => $this->lng->txt('activate'),
                 'deactivateUsers' => $this->lng->txt('deactivate'),
                 'restrictAccess' => $this->lng->txt('accessRestrict'),
                 'freeAccess' => $this->lng->txt('accessFree')

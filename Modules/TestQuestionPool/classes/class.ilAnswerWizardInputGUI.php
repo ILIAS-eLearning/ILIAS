@@ -99,7 +99,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     */
     public function setQuestionObject($a_value)
     {
-        $this->qstObject =&$a_value;
+        $this->qstObject = &$a_value;
     }
 
     /**

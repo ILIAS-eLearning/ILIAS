@@ -38,7 +38,6 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals('ro', $f->letter('root')->getAbbreviation());
         $this->assertEquals('Ro', $f->letter('Root')->getAbbreviation());
         $this->assertEquals('RO', $f->letter('ROOT')->getAbbreviation());
-
     }
 
     public function testUsername() : void
@@ -53,7 +52,6 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals('Root', $f->picture('', 'Root')->getUsername());
         $this->assertEquals('ROOT', $f->letter('ROOT')->getUsername());
         $this->assertEquals('ROOT', $f->picture('', 'ROOT')->getUsername());
-
     }
 
     public function testPicturePath() : void
@@ -70,15 +68,15 @@ class AvatarTest extends ILIAS_UI_TestBase
 
         // Test all 26 colors
         $variants = array(
-            1  => 'om',
-            2  => 'gk',
-            3  => 'bj',
-            4  => 'ea',
-            5  => 'mf',
-            6  => 'ob',
-            7  => 'bi',
-            8  => 'hu',
-            9  => 'fa',
+            1 => 'om',
+            2 => 'gk',
+            3 => 'bj',
+            4 => 'ea',
+            5 => 'mf',
+            6 => 'ob',
+            7 => 'bi',
+            8 => 'hu',
+            9 => 'fa',
             10 => 'so',
             11 => 'il',
             12 => 'ut',
@@ -100,15 +98,14 @@ class AvatarTest extends ILIAS_UI_TestBase
         foreach ($variants as $color => $variant) {
             $this->assertEquals($color, $f->letter($variant)->getBackgroundColorVariant());
         }
-
     }
 
     public function testCrc32()
     {
         // test mechanism (crc32)
-        $f                = $this->getAvatarFactory();
+        $f = $this->getAvatarFactory();
         $number_of_colors = 26;
-        $abb              = 'ru';
+        $abb = 'ru';
 
         $calculated_color_variant = (crc32($abb) % $number_of_colors) + 1; // plus 1 since colors start with 1
         $this->assertEquals($calculated_color_variant, $f->letter($abb)->getBackgroundColorVariant());
@@ -125,8 +122,8 @@ class AvatarTest extends ILIAS_UI_TestBase
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
 
-        $letter   = $f->letter('ro');
-        $html     = $this->normalizeHTML($r->render($letter));
+        $letter = $f->letter('ro');
+        $html = $this->normalizeHTML($r->render($letter));
         $expected = '<div class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-1" aria-label="ro">	<span class="abbreviation">ro</span></div>';
         $this->assertEquals($expected, $html);
     }
@@ -136,9 +133,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
 
-        $str      = '/path/to/picture.jpg';
-        $letter   = $f->picture($str, 'ro');
-        $html     = $this->normalizeHTML($r->render($letter));
+        $str = '/path/to/picture.jpg';
+        $letter = $f->picture($str, 'ro');
+        $html = $this->normalizeHTML($r->render($letter));
         $expected = '<div class="il-avatar il-avatar-picture il-avatar-size-large" aria-label="ro">	<img src="/path/to/picture.jpg"/></div>';
         $this->assertEquals($expected, $html);
     }
@@ -157,9 +154,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $strings = [];
         $running = true;
         while ($running) {
-            $str   = $sh($length);
+            $str = $sh($length);
             $probe = crc32($str);
-            $i     = ($probe % $color_variants) + 1;
+            $i = ($probe % $color_variants) + 1;
             if (!in_array($i, $strings, true)) {
                 $strings[$i] = $str;
                 yield $i => $str;
@@ -168,7 +165,5 @@ class AvatarTest extends ILIAS_UI_TestBase
                 $running = false;
             }
         }
-
     }
-
 }

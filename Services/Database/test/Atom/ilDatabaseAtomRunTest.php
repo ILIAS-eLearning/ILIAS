@@ -102,14 +102,14 @@ class ilDatabaseAtomRunTest extends TestCase
             $this->ilDBInterfaceGalera->dropSequence('il_db_tests_atom');
         }
         $this->ilDBInterfaceGalera->createTable('il_db_tests_atom', $fields = array(
-            'id'        => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
             ),
             'is_online' => array(
-                'type'    => 'integer',
-                'length'  => 1,
+                'type' => 'integer',
+                'length' => 1,
                 'notnull' => false,
             ),
         ), true);
@@ -209,7 +209,7 @@ class ilDatabaseAtomRunTest extends TestCase
     public function testUpdateDuringTransaction()
     {
         $this->ilDBInterfaceGalera->insert('il_db_tests_atom', array(
-            'id'        => array( 'integer', $this->ilDBInterfaceGalera->nextId('il_db_tests_atom') ),
+            'id' => array( 'integer', $this->ilDBInterfaceGalera->nextId('il_db_tests_atom') ),
             'is_online' => array( 'integer', 1 ),
         ));
 
@@ -239,7 +239,7 @@ class ilDatabaseAtomRunTest extends TestCase
     public function testUpdateDuringLock()
     {
         $this->ilDBInterfaceInnoDB->insert('il_db_tests_atom', array(
-            'id'        => array( 'integer', $this->ilDBInterfaceInnoDB->nextId('il_db_tests_atom') ),
+            'id' => array( 'integer', $this->ilDBInterfaceInnoDB->nextId('il_db_tests_atom') ),
             'is_online' => array( 'integer', 1 ),
         ));
         // Start a Transaction with one instance and update the same entry as another instance
@@ -277,11 +277,11 @@ class ilDatabaseAtomRunTest extends TestCase
     {
         $query = function (ilDBInterface $ilDB) {
             $ilDB->insert('il_db_tests_atom', array(
-                'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
+                'id' => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
                 'is_online' => array( 'integer', 1 ),
             ));
             $ilDB->insert('il_db_tests_atom', array(
-                'id'        => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
+                'id' => array( 'integer', $ilDB->nextId('il_db_tests_atom') ),
                 'is_online' => array( 'integer', 0 ),
             ));
         };
@@ -297,8 +297,8 @@ class ilDatabaseAtomRunTest extends TestCase
     {
         $tables = array(
             array(
-                'name'     => 'il_db_tests_atom',
-                'type'     => ilAtomQuery::LOCK_WRITE,
+                'name' => 'il_db_tests_atom',
+                'type' => ilAtomQuery::LOCK_WRITE,
                 'sequence' => true,
             ),
         );
@@ -329,11 +329,11 @@ class ilDatabaseAtomRunTest extends TestCase
     {
         return array(
             0 => array(
-                'id'        => '1',
+                'id' => '1',
                 'is_online' => '1',
             ),
             1 => array(
-                'id'        => '2',
+                'id' => '2',
                 'is_online' => '0',
             ),
         );

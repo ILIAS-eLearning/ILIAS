@@ -151,7 +151,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         foreach ($entries as $entry) {
             $tmp_arr['id'] = $entry->getEntryId();
             $tmp_arr['title'] = $entry->getTitle();
-            $tmp_arr['description']	= $entry->getDescription();
+            $tmp_arr['description'] = $entry->getDescription();
             $tmp_arr['used'] = $entry->getUsage();
             $tmp_arr['preview'] = $entry->getCopyright();
             $tmp_arr['default'] = $entry->getIsDefault();

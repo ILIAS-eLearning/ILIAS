@@ -52,7 +52,7 @@ class ilStopWorkflowActivityTest extends TestCase
     public function tearDown() : void
     {
         global $ilSetting;
-        if ($ilSetting !=  null) {
+        if ($ilSetting != null) {
             //$ilSetting->delete('IL_PHPUNIT_TEST_TIME');
             //$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }

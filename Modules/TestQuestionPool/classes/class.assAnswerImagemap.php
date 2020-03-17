@@ -65,8 +65,8 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         $points_unchecked = 0
     ) {
         parent::__construct($answertext, $points, 1, $id);
-        $this->coords           = $coords;
-        $this->area             = $area;
+        $this->coords = $coords;
+        $this->area = $area;
         $this->points_unchecked = $points_unchecked;
     }
   
@@ -92,10 +92,10 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function setCoords($coords="")
+    public function setCoords($coords = "")
     {
         $coords = preg_replace("/\s/", "", $coords);
-        $this->coords=$coords;
+        $this->coords = $coords;
     }
 
     /**
@@ -118,9 +118,9 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $area
     */
-    public function setArea($area="")
+    public function setArea($area = "")
     {
-        $this->area=$area;
+        $this->area = $area;
     }
 
     /**

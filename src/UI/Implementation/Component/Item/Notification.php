@@ -43,7 +43,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
      */
     public function withAdditionalContent(Legacy $additional_content) : INotification
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->additional_content = $additional_content;
         return $clone;
     }
@@ -61,7 +61,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
      */
     public function withCloseAction(string $url) : INotification
     {
-        $clone               = clone $this;
+        $clone = clone $this;
         $clone->close_action = $url;
         return $clone;
     }
@@ -83,7 +83,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
             INotification::class
         ];
         $this->checkArgListElements("Notification Item", $aggregate_notifications, $classes);
-        $clone                          = clone $this;
+        $clone = clone $this;
         $clone->aggregate_notifications = $aggregate_notifications;
         return $clone;
     }
@@ -101,7 +101,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
      */
     public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) : INotification
     {
-        $clone            = clone $this;
+        $clone = clone $this;
         $clone->lead_icon = $icon;
         return $clone;
     }

@@ -85,7 +85,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
     
     protected function fillRow($a_set)
     {
-        $this->tpl->setVariable("VALUE_POS", $a_set["pos"]/10);
+        $this->tpl->setVariable("VALUE_POS", $a_set["pos"] / 10);
         $this->tpl->setVariable("TXT_ANSWER", nl2br($a_set["answer"]));
         $this->tpl->setVariable("VALUE_VOTES", $a_set["votes"]);
         $this->tpl->setVariable("VALUE_PERCENTAGE", $a_set["percentage"]);
@@ -93,7 +93,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
     
     protected function fillRowCSV($a_csv, $a_set)
     {
-        $a_csv->addColumn($a_set["pos"]/10);
+        $a_csv->addColumn($a_set["pos"] / 10);
         $a_csv->addColumn($a_set["answer"]);
         $a_csv->addColumn($a_set["votes"]);
         $a_csv->addColumn($a_set["percentage"]);
@@ -102,7 +102,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
     
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
     {
-        $a_excel->setCell($a_row, 0, $a_set["pos"]/10);
+        $a_excel->setCell($a_row, 0, $a_set["pos"] / 10);
         $a_excel->setCell($a_row, 1, $a_set["answer"]);
         $a_excel->setCell($a_row, 2, $a_set["votes"]);
         $a_excel->setCell($a_row, 3, $a_set["percentage"] . "%");

@@ -238,8 +238,8 @@ class FileInputTest extends ILIAS_UI_TestBase
         $component_renderer_loader
             = new LoaderCachingWrapper(
                 new LoaderResourceRegistryWrapper(
-                $resource_registry,
-                new FSLoader(
+                    $resource_registry,
+                    new FSLoader(
                     new DefaultRendererFactory(
                         $ui_factory,
                         $tpl_factory,

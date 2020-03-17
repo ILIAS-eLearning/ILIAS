@@ -22,15 +22,15 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     {
         if (is_array($this->data)) {
             return array(
-                'login'     => $this->data['login'],
+                'login' => $this->data['login'],
                 'firstname' => '',
-                'lastname'  => ''
+                'lastname' => ''
             );
         } elseif (count($this->users_stack) > 0) {
             return array(
-                'login'     => array_shift($this->users_stack),
+                'login' => array_shift($this->users_stack),
                 'firstname' => '',
-                'lastname'  => ''
+                'lastname' => ''
             );
         }
     }

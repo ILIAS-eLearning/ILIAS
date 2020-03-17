@@ -26,7 +26,7 @@ class ilPDFGeneratorUtils
 
     public static function getTestPdfDir()
     {
-        $iliasPDFTestPath      = 'data/' . CLIENT_ID . '/pdf_service/';
+        $iliasPDFTestPath = 'data/' . CLIENT_ID . '/pdf_service/';
         if (!file_exists($iliasPDFTestPath)) {
             mkdir($iliasPDFTestPath);
         }
@@ -260,10 +260,10 @@ class ilPDFGeneratorUtils
             'pdfgen_conf',
             array(
                 'conf_id' => array('integer', $ilDB->nextId('pdfgen_conf')),
-                'renderer'	=> array('text', $renderer),
-                'service'	=> array('text', $service),
-                'purpose'	=> array('text', $purpose),
-                'config'	=> array('clob', json_encode($config))
+                'renderer' => array('text', $renderer),
+                'service' => array('text', $service),
+                'purpose' => array('text', $purpose),
+                'config' => array('clob', json_encode($config))
             )
         );
     }

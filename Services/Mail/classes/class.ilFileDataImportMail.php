@@ -147,10 +147,10 @@ class ilFileDataImportMail extends ilFileDataImport
                 continue;
             }
             $this->files[] = array(
-                'name'			=> $file,
-                'abs_path'		=> $a_dir . "/" . $file,
-                'size'			=> filesize($a_dir . "/" . $file),
-                'ctime'			=> filectime($a_dir . '/' . $file)
+                'name' => $file,
+                'abs_path' => $a_dir . "/" . $file,
+                'size' => filesize($a_dir . "/" . $file),
+                'ctime' => filectime($a_dir . '/' . $file)
             );
         }
         closedir($dp);

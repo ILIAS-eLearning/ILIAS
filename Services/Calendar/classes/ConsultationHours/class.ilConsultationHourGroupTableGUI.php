@@ -110,9 +110,9 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
             $rows[$counter]['max_books'] = $group->getMaxAssignments();
             $rows[$counter]['assigned'] = count(
                 ilConsultationHourAppointments::getAppointmentIdsByGroup(
-                $this->user_id,
-                $group->getGroupId(),
-                null
+                    $this->user_id,
+                    $group->getGroupId(),
+                    null
                 )
             );
             ++$counter;

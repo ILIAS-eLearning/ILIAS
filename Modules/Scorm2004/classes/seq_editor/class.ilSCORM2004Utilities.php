@@ -91,7 +91,7 @@ class ilSCORM2004Utilities
         $obj_set = $ilDB->query($query);
         $ilLog->write("SCORM: getLeftRightInfo executed" . $query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
-        return array("left"=> $obj_rec["lft"], "right" => $obj_rec["rgt"]);
+        return array("left" => $obj_rec["lft"], "right" => $obj_rec["rgt"]);
     }
     
     
@@ -156,7 +156,7 @@ class ilSCORM2004Utilities
             $ilDB->quote($this->getId(), "integer");
         $obj_set = $ilDB->query($query);
         $obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
+        return array("copy" => !$obj_rec['nocopy'],"move" => !$obj_rec['nomove'],"delete" => !$obj_rec['nodelete']);
     }
     
     public function getControlModeProperties()

@@ -37,8 +37,8 @@ class ilMailSummaryNotification extends ilMailNotification
     {
         global $DIC;
 
-        $this->db       = $DIC->database();
-        $this->lng      = $DIC->language();
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
 
         parent::__construct($a_is_personal_workspace);
@@ -73,7 +73,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
         /** @var ilMailMimeSenderFactory $senderFactory */
         $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
-        $sender        = $senderFactory->system();
+        $sender = $senderFactory->system();
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);

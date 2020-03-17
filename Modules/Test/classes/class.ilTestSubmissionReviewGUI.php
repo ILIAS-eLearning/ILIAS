@@ -70,7 +70,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     {
         if ($this->object->getKioskMode()) {
             // See: https://mantis.ilias.de/view.php?id=27784
-            //$this->tpl->setBodyClass("kiosk"); 
+            //$this->tpl->setBodyClass("kiosk");
             $this->tpl->hideFooter();
             return "CONTENT";
         } else {
@@ -214,7 +214,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         
-        $path =  ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
+        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
         
         if (!is_dir($path)) {
             ilUtil::makeDirParents($path);

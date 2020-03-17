@@ -217,7 +217,7 @@ class ilSkillNotifications extends ilCronJob
             }
 
             $date = ilDatePresentation::formatDate(new ilDateTime($skill_level["status_date"], IL_CAL_DATETIME));
-            $txt.= "\n  $date, " . ilBasicSkill::_lookupTitle($skill_level["skill_id"], $skill_level["tref_id"]) . ": " .
+            $txt .= "\n  $date, " . ilBasicSkill::_lookupTitle($skill_level["skill_id"], $skill_level["tref_id"]) . ": " .
                 ilBasicSkill::lookupLevelTitle($skill_level["level_id"]);
         }
 

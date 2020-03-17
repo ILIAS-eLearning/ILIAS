@@ -322,11 +322,11 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         \ILIAS\UI\Component\Signal $signal
     ) : \ILIAS\UI\Component\Dropdown\Standard {
         $items = [];
-        $items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
+        $items[] = $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
                                      ->withOnClick($signal);
 
         $this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $cat_ref_id);
-        $items[] =  $this->ui_factory->button()->shy(
+        $items[] = $this->ui_factory->button()->shy(
             $this->lng->txt('delete'),
             $this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
         );

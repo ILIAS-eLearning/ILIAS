@@ -441,7 +441,7 @@ class ilNewsTimelineGUI
         } else {
             $form->setValuesByPost();
             $this->show($form);
-            $this->tpl->addOnLoadCode("il.News.edit(".(int) $_POST["id"].", true);");
+            $this->tpl->addOnLoadCode("il.News.edit(" . (int) $_POST["id"] . ", true);");
         }
     }
 
@@ -472,7 +472,7 @@ class ilNewsTimelineGUI
         $modal->setType(ilModalGUI::TYPE_LARGE);
 
         include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-        if (is_null($form)){
+        if (is_null($form)) {
             $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         }
         $form->setShowTopButtons(false);

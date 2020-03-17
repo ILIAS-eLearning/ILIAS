@@ -223,7 +223,7 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         if ($parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($parent_obj_id);
         } else {
-            $parent_type  = "dummy";
+            $parent_type = "dummy";
             $this->type_grps["dummy"] = array("root" => "dummy");
         }
 

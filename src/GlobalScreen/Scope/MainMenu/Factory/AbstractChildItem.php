@@ -20,7 +20,7 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
      */
     public function withParent(IdentificationInterface $identification) : isItem
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->parent = $identification;
 
         return $clone;
@@ -51,5 +51,4 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
 
         return $this;
     }
-
 }

@@ -212,7 +212,7 @@ class ilRatingCategory
         $set = $ilDB->query($sql);
         $pos = $ilDB->fetchAssoc($set);
         $pos = $pos["pos"];
-        $this->setPosition($pos+10);
+        $this->setPosition($pos + 10);
         
         $fields = $this->getDBProperties();
         $fields["id"] = array("integer", $id);

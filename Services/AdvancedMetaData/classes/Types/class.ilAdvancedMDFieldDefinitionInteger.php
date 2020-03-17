@@ -221,9 +221,9 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     
     protected function addPropertiesToXML(ilXmlWriter $a_writer)
     {
-        $a_writer->xmlElement('FieldValue', array("id"=>"min"), $this->getMin());
-        $a_writer->xmlElement('FieldValue', array("id"=>"max"), $this->getMax());
-        $a_writer->xmlElement('FieldValue', array("id"=>"suffix"), $this->getSuffix());
+        $a_writer->xmlElement('FieldValue', array("id" => "min"), $this->getMin());
+        $a_writer->xmlElement('FieldValue', array("id" => "max"), $this->getMax());
+        $a_writer->xmlElement('FieldValue', array("id" => "suffix"), $this->getSuffix());
     }
     
     public function importXMLProperty($a_key, $a_value)

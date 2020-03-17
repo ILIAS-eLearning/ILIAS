@@ -301,7 +301,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         
         if ($a_id != "") {
             if ($a_first_child_drop_area) {
-                $a_id.= "fc";
+                $a_id .= "fc";
             }
             
             $this->drag_target[] = array("id" => $a_id, "group" => $a_group);
@@ -803,7 +803,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if (count($childs) > 0) {
             for ($i = 0; $i < count($childs); $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
-                    ? $next_sibling = $childs[$i+1]
+                    ? $next_sibling = $childs[$i + 1]
                     : null;
 
                 $this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);

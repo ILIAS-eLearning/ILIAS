@@ -157,7 +157,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getMasteryScorePercent() : float
     {
-        return $this->mastery_score*100;
+        return $this->mastery_score * 100;
     }
 
     /**
@@ -165,7 +165,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setMasteryScorePercent(float $mastery_score_percent)
     {
-        $this->mastery_score = $mastery_score_percent/100;
+        $this->mastery_score = $mastery_score_percent / 100;
     }
 
     /**
@@ -370,8 +370,8 @@ class ilObjLTIConsumer extends ilObject2
         
         while ($row = $DIC->database()->fetchAssoc($res)) {
             // if ($row['provider_id']) { //always set
-                $this->setProviderId((int) $row['provider_id']);
-                $this->setProvider(new ilLTIConsumeProvider((int) $row['provider_id']));
+            $this->setProviderId((int) $row['provider_id']);
+            $this->setProvider(new ilLTIConsumeProvider((int) $row['provider_id']));
             // }
             
             $this->setLaunchMethod($row['launch_method']);
@@ -415,14 +415,14 @@ class ilObjLTIConsumer extends ilObject2
             'use_xapi' => ['integer',$this->getUseXapi()],
             'activity_id' => ['text',$this->getCustomActivityId()],
             'show_statements' => ['integer',$this->isStatementsReportEnabled()],
-            'highscore_enabled'		=> ['integer', (int) $this->getHighscoreEnabled()],
-            'highscore_achieved_ts'	=> ['integer', (int) $this->getHighscoreAchievedTS()],
-            'highscore_percentage'	=> ['integer', (int) $this->getHighscorePercentage()],
-            'highscore_wtime'		=> ['integer', (int) $this->getHighscoreWTime()],
-            'highscore_own_table'	=> ['integer', (int) $this->getHighscoreOwnTable()],
-            'highscore_top_table'	=> ['integer', (int) $this->getHighscoreTopTable()],
-            'highscore_top_num'		=> ['integer', (int) $this->getHighscoreTopNum()],
-            'mastery_score'		    => ['float', (float) $this->getMasteryScore()]
+            'highscore_enabled' => ['integer', (int) $this->getHighscoreEnabled()],
+            'highscore_achieved_ts' => ['integer', (int) $this->getHighscoreAchievedTS()],
+            'highscore_percentage' => ['integer', (int) $this->getHighscorePercentage()],
+            'highscore_wtime' => ['integer', (int) $this->getHighscoreWTime()],
+            'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
+            'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
+            'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()],
+            'mastery_score' => ['float', (float) $this->getMasteryScore()]
         ]);
         
         $this->saveRepositoryActivationSettings();
@@ -798,7 +798,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" =>  $DIC->settings()->get("ilias_version"),
+            "tool_consumer_info_version" => $DIC->settings()->get("ilias_version"),
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""

@@ -55,7 +55,7 @@ function domxml_open_mem($str, $mode = 0, &$error = null)
     return $doc;
 }
 
-function xpath_eval($xpath_context, $eval_str, $contextnode=null)
+function xpath_eval($xpath_context, $eval_str, $contextnode = null)
 {
     return $xpath_context->query($eval_str, $contextnode);
 }
@@ -71,7 +71,7 @@ class php4DOMAttr extends php4DOMNode
 
     public function __construct($aDOMAttr)
     {
-        $this->myDOMAttr=$aDOMAttr;
+        $this->myDOMAttr = $aDOMAttr;
     }
 
     public function Name()
@@ -97,7 +97,7 @@ class php4DOMCDATASection extends php4DOMNode
     public function __construct($aDOMCDATASection)
     {
         parent::php4DOMNode($aDOMCDATASection);						// #added
-        $this->myDOMCDATASection=$aDOMCDATASection;
+        $this->myDOMCDATASection = $aDOMCDATASection;
     }
 }
 
@@ -108,7 +108,7 @@ class php4DOMDocument
     // ##altered
     public function __construct($source, $file = true, $a_mode = 0)
     {
-        $this->myDOMDocument=new DOMDocument();
+        $this->myDOMDocument = new DOMDocument();
         // temporary set error handler
         set_error_handler('staticxmlerror');
         $old = ini_set('html_errors', false);
@@ -133,7 +133,7 @@ class php4DOMDocument
             $this->error_arr = staticxmlerror(null, null, null, null, null, true);
             foreach ($this->error_arr as $error) {
                 $error = str_replace("DOMDocument::loadXML():", "", $error);
-                $this->error.= $error . "<br />";
+                $this->error .= $error . "<br />";
             }
         }
     }
@@ -182,8 +182,8 @@ class php4DOMDocument
 
     public function create_attribute($name, $value)
     {
-        $myAttr=$this->myDOMDocument->createAttribute($name);
-        $myAttr->value=$value;
+        $myAttr = $this->myDOMDocument->createAttribute($name);
+        $myAttr->value = $value;
 
         return new php4DOMAttr($myAttr);
     }
@@ -213,24 +213,24 @@ class php4DOMDocument
         return new php4DOMElement($this->myDOMDocument->documentElement);
     }
 
-    public function dump_file($filename, $compressionmode=false, $format=false)
+    public function dump_file($filename, $compressionmode = false, $format = false)
     {
         return $this->myDOMDocument->save($filename);
     }
 
-    public function dump_mem($format=false, $encoding=false)
+    public function dump_mem($format = false, $encoding = false)
     {
-        $r =  $this->myDOMDocument->saveXML();
+        $r = $this->myDOMDocument->saveXML();
         return $r;
     }
 
     public function get_elements_by_tagname($name)
     {
-        $myDOMNodeList=$this->myDOMDocument->getElementsByTagName($name);
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMDocument->getElementsByTagName($name);
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
 
@@ -260,11 +260,11 @@ class php4DOMElement extends php4DOMNode
 
     public function get_elements_by_tagname($name)
     {
-        $myDOMNodeList=$this->myDOMNode->getElementsByTagName($name);
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMNode->getElementsByTagName($name);
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
 
@@ -338,7 +338,7 @@ class php4DOMNode
 
     public function __construct($aDomNode)
     {
-        $this->myDOMNode=$aDomNode;
+        $this->myDOMNode = $aDomNode;
     }
 
     public function append_child($newnode)
@@ -370,12 +370,12 @@ class php4DOMNode
     public function attributes()
     {
         //echo "<br>node:".$this->myDOMNode->nodeName.":";
-        $myDOMNodeList=$this->myDOMNode->attributes;
-        $nodeSet=array();
-        $i=0;
+        $myDOMNodeList = $this->myDOMNode->attributes;
+        $nodeSet = array();
+        $i = 0;
         if (is_object($myDOMNodeList)) {
-            while ($node=$myDOMNodeList->item($i)) {
-                $nodeSet[]=new php4DOMAttr($node);
+            while ($node = $myDOMNodeList->item($i)) {
+                $nodeSet[] = new php4DOMAttr($node);
                 $i++;
             }
         }
@@ -385,11 +385,11 @@ class php4DOMNode
 
     public function child_nodes()
     {
-        $myDOMNodeList=$this->myDOMNode->childNodes;
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMNode->childNodes;
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
         return $nodeSet;
@@ -417,7 +417,7 @@ class php4DOMNode
         }
     }
 
-    public function clone_node($deep=false)
+    public function clone_node($deep = false)
     {
         return new php4DOMElement($this->myDOMNode->cloneNode($deep));
     }
@@ -554,11 +554,11 @@ class php4DOMNodelist
 
     public function __construct($aDOMNodelist)
     {
-        $this->myDOMNodelist=$aDOMNodelist;
-        $this->nodeset=array();
-        $i=0;
-        while ($node=$this->myDOMNodelist->item($i)) {
-            $this->nodeset[]=new php4DOMElement($node);
+        $this->myDOMNodelist = $aDOMNodelist;
+        $this->nodeset = array();
+        $i = 0;
+        while ($node = $this->myDOMNodelist->item($i)) {
+            $this->nodeset[] = new php4DOMElement($node);
             $i++;
         }
     }
@@ -576,7 +576,7 @@ class php4DOMXPath
 
     public function __construct($dom_document)
     {
-        $this->myDOMXPath=new DOMXPath($dom_document->myDOMDocument);
+        $this->myDOMXPath = new DOMXPath($dom_document->myDOMDocument);
     }
 
     public function query($eval_str)

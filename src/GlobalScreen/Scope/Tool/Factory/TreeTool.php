@@ -37,7 +37,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -63,7 +63,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->symbol = $symbol;
 
         return $clone;
@@ -74,7 +74,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
      */
     public function withTree(Tree $tree) : TreeTool
     {
-        $clone       = clone($this);
+        $clone = clone($this);
         $clone->tree = $tree;
 
         return $clone;

@@ -34,7 +34,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
@@ -137,15 +137,15 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frma_set = new ilSetting('frma');
 
         $form->setValuesByArray(array(
-            'forum_overview'           => (bool) $frma_set->get('forum_overview', false),
-            'fora_statistics'          => (bool) $this->settings->get('enable_fora_statistics', false),
-            'anonymous_fora'           => (bool) $this->settings->get('enable_anonymous_fora', false),
-            'forum_notification'       => (int) $this->settings->get('forum_notification') === 1 ? true : false,
-            'activate_captcha_anonym'  => ilCaptchaUtil::isActiveForForum(),
+            'forum_overview' => (bool) $frma_set->get('forum_overview', false),
+            'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics', false),
+            'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora', false),
+            'forum_notification' => (int) $this->settings->get('forum_notification') === 1 ? true : false,
+            'activate_captcha_anonym' => ilCaptchaUtil::isActiveForForum(),
             'file_upload_allowed_fora' => (int) $this->settings->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
-            'save_post_drafts'         => (int) $this->settings->get('save_post_drafts', 0),
-            'autosave_drafts'          => (int) $this->settings->get('autosave_drafts', 0),
-            'autosave_drafts_ival'     => (int) $this->settings->get('autosave_drafts_ival', 30),
+            'save_post_drafts' => (int) $this->settings->get('save_post_drafts', 0),
+            'autosave_drafts' => (int) $this->settings->get('autosave_drafts', 0),
+            'autosave_drafts_ival' => (int) $this->settings->get('autosave_drafts_ival', 30),
             'send_attachments_by_mail' => (bool) $this->settings->get('send_attachments_by_mail', false)
         ));
     }
@@ -241,7 +241,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
                 $fields = array(
                     'enable_fora_statistics' => array($this->settings->get('enable_fora_statistics', false), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'enable_anonymous_fora'  => array($this->settings->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'enable_anonymous_fora' => array($this->settings->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
                 );
 
                 return array(array("editSettings", $fields));

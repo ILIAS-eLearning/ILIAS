@@ -28,9 +28,9 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         $commands = [
             [
                 'permission' => 'read',
-                'cmd'        => 'view',
-                'lang_var'   => 'show',
-                'default'    => true,
+                'cmd' => 'view',
+                'lang_var' => 'show',
+                'default' => true,
             ],
         ];
 

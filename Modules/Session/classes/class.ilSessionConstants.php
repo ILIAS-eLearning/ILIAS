@@ -7,5 +7,5 @@
 class ilSessionConstants
 {
     const NOTIFICATION_INHERIT_OPTION = 'notification_option_inherit';
-    const NOTIFICATION_MANUAL_OPTION  = 'notification_option_manual';
+    const NOTIFICATION_MANUAL_OPTION = 'notification_option_manual';
 }

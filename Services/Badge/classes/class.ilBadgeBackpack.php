@@ -25,7 +25,7 @@ class ilBadgeBackpack
     {
         $json = $this->sendRequest(
             self::URL_DISPLAYER . "convert/email",
-            array("email"=>$this->email),
+            array("email" => $this->email),
             true
         );
         

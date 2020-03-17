@@ -126,7 +126,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     public function getChildsOfNode($a_parent_id)
     {
         if (is_array($this->selectable_child_nodes[$a_parent_id])) {
-            $childs =  $this->selectable_child_nodes[$a_parent_id];
+            $childs = $this->selectable_child_nodes[$a_parent_id];
             $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
         }

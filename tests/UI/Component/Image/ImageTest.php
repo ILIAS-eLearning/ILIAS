@@ -190,7 +190,9 @@ class ImageTest extends ILIAS_UI_TestBase
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
 
-        $i = $f->standard("source", "alt")->withAction("#")->withOnLoadCode(function($id){return "Something";});
+        $i = $f->standard("source", "alt")->withAction("#")->withOnLoadCode(function ($id) {
+            return "Something";
+        });
 
         $html = $this->normalizeHTML($r->render($i));
 

@@ -44,8 +44,8 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->ctrl()->setParameterByClass(ilRepositorySearchGUI::class, 'addusertype', 'staff');
         ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->dic()->toolbar(), array(
             'auto_complete_name' => $this->txt('user'),
-            'user_type'          => $types,
-            'submit_name'        => $this->txt('add'),
+            'user_type' => $types,
+            'submit_name' => $this->txt('add'),
         ));
 
         // Tables

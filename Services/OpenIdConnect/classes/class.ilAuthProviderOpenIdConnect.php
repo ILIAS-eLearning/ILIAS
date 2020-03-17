@@ -142,7 +142,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 
         try {
             $sync = new ilOpenIdConnectUserSync($this->settings, $user_info);
-            if(!is_string($ext_account)) {
+            if (!is_string($ext_account)) {
                 $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
                 $status->setReason('err_wrong_login');
                 return $status;
@@ -158,7 +158,6 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
 
             // @todo : provide a general solution for all authentication methods
             $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
-
         } catch (ilOpenIdConnectSyncForbiddenException $e) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');

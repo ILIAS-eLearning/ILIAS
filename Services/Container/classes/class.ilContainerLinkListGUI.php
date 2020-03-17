@@ -59,7 +59,7 @@ class ilContainerLinkListGUI
         $this->tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
         
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
     }
 
     public function executeCommand()
@@ -107,7 +107,7 @@ class ilContainerLinkListGUI
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++)%2)+1));
+            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable("TYPE", $lng->txt("objs_" . $type) .
                     " (" . ((int) $cnt[$type]) . ")");
