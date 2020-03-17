@@ -35,7 +35,7 @@ class Notification extends Slate implements ISlate\Notification
      */
     public function withAdditionalEntry(NotificationItem $entry) : ISlate\Notification
     {
-        $clone             = clone $this;
+        $clone = clone $this;
         $clone->contents[] = $entry;
         return $clone;
     }

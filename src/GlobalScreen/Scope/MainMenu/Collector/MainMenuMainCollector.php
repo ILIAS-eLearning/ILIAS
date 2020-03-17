@@ -53,10 +53,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information                 = $information;
-        $this->providers                   = $providers;
+        $this->information = $information;
+        $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map                         = new Map();
+        $this->map = new Map();
     }
 
     /**
@@ -89,7 +89,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 }
             }
 
-            $is_available        = $item->isAvailable();
+            $is_available = $item->isAvailable();
             $is_always_available = $item->isAlwaysAvailable();
             if (!$is_available) {
                 return $is_always_available;

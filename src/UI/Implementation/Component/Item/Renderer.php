@@ -130,7 +130,7 @@ class Renderer extends AbstractComponentRenderer
         $aggregates_html = "";
 
         // aggregate notification
-        $title           = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), $this->txt("back"), "");
+        $title = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), $this->txt("back"), "");
         $aggregates_html = $default_renderer->render(
             $this->getUIFactory()->mainControls()->slate()->notification($default_renderer->render($title), $component->getAggregateNotifications())
         );
@@ -156,7 +156,7 @@ class Renderer extends AbstractComponentRenderer
 
         // close action
         if ($component->getCloseAction()) {
-            $url          = $component->getCloseAction();
+            $url = $component->getCloseAction();
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
                 function ($id) use ($url, $item_id) {
                     return "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);";

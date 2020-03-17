@@ -585,7 +585,7 @@ abstract class ilRemoteObjectBase extends ilObject2
                 $additional = array();
                 foreach ($values_record->getADTGroup()->getElements() as $element_id => $element) {
                     if (!$element->isNull()) {
-                        $additional[$element_id] = array("disabled"=>array("integer", 1));
+                        $additional[$element_id] = array("disabled" => array("integer", 1));
                     }
                 }
                 $values_record->write($additional);

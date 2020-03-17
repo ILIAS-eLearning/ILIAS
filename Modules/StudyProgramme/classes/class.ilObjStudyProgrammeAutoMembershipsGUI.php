@@ -618,24 +618,24 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     ) : \ILIAS\UI\Component\Dropdown\Standard {
         $items = [];
 
-        $items[] =  $this->ui_factory->button()->shy($this->txt('edit'), '')
+        $items[] = $this->ui_factory->button()->shy($this->txt('edit'), '')
             ->withOnClick($signal);
 
         $this->ctrl->setParameter($this, self::CHECKBOX_SOURCE_IDS, $src_id);
 
         if ($is_enabled) {
-            $items[] =  $this->ui_factory->button()->shy(
+            $items[] = $this->ui_factory->button()->shy(
                 $this->txt('disable'),
                 $this->ctrl->getLinkTarget($this, self::CMD_DISABLE)
             );
         } else {
-            $items[] =  $this->ui_factory->button()->shy(
+            $items[] = $this->ui_factory->button()->shy(
                 $this->txt('enable'),
                 $this->ctrl->getLinkTarget($this, self::CMD_ENABLE)
             );
         }
 
-        $items[] =  $this->ui_factory->button()->shy(
+        $items[] = $this->ui_factory->button()->shy(
             $this->txt('delete'),
             $this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
         );

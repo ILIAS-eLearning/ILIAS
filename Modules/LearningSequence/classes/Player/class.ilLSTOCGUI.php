@@ -45,7 +45,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $node['_id'] = $this->counter;
         $this->counter++;
         if (array_key_exists('childs', $node)) {
-            foreach ($node['childs'] as $idx=>$child) {
+            foreach ($node['childs'] as $idx => $child) {
                 $node['childs'][$idx] = $this->addIds($child);
             }
         }

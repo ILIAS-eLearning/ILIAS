@@ -31,7 +31,7 @@ class ilIndividualAssessmentMemberGUI
         $this->parent_gui = $a_parent_gui;
         $this->object = $a_parent_gui->object;
         $this->ref_id = $a_ref_id;
-        $this->tpl =  $DIC['tpl'];
+        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
         $this->ctrl->saveParameter($this, 'usr_id');
         $this->examinee = new ilObjUser($_GET['usr_id']);
@@ -620,7 +620,7 @@ class ilIndividualAssessmentMemberGUI
             $member = $member->withExaminerId($this->examiner->getId());
         }
 
-        if ($data['notify']  == 1) {
+        if ($data['notify'] == 1) {
             $member = $member->withNotify(true);
         } else {
             $member = $member->withNotify(false);

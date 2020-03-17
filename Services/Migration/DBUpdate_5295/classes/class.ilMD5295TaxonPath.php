@@ -145,12 +145,12 @@ class ilMD5295TaxonPath extends ilMD5295Base
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'source'	=> array('text',$this->getSource()),
+                     'source' => array('text',$this->getSource()),
                      'source_language' => array('text',$this->getSourceLanguageCode()));
     }
 
@@ -200,7 +200,7 @@ class ilMD5295TaxonPath extends ilMD5295Base
         // Taxon
         $taxs = $this->getTaxonIds();
         foreach ($taxs as $id) {
-            $tax =&$this->getTaxon($id);
+            $tax = &$this->getTaxon($id);
             $tax->toXML($writer);
         }
         if (!count($taxs)) {

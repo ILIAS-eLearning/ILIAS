@@ -91,7 +91,7 @@ class EvalMath
     public $suppress_errors = false;
     public $last_error = null;
     
-    public $v = array('e'=>2.71,'pi'=>3.14); // variables (and constants)
+    public $v = array('e' => 2.71,'pi' => 3.14); // variables (and constants)
     public $f = array(); // user-defined functions
     public $vb = array('e', 'pi'); // constants
     public $fb = array(  // built-in functions
@@ -121,17 +121,17 @@ class EvalMath
     {
         // convert exponential notation
         $expr = preg_replace_callback(
-                "/(\\d{0,1})e(-{0,1}\\d+)/is",
-                function ($hit) {
-                    return $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')';
-                },
-                $expr
+            "/(\\d{0,1})e(-{0,1}\\d+)/is",
+            function ($hit) {
+                return $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')';
+            },
+            $expr
             );
         // standard functionality
         $this->last_error = null;
         $expr = trim($expr);
         if (substr($expr, -1, 1) == ';') {
-            $expr = substr($expr, 0, strlen($expr)-1);
+            $expr = substr($expr, 0, strlen($expr) - 1);
         } // strip semicolons at the end
         //===============
         // is it a variable assignment?
@@ -155,7 +155,7 @@ class EvalMath
             if (($stack = $this->nfx($matches[3])) === false) {
                 return false;
             } // see if it can be converted to postfix
-            for ($i = 0; $i<count($stack); $i++) { // freeze the state of the non-argument variables
+            for ($i = 0; $i < count($stack); $i++) { // freeze the state of the non-argument variables
                 $token = $stack[$i];
                 if (preg_match('/^[a-z]\w*$/', $token) and !in_array($token, $args)) {
                     if (array_key_exists($token, $this->v)) {
@@ -165,7 +165,7 @@ class EvalMath
                     }
                 }
             }
-            $this->f[$fnn] = array('args'=>$args, 'func'=>$stack);
+            $this->f[$fnn] = array('args' => $args, 'func' => $stack);
             return true;
         //===============
         } else {
@@ -184,7 +184,7 @@ class EvalMath
     public function funcs()
     {
         $output = array();
-        foreach ($this->f as $fnn=>$dat) {
+        foreach ($this->f as $fnn => $dat) {
             $output[] = $fnn . '(' . implode(',', $dat['args']) . ')';
         }
         return $output;
@@ -200,9 +200,9 @@ class EvalMath
         $output = array(); // postfix form of expression, to be passed to pfx()
         $expr = trim(strtolower($expr));
         
-        $ops   = array('+', '-', '*', '/', '^', '_');
-        $ops_r = array('+'=>0,'-'=>0,'*'=>0,'/'=>0,'^'=>1); // right-associative operator?
-        $ops_p = array('+'=>0,'-'=>0,'*'=>1,'/'=>1,'_'=>1,'^'=>2); // operator precedence
+        $ops = array('+', '-', '*', '/', '^', '_');
+        $ops_r = array('+' => 0,'-' => 0,'*' => 0,'/' => 0,'^' => 1); // right-associative operator?
+        $ops_p = array('+' => 0,'-' => 0,'*' => 1,'/' => 1,'_' => 1,'^' => 2); // operator precedence
         
         $expecting_op = false; // we use this in syntax-checking the expression
         // and determining when a - is a negation
@@ -275,7 +275,7 @@ class EvalMath
                 if (!preg_match("/^([a-z]\w*)\($/", $stack->last(2), $matches)) {
                     return $this->trigger("unexpected ','");
                 }
-                $stack->push($stack->pop()+1); // increment the argument count
+                $stack->push($stack->pop() + 1); // increment the argument count
                 $stack->push('('); // put the ( back on, we'll need to pop back to it again
                 $index++;
                 $expecting_op = false;
@@ -366,7 +366,7 @@ class EvalMath
                 }
                 // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
-                $stack->push(-1*$stack->pop());
+                $stack->push(-1 * $stack->pop());
             // if the token is a function, pop arguments off the stack, hand them to the function, and push the result back on
             } elseif (preg_match("/^([a-z]\w*)\($/", $token, $matches)) { // it's a function!
                 $fnn = $matches[1];
@@ -385,7 +385,7 @@ class EvalMath
                 } elseif (array_key_exists($fnn, $this->f)) { // user function
                     // get args
                     $args = array();
-                    for ($i = count($this->f[$fnn]['args'])-1; $i >= 0; $i--) {
+                    for ($i = count($this->f[$fnn]['args']) - 1; $i >= 0; $i--) {
                         if (is_null($args[$this->f[$fnn]['args'][$i]] = $stack->pop())) {
                             return $this->trigger("internal error");
                         }
@@ -396,7 +396,7 @@ class EvalMath
             } else {
                 if (is_numeric($token)) {
                     $stack->push($token);
-                } elseif (($hex=$this->from_hexbin($token))!==false) {
+                } elseif (($hex = $this->from_hexbin($token)) !== false) {
                     $stack->push($hex);
                 } elseif (array_key_exists($token, $this->v)) {
                     $stack->push($this->v[$token]);
@@ -428,10 +428,10 @@ class EvalMath
     //  1234h/0101010b are allowed
     public function from_hexbin($token)
     {
-        if (strtoupper(substr($token, -1, 1))=='H') {
+        if (strtoupper(substr($token, -1, 1)) == 'H') {
             return hexdec($token);
         }
-        if (strtoupper(substr($token, -1, 1))=='B') {
+        if (strtoupper(substr($token, -1, 1)) == 'B') {
             return bindec($token);
         }
         return false;
@@ -459,10 +459,10 @@ class EvalMathStack
         return null;
     }
     
-    public function last($n=1)
+    public function last($n = 1)
     {
         // mjansen-patch: begin
-        if (isset($this->stack[$this->count-$n])) {
+        if (isset($this->stack[$this->count - $n])) {
             return $this->stack[$this->count - $n];
         }
         return null;

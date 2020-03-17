@@ -225,7 +225,7 @@ class ilProxySettings
     {
         global $DIC;
 
-        $errno  = null;
+        $errno = null;
         $errstr = null;
 
         set_error_handler(function ($severity, $message, $file, $line) {
@@ -237,7 +237,7 @@ class ilProxySettings
             if (strspn($host, '.0123456789') != strlen($host) && strstr($host, '/') === false) {
                 $host = gethostbyname($host);
             }
-            $port =   $this->getPort() % 65536;
+            $port = $this->getPort() % 65536;
 
             if (!fsockopen($host, $port, $errno, $errstr, self::CONNECTION_CHECK_TIMEOUT)) {
                 restore_error_handler();

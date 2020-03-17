@@ -10,10 +10,10 @@
  */
 class ilCaptchaUtil
 {
-    const CONTEXT_FORUM        = 'frm';
-    const CONTEXT_LOGIN        = 'auth';
+    const CONTEXT_FORUM = 'frm';
+    const CONTEXT_LOGIN = 'auth';
     const CONTEXT_REGISTRATION = 'reg';
-    const CONTEXT_WIKI         = 'wiki';
+    const CONTEXT_WIKI = 'wiki';
 
     /**
      * @var array|null
@@ -46,10 +46,10 @@ class ilCaptchaUtil
             strpos($name, 'isActiveFor') === 0 ||
             strpos($name, 'setActiveFor') === 0
         ) {
-            $settings           = new ilSetting('cptch');
+            $settings = new ilSetting('cptch');
             $supported_contexts = self::getSupportedContexts();
-            $method_parts       = explode('_', strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)));
-            $requested_context  = strtolower($method_parts[count($method_parts) - 1]);
+            $method_parts = explode('_', strtolower(preg_replace('/([a-z])([A-Z])/', '$1_$2', $name)));
+            $requested_context = strtolower($method_parts[count($method_parts) - 1]);
             if (!isset($requested_context, self::$context_map)) {
                 throw new BadMethodCallException('Method ' . $name . ' called for a non existing context.');
             }
@@ -92,7 +92,7 @@ class ilCaptchaUtil
 
         self::$context_map = array();
 
-        $r         = new ReflectionClass(new self());
+        $r = new ReflectionClass(new self());
         $constants = $r->getConstants();
         foreach ($constants as $name => $value) {
             if (strpos($name, 'CONTEXT_') === 0) {

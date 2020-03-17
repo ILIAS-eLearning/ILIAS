@@ -117,13 +117,13 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     public function fillPropertiesForm(ilPropertyFormGUI &$form)
     {
         $values = array(
-            'table_id'    => $this->getTableId(),
-            'field_id'    => $this->getId(),
-            'title'       => $this->getTitle(),
-            'datatype'    => $this->getDatatypeId(),
+            'table_id' => $this->getTableId(),
+            'field_id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
-            'required'    => $this->getRequired(),
-            'unique'      => $this->isUnique(),
+            'required' => $this->getRequired(),
+            'unique' => $this->isUnique(),
         );
 
         $properties = $this->getValidFieldProperties();

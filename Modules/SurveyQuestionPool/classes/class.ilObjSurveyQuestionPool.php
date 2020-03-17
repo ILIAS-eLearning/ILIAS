@@ -102,14 +102,14 @@ class ilObjSurveyQuestionPool extends ilObject
 
         $newObj->saveToDb();
         // clone the questions in the question pool
-        $questions =&$this->getQuestions();
+        $questions = &$this->getQuestions();
         foreach ($questions as $question_id) {
             $newObj->copyQuestion($question_id, $newObj->getId());
         }
 
         // clone meta data
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $new_md =&$md->cloneMD($newObj->getId(), 0, $newObj->getType());
+        $new_md = &$md->cloneMD($newObj->getId(), 0, $newObj->getType());
 
         // update the metadata with the new title of the question pool
         $newObj->updateMetaData();
@@ -141,7 +141,7 @@ class ilObjSurveyQuestionPool extends ilObject
     */
     public function copyQuestion($question_id, $questionpool_to)
     {
-        $question_gui =&$this->createQuestion("", $question_id);
+        $question_gui = &$this->createQuestion("", $question_id);
         if ($question_gui->object->getObjId() == $questionpool_to) {
             // the question is copied into the same question pool
             $this->duplicateQuestion($question_id);
@@ -266,7 +266,7 @@ class ilObjSurveyQuestionPool extends ilObject
         if ($question_id < 1) {
             return;
         }
-        $question =&SurveyQuestion::_instanciateQuestion($question_id);
+        $question = &SurveyQuestion::_instanciateQuestion($question_id);
         $question->delete($question_id);
     }
 
@@ -561,10 +561,10 @@ class ilObjSurveyQuestionPool extends ilObject
     public function toXML($questions)
     {
         if (!is_array($questions)) {
-            $questions =&$this->getQuestions();
+            $questions = &$this->getQuestions();
         }
         if (count($questions) == 0) {
-            $questions =&$this->getQuestions();
+            $questions = &$this->getQuestions();
         }
         $xml = "";
 

@@ -59,7 +59,7 @@ class ilPCResources extends ilPageContent
     {
         if (!empty($a_type)) {
             $children = $this->res_node->child_nodes();
-            for ($i=0; $i<count($children); $i++) {
+            for ($i = 0; $i < count($children); $i++) {
                 $this->res_node->remove_child($children[$i]);
             }
             $list_node = $this->dom->create_element("ResourceList");
@@ -77,7 +77,7 @@ class ilPCResources extends ilPageContent
     {
         if (!empty($a_ref_id)) {
             $children = $this->res_node->child_nodes();
-            for ($i=0; $i<count($children); $i++) {
+            for ($i = 0; $i < count($children); $i++) {
                 $this->res_node->remove_child($children[$i]);
             }
             $list_node = $this->dom->create_element("ItemGroup");

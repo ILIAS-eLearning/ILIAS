@@ -59,8 +59,8 @@ class ilCertificateCloneAction
         ilCertificateObjectHelper $objectHelper = null,
         string $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->database           = $database;
-        $this->pathFactory        = $pathFactory;
+        $this->database = $database;
+        $this->pathFactory = $pathFactory;
         $this->templateRepository = $templateRepository;
 
         if (null === $logger) {

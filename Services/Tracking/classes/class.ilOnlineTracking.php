@@ -90,7 +90,7 @@ class ilOnlineTracking
 
         if (null === self::$last_access_time) {
             $query = 'SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($user->getId(), 'integer');
-            $res   = $ilDB->query($query);
+            $res = $ilDB->query($query);
             if (!$ilDB->numRows($res)) {
                 return false;
             }

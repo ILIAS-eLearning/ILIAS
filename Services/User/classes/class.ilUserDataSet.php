@@ -280,7 +280,7 @@ class ilUserDataSet extends ilDataSet
                     $set = $ilDB->query("SELECT * FROM usr_pref " .
                         " WHERE " . $ilDB->in("keyword", $prefs, false, "text") .
                         " AND " . $ilDB->in("usr_id", $a_ids, false, "integer"));
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         $this->data[] = array("UserId" => $rec["usr_id"], "Keyword" => $rec["keyword"], "Value" => $rec["value"]);
                     }
                     break;
@@ -296,7 +296,7 @@ class ilUserDataSet extends ilDataSet
                     $this->data = array();
                     $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                         " WHERE " . $ilDB->in("usr_id", $a_ids, false, "integer"));
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         $this->data[] = array("UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]);
                     }
                     break;

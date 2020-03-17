@@ -55,7 +55,7 @@ class ilBadgeAssignment
 
         // if no last check exists, we use last 24 hours
         if ($last == 0) {
-            $last = time() - (24*60*60);
+            $last = time() - (24 * 60 * 60);
         }
 
         if ($last > 0) {
@@ -424,7 +424,7 @@ class ilBadgeAssignment
         }
         
         $json->issuedOn = $this->getTimestamp();
-        $json->badge =  $badge_url;
+        $json->badge = $badge_url;
         $json->verify = $verify;
         
         return $json;

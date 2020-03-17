@@ -229,14 +229,14 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      **/
     public function getSolutionOutput(
         $active_id,
-        $pass		= null,
-        $graphicalOutput		= false,
-        $result_output			= false,
-        $show_question_only		= true,
-        $show_feedback			= false,
-        $show_correct_solution	= false,
-        $show_manual_scoring	= false,
-        $show_question_text		= true
+        $pass = null,
+        $graphicalOutput = false,
+        $result_output = false,
+        $show_question_only = true,
+        $show_feedback = false,
+        $show_correct_solution = false,
+        $show_manual_scoring = false,
+        $show_question_text = true
     ) {
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", true, true, "Modules/TestQuestionPool");
@@ -246,7 +246,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             /* Retrieve tst_solutions entries. */
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
-            $solutions		=&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             if (is_array($solutions)) {
                 foreach ($solutions as $solution) {
                     array_push($selections, (int) $solution['value1']);
@@ -254,7 +254,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $errortext_value = join(",", $selections);
             }
         } else {
-            $selections		= $this->object->getBestSelection();
+            $selections = $this->object->getBestSelection();
             $reached_points = $this->object->getPoints();
         }
 
@@ -267,7 +267,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
         }
 
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
 
@@ -286,7 +286,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (

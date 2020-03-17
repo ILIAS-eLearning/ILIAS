@@ -72,11 +72,11 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
             foreach ($instance['refs'] as $ref_id) {
                 $trashed = $tree->isDeleted($ref_id);
                 $rows[] = array(
-                    'title'      => $instance['title'],
-                    'author'     => $instance['author'],
-                    'ref_id'     => $ref_id,
+                    'title' => $instance['title'],
+                    'author' => $instance['author'],
+                    'ref_id' => $ref_id,
                     'is_trashed' => $trashed,
-                    'path'       => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, $ref_id)
+                    'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, $ref_id)
                 );
             }
         }

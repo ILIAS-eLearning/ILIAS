@@ -528,7 +528,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->getLSRoles()->getLearningSequenceMemberData($a_mem_ids, $active);
     }
 
-    public function getDefaultLearningSequenceRoles($a_grp_id="")
+    public function getDefaultLearningSequenceRoles($a_grp_id = "")
     {
         return $this->getLSRoles()->getDefaultLearningSequenceRoles($a_grp_id);
     }

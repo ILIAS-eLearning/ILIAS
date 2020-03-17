@@ -65,7 +65,7 @@ class ilSettingTest extends TestCase
         $value = $set->get("foo", false, true) . "-";		// should be "-" now
         
         $set = new ilSetting("test_module2");
-        $value.= $set->get("foo2");			// should be "-bar2" now
+        $value .= $set->get("foo2");			// should be "-bar2" now
         
         $this->assertEquals("-bar2", $value);
     }

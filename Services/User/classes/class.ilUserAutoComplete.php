@@ -300,10 +300,10 @@ class ilUserAutoComplete
         }
 
 
-        $select_part   = $this->getSelectPart();
-        $where_part    = $this->getWherePart($parsed_query);
+        $select_part = $this->getSelectPart();
+        $where_part = $this->getWherePart($parsed_query);
         $order_by_part = $this->getOrderByPart();
-        $query         = implode(" ", array(
+        $query = implode(" ", array(
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
             $where_part ? 'WHERE ' . $where_part : '',
@@ -328,7 +328,7 @@ class ilUserAutoComplete
         
         include_once './Services/Search/classes/class.ilSearchSettings.php';
         $max = $this->getLimit() ? $this->getLimit() : ilSearchSettings::getInstance()->getAutoCompleteLength();
-        $cnt    = 0;
+        $cnt = 0;
         $more_results = false;
         $result = array();
         $recs = array();
@@ -363,7 +363,7 @@ class ilUserAutoComplete
             
             $result[$cnt]['value'] = (string) $rec[$this->result_field];
             $result[$cnt]['label'] = $label;
-            $result[$cnt]['id']    = $rec['usr_id'];
+            $result[$cnt]['id'] = $rec['usr_id'];
             $cnt++;
         }
 
@@ -466,7 +466,7 @@ class ilUserAutoComplete
             }
         }
 
-        $outer_conditions[] =  'ud.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
+        $outer_conditions[] = 'ud.usr_id != ' . $ilDB->quote(ANONYMOUS_USER_ID, 'integer');
 
         $field_conditions = array();
         foreach ($this->getFields() as $field) {
@@ -475,16 +475,16 @@ class ilUserAutoComplete
             if ('email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query        = array();
-                $email_query[]      = $field_condition;
-                $email_query[]      = 'pubemail.value = ' . $ilDB->quote('y', 'text');
+                $email_query = array();
+                $email_query[] = $field_condition;
+                $email_query[] = 'pubemail.value = ' . $ilDB->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
             } elseif ('second_email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query        = array();
-                $email_query[]      = $field_condition;
-                $email_query[]      = 'pubsecondemail.value = ' . $ilDB->quote('y', 'text');
+                $email_query = array();
+                $email_query[] = $field_condition;
+                $email_query[] = 'pubsecondemail.value = ' . $ilDB->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
             } else {
                 $field_conditions[] = $field_condition;

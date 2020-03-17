@@ -161,7 +161,7 @@ class ilLMEditorGUI
         $loc = $DIC["ilLocator"];
         $loc->addRepositoryItems((int) $_GET["ref_id"]);
 
-        if ($_GET["to_page"]== 1) {
+        if ($_GET["to_page"] == 1) {
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
             $this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
         }

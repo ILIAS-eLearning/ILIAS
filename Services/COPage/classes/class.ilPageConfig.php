@@ -79,8 +79,8 @@ abstract class ilPageConfig
         $this->adve_set = new ilSetting("adve");
 
         $def = new ilCOPageObjDef();
-        foreach($def->getDefinitions() as $key => $def) {
-            if (strtolower(get_class($this)) == strtolower($def["class_name"]."Config")) {
+        foreach ($def->getDefinitions() as $key => $def) {
+            if (strtolower(get_class($this)) == strtolower($def["class_name"] . "Config")) {
                 $this->page_obj_key = $key;
             }
         }
@@ -475,7 +475,7 @@ abstract class ilPageConfig
     public function getPreventHTMLUnmasking()
     {
         $safe = true;
-        if ($this->adve_set->get("act_html_".$this->page_obj_key)) {
+        if ($this->adve_set->get("act_html_" . $this->page_obj_key)) {
             $safe = false;
         }
         return $safe;

@@ -29,7 +29,7 @@ class ilMailingListsTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->lng  = $DIC['lng'];
+        $this->lng = $DIC['lng'];
         $this->ctrl = $DIC['ilCtrl'];
 
         $this->setId('show_mlng_lists_tbl');

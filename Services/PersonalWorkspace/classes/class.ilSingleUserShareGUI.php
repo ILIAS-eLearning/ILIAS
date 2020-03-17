@@ -17,9 +17,9 @@ class ilSingleUserShareGUI
     {
         global $DIC;
 
-        $this->tpl               = $DIC['tpl'];
-        $this->ctrl              = $DIC['ilCtrl'];
-        $this->lng               = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;

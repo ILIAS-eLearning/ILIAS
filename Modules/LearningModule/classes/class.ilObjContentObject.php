@@ -2027,21 +2027,22 @@ class ilObjContentObject extends ilObject
     /**
     * export scorm package
     */
+    /*
     public function exportSCORM($a_target_dir, $log)
     {
         ilUtil::delDir($a_target_dir);
         ilUtil::makeDir($a_target_dir);
         //ilUtil::makeDir($a_target_dir."/res");
-        
+
         // export everything to html
         $this->exportHTML($a_target_dir . "/res", $log, false, "scorm");
-        
+
         // build manifest file
         include("./Modules/LearningModule/classes/class.ilLMContObjectManifestBuilder.php");
         $man_builder = new ilLMContObjectManifestBuilder($this);
         $man_builder->buildManifest();
         $man_builder->dump($a_target_dir);
-        
+
         // copy scorm 1.2 schema definitions
         copy("Modules/LearningModule/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir . "/adlcp_rootv1p2.xsd");
         copy("Modules/LearningModule/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir . "/imscp_rootv1p1p2.xsd");
@@ -2062,10 +2063,10 @@ class ilObjContentObject extends ilObject
 
         $dest_file = $this->getExportDirectory("scorm") . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->getType() . "_" . $this->getId() . ".zip";
-        
+
         rename($zip_file, $dest_file);
         ilUtil::delDir($a_target_dir);
-    }
+    }*/
 
     
 
@@ -2368,16 +2369,16 @@ class ilObjContentObject extends ilObject
                     ilUtil::sendInfo($this->lng->txt("cont_import_validation_errors"));
                     $title = ilLMObject::_lookupTitle($page["obj_id"]);
                     $page_obj = new ilLMPageObject($this, $page["obj_id"]);
-                    $mess.= $this->lng->txt("obj_pg") . ": " . $title;
-                    $mess.= '<div class="small">';
+                    $mess .= $this->lng->txt("obj_pg") . ": " . $title;
+                    $mess .= '<div class="small">';
                     foreach ($error as $e) {
                         $err_mess = implode($e, " - ");
                         if (!is_int(strpos($err_mess, ":0:"))) {
-                            $mess.= htmlentities($err_mess) . "<br />";
+                            $mess .= htmlentities($err_mess) . "<br />";
                         }
                     }
-                    $mess.= '</div>';
-                    $mess.= "<br />";
+                    $mess .= '</div>';
+                    $mess .= "<br />";
                 }
             }
         }
@@ -2417,7 +2418,7 @@ class ilObjContentObject extends ilObject
 
         $subdir = basename($file["basename"], "." . $file["extension"]);
 
-        $mess =  $this->importFromDirectory(
+        $mess = $this->importFromDirectory(
             $this->getImportDirectory() . "/" . $subdir,
             $a_validate
         );

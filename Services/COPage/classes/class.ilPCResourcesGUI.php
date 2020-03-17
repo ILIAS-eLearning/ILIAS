@@ -146,7 +146,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 $pl = ilObjectPlugin::getPluginObjectByType($k);
                 $types[$k] = $pl->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
             }
-
         }
         $type_prop->setOptions($types);
         $selected = ($a_insert)

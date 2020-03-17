@@ -13,7 +13,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 {
     // v Notifications affect members & co. v
     const TYPE_ADMISSION_MEMBER = 20;
-    const TYPE_DISMISS_MEMBER 	= 21;
+    const TYPE_DISMISS_MEMBER = 21;
     
     const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
     const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;

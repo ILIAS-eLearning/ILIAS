@@ -2,7 +2,7 @@
 <?php
 if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $field = array(
-        'type'    => 'date',
+        'type' => 'date',
         'notnull' => false,
     );
     $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
@@ -62,7 +62,7 @@ $ilDB->manipulateF(
 <?php
 require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
 $renderer = 'WkhtmlToPdf';
-$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+$path = 'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
 ilPDFCompInstaller::registerRenderer($renderer, $path);
 $service = 'Test';
 $purpose = 'UserResult'; // According to name given. Call multiple times.

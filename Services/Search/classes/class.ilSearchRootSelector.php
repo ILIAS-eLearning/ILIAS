@@ -114,7 +114,7 @@ class ilSearchRootSelector extends ilExplorer
 
     public function setSelectableType($a_type)
     {
-        $this->selectable_type  = $a_type;
+        $this->selectable_type = $a_type;
     }
     public function setRefId($a_ref_id)
     {

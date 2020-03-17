@@ -10,7 +10,7 @@ class LSTOCBuilderTest extends TestCase
         $cb = $this->createMock(LSControlBuilder::class);
         $tb = new LSTOCBuilder($cb, '');
         $this->assertEquals(
-            json_encode(["label"=>"","command"=>"","parameter"=>null,"state"=>null,"childs"=>[]]),
+            json_encode(["label" => "","command" => "","parameter" => null,"state" => null,"childs" => []]),
             $tb->toJSON()
         );
     }
@@ -34,16 +34,16 @@ class LSTOCBuilderTest extends TestCase
         ->end();
 
         $expected = [
-            "label"=>"","command"=>"","parameter"=>null,"state"=>null,"childs"=>[
-                ["label"=>"node1","command"=>"","parameter"=>null,"state"=>null,"childs"=>[
-                    ["label"=>"item1.1","command"=>"","parameter"=>1,"state"=>null],
-                    ["label"=>"item1.2","command"=>"","parameter"=>2,"state"=>null]
+            "label" => "","command" => "","parameter" => null,"state" => null,"childs" => [
+                ["label" => "node1","command" => "","parameter" => null,"state" => null,"childs" => [
+                    ["label" => "item1.1","command" => "","parameter" => 1,"state" => null],
+                    ["label" => "item1.2","command" => "","parameter" => 2,"state" => null]
                 ]],
-            ["label"=>"item2","command"=>"","parameter"=>3,"state"=>null],
-            ["label"=>"node3","command"=>"","parameter"=>null,"state"=>null,"childs"=>[
-                ["label"=>"item3.1","command"=>"","parameter"=>4,"state"=>null],
-                ["label"=>"node3.2","command"=>"","parameter"=>5,"state"=>null,"childs"=>[
-                    ["label"=>"item3.2.1","command"=>"","parameter"=>6,"state"=>null]
+            ["label" => "item2","command" => "","parameter" => 3,"state" => null],
+            ["label" => "node3","command" => "","parameter" => null,"state" => null,"childs" => [
+                ["label" => "item3.1","command" => "","parameter" => 4,"state" => null],
+                ["label" => "node3.2","command" => "","parameter" => 5,"state" => null,"childs" => [
+                    ["label" => "item3.2.1","command" => "","parameter" => 6,"state" => null]
                 ]
             ]]]]];
 

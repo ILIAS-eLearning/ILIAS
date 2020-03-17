@@ -366,7 +366,7 @@ class ilSkillSelfEvaluationGUI
         $html = "";
         foreach ($ses as $se) {
             $this->setSelfEvaluationPresentationForm($se);
-            $html.= $this->form->getHTML() . "<br /><br />";
+            $html .= $this->form->getHTML() . "<br /><br />";
         }
 
         return $html;
@@ -390,7 +390,7 @@ class ilSkillSelfEvaluationGUI
                 new ilDateTime($se["created"], IL_CAL_DATETIME)
             );
         if ($se["created"] != $se["last_update"]) {
-            $dates.= ", " . $lng->txt("last_update") . ": " .
+            $dates .= ", " . $lng->txt("last_update") . ": " .
             ilDatePresentation::formatDate(
                 new ilDateTime($se["last_update"], IL_CAL_DATETIME)
             );
@@ -416,7 +416,7 @@ class ilSkillSelfEvaluationGUI
                     $title = $sep = "";
                     foreach ($path as $p) {
                         if ($p["type"] != "skrt") {
-                            $title.= $sep . $p["title"];
+                            $title .= $sep . $p["title"];
                             $sep = " > ";
                         }
                     }

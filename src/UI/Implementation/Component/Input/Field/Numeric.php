@@ -36,7 +36,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
                 $this->refinery->numeric()->isNumeric(),
                 $this->refinery->null()
             ])
-            ->withProblemBuilder(function($txt, $value) {
+            ->withProblemBuilder(function ($txt, $value) {
                 return $txt("ui_numeric_only");
             })
         );

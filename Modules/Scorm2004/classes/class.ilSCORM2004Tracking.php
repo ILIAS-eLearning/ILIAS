@@ -16,29 +16,29 @@ class ilSCORM2004Tracking
         die("Not Implemented: ilSCORM2004Tracking_getInProgress");
         /*
                 global $DIC;
-        
+
                 $ilDB = $DIC->database();
-        
+
                 if(is_array($scorm_item_id))
                 {
                     $where = "WHERE sco_id IN(";
                     $where .= implode(",",ilUtil::quoteArray($scorm_item_id));
                     $where .= ") ";
                     $where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
-        
+
                 }
                 else
                 {
                     $where = "WHERE sco_id = ".$ilDB->quote($scorm_item_id)." ";
                     $where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
                 }
-        
-        
+
+
                 $query = "SELECT user_id,sco_id FROM scorm_tracking ".
                     $where.
                     "GROUP BY user_id, sco_id";
-        
-        
+
+
                 $res = $ilDB->query($query);
                 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
                 {
@@ -64,7 +64,7 @@ class ilSCORM2004Tracking
                 {
                     $where = "sco_id = ".$ilDB->quote($scorm_item_id)." ";
                 }
-        
+
                 $query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
                     $where.
                     "AND obj_id = ".$ilDB->quote($a_obj_id)." ".
@@ -96,7 +96,7 @@ class ilSCORM2004Tracking
                 {
                     $where = "sco_id = '".$scorm_item_id."' ";
                 }
-        
+
                 $query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
                     $where.
                     "AND obj_id = '".$a_obj_id."' ".
@@ -403,7 +403,7 @@ class ilSCORM2004Tracking
             array($a_obj_id)
         );
         $val_rec = $ilDB->fetchAssoc($val_set);
-        $time_from_lms=(ilUtil::yn2tf($val_rec["time_from_lms"]));
+        $time_from_lms = (ilUtil::yn2tf($val_rec["time_from_lms"]));
         
         // get attempts and time
         $val_set = $ilDB->queryF(
@@ -479,7 +479,7 @@ class ilSCORM2004Tracking
     /**
      * should be avoided; store value to increase performance for further requests
      */
-    public static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write=false)
+    public static function getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, $a_write = false)
     {
         global $DIC;
 
@@ -516,7 +516,7 @@ class ilSCORM2004Tracking
             $sec = 0;
             //$ilLog->write("++".$time);
         }
-        if ($a_write && $time>0) {
+        if ($a_write && $time > 0) {
             $ilDB->queryF(
                 'UPDATE sahs_user SET sco_total_time_sec=%s WHERE obj_id = %s AND user_id = %s',
                 array('integer', 'integer', 'integer'),

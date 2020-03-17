@@ -19,8 +19,8 @@ require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 */
 abstract class assQuestionGUI
 {
-    const FORM_MODE_EDIT 	= 'edit';
-    const FORM_MODE_ADJUST	= 'adjust';
+    const FORM_MODE_EDIT = 'edit';
+    const FORM_MODE_ADJUST = 'adjust';
     
     const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
     const FORM_ENCODING_MULTIPART = 'multipart/form-data';
@@ -116,9 +116,9 @@ abstract class assQuestionGUI
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng =&$lng;
-        $this->tpl =&$tpl;
-        $this->ctrl =&$ilCtrl;
+        $this->lng = &$lng;
+        $this->tpl = &$tpl;
+        $this->ctrl = &$ilCtrl;
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");
@@ -540,7 +540,7 @@ abstract class assQuestionGUI
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_type =  assQuestion::getQuestionTypeFromDb($a_q_id);
+        $q_type = assQuestion::getQuestionTypeFromDb($a_q_id);
         $class_name = assQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
@@ -568,7 +568,7 @@ abstract class assQuestionGUI
     public function &createQuestionGUI($question_type, $question_id = -1)
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $this->question =&assQuestionGUI::_getQuestionGUI($question_type, $question_id);
+        $this->question = &assQuestionGUI::_getQuestionGUI($question_type, $question_id);
     }
     
     public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
@@ -1155,7 +1155,7 @@ abstract class assQuestionGUI
     public function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
     {
         $cnt = $this->new_id_listener_cnt;
-        $this->new_id_listeners[$cnt]["object"] =&$a_object;
+        $this->new_id_listeners[$cnt]["object"] = &$a_object;
         $this->new_id_listeners[$cnt]["method"] = $a_method;
         $this->new_id_listeners[$cnt]["parameters"] = $a_parameters;
         $this->new_id_listener_cnt++;
@@ -1166,9 +1166,9 @@ abstract class assQuestionGUI
     */
     public function callNewIdListeners($a_new_id)
     {
-        for ($i=0; $i<$this->new_id_listener_cnt; $i++) {
+        for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
             $this->new_id_listeners[$i]["parameters"]["new_id"] = $a_new_id;
-            $object =&$this->new_id_listeners[$i]["object"];
+            $object = &$this->new_id_listeners[$i]["object"];
             $method = $this->new_id_listeners[$i]["method"];
             $parameters = $this->new_id_listeners[$i]["parameters"];
             //var_dump($object);
@@ -1727,11 +1727,11 @@ abstract class assQuestionGUI
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
         $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
-        $cont_obj     = $cont_obj_gui->object;
-        $pages        = ilLMPageObject::getPageList($cont_obj->getId());
-        $shownpages   = array();
-        $tree         = $cont_obj->getLMTree();
-        $chapters     = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+        $cont_obj = $cont_obj_gui->object;
+        $pages = ilLMPageObject::getPageList($cont_obj->getId());
+        $shownpages = array();
+        $tree = $cont_obj->getLMTree();
+        $chapters = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
 
         $rows = array();
 
@@ -1749,10 +1749,10 @@ abstract class assQuestionGUI
 
                     $this->ctrl->setParameter($this, $page['type'], $page['obj_id']);
                     $rows[] = array(
-                        'title'       => $page['title'],
+                        'title' => $page['title'],
                         'description' => ilUtil::prepareFormOutput($path_str),
-                        'text_add'    => $this->lng->txt('add'),
-                        'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
+                        'text_add' => $this->lng->txt('add'),
+                        'href_add' => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
                     );
                 }
             }
@@ -1761,10 +1761,10 @@ abstract class assQuestionGUI
             if (!in_array($page['obj_id'], $shownpages)) {
                 $this->ctrl->setParameter($this, $page['type'], $page['obj_id']);
                 $rows[] = array(
-                    'title'       => $page['title'],
+                    'title' => $page['title'],
                     'description' => '---',
-                    'text_add'    => $this->lng->txt('add'),
-                    'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
+                    'text_add' => $this->lng->txt('add'),
+                    'href_add' => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($page['type']))
                 );
             }
         }
@@ -1795,10 +1795,10 @@ abstract class assQuestionGUI
             if ($node['type'] == $_GET['search_link_type']) {
                 $this->ctrl->setParameter($this, $node['type'], $node['obj_id']);
                 $rows[] = array(
-                    'title'       => $node['title'],
+                    'title' => $node['title'],
                     'description' => '',
-                    'text_add'    => $this->lng->txt('add'),
-                    'href_add'    => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($node['type']))
+                    'text_add' => $this->lng->txt('add'),
+                    'href_add' => $this->ctrl->getLinkTarget($this, 'add' . strtoupper($node['type']))
                 );
             }
         }
@@ -1822,10 +1822,10 @@ abstract class assQuestionGUI
         foreach ($terms as $term) {
             $this->ctrl->setParameter($this, 'git', $term['id']);
             $rows[] = array(
-                'title'       => $term['term'],
+                'title' => $term['term'],
                 'description' => '',
-                'text_add'    => $this->lng->txt('add'),
-                'href_add'    => $this->ctrl->getLinkTarget($this, 'addGIT')
+                'text_add' => $this->lng->txt('add'),
+                'href_add' => $this->ctrl->getLinkTarget($this, 'addGIT')
             );
         }
 

@@ -23,10 +23,10 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
     protected function comparePasswords(string $knownString, string $userString) : bool
     {
         $knownString .= chr(0);
-        $userString  .= chr(0);
+        $userString .= chr(0);
 
         $known_string_length = strlen($knownString);
-        $user_string_length  = strlen($userString);
+        $user_string_length = strlen($userString);
 
         $result = $known_string_length - $user_string_length;
 

@@ -45,12 +45,12 @@ class ilAccountRegistrationGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC->language();
 
-        $this->tpl =&$tpl;
+        $this->tpl = &$tpl;
 
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
         $this->ctrl->saveParameter($this, 'lang');
 
-        $this->lng =&$lng;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule('registration');
 
         $this->registration_settings = new ilRegistrationSettings();
@@ -320,7 +320,7 @@ class ilAccountRegistrationGUI
             $form_valid = false;
         }
 
-        $showGlobalTermsOfServieFailure  = false;
+        $showGlobalTermsOfServieFailure = false;
         if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
             $agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
             if ($agr_obj) {
@@ -645,7 +645,7 @@ class ilAccountRegistrationGUI
             $mail->setRecipients(array($this->userObj));
             $mail->setAdditionalInformation(
                 array(
-                     'usr'           => $this->userObj,
+                     'usr' => $this->userObj,
                      'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
                 )
             );

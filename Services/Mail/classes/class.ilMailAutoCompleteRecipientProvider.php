@@ -46,10 +46,10 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     {
         global $DIC;
 
-        $this->db          = $DIC->database();
+        $this->db = $DIC->database();
         $this->quoted_term = $quoted_term;
-        $this->term        = $term;
-        $this->user_id     = $DIC->user()->getId();
+        $this->term = $term;
+        $this->user_id = $DIC->user()->getId();
     }
 
     /**

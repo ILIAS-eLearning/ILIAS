@@ -20,7 +20,7 @@ use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
  */
 class ilLoggerFactory
 {
-    const DEFAULT_FORMAT  = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+    const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
     
     const ROOT_LOGGER = 'root';
     const COMPONENT_ROOT = 'log_root';

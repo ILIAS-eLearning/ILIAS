@@ -22,7 +22,7 @@ class NewObjectTransformation implements Transformation
      */
     public function __construct(string $className)
     {
-        $this->className  = $className;
+        $this->className = $className;
     }
 
     /**

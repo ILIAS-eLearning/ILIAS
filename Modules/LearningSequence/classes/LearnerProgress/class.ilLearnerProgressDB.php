@@ -31,7 +31,7 @@ class ilLearnerProgressDB
      */
     public function getLearnerItems(int $usr_id, int $container_ref_id) : array
     {
-        $items =[];
+        $items = [];
         $ls_items = $this->items_db->getLSItems($container_ref_id);
 
         foreach ($ls_items as $ls_item) {

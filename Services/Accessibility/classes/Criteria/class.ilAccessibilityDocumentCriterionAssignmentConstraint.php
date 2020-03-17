@@ -29,7 +29,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
         ilLanguage $lng
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->document             = $document;
+        $this->document = $document;
 
         parent::__construct(
             function (ilAccessibilityDocumentCriterionAssignment $value) {
@@ -56,7 +56,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
             $otherValues,
             function (ilAccessibilityDocumentCriterionAssignment $otherValue) use ($value) {
                 $idCurrent = $otherValue->getId();
-                $idNew     = $value->getId();
+                $idNew = $value->getId();
 
                 $uniqueIdEquals = $idCurrent === $idNew;
                 if ($uniqueIdEquals) {

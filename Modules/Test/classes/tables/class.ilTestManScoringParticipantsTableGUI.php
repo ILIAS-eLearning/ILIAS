@@ -14,11 +14,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 {
-    const PARENT_DEFAULT_CMD		= 'showManScoringParticipantsTable';
-    const PARENT_APPLY_FILTER_CMD	= 'applyManScoringParticipantsFilter';
-    const PARENT_RESET_FILTER_CMD	= 'resetManScoringParticipantsFilter';
+    const PARENT_DEFAULT_CMD = 'showManScoringParticipantsTable';
+    const PARENT_APPLY_FILTER_CMD = 'applyManScoringParticipantsFilter';
+    const PARENT_RESET_FILTER_CMD = 'resetManScoringParticipantsFilter';
     
-    const PARENT_EDIT_SCORING_CMD	= 'showManScoringParticipantScreen';
+    const PARENT_EDIT_SCORING_CMD = 'showManScoringParticipantScreen';
     
     /**
      * @global	ilCtrl		$ilCtrl
@@ -87,12 +87,12 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $participantStatus = new ilSelectInputGUI($lng->txt('tst_participant_status'), 'participant_status');
 
-        $statusOptions                                                = array();
-        $statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS]       = $lng->txt("all_users");
+        $statusOptions = array();
+        $statusOptions[ilTestScoringGUI::PART_FILTER_ALL_USERS] = $lng->txt("all_users");
         $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_NONE] = $lng->txt("manscoring_none");
         $statusOptions[ilTestScoringGUI::PART_FILTER_MANSCORING_DONE] = $lng->txt("manscoring_done");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY]     = $lng->txt("usr_active_only");
-        $statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY]   = $lng->txt("usr_inactive_only");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_ACTIVE_ONLY] = $lng->txt("usr_active_only");
+        $statusOptions[ilTestScoringGUI::PART_FILTER_INACTIVE_ONLY] = $lng->txt("usr_inactive_only");
         //$statusOptions[ ilTestScoringGUI::PART_FILTER_MANSCORING_PENDING ]	= $lng->txt("manscoring_pending");
 
         $participantStatus->setOptions($statusOptions);

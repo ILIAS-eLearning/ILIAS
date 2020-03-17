@@ -111,12 +111,12 @@ class ilApc extends ilGlobalCacheService
         unset($cache_info['slot_distribution']);
 
         $return['__cache_info'] = array(
-            'apc.enabled'      => ini_get('apc.enabled'),
-            'apc.shm_size'     => ini_get('apc.shm_size'),
+            'apc.enabled' => ini_get('apc.enabled'),
+            'apc.shm_size' => ini_get('apc.shm_size'),
             'apc.shm_segments' => ini_get('apc.shm_segments'),
-            'apc.gc_ttl'       => ini_get('apc.gc_ttl'),
-            'apc.user_ttl'     => ini_get('apc.ttl'),
-            'info'             => $cache_info,
+            'apc.gc_ttl' => ini_get('apc.gc_ttl'),
+            'apc.user_ttl' => ini_get('apc.ttl'),
+            'info' => $cache_info,
         );
 
         $cache_info = apc_cache_info();

@@ -355,7 +355,7 @@ abstract class ilPlugin
                         && substr($file, strlen($file) - 5) == ".lang"
                     ) {
                         $langs[] = array(
-                            "key"  => substr($file, 6, 2),
+                            "key" => substr($file, 6, 2),
                             "file" => $file,
                             "path" => $a_lang_directory . "/" . $file,
                         );

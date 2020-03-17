@@ -198,7 +198,7 @@ class ilSCORM2004Item
             " AND rootlevel = " . $ilDB->quote(false, "integer");
         $obj_set = $ilDB->query($query);
         $obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        return array("copy"=>!$obj_rec['nocopy'],"move"=>!$obj_rec['nomove'],"delete"=>!$obj_rec['nodelete']);
+        return array("copy" => !$obj_rec['nocopy'],"move" => !$obj_rec['nomove'],"delete" => !$obj_rec['nodelete']);
     }
     
     /**
@@ -218,7 +218,7 @@ class ilSCORM2004Item
      *
      * @param bool $a_def_control_mode
      */
-    public function setDefaultXml($a_def_control_mode= false)
+    public function setDefaultXml($a_def_control_mode = false)
     {
         while ($this->dom->hasChildNodes()) {
             $this->dom->removeChild($this->dom->childNodes->item(0));
@@ -250,7 +250,7 @@ class ilSCORM2004Item
         // the sequencing information in the future
         $xpath_obj = new DOMXPath($this->dom);
         $obj_node_list = $xpath_obj->query('//objective | //primaryObjective');
-        for ($i=0;$i<$obj_node_list->length;$i++) {
+        for ($i = 0;$i < $obj_node_list->length;$i++) {
             $obj_node_list->item($i)->removeAttribute("title");
         }
         $output = $this->dom->saveXML();
@@ -278,7 +278,7 @@ class ilSCORM2004Item
         $this->seqXml = $obj_rec['seqxml'];
         $this->importSeqXml = $obj_rec['importseqxml'];
         $this->importId = $obj_rec['importid'];
-        $this->nocopy =  $obj_rec['nocopy'];
+        $this->nocopy = $obj_rec['nocopy'];
         $this->nomove = $obj_rec['nomove'];
         $this->nodelete = $obj_rec['nodelete'];
     }

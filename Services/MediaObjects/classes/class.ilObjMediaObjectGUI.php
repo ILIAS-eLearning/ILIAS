@@ -282,7 +282,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     isset($_POST["editImagemapForward_y"])) {
                     $cmd = "editImagemapForward";
                 }
-                $cmd.= "Object";
+                $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
         }
@@ -1348,7 +1348,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $tbl->render();
         if (count($entries) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($entries as $entry) {
                 if (($entry["entry"] == ".") || ($entry["entry"] == ".." && empty($cur_subdir))) {
                     continue;

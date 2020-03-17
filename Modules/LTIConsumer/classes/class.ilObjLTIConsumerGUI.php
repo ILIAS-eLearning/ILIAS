@@ -742,9 +742,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        if ($this->object->getOfflineStatus() || 
-			$this->object->isLaunchMethodEmbedded() ||
-			$this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
+        if ($this->object->getOfflineStatus() ||
+            $this->object->isLaunchMethodEmbedded() ||
+            $this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             return;
         }
         
@@ -784,7 +784,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
         
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
-        $target = $this->object->getLaunchMethod()=="newWin" ? "_blank" : "_self";
+        $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launchParameters as $field => $value) {
@@ -807,8 +807,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         if ($this->object->getProvider()->getProviderUrl() == '') {
             ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_set_msg'));
-        }
-        else if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
+        } elseif ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             ilUtil::sendFailure($DIC->language()->txt('lti_provider_not_avail_msg'));
         }
     }

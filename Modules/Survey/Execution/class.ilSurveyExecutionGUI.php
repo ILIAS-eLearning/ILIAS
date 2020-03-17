@@ -137,7 +137,7 @@ class ilSurveyExecutionGUI
         }
         switch ($next_class) {
             default:
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -481,7 +481,7 @@ class ilSurveyExecutionGUI
             
             $this->tpl->setCurrentBlock("percentage");
             
-            $percentage = (int) (($page[0]["position"])*100);
+            $percentage = (int) (($page[0]["position"]) * 100);
             
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($percentage);
@@ -505,7 +505,7 @@ class ilSurveyExecutionGUI
                 }
                 $question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
                 if (is_array($_SESSION["svy_errors"])) {
-                    $working_data =&$question_gui->object->getWorkingDataFromUserInput($_SESSION["postdata"]);
+                    $working_data = &$question_gui->object->getWorkingDataFromUserInput($_SESSION["postdata"]);
                 } else {
                     $working_data = $this->object->loadWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
                 }
@@ -641,7 +641,7 @@ class ilSurveyExecutionGUI
     {
         $ilUser = $this->user;
         
-        $question =&SurveyQuestion::_instanciateQuestion($data["question_id"]);
+        $question = &SurveyQuestion::_instanciateQuestion($data["question_id"]);
         $error = $question->checkUserInput($_POST, $this->object->getSurveyId());
         if (strlen($error) == 0) {
             if (!$this->preview) {

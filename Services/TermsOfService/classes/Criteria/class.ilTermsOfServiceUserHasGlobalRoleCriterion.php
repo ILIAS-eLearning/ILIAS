@@ -20,7 +20,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
     {
-        $this->rbacReview  = $rbacReview;
+        $this->rbacReview = $rbacReview;
         $this->objectCache = $objectCache;
     }
 

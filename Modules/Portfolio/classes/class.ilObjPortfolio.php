@@ -218,7 +218,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         
         $params = null;
         if ($a_back_url) {
-            $params = array("back_url"=>rawurlencode($a_back_url));
+            $params = array("back_url" => rawurlencode($a_back_url));
         }
         
         foreach ($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items) {

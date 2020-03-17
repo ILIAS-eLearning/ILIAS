@@ -134,10 +134,10 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
     public function parseSearchResults($a_res)
     {
         foreach ($a_res as $obj_id => $references) {
-            $r['title'] 	= ilObject::_lookupTitle($obj_id);
-            $r['desc']		= ilObject::_lookupDescription($obj_id);
-            $r['obj_id']	= $obj_id;
-            $r['refs']		= $references;
+            $r['title'] = ilObject::_lookupTitle($obj_id);
+            $r['desc'] = ilObject::_lookupDescription($obj_id);
+            $r['obj_id'] = $obj_id;
+            $r['refs'] = $references;
             
             $rows[] = $r;
         }

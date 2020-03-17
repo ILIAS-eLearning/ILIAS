@@ -466,7 +466,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         if (is_dir($case_insensitive_path)) {
             foreach (scandir($case_insensitive_path) as $file_name) {
                 $example_path = $this->getExamplesPath() . "/" . $file_name;
-                if (is_file($example_path) && pathinfo($example_path)["extension"] =="php") {
+                if (is_file($example_path) && pathinfo($example_path)["extension"] == "php") {
                     $example_name = str_replace(".php", "", $file_name);
                     $this->examples[$example_name] = $example_path;
                 }

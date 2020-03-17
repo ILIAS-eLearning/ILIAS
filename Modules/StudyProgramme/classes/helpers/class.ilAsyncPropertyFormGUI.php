@@ -38,7 +38,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     {
         parent::__construct();
 
-        foreach ($config as $key=>$value) {
+        foreach ($config as $key => $value) {
             $setterMethod = "set" . ucfirst($key);
             if (method_exists($this, $setterMethod)) {
                 $setterMethod($value);
@@ -104,7 +104,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
             // We call method exists as there are items in the form (ilFormSectionHeaderGUI)
             // that do not have alerts. (#16956)
             if (method_exists($item, "getAlert") && $item->getAlert() != "") {
-                $errors[] = array('key'=>$item->getFieldId(), 'message'=>$item->getAlert());
+                $errors[] = array('key' => $item->getFieldId(), 'message' => $item->getAlert());
             }
         }
         return $errors;

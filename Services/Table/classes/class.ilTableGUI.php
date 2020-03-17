@@ -65,26 +65,26 @@ class ilTableGUI
     public $base = "";				// base script (deprecated)
     
     // default settings for enabled/disabled table modules
-    public $enabled = array(	"table"			=>  true,
-                            "title"			=>	true,
-                            "icon"			=>	true,
-                            "help"			=>	false,
-                            "content"		=>	true,
-                            "action"		=>	false,
-                            "header"        =>  true,
-                            "footer"		=>	true,
-                            "linkbar"		=>	true,
-                            "numinfo"		=>	true,
-                            "numinfo_header"		=>	false,
-                            "sort"			=>  true,
-                            "hits"          =>  false,
-                            "auto_sort"  	=>  true,
+    public $enabled = array(	"table" => true,
+                            "title" => true,
+                            "icon" => true,
+                            "help" => false,
+                            "content" => true,
+                            "action" => false,
+                            "header" => true,
+                            "footer" => true,
+                            "linkbar" => true,
+                            "numinfo" => true,
+                            "numinfo_header" => false,
+                            "sort" => true,
+                            "hits" => false,
+                            "auto_sort" => true,
                             "select_all" => false
                         );
 
     // tpl styles (only one so far)
     public $styles = array(
-                            "table"		=> "fullwidth"
+                            "table" => "fullwidth"
                         );
     
     /**
@@ -582,18 +582,18 @@ class ilTableGUI
             }
         }
         // table footer linkbar
-        if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit  != 0
+        if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0
              && $this->max_count > 0) {
             $params = array(
-                            $this->prefix . "sort_by"		=> $this->header_vars[$this->order_column],
-                            $this->prefix . "sort_order"	=> $this->order_direction
+                            $this->prefix . "sort_by" => $this->header_vars[$this->order_column],
+                            $this->prefix . "sort_order" => $this->order_direction
                             );
             $params = array_merge($this->header_params, $params);
             
             $layout = array(
-                            "link"	=> $this->footer_style,
-                            "prev"	=> $this->footer_previous,
-                            "next"	=> $this->footer_next,
+                            "link" => $this->footer_style,
+                            "prev" => $this->footer_previous,
+                            "next" => $this->footer_next,
                             );
                             
             $base = ($this->getBase() == "")

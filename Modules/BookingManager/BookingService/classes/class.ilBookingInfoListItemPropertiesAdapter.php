@@ -42,7 +42,7 @@ class ilBookingInfoListItemPropertiesAdapter
             foreach ($info as $pool) {
                 $val = "";
                 foreach ($pool["object"] as $o) {
-                    $val.= $o["title"] . ": " . implode(", ", $o["bookings"]);
+                    $val .= $o["title"] . ": " . implode(", ", $o["bookings"]);
                 }
                 $props[] = array("alert" => false, "property" => $pool["title"], "value" => $val);
             }

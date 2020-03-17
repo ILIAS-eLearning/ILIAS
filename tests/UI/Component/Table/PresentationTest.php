@@ -33,10 +33,10 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(\Closure::class, $pt->getRowMapping());
 
         $pt = $pt
-            ->withEnvironment(array('k'=>'v'))
-            ->withData(array('dk'=>'dv'));
-        $this->assertEquals(array('k'=>'v'), $pt->getEnvironment());
-        $this->assertEquals(array('dk'=>'dv'), $pt->getData());
+            ->withEnvironment(array('k' => 'v'))
+            ->withData(array('dk' => 'dv'));
+        $this->assertEquals(array('k' => 'v'), $pt->getEnvironment());
+        $this->assertEquals(array('dk' => 'dv'), $pt->getData());
     }
 
     public function testBareTableRendering()
@@ -74,16 +74,16 @@ class PresentationTest extends ILIAS_UI_TestBase
             $row->withSubheadline("subheadline")->getSubheadline()
         );
         $this->assertEquals(
-            array("f1"=>"v1"),
-            $row->withImportantFields(array("f1"=>"v1"))->getImportantFields()
+            array("f1" => "v1"),
+            $row->withImportantFields(array("f1" => "v1"))->getImportantFields()
         );
         $this->assertEquals(
             "field_headline",
             $row->withFurtherFieldsHeadline("field_headline")->getFurtherFieldsHeadline()
         );
         $this->assertEquals(
-            array("ff1"=>"fv1"),
-            $row->withFurtherFields(array("ff1"=>"fv1"))->getFurtherFields()
+            array("ff1" => "fv1"),
+            $row->withFurtherFields(array("ff1" => "fv1"))->getFurtherFields()
         );
     }
 }

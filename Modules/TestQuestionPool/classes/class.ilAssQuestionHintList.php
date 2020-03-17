@@ -207,10 +207,10 @@ class ilAssQuestionHintList implements Iterator
             /* @var $questionHint ilAssQuestionHint */
 
             $tableData[] = array(
-                'hint_id'		=> $questionHint->getId(),
-                'hint_index'	=> $questionHint->getIndex(),
-                'hint_points'	=> $questionHint->getPoints(),
-                'hint_text'		=> $questionHint->getText()
+                'hint_id' => $questionHint->getId(),
+                'hint_index' => $questionHint->getIndex(),
+                'hint_points' => $questionHint->getPoints(),
+                'hint_text' => $questionHint->getText()
             );
         }
         

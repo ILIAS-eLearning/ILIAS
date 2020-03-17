@@ -46,9 +46,9 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         /** @var $ilias ILIAS */
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->lng->loadLanguageModule('pdfgen');
-        $this->toolbar 					= $DIC['ilToolbar'];
-        $this->ctrl 					= $DIC['ilCtrl'];
-        $this->tabs						= $DIC['ilTabs'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tabs = $DIC['ilTabs'];
     }
 
     /**
@@ -73,7 +73,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -159,14 +159,14 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     public function saveSettings($redirect_after = true)
     {
         if ($this->hasWritePermission()) {
-            $form          = new ilPropertyFormGUI();
-            $purpose_map   = ilPDFGeneratorUtils::getPurposeMap();
+            $form = new ilPropertyFormGUI();
+            $purpose_map = ilPDFGeneratorUtils::getPurposeMap();
             $selection_map = ilPDFGeneratorUtils::getSelectionMap();
-            $renderers     = ilPDFGeneratorUtils::getRenderers();
+            $renderers = ilPDFGeneratorUtils::getRenderers();
 
             foreach ($purpose_map as $service => $purposes) {
                 foreach ($purposes as $purpose) {
-                    $posted_renderer   = $renderers[$service][$purpose][$_POST['selected_' . $service . '::' . $purpose]];
+                    $posted_renderer = $renderers[$service][$purpose][$_POST['selected_' . $service . '::' . $purpose]];
                     $selected_renderer = $selection_map[$service][$purpose]['selected'];
                     if ($posted_renderer != $selected_renderer) {
                         ilPDFGeneratorUtils::updateRendererSelection($service, $purpose, $posted_renderer);
@@ -238,9 +238,9 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     
     public function resetSettings()
     {
-        $renderer 	= ilUtil::stripSlashes($_POST['renderer']);
-        $service 	= ilUtil::stripSlashes($_POST['service']);
-        $purpose 	= ilUtil::stripSlashes($_POST['purpose']);
+        $renderer = ilUtil::stripSlashes($_POST['renderer']);
+        $service = ilUtil::stripSlashes($_POST['service']);
+        $purpose = ilUtil::stripSlashes($_POST['purpose']);
 
         ilPDFGeneratorUtils::removeRendererConfig($service, $purpose, $renderer);
         $this->ctrl->redirect($this, "view");
@@ -250,9 +250,9 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     {
         $form = new ilPropertyFormGUI();
 
-        $renderer 	= $_POST['renderer'];
-        $service 	= $_POST['service'];
-        $purpose 	= $_POST['purpose'];
+        $renderer = $_POST['renderer'];
+        $service = $_POST['service'];
+        $purpose = $_POST['purpose'];
 
         /** @var ilRendererConfig $renderer_obj */
         $renderer_obj = ilPDFGeneratorUtils::getRendererInstance($renderer);

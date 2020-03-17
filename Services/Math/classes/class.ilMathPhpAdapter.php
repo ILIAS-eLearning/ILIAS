@@ -55,7 +55,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
 
             $division = $this->applyScale($res, $this->normalize($scale));
         } catch (Throwable $e) {
-            if  (strpos($e->getMessage(), 'A non-numeric value encountered') !== false) {
+            if (strpos($e->getMessage(), 'A non-numeric value encountered') !== false) {
                 $division = 0;
             } else {
                 throw $e;
@@ -105,12 +105,12 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
      */
     public function comp($left_operand, $right_operand, $scale = null)
     {
-        $left_operand  = $this->normalize($left_operand);
+        $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);
-        $scale         = $this->normalize($scale);
+        $scale = $this->normalize($scale);
 
         if (is_numeric($scale)) {
-            $left_operand  = $this->applyScale($left_operand, $scale);
+            $left_operand = $this->applyScale($left_operand, $scale);
             $right_operand = $this->applyScale($right_operand, $scale);
         }
 

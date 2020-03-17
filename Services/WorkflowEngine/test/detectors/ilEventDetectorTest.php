@@ -61,7 +61,7 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() + 5*60; # +5 Minutes from here.
+        $timer_start = ilWorkflowUtils::time() + 5 * 60; # +5 Minutes from here.
         $timer_end = 0;
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
@@ -76,8 +76,8 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() - 5*60; # -5 Minutes from now.
-        $timer_end = ilWorkflowUtils::time() - 1*60; # -1 Minute from now.
+        $timer_start = ilWorkflowUtils::time() - 5 * 60; # -5 Minutes from now.
+        $timer_end = ilWorkflowUtils::time() - 1 * 60; # -1 Minute from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
         // Act
@@ -91,7 +91,7 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() - 5*60; # -5 Minutes from now.
+        $timer_start = ilWorkflowUtils::time() - 5 * 60; # -5 Minutes from now.
         $timer_end = 0; # Wildcard.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
@@ -107,7 +107,7 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
         // Arrange
         $detector = new ilEventDetector($this->node);
         $timer_start = 0; # Wildcard.
-        $timer_end = ilWorkflowUtils::time() + 5*60; # +5 Minutes from now.
+        $timer_end = ilWorkflowUtils::time() + 5 * 60; # +5 Minutes from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
         // Act
@@ -293,14 +293,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,
@@ -320,14 +320,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,
@@ -350,14 +350,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content . 'INVALIDATE',
@@ -377,14 +377,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type . 'INVALIDATE', $evt_content,
@@ -404,14 +404,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,
@@ -431,14 +431,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,
@@ -458,14 +458,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,
@@ -485,14 +485,14 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
     {
         // Arrange
         $detector = new ilEventDetector($this->node);
-        $evt_type	 = 'testEvent';
+        $evt_type = 'testEvent';
         $evt_content = 'content';
         $detector->setEvent($evt_type, $evt_content);
-        $subj_type   = 'usr';
-        $subj_id	 = 6;
+        $subj_type = 'usr';
+        $subj_id = 6;
         $detector->setEventSubject($subj_type, $subj_id);
-        $ctx_type	 = 'crs';
-        $ctx_id		 = 48;
+        $ctx_type = 'crs';
+        $ctx_id = 48;
         $detector->setEventContext($ctx_type, $ctx_id);
         $params = array(
             $evt_type, $evt_content,

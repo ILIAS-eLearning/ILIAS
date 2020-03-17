@@ -58,7 +58,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->getTocTool($additional_data);
 
             $title = $lng->txt("obj_glo");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_glo.svg"),$title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_glo.svg"), $title);
             $tools[] = $this->factory->tool($iff("lm_glossary"))
                 ->withTitle($title)
                 ->withContentWrapper(function () use ($l) {
@@ -68,7 +68,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 ->withPosition(11);
 
             $title = $lng->txt("cont_tool_media");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_mdia.svg"),$title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_mdia.svg"), $title);
             $tools[] = $this->factory->tool($iff("lm_media"))
                 ->withTitle($title)
                 ->withContentWrapper(function () use ($l) {
@@ -78,7 +78,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 ->withPosition(12);
 
             $title = $lng->txt("cont_tool_media");
-            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_faq.svg"),$title);
+            $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_faq.svg"), $title);
             $tools[] = $this->factory->tool($iff("lm_faq"))
                 ->withTitle($lng->txt("cont_tool_faq"))
                 ->withContentWrapper(function () use ($l) {
@@ -131,7 +131,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         };
 
         $title = $lng->txt("cont_toc");
-        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_chp.svg"),$title);
+        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_chp.svg"), $title);
         return $this->factory->tool($iff("lm_pres_toc"))
             ->withTitle($title)
             ->withContentWrapper(function () use ($l, $additional_data) {

@@ -48,7 +48,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         global $DIC;
 
-        $tpl      = $DIC->ui()->mainTemplate();
+        $tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC->access();
         
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
@@ -80,21 +80,21 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
         $table->setManualScoringPointsPostData($manPointsPost);
 
-        $qst_id                = $table->getFilterItemByPostVar('question')->getValue();
-        $passNr                = $table->getFilterItemByPostVar('pass')->getValue();
-        $finalized_filter      = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
-        $table_data            = [];
+        $qst_id = $table->getFilterItemByPostVar('question')->getValue();
+        $passNr = $table->getFilterItemByPostVar('pass')->getValue();
+        $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
+        $table_data = [];
         $selected_questionData = null;
-        $complete_feedback     = $this->object->getCompleteManualFeedback($qst_id);
+        $complete_feedback = $this->object->getCompleteManualFeedback($qst_id);
 
         if (is_numeric($qst_id)) {
-            $info                  = assQuestion::_getQuestionInfo($qst_id);
+            $info = assQuestion::_getQuestionInfo($qst_id);
             $selected_questionData = $info;
         }
 
         if ($selected_questionData && is_numeric($passNr)) {
-            $data            = $this->object->getCompleteEvaluationData(false);
-            $participants    = $data->getParticipants();
+            $data = $this->object->getCompleteEvaluationData(false);
+            $participants = $data->getParticipants();
             $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
             $participantData->setActiveIdsFilter(array_keys($data->getParticipants()));
             $participantData->setParticipantAccessFilter(
@@ -103,7 +103,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $participantData->load($this->object->getTestId());
                 
             foreach ($participantData->getActiveIds() as $active_id) {
-                $participant    = $participants[$active_id];
+                $participant = $participants[$active_id];
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
 
                 foreach ($testResultData as $questionData) {
@@ -127,13 +127,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         $check_filter
                     ) {
                         $table_data[] = [
-                            'pass_id'        => $passNr - 1,
-                            'active_id'      => $active_id,
-                            'qst_id'         => $questionData['qid'],
+                            'pass_id' => $passNr - 1,
+                            'active_id' => $active_id,
+                            'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-                            'participant'    => $participant,
-                            'feedback'       => $feedback,
+                            'participant' => $participant,
+                            'feedback' => $feedback,
                         ];
                     }
                 }
@@ -189,12 +189,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             return;
         }
 
-        $pass                  = key($_POST['scoring']);
-        $activeData            = current($_POST['scoring']);
-        $participantData       = new ilTestParticipantData($DIC->database(), $DIC->language());
-        $oneExceededMaxPoints  = false;
-        $manPointsPost         = [];
-        $skipParticipant       = [];
+        $pass = key($_POST['scoring']);
+        $activeData = current($_POST['scoring']);
+        $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
+        $oneExceededMaxPoints = false;
+        $manPointsPost = [];
+        $skipParticipant = [];
         $maxPointsByQuestionId = [];
 
         $participantData->setActiveIdsFilter(array_keys($activeData));
@@ -225,7 +225,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 if (false == isset($manPointsPost[$pass][$active_id])) {
                     $manPointsPost[$pass][$active_id] = [];
                 }
-                $maxPointsByQuestionId[$qst_id]            = assQuestion::_getMaximumPoints($qst_id);
+                $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
                     $oneExceededMaxPoints = true;
@@ -239,11 +239,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             return;
         }
         
-        $changed_one                       = false;
+        $changed_one = false;
         $lastAndHopefullyCurrentQuestionId = null;
 
         foreach ($participantData->getActiveIds() as $active_id) {
-            $questions          = $activeData[$active_id];
+            $questions = $activeData[$active_id];
             $update_participant = false;
             
             if (false == $skipParticipant[$pass][$active_id]) {
@@ -261,7 +261,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 }
 
                 if ($update_participant) {
-                    $changed_one                       = true;
+                    $changed_one = true;
                     $lastAndHopefullyCurrentQuestionId = $qst_id;
 
                     ilLPStatusWrapper::_updateStatus(
@@ -273,14 +273,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         }
 
         $correction_feedback = [];
-        $correction_points   = 0;
+        $correction_points = 0;
 
         if ($changed_one) {
             $qTitle = '';
 
             if ($lastAndHopefullyCurrentQuestionId) {
                 $question = assQuestion::_instantiateQuestion($lastAndHopefullyCurrentQuestionId);
-                $qTitle   = $question->getTitle();
+                $qTitle = $question->getTitle();
             }
 
             $msg = sprintf(
@@ -298,14 +298,14 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             if (isset($active_id)) {
                 $scorer->recalculateSolution($active_id, $pass);
                 $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
-                $correction_points   = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
+                $correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
             } else {
                 $scorer->recalculateSolutions();
             }
         }
 
         if ($ajax && is_array($correction_feedback)) {
-            $correction_feedback['finalized_by']      = ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
+            $correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
             $correction_feedback['finalized_on_date'] = '';
 
             if (strlen($correction_feedback['finalized_tstamp']) > 0) {
@@ -348,17 +348,17 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id   = (int) $_GET['active_id'];
-        $pass        = (int) $_GET['pass_id'];
+        $active_id = (int) $_GET['active_id'];
+        $pass = (int) $_GET['pass_id'];
         $question_id = (int) $_GET['qst_id'];
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
             exit; // illegal ajax call
         }
         
-        $data          = $this->object->getCompleteEvaluationData(false);
-        $participant   = $data->getParticipant($active_id);
-        $question_gui  = $this->object->createQuestionGUI('', $question_id);
+        $data = $this->object->getCompleteEvaluationData(false);
+        $participant = $data->getParticipant($active_id);
+        $question_gui = $this->object->createQuestionGUI('', $question_id);
         $result_output = $question_gui->getSolutionOutput(
             $active_id,
             $pass,
@@ -370,7 +370,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             true
         );
         $max_points = $question_gui->object->getMaximumPoints();
-        $tmp_tpl    = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
+        $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
         $this->appendUserNameToModal($tmp_tpl, $participant);
         $this->appendQuestionTitleToModal($tmp_tpl, $question_id, $max_points, $question_gui->object->getTitle());
         $this->appendSolutionAndPointsToModal(
@@ -389,9 +389,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $tmp_tpl->setVariable('TEXT_SOLUTION_OUTPUT', $this->lng->txt('question'));
         $tmp_tpl->setVariable('TEXT_RECEIVED_POINTS', $this->lng->txt('scoring'));
-        $add_title      = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
+        $add_title = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
         $question_title = $this->object->getQuestionTitle($question_gui->object->getTitle());
-        $lng            = $this->lng->txt('points');
+        $lng = $this->lng->txt('points');
         if ($max_points == 1) {
             $lng = $this->lng->txt('point');
         }
@@ -404,9 +404,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tmp_tpl->setVariable(
             'RECEIVED_POINTS',
             sprintf(
-                        $this->lng->txt('part_received_a_of_b_points'),
-                        $question_gui->object->getReachedPoints($active_id, $pass),
-                        $max_points
+                $this->lng->txt('part_received_a_of_b_points'),
+                $question_gui->object->getReachedPoints($active_id, $pass),
+                $max_points
                     )
         );
 
@@ -455,9 +455,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
      */
     private function appendQuestionTitleToModal($tmp_tpl, $question_id, $max_points, $title)
     {
-        $add_title 		= ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
+        $add_title = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
         $question_title = $this->object->getQuestionTitle($title);
-        $lng 			= $this->lng->txt('points');
+        $lng = $this->lng->txt('points');
         if ($max_points == 1) {
             $lng = $this->lng->txt('point');
         }
@@ -479,28 +479,28 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         global $DIC;
 
-        $ilCtrl 			= $DIC->ctrl();
-        $post_var 			= '[' . $pass . '][' . $active_id . '][' . $question_id . ']';
-        $scoring_post_var 	= 'scoring' . $post_var;
-        $reached_points 	= assQuestion::_getReachedPoints($active_id, $question_id, $pass);
-        $form             	= new ilPropertyFormGUI();
-        $feedback 			= $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
-        $disable 			= false;
+        $ilCtrl = $DIC->ctrl();
+        $post_var = '[' . $pass . '][' . $active_id . '][' . $question_id . ']';
+        $scoring_post_var = 'scoring' . $post_var;
+        $reached_points = assQuestion::_getReachedPoints($active_id, $question_id, $pass);
+        $form = new ilPropertyFormGUI();
+        $feedback = $this->object->getSingleManualFeedback($active_id, $question_id, $pass);
+        $disable = false;
         $form->setFormAction($ilCtrl->getFormAction($this, 'showManScoringByQuestionParticipantsTable'));
         $form->setTitle($this->lng->txt('manscoring'));
 
         if (isset($feedback['finalized_evaluation']) && $feedback['finalized_evaluation'] == 1) {
-            $disable 			= true;
-            $hidden_points 		= new ilHiddenInputGUI($scoring_post_var);
-            $scoring_post_var 	= $scoring_post_var . '_disabled';
+            $disable = true;
+            $hidden_points = new ilHiddenInputGUI($scoring_post_var);
+            $scoring_post_var = $scoring_post_var . '_disabled';
             $hidden_points->setValue($reached_points);
             $form->addItem($hidden_points);
         }
 
-        $text_area 			= new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
-        $feedback_text 		= '';
+        $text_area = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
+        $feedback_text = '';
         if (array_key_exists('feedback', $feedback)) {
-            $feedback_text 	= $feedback['feedback'];
+            $feedback_text = $feedback['feedback'];
         }
         $text_area->setDisabled($disable);
         $text_area->setValue($feedback_text);

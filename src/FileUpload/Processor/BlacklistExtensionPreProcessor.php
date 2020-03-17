@@ -44,7 +44,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
     public function __construct(array $blacklist, $reason = 'Extension is blacklisted.')
     {
         $this->blacklist = $blacklist;
-        $this->reason    = $reason;
+        $this->reason = $reason;
     }
 
     /**
@@ -67,16 +67,16 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
      */
     private function isBlacklisted(Metadata $metadata, FileStream $stream)
     {
-        $filename  = $metadata->getFilename();
+        $filename = $metadata->getFilename();
         $extension = $this->getExtensionForFilename($filename);
 
         if (strtolower($extension) === 'zip') {
             $zip_file_path = $stream->getMetadata('uri');
-            $zip           = new \ZipArchive();
+            $zip = new \ZipArchive();
             $zip->open($zip_file_path);
 
             for ($i = 0; $i < $zip->numFiles; $i++) {
-                $original_path     = $zip->getNameIndex($i);
+                $original_path = $zip->getNameIndex($i);
                 $extension_sub_file = $this->getExtensionForFilename($original_path);
                 if ($extension_sub_file === '') {
                     continue;
@@ -105,7 +105,7 @@ final class BlacklistExtensionPreProcessor implements PreProcessor
     private function getExtensionForFilename($filename)
     {
         $extensions = explode('.', $filename);
-        $extension  = null;
+        $extension = null;
 
         if (count($extensions) <= 1) {
             $extension = '';

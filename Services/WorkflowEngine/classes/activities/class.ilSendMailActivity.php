@@ -170,7 +170,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         preg_match_all('/\[(.*?)\]/', $message_text, $matches, PREG_PATTERN_ORDER);
 
         foreach ($matches[0] as $match) {
-            $placeholder = substr($match, 1, strlen($match)-2);
+            $placeholder = substr($match, 1, strlen($match) - 2);
 
             $handled = false;
             if (strtolower(substr($placeholder, 0, strlen('EVENTLINK'))) == 'eventlink') {
@@ -191,8 +191,8 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
 
     public function getEventLink($eventlink_string)
     {
-        $type = substr($eventlink_string, 1, strpos($eventlink_string, ' ')-1);
-        $params = substr($eventlink_string, strpos($eventlink_string, ' ')+1, -1);
+        $type = substr($eventlink_string, 1, strpos($eventlink_string, ' ') - 1);
+        $params = substr($eventlink_string, strpos($eventlink_string, ' ') + 1, -1);
 
         $matches = array();
         preg_match_all('/\{{(.*?)\}}/', $params, $matches, PREG_PATTERN_ORDER);

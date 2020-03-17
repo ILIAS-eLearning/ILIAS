@@ -62,7 +62,7 @@ class ilTermsOfServiceHelper
      */
     public function deleteAcceptanceHistoryByUser(int $userId) : void
     {
-        $entity          = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+        $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
         $databaseGateway->deleteAcceptanceHistoryByUser($entity->withUserId($userId));
@@ -75,7 +75,7 @@ class ilTermsOfServiceHelper
      */
     public function getCurrentAcceptanceForUser(ilObjUser $user) : ilTermsOfServiceAcceptanceEntity
     {
-        $entity          = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+        $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
         return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId((int) $user->getId()));
@@ -88,7 +88,7 @@ class ilTermsOfServiceHelper
      */
     public function getById(int $id) : ilTermsOfServiceAcceptanceEntity
     {
-        $entity          = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+        $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
         return $databaseGateway->loadById($entity->withId($id));
@@ -102,7 +102,7 @@ class ilTermsOfServiceHelper
      */
     public function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document) : void
     {
-        $entity          = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
+        $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
         $entity = $entity
@@ -114,7 +114,7 @@ class ilTermsOfServiceHelper
             ->withTitle((string) $document->title());
 
         $criteriaBag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
-        $entity      = $entity->withSerializedCriteria($criteriaBag->toJson());
+        $entity = $entity->withSerializedCriteria($criteriaBag->toJson());
 
         $databaseGateway->trackAcceptance($entity);
 

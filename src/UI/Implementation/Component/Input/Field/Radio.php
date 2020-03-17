@@ -48,7 +48,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function withOption(string $value, string $label, string $byline=null) : C\Input\Field\Radio
+    public function withOption(string $value, string $label, string $byline = null) : C\Input\Field\Radio
     {
         $clone = clone $this;
         $clone->options[$value] = $label;

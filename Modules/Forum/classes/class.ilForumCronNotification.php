@@ -137,7 +137,7 @@ class ilForumCronNotification extends ilCronJob
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        $lng       = $DIC->language();
+        $lng = $DIC->language();
 
         $this->logger = $DIC->logger()->frm();
 
@@ -163,7 +163,7 @@ class ilForumCronNotification extends ilCronJob
 
         $this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
 
-        $threshold_date =  date('Y-m-d H:i:s', $threshold);
+        $threshold_date = date('Y-m-d H:i:s', $threshold);
 
         $this->sendNotificationForNewPosts($threshold_date);
 

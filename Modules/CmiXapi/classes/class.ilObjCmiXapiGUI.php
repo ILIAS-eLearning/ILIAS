@@ -84,7 +84,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $form = $this->initDidacticTemplate($form);
 
         $title = new ilHiddenInputGUI('title', 'title');
-        $title->setValue( self::NEW_OBJ_TITLE );
+        $title->setValue(self::NEW_OBJ_TITLE);
         $form->addItem($title);
 
         $type = new ilRadioGroupInputGUI('Type', 'content_type');
@@ -174,7 +174,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             switch ($form->getInput('source_type')) {
                 case 'resource': // remote resource
 
-                    $newObject->setTitle( $form->getInput('title') );
+                    $newObject->setTitle($form->getInput('title'));
                     $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_REMOTE);
                     break;
                     

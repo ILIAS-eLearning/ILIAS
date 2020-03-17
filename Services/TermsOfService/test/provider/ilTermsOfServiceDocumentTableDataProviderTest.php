@@ -32,7 +32,7 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
      */
     public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider) : void
     {
-        $documentConnector  = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $documentData = [

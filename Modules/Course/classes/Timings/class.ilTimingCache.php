@@ -62,7 +62,7 @@ class ilTimingCache
         }
         
         // if editing time reached => show warning
-        $timings =&ilTimingCache::_getTimings($a_ref_id);
+        $timings = &ilTimingCache::_getTimings($a_ref_id);
         if ($timings['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
             if ($timings['item']['changeable'] and $timings['user'][$a_usr_id]['end']) {
                 $end = $timings['user'][$a_usr_id]['end'];

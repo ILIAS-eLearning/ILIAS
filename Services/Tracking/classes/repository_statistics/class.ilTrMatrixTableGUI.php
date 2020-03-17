@@ -202,14 +202,14 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             if (sizeof($this->sco_ids)) {
                 foreach ($this->sco_ids as $obj_id => $title) {
                     $icon = ilUtil::getTypeIconPath("sco", $obj_id, "tiny");
-                    $tmp_cols[strtolower($title) . "#~#objsco_" . $obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
+                    $tmp_cols[strtolower($title) . "#~#objsco_" . $obj_id] = array("txt" => $title, "icon" => $icon, "default" => true);
                 }
             }
             if (sizeof($this->subitem_ids)) {
                 foreach ($this->subitem_ids as $obj_id => $title) {
                     include_once("./Services/Tracking/classes/class.ilTrQuery.php");
                     $icon = ilUtil::getTypeIconPath(ilTrQuery::getSubItemType($this->obj_id), $obj_id, "tiny");
-                    $tmp_cols[strtolower($title) . "#~#objsub_" . $obj_id] = array("txt" => $title, "icon"=>$icon, "default" => true);
+                    $tmp_cols[strtolower($title) . "#~#objsub_" . $obj_id] = array("txt" => $title, "icon" => $icon, "default" => true);
                 }
             }
 

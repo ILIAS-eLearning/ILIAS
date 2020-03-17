@@ -236,7 +236,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                     $members[$file["user_id"]]["files"][$file["returned_id"]] = $file;
                 }
 
-                $tmp_obj =&ilObjectFactory::getInstanceByObjId($member_id);
+                $tmp_obj = &ilObjectFactory::getInstanceByObjId($member_id);
                 $members[$member_id]["name"] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
                 unset($tmp_obj);
             }
@@ -484,7 +484,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                         $this->title_columns[] = $this->lng->txt("exc_submission_file");
                     }
 
-                    $first_excel_column_for_review += $num_columns_submission -1;
+                    $first_excel_column_for_review += $num_columns_submission - 1;
                     break;
                 default:
                     $this->title_columns[] = $this->lng->txt("exc_submission");
@@ -559,9 +559,9 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                                 if ($current_review_row > 1) {
                                     for ($i = 0; $i < $first_excel_column_for_review; $i++) {
                                         $cell_to_copy = $this->excel->getCell($row, $i);
-                                        $this->excel->setCell($row +1, $i, $cell_to_copy);
+                                        $this->excel->setCell($row + 1, $i, $cell_to_copy);
                                         if ($i >= self::FIRST_DEFAULT_SUBMIT_COLUMN) {
-                                            $this->excel->setColors($this->excel->getCoordByColumnAndRow($i, $row+1), self::BG_COLOR, self::LINK_COLOR);
+                                            $this->excel->setColors($this->excel->getCoordByColumnAndRow($i, $row + 1), self::BG_COLOR, self::LINK_COLOR);
                                         }
                                     }
                                     ++$row;
@@ -577,10 +577,10 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                                     $feedback_giver_name['lastname'] . ", " . $feedback_giver_name['firstname'] . " [" . $feedback_giver_name['login'] . "]"
                                 );
 
-                                $this->excel->setCell($row, $col+1, $review['tstamp']);
+                                $this->excel->setCell($row, $col + 1, $review['tstamp']);
 
                                 if ($ass_has_criteria) {
-                                    $this->addCriteriaToExcel($feedback_giver, $participant_id, $row, $col+1);
+                                    $this->addCriteriaToExcel($feedback_giver, $participant_id, $row, $col + 1);
                                 }
                             }
                         }

@@ -192,10 +192,10 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
-                     'meta_data_scheme'	=> array('text',$this->getMetaDataScheme()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
+                     'meta_data_scheme' => array('text',$this->getMetaDataScheme()),
                      'language' => array('text',$this->getLanguageCode()));
     }
 
@@ -244,7 +244,7 @@ class ilMDMetaMetadata extends ilMDBase
         // ELEMENT IDENTIFIER
         $identifiers = $this->getIdentifierIds();
         foreach ($identifiers as $id) {
-            $ide =&$this->getIdentifier($id);
+            $ide = &$this->getIdentifier($id);
             $ide->toXML($writer);
         }
         if (!count($identifiers)) {
@@ -256,7 +256,7 @@ class ilMDMetaMetadata extends ilMDBase
         // ELEMETN Contribute
         $contributes = $this->getContributeIds();
         foreach ($contributes as $id) {
-            $con =&$this->getContribute($id);
+            $con = &$this->getContribute($id);
             $con->toXML($writer);
         }
         if (!count($contributes)) {

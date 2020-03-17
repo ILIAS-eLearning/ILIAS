@@ -304,8 +304,8 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
     {
         $toolbar_entries = [
             'auto_complete_name' => $this->lng->txt('user'),
-            'user_type'	=> $this->getParentGUI()->getLocalRoles(),
-            'user_type_default'	=> $this->getDefaultRole(),
+            'user_type' => $this->getParentGUI()->getLocalRoles(),
+            'user_type_default' => $this->getDefaultRole(),
             'submit_name' => $this->lng->txt('add'),
             'add_search' => true,
         ];

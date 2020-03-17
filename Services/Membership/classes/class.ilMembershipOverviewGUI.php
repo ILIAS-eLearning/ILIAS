@@ -54,7 +54,7 @@ class ilMembershipOverviewGUI
                 $ctrl->setReturn($this, "show");
                 $block = new ilPDMembershipBlockGUI(true);
                 $ret = $this->ctrl->forwardCommand($block);
-                if ($ret!= "") {
+                if ($ret != "") {
                     //$this->displayHeader();
                     $this->main_tpl->setContent($ret);
                     //$this->tpl->printToStdout();
