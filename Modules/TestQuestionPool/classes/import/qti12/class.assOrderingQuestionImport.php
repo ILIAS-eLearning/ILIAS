@@ -257,12 +257,11 @@ class assOrderingQuestionImport extends assQuestionImport
                         $imagefile = fwrite($fh, $image);
                         fclose($fh);
                     }
-                    // create thumbnail file
-                    $thumbpath = $imagepath . "." . "thumb.jpg";
-                    ilUtil::convertImage($imagepath, $thumbpath, "JPEG", $this->object->getThumbGeometry());
                 }
             }
         }
+        $this->object->handleThumbnailCreation($this->object->getOrderingElementList());
+
         foreach ($feedbacksgeneric as $correctness => $material) {
             $m = $this->object->QTIMaterialToString($material);
             $feedbacksgeneric[$correctness] = $m;
