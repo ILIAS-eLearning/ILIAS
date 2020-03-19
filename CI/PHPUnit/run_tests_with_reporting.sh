@@ -54,7 +54,7 @@ if [[ -e "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH" ]]
 				FAILURE=true
 		fi
 
-		if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]
+		if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 		then
 			printLn "Copy results file."
 
