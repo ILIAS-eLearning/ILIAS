@@ -68,6 +68,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function executeCommand()
     {
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -116,8 +117,10 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
                 $this->ctrl->saveParameterByClass('ilpageeditorgui', 'q_mode');
 
-                $ret = &$this->ctrl->forwardCommand($page_editor);
-                
+                $ret = $this->ctrl->forwardCommand($page_editor);
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
+                }
                 break;
 
             case '':

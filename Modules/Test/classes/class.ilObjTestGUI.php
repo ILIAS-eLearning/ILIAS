@@ -572,6 +572,7 @@ class ilObjTestGUI extends ilObjectGUI
                     $pageObject = new ilTestExpressPageObjectGUI(0);
                     $pageObject->test_object = $this->object;
                     $ret = &$this->ctrl->forwardCommand($pageObject);
+                    $this->tpl->setContent($ret);
                     break;
                 }
                 require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
@@ -634,13 +635,15 @@ class ilObjTestGUI extends ilObjectGUI
                 $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
                 $page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
                 $page_gui->setPresentationTitle($question->getTitle() . ' [' . $this->lng->txt('question_id_short') . ': ' . $question->getId() . ']');
-                $ret = &$this->ctrl->forwardCommand($page_gui);
+                $ret = $this->ctrl->forwardCommand($page_gui);
+                if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
 
                 global $DIC;
                 $ilTabs = $DIC['ilTabs'];
                 $ilTabs->activateTab('assQuestions');
 
-                $this->tpl->setContent($ret);
                 break;
 
             case 'ilassquestionpreviewgui':
