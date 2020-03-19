@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Exit positively if we are on a PR
-if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]];
-then
-  exit 0
-fi
-
 # get the dependencies
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
