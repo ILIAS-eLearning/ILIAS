@@ -237,7 +237,6 @@ class ilAccountRegistrationGUI
         $this->__initForm();
         $form_valid = $this->form->checkInput();
         
-        
         // custom validation
         $valid_code = $valid_role = false;
                 
@@ -347,24 +346,21 @@ class ilAccountRegistrationGUI
         // validate username
         $login_obj = $this->form->getItemByPostVar('username');
         $login = $this->form->getInput("username");
+        $captcha = $this->form->getItemByPostVar("captcha_code");
         if (!ilUtil::isLogin($login)) {
             $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
-        } elseif (ilObjUser::_loginExists($login) && !empty($this->form->getInput("captcha_code"))) {
-            $login_obj->setAlert($this->lng->txt("login_exists"));
-            $form_valid = false;
-        } elseif(ilObjUser::_loginExists($login) && empty($this->form->getInput("captcha_code"))) {
+        } elseif (ilObjUser::_loginExists($login)) {
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+            }
             $form_valid = false;
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
             (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
-            ilObjUser::_doesLoginnameExistInHistory($login) &&
-            !empty($this->form->getInput("captcha_code"))) {
-            $login_obj->setAlert($this->lng->txt('login_exists'));
-            $form_valid = false;
-        } elseif((int) $ilSetting->get('allow_change_loginname') &&
-            (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
-            ilObjUser::_doesLoginnameExistInHistory($login) &&
-            empty($this->form->getInput("captcha_code"))) {
+            ilObjUser::_doesLoginnameExistInHistory($login)) {
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+            }
             $form_valid = false;
         }
 
