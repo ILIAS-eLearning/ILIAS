@@ -7502,8 +7502,10 @@ hr.il-divider-with-label {
   font-size: 14px;
   float: left;
 }
-.il-item h5 .btn-link {
+.il-item h5 .btn-link,
+.il-item h5 a {
   font-size: inherit;
+  line-height: 1.42857143;
 }
 .il-item .il-item-divider {
   clear: both;

@@ -3780,7 +3780,7 @@ class ilObjectListGUI
 
 
         if ($def_command['link']) {
-            $list_item = $ui->factory()->item()->standard($this->ui->factory()->button()->shy($title, $def_command['link']));
+            $list_item = $ui->factory()->item()->standard($this->ui->factory()->link()->standard($title, $def_command['link']));
         } else {
             $list_item = $ui->factory()->item()->standard($title);
         }

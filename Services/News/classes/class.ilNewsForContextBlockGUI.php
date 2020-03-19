@@ -1487,7 +1487,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // $info["user_read"]
 
         $factory = $this->ui->factory();
-        $item = $factory->item()->standard($factory->button()->shy($info["news_title"], $info["url"]))
+        $item = $factory->item()->standard($factory->link()->standard($info["news_title"], $info["url"]))
             ->withProperties($props);
         if ($info["ref_id"] > 0) {
             $item = $item->withDescription($info["type_txt"] . ": " . $info["obj_title"]);
