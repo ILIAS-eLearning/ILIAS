@@ -179,7 +179,7 @@ class Renderer extends AbstractComponentRenderer
         \ILIAS\UI\Implementation\Render\Template $tpl
     ) {
         $title = $component->getTitle();
-        if ($title instanceof \ILIAS\UI\Component\Button\Shy || $title instanceof \ILIAS\UI\Component\Link\Standard) {
+        if ($title instanceof \ILIAS\UI\Component\Button\Shy || $title instanceof \ILIAS\UI\Component\Link\Link) {
             $title = $default_renderer->render($title);
         }
         $tpl->setVariable("TITLE", $title);
