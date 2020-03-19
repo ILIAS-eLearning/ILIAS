@@ -225,7 +225,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $page_gui->setHeader($question->getTitle());
                 $page_gui->setPresentationTitle($question->getTitle());
                 $ret = $this->ctrl->forwardCommand($page_gui);
-                $tpl->setContent($ret);
+                if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
                 break;
                 
             case 'ilpermissiongui':
