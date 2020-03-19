@@ -249,7 +249,6 @@ class ilAccountRegistrationGUI
         $form_valid = $this->form->checkInput();
         
         require_once 'Services/User/classes/class.ilObjUser.php';
-
         
         // custom validation
         $valid_code = $valid_role = false;
@@ -362,16 +361,21 @@ class ilAccountRegistrationGUI
         // validate username
         $login_obj = $this->form->getItemByPostVar('username');
         $login = $this->form->getInput("username");
+        $captcha = $this->form->getItemByPostVar("captcha_code");
         if (!ilUtil::isLogin($login)) {
             $login_obj->setAlert($lng->txt("login_invalid"));
             $form_valid = false;
         } elseif (ilObjUser::_loginExists($login)) {
-            $login_obj->setAlert($lng->txt("login_exists"));
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($lng->txt("login_exists"));
+            }
             $form_valid = false;
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
             (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
             ilObjUser::_doesLoginnameExistInHistory($login)) {
-            $login_obj->setAlert($lng->txt('login_exists'));
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($lng->txt("login_exists"));
+            }
             $form_valid = false;
         }
 
