@@ -189,6 +189,11 @@ abstract class ilParticipants
                     return false;
                 }
             }
+            if ($part->getType() == 'grp') {
+                if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
+                    return false;
+                }
+            }
             return true;
         }
         // User is not assigned to course/group => no read access
