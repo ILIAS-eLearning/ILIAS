@@ -19,6 +19,7 @@
 		]
 	},
 	"require": {
+		"php": "^7.3",
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
