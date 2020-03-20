@@ -353,14 +353,14 @@ class ilAccountRegistrationGUI
             $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
         } elseif (ilObjUser::_loginExists($login)) {
-            if(empty($captcha->getAlert())) {
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
                 $login_obj->setAlert($this->lng->txt("login_exists"));
             }
             $form_valid = false;
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
             (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
             ilObjUser::_doesLoginnameExistInHistory($login)) {
-            if(empty($captcha->getAlert())) {
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
                 $login_obj->setAlert($this->lng->txt("login_exists"));
             }
             $form_valid = false;
