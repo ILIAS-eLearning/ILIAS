@@ -2,6 +2,7 @@ il = il || {};
 il.UI = il.UI || {};
 (function($, ui) {
 	ui.page = (function($) {
+		var _cls_page_content = 'il-layout-page-content';
 
 		var breakpoint_max_width = 768, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
 			resized_poppers_margin = 25, //dropdown, date-picker
@@ -23,9 +24,15 @@ il.UI = il.UI || {};
 			return isPortrait() ? 'portrait' : 'landscape';
 		};
 
-		var fitContainerToContent = function(target_container) {
-			var content_container = $('.il-layout-page-content'),
-				margin = resized_poppers_margin,
+		var fitContainerToPageContent = function(target_container) {
+			var content_container = $('.' + _cls_page_content);
+
+			if(!content_container.length || 
+				!isContainerInPageContent(target_container)){
+				return;
+			}
+
+			var	margin = resized_poppers_margin,
 				max_width = content_container.width() - 2 * margin,
 				target_left = content_container.offset().left - target_container.parent().offset().left + margin;
 
@@ -40,14 +47,18 @@ il.UI = il.UI || {};
 					'max-width': max_width
 				});
 			}, 100)
-		}
+		};
+
+		var isContainerInPageContent = function(container){
+			return container.parents('.' + _cls_page_content).length
+		};
 
 		return {
 			isSmallScreen: isSmallScreen,
 			getOrientation: getOrientation,
 			isPortrait: isPortrait,
 			isLandscape: isLandscape,
-			fit: fitContainerToContent
+			fit: fitContainerToPageContent
 		};
 
 	})($);
