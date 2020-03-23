@@ -4,11 +4,11 @@
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
-echo "-----"
 PHP_UNIT_EXIT_CODE=$(<"$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp")
-echo $PHP_UNIT_EXIT_CODE
-echo "-----"
-exit
+if [[ $PHP_UNIT_EXIT_CODE != "0" ]];
+then
+  exit $PHP_UNIT_EXIT_CODE
+fi
 
 # clone the CI repository
 if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
