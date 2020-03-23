@@ -6535,7 +6535,9 @@ Runner.prototype.run = function(fn) {
     this.emit(constants.EVENT_DELAY_BEGIN, rootSuite);
     rootSuite.once(EVENT_ROOT_SUITE_RUN, start);
   } else {
-    start();
+    Runner.immediately(function() {
+      start();
+    });
   }
 
   return this;
@@ -18169,7 +18171,7 @@ function hasOwnProperty(obj, prop) {
 },{"./support/isBuffer":88,"_process":69,"inherits":56}],90:[function(require,module,exports){
 module.exports={
   "name": "mocha",
-  "version": "7.1.0",
+  "version": "7.1.1",
   "homepage": "https://mochajs.org/",
   "notifyLogo": "https://ibin.co/4QuRuGjXvl36.png"
 }
