@@ -598,10 +598,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
 						il.UI.maincontrols.metabar.disengageAll();
 					}
+					this.additional_engage();
 				},
 				disengage: function() {
 					this.getElement().addClass(css.disengaged);
 					this.getElement().removeClass(css.engaged);
+					this.additional_disengage();
 				},
 				mb_hide: function(on_parent) {
 					var element = this.getElement();
@@ -616,16 +618,32 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						element = element.parent();
 					}
 					element.removeClass(css.hidden);
-				}
+				},
+				additional_engage: function(){},
+				additional_disengage: function(){}
 			},
 			parts = {
 				triggerer: Object.assign({}, dom_element, {
-					remove: function() {}
+					remove: function() {},
+					additional_engage: function(){
+						this.getElement().attr('aria-pressed', true);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-pressed', false);
+					}
 				}),
 				slate: Object.assign({}, dom_element, {
 					remove: null,
 					mb_hide: null,
-					mb_show: null
+					mb_show: null,
+					additional_engage: function(){
+						this.getElement().attr('aria-expanded', true);
+						this.getElement().attr('aria-hidden', false);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-expanded', false);
+						this.getElement().attr('aria-hidden', true);
+					}
 				}),
 				remover: Object.assign({}, dom_element, {
 					engage: null,
@@ -662,7 +680,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					getElement: function(){
 						return $('.' + css.tools_btn + ' .btn');
 					},
-					remove: null
+					remove: null,
+					additional_engage: function(){
+						this.getElement().attr('aria-pressed', true);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-pressed', false);
+					}
 				}),
 				mainbar: {
 					getElement: function(){
