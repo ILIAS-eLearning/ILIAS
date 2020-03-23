@@ -13,6 +13,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					var tool_id = mappings[mapping_id];
 					this.model.actions.engageTool(tool_id);
 					this.renderer.render(this.model.getState());
+					this.persistence.store(this.model.getState());
 				},
 				/**
 				 * remove a certain tool
@@ -21,6 +22,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					var tool_id = mappings[mapping_id];
 					this.model.actions.removeTool(tool_id);
 					this.renderer.render(this.model.getState());
+					this.persistence.store(this.model.getState());
 				},
 				/**
 				 * Just open the tools, activate last one
@@ -44,8 +46,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 * or may be invisible at first.
 				 * This only adds to the model, the html-parts still need to be registered.
 				 */
-				addToolEntry: function (position_id, removeable = true, hidden = false) {
-					this.model.actions.addTool(position_id, removeable, hidden);
+				addToolEntry: function (position_id, removeable, hidden, gs_id) {
+					this.model.actions.addTool(position_id, removeable, hidden, gs_id);
 				},
 				/**
 				 * An entry consists of several visible parts: the button, the slate and
@@ -54,7 +56,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 * however, when it comes to rendering, the individual parts are needed.
 				 * The function also adds an entry to the model if there is none already.
 				 */
-				addPartIdAndEntry: function (position_id, part, html_id, is_tool = false) {
+				addPartIdAndEntry: function (position_id, part, html_id, is_tool) {
 					this.renderer.addEntry(position_id, part, html_id);
 					if( !is_tool
 						&& (position_id in this.model.getState().tools == false)
@@ -116,10 +118,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			},
 			helper = {
-				getMappingIdForPosId: function (position_id) {
-					for(var idx in mappings) {
-						if(mappings[idx] === position_id) {
-							return idx;
+				findToolByGSId: function (tools, gs_id) {
+					for(var idx in tools) {
+						if(tools[idx].gs_id === gs_id) {
+							return tools[idx];
 						}
 					}
 					return null;
@@ -156,15 +158,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(Object.keys(cookie_state).length > 0) {
 					//re-apply engaged
 					for(var idx in init_state.tools) {
-						id = init_state.tools[idx].id;
-						gs_id = helper.getMappingIdForPosId(id);
-
+						gs_id = init_state.tools[idx].gs_id;
 						if(cookie_state.known_tools.indexOf(gs_id) === -1) {
 							cookie_state.known_tools.push(gs_id);
 							init_state.tools[idx].engaged = true //new tool is active
 						} else {
-							if(cookie_state.tools[idx]) {
-								init_state.tools[idx].engaged = cookie_state.tools[idx].engaged;
+							stored = helper.findToolByGSId(cookie_state.tools, gs_id);
+							if(stored) {
+								init_state.tools[idx].engaged = stored.engaged;
+								init_state.tools[idx].hidden = stored.hidden;
 							}
 						}
 					}
@@ -174,7 +176,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 
 				init_state = mb.model.getState();
-				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
 				/**
 				 * initially active (from mainbar-component) will override everything (but tools)
 				 */
@@ -191,18 +192,17 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				/**
 				 * Override potentially active entry, if there are is an active tool.
 				 */
+				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
 				if(first_tool_id) {
 					mb.model.actions.engageTool(first_tool_id);
 				} else {
 					//tools engaged, but none active: take the first one:
-					if(mb.model.getState().tools_engaged) {
-						//are there any tools?
-						if(Object.keys(mb.model.getState().tools).length === 0) {
-							mb.model.actions.disengageTools();
-							mb.model.actions.disengageAll();
-						} else {
-							mb.model.actions.engageTool(Object.keys(init_state.tools).shift());
-						}
+					if(mb.model.getState().any_tools_engaged() && mb.model.getState().any_tools_visible()) {
+						tool_id = Object.keys(init_state.tools).shift();
+						mb.model.actions.engageTool(tool_id);
+					} else {
+						mb.model.actions.disengageTools();
+						mb.model.actions.disengageAll();
 					}
 				}
 
@@ -269,7 +269,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					},
 					any_tools_engaged: function() {
 						for(idx in this.tools) {
-							if(!this.tools[idx].engaged) {
+							if(this.tools[idx].engaged) {
 								return true;
 							}
 						}
@@ -285,6 +285,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					removeable: false,
 					engaged: false,
 					hidden: false,
+					gs_id: null,
 					isTopLevel: function() {return this.id.split(':').length === 2;}
 				}
 			},
@@ -361,10 +362,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				addEntry: function (entry_id) {
 					state.entries[entry_id] = factories.entry(entry_id);
 				},
-				addTool: function (entry_id, removeable, hidden) {
+				addTool: function (entry_id, removeable, hidden, gs_id) {
 					var tool = factories.entry(entry_id);
+					//var tool = factories.entry(gs_id);
 					tool.removeable = removeable ? true : false;
 					tool.hidden = hidden ? true : false;
+					tool.gs_id = gs_id;
 					state.tools[entry_id] = tool;
 				},
 				engageEntry: function (entry_id) {
@@ -502,34 +505,41 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				return hash;
 			},
-			compressEntries = function(entries) {
-				var k, v, ret = {};
+			compressEntries = function(entries, is_tools) {
+				var k, v, ret = {}, key;
 				for(k in entries) {
 					v = entries[k];
-					ret[k] = [
-						v['removeable'] ? 1:0,
-						v['engaged'] ? 1:0,
-						v['hidden'] ? 1:0
+					key = is_tools ? v.gs_id : k;
+					ret[key] = [
+						v.removeable ? 1:0,
+						v.engaged ? 1:0,
+						v.hidden ? 1:0
 					];
+					if(is_tools) {
+						ret[key].push(k);
+					}
 				}
 				return ret;
 			},
-			decompressEntries = function(entries) {
-				var k, v, ret = {};
+			decompressEntries = function(entries, is_tools) {
+				var k, v, ret = {}, id, gs_id;
 				for(k in entries) {
 					v = entries[k];
-					ret[k] = {
-						"id": k,
+					id = is_tools ? v[3] : k;
+					gs_id = is_tools ? k : null;
+					ret[id] = {
+						"id": id,
 						"removeable": !!v[0],
 						"engaged": !!v[1],
-						"hidden": !!v[2]
+						"hidden": !!v[2],
+						"gs_id": gs_id
 					};
 				}
 				return ret;
 			},
 			storeStates = function(state) {
-				state.entries = compressEntries(state.entries);
-				state.tools = compressEntries(state.tools);
+				state.entries = compressEntries(state.entries, false);
+				state.tools = compressEntries(state.tools, true);
 				cs = storage();
 				for(idx in state) {
 					cs.add(idx, state[idx]);
@@ -540,8 +550,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			readStates = function() {
 				cs = storage();
 				if (("entries" in cs.items) && ("tools" in cs.items)) {
-					cs.items.entries = decompressEntries(cs.items.entries);
-					cs.items.tools = decompressEntries(cs.items.tools);
+					cs.items.entries = decompressEntries(cs.items.entries, false);
+					cs.items.tools = decompressEntries(cs.items.tools, true);
 				}
 				return cs.items;
 			},
