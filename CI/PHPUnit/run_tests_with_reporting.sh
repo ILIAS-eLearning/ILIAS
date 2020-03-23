@@ -76,12 +76,15 @@ if [[ -e "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH" ]]
 	if [[ "$FAILURE" == "true" || $PIPE_EXIT_CODE -gt 0 ]]
 		then
 			printLn "Errors were found, exiting with error code."
+			export PHP_UNIT_EXIT_CODE="99"
 			exit 99
 	else
 			printLn "No errors were found."
+			export PHP_UNIT_EXIT_CODE="0"
 			exit 0
 	fi
 else
 	printLn "No result file found, stopping!"
+	export PHP_UNIT_EXIT_CODE="99"
 	exit 99
 fi

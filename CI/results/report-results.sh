@@ -4,6 +4,12 @@
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
+echo "-----"
+echo "PHP_UNIT_EXIT_CODE: "
+echo $PHP_UNIT_EXIT_CODE
+echo "-----"
+exit
+
 # clone the CI repository
 if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
   printLn "Starting to remove old temp directory"
