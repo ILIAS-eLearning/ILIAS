@@ -5,7 +5,7 @@ source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
 echo "-----"
-echo "PHP_UNIT_EXIT_CODE: "
+PHP_UNIT_EXIT_CODE=$(<"$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp")
 echo $PHP_UNIT_EXIT_CODE
 echo "-----"
 exit
