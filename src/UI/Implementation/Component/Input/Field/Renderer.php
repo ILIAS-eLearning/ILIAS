@@ -39,6 +39,11 @@ class Renderer extends AbstractComponentRenderer
 
 
     /**
+     * @var RendererInterface
+     */
+    protected $default_renderer;
+
+    /**
      * @inheritdoc
      */
     public function render(Component\Component $component, RendererInterface $default_renderer)
@@ -47,6 +52,8 @@ class Renderer extends AbstractComponentRenderer
          * @var $component Input
          */
         $this->checkComponent($component);
+
+        $this->default_renderer = $default_renderer;
 
         $input_tpl = null;
         $id = null;
@@ -699,9 +706,9 @@ JS;
      */
     protected function renderDateTimeInput(Template $tpl, DateTime $input) : string
     {
-        global $DIC;
         $f = $this->getUIFactory();
-        $renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
+        $renderer = $this->default_renderer->withAdditionalContext($input);
+
         if ($input->getTimeOnly() === true) {
             $cal_glyph = $f->symbol()->glyph()->time("#");
             $format = $input::TIME_FORMAT;
@@ -735,14 +742,6 @@ JS;
         if (!is_null($max_date)) {
             $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
         }
-        require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-        \ilCalendarUtil::initDateTimePicker();
-        $input = $this->setSignals($input);
-        $input = $input->withAdditionalOnLoadCode(function ($id) use ($config) {
-            return '$("#' . $id . '").datetimepicker(' . json_encode($config) . ')';
-        });
-        $id = $this->bindJavaScript($input);
-        $tpl->setVariable("ID", $id);
 
         $tpl->setVariable("NAME", $input->getName());
         $tpl->setVariable("PLACEHOLDER", $format);
@@ -752,6 +751,22 @@ JS;
             $tpl->setVariable("VALUE", $input->getValue());
             $tpl->parseCurrentBlock();
         }
+
+        require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+        \ilCalendarUtil::initDateTimePicker();
+        $input = $this->setSignals($input);
+
+        $disabled = $input->isDisabled();
+        $input = $input->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
+            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
+            if ($disabled) {
+                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
+            }
+            return $js;
+        });
+
+        $id = $this->bindJavaScript($input);
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }

@@ -28,7 +28,8 @@ function base()
         [
             'duration' => $duration,
             'time' => $time,
-            'timezone' => $timezone
+            'timezone' => $timezone,
+            'disabled' => $duration->withLabel('disabled')->withDisabled(true)
         ]
     );
 
