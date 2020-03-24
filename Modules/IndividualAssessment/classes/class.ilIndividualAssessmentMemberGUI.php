@@ -521,9 +521,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     public function getUploadURL() : string
     {
-        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $link = $this->ctrl->getLinkTargetByClass([static::class], self::CMD_UPLOAD);
-        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_UPLOAD);
+        $this->ctrl->setParameter($this, 'usr_id', null);
 
         return $link;
     }
@@ -533,9 +533,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getExistingFileInfoURL() : string
     {
-        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $link = $this->ctrl->getLinkTargetByClass([static::class], self::CMD_INFO);
-        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_INFO);
+        $this->ctrl->setParameter($this, 'usr_id', null);
 
         return $link;
     }
@@ -545,9 +545,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getFileRemovalURL() : string
     {
-        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $link = $this->ctrl->getLinkTargetByClass(static::class, self::CMD_REMOVE,false, true);
-        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_REMOVE);
+        $this->ctrl->setParameter($this, 'usr_id', null);
 
         return $link;
     }
