@@ -364,7 +364,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				},
 				addTool: function (entry_id, removeable, hidden, gs_id) {
 					var tool = factories.entry(entry_id);
-					//var tool = factories.entry(gs_id);
 					tool.removeable = removeable ? true : false;
 					tool.hidden = hidden ? true : false;
 					tool.gs_id = gs_id;
