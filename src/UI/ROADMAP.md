@@ -180,7 +180,6 @@ In the footer's template, an input-tag in cconunction with some inline-js is
 used to display the perma-link. This should be substituted by a non-input 
 block-element, respectively an UI-Component on its own.
 
-
 ### Turn View Controls into View Control Inputs (advanced)
 
 View Controls actually are more like Inputs and should be treated that way.
