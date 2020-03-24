@@ -276,16 +276,6 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function withInput(InputData $input)
-    {
-        return parent::withInput($input);
-    }
-
-
-
     // Events
 
 
