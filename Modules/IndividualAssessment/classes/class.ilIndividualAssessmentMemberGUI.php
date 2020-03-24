@@ -248,7 +248,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function downloadFile()
 	{
-
+		$path = $this->getUserFileStorage()->getFilePath();
+		$file_name = $this->getMember()->fileName();
+		ilUtil::deliverFile($path, $file_name);
 	}
 
     protected function saveAmend()
@@ -642,7 +644,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 	{
 		$member = $this->getMember();
 		if($member->fileName() != '') {
-			$this->toolbar->addLink("Bls", "dfdff");
+			$btn = ilLinkButton::getInstance();
+			$btn->setCaption('download_assessment_paper');
+			$this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+			$btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, false, true));
+			$this->ctrl->setParameter($this, 'usr_id', null);
+			$this->toolbar->addButtonInstance($btn);
 		}
 	}
 
