@@ -5,10 +5,8 @@
 namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
 /**
- * This describes the Standard ViewControl Container.
+ * This describes the Standard View Control Container.
  */
 interface Standard extends ViewControl
 {
-
-
 }

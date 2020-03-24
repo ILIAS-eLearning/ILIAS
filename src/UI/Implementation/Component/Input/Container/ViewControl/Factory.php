@@ -7,12 +7,12 @@ namespace ILIAS\UI\Implementation\Component\Input\Container\ViewControl;
 use ILIAS\UI\Component\Input\Container\ViewControl as V;
 
 /**
- * Factory for the Control Containers
+ * Factory for the View Control Containers
  */
 class Factory implements V\Factory
 {
-	public function standard(array $controls): V\Standard
-	{
-		throw new \ILIAS\UI\NotImplementedException();
-	}
+    public function standard(array $controls) : V\Standard
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }

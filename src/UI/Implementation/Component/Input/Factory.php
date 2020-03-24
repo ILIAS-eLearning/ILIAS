@@ -33,13 +33,12 @@ class Factory implements Component\Input\Factory
         SignalGeneratorInterface $signal_generator,
         Field\Factory $field_factory,
         Container\Factory $container_factory,
-        Control\Factory $control_factory
+        ViewControl\Factory $control_factory
     ) {
         $this->signal_generator = $signal_generator;
         $this->field_factory = $field_factory;
         $this->container_factory = $container_factory;
         $this->control_factory = $control_factory;
-
     }
 
     /**
@@ -61,7 +60,7 @@ class Factory implements Component\Input\Factory
     /**
      * @inheritDoc
      */
-    public function control(): Component\Input\Control\Factory
+    public function viewControl() : Component\Input\ViewControl\Factory
     {
         return $this->control_factory;
     }

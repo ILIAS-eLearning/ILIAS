@@ -2,12 +2,12 @@
 
 /* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Input\Control;
+namespace ILIAS\UI\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\Control\Control as BaseControl;
+use ILIAS\UI\Component\Input\ViewControl\ViewControl as BaseControl;
 
 /**
- * This describes a FieldSelection Control
+ * This describes a Field Selection View Control
  */
 interface FieldSelection extends BaseControl
 {

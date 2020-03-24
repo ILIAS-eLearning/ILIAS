@@ -8,7 +8,7 @@ use ILIAS\UI\Component\Component;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * This describes a ViewControl Container.
+ * This describes a View Control Container.
  */
 interface ViewControl extends Component
 {
@@ -17,13 +17,12 @@ interface ViewControl extends Component
      *
      * @return array<string,\ILIAS\UI\Component\Input\Control>
      */
-	public function getInputs(): array;
+    public function getInputs() : array;
 
-	public function withRequest(ServerRequestInterface $request): ViewControl;
+    public function withRequest(ServerRequestInterface $request) : ViewControl;
 
     /**
      * @return array<string,mixed>
      */
-	public function getData(): array;
-	
+    public function getData() : array;
 }
