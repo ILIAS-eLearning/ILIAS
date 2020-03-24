@@ -281,7 +281,27 @@ class Tag extends Input implements C\Input\Field\Tag
      */
     public function withInput(InputData $input)
     {
-        return parent::withInput($input);
+        // ATTENTION: This is a slightly modified copy of parent::withInput, which
+        // fixes #27909 but makes the Tag Input unusable in Filter Containers.
+        if ($this->getName() === null) {
+            throw new \LogicException("Can only collect if input has a name.");
+        }
+
+        //TODO: Discuss, is this correct here. If there is no input contained in this post
+        //We assign null. Note that unset checkboxes are not contained in POST.
+        if (!$this->isDisabled()) {
+            $value = $input->getOr($this->getName(), null);
+            $clone = $this->withValue($value);
+        } else {
+            $clone = $this;
+        }
+
+        $clone->content = $this->applyOperationsTo($clone->getValue());
+        if ($clone->content->isError()) {
+            return $clone->withError("" . $clone->content->error());
+        }
+
+        return $clone;
     }
 
 
