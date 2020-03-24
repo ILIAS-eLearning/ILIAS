@@ -537,9 +537,37 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				return ret;
 			},
+			compressTools = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[v.gs_id] = [
+						v.removeable ? 1:0,
+						v.engaged ? 1:0,
+						v.hidden ? 1:0,
+						k
+					];
+				}
+				return ret;
+			},
+			decompressTools = function(entries) {
+				var k, v, ret = {}, id;
+				for(k in entries) {
+					v = entries[k];
+					id = v[3];
+					ret[id] = {
+						"id": id,
+						"removeable": !!v[0],
+						"engaged": !!v[1],
+						"hidden": !!v[2],
+						"gs_id": k
+					};
+				}
+				return ret;
+			},
 			storeStates = function(state) {
-				state.entries = compressEntries(state.entries, false);
-				state.tools = compressEntries(state.tools, true);
+				state.entries = compressEntries(state.entries);
+				state.tools = compressTools(state.tools);
 				cs = storage();
 				for(idx in state) {
 					cs.add(idx, state[idx]);
@@ -550,8 +578,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			readStates = function() {
 				cs = storage();
 				if (("entries" in cs.items) && ("tools" in cs.items)) {
-					cs.items.entries = decompressEntries(cs.items.entries, false);
-					cs.items.tools = decompressEntries(cs.items.tools, true);
+					cs.items.entries = decompressEntries(cs.items.entries);
+					cs.items.tools = decompressTools(cs.items.tools);
 				}
 				return cs.items;
 			},
