@@ -44,7 +44,8 @@ class ilIndividualAssessmentDIC
                 $dic['DataFactory'],
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
-                $dic['ilIndividualAssessmentPrimitiveInternalNotificator']
+                $dic['ilIndividualAssessmentPrimitiveInternalNotificator'],
+				$DIC["ilToolbar"]
             );
         };
 

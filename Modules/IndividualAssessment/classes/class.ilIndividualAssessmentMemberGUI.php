@@ -26,6 +26,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     const CMD_FINALIZE_CONFIRMATION = 'finalizeConfirmation';
     const CMD_AMEND = 'amend';
     const CMD_SAVE_AMEND = "saveAmend";
+    const CMD_DOWNLOAD_FILE = "downloadFile";
 
     /**
      * @var ilCtrl
@@ -56,7 +57,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      * @var MessageBox\Factory
      */
     protected $messagebox_factory;
-
 
     /**
      * @var MessageBox\Factory
@@ -103,6 +103,11 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      */
     protected $notificator;
 
+	/**
+	 * @var ilToolbarGUI
+	 */
+    protected $toolbar;
+
     public function __construct(
         ilCtrl $ctrl,
         ilLanguage $lng,
@@ -115,7 +120,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         Data\Factory $data_factory,
         Renderer $renderer,
         ServerRequest $request,
-        ilIndividualAssessmentPrimitiveInternalNotificator $notificator
+        ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
+		ilToolbarGUI $toolbar
     ) {
         parent::__construct();
 
@@ -131,6 +137,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->renderer = $renderer;
         $this->request = $request;
         $this->notificator = $notificator;
+        $this->toolbar = $toolbar;
     }
 
     public function executeCommand() : void
@@ -145,6 +152,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             case self::CMD_FINALIZE_CONFIRMATION:
             case self::CMD_AMEND:
             case self::CMD_SAVE_AMEND:
+			case self::CMD_DOWNLOAD_FILE:
                 $this->$cmd();
                 break;
             case AbstractCtrlAwareUploadHandler::CMD_UPLOAD:
@@ -159,7 +167,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function view()
     {
-        if (!$this->mayBeViewed()) {
+    	if (!$this->mayBeViewed()) {
             $this->getParentGUI()->handleAccessViolation();
             return;
         }
@@ -178,6 +186,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $action = $this->ctrl->getFormAction($this, 'update');
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
+		$this->setToolbar();
         $form = $this->buildForm($action, true);
         $this->tpl->setContent($this->renderer->render($form));
     }
@@ -232,9 +241,15 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $action = $this->ctrl->getFormAction($this, self::CMD_SAVE_AMEND);
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
+		$this->setToolbar();
         $form = $this->buildForm($action, true, true);
         $this->tpl->setContent($this->renderer->render($form));
     }
+
+    protected function downloadFile()
+	{
+
+	}
 
     protected function saveAmend()
     {
@@ -529,7 +544,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     public function getFileRemovalURL() : string
     {
         $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $link = $this->ctrl->getLinkTargetByClass([static::class], self::CMD_REMOVE);
+        $link = $this->ctrl->getLinkTargetByClass(static::class, self::CMD_REMOVE,false, true);
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
         return $link;
@@ -622,6 +637,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->getExaminee()
         );
     }
+
+    protected function setToolbar()
+	{
+		$member = $this->getMember();
+		if($member->fileName() != '') {
+			$this->toolbar->addLink("Bls", "dfdff");
+		}
+	}
 
     protected function mayBeEdited() : bool
     {

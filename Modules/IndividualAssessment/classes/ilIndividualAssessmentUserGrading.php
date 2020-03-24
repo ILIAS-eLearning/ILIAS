@@ -233,7 +233,7 @@ class ilIndividualAssessmentUserGrading
         Field\Factory $input,
         \ilLanguage $lng,
         Refinery $refinery,
-        array $options,
+        array $grading_options,
         bool $may_be_edited = true,
         bool $place_required = false,
         bool $amend = false
@@ -269,8 +269,8 @@ class ilIndividualAssessmentUserGrading
         ;
 
         $learning_progress = $input
-            ->select($lng->txt('grading'), $options)
-            ->withValue($this->getLearningProgress() ? $this->getLearningProgress() : '')
+            ->select($lng->txt('grading'), $grading_options)
+            ->withValue($this->getLearningProgress() ? $this->getLearningProgress() : ilIndividualAssessmentMembers::LP_IN_PROGRESS)
             ->withDisabled(!$may_be_edited)
         ;
 
