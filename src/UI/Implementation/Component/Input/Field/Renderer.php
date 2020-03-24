@@ -37,12 +37,6 @@ class Renderer extends AbstractComponentRenderer
         'y' => 'YY'
     ];
 
-
-    /**
-     * @var RendererInterface
-     */
-    protected $default_renderer;
-
     /**
      * @inheritdoc
      */
@@ -72,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
             });
             $dependant_group_html = $this->renderFieldGroups($component, $default_renderer);
             $id = $this->bindJavaScript($component);
-            return $this->renderInputFieldWithContext($input_tpl, $component, $id, $dependant_group_html);
+            return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id, $dependant_group_html);
         } elseif ($component instanceof Component\Input\Field\SwitchableGroup) {
             return $this->renderSwitchableGroupField($component, $default_renderer);
         } elseif ($component instanceof Component\Input\Field\Tag) {
@@ -98,7 +92,7 @@ class Renderer extends AbstractComponentRenderer
             throw new \LogicException("Cannot render '" . get_class($component) . "'");
         }
 
-        return $this->renderInputFieldWithContext($input_tpl, $component, $id);
+        return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id);
     }
 
 
@@ -225,6 +219,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
+     * @param RendererInterface $default_renderer
      * @param Template $input_tpl
      * @param Input    $input
      * @param null     $id
@@ -232,7 +227,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string
      */
-    protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null)
+    protected function renderInputFieldWithContext(RendererInterface $default_renderer, Template $input_tpl, Input $input, $id = null, $dependant_group_html = null)
     {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
         /**
@@ -250,7 +245,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("LABEL", $input->getLabel());
-        $tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $id));
+        $tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $id, $default_renderer));
 
         if ($input->getByline() !== null) {
             $tpl->setCurrentBlock("byline");
@@ -281,15 +276,16 @@ class Renderer extends AbstractComponentRenderer
      * @param Template $tpl
      * @param Input    $input
      * @param          $id
+     * @param RendererInterface $default_renderer
      *
      * @return string
      */
-    protected function renderInputField(Template $tpl, Input $input, $id)
+    protected function renderInputField(Template $tpl, Input $input, $id, RendererInterface $default_renderer)
     {
         $input = $this->setSignals($input);
 
         if ($input instanceof Component\Input\Field\Password) {
-            $id = $this->additionalRenderPassword($tpl, $input);
+            $id = $this->additionalRenderPassword($tpl, $input, $default_renderer);
         }
 
         if ($input instanceof Textarea) {
@@ -445,13 +441,11 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string | false
      */
-    protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input)
+    protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, RendererInterface $default_renderer)
     {
         $id = null;
         if ($input->getRevelation()) {
-            global $DIC;
             $f = $this->getUIFactory();
-            $renderer = $DIC->ui()->renderer();
 
             $input = $input->withResetSignals();
             $sig_reveal = $input->getRevealSignal();
@@ -477,8 +471,8 @@ class Renderer extends AbstractComponentRenderer
             $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
                 ->withOnClick($sig_mask);
             $tpl->setCurrentBlock('revelation');
-            $tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
-            $tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
+            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
+            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
             $tpl->parseCurrentBlock();
         }
         return $id;
