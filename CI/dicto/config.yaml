@@ -1,7 +1,7 @@
 project:
-    root:       "./../"
-    storage:    "./results"
-    rules:      "./rules"
+    root:       "../../"
+    storage:    "results"
+    rules:      "rules"
 reports:
     -
         name: "diff"
@@ -18,6 +18,8 @@ analysis:
         - ".*/lib"
         - ".*/test"
         - "dicto"
+        - "CI"
+        - "docs"
         - "libs"
         - "Modules/Chatroom/chat"
         - "Services/ActiveRecord/Fields/Converter/templates"
