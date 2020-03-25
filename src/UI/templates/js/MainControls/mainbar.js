@@ -505,7 +505,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				return hash;
 			},
 			compressEntries = function(entries) {
-				var k, v, ret = {}, key;
+				var k, v, ret = {};
 				for(k in entries) {
 					v = entries[k];
 					ret[k] = [
@@ -520,7 +520,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				var k, v, ret = {}, id, gs_id;
 				for(k in entries) {
 					v = entries[k];
-					ret[id] = {
+					ret[k] = {
 						"id": k,
 						"removeable": !!v[0],
 						"engaged": !!v[1],
