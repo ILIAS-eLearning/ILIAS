@@ -93,7 +93,7 @@ class Renderer extends AbstractComponentRenderer
 
         $is_removeable = $is_removeable ? 'true':'false';
         $is_hidden = $is_hidden ? 'true':'false';
-        return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
+        return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden}, '{$entry_id}');";
     }
 
     protected function renderMainbarEntry(
