@@ -146,7 +146,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * Get the path of file
      *
-     * @return sgtring
+     * @return string
      */
     public function getFilePath()
     {
