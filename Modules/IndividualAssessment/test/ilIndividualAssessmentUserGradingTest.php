@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use \ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @backupGlobals disabled
@@ -11,13 +12,13 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 {
     public function test_create_instance()
     {
-        $name = "Hans Günther";
-        $record = "The guy was really good";
-        $internal_note = "This is a node just for me.";
+        $name = 'Hans Günther';
+        $record = 'The guy was really good';
+        $internal_note = 'This is a node just for me.';
         $file = null;
         $is_file_visible = false;
         $learning_progress = 1;
-        $place = "Area 51";
+        $place = 'Area 51';
         $event_time = new DateTimeImmutable();
         $notify = true;
         $finalized = false;
@@ -49,13 +50,13 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 
     public function test_with_finalized_changed()
     {
-        $name = "Hans Günther";
-        $record = "The guy was really good";
-        $internal_note = "This is a node just for me.";
-        $file = "report.pdf";
+        $name = 'Hans Günther';
+        $record = 'The guy was really good';
+        $internal_note = 'This is a node just for me.';
+        $file = 'report.pdf';
         $is_file_visible = true;
         $learning_progress = 2;
-        $place = "Area 51 Underground";
+        $place = 'Area 51 Underground';
         $event_time = new DateTimeImmutable();
         $notify = false;
         $finalized = false;
@@ -97,5 +98,52 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $this->assertTrue($n_grading->isFinalized());
 
         $this->assertNotSame($n_grading, $grading);
+    }
+
+    public function testToFormInput() : void
+    {
+        $lng = $this->createMock(ilLanguage::class);
+        $lng->expects($this->atLeastOnce())
+            ->method('txt')
+        ;
+        $df = new ILIAS\Data\Factory();
+        $refinery = new ILIAS\Refinery\Factory($df, $lng);
+        $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            new ILIAS\UI\Implementation\Component\SignalGenerator(),
+            $df,
+            $refinery
+        );
+
+        $name = 'Hans Günther';
+        $record = 'The guy was really good';
+        $internal_note = 'This is a node just for me.';
+        $file = 'report.pdf';
+        $is_file_visible = true;
+        $learning_progress = 2;
+        $place = 'Area 51 Underground';
+        $event_time = new DateTimeImmutable();
+        $notify = false;
+        $finalized = false;
+        $grading = new ilIndividualAssessmentUserGrading(
+            $name,
+            $record,
+            $internal_note,
+            $file,
+            $is_file_visible,
+            $learning_progress,
+            $place,
+            $event_time,
+            $notify,
+            $finalized
+        );
+
+        $input = $grading->toFormInput(
+            $f,
+            $lng,
+            $refinery,
+            []
+        );
+
+        $this->assertInstanceOf(Section::class, $input);
     }
 }

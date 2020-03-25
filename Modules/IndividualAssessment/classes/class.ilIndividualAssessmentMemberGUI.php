@@ -442,8 +442,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
 
         $file_size = filesize($this->getFilePath());
-        global $DIC;
-        $DIC["ilLog"]->dump($file_size);
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
             $identifier,
