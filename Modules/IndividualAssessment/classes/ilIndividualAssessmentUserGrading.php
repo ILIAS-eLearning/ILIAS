@@ -56,7 +56,7 @@ class ilIndividualAssessmentUserGrading
     /**
      * @var bool
      */
-    protected $finalize;
+    protected $finalized;
 
     public function __construct(
         string $name,
@@ -68,7 +68,7 @@ class ilIndividualAssessmentUserGrading
         string $place,
         ?DateTimeImmutable $event_time,
         bool $notify,
-        bool $finalize = false
+        bool $finalized = false
     ) {
         $this->name = $name;
         $this->record = $record;
@@ -79,19 +79,12 @@ class ilIndividualAssessmentUserGrading
         $this->place = $place;
         $this->event_time = $event_time;
         $this->notify = $notify;
-        $this->finalize = $finalize;
+        $this->finalized = $finalized;
     }
 
     public function getName() : string
     {
         return $this->name;
-    }
-
-    public function withName(string $name) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->name = $name;
-        return $clone;
     }
 
     public function getRecord() : string
@@ -134,15 +127,15 @@ class ilIndividualAssessmentUserGrading
         return $this->notify;
     }
 
-    public function isFinalize() : bool
+    public function isFinalized() : bool
     {
-        return $this->finalize;
+        return $this->finalized;
     }
 
-    public function withFinalize(bool $finalize) : ilIndividualAssessmentUserGrading
+    public function withFinalized(bool $finalize) : ilIndividualAssessmentUserGrading
     {
         $clone = clone $this;
-        $clone->finalize = $finalize;
+        $clone->finalized = $finalize;
         return $clone;
     }
 
@@ -212,9 +205,9 @@ class ilIndividualAssessmentUserGrading
             ->withDisabled(!$may_be_edited)
         ;
 
-        $finalize = $input
+        $finalized = $input
             ->checkbox($lng->txt('iass_finalize'), $lng->txt('iass_finalize_info'))
-            ->withValue($this->isFinalize())
+            ->withValue($this->isFinalized())
             ->withDisabled(!$may_be_edited)
         ;
 
@@ -231,7 +224,7 @@ class ilIndividualAssessmentUserGrading
         ];
 
         if (!$amend) {
-            $fields['finalize'] = $finalize;
+            $fields['finalized'] = $finalized;
         }
 
         return $input->section(
@@ -239,22 +232,30 @@ class ilIndividualAssessmentUserGrading
             $lng->txt('iass_edit_record')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(function ($values) use ($amend) {
-                $finalize = false;
+                $finalized = false;
                 if (!$amend) {
-                    $finalize = $values['finalize'];
+                    $finalized = $values['finalized'];
+                }
+
+                $file = $this->getFile();
+                if(
+                    isset($values['file'][0]) &&
+                    trim($values['file'][0]) != ''
+                ) {
+                    $file = $values['file'][0];
                 }
 
                 return new ilIndividualAssessmentUserGrading(
                     $values['name'],
                     $values['record'],
                     $values['internal_note'],
-                    $values['file'][0],
+                    $file,
                     $values['file_visible'],
                     (int)$values['learning_progress'],
                     $values['place'],
                     $values['event_time'],
                     $values['notify'],
-                    $finalize
+                    $finalized
                 );
             })
         );

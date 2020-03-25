@@ -125,7 +125,7 @@ class ilIndividualAssessmentMember
 
     public function finalized() : bool
     {
-        return $this->grading->isFinalize();
+        return $this->grading->isFinalized();
     }
 
     public function mayBeFinalized() : bool
