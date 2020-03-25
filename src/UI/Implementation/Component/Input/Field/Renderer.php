@@ -47,8 +47,6 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
 
-        $this->default_renderer = $default_renderer;
-
         $input_tpl = null;
         $id = null;
         $dependant_group_html = null;
