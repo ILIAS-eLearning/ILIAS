@@ -46,7 +46,11 @@ function base()
         'both' => $both,
         'timezoned' => $timezoned,
         'timezoned_preset1' => $timezoned_preset1,
-        'timezoned_preset2' => $timezoned_preset2
+        'timezoned_preset2' => $timezoned_preset2,
+        'disabled' => $date
+            ->withValue($date_now->format($format))
+            ->withLabel('disabled')
+            ->withDisabled(true)
     ]);
 
     //Step 3: implement some form data processing.
