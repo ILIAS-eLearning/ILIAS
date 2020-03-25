@@ -97,6 +97,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 									if(state.entries[id].engaged) {
 										mb.model.actions.disengageEntry(id);
 									} else {
+										if(state.entries[id].isTopLevel()) {
+											mb.model.actions.engageEntry(id);
+										}
 										mb.model.actions.engageEntry(id);
 									}
 								}
@@ -106,6 +109,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 								break;
 							case 'disengage_all':
 								mb.model.actions.disengageAll();
+								var state = mb.model.getState();
+								state.last_active_top = null;
+								mb.model.setState(state);
 								break;
 							case 'toggle_tools':
 								mb.model.actions.toggleTools();
@@ -197,15 +203,30 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					mb.model.actions.engageTool(first_tool_id);
 				} else {
 					//tools engaged, but none active: take the first one:
-					if(mb.model.getState().any_tools_engaged() && mb.model.getState().any_tools_visible()) {
+					var any_engaged = mb.model.getState().any_tools_engaged(),
+						any_visible = mb.model.getState().any_tools_visible();
+
+					if(any_engaged && any_visible) {
 						tool_id = Object.keys(init_state.tools).shift();
 						mb.model.actions.engageTool(tool_id);
 					} else {
 						mb.model.actions.disengageTools();
+					}
+
+					if( any_engaged === false &&
+						any_visible === false &&
+						mb.model.getState().any_entry_engaged === false
+					) {
 						mb.model.actions.disengageAll();
+					} else {
+						last_top = mb.model.getState().last_active_top;
+						if(last_top) {
+							mb.model.actions.engageEntry(last_top);
+						}else {
+							mb.model.actions.disengageAll();
+						}
 					}
 				}
-
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
 				mb.renderer.render(mb.model.getState());
 			},
@@ -278,7 +299,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 					entries: {},
 					tools: {}, //"moving" parts, current tools
-					known_tools: [] //gs-ids; a tool is "new", if not listed here
+					known_tools: [], //gs-ids; a tool is "new", if not listed here
+					last_active_top: null
 				},
 				entry: {
 					id: null,
@@ -356,6 +378,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						}
 					}
 					return ret;
+				},
+				getEngagedTopLevelEntryId: function() {
+					var entries = helpers.getTopLevelEntries();
+					for(id in entries) {
+						if(entries[id].engaged) {
+							return entries[id].id;
+						}
+					}
+					return null;
 				}
 			},
 			actions = {
@@ -375,13 +406,14 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
 					state = reducers.bar.disengageTools(state);
 					state = reducers.bar.anySlates(state);
-
+					state.last_active_top = helpers.getEngagedTopLevelEntryId();
 				},
 				disengageEntry: function (entry_id) {
 					state.entries[entry_id] = reducers.entry.disengage(state.entries[entry_id]);
 					if(state.entries[entry_id].isTopLevel()) {
 						state = reducers.bar.noSlates(state);
 					}
+					state.last_active_top = helpers.getEngagedTopLevelEntryId();
 				},
 				hideEntry: function (entry_id) {
 					state.entries[entry_id] = reducers.entry.mb_hide(state.entries[entry_id]);
@@ -412,7 +444,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						}
 					}
 					if(!state.any_tools_visible()) {
-						actions.disengageAll();
+						actions.disengageTools();
+						last_top = state.last_active_top;
+						if(last_top) {
+							actions.engageEntry(last_top);
+						}else {
+							actions.disengageAll();
+						}
 					}
 				},
 				toggleTools: function() {
@@ -435,6 +473,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					state.tools = reducers.entries.disengageTopLevel(state.tools)
 					state = reducers.bar.noSlates(state);
 					state = reducers.bar.disengageTools(state);
+
 				},
 				initMoreButton: function(max_buttons) {
 					var entry_ids = Object.keys(state.entries),
@@ -517,7 +556,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				return ret;
 			},
 			decompressEntries = function(entries) {
-				var k, v, ret = {}, id, gs_id;
+				var k, v, ret = {};
 				for(k in entries) {
 					v = entries[k];
 					ret[k] = {
