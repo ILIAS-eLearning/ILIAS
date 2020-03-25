@@ -566,7 +566,7 @@ class ilMailFormGUI
         
                 $mailData['m_message'] .= $_POST["additional_message_text"] . chr(13) . chr(10) . $this->umail->appendSignature();
                 $_POST["additional_message_text"] = "";
-                $_SESSION['mail_roles'] = "";
+                $_SESSION['mail_roles'] = [];
                 break;
         
             case 'address':
