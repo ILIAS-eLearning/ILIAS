@@ -205,18 +205,16 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             /** @var ilIndividualAssessmentUserGrading $grading */
             $grading = array_shift($result);
 
-            if ($grading->isFinalize()) {
-                $this->finalizeConfirmation();
-                return;
-            }
-
             if ($grading->getFile() == '') {
                 $storage = $this->getUserFileStorage();
                 $storage->deleteCurrentFile();
             }
 
-            if ($grading->getFile() !== $this->getFileName()) {
-                $this->updateFilename($grading->getFile());
+            if ($grading->isFinalize()) {
+                $not_finalized_grading = $grading->withFinalize(false);
+                $this->saveMember($not_finalized_grading);
+                $this->finalizeConfirmation();
+                return;
             }
 
             $this->saveMember($grading);
@@ -296,31 +294,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         bool $may_be_edited,
         bool $amend = false
     ) : ILIAS\UI\Component\Input\Container\Form\Form {
-        $member = $this->getMember();
-
-        $name = $member->name() ?? '';
-        $record = $member->record() ?? '';
-        $internal_note = $member->internalNote() ?? '';
-        $filename = $this->getFileName() ?? '';
-        $view_file = (bool) $member->viewFile();
-        $lp_status = $member->LPStatus() ?? '';
-        $place = $member->place() ?? '';
-        $event_time = new DateTimeImmutable($member->eventTime()->get(IL_CAL_DATE, 'Y-m-d') ?? '');
-        $notify = (bool) $member->notify();
-
-        $grading = new ilIndividualAssessmentUserGrading(
-            $name,
-            $record,
-            $internal_note,
-            $filename,
-            $view_file,
-            $lp_status,
-            $place,
-            $event_time,
-            $notify
-        );
-
-        $section = $grading->toFormInput(
+        $section = $this->getMember()->getGrading()->toFormInput(
             $this->input_factory->field(),
             $this->lng,
             $this->refinery_factory,
@@ -340,21 +314,23 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
-        if (!$this->getMember()->mayBeFinalized()) {
+        $member = $this->getMember();
+        if (! $member->mayBeFinalized()) {
             ilUtil::sendFailure($this->lng->txt('iass_may_not_finalize'), true);
             $this->redirect('edit');
             return;
         }
 
         try {
-            $member = $this->getMember()->withFinalized();
+            $grading = $member->getGrading()->withFinalize(true);
+            $member = $member->withGrading($grading);
+            $this->getObject()->membersStorage()->updateMember($member);
         } catch (ilIndividualAssessmentException $e) {
             ilUtil::sendFailure($e->getMessage(), true);
             $this->redirect('edit');
             return;
         }
 
-        $this->getObject()->membersStorage()->updateMember($member);
         if ($this->object->isActiveLP()) {
             ilIndividualAssessmentLPInterface::updateLPStatusOfMember($member);
         }
@@ -399,29 +375,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         bool $keep_examiner = false,
         bool $amend = false
     ) : void {
-        $member = $this->updateMemberByGrading($this->getMember(), $grading, $keep_examiner, $amend);
-        $this->getObject()->membersStorage()->updateMember($member);
-    }
-
-    protected function updateMemberByGrading(
-        ilIndividualAssessmentMember $member,
-        ilIndividualAssessmentUserGrading $grading,
-        bool $keep_examiner = false,
-        bool $amend = false
-    ) : ilIndividualAssessmentMember {
-        $member = $member
-            ->withRecord($grading->getRecord())
-            ->withInternalNote($grading->getInternalNote())
-            ->withPlace($grading->getPlace())
-            ->withLPStatus($grading->getLearningProgress())
-            ->withViewFile($grading->isFileVisible())
-            ->withNotify($grading->isNotify())
-            ->withFileName($grading->getFile())
+        $member = $this->getMember()
+            ->withGrading($grading)
         ;
-
-        if ($grading->getEventTime()) {
-            $member = $member->withEventTime(new ilDate($grading->getEventTime()->format('Y-m-d'), IL_CAL_DATE));
-        }
 
         if ($amend) {
             $member = $member->withChangerId($this->user->getId());
@@ -430,8 +386,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         if (!$keep_examiner) {
             $member = $member->withExaminerId($this->user->getId());
         }
-
-        return $member;
+        $this->getObject()->membersStorage()->updateMember($member);
     }
 
     protected function getPossibleLPStates() : array
@@ -564,7 +519,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function updateFilename(string $filename) : void
     {
-        $member = $this->getMember()->withFileName($filename);
         $this->getObject()->membersStorage()->updateMember($member);
     }
 
@@ -583,6 +537,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
 
         $path = $storage->getFilePath();
+        var_dump($path);
         return end(explode('/', $path));
     }
 

@@ -24,7 +24,7 @@ class ilIndividualAssessmentUserGrading
     protected $internal_note;
 
     /**
-     * @var string
+     * @var ?string
      */
     protected $file;
 
@@ -34,7 +34,7 @@ class ilIndividualAssessmentUserGrading
     protected $is_file_visible;
 
     /**
-     * @var string
+     * @var int
      */
     protected $learning_progress;
 
@@ -44,7 +44,7 @@ class ilIndividualAssessmentUserGrading
     protected $place;
 
     /**
-     * @var DateTime
+     * @var DateTimeImmutable|null
      */
     protected $event_time;
 
@@ -62,11 +62,11 @@ class ilIndividualAssessmentUserGrading
         string $name,
         string $record,
         string $internal_note,
-        string $file,
+        ?string $file,
         bool $is_file_visible,
-        string $learning_progress,
+        int $learning_progress,
         string $place,
-        DateTimeImmutable $event_time,
+        ?DateTimeImmutable $event_time,
         bool $notify,
         bool $finalize = false
     ) {
@@ -82,9 +82,6 @@ class ilIndividualAssessmentUserGrading
         $this->finalize = $finalize;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;
@@ -97,124 +94,44 @@ class ilIndividualAssessmentUserGrading
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getRecord() : string
     {
         return $this->record;
     }
 
-    public function withRecord(string $record) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->name = $record;
-        return $clone;
-    }
-
-    /**
-     * @return string
-     */
     public function getInternalNote() : string
     {
         return $this->internal_note;
     }
 
-    public function withInternalNote(string $internal_note) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->name = $internal_note;
-        return $clone;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFile() : string
+    public function getFile() : ?string
     {
         return $this->file;
     }
 
-    public function withFile(string $file) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->file = $file;
-        return $clone;
-    }
-
-    /**
-     * @return bool
-     */
     public function isFileVisible() : bool
     {
         return $this->is_file_visible;
     }
 
-    public function withIsFileVisible(bool $is_file_visible) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->is_file_visible = $is_file_visible;
-        return $clone;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLearningProgress() : string
+    public function getLearningProgress() : int
     {
         return $this->learning_progress;
     }
 
-    public function withLearningProgress(string $learning_progress) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->learning_progress = $learning_progress;
-        return $clone;
-    }
-
-    /**
-     * @return string
-     */
     public function getPlace() : string
     {
         return $this->place;
     }
 
-    public function withPlace(string $place) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->place = $place;
-        return $clone;
-    }
-
-    /**
-     * @return DateTime
-     */
     public function getEventTime() : DateTimeImmutable
     {
         return $this->event_time;
     }
 
-    public function withEventTime(DateTimeImmutable $event_time) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->event_time = $event_time;
-        return $clone;
-    }
-
-    /**
-     * @return bool
-     */
     public function isNotify() : bool
     {
         return $this->notify;
-    }
-
-    public function withNotify(bool $notify) : ilIndividualAssessmentUserGrading
-    {
-        $clone = clone $this;
-        $clone->notify = $notify;
-        return $clone;
     }
 
     public function isFinalize() : bool
@@ -272,6 +189,7 @@ class ilIndividualAssessmentUserGrading
             ->select($lng->txt('grading'), $grading_options)
             ->withValue($this->getLearningProgress() ? $this->getLearningProgress() : ilIndividualAssessmentMembers::LP_IN_PROGRESS)
             ->withDisabled(!$may_be_edited)
+            ->withRequired(true)
         ;
 
         $place = $input
@@ -330,9 +248,9 @@ class ilIndividualAssessmentUserGrading
                     $values['name'],
                     $values['record'],
                     $values['internal_note'],
-                    $this->getFile(),
+                    $values['file'][0],
                     $values['file_visible'],
-                    $values['learning_progress'],
+                    (int)$values['learning_progress'],
                     $values['place'],
                     $values['event_time'],
                     $values['notify'],
