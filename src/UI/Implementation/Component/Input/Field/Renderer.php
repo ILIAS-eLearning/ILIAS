@@ -360,7 +360,7 @@ class Renderer extends AbstractComponentRenderer
                 }
                 break;
             case ($input instanceof DateTime):
-                return $this->renderDateTimeInput($tpl, $input);
+                return $this->renderDateTimeInput($default_renderer, $tpl, $input);
                 break;
             case ($input instanceof Component\Input\Field\File):
                 $input = $this->renderFileInput($input);
@@ -696,10 +696,9 @@ JS;
      *
      * @return string
      */
-    protected function renderDateTimeInput(Template $tpl, DateTime $input) : string
+    protected function renderDateTimeInput(RendererInterface $default_renderer, Template $tpl, DateTime $input) : string
     {
         $f = $this->getUIFactory();
-        $renderer = $this->default_renderer->withAdditionalContext($input);
 
         if ($input->getTimeOnly() === true) {
             $cal_glyph = $f->symbol()->glyph()->time("#");
@@ -717,7 +716,7 @@ JS;
             }
         }
 
-        $tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
+        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
 
         $config = [
             'showClear' => true,
