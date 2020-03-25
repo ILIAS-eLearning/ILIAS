@@ -37,13 +37,13 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 
         $this->assertInstanceOf(ilIndividualAssessmentUserGrading::class, $grading);
         $this->assertEquals($name, $grading->getName());
-        $this->assertEquals($name, $grading->getRecord());
-        $this->assertEquals($name, $grading->getInternalNote());
+        $this->assertEquals($record, $grading->getRecord());
+        $this->assertEquals($internal_note, $grading->getInternalNote());
         $this->assertNull($grading->getFile());
         $this->assertFalse($grading->isFileVisible());
-        $this->assertEquals($name, $grading->getLearningProgress());
-        $this->assertEquals($name, $grading->getPlace());
-        $this->assertEquals($name, $grading->getEventTime());
+        $this->assertEquals($learning_progress, $grading->getLearningProgress());
+        $this->assertEquals($place, $grading->getPlace());
+        $this->assertEquals($event_time, $grading->getEventTime());
         $this->assertTrue($grading->isNotify());
         $this->assertFalse($grading->isFinalized());
     }
@@ -75,25 +75,25 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 
         $this->assertInstanceOf(ilIndividualAssessmentUserGrading::class, $grading);
         $this->assertEquals($name, $grading->getName());
-        $this->assertEquals($name, $grading->getRecord());
-        $this->assertEquals($name, $grading->getInternalNote());
-        $this->assertEquals($name, $grading->getFile());
+        $this->assertEquals($record, $grading->getRecord());
+        $this->assertEquals($internal_note, $grading->getInternalNote());
+        $this->assertEquals($file, $grading->getFile());
         $this->assertTrue($grading->isFileVisible());
-        $this->assertEquals($name, $grading->getLearningProgress());
-        $this->assertEquals($name, $grading->getPlace());
-        $this->assertEquals($name, $grading->getEventTime());
+        $this->assertEquals($learning_progress, $grading->getLearningProgress());
+        $this->assertEquals($place, $grading->getPlace());
+        $this->assertEquals($event_time, $grading->getEventTime());
         $this->assertFalse($grading->isNotify());
         $this->assertFalse($grading->isFinalized());
 
         $n_grading = $grading->withFinalized(true);
         $this->assertEquals($name, $n_grading->getName());
-        $this->assertEquals($name, $n_grading->getRecord());
-        $this->assertEquals($name, $n_grading->getInternalNote());
-        $this->assertEquals($name, $n_grading->getFile());
+        $this->assertEquals($record, $n_grading->getRecord());
+        $this->assertEquals($internal_note, $n_grading->getInternalNote());
+        $this->assertEquals($file, $n_grading->getFile());
         $this->assertTrue($n_grading->isFileVisible());
-        $this->assertEquals($name, $n_grading->getLearningProgress());
-        $this->assertEquals($name, $n_grading->getPlace());
-        $this->assertEquals($name, $n_grading->getEventTime());
+        $this->assertEquals($learning_progress, $n_grading->getLearningProgress());
+        $this->assertEquals($place, $n_grading->getPlace());
+        $this->assertEquals($event_time, $n_grading->getEventTime());
         $this->assertFalse($n_grading->isNotify());
         $this->assertTrue($n_grading->isFinalized());
 
