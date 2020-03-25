@@ -170,7 +170,7 @@ class ilConsultationHoursGUI
         
         $_SESSION['ch_apps'] = $_REQUEST['apps'];
         
-        if (!count($_SESSION['ch_apps'])) {
+        if (empty($_SESSION['ch_apps'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $GLOBALS['DIC']['ilCtrl']->redirect($this, 'appointmentList');
         }
@@ -606,8 +606,8 @@ class ilConsultationHoursGUI
                     '',
                     true,
                     true
-                        ) . ', ' . ilDatePresentation::formatDate($entry->getStart())
-                );
+                ) . ', ' . ilDatePresentation::formatDate($entry->getStart())
+            );
         }
         $tpl->setContent($confirm->getHTML());
     }
