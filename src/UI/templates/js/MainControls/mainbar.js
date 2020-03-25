@@ -504,34 +504,27 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				return hash;
 			},
-			compressEntries = function(entries, is_tools) {
+			compressEntries = function(entries) {
 				var k, v, ret = {}, key;
 				for(k in entries) {
 					v = entries[k];
-					key = is_tools ? v.gs_id : k;
-					ret[key] = [
+					ret[k] = [
 						v.removeable ? 1:0,
 						v.engaged ? 1:0,
 						v.hidden ? 1:0
 					];
-					if(is_tools) {
-						ret[key].push(k);
-					}
 				}
 				return ret;
 			},
-			decompressEntries = function(entries, is_tools) {
+			decompressEntries = function(entries) {
 				var k, v, ret = {}, id, gs_id;
 				for(k in entries) {
 					v = entries[k];
-					id = is_tools ? v[3] : k;
-					gs_id = is_tools ? k : null;
 					ret[id] = {
-						"id": id,
+						"id": k,
 						"removeable": !!v[0],
 						"engaged": !!v[1],
-						"hidden": !!v[2],
-						"gs_id": gs_id
+						"hidden": !!v[2]
 					};
 				}
 				return ret;
