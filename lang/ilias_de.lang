@@ -13471,7 +13471,7 @@ prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
-prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
@@ -16000,7 +16000,7 @@ prg#:#prg_status_3#:#Akkreditiert
 prg#:#prg_status_4#:#Nicht relevant
 prg#:#prg_status_5#:#Nicht bestanden
 prg#:#prg_multi_change_deadline#:#Stichtag anpassen
-prg#:#prg_multi_change_expire_date#:#Ablauf Qualifikation anpassen
+prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
