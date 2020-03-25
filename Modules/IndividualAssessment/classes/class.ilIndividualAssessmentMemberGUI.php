@@ -198,13 +198,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             ->withRequest($this->request)
         ;
 
-        $result = $form->getData();
-
-        if (!is_null($result)) {
-
-            /** @var ilIndividualAssessmentUserGrading $grading */
-            $grading = array_shift($result);
-
+        /** @var ilIndividualAssessmentUserGrading $grading */
+        $grading = $form->getData();
+        if (!is_null($grading)) {
             if ($grading->getFile() == '') {
                 $storage = $this->getUserFileStorage();
                 $storage->deleteCurrentFile();
@@ -300,7 +296,15 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $amend
         );
 
-        return $this->input_factory->container()->form()->standard($form_action, [$section]);
+        $form = $this->input_factory->container()->form()->standard($form_action, [$section]);
+        $form = $form->withAdditionalTransformation(
+            $this->refinery_factory->custom()->transformation(
+                function ($values) use ($amend) {
+                    return array_shift($values);
+                }
+            )
+        );
+        return $form;
     }
 
     protected function finalize() : void
