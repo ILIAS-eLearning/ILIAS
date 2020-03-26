@@ -16091,3 +16091,8 @@ ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
 mmbr#:#mmbr_memberships#:#Mitgliedschaften
 notes#:#note_without_object#:#Ohne Objektbezug
 prg#:#msg_fill_required#:#Bitte füllen Sie alle Pflichtfelder aus.
+iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
+iass#:#iass_confirm_finalize#:#Finalisieren
+iass#:#iass_cancel#:#Abbrechen
+iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
+iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen

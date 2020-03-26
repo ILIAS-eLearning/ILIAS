@@ -225,7 +225,7 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * Get the file storage system
      *
-     * @return ilManualAssessmentFileStorage
+     * @return ilIndividualAssessmentFileStorage
      */
     public function getFileStorage()
     {
