@@ -252,7 +252,7 @@ class ilStudyProgrammeTypeGUI
         );
         if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirect($this, 'editAMD');
         } else {
             $this->tpl->setContent($form->getHTML());
         }

@@ -92,13 +92,9 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
      */
     public function fillForm(ilStudyProgrammeType $type)
     {
-        $selected = array();
-        $records_selected = $this->type_repository->readAssignedAMDRecordsByType($type->getId());
-        foreach ($records_selected as $record_id) {
-            $selected[] = $record_id;
-        }
+        $records_selected = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId());
         $item = $this->getItemByPostVar('amd_records');
-        $item->setValue($selected);
+        $item->setValue($records_selected);
     }
 
     /**
