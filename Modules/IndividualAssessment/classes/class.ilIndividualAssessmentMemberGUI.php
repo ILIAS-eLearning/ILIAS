@@ -293,7 +293,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->getPossibleLPStates(),
             $may_be_edited,
             (bool) $this->getObject()->getSettings()->eventTimePlaceRequired(),
-            $amend
+            $amend,
+            $this
         );
 
         $form = $this->input_factory->container()->form()->standard($form_action, [$section]);

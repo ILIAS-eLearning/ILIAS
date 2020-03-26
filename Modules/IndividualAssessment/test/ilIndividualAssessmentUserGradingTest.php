@@ -17,7 +17,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $internal_note = 'This is a node just for me.';
         $file = null;
         $is_file_visible = false;
-        $learning_progress = 1;
+        $learning_progress = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
         $place = 'Area 51';
         $event_time = new DateTimeImmutable();
         $notify = true;
@@ -55,7 +55,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $internal_note = 'This is a node just for me.';
         $file = 'report.pdf';
         $is_file_visible = true;
-        $learning_progress = 2;
+        $learning_progress = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
         $place = 'Area 51 Underground';
         $event_time = new DateTimeImmutable();
         $notify = false;
@@ -105,7 +105,9 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $lng = $this->createMock(ilLanguage::class);
         $lng->expects($this->atLeastOnce())
             ->method('txt')
+            ->willReturn("label")
         ;
+        $file_handler = $this->createMock(ilIndividualAssessmentMemberGUI::class);
         $df = new ILIAS\Data\Factory();
         $refinery = new ILIAS\Refinery\Factory($df, $lng);
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
@@ -119,7 +121,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
         $internal_note = 'This is a node just for me.';
         $file = 'report.pdf';
         $is_file_visible = true;
-        $learning_progress = 2;
+        $learning_progress = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
         $place = 'Area 51 Underground';
         $event_time = new DateTimeImmutable();
         $notify = false;
@@ -141,7 +143,15 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
             $f,
             $lng,
             $refinery,
-            []
+            [
+                ilIndividualAssessmentMembers::LP_IN_PROGRESS,
+                ilIndividualAssessmentMembers::LP_FAILED,
+                ilIndividualAssessmentMembers::LP_COMPLETED
+            ],
+            true,
+            false,
+            false,
+            $file_handler
         );
 
         $this->assertInstanceOf(Section::class, $input);

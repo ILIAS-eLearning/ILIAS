@@ -146,7 +146,8 @@ class ilIndividualAssessmentUserGrading
         array $grading_options,
         bool $may_be_edited = true,
         bool $place_required = false,
-        bool $amend = false
+        bool $amend = false,
+        ilIndividualAssessmentMemberGUI $file_handler
     ) : Field\Input {
         $name = $input
             ->text($lng->txt('name'), '')
@@ -166,9 +167,8 @@ class ilIndividualAssessmentUserGrading
             ->withDisabled(!$may_be_edited)
         ;
 
-        $handler = ilIndividualAssessmentDIC::dic()['ilIndividualAssessmentMemberGUI'];
         $file = $input
-            ->file($handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
+            ->file($file_handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
             ->withValue([$this->getFile()])
         ;
 
