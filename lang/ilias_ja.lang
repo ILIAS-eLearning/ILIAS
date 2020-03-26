@@ -15233,7 +15233,7 @@ iass#:#iass_sort_changetime_asc#:#Last Change ascending###07 02 2020 new variabl
 iass#:#iass_sort_changetime_desc#:#Last Change descending###07 02 2020 new variable
 rbac#:#lso_lp_other_users#:#User can view learning progress of other users###07 02 2020 new variable
 lso#:#manage#:#Manage###07 02 2020 new variable
-lso#:#lso_start_item#:#Start###07 02 2020 new variable
+lso#:#lso_start_item#:#Start %s###07 02 2020 new variable
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 lso#:#finished#:#Finished###07 02 2020 new variable
 lso#:#not_finished#:#Not Finished###07 02 2020 new variable

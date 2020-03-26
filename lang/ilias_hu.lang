@@ -15108,7 +15108,7 @@ lso#:#entries_deleted#:#Az objektumokat sikeresen törölte.
 lso#:#no_entries_selected_for_delete#:#Legalább egy bejegyzést ki kell választania.
 lso#:#lso_member_administration#:#Résztvevők módosítása
 lso#:#lso_members_gallery#:#Tanulási sor tagképgalériája
-lso#:#lso_start_item#:#Indítás
+lso#:#lso_start_item#:#Indítás %s
 lso#:#lso_search_users#:#Felhasználók keresése
 lso#:#lso_print_list#:#Lista nyomtatása
 lso#:#lso_mem_tbl_header#:#Tanulási sor tagja
