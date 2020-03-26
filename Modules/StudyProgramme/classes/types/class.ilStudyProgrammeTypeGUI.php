@@ -316,7 +316,6 @@ class ilStudyProgrammeTypeGUI
 
         $result = $form->getData();
         if (!is_null($result)) {
-            /** @var ilStudyProgrammeType $type */
             $type = $this->type_repository->createType($this->lng->getDefaultLanguage());
             $this->updateTypeFromFormResult($type, $result);
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
@@ -329,7 +328,6 @@ class ilStudyProgrammeTypeGUI
 
     protected function update() : void
     {
-        /** @var ilStudyProgrammeType $type */
         $type = $this->type_repository->readType((int)$_GET['type_id']);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
@@ -390,26 +388,22 @@ class ilStudyProgrammeTypeGUI
             $default_lng = $type->getDefaultLang();
         }
 
-        $form = $this->input_factory->container()->form()->standard(
+        return $this->input_factory->container()->form()->standard(
             $submit_action,
             [
                 "default_lang" => $this->buildModalHeading($type_action, $default_lng),
                 "info" => $this->buildLanguagesForms($type)
             ]
-        );
-
-        $form = $form->withAdditionalTransformation(
+        )->withAdditionalTransformation(
             $this->refinery_factory->custom()->transformation(
                 function ($values) {
-                    return $ret = [
+                    return [
                         'default_lang' => $values['default_lang']['default_lang'],
                         'info' => $values['info']
                     ];
                 }
             )
         );
-
-        return $form;
     }
 
     protected function buildModalHeading(string $title, string $default_lng) : InputField
