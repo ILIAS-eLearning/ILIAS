@@ -219,10 +219,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             return;
         }
 
-        if ($src_type === 'orgu') {
-            $src_id = array_pop($src_id);
-        }
-
         if (in_array($src_type, self::$switch_to_ref_id)) {
             $src_id = (int) array_shift(
                 ilObject::_getAllReferences($src_id)
