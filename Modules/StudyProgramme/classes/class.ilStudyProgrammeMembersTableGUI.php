@@ -624,7 +624,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         foreach ($this->filters as $item) {
             $f[$item->getFieldId()] = $this->getFilterValue($item);
         }
-
         return $f;
     }
 
@@ -662,14 +661,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $exp_from = $filter['prg_expiry_date']['from'];
         if (!is_null($exp_from)) {
-            $dat = $exp_from->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date >= \'' . $dat . '\'';
+            $dat = $exp_from->get(IL_CAL_DATE);
+            $buf[] = 'AND prgrs.vq_date >= \'' . $dat . ' 00:00:00\'';
         }
 
         $exp_to = $filter['prg_expiry_date']['to'];
         if (!is_null($exp_to)) {
-            $dat = $exp_to->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . '\'';
+            $dat = $exp_to->get(IL_CAL_DATE);
+            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . '23:59:59\'';
         }
 
         $conditions = implode(PHP_EOL, $buf);
