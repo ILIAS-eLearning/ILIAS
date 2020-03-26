@@ -193,7 +193,10 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = ilObject::_lookupDescription($obj_id);
                 break;
             case self::TYPE:
-                $string = (string) $obj->getSubType()->getTitle();
+                $string = '';
+                if(! is_null($obj->getSubType())) {
+                    $string = (string) $obj->getSubType()->getTitle();
+                }
                 break;
             case self::LINK:
                 $string = ilLink::_getLink($context_parameters['ref_id'], 'prg');
@@ -211,7 +214,18 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = '';
                 $id = $progress->getCompletionBy();
                 if (!is_null($id)) {
-                    $string = (string) ilObjUser::_lookupLogin($id);
+                    if(ilObjUser::_exists($id)) {
+                        $string = (string) ilObjUser::_lookupLogin($id);
+                    } else {
+                        if($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
+                            if(
+                                ilObject::_exists($ref_id, true) &&
+                                is_null(ilObject::_lookupDeletedDate($ref_id))
+                            ) {
+                                $string = ilContainerReference::_lookupTitle($id);
+                            }
+                        }
+                    }
                 }
                 break;
             case self::POINTS_REQUIRED:
