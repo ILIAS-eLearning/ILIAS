@@ -415,9 +415,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    $url = ilLink::_getStaticLink($ref_id, "crs");
-                    $lnk = $this->ui_factory->link()->standard($title, $url);
-                    $rec["completion_by"] = $this->ui_renderer->render($lnk);
+                    if(
+                        ilObject::_exists($ref_id, true) &&
+                        is_null(ilObject::_lookupDeletedDate($ref_id))
+                    ) {
+                        $url = ilLink::_getStaticLink($ref_id, "crs");
+                        $link = $this->ui_factory->link()->standard($title, $url);
+                        $rec["completion_by"] = $this->ui_renderer->render($link);
+                    } else {
+                        $rec["completion_by"] = $title;
+                    }
                 }
 
                 // If the status completed and there is a non-null completion_by field
