@@ -15113,7 +15113,7 @@ lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#Open %s
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
