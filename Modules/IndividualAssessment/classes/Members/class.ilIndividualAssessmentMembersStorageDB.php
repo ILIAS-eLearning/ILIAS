@@ -139,6 +139,10 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         $where = array("obj_id" => array("integer", $member->assessmentId())
              , "usr_id" => array("integer", $member->id())
         );
+        $event_time = $member->eventTime();
+        if(! is_null($event_time)) {
+            $event_time = $event_time->getTimestamp();
+        }
 
         $values = [
             ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => array("text", $member->LPStatus()),
@@ -146,7 +150,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             ilIndividualAssessmentMembers::FIELD_RECORD => array("text", $member->record()),
             ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => array("text", $member->internalNote()),
             ilIndividualAssessmentMembers::FIELD_PLACE => array("text", $member->place()),
-            ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $member->eventTime()->getTimestamp()),
+            ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $event_time),
             ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $member->notify()),
             ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", $member->finalized()),
             ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", $member->notificationTS()),
