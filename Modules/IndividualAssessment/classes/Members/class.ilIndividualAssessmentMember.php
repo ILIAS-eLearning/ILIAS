@@ -207,7 +207,7 @@ class ilIndividualAssessmentMember
         return $this->grading->getPlace();
     }
 
-    public function eventTime() : DateTimeImmutable
+    public function eventTime() : ?DateTimeImmutable
     {
         return $this->grading->getEventTime();
     }
