@@ -19,14 +19,11 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
  */
 class ilIndividualAssessmentMembersTableGUI
 {
-    const CHANGED = "changed";
-    const GRADED = "graded";
-
     public function __construct(
         ilIndividualAssessmentMembersGUI $parent,
         ilLanguage $lng,
         ilCtrl $ctrl,
-        ilIndividualAssessmentAccessHandler $iass_access,
+        IndividualAssessmentAccessHandler $iass_access,
         Factory $factory,
         Renderer $renderer,
         int $current_user_id

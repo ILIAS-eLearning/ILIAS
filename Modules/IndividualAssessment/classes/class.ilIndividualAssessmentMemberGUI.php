@@ -108,6 +108,11 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 	 */
     protected $toolbar;
 
+    /**
+     * @var ilErrorHandling
+     */
+    protected $error_object;
+
     public function __construct(
         ilCtrl $ctrl,
         ilLanguage $lng,
@@ -121,7 +126,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         Renderer $renderer,
         ServerRequest $request,
         ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
-		ilToolbarGUI $toolbar
+		ilToolbarGUI $toolbar,
+        ilObjIndividualAssessment $object,
+        ilErrorHandling $error_object
     ) {
         parent::__construct();
 
@@ -138,6 +145,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->request = $request;
         $this->notificator = $notificator;
         $this->toolbar = $toolbar;
+        $this->object = $object;
+        $this->error_object = $error_object;
     }
 
     public function executeCommand() : void
@@ -168,7 +177,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function view()
     {
     	if (!$this->mayBeViewed()) {
-            $this->getParentGUI()->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
         $form = $this->buildForm('', false);
@@ -178,7 +187,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function edit()
     {
         if (!$this->mayBeEdited()) {
-            $this->getParentGUI()->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
@@ -227,7 +236,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function amend()
     {
         if (!$this->mayBeAmended()) {
-            $this->getParentGUI()->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
@@ -250,7 +259,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function saveAmend()
     {
         if (!$this->mayBeAmended()) {
-            $this->parent_gui->handleAccessViolation();
+           $this->handleAccessViolation();
             return;
         }
 
@@ -308,7 +317,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function finalize() : void
     {
         if (!$this->mayBeEdited()) {
-            $this->parent_gui->handleAccessViolation();
+           $this->handleAccessViolation();
             return;
         }
 
@@ -348,7 +357,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function finalizeConfirmation()
     {
         if (!$this->mayBeEdited()) {
-            $this->getParentGUI()->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
@@ -668,5 +677,10 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function isFinalized() : bool
     {
         return $this->member->finalized();
+    }
+
+    public function handleAccessViolation()
+    {
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 }

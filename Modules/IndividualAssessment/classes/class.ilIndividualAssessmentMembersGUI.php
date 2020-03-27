@@ -7,6 +7,7 @@ declare(strict_types=1);
 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersTableGUI.php';
 require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
 
+use \ILIAS\UI;
 use \ILIAS\UI\Component\ViewControl;
 
 /**
@@ -19,11 +20,70 @@ use \ILIAS\UI\Component\ViewControl;
  */
 class ilIndividualAssessmentMembersGUI
 {
+    /**
+     * @var ilCtrl
+     */
     protected $ctrl;
-    protected $parent_gui;
+
+    /**
+     * @var ilObjIndividualAssessment
+     */
+    protected $object;
+
+    /**
+     * @var int
+     */
     protected $ref_id;
+
+    /**
+     * @var ilGlobalPageTemplate
+     */
     protected $tpl;
+
+    /**
+     * @var ilLanguage
+     */
     protected $lng;
+
+    /**
+     * @var ilToolbarGUI
+     */
+    protected $toolbar;
+
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
+
+    /**
+     * @var IndividualAssessmentAccessHandler
+     */
+    protected $iass_access;
+
+    /**
+     * @var UI\Factory
+     */
+    protected $factory;
+
+    /**
+     * @var UI\Renderer
+     */
+    protected $renderer;
+
+    /**
+     * @var ilErrorHandling
+     */
+    protected $error_object;
+
+    /**
+     * @var ilIndividualAssessmentMemberGUI
+     */
+    protected $member_gui;
 
     const F_STATUS = "status";
     const F_SORT = "sortation";
@@ -36,22 +96,33 @@ class ilIndividualAssessmentMembersGUI
     const S_CHANGETIME_DESC = "change_time:desc";
 
     public function __construct(
-        ilObjIndividualAssessmentGUI $a_parent_gui,
-        int $a_ref_id
+        ilObjIndividualAssessment $object,
+        ilCtrl $ctrl,
+        ilGlobalPageTemplate $tpl,
+        ilLanguage $lng,
+        ilToolbarGUI $toolbar,
+        ilObjUser $user,
+        ilTabsGUI $tabs,
+        IndividualAssessmentAccessHandler $iass_access,
+        UI\Factory $factory,
+        UI\Renderer $renderer,
+        ilErrorHandling $error_object,
+        ilIndividualAssessmentMemberGUI $member_gui
     ) {
-        global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->parent_gui = $a_parent_gui;
-        $this->object = $a_parent_gui->object;
-        $this->ref_id = $a_ref_id;
-        $this->tpl = $DIC['tpl'];
-        $this->lng = $DIC['lng'];
-        $this->toolbar = $DIC['ilToolbar'];
-        $this->user = $DIC["ilUser"];
-        $this->tabs = $DIC->tabs();
-        $this->iass_access = $this->object->accessHandler();
-        $this->factory = $DIC->ui()->factory();
-        $this->renderer = $DIC->ui()->renderer();
+        $this->object = $object;
+        $this->ctrl = $ctrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->toolbar = $toolbar;
+        $this->user = $user;
+        $this->tabs = $tabs;
+        $this->iass_access = $iass_access;
+        $this->factory = $factory;
+        $this->renderer = $renderer;
+        $this->error_object = $error_object;
+        $this->member_gui = $member_gui;
+
+        $this->ref_id = (int)$object->getRefId();
     }
 
     public function executeCommand()
@@ -84,10 +155,7 @@ class ilIndividualAssessmentMembersGUI
                     $this->lng->txt('back'),
                     $this->ctrl->getLinkTargetByClass(self::class, 'view')
                 );
-                $member = ilIndividualAssessmentDIC::dic()['ilIndividualAssessmentMemberGUI'];
-                $member->setObject($this->object);
-                $member->setParentGUI($this);
-                $this->ctrl->forwardCommand($member);
+                $this->ctrl->forwardCommand($this->member_gui);
                 break;
             default:
                 if (!$cmd) {
@@ -142,7 +210,7 @@ class ilIndividualAssessmentMembersGUI
             $this,
             $this->lng,
             $this->ctrl,
-            $this->object->accessHandler(),
+            $this->iass_access,
             $this->factory,
             $this->renderer,
             (int) $this->user->getId()
@@ -175,7 +243,7 @@ class ilIndividualAssessmentMembersGUI
         }
 
         ilUtil::sendInfo($this->txt("search_no_selection"), true);
-        $this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)), 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**
@@ -205,7 +273,7 @@ class ilIndividualAssessmentMembersGUI
         $members->updateStorageAndRBAC($iass->membersStorage(), $iass->accessHandler());
         ilIndividualAssessmentLPInterface::updateLPStatusByIds($iass->getId(), $user_ids);
         $this->ctrl->setParameter($this, 'failure', $failure);
-        $this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)), 'addedUsers');
+        $this->ctrl->redirect($this, 'addedUsers');
     }
 
     /**
@@ -241,7 +309,7 @@ class ilIndividualAssessmentMembersGUI
             ->updateStorageAndRBAC($iass->membersStorage(), $iass->accessHandler());
         ilIndividualAssessmentLPInterface::updateLPStatusByIds($iass->getId(), array($usr_id));
         ilUtil::sendSuccess($this->txt("iass_user_removed"), true);
-        $this->ctrl->redirectByClass(array(get_class($this->parent_gui),get_class($this)), 'view');
+        $this->ctrl->redirect($this, 'view');
     }
 
     /**
@@ -292,11 +360,13 @@ class ilIndividualAssessmentMembersGUI
         $ret = [];
 
         $ret[$this->txt("iass_filter_all")] = $this->getLinkForStatusFilter(null);
-        $ret[$this->txt("iass_filter_not_started")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
-        $ret[$this->txt("iass_filter_not_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_IN_PROGRESS);
-        $ret[$this->txt("iass_filter_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_COMPLETED);
-        $ret[$this->txt("iass_filter_failed")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_FAILED);
 
+        if($this->maybeViewLearningProgress()) {
+            $ret[$this->txt("iass_filter_not_started")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
+            $ret[$this->txt("iass_filter_not_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_IN_PROGRESS);
+            $ret[$this->txt("iass_filter_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_COMPLETED);
+            $ret[$this->txt("iass_filter_failed")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_FAILED);
+        }
         return $ret;
     }
 
@@ -399,7 +469,12 @@ class ilIndividualAssessmentMembersGUI
 
     public function handleAccessViolation()
     {
-        $this->parent_gui->handleAccessViolation();
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
+    }
+
+    protected function maybeViewLearningProgress()
+    {
+        return $this->iass_access->mayViewUser();
     }
 
     protected function txt(string $code) : string

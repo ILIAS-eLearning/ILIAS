@@ -7,9 +7,13 @@
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  */
 
-
 class ilObjIndividualAssessment extends ilObject
 {
+    use ilIndividualAssessmentDIC;
+
+    /**
+     * @var bool|null
+     */
     protected $lp_active = null;
 
     /**
@@ -36,6 +40,11 @@ class ilObjIndividualAssessment extends ilObject
      * @var ilAccessHandler
      */
     protected $il_access_handler;
+
+    /**
+     * @var Pimple\Container
+     */
+    protected $dic;
 
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
@@ -304,5 +313,22 @@ class ilObjIndividualAssessment extends ilObject
             $node = $tree->getParentNodeData($node['ref_id']);
         }
         return 0;
+    }
+
+    protected function getDic() : Pimple\Container
+    {
+        if(is_null($this->dic)) {
+            global $DIC;
+            $this->dic = $this->getObjectDIC(
+                $this,
+                $DIC
+            );
+        }
+        return $this->dic;
+    }
+
+    public function getMembersGUI() : ilIndividualAssessmentMembersGUI
+    {
+        return $this->getDic()['ilIndividualAssessmentMembersGUI'];
     }
 }
