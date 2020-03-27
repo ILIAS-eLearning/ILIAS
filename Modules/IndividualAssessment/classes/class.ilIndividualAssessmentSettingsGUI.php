@@ -231,9 +231,9 @@ class ilIndividualAssessmentSettingsGUI
         $ti->setSize(40);
         $form->addItem($ti);
 
-        $ti = new ilTextInputGUI($this->lng->txt('iass_mails'), self::PROP_INFO_MAILS);
+        $ti = new ilTextAreaInputGUI($this->lng->txt('iass_mails'), self::PROP_INFO_MAILS);
         $ti->setInfo($this->lng->txt('iass_info_emails_expl'));
-        $ti->setSize(300);
+        $ti->setRows(1);
         $form->addItem($ti);
 
         $item = new ilTextAreaInputGUI($this->lng->txt('iass_consultation_hours'), self::PROP_INFO_CONSULTATION);
