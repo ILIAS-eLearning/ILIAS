@@ -23,11 +23,11 @@ module.exports = function SetupEnvironment(result, callback) {
 	}
 
 	if (
-		serverConfig.logLevel !== undefined &&
-		typeof serverConfig.logLevel === "string" &&
-		["emerg", "alert", "crit", "error", "warning", "notice", "info", "debug", "silly"].includes(serverConfig.logLevel)
+		serverConfig.log_level !== undefined &&
+		typeof serverConfig.log_level === "string" &&
+		["emerg", "alert", "crit", "error", "warning", "notice", "info", "debug", "silly"].includes(serverConfig.log_level)
 	) {
-		logLevel = serverConfig.logLevel;
+		logLevel = serverConfig.log_level;
 	}
 
 	var logger = new (Winston.Logger)({
