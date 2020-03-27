@@ -36,6 +36,11 @@ class ilIndividualAssessmentSettingsGUI
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
         $this->lng->loadLanguageModule('cntr');
+
+        $this->input_factory = $DIC->ui()->factory()->input();
+        $this->refinery = $DIC->refinery();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->http_request = $DIC->http()->request();
     }
 
     protected function getSubTabs(ilTabsGUI $tabs)
@@ -75,13 +80,49 @@ class ilIndividualAssessmentSettingsGUI
         $this->ctrl->redirect($this->parent_gui);
     }
 
+    protected function buildForm() {
+        $settings = $this->object->getSettings();
+        $field = $settings->toFormInput(
+            $this->input_factory->field(),
+            $this->lng,
+            $this->refinery
+        );
+        return $this->input_factory->container()->form()->standard(
+            $this->ctrl->getFormAction($this, "update"),
+            [$field]
+        )
+        ->withAdditionalTransformation(
+            $this->refinery->custom()->transformation(function($v) {
+                return $v[0];
+            })
+        );
+    }
+
     protected function edit()
     {
         $this->tabs_gui->setSubTabActive(self::TAB_EDIT);
-        $form = $this->fillForm($this->initSettingsForm(), $this->object, $this->object->getSettings());
-        $this->addCommonFieldsToForm($form);
-        $this->renderForm($form);
+        $form = $this->buildForm(); 
+        $this->tpl->setContent($this->ui_renderer->render($form));
     }
+
+    protected function update()
+    {
+        $form = $this->buildForm();
+        $form = $form->withRequest($this->http_request);
+
+        $settings = $form->getData();
+
+        if (!is_null($settings)) {
+            $this->object->setSettings($settings);
+            $this->object->update();
+            $this->ctrl->redirect($this, "edit");
+        }
+        else {
+            $this->tpl->setContent($this->ui_renderer->render($form));
+        }
+    }
+
+
 
     protected function editInfo()
     {
@@ -112,39 +153,6 @@ class ilIndividualAssessmentSettingsGUI
     {
         $this->tpl->setContent($a_form->getHTML());
     }
-
-    protected function update()
-    {
-        $this->tabs_gui->setSubTabActive(self::TAB_EDIT);
-        $form = $this->initSettingsForm();
-        $form->setValuesByArray($_POST);
-        $this->addCommonFieldsToForm($form);
-        if ($form->checkInput()) {
-            $this->object->setTitle($_POST[self::PROP_TITLE]);
-            $this->object->setDescription($_POST[self::PROP_DESCRIPTION]);
-            $this->object->getSettings()->setContent($_POST[self::PROP_CONTENT])
-                                ->setRecordTemplate($_POST[self::PROP_RECORD_TEMPLATE])
-                                ->setEventTimePlaceRequired((bool) $_POST[self::PROP_EVENT_TIME_PLACE_REQUIRED])
-                                ->setFileRequired((bool) $_POST[self::PROP_FILE_REQUIRED]);
-            $this->object->update();
-            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
-                $this->object->getId(),
-                $form,
-                [
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                    ilObjectServiceSettingsGUI::CUSTOM_METADATA
-                ]
-            );
-            $form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->object);
-            $form_service->saveTitleIconVisibility();
-            $form_service->saveTopActionsVisibility();
-            $form_service->saveIcon();
-            $form_service->saveTileImage();
-            ilUtil::sendSuccess($this->lng->txt('iass_settings_saved'), true);
-        }
-        $this->ctrl->redirect($this, "edit");
-    }
-
 
     protected function initSettingsForm()
     {

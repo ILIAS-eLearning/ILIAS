@@ -8,12 +8,6 @@
  */
 
 
-require_once 'Services/Object/classes/class.ilObject.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php';
-require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
-require_once 'Modules/IndividualAssessment/classes/AccessControl/class.ilIndividualAssessmentAccessHandler.php';
-require_once 'Modules/IndividualAssessment/classes/FileStorage/class.ilIndividualAssessmentFileStorage.php';
 class ilObjIndividualAssessment extends ilObject
 {
     protected $lp_active = null;
@@ -74,6 +68,8 @@ class ilObjIndividualAssessment extends ilObject
     public function setSettings(ilIndividualAssessmentSettings $settings)
     {
         $this->settings = $settings;
+        $this->setTitle($settings->getTitle());
+        $this->setDescription($settings->getDescription());
     }
 
     public function getInfoSettings()

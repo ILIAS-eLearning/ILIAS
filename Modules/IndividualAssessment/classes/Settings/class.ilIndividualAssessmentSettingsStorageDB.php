@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Modules/IndividualAssessment/interfaces/Settings/interface.ilIndividualAssessmentSettingsStorage.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentInfoSettings.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php';
-
 /**
  * A settings storage handler to write iass settings to db.
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
@@ -42,7 +37,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * @inheritdoc
      */
-    public function loadSettings(ilObjIndividualAssessment $obj)
+    public function loadSettings(ilObjIndividualAssessment $obj) : \ilIndividualAssessmentSettings
     {
         if (ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             $obj_id = $obj->getId();
@@ -53,7 +48,9 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
             if ($res = $this->db->fetchAssoc($this->db->query($sql))) {
                 return new ilIndividualAssessmentSettings(
-                    $obj,
+                    $obj->getId(),
+                    $obj->getTitle(),
+                    $obj->getDescription(),
                     $res["content"],
                     $res["record_template"],
                     (bool) $res["event_time_place_required"],
@@ -71,12 +68,12 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
      */
     public function updateSettings(ilIndividualAssessmentSettings $settings)
     {
-        $where = array( "obj_id" => array("integer", $settings->getId()));
+        $where = array( "obj_id" => array("integer", $settings->getObjId()));
 
-        $values = array( "content" => array("text", $settings->content())
-                , "record_template" => array("text", $settings->recordTemplate())
-                , "event_time_place_required" => array("integer", $settings->eventTimePlaceRequired())
-                , "file_required" => array("integer", $settings->fileRequired())
+        $values = array( "content" => array("text", $settings->getContent())
+                , "record_template" => array("text", $settings->getRecordTemplate())
+                , "event_time_place_required" => array("integer", $settings->getEventTimePlaceRequired())
+                , "file_required" => array("integer", $settings->getFileRequired())
                 );
 
         $this->db->update(self::IASS_SETTINGS_TABLE, $values, $where);
@@ -84,11 +81,8 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
     /**
      * Load info-screen settings corresponding to obj
-     *
-     * @param	ilObjIndividualAssessment	$obj
-     * @return	ilIndividualAssessmentSettings	$settings
      */
-    public function loadInfoSettings(ilObjIndividualAssessment $obj)
+    public function loadInfoSettings(ilObjIndividualAssessment $obj) : \ilIndividualAssessmentInfoSettings
     {
         if (ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             $obj_id = $obj->getId();
