@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\NotificationCenter;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
+use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class NotificationCenterRenderer
@@ -42,7 +43,8 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         $f = $this->ui->factory();
 
         $center = $f->mainControls()->slate()->combined("Notification Center", $item->getSymbol())
-            ->withEngaged(false);
+            ->withEngaged(false)
+            ->withAriaRole(Slate::MENU);
 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {
             $center = $center->withAdditionalEntry($notification->getRenderer($this->ui->factory())->getNotificationComponentForItem($notification));

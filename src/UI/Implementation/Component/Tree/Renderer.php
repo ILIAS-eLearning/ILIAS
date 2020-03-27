@@ -23,7 +23,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl_name = "tpl.tree.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
 
-        $tpl->setVariable("ARIA_LABEL", $this->txt('tree_aria_label'));
+        $tpl->setVariable("ARIA_LABEL", $component->getLabel());
 
         $recursion =
         $environment = $component->getEnvironment();

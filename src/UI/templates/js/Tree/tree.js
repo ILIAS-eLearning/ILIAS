@@ -26,7 +26,11 @@ il.UI = il.UI || {};
 		const initNodesForExpansion = function (tree) {
 			tree.find('.il-tree-node .node-line').click(
 				function(e) {
-					$(this).parent('.il-tree-node').toggleClass('expanded');
+					$(this).parent('.il-tree-node').toggleClass('expanded').attr(
+						'aria-expanded',
+						function(index, attr) {
+							return attr == 'false' ? 'true' : 'false';
+						});
 					e.preventDefault();
 				}
 			);

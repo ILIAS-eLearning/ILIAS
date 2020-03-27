@@ -61,7 +61,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $f = $this->ui->factory();
 
         $tree = $f->tree()
-            ->expandable($this)
+            ->expandable("Testlabel", $this)
             ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
 

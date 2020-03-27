@@ -5,6 +5,7 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class TopParentItemRenderer
@@ -24,7 +25,8 @@ class TopParentItemRenderer extends BaseTypeRenderer
     public function getComponentWithContent(isItem $item) : Component
     {
         $f = $this->ui_factory;
-        $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
+        $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item))
+            ->withAriaRole(Slate::MENU);
         /**
          * @var $child isItem
          */

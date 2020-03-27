@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopParentItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class TopParentItemRenderer
@@ -20,7 +21,8 @@ class TopParentItemRenderer extends AbstractMetaBarItemRenderer
         /**
          * @var $item TopParentItem
          */
-        $component = $this->ui->factory()->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol());
+        $component = $this->ui->factory()->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol())
+            ->withAriaRole(Slate::MENU);
         foreach ($item->getChildren() as $child) {
             /**
              * @var $child isItem

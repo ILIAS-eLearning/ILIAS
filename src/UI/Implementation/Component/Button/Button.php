@@ -37,7 +37,7 @@ abstract class Button implements C\Button\Button
     /**
      * @var string
      */
-    protected $landmark_role;
+    protected $aria_role;
 
     /**
      * @var string
@@ -48,6 +48,14 @@ abstract class Button implements C\Button\Button
      * @var bool
      */
     protected $aria_checked = false;
+
+    /**
+     * @var string[]
+     */
+    protected static $allowed_aria_roles = array(
+        self::MENUITEM,
+        self::MENUITEM_SEARCH
+    );
 
 
     public function __construct($label, $action)
@@ -170,19 +178,25 @@ abstract class Button implements C\Button\Button
     /**
      * @inheritdoc
      */
-    public function withLandmarkRole($landmark_role)
+    public function withAriaRole(string $aria_role)
     {
-        $this->checkStringArg("role", $landmark_role);
+        $this->checkArgIsElement(
+            "role",
+            $aria_role,
+            self::$allowed_aria_roles,
+            implode('/', self::$allowed_aria_roles)
+        );
+        $this->checkStringArg("role", $aria_role);
         $clone = clone $this;
-        $clone->landmark_role = $landmark_role;
+        $clone->aria_role = $aria_role;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getLandmarkRole()
+    public function getAriaRole()
     {
-        return $this->landmark_role;
+        return $this->aria_role;
     }
 }

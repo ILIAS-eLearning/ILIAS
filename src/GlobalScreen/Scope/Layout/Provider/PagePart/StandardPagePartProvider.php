@@ -12,6 +12,7 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUtil;
 use ilUserUtil;
+use ILIAS\UI\Component\Button\Button;
 
 /**
  * Class StandardPagePartProvider
@@ -114,7 +115,8 @@ class StandardPagePartProvider implements PagePartProvider
         $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), "More");
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
-            $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
+            $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true)
+                ->withAriaRole(Button::MENUITEM);
             $main_bar = $main_bar->withToolsButton($tools_button);
             /**
              * @var $main_bar MainBar

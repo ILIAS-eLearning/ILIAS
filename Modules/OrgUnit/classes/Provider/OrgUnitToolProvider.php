@@ -61,7 +61,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 
         $parent_node_id = $DIC->repositoryTree()->getParentId(ilObjOrgUnit::getRootOrgRefId());
 
-        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode($parent_node_id));
+        return $this->dic->ui()->factory()->tree()->expandable("Testlabel", $tree)->withData($tree->getChildsOfNode($parent_node_id));
     }
 
     private function getTreeRecursion() : TreeRecursion

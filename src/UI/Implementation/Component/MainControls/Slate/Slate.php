@@ -61,7 +61,14 @@ abstract class Slate implements ISlate\Slate
     /**
      * @var string
      */
-    protected $landmark_role;
+    protected $aria_role;
+
+    /**
+     * @var string[]
+     */
+    protected static $allowed_aria_roles = array(
+        self::MENU
+    );
 
     /**
      * @param string 	$name 	name of the slate, also used as label
@@ -190,19 +197,25 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function withLandmarkRole(string $landmark_role)
+    public function withAriaRole(string $aria_role)
     {
-        $this->checkStringArg("role", $landmark_role);
+        $this->checkArgIsElement(
+            "role",
+            $aria_role,
+            self::$allowed_aria_roles,
+            implode('/', self::$allowed_aria_roles)
+        );
+        $this->checkStringArg("role", $aria_role);
         $clone = clone $this;
-        $clone->landmark_role = $landmark_role;
+        $clone->aria_role = $aria_role;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getLandmarkRole()
+    public function getAriaRole()
     {
-        return $this->landmark_role;
+        return $this->aria_role;
     }
 }

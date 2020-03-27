@@ -24,7 +24,9 @@ interface Factory
      *      filter: >
      *          Filters are used to limit search results; they never modify data in
      *          the system.
-     *
+     * rules:
+     *   accessibility:
+     *     1: Forms MUST bear the ARIA role "form".
      *
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory

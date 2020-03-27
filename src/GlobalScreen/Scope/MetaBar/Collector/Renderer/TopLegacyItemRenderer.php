@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\TopLegacyItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class TopLegacyItemRenderer
@@ -25,6 +26,6 @@ class TopLegacyItemRenderer extends AbstractMetaBarItemRenderer
             $item->getTitle(),
             $item->getSymbol(),
             $item->getLegacyContent()
-        );
+        )->withAriaRole(Slate::MENU);
     }
 }

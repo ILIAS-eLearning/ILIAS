@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
@@ -121,6 +122,7 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                    ->withAriaRole(Button::MENUITEM)
                     ->withOnClick($trigger_signal)
                     ->withAdditionalOnLoadCode(
                         function ($id) use ($js, $mb_id, $k, $is_tool) {
@@ -244,6 +246,8 @@ class Renderer extends AbstractComponentRenderer
 				";
             }
         );
+        $tpl->setVariable('ARIA_LABEL', $this->txt('metabar_aria_label'));
+
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
         return $tpl->get();
@@ -286,9 +290,11 @@ class Renderer extends AbstractComponentRenderer
                     ->appendOnClick($secondary_signal)
                     ->withEngagedState($engaged);
 
-                //set landmark role for accessibility
                 if ($entry->getName() == "Search") {
-                    $button = $button->withLandMarkRole("search");
+                    $button = $button->withAriaRole(Button::MENUITEM_SEARCH);
+                }
+                else {
+                    $button = $button->withAriaRole(Button::MENUITEM);
                 }
 
                 $slate = $entry;
@@ -304,9 +310,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
 
             if ($slate) {
-                //set landmark role for accessibility
-                $slate = $slate->withLandMarkRole("dialog");
-
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($slate));
                 $tpl->parseCurrentBlock();
