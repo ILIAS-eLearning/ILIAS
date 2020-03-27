@@ -175,6 +175,10 @@ class ilChatroomAdmin
                 $settings['protocol'] = 'http';
             }
 
+            if (!$settings['log_level']) {
+                $settings['log_level'] = 'info';
+            }
+
             return $settings;
         }
 
