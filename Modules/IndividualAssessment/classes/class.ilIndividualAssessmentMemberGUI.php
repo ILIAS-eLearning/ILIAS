@@ -259,12 +259,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             ->withRequest($this->request)
         ;
 
-        $result = $form->getData();
+        $grading = $form->getData();
 
-        if (!is_null($result)) {
-            /** @var ilIndividualAssessmentUserGrading $grading */
-            $grading = array_shift($result);
-
+        if (!is_null($grading)) {
             if ($grading->getFile() == '') {
                 $storage = $this->getUserFileStorage();
                 $storage->deleteCurrentFile();

@@ -205,12 +205,6 @@ class ilIndividualAssessmentUserGrading
             ->withDisabled(!$may_be_edited)
         ;
 
-        $finalized = $input
-            ->checkbox($lng->txt('iass_finalize'), $lng->txt('iass_finalize_info'))
-            ->withValue($this->isFinalized())
-            ->withDisabled(!$may_be_edited)
-        ;
-
         $fields = [
             'name' => $name,
             'record' => $record,
@@ -224,6 +218,12 @@ class ilIndividualAssessmentUserGrading
         ];
 
         if (!$amend) {
+            $finalized = $input
+                ->checkbox($lng->txt('iass_finalize'), $lng->txt('iass_finalize_info'))
+                ->withValue($this->isFinalized())
+                ->withDisabled(!$may_be_edited)
+            ;
+
             $fields['finalized'] = $finalized;
         }
 
@@ -232,7 +232,7 @@ class ilIndividualAssessmentUserGrading
             $lng->txt('iass_edit_record')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(function ($values) use ($amend) {
-                $finalized = false;
+                $finalized = $this->isFinalized();
                 if (!$amend) {
                     $finalized = $values['finalized'];
                 }
