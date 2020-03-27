@@ -93,10 +93,9 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
 			$changer_id = (int)$changer_id;
 		}
 		$change_time = null;
-		$change_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
+		$change_time_db = $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME];
 		if(! is_null($change_time_db)) {
-			$change_time = new DateTime();
-			$change_time = $change_time->setTimestamp($change_time_db);
+			$change_time = new DateTime($change_time_db);
 		}
         return new ilIndividualAssessmentMember(
             $obj,
