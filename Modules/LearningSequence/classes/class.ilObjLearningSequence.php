@@ -552,4 +552,11 @@ class ilObjLearningSequence extends ilContainer
         }
         return null;
     }
+
+    public function getLPCompletionStates() : array
+    {
+        return [
+            \ilLPStatus::LP_STATUS_COMPLETED_NUM
+        ];
+    }
 }
