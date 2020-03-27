@@ -28,7 +28,7 @@ class ilIndividualAssessmentSettingsGUI
         $this->ref_id = $a_ref_id;
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
-        $this->tabs_gui = $a_parent_gui->tabsGUI();
+        $this->tabs_gui = $DIC['ilTabs'];
         $this->getSubTabs($this->tabs_gui);
         $this->iass_access = $this->object->accessHandler();
         $this->obj_service = $DIC->object();

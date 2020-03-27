@@ -41,12 +41,14 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->usr = $DIC['ilUser'];
-        $this->ilias = $DIC['ilias'];
+        $this->error_object = $DIC['ilErr'];
         $this->lng = $DIC['lng'];
         $this->ilAccess = $DIC['ilAccess'];
         $this->lng->loadLanguageModule('iass');
         $this->tpl->loadStandardTemplate();
         $this->locator = $DIC['ilLocator'];
+        $this->factory = $DIC['ui.factory'];
+        $this->renderer = $DIC['ui.renderer'];
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
     }
@@ -67,13 +69,13 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilpermissiongui':
-                $this->tabs_gui->setTabActive(self::TAB_PERMISSION);
+                $this->tabs_gui->activateTab(self::TAB_PERMISSION);
                 require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $ilPermissionGUI = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($ilPermissionGUI);
                 break;
             case 'ilindividualassessmentsettingsgui':
-                $this->tabs_gui->setTabActive(self::TAB_SETTINGS);
+                $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php';
                 $gui = new ilIndividualAssessmentSettingsGUI($this, $this->ref_id);
                 $this->ctrl->forwardCommand($gui);
@@ -82,7 +84,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->membersObject();
                 break;
             case 'ilinfoscreengui':
-                $this->tabs_gui->setTabActive(self::TAB_INFO);
+                $this->tabs_gui->activateTab(self::TAB_INFO);
                 require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
                 $info = $this->buildInfoScreen();
                 $this->ctrl->forwardCommand($info);
@@ -92,7 +94,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                     $this->handleAccessViolation();
                 }
                 require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
-                $this->tabs_gui->setTabActive(self::TAB_LP);
+                $this->tabs_gui->activateTab(self::TAB_LP);
                 $learning_progress = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
@@ -107,7 +109,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 break;
             case "ilexportgui":
                 include_once("./Services/Export/classes/class.ilExportGUI.php");
-                $this->tabs_gui->setTabActive(self::TAB_EXPORT);
+                $this->tabs_gui->activateTab(self::TAB_EXPORT);
                 $exp_gui = new ilExportGUI($this); // $this is the ilObj...GUI class of the resource
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
@@ -139,14 +141,9 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         return true;
     }
 
-    public function tabsGUI()
-    {
-        return $this->tabs_gui;
-    }
-
     public function viewObject()
     {
-        $this->tabs_gui->setTabActive(self::TAB_INFO);
+        $this->tabs_gui->activateTab(self::TAB_INFO);
         require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
         $this->ctrl->setCmd('showSummary');
         $this->ctrl->setCmdClass('ilinfoscreengui');
@@ -156,9 +153,9 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     public function membersObject()
     {
-        $this->tabs_gui->setTabActive(self::TAB_MEMBERS);
+        $this->tabs_gui->activateTab(self::TAB_MEMBERS);
         require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php';
-        $gui = new ilIndividualAssessmentMembersGUI($this, $this->ref_id);
+        $gui = $this->object->getMembersGUI();
         $this->ctrl->forwardCommand($gui);
     }
 
@@ -348,8 +345,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     public function handleAccessViolation()
     {
-        global $DIC;
-        $DIC['ilias']->raiseError($DIC['lng']->txt("msg_no_perm_read"), $DIC['ilias']->error_obj->WARNING);
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
     public static function _goto($a_target, $a_add = '')
