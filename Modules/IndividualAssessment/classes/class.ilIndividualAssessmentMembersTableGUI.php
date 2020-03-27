@@ -109,7 +109,7 @@ class ilIndividualAssessmentMembersTableGUI
             return "";
         }
 
-        $examiner_id = $this->getExaminerId($record);
+        $examiner_id = $record->examinerId();
         return $this->txt("grading") . ": " . $this->getStatus($record->finalized(), $record->LPStatus(), $examiner_id);
     }
 
@@ -126,18 +126,51 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
 
-        $changer = array();
-        if (!is_null($record->changerId())) {
-            $changer_id = $this->getChangerId($record);
-            $changer = $this->getProfileLink(self::CHANGED, $this->getFullNameFor($changer_id), $changer_id);
+        $dfdf = array_merge(
+            $this->getGradedInformations($record->eventTime()),
+            $this->getGradedByInformation($record->examinerId()),
+            $this->getChangedByInformation($record->changerId(), $record->changeTime())
+        );
+
+        return  $dfdf;
+    }
+
+    protected function getGradedByInformation(?int $graded_by_id) : array
+    {
+        if(is_null($graded_by_id)) {
+            return [];
         }
 
-        $examiner_id = $this->getExaminerId($record);
-        return array_merge(
-            $this->getGradedInformations($record->eventTime()),
-            $this->getProfileLink(self::GRADED, $this->getFullNameFor($examiner_id), $examiner_id),
-            $changer
-        );
+        $full_name = $this->getFullNameFor($graded_by_id);
+        if (!$this->hasPublicProfile($graded_by_id)) {
+            return [$this->txt('iass_graded_by') => $full_name];
+        }
+
+        return [
+            $this->txt('iass_graded_by') => $this->getProfileLink($full_name, $graded_by_id)
+        ];
+    }
+
+    protected function getChangedByInformation(?int $changed_by_id, ?DateTime $change_date) : array
+    {
+        if(is_null($changed_by_id)) {
+            return [];
+        }
+
+        $changed_date_str = "";
+        if(! is_null($change_date)) {
+            $dt = new ilDate($change_date->format("Y-m-d"), IL_CAL_DATE);
+            $changed_date_str = ilDatePresentation::formatDate($dt);
+        }
+
+        $full_name = $this->getFullNameFor($changed_by_id);
+        if (!$this->hasPublicProfile($changed_by_id)) {
+            return [$this->txt('iass_changed_by') => $full_name.' '.$changed_date_str];
+        }
+
+        return [
+            $this->txt('iass_changed_by') => $this->getProfileLink($full_name, $changed_by_id).' '.$changed_date_str
+        ];
     }
 
     /**
@@ -147,7 +180,7 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getContent(ilIndividualAssessmentMember $record) : array
     {
-        $examiner_id = $this->getExaminerId($record);
+        $examiner_id = $record->examinerId();
         if (
             !$this->checkEditable($record->finalized(), $examiner_id, (int) $record->id())
             && !$this->checkAmendable($record->finalized())
@@ -185,7 +218,7 @@ class ilIndividualAssessmentMembersTableGUI
             $this->getLocationInfos(
                 $record->place(),
                 $record->finalized(),
-                $this->getExaminerId($record),
+                $record->examinerId(),
                 (int) $record->id()
             )
         );
@@ -198,7 +231,7 @@ class ilIndividualAssessmentMembersTableGUI
     {
         $items = [];
 
-        $examiner_id = $this->getExaminerId($record);
+        $examiner_id = $record->examinerId();
         $usr_id = (int) $record->id();
         $finalized = $record->finalized();
         $file_name = $record->fileName();
@@ -282,27 +315,15 @@ class ilIndividualAssessmentMembersTableGUI
         return $name;
     }
 
-    protected function getProfileLink(string $case, string $examiner, int $examiner_id)
+    protected function getProfileLink(string $full_name, int $user_id)
     {
-        if ($examiner === "") {
-            return array();
-        }
-
-        if (!$this->hasPublicProfile($examiner_id)) {
-            return array(
-                $this->txt("iass_" . $case . "_by") => $examiner
-            );
-        }
-
         $back_url = $this->ctrl->getLinkTarget($this->parent, "view");
-        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $examiner_id);
+        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $user_id);
         $this->ctrl->setParameterByClass('ilpublicuserprofilegui', "back_url", rawurlencode($back_url));
         $link = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-        $link = $this->factory->link()->standard($examiner, $link);
+        $link = $this->factory->link()->standard($full_name, $link);
 
-        return array(
-            $this->txt("iass_" . $case . "_by") => $this->renderer->render($link)
-        );
+        return $this->renderer->render($link);
     }
 
     protected function hasPublicProfile(int $examiner_id) : bool
@@ -399,33 +420,6 @@ class ilIndividualAssessmentMembersTableGUI
             default:
                 throw new ilIndividualAssessmentException("Invalid status: ".$a_status);
         }
-    }
-
-    /**
-     * Returns the examnier id from record
-     *
-     * @return int | null
-     */
-    protected function getExaminerId(ilIndividualAssessmentMember $record)
-    {
-        $examiner_id = $record->examinerId();
-
-        if (is_null($examiner_id)) {
-            return null;
-        }
-
-        return (int) $examiner_id;
-    }
-
-    protected function getChangerId(ilIndividualAssessmentMember $record)
-    {
-        $changer_id = $record->changerId();
-
-        if (is_null($changer_id)) {
-            return null;
-        }
-
-        return (int) $changer_id;
     }
 
     /**
