@@ -81,21 +81,21 @@ class ilFullnameParser
     */
     public function __construct($initString = "")
     {
-        $this->title 		= "";
-        $this->first 		= "";
-        $this->middle 		= "";
-        $this->last 		= "";
-        $this->suffix 		= "";
+        $this->title = "";
+        $this->first = "";
+        $this->middle = "";
+        $this->last = "";
+        $this->suffix = "";
 
         //$this->titles		= array('dr','doctor','miss','misses','mr','mister','mrs','ms','judge','sir','madam','madame');
 
         // added Military Titles
-        $this->titles		= array('dr','doctor','miss','misses','mr','mister','mrs','ms','judge','sir','madam','madame','AB','2ndLt','Amn','1stLt','A1C','Capt','SrA','Maj','SSgt','LtCol','TSgt','Col','BrigGen','1stSgt','MajGen','SMSgt','LtGen','1stSgt','Gen','CMSgt','1stSgt','CCMSgt','CMSAF','PVT','2LT','PV2','1LT','PFC','CPT','SPC','MAJ','CPL','LTC','SGT','COL','SSG','BG','SFC','MG','MSG','LTG','1SGT','GEN','SGM','CSM','SMA','WO1','WO2','WO3','WO4','WO5','ENS','SA','LTJG','SN','LT','PO3','LCDR','PO2','CDR','PO1','CAPT','CPO','RADM(LH)','SCPO','RADM(UH)','MCPO','VADM','MCPOC','ADM','MPCO-CG','CWO-2','CWO-3','CWO-4','Pvt','2ndLt','PFC','1stLt','LCpl','Capt','Cpl','Maj','Sgt','LtCol','SSgt','Col','GySgt','BGen','MSgt','MajGen','1stSgt','LtGen','MGySgt','Gen','SgtMaj','SgtMajMC','WO-1','CWO-2','CWO-3','CWO-4','CWO-5','ENS','SA','LTJG','SN','LT','PO3','LCDR','PO2','CDR','PO1','CAPT','CPO','RDML','SCPO','RADM','MCPO','VADM','MCPON','ADM','FADM','WO1','CWO2','CWO3','CWO4','CWO5');
+        $this->titles = array('dr','doctor','miss','misses','mr','mister','mrs','ms','judge','sir','madam','madame','AB','2ndLt','Amn','1stLt','A1C','Capt','SrA','Maj','SSgt','LtCol','TSgt','Col','BrigGen','1stSgt','MajGen','SMSgt','LtGen','1stSgt','Gen','CMSgt','1stSgt','CCMSgt','CMSAF','PVT','2LT','PV2','1LT','PFC','CPT','SPC','MAJ','CPL','LTC','SGT','COL','SSG','BG','SFC','MG','MSG','LTG','1SGT','GEN','SGM','CSM','SMA','WO1','WO2','WO3','WO4','WO5','ENS','SA','LTJG','SN','LT','PO3','LCDR','PO2','CDR','PO1','CAPT','CPO','RADM(LH)','SCPO','RADM(UH)','MCPO','VADM','MCPOC','ADM','MPCO-CG','CWO-2','CWO-3','CWO-4','Pvt','2ndLt','PFC','1stLt','LCpl','Capt','Cpl','Maj','Sgt','LtCol','SSgt','Col','GySgt','BGen','MSgt','MajGen','1stSgt','LtGen','MGySgt','Gen','SgtMaj','SgtMajMC','WO-1','CWO-2','CWO-3','CWO-4','CWO-5','ENS','SA','LTJG','SN','LT','PO3','LCDR','PO2','CDR','PO1','CAPT','CPO','RDML','SCPO','RADM','MCPO','VADM','MCPON','ADM','FADM','WO1','CWO2','CWO3','CWO4','CWO5');
 
-        $this->prefices		= array('bon','ben','bin','da','dal','de','del','der','de','e','la','le','san','st','ste','van','vel','von');
-        $this->suffices		= array('esq','esquire','jr','sr','2','i','ii','iii','iv','v','clu','chfc','cfp','md','phd');
-        $this->fullName		= "";
-        $this->notParseable 	= false;
+        $this->prefices = array('bon','ben','bin','da','dal','de','del','der','de','e','la','le','san','st','ste','van','vel','von');
+        $this->suffices = array('esq','esquire','jr','sr','2','i','ii','iii','iv','v','clu','chfc','cfp','md','phd');
+        $this->fullName = "";
+        $this->notParseable = false;
 
         // if initialized by value, set class variable and then parse
         if ($initString != "") {
@@ -216,16 +216,16 @@ class ilFullnameParser
     public function parse()
     {
         // reset values
-        $this->title 		= "";
-        $this->first 		= "";
-        $this->middle 		= "";
-        $this->last 		= "";
-        $this->suffix 		= "";
-        $this->notParseable 	= false;
+        $this->title = "";
+        $this->first = "";
+        $this->middle = "";
+        $this->last = "";
+        $this->suffix = "";
+        $this->notParseable = false;
 
         // break up name based on number of commas
-        $pieces		= explode(',', preg_replace('/\s+/', ' ', trim($this->fullName)));
-        $numPieces 	= count($pieces);
+        $pieces = explode(',', preg_replace('/\s+/', ' ', trim($this->fullName)));
+        $numPieces = count($pieces);
 
         switch ($numPieces) {
 
@@ -235,8 +235,8 @@ class ilFullnameParser
                 $numSubPieces = count($subPieces);
                 for ($i = 0; $i < $numSubPieces; $i++) {
                     $current = trim($subPieces[$i]);
-                    if ($i < ($numSubPieces-1)) {
-                        $next = trim($subPieces[$i+1]);
+                    if ($i < ($numSubPieces - 1)) {
+                        $next = trim($subPieces[$i + 1]);
                     } else {
                         $next = "";
                     }
@@ -248,16 +248,16 @@ class ilFullnameParser
                         $this->first = $current;
                         continue;
                     }
-                    if ($i == $numSubPieces-2 && ($next != "") && $this->inArrayNorm($next, $this->suffices)) {
+                    if ($i == $numSubPieces - 2 && ($next != "") && $this->inArrayNorm($next, $this->suffices)) {
                         if ($this->last != "") {
-                            $this->last	.=	" " . $current;
+                            $this->last .= " " . $current;
                         } else {
                             $this->last = $current;
                         }
                         $this->suffix = $next;
                         break;
                     }
-                    if ($i == $numSubPieces-1) {
+                    if ($i == $numSubPieces - 1) {
                         if ($this->last != "") {
                             $this->last .= " " . $current;
                         } else {
@@ -288,7 +288,7 @@ class ilFullnameParser
                     if ($this->middle != "") {
                         $this->middle .= " " . $current;
                     } else {
-                        $this->middle =	$current;
+                        $this->middle = $current;
                     }
                 }
                 break;
@@ -299,11 +299,11 @@ class ilFullnameParser
                     // array(title first middle last, suffix [, suffix])
                     case	true:
                         $subPieces = explode(' ', trim($pieces[0]));
-                        $numSubPieces =	count($subPieces);
+                        $numSubPieces = count($subPieces);
                         for ($i = 0; $i < $numSubPieces; $i++) {
                             $current = trim($subPieces[$i]);
-                            if ($i < ($numSubPieces-1)) {
-                                $next = trim($subPieces[$i+1]);
+                            if ($i < ($numSubPieces - 1)) {
+                                $next = trim($subPieces[$i + 1]);
                             } else {
                                 $next = "";
                             }
@@ -315,9 +315,9 @@ class ilFullnameParser
                                 $this->first = $current;
                                 continue;
                             }
-                            if ($i == $numSubPieces-1) {
+                            if ($i == $numSubPieces - 1) {
                                 if ($this->last != "") {
-                                    $this->last .=	" " . $current;
+                                    $this->last .= " " . $current;
                                 } else {
                                     $this->last = $current;
                                 }
@@ -349,7 +349,7 @@ class ilFullnameParser
                                 $this->middle = $current;
                             }
                         }
-                        $this->suffix =	trim($pieces[1]);
+                        $this->suffix = trim($pieces[1]);
                         for ($i = 2; $i < $numPieces; $i++) {
                             $this->suffix .= ", " . trim($pieces[$i]);
                         }
@@ -358,11 +358,11 @@ class ilFullnameParser
                     // array(last, title first middles[,] suffix [,suffix])
                     case	false:
                         $subPieces = explode(' ', trim($pieces[1]));
-                        $numSubPieces =	count($subPieces);
+                        $numSubPieces = count($subPieces);
                         for ($i = 0; $i < $numSubPieces; $i++) {
                             $current = trim($subPieces[$i]);
-                            if ($i < ($numSubPieces-1)) {
-                                $next = trim($subPieces[$i+1]);
+                            if ($i < ($numSubPieces - 1)) {
+                                $next = trim($subPieces[$i + 1]);
                             } else {
                                 $next = "";
                             }
@@ -374,7 +374,7 @@ class ilFullnameParser
                                 $this->first = $current;
                                 continue;
                             }
-                            if ($i == $numSubPieces-2 && ($next != "") && $this->inArrayNorm($next, $this->suffices)) {
+                            if ($i == $numSubPieces - 2 && ($next != "") && $this->inArrayNorm($next, $this->suffices)) {
                                 if ($this->middle != "") {
                                     $this->middle .= " " . $current;
                                 } else {
@@ -383,7 +383,7 @@ class ilFullnameParser
                                 $this->suffix = $next;
                                 break;
                             }
-                            if ($i == $numSubPieces-1 && $this->inArrayNorm($current, $this->suffices)) {
+                            if ($i == $numSubPieces - 1 && $this->inArrayNorm($current, $this->suffices)) {
                                 $this->suffix = $current;
                                 continue;
                             }

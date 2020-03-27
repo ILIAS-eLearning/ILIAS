@@ -51,8 +51,8 @@ class ilMStListCertificates
 
         $_options = array(
             'filters' => array(),
-            'sort'    => array(),
-            'limit'   => array(),
+            'sort' => array(),
+            'limit' => array(),
         );
         $options = array_merge($_options, $options);
 

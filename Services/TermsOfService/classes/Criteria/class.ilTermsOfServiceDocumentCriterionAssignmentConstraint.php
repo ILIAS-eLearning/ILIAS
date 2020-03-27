@@ -30,7 +30,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
         ilLanguage $lng
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->document             = $document;
+        $this->document = $document;
 
         parent::__construct(
             function (ilTermsOfServiceDocumentCriterionAssignment $value) {
@@ -57,7 +57,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
             $otherValues,
             function (ilTermsOfServiceDocumentCriterionAssignment $otherValue) use ($value) {
                 $idCurrent = $otherValue->getId();
-                $idNew     = $value->getId();
+                $idNew = $value->getId();
 
                 $uniqueIdEquals = $idCurrent === $idNew;
                 if ($uniqueIdEquals) {

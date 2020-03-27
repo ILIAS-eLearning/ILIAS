@@ -16092,3 +16092,11 @@ prg#:#prg_additional_settings#:#Additional Features
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
 ui#:#ui_numeric_only#:#Please insert a whole number.
+mmbr#:#mmbr_memberships#:#Memberships
+notes#:#note_without_object#:#Without reference
+prg#:#msg_fill_required#:#Please fill all required fields.
+iass#:#iass_file_dropzone#:#you can drop your files here
+iass#:#iass_confirm_finalize#:#Finalize
+iass#:#iass_cancel#:#Cancel
+iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
+iass#:#download_assessment_paper#:#Download Record file

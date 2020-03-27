@@ -93,7 +93,7 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->checkPermission('read');
 
         $ilTabs->activateTab("view_content");
-        $ret =  parent::renderObject();
+        $ret = parent::renderObject();
         return $ret;
     }
 
@@ -117,7 +117,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
 
@@ -228,7 +228,7 @@ class ilObjFolderGUI extends ilContainerGUI
     */
     public function setFolderTree($a_tree)
     {
-        $this->folder_tree =&$a_tree;
+        $this->folder_tree = &$a_tree;
     }
 
     /**

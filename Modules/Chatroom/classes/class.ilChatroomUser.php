@@ -53,7 +53,7 @@ class ilChatroomUser
             if (isset($_SESSION['chat'][$this->room->getRoomId()]['user_id'])) {
                 return $_SESSION['chat'][$this->room->getRoomId()]['user_id'];
             } else {
-                $user_id                                               = mt_rand(-99999, -20);
+                $user_id = mt_rand(-99999, -20);
                 $_SESSION['chat'][$this->room->getRoomId()]['user_id'] = $user_id;
                 return $user_id;
             }
@@ -84,7 +84,7 @@ class ilChatroomUser
      */
     public function setUsername($username)
     {
-        $this->username                                         = htmlspecialchars($username);
+        $this->username = htmlspecialchars($username);
         $_SESSION['chat'][$this->room->getRoomId()]['username'] = $this->username;
     }
 
@@ -99,9 +99,9 @@ class ilChatroomUser
         if ($this->user->isAnonymous()) {
             $options['anonymousName'] = $this->buildAnonymousName();
         } else {
-            $options['fullname']  = $this->buildFullname();
+            $options['fullname'] = $this->buildFullname();
             $options['shortname'] = $this->buildShortname();
-            $options['login']     = $this->buildLogin();
+            $options['login'] = $this->buildLogin();
         }
 
         return $options;
@@ -163,8 +163,8 @@ class ilChatroomUser
     {
         global $DIC;
 
-        $username   = htmlspecialchars(trim($username));
-        $usernames  = array();
+        $username = htmlspecialchars(trim($username));
+        $usernames = array();
         $uniqueName = $username;
 
         $rset = $DIC->database()->query(
@@ -174,7 +174,7 @@ class ilChatroomUser
         );
 
         while (($row = $DIC->database()->fetchAssoc($rset))) {
-            $json        = json_decode($row['userdata'], true);
+            $json = json_decode($row['userdata'], true);
             $usernames[] = $json['login'];
         }
 
@@ -206,7 +206,7 @@ class ilChatroomUser
             $query .= ' AND room_id = ' . $DIC->database()->quote($roomId, 'integer');
         }
 
-        $res  = $DIC->database()->query($query);
+        $res = $DIC->database()->query($query);
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $users[] = json_decode($row['userdata']);
         }

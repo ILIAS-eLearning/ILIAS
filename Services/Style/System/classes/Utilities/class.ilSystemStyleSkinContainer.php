@@ -138,7 +138,7 @@ class ilSystemStyleSkinContainer
         $old_customizing_skin_directory = $this->getSystemStylesConf()->getCustomizingSkinPath() . $old_skin->getId() . "/";
 
         //Move if skin id has been changed
-        if ($old_skin->getId()!= $this->getSkin()->getId()) {
+        if ($old_skin->getId() != $this->getSkin()->getId()) {
             $this->move($old_customizing_skin_directory, $this->getSkinDirectory());
         }
 
@@ -157,7 +157,7 @@ class ilSystemStyleSkinContainer
     {
         $style = $this->getSkin()->getStyle($style_id);
 
-        if ($style->getImageDirectory()!=$old_style->getImageDirectory()) {
+        if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
             if (file_exists($this->getSkinDirectory() . $old_style->getImageDirectory())) {
                 $this->changeResourceDirectory($style->getImageDirectory(), $old_style->getImageDirectory());
             } else {
@@ -165,7 +165,7 @@ class ilSystemStyleSkinContainer
             }
         }
 
-        if ($style->getFontDirectory()!=$old_style->getFontDirectory()) {
+        if ($style->getFontDirectory() != $old_style->getFontDirectory()) {
             if (file_exists($this->getSkinDirectory() . $old_style->getFontDirectory())) {
                 $this->changeResourceDirectory($style->getFontDirectory(), $old_style->getFontDirectory());
             } else {
@@ -173,7 +173,7 @@ class ilSystemStyleSkinContainer
             }
         }
 
-        if ($style->getSoundDirectory()!=$old_style->getSoundDirectory()) {
+        if ($style->getSoundDirectory() != $old_style->getSoundDirectory()) {
             if (file_exists($this->getSkinDirectory() . $old_style->getSoundDirectory())) {
                 $this->changeResourceDirectory($style->getSoundDirectory(), $old_style->getSoundDirectory());
             } else {
@@ -291,7 +291,7 @@ class ilSystemStyleSkinContainer
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );
-            if (count($this->resourcesStyleReferences($old_dir))==0) {
+            if (count($this->resourcesStyleReferences($old_dir)) == 0) {
                 self::recursiveRemoveDir(self::getSkinDirectory() . $old_dir);
                 $this->getMessageStack()->addMessage(
                     new ilSystemStyleMessage(

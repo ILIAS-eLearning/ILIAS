@@ -32,7 +32,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
             $sequence = $this->getSequencedItems($container_ref_id);
 
             //find position
-            foreach ($sequence as $index=>$item) {
+            foreach ($sequence as $index => $item) {
                 if ($item->getRefId() === (int) $a_container_child_ref_id) {
                     $pos = $index;
                     break;

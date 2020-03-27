@@ -31,7 +31,7 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
     public function getIso2LanguageCode()
     {
         if (strlen($this->header_value)) {
-            $matches  = array();
+            $matches = array();
             // Format: de,de-DE;q=0.8,en-US;q=0.6,en;q=0.4
             preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $this->header_value, $matches);
             if (count($matches[1])) {

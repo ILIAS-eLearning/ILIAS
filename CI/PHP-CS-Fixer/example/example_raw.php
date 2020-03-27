@@ -2,6 +2,7 @@
 // PSR-2
 namespace Vendor\Package;
 
+use ZPackage;
 use FooInterface;
 use BarClass as Bar;
 use OtherVendor\OtherPackage\BazClass;
@@ -33,8 +34,8 @@ class Foo extends Bar implements FooInterface
 /** thx to https://mlocati.github.io/php-cs-fixer-configurator for the examples **/
 // cast_spaces
 $a = 0; $b = 0; $c = 0; $d=0; $e= 0 ; $f =0;
-$bar = ( string )  $a;
-$foo = (int)$b;
+$bar  = ( string )  $a;
+$foo =  (int)$b;
 // concat_space
 $foo = 'bar' . 3 . 'baz'.'qux';
 // binary_operator_spaces
@@ -42,6 +43,11 @@ $a= 1  + $b^ $d !==  $e or   $f;
 // unary_operator_spaces
 $sample = 0;
 $sample ++;
+//Unused blank lines: begin
+
+
+
+//Unused blank lines: end
 -- $sample;
 $sample = ! ! $a;
 $sample = ~  $c;

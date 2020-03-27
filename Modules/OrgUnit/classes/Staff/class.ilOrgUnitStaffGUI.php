@@ -184,8 +184,8 @@ class ilOrgUnitStaffGUI
         $this->ctrl->setParameterByClass('ilRepositorySearchGUI', 'addusertype', 'staff');
         ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
             'auto_complete_name' => $this->lng->txt('user'),
-            'user_type'          => $types,
-            'submit_name'        => $this->lng->txt('add'),
+            'user_type' => $types,
+            'submit_name' => $this->lng->txt('add'),
         ));
     }
 
@@ -203,8 +203,8 @@ class ilOrgUnitStaffGUI
         $this->ctrl->setParameterByClass('ilRepositorySearchGUI', 'addusertype', 'other');
         ilRepositorySearchGUI::fillAutoCompleteToolbar($this, $this->toolbar, array(
             'auto_complete_name' => $this->lng->txt('user'),
-            'user_type'          => $types,
-            'submit_name'        => $this->lng->txt('add'),
+            'user_type' => $types,
+            'submit_name' => $this->lng->txt('add'),
         ));
     }
 

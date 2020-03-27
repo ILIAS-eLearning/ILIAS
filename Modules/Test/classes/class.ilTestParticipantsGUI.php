@@ -308,7 +308,7 @@ class ilTestParticipantsGUI
         $sess_filter = $_SESSION['form_tst_participants_' . $this->getTestObj()->getRefId()]['selection'];
         $sess_filter = str_replace('"', '', $sess_filter);
         $sess_filter = explode(':', $sess_filter);
-        $filter = substr($sess_filter[2], 0, strlen($sess_filter[2])-1);
+        $filter = substr($sess_filter[2], 0, strlen($sess_filter[2]) - 1);
         
         if ($filter == 'all' || $filter == false) {
             return $in_rows; #unchanged - no filter.
@@ -369,8 +369,8 @@ class ilTestParticipantsGUI
             $this,
             $toolbar,
             array(
-                'auto_complete_name'	=> $DIC->language()->txt('user'),
-                'submit_name'			=> $DIC->language()->txt('add')
+                'auto_complete_name' => $DIC->language()->txt('user'),
+                'submit_name' => $DIC->language()->txt('add')
             )
         );
         

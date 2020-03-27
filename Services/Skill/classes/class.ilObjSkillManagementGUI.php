@@ -452,7 +452,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $html = "";
                 foreach ($usages as $k => $usage) {
                     $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-                    $html.= $tab->getHTML() . "<br/><br/>";
+                    $html .= $tab->getHTML() . "<br/><br/>";
                 }
                 $tpl->setContent($html);
                 $ilCtrl->saveParameter($a_gui, "tmpmode");

@@ -193,6 +193,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 }
                 $this->ctrl->redirectByClass($struct, $cmd);
                 break;
+            case 'ilobjtestgui':
+                $struct = ['ilrepositorygui','ilobjtestgui'];
+                $this->ctrl->redirectByClass($struct, $cmd);
+                break;
 
             case false:
                 if ($cmd === '') {

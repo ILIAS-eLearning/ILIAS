@@ -162,11 +162,11 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         if ($this->isManipulationEnabled()) {
             if ($this->getQuestion() instanceof iQuestionCondition) {
                 // #19192
-                $legendGUI = new ilAssLacLegendGUI($this->pageTemplate, $this->lng,$this->uiFactory);
+                $legendGUI = new ilAssLacLegendGUI($this->pageTemplate, $this->lng, $this->uiFactory);
                 $legendGUI->setQuestionOBJ($this->getQuestion());
                 $legenModal = $legendGUI->get();
 
-                $legendToggleButton =  $this->uiFactory
+                $legendToggleButton = $this->uiFactory
                     ->button()
                     ->shy($this->lng->txt('ass_lac_show_legend_btn'), '#')
                     ->withOnClick($legenModal->getShowSignal());

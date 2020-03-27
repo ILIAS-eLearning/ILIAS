@@ -137,14 +137,14 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VAL_NEVER", 0);
         } else {
             $this->tpl->setVariable("VAL_CORRECT_FIRST", $stats["first"] .
-                " (" . (100/$stats["all"] * $stats["first"]) . " %)");
+                " (" . (100 / $stats["all"] * $stats["first"]) . " %)");
             $this->tpl->setVariable("VAL_CORRECT_SECOND", $stats["second"] .
-                " (" . (100/$stats["all"] * $stats["second"]) . " %)");
+                " (" . (100 / $stats["all"] * $stats["second"]) . " %)");
             $this->tpl->setVariable("VAL_CORRECT_THIRD_AND_MORE", $stats["third_or_more"] .
-                " (" . (100/$stats["all"] * $stats["third_or_more"]) . " %)");
+                " (" . (100 / $stats["all"] * $stats["third_or_more"]) . " %)");
             $nev = $stats["all"] - $stats["first"] - $stats["second"] - $stats["third_or_more"];
             $this->tpl->setVariable("VAL_NEVER", $nev .
-                " (" . (100/$stats["all"] * $nev) . " %)");
+                " (" . (100 / $stats["all"] * $nev) . " %)");
         }
     }
 }

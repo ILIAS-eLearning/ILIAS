@@ -245,8 +245,8 @@ class ilCharSelectorGUI
         $this->jstexts = new stdClass();
         $this->jstexts->page = $lng->txt('page');
         // fau: testNav - add texts for open/close char selector actions in the question menu
-        $this->jstexts->open= $lng->txt('char_selector_menu_open');
-        $this->jstexts->close= $lng->txt('char_selector_menu_close');
+        $this->jstexts->open = $lng->txt('char_selector_menu_open');
+        $this->jstexts->close = $lng->txt('char_selector_menu_close');
         // fau.
 
         // add everything neded to the page

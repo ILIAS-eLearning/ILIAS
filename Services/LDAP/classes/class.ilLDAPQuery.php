@@ -217,7 +217,7 @@ class ilLDAPQuery
         if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) != ',') {
             $dn .= ',';
         }
-        $dn .=	$this->settings->getBaseDN();
+        $dn .= $this->settings->getBaseDN();
         $tmp_result = null;
 
         if ($this->checkPaginationEnabled()) {
@@ -432,7 +432,7 @@ class ilLDAPQuery
         if (($gdn = $this->settings->getGroupDN()) && substr($gdn, -1) != ',') {
             $gdn .= ',';
         }
-        $gdn .=	$this->settings->getBaseDN();
+        $gdn .= $this->settings->getBaseDN();
         
         $this->log->debug('Using filter ' . $filter);
         $this->log->debug('Using DN ' . $gdn);
@@ -504,7 +504,7 @@ class ilLDAPQuery
             if (($dn = $this->settings->getSearchBase()) && substr($dn, -1) != ',') {
                 $dn .= ',';
             }
-            $dn .=	$this->settings->getBaseDN();
+            $dn .= $this->settings->getBaseDN();
             $fields = array_merge($this->user_fields, array('useraccountcontrol'));
             $res = $this->queryByScope($this->settings->getUserScope(), strtolower($dn), $filter, $fields);
         }

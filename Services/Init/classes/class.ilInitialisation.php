@@ -1585,8 +1585,8 @@ class ilInitialisation
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
-                $c["ui.resource_registry"],
-                new ILIAS\UI\Implementation\Render\FSLoader(
+                    $c["ui.resource_registry"],
+                    new ILIAS\UI\Implementation\Render\FSLoader(
                         new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
                         $c["ui.factory"],
                         $c["ui.template_factory"],
@@ -1595,18 +1595,18 @@ class ilInitialisation
                         $c["refinery"]
                             ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
-                              $c["ui.factory"],
-                              $c["ui.template_factory"],
-                              $c["lng"],
-                              $c["ui.javascript_binding"],
-                              $c["refinery"]
+                        $c["ui.factory"],
+                        $c["ui.template_factory"],
+                        $c["lng"],
+                        $c["ui.javascript_binding"],
+                        $c["refinery"]
                           ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
-                              $c["ui.factory"],
-                              $c["ui.template_factory"],
-                              $c["lng"],
-                              $c["ui.javascript_binding"],
-                              $c["refinery"]
+                        $c["ui.factory"],
+                        $c["ui.template_factory"],
+                        $c["lng"],
+                        $c["ui.javascript_binding"],
+                        $c["refinery"]
                           )
                         )
                     )
@@ -1636,7 +1636,7 @@ class ilInitialisation
         foreach ($plugins as $plugin_data) {
             $plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
 
-            $c['ui.renderer'] =  $plugin->exchangeUIRendererAfterInitialization($c);
+            $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
             foreach ($c->keys() as $key) {
                 if (strpos($key, "ui.factory") === 0) {

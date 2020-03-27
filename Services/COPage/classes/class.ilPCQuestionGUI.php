@@ -450,7 +450,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $lng = $this->lng;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         
-        if ($this->content_obj!="") {
+        if ($this->content_obj != "") {
             $q_ref = $this->content_obj->getQuestionReference();
         }
         
@@ -474,7 +474,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         );
         
         if ($q_id > 0) {
-            if (assQuestion::_getQuestionType($q_id)!= "assTextQuestion") {
+            if (assQuestion::_getQuestionType($q_id) != "assTextQuestion") {
                 require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');

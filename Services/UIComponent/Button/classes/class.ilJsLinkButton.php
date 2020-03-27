@@ -51,8 +51,8 @@ class ilJsLinkButton extends ilButton
 
         $attr = array();
 
-        $attr["target"]  = $this->getTarget();
-        $attr["name"]    = $this->getName();
+        $attr["target"] = $this->getTarget();
+        $attr["name"] = $this->getName();
         $attr["onclick"] = $this->getOnClick();
 
         return '<a' . $this->renderAttributes($attr) . '>' .

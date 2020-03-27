@@ -216,11 +216,11 @@ class ilObjDiskQuotaSettings extends ilObject
 
         if (self::_lookupReminderMailTemplate($a_lang)) {
             $values = array(
-                'subject'		=> array('text',$a_subject),
-                'body'			=> array('clob',$a_body),
-                'sal_g'			=> array('text',$a_sal_g),
-                'sal_f'			=> array('text',$a_sal_f),
-                'sal_m'			=> array('text',$a_sal_m)
+                'subject' => array('text',$a_subject),
+                'body' => array('clob',$a_body),
+                'sal_g' => array('text',$a_sal_g),
+                'sal_f' => array('text',$a_sal_f),
+                'sal_m' => array('text',$a_sal_m)
                 );
             $ilDB->update(
                 'mail_template',
@@ -229,13 +229,13 @@ class ilObjDiskQuotaSettings extends ilObject
             );
         } else {
             $values = array(
-                'subject'		=> array('text',$a_subject),
-                'body'			=> array('clob',$a_body),
-                'sal_g'			=> array('text',$a_sal_g),
-                'sal_f'			=> array('text',$a_sal_f),
-                'sal_m'			=> array('text',$a_sal_m),
-                'lang'			=> array('text',$a_lang),
-                'type'			=> array('text','dqta')
+                'subject' => array('text',$a_subject),
+                'body' => array('clob',$a_body),
+                'sal_g' => array('text',$a_sal_g),
+                'sal_f' => array('text',$a_sal_f),
+                'sal_m' => array('text',$a_sal_m),
+                'lang' => array('text',$a_lang),
+                'type' => array('text','dqta')
                 );
             $ilDB->insert('mail_template', $values);
         }

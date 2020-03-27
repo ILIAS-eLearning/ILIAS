@@ -46,11 +46,11 @@ class ilCalendarCategory
     const TYPE_BOOK = 5;	// booking manager
     
     protected static $SORTED_TYPES = array(
-        0		=> self::TYPE_GLOBAL,
-        1		=> self::TYPE_USR,
-        2		=> self::TYPE_CH,
-        3		=> self::TYPE_BOOK,
-        4		=> self::TYPE_OBJ
+        0 => self::TYPE_GLOBAL,
+        1 => self::TYPE_USR,
+        2 => self::TYPE_CH,
+        3 => self::TYPE_BOOK,
+        4 => self::TYPE_OBJ
     );
     
     

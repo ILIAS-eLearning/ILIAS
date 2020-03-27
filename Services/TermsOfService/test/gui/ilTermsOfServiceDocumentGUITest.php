@@ -74,23 +74,23 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
     {
         parent::setUp();
 
-        $this->tos                      = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
-        $this->criterionTypeFactory     = $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-        $this->tpl                      = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
-        $this->ctrl                     = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
-        $this->lng                      = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $this->rbacsystem               = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
-        $this->error                    = $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock();
-        $this->user                     = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-        $this->log                      = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
-        $this->toolbar                  = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
-        $this->httpState                = $this->getMockBuilder(GlobalHttpState::class)->getMock();
-        $this->uiFactory                = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $this->uiRenderer               = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
-        $this->fileSystems              = $this->getMockBuilder(Filesystems::class)->getMock();
-        $this->fileUpload               = $this->getMockBuilder(FileUpload::class)->getMock();
+        $this->tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
+        $this->criterionTypeFactory = $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
+        $this->tpl = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
+        $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
+        $this->lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $this->rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+        $this->error = $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock();
+        $this->user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
+        $this->log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
+        $this->toolbar = $this->getMockBuilder(ilToolbarGUI::class)->disableOriginalConstructor()->getMock();
+        $this->httpState = $this->getMockBuilder(GlobalHttpState::class)->getMock();
+        $this->uiFactory = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $this->uiRenderer = $this->getMockBuilder(Renderer::class)->disableOriginalConstructor()->getMock();
+        $this->fileSystems = $this->getMockBuilder(Filesystems::class)->getMock();
+        $this->fileUpload = $this->getMockBuilder(FileUpload::class)->getMock();
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
-        $this->documentPurifier         = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
+        $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
     }
 
     /**
@@ -192,15 +192,15 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn([
                 'seconds' => (int) $date->format('s'),
                 'minutes' => (int) $date->format('i'),
-                'hours'   => (int) $date->format('G'),
-                'mday'    => (int) $date->format('j'),
-                'wday'    => (int) $date->format('w'),
-                'mon'     => (int) $date->format('n'),
-                'year'    => (int) $date->format('Y'),
-                'yday'    => (int) $date->format('z'),
+                'hours' => (int) $date->format('G'),
+                'mday' => (int) $date->format('j'),
+                'wday' => (int) $date->format('w'),
+                'mon' => (int) $date->format('n'),
+                'year' => (int) $date->format('Y'),
+                'yday' => (int) $date->format('z'),
                 'weekday' => $date->format('l'),
-                'month'   => $date->format('F'),
-                'isoday'  => (int) $date->format('N')
+                'month' => $date->format('F'),
+                'isoday' => (int) $date->format('N')
             ]);
 
         $lastResetDate
@@ -230,7 +230,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $buttonFactory = $this->getMockBuilder(\ILIAS\UI\Component\Button\Factory::class)->getMock();
-        $button        = $this->getMockBuilder(Standard::class)->getMock();
+        $button = $this->getMockBuilder(Standard::class)->getMock();
 
         $buttonFactory
             ->expects($this->once())
@@ -244,7 +244,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn($buttonFactory);
 
         $messageBoxFactory = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\Factory::class)->getMock();
-        $info              = $this->getMockBuilder(MessageBox::class)->getMock();
+        $info = $this->getMockBuilder(MessageBox::class)->getMock();
 
         $messageBoxFactory
             ->expects($this->once())
@@ -345,7 +345,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $buttonFactory = $this->getMockBuilder(\ILIAS\UI\Component\Button\Factory::class)->getMock();
-        $button        = $this->getMockBuilder(Standard::class)->getMock();
+        $button = $this->getMockBuilder(Standard::class)->getMock();
 
         $buttonFactory
             ->expects($this->once())
@@ -359,7 +359,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn($buttonFactory);
 
         $messageBoxFactory = $this->getMockBuilder(\ILIAS\UI\Component\MessageBox\Factory::class)->getMock();
-        $info              = $this->getMockBuilder(MessageBox::class)->getMock();
+        $info = $this->getMockBuilder(MessageBox::class)->getMock();
 
         $messageBoxFactory
             ->expects($this->once())

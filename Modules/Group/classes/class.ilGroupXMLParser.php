@@ -105,7 +105,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
         $this->sax_controller = new ilSaxController();
 
-        $this->mode =  ilGroupXMLParser::$CREATE;
+        $this->mode = ilGroupXMLParser::$CREATE;
         $this->group_obj = $group;
         $this->log = $GLOBALS['DIC']->logger()->grp();
 

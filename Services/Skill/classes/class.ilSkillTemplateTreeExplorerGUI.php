@@ -93,7 +93,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         } else {
             if ($a_node["type"] == "sktr") {
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_node["child"]);
-                $title.= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
+                $title .= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }
             if (ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"])) {
                 $title = "<u>" . $title . "</u>";

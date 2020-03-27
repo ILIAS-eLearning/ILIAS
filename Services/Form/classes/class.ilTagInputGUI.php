@@ -15,18 +15,18 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      */
     protected $tpl;
 
-    protected $options 					= array();
-    protected $max_tags					= 0;
-    protected $max_chars				= 0;
-    protected $allow_duplicates			= false;
-    protected $js_self_init				= true;
+    protected $options = array();
+    protected $max_tags = 0;
+    protected $max_chars = 0;
+    protected $allow_duplicates = false;
+    protected $js_self_init = true;
     
-    protected $type_ahead 				= false;
-    protected $type_ahead_ignore_case	= true;
-    protected $type_ahead_list			= array();
-    protected $type_ahead_min_length	= 2;
-    protected $type_ahead_limit 		= 30;
-    protected $type_ahead_highlight 	= true;
+    protected $type_ahead = false;
+    protected $type_ahead_ignore_case = true;
+    protected $type_ahead_list = array();
+    protected $type_ahead_min_length = 2;
+    protected $type_ahead_limit = 30;
+    protected $type_ahead_highlight = true;
 
     /**
      * @param int $max_tags

@@ -146,8 +146,8 @@ class ilLearningModuleNotification
                     "",
                     $subject,
                     $message,
-                    array(),
-                    array("system")
+                    [],
+                    false
                 );
             }
         }
@@ -174,7 +174,7 @@ class ilLearningModuleNotification
     */
     protected function getPageTitle() : string
     {
-        return ilLMPageObject::_getPresentationTitle(
+        return (string) ilLMPageObject::_getPresentationTitle(
             $this->page_id,
             $this->learning_module->getPageHeader(),
             $this->learning_module->isActiveNumbering(),

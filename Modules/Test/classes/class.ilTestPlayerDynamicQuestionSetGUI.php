@@ -156,7 +156,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             default:
                 
                 $cmd .= 'Cmd';
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         
@@ -566,7 +566,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             */
             $headerBlockBuilder->setQuestionPostponed(
                 $this->testSequence->isPostponedQuestion(
-                $this->testSession->getCurrentQuestionId()
+                    $this->testSession->getCurrentQuestionId()
             )
             );
             $headerBlockBuilder->setQuestionObligatory(
@@ -797,10 +797,10 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $activeId = $this->testSession->getActiveId();
                 
             $this->saveResult = $questionGUI->object->persistWorkingState(
-                    $activeId,
-                    $pass = null,
-                    $this->object->areObligationsEnabled(),
-                    $authorized
+                $activeId,
+                $pass = null,
+                $this->object->areObligationsEnabled(),
+                $authorized
                 );
             
             if ($authorized && $this->object->isSkillServiceToBeConsidered()) {

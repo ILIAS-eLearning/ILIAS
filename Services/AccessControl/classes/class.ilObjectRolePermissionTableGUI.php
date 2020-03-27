@@ -425,7 +425,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $op = $rbacreview->getOperation($operation);
 
             $perms[$counter]['roles'] = $roles;
-            $perms[$counter]['perm'] =  $op;
+            $perms[$counter]['perm'] = $op;
             $counter++;
         }
         
@@ -473,7 +473,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $op = $rbacreview->getOperation($ops_id);
 
             $perms[$counter]['roles'] = $roles;
-            $perms[$counter]['perm'] =  $op;
+            $perms[$counter]['perm'] = $op;
             $counter++;
         }
     
@@ -518,7 +518,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         
         
         if (count($possible_roles)) {
-            $column_width = 100/count($possible_roles);
+            $column_width = 100 / count($possible_roles);
             $column_width .= '%';
         } else {
             $column_widht = "0%";

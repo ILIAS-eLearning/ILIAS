@@ -120,7 +120,7 @@ class ilModulesCourseTasks
 
 
         $input_params = $params[0];
-        $output_params =$params[1];
+        $output_params = $params[1];
 
         require_once './Modules/Course/classes/class.ilObjCourse.php';
 

@@ -31,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
-        if ($component->getPostURL()!= "") {
+        if ($component->getPostURL() != "") {
             $tpl->setCurrentBlock("action");
             $tpl->setVariable("URL", $component->getPostURL());
             $tpl->parseCurrentBlock();

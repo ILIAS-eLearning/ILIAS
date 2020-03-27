@@ -206,7 +206,7 @@ class ilRbacLog
             $row["data"] = unserialize($row["data"]);
             $result[] = $row;
         }
-        return array("cnt"=>$count, "set"=>$result);
+        return array("cnt" => $count, "set" => $result);
     }
 
     public static function delete($a_ref_id)

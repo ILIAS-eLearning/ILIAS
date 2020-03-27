@@ -26,7 +26,7 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
     public function __construct(ilUsersGalleryUserCollection $collection, ilUsersGalleryUserCollectionSorter $sorter)
     {
         $this->collection = $collection;
-        $this->sorter     = $sorter;
+        $this->sorter = $sorter;
     }
 
     /**

@@ -217,13 +217,13 @@ class ilCertificateGUI
     ) {
         global $DIC;
 
-        $this->lng     = $DIC['lng'];
-        $this->tpl     = $DIC['tpl'];
-        $this->ctrl    = $DIC['ilCtrl'];
-        $this->ilias   = $DIC['ilias'];
-        $this->tree    = $DIC['tree'];
-        $this->tree    = $DIC['tree'];
-        $this->access  = $DIC['ilAccess'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->ilias = $DIC['ilias'];
+        $this->tree = $DIC['tree'];
+        $this->tree = $DIC['tree'];
+        $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
 
         $this->lng->loadLanguageModule('certificate');
@@ -684,14 +684,14 @@ class ilCertificateGUI
             $formats = $this->pageFormats->fetchPageFormats();
 
             $formFieldArray = array(
-                'pageformat'         => $format,
-                'pagewidth'          => $formats['width'],
-                'pageheight'         => $formats['height'],
-                'margin_body_top'    => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
-                'margin_body_right'  => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
+                'pageformat' => $format,
+                'pagewidth' => $formats['width'],
+                'pageheight' => $formats['height'],
+                'margin_body_top' => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
+                'margin_body_right' => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
                 'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
-                'margin_body_left'   => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
-                'certificate_text'   => $certificateTemplate->getCertificateContent()
+                'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
+                'certificate_text' => $certificateTemplate->getCertificateContent()
             );
 
             return $formFieldArray;

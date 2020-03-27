@@ -5,7 +5,7 @@
  */
 class ilNotificationConfig
 {
-    const TTL_LONG  = 1800;
+    const TTL_LONG = 1800;
     const TTL_SHORT = 120;
 
     const DEFAULT_TTS = 5;
@@ -174,8 +174,8 @@ class ilNotificationConfig
     public function getLanguageParameters()
     {
         return array(
-            'title'            => $this->title,
-            'longDescription'  => $this->long_description,
+            'title' => $this->title,
+            'longDescription' => $this->long_description,
             'shortDescription' => $this->short_description,
         );
     }
@@ -266,7 +266,7 @@ class ilNotificationConfig
 
         $title = '';
         $short = '';
-        $long  = '';
+        $long = '';
 
         if ($languageVars[$this->title->getName()]->lang[$user->getLanguage()]) {
             $title = $languageVars[$this->title->getName()]->lang[$user->getLanguage()];
@@ -292,9 +292,9 @@ class ilNotificationConfig
             $long = $this->long_description->getName();
         }
 
-        $notificationObject->title            = $title;
+        $notificationObject->title = $title;
         $notificationObject->shortDescription = $short;
-        $notificationObject->longDescription  = $long;
+        $notificationObject->longDescription = $long;
 
         $notificationObject->iconPath = $this->iconPath;
 
@@ -304,9 +304,9 @@ class ilNotificationConfig
     public function setHandlerParam($name, $value)
     {
         if (strpos($name, '.')) {
-            $nsParts                          = explode('.', $name, 2);
-            $ns                               = $nsParts[0];
-            $field                            = $nsParts[1];
+            $nsParts = explode('.', $name, 2);
+            $ns = $nsParts[0];
+            $field = $nsParts[1];
             $this->handlerParams[$ns][$field] = $value;
         } else {
             $this->handlerParams[''][$name] = $value;
@@ -353,10 +353,10 @@ class ilNotificationObject
     public function __construct(ilNotificationConfig $baseNotification, ilObjUser $user)
     {
         $this->baseNotification = $baseNotification;
-        $this->user             = $user;
+        $this->user = $user;
 
-        $this->link          = $this->baseNotification->getLink();
-        $this->linktarget    = $this->baseNotification->getLinktarget();
+        $this->link = $this->baseNotification->getLink();
+        $this->linktarget = $this->baseNotification->getLinktarget();
         $this->handlerParams = $this->baseNotification->getHandlerParams();
     }
 
@@ -378,8 +378,8 @@ class ilNotificationParameter
 
     public function __construct($name, $parameters = array(), $language_module = 'notification')
     {
-        $this->name            = $name;
-        $this->parameters      = $parameters;
+        $this->name = $name;
+        $this->parameters = $parameters;
         $this->language_module = $language_module;
     }
 

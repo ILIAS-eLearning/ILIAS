@@ -99,14 +99,14 @@ class ilClientListTableGUI extends ilTable2GUI
             
             // visible data part
             $clients[] = array(
-                "default"       => "<input type=\"radio\" name=\"form[default]\" value=\"" . $key . "\"" . $default . "/>",
-                "name"          => $client_name,
-                "desc"          => $client->getDescription(),
-                "id"            => $key,
-                "login"         => $login,
-                "details"       => "<a href=\"setup.php?cmd=view&client_id=" . $key . "\">Details</a>",
-                "status"        => $status,
-                "access_html"   => $access_html
+                "default" => "<input type=\"radio\" name=\"form[default]\" value=\"" . $key . "\"" . $default . "/>",
+                "name" => $client_name,
+                "desc" => $client->getDescription(),
+                "id" => $key,
+                "login" => $login,
+                "details" => "<a href=\"setup.php?cmd=view&client_id=" . $key . "\">Details</a>",
+                "status" => $status,
+                "access_html" => $access_html
                 );
         }
     

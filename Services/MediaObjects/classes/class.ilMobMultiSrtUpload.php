@@ -112,7 +112,7 @@ class ilMobMultiSrtUpload
                     if (substr($item["filename"], 0, strlen($loc)) == $loc &&
                         substr($item["filename"], strlen($loc), 1) == "_" &&
                         pathinfo($item["filename"], PATHINFO_EXTENSION) == "srt") {
-                        $l = substr($item["filename"], strlen($loc)+1, 2);
+                        $l = substr($item["filename"], strlen($loc) + 1, 2);
                         if (in_array($l, $lang_codes)) {
                             $items[$i]["lang"] = $l;
                             $items[$i]["mob"] = $mob;

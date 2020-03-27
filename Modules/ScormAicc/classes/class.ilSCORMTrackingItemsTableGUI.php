@@ -35,8 +35,8 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
-        $this->scosSelected=$a_scosSelected;
-        $this->userSelected=$a_userSelected;
+        $this->scosSelected = $a_scosSelected;
+        $this->userSelected = $a_userSelected;
         if ($a_parent_cmd == "showTrackingItemsBySco") {
             $this->bySCO = true;
         }
@@ -69,7 +69,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
             }
             if (substr($l, 0, 17) == "interaction_value") {
-                $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ')-17))) . substr($l, strpos($l, ' '));
+                $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
             }
             if (substr($l, 0, 23) == "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
@@ -106,28 +106,28 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         
         switch ($this->report) {
             case "exportSelectedCore":
-                $cols=ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedRaw":
-                $cols=ilSCORMTrackingItems::exportSelectedRawColumns();
+                $cols = ilSCORMTrackingItems::exportSelectedRawColumns();
             break;
             case "exportSelectedInteractions":
-                $cols=ilSCORMTrackingItems::exportSelectedInteractionsColumns();
+                $cols = ilSCORMTrackingItems::exportSelectedInteractionsColumns();
             break;
             case "exportSelectedObjectives":
-                $cols=ilSCORMTrackingItems::exportSelectedObjectivesColumns();
+                $cols = ilSCORMTrackingItems::exportSelectedObjectivesColumns();
             break;
             case "tracInteractionItem":
-                $cols=ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "tracInteractionUser":
-                $cols=ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "tracInteractionUserAnswers":
-                $cols=ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedSuccess":
-                $cols=ilSCORMTrackingItems::exportSelectedSuccessColumns();
+                $cols = ilSCORMTrackingItems::exportSelectedSuccessColumns();
             break;
         }
         
@@ -178,7 +178,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
             break;
         }
         $this->setMaxCount($tr_data["cnt"]);
-        if (ilUtil::stripSlashes($this->getOrderField()) !="") {
+        if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
         }
@@ -199,7 +199,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 break;
         }
         //BLUM round
-        if ($id=="launch_data" || $id=="suspend_data") {
+        if ($id == "launch_data" || $id == "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {

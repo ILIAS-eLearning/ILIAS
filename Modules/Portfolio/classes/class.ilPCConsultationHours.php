@@ -43,7 +43,7 @@ class ilPCConsultationHours extends ilPageContent
     public function setNode($a_node)
     {
         parent::setNode($a_node);		// this is the PageContent node
-        $this->cach_node =&$a_node->first_child();		// this is the consultation hours node
+        $this->cach_node = &$a_node->first_child();		// this is the consultation hours node
     }
 
     /**

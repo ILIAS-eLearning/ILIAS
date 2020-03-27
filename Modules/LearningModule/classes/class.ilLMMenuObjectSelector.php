@@ -54,7 +54,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 
     public function setSelectableTypes($a_types)
     {
-        $this->selectable_types  = $a_types;
+        $this->selectable_types = $a_types;
     }
 
     public function setRefId($a_ref_id)

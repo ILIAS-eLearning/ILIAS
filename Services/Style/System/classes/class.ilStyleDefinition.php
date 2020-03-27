@@ -371,7 +371,7 @@ class ilStyleDefinition
                                     "skin_name" => $skin->getName(),
                                     "template_id" => $skin->getId(),
                                     "template_name" => $skin->getName(),
-                                    "style_id" =>  $style->getId(),
+                                    "style_id" => $style->getId(),
                                     "style_name" => $style->getName(),
                                     "substyle_of" => $style->getSubstyleOf(),
                                     "substyle_of_name" => $parent_name,

@@ -10,7 +10,7 @@
  */
 class ilLogComponentLevel
 {
-    private $compontent_id  = '';
+    private $compontent_id = '';
     private $component_level = null;
     
     public function __construct($a_component_id, $a_level = null)

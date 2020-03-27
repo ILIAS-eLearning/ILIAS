@@ -24,16 +24,16 @@ class ilWACException extends ilException
      * @var array
      */
     protected static $messages = array(
-        self::CODE_NO_TYPE           => 'No type for Path-Signing selected',
-        self::WRONG_PATH_TYPE        => 'This path-type cannot be signed',
-        self::CODE_NO_PATH           => 'No path for checking available',
-        self::ACCESS_WITHOUT_CHECK   => 'Resource could not be found',
-        self::NO_CHECKING_INSTANCE   => 'This path is not secured by a class',
-        self::ACCESS_DENIED          => 'Resource could not be found',
-        self::ACCESS_DENIED_NO_PUB   => 'Resource could not be found',
-        self::INITIALISATION_FAILED  => 'An error occured during your request. Please reload the page.',
+        self::CODE_NO_TYPE => 'No type for Path-Signing selected',
+        self::WRONG_PATH_TYPE => 'This path-type cannot be signed',
+        self::CODE_NO_PATH => 'No path for checking available',
+        self::ACCESS_WITHOUT_CHECK => 'Resource could not be found',
+        self::NO_CHECKING_INSTANCE => 'This path is not secured by a class',
+        self::ACCESS_DENIED => 'Resource could not be found',
+        self::ACCESS_DENIED_NO_PUB => 'Resource could not be found',
+        self::INITIALISATION_FAILED => 'An error occured during your request. Please reload the page.',
         self::DATA_DIR_NON_WRITEABLE => 'The SALT cannot be written to your /data directory. Please check the write permissions on the webserver.',
-        self::MAX_LIFETIME           => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
+        self::MAX_LIFETIME => 'You can only only use lifetimes shorter than ilWACSignedPath::MAX_LIFETIME',
     );
 
 

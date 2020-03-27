@@ -46,15 +46,15 @@ class ilMailGUI
     {
         global $DIC;
 
-        $this->tpl         = $DIC->ui()->mainTemplate();
-        $this->ctrl        = $DIC->ctrl();
-        $this->lng         = $DIC->language();
-        $this->user        = $DIC->user();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
 
-        $this->mbox  = new ilMailbox($this->user->getId());
+        $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
         if (!$DIC->rbac()->system()->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId())) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
@@ -94,7 +94,7 @@ class ilMailGUI
      */
     public function executeCommand() : void
     {
-        $type   = $this->httpRequest->getQueryParams()['type'] ?? '';
+        $type = $this->httpRequest->getQueryParams()['type'] ?? '';
         $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
 
         $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->currentFolderId);
@@ -114,7 +114,7 @@ class ilMailGUI
                 ilMailFormCall::setRecipients([]);
             }
 
-            $cc  = $this->httpRequest->getQueryParams()['rcp_cc'] ?? '';
+            $cc = $this->httpRequest->getQueryParams()['rcp_cc'] ?? '';
             $bcc = $this->httpRequest->getQueryParams()['rcp_bcc'] ?? '';
             ilSession::set('rcp_cc', ilUtil::stripSlashes($cc));
             ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
@@ -200,8 +200,8 @@ class ilMailGUI
     private function setViewMode() : void
     {
         $targetClass = $this->httpRequest->getQueryParams()['target'] ?? 'ilmailfoldergui';
-        $type        = $this->httpRequest->getQueryParams()['type'] ?? '';
-        $mailId      = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
+        $type = $this->httpRequest->getQueryParams()['type'] ?? '';
+        $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
 
         $this->ctrl->setParameterByClass($targetClass, 'mobj_id', $this->currentFolderId);
 

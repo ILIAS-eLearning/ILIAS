@@ -106,7 +106,7 @@ class ilObjOrgUnitTree
     public function getAssignements($ref_id, ilOrgUnitPosition $ilOrgUnitPosition)
     {
         return ilOrgUnitUserAssignment::where(array(
-            'orgu_id'     => $ref_id,
+            'orgu_id' => $ref_id,
             'position_id' => $ilOrgUnitPosition->getId(),
         ))->getArray('id', 'user_id');
     }

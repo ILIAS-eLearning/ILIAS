@@ -12,7 +12,7 @@ interface Item extends \ILIAS\UI\Component\Component
     /**
      * Gets the title of the item
      *
-     * @return string|\ILIAS\UI\Component\Button\Shy
+     * @return string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link
      */
     public function getTitle();
 

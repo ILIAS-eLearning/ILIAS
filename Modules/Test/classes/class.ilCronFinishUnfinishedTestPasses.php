@@ -67,15 +67,15 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
-        $this->log				= ilLoggerFactory::getLogger('tst');
-        $this->lng				= $lng;
+        $this->log = ilLoggerFactory::getLogger('tst');
+        $this->lng = $lng;
         $this->lng->loadLanguageModule('assessment');
-        $this->db				= $ilDB;
-        $this->obj_data_cache	= $ilObjDataCache;
-        $this->now				= time();
-        $this->unfinished_passes= array();
-        $this->test_ids			= array();
-        $this->test_ending_times= array();
+        $this->db = $ilDB;
+        $this->obj_data_cache = $ilObjDataCache;
+        $this->now = time();
+        $this->unfinished_passes = array();
+        $this->test_ids = array();
+        $this->test_ending_times = array();
         
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $this->processLockerFactory = new ilTestProcessLockerFactory(
@@ -173,8 +173,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
 			";
         $result = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($result)) {
-            $this->unfinished_passes[]	= $row;
-            $this->test_ids[]			= $row['test_fi'];
+            $this->unfinished_passes[] = $row;
+            $this->test_ids[] = $row['test_fi'];
         }
     }
 
@@ -193,8 +193,8 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
     {
         $now = time();
         foreach ($this->unfinished_passes as $key => $data) {
-            $test_id				= $data['test_fi'];
-            $can_not_be_finished	= true;
+            $test_id = $data['test_fi'];
+            $can_not_be_finished = true;
             if (array_key_exists($test_id, $this->test_ending_times)) {
                 if ($this->test_ending_times[$test_id]['ending_time_enabled'] == 1) {
                     $this->log->info('Test (' . $test_id . ') has ending time (' . $this->test_ending_times[$test_id]['ending_time'] . ')');
@@ -210,10 +210,10 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
                 }
                 if ($this->test_ending_times[$test_id]['enable_processing_time'] == 1) {
                     $this->log->info('Test (' . $test_id . ') has processing time (' . $this->test_ending_times[$test_id]['processing_time'] . ')');
-                    $obj_id					= $this->test_ending_times[$test_id]['obj_fi'];
-                    $test_obj				= new ilObjTest($obj_id, false);
-                    $startingTime			= $test_obj->getStartingTimeOfUser($data['active_id'], $data['last_started_pass']);
-                    $max_processing_time	= $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
+                    $obj_id = $this->test_ending_times[$test_id]['obj_fi'];
+                    $test_obj = new ilObjTest($obj_id, false);
+                    $startingTime = $test_obj->getStartingTimeOfUser($data['active_id'], $data['last_started_pass']);
+                    $max_processing_time = $test_obj->isMaxProcessingTimeReached($startingTime, $data['active_id']);
                     if ($max_processing_time) {
                         $this->log->info('Max Processing time reached for user id (' . $data['usr_id'] . ') so test with active id (' . $data['active_id'] . ') will be finished.');
                         $this->finishPassForUser($data['active_id'], $this->test_ending_times[$test_id]['obj_fi']);

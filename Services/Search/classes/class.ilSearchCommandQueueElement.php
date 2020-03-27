@@ -35,7 +35,7 @@ class ilSearchCommandQueueElement
     const UPDATE = 'update';
     const DELETE = 'delete';
     const CREATE = 'create';
-    const RESET  = 'reset';
+    const RESET = 'reset';
 
     private $obj_id;
     private $obj_type;

@@ -30,7 +30,7 @@ class ilLMTOCExplorerGUIFactory
     ) {
         // this needs a proper interface
         $tracker = $service->getTracker();
-        $chapter_has_no_active_page =  $service->getNavigationStatus()->isChapterWithoutActivePage();
+        $chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
         $lang = $service->getPresentationStatus()->getLang();
         $focus_id = $service->getPresentationStatus()->getFocusId();
         $export_all_languages = $service->getPresentationStatus()->exportAllLanguages();

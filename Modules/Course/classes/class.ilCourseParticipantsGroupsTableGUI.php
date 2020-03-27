@@ -97,7 +97,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
@@ -152,7 +152,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
         if ($this->groups) {
             $item = $this->addFilterItemByMetaType("group", ilTable2GUI::FILTER_SELECT);
-            $item->setOptions(array("" => $lng->txt("all"))+$this->groups);
+            $item->setOptions(array("" => $lng->txt("all")) + $this->groups);
             $this->filter["group"] = $item->getValue();
         }
     }
@@ -178,7 +178,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 foreach ($members as $usr_id) {
                     $name = ilObjUser::_lookupName($usr_id);
                     // #9984
-                    $user_groups = array("members"=>array(),"admins"=>array());
+                    $user_groups = array("members" => array(),"admins" => array());
                     $user_groups_number = 0;
                     foreach (array_keys($this->participants) as $group_id) {
                         if (in_array($usr_id, $this->participants[$group_id]["members"])) {

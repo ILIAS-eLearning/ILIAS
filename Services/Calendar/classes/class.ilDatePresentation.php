@@ -158,7 +158,7 @@ class ilDatePresentation
                 if ($a_include_wd) {
                     $date_str = $lng->txt(self::$weekdays[$date->get(IL_CAL_FKT_DATE, 'w')]) . ", 	";
                 }
-                $date_str.= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
+                $date_str .= $date->get(IL_CAL_FKT_DATE, 'd') . '. ' .
                     ilCalendarUtil::_numericMonthToString($date_info['mon'], false) . ' ' .
                     $date_info['year'];
             }

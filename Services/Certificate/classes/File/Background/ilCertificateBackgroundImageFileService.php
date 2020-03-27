@@ -36,9 +36,9 @@ class ilCertificateBackgroundImageFileService
         \ILIAS\Filesystem\Filesystem $filesystem,
         $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->certificatePath    = $certificatePath;
-        $this->fileSystem         = $filesystem;
-        $this->webDirectory       = $webDirectory;
+        $this->certificatePath = $certificatePath;
+        $this->fileSystem = $filesystem;
+        $this->webDirectory = $webDirectory;
     }
 
     /**

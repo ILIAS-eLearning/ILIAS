@@ -107,9 +107,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
         // read_count/spent_seconds
         $si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count"=>$lng->txt("trac_read_count"),
-            "spent_seconds"=>$lng->txt("trac_spent_seconds"),
-            "users"=>$lng->txt("users")));
+        $si->setOptions(array("read_count" => $lng->txt("trac_read_count"),
+            "spent_seconds" => $lng->txt("trac_spent_seconds"),
+            "users" => $lng->txt("users")));
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -261,7 +261,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                         $series->addPoint($idx, $value);
                     }
                 } else {
-                    for ($loop = 1; $loop<32; $loop++) {
+                    for ($loop = 1; $loop < 32; $loop++) {
                         $value = (int) $object["day_" . $loop];
                         $max_value = max($max_value, $value);
                         if ($this->filter["measure"] != "spent_seconds") {
@@ -287,7 +287,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
                 $labels[$idx] = $caption;
             }
         } else {
-            for ($loop = 1; $loop<32; $loop++) {
+            for ($loop = 1; $loop < 32; $loop++) {
                 $labels[$loop] = $loop . ".";
             }
         }

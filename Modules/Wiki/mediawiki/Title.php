@@ -38,8 +38,8 @@ class Title
     /**
      * Static cache variables
      */
-    private static $titleCache=array();
-    private static $interwikiCache=array();
+    private static $titleCache = array();
+    private static $interwikiCache = array();
     
     
     /**
@@ -154,10 +154,10 @@ class Title
                 if ($cachedcount >= MW_TITLECACHE_MAX) {
                     # Avoid memory leaks on mass operations...
                     Title::$titleCache = array();
-                    $cachedcount=0;
+                    $cachedcount = 0;
                 }
                 $cachedcount++;
-                Title::$titleCache[$text] =&$t;
+                Title::$titleCache[$text] = &$t;
             }
             return $t;
         } else {
@@ -477,35 +477,35 @@ class Title
         static $db, $site;
 
         if (!$db) {
-            $db=dba_open($wgInterwikiCache, 'r', 'cdb');
+            $db = dba_open($wgInterwikiCache, 'r', 'cdb');
         }
         /* Resolve site name */
-        if ($wgInterwikiScopes>=3 and !$site) {
+        if ($wgInterwikiScopes >= 3 and !$site) {
             $site = dba_fetch('__sites:' . wfWikiID(), $db);
-            if ($site=="") {
+            if ($site == "") {
                 $site = $wgInterwikiFallbackSite;
             }
         }
         $value = dba_fetch(wfMemcKey($key), $db);
-        if ($value=='' and $wgInterwikiScopes>=3) {
+        if ($value == '' and $wgInterwikiScopes >= 3) {
             /* try site-level */
             $value = dba_fetch("_{$site}:{$key}", $db);
         }
-        if ($value=='' and $wgInterwikiScopes>=2) {
+        if ($value == '' and $wgInterwikiScopes >= 2) {
             /* try globals */
             $value = dba_fetch("__global:{$key}", $db);
         }
-        if ($value=='undef') {
-            $value='';
+        if ($value == 'undef') {
+            $value = '';
         }
         $s = (object) false;
         $s->iw_url = '';
         $s->iw_local = 0;
         $s->iw_trans = 0;
-        if ($value!='') {
-            list($local, $url)=explode(' ', $value, 2);
-            $s->iw_url=$url;
-            $s->iw_local=(int) $local;
+        if ($value != '') {
+            list($local, $url) = explode(' ', $value, 2);
+            $s->iw_url = $url;
+            $s->iw_local = (int) $local;
         }
         Title::$interwikiCache[wfMemcKey('interwiki', $key)] = $s;
         return $s->iw_url;
@@ -871,9 +871,9 @@ class Title
         } else {
             $dbkey = wfUrlencode($this->getPrefixedDBkey());
             if ($query == '') {
-                if ($variant!=false && $wgContLang->hasVariants()) {
-                    if ($wgVariantArticlePath==false) {
-                        $variantArticlePath =  "$wgScript?title=$1&variant=$2"; // default
+                if ($variant != false && $wgContLang->hasVariants()) {
+                    if ($wgVariantArticlePath == false) {
+                        $variantArticlePath = "$wgScript?title=$1&variant=$2"; // default
                     } else {
                         $variantArticlePath = $wgVariantArticlePath;
                     }
@@ -1445,7 +1445,7 @@ class Title
                     # Add groups needed for each restriction type if its not already there
                     # Make sure this restriction type still exists
                     if (isset($pagerestrictions[$row->pr_type]) && !in_array($row->pr_level, $pagerestrictions[$row->pr_type])) {
-                        $pagerestrictions[$row->pr_type][]=$row->pr_level;
+                        $pagerestrictions[$row->pr_type][] = $row->pr_level;
                     }
                 } else {
                     $sources = true;
@@ -1629,7 +1629,7 @@ class Title
      */
     public function getArticleID($flags = 0)
     {
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
         if ($flags & GAID_FOR_UPDATE) {
             $oldUpdate = $linkCache->forUpdate(true);
             $this->mArticleID = $linkCache->addLinkObj($this);
@@ -1669,7 +1669,7 @@ class Title
      */
     public function resetArticleID($newid)
     {
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
         $linkCache->clearBadLink($this->getPrefixedDBkey());
 
         if (0 == $newid) {
@@ -1863,7 +1863,7 @@ class Title
          */
         if (strpos($dbkey, '.') !== false &&
              ($dbkey === '.' || $dbkey === '..' ||
-               strpos($dbkey, './') === 0  ||
+               strpos($dbkey, './') === 0 ||
                strpos($dbkey, '../') === 0 ||
                strpos($dbkey, '/./') !== false ||
                strpos($dbkey, '/../') !== false)) {
@@ -1970,7 +1970,7 @@ class Title
      */
     public function getLinksTo($options = '', $table = 'pagelinks', $prefix = 'pl')
     {
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
 
         if ($options) {
             $db = wfGetDB(DB_MASTER);
@@ -1984,7 +1984,7 @@ class Title
             array(
                 "{$prefix}_from=page_id",
                 "{$prefix}_namespace" => $this->getNamespace(),
-                "{$prefix}_title"     => $this->getDbKey() ),
+                "{$prefix}_title" => $this->getDbKey() ),
             'Title::getLinksTo',
             $options
         );
@@ -2076,7 +2076,7 @@ class Title
         if ($wgContLang->hasVariants()) {
             $variants = $wgContLang->getVariants();
             foreach ($variants as $vCode) {
-                if ($vCode==$wgContLang->getCode()) {
+                if ($vCode == $wgContLang->getCode()) {
                     continue;
                 } // we don't want default variant
                 $urls[] = $this->getInternalURL('', $vCode);
@@ -2252,7 +2252,7 @@ class Title
         $newid = $nt->getArticleID();
         $oldid = $this->getArticleID();
         $dbw = wfGetDB(DB_MASTER);
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
 
         # Delete the old redirect. We don't save it to history since
         # by definition if we've got here it's rather uninteresting.
@@ -2269,10 +2269,10 @@ class Title
             'page',
             /* SET */
             array(
-                'page_touched'   => $dbw->timestamp($now),
+                'page_touched' => $dbw->timestamp($now),
                 'page_namespace' => $nt->getNamespace(),
-                'page_title'     => $nt->getDBkey(),
-                'page_latest'    => $nullRevId,
+                'page_title' => $nt->getDBkey(),
+                'page_latest' => $nullRevId,
             ),
             /* WHERE */
             array( 'page_id' => $oldid ),
@@ -2286,9 +2286,9 @@ class Title
         $redirectArticle = new Article($this);
         $newid = $redirectArticle->insertOn($dbw);
         $redirectRevision = new Revision(array(
-            'page'    => $newid,
+            'page' => $newid,
             'comment' => $comment,
-            'text'    => $redirectText ));
+            'text' => $redirectText ));
         $redirectRevision->insertOn($dbw);
         $redirectArticle->updateRevisionOn($dbw, $redirectRevision, 0);
         $linkCache->clearLink($this->getPrefixedDBkey());
@@ -2303,9 +2303,9 @@ class Title
         $dbw->insert(
             'pagelinks',
             array(
-                'pl_from'      => $newid,
+                'pl_from' => $newid,
                 'pl_namespace' => $nt->getNamespace(),
-                'pl_title'     => $nt->getDbKey() ),
+                'pl_title' => $nt->getDbKey() ),
             $fname
         );
 
@@ -2334,7 +2334,7 @@ class Title
         $oldid = $this->getArticleID();
         $dbw = wfGetDB(DB_MASTER);
         $now = $dbw->timestamp();
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
 
         # Save a null revision in the page's history notifying of the move
         $nullRevision = Revision::newNullRevision($dbw, $oldid, $comment, true);
@@ -2345,10 +2345,10 @@ class Title
             'page',
             /* SET */
             array(
-                'page_touched'   => $now,
+                'page_touched' => $now,
                 'page_namespace' => $nt->getNamespace(),
-                'page_title'     => $nt->getDBkey(),
-                'page_latest'    => $nullRevId,
+                'page_title' => $nt->getDBkey(),
+                'page_latest' => $nullRevId,
             ),
             /* WHERE */
             array( 'page_id' => $oldid ),
@@ -2363,9 +2363,9 @@ class Title
         $redirectArticle = new Article($this);
         $newid = $redirectArticle->insertOn($dbw);
         $redirectRevision = new Revision(array(
-            'page'    => $newid,
+            'page' => $newid,
             'comment' => $comment,
-            'text'    => $redirectText ));
+            'text' => $redirectText ));
         $redirectRevision->insertOn($dbw);
         $redirectArticle->updateRevisionOn($dbw, $redirectRevision, 0);
         $linkCache->clearLink($this->getPrefixedDBkey());
@@ -2381,9 +2381,9 @@ class Title
         $dbw->insert(
             'pagelinks',
             array(
-                'pl_from'      => $newid,
+                'pl_from' => $newid,
                 'pl_namespace' => $nt->getNamespace(),
-                'pl_title'     => $nt->getDBkey() ),
+                'pl_title' => $nt->getDBkey() ),
             $fname
         );
 
@@ -2404,7 +2404,7 @@ class Title
         $dbw = wfGetDB(DB_MASTER);
 
         # Is it a redirect?
-        $id  = $nt->getArticleID();
+        $id = $nt->getArticleID();
         $obj = $dbw->selectRow(
             array( 'page', 'revision', 'text'),
             array( 'page_is_redirect','old_text','old_flags' ),

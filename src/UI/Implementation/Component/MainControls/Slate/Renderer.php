@@ -83,8 +83,8 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $slate_signals = [
-            'toggle'  => $component->getToggleSignal(),
-            'engage'  => $component->getEngageSignal(),
+            'toggle' => $component->getToggleSignal(),
+            'engage' => $component->getEngageSignal(),
             'replace' => $component->getReplaceSignal()
         ];
 

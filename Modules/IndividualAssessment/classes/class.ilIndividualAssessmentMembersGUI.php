@@ -44,10 +44,11 @@ class ilIndividualAssessmentMembersGUI
         $this->parent_gui = $a_parent_gui;
         $this->object = $a_parent_gui->object;
         $this->ref_id = $a_ref_id;
-        $this->tpl =  $DIC['tpl'];
+        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->user = $DIC["ilUser"];
+        $this->tabs = $DIC->tabs();
         $this->iass_access = $this->object->accessHandler();
         $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
@@ -60,7 +61,7 @@ class ilIndividualAssessmentMembersGUI
             && !$this->iass_access->mayViewUser()
             && !$this->iass_access->mayAmendGradeUser()
         ) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
         }
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
@@ -78,8 +79,14 @@ class ilIndividualAssessmentMembersGUI
                 $this->ctrl->forwardCommand($rep_search);
                 break;
             case "ilindividualassessmentmembergui":
-                require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php';
-                $member = new ilIndividualAssessmentMemberGUI($this, $this->parent_gui, $this->ref_id);
+                $this->tabs->clearTargets();
+                $this->tabs->setBackTarget(
+                    $this->lng->txt('back'),
+                    $this->ctrl->getLinkTargetByClass(self::class, 'view')
+                );
+                $member = ilIndividualAssessmentDIC::dic()['ilIndividualAssessmentMemberGUI'];
+                $member->setObject($this->object);
+                $member->setParentGUI($this);
                 $this->ctrl->forwardCommand($member);
                 break;
             default:
@@ -113,10 +120,10 @@ class ilIndividualAssessmentMembersGUI
                     $this,
                     $this->toolbar,
                     array(
-                    'auto_complete_name'	=> $this->txt('user'),
-                    'submit_name'			=> $this->txt('add'),
-                    'add_search'			=> true,
-                    'add_from_container'		=> $container_id
+                    'auto_complete_name' => $this->txt('user'),
+                    'submit_name' => $this->txt('add'),
+                    'add_search' => true,
+                    'add_from_container' => $container_id
                 )
                 );
             } else {
@@ -124,9 +131,9 @@ class ilIndividualAssessmentMembersGUI
                     $this,
                     $this->toolbar,
                     array(
-                    'auto_complete_name'	=> $this->txt('user'),
-                    'submit_name'			=> $this->txt('add'),
-                    'add_search'			=> true
+                    'auto_complete_name' => $this->txt('user'),
+                    'submit_name' => $this->txt('add'),
+                    'add_search' => true
                 )
                 );
             }
@@ -179,7 +186,7 @@ class ilIndividualAssessmentMembersGUI
     public function addUsers(array $user_ids)
     {
         if (!$this->iass_access->mayEditMembers()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
         }
         $iass = $this->object;
         $members = $iass->loadMembers();
@@ -207,7 +214,7 @@ class ilIndividualAssessmentMembersGUI
     protected function removeUserConfirmation()
     {
         if (!$this->iass_access->mayEditMembers()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
         }
         include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
@@ -225,7 +232,7 @@ class ilIndividualAssessmentMembersGUI
     public function removeUser()
     {
         if (!$this->iass_access->mayEditMembers()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
         }
         $usr_id = $_POST['usr_id'];
         $iass = $this->object;
@@ -246,7 +253,7 @@ class ilIndividualAssessmentMembersGUI
 
         $vc_factory = $this->factory->viewControl();
 
-        $sort =  $this->getSortationControl($vc_factory);
+        $sort = $this->getSortationControl($vc_factory);
         $ret[] = $this->getModeControl($get, $vc_factory);
         $ret[] = $sort;
 
@@ -359,8 +366,8 @@ class ilIndividualAssessmentMembersGUI
             self::S_NAME_DESC => $this->txt("iass_sort_name_desc"),
             self::S_EXAMINER_ASC => $this->txt("iass_sort_examiner_login_asc"),
             self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc"),
-            self::S_CHANGETIME_ASC  => $this->txt("iass_sort_changetime_asc"),
-            self::S_CHANGETIME_DESC  => $this->txt("iass_sort_changetime_desc")
+            self::S_CHANGETIME_ASC => $this->txt("iass_sort_changetime_asc"),
+            self::S_CHANGETIME_DESC => $this->txt("iass_sort_changetime_desc")
         );
     }
 
@@ -388,6 +395,11 @@ class ilIndividualAssessmentMembersGUI
         }
 
         return null;
+    }
+
+    public function handleAccessViolation()
+    {
+        $this->parent_gui->handleAccessViolation();
     }
 
     protected function txt(string $code) : string

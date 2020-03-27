@@ -229,7 +229,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     if (is_null($assigned_by)) {
                         $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
                         $assignment_src = (int) $a_set['prg_assignment_origin'];
-                        $assigned_by = $this->lng->txt('prg_autoassingment')
+                        $assigned_by = $this->lng->txt('prg_autoassignment')
                             . ' ' . $this->lng->txt($srcs[$assignment_src]);
                     }
                     $this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
@@ -415,9 +415,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    $url = ilLink::_getStaticLink($ref_id, "crs");
-                    $lnk = $this->ui_factory->link()->standard($title, $url);
-                    $rec["completion_by"] = $this->ui_renderer->render($lnk);
+                    if(
+                        ilObject::_exists($ref_id, true) &&
+                        is_null(ilObject::_lookupDeletedDate($ref_id))
+                    ) {
+                        $url = ilLink::_getStaticLink($ref_id, "crs");
+                        $link = $this->ui_factory->link()->standard($title, $url);
+                        $rec["completion_by"] = $this->ui_renderer->render($link);
+                    } else {
+                        $rec["completion_by"] = $title;
+                    }
                 }
 
                 // If the status completed and there is a non-null completion_by field
@@ -433,6 +440,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         ", ",
                         $prgrs->getNamesOfCompletedOrAccreditedChildren()
                     );
+                }
+                // This case should only occur if the status completed is set
+                // by an already deleted crs.
+                if (!$rec["completion_by"]) {
+                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    if (!is_null($title["title"])) {
+                        $rec["completion_by"] = $title["title"];
+                    }
                 }
             } elseif ($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                 $rec["completion_by"] = $rec["accredited_by"];

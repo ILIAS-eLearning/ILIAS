@@ -94,7 +94,7 @@ class ilMDLifecycle extends ilMDBase
     public function setVersionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->version_language =&$lng_obj;
+            $this->version_language = &$lng_obj;
         }
     }
     public function &getVersionLanguage()
@@ -165,11 +165,11 @@ class ilMDLifecycle extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'lifecycle_status'	=> ilUtil::prepareDBString($this->getStatus()),
-                     'meta_version'		=> ilUtil::prepareDBString($this->getVersion()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'lifecycle_status' => ilUtil::prepareDBString($this->getStatus()),
+                     'meta_version' => ilUtil::prepareDBString($this->getVersion()),
                      'version_language' => ilUtil::prepareDBString($this->getVersionLanguageCode()));
     }
 
@@ -208,7 +208,7 @@ class ilMDLifecycle extends ilMDBase
 
         // contribute
         foreach ($this->getContributeIds() as $id) {
-            $con =&$this->getContribute($id);
+            $con = &$this->getContribute($id);
             $con->toXML($writer);
         }
 

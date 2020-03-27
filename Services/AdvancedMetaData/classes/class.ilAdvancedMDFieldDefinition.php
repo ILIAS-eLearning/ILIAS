@@ -878,7 +878,7 @@ abstract class ilAdvancedMDFieldDefinition
         
         // append
         if (!$a_keep_pos) {
-            $this->setPosition($this->getLastPosition()+1);
+            $this->setPosition($this->getLastPosition() + 1);
         }
         
         // needs unique import id
@@ -910,7 +910,7 @@ abstract class ilAdvancedMDFieldDefinition
         $ilDB->update(
             "adv_mdf_definition",
             $this->getDBProperties(),
-            array("field_id"=>array("integer", $this->getFieldId()))
+            array("field_id" => array("integer", $this->getFieldId()))
         );
     }
     
@@ -953,7 +953,7 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('Field', array(
             'id' => $this->generateImportId($this->getFieldId()),
             'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
-            'fieldType'	 => self::getTypeString($this->getType())));
+            'fieldType' => self::getTypeString($this->getType())));
         
         $a_writer->xmlElement('FieldTitle', null, $this->getTitle());
         $a_writer->xmlElement('FieldDescription', null, $this->getDescription());

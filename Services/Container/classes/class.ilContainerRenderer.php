@@ -647,7 +647,7 @@ class ilContainerRenderer
             } else {
                 include_once("./Services/Component/classes/class.ilPlugin.php");
                 $pl = ilObjectPlugin::getPluginObjectByType($a_type);
-                $title= $pl->txt("objs_" . $a_type);
+                $title = $pl->txt("objs_" . $a_type);
             }
         } else {
             $title = $a_text;
@@ -680,7 +680,7 @@ class ilContainerRenderer
     
         if ($a_order_id) {
             $a_tpl->setVariable("BLOCK_HEADER_ORDER_NAME", "position[blocks][" . $a_order_id . "]");
-            $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt)*10);
+            $a_tpl->setVariable("BLOCK_HEADER_ORDER_NUM", (++$this->order_cnt) * 10);
         }
         
         $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);

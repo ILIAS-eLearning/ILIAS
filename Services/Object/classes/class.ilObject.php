@@ -699,8 +699,8 @@ class ilObject
         // Save long form of description if is rbac object
         if ($objDefinition->isRBACObject($this->getType())) {
             $values = array(
-                'obj_id'		=> array('integer',$this->id),
-                'description'	=> array('clob', $this->getLongDescription()));
+                'obj_id' => array('integer',$this->id),
+                'description' => array('clob', $this->getLongDescription()));
             $ilDB->insert('object_description', $values);
         }
         
@@ -774,13 +774,13 @@ class ilObject
                 $ilDB->quote($this->getId(), 'integer'));
             if ($res->numRows()) {
                 $values = array(
-                    'description'	=> array('clob',$this->getLongDescription())
+                    'description' => array('clob',$this->getLongDescription())
                     );
                 $ilDB->update('object_description', $values, array('obj_id' => array('integer',$this->getId())));
             } else {
                 $values = array(
-                    'description'	=> array('clob',$this->getLongDescription()),
-                    'obj_id'		=> array('integer',$this->getId()));
+                    'description' => array('clob',$this->getLongDescription()),
+                    'obj_id' => array('integer',$this->getId()));
                 $ilDB->insert('object_description', $values);
             }
         }
@@ -1233,13 +1233,13 @@ class ilObject
 
             if ($res->numRows()) {
                 $values = array(
-                    'description'	=> array('clob',$a_desc)
+                    'description' => array('clob',$a_desc)
                     );
                 $ilDB->update('object_description', $values, array('obj_id' => array('integer',$a_obj_id)));
             } else {
                 $values = array(
-                    'description'	=> array('clob',$a_desc),
-                    'obj_id'		=> array('integer',$a_obj_id));
+                    'description' => array('clob',$a_desc),
+                    'obj_id' => array('integer',$a_obj_id));
                 $ilDB->insert('object_description', $values);
             }
         }
@@ -1301,7 +1301,7 @@ class ilObject
     */
     public static function _hasUntrashedReference($a_obj_id)
     {
-        $ref_ids  = ilObject::_getAllReferences($a_obj_id);
+        $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
             if (!ilObject::_isInTrash($ref_id)) {
                 return true;
@@ -1381,9 +1381,9 @@ class ilObject
             'Services/Object',
             'putObjectInTree',
             array(
-                'object'        => $this,
-                'obj_type'      => $this->getType(),
-                'obj_id'        => $this->getId(),
+                'object' => $this,
+                'obj_type' => $this->getType(),
+                'obj_id' => $this->getId(),
                 'parent_ref_id' => $a_parent_ref,
             )
         );
@@ -1737,7 +1737,7 @@ class ilObject
                 $ilDB->quote($a_obj_type, "text");
                 
             if ($a_owner != "") {
-                $where_clause.= " AND owner = " . $ilDB->quote($a_owner, "integer");
+                $where_clause .= " AND owner = " . $ilDB->quote($a_owner, "integer");
             }
         }
     
@@ -1887,14 +1887,14 @@ class ilObject
 
         /** @var \ilObjectCustomIconFactory  $customIconFactory */
         $customIconFactory = $DIC['object.customicons.factory'];
-        $customIcon        = $customIconFactory->getByObjId($this->getId(), $this->getType());
+        $customIcon = $customIconFactory->getByObjId($this->getId(), $this->getType());
         $customIcon->copy($new_obj->getId());
 
         $tile_image = $DIC->object()->commonSettings()->tileImage()->getByObjId($this->getId());
         $tile_image->copy($new_obj->getId());
 
         $ilAppEventHandler->raise('Services/Object', 'cloneObject', array(
-            'object'             => $new_obj,
+            'object' => $new_obj,
             'cloned_from_object' => $this,
         ));
 
@@ -2229,7 +2229,7 @@ class ilObject
         
         $set = $ilDB->query("SELECT create_date FROM object_data " .
             " WHERE obj_id = " . $ilDB->quote($a_id, "integer"));
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         return $rec["create_date"];
     }
         

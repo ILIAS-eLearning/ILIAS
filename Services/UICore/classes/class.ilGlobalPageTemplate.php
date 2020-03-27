@@ -223,7 +223,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setTitle((string) $a_title);
 
-        $short_title = (string)$this->il_settings->get('short_inst_name');
+        $short_title = (string) $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
             $short_title = 'ILIAS';
         }
@@ -664,5 +664,4 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             unset($_SESSION["error_post_vars"]);
         }
     }
-
 }

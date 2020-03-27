@@ -97,17 +97,17 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
 
         if ($this->is_dir) {
             $item[] = array(
-                "var"  => 'id',
-                "id"   => $this->id,
+                "var" => 'id',
+                "id" => $this->id,
                 "text" => basename($this->path),
-                "img"  => ilUtil::getImagePath('icon_dcl_fold.svg'),
+                "img" => ilUtil::getImagePath('icon_dcl_fold.svg'),
             );
         } else {
             $item[] = array(
-                "var"  => 'id',
-                "id"   => $this->id,
+                "var" => 'id',
+                "id" => $this->id,
                 "text" => basename($this->path),
-                "img"  => ilUtil::getImagePath('icon_dcl_file.svg'),
+                "img" => ilUtil::getImagePath('icon_dcl_file.svg'),
             );
         }
         $this->gui->setData($item);

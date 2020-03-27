@@ -161,9 +161,9 @@ class ilCalendarRegistration
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->registered[] = array(
-                'usr_id'=> $row->usr_id,
-                'dstart' =>$row->dstart,
-                'dend'	=> $row->dend
+                'usr_id' => $row->usr_id,
+                'dstart' => $row->dstart,
+                'dend' => $row->dend
             );
         }
     }

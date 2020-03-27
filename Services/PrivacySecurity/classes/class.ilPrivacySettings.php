@@ -394,7 +394,7 @@ class ilPrivacySettings
         $this->settings->set('enable_sahs_pd', (int) $this->enabledSahsProtocolData());
         $this->settings->set('ps_export_scorm', (bool) $this->enabledExportSCORM());
 
-        $this->settings->set('participants_list_courses' , (bool) $this->participantsListInCoursesEnabled());
+        $this->settings->set('participants_list_courses', (bool) $this->participantsListInCoursesEnabled());
     }
     /**
      * read settings

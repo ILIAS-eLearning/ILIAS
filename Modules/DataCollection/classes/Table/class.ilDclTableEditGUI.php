@@ -135,22 +135,22 @@ class ilDclTableEditGUI
     public function getValues()
     {
         $values = array(
-            'title'                    => $this->table->getTitle(),
-            'add_perm'                 => (int) $this->table->getAddPerm(),
-            'edit_perm'                => (int) $this->table->getEditPerm(),
-            'edit_perm_mode'           => $this->table->getEditByOwner() ? 'own' : 'all',
-            'delete_perm'              => (int) $this->table->getDeletePerm(),
-            'delete_perm_mode'         => $this->table->getDeleteByOwner() ? 'own' : 'all',
-            'export_enabled'           => $this->table->getExportEnabled(),
-            'import_enabled'           => $this->table->getImportEnabled(),
-            'limited'                  => $this->table->getLimited(),
-            'limit_start'              => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), -8),
-            'limit_end'                => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), -8),
-            'default_sort_field'       => $this->table->getDefaultSortField(),
+            'title' => $this->table->getTitle(),
+            'add_perm' => (int) $this->table->getAddPerm(),
+            'edit_perm' => (int) $this->table->getEditPerm(),
+            'edit_perm_mode' => $this->table->getEditByOwner() ? 'own' : 'all',
+            'delete_perm' => (int) $this->table->getDeletePerm(),
+            'delete_perm_mode' => $this->table->getDeleteByOwner() ? 'own' : 'all',
+            'export_enabled' => $this->table->getExportEnabled(),
+            'import_enabled' => $this->table->getImportEnabled(),
+            'limited' => $this->table->getLimited(),
+            'limit_start' => substr($this->table->getLimitStart(), 0, 10) . " " . substr($this->table->getLimitStart(), -8),
+            'limit_end' => substr($this->table->getLimitEnd(), 0, 10) . " " . substr($this->table->getLimitEnd(), -8),
+            'default_sort_field' => $this->table->getDefaultSortField(),
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
-            'description'              => $this->table->getDescription(),
-            'view_own_records_perm'    => $this->table->getViewOwnRecordsPerm(),
-            'save_confirmation'        => $this->table->getSaveConfirmation(),
+            'description' => $this->table->getDescription(),
+            'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
+            'save_confirmation' => $this->table->getSaveConfirmation(),
         );
         if (!$this->table->getLimitStart()) {
             $values['limit_start'] = null;
@@ -168,18 +168,18 @@ class ilDclTableEditGUI
     public function getStandardValues()
     {
         $values = array(
-            'title'            => "",
-            'add_perm'         => 1,
-            'edit_perm'        => 1,
-            'edit_perm_mode'   => 'own',
+            'title' => "",
+            'add_perm' => 1,
+            'edit_perm' => 1,
+            'edit_perm_mode' => 'own',
             'delete_perm_mode' => 'own',
-            'delete_perm'      => 1,
-            'edit_by_owner'    => 1,
-            'export_enabled'   => 0,
-            'import_enabled'   => 0,
-            'limited'          => 0,
-            'limit_start'      => null,
-            'limit_end'        => null,
+            'delete_perm' => 1,
+            'edit_by_owner' => 1,
+            'export_enabled' => 0,
+            'import_enabled' => 0,
+            'limited' => 0,
+            'limit_start' => null,
+            'limit_end' => null,
         );
         $this->form->setValuesByArray($values);
     }

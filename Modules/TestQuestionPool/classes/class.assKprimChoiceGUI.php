@@ -563,7 +563,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value['value1']] = $solution_value['value2'];
             }
@@ -656,7 +656,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $template->parseCurrentBlock();
         }
         
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $questiontext = $this->object->getQuestion();
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
 

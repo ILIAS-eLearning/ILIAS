@@ -110,7 +110,7 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         $examiner_id = $this->getExaminerId($record);
-        return $this->txt("grading") . ": " . $this->getStatus($record->finalized(), (int) $record->LPStatus(), $examiner_id);
+        return $this->txt("grading") . ": " . $this->getStatus($record->finalized(), $record->LPStatus(), $examiner_id);
     }
 
     /**
@@ -206,7 +206,7 @@ class ilIndividualAssessmentMembersTableGUI
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 
         if ($this->checkEditable($finalized, $examiner_id, $usr_id)) {
-            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'edit');
+            $target = $this->ctrl->getLinkTargetByClass(ilIndividualAssessmentMemberGUI::class, 'edit');
             $items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
         }
 
@@ -241,8 +241,8 @@ class ilIndividualAssessmentMembersTableGUI
             $status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
         }
 
-        if (!$finalized && !is_null($examinerId)) {
-            $status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+        if (!$finalized && !is_null($examiner_id)) {
+            return $this->txt('iass_assessment_not_completed');
         }
 
         return $this->getEntryForStatus($status);
@@ -253,10 +253,15 @@ class ilIndividualAssessmentMembersTableGUI
      *
      * @return string[]
      */
-    protected function getGradedInformations(ilDate $event_time) : array
+    protected function getGradedInformations(?DateTimeImmutable $event_time) : array
     {
+        $event_time_str = "";
+        if(! is_null($event_time)) {
+            $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
+            $event_time_str = ilDatePresentation::formatDate($dt);
+        }
         return array(
-            $this->txt("iass_event_time") . ": " => ilDatePresentation::formatDate($event_time)
+            $this->txt("iass_event_time") . ": " => $event_time_str
         );
     }
 
@@ -391,9 +396,8 @@ class ilIndividualAssessmentMembersTableGUI
             case ilIndividualAssessmentMembers::LP_FAILED:
                 return $this->txt('iass_status_failed');
                 break;
-            case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
-                return $this->txt('iass_assessment_not_completed');
-                break;
+            default:
+                throw new ilIndividualAssessmentException("Invalid status: ".$a_status);
         }
     }
 

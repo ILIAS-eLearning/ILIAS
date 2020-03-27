@@ -519,7 +519,7 @@ class ilCalendarViewGUI
         foreach ($events as $event) {
             $event_start = $event['event']->getStart()->get(IL_CAL_DATE);
 
-            if ($event_start >= $start->get(IL_CAL_DATE) &&  $event_start<= $end->get(IL_CAL_DATE)) {
+            if ($event_start >= $start->get(IL_CAL_DATE) && $event_start <= $end->get(IL_CAL_DATE)) {
                 $num_events++;
             }
         }

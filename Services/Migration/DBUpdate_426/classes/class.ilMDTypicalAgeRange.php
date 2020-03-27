@@ -105,12 +105,12 @@ class ilMDTypicalAgeRange extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'typical_age_range'	=> ilUtil::prepareDBString($this->getTypicalAgeRange()),
+                     'typical_age_range' => ilUtil::prepareDBString($this->getTypicalAgeRange()),
                      'typical_age_range_language' => ilUtil::prepareDBString($this->getTypicalAgeRangeLanguageCode()));
     }
 

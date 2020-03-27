@@ -152,7 +152,7 @@ class ilObjStudyProgrammeMembersGUI
                 $dic = ilStudyProgrammeDIC::dic();
                 $gui = $dic['ilStudyProgrammeChangeExpireDateGUI'];
                 $gui->setRefId($this->ref_id);
-                $gui->setAssignmentIds($this->getGetPrgsIds());
+                $gui->setProgressIds($this->getGetPrgsIds());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilstudyprogrammechangedeadlinegui":
@@ -164,7 +164,7 @@ class ilObjStudyProgrammeMembersGUI
                 $dic = ilStudyProgrammeDIC::dic();
                 $gui = $dic['ilStudyProgrammeChangeDeadlineGUI'];
                 $gui->setRefId($this->ref_id);
-                $gui->setAssignmentIds($this->getGetPrgsIds());
+                $gui->setProgressIds($this->getGetPrgsIds());
                 $this->ctrl->forwardCommand($gui);
                 break;
             case false:
@@ -570,7 +570,7 @@ class ilObjStudyProgrammeMembersGUI
 
             $prgrs_status = $this->getProgressObject((int) $prgrs_id)->getStatus();
             if (
-                 $prgrs_status== ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
+                 $prgrs_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS ||
                  $prgrs_status == ilStudyProgrammeProgress::STATUS_ACCREDITED
             ) {
                 continue;
@@ -786,9 +786,9 @@ class ilObjStudyProgrammeMembersGUI
             $this,
             $this->toolbar,
             array(
-                "auto_complete_name"	=> $this->lng->txt("user"),
-                "submit_name"			=> $this->lng->txt("add"),
-                "add_search"			=> true
+                "auto_complete_name" => $this->lng->txt("user"),
+                "submit_name" => $this->lng->txt("add"),
+                "add_search" => true
             )
         );
     }

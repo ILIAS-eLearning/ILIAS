@@ -151,7 +151,7 @@ abstract class ActiveRecord implements arStorageInterface
                 $value = $this->{$name};
                 $converted_dates[$name] = array(
                     'unformatted' => $value,
-                    'unix'        => strtotime($value),
+                    'unix' => strtotime($value),
                 );
                 if ($format) {
                     $converted_dates[$name]['formatted'] = date($format, strtotime($value));

@@ -27,7 +27,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     
     protected $js_onload_code = array();
     protected $additional = array();
-    protected $export_material = array("js"=>array(), "images"=>array(), "files"=>array());
+    protected $export_material = array("js" => array(), "images" => array(), "files" => array());
     
     protected static $initialized = 0;
     
@@ -775,7 +775,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     
                     foreach ($course["objectives"] as $objtv) {
                         if ($do_links) {
-                            $params = array("oobj"=>$objtv["id"]);
+                            $params = array("oobj" => $objtv["id"]);
                             $url = ilLink::_getLink($course["ref_id"], "crs", $params);
                             
                             // #15510
@@ -790,8 +790,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                             if (trim($objtv["desc"])) {
                                 $desc = nl2br($objtv["desc"]);
                                 $tt_id = "objtvtt_" . $objtv["id"] . "_" . ((int) self::$initialized);
-                                
-                                ilToolTipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
+
+                                ilTooltipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
                                 
                                 $tpl->setVariable("OBJECTIVE_LINK_ID", $tt_id);
                             }

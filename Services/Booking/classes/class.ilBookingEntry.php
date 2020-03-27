@@ -701,7 +701,7 @@ class ilBookingEntry
         if ($deadline) {
             include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
             $entry = new ilCalendarEntry($a_entry_id);
-            if (time()+($deadline*60*60) > $entry->getStart()->get(IL_CAL_UNIX)) {
+            if (time() + ($deadline * 60 * 60) > $entry->getStart()->get(IL_CAL_UNIX)) {
                 return true;
             }
         }

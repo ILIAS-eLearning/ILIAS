@@ -5,7 +5,7 @@ source CI/Import/Variables.sh
 
 printLn "Initialize paths variables"
 
-./CI/PHPUnit/run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
+./CI/PHPUnit/run_tests.sh | tee "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"
 
 PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 
@@ -13,10 +13,10 @@ printLn "Command exited with code: $PIPE_EXIT_CODE"
 
 printLn "Travis: event type ($TRAVIS_EVENT_TYPE), job number ($TRAVIS_JOB_NUMBER), pull request ($TRAVIS_PULL_REQUEST), commit ($TRAVIS_COMMIT) "
 
-if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
+if [[ -e "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH" ]]
 	then
 		printLn "Collecting data."
-		RESULT=`tail -n1 < "$PHPUNIT_RESULTS_PATH"`
+		RESULT=`tail -n1 < "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"`
 		SPLIT_RESULT=(`echo $RESULT | tr ':' ' '`)
 		PHP_VERSION=`php -r "echo PHP_MAJOR_VERSION . '_' . PHP_MINOR_VERSION;"`
 		if [ -e "include/inc.ilias_version.php" ]
@@ -36,16 +36,16 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 				CLEANED=(`echo ${PHP_UNIT_RESULT[0]} | tr '( OK (tests)' ' ' | xargs`)
 				RESULTS[Tests]=$CLEANED;
 		else
-			for TYPE in "${!RESULTS[@]}"; 
-				do 
-					for PHP_UNIT_RESULT in "${!SPLIT_RESULT[@]}"; 
-						do 
+			for TYPE in "${!RESULTS[@]}";
+				do
+					for PHP_UNIT_RESULT in "${!SPLIT_RESULT[@]}";
+						do
 							if [ "$TYPE" == "${SPLIT_RESULT[$PHP_UNIT_RESULT]}" ]
 								then
 									CLEANED=(`echo ${SPLIT_RESULT[$PHP_UNIT_RESULT + 1]} | tr ',.' ' '`)
 									RESULTS[$TYPE]=$CLEANED;
 							fi
-						done 
+						done
 				done
 		fi
 
@@ -56,44 +56,38 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 
 		if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 		then
-			printLn "Cloning results repository, copy results file."
-			if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
-				printLn "Starting to remove old temp directory"
-				rm -rf "$TRAVIS_RESULTS_DIRECTORY"
-			fi
-
-			cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
-			cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
+			printLn "Copy results file."
 
 			printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
-			grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $PHPUNIT_PATH > $PHPUNIT_PATH_TMP 
+			grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $RESULTS_DATA_DIRECTORY_PHPUNIT > $RESULTS_DATA_DIRECTORY_PHPUNIT_TMP
 
 			NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE,$UNIXDATE";
 			printLn "Writing line: $NEW_LINE"
-			echo "$NEW_LINE" >> "$PHPUNIT_PATH_TMP";
+			echo "$NEW_LINE" >> "$RESULTS_DATA_DIRECTORY_PHPUNIT_TMP";
 
 			printLn "Handling result."
 
-			if [ -e "$PHPUNIT_PATH_TMP" ]
+			if [ -e "$RESULTS_DATA_DIRECTORY_PHPUNIT_TMP" ]
 				then
-					mv "$PHPUNIT_PATH_TMP" "$PHPUNIT_PATH"
-					rm "$PHPUNIT_RESULTS_PATH"
+					mv "$RESULTS_DATA_DIRECTORY_PHPUNIT_TMP" "$RESULTS_DATA_DIRECTORY_PHPUNIT"
+					rm "$RESULTS_DATA_DIRECTORY_PHPUNIT_RESULTS_PATH"
 			fi
-
-			printLn "Switching directory and run results handling."
-			cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-			cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
-
-	fi		
+	fi
 	if [[ "$FAILURE" == "true" || $PIPE_EXIT_CODE -gt 0 ]]
 		then
 			printLn "Errors were found, exiting with error code."
+			touch "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
+			echo "99" >> "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
 			exit 99
 	else
 			printLn "No errors were found."
+			touch "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
+			echo "0" >> "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
 			exit 0
 	fi
 else
 	printLn "No result file found, stopping!"
+	touch "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
+	echo "99" >> "$RESULTS_DATA_DIRECTORY/PHPUnitExitCode.tmp"
 	exit 99
-fi		
+fi

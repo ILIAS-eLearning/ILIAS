@@ -120,11 +120,11 @@ class ilBibliographicDataSet extends ilDataSet
         switch ($a_entity) {
             case 'bibl':
                 return array(
-                    "id"          => "integer",
-                    "title"       => "text",
+                    "id" => "integer",
+                    "title" => "text",
                     "description" => "text",
-                    "filename"    => "text",
-                    'is_online'   => 'integer',
+                    "filename" => "text",
+                    'is_online' => 'integer',
                 );
             default:
                 return array();
@@ -180,11 +180,11 @@ class ilBibliographicDataSet extends ilDataSet
                     if (ilObject::_lookupType($bibl_id) == 'bibl') {
                         $obj = new ilObjBibliographic($bibl_id);
                         $data = array(
-                            'id'          => $bibl_id,
-                            'title'       => $obj->getTitle(),
+                            'id' => $bibl_id,
+                            'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'fileName'    => $obj->getFilename(),
-                            'is_online'   => $obj->getOnline(),
+                            'fileName' => $obj->getFilename(),
+                            'is_online' => $obj->getOnline(),
                         );
                         $this->data[] = $data;
                     }

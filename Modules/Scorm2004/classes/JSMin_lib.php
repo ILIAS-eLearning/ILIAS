@@ -695,7 +695,7 @@ class JSMin
         // Use STDIN and STDOUT by default, if they are defined (CLI mode) and no file names are provided
 
         if ($inFileName == '-') {
-            $inFileName  = 'php://stdin';
+            $inFileName = 'php://stdin';
         }
         if ($outFileName == '-') {
             $outFileName = 'php://stdout';

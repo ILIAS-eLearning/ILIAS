@@ -105,7 +105,7 @@ function benchmarkForm(&$u, &$data, $form)
     printf(
         " %20s %6.1fms %12s bytes/s (%s)\n",
         $form,
-        $delta*1000.0,
+        $delta * 1000.0,
         number_format($rate),
         ($same ? 'no change' : 'changed')
     );

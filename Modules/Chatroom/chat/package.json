@@ -15,9 +15,9 @@
     "winston": "^2.4.1"
   },
   "devDependencies": {
-    "mocha": "^5.2.x",
+    "mocha": "^7.1.1",
     "should": "^7.0.1",
-    "sinon": "^1.17.7",
+    "sinon": "9.0.1",
     "supertest": "^3.3.0"
   }
 }
