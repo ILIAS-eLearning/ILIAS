@@ -73,6 +73,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'dhparam' => $form->getInput('dhparam'),
             'log' => $form->getInput('log'),
             'error_log' => $form->getInput('error_log'),
+            'log_level' => $form->getInput('log_level'),
             'ilias_proxy' => $form->getInput('ilias_proxy'),
             'ilias_url' => $form->getInput('ilias_url'),
             'client_proxy' => $form->getInput('client_proxy'),

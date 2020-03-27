@@ -112,6 +112,16 @@ The paths for the chat server log and the error log can be specified OPTIONALLY.
 
 *  Chat server log file: Absolute server path to the log file (eg `/var/www/ilias/data/chat.log`), into which the chat server logs general events.
 *  Chat server error log file: Absolute server path to the error log file (for example, `/var/www/ilias/data/chat_errors.log`), into which the chat server logs errors.
+*  Chat server log level: The log level used for the chat log file
+      * emerg
+      * alert
+      * crit
+      * error
+      * warning
+      * notice
+      * info
+      * debug
+      * silly
 
 If no paths are defined, the chat server creates the log file in the chat server directory.
 
@@ -182,6 +192,7 @@ server.cfg:
     "key": "",
     "dhparam": "",
     "log": "\/var\/www\/ilias\/data\/chat.log",
+    "log_level": "info",
     "error_log": "\/var\/www\/ilias\/data\/chat_errors.log",
     "sub_directory": "",
     "deletion_mode": "1",

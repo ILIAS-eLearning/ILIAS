@@ -13983,6 +13983,7 @@ chatroom#:#chat_https_key_info#:#Please define an absolute server path to the pr
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chat_log_level#:#Log Level
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
