@@ -31,7 +31,8 @@ class ilObjLearningSequenceSettingsGUI
         'p',
         'strong',
         'u',
-        'ul'
+        'ul',
+        'a'
     ];
 
     private $img_allowed_suffixes = [
