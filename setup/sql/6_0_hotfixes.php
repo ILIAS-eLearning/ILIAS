@@ -124,3 +124,56 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#14>
+<?php
+global $DIC;
+$ilDB = $DIC['ilDB'];
+
+if($ilDB->tableColumnExists('iass_members', 'record')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'record', $field_infos);
+}
+
+if($ilDB->tableColumnExists('iass_members', 'internal_note')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'internal_note', $field_infos);
+}
+
+if($ilDB->tableColumnExists('iass_settings', 'content')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'content', $field_infos);
+}
+
+if($ilDB->tableColumnExists('iass_settings', 'record_template')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'record_template', $field_infos);
+}
+
+if($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_info_settings', 'mails', $field_infos);
+}
+?>
+
+
