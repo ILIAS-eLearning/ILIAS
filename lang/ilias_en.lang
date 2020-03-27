@@ -15109,11 +15109,11 @@ lso#:#table_online#:#Online
 lso#:#table_may_proceed#:#User may proceed
 lso#:#table_actions#:#Actions
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
-lso#:#entries_deleted#:#Successfuly delete entries
+lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#Open %s
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
@@ -16014,8 +16014,8 @@ prg#:#prg_status_4#:#Not Relevant
 prg#:#prg_status_5#:#failed
 prg#:#prg_multi_change_deadline#:#Change deadline
 prg#:#prg_multi_change_expire_date#:#Change expire date
-prg#:#update_expire_date#:#Successfuly update expire date.
-prg#:#update_deadline#:#Successfuly update deadline.
+prg#:#update_expire_date#:#Successfully update expire date.
+prg#:#update_deadline#:#Successfully update deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#select_crs#:#Search for Courses
