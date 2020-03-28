@@ -1,37 +1,49 @@
-
-
-var ConversationCollection = function ConversationCollection() {
+const ConversationCollection = function ConversationCollection() {
 	/**
 	 *
-	 * @type {JSON}
+	 * @type {Map<string, Conversation>}
 	 * @private
 	 */
-	var _collection = {};
+	let _collection = new Map();
 
-	this.all = function() {
+	/**
+	 *
+	 * @returns {Map<string, Conversation>}
+	 */
+	this.all = function () {
 		return _collection;
 	};
 
-	this.add = function(conversation) {
-		_collection[conversation.getId()] = conversation;
+	/**
+	 *
+	 * @param {Conversation} conversation
+	 */
+	this.add = function (conversation) {
+		_collection.set(conversation.getId().toString(), conversation);
 	};
 
-	this.getById = function(conversationId) {
-		if(_collection.hasOwnProperty(conversationId)) {
-			return _collection[conversationId];
+	/**
+	 *
+	 * @param {string|number} conversationId
+	 * @returns {Conversation|null}
+	 */
+	this.getById = function (conversationId) {
+		if (_collection.has(conversationId.toString())) {
+			return _collection.get(conversationId.toString());
 		}
 
 		return null;
 	};
 
-	this.getForParticipants = function(participants) {
-		for (let id in _collection) {
-			if (_collection.hasOwnProperty(id)) {
-				let conversation = _collection[id];
-
-				if (conversation.matchesParticipants(participants)) {
-					return conversation;
-				}
+	/**
+	 *
+	 * @param {string[]|number[]} participantIds
+	 * @returns {Conversation|null}
+	 */
+	this.getForParticipants = function (participantIds) {
+		for (let conversation of _collection.values()) {
+			if (conversation.matchesParticipants(participantIds)) {
+				return conversation;
 			}
 		}
 

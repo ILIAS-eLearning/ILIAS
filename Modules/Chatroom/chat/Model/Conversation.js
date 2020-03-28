@@ -1,34 +1,42 @@
-var Container  = require('../AppContainer');
+const Container  = require('../AppContainer');
 
-var Conversation = function Conversation(id, participants)
-{
-
+const Conversation = function Conversation(id) {
 	/**
 	 * @type {string}
 	 * @private
 	 */
-	var _id = id;
+	let _id = id;
 
 	/**
-	 * @type {Array}
+	 *
+	 * @type {Map<string, Participant>}
 	 * @private
 	 */
-	var _participants = participants ? participants : [];
+	let _participants = new Map();
 
 	/**
 	 * @type {boolean}
 	 * @private
 	 */
-	var _group = false;
-
-	var _latestMessage = null;
-
-	var _numNewMessages = 0;
+	let _group = false;
 
 	/**
-	 * Returns the ID of the conversation;
 	 *
-	 * @returns {*}
+	 * @type {null|string}
+	 * @private
+	 */
+	let _latestMessage = null;
+
+	/**
+	 *
+	 * @type {number}
+	 * @private
+	 */
+	let _numNewMessages = 0;
+
+	/**
+	 *
+	 * @returns {string}
 	 */
 	this.getId = function() {
 		return _id;
@@ -36,10 +44,16 @@ var Conversation = function Conversation(id, participants)
 
 	/**
 	 * 
-	 * @param participants
+	 * @param {string[]|number[]} participantIds
 	 * @returns {boolean}
 	 */
-	this.matchesParticipants = function(participants) {
+	this.matchesParticipants = function(participantIds) {
+		// TODO: Intersect arrays
+		for (let participant of _participants.values()) {
+			if (!participantIds.includes(participant.getId().toString())) {
+				return false;
+			}
+		}
 		for (let index in _participants) {
 			if (_participants.hasOwnProperty(index) && !hasParticipant(_participants[index], participants)) {
 				return false;
@@ -48,21 +62,29 @@ var Conversation = function Conversation(id, participants)
 		return true;
 	};
 
+	/**
+	 *
+	 * @param {number} num
+	 */
 	this.setNumNewMessages = function(num) {
 		_numNewMessages = num;
 	};
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	this.getNumNewMessages = function() {
 		return _numNewMessages;
 	};
 
 	/**
-	 * @param message
+	 * @param {string} message
 	 * @return object Returns a collection of users who did not want to receive messages 
 	 */
 	this.send = function(message) {
 
-		var ignoredParticipants = {};
+		let ignoredParticipants = {};
 
 		function sendParticipantMessage(participant) {
 			if (!participant.getAcceptsMessages()) {
@@ -86,7 +108,7 @@ var Conversation = function Conversation(id, participants)
 	 * @return object Returns a collection of users who did not want to receive messages
 	 */
 	this.emit = function(event, data) {
-		var ignoredParticipants = {};
+		let ignoredParticipants = {};
 
 		function emitParticipant(participant){
 			if (!participant.getAcceptsMessages()) {
@@ -103,46 +125,76 @@ var Conversation = function Conversation(id, participants)
 		return ignoredParticipants;
 	};
 
+	/**
+	 *
+	 * @param {Participant} participant
+	 */
 	this.addParticipant = function(participant) {
-		if (!hasParticipant(participant, _participants)) {
-			_participants.push(participant);
-			participant.addConversation(this);
-		}
+		_participants.set(participant.getId().toString(), participant);
+		participant.addConversation(this);
 	};
 
+	/**
+	 *
+	 * @param {Participant} participant
+	 */
 	this.removeParticipant = function(participant) {
-		let participantIndex = getParticipantIndex(participant, _participants);
-		if (participantIndex !== -1) {
-			_participants.splice(participantIndex, 1);
-			participant.removeConversation(this);
+		if (_participants.has(participant.getId().toString())) {
+			_participants.delete(participant.getId().toString());
 		}
+		participant.removeConversation(this);
 	};
 
+	/**
+	 *
+	 * @returns {Map<string, Participant>}
+	 */
 	this.getParticipants = function() {
 		return _participants;
 	};
 
+	/**
+	 *
+	 * @returns {boolean}
+	 */
 	this.isGroup = function() {
 		return _group;
 	};
 
-	this.setIsGroup = function(isGroup) {
-		_group = isGroup;
+	/**
+	 *
+	 * @param {boolean} status
+	 */
+	this.setIsGroup = function(status) {
+		_group = status;
 	};
 
+	/**
+	 *
+	 * @param {null|string} message
+	 */
 	this.setLatestMessage = function(message) {
 		_latestMessage = message;
 	};
 
+	/**
+	 *
+	 * @param {Participant} participant
+	 * @returns {boolean}
+	 */
 	this.isParticipant = function(participant) {
-		return hasParticipant(participant, _participants);
+		return _participants.has(participant.getId().toString());
 	};
 
+	/**
+	 *
+	 * @returns {{latestMessage: null|string, id: string, isGroup: boolean, participants: [], numNewMessages: number}}
+	 */
 	this.json = function() {
-		var participants = [];
+		let participants = [];
 
-		for(var key in _participants) {
-			participants.push(_participants[key].json());
+		for (let participant of _participants.values()) {
+			participants.push(participant.json());
 		}
 
 		return {
@@ -154,49 +206,14 @@ var Conversation = function Conversation(id, participants)
 		};
 	};
 
+	/**
+	 *
+	 * @param {function(Participant) : void} callback
+	 */
 	function forParticipants(callback) {
-		for(var key in _participants) {
-			if(_participants.hasOwnProperty(key)) {
-				callback(_participants[key]);
-			}
+		for (let participant of _participants.values()) {
+			callback(participant);
 		}
-	}
-
-	/**
-	 * 
-	 * @param participant
-	 * @param participants
-	 * @returns {number}
-	 */
-	function getParticipantIndex(participant, participants) {
-		const index = participants.findIndex(function(val) {
-			if (null === val) {
-				return false;
-			}
-
-			let id = val.id;
-			if (typeof val.getId === 'function') {
-				id = val.getId();
-			}
-
-			if (id.toString() === participant.getId().toString()) {
-				return true;
-			}
-
-			return false;
-		});
-
-		return index;
-	}
-
-	/**
-	 * 
-	 * @param participant
-	 * @param participants
-	 * @returns {boolean}
-	 */
-	function hasParticipant(participant, participants) {
-		return getParticipantIndex(participant, participants) !== -1;
 	}
 };
 

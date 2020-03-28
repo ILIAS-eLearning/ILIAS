@@ -5,7 +5,7 @@ module.exports = function() {
 	Container.getLogger().info('Requested Conversations list');
 
 	var namespace = Container.getNamespace(this.nsp.name);
-	var conversations = this.participant.getConversations();
+	let conversations = this.participant.getConversations();
 	var socket = this;
 
 	function onConversationListResult(conversation, nextLoop){
@@ -63,5 +63,5 @@ module.exports = function() {
 		}
 	}
 
-	async.eachSeries(conversations, onConversationListResult, onPossibleConversationListError);
+	async.eachSeries(Array.from(conversations), onConversationListResult, onPossibleConversationListError);
 };

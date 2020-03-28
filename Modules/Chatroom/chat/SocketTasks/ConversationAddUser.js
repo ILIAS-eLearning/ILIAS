@@ -9,7 +9,7 @@ module.exports = function(conversationId, userId, name) {
 
 		if (conversation.isParticipant(this.participant)) {
 			var newParticipant = namespace.getSubscriberWithOfflines(userId, name);
-			var participants   = conversation.getParticipants();
+			let participants   = conversation.getParticipants();
 
 			if (!conversation.isGroup()) {
 				conversation = new Conversation(UUID.v4());
@@ -18,10 +18,8 @@ module.exports = function(conversationId, userId, name) {
 				namespace.getConversations().add(conversation);
 				namespace.getDatabase().persistConversation(conversation);
 
-				for (var key in participants) {
-					if (participants.hasOwnProperty(key)) {
-						conversation.addParticipant(participants[key]);
-					}
+				for (let participant of participants.values()) {
+					conversation.addParticipant(participant);
 				}
 
 				Container.getLogger().info('Conversation %s transformed to group conversation.', conversation.getId())
@@ -36,10 +34,8 @@ module.exports = function(conversationId, userId, name) {
 			newParticipant.join(conversation.id);
 
 			participants = conversation.getParticipants();
-			for (var key in participants) {
-				if (participants.hasOwnProperty(key)){
-					namespace.getDatabase().trackActivity(conversation.getId(), participants[key].getId(), 0);
-				}
+			for (let participant of participants.values()) {
+				namespace.getDatabase().trackActivity(conversation.getId(), participant.getId(), 0);
 			}
 
 			Container.getLogger().info('New Participant %s for group conversation %s', newParticipant.getName(), newParticipant.getId());
