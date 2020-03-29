@@ -1,10 +1,14 @@
+/**
+ *
+ * @constructor
+ */
 const ConversationCollection = function ConversationCollection() {
 	/**
 	 *
 	 * @type {Map<string, Conversation>}
 	 * @private
 	 */
-	let _collection = new Map();
+	const _collection = new Map();
 
 	/**
 	 *
@@ -18,7 +22,7 @@ const ConversationCollection = function ConversationCollection() {
 	 *
 	 * @param {Conversation} conversation
 	 */
-	this.add = function (conversation) {
+	this.addOrUpdate = function (conversation) {
 		_collection.set(conversation.getId().toString(), conversation);
 	};
 

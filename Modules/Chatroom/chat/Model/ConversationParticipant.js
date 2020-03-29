@@ -35,7 +35,7 @@ const Participant = function Participant(id, name) {
 	 * @type {Map<string, Conversation>}
 	 * @private
 	 */
-	let _conversations = new Map();
+	const _conversations = new Map();
 
 	/**
 	 * @returns {number}
@@ -87,7 +87,7 @@ const Participant = function Participant(id, name) {
 	};
 
 	this.removeSocket = function (socket) {
-		let index = _sockets.indexOf(socket);
+		const index = _sockets.indexOf(socket);
 		if (index > -1) {
 			_sockets.splice(index, 1);
 		}
@@ -127,7 +127,7 @@ const Participant = function Participant(id, name) {
 
 	/**
 	 *
-	 * @param {string} message
+	 * @param {object} message
 	 * @returns {emitMessageOnSocket}
 	 */
 	function createEmitMessageOnSocketCallback(message) {
@@ -162,7 +162,7 @@ const Participant = function Participant(id, name) {
 
 	/**
 	 *
-	 * @param {string} message
+	 * @param {object} message
 	 */
 	this.send = function (message) {
 		if (this.isOnline()) {
@@ -185,7 +185,7 @@ const Participant = function Participant(id, name) {
 	 *
 	 * @param {Conversation} conversation
 	 */
-	this.addConversation = function (conversation) {
+	this.addOrUpdateConversation = function (conversation) {
 		_conversations.set(conversation.getId().toString(), conversation);
 	};
 
@@ -218,6 +218,6 @@ const Participant = function Participant(id, name) {
 			}
 		}
 	}
-}
+};
 
 module.exports = Participant;

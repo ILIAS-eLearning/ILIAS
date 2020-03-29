@@ -1,7 +1,5 @@
-
-var Container = require('../AppContainer');
-var Conversation = require('../Model/Conversation');
-var Participant = require('../Model/ConversationParticipant');
+const Container = require('../AppContainer'),
+	Conversation = require('../Model/Conversation');
 
 /**
  * @param {Namespace} namespace
@@ -11,14 +9,14 @@ module.exports = function PreloadConversations(namespace, callback) {
 	Container.getLogger().info('PreloadConversations for %s', namespace.getName());
 
 	function onConversationResult(row) {
-		var participants = JSON.parse(row.participants);
+		const participants = JSON.parse(row.participants),
+			conversation = new Conversation(row.id);
 
-		var conversation = new Conversation(row.id);
 		conversation.setIsGroup(row.is_group);
 
-		for(var index in participants) {
-			if(participants.hasOwnProperty(index)){
-				var participant = namespace.getSubscriberWithOfflines(participants[index].id, participants[index].name);
+		for (let index in participants) {
+			if (participants.hasOwnProperty(index)) {
+				const participant = namespace.getSubscriberWithOfflines(participants[index].id, participants[index].name);
 				participant.setOnline(false);
 				participant.join(conversation.getId());
 
@@ -26,7 +24,7 @@ module.exports = function PreloadConversations(namespace, callback) {
 				namespace.addSubscriber(participant);
 			}
 		}
-		namespace.getConversations().add(conversation);
+		namespace.getConversations().addOrUpdate(conversation);
 
 	}
 

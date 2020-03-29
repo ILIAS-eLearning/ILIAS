@@ -1,15 +1,15 @@
-var Container = require('../AppContainer');
-var async = require('async');
+const Container = require('../AppContainer'),
+	async = require('async');
 
-module.exports = function() {
+module.exports = function () {
 	Container.getLogger().info('Requested Conversations list');
 
-	var namespace = Container.getNamespace(this.nsp.name);
-	var conversations = this.participant.getConversations();
-	var socket = this;
+	const namespace = Container.getNamespace(this.nsp.name),
+		conversations = this.participant.getConversations(),
+		socket = this;
 
-	function onConversationListResult(conversation, nextLoop){
-		var conversationClosed = false;
+	function onConversationListResult(conversation, nextLoop) {
+		let conversationClosed = false;
 
 		function setConservationState(row) {
 			conversationClosed = row.is_closed;
@@ -17,7 +17,7 @@ module.exports = function() {
 
 		function fetchLatestMessageForOpenConversation() {
 			function setLatestMessageOnConversation(row) {
-				row.userId         = row.user_id;
+				row.userId = row.user_id;
 				row.conversationId = row.conversation_id;
 				conversation.setLatestMessage(row);
 			}

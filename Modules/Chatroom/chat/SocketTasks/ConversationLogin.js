@@ -1,19 +1,24 @@
-var Container = require('../AppContainer');
-var Participant = require('../Model/ConversationParticipant');
-var ListConversations = require('./ListConversations');
+const Container = require('../AppContainer'),
+	Participant = require('../Model/ConversationParticipant'),
+	ListConversations = require('./ListConversations');
 
-module.exports = function(id, name)
-{
-	var namespace = Container.getNamespace(this.nsp.name);
+/**
+ *
+ * @param {number} id
+ * @param {string} name
+ */
+module.exports = function(id, name) {
+	const namespace = Container.getNamespace(this.nsp.name);
 
 	Container.getLogger().info('Participant %s connected for namespace %s', name, namespace.getName());
 
-	var participant = namespace.getSubscriber(id);
+	let participant = namespace.getSubscriber(id);
 
-	if(participant == null) {
+	if (null === participant) {
 		participant = new Participant(id, name);
 		namespace.addSubscriber(participant);
 	}
+
 	participant.setName(name);
 	participant.addSocket(this);
 	participant.setOnline(true);

@@ -1,17 +1,27 @@
-var Container  = require('../AppContainer');
-var HTMLEscape = require('../Helper/HTMLEscape');
-var UUID = require('node-uuid');
+const Container = require('../AppContainer'),
+	HTMLEscape = require('../Helper/HTMLEscape'),
+	UUID = require('node-uuid');
 
-module.exports = function(conversationId, userId, message) {
+/**
+ *
+ * @param {string} conversationId
+ * @param {number} userId
+ * @param {object} message
+ */
+module.exports = function (conversationId, userId, message) {
+	/**
+	 *
+	 * @param  {Conversation} conversation
+	 * @returns {boolean}
+	 */
 	function shouldPersistMessage(conversation) {
-		var doStoreMessage = conversation.isGroup();
+		let doStoreMessage = conversation.isGroup();
 
-		if (!conversation.isGroup()) {
-			var participants = conversation.getParticipants();
-
-			for (var index in participants) {
-				if (participants.hasOwnProperty(index) && participants[index].getAcceptsMessages()) {
-					doStoreMessage = true;
+		if (!doStoreMessage) {
+			doStoreMessage = true;
+			for (let participant of conversation.getParticipants().values()) {
+				if (!participant.getAcceptsMessages()) {
+					doStoreMessage = false;
 					break;
 				}
 			}
@@ -20,15 +30,13 @@ module.exports = function(conversationId, userId, message) {
 		return doStoreMessage;
 	}
 
-	if (conversationId !== null && userId !== null && message !== null) {
+	if (conversationId != null && userId != null && message !== null) {
+		const namespace = Container.getNamespace(this.nsp.name),
+			conversation = namespace.getConversations().getById(conversationId),
+			participant = namespace.getSubscriber(userId);
 
-		var namespace = Container.getNamespace(this.nsp.name);
-		var conversation = namespace.getConversations().getById(conversationId);
-		var participant = namespace.getSubscriber(userId);
-
-		if(conversation.isParticipant(participant))
-		{
-			var messageObj = {
+		if (conversation !== null && participant !== null && conversation.isParticipant(participant)) {
+			const messageObj = {
 				conversationId: conversationId,
 				userId: userId,
 				message: HTMLEscape.escape(message),
@@ -37,17 +45,15 @@ module.exports = function(conversationId, userId, message) {
 			};
 
 			if (participant.getAcceptsMessages()) {
-				var doStoreMessage = shouldPersistMessage(conversation);
-
-				if (doStoreMessage) {
+				if (shouldPersistMessage(conversation)) {
 					namespace.getDatabase().persistConversationMessage(messageObj);
 				}
 
 				conversation.emit('conversation', conversation.json());
-				var ignoredParticipants = conversation.send(messageObj);
+				let ignoredParticipants = conversation.send(messageObj);
 
-				if (Object.keys(ignoredParticipants).length > 0) {
-					messageObj["ignoredParticipants"] = ignoredParticipants;
+				if (ignoredParticipants.size > 0) {
+					messageObj["ignoredParticipants"] = Array.from(ignoredParticipants);
 					participant.emit("participantsSuppressedMessages", messageObj);
 				}
 

@@ -1,13 +1,18 @@
-var Container = require('../AppContainer');
-var Conversation = require('../Model/Conversation');
+const Container = require('../AppContainer');
 
+/**
+ *
+ * @param {string} conversationId
+ * @param {number} userId
+ * @param {string} name
+ */
 module.exports = function (conversationId, userId, name) {
-	if (conversationId !== null && userId !== null && name !== null) {
-		var namespace = Container.getNamespace(this.nsp.name);
-		var conversation = namespace.getConversations().getById(conversationId);
-		var participant = namespace.getSubscriberWithOfflines(userId, name);
+	if (conversationId != null && userId != null && name != null) {
+		const namespace = Container.getNamespace(this.nsp.name),
+			conversation = namespace.getConversations().getById(conversationId),
+			participant = namespace.getSubscriberWithOfflines(userId, name);
 
-		if (conversation.isParticipant(participant)) {
+		if (conversation !== null && conversation.isParticipant(participant)) {
 			conversation.removeParticipant(participant);
 			participant.leave(conversation.id);
 

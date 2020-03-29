@@ -1,5 +1,10 @@
-const Container  = require('../AppContainer');
+const Container = require('../AppContainer');
 
+/**
+ *
+ * @param {string} id
+ * @constructor
+ */
 const Conversation = function Conversation(id) {
 	/**
 	 * @type {string}
@@ -12,7 +17,7 @@ const Conversation = function Conversation(id) {
 	 * @type {Map<string, Participant>}
 	 * @private
 	 */
-	let _participants = new Map();
+	const _participants = new Map();
 
 	/**
 	 * @type {boolean}
@@ -22,7 +27,7 @@ const Conversation = function Conversation(id) {
 
 	/**
 	 *
-	 * @type {null|string}
+	 * @type {null|object}
 	 * @private
 	 */
 	let _latestMessage = null;
@@ -38,35 +43,32 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @returns {string}
 	 */
-	this.getId = function() {
+	this.getId = function () {
 		return _id;
 	};
 
 	/**
-	 * 
+	 *
 	 * @param {string[]|number[]} participantIds
 	 * @returns {boolean}
 	 */
-	this.matchesParticipants = function(participantIds) {
-		// TODO: Intersect arrays
-		for (let participant of _participants.values()) {
-			if (!participantIds.includes(participant.getId().toString())) {
-				return false;
-			}
-		}
-		for (let index in _participants) {
-			if (_participants.hasOwnProperty(index) && !hasParticipant(_participants[index], participants)) {
-				return false;
-			}
-		}
-		return true;
+	this.matchesParticipants = function (participantIds) {
+		const requestedParticipantIds = new Set(participantIds.map(id => id.toString()));
+
+		const currentParticipantIds = new Set(
+			Array.from(_participants.values()).map(participant => participant.getId().toString())
+		)
+
+		return 0 === (new Set(
+			[...requestedParticipantIds].filter(x => currentParticipantIds.has(x))
+		)).size;
 	};
 
 	/**
 	 *
 	 * @param {number} num
 	 */
-	this.setNumNewMessages = function(num) {
+	this.setNumNewMessages = function (num) {
 		_numNewMessages = num;
 	};
 
@@ -74,22 +76,22 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @returns {number}
 	 */
-	this.getNumNewMessages = function() {
+	this.getNumNewMessages = function () {
 		return _numNewMessages;
 	};
 
 	/**
-	 * @param {string} message
-	 * @return object Returns a collection of users who did not want to receive messages 
+	 *
+	 * @param message
+	 * @returns {Set<number>} Returns a collection of user ids which did not want to receive messages
 	 */
-	this.send = function(message) {
-
-		let ignoredParticipants = {};
+	this.send = function (message) {
+		const ignoredParticipants = new Set();
 
 		function sendParticipantMessage(participant) {
 			if (!participant.getAcceptsMessages()) {
 				Container.getLogger().info("Conversation.send: User %s does not want to further receive messages", participant.getId());
-				ignoredParticipants[participant.getId()] = participant.getId();
+				ignoredParticipants.add(participant.getId());
 				return;
 			}
 
@@ -102,18 +104,18 @@ const Conversation = function Conversation(id) {
 	};
 
 	/**
-	 * 
+	 *
 	 * @param event
 	 * @param data
-	 * @return object Returns a collection of users who did not want to receive messages
+	 * @returns {Set<number>} Returns a collection of user ids which did not want to receive messages
 	 */
-	this.emit = function(event, data) {
-		let ignoredParticipants = {};
+	this.emit = function (event, data) {
+		const ignoredParticipants = new Set();
 
-		function emitParticipant(participant){
+		function emitParticipant(participant) {
 			if (!participant.getAcceptsMessages()) {
 				Container.getLogger().info("Conversation.emit: User %s does not want to further receive messages", participant.getId());
-				ignoredParticipants[participant.getId()] = participant.getId();
+				ignoredParticipants.add(participant.getId());
 				return;
 			}
 
@@ -129,16 +131,16 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @param {Participant} participant
 	 */
-	this.addParticipant = function(participant) {
+	this.addParticipant = function (participant) {
 		_participants.set(participant.getId().toString(), participant);
-		participant.addConversation(this);
+		participant.addOrUpdateConversation(this);
 	};
 
 	/**
 	 *
 	 * @param {Participant} participant
 	 */
-	this.removeParticipant = function(participant) {
+	this.removeParticipant = function (participant) {
 		if (_participants.has(participant.getId().toString())) {
 			_participants.delete(participant.getId().toString());
 		}
@@ -149,7 +151,7 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @returns {Map<string, Participant>}
 	 */
-	this.getParticipants = function() {
+	this.getParticipants = function () {
 		return _participants;
 	};
 
@@ -157,7 +159,7 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @returns {boolean}
 	 */
-	this.isGroup = function() {
+	this.isGroup = function () {
 		return _group;
 	};
 
@@ -165,15 +167,15 @@ const Conversation = function Conversation(id) {
 	 *
 	 * @param {boolean} status
 	 */
-	this.setIsGroup = function(status) {
+	this.setIsGroup = function (status) {
 		_group = status;
 	};
 
 	/**
 	 *
-	 * @param {null|string} message
+	 * @param {null|object} message
 	 */
-	this.setLatestMessage = function(message) {
+	this.setLatestMessage = function (message) {
 		_latestMessage = message;
 	};
 
@@ -182,16 +184,16 @@ const Conversation = function Conversation(id) {
 	 * @param {Participant} participant
 	 * @returns {boolean}
 	 */
-	this.isParticipant = function(participant) {
+	this.isParticipant = function (participant) {
 		return _participants.has(participant.getId().toString());
 	};
 
 	/**
 	 *
-	 * @returns {{latestMessage: null|string, id: string, isGroup: boolean, participants: [], numNewMessages: number}}
+	 * @returns {{latestMessage: null|object, id: string, isGroup: boolean, participants: [], numNewMessages: number}}
 	 */
-	this.json = function() {
-		let participants = [];
+	this.json = function () {
+		const participants = [];
 
 		for (let participant of _participants.values()) {
 			participants.push(participant.json());

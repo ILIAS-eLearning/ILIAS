@@ -1,19 +1,18 @@
-var Container = require('../AppContainer');
-var async = require('async');
-var Date = require('../Helper/Date');
+const Container = require('../AppContainer'),
+	async = require('async'),
+	Date = require('../Helper/Date');
 
-var Database = function Database(config) {
+const Database = function Database(config) {
+	let _pool;
 
-	var _pool;
-
-	function handleError(err){
-		if(err) {
+	function handleError (err){
+		if (err) {
 			throw err;
 		}
-	};
+	}
 
 	this.connect = function(callback) {
-		var engine = require(config.database.type);
+		let engine = require(config.database.type);
 
 		_pool = engine.createPool({
 			host: config.database.host,
@@ -267,11 +266,11 @@ var Database = function Database(config) {
 	};
 
 	this.clearChatMessagesProcess = function(bound, namespaceName, callback) {
-		var boundMilliseconds = parseInt(bound),
-			boundSeconds      = parseInt(bound / 1000);
+		const boundMilliseconds = parseInt(bound),
+			boundSeconds = parseInt(bound / 1000);
 
-		var onError = function onError(err){
-			if(err) {
+		const onError = function onError(err) {
+			if (err) {
 				throw err;
 			}
 
@@ -294,8 +293,7 @@ var Database = function Database(config) {
 			);
 		}
 
-		function clearOscMessagesFromNamespace(result, next)
-		{
+		function clearOscMessagesFromNamespace(result, next) {
 			function onClear(err, result) {
 				if (err) {
 					throw err;
@@ -311,8 +309,7 @@ var Database = function Database(config) {
 			);
 		}
 
-		function clearOscConversations(result, next)
-		{
+		function clearOscConversations(result, next) {
 			function onClear(err, result) {
 				if (err) {
 					throw err;
@@ -329,9 +326,8 @@ var Database = function Database(config) {
 			);
 		}
 
-		function clearOscActivity(result, next)
-		{
-			var onClear = function onClear(err, result) {
+		function clearOscActivity(result, next) {
+			const onClear = function onClear(err, result) {
 				if (err) {
 					throw err;
 				}
@@ -353,15 +349,16 @@ var Database = function Database(config) {
 				clearOscConversations,
 				clearOscActivity
 			],
-			onError);
+			onError
+		);
 	};
 
 	this.trackActivity = function(conversationId, userId, timestamp) {
-		var emptyResult = true;
+		let emptyResult = true;
 
-		function onResult(result){
+		function onResult(result) {
 			emptyResult = false;
-			if(timestamp > 0) {
+			if (timestamp > 0) {
 				_pool.query('UPDATE osc_activity SET timestamp = ?, is_closed = ? WHERE conversation_id = ? AND user_id = ?',
 					[timestamp, 0, conversationId, userId],
 					handleError
@@ -370,8 +367,7 @@ var Database = function Database(config) {
 		}
 
 		function onEnd() {
-			if(emptyResult)
-			{
+			if (emptyResult) {
 				_pool.query('INSERT INTO osc_activity SET ?', {
 					conversation_id: conversationId,
 					user_id: userId,
@@ -452,10 +448,10 @@ var Database = function Database(config) {
 	};
 
 	this.loadConversationHistory = function(conversationId, oldestMessageTimestamp, onResult, onEnd){
-		var query = 'SELECT * FROM osc_messages WHERE conversation_id = ?';
-		var params = [conversationId];
-		if(oldestMessageTimestamp != null)
-		{
+		const params = [conversationId];
+		let query = 'SELECT * FROM osc_messages WHERE conversation_id = ?';
+
+		if (oldestMessageTimestamp != null) {
 			query += ' AND timestamp < ?';
 			params.push(oldestMessageTimestamp);
 		}
@@ -473,7 +469,7 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.updateConversation = function(conversation) {
-		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
+		const participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
 
 		_pool.query('UPDATE osc_conversation SET participants = ?, is_group = ? WHERE id = ?',
 			[participantsJson, conversation.isGroup(), conversation.getId()],
@@ -486,7 +482,7 @@ var Database = function Database(config) {
 	 * @param {Conversation} conversation
 	 */
 	this.persistConversation = function(conversation) {
-		var participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
+		const participantsJson = JSON.stringify(getConversationParticipantsJson(conversation));
 
 		_pool.query(
 			'INSERT INTO osc_conversation SET ?',
@@ -520,26 +516,17 @@ var Database = function Database(config) {
 		_pool.getConnection(callback);
 	};
 
+	/**
+	 * @param {Conversation} conversation
+	 */
 	function getConversationParticipantsJson(conversation) {
-		var participantsJson = {};
-		var participants = conversation.getParticipants();
+		const participantsJson = new Map();
 
-		for (var index in participants) {
-			if(participants.hasOwnProperty(index)) {
-				var p = participants[index];
-				if (p.getId() !== null && p.getId() > 0 && !participantsJson.hasOwnProperty(p.getId())) {
-					participantsJson[p.getId()] = p.json();
-				}
-			}
+		for (let participant of conversation.getParticipants().values()) {
+			participantsJson.set(participant.getId().toString(), participant.json());
 		}
 
-		if (typeof Object.values === "function") {
-			return Object.values(participantsJson);
-		} else {
-			return Object.keys(participantsJson).map(function(k) {
-				return participantsJson[k]
-			});
-		}
+		return Array.from(participantsJson.values());
 	}
 
 	function _onQueryEvents(query, onResult, onEnd) {
@@ -547,38 +534,44 @@ var Database = function Database(config) {
 		query.on('end', onEnd);
 	}
 
+	/**
+	 *
+	 * @param {string} tableName
+	 * @param callback
+	 * @private
+	 */
 	function _getNextId(tableName, callback) {
 		function onError(err, insertId) {
-			if(err) {
+			if (err) {
 				throw err;
 			}
 
 			callback(insertId);
 		}
 
-		var insertSequence = function(next) {
-			function onError(err, result){
-				if(err) {
+		const insertSequence = function insertSequence(next) {
+			function onError(err, result) {
+				if (err) {
 					throw err;
 				}
 
 				next(null, result.insertId);
 			}
 
-			_pool.query('INSERT INTO '+tableName+'_seq (sequence) VALUES (NULL)', [], onError);
+			_pool.query('INSERT INTO ' + tableName + '_seq (sequence) VALUES (NULL)', [], onError);
 		};
 
-		function deleteSequence(insertId, next) {
+		const deleteSequence = function deleteSequence(insertId, next) {
 			function onError(err) {
-				if(err) {
+				if (err) {
 					throw err;
 				}
 
 				next(null, insertId);
 			}
 
-			_pool.query('DELETE FROM '+tableName+'_seq WHERE sequence < ?', [insertId], onError);
-		}
+			_pool.query('DELETE FROM ' + tableName + '_seq WHERE sequence < ?', [insertId], onError);
+		};
 
 		async.waterfall(
 			[

@@ -1,18 +1,23 @@
-var Container = require('../AppContainer');
+const Container = require('../AppContainer');
 
-module.exports = function(conversationId, oldestMessageTimestamp, reverseSorting) {
-	if(conversationId !== null)
-	{
-		var namespace = Container.getNamespace(this.nsp.name);
-		var conversation = namespace.getConversations().getById(conversationId);
-		var history = [];
-		var oldestTimestamp = oldestMessageTimestamp;
-		var socket = this;
+/**
+ *
+ * @param {string} conversationId
+ * @param {number|null} oldestMessageTimestamp
+ * @param {boolean}  reverseSorting
+ */
+module.exports = function (conversationId, oldestMessageTimestamp, reverseSorting) {
+	if (conversationId != null) {
+		const namespace = Container.getNamespace(this.nsp.name),
+			conversation = namespace.getConversations().getById(conversationId),
+			history = [],
+			socket = this;
 
-		if(conversation.isParticipant(this.participant))
-		{
-			function onConversationResult(row){
-				if(oldestTimestamp === null || oldestTimestamp > row.timestamp) {
+		let oldestTimestamp = oldestMessageTimestamp;
+
+		if (conversation !== null && this.participant && conversation.isParticipant(this.participant)) {
+			function onConversationResult(row) {
+				if (null == oldestTimestamp || oldestTimestamp > row.timestamp) {
 					oldestTimestamp = row.timestamp;
 				}
 				row.userId = row.user_id;
@@ -20,12 +25,12 @@ module.exports = function(conversationId, oldestMessageTimestamp, reverseSorting
 				history.push(row);
 			}
 
-			function emitConversationHistory(err){
-				if(err) {
+			function emitConversationHistory(err) {
+				if (err) {
 					throw err;
 				}
 
-				var json = conversation.json();
+				const json = conversation.json();
 				json.messages = (reverseSorting ? history.reverse() : history);
 				json.reverseSorting = reverseSorting;
 				json.oldestMessageTimestamp = oldestTimestamp;
@@ -43,5 +48,4 @@ module.exports = function(conversationId, oldestMessageTimestamp, reverseSorting
 			);
 		}
 	}
-
 };

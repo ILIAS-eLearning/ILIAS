@@ -1,29 +1,29 @@
-var Container = require('../AppContainer');
-var UUID	  = require('node-uuid');
-var Conversation = require('../Model/Conversation');
+const Container = require('../AppContainer'),
+	UUID = require('node-uuid'),
+	Conversation = require('../Model/Conversation');
 
-	/**
- * @param {Array} participants
+/**
+ *
+ * @param {{name: string, id: number}[]} participants
  */
-module.exports = function(participants) {
+module.exports = function (participants) {
 	Container.getLogger().info('Conversation Requested');
-	var namespace = Container.getNamespace(this.nsp.name);
-	var conversations = namespace.getConversations();
-	var conversation = conversations.getForParticipants(participants);
-	var socket = this;
+	const namespace = Container.getNamespace(this.nsp.name),
+		conversations = namespace.getConversations(),
+		socket = this;
+	let conversation = conversations.getForParticipants(participants.map(p => p.id.toString()));
 
-	if(conversation == null) {
+	if (null === conversation) {
 		Container.getLogger().info('No Conversation found. Creating new one');
 		conversation = new Conversation(UUID.v4());
-		conversations.add(conversation);
-
+		conversations.addOrUpdate(conversation);
 		namespace.getDatabase().persistConversation(conversation);
 	}
 
-	for(var key in participants) {
-		var participant = namespace.getSubscriberWithOfflines(participants[key].id, participants[key].name);
+	for (let key in participants) {
+		const participant = namespace.getSubscriberWithOfflines(participants[key].id, participants[key].name);
 		conversation.addParticipant(participant);
-		participant.join(conversation.id);
+		participant.join(conversation.getId());
 	}
 
 	namespace.getDatabase().updateConversation(conversation);
