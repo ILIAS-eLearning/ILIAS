@@ -236,23 +236,23 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings)
     {
-        $val = $info_settings->contact();
+        $val = $info_settings->getContact();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->responsibility();
+        $val = $info_settings->getResponsibility();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->phone();
+        $val = $info_settings->getPhone();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->mails();
+        $val = $info_settings->getMails();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->consultationHours();
+        $val = $info_settings->getConsultationHours();
         if ($val !== null && $val !== '') {
             return true;
         }
@@ -339,6 +339,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             return $this->ctrl->getLinkTargetByClass('ilindividualassessmentmembersgui', 'view');
         }
         return $this->ctrl->getLinkTarget($this, $a_cmd);
+    }
+    public function editObject()
+    {
+        $link = $this->getLinkTarget('settings');
+        $this->ctrl->redirectToURL($link);
     }
 
     public function getBaseEditForm()

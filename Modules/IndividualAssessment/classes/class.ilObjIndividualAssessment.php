@@ -12,6 +12,31 @@ class ilObjIndividualAssessment extends ilObject
 {
     protected $lp_active = null;
 
+    /**
+     * @var ilIndividualAssessmentSettings
+     */
+    protected $settings;
+
+    /**
+     * @var ilIndividualAssessmentSettingsStorageDB
+     */
+    protected $settings_storage;
+
+    /**
+     * @var ilIndividualAssessmentMembersStorageDB
+     */
+    protected $members_storage;
+
+    /**
+     * @var ilIndividualAssessmentAccessHandler
+     */
+    protected $access_handler;
+
+    /**
+     * @var ilAccessHandler
+     */
+    protected $il_access_handler;
+
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         global $DIC;
@@ -35,7 +60,15 @@ class ilObjIndividualAssessment extends ilObject
     public function create()
     {
         parent::create();
-        $this->settings = new ilIndividualAssessmentSettings($this);
+        $this->settings = new ilIndividualAssessmentSettings(
+            (int)$this->getId(),
+            '',
+            '',
+            '',
+            '',
+            false,
+            false
+        );
         $this->settings_storage->createSettings($this->settings);
     }
 
@@ -51,10 +84,7 @@ class ilObjIndividualAssessment extends ilObject
         $this->info_settings = $settings_storage->loadInfoSettings($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSettings()
+    public function getSettings() : ilIndividualAssessmentSettings
     {
         if (!$this->settings) {
             $this->settings = $this->settings_storage->loadSettings($this);
@@ -72,7 +102,7 @@ class ilObjIndividualAssessment extends ilObject
         $this->setDescription($settings->getDescription());
     }
 
-    public function getInfoSettings()
+    public function getInfoSettings() : ilIndividualAssessmentInfoSettings
     {
         if (!$this->info_settings) {
             $this->info_settings = $this->settings_storage->loadInfoSettings($this);
@@ -190,19 +220,23 @@ class ilObjIndividualAssessment extends ilObject
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
-            $new_obj,
-            $settings->content(),
-            $settings->recordTemplate()
+            (int)$new_obj->getId(),
+            (int)$new_obj->getTitle(),
+            (int)$new_obj->getDescription(),
+            $settings->getContent(),
+            $settings->getRecordTemplate(),
+            $settings->isEventTimePlaceRequired(),
+            $settings->isFileRequired()
         );
         $new_obj->settings = $new_settings;
 
         $new_info_settings = new ilIndividualAssessmentInfoSettings(
-            $new_obj,
-            $info_settings->contact(),
-            $info_settings->responsibility(),
-            $info_settings->phone(),
-            $info_settings->mails(),
-            $info_settings->consultationHours()
+            (int)$new_obj->getId(),
+            $info_settings->getContact(),
+            $info_settings->getResponsibility(),
+            $info_settings->getPhone(),
+            $info_settings->getMails(),
+            $info_settings->getConsultationHours()
         );
         $new_obj->settings = $new_settings;
         $new_obj->info_settings = $new_info_settings;

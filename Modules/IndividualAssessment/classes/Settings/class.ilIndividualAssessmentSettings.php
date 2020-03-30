@@ -14,9 +14,6 @@ use \ILIAS\Refinery\Factory as Refinery;
  */
 class ilIndividualAssessmentSettings
 {
-    const DEF_CONTENT = "";
-    const DEF_RECORD_TEMPLATE = "";
-
     /**
      * @var int
      */
@@ -117,7 +114,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the value of the checkbox event_time_place_require
      */
-    public function getEventTimePlaceRequired() : bool
+    public function isEventTimePlaceRequired() : bool
     {
         return $this->event_time_place_required;
     }
@@ -125,7 +122,7 @@ class ilIndividualAssessmentSettings
     /**
      * Get the value of the checkbox file_required
      */
-    public function getFileRequired() : bool
+    public function isFileRequired() : bool
     {
         return $this->file_required;
     }
@@ -148,9 +145,9 @@ class ilIndividualAssessmentSettings
                 $input->textarea($lng->txt("iass_record_template"), $lng->txt("iass_record_template_explanation"))
                     ->withValue($this->getRecordTemplate()),
                 $input->checkbox($lng->txt("iass_event_time_place_required"), $lng->txt("iass_event_time_place_required_info"))
-                    ->withValue($this->getEventTimePlaceRequired()),
+                    ->withValue($this->isEventTimePlaceRequired()),
                 $input->checkbox($lng->txt("iass_file_required"), $lng->txt("iass_file_required_info"))
-                    ->withValue($this->getFileRequired()),
+                    ->withValue($this->isFileRequired())
             ],
             $lng->txt("settings")
         )->withAdditionalTransformation(
