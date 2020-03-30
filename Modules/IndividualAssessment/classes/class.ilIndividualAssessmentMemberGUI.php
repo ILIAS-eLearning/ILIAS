@@ -103,9 +103,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      */
     protected $notificator;
 
-	/**
-	 * @var ilToolbarGUI
-	 */
+    /**
+     * @var ilToolbarGUI
+     */
     protected $toolbar;
 
     /**
@@ -126,7 +126,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         Renderer $renderer,
         ServerRequest $request,
         ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
-		ilToolbarGUI $toolbar,
+        ilToolbarGUI $toolbar,
         ilObjIndividualAssessment $object,
         ilErrorHandling $error_object
     ) {
@@ -161,7 +161,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             case self::CMD_FINALIZE_CONFIRMATION:
             case self::CMD_AMEND:
             case self::CMD_SAVE_AMEND:
-			case self::CMD_DOWNLOAD_FILE:
+            case self::CMD_DOWNLOAD_FILE:
                 $this->$cmd();
                 break;
             case AbstractCtrlAwareUploadHandler::CMD_UPLOAD:
@@ -176,7 +176,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
     protected function view()
     {
-    	if (!$this->mayBeViewed()) {
+        if (!$this->mayBeViewed()) {
             $this->handleAccessViolation();
             return;
         }
@@ -195,7 +195,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $action = $this->ctrl->getFormAction($this, 'update');
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
-		$this->setToolbar();
+        $this->setToolbar();
         $form = $this->buildForm($action, true);
         $this->tpl->setContent($this->renderer->render($form));
     }
@@ -244,22 +244,22 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $action = $this->ctrl->getFormAction($this, self::CMD_SAVE_AMEND);
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
-		$this->setToolbar();
+        $this->setToolbar();
         $form = $this->buildForm($action, true, true);
         $this->tpl->setContent($this->renderer->render($form));
     }
 
     protected function downloadFile()
-	{
-		$path = $this->getUserFileStorage()->getFilePath();
-		$file_name = $this->getMember()->fileName();
-		ilUtil::deliverFile($path, $file_name);
-	}
+    {
+        $path = $this->getUserFileStorage()->getFilePath();
+        $file_name = $this->getMember()->fileName();
+        ilUtil::deliverFile($path, $file_name);
+    }
 
     protected function saveAmend()
     {
         if (!$this->mayBeAmended()) {
-           $this->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
@@ -317,12 +317,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function finalize() : void
     {
         if (!$this->mayBeEdited()) {
-           $this->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
         $member = $this->getMember();
-        if (! $member->mayBeFinalized()) {
+        if (!$member->mayBeFinalized()) {
             ilUtil::sendFailure($this->lng->txt('iass_may_not_finalize'), true);
             $this->redirect('edit');
             return;
@@ -618,17 +618,17 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     }
 
     protected function setToolbar()
-	{
-		$member = $this->getMember();
-		if($member->fileName() != '') {
-			$btn = ilLinkButton::getInstance();
-			$btn->setCaption('download_assessment_paper');
-			$this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
-			$btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, false, true));
-			$this->ctrl->setParameter($this, 'usr_id', null);
-			$this->toolbar->addButtonInstance($btn);
-		}
-	}
+    {
+        $member = $this->getMember();
+        if ($member->fileName() != '') {
+            $btn = ilLinkButton::getInstance();
+            $btn->setCaption('download_assessment_paper');
+            $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+            $btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, false, true));
+            $this->ctrl->setParameter($this, 'usr_id', null);
+            $this->toolbar->addButtonInstance($btn);
+        }
+    }
 
     protected function mayBeEdited() : bool
     {

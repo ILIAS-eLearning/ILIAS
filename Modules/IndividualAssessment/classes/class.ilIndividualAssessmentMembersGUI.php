@@ -122,7 +122,7 @@ class ilIndividualAssessmentMembersGUI
         $this->error_object = $error_object;
         $this->member_gui = $member_gui;
 
-        $this->ref_id = (int)$object->getRefId();
+        $this->ref_id = (int) $object->getRefId();
     }
 
     public function executeCommand()
@@ -361,7 +361,7 @@ class ilIndividualAssessmentMembersGUI
 
         $ret[$this->txt("iass_filter_all")] = $this->getLinkForStatusFilter(null);
 
-        if($this->maybeViewLearningProgress()) {
+        if ($this->maybeViewLearningProgress()) {
             $ret[$this->txt("iass_filter_not_started")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED);
             $ret[$this->txt("iass_filter_not_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_IN_PROGRESS);
             $ret[$this->txt("iass_filter_finalized")] = $this->getLinkForStatusFilter(ilIndividualAssessmentMembers::LP_COMPLETED);

@@ -149,7 +149,7 @@ class ilIndividualAssessmentSettingsGUI
             [$field]
         )
         ->withAdditionalTransformation(
-            $this->refinery->custom()->transformation(function($v) {
+            $this->refinery->custom()->transformation(function ($v) {
                 return array_shift($v);
             })
         );
@@ -158,7 +158,7 @@ class ilIndividualAssessmentSettingsGUI
     protected function edit()
     {
         $this->tabs_gui->setSubTabActive(self::TAB_EDIT);
-        $form = $this->buildForm(); 
+        $form = $this->buildForm();
         $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
@@ -173,8 +173,7 @@ class ilIndividualAssessmentSettingsGUI
             $this->object->setSettings($settings);
             $this->object->update();
             $this->ctrl->redirect($this, "edit");
-        }
-        else {
+        } else {
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
@@ -197,8 +196,7 @@ class ilIndividualAssessmentSettingsGUI
             $this->object->setInfoSettings($info_settings);
             $this->object->updateInfo();
             $this->ctrl->redirect($this, "editInfo");
-        }
-        else {
+        } else {
             $this->tpl->setContent($this->ui_renderer->render($form));
         }
     }
@@ -216,7 +214,7 @@ class ilIndividualAssessmentSettingsGUI
             [$field]
         )
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function($v) {
+                $this->refinery->custom()->transformation(function ($v) {
                     return array_shift($v);
                 })
             );

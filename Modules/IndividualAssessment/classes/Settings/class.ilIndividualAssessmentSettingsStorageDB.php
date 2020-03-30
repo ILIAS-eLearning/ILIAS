@@ -60,7 +60,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
             throw new ilIndividualAssessmentException("$obj_id not in database");
         } else {
             return new ilIndividualAssessmentSettings(
-                (int)$obj->getId(),
+                (int) $obj->getId(),
                 '',
                 '',
                 '',
@@ -100,7 +100,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
             if ($res = $this->db->fetchAssoc($this->db->query($sql))) {
                 return new ilIndividualAssessmentInfoSettings(
-                    (int)$obj->getId(),
+                    (int) $obj->getId(),
                     $res["contact"],
                     $res["responsibility"],
                     $res['phone'],
@@ -110,7 +110,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
             }
             throw new ilIndividualAssessmentException("$obj_id not in database");
         } else {
-            return new ilIndividualAssessmentInfoSettings((int)$obj->getId());
+            return new ilIndividualAssessmentInfoSettings((int) $obj->getId());
         }
     }
 

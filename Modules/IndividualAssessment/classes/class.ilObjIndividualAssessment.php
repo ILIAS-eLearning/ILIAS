@@ -70,7 +70,7 @@ class ilObjIndividualAssessment extends ilObject
     {
         parent::create();
         $this->settings = new ilIndividualAssessmentSettings(
-            (int)$this->getId(),
+            (int) $this->getId(),
             '',
             '',
             '',
@@ -229,9 +229,9 @@ class ilObjIndividualAssessment extends ilObject
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
-            (int)$new_obj->getId(),
-            (int)$new_obj->getTitle(),
-            (int)$new_obj->getDescription(),
+            (int) $new_obj->getId(),
+            (int) $new_obj->getTitle(),
+            (int) $new_obj->getDescription(),
             $settings->getContent(),
             $settings->getRecordTemplate(),
             $settings->isEventTimePlaceRequired(),
@@ -240,7 +240,7 @@ class ilObjIndividualAssessment extends ilObject
         $new_obj->settings = $new_settings;
 
         $new_info_settings = new ilIndividualAssessmentInfoSettings(
-            (int)$new_obj->getId(),
+            (int) $new_obj->getId(),
             $info_settings->getContact(),
             $info_settings->getResponsibility(),
             $info_settings->getPhone(),
@@ -317,7 +317,7 @@ class ilObjIndividualAssessment extends ilObject
 
     protected function getDic() : Pimple\Container
     {
-        if(is_null($this->dic)) {
+        if (is_null($this->dic)) {
             global $DIC;
             $this->dic = $this->getObjectDIC(
                 $this,

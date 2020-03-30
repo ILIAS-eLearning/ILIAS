@@ -81,7 +81,6 @@ class ilIndividualAssessmentSettings
     public function getTitle() : string
     {
         return $this->title;
-    
     }
 
     /**
@@ -90,7 +89,6 @@ class ilIndividualAssessmentSettings
     public function getDescription() : string
     {
         return $this->description;
-    
     }
 
     /**
@@ -99,7 +97,6 @@ class ilIndividualAssessmentSettings
     public function getContent() : string
     {
         return $this->content;
-    
     }
 
     /**
@@ -132,9 +129,8 @@ class ilIndividualAssessmentSettings
         \ilLanguage $lng,
         Refinery $refinery
     ) : Field\Input {
-
         return $input->section(
-            [ 
+            [
                 $input->text($lng->txt("title"))
                     ->withValue($this->getTitle())
                     ->withRequired(true),
@@ -151,11 +147,11 @@ class ilIndividualAssessmentSettings
             ],
             $lng->txt("settings")
         )->withAdditionalTransformation(
-            $refinery->custom()->transformation(function($value) {
+            $refinery->custom()->transformation(function ($value) {
                 return new \ilIndividualAssessmentSettings(
                     $this->getObjId(),
                     ...$value
-                ); 
+                );
             })
         );
     }

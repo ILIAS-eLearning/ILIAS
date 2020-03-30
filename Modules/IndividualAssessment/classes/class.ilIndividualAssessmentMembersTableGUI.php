@@ -134,7 +134,7 @@ class ilIndividualAssessmentMembersTableGUI
 
     protected function getGradedByInformation(?int $graded_by_id) : array
     {
-        if(is_null($graded_by_id)) {
+        if (is_null($graded_by_id)) {
             return [];
         }
 
@@ -150,23 +150,23 @@ class ilIndividualAssessmentMembersTableGUI
 
     protected function getChangedByInformation(?int $changed_by_id, ?DateTime $change_date) : array
     {
-        if(is_null($changed_by_id)) {
+        if (is_null($changed_by_id)) {
             return [];
         }
 
         $changed_date_str = "";
-        if(! is_null($change_date)) {
+        if (!is_null($change_date)) {
             $dt = new ilDate($change_date->format("Y-m-d"), IL_CAL_DATE);
             $changed_date_str = ilDatePresentation::formatDate($dt);
         }
 
         $full_name = $this->getFullNameFor($changed_by_id);
         if (!$this->hasPublicProfile($changed_by_id)) {
-            return [$this->txt('iass_changed_by') => $full_name.' '.$changed_date_str];
+            return [$this->txt('iass_changed_by') => $full_name . ' ' . $changed_date_str];
         }
 
         return [
-            $this->txt('iass_changed_by') => $this->getProfileLink($full_name, $changed_by_id).' '.$changed_date_str
+            $this->txt('iass_changed_by') => $this->getProfileLink($full_name, $changed_by_id) . ' ' . $changed_date_str
         ];
     }
 
@@ -286,7 +286,7 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getGradedInformations(?DateTimeImmutable $event_time) : array
     {
         $event_time_str = "";
-        if(! is_null($event_time)) {
+        if (!is_null($event_time)) {
             $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
             $event_time_str = ilDatePresentation::formatDate($dt);
         }
@@ -415,7 +415,7 @@ class ilIndividualAssessmentMembersTableGUI
                 return $this->txt('iass_status_failed');
                 break;
             default:
-                throw new ilIndividualAssessmentException("Invalid status: ".$a_status);
+                throw new ilIndividualAssessmentException("Invalid status: " . $a_status);
         }
     }
 

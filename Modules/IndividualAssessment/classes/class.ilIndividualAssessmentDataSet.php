@@ -154,9 +154,9 @@ class ilIndividualAssessmentDataSet extends ilDataSet
                     $newObj->create();
                 }
                 $settings = new ilIndividualAssessmentSettings(
-                    (int)$newObj->getId(),
-                    (int)$newObj->getTitle(),
-                    (int)$newObj->getDescription(),
+                    (int) $newObj->getId(),
+                    (int) $newObj->getTitle(),
+                    (int) $newObj->getDescription(),
                     $rec["content"],
                     $rec["recordTemplate"],
                     $rec['eventTimePlaceRequired'],
@@ -164,7 +164,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
                 );
 
                 $info = new ilIndividualAssessmentInfoSettings(
-                    (int)$newObj->getId(),
+                    (int) $newObj->getId(),
                     $rec['contact'],
                     $rec['responsibility'],
                     $rec['phone'],

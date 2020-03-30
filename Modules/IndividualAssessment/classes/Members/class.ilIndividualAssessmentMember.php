@@ -34,14 +34,14 @@ class ilIndividualAssessmentMember
      */
     protected $notification_ts;
 
-	/**
-	 * @var int|null
-	 */
+    /**
+     * @var int|null
+     */
     protected $changer_id;
 
-	/**
-	 * @var DateTime|null
-	 */
+    /**
+     * @var DateTime|null
+     */
     protected $change_time;
 
     public function __construct(
@@ -50,7 +50,7 @@ class ilIndividualAssessmentMember
         ?ilIndividualAssessmentUserGrading $grading,
         int $examiner_id,
         int $notification_ts,
-		?int $changer_id,
+        ?int $changer_id,
         ?DateTime $change_time
     ) {
         $this->iass = $iass;
@@ -110,12 +110,12 @@ class ilIndividualAssessmentMember
 
     public function id() : int
     {
-        return (int)$this->usr->getId();
+        return (int) $this->usr->getId();
     }
 
     public function assessmentId() : int
     {
-        return (int)$this->iass->getId();
+        return (int) $this->iass->getId();
     }
 
     public function assessment() : ilObjIndividualAssessment
@@ -140,7 +140,7 @@ class ilIndividualAssessmentMember
                 ilIndividualAssessmentMembers::LP_FAILED
             ]
             ) &&
-            ! $this->finalized();
+            !$this->finalized();
     }
 
     public function withExaminerId(int $examiner_id) : ilIndividualAssessmentMember
@@ -222,10 +222,10 @@ class ilIndividualAssessmentMember
         return $this->grading->isFileVisible();
     }
 
-	public function getGrading(): ilIndividualAssessmentUserGrading
-	{
-		return $this->grading;
-	}
+    public function getGrading() : ilIndividualAssessmentUserGrading
+    {
+        return $this->grading;
+    }
 
     public function withGrading($grading) : ilIndividualAssessmentMember
     {

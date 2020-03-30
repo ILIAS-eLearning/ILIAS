@@ -88,24 +88,23 @@ class ilIndividualAssessmentInfoSettings
         \ilLanguage $lng,
         Refinery $refinery
     ) : Field\Input {
-
         return $input->section(
             [
                 $input->text($lng->txt("iass_contact"))
-                    ->withValue((string)$this->getContact())
+                    ->withValue((string) $this->getContact())
                     ->withRequired(true),
                 $input->text($lng->txt("iass_responsibility"))
-                    ->withValue((string)$this->getResponsibility()),
+                    ->withValue((string) $this->getResponsibility()),
                 $input->text($lng->txt("iass_phone"))
-                    ->withValue((string)$this->getPhone()),
+                    ->withValue((string) $this->getPhone()),
                 $input->textarea($lng->txt("iass_mails"), $lng->txt("iass_info_emails_expl"))
-                    ->withValue((string)$this->getMails()),
+                    ->withValue((string) $this->getMails()),
                 $input->textarea($lng->txt("iass_consultation_hours"))
-                    ->withValue((string)$this->getConsultationHours())
+                    ->withValue((string) $this->getConsultationHours())
             ],
             $lng->txt("settings")
         )->withAdditionalTransformation(
-            $refinery->custom()->transformation(function($value) {
+            $refinery->custom()->transformation(function ($value) {
                 return new ilIndividualAssessmentInfoSettings(
                     $this->getObjId(),
                     ...$value
