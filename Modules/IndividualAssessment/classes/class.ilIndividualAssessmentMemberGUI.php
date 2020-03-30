@@ -298,7 +298,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->refinery_factory,
             $this->getPossibleLPStates(),
             $may_be_edited,
-            (bool) $this->getObject()->getSettings()->eventTimePlaceRequired(),
+            (bool) $this->getObject()->getSettings()->isEventTimePlaceRequired(),
             $amend,
             $this
         );

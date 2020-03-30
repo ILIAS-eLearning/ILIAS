@@ -130,7 +130,7 @@ class ilIndividualAssessmentMember
 
     public function mayBeFinalized() : bool
     {
-        if ($this->iass->getSettings()->fileRequired() && (string) $this->fileName() === '') {
+        if ($this->iass->getSettings()->isFileRequired() && (string) $this->fileName() === '') {
             return false;
         }
         return in_array(

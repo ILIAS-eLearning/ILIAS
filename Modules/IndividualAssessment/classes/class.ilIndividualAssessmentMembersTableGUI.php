@@ -253,7 +253,7 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         if ($this->checkDownloadFile($usr_id, $file_name)) {
-            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadFile');
             $items[] = $ui_factory->button()->shy($this->txt('iass_usr_download_attachment'), $target);
         }
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
