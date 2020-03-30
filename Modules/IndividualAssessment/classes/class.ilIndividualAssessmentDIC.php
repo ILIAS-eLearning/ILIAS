@@ -21,6 +21,21 @@ trait ilIndividualAssessmentDIC
             return new ilIndividualAssessmentPrimitiveInternalNotificator();
         };
 
+        $container['ilIndividualAssessmentSettingsGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentSettingsGUI(
+                $object,
+                $dic['ilCtrl'],
+                $dic['tpl'],
+                $dic['lng'],
+                $dic['ilTabs'],
+                $dic['ui.factory']->input(),
+                $dic['refinery'],
+                $dic['ui.renderer'],
+                $dic['http']->request(),
+                $dic['ilErr']
+            );
+        };
+
         $container['ilIndividualAssessmentMembersGUI'] = function ($c) use ($object, $dic) {
             return new ilIndividualAssessmentMembersGUI(
                 $object,

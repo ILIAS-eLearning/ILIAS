@@ -331,4 +331,9 @@ class ilObjIndividualAssessment extends ilObject
     {
         return $this->getDic()['ilIndividualAssessmentMembersGUI'];
     }
+
+    public function getSettingsGUI() : ilIndividualAssessmentSettingsGUI
+    {
+        return $this->getDic()['ilIndividualAssessmentSettingsGUI'];
+    }
 }

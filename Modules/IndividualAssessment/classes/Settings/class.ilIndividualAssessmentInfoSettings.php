@@ -53,7 +53,7 @@ class ilIndividualAssessmentInfoSettings
         $this->consultation_hours = $consultation_hours;
     }
 
-    public function id() : int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -107,7 +107,7 @@ class ilIndividualAssessmentInfoSettings
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(function($value) {
                 return new ilIndividualAssessmentInfoSettings(
-                    $this->id(),
+                    $this->getObjId(),
                     ...$value
                 );
             })

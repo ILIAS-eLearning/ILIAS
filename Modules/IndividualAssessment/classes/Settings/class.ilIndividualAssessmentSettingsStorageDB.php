@@ -121,7 +121,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
      */
     public function updateInfoSettings(ilIndividualAssessmentInfoSettings $settings)
     {
-        $where = array("obj_id" => array("integer", $settings->id()));
+        $where = array("obj_id" => array("integer", $settings->getObjId()));
 
         $values = array( "contact" => array("text", $settings->getContact())
                 , "responsibility" => array("text", $settings->getResponsibility())

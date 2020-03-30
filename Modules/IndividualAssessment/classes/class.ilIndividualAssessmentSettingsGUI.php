@@ -3,45 +3,100 @@
 declare(strict_types=1);
 
 use \ILIAS\UI\Component\Input\Container\Form;
+use \ILIAS\UI\Component\Input;
+use \ILIAS\Refinery;
+use \ILIAS\UI;
 
 class ilIndividualAssessmentSettingsGUI
 {
     const TAB_EDIT = 'settings';
     const TAB_EDIT_INFO = 'infoSettings';
 
+    /**
+     * @var ilCtrl
+     */
     protected $ctrl;
+
+    /**
+     * @var ilObjIndividualAssessment
+     */
     protected $object;
+
+    /**
+     * @var ilGlobalPageTemplate
+     */
     protected $tpl;
+
+    /**
+     * @var ilLanguage
+     */
     protected $lng;
+
+    /**
+     * @var ilTabsGUI
+     */
     protected $tabs_gui;
+
+    /**
+     * @var IndividualAssessmentAccessHandler
+     */
     protected $iass_access;
+
+    /**
+     * @var Input\Factory
+     */
     protected $input_factory;
+
+    /**
+     * @var Refinery\Factory
+     */
     protected $refinery;
+
+    /**
+     * @var UI\Renderer
+     */
     protected $ui_renderer;
+
+    /**
+     * @var \Psr\Http\Message\RequestInterface|\Psr\Http\Message\ServerRequestInterface
+     */
     protected $http_request;
 
-    public function __construct($a_parent_gui, $a_ref_id)
-    {
-        global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->parent_gui = $a_parent_gui;
-        /** @var ilObjIndividualAssessment object */
-        $this->object = $a_parent_gui->object;
-        $this->ref_id = $a_ref_id;
-        $this->tpl = $DIC['tpl'];
-        $this->lng = $DIC['lng'];
-        $this->tabs_gui = $DIC['ilTabs'];
-        $this->getSubTabs($this->tabs_gui);
+    /**
+     * @var
+     */
+    protected $error_object;
+
+    public function __construct(
+        ilObjIndividualAssessment $object,
+        ilCtrl $ctrl,
+        ilGlobalPageTemplate $tpl,
+        ilLanguage $lng,
+        ilTabsGUI $tabs_gui,
+        Input\Factory $factory,
+        Refinery\Factory $refinery,
+        UI\Renderer $ui_renderer,
+        $http_request,
+        ilErrorHandling $error_object
+    ) {
+        $this->ctrl = $ctrl;
+        $this->object = $object;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->tabs_gui = $tabs_gui;
         $this->iass_access = $this->object->accessHandler();
 
+        $this->input_factory = $factory;
+        $this->refinery = $refinery;
+        $this->ui_renderer = $ui_renderer;
+        $this->http_request = $http_request;
+
+        $this->error_object = $error_object;
+
+        $this->getSubTabs($this->tabs_gui);
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
         $this->lng->loadLanguageModule('cntr');
-
-        $this->input_factory = $DIC->ui()->factory()->input();
-        $this->refinery = $DIC->refinery();
-        $this->ui_renderer = $DIC->ui()->renderer();
-        $this->http_request = $DIC->http()->request();
     }
 
     protected function getSubTabs(ilTabsGUI $tabs)
@@ -62,7 +117,7 @@ class ilIndividualAssessmentSettingsGUI
     {
         $cmd = $this->ctrl->getCmd();
         if (!$this->iass_access->mayEditObject()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
         }
         switch ($cmd) {
             case 'edit':
@@ -165,5 +220,10 @@ class ilIndividualAssessmentSettingsGUI
                     return array_shift($v);
                 })
             );
+    }
+
+    public function handleAccessViolation()
+    {
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 }
