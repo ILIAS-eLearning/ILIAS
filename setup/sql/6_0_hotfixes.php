@@ -180,3 +180,9 @@ if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+
+<#16>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
+?>
