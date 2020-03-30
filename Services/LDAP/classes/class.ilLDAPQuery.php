@@ -384,8 +384,8 @@ class ilLDAPQuery
         
         // All groups
         foreach ($group_data as $data) {
-            $this->log->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
             if (is_array($data[$attribute_name])) {
+	            $this->log->debug('Found ' . count($data[$attribute_name]) . ' group members for group ' . $data['dn']);
                 foreach ($data[$attribute_name] as $name) {
                     $this->readUserData($name, true, true);
                 }
