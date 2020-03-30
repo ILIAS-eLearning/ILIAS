@@ -77,3 +77,4 @@ fi
 # prepare the results and move them to the global results
 cat results/result_*.csv > "results/dicto_latest.csv"
 cp results/dicto_latest.csv "$RESULTS_DATA_DIRECTORY_DICTO"
+cp results/results.sqlite "$RESULTS_DATA_DIRECTORY_DICTO"
