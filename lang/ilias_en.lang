@@ -16025,28 +16025,28 @@ prg#:#select_org#:#Search for Organisational Unit
 prg#:#label_crs#:#Course Name
 prg#:#label_grp#:#Group Name
 prg#:#label_role#:#Role Name
-prg#:#modal_member_auto_select_title#:#Select Source for auto assignment
+prg#:#modal_member_auto_select_title#:#Select source for auto assignment
 prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 badge#:#badge_new_badges#:#You have %1 new badge(s).
 content#:#cont_no_read#:#No read permission
-content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout
-content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout
-content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock
-content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
-content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
-content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
-content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
-dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
-rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
-task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
+content#:#cont_grid_t_two_column#:#Two-column-layout
+content#:#cont_grid_t_two_column_info#:#Creates two equally wide columns next to each other. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_three_column#:#Three-column-Layout
+content#:#cont_grid_t_three_column_info#:#Creates three columns of equal width next to each other. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_main_side#:#Main and side block
+content#:#cont_grid_t_main_side_info#:#Creates a wide column on the left and a narrower column on the right. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_two_by_two#:#Two-time-two-box
+content#:#cont_grid_t_two_by_two_info#:#Creates two rows with two columns of equal width. Switches to a one-column layout in mobile view (small) and to a four-column layout on extra-wide screens (extra large).
+content#:#cont_grid_t_manual#:#Manually created page layout
+content#:#cont_grid_t_manual_info#:#Enables the free design of the number and width of columns.
+dateplaner#:#cal_no_events_block#:#There are no dates available for you.
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.
+task#:#task_no_task_items#:#There are no tasks for you.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 prg#:#prg_quali_still_valid#:#Qualification still valid
