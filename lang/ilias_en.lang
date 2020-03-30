@@ -9024,8 +9024,8 @@ exc#:#exc_portfolio_created#:#Portfolio was created.
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
 mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the plattform.
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the plattform.
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the platform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
 common#:#usr_account_inactive#:#Inactive Account
 common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
@@ -16107,3 +16107,9 @@ prg#:#prg_delete_failure#:#Delete failed.
 prg#:#prg_delete_success#:#Successfuly delete entries.
 prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
 prg#:#prg_delete_single_success#:#Successfuly delete entry.
+common#:#obj_lsos#:#Learning Sequences
+common#:#obj_lsos_desc#:#General settings for Learning Sequences
+mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
+mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
+mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
