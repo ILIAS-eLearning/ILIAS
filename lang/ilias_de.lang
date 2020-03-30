@@ -12021,7 +12021,7 @@ content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
 content#:#info_stop_offline_mode_sure#:#Achtung: Der im Offline-Modus erzielte Lernfortschritt geht verloren. Sind Sie sicher?
 init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
-init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
+init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
 obj#:#obj_master_lang#:#Standardsprache
