@@ -199,6 +199,10 @@ class ilIndividualAssessmentUserGrading
             ->withDisabled(!$may_be_edited)
         ;
 
+        if (!is_null($this->getEventTime())) {
+            $event_time = $event_time->withValue($this->getEventTime()->format('d-m-Y'));
+        }
+
         $notify = $input
             ->checkbox($lng->txt('iass_notify'), $lng->txt('iass_notify_explanation'))
             ->withValue($this->isNotify())
@@ -238,7 +242,7 @@ class ilIndividualAssessmentUserGrading
                 }
 
                 $file = $this->getFile();
-                if(
+                if (
                     isset($values['file'][0]) &&
                     trim($values['file'][0]) != ''
                 ) {
@@ -251,7 +255,7 @@ class ilIndividualAssessmentUserGrading
                     $values['internal_note'],
                     $file,
                     $values['file_visible'],
-                    (int)$values['learning_progress'],
+                    (int) $values['learning_progress'],
                     $values['place'],
                     $values['event_time'],
                     $values['notify'],
