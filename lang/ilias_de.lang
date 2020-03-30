@@ -14098,7 +14098,7 @@ iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
 iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
-iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -16097,3 +16097,4 @@ iass#:#iass_confirm_finalize#:#Finalisieren
 iass#:#iass_cancel#:#Abbrechen
 iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
 iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
+iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
