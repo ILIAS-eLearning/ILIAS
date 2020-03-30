@@ -1353,7 +1353,10 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+        if (
+            $GLOBALS['DIC']['ilAuthSession']->isExpired() &&
+            !\ilObjUser::_isAnonymous($GLOBALS['DIC']['ilAuthSession']->getUserId())
+        ) {
             ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
             return self::goToLogin();
         }
@@ -1587,26 +1590,26 @@ class ilInitialisation
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
                     $c["ui.resource_registry"],
                     new ILIAS\UI\Implementation\Render\FSLoader(
-                        new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
-                        $c["ui.factory"],
-                        $c["ui.template_factory"],
-                        $c["lng"],
-                        $c["ui.javascript_binding"],
-                        $c["refinery"]
+                    new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                             ),
-                        new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
-                        $c["ui.factory"],
-                        $c["ui.template_factory"],
-                        $c["lng"],
-                        $c["ui.javascript_binding"],
-                        $c["refinery"]
+                    new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                           ),
-                        new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
-                        $c["ui.factory"],
-                        $c["ui.template_factory"],
-                        $c["lng"],
-                        $c["ui.javascript_binding"],
-                        $c["refinery"]
+                    new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                           )
                         )
                     )
