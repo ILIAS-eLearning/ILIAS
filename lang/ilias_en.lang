@@ -14099,7 +14099,7 @@ iass#:#iass_notify#:#Notify participant after finalization
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
-iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
+iass#:#iass_may_not_finalize#:#Examinee may not be finalised. Please grade the user first.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
 iass#:#iass_usr_download_attachment#:#Download Attachment
@@ -16097,3 +16097,4 @@ iass#:#iass_confirm_finalize#:#Finalize
 iass#:#iass_cancel#:#Cancel
 iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
 iass#:#download_assessment_paper#:#Download Record file
+iass#:#iass_user_removed#:#User successfully removed.
