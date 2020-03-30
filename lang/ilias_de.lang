@@ -16063,7 +16063,7 @@ prg#:#prg_link#:#Link
 prg#:#prg_mail_context_title#:#Mail an Mitglieder
 prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
-copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdige Benutzern verwendet werden. Die Möglichkeit HTML in dieser Art einzubinden wird evtl. in einer zukünftigen Version komplett entfallen.
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 crs#:#crs_page_type_lobj#:#Lernzieleinleitung
 copa#:#copa_page_type_copa#:#Inhaltsseite
