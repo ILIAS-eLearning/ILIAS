@@ -2169,4 +2169,18 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         
         return $res;
     }
+
+    public static function lookupShowMembersEnabled(int $a_obj_id) : bool
+    {
+        global $DIC;
+        $ilDB = $DIC["ilDB"];
+        $query = 'SELECT show_members FROM grp_settings'
+            .' WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+        $res = $ilDB->query($query);
+        if($ilDB->numRows($res) == 0) {
+            return false;
+        }
+        $row = $ilDB->fetchAssoc($res);
+        return (bool)$row['show_members'];
+    }
 } //END class.ilObjGroup
