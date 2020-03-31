@@ -26,7 +26,7 @@ class ilCalendarScheduleFilterBookingPool implements ilCalendarScheduleFilter
      * ilCalendarScheduleFilterBookingPool constructor.
      * @param int $a_user_id
      */
-    public function __construct(int $a_user_id)
+    public function __construct($a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->cats = ilCalendarCategories::_getInstance();
