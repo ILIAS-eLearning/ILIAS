@@ -387,7 +387,6 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     {
         ilUtil::sendSuccess($this->txt("iass_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-        $this->ctrl->
         ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilIndividualassessmentsettingsgui', 'edit', '', false, false));
     }
 
