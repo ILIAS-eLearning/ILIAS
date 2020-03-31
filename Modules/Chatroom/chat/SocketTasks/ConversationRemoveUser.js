@@ -7,7 +7,7 @@ module.exports = function (conversationId, userId, name) {
 		var conversation = namespace.getConversations().getById(conversationId);
 		var participant = namespace.getSubscriberWithOfflines(userId, name);
 
-		if (conversation.isParticipant(participant)) {
+		if (conversation !== null && conversation.isParticipant(participant)) {
 			conversation.removeParticipant(participant);
 			participant.leave(conversation.id);
 
