@@ -631,6 +631,9 @@ class ilTemplate extends HTML_Template_ITX
                 $contentLanguage = $lng->getDefaultLanguage();
             }
         }
+        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
+            $contentLanguage = $lng->getLangKey();
+        }
         $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
         if (in_array($contentLanguage, $rtl)) {
             $textdir = 'rtl';
