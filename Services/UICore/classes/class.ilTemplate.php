@@ -620,6 +620,9 @@ class ilTemplate extends HTML_Template_ITX
             } elseif (is_object($lng)) {
                 $contentLanguage = $lng->getDefaultLanguage();
             }
+            if ($ilUser->getId() == ANONYMOUS_USER_ID && is_object($lng)) {
+                $contentLanguage = $lng->getLangKey();
+            }
         }
         $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
         if (in_array($contentLanguage, $rtl)) {
