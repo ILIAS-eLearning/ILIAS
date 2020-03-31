@@ -2063,7 +2063,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         return $res;
     }
 
-    public static function lookupShowMembersEnabled(int $a_obj_id) : bool
+    public static function lookupShowMembersEnabled(int $a_obj_id)
     {
         global $DIC;
         $ilDB = $DIC["ilDB"];
