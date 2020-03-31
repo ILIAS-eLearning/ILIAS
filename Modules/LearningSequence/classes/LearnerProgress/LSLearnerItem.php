@@ -60,6 +60,12 @@ class LSLearnerItem extends LSItem
         return $this->usr_id;
     }
 
+    /**
+     * Calling a closure here is a breach of the "immutable object" paradigm
+     * and no good practice at all! Do NOT copy!
+     * However, this fixes #27853 for relase 5.4 - with release 6, the issue (among others)
+     * is solved by restructuring dependencies and re-ordering calls and instantiation.
+     */
     public function getLearningProgressStatus() : int
     {
         $lp_call = $this->learning_progress_status;
