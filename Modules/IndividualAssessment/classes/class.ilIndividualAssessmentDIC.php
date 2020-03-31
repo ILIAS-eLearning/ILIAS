@@ -32,7 +32,8 @@ trait ilIndividualAssessmentDIC
                 $dic['refinery'],
                 $dic['ui.renderer'],
                 $dic['http']->request(),
-                $dic['ilErr']
+                $dic['ilErr'],
+                $c['ilIndividualAssessmentCommonSettingsGUI']
             );
         };
 
@@ -72,6 +73,17 @@ trait ilIndividualAssessmentDIC
                 $dic['ilErr']
             );
         };
+
+        $container['ilIndividualAssessmentCommonSettingsGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentCommonSettingsGUI(
+                $object,
+                $dic['ilCtrl'],
+                $dic['tpl'],
+                $dic['lng'],
+                $dic->object()
+            );
+        };
+
 
         return $container;
     }
