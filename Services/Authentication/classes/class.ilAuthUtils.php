@@ -829,10 +829,10 @@ class ilAuthUtils
     // end-patch auth_plugins
     
     /**
-     *
      * @param string $a_auth_key
+     * @param string $auth_name
      */
-    public static function getAuthModeTranslation($a_auth_key)
+    public static function getAuthModeTranslation($a_auth_key, $auth_name = '')
     {
         global $DIC;
 
@@ -859,7 +859,11 @@ class ilAuthUtils
 
             default:
                 $lng->loadLanguageModule('auth');
-                return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
+                if (!empty($auth_name)) {
+                    return $lng->txt('auth_' . $auth_name);
+                } else {
+                    return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
+                }
         }
     }
 }
