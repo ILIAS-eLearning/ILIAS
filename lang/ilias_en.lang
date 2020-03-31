@@ -15005,7 +15005,7 @@ iass#:#iass_further_field_headline#:#Detailed Information
 iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_not_started#:#Not started only
-iass#:#iass_filter_not_finalized#:#Not completed only
+iass#:#iass_filter_not_finalized#:#Drafts only
 iass#:#iass_filter_finalized#:#Completed only
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_file#:#File
