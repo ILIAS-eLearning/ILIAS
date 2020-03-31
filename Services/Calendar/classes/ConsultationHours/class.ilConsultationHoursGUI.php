@@ -1050,6 +1050,83 @@ class ilConsultationHoursGUI
     }
 
     /**
+     * @param ilPropertyFormGUI $validated_form
+     * @return \ilBookingEntry | null
+     */
+    protected function createNewBookingEntry(\ilPropertyFormGUI $validate_form)
+    {
+        global $DIC;
+
+        $obj_cache = $DIC['ilObjDataCache'];
+
+        $booking = new \ilBookingEntry();
+        $booking->setObjId($this->user_id);
+        $booking->setNumberOfBookings((int) $this->form->getInput('bo'));
+
+        $deadline = $this->form->getInput('dead');
+        $deadline = $deadline['dd'] * 24 + $deadline['hh'];
+        $booking->setDeadlineHours($deadline);
+
+        $tgt = explode(',', (string) $this->form->getInput('tgt'));
+        $obj_ids = [];
+        foreach ((array) $tgt as $ref_id) {
+            if (!trim($ref_id)) {
+                continue;
+            }
+            $obj_id = $obj_cache->lookupObjId($ref_id);
+            $type = ilObject::_lookupType($obj_id);
+            $valid_types = ['crs', 'grp'];
+            if (!$obj_id or !in_array($type, $valid_types)) {
+                ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'));
+                return null;
+            }
+            $obj_ids[] = $obj_id;
+        }
+        $booking->setTargetObjIds($obj_ids);
+
+        if (ilConsultationHourGroups::getCountGroupsOfUser($this->getUserId())) {
+            $booking->setBookingGroup($this->form->getInput('grp'));
+        }
+        $booking->save();
+        return $booking;
+    }
+
+    /**
+     * @param ilBookingEntry $booking
+     * @param int[] $appointments
+     */
+    protected function rewriteBookingIdsForAppointments(\ilBookingEntry $booking, $appointments, \ilPropertyFormGUI $form)
+    {
+        foreach ($appointments as $appointment_id) {
+
+            $booking_appointment = new \ilCalendarEntry($appointment_id);
+            $booking_start = $booking_appointment->getStart();
+            $booking_end = $booking_appointment->getEnd();
+
+            $deprecatedBooking = \ilBookingEntry::getInstanceByCalendarEntryId($appointment_id);
+            if (!$deprecatedBooking instanceof \ilBookingEntry) {
+                // @todo error handling
+                continue;
+            }
+
+            $relevant_appointments = \ilConsultationHourUtils::findCalendarAppointmentsForBooking(
+                $deprecatedBooking,
+                $booking_start,
+                $booking_end
+            );
+            foreach ($relevant_appointments as $relevant_appointment_id) {
+
+                $entry = new \ilCalendarEntry($relevant_appointment_id);
+                $entry->setContextId($booking->getId());
+                $entry->setTitle($form->getInput('ti'));
+                $entry->setLocation($form->getInput('lo'));
+                $entry->setDescription($form->getInput('de'));
+                $entry->update();
+            }
+        }
+    }
+
+    /**
      * Update multiple sequence items
      * @return
      */
@@ -1058,80 +1135,21 @@ class ilConsultationHoursGUI
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        
+
         $this->initFormSequence(self::MODE_MULTI);
 
         if ($this->form->checkInput()) {
+
             $this->form->setValuesByPost();
-            $apps = explode(';', $_POST['apps']);
-            
-            include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-            include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+            $apps = explode(';', (string) $_POST['apps']);
 
-            // do collision-check if max bookings were reduced
-            // no collision check
-            $first = $apps;
-            $first = array_shift($first);
-            $entry = ilBookingEntry::getInstanceByCalendarEntryId($first);
-            #if($this->form->getInput('bo') < $entry->getNumberOfBookings())
-            #{
-            #   $this->edit();
-            #   return;
-            #}
-
-            #22195 (if we create a new context instead of update the existing one we will mess up the calendar entries)
-            $booking = new ilBookingEntry($entry->getId());
-            // create new context
-            //$booking = new ilBookingEntry();
-            
-            $booking->setObjId($this->getUserId());
-            $booking->setNumberOfBookings($this->form->getInput('bo'));
-
-            $deadline = $this->form->getInput('dead');
-            $deadline = $deadline['dd'] * 24 + $deadline['hh'];
-            $booking->setDeadlineHours($deadline);
-
-            $tgt = explode(',', $this->form->getInput('tgt'));
-            $obj_ids = array();
-            foreach ((array) $tgt as $ref_id) {
-                if (!trim($ref_id)) {
-                    continue;
-                }
-                $obj_id = $ilObjDataCache->lookupObjId($ref_id);
-                $type = ilObject::_lookupType($obj_id);
-                $valid_types = array('crs','grp');
-                if (!$obj_id or !in_array($type, $valid_types)) {
-                    ilUtil::sendFailure($this->lng->txt('cal_ch_unknown_repository_object'));
-                    $this->edit();
-                    return;
-                }
-                $obj_ids[] = $obj_id;
+            // create new booking
+            $booking = $this->createNewBookingEntry($this->form);
+            if (!$booking instanceof \ilBookingEntry) {
+                $this->edit();
+                return false;
             }
-            $booking->setTargetObjIds($obj_ids);
-            
-            include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php';
-            if (ilConsultationHourGroups::getCountGroupsOfUser($this->getUserId())) {
-                $booking->setBookingGroup($this->form->getInput('grp'));
-            }
-            #22195 update the booking instead of save new one.
-            $booking->update();
-            //$booking->save();
-
-
-            // update entries
-            $title = $this->form->getInput('ti');
-            $location = $this->form->getInput('lo');
-            $description = $this->form->getInput('de');
-            
-            foreach ($apps as $item_id) {
-                $entry = new ilCalendarEntry($item_id);
-                $entry->setContextId($booking->getId());
-                $entry->setTitle($title);
-                $entry->setLocation($location);
-                $entry->setDescription($description);
-                $entry->update();
-            }
-
+            $this->rewriteBookingIdsForAppointments($booking, $apps, $this->form);
             ilBookingEntry::removeObsoleteEntries();
 
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
