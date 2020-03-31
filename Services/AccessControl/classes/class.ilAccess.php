@@ -645,8 +645,8 @@ class ilAccess implements ilAccessHandler
         }
 
         // if within activation time
-        if ((time() >= $item_data['timing_start']) and
-           (time() <= $item_data['timing_end'])) {
+        if (($item_data['timing_start'] == 0 || time() >= $item_data['timing_start']) and
+           ($item_data['timing_end'] == 0 || time() <= $item_data['timing_end'])) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
