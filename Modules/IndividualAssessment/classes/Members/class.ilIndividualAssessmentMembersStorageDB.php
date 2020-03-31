@@ -97,11 +97,15 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         if (!is_null($change_time_db)) {
             $change_time = new DateTime($change_time_db);
         }
+        $examiner_id = $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
+        if (!is_null($examiner_id)) {
+            $examiner_id = (int)$examiner_id;
+        }
         return new ilIndividualAssessmentMember(
             $obj,
             $usr,
             $this->createGrading($record, $usr->getFullname()),
-            (int) $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID],
+            $examiner_id,
             (int) $record[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS],
             $changer_id,
             $change_time

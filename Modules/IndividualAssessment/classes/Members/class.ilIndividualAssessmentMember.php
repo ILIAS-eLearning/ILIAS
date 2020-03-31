@@ -25,7 +25,7 @@ class ilIndividualAssessmentMember
     protected $grading;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $examiner_id;
 
@@ -48,7 +48,7 @@ class ilIndividualAssessmentMember
         ilObjIndividualAssessment $iass,
         ilObjUser $usr,
         ?ilIndividualAssessmentUserGrading $grading,
-        int $examiner_id,
+        ?int $examiner_id,
         int $notification_ts,
         ?int $changer_id,
         ?DateTime $change_time
@@ -72,7 +72,7 @@ class ilIndividualAssessmentMember
         return $this->grading->getInternalNote();
     }
 
-    public function examinerId() : int
+    public function examinerId() : ?int
     {
         return $this->examiner_id;
     }

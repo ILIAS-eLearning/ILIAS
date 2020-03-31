@@ -652,7 +652,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         return
             $this->getAccessHandler()->isSystemAdmin() ||
-            (!$this->targetWasEditedByOtherUser($this->member) && $this->getAccessHandler()->mayGradeUser())
+            (!$this->targetWasEditedByOtherUser($this->getMember()) && $this->getAccessHandler()->mayGradeUser())
             ;
     }
 
@@ -669,14 +669,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member) : bool
     {
         return
-            (int) $member->examinerId() !== (int) $this->examiner->getId() &&
+            (int) $member->examinerId() !== (int) $this->user->getId() &&
             0 !== (int) $member->examinerId()
             ;
     }
 
     protected function isFinalized() : bool
     {
-        return $this->member->finalized();
+        return $this->getMember()->finalized();
     }
 
     public function handleAccessViolation()
