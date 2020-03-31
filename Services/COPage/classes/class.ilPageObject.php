@@ -1386,11 +1386,6 @@ abstract class ilPageObject
                 $par->setNode($cont_node);
                 $text = $par->getText();
 
-                if (!$this->getPageConfig()->getPreventHTMLUnmasking()) {
-                    $text = str_replace("<", "&lt;", $text);
-                    $text = str_replace(">", "&gt;", $text);
-                }
-
                 return $text;
             }
         }
