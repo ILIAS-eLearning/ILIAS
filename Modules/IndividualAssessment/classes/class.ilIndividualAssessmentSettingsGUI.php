@@ -7,10 +7,14 @@ use \ILIAS\UI\Component\Input;
 use \ILIAS\Refinery;
 use \ILIAS\UI;
 
+/**
+ * @ilCtrl_Calls ilIndividualAssessmentSettingsGUI: ilIndividualAssessmentCommonSettingsGUI
+ */
 class ilIndividualAssessmentSettingsGUI
 {
     const TAB_EDIT = 'settings';
     const TAB_EDIT_INFO = 'infoSettings';
+    const TAB_COMMON_SETTINGS = 'commonSettings';
 
     /**
      * @var ilCtrl
@@ -67,6 +71,8 @@ class ilIndividualAssessmentSettingsGUI
      */
     protected $error_object;
 
+    protected $common_settings_gui;
+
     public function __construct(
         ilObjIndividualAssessment $object,
         ilCtrl $ctrl,
@@ -77,7 +83,8 @@ class ilIndividualAssessmentSettingsGUI
         Refinery\Factory $refinery,
         UI\Renderer $ui_renderer,
         $http_request,
-        ilErrorHandling $error_object
+        ilErrorHandling $error_object,
+        ilIndividualAssessmentCommonSettingsGUI $common_settings_gui
     ) {
         $this->ctrl = $ctrl;
         $this->object = $object;
@@ -92,6 +99,7 @@ class ilIndividualAssessmentSettingsGUI
         $this->http_request = $http_request;
 
         $this->error_object = $error_object;
+        $this->common_settings_gui = $common_settings_gui;
 
         $this->getSubTabs($this->tabs_gui);
         $this->lng->loadLanguageModule('content');
@@ -107,6 +115,17 @@ class ilIndividualAssessmentSettingsGUI
             $this->ctrl->getLinkTarget($this, 'edit')
         );
         $tabs->addSubTab(
+            self::TAB_COMMON_SETTINGS,
+            $this->lng->txt("obj_features"),
+            $this->ctrl->getLinkTargetByClass(
+                [
+                    self::class,
+                    ilIndividualAssessmentCommonSettingsGUI::class
+                ],
+                ilIndividualAssessmentCommonSettingsGUI::CMD_EDIT
+            )
+        );
+        $tabs->addSubTab(
             self::TAB_EDIT_INFO,
             $this->lng->txt("iass_edit_info"),
             $this->ctrl->getLinkTarget($this, 'editInfo')
@@ -115,24 +134,31 @@ class ilIndividualAssessmentSettingsGUI
 
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd();
         if (!$this->iass_access->mayEditObject()) {
             $this->handleAccessViolation();
         }
-        switch ($cmd) {
-            case 'edit':
-                $this->edit();
+        $next_class = $this->ctrl->getNextClass();
+        $cmd = $this->ctrl->getCmd();
+        switch ($next_class) {
+            case 'ilindividualassessmentcommonsettingsgui':
+                $this->tabs_gui->activateSubTab('common_settings');
+                $this->ctrl->forwardCommand($this->common_settings_gui);
                 break;
-            case 'update':
-                $this->update();
-                break;
-            case 'editInfo':
-                $this->editInfo();
-                break;
-            case 'updateInfo':
-                $this->updateInfo();
-                $this->$cmd();
-            break;
+            default:
+                switch ($cmd) {
+                    case 'edit':
+                        $this->edit();
+                        break;
+                    case 'update':
+                        $this->update();
+                        break;
+                    case 'editInfo':
+                        $this->editInfo();
+                        break;
+                    case 'updateInfo':
+                        $this->updateInfo();
+                        break;
+                }
         }
     }
 
