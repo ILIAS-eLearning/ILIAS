@@ -79,7 +79,9 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC->refinery(),
                 $dic['DataFactory'],
-                $dic['model.Type.ilStudyProgrammeTypeRepository']
+                $dic['model.Type.ilStudyProgrammeTypeRepository'],
+                $dic['ilStudyProgrammeCommonSettingsGUI'],
+                $DIC['ilTabs']
             );
         };
         $dic['ilObjStudyProgrammeMembersGUI'] = function ($dic) use ($DIC) {
@@ -254,6 +256,15 @@ class ilStudyProgrammeDIC
                 $DIC['ui.renderer'],
                 $DIC['ilCtrl'],
                 $dic['Log']
+            );
+        };
+
+        $dic['ilStudyProgrammeCommonSettingsGUI'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeCommonSettingsGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC->object()
             );
         };
 
