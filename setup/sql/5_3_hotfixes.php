@@ -667,3 +667,27 @@ while ($rec = $ilDB->fetchAssoc($res)) {
 }
 $ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE ' . $ilDB->in('obj_id', $to_adjust, false, 'integer'));
 ?>
+<#50>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
+<#51>
+<?php
+if ($ilDB->tableColumnExists("lng_log", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_log", "identifier", $field);
+}
+?> 
