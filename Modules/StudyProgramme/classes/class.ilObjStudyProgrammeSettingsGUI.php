@@ -376,11 +376,6 @@ class ilObjStudyProgrammeSettingsGUI
         );
     }
 
-    protected function setSubTabs(string $active_sub_tab)
-    {
-
-    }
-
     protected function getObject() : ilObjStudyProgramme
     {
         if ($this->object === null) {
