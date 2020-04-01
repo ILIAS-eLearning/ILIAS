@@ -12518,7 +12518,7 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
-maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_latitude#:#Breitengrad
@@ -13293,7 +13293,7 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
-buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
+buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
