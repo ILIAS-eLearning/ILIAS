@@ -1688,6 +1688,9 @@ class ilInitialisation
             $request_adjuster->adjust();
         }
 
+        // load style sheet depending on user's settings
+        $location_stylesheet = ilUtil::getStyleSheetLocation();
+        $tpl->addCss($location_stylesheet);
         require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 
         self::initGlobal(
