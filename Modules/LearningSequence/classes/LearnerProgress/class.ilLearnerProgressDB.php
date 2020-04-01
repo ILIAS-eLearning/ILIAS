@@ -72,6 +72,7 @@ class ilLearnerProgressDB
 
     protected function getAvailabilityFor(int $usr_id, LSItem $ls_item) : int
     {
+        $this->access->clear(); //clear access cache; condition-checks refer to previous state otherwise.
         $readable = $this->access->checkAccessOfUser($usr_id, 'read', '', $ls_item->getRefId());
         if ($readable) {
             return ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE;

@@ -53,7 +53,8 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
                         if ($condition_op !== \ilLSPostConditionDB::STD_ALWAYS_OPERATOR) {
                             $conditions[] = $f->condition(
                                 $f->repositoryTrigger($previous_item->getRefId()),
-                                $f->operator()->$condition_op()
+                                $f->operator()->$condition_op(),
+                                $post_condition->getValue()
                             );
                         }
                     }

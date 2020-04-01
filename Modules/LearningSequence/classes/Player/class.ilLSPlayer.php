@@ -58,6 +58,7 @@ class ilLSPlayer
         $view = $this->view_factory->getViewFor($current_item);
         $state = $this->ls_items->getStateFor($current_item, $view);
         $state = $this->updateViewState($state, $view, $get, $post);
+        $this->items = $this->ls_items->getItems();
 
         //now, digest parameter:
         $command = $_GET[self::PARAM_LSO_COMMAND];
