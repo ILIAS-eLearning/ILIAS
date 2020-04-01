@@ -141,7 +141,7 @@ class ilObjStudyProgrammeSettingsGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
-        switch($next_class) {
+        switch ($next_class) {
             case 'ilstudyprogrammecommonsettingsgui':
                 $this->tabs->activateSubTab(self::TAB_COMMON_SETTINGS);
                 $this->common_settings_gui->setObject($this->getObject());
@@ -154,7 +154,6 @@ class ilObjStudyProgrammeSettingsGUI
                 }
                 switch ($cmd) {
                     case "view":
-                        $this->setSubTabs(self::TAB_SETTINGS);
                         $content = $this->view();
                         break;
                     case "update":
