@@ -94,7 +94,10 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
                 include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
                 $cal_list = new ilCalendarAgendaListGUI($this->seed);
                 $html = $this->ctrl->forwardCommand($cal_list);
-                $tpl->setContent($html);
+                // this fixes 0027035 since many methods ilCalendarAppointmentGUI set their own content.
+                if (strlen($html)) {
+                    $tpl->setContent($html);
+                }
                 break;
 
             default:
