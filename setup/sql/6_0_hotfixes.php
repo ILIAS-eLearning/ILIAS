@@ -130,7 +130,7 @@ $ilCtrlStructureReader->getStructure();
 global $DIC;
 $ilDB = $DIC['ilDB'];
 
-if($ilDB->tableColumnExists('iass_members', 'record')) {
+if ($ilDB->tableColumnExists('iass_members', 'record')) {
     $field_infos = [
         'type' => 'clob',
         'notnull' => false,
@@ -139,7 +139,7 @@ if($ilDB->tableColumnExists('iass_members', 'record')) {
     $ilDB->modifyTableColumn('iass_members', 'record', $field_infos);
 }
 
-if($ilDB->tableColumnExists('iass_members', 'internal_note')) {
+if ($ilDB->tableColumnExists('iass_members', 'internal_note')) {
     $field_infos = [
         'type' => 'clob',
         'notnull' => false,
@@ -148,7 +148,7 @@ if($ilDB->tableColumnExists('iass_members', 'internal_note')) {
     $ilDB->modifyTableColumn('iass_members', 'internal_note', $field_infos);
 }
 
-if($ilDB->tableColumnExists('iass_settings', 'content')) {
+if ($ilDB->tableColumnExists('iass_settings', 'content')) {
     $field_infos = [
         'type' => 'clob',
         'notnull' => false,
@@ -157,7 +157,7 @@ if($ilDB->tableColumnExists('iass_settings', 'content')) {
     $ilDB->modifyTableColumn('iass_settings', 'content', $field_infos);
 }
 
-if($ilDB->tableColumnExists('iass_settings', 'record_template')) {
+if ($ilDB->tableColumnExists('iass_settings', 'record_template')) {
     $field_infos = [
         'type' => 'clob',
         'notnull' => false,
@@ -166,7 +166,7 @@ if($ilDB->tableColumnExists('iass_settings', 'record_template')) {
     $ilDB->modifyTableColumn('iass_settings', 'record_template', $field_infos);
 }
 
-if($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
+if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
     $field_infos = [
         'type' => 'clob',
         'notnull' => false,
@@ -176,4 +176,7 @@ if($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
 }
 ?>
 
-
+<#15>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
