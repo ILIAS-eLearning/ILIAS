@@ -940,7 +940,7 @@
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
