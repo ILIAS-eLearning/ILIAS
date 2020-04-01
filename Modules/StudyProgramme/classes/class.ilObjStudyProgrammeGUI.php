@@ -229,17 +229,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($this->autocategories_gui);
                 break;
 
-
-            /*case 'iltranslationgui':
-                $this->denyAccessIfNot("write");
-
-                $this->getSubTabs('settings');
-                $this->tabs_gui->activateTab("settings");
-                $this->tabs_gui->activateSubTab('edit_translations');
-
-                $ilTranslationGui = new ilTranslationGUI($this);
-                $this->ctrl->forwardCommand($ilTranslationGui);
-                break;*/
             case "ilobjstudyprogrammemembersgui":
                 $this->denyAccessIfNot("manage_members");
                 $this->getSubTabs('members');
@@ -332,13 +321,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                     case 'editAdvancedSettings':
                         $this->tabs_gui->activateTab("settings");
                         $this->tabs_gui->activateSubTab('edit_advanced_settings');
-                        //$this->setSubTabsSettings('edit_advanced_settings');
                         $this->editAdvancedSettings();
                         break;
                     case 'updateAdvancedSettings':
                         $this->tabs_gui->activateTab("settings");
                         $this->tabs_gui->activateSubTab('edit_advanced_settings');
-                        //$this->setSubTabsSettings('edit_advanced_settings');
                         $this->updateAdvancedSettings();
                         break;
                     case "infoScreen":
@@ -357,67 +344,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         $cmd .= "Object";
                         $this->$cmd();
                         break;
-                    /*case 'editSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->setSubTabsSettings('edit_settings');
-                        $this->editSettings();
-                        break;
-                    case '':
-                    case 'view':
-                    case 'render':
-                    case 'cancel':
-                    case 'cancelDelete':
-                        $this->view();
-                        break;
-                    case 'create':
-
-                        parent::createObject();
-                        break;
-                    case 'save':
-                        parent::saveObject();
-                        break;
-                    case 'delete':
-                        $this->tabs_gui->clearTargets();
-                        $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
-                        parent::deleteObject();
-                        break;
-                    case 'confirmedDelete':
-                        parent::confirmedDeleteObject();
-                        break;
-                    case 'cut':
-                        $this->tabs_gui->clearTargets();
-                        $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
-                        parent::cutObject();
-                        break;
-                    case 'clear':
-                        parent::clearObject();
-                        break;
-                    case 'enableAdministrationPanel':
-                        parent::enableAdministrationPanelObject();
-                        break;
-                    case 'disableAdministrationPanel':
-                        parent::disableAdministrationPanelObject();
-                        break;
-                    case 'editSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->setSubTabsSettings('edit_settings');
-                        $this->editSettings();
-                        break;
-                    case 'updateSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->setSubTabsSettings('edit_settings');
-                        $this->updateSettings();
-                        break;
-                    case 'editAdvancedSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->setSubTabsSettings('edit_advanced_settings');
-                        $this->editAdvancedSettings();
-                        break;
-                    case 'updateAdvancedSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->setSubTabsSettings('edit_advanced_settings');
-                        $this->updateAdvancedSettings();
-                        break;*/
                     default:
                         throw new ilException("ilObjStudyProgrammeGUI: Command not supported: $cmd");
                 }
@@ -837,15 +763,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         $link = $this->ctrl->getLinkTargetByClass(ilObjStudyProgrammeSettingsGUI::class, 'view');
         $this->ctrl->redirectToURL($link);
-
-        /*$this->getSubTabs('settings');
-        $this->tabs_gui->activateTab(self::TAB_SETTINGS);
-        $this->tabs_gui->activateSubTab('settings');
-        $gui = $this->settings_gui;
-        $gui->setParentGUI($this);
-        $gui->setRefId($this->ref_id);
-        $this->ctrl->setCmd("view");
-        $this->ctrl->forwardCommand($gui);*/
     }
 
     /**
