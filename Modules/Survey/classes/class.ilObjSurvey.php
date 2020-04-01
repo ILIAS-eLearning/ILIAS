@@ -4377,9 +4377,7 @@ class ilObjSurvey extends ilObject
         include_once "./Services/Mail/classes/class.ilMail.php";
         include_once "./Services/Link/classes/class.ilLink.php";
 
-        #19956
-        $user_id = $DIC->user()->getId();
-        $mail = new ilMail($user_id);
+        $mail = new ilMail(ANONYMOUS_USER_ID);
         $recipients = $this->getExternalCodeRecipients($check_finished);
         foreach ($recipients as $data) {
             if ($data['email'] && $data['code']) {
