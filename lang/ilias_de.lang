@@ -13163,9 +13163,9 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
-crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
-sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
+crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+sahs#:#sahs_mail_context_lp#:#SCORM-Lernmodul: Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
@@ -13849,7 +13849,7 @@ glo#:#glo_reference#:#Link
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 prg#:#prg_assign_date#:#Hinzugefügt am
 prg#:#prg_assigned_by#:#Hinzugefügt von
-survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
@@ -14770,13 +14770,13 @@ exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
-exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
 exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
-exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_peer_reminder_title#:#Übung: Erinnerung an Peer-Feedback
 exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
 exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
 exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
-exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
+exc#:#exc_mail_context_submit_reminder_title#:#Übung: Erinnerung an Abgabe
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -16060,7 +16060,7 @@ prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, w
 prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
 prg#:#prg_description#:#Beschreibung
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_title#:#Studienprogramm: Mail an Mitglieder
 prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
