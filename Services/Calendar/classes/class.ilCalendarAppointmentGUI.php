@@ -627,7 +627,7 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
+        $tpl = $DIC->ui()->mainTemplate();
         $ilUser = $DIC['ilUser'];
         $ilErr = $DIC['ilErr'];
         $ilHelp = $DIC['ilHelp'];
