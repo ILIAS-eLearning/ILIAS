@@ -166,7 +166,7 @@ class ilDownloadFilesBackgroundTask
             //22295 If the object type is exc then we need all the assignments.Otherwise we will get only one.
             if (
                 $cat->getType() != \ilCalendarCategory::TYPE_OBJ ||
-                $cat->getObjType() != 'exc' ||
+                $cat->getObjType() == 'exc' ||
                 !in_array($obj_id, $object_ids)
             ) {
 
