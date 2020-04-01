@@ -271,7 +271,7 @@ class ilLSPlayer
 
     public function getCurrentItemLearningProgress()
     {
-        $item = $this->getCurrentItem();
+        $item = $this->getCurrentItem($this->ls_items->getItems());
         return $item->getLearningProgressStatus();
     }
 }
