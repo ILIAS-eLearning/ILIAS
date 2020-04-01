@@ -55,11 +55,6 @@ class ilObjStudyProgrammeSettingsGUI
     public $lng;
 
     /**
-     * @var ilObjStudyProgrammeGUI
-     */
-    protected $parent_gui;
-
-    /**
      * @var string
      */
     protected $tmp_heading;
@@ -138,11 +133,6 @@ class ilObjStudyProgrammeSettingsGUI
         $lng->loadLanguageModule("prg");
     }
 
-    public function setParentGUI($a_parent_gui)
-    {
-        $this->parent_gui = $a_parent_gui;
-    }
-
     public function setRefId($a_ref_id)
     {
         $this->ref_id = $a_ref_id;
@@ -168,7 +158,6 @@ class ilObjStudyProgrammeSettingsGUI
                         $content = $this->view();
                         break;
                     case "update":
-                    case "cancel":
                         $content = $this->$cmd();
                         break;
                     default:
@@ -241,13 +230,6 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function cancel()
-    {
-        ilAsyncOutputHandler::handleAsyncOutput(ilAsyncOutputHandler::encodeAsyncResponse());
-
-        $this->ctrl->redirect($this->parent_gui);
-    }
-
     protected function buildModalHeading($label, $current_node)
     {
         if (!$current_node) {
@@ -303,7 +285,6 @@ class ilObjStudyProgrammeSettingsGUI
                     if ($prg->getTypeSettings()->getTypeId() != $type) {
                         $prg->setTypeSettings($type_settings);
                         $prg->updateCustomIcon();
-                        $this->parent_gui->setTitleAndDescription();
                     }
 
                     $prg->setAssessmentSettings($values['prg_assessment']);

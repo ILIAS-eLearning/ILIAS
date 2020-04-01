@@ -216,9 +216,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings');
-
-                $this->settings_gui->setParentGUI($this);
-                $this->settings_gui->setParentGUI($this);
                 $this->settings_gui->setRefId($this->ref_id);
                 $this->ctrl->forwardCommand($this->settings_gui);
                 break;
