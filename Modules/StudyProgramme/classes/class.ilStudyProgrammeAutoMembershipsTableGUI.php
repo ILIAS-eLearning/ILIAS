@@ -35,7 +35,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt(''), 'actions');
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoMembershipsGUI::CHECKBOX_SOURCE_IDS . '[]');
         $this->setEnableAllCommand(true);
-        $this->addMultiCommand('delete', $this->lng->txt('delete'));
+        $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
     protected function fillRow($set)
