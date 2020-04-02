@@ -667,7 +667,7 @@ class ilAccountRegistrationGUI
         ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-        $this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+        $this->tpl->setVariable("TXT_WELCOME", $this->lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
         if (
             (
                 $this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
@@ -680,21 +680,21 @@ class ilAccountRegistrationGUI
             ilSession::set('registered_user', $this->userObj->getId());
             
             $this->tpl->setCurrentBlock('activation');
-            $this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
+            $this->tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered'));
             
             $action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login') . '&target=' . ilUtil::stripSlashes($_GET['target']);
             $this->tpl->setVariable('FORMACTION', $action);
             
-            $this->tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
+            $this->tpl->setVariable('TXT_LOGIN', $this->lng->txt('login_to_ilias'));
             $this->tpl->parseCurrentBlock();
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE) {
-            $this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
+            $this->tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_submitted'));
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION) {
             $login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
-            $this->tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
+            $this->tpl->setVariable('TXT_REGISTERED', sprintf($this->lng->txt('reg_confirmation_link_successful'), $login_url));
             $this->tpl->setVariable('REDIRECT_URL', $login_url);
         } else {
-            $this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
+            $this->tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered_passw_gen'));
         }
     }
     
