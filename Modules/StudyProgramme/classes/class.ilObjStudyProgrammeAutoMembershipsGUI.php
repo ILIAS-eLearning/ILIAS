@@ -2,6 +2,12 @@
 
 declare(strict_types = 1);
 
+use GuzzleHttp\Psr7\ServerRequest;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\MessageBox;
+use ILIAS\UI\Component\Button;
+
 /**
  * Class ilObjStudyProgrammeAutoMembershipsGUI
  *
@@ -18,7 +24,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     const F_SOURCE_ID = 'f_sid';
     const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
     const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
-    const CMD_DELETE_SINGLE = 'deleteSingle';
+
+    const CMD_VIEW = 'view';
+    const CMD_SAVE = 'save';
+    const CMD_DELETE = 'delete';
+    const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
+    const CMD_GET_ASYNC_MODAL_OUTPUT = 'getAsynchModalOutput';
+    const CMD_NEXT_STEP = 'nextStep';
     const CMD_ENABLE = 'enable';
     const CMD_DISABLE = 'disable';
 
@@ -56,6 +68,14 @@ class ilObjStudyProgrammeAutoMembershipsGUI
      */
     public $ui_factory;
     /**
+     * @var MessageBox\Factory
+     */
+    protected $message_box_factory;
+    /**
+     * @var Button\Factory
+     */
+    protected $button_factory;
+    /**
      * @var ILIAS\UI\Renderer
      */
     public $ui_renderer;
@@ -73,9 +93,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         ilCtrl $ilCtrl,
         ilToolbarGUI $ilToolbar,
         ilLanguage $lng,
-        \ILIAS\UI\Factory $ui_factory,
-        \ILIAS\UI\Renderer $ui_renderer,
-        \GuzzleHttp\Psr7\ServerRequest $request,
+        Factory $ui_factory,
+        MessageBox\Factory $message_box_factory,
+        Button\Factory $button_factory,
+        Renderer $ui_renderer,
+        ServerRequest $request,
         ilTree $tree
     ) {
         $this->tpl = $tpl;
@@ -83,6 +105,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->toolbar = $ilToolbar;
         $this->lng = $lng;
         $this->ui_factory = $ui_factory;
+        $this->message_box_factory = $message_box_factory;
+        $this->button_factory = $button_factory;
         $this->ui_renderer = $ui_renderer;
         $this->request = $request;
         $this->tree = $tree;
@@ -96,29 +120,24 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
-            case "view":
-                $this->view();
-                break;
-            case "profile_not_public":
-                $this->view(true);
-                break;
-            case "delete":
-            case "save":
-            case self::CMD_DELETE_SINGLE:
+            case self::CMD_VIEW:
+            case self::CMD_DELETE:
+            case self::CMD_DELETE_CONFIRMATION:
             case self::CMD_DISABLE:
+            case self::CMD_GET_ASYNC_MODAL_OUTPUT:
+            case self::CMD_NEXT_STEP:
+                $this->$cmd();
+                break;
+            case self::CMD_SAVE:
             case self::CMD_ENABLE:
                 $this->$cmd();
-                $this->ctrl->redirect($this, 'view');
-                break;
-            case "getAsynchModalOutput":
-                $this->getAsynchModalOutput();
-                break;
-            case "nextStep":
-                $this->nextStep();
+                $this->ctrl->redirect($this, self::CMD_VIEW);
                 break;
             default:
-                throw new ilException("ilObjStudyProgrammeAutoMembershipsGUI: " .
-                                      "Command not supported: $cmd");
+                throw new ilException(
+                    "ilObjStudyProgrammeAutoMembershipsGUI: " .
+                    "Command not supported: $cmd"
+                );
         }
     }
 
@@ -214,7 +233,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->checkInput();
         $form->setValuesByPost();
 
-        $post = $_POST;
+        $post = $this->request->getParsedBody();
         $src_type = $post[self::F_SOURCE_TYPE];
         $src_id = $post[self::F_SOURCE_ID . $src_type];
 
@@ -244,32 +263,68 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
     }
 
-    /**
-     * Delete entries.
-     */
-    protected function delete()
+    protected function deleteConfirmation()
     {
-        $post = $_POST;
+        $get = $this->request->getQueryParams();
+        $post = $this->request->getParsedBody();
         $field = self::CHECKBOX_SOURCE_IDS;
-        if (array_key_exists($field, $post)) {
-            foreach ($post[$field] as $src_id) {
-                [$type, $id] = explode('-', $src_id);
-                $this->getObject()->deleteAutomaticMembershipSource((string) $type, (int) $id);
-            }
+
+        $field_ids_in_get = array_key_exists($field, $get);
+        $field_ids_in_post = array_key_exists($field, $post);
+
+        if ($field_ids_in_get) {
+            $type_ids = $get[$field];
+            $msg = $this->lng->txt('prg_delete_single_confirmation');
+        } elseif ($field_ids_in_post) {
+            $type_ids = implode(' ', $post[$field]);
+            $msg = $this->lng->txt('prg_delete_confirmation');
+        } else {
+            ilUtil::sendInfo($this->lng->txt('prg_delete_nothing_selected'), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
         }
+
+        $type_ids = base64_encode($type_ids);
+
+        $this->ctrl->setParameterByClass(self::class, $field, $type_ids);
+        $delete = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
+        $cancel = $this->ctrl->getFormActionByClass(self::class, self::CMD_VIEW);
+        $this->ctrl->clearParameterByClass(self::class, $field);
+
+        $buttons = [
+            $this->button_factory->standard($this->lng->txt('prg_confirm_delete'), $delete),
+            $this->button_factory->standard($this->lng->txt('prg_cancel'), $cancel)
+        ];
+
+        $message_box = $this->message_box_factory->confirmation($msg)->withButtons($buttons);
+
+        $this->tpl->setContent($this->ui_renderer->render($message_box));
     }
 
-    /**
-     * Delete single entry.
-     */
-    protected function deleteSingle()
+    protected function delete()
     {
-        $get = $_GET;
         $field = self::CHECKBOX_SOURCE_IDS;
-        if (array_key_exists($field, $get)) {
-            [$type, $id] = explode('-', $get[$field]);
+        $get = $this->request->getQueryParams();
+
+        if (!array_key_exists($field, $get)) {
+            ilUtil::sendFailure($this->lng->txt('prg_delete_failure'), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
+        }
+
+        $type_ids = base64_decode($get[$field]);
+        $type_ids = explode(' ', trim($type_ids));
+
+        foreach ($type_ids as $src_id) {
+            [$type, $id] = explode('-', $src_id);
             $this->getObject()->deleteAutomaticMembershipSource((string) $type, (int) $id);
         }
+
+        $msg = $this->lng->txt('prg_delete_single_success');
+        if (count($type_ids) > 1) {
+            $msg = $this->lng->txt('prg_delete_success');
+        }
+
+        ilUtil::sendSuccess($msg, true);
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     /**
@@ -277,12 +332,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
      */
     protected function enable()
     {
-        $get = $_GET;
+        $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
             [$type, $id] = explode('-', $get[$field]);
             $this->getObject()->enableAutomaticMembershipSource((string) $type, (int) $id);
         }
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     /**
@@ -290,12 +346,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
      */
     protected function disable()
     {
-        $get = $_GET;
+        $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
             [$type, $id] = explode('-', $get[$field]);
             $this->getObject()->disableAutomaticMembershipSource((string) $type, (int) $id);
         }
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     /**
@@ -639,7 +696,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $items[] = $this->ui_factory->button()->shy(
             $this->txt('delete'),
-            $this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
+            $this->ctrl->getLinkTarget($this, self::CMD_DELETE_CONFIRMATION)
         );
 
         $this->ctrl->clearParameters($this);

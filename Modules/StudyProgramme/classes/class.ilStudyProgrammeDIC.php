@@ -106,6 +106,8 @@ class ilStudyProgrammeDIC
                 $DIC['ilToolbar'],
                 $DIC['lng'],
                 $DIC->ui()->factory(),
+                $DIC['ui.factory']->messageBox(),
+                $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC['tree']
