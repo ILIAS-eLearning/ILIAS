@@ -26,6 +26,13 @@ cd CI/dicto
 git clone https://github.com/lechimp-p/dicto.php.git dicto-php
 cd dicto-php && composer install && cd ..
 
+# clone the CI project because we need the old database of dicto
+git clone https://github.com/ILIAS-eLearning/CI-Results.git ci-results
+if [[ ! -f "ci-results/data/dicto_latest.sqlite" ]];
+then
+  cp "ci-results/data/dicto_latest.sqlite" "results/results.sqlite"
+fi
+
 # Run the analyser
 php dicto-php/dicto.php analyze config.yaml
 
@@ -76,5 +83,5 @@ fi
 
 # prepare the results and move them to the global results
 cat results/result_*.csv > "results/dicto_latest.csv"
-cp results/dicto_latest.csv "$RESULTS_DATA_DIRECTORY_DICTO"
-cp results/results.sqlite "$RESULTS_DATA_DIRECTORY_DICTO"
+cp results/dicto_latest.csv "$RESULTS_DATA_DIRECTORY_DICTO_CSV"
+cp results/results.sqlite "$RESULTS_DATA_DIRECTORY_DICTO_DB"
