@@ -401,6 +401,11 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         if ((int) $row[self::FIELD_INVALIDATED] === 1) {
             $prgrs = $prgrs->invalidate();
         }
+
+        if (!is_null($row[self::FIELD_LAST_CHANGE_BY])) {
+            $prgrs = $prgrs->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY]);
+        }
+
         return $prgrs;
     }
 

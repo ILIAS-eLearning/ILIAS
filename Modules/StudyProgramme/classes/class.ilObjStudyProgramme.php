@@ -347,7 +347,7 @@ class ilObjStudyProgramme extends ilContainer
             ilAdvancedMDRecord::saveObjRecSelection(
                 $this->getId(),
                 'prg_type',
-                $this->type_repository->readAssignedAMDRecordsByType($this->getTypeSettings()->getTypeId())
+                $this->type_repository->readAssignedAMDRecordIdsByType($this->getTypeSettings()->getTypeId())
             );
         } else {
             // If no type is assigned, delete relations by passing an empty array

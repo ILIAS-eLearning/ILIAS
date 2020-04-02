@@ -241,13 +241,15 @@ class ilStudyProgrammeUserProgress
                 );
             }
         }
+        $progress = $this->progress
+            ->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
+            ->setCompletionBy($user_id)
+            ->setLastChangeBy($user_id)
+            ->setLastChange(new DateTime())
+            ->setCompletionDate(new DateTime())
+        ;
 
-        $this->progress_repository->update(
-            $this->progress
-                ->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
-                ->setCompletionBy($user_id)
-                ->setCompletionDate(new DateTime())
-        );
+        $this->progress_repository->update($progress);
 
         $assignment = $this->assignment_repository->read($this->getAssignmentId());
         if ((int) $prg->getId() === $assignment->getRootId()) {
@@ -667,6 +669,7 @@ class ilStudyProgrammeUserProgress
         if (!$achieved_points) {
             $achieved_points = 0;
         }
+
         $successful = $achieved_points >= $this->getAmountOfPoints() && $this->hasSuccessfullChildren();
         $this->progress->setCurrentAmountOfPoints($achieved_points);
 
