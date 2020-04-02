@@ -16098,3 +16098,11 @@ iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#iass_user_removed#:#User successfully removed.
 prg#:#prg_profile_not_public#:#Profile of the user is not public.
+prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.
+prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
+prg#:#prg_confirm_delete#:#Delete
+prg#:#prg_cancel#:#Cancel
+prg#:#prg_delete_failure#:#Delete failed.
+prg#:#prg_delete_success#:#Successfuly delete entries.
+prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
+prg#:#prg_delete_single_success#:#Successfuly delete entry.
