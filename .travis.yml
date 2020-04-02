@@ -14,7 +14,7 @@ addons:
   apt:
     packages:
     - unzip
-    - sqlite
+    - sqlite3
 install:
 - composer install
 env:
