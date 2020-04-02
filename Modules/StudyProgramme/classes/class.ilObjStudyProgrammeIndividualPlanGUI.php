@@ -170,7 +170,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             && !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
-                "may not access individua plan of user"
+                "may not access individual plan of user"
             );
         }
         $ass->updateFromProgram();

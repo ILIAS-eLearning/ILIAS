@@ -99,6 +99,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case "view":
                 $this->view();
                 break;
+            case "profile_not_public":
+                $this->view(true);
+                break;
             case "delete":
             case "save":
             case self::CMD_DELETE_SINGLE:
@@ -167,8 +170,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Render.
      */
-    protected function view()
+    protected function view(bool $profile_not_public = false)
     {
+        if ($profile_not_public) {
+            ilUtil::sendInfo($this->lng->txt('prg_profile_not_public'));
+        }
         $collected_modals = [];
         $modal = $this->getModal();
         $this->getToolbar($modal->getShowSignal());
@@ -247,7 +253,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $post)) {
             foreach ($post[$field] as $src_id) {
-                list($type, $id) = explode('-', $src_id);
+                [$type, $id] = explode('-', $src_id);
                 $this->getObject()->deleteAutomaticMembershipSource((string) $type, (int) $id);
             }
         }
@@ -261,7 +267,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $_GET;
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            list($type, $id) = explode('-', $get[$field]);
+            [$type, $id] = explode('-', $get[$field]);
             $this->getObject()->deleteAutomaticMembershipSource((string) $type, (int) $id);
         }
     }
@@ -274,7 +280,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $_GET;
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            list($type, $id) = explode('-', $get[$field]);
+            [$type, $id] = explode('-', $get[$field]);
             $this->getObject()->enableAutomaticMembershipSource((string) $type, (int) $id);
         }
     }
@@ -287,7 +293,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $get = $_GET;
         $field = self::CHECKBOX_SOURCE_IDS;
         if (array_key_exists($field, $get)) {
-            list($type, $id) = explode('-', $get[$field]);
+            [$type, $id] = explode('-', $get[$field]);
             $this->getObject()->disableAutomaticMembershipSource((string) $type, (int) $id);
         }
     }
@@ -650,7 +656,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $username['lastname'],
             '(' . $username['login'] . ')'
         ]);
+        $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         $url = ilLink::_getStaticLink($usr_id, 'usr');
+
+        if (!$usr->hasPublicProfile()) {
+            $url = $this->ctrl->getLinkTarget($this, 'profile_not_public');
+        }
         return $this->ui_factory->link()->standard($editor, $url);
     }
 
