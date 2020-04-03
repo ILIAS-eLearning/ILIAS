@@ -58,7 +58,6 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeValidityOfAchievedQualificationSettingsTest.php");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeDeadlineSettingsTest.php");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeTypeSettingsTest.php");
-        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeAdditionalSettingsTest.php");
         require_once("./Modules/StudyProgramme/test/types/ilStudyProgrammeTypeInfoTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeTest");
         $suite->addTestSuite("ilStudyProgrammeEventsTest");
@@ -83,7 +82,6 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilStudyProgrammeValidityOfAchievedQualificationSettingsTest");
         $suite->addTestSuite("ilStudyProgrammeDeadlineSettingsTest");
         $suite->addTestSuite("ilStudyProgrammeTypeSettingsTest");
-        $suite->addTestSuite("ilStudyProgrammeAdditionalSettingsTest");
         $suite->addTestSuite("ilStudyProgrammeTypeInfoTest");
         return $suite;
     }
