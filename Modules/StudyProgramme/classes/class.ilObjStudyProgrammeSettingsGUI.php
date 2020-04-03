@@ -294,12 +294,6 @@ class ilObjStudyProgrammeSettingsGUI
 
                     $prg->setAutoMailSettings($values["automail_settings"]);
 
-                    if (!is_null($values['prg_additional_settings'])) {
-                        $prg->setAdditionalSettings(
-                            $values['prg_additional_settings']
-                        );
-                    }
-
                     return $prg;
                 }
             )
@@ -338,17 +332,6 @@ class ilObjStudyProgrammeSettingsGUI
                 ->getAutoMailSettings()
                 ->toFormInput($ff, $ilLng, $refinery)
         ];
-
-        if (
-            $prg->getPositionSettingsIsActiveForPrg() &&
-            $prg->getPositionSettingsIsChangeableForPrg()
-        ) {
-            $return['prg_additional_settings'] =
-                $prg
-                    ->getAdditionalSettings()
-                    ->toFormInput($ff, $ilLng, $refinery)
-            ;
-        }
 
         return $return;
     }

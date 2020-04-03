@@ -531,26 +531,12 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    public function setAdditionalSettings(
-        ilStudyProgrammeAdditionalSettings $additional_settings
-    ) : void {
-        $this->settings = $this->settings->withAdditionalSettings(
-            $additional_settings
-        );
-    }
-
-    public function getAdditionalSettings(
-    ) : \ilStudyProgrammeAdditionalSettings {
-        return $this->settings->getAdditionalSettings();
-    }
-
     public function getAccessControlByOrguPositionsGlobal() : bool
     {
-        return $this->getPositionSettingsIsActiveForPrg()
-            && (
-                $this->getAdditionalSettings()->getAccessByOrgu()
-                || !$this->getPositionSettingsIsChangeableForPrg()
-            );
+        return
+            $this->getPositionSettingsIsActiveForPrg() &&
+            !$this->getPositionSettingsIsChangeableForPrg()
+        ;
     }
 
     public function getPositionSettingsIsActiveForPrg() : bool
