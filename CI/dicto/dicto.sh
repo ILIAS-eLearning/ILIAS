@@ -13,7 +13,7 @@
 # the ILIAS CI Results repository and can be viewed there.
 
 # Travis mandatory packages:
-# hhvm, sqlite
+# sqlite3
 
 # Import the important stuff
 source ./CI/Import/Functions.sh
@@ -28,9 +28,39 @@ cd dicto-php && composer install && cd ..
 
 # clone the CI project because we need the old database of dicto
 git clone https://github.com/ILIAS-eLearning/CI-Results.git ci-results
-if [[ ! -f "ci-results/data/dicto_latest.sqlite" ]];
+if [[ -f "ci-results/data/result_rules.csv" ]];
 then
-  cp "ci-results/data/dicto_latest.sqlite" "results/results.sqlite"
+touch results/results.sqlite
+
+sqlite3 results/results.sqlite <<!
+.headers on
+.mode csv
+.import ci-results/data/result_rules.csv rules
+!
+
+sqlite3 results/results.sqlite <<!
+.headers on
+.mode csv
+.import ci-results/data/result_runs.csv runs
+!
+
+sqlite3 results/results.sqlite <<!
+.headers on
+.mode csv
+.import ci-results/data/result_variables.csv variables
+!
+
+sqlite3 results/results.sqlite <<!
+.headers on
+.mode csv
+.import ci-results/data/result_violation_locations.csv violation_locations
+!
+
+sqlite3 results/results.sqlite <<!
+.headers on
+.mode csv
+.import ci-results/data/result_violations.csv violations
+!
 fi
 
 # Run the analyser
@@ -72,16 +102,10 @@ sqlite3 results/results.sqlite <<!
 SELECT * FROM "main"."violations";
 !
 
-# merge into dicto_latest.csv
-if [[ ! -f "results/dicto_latest.csv" ]]
-then
-  touch "results/dicto_latest.csv"
-else
-  rm "results/dicto_latest.csv"
-  touch "results/dicto_latest.csv"
-fi
-
 # prepare the results and move them to the global results
-cat results/result_*.csv > "results/dicto_latest.csv"
-cp results/dicto_latest.csv "$RESULTS_DATA_DIRECTORY_DICTO_CSV"
-cp results/results.sqlite "$RESULTS_DATA_DIRECTORY_DICTO_DB"
+cd ../..
+cp CI/dicto/results/result_rules.csv "$RESULTS_DATA_DIRECTORY_DICTO/result_rules.csv"
+cp CI/dicto/results/result_runs.csv "$RESULTS_DATA_DIRECTORY_DICTO/result_runs.csv"
+cp CI/dicto/results/result_variables.csv "$RESULTS_DATA_DIRECTORY_DICTO/result_variables.csv"
+cp CI/dicto/results/result_violation_locations.csv "$RESULTS_DATA_DIRECTORY_DICTO/result_violation_locations.csv"
+cp CI/dicto/results/result_violations.csv "$RESULTS_DATA_DIRECTORY_DICTO/result_violations.csv"
