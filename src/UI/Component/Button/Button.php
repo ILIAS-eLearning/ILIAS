@@ -15,10 +15,6 @@ use ILIAS\UI\Component\Signal;
  */
 interface Button extends Component, JavaScriptBindable, Clickable, Hoverable
 {
-    // allowed ARIA roles
-    const MENUITEM = 'menuitem';
-    const MENUITEM_SEARCH = 'menuitem search';
-
     /**
      * Get the label on the button.
      *
@@ -58,21 +54,6 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable
      * @return Button
      */
     public function withUnavailableAction();
-
-    /**
-     * Get a button like this, but with an additional ARIA role.
-     *
-     * @param	string	$aria_role
-     * @return	Button
-     */
-    public function withAriaRole(string $aria_role);
-
-    /**
-     * Get the ARIA role on the button.
-     *
-     * @return	string
-     */
-    public function getAriaRole();
 
     /**
      * Get a button like this, but with an additional/replaced aria-label.

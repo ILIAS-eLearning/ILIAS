@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
@@ -12,7 +13,6 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUtil;
 use ilUserUtil;
-use ILIAS\UI\Component\Button\Button;
 
 /**
  * Class StandardPagePartProvider
@@ -116,7 +116,7 @@ class StandardPagePartProvider implements PagePartProvider
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true)
-                ->withAriaRole(Button::MENUITEM);
+                ->withAriaRole(Bulky::MENUITEM);
             $main_bar = $main_bar->withToolsButton($tools_button);
             /**
              * @var $main_bar MainBar

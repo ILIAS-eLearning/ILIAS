@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Button\Button;
+use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
@@ -122,7 +122,7 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withAriaRole(Button::MENUITEM)
+                    ->withAriaRole(Bulky::MENUITEM)
                     ->withOnClick($trigger_signal)
                     ->withAdditionalOnLoadCode(
                         function ($id) use ($js, $mb_id, $k, $is_tool) {
@@ -159,7 +159,7 @@ class Renderer extends AbstractComponentRenderer
         $more_slate = $f->maincontrols()->slate()->combined(
             $component->getMoreButton()->getLabel(),
             $f->symbol()->glyph()->more()
-        );
+        )->withAriaRole(Slate::MENU);
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
             $more_slate
@@ -219,7 +219,8 @@ class Renderer extends AbstractComponentRenderer
         $more_symbol = $f->symbol()->glyph()->disclosure()
             ->withCounter($f->counter()->novelty(0))
             ->withCounter($f->counter()->status(0));
-        $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''));
+        $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''))
+            ->withAriaRole(Slate::MENU);
         $entries[] = $more_slate;
 
         $this->renderTriggerButtonsAndSlates(
@@ -291,10 +292,10 @@ class Renderer extends AbstractComponentRenderer
                     ->withEngagedState($engaged);
 
                 if ($entry->getName() == "Search") {
-                    $button = $button->withAriaRole(Button::MENUITEM_SEARCH);
+                    $button = $button->withAriaRole(Bulky::MENUITEM_SEARCH);
                 }
                 else {
-                    $button = $button->withAriaRole(Button::MENUITEM);
+                    $button = $button->withAriaRole(Bulky::MENUITEM);
                 }
 
                 $slate = $entry;
