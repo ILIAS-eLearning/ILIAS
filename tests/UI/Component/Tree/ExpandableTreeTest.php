@@ -65,9 +65,10 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
         $n2 = new DataNode('2');
         $data = [$n1, $n2];
 
+        $label = "label";
         $recursion = new Recursion();
         $f = $this->getUIFactory();
-        $this->tree = $f->tree()->expandable($recursion)
+        $this->tree = $f->tree()->expandable($label, $recursion)
             ->withData($data);
     }
 
@@ -84,26 +85,26 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
         $html = $r->render($this->tree);
 
         $expected = <<<EOT
-		<ul id="id_1" class="il-tree">
-			<li id=""class="il-tree-node node-simple expandable">
+		<ul id="id_1" class="il-tree" role="tree" aria-label="label">
+			<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
 				<span class="node-line"><span class="node-label">1</span></span>
 
-				<ul>
-					<li id=""class="il-tree-node node-simple">
+				<ul role="group">
+					<li id="" class="il-tree-node node-simple" role="none">
 						<span class="node-line"><span class="node-label">1.1</span></span>
 					</li>
-					<li id=""class="il-tree-node node-simple expandable">
+					<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
 						<span class="node-line"><span class="node-label">1.2</span></span>
 
-						<ul>
-							<li id=""class="il-tree-node node-simple">
+						<ul role="group">
+							<li id="" class="il-tree-node node-simple" role="none">
 								<span class="node-line"><span class="node-label">1.2.1</span></span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
-			<li id=""class="il-tree-node node-simple">
+			<li id="" class="il-tree-node node-simple" role="none">
 				<span class="node-line"><span class="node-label">2</span></span>
 			</li>
 		</ul>

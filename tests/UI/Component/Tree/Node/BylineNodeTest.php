@@ -50,7 +50,7 @@ class BylineNodeTest extends ILIAS_UI_TestBase
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id=""class="il-tree-node node-simple">
+			<li id="" class="il-tree-node node-simple" role="none">
 				<span class="node-line">
 					<span class="node-label">My Label</span>
 					<span class="node-byline">This is my byline</span>
@@ -72,7 +72,7 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id=""class="il-tree-node node-simple">
+			<li id="" class="il-tree-node node-simple" role="none">
 				<span class="node-line">
 					<span class="node-label"><div class="icon small" aria-label=""></div>My Label</span>
 					<span class="node-byline">This is my byline</span>
@@ -96,7 +96,9 @@ EOT;
 
         $expected = <<<EOT
 			<li id=""
-				class="il-tree-node node-simple expandable" data-async_url="something.de" data-async_loaded="false">
+				 class="il-tree-node node-simple expandable"
+				 role="treeitem" aria-expanded="false"
+				 data-async_url="something.de" data-async_loaded="false">
 				<span class="node-line">
 					<span class="node-label">My Label</span>
 					<span class="node-byline">This is my byline</span>
