@@ -14763,7 +14763,7 @@ exc#:#feedback_received#:#Feedback received
 exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
-exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#grade_evaluate#:#Bewerten/Benoten
 exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
@@ -16052,7 +16052,7 @@ pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
 common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
 rbac#:#dshs_change_presentation#:#Darstellung des Dashboards ändern
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
-exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
+exp#:#exp_error_dGrade and Evaluateisabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
