@@ -1395,7 +1395,6 @@ class ilStartUpGUI
         $tpl->hideFooter(); // no client yet
 
         $tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
-        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
         // load client list template
         self::initStartUpTemplate("tpl.client_list.html");
