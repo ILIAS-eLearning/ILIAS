@@ -553,7 +553,6 @@ class ilCalendarPresentationGUI
      */
     public function show()
     {
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'Services/Calendar'));
     }
 
     /**

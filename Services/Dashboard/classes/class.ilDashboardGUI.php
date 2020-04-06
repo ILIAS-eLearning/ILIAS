@@ -145,8 +145,6 @@ class ilDashboardGUI
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
 
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'Services/Calendar'));
-
         // read last active subsection
         if (isset($_GET['PDHistory']) && $_GET['PDHistory']) {
             $next_class = $this->__loadNextClass();
