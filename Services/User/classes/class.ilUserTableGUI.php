@@ -316,8 +316,11 @@ class ilUserTableGUI extends ilTable2GUI
         }
 
         $query = new ilUserQuery();
-        $query->setOrderField($this->getOrderField());
-        $query->setOrderDirection($this->getOrderDirection());
+        $order_field = $this->getOrderField();
+        if (substr($order_field, 0, 4) != "udf_" || isset($additional_fields[$order_field])) {
+            $query->setOrderField($order_field);
+            $query->setOrderDirection($this->getOrderDirection());
+        }
         $query->setOffset($this->getOffset());
         $query->setLimit($this->getLimit());
         $query->setTextFilter($this->filter['query']);
