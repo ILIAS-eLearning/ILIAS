@@ -108,7 +108,7 @@ class ilObjCourseGroupingGUI
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
         }
 
-        if (!count($_POST['grouping'])) {
+        if (empty($_POST['grouping'])) {
             ilUtil::sendFailure($this->lng->txt('crs_grouping_select_one'));
             $this->listGroupings();
             
