@@ -88,6 +88,7 @@ class ilStudyProgrammeDIC
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
                 $DIC['ilToolbar'],
+                $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['ilUser'],
                 $DIC['ilTabs'],
