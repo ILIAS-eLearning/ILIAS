@@ -180,3 +180,8 @@ if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+
+<#16>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

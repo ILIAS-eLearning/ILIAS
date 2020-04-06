@@ -28,6 +28,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjIndividualAssessmentGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLTIConsumerGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCmiXapiGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilPropertyFormGUI
 *
 */
 class ilRepositoryGUI
