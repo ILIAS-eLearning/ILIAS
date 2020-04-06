@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Icon;
@@ -38,11 +38,16 @@ interface Factory
      * ---
      *
      * @param   string $name
-     * @param   string $aria_label
+     * @param   string $label
      * @param   string $size
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Standard
      **/
-    public function standard($name, $aria_label, $size = 'small', $is_disabled = false);
+    public function standard(
+         string $name,
+         string $label,
+         string $size = 'small',
+         bool $is_disabled = false
+     ) : Standard;
 
     /**
      * ---
@@ -70,9 +75,14 @@ interface Factory
      * ---
      *
      * @param   string $icon_path
-     * @param   string $aria_label
+     * @param   string $label
      * @param   string $size
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Custom
      **/
-    public function custom($icon_path, $aria_label, $size = 'small', $is_disabled = false);
+    public function custom(
+         string $icon_path,
+         string $label,
+         string $size = 'small',
+         bool $is_disabled = false
+     ) : Custom;
 }

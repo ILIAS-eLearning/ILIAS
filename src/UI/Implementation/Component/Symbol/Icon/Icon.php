@@ -20,7 +20,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @var	string
      */
-    protected $aria_label;
+    protected $label;
 
     /**
      * @var	string
@@ -59,9 +59,21 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+    
+    //there is a reference in src/GlobalScreen/Scope/MainMenu/Factory/TopItem/TopLinkItem.php ::withSymbol
+    //to bugfix mantis 25526: make aria labels mandatory
+    //https://github.com/ILIAS-eLearning/ILIAS/pull/2282
+    //
+    //with a change here it is not mandatory anymore -
+    //but then it should live on the symbol-interface!
+    //
     public function getAriaLabel()
     {
-        return $this->aria_label;
+        return $this->getLabel();
     }
 
     /**

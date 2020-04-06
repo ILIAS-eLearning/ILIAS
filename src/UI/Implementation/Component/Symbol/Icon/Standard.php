@@ -131,10 +131,10 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::REP
     );
 
-    public function __construct($name, $aria_label, $size, $is_disabled)
+    public function __construct($name, $label, $size, $is_disabled)
     {
         $this->checkStringArg("name", $name);
-        $this->checkStringArg("string", $aria_label);
+        $this->checkStringArg("string", $label);
         $this->checkArgIsElement(
             "size",
             $size,
@@ -143,7 +143,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         );
         $this->checkBoolArg("is_disabled", $is_disabled);
         $this->name = $name;
-        $this->aria_label = $aria_label;
+        $this->label = $label;
         $this->size = $size;
         $this->is_disabled = $is_disabled;
     }
@@ -174,5 +174,18 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         $clone = clone $this;
         $clone->is_outlined = $is_outlined;
         return $clone;
+    }
+
+    public function getIconPath() : string
+    {
+        //if(in_array($this->getName(), $this->getAllStandardHandles()) {
+        $p = './templates/default/images/';
+        if ($this->isOutlined()) {
+            $p .= 'outlined/';
+        }
+        $p .= 'icon_'
+            . $this->getName()
+            . '.svg';
+        return $p;
     }
 }
