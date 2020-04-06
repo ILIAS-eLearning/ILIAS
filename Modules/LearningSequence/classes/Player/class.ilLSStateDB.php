@@ -115,7 +115,7 @@ class ilLSStateDB
                 if ($insert_first) {
                     $this->insert($lso_ref_id, $usr_id);
                 }
-                $this->update($lso_ref_id, $usr_id, $current_item, $serialized, $first_access);
+                $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
             }
         );
 
@@ -140,6 +140,7 @@ class ilLSStateDB
     }
 
     protected function update(
+        ilDBInterface $db,
         int $lso_ref_id,
         int $usr_id,
         int $current_item,
@@ -156,7 +157,7 @@ class ilLSStateDB
             "last_access" => array("text", $last_access)
         );
 
-        $this->db->update(static::TABLE_NAME, $values, $where);
+        $db->update(static::TABLE_NAME, $values, $where);
     }
 
     /**
@@ -201,7 +202,7 @@ class ilLSStateDB
                         unset($states[$item_ref_id]);
                     }
                     $serialized = $this->serializeStates($states);
-                    $this->update($lso_ref_id, $usr_id, $current_item, $serialized);
+                    $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
                 }
             }
         );
