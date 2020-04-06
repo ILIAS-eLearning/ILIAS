@@ -10,6 +10,10 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
+    const DEFAULT_ICON_NAME = 'default';
+    const ICON_NAME_PATTERN = 'icon_%s.svg';
+    const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
+
     /**
      * @inheritdoc
      */
@@ -22,15 +26,17 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("ARIA_LABEL", $component->getAriaLabel());
         $tpl->setVariable("SIZE", $component->getSize());
 
-        if ($component instanceof Component\Symbol\Icon\Custom) {
-            $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
-        } else {
+        $tpl->setVariable("ALT", $component->getLabel());
+        
+        if ($component instanceof Component\Symbol\Icon\Standard) {
+            $tpl->setVariable("CUSTOMIMAGE", $this->getStandardIconPath($component));
             if ($component->isOutlined()) {
-                $tpl->setVariable("OUTLINED", " outlined");
+                $tpl->touchBlock('outlined');
             }
+        } else {
+            $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
         }
 
         $ab = $component->getAbbreviation();
@@ -38,20 +44,28 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ABBREVIATION", $ab);
         }
 
-        $di = $component->isDisabled();
-        if ($di) {
-            $tpl->setVariable("DISABLED", " disabled");
-        }
-
-        $id = $this->bindJavaScript($component);
-
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
+        if ($component->isDisabled()) {
+            $tpl->touchBlock('disabled');
+            $tpl->touchBlock('aria_disabled');
         }
 
         return $tpl->get();
+    }
+
+
+    protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon) : string
+    {
+        $name = $icon->getName();
+        if (!in_array($name, $icon->getAllStandardHandles())) {
+            $name = self::DEFAULT_ICON_NAME;
+        }
+        $pattern = self::ICON_NAME_PATTERN;
+        if ($icon->isOutlined()) {
+            $pattern = self::ICON_NAME_PATTERN_OUTLINED;
+        }
+
+        $icon_name = sprintf($pattern, $name);
+        return $this->getImagePathResolver()->resolveImagePath($icon_name);
     }
 
     /**

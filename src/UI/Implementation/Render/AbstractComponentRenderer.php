@@ -48,20 +48,25 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     private $refinery;
 
     /**
-     * Component renderers must only depend on a UI-Factory and a Template Factory.
+     * @var ImagePathResolver
      */
+    private $image_path_resolver;
+
+
     final public function __construct(
         Factory $ui_factory,
         TemplateFactory $tpl_factory,
         \ilLanguage $lng,
         JavaScriptBinding $js_binding,
-        \ILIAS\Refinery\Factory $refinery
+        \ILIAS\Refinery\Factory $refinery,
+        ImagePathResolver $image_path_resolver
     ) {
         $this->ui_factory = $ui_factory;
         $this->tpl_factory = $tpl_factory;
         $this->lng = $lng;
         $this->js_binding = $js_binding;
         $this->refinery = $refinery;
+        $this->image_path_resolver = $image_path_resolver;
     }
 
     /**
@@ -321,5 +326,10 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         self::$component_storage[$class] = $matches[1];
 
         return self::$component_storage[$class];
+    }
+
+    public function getImagePathResolver() : ImagePathResolver
+    {
+        return $this->image_path_resolver;
     }
 }

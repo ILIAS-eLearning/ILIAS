@@ -227,6 +227,12 @@ entirely.
 * Section View Control Input
 * Sortation View Control Input
 
+### Enforce (Aria-)Labels for Icons and Glyphs (beginner)
+In src/GlobalScreen/Scope/MainMenu/Factory/hasSymbolTrait.php, e.g., as well as in
+other files in src/GlobalScreen/Scope, an exception is being thrown for icons/glyphs
+configured with an empty (Aria-)Label.
+The components themselves should take care of this.
+
 ### Get rid of < div > under < body > element in Standard Page template (beginner)
 In the template of the Standard Page, one level under the < body > element,
 a < div > element is used. This level seems redundant and not giving any advantages
