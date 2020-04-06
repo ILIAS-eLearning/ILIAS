@@ -115,7 +115,7 @@ class ilLSStateDB
                 if ($insert_first) {
                     $this->insert($lso_ref_id, $usr_id);
                 }
-                $this->update($lso_ref_id, $usr_id, $current_item, $serialized, $first_access);
+                $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
             }
         );
 
@@ -140,6 +140,7 @@ class ilLSStateDB
     }
 
     protected function update(
+        ilDBInterface $db,
         int $lso_ref_id,
         int $usr_id,
         int $current_item,
@@ -156,7 +157,7 @@ class ilLSStateDB
             "last_access" => array("text", $last_access)
         );
 
-        $this->db->update(static::TABLE_NAME, $values, $where);
+        $db->update(static::TABLE_NAME, $values, $where);
     }
 
     /**
@@ -186,26 +187,26 @@ class ilLSStateDB
 
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
+        $ilAtomQuery->addQueryCallable(
 
-        foreach ($all_states as $usr_id => $state_entry) {
-            $current_item = $state_entry['current_item'];
-            $states = $state_entry['states'];
+            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id) {
+                foreach ($all_states as $usr_id => $state_entry) {
+                    $current_item = $state_entry['current_item'];
+                    $states = $state_entry['states'];
 
-            if ($current_item === $item_ref_id) {
-                $current_item = -1;
-            }
+                    if ($current_item === $item_ref_id) {
+                        $current_item = -1;
+                    }
 
-            if (array_key_exists($item_ref_id, $states)) {
-                unset($states[$item_ref_id]);
-            }
-            $serialized = $this->serializeStates($states);
-
-            $ilAtomQuery->addQueryCallable(
-                function (ilDBInterface $db) use ($lso_ref_id, $usr_id, $current_item, $serialized) {
-                    $this->update($lso_ref_id, $usr_id, $current_item, $serialized);
+                    if (array_key_exists($item_ref_id, $states)) {
+                        unset($states[$item_ref_id]);
+                    }
+                    $serialized = $this->serializeStates($states);
+                    $this->update($db, $lso_ref_id, $usr_id, $current_item, $serialized);
                 }
-            );
-        }
+            }
+        );
+
         $ilAtomQuery->run();
     }
 
