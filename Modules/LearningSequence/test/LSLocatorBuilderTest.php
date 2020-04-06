@@ -83,7 +83,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Breadcrumbs::class, $out);
 
         $expected = $this->stripHTML(
-            '<nav role="navigation" aria-label="breadcrumbs"> ' .
+            '<nav aria-label="breadcrumbs_aria_label"> ' .
             '	<ul class="breadcrumb"> ' .
             '		<li class="crumb"> ' .
             '			<a href="http://ilias.de/somepath?lsocmd=cmd&lsov=1" >item 1</a>' .
