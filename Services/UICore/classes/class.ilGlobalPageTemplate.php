@@ -94,7 +94,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     private function prepareBasicCSS()
     {
-        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation());
         $this->gs->layout()->meta()->addCss(\ilUtil::getNewContentStyleSheetLocation());
     }
 
