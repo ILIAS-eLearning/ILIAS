@@ -415,7 +415,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    if(
+                    if (
                         ilObject::_exists($ref_id, true) &&
                         is_null(ilObject::_lookupDeletedDate($ref_id))
                     ) {
@@ -514,7 +514,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
 
-        if ($this->prg->getAccessControlByOrguPositionsGlobal()) {
+        if ($this->prg->getAccessControlByOrguPositionsGlobal() && !$this->parent_obj->mayManageMembers()) {
             $visible = $this->getParentObject()->visibleUsers();
             if (count($visible) > 0) {
                 $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
