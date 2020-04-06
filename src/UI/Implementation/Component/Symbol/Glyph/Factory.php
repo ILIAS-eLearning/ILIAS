@@ -109,14 +109,6 @@ class Factory implements G\Factory
     /**
      * @inheritdoc
      */
-    public function sort(string $action = null) : G\Glyph
-    {
-        return new Glyph(G\Glyph::SORT, "sort", $action);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function user(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::USER, "show_who_is_online", $action);

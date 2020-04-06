@@ -58,27 +58,31 @@ class ilLSPostConditionDB
         return $conditions;
     }
 
-    public function delete(array $ref_ids)
+    public function delete(array $ref_ids, \ilDBInterface $db = null)
     {
         if (count($ref_ids) === 0) {
             return;
+        }
+
+        if (is_null($db)) {
+            $db = $this->db;
         }
 
         $query = "DELETE FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE ref_id IN ("
             . implode(',', $ref_ids)
             . ")";
-        $this->db->manipulate($query);
+        $db->manipulate($query);
     }
 
-    protected function insert(array $ls_post_conditions)
+    protected function insert(array $ls_post_conditions, \ilDBInterface $db)
     {
         foreach ($ls_post_conditions as $condition) {
             $values = array(
                 "ref_id" => array("integer", $condition->getRefId()),
                 "condition_operator" => array("text", $condition->getConditionOperator())
             );
-            $this->db->insert(static::TABLE_NAME, $values);
+            $db->insert(static::TABLE_NAME, $values);
         }
     }
 
@@ -102,8 +106,8 @@ class ilLSPostConditionDB
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
             function (\ilDBInterface $db) use ($ref_ids, $ls_post_conditions) {
-                $this->delete($ref_ids);
-                $this->insert($ls_post_conditions);
+                $this->delete($ref_ids, $db);
+                $this->insert($ls_post_conditions, $db);
             }
         );
         $ilAtomQuery->run();

@@ -142,7 +142,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
-survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_title#:#Survey: Survey-Reminder
 survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
 survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
 survey#:#svy_reminder_mail_template#:#Mail Template
@@ -6755,6 +6755,7 @@ pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and 
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.
 ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
@@ -13158,9 +13159,9 @@ obj#:#obj_target_location#:#Target Location
 obj#:#obj_copy_progress#:#Copy Progress
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
-crs#:#crs_mail_context_tutor_title#:#Mail to Course Member
-crs#:#crs_mail_context_member_title#:#Info Page Course
-sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
+crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
+crs#:#crs_mail_context_member_title#:#Course: Info Page
+sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
@@ -14772,11 +14773,11 @@ exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to
 exc#:#exc_reminder_end#:#Reminder ends
 exc#:#exc_reminder_mail_template#:#Mail Template
 exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
-exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise: Submit Reminder
 exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
-exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise: Grade Reminder
 exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
-exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise: Feedback/Peer Reminder
 exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
 exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
 exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
@@ -15069,7 +15070,7 @@ sess#:#sess_show_members#:#Show Participants
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
 sess#:#sess_member_administration#:#Edit Participants
 sess#:#sess_members_gallery#:#Session Gallery
-sess#:#sess_mail_context_participant_title#:#Sitzung: Mail to Participants
+sess#:#sess_mail_context_participant_title#:#Session: Mail to Participants
 sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the participants and learning progress screens of a session
 sess#:#mail_sess_roles#:#Send Mail to Session Roles
 sess#:#send_mail_participants#:#All Participants of Session
@@ -16061,7 +16062,7 @@ prg#:#prg_points_byline#:#Students get a certain amount of points when they succ
 prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.
 prg#:#prg_description#:#Description
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Mail to Members
+prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
@@ -16099,6 +16100,14 @@ iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#iass_user_removed#:#User successfully removed.
 prg#:#prg_profile_not_public#:#Profile of the user is not public.
+prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.
+prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
+prg#:#prg_confirm_delete#:#Delete
+prg#:#prg_cancel#:#Cancel
+prg#:#prg_delete_failure#:#Delete failed.
+prg#:#prg_delete_success#:#Successfuly delete entries.
+prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
+prg#:#prg_delete_single_success#:#Successfuly delete entry.
 common#:#collapse_content#:#Collapse Content
 common#:#expand_content#:#Expand Content
 common#:#briefcase#:#Background Tasks

@@ -33,8 +33,7 @@ class ilStudyProgrammeDIC
         };
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeSettingsDBRepository(
-                $DIC['ilDB'],
-                $dic['ilOrgUnitObjectTypePositionSetting']
+                $DIC['ilDB']
             );
         };
         $dic['model.Progress.ilStudyProgrammeProgressRepository'] = function ($dic) use ($DIC) {
@@ -106,6 +105,8 @@ class ilStudyProgrammeDIC
                 $DIC['ilToolbar'],
                 $DIC['lng'],
                 $DIC->ui()->factory(),
+                $DIC['ui.factory']->messageBox(),
+                $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC['tree']
@@ -198,9 +199,6 @@ class ilStudyProgrammeDIC
                 $logger,
                 $dic['ilStudyProgrammeEvents']
             );
-        };
-        $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
-            return new ilOrgUnitObjectTypePositionSetting('prg');
         };
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
