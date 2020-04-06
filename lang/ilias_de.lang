@@ -13165,7 +13165,7 @@ cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
 crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
 crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
-sahs#:#sahs_mail_context_lp#:#SCORM-Lernmodul: Lernfortschritt
+sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
@@ -16098,3 +16098,11 @@ iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
 iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
 iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
 prg#:#prg_profile_not_public#:#Das Profil des Benutzers ist nicht öffentlich.
+prg#:#prg_delete_nothing_selected#:#Es wurden keine Einträge ausgewählt.
+prg#:#prg_delete_confirmation#:#Möchten Sie die ausgewählten Einträge wirklich löschen?
+prg#:#prg_confirm_delete#:#Löschen
+prg#:#prg_cancel#:#Abbrechen
+prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
+prg#:#prg_delete_success#:#Einträge wurden erfolgreich gelöscht.
+prg#:#prg_delete_single_confirmation#:#Möchten Sie den ausgewählten Eintrag wirklich löschen?
+prg#:#prg_delete_single_success#:#Eintrag wurde erfolgreich gelöscht.

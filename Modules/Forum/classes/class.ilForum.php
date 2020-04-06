@@ -1239,7 +1239,7 @@ class ilForum
         }
 
         $inner_last_active_post_condition = "";
-        if (true || !$params['is_moderator']) {
+        if ($is_post_activation_enabled && !$params['is_moderator']) {
             $inner_last_active_post_condition = sprintf(
                 " AND (iposts.pos_status = %s OR (iposts.pos_status = %s AND iposts.pos_author_id = %s)) ",
                 $this->db->quote(1, 'integer'),
