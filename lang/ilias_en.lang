@@ -2970,6 +2970,7 @@ common#:#local#:#Local
 common#:#location#:#Location
 common#:#locator#:#Location:
 common#:#log_in#:#Login
+common#:#log_out#:#Logout
 common#:#logic_or#:#or
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
@@ -16098,3 +16099,16 @@ iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
 iass#:#download_assessment_paper#:#Download Record file
 iass#:#iass_user_removed#:#User successfully removed.
 prg#:#prg_profile_not_public#:#Profile of the user is not public.
+common#:#collapse_content#:#Collapse Content
+common#:#expand_content#:#Expand Content
+common#:#briefcase#:#Background Tasks
+common#:#sort_ascending#:#Sort Ascending
+common#:#sort_descending#:#Sort Descending
+common#:#show_who_is_online#:#Show who is online
+common#:#tags#:#Tags
+common#:#comments#:#Comments
+common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
+common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
+common#:#show_more#:#Show More
+common#:#disclose#:#Disclose
+common#:#switch_language#:#Switch Language
