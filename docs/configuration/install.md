@@ -28,6 +28,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
+   1. [WebDAV Configuration \(OPTIONAL\)](#webdav-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
       1. [Optional Dependencies](#optional-dependencies)
    1. [Installation Wizard](#installation-wizard)
@@ -401,6 +402,25 @@ hostname=yourserver.example.com
 # NO - Use the system generated From: address
 FromLineOverride=YES
 ```
+
+<a name="webdav-configuration-optional"></a>
+## WebDAV Configuration (OPTIONAL)
+
+The recommended webserver configuration is either **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you use WebDAV.
+
+### WebDAV with Windows Explorer
+Because of a special behaviour in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
+
+To prevent this behaviour, add the following rewrite rules to a .htaccess file in your webroot or to the corresponding section of the configuration of your webserver:
+
+```
+RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
+RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
+RewriteRule .* "-" [R=401,L]
+```
+
+### WebDAV with Mac Finder
+To upload files, the WebDAV Client *Finder* on Mac uses chunked transfer encoding. Some webservers can't handle this way of uploading files and are serving ILIAS an empty files, which results in an empty file object on ILIAS. Due to a bug in apache, the configuration of **Apache with PHP-FPM** does not work with the *Mac Finder*. If you use WebDAV on your ILIAS installation, we recommend to either use **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**.
 
 <a name="install-other-depedencies"></a>
 ## Install other Depedencies
