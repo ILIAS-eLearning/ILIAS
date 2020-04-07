@@ -2550,6 +2550,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (isset($this->httpRequest->getQueryParams()['anchor'])) {
             $this->tpl->setVariable('JUMP2ANCHOR_ID', (int) $this->httpRequest->getQueryParams()['anchor']);
         }
+        $this->tpl->setVariable('LIST_TYPE', $this->isHierarchicalView() ? 'sort_by_posts' : 'sort_by_date');
 
         if ($this->isHierarchicalView()) {
             $orderField = 'frm_posts_tree.rgt';
@@ -2786,7 +2787,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC', $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
                 $this->ctrl->clearParameters($this);
                 $this->tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());
-                ;
                 $this->tpl->setVariable('BOTTOM_FORM', $form->getHTML());
             }
         } else {
