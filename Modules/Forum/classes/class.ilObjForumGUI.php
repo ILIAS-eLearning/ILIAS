@@ -680,6 +680,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $rowCol = 'tblrowmarked';
                 // set row color
                 $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+                $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
                 
                 // Author
                 $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -895,6 +896,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         
         // set row color
         $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+        $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
         // if post is not activated display message for the owner
         if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
             $this->tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
