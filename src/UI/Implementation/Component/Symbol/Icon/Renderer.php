@@ -22,14 +22,14 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $tpl->setVariable("NAME", $component->getName());
-        $tpl->setVariable("ARIA_LABEL", $component->getLabel());
         $tpl->setVariable("SIZE", $component->getSize());
 
         $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
+        $tpl->setVariable("ALT", $component->getLabel());
         
         if ($component instanceof Component\Symbol\Icon\Standard) {
             if ($component->isOutlined()) {
-                $tpl->setVariable("OUTLINED", " outlined");
+                $tpl->touchBlock('outlined');
             }
         }
 
@@ -38,17 +38,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ABBREVIATION", $ab);
         }
 
-        $di = $component->isDisabled();
-        if ($di) {
-            $tpl->setVariable("DISABLED", " disabled");
-        }
-
-        $id = $this->bindJavaScript($component);
-
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
+        if ($component->isDisabled()) {
+            $tpl->touchBlock('disabled');
+            $tpl->touchBlock('aria_disabled');
         }
 
         return $tpl->get();

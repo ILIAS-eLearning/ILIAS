@@ -15,9 +15,8 @@ interface Factory
      *    Standard Icons represent ILIAS Objects. In their outlined version, they are used to be layered upon a picture or
      *    if the Standard Icon should not catch too much of the users attention.
      *   composition: >
-     *     A Standard Icon is displayed as a block-element with a background-graphic.
-     *     By default, a fallback icon will be rendered; this is until a
-     *     background image is defined in the icon's CSS-class. The outlined version is the silhouette of the Standard Icon.
+     *     An Icon is rendered as image-tag.
+     *     The outlined version is the silhouette of the Standard Icon.
      *     This outlined version therefore attracts less attention.
      *   rivals:
      *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
@@ -34,7 +33,7 @@ interface Factory
      *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
      *        applicable.
      *   accessibility:
-     *     1: Icons MUST have aria-labels.
+     *     1: Icons MUST have alt-tags.
      * ---
      *
      * @param   string $name
@@ -43,10 +42,10 @@ interface Factory
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Standard
      **/
     public function standard(
-         string $name,
-         string $label,
-         string $size = 'small',
-         bool $is_disabled = false
+        string $name,
+        string $label,
+        string $size = 'small',
+        bool $is_disabled = false
      ) : Standard;
 
     /**
@@ -57,8 +56,7 @@ interface Factory
      *     Those, in opposite to the standard icons, need to be constructed with
      *     a path.
      *   composition: >
-     *     Instead of setting a background image via CSS-class, an image-tag is
-     *     contained in the icons's div.
+     *     An Icon is rendered as image-tag.
      *   rivals:
      *     Standard Icon: Standard Icons MUST be used for core-objects.
      * rules:
@@ -80,9 +78,9 @@ interface Factory
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Custom
      **/
     public function custom(
-         string $icon_path,
-         string $label,
-         string $size = 'small',
-         bool $is_disabled = false
+        string $icon_path,
+        string $label,
+        string $size = 'small',
+        bool $is_disabled = false
      ) : Custom;
 }

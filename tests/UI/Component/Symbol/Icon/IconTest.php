@@ -121,90 +121,54 @@ class IconTest extends ILIAS_UI_TestBase
 
     public function testRenderingStandard()
     {
-        $f = $this->getIconFactory();
-        $r = $this->getDefaultRenderer();
-
-        $ico = $ico = $f->standard('crs', 'Course', 'medium');
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon crs medium" aria-label="Course"></div>';
+        $ico = $this->getIconFactory()->standard('crs', 'Course', 'medium');
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course"/>';
         $this->assertEquals($expected, $html);
+        return $ico;
+    }
 
-        //with disabled
+    /**
+     * @depends testRenderingStandard
+     */
+    public function testRenderingStandardDisabled($ico)
+    {
         $ico = $ico->withDisabled(true);
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon crs medium disabled" aria-label="Course"></div>';
-        $this->assertEquals($expected, $html);
-
-        //with abbreviation
-        $ico = $ico->withAbbreviation('CRS');
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon crs medium disabled" aria-label="Course">'
-                    . '	<div class="abbreviation">CRS</div>'
-                    . '</div>';
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon crs medium disabled" src="./templates/default/images/icon_crs.svg" alt="Course" aria-disabled="true"/>';
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingStandardOutlined()
+    /**
+     * @depends testRenderingStandard
+     */
+    public function testRenderingStandardAbbreviation($ico)
     {
-        $f = $this->getIconFactory();
-        $r = $this->getDefaultRenderer();
-
-        $ico = $ico = $f->standard('crs', 'Course', 'medium')->withIsOutlined(true);
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = ''
-            . '<div class="icon crs medium outlined" aria-label="Course">'
-            . '  <img src="./templates/default/images/icon_crs.svg" />'
-            . '</div>';
-        $this->assertEquals($expected, $html);
-
-        //with disabled
-        $ico = $ico->withDisabled(true);
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon crs medium disabled outlined" aria-label="Course"></div>';
-        $this->assertEquals($expected, $html);
-
-        //with abbreviation
         $ico = $ico->withAbbreviation('CRS');
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = ''
-            . '<div class="icon crs medium disabled outlined" aria-label="Course">'
-            . '  <img src="./templates/default/images/icon_crs.svg" />'
-            . '	<div class="abbreviation">CRS</div>'
-            . '</div>';
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" data-abbreviation="CRS"/>';
+        $this->assertEquals($expected, $html);
+    }
+
+    /**
+     * @depends testRenderingStandard
+     */
+    public function testRenderingStandardOutlined($ico)
+    {
+        $ico = $ico->withIsOutlined(true);
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon crs medium outlined" src="./templates/default/images/outlined/icon_crs.svg" alt="Course"/>';
         $this->assertEquals($expected, $html);
     }
 
     public function testRenderingCustom()
     {
-        $f = $this->getIconFactory();
-        $r = $this->getDefaultRenderer();
         $path = './templates/default/images/icon_fold.svg';
-
-        $ico = $ico = $f->custom($path, 'Custom', 'medium');
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = '<div class="icon custom medium" aria-label="Custom">'
-                    . '	<img src="./templates/default/images/icon_fold.svg" />'
-                    . '</div>';
+        $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
+        $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
+        $expected = '<img class="icon custom medium" src="./templates/default/images/icon_fold.svg" alt="Custom"/>';
         $this->assertEquals($expected, $html);
-
-        //with disabled
-        $ico = $ico->withDisabled(true);
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = ''
-            . '<div class="icon custom medium disabled" aria-label="Custom">'
-            . '	<img src="./templates/default/images/icon_fold.svg" />'
-            . '</div>';
-        $this->assertEquals($expected, $html);
-
-        //with abbreviation
-        $ico = $ico->withAbbreviation('CS');
-        $html = $this->normalizeHTML($r->render($ico));
-        $expected = ''
-            . '<div class="icon custom medium disabled" aria-label="Custom">'
-            . '	<img src="./templates/default/images/icon_fold.svg" />'
-            . '	<div class="abbreviation">CS</div>'
-            . '</div>';
-        $this->assertEquals($expected, $html);
+        return $ico;
     }
 
     public function testAllStandardIconsExist()

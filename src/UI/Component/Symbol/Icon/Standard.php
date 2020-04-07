@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Icon;
@@ -8,6 +9,10 @@ namespace ILIAS\UI\Component\Symbol\Icon;
  */
 interface Standard extends Icon
 {
+    const DEFAULT_ICON_NAME = 'default';
+    const ICON_PATH = './templates/default/images';
+    const ICON_OUTLINED_PATH = './templates/default/images/outlined';
+    const ICON_NAME_PATTERN = 'icon_%s.svg';
 
     // std. ILIAS icons:
     // SELECT distinct title, description from `object_data` where type='typ'
@@ -127,11 +132,12 @@ interface Standard extends Icon
     const CMIS = 'cmis';	//xAPI/cmi5
     const REP = 'rep';	//Repository
     const TASK = 'task';   //Task
+    const LS = 'lso';   //Learning Sequence
 
     /**
      * Is this an outlined Icon?
      */
-    public function isOutlined();
+    public function isOutlined() : bool;
 
     /**
      * Get an icon like this, but marked as outlined.
@@ -139,5 +145,5 @@ interface Standard extends Icon
      * @param bool $is_outlined
      * @return Standard
      */
-    public function withIsOutlined(bool $is_outlined);
+    public function withIsOutlined(bool $is_outlined) : Standard;
 }

@@ -63,7 +63,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     {
         return $this->label;
     }
-    
+
     //there is a reference in src/GlobalScreen/Scope/MainMenu/Factory/TopItem/TopLinkItem.php ::withSymbol
     //to bugfix mantis 25526: make aria labels mandatory
     //https://github.com/ILIAS-eLearning/ILIAS/pull/2282
