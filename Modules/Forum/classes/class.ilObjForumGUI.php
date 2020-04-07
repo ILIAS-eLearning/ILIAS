@@ -2891,6 +2891,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             );
         }
 
+        $currentViewMode = $this->objProperties->getDefaultView();
+        if (isset($_SESSION['viewmode'])) {
+            $currentViewMode = (in_array($_SESSION['viewmode'], [
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ]) ? ilForumProperties::VIEW_DATE : ilForumProperties::VIEW_TREE);
+        }
+        $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$currentViewMode]);
+        
         $numberOfPostings = 0;
 
         // get forum- and thread-data
@@ -3118,7 +3127,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 );
                 $this->ctrl->clearParameters($this);
                 $threadContentTemplate->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());
-                ;
                 $threadContentTemplate->setVariable('BOTTOM_FORM', $form->getHTML());
             }
         } else {
@@ -3156,14 +3164,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $bottom_toolbar->addButtonInstance($to_top_button);
         if ($numberOfPostings > 0) {
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
-        }
-
-        $currentViewMode = $this->objProperties->getDefaultView();
-        if (isset($_SESSION['viewmode'])) {
-            $currentViewMode = (in_array($_SESSION['viewmode'], [
-                ilForumProperties::VIEW_DATE_ASC,
-                ilForumProperties::VIEW_DATE_DESC
-            ]) ? ilForumProperties::VIEW_DATE : ilForumProperties::VIEW_TREE);
         }
 
         $this->renderViewModeControl($currentViewMode);
