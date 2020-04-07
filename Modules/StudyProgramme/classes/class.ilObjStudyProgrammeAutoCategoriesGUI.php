@@ -23,11 +23,13 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     const F_CATEGORY_REF = 'f_cr';
     const F_CATEGORY_ORIGINAL_REF = 'f_cr_org';
     const CHECKBOX_CATEGORY_REF_IDS = 'c_catids';
+
     const CMD_VIEW = 'view';
     const CMD_SAVE = 'save';
     const CMD_GET_ASYNC_MODAL = 'getAsyncModalOutput';
     const CMD_DELETE = 'delete';
     const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
+    const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
     /**
      * @var ilTemplate
@@ -131,6 +133,9 @@ class ilObjStudyProgrammeAutoCategoriesGUI
                         $this->$cmd();
                         $this->ctrl->redirect($this, 'view');
                         break;
+                    case self::CMD_PROFILE_NOT_PUBLIC:
+                        $this->view(true);
+                        break;
                     default:
                         throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: " .
                                               "Command not supported: $cmd");
@@ -141,8 +146,12 @@ class ilObjStudyProgrammeAutoCategoriesGUI
     /**
      * Render.
      */
-    protected function view()
+    protected function view(bool $profile_not_public = false)
     {
+        if ($profile_not_public) {
+            ilUtil::sendInfo($this->lng->txt('prg_profile_not_public'));
+        }
+
         $collected_modals = [];
 
         $modal = $this->getModal();
@@ -410,7 +419,11 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $username['lastname'],
             '(' . $username['login'] . ')'
         ]);
+        $usr = ilObjectFactory::getInstanceByObjId($usr_id);
         $url = ilLink::_getStaticLink($usr_id, 'usr');
+        if (!$usr->hasPublicProfile()) {
+            $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
+        }
         return $this->ui_factory->button()->shy($editor, $url);
     }
 
