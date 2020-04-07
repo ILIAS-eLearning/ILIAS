@@ -4089,6 +4089,8 @@ common#:#role#:#Rolle
 common#:#role_add_user#:#Benutzer hinzufügen
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
+common#:#global_role_assignment#:#Globale Rollenzuweisung
+common#:#local_role_assignment#:#Lokale Rollenzuweisung
 common#:#role_assignment_updated#:#Die Rollenzuweisung wurde geändert.
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_mailto#:#Mail an alle zugewiesenen Benutzer
@@ -4542,10 +4544,12 @@ rbac#:#usrf_visible#:#Benutzerkontenverwaltung ist sichtbar
 rbac#:#usrf_write#:#Einstellungen in Benutzerkontenverwaltung bearbeiten
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
 common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
+common#:#usrimport_form_not_evaluabe#:#Das Formular konnte nicht ausgelesen werden.
+common#:#usrimport_wrong_file_count#:#Zu viele Dateien im Import-Ordner. Bitte versuchen Sie es erneut.
 common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist).
+common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt und umgekehrt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist).
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
 common#:#usrimport_login_is_not_unique#:#Benutzername ist nicht eindeutig.
