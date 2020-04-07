@@ -837,6 +837,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 $rowCol = 'tblrowmarked';
                 $tpl->setVariable('ROWCOL', ' ' . $rowCol);
+                $tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
 
                 // Author
                 $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -1061,6 +1062,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $tpl->setVariable('ROWCOL', ' ' . $rowCol);
+        $tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
         if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
             $tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
         }
