@@ -74,7 +74,10 @@ EOT;
         $expected = <<<EOT
 			<li id=""class="il-tree-node node-simple">
 				<span class="node-line">
-					<span class="node-label"><div class="icon small" aria-label=""></div>My Label</span>
+					<span class="node-label">
+						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
+						My Label
+					</span>
 					<span class="node-byline">This is my byline</span>
 				</span>
 			</li>

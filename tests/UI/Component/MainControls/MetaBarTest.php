@@ -138,15 +138,11 @@ class MetaBarTest extends ILIAS_UI_TestBase
 <div class="il-maincontrols-metabar" id="id_5">
 	<div class="il-metabar-entries" style="visibility: hidden">
 		<button class="btn btn-bulky" data-action="#" id="id_1" >
-			<div class="icon custom small" aria-label="">
-				<img src="" />
-			</div>
+			<img class="icon custom small" src="" alt=""/>
 			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" data-action="#" id="id_2" >
-			<div class="icon custom small" aria-label="">
-				<img src="" />
-			</div>
+			<img class="icon custom small" src="" alt=""/>
 			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" id="id_3" aria-pressed="false" >

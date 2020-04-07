@@ -75,7 +75,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de">'
-            . '	<div class="icon someExample small" aria-label="Example"></div>'
+            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
             . '	<span class="bulky-label">label</span>'
             . '</a>';
 

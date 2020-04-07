@@ -203,7 +203,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 	<div class="il-item il-notification-item" id="id">
 		<div class="media">
 			<div class="media-left">
-				<div class="icon name small" aria-label="aria_label"></div>
+				<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/>
 			</div>
 			<div class="media-body">
 				<h5 class="il-item-notification-title">
@@ -258,7 +258,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 									<div class="il-item il-notification-item" id="id">
 										<div class="media">
 											<div class="media-left">
-												<div class="icon name small" aria-label="aria_label"></div>
+                                                <img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label"/>
 											</div>
 											<div class="media-body">
 												<h5 class="il-item-notification-title">title_aggregate</h5>
