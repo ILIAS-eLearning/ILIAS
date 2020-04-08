@@ -680,6 +680,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $rowCol = 'tblrowmarked';
                 // set row color
                 $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+                $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
                 
                 // Author
                 $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -895,6 +896,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         
         // set row color
         $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+        $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
         // if post is not activated display message for the owner
         if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
             $this->tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
@@ -2548,6 +2550,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (isset($this->httpRequest->getQueryParams()['anchor'])) {
             $this->tpl->setVariable('JUMP2ANCHOR_ID', (int) $this->httpRequest->getQueryParams()['anchor']);
         }
+        $this->tpl->setVariable('LIST_TYPE', $this->isHierarchicalView() ? 'sort_by_posts' : 'sort_by_date');
 
         if ($this->isHierarchicalView()) {
             $orderField = 'frm_posts_tree.rgt';
@@ -2784,7 +2787,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC', $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
                 $this->ctrl->clearParameters($this);
                 $this->tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());
-                ;
                 $this->tpl->setVariable('BOTTOM_FORM', $form->getHTML());
             }
         } else {
