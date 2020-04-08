@@ -4220,6 +4220,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilContentPageLP' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPageLP.php',
         'ilContentPageObjectConstants' => __DIR__ . '/../..' . '/../../Modules/ContentPage/interfaces/interface.ilContentPageObjectConstants.php',
         'ilContentPagePage' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPagePage.php',
+        'ilContentPagePageCollector' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPagePageCollector.php',
         'ilContentPagePageCommandForwarder' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php',
         'ilContentPagePageConfig' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPagePageConfig.php',
         'ilContentPagePageGUI' => __DIR__ . '/../..' . '/../../Modules/ContentPage/classes/class.ilContentPagePageGUI.php',
