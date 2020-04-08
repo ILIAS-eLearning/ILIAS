@@ -23,7 +23,6 @@ class Custom extends Icon implements C\Symbol\Icon\Custom
             self::$possible_sizes,
             implode('/', self::$possible_sizes)
         );
-        $this->checkBoolArg("is_disabled", $is_disabled);
         $this->name = 'custom';
         $this->icon_path = $icon_path;
         $this->label = $label;
