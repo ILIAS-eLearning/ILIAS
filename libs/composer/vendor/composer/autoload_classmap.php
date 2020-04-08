@@ -3854,6 +3854,7 @@ return array(
     'ilContentPageLP' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPageLP.php',
     'ilContentPageObjectConstants' => $baseDir . '/../../Modules/ContentPage/interfaces/interface.ilContentPageObjectConstants.php',
     'ilContentPagePage' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPagePage.php',
+    'ilContentPagePageCollector' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPagePageCollector.php',
     'ilContentPagePageCommandForwarder' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php',
     'ilContentPagePageConfig' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPagePageConfig.php',
     'ilContentPagePageGUI' => $baseDir . '/../../Modules/ContentPage/classes/class.ilContentPagePageGUI.php',
