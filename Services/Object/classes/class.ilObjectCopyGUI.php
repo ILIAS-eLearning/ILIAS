@@ -423,7 +423,7 @@ class ilObjectCopyGUI
         //
         include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
         $exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
-        $exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso"));
+        $exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso", "prg"));
         $exp->setSelectMode("target", true);
         if ($exp->handleCommand()) {
             return;
