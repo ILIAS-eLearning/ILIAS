@@ -10,12 +10,16 @@ class ilContentPagePageCollector implements ilCOPageCollectorInterface, ilConten
      */
     public function getAllPageIds($obj_id)
     {
-        return [
-            [
+        $pages = [];
+
+        foreach (ilPageObject::getAllPages(self::OBJ_TYPE, $obj_id) as $page) {
+            $pages[] = [
                 'parent_type' => self::OBJ_TYPE,
-                'id' => $obj_id,
-                'lang' => '-'
-            ],
-        ];
+                'id' => $page['id'],
+                'lang' => $page['lang'],
+            ];
+        }
+
+        return $pages;
     }
 }
