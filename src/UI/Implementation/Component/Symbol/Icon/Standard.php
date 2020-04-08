@@ -128,7 +128,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::CMIS
         ,self::TASK
         ,self::REP
-        ,self::LS
+        ,self::LSO
     );
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
@@ -172,19 +172,5 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         $clone = clone $this;
         $clone->is_outlined = $is_outlined;
         return $clone;
-    }
-
-    public function getIconPath() : string
-    {
-        $name = $this->getName();
-        if (!in_array($name, $this->getAllStandardHandles())) {
-            $name = self::DEFAULT_ICON_NAME;
-        }
-
-        $path = self::ICON_PATH;
-        if ($this->isOutlined()) {
-            $path = self::ICON_OUTLINED_PATH;
-        }
-        return $path . '/' . sprintf(self::ICON_NAME_PATTERN, $name);
     }
 }

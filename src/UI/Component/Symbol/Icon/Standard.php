@@ -9,11 +9,6 @@ namespace ILIAS\UI\Component\Symbol\Icon;
  */
 interface Standard extends Icon
 {
-    const DEFAULT_ICON_NAME = 'default';
-    const ICON_PATH = './templates/default/images';
-    const ICON_OUTLINED_PATH = './templates/default/images/outlined';
-    const ICON_NAME_PATTERN = 'icon_%s.svg';
-
     // std. ILIAS icons:
     // SELECT distinct title, description from `object_data` where type='typ'
     const GRP = 'grp';	//Group object

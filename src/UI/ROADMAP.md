@@ -13,7 +13,7 @@ are explained in [Usage](#usage).
 ## Short Term
 
 ### Simple usage of demo-page in examples  (beginner, ~4h)
-To show how a UI-Component looks loke in the page context (esp. for 
+To show how a UI-Component looks like in the page context (esp. for
 Components from the MainControls) a simple "framework" to use a Demo-Page
 in the examples would be helpful.
 
@@ -188,10 +188,19 @@ Finally, when consumers are adapted, ViewControl can be removed from UI's root
 entirely.
 
 #### View Control Inputs to be created (moved):
+
 * Mode View Control Input
 * Pagination View Control Input
 * Section View Control Input
 * Sortation View Control Input
+
+### Enforce (Aria-)Labels for Icons and Glyphs (beginner)
+
+In src/GlobalScreen/Scope/MainMenu/Factory/hasSymbolTrait.php, e.g., as well as in
+other files in src/GlobalScreen/Scope, an exception is being thrown for icons/glyphs
+configured with an empty (Aria-)Label.
+The components themselves should take care of this.
+
 
 ## Long Term
 
