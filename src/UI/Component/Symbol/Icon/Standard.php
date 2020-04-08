@@ -141,9 +141,6 @@ interface Standard extends Icon
 
     /**
      * Get an icon like this, but marked as outlined.
-     *
-     * @param bool $is_outlined
-     * @return Standard
      */
     public function withIsOutlined(bool $is_outlined) : Standard;
 }
