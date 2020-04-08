@@ -132,7 +132,7 @@ interface Standard extends Icon
     const CMIS = 'cmis';	//xAPI/cmi5
     const REP = 'rep';	//Repository
     const TASK = 'task';   //Task
-    const LS = 'lso';   //Learning Sequence
+    const LSO = 'lso';   //Learning Sequence
 
     /**
      * Is this an outlined Icon?
