@@ -88,6 +88,7 @@ class ilStudyProgrammeDIC
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
                 $DIC['ilToolbar'],
+                $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['ilUser'],
                 $DIC['ilTabs'],
@@ -161,6 +162,8 @@ class ilStudyProgrammeDIC
                 $DIC['ilToolbar'],
                 $DIC['lng'],
                 $DIC->ui()->factory(),
+                $DIC['ui.factory']->messageBox(),
+                $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC['tree']

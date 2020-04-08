@@ -205,7 +205,6 @@ class ilLSStateDB
                 }
             }
         );
-
         $ilAtomQuery->run();
     }
 
