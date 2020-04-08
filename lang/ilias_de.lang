@@ -16107,3 +16107,9 @@ prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
 prg#:#prg_delete_success#:#Einträge wurden erfolgreich gelöscht.
 prg#:#prg_delete_single_confirmation#:#Möchten Sie den ausgewählten Eintrag wirklich löschen?
 prg#:#prg_delete_single_success#:#Eintrag wurde erfolgreich gelöscht.
+common#:#obj_lsos#:#Lernsequenzen
+common#:#obj_lsos_desc#:#Allgemeine Einstellungen für Lernsequenzen
+mail#:#mail_enable_lso_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_lso_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform.
+mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
+mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
