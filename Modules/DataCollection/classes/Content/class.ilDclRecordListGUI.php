@@ -344,7 +344,7 @@ class ilDclRecordListGUI
         $table->initFilter();
         $table->resetOffset();
         $table->resetFilter();
-        $this->ctrl->redirect($this, self::CMD_SHOW);
+        $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
 
 
