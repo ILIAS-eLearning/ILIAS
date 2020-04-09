@@ -160,8 +160,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         $next_class = $DIC->ctrl()->getNextClass($this);
+        $cmd = $DIC->ctrl()->getCmd();
 
-        if (!$this->getCreationMode() and $next_class != "ilinfoscreengui" and !$this->checkPermissionBool("read")) {
+        if (!$this->getCreationMode() and $next_class != "ilinfoscreengui" and $cmd != 'infoScreen' and !$this->checkPermissionBool("read")) {
             $DIC->ui()->mainTemplate()->getStandardTemplate();
             $DIC->ui()->mainTemplate()->setContent("Permission Denied.");
 
