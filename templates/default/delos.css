@@ -8596,10 +8596,10 @@ div.alert ul > li:before {
   list-style-type: none;
 }
 .il-tree li.il-tree-node {
-  padding: 0 0px;
+  padding: 0;
 }
 .il-tree li.il-tree-node .node-line {
-  padding-left: 14px;
+  padding: 3px 0 3px 14px;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
