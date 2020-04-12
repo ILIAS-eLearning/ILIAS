@@ -67,7 +67,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         ilCertificateDateHelper $dateHelper = null
     ) {
         if (null === $language) {
-            global $DIC;
+            global $DIC; /* @var \ILIAS\DI\Container $DIC */
             $language = $DIC->language();
         }
         $this->language = $language;

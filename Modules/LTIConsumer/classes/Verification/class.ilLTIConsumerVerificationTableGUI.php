@@ -20,8 +20,8 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd = "")
     {
-        global $ilCtrl;
-        
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->addColumn($this->lng->txt("title"), "title");
@@ -32,7 +32,7 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
         $this->setDescription($this->lng->txt("ltiv_create_info"));
         
         $this->setRowTemplate("tpl.lti_verification_row.html", "Modules/LTIConsumer");
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         
         $this->getItems();
     }
@@ -74,15 +74,15 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
      */
     protected function fillRow($a_set)
     {
-        global $ilCtrl;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
             $this->lng->txt("no"));
         
         if ($a_set["passed"]) {
-            $ilCtrl->setParameter($this->parent_obj, "lti_id", $a_set["id"]);
-            $action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
+            $DIC->ctrl()->setParameter($this->parent_obj, "lti_id", $a_set["id"]);
+            $action = $DIC->ctrl()->getLinkTarget($this->parent_obj, "save");
             $this->tpl->setVariable("URL_SELECT", $action);
             $this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
         }

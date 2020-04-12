@@ -31,10 +31,10 @@ class ilObjLTIConsumerVerificationListGUI extends ilObjectListGUI
     
     public function getProperties()
     {
-        global $lng;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         return array(
-            array("alert" => false, "property" => $lng->txt("type"),
+            array("alert" => false, "property" => $DIC->language()->txt("type"),
                 "value" => $lng->txt("wsp_list_ltiv"))
         );
     }
