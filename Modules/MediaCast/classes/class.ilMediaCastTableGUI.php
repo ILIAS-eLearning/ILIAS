@@ -192,8 +192,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
                     $mpl->setFile(ilWACSignedPath::signFile($a_file));
                     $mpl->setMimeType($med->getFormat());
                     //$mpl->setDisplayHeight($med->getHeight());
-                    $mpl->setDisplayWidth("640");
-                    $mpl->setDisplayHeight("480");
+                    //$mpl->setDisplayWidth("320px");
+                    //$mpl->setDisplayHeight("480px");
                     $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
                     $mpl->setTitle($a_set["title"]);
                     $mpl->setDescription($a_set["content"]);

@@ -17096,6 +17096,7 @@ div.ilBlockPropertyCaption {
   left: 0;
   background-color: #303030;
   overflow: auto;
+  z-index: 1000;
 }
 a.ilMediaLightboxClose {
   display: block;
