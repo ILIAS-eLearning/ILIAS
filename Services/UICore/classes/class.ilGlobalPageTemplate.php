@@ -314,7 +314,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addLightbox($a_html, $a_id)
     { //
-        $this->legacy_content_template->addLightbox($a_id, $a_html);
+        $this->legacy_content_template->addLightbox($a_html, $a_id);
     }
 
 

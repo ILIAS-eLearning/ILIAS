@@ -28,7 +28,7 @@ class ilLightboxGUI
     {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->setId($a_id);
     }
     
