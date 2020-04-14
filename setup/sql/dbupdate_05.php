@@ -4295,3 +4295,12 @@ if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
 ?>
+<#5664>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text')
+);
+?>
