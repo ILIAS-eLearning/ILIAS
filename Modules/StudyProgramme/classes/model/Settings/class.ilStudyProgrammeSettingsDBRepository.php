@@ -17,11 +17,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected $db;
 
-    /**
-     * @var ilOrgUnitObjectTypePositionSetting
-     */
-    protected $tps;
-
     const TABLE = 'prg_settings';
 
     const FIELD_OBJ_ID = 'obj_id';
@@ -35,19 +30,15 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
     const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
     const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
-    const FIELD_ACCESS_CONTROL_ORGU_POSITIONS = 'access_ctrl_org_pos';
     const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
     const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
     const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
     const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
     const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
-    public function __construct(
-        ilDBInterface $db,
-        ilOrgUnitObjectTypePositionSetting $tps
-    ) {
+    public function __construct(ilDBInterface $db)
+    {
         $this->db = $db;
-        $this->tps = $tps;
     }
 
     /**
@@ -88,15 +79,13 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             0,
             ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
             ilStudyProgrammeSettings::NO_RESTART,
-            $this->tps->isActive(),
             null,
             null,
             null,
             null
         );
 
-        $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
-            ->setAccessControlByOrguPositions($this->tps->isActive());
+        $prg = $prg->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED);
         self::$cache[$obj_id] = $prg;
         return $prg;
     }
@@ -153,7 +142,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $deadline_period,
             $qp,
             $rp,
-            $settings->getAccessControlByOrguPositions(),
             $deadline_date,
             $vq_date,
             $settings->getAutoMailSettings()->getReminderNotRestartedByUserDays(),
@@ -191,7 +179,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_PERIOD
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_DATE
             . '	,' . self::FIELD_VQ_RESTART_PERIOD
-            . '	,' . self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
             . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
             . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
             . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
@@ -221,7 +208,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $deadline_period,
         int $vq_period,
         int $vq_restart_period,
-        bool $access_ctrl_org_pos,
         string $deadline_date = null,
         string $vq_date = null,
         int $rm_nr_by_usr_days = null,
@@ -244,7 +230,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 self::FIELD_VALIDITY_QUALIFICATION_DATE => ['timestamp', $vq_date],
                 self::FIELD_VALIDITY_QUALIFICATION_PERIOD => ['integer', $vq_period],
                 self::FIELD_VQ_RESTART_PERIOD => ['integer', $vq_restart_period],
-                self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS => ['integer', $access_ctrl_org_pos],
                 self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY => ['integer', $rm_nr_by_usr_days],
                 self::FIELD_PROC_ENDS_NOT_SUCCESSFUL => ['integer', $proc_end_no_success],
                 self::FIELD_SEND_RE_ASSIGNED_MAIL => ['integer', $send_re_assigned_mail],
@@ -273,7 +258,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 . ', ' . self::FIELD_VALIDITY_QUALIFICATION_PERIOD
                 . ', ' . self::FIELD_VALIDITY_QUALIFICATION_DATE
                 . ', ' . self::FIELD_VQ_RESTART_PERIOD
-                . ', ' . self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
                 . ', ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
                 . ', ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
                 . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
@@ -370,8 +354,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $vqs = $vqs->withRestartPeriod($restart_period);
         $return = $return->withValidityOfQualificationSettings($vqs);
 
-        $return->setAccessControlByOrguPositions((bool) $row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
-
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
         if (!is_null($rm_nr_by_usr_days)) {
             $rm_nr_by_usr_days = (int) $rm_nr_by_usr_days;
@@ -417,7 +399,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         int $deadline_period,
         int $vq_period,
         int $vq_restart_period,
-        bool $access_ctrl_org_pos,
         string $deadline_date = null,
         string $vq_date = null,
         int $rm_nr_by_usr_days = null,
@@ -476,10 +457,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             self::FIELD_VQ_RESTART_PERIOD => [
                 'integer',
                 $vq_restart_period
-            ],
-            self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS => [
-                'integer',
-                $access_ctrl_org_pos
             ],
             self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY => [
                 'integer',

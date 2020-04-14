@@ -442,7 +442,7 @@ class ilTemplate extends HTML_Template_ITX
             if ($fname == "" || !file_exists($fname)) {
                 $fname = "./" . $module_path . "templates/default/" . basename($a_tplname);
             }
-        } elseif (strpos($a_tplname, "src/UI")===0) {
+        } elseif (strpos($a_tplname, "src/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
             && ilStyleDefinition::getCurrentSkin() != "default") {
                 $fname = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . str_replace("src/UI/templates/default", "UI", $a_tplname);

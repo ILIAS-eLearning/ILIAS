@@ -22,26 +22,26 @@ class Stream implements FileStream
     const MASK_ACCESS_READ_WRITE = 03;
 
     private static $accessMap = [
-        'r'     => self::MASK_ACCESS_READ,
-        'w+'    => self::MASK_ACCESS_READ_WRITE,
-        'r+'    => self::MASK_ACCESS_READ_WRITE,
-        'x+'    => self::MASK_ACCESS_READ_WRITE,
-        'c+'    => self::MASK_ACCESS_READ_WRITE,
-        'rb'    => self::MASK_ACCESS_READ,
-        'w+b'   => self::MASK_ACCESS_READ_WRITE,
-        'r+b'   => self::MASK_ACCESS_READ_WRITE,
-        'x+b'   => self::MASK_ACCESS_READ_WRITE,
-        'c+b'   => self::MASK_ACCESS_READ_WRITE,
-        'rt'    => self::MASK_ACCESS_READ,
-        'w+t'   => self::MASK_ACCESS_READ_WRITE,
-        'r+t'   => self::MASK_ACCESS_READ_WRITE,
-        'x+t'   => self::MASK_ACCESS_READ_WRITE,
-        'c+t'   => self::MASK_ACCESS_READ_WRITE,
-        'a+'    => self::MASK_ACCESS_READ_WRITE,
-        'w'     => self::MASK_ACCESS_WRITE,
-        'rw'    => self::MASK_ACCESS_WRITE,
-        'wb'    => self::MASK_ACCESS_WRITE,
-        'a'     => self::MASK_ACCESS_WRITE
+        'r' => self::MASK_ACCESS_READ,
+        'w+' => self::MASK_ACCESS_READ_WRITE,
+        'r+' => self::MASK_ACCESS_READ_WRITE,
+        'x+' => self::MASK_ACCESS_READ_WRITE,
+        'c+' => self::MASK_ACCESS_READ_WRITE,
+        'rb' => self::MASK_ACCESS_READ,
+        'w+b' => self::MASK_ACCESS_READ_WRITE,
+        'r+b' => self::MASK_ACCESS_READ_WRITE,
+        'x+b' => self::MASK_ACCESS_READ_WRITE,
+        'c+b' => self::MASK_ACCESS_READ_WRITE,
+        'rt' => self::MASK_ACCESS_READ,
+        'w+t' => self::MASK_ACCESS_READ_WRITE,
+        'r+t' => self::MASK_ACCESS_READ_WRITE,
+        'x+t' => self::MASK_ACCESS_READ_WRITE,
+        'c+t' => self::MASK_ACCESS_READ_WRITE,
+        'a+' => self::MASK_ACCESS_READ_WRITE,
+        'w' => self::MASK_ACCESS_WRITE,
+        'rw' => self::MASK_ACCESS_WRITE,
+        'wb' => self::MASK_ACCESS_WRITE,
+        'a' => self::MASK_ACCESS_WRITE
     ];
 
     /**

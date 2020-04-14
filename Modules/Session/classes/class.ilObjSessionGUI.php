@@ -1484,7 +1484,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         for ($i = 1; $i <= count($events); $i++) {
             $headerNames[] = $i;
             $headerVars[] = "event_" . $i;
-            $colWidth[] = 80/count($events) . "%";
+            $colWidth[] = 80 / count($events) . "%";
         }
         
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));

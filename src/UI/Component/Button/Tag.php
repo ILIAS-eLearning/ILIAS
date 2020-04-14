@@ -10,11 +10,11 @@ use \ILIAS\UI\Component\Counter\Counter;
  */
 interface Tag extends Button
 {
-    const REL_VERYLOW 	= 'verylow';
-    const REL_LOW  		= 'low';
-    const REL_MID  		= 'mid';
-    const REL_HIGH  	= 'high';
-    const REL_VERYHIGH  = 'veryhigh';
+    const REL_VERYLOW = 'verylow';
+    const REL_LOW = 'low';
+    const REL_MID = 'mid';
+    const REL_HIGH = 'high';
+    const REL_VERYHIGH = 'veryhigh';
 
     /**
      * Set relevance of Tag (e.g. to distinguish visually)

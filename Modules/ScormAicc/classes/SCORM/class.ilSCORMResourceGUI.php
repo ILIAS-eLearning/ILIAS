@@ -38,7 +38,7 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
     {
         parent::__construct();
         $this->sc_object = new ilSCORMResource($a_id);
-        $files =&$this->sc_object->getFiles();
+        $files = &$this->sc_object->getFiles();
     }
 
     public function view()
@@ -70,8 +70,8 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
         $this->tpl->parseCurrentBlock();
 
         // files
-        $files =&$this->sc_object->getFiles();
-        for ($i=0; $i<count($files); $i++) {
+        $files = &$this->sc_object->getFiles();
+        for ($i = 0; $i < count($files); $i++) {
             $this->displayParameter(
                 $this->lng->txt("cont_href"),
                 $files[$i]->getHRef()
@@ -82,8 +82,8 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
         $this->tpl->parseCurrentBlock();
 
         // dependencies
-        $deps =&$this->sc_object->getDependencies();
-        for ($i=0; $i<count($deps); $i++) {
+        $deps = &$this->sc_object->getDependencies();
+        for ($i = 0; $i < count($deps); $i++) {
             $this->displayParameter(
                 $this->lng->txt("cont_id_ref"),
                 $deps[$i]->getIdentifierRef()

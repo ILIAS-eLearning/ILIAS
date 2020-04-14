@@ -34,7 +34,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      * @param string $parent_cmd
      * @param string $template_context
      */
-    public function __construct($parent_obj, $parent_cmd, $template_context ="")
+    public function __construct($parent_obj, $parent_cmd, $template_context = "")
     {
         $this->setId('wfedef');
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -209,9 +209,9 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         if (in_array('instances', $selected_columns)) {
             $this->tpl->setVariable('TXT_INSTANCES_TOTAL', $this->lng->txt('total'));
-            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0+$set['instances']['total']);
+            $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $set['instances']['total']);
             $this->tpl->setVariable('TXT_INSTANCES_ACTIVE', $this->lng->txt('active'));
-            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0+$set['instances']['active']);
+            $this->tpl->setVariable('VAL_INSTANCES_ACTIVE', 0 + $set['instances']['active']);
         }
 
         $action = new ilAdvancedSelectionListGUI();
@@ -224,7 +224,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
         );
 
-        if (0+$set['instances']['active'] == 0) {
+        if (0 + $set['instances']['active'] == 0) {
             $action->addItem(
                 $this->lng->txt('delete_definition'),
                 'delete',

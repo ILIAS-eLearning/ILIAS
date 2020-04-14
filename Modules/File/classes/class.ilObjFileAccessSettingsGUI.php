@@ -97,7 +97,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilfmsettingsgui':
@@ -370,14 +370,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     protected function addWebDAVSubTabs()
     {
         $this->tabs_gui->addSubTabTarget(
-                "webdav_general_settings",
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
-                array(self::CMD_EDIT_WEBDAV_SETTINGS, "view")
+            "webdav_general_settings",
+            $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
+            array(self::CMD_EDIT_WEBDAV_SETTINGS, "view")
             );
         $this->tabs_gui->addSubTabTarget(
-                "webdav_upload_instructions",
-                $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
-                "view"
+            "webdav_upload_instructions",
+            $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
+            "view"
             );
     }
 

@@ -60,7 +60,7 @@ public class HighlightObject implements ResultExport, Comparator {
 	}
 
 	public HighlightItem addItem(int subId) {
-		
+
 		if(items.containsKey(subId)) {
 			return items.get(subId);
 		}
@@ -117,11 +117,20 @@ public class HighlightObject implements ResultExport, Comparator {
 		
 		int index1 = (Integer) o1;
 		int index2 = (Integer) o2;
-		
+
 		if(items.get(index1).getAbsoluteScore() < items.get(index2).getAbsoluteScore()) {
 			return 1;
 		}
 		if(items.get(index1).getAbsoluteScore() > items.get(index2).getAbsoluteScore()) {
+			return -1;
+		}
+		// returning zero, does not add a new element to TreeMap since its assumed to be equal
+		//return 0;
+		// ... sort by subitem
+		if(items.get(index1).getSubId() < items.get(index2).getSubId())  {
+			return 1;
+		}
+		if(items.get(index1).getSubId() > items.get(index2).getSubId())  {
 			return -1;
 		}
 		return 0;

@@ -48,7 +48,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
     {
         return array(
             PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
-            PDO::ATTR_TIMEOUT                  => 300 * 60,
+            PDO::ATTR_TIMEOUT => 300 * 60,
         );
     }
 

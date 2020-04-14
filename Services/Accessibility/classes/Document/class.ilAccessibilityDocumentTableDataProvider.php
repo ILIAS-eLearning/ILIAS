@@ -15,7 +15,7 @@ class ilAccessibilityDocumentTableDataProvider implements ilAccessibilityTableDa
 
         return [
             'items' => $items,
-            'cnt'   => count($items)
+            'cnt' => count($items)
         ];
     }
 }

@@ -129,38 +129,38 @@ auth#:#auth_oidc_settings_client_id#:#Client-ID
 auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenI-Connect-Anmeldeskript.
 auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
+auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenID-Connect-Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
+auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenID-Connect-Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenID-Connect-Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
 auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
 auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
 auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
+auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer automatisch ein neues Benutzerkonto erzeugt, wenn sie sich erfolgreich gegen OpenID-Connect authentifiziert haben, aber kein ILIAS-Benutzerkonto besitzen.
 auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
 auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
-auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
+auth#:#auth_oidc#:#OpenID-Connect
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
-auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
+auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
@@ -1911,7 +1911,7 @@ auth#:#auth_account_migration_new#:#Neues Benutzerkonto anlegen
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_login_editor#:#Loginseite gestalten
-auth#:#auth_oidc_role_info#:#OpenID Connect Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
+auth#:#auth_oidc_role_info#:#OpenID-Connect-Attribut::Wert (zum Beispiel: "roles::Mitarbeitende").
 auth#:#auth_rad_migration#:#Account-Migration:
 auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
 auth#:#auth_radius_charset#:#Zeichenkodierung
@@ -7481,7 +7481,7 @@ meta#:#meta_l_el#:#Griechisch
 meta#:#meta_l_en#:#Englisch
 meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Spanisch
-meta#:#meta_l_et#:#Estisch
+meta#:#meta_l_et#:#Estnisch
 meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
@@ -12021,7 +12021,7 @@ content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
 content#:#info_stop_offline_mode_sure#:#Achtung: Der im Offline-Modus erzielte Lernfortschritt geht verloren. Sind Sie sicher?
 init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
-init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
+init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
 obj#:#obj_master_lang#:#Standardsprache
@@ -12518,7 +12518,7 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
-maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_latitude#:#Breitengrad
@@ -13163,9 +13163,9 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
-crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
-sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
+crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
@@ -13293,7 +13293,7 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
-buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
+buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
@@ -13425,7 +13425,7 @@ prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant marki
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
 prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
 prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
-prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
@@ -13471,7 +13471,7 @@ prg#:#prg_type_msg_missing_title#:#Titel kann nicht leer sein.
 prg#:#prg_added_member#:#Das neue Mitglied wurde erfolgreich hinzugefügt.
 prg#:#prg_added_members#:#Die neuen Mitglieder wurden erfolgreich hinzugefügt.
 prg#:#prg_acknowledge_completed_courses#:#Bestandene Kurse anerkennen
-prg#:#prg_multi_mark_accredited#:#Akkredieren
+prg#:#prg_multi_mark_accredited#:#Akkreditieren
 prg#:#prg_multi_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_multi_remove_user#:#Benutzer entfernen
 prg#:#prg_multi_mark_relevant#:#Als relevant markieren
@@ -13849,7 +13849,7 @@ glo#:#glo_reference#:#Link
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 prg#:#prg_assign_date#:#Hinzugefügt am
 prg#:#prg_assigned_by#:#Hinzugefügt von
-survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
@@ -14098,7 +14098,7 @@ iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
 iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
-iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -14153,6 +14153,7 @@ chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum pr
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_log_level#:#Log-Level
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
@@ -14708,7 +14709,7 @@ rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
 content#:#cont_lpe_language_selection#:#Sprachauswahl
 content#:#cont_lpe_login_form#:#Loginmaske
-content#:#cont_lpe_openid_login_form#:#OpenId-Loginmaske
+content#:#cont_lpe_openid_login_form#:#OpenID-Loginmaske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
 content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
 content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
@@ -14762,20 +14763,20 @@ exc#:#feedback_received#:#Feedback received
 exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
-exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#grade_evaluate#:#Bewerten/Benoten
 exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
-exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
 exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
-exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_peer_reminder_title#:#Übung: Erinnerung an Peer-Feedback
 exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
 exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
 exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
-exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
+exc#:#exc_mail_context_submit_reminder_title#:#Übung: Erinnerung an Abgabe
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -15088,7 +15089,7 @@ lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#extro#:#Abschlussseite
 lso#:#extro_img#:#Bild für die Abschlussseite
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
@@ -15316,9 +15317,9 @@ content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
-exc#:#exc_tbl_action_open_submission#:#Open Submission
-exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
-exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
+exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
+exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
@@ -15929,7 +15930,7 @@ common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
 prg#:#prgr_new#:#Neuer Link zum Studienprogramm
 prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
-prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
+prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
@@ -15949,10 +15950,10 @@ prg#:#prg_autoassignment#:#(automatisch)
 orgu#:#org_op_view_members#:#Mitgliedschaften sichtbar
 orgu#:#org_op_view_individual_plan#:#Individuellen Plan einsehen
 orgu#:#org_op_edit_individual_plan#:#Individuellen Plan bearbeiten
-prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
-prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
-prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
-prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#prg_some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
 prg#:#prg_formatted_period#:#%d Tage
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#dealine_period_info#:#Bearbeitungszeitraum
@@ -15968,21 +15969,21 @@ prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_title#:#Titel
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigekeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
 prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
 prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
-prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet ist nicht zu bestehen.
+prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet, ist nicht zu bestehen.
 prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
-prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Sudienprogramm.
+prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Studienprogramm.
 prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
-prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
 prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
-prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail wenn eine Qualifikation an einem Studienprogramm ausläuft und sie das Programm noch nicht neu gestartet haben.
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
 prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
-prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail um den Benutzer daran zu erinnern das Studienprogramm neu zu starten.
+prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail, um den Benutzer daran zu erinnern, das Studienprogramm neu zu starten.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
 prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
 search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
@@ -16000,7 +16001,7 @@ prg#:#prg_status_3#:#Akkreditiert
 prg#:#prg_status_4#:#Nicht relevant
 prg#:#prg_status_5#:#Nicht bestanden
 prg#:#prg_multi_change_deadline#:#Stichtag anpassen
-prg#:#prg_multi_change_expire_date#:#Ablauf Qualifikation anpassen
+prg#:#prg_multi_change_expire_date#:#Ablauf der Qualifikation anpassen
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
@@ -16040,19 +16041,19 @@ prg#:#prg_quali_still_valid#:#Qualifikation gültig
 prg#:#prg_quali_not_valid#:#Qualifikation ungültig
 rep#:#rep_configure#:#Configure
 cont#:#cont_found_objects#:#Gefundene Objekte
-dash#:#dash_activation#:#activation###07 02 2020 new variable
-survey#:#svy_chart_download#:#Download Chart###07 02 2020 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###07 02 2020 new variable
-survey#:#invited_users#:#Selected Users###07 02 2020 new variable
-acc#:#acc_dashboard#:#Dashboard###07 02 2020 new variable
-forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.###07 02 2020 new variable
-pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###07 02 2020 new variable
-pd#:#pd_unsubscribe_memberships#:#Unsubscribe###07 02 2020 new variable
-common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
-rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###07 02 2020 new variable
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###07 02 2020 new variable
-prg#:#update_expire_date#:#Successfuly update expire date.###07 02 2020 new variable
+dash#:#dash_activation#:#Aktivierung
+survey#:#svy_chart_download#:#Grafik herunterladen
+crs#:#crs_timing_err_start_end#:#Das Startdatum muss kleiner gleich dem Enddatum sein.
+ps#:#participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
+survey#:#invited_users#:#Ausgewählte Benutzer
+acc#:#acc_dashboard#:#Dashboard
+pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
+pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
+common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+rbac#:#dshs_change_presentation#:#Darstellung des Dashboards ändern
+exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
+exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
+prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
 prg#:#prg_type_byline#:#Legen Sie einen Typ fest, um bestimmte benutzerdefinierte Metadatensätze oder Symbole zu verwenden.
@@ -16060,5 +16061,59 @@ prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, w
 prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
 prg#:#prg_description#:#Beschreibung
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_title#:#Studienprogramm: Mail an Mitglieder
 prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
+copg#:#copg_allow_html#:#HTML/Javascript erlauben
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
+dcl#:#dcl_page_type_dclf#:#Detailansicht
+crs#:#crs_page_type_lobj#:#Lernzieleinleitung
+copa#:#copa_page_type_copa#:#Inhaltsseite
+mep#:#mep_page_type_mep#:#Inhaltsbaustein
+wiki#:#wiki_page_type_wpg#:#Wikiseite
+blog#:#blog_page_type_blp#:#Blogbeitrag
+prtf#:#prtf_page_type_prtf#:#Portfolioseite
+prtf#:#prtf_page_type_prtt#:#Portfoliovorlagenseite
+glo#:#glo_page_type_gdf#:#Begriffsdefinition
+lm#:#lm_page_type_lm#:#Lernmodulseite
+qpl#:#qpl_page_type_qht#:#Hinweis
+qpl#:#qpl_page_type_qpl#:#Fragenseite
+qpl#:#qpl_page_type_qfbg#:#Generelles Feedback
+qpl#:#qpl_page_type_qfbs#:#Spezielles Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
+copg#:#copg_page_type_stys#:#Seitenlayout
+cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
+cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
+auth#:#auth_page_type_auth#:#Loginseite
+impr#:#impr_page_type_impr#:#Impressum
+prg#:#prg_additional_settings#:#Zusätzliche Funktionen
+prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
+prg#:#prg_access_by_orgu_byline#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
+ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+mmbr#:#mmbr_memberships#:#Mitgliedschaften
+notes#:#note_without_object#:#Ohne Objektbezug
+prg#:#msg_fill_required#:#Bitte füllen Sie alle Pflichtfelder aus.
+iass#:#iass_file_dropzone#:#Ziehen Sie ihre Datei hierhin
+iass#:#iass_confirm_finalize#:#Finalisieren
+iass#:#iass_cancel#:#Abbrechen
+iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
+iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
+iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
+prg#:#prg_profile_not_public#:#Das Profil des Benutzers ist nicht öffentlich.
+prg#:#prg_delete_nothing_selected#:#Es wurden keine Einträge ausgewählt.
+prg#:#prg_delete_confirmation#:#Möchten Sie die ausgewählten Einträge wirklich löschen?
+prg#:#prg_confirm_delete#:#Löschen
+prg#:#prg_cancel#:#Abbrechen
+prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
+prg#:#prg_delete_success#:#Einträge wurden erfolgreich gelöscht.
+prg#:#prg_delete_single_confirmation#:#Möchten Sie den ausgewählten Eintrag wirklich löschen?
+prg#:#prg_delete_single_success#:#Eintrag wurde erfolgreich gelöscht.
+common#:#obj_lsos#:#Lernsequenzen
+common#:#obj_lsos_desc#:#Allgemeine Einstellungen für Lernsequenzen
+mail#:#mail_enable_lso_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_lso_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform.
+mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
+mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
+prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
+prg#:#prg_update_progress_title#:#Setzt Status nach Stichtag auf 'nicht bestanden'
+prg#:#prg_update_progress_description#:#Setzt den Status von 'In Bearbeitung' auf 'nicht bestanden' wenn der Stichtag überschritten ist.

@@ -111,7 +111,7 @@ class ilSurveyEvaluationGUI
         switch ($next_class) {
             default:
                 $this->setEvalSubTabs();
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -384,7 +384,7 @@ class ilSurveyEvaluationGUI
                 $excel = new ilExcel();
                 $excel->addSheet($this->lng->txt("svy_eval_cumulated"));
                 $excel->setCellArray(array($title_row), "A1");
-                $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($title_row)-1) . "1");
+                $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($title_row) - 1) . "1");
                 break;
             
             case self::TYPE_SPSS:
@@ -397,7 +397,7 @@ class ilSurveyEvaluationGUI
         $ov_row = 2;
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
-            $q_res =  $q_eval->getResults();
+            $q_res = $q_eval->getResults();
             $ov_rows = $q_eval->exportResults($q_res, $do_title, $do_label);
             
             switch ($_POST["export_format"]) {
@@ -541,7 +541,7 @@ class ilSurveyEvaluationGUI
                     $excel_row,
                     $a_eval->getExportGrid($row_results[1]),
                     is_array($texts[$row_title])
-                        ? array(""=>$texts[$row_title])
+                        ? array("" => $texts[$row_title])
                         : null
                 );
             }
@@ -615,14 +615,14 @@ class ilSurveyEvaluationGUI
             $a_excel->setColors("B" . $a_excel_row . ":E" . $a_excel_row, ilSurveyEvaluationGUI::EXCEL_SUBTITLE);
             $a_excel->setCell($a_excel_row, 0, $this->lng->txt("categories"));
             foreach ($a_grid["cols"] as $col_idx => $col) {
-                $a_excel->setCell($a_excel_row, $col_idx+1, $col);
+                $a_excel->setCell($a_excel_row, $col_idx + 1, $col);
             }
             $a_excel_row++;
             
             // rows
             foreach ($a_grid["rows"] as $cols) {
                 foreach ($cols as $col_idx => $col) {
-                    $a_excel->setCell($a_excel_row, $col_idx+1, $col);
+                    $a_excel->setCell($a_excel_row, $col_idx + 1, $col);
                 }
                 $a_excel_row++;
             }
@@ -712,7 +712,7 @@ class ilSurveyEvaluationGUI
         $label->setOptions(array(
             'label_only' => $this->lng->txt('export_label_only'),
             'title_only' => $this->lng->txt('export_title_only'),
-            'title_label'=> $this->lng->txt('export_title_label')
+            'title_label' => $this->lng->txt('export_title_label')
             ));
         $form->addItem($label);
 
@@ -866,7 +866,7 @@ class ilSurveyEvaluationGUI
 
             foreach ($this->object->getSurveyQuestions() as $qdata) {
                 $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
-                $q_res =  $q_eval->getResults();
+                $q_res = $q_eval->getResults();
                 $results[] = $q_res;
                         
                 if ($details) {
@@ -1232,21 +1232,21 @@ class ilSurveyEvaluationGUI
         $title_row[] = $this->lng->txt("login");
         $title_row[] = $this->lng->txt('workingtime'); // #13622
         $title_row[] = $this->lng->txt('survey_results_finished');
-        $title_row2[] =  "";
-        $title_row2[] =  "";
-        $title_row2[] =  "";
-        $title_row2[] =  "";
-        $title_row2[] =  "";
+        $title_row2[] = "";
+        $title_row2[] = "";
+        $title_row2[] = "";
+        $title_row2[] = "";
+        $title_row2[] = "";
         if ($this->object->canExportSurveyCode()) {
             $title_row[] = $this->lng->txt("codes");
-            $title_row2[] =  "";
+            $title_row2[] = "";
         }
         
         $questions = array();
                 
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
-            $q_res =  $q_eval->getResults();
+            $q_res = $q_eval->getResults();
             
             $questions[$qdata["question_id"]] = array($q_eval, $q_res);
                         
@@ -1350,10 +1350,10 @@ class ilSurveyEvaluationGUI
                             
                 foreach ($rows as $row_idx => $row) {
                     foreach ($row as $col_idx => $col) {
-                        $excel->setCell($row_idx+1, $col_idx, $col);
+                        $excel->setCell($row_idx + 1, $col_idx, $col);
                     }
                     if (!$row_idx) {
-                        $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($row)-1) . "1");
+                        $excel->setBold("A1:" . $excel->getColumnCoord(sizeof($row) - 1) . "1");
                     }
                 }
                 $excel->sendToClient($surveyname);
@@ -1467,7 +1467,7 @@ class ilSurveyEvaluationGUI
         
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
-            $q_res =  $q_eval->getResults();
+            $q_res = $q_eval->getResults();
                         
             $question = is_array($q_res)
                 ? $q_res[0][1]->getQuestion()
@@ -1722,7 +1722,7 @@ class ilSurveyEvaluationGUI
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             if ($qid == $qdata["question_id"]) {
                 $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
-                $q_res =  $q_eval->getResults();
+                $q_res = $q_eval->getResults();
 
                 $chart = $q_eval->getChart($q_res);
                 if ($chart) {

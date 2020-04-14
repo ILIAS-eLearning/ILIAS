@@ -61,7 +61,8 @@ var charCounter = function(e) // default handler hard coded to tinymce config
         {
             var content = $('#assTextQuestionContent_'+qId).val();
             content = stripAndDecode(content);
-            charCounter.val( maxL - content.length );
+            // Mantis 27213/27234 & Test T40694
+            charCounter.val( maxL - content.replace(/[.,:;!?`\-_#'"+*\\/=()&%$§]/g, '').length );
         }
 
         return true;

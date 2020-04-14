@@ -52,7 +52,7 @@ class Renderer extends AbstractComponentRenderer
         return $slate
             ->withMainBarTreePosition($pos)
             ->withMappedSubNodes(
-                function ($num, $slate, $is_tool=false) use ($pos) {
+                function ($num, $slate, $is_tool = false) use ($pos) {
                     if ($is_tool) {
                         $pos = 'T';
                     }
@@ -93,7 +93,7 @@ class Renderer extends AbstractComponentRenderer
 
         $is_removeable = $is_removeable ? 'true':'false';
         $is_hidden = $is_hidden ? 'true':'false';
-        return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
+        return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden}, '{$entry_id}');";
     }
 
     protected function renderMainbarEntry(
@@ -272,7 +272,7 @@ class Renderer extends AbstractComponentRenderer
         array $close_buttons = [],
         Signal $tool_removal_signal = null
     ) {
-        foreach ($entries as $id=>$entry) {
+        foreach ($entries as $id => $entry) {
             $use_block = $block;
             $engaged = (string) $id === $active;
 

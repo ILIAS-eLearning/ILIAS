@@ -76,10 +76,10 @@ class ilDclCache
     {
         self::$clone_mapping = array(
             self::TYPE_DATACOLLECTION => array(),
-            self::TYPE_TABLE          => array(),
-            self::TYPE_FIELD          => array(),
-            self::TYPE_RECORD         => array(),
-            self::TYPE_TABLEVIEW      => array(),
+            self::TYPE_TABLE => array(),
+            self::TYPE_FIELD => array(),
+            self::TYPE_RECORD => array(),
+            self::TYPE_TABLEVIEW => array(),
         );
     }
 

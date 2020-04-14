@@ -182,12 +182,12 @@ class ilOrgUnitType
 
         $this->id = $this->db->nextId(self::TABLE_NAME);
         $this->db->insert(self::TABLE_NAME, array(
-            'id'           => array('integer', $this->getId()),
+            'id' => array('integer', $this->getId()),
             'default_lang' => array('text', $this->getDefaultLang()),
-            'owner'        => array('integer', $this->user->getId()),
-            'icon'         => array('text', $this->getIcon()),
-            'create_date'  => array('text', date('Y-m-d H:i:s')),
-            'last_update'  => array('text', date('Y-m-d H:i:s')),
+            'owner' => array('integer', $this->user->getId()),
+            'icon' => array('text', $this->getIcon()),
+            'create_date' => array('text', date('Y-m-d H:i:s')),
+            'last_update' => array('text', date('Y-m-d H:i:s')),
         ));
 
         // Create translation(s)
@@ -228,9 +228,9 @@ class ilOrgUnitType
 
         $this->db->update(self::TABLE_NAME, array(
             'default_lang' => array('text', $this->getDefaultLang()),
-            'owner'        => array('integer', $this->getOwner()),
-            'icon'         => array('text', $this->getIcon()),
-            'last_update'  => array('text', date('Y-m-d H:i:s')),
+            'owner' => array('integer', $this->getOwner()),
+            'icon' => array('text', $this->getIcon()),
+            'last_update' => array('text', date('Y-m-d H:i:s')),
         ), array(
             'id' => array('integer', $this->getId()),
         ));
@@ -554,7 +554,7 @@ class ilOrgUnitType
             $record_ids[] = $a_record_id;
             $this->db->insert('orgu_types_adv_md_rec', array(
                 'type_id' => array('integer', $this->getId()),
-                'rec_id'  => array('integer', $a_record_id),
+                'rec_id' => array('integer', $a_record_id),
             ));
             // We need to update each OrgUnit from this type and map the selected records to object_id
             foreach ($this->getOrgUnitIds() as $orgu_id) {

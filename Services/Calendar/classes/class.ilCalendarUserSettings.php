@@ -179,7 +179,7 @@ class ilCalendarUserSettings
      */
     public function setDayStart($a_start)
     {
-        $this->day_start = 	$a_start;
+        $this->day_start = $a_start;
     }
     
     /**

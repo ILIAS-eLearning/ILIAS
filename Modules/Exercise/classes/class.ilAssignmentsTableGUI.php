@@ -136,9 +136,9 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             }
             if ($ass->getRelDeadlineLastSubmission() > 0) {
                 if ($dl != "") {
-                    $dl.= " / ";
+                    $dl .= " / ";
                 }
-                $dl.= ilDatePresentation::formatDate(new ilDateTime($ass->getRelDeadlineLastSubmission(), IL_CAL_UNIX));
+                $dl .= ilDatePresentation::formatDate(new ilDateTime($ass->getRelDeadlineLastSubmission(), IL_CAL_UNIX));
             }
             $this->tpl->setVariable("TXT_DEADLINE", $dl);
         }

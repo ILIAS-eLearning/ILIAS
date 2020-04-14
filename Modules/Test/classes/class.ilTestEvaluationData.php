@@ -218,7 +218,7 @@ class ilTestEvaluationData
     
     public function setTest($test)
     {
-        $this->test =&$test;
+        $this->test = &$test;
     }
     
     public function setDatasets($datasets)

@@ -297,7 +297,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->objects[$item["booking_object_id"]] = $item["title"];
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+        $item->setOptions(array("" => $this->lng->txt('book_all')) + $this->objects);
         $this->filter["object"] = $item->getValue();
         
         $title = $this->addFilterItemByMetaType(
@@ -338,7 +338,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 // see ilObjBookingPoolGUI::buildDatesBySchedule()
                 $map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
                 
-                $options = array(""=>$this->lng->txt('book_all'));
+                $options = array("" => $this->lng->txt('book_all'));
                 
                 // schedule to slot
                 foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
@@ -378,7 +378,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
             ilBookingReservation::STATUS_CANCELLED);
         if (!$this->has_schedule) {
-            $options = array(""=>$this->lng->txt('book_all'));
+            $options = array("" => $this->lng->txt('book_all'));
         } else {
             $options = array();
         }
@@ -395,7 +395,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                             
         // only needed for full log
         if ($this->show_all) {
-            $options = array(""=>$this->lng->txt('book_all'))+
+            $options = array("" => $this->lng->txt('book_all')) +
                 ilBookingReservation::getUserFilter(array_keys($this->objects));
             $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
             $item->setOptions($options);
@@ -676,7 +676,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         
         $a_excel->setCell($a_row, ++$col, $this->lng->txt("user"));
         
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col-1) . $a_row);
+        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col) . $a_row);
     }
 
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
@@ -696,8 +696,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_excel->setCell($a_row, ++$col, $status);
         }
-        $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
@@ -711,6 +710,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $a_excel->setCell($a_row, ++$col, $val);
             }
         }
+
+        // additional user fields
+        $user_cols = $this->getSelectableUserColumns();
+        foreach ($this->getSelectedColumns() as $scol) {
+            if (isset($user_cols[$scol])) {
+                $a_excel->setCell($a_row, ++$col, $a_set[$scol]);
+            }
+        }
+
+        $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
     }
 
     protected function fillHeaderCSV($a_csv)
@@ -750,7 +759,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_csv->addColumn($status);
         }
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
@@ -764,8 +773,17 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $a_csv->addColumn($val);
             }
         }
-        
+
+        // additional user fields
+        $user_cols = $this->getSelectableUserColumns();
+        foreach ($this->getSelectedColumns() as $scol) {
+            if (isset($user_cols[$scol])) {
+                $a_csv->addColumn($a_set[$scol]);
+            }
+        }
+
         $a_csv->addColumn($a_set['user_name']);
+
         $a_csv->addRow();
     }
 }

@@ -156,8 +156,11 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings((int) $new_obj->getId());
 
-        $new_obj->addMember((int) $this->user->getId(), $new_obj->getDefaultAdminRole());
-
+        $roles = $new_obj->getLSRoles();
+        $roles->addLSMember(
+            (int) $this->user->getId(),
+            $roles->getDefaultAdminRole()
+        );
         return $new_obj;
     }
 
@@ -528,7 +531,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->getLSRoles()->getLearningSequenceMemberData($a_mem_ids, $active);
     }
 
-    public function getDefaultLearningSequenceRoles($a_grp_id="")
+    public function getDefaultLearningSequenceRoles($a_grp_id = "")
     {
         return $this->getLSRoles()->getDefaultLearningSequenceRoles($a_grp_id);
     }
@@ -551,5 +554,12 @@ class ilObjLearningSequence extends ilContainer
             }
         }
         return null;
+    }
+
+    public function getLPCompletionStates() : array
+    {
+        return [
+            \ilLPStatus::LP_STATUS_COMPLETED_NUM
+        ];
     }
 }

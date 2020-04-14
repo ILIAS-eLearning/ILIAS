@@ -103,7 +103,7 @@ class ilScormAiccDataSet extends ilDataSet
         if (count($data) > 0) {
             $columns = [];
             foreach ($this->properties as $key => $value) {
-                if ($key == "Id" || $key == "title"|| $key == "description") {
+                if ($key == "Id" || $key == "title" || $key == "description") {
                     continue;
                 }
                 //fix localization and mastery_score
@@ -206,7 +206,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
         $baseFileName = "sahs_" . $id;
-        $scormBasePath=$exportDir . "/" . $baseFileName;
+        $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
             mkdir($exportDir, 0755, true);
         }
@@ -265,7 +265,7 @@ class ilScormAiccDataSet extends ilDataSet
         $zArchive = new zipArchive();
         $fileName = $exportDir . "/" . $baseExportName . ".zip";
 
-        if ($zArchive->open($fileName, ZipArchive::CREATE)!==true) {
+        if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
             exit("cannot open <$fileName>\n");
         }
 

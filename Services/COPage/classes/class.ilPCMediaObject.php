@@ -259,7 +259,7 @@ class ilPCMediaObject extends ilPageContent
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
             if (is_object($mal_node)) {
-                $class =  $mal_node->get_attribute("Class");
+                $class = $mal_node->get_attribute("Class");
                 return $class;
             }
         }
@@ -482,5 +482,4 @@ class ilPCMediaObject extends ilPageContent
 
         return $js_files;
     }
-
 }

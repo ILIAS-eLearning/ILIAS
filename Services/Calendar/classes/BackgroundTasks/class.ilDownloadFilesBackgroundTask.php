@@ -156,14 +156,21 @@ class ilDownloadFilesBackgroundTask
     private function collectFiles(ilCalendarCopyDefinition $def)
     {
         //filter here the objects, don't repeat the object Id
-        $object_ids = array();
+        $object_ids = [];
         foreach ($this->getEvents() as $event) {
             $start = new ilDateTime($event['dstart'], IL_CAL_UNIX);
             $cat = ilCalendarCategory::getInstanceByCategoryId($event['category_id']);
             $obj_id = $cat->getObjId();
 
+            $this->logger->debug('Handling event: ' . $event['event']->getPresentationTitle());
             //22295 If the object type is exc then we need all the assignments.Otherwise we will get only one.
-            if (!in_array($obj_id, $object_ids) || $cat->getObjType() == "exc") {
+            if (
+                $cat->getType() != \ilCalendarCategory::TYPE_OBJ ||
+                $cat->getObjType() == 'exc' ||
+                !in_array($obj_id, $object_ids)
+            ) {
+
+                $this->logger->debug('New obj_id..');
                 $object_ids[] = $obj_id;
 
                 $folder_date = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $this->user->getTimeZone());
@@ -172,10 +179,10 @@ class ilDownloadFilesBackgroundTask
                 if ($event['fullday']) {
                     $folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
                 } else {
-                    $start_time = $start->get(IL_CAL_FKT_DATE, 'H:i', $this->user->getTimeZone());
+                    $start_time = $start->get(IL_CAL_FKT_DATE, 'H.i', $this->user->getTimeZone());
 
                     $end = new ilDateTime($event['dend'], IL_CAL_UNIX);
-                    $end_time = $end->get(IL_CAL_FKT_DATE, 'H:i', $this->user->getTimeZone());
+                    $end_time = $end->get(IL_CAL_FKT_DATE, 'H.i', $this->user->getTimeZone());
 
                     if ($start_time != $end_time) {
                         $start_time .= (' - ' . $end_time);
@@ -185,8 +192,8 @@ class ilDownloadFilesBackgroundTask
                 }
 
                 $this->logger->debug("collecting files...event title = " . $folder_app);
-
                 $file_handler = ilAppointmentFileHandlerFactory::getInstance($event);
+                $this->logger->debug('Current file handler: ' . get_class($file_handler));
 
                 if ($files = $file_handler->getFiles()) {
                     $this->has_files = true;
@@ -211,6 +218,9 @@ class ilDownloadFilesBackgroundTask
 
                     $this->logger->debug('Added new copy definition: ' . $folder_date . '/' . $folder_app . '/' . $basename . ' -> ' . $file_with_absolut_path);
                 }
+            }
+            else {
+                $this->logger->info('Ignoring obj_id: ' . $obj_id . ' already processed.');
             }
         }
     }

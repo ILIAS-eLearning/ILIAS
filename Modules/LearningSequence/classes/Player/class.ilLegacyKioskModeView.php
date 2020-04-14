@@ -32,11 +32,6 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         return $this->object->getTitle();
     }
 
-    protected function getType() : string
-    {
-        return $this->object->getType();
-    }
-
     /**
      * @inheritDoc
      */
@@ -71,10 +66,13 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             throw new LogicException("The Legacy Mode in the Learning Sequence requires an LSControlBuilder explicitely.", 1);
         }
 
-        $label = $this->lng->txt('lso_start_item') . ' ' . $this->getTitleByType($this->getType());
-
         $ref_id = $this->object->getRefId();
         $type = $this->object->getType();
+
+        $label = sprintf(
+            $this->lng->txt('lso_start_item'),
+            $this->getTitleByType($type)
+        );
 
         $url = \ilLink::_getStaticLink(
             $ref_id,
@@ -86,7 +84,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         if (in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
             $obj_id = $this->object->getId();
             $item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
-            $item_list_gui->initItem($ref_id, $obj_id);
+            $item_list_gui->initItem($ref_id, $obj_id, $type);
             $view_link = $item_list_gui->getCommandLink('view');
             $view_link = str_replace('&amp;', '&', $view_link);
             $view_link = ILIAS_HTTP_PATH . '/' . $view_link;
@@ -133,7 +131,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $this->getMetadata((int) $this->object->getId(), $obj_type)
         );
 
-        $info =  $factory->item()->standard($this->object->getTitle())
+        $info = $factory->item()->standard($this->object->getTitle())
             ->withLeadIcon($icon)
             ->withDescription($this->object->getDescription())
             ->withProperties($props);

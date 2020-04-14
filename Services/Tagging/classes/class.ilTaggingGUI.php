@@ -355,7 +355,10 @@ class ilTaggingGUI
 
         $title = ilObject::_lookupTitle($this->obj_id);
         $icon = $ui->factory()->symbol()->icon()->custom(
-            ilObject::_getIcon($this->obj_id), $title, "medium");
+            ilObject::_getIcon($this->obj_id),
+            $title,
+            "medium"
+        );
         $tpl->setVariable("ICON", $ui->renderer()->render($icon));
         $tpl->setVariable("TXT_OBJ_TITLE", ilObject::_lookupTitle($this->obj_id));
         $tags = ilTagging::getTagsForUserAndObject(

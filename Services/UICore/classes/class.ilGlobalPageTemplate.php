@@ -94,7 +94,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     private function prepareBasicCSS()
     {
-        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation("filesystem", "delos.css"));
+        $this->gs->layout()->meta()->addCss(\ilUtil::getStyleSheetLocation());
         $this->gs->layout()->meta()->addCss(\ilUtil::getNewContentStyleSheetLocation());
     }
 
@@ -223,7 +223,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     {
         $this->legacy_content_template->setTitle((string) $a_title);
 
-        $short_title = (string)$this->il_settings->get('short_inst_name');
+        $short_title = (string) $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
             $short_title = 'ILIAS';
         }
@@ -314,7 +314,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function addLightbox($a_html, $a_id)
     { //
-        $this->legacy_content_template->addLightbox($a_id, $a_html);
+        $this->legacy_content_template->addLightbox($a_html, $a_id);
     }
 
 
@@ -664,5 +664,4 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             unset($_SESSION["error_post_vars"]);
         }
     }
-
 }

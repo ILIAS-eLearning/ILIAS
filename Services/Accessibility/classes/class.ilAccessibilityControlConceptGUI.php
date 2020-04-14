@@ -88,7 +88,7 @@ class ilAccessibilityControlConceptGUI
     {
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
         $template_file = $a_tmpl;
-        $template_dir  = 'Services/Accessibility';
+        $template_dir = 'Services/Accessibility';
         $tpl->addBlockFile('CONTENT', 'content', $template_file, $template_dir);
         return $tpl;
     }

@@ -87,7 +87,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->prepareOutput();
         switch ($next_class) {
             default:
-                $cmd.= "Object";
+                $cmd .= "Object";
                 $ret = $this->$cmd();
                 break;
         }
@@ -995,8 +995,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $default_style = $this->settings->get("default_content_style_id");
         if (ilObject::_lookupType($default_style) == "sty") {
             $style_obj = ilObjectFactory::getInstanceByObjId($default_style);
-            $new_id    = $style_obj->ilClone();
-            $newObj    = new ilObjStyleSheet($new_id);
+            $new_id = $style_obj->ilClone();
+            $newObj = new ilObjStyleSheet($new_id);
         } else {
             // ... import from basic zip file
             $imp = new ilImport();
@@ -2333,34 +2333,34 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         if ($a_type == "table") {
             $p_content = '<PageContent><Table DataTable="y"';
             if ($t["row_head"] != "") {
-                $p_content.= ' HeaderRows="1"';
+                $p_content .= ' HeaderRows="1"';
             }
             if ($t["row_foot"] != "") {
-                $p_content.= ' FooterRows="1"';
+                $p_content .= ' FooterRows="1"';
             }
             if ($t["col_head"] != "") {
-                $p_content.= ' HeaderCols="1"';
+                $p_content .= ' HeaderCols="1"';
             }
             if ($t["col_foot"] != "") {
-                $p_content.= ' FooterCols="1"';
+                $p_content .= ' FooterCols="1"';
             }
-            $p_content.= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
+            $p_content .= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
             if (!$a_small_mode) {
-                $p_content.= '<Caption>' . $lng->txt("sty_caption") . '</Caption>';
+                $p_content .= '<Caption>' . $lng->txt("sty_caption") . '</Caption>';
             }
-            for ($i = 1; $i<=$kr; $i++) {
-                $p_content.= '<TableRow>';
-                for ($j = 1; $j<=$kc; $j++) {
+            for ($i = 1; $i <= $kr; $i++) {
+                $p_content .= '<TableRow>';
+                for ($j = 1; $j <= $kc; $j++) {
                     if ($a_small_mode) {
                         $cell = '&lt;div style="height:2px;"&gt;&lt;/div&gt;';
                     } else {
                         $cell = 'xxx';
                     }
-                    $p_content.= '<TableData><PageContent><Paragraph Characteristic="TableContent">' . $cell . '</Paragraph></PageContent></TableData>';
+                    $p_content .= '<TableData><PageContent><Paragraph Characteristic="TableContent">' . $cell . '</Paragraph></PageContent></TableData>';
                 }
-                $p_content.= '</TableRow>';
+                $p_content .= '</TableRow>';
             }
-            $p_content.= '</Table></PageContent>';
+            $p_content .= '</Table></PageContent>';
         }
         
         if ($a_type == "vaccordion" || $a_type == "haccordion" || $a_type == "carousel") {
@@ -2377,41 +2377,41 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             if ($a_type == "vaccordion") {
                 $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="VerticalAccordion" ';
                 if ($a_small_mode) {
-                    $p_content.= ' ContentWidth="70"';
+                    $p_content .= ' ContentWidth="70"';
                 }
             } elseif ($a_type == "haccordion") {
                 $p_content = '<PageContent><Tabs Type="HorizontalAccordion"';
                 if ($a_small_mode) {
-                    $p_content.= ' ContentHeight="40"';
-                    $p_content.= ' ContentWidth="70"';
+                    $p_content .= ' ContentHeight="40"';
+                    $p_content .= ' ContentWidth="70"';
                     $c = '&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;';
                 } else {
-                    $p_content.= ' ContentHeight="40"';
+                    $p_content .= ' ContentHeight="40"';
                 }
             } elseif ($a_type == "carousel") {
                 $p_content = '<PageContent><Tabs HorizontalAlign="Left" Type="Carousel" ';
                 if ($a_small_mode) {
-                    $p_content.= ' ContentWidth="70"';
+                    $p_content .= ' ContentWidth="70"';
                 }
             }
 
 
-            $p_content.= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
-            $p_content.= '<Tab><PageContent><Paragraph>' . $c . '</Paragraph></PageContent>';
-            $p_content.= '<TabCaption>' . $h . '</TabCaption>';
-            $p_content.= '</Tab>';
-            $p_content.= '</Tabs></PageContent>';
+            $p_content .= ' Template="' . $a_style->lookupTemplateName($a_t_id) . '">';
+            $p_content .= '<Tab><PageContent><Paragraph>' . $c . '</Paragraph></PageContent>';
+            $p_content .= '<TabCaption>' . $h . '</TabCaption>';
+            $p_content .= '</Tab>';
+            $p_content .= '</Tabs></PageContent>';
         }
         //echo htmlentities($p_content);
         $txml = $a_style->getTemplateXML();
         //echo htmlentities($txml); exit;
-        $p_content.= $txml;
+        $p_content .= $txml;
         include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
         $r_content = ilPCTableGUI::_renderTable($p_content, "");
 
         // fix carousel template visibility
         if ($a_type == "carousel") {
-            $r_content.= "<style>.owl-carousel{ display:block !important; }</style>";
+            $r_content .= "<style>.owl-carousel{ display:block !important; }</style>";
         }
 
         //echo htmlentities($r_content); exit;
@@ -2623,9 +2623,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $listed = array();
                 foreach ($classes as $cl) {
                     if ($cl != "" && !$listed[$cl]) {
-                        $cl_str.= '<div>- ' .
+                        $cl_str .= '<div>- ' .
                             $cl . "</div>";
-                        $listed[$cl]  = true;
+                        $listed[$cl] = true;
                     }
                 }
                 if ($cl_str != "") {

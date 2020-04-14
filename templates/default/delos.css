@@ -6870,6 +6870,9 @@ button.close {
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 12px;
 }
+.panel-secondary .panel-body .il-item-group .il-item .media-right {
+  vertical-align: middle;
+}
 .panel-secondary .il-panel-listing-std-container > h3,
 .panel-secondary .panel-body h4 {
   display: block;
@@ -7444,14 +7447,17 @@ hr.il-divider-with-label {
 .dropdown h6 {
   margin: 3px 0;
 }
-.dropdown-menu {
+ul.dropdown-menu {
   background-color: white;
   font-weight: normal;
   border: 0 none;
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
 }
-.dropdown-menu li > .btn {
+ul.dropdown-menu > li {
+  padding: 0;
+}
+ul.dropdown-menu > li > .btn {
   display: block;
   width: 100%;
   clear: both;
@@ -7463,11 +7469,15 @@ hr.il-divider-with-label {
   color: #5d5d5d;
   white-space: nowrap;
 }
-.dropdown-menu li > .btn:hover,
-.dropdown-menu li > .btn:focus {
+ul.dropdown-menu > li > .btn:hover,
+ul.dropdown-menu > li > .btn:focus {
   text-decoration: none;
   color: #262626;
   background-color: #ecf0f4;
+}
+.il-maincontrols-slate-content .dropdown-menu {
+  right: 0;
+  left: inherit;
 }
 .il-std-item-container:not(:last-child) {
   border-bottom: 2px solid #f0f0f0;
@@ -7498,8 +7508,10 @@ hr.il-divider-with-label {
   font-size: 14px;
   float: left;
 }
-.il-item h5 .btn-link {
+.il-item h5 .btn-link,
+.il-item h5 a {
   font-size: inherit;
+  line-height: 1.42857143;
 }
 .il-item .il-item-divider {
   clear: both;
@@ -7865,7 +7877,7 @@ hr.il-divider-with-label {
   stroke: transparent;
 }
 .il-standard-form {
-  background-color: #fdfdfd;
+  background-color: white;
   margin-top: 6px;
 }
 .il-standard-form .il-standard-form-cmd {
@@ -7906,7 +7918,7 @@ hr.il-divider-with-label {
   padding-top: 0;
 }
 .il-standard-form .il-dependant-group {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .il-standard-form .il-dependant-group .form-group {
@@ -8590,10 +8602,10 @@ div.alert ul > li:before {
   list-style-type: none;
 }
 .il-tree li.il-tree-node {
-  padding: 0 0px;
+  padding: 0;
 }
 .il-tree li.il-tree-node .node-line {
-  padding-left: 14px;
+  padding: 3px 0 3px 14px;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
@@ -9047,12 +9059,16 @@ footer {
 **************************************************************
 */
 @media print {
-  .il-layout-page {
-    display: block;
+  html body {
+    overflow: visible;
   }
-  .il-layout-page header,
-  .il-layout-page nav,
-  .il-layout-page footer {
+  html body section.il-layout-page {
+    display: block;
+    overflow: visible;
+  }
+  html body section.il-layout-page header,
+  html body section.il-layout-page nav,
+  html body section.il-layout-page footer {
     display: none;
   }
 }
@@ -9651,6 +9667,12 @@ footer {
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content > :first-child {
   z-index: 1;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary {
+  margin-bottom: 0;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
+  padding-bottom: 0;
 }
 /*
 **************************************************************
@@ -12579,7 +12601,7 @@ div.il_info {
 }
 /* ---------------- headlines ------------------ */
 a#il_mhead_t_focus {
-  color: #6ea03c;
+  color: #3b5620;
   vertical-align: middle;
   font-size: 26px;
   cursor: default;
@@ -13296,7 +13318,7 @@ select {
 }
 .form-horizontal {
   margin-bottom: 20px;
-  background: #fdfdfd;
+  background: white;
 }
 form.form-inline {
   margin-bottom: 20px;
@@ -13403,7 +13425,7 @@ input[type="file"].form-control {
   background-color: #f0f0f0;
 }
 .ilSubForm {
-  background-color: #f8f8f8;
+  background-color: #fafafa;
   padding: 3px 0;
 }
 .ilSubForm .form-group {
@@ -13851,7 +13873,7 @@ img.il_ExplorerIcon {
 }
 .il-maincontrols-slate-content .jstree-default li.jstree-node {
   margin-left: 14px;
-  padding: 0 0px;
+  padding: 0 3px;
 }
 /* Modules/Forum */
 a.postread,
@@ -13894,14 +13916,12 @@ div.ilForumQuoteHead {
   vertical-align: top;
   margin: 5px 20px 5px 5px;
   border: none;
-}
-.ilFrmPostImage img[src*="data:image/"] {
   max-width: 100%;
 }
 @media only screen and (min-width: 768px) {
-  .ilFrmPostImage img[src*="data:image/"] {
+  .ilFrmPostImage img {
     margin: 0 !important;
-    padding: 5px 20px 5px 5px;
+    padding: 5px 8px 5px 5px;
   }
 }
 .ilFrmPostClear {
@@ -14505,6 +14525,13 @@ div.ilCOPGMediaPrint {
   padding: 0;
   margin: 0;
   border: 0;
+}
+#ilAdvSelListTable_style_selection,
+#ilTinyMenuButtons ul.dropdown-menu {
+  right: auto;
+}
+#iltinymenu .dropdown-menu li {
+  padding: 0;
 }
 /* Services/Calendar */
 td.even {
@@ -17058,6 +17085,7 @@ div.ilBlockPropertyCaption {
   left: 0;
   background-color: #303030;
   overflow: auto;
+  z-index: 1000;
 }
 a.ilMediaLightboxClose {
   display: block;
@@ -17351,6 +17379,30 @@ div.ilRatingOverlay {
   min-width: 30px;
 }
 /* Services/News */
+td.il-news {
+  white-space: normal;
+}
+td.il-news .il-news-locator {
+  margin: 2px 0px 4px 0px;
+}
+td.il-news .ilIcon {
+  vertical-align: middle;
+}
+td.il-news .il-news-content {
+  clear: both;
+}
+td.il-news .il-news-player {
+  margin-top: 15px;
+  max-width: 600px;
+}
+td.il-news .il_BlockInfo {
+  text-align: right;
+}
+@media only screen and (max-width: 768px) {
+  td.il-news {
+    white-space: normal !important;
+  }
+}
 span.ilNewsRssIcon {
   background-color: #ea6705;
   color: white;
@@ -17511,6 +17563,9 @@ span.ilNewsRssIcon:hover {
 .ilTimeline .media-heading {
   clear: right;
   margin-top: 8px;
+}
+.ilTimeline div.ilNotesHeader {
+  background-color: white;
 }
 .ilNewsTimelineTruncatedText {
   overflow: hidden;
@@ -17724,6 +17779,10 @@ div.ilChecklist ul li img {
 ul.ilPCMyCoursesCourseList > li {
   margin-bottom: 10px;
 }
+ul.ilPCMyCoursesCourseList > li .course-list-tree-icon {
+  width: 20px;
+  height: 20px;
+}
 ul.ilPCMyCoursesObjectiveList > li {
   margin-top: 5px;
   margin-left: 40px;
@@ -17757,7 +17816,7 @@ div.ilPrtfToc {
 body.ilPrtfPdfBody {
   margin: 0;
 }
-body.ilPrtfPdfBody > #ilAll > div.ilInvisibleBorder {
+body.ilPrtfPdfBody > div.ilInvisibleBorder {
   padding: 0;
   padding-left: 40px;
 }
@@ -19101,3 +19160,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */

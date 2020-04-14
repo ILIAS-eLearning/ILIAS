@@ -229,7 +229,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     if (is_null($assigned_by)) {
                         $srcs = array_flip(ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING);
                         $assignment_src = (int) $a_set['prg_assignment_origin'];
-                        $assigned_by = $this->lng->txt('prg_autoassingment')
+                        $assigned_by = $this->lng->txt('prg_autoassignment')
                             . ' ' . $this->lng->txt($srcs[$assignment_src]);
                     }
                     $this->tpl->setVariable("ASSIGNED_BY", $assigned_by);
@@ -415,9 +415,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    $url = ilLink::_getStaticLink($ref_id, "crs");
-                    $lnk = $this->ui_factory->link()->standard($title, $url);
-                    $rec["completion_by"] = $this->ui_renderer->render($lnk);
+                    if (
+                        ilObject::_exists($ref_id, true) &&
+                        is_null(ilObject::_lookupDeletedDate($ref_id))
+                    ) {
+                        $url = ilLink::_getStaticLink($ref_id, "crs");
+                        $link = $this->ui_factory->link()->standard($title, $url);
+                        $rec["completion_by"] = $this->ui_renderer->render($link);
+                    } else {
+                        $rec["completion_by"] = $title;
+                    }
                 }
 
                 // If the status completed and there is a non-null completion_by field
@@ -433,6 +440,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         ", ",
                         $prgrs->getNamesOfCompletedOrAccreditedChildren()
                     );
+                }
+                // This case should only occur if the status completed is set
+                // by an already deleted crs.
+                if (!$rec["completion_by"]) {
+                    $title = ilObjectDataDeletionLog::get($rec["completion_by_id"]);
+                    if (!is_null($title["title"])) {
+                        $rec["completion_by"] = $title["title"];
+                    }
                 }
             } elseif ($rec["status"] == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                 $rec["completion_by"] = $rec["accredited_by"];
@@ -499,7 +514,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
 
-        if ($this->prg->getAccessControlByOrguPositionsGlobal()) {
+        if ($this->prg->getAccessControlByOrguPositionsGlobal() && !$this->parent_obj->mayManageMembers()) {
             $visible = $this->getParentObject()->visibleUsers();
             if (count($visible) > 0) {
                 $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
@@ -609,7 +624,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         foreach ($this->filters as $item) {
             $f[$item->getFieldId()] = $this->getFilterValue($item);
         }
-
         return $f;
     }
 
@@ -639,7 +653,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
             $operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
-            if ($filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
+            if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
                 $operator = '>';
             }
             $buf[] = 'AND prgrs.vq_date ' . $operator . ' NOW()';
@@ -647,14 +661,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $exp_from = $filter['prg_expiry_date']['from'];
         if (!is_null($exp_from)) {
-            $dat = $exp_from->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date >= \'' . $dat . '\'';
+            $dat = $exp_from->get(IL_CAL_DATE);
+            $buf[] = 'AND prgrs.vq_date >= \'' . $dat . ' 00:00:00\'';
         }
 
         $exp_to = $filter['prg_expiry_date']['to'];
         if (!is_null($exp_to)) {
-            $dat = $exp_to->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . '\'';
+            $dat = $exp_to->get(IL_CAL_DATE);
+            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . ' 23:59:59\'';
         }
 
         $conditions = implode(PHP_EOL, $buf);

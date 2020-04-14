@@ -2,16 +2,17 @@
 // PSR-2
 namespace Vendor\Package;
 
-use FooInterface;
 use BarClass as Bar;
+use FooInterface;
 use OtherVendor\OtherPackage\BazClass;
+use ZPackage;
 
 class Foo extends Bar implements FooInterface
 {
     public function sampleMethod($a, $b = null)
     {
         if ($a === $b) {
-            bar();
+            \Vendor\Package\bar();
         } elseif ($a > $b) {
             $foo->bar($arg1);
         } else {
@@ -37,6 +38,9 @@ $a = 1 + $b ^ $d !== $e or $f;
 // unary_operator_spaces
 $sample = 0;
 $sample++;
+//Unused blank lines: begin
+
+//Unused blank lines: end
 --$sample;
 $sample = !!$a;
 $sample = ~$c;
@@ -52,4 +56,4 @@ function bar(int $a) : string
 {
 };
 // whitespace_after_comma_in_array
-$sample = array(1, 'a', $b, );
+$sample = array(1,'a',$b,);

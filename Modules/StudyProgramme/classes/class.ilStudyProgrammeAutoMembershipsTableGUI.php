@@ -11,8 +11,8 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 {
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd="",
-        $a_template_context=""
+        $a_parent_cmd = "",
+        $a_template_context = ""
     ) {
         $this->setId("sp_ac_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -35,7 +35,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt(''), 'actions');
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoMembershipsGUI::CHECKBOX_SOURCE_IDS . '[]');
         $this->setEnableAllCommand(true);
-        $this->addMultiCommand('delete', $this->lng->txt('delete'));
+        $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
     protected function fillRow($set)

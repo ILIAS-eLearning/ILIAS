@@ -101,12 +101,12 @@ class ilPCTableData extends ilPageContent
     {
         // remove td content of row
         $tds = $a_row_node->child_nodes();
-        for ($i=0; $i<count($tds); $i++) {
+        for ($i = 0; $i < count($tds); $i++) {
             if ($tds[$i]->has_attribute("PCID")) {
                 $tds[$i]->remove_attribute("PCID");
             }
             $td_childs = $tds[$i]->child_nodes();
-            for ($j=0; $j<count($td_childs); $j++) {
+            for ($j = 0; $j < count($td_childs); $j++) {
                 $tds[$i]->remove_child($td_childs[$j]);
             }
         }
@@ -120,7 +120,7 @@ class ilPCTableData extends ilPageContent
     public function deleteTDContent(&$a_td_node)
     {
         $td_childs = $a_td_node->child_nodes();
-        for ($j=0; $j<count($td_childs); $j++) {
+        for ($j = 0; $j < count($td_childs); $j++) {
             $a_td_node->remove_child($td_childs[$j]);
         }
     }
@@ -158,7 +158,7 @@ class ilPCTableData extends ilPageContent
 
         // iterate all table rows
         $rows = $parent_table->child_nodes();
-        for ($i=0; $i<count($rows); $i++) {
+        for ($i = 0; $i < count($rows); $i++) {
             if ($rows[$i]->node_name() == "TableRow") {
                 // clone td at $col_nr
                 $tds = $rows[$i]->child_nodes();
@@ -199,7 +199,7 @@ class ilPCTableData extends ilPageContent
 
         // iterate all table rows
         $rows = $parent_table->child_nodes();
-        for ($i=0; $i<count($rows); $i++) {
+        for ($i = 0; $i < count($rows); $i++) {
             if ($rows[$i]->node_name() == "TableRow") {
                 // clone td at $col_nr
                 $tds = $rows[$i]->child_nodes();
@@ -236,7 +236,7 @@ class ilPCTableData extends ilPageContent
 
         // iterate all table rows
         $rows = $parent_table->child_nodes();
-        for ($i=0; $i<count($rows); $i++) {
+        for ($i = 0; $i < count($rows); $i++) {
             if ($rows[$i]->node_name() == "TableRow") {
                 // unlink td at $col_nr
                 $tds = $rows[$i]->child_nodes();
@@ -295,7 +295,7 @@ class ilPCTableData extends ilPageContent
 
         // iterate all table rows
         $rows = $parent_table->child_nodes();
-        for ($i=0; $i<count($rows); $i++) {
+        for ($i = 0; $i < count($rows); $i++) {
             if ($rows[$i]->node_name() == "TableRow") {
                 $tds = $rows[$i]->child_nodes();
                 $td = $tds[$col_nr];
@@ -328,7 +328,7 @@ class ilPCTableData extends ilPageContent
 
         // iterate all table rows
         $rows = $parent_table->child_nodes();
-        for ($i=0; $i<count($rows); $i++) {
+        for ($i = 0; $i < count($rows); $i++) {
             if ($rows[$i]->node_name() == "TableRow") {
                 $tds = $rows[$i]->child_nodes();
                 $td = $tds[$col_nr];

@@ -14,7 +14,7 @@ abstract class Item implements C\Item\Item
 {
     use ComponentHelper;
     /**
-     * @var string|\ILIAS\UI\Component\Button\Shy
+     * @var string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link
      */
     protected $title;
 
@@ -40,12 +40,12 @@ abstract class Item implements C\Item\Item
 
     /**
      * Item constructor.
-     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Standard|string $title
+     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link|string $title
      */
     public function __construct($title)
     {
         if (!$title instanceof \ILIAS\UI\Component\Button\Shy &&
-            !$title instanceof \ILIAS\UI\Component\Link\Standard) {
+            !$title instanceof \ILIAS\UI\Component\Link\Link) {
             $this->checkStringArg("title", $title);
         }
         $this->title = $title;

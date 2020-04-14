@@ -57,7 +57,7 @@ class PageContentGUI
     private $page_form_action;
     private $permanent_link;
     private $main_content;
-    private $lightbox;
+    private $lightbox = [];
     private $translation_linked;
     private $message;
     private $header_page_title;
@@ -452,7 +452,7 @@ class PageContentGUI
                 $this->fillTabs();
                 $this->fillMainContent();
                 // $this->fillMainMenu();
-                // $this->fillLightbox(); // TODO
+                $this->fillLightbox(); // TODO
                 $this->template_file->parseCurrentBlock();
             }
         }

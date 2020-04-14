@@ -218,7 +218,7 @@ class ilObjStudyProgrammeTreeGUI
         // saves order recursive
         $this->storeTreeOrder($treeData);
 
-        return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
+        return ilAsyncOutputHandler::encodeAsyncResponse(array('success' => true, 'message' => $this->lng->txt('prg_saved_order_successful')));
     }
 
 
@@ -240,10 +240,10 @@ class ilObjStudyProgrammeTreeGUI
         foreach ($nodes as $node) {
             // get ref_id from json
             $id = $node->id;
-            $id = substr($id, strrpos($id, "_")+1);
+            $id = substr($id, strrpos($id, "_") + 1);
 
             $sorting_position[$id] = $position_count;
-            $position_count+= 10;
+            $position_count += 10;
 
             $node_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($id);
             if ($node_obj instanceof ilObjStudyProgramme) {
@@ -297,7 +297,7 @@ class ilObjStudyProgrammeTreeGUI
             $course_ref->update();
         }
 
-        return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_added_course_ref_successful')));
+        return ilAsyncOutputHandler::encodeAsyncResponse(array('success' => true, 'message' => $this->lng->txt('prg_added_course_ref_successful')));
     }
 
 
@@ -508,7 +508,7 @@ class ilObjStudyProgrammeTreeGUI
             }
         }
 
-        return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>$result, 'message'=>$msg));
+        return ilAsyncOutputHandler::encodeAsyncResponse(array('success' => $result, 'message' => $msg));
     }
 
 
@@ -543,11 +543,11 @@ class ilObjStudyProgrammeTreeGUI
         $settings_modal->setType(ilModalGUI::TYPE_LARGE);
         $this->tpl->addOnLoadCode('$("#' . $this->modal_id . '").study_programme_modal();');
 
-        $content =  $settings_modal->getHTML();
+        $content = $settings_modal->getHTML();
 
         // init js notifications
         $notifications = new ilAsyncNotifications();
-        $notifications->addJsConfig('events', array('success'=>array('study_programme-show_success')));
+        $notifications->addJsConfig('events', array('success' => array('study_programme-show_success')));
         $notifications->initJs();
 
         // init tree selection explorer

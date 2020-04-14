@@ -69,7 +69,5 @@ interface CAS_ProxiedService_Testable
      * @throws CAS_OutOfSequenceException If called after a proxy ticket has
      *         already been initialized/set.
      */
-    public function setCasClient (CAS_Client $casClient);
-
+    public function setCasClient(CAS_Client $casClient);
 }
-?>

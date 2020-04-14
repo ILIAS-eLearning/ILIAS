@@ -36,7 +36,7 @@ class ilScormAiccImporter extends ilXmlImporter
 
             require_once("./Services/Export/classes/class.ilExport.php");
             $exportDir = ilExport::_getExportDirectory($a_id);
-            $tempFile  = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
+            $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
             $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
             $lmTempDir = $lmDir . $timeStamp;

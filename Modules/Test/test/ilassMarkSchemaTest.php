@@ -43,9 +43,9 @@ class ilassMarkSchemaTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Constructor failed, mark_steps not an array."
+            $actual,
+            $expected,
+            "Constructor failed, mark_steps not an array."
             );
     }
 
@@ -75,45 +75,45 @@ class ilassMarkSchemaTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $failed->getShortName(),
-                $txt_failed_short,
-                'Failed on $txt_failed_short'
+            $failed->getShortName(),
+            $txt_failed_short,
+            'Failed on $txt_failed_short'
             );
         $this->assertEquals(
-                $failed->getOfficialName(),
-                $txt_failed_official,
-                'Failed on $txt_failed_official'
+            $failed->getOfficialName(),
+            $txt_failed_official,
+            'Failed on $txt_failed_official'
             );
         $this->assertEquals(
-                $failed->getMinimumLevel(),
-                $percentage_failed,
-                'Failed on $percentage_failed'
+            $failed->getMinimumLevel(),
+            $percentage_failed,
+            'Failed on $percentage_failed'
             );
         $this->assertEquals(
-                $failed->getPassed(),
-                $failed_passed,
-                'Failed on $failed_passed'
+            $failed->getPassed(),
+            $failed_passed,
+            'Failed on $failed_passed'
             );
 
         $this->assertEquals(
-                $passed->getShortName(),
-                $txt_passed_short,
-                'Failed on $txt_passed_short'
+            $passed->getShortName(),
+            $txt_passed_short,
+            'Failed on $txt_passed_short'
             );
         $this->assertEquals(
-                $passed->getOfficialName(),
-                $txt_passed_official,
-                'Failed on $txt_passed_official'
+            $passed->getOfficialName(),
+            $txt_passed_official,
+            'Failed on $txt_passed_official'
             );
         $this->assertEquals(
-                $passed->getMinimumLevel(),
-                $percentage_passed,
-                'Failed on $percetage_passed'
+            $passed->getMinimumLevel(),
+            $percentage_passed,
+            'Failed on $percetage_passed'
             );
         $this->assertEquals(
-                $passed->getPassed(),
-                $passed_passed,
-                'Failed on $passed_passed'
+            $passed->getPassed(),
+            $passed_passed,
+            'Failed on $passed_passed'
             );
     }
  
@@ -134,14 +134,14 @@ class ilassMarkSchemaTest extends TestCase
             
         // Act
         $this->ass_mark_schema->createSimpleSchema(
-                $txt_failed_short,
-                $txt_failed_official,
-                $percentage_failed,
-                $failed_passed,
-                $txt_passed_short,
-                $txt_passed_official,
-                $percentage_passed,
-                $passed_passed
+            $txt_failed_short,
+            $txt_failed_official,
+            $percentage_failed,
+            $failed_passed,
+            $txt_passed_short,
+            $txt_passed_official,
+            $percentage_passed,
+            $passed_passed
             );
 
         $marks = $this->ass_mark_schema->mark_steps;
@@ -151,45 +151,45 @@ class ilassMarkSchemaTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $failed->getShortName(),
-                $txt_failed_short,
-                'Failed on $txt_failed_short'
+            $failed->getShortName(),
+            $txt_failed_short,
+            'Failed on $txt_failed_short'
             );
         $this->assertEquals(
-                $failed->getOfficialName(),
-                $txt_failed_official,
-                'Failed on $txt_failed_official'
+            $failed->getOfficialName(),
+            $txt_failed_official,
+            'Failed on $txt_failed_official'
             );
         $this->assertEquals(
-                $failed->getMinimumLevel(),
-                $percentage_failed,
-                'Failed on $percentage_failed'
+            $failed->getMinimumLevel(),
+            $percentage_failed,
+            'Failed on $percentage_failed'
             );
         $this->assertEquals(
-                $failed->getPassed(),
-                $failed_passed,
-                'Failed on $failed_passed'
+            $failed->getPassed(),
+            $failed_passed,
+            'Failed on $failed_passed'
             );
 
         $this->assertEquals(
-                $passed->getShortName(),
-                $txt_passed_short,
-                'Failed on $txt_passed_short'
+            $passed->getShortName(),
+            $txt_passed_short,
+            'Failed on $txt_passed_short'
             );
         $this->assertEquals(
-                $passed->getOfficialName(),
-                $txt_passed_official,
-                'Failed on $txt_passed_official'
+            $passed->getOfficialName(),
+            $txt_passed_official,
+            'Failed on $txt_passed_official'
             );
         $this->assertEquals(
-                $passed->getMinimumLevel(),
-                $percentage_passed,
-                'Failed on $percetage_passed'
+            $passed->getMinimumLevel(),
+            $percentage_passed,
+            'Failed on $percetage_passed'
             );
         $this->assertEquals(
-                $passed->getPassed(),
-                $passed_passed,
-                'Failed on $passed_passed'
+            $passed->getPassed(),
+            $passed_passed,
+            'Failed on $passed_passed'
             );
     }
 
@@ -209,9 +209,9 @@ class ilassMarkSchemaTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Method failed, mark_steps not an array."
+            $actual,
+            $expected,
+            "Method failed, mark_steps not an array."
             );
     }
         
@@ -234,24 +234,24 @@ class ilassMarkSchemaTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $mark_step->getShortName(),
-                $txt_short,
-                'Failed on $txt_failed_short'
+            $mark_step->getShortName(),
+            $txt_short,
+            'Failed on $txt_failed_short'
             );
         $this->assertEquals(
-                $mark_step->getOfficialName(),
-                $txt_official,
-                'Failed on $txt_failed_official'
+            $mark_step->getOfficialName(),
+            $txt_official,
+            'Failed on $txt_failed_official'
             );
         $this->assertEquals(
-                $mark_step->getMinimumLevel(),
-                $percentage,
-                'Failed on $percentage_failed'
+            $mark_step->getMinimumLevel(),
+            $percentage,
+            'Failed on $percentage_failed'
             );
         $this->assertEquals(
-                $mark_step->getPassed(),
-                $passed,
-                'Failed on $failed_passed'
+            $mark_step->getPassed(),
+            $passed,
+            'Failed on $failed_passed'
             );
     }
 

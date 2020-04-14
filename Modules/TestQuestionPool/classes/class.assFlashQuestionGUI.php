@@ -278,7 +278,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
             $template->setVariable("PARAM_VALUE", join($params, "&"));
             $template->parseCurrentBlock();
         }
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $template->setVariable("APPLET_WIDTH", $this->object->getWidth());

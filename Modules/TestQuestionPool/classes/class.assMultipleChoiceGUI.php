@@ -168,7 +168,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addchoice']);
-        $this->object->addAnswer("", 0, 0, $position+1);
+        $this->object->addAnswer("", 0, 0, $position + 1);
         $this->editQuestion();
     }
 
@@ -215,7 +215,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 array_push($user_solution, $solution_value["value1"]);
             }
@@ -376,7 +376,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
@@ -776,8 +776,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             foreach ($_POST['choice']['answer'] as $index => $answertext) {
                 $answertext = ilUtil::secureString($answertext);
                 
-                $picturefile    = $_POST['choice']['imagename'][$index];
-                $file_org_name  = $_FILES['choice']['name']['image'][$index];
+                $picturefile = $_POST['choice']['imagename'][$index];
+                $file_org_name = $_FILES['choice']['name']['image'][$index];
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index];
 
                 if (strlen($file_temp_name)) {
@@ -940,9 +940,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     {
         $aggregate = array();
         foreach ($answers_defined_on_question as $answer) {
-            $aggregated_info_for_answer 					= array();
-            $aggregated_info_for_answer['answertext']		= $answer->getAnswerText();
-            $aggregated_info_for_answer['count_checked']	= 0;
+            $aggregated_info_for_answer = array();
+            $aggregated_info_for_answer['answertext'] = $answer->getAnswerText();
+            $aggregated_info_for_answer['count_checked'] = 0;
 
             foreach ($relevant_answers_chosen as $relevant_answer) {
                 if ($relevant_answer['value1'] == $answer->getOrder()) {

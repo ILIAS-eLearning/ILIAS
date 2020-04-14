@@ -101,23 +101,10 @@ class ilLTIConsumerResultService
     {
     }
     
-    protected function checkToken(ilCmiXapiAuthToken $token)
-    {
-        if ($this->result->getUsrId() != $token->getUsrId()) {
-            return false;
-        }
-        
-        if ($this->result->getObjId() != $token->getObjId()) {
-            return false;
-        }
-        
-        return true;
-    }
-
     /**
      * Handle an incoming request from the LTI tool provider
      */
-    public function handleRequest(ilCmiXapiAuthToken $token)
+    public function handleRequest()
     {
         try {
             // get the request as xml
@@ -125,19 +112,15 @@ class ilLTIConsumerResultService
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
             $request = current($xml->imsx_POXBody->children());
             $this->operation = str_replace('Request', '', $request->getName());
-            $result_id = $request->resultRecord->sourcedGUID->sourcedId;
 
-            $this->result = ilLTIConsumerResult::getById($result_id);
-            
+            $token = ilCmiXapiAuthToken::getInstanceByToken($request->resultRecord->sourcedGUID->sourcedId);
+
+            $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
-                $this->respondUnauthorized("sourcedId $result_id not found!");
+                $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;
             }
-            
-            if (!$this->checkToken($token)) {
-                $this->respondUnauthorized("invalid access token!");
-                return;
-            }
+
 
             // check the object status
             $this->readProperties($this->result->obj_id);

@@ -319,7 +319,7 @@ class ilCourseDefinedFieldDefinition
         $lng = $DIC['lng'];
         
         $options = array();
-        $options[0] = $lng->txt('select_one');
+        $options[''] = $lng->txt('select_one');
         
         foreach ($this->values as $key => $value) {
             $options[$this->getId() . '_' . $key] = $value;

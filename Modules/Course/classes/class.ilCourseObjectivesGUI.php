@@ -40,6 +40,14 @@ class ilCourseObjectivesGUI
     const MODE_UNDEFINED = 0;
     const MODE_CREATE = 1;
     const MODE_UPDATE = 2;
+
+    protected const STEP_SETTINGS = 1;
+    protected const STEP_MATERIAL_ASSIGNMENT = 2;
+    protected const STEP_INITIAL_TEST_ASSIGNMENT = 3;
+    protected const STEP_INITIAL_TEST_LIMIT = 4;
+    protected const STEP_FINAL_TEST_ASSIGNMENT = 5;
+    protected const STEP_FINAL_TEST_LIMIT = 6;
+
     
     
     public $ctrl;
@@ -305,7 +313,7 @@ class ilCourseObjectivesGUI
         }
 
         foreach ($_SESSION['crs_delete_objectives'] as $objective_id) {
-            $objective_obj =&$this->__initObjectivesObject($objective_id);
+            $objective_obj = &$this->__initObjectivesObject($objective_id);
             $objective_obj->delete();
         }
 
@@ -405,7 +413,7 @@ class ilCourseObjectivesGUI
     // PRIVATE
     public function __initCourseObject()
     {
-        if (!$this->course_obj =&ilObjectFactory::getInstanceByRefId($this->course_id, false)) {
+        if (!$this->course_obj = &ilObjectFactory::getInstanceByRefId($this->course_id, false)) {
             $this->ilErr->raiseError("ilCourseObjectivesGUI: cannot create course object", $this->ilErr->MESSAGE);
             exit;
         }
@@ -509,7 +517,7 @@ class ilCourseObjectivesGUI
             $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
         }
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(1);
+        $this->initWizard(self::STEP_SETTINGS);
         
         $this->initFormTitle('create', 1);
         $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
@@ -545,7 +553,7 @@ class ilCourseObjectivesGUI
         }
         
         $this->__initQuestionObject((int) $_REQUEST['objective_id']);
-        $this->initWizard(1);
+        $this->initWizard(self::STEP_SETTINGS);
         $this->initFormTitle('create', 1);
         $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
         #$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
@@ -645,10 +653,8 @@ class ilCourseObjectivesGUI
         $table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(2);
-        #$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
+        $this->initWizard(self::STEP_MATERIAL_ASSIGNMENT);
         $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
-        #$tpl->setContent($w_tpl->get());
     }
     
     /**
@@ -768,10 +774,8 @@ class ilCourseObjectivesGUI
         $table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(3);
+        $this->initWizard(self::STEP_INITIAL_TEST_ASSIGNMENT);
         $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
-        #$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-        #$tpl->setContent($w_tpl->get());
     }
     
     /**
@@ -877,7 +881,7 @@ class ilCourseObjectivesGUI
         $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(4);
+        $this->initWizard(self::STEP_INITIAL_TEST_LIMIT);
         
         $this->initFormLimits('selfAssessment');
         $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
@@ -979,10 +983,8 @@ class ilCourseObjectivesGUI
         $table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(5);
+        $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
         $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
-        #$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
-        #$tpl->setContent($w_tpl->get());
     }
     
     // begin-patch lok
@@ -1019,11 +1021,8 @@ class ilCourseObjectivesGUI
         }
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(5);
+        $this->initWizard(self::STEP_FINAL_TEST_ASSIGNMENT);
         $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
-        #$w_tpl->setVariable('WIZ_CONTENT',$form->getHTML());
-        
-        #$GLOBALS['DIC']['tpl']->setContent($w_tpl->get());
     }
     
     /**
@@ -1102,8 +1101,8 @@ class ilCourseObjectivesGUI
             $GLOBALS['DIC']['ilDB'],
             $tst,
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-                    $GLOBALS['DIC']['ilDB'],
-                    $tst
+                $GLOBALS['DIC']['ilDB'],
+                $tst
                 )
         );
                 
@@ -1277,7 +1276,7 @@ class ilCourseObjectivesGUI
         $this->ctrl->saveParameter($this, 'objective_id');
         $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
         
-        $this->initWizard(6);
+        $this->initWizard(self::STEP_FINAL_TEST_LIMIT);
         $form = $this->initFormTestAssignment();
         $GLOBALS['DIC']['tpl']->setContent($form->getHtml());
     }
@@ -1311,13 +1310,10 @@ class ilCourseObjectivesGUI
         $this->objective = new ilCourseObjective($this->course_obj, (int) $_GET['objective_id']);
         
         $this->__initQuestionObject((int) $_GET['objective_id']);
-        $this->initWizard(6);
+        $this->initWizard(self::STEP_FINAL_TEST_LIMIT);
         
         $this->initFormLimits('final');
         $GLOBALS['DIC']['tpl']->setContent($this->form->getHtml());
-
-        #$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
-        #$tpl->setContent($w_tpl->get());
     }
     
     /**
@@ -1386,7 +1382,6 @@ class ilCourseObjectivesGUI
             case 'selfAssessment':
                 $this->form->setTitle($this->lng->txt('crs_objective_wiz_self_limit'));
                 $this->form->addCommandButton('updateSelfAssessmentLimits', $this->lng->txt('crs_wiz_next'));
-                $this->form->addCommandButton('selfAssessmentAssignment', $this->lng->txt('crs_wiz_back'));
 
                 $tests = $this->objectives_qst_obj->getSelfAssessmentTests();
                 $max_points = $this->objectives_qst_obj->getSelfAssessmentPoints();
@@ -1396,7 +1391,6 @@ class ilCourseObjectivesGUI
             case 'final':
                 $this->form->setTitle($this->lng->txt('crs_objective_wiz_final_limit'));
                 $this->form->addCommandButton('updateFinalTestLimits', $this->lng->txt('crs_wiz_next'));
-                $this->form->addCommandButton('finalTestAssignment', $this->lng->txt('crs_wiz_back'));
 
                 $tests = $this->objectives_qst_obj->getFinalTests();
                 $max_points = $this->objectives_qst_obj->getFinalTestPoints();
@@ -1514,21 +1508,27 @@ class ilCourseObjectivesGUI
      * @param int $a_step_number
      * @return void
      */
-    protected function initWizard($a_step_number)
+    protected function initWizard(int $active_step)
     {
         global $DIC;
-        $steps  = [];
+        $steps = [];
+        $step_positions = [];
+
         $workflow = $DIC->ui()->factory()->listing()->workflow();
 
         // 1 Settings
         $title = $this->lng->txt('crs_objective_wiz_title');
         $link = $this->ctrl->getLinkTarget($this, 'edit');
+
         $steps[] = $workflow->step($title, "", $link);
+        $step_positions[self::STEP_SETTINGS] = count($steps) - 1;
 
         // 2 Material
         $title = $this->lng->txt('crs_objective_wiz_materials');
         $link = $this->ctrl->getLinkTarget($this, 'materialAssignment');
         $steps[] = $workflow->step($title, "", $link);
+        $step_positions[self::STEP_MATERIAL_ASSIGNMENT] = count($steps) - 1;
+
 
         if ($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests()) {
             // 3 initial
@@ -1539,6 +1539,7 @@ class ilCourseObjectivesGUI
 
             $steps[] = $workflow->step($title, "", $link)
                 ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+            $step_positions[self::STEP_INITIAL_TEST_ASSIGNMENT] = count($steps) - 1;
 
             if (!$this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL)) {
                 // 4 initial limit
@@ -1549,6 +1550,7 @@ class ilCourseObjectivesGUI
                     : null;
                 $steps[] = $workflow->step($title, "", $link)
                     ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+                $step_positions[self::STEP_INITIAL_TEST_LIMIT] = count($steps) - 1;
             }
         }
 
@@ -1557,6 +1559,7 @@ class ilCourseObjectivesGUI
             $title = $this->lng->txt('crs_objective_wiz_final');
             $link = $this->ctrl->getLinkTarget($this, 'finalTestAssignment');
             $steps[] = $workflow->step($title, "", $link);
+            $step_positions[self::STEP_FINAL_TEST_ASSIGNMENT] = count($steps) - 1;
 
             if (!$this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED)) {
                 // 6 final limit
@@ -1566,14 +1569,17 @@ class ilCourseObjectivesGUI
                     : null;
                 $steps[] = $workflow->step($title, "", $link)
                     ->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+                $step_positions[self::STEP_FINAL_TEST_LIMIT] = count($steps) - 1;
             }
         }
 
         $list = $workflow->linear(
             $this->lng->txt('crs_checklist_objective'),
             $steps
-        )
-            ->withActive($a_step_number -1);
+        );
+        if(!empty($step_positions[$active_step])) {
+            $list = $list->withActive($step_positions[$active_step]);
+        }
 
         $renderer = $DIC->ui()->renderer();
 

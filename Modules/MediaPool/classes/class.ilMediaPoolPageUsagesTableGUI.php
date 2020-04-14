@@ -187,7 +187,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
             }
 
             if (count($usage["hist_nr"]) > 5) {
-                $ver.= "..., ";
+                $ver .= "..., ";
                 $cnt = count($usage["hist_nr"]) - 5;
                 for ($i = 0; $i < $cnt; $i++) {
                     unset($usage["hist_nr"][$i]);
@@ -195,9 +195,9 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
             }
             foreach ($usage["hist_nr"] as $nr) {
                 if ($nr > 0) {
-                    $ver.= $sep . $nr;
+                    $ver .= $sep . $nr;
                 } else {
-                    $ver.= $sep . $this->lng->txt("cont_current_version");
+                    $ver .= $sep . $this->lng->txt("cont_current_version");
                 }
                 $sep = ", ";
             }

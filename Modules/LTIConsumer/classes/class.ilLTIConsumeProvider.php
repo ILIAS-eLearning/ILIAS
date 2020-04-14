@@ -547,7 +547,7 @@ class ilLTIConsumeProvider
      */
     public function getMasteryScorePercent() : float
     {
-        return $this->mastery_score*100;
+        return $this->mastery_score * 100;
     }
     
     /**
@@ -555,7 +555,7 @@ class ilLTIConsumeProvider
      */
     public function setMasteryScorePercent(float $mastery_score_percent)
     {
-        $this->mastery_score = $mastery_score_percent/100;
+        $this->mastery_score = $mastery_score_percent / 100;
     }
 
     /**

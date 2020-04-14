@@ -60,7 +60,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
     public function fillForm()
     {
         $array = array(
-            self::F_TITLE       => $this->object->getTitle(),
+            self::F_TITLE => $this->object->getTitle(),
             self::F_DESCRIPTION => $this->object->getDescription(),
             self::F_AUTHORITIES => $this->object->getAuthoritiesAsArray(),
         );

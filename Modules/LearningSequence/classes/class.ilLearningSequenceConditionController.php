@@ -32,7 +32,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
             $sequence = $this->getSequencedItems($container_ref_id);
 
             //find position
-            foreach ($sequence as $index=>$item) {
+            foreach ($sequence as $index => $item) {
                 if ($item->getRefId() === (int) $a_container_child_ref_id) {
                     $pos = $index;
                     break;
@@ -53,7 +53,8 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
                         if ($condition_op !== \ilLSPostConditionDB::STD_ALWAYS_OPERATOR) {
                             $conditions[] = $f->condition(
                                 $f->repositoryTrigger($previous_item->getRefId()),
-                                $f->operator()->$condition_op()
+                                $f->operator()->$condition_op(),
+                                $post_condition->getValue()
                             );
                         }
                     }

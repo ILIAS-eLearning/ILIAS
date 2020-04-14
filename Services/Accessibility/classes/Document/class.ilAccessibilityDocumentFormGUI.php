@@ -68,15 +68,15 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         string $cancelCommand = 'showDocuments',
         bool $isEditable = false
     ) {
-        $this->document         = $document;
+        $this->document = $document;
         $this->documentPurifier = $documentPurifier;
-        $this->actor            = $actor;
-        $this->tmpFileSystem    = $tmpFileSystem;
-        $this->fileUpload       = $fileUpload;
-        $this->formAction       = $formAction;
-        $this->saveCommand      = $saveCommand;
-        $this->cancelCommand    = $cancelCommand;
-        $this->isEditable       = $isEditable;
+        $this->actor = $actor;
+        $this->tmpFileSystem = $tmpFileSystem;
+        $this->fileUpload = $fileUpload;
+        $this->formAction = $formAction;
+        $this->saveCommand = $saveCommand;
+        $this->cancelCommand = $cancelCommand;
+        $this->isEditable = $isEditable;
 
         parent::__construct();
 
@@ -112,20 +112,19 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $title->setMaxLength(255);
         $this->addItem($title);
 
-        $documentLabel  = $this->lng->txt('acc_form_document');
+        $documentLabel = $this->lng->txt('acc_form_document');
         $documentByline = $this->lng->txt('acc_form_document_info');
         if ($this->document->getId() > 0) {
-            $documentLabel  = $this->lng->txt('acc_form_document_new');
+            $documentLabel = $this->lng->txt('acc_form_document_new');
             $documentByline = $this->lng->txt('acc_form_document_new_info');
         }
 
-        $document = new ilFileStandardDropzoneInputGUI($documentLabel, 'document');
+        $document = new ilFileInputGUI($documentLabel, 'document');
         $document->setInfo($documentByline);
         if (!$this->document->getId()) {
             $document->setRequired(true);
         }
         $document->setDisabled(!$this->isEditable);
-        $document->setMaxFiles(1);
         $document->setSuffixes(['html', 'txt']);
         $this->addItem($document);
 

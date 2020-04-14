@@ -69,21 +69,21 @@ class ilUserCertificateRepository
         $this->deactivatePreviousCertificates($objId, $userId);
 
         $columns = array(
-            'id'                     => array('integer', $id),
+            'id' => array('integer', $id),
             'pattern_certificate_id' => array('integer', $userCertificate->getPatternCertificateId()),
-            'obj_id'                 => array('integer', $objId),
-            'obj_type'               => array('text', $userCertificate->getObjType()),
-            'user_id'                => array('integer', $userId),
-            'user_name'              => array('text', $userCertificate->getUserName()),
-            'acquired_timestamp'     => array('integer', $userCertificate->getAcquiredTimestamp()),
-            'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
-            'template_values'        => array('clob', $userCertificate->getTemplateValues()),
-            'valid_until'            => array('integer', $userCertificate->getValidUntil()),
-            'version'                => array('integer', $version),
-            'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
-            'currently_active'       => array('integer', (integer) $userCertificate->isCurrentlyActive()),
-            'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
-            'thumbnail_image_path'   => array('text', $userCertificate->getThumbnailImagePath())
+            'obj_id' => array('integer', $objId),
+            'obj_type' => array('text', $userCertificate->getObjType()),
+            'user_id' => array('integer', $userId),
+            'user_name' => array('text', $userCertificate->getUserName()),
+            'acquired_timestamp' => array('integer', $userCertificate->getAcquiredTimestamp()),
+            'certificate_content' => array('clob', $userCertificate->getCertificateContent()),
+            'template_values' => array('clob', $userCertificate->getTemplateValues()),
+            'valid_until' => array('integer', $userCertificate->getValidUntil()),
+            'version' => array('integer', $version),
+            'ilias_version' => array('text', $userCertificate->getIliasVersion()),
+            'currently_active' => array('integer', (integer) $userCertificate->isCurrentlyActive()),
+            'background_image_path' => array('text', $userCertificate->getBackgroundImagePath()),
+            'thumbnail_image_path' => array('text', $userCertificate->getThumbnailImagePath())
         );
 
         $this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));

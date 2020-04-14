@@ -695,12 +695,12 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
         $solved_questions = ilObjTest::_getSolvedQuestions($this->active_id);
         $key = 1;
         foreach ($correctedsequence as $sequence) {
-            $question =&ilObjTest::_instanciateQuestion($this->getQuestionForSequence($sequence));
+            $question = &ilObjTest::_instanciateQuestion($this->getQuestionForSequence($sequence));
             if (is_object($question)) {
                 $worked_through = $question->_isWorkedThrough($this->active_id, $question->getId(), $this->pass);
-                $solved  = 0;
+                $solved = 0;
                 if (array_key_exists($question->getId(), $solved_questions)) {
-                    $solved =  $solved_questions[$question->getId()]["solved"];
+                    $solved = $solved_questions[$question->getId()]["solved"];
                 }
                 $is_postponed = $this->isPostponedQuestion($question->getId());
 

@@ -29,6 +29,10 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
      */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
+        global $DIC;
+        
+        $access = $DIC->access();
+
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_FOLDERS_TOOL, true)) {
@@ -40,8 +44,12 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
             };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
 
+            if (!$access->checkAccess("read", "", $ref_id)) {
+                return $tools;
+            }
+
             $title = "Folders";
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"),$title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"), $title);
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)

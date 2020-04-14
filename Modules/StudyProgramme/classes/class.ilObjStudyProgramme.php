@@ -347,7 +347,7 @@ class ilObjStudyProgramme extends ilContainer
             ilAdvancedMDRecord::saveObjRecSelection(
                 $this->getId(),
                 'prg_type',
-                $this->type_repository->readAssignedAMDRecordsByType($this->getTypeSettings()->getTypeId())
+                $this->type_repository->readAssignedAMDRecordIdsByType($this->getTypeSettings()->getTypeId())
             );
         } else {
             // If no type is assigned, delete relations by passing an empty array
@@ -531,23 +531,12 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions) : void
-    {
-        $this->settings->setAccessControlByOrguPositions($access_ctrl_positions);
-    }
-
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->settings->getAccessControlByOrguPositions();
-    }
-
     public function getAccessControlByOrguPositionsGlobal() : bool
     {
-        return $this->getPositionSettingsIsActiveForPrg()
-            && (
-                $this->settings->getAccessControlByOrguPositions()
-                || !$this->getPositionSettingsIsChangeableForPrg()
-            );
+        return
+            $this->getPositionSettingsIsActiveForPrg() &&
+            !$this->getPositionSettingsIsChangeableForPrg()
+        ;
     }
 
     public function getPositionSettingsIsActiveForPrg() : bool
@@ -568,6 +557,21 @@ class ilObjStudyProgramme extends ilContainer
     public function setAutoMailSettings(\ilStudyProgrammeAutoMailSettings $automail_settings) : void
     {
         $this->settings = $this->settings->withAutoMailSettings($automail_settings);
+    }
+
+    public function shouldSendReAssignedMail() : bool
+    {
+        return $this->getAutoMailSettings()->getSendReAssignedMail();
+    }
+
+    public function shouldSendInfoToReAssignMail() : bool
+    {
+        return $this->getAutoMailSettings()->getReminderNotRestartedByUserDays() > 0;
+    }
+
+    public function shouldSendRiskyToFailMail() : bool
+    {
+        return $this->getAutoMailSettings()->getProcessingEndsNotSuccessfulDays() > 0;
     }
 
     ////////////////////////////////////
@@ -1973,7 +1977,7 @@ class ilObjStudyProgramme extends ilContainer
         $lng = $DIC['lng'];
         $log = $DIC['ilLog'];
         $lng->loadLanguageModule("prg");
-        $senderFactory = $DIC["mail.mime.sender.factory"];
+        $lng->loadLanguageModule("mail");
 
         /** @var ilObjStudyProgramme $prg */
         $prg = ilObjStudyProgramme::getInstanceByRefId($ref_id);
@@ -1983,27 +1987,32 @@ class ilObjStudyProgramme extends ilContainer
             return false;
         }
 
-        $mail = new ilMimeMail();
-        $mail->From($senderFactory->system());
-
-        $mailOptions = new \ilMailOptions($usr_id);
-        $mail->To($mailOptions->getExternalEmailAddresses());
-
         $subject = $lng->txt("re_assigned_mail_subject");
-        $mail->Subject($subject);
-
         $gender = ilObjUser::_lookupGender($usr_id);
         $name = ilObjUser::_lookupFullname($usr_id);
-
         $body = sprintf(
             $lng->txt("re_assigned_mail_body"),
             $lng->txt("mail_salutation_" . $gender),
             $name,
             $prg->getTitle()
         );
-        $mail->Body($body);
 
-        return $mail->Send();
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        return $send;
     }
 
     public static function sendInvalidateMail(int $ref_id, int $usr_id) : bool
@@ -2011,30 +2020,35 @@ class ilObjStudyProgramme extends ilContainer
         global $DIC;
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("prg");
-        $senderFactory = $DIC["mail.mime.sender.factory"];
+        $lng->loadLanguageModule("mail");
 
         $prg = ilObjStudyProgramme::getInstanceByRefId($ref_id);
 
-        $mail = new ilMimeMail();
-        $mail->From($senderFactory->system());
-
-        $mailOptions = new \ilMailOptions($usr_id);
-        $mail->To($mailOptions->getExternalEmailAddresses());
-
         $subject = $lng->txt("invalidate_mail_subject");
-        $mail->Subject($subject);
-
         $gender = ilObjUser::_lookupGender($usr_id);
         $name = ilObjUser::_lookupFullname($usr_id);
-
         $body = sprintf(
             $lng->txt("invalidate_mail_body"),
             $lng->txt("mail_salutation_" . $gender),
             $name,
             $prg->getTitle()
         );
-        $mail->Body($body);
 
-        return $mail->Send();
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        return $send;
     }
 }

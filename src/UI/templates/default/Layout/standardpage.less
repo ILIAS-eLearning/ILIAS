@@ -553,12 +553,18 @@ footer {
 */
 
 @media print {
-	.il-layout-page {
-		display: block;
-		header,
-		nav,
-		footer {
-			display: none;
+	html body {
+		overflow: visible;
+
+		section.il-layout-page {
+			display: block;
+			overflow: visible;
+
+			header,
+			nav,
+			footer {
+				display: none;
+			}
 		}
 	}
 }

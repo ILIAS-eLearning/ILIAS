@@ -145,7 +145,7 @@ class ilBookingGatewayGUI
         $ctrl = $this->ctrl;
 
         $ctrl->saveParameter($this, "pool_ref_id");
-        $pool_ref_id  = ($_POST["pool_ref_id"] > 0)
+        $pool_ref_id = ($_POST["pool_ref_id"] > 0)
             ? (int) $_POST["pool_ref_id"]
             : (int) $_GET["pool_ref_id"];
 

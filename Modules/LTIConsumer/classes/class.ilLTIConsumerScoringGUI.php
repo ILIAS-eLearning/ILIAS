@@ -14,11 +14,11 @@
  */
 class ilLTIConsumerScoringGUI
 {
-    const PART_FILTER_ACTIVE_ONLY			= 1;
-    const PART_FILTER_INACTIVE_ONLY			= 2;
-    const PART_FILTER_ALL_USERS				= 3; // default
-    const PART_FILTER_MANSCORING_DONE		= 4;
-    const PART_FILTER_MANSCORING_NONE		= 5;
+    const PART_FILTER_ACTIVE_ONLY = 1;
+    const PART_FILTER_INACTIVE_ONLY = 2;
+    const PART_FILTER_ALL_USERS = 3; // default
+    const PART_FILTER_MANSCORING_DONE = 4;
+    const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
 
 
@@ -134,7 +134,7 @@ class ilLTIConsumerScoringGUI
         if (false === $scopeUserRank) {
             return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
         } else {
-            $offset = $this->userRank -2 < 0 ? 0 : $this->userRank -2;
+            $offset = $this->userRank - 2 < 0 ? 0 : $this->userRank - 2;
             $length = 5;
             return array_slice($this->tableData, $offset, $length);
         }

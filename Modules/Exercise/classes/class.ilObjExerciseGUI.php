@@ -122,7 +122,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $ilTabs->activateTab("permissions");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
             break;
     
             case "illearningprogressgui":
@@ -406,36 +406,25 @@ class ilObjExerciseGUI extends ilObjectGUI
         $option->setInfo($this->lng->txt("exc_settings_feedback_text_info"));
         $fdb->addOption($option);
 
+        // additional features
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('obj_features'));
         $a_form->addItem($section);
 
+        $features = [ilObjectServiceSettingsGUI::CUSTOM_METADATA];
+
+        $position_settings = ilOrgUnitGlobalSettings::getInstance()
+                                                    ->getObjectPositionSettingsByType($this->object->getType());
+
+        if ($position_settings->isActive()) {
+            $features[] = ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS;
+        }
+
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
             $a_form,
-            array(
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
-            )
+            $features
         );
-
-        $position_settings = ilOrgUnitGlobalSettings::getInstance()
-            ->getObjectPositionSettingsByType($this->object->getType());
-
-        if ($position_settings->isActive()) {
-            // add additional feature section
-            $feat = new ilFormSectionHeaderGUI();
-            $feat->setTitle($this->lng->txt('obj_features'));
-            $a_form->addItem($feat);
-
-            // add orgunit settings
-            ilObjectServiceSettingsGUI::initServiceSettingsForm(
-                $this->object->getId(),
-                $a_form,
-                array(
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
-                    )
-                );
-        }
     }
     
     /**
@@ -868,7 +857,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                     break;
 
                 case "grades":
-                    $action= $parts[2];
+                    $action = $parts[2];
                     $ass_id = $parts[1];
                     break;
             }

@@ -330,8 +330,8 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             $this->getLanguageMock()
         );
 
-        $ok    = $dataFavtgory->ok($criterionAssignment1);
-        $ok2   = $dataFavtgory->ok($criterionAssignment3);
+        $ok = $dataFavtgory->ok($criterionAssignment1);
+        $ok2 = $dataFavtgory->ok($criterionAssignment3);
         $error = $dataFavtgory->error('An error occurred');
 
         $result = $constraint->applyTo($ok);

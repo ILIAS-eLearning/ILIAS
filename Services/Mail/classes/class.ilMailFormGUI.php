@@ -62,17 +62,17 @@ class ilMailFormGUI
         }
         $this->templateService = $templateService;
 
-        $this->tpl        = $DIC->ui()->mainTemplate();
-        $this->ctrl       = $DIC->ctrl();
-        $this->lng        = $DIC->language();
-        $this->user       = $DIC->user();
-        $this->tabs       = $DIC->tabs();
-        $this->toolbar    = $DIC->toolbar();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mfile = new ilFileDataMail($this->user->getId());
-        $this->mbox  = new ilMailbox($this->user->getId());
+        $this->mbox = new ilMailbox($this->user->getId());
 
         if (null === $bodyPurifier) {
             $bodyPurifier = new ilMailBodyPurifier();
@@ -202,7 +202,7 @@ class ilMailFormGUI
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
-        $files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
+        $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         if ($errors = $this->umail->validateRecipients(
             (string) ilUtil::securePlainString($_POST['rcp_to']),
@@ -560,7 +560,7 @@ class ilMailFormGUI
         
                 $mailData['m_message'] .= $_POST["additional_message_text"] . chr(13) . chr(10) . $this->umail->appendSignature();
                 $_POST["additional_message_text"] = "";
-                $_SESSION['mail_roles'] = "";
+                $_SESSION['mail_roles'] = [];
                 break;
         
             case 'address':
@@ -777,7 +777,7 @@ class ilMailFormGUI
         $quoted = str_replace('_', '\_', $quoted);
 
         $mailFormObj = new ilMailForm;
-        $result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
+        $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
 
         echo json_encode($result);
         exit;

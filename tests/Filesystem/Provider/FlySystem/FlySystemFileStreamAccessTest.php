@@ -48,7 +48,7 @@ class FlySystemFileStreamAccessTest extends TestCase
     {
         parent::setUp();
 
-        $this->filesystemMock =\Mockery::mock(FilesystemInterface::class);
+        $this->filesystemMock = \Mockery::mock(FilesystemInterface::class);
         $this->subject = new FlySystemFileStreamAccess($this->filesystemMock);
     }
 

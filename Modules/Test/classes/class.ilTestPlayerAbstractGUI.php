@@ -553,14 +553,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->testSession->setLastFinishedPass($this->testSession->getPass());
         $this->testSession->increaseTestPass();
-        
-        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
+
+        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
         $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
-        $this->tpl->setCurrentBlock("HeadContent");
-        $this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $url . "\">");
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->setVariable("URL", $url);
     }
     
     abstract protected function getCurrentQuestionId();
@@ -662,7 +660,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected function markQuestionCmd()
     {
-        $questionId  = $this->testSequence->getQuestionForSequence(
+        $questionId = $this->testSequence->getQuestionForSequence(
             $this->getCurrentSequenceElement()
         );
         
@@ -684,7 +682,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected function unmarkQuestionCmd()
     {
-        $questionId  = $this->testSequence->getQuestionForSequence(
+        $questionId = $this->testSequence->getQuestionForSequence(
             $this->getCurrentSequenceElement()
         );
 
@@ -832,7 +830,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         // redirect after test
         $redirection_mode = $this->object->getRedirectionMode();
-        $redirection_url  = $this->object->getRedirectionUrl();
+        $redirection_url = $this->object->getRedirectionUrl();
         if ($redirection_url && $redirection_mode) {
             if ($redirection_mode == REDIRECT_KIOSK) {
                 if ($this->object->getKioskMode()) {
@@ -930,7 +928,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $inst_id = $ilSetting->get('inst_id', null);
         $archiver = new ilTestArchiver($this->object->getId());
 
-        $path =  ilUtil::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
+        $path = ilUtil::getWebspaceDir() . '/assessment/' . $this->object->getId() . '/exam_pdf';
         if (!is_dir($path)) {
             ilUtil::makeDirParents($path);
         }
@@ -1336,14 +1334,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         // check if user is invited to participate
         $user = $this->object->getInvitedUsers($ilUser->getId());
-        if (!is_array($user) || count($user)!=1) {
+        if (!is_array($user) || count($user) != 1) {
             ilUtil::sendInfo($this->lng->txt("user_not_invited"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
         }
             
         $user = array_pop($user);
         // check if client ip is set and if current remote addr is equal to stored client-ip
-        if (strcmp($user["clientip"], "")!=0 && strcmp($user["clientip"], $_SERVER["REMOTE_ADDR"])!=0) {
+        if (strcmp($user["clientip"], "") != 0 && strcmp($user["clientip"], $_SERVER["REMOTE_ADDR"]) != 0) {
             ilUtil::sendInfo($this->lng->txt("user_wrong_clientip"), true);
             $this->ctrl->redirectByClass("ilobjtestgui", "backToRepository");
         }
@@ -1356,9 +1354,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function isTestAccessible()
     {
         return 	!$this->isNrOfTriesReached()
-                and	 !$this->isMaxProcessingTimeReached()
-                and  $this->object->startingTimeReached()
-                and  !$this->object->endingTimeReached();
+                and !$this->isMaxProcessingTimeReached()
+                and $this->object->startingTimeReached()
+                and !$this->object->endingTimeReached();
     }
 
     /**
@@ -1476,7 +1474,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("STRING_TIMELEFT", $this->lng->txt("tst_time_already_spent_left"));
         $template->setVariable("AND", strtolower($this->lng->txt("and")));
         $template->setVariable("YEAR", $date["year"]);
-        $template->setVariable("MONTH", $date["mon"]-1);
+        $template->setVariable("MONTH", $date["mon"] - 1);
         $template->setVariable("DAY", $date["mday"]);
         $template->setVariable("HOUR", $date["hours"]);
         $template->setVariable("MINUTE", $date["minutes"]);
@@ -1485,14 +1483,14 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $date_time = new ilDateTime($this->object->getEndingTime(), IL_CAL_UNIX);
             preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date_time->get(IL_CAL_TIMESTAMP), $matches);
             $template->setVariable("ENDYEAR", $matches[1]);
-            $template->setVariable("ENDMONTH", $matches[2]-1);
+            $template->setVariable("ENDMONTH", $matches[2] - 1);
             $template->setVariable("ENDDAY", $matches[3]);
             $template->setVariable("ENDHOUR", $matches[4]);
             $template->setVariable("ENDMINUTE", $matches[5]);
             $template->setVariable("ENDSECOND", $matches[6]);
         }
         $template->setVariable("YEARNOW", $datenow["year"]);
-        $template->setVariable("MONTHNOW", $datenow["mon"]-1);
+        $template->setVariable("MONTHNOW", $datenow["mon"] - 1);
         $template->setVariable("DAYNOW", $datenow["mday"]);
         $template->setVariable("HOURNOW", $datenow["hours"]);
         $template->setVariable("MINUTENOW", $datenow["minutes"]);
@@ -1662,7 +1660,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_finish_list_of_answers.html", "Modules/Test");
 
-        $result_array =&$this->object->getTestResult(
+        $result_array = &$this->object->getTestResult(
             $active_id,
             $pass,
             false,
@@ -1714,7 +1712,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("SIGNATURE", $signature);
         $this->tpl->setVariable("TITLE", $this->object->getTitle());
         $this->tpl->setVariable("TXT_TEST_PROLOG", $this->lng->txt("tst_your_answers"));
-        $invited_user =&$this->object->getInvitedUsers($ilUser->getId());
+        $invited_user = &$this->object->getInvitedUsers($ilUser->getId());
         $pagetitle = $this->object->getTitle() . " - " . $this->lng->txt("clientip") .
             ": " . $invited_user[$ilUser->getId()]["clientip"] . " - " .
             $this->lng->txt("matriculation") . ": " .
@@ -2660,9 +2658,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $tpl = new ilTemplate('tpl.tst_player_confirmation_modal.html', true, true, 'Modules/Test');
 
         if ($this->object->isInstantFeedbackAnswerFixationEnabled() && $this->object->isForceInstantFeedbackEnabled()) {
-            $text =  $this->lng->txt('save_on_navigation_locked_confirmation');
+            $text = $this->lng->txt('save_on_navigation_locked_confirmation');
         } else {
-            $text =  $this->lng->txt('save_on_navigation_confirmation');
+            $text = $this->lng->txt('save_on_navigation_confirmation');
         }
         if ($this->object->isForceInstantFeedbackEnabled()) {
             $text .= " " . $this->lng->txt('save_on_navigation_forced_feedback_hint');

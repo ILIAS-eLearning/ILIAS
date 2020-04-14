@@ -142,8 +142,8 @@ class ilLOUtils
             $GLOBALS['DIC']['ilDB'],
             $tst,
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-                    $GLOBALS['DIC']['ilDB'],
-                    $tst
+                $GLOBALS['DIC']['ilDB'],
+                $tst
                 )
         );
                 

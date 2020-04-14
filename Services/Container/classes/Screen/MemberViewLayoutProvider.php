@@ -30,10 +30,10 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
         return $this->context_collection->repository();
     }
 
-    public static function getMemberViewModeInfo(\ILIAS\DI\Container $dic): ?Modeinfo
+    public static function getMemberViewModeInfo(\ILIAS\DI\Container $dic) : ?Modeinfo
     {
         $mv = ilMemberViewSettings::getInstance();
-        if(! $mv->isActive()) {
+        if (!$mv->isActive()) {
             return null;
         }
         $ref_id = $mv->getCurrentRefId();
@@ -57,7 +57,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
         $mv_mode_info = self::getMemberViewModeInfo($this->dic);
-        if(is_null($mv_mode_info)) {
+        if (is_null($mv_mode_info)) {
             return null;
         }
 

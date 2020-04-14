@@ -24,7 +24,7 @@
 		"monolog/monolog": "^1.23.0",
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "4.12.0",
-		"phpmailer/phpmailer": "^6.1.1",
+		"phpmailer/phpmailer": "^6.1.4",
 		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.2.26",
 		"pimple/pimple" : "^3.0",
@@ -131,10 +131,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.1.1",
+			"used_version" : "v6.1.4",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2019-11-05",
+			"last_update" : "2020-02-28",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -272,10 +272,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.16.2",
+			"used_version": "v1.18.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2018-10-24",
+			"last_update": "2020-02-14",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"

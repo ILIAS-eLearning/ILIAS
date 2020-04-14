@@ -584,7 +584,7 @@ class ilObjSurvey extends ilObject
         $question_gui = $this->getQuestionGUI($questiontype, $question_id);
 
         // check if question is a pool question at all, if not do nothing
-        if ($this->getId() == $question_gui->object->getObjId() &&  !$a_force) {
+        if ($this->getId() == $question_gui->object->getObjId() && !$a_force) {
             return $question_id;
         }
 
@@ -1255,19 +1255,19 @@ class ilObjSurvey extends ilObject
     public function saveAuthorToMetadata($a_author = "")
     {
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life =&$md->getLifecycle();
+        $md_life = &$md->getLifecycle();
         if (!$md_life) {
             if (strlen($a_author) == 0) {
                 $ilUser = $this->user;
                 $a_author = $ilUser->getFullname();
             }
             
-            $md_life =&$md->addLifecycle();
+            $md_life = &$md->addLifecycle();
             $md_life->save();
-            $con =&$md_life->addContribute();
+            $con = &$md_life->addContribute();
             $con->setRole("Author");
             $con->save();
-            $ent =&$con->addEntity();
+            $ent = &$con->addEntity();
             $ent->setEntity($a_author);
             $ent->save();
         }
@@ -1284,15 +1284,15 @@ class ilObjSurvey extends ilObject
     {
         $author = array();
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life =&$md->getLifecycle();
+        $md_life = &$md->getLifecycle();
         if ($md_life) {
-            $ids =&$md_life->getContributeIds();
+            $ids = &$md_life->getContributeIds();
             foreach ($ids as $id) {
-                $md_cont =&$md_life->getContribute($id);
+                $md_cont = &$md_life->getContribute($id);
                 if (strcmp($md_cont->getRole(), "Author") == 0) {
-                    $entids =&$md_cont->getEntityIds();
+                    $entids = &$md_cont->getEntityIds();
                     foreach ($entids as $entid) {
-                        $md_ent =&$md_cont->getEntity($entid);
+                        $md_ent = &$md_cont->getEntity($entid);
                         array_push($author, $md_ent->getEntity());
                     }
                 }
@@ -2277,7 +2277,7 @@ class ilObjSurvey extends ilObject
     public function getNextPage($active_page_question_id, $direction)
     {
         $foundpage = -1;
-        $pages =&$this->getSurveyPages();
+        $pages = &$this->getSurveyPages();
         if (strcmp($active_page_question_id, "") == 0) {
             return $pages[0];
         }
@@ -2730,8 +2730,8 @@ class ilObjSurvey extends ilObject
     protected function getParticipantTextResults($active_id)
     {
         $textresult = "";
-        $userResults =&$this->getUserSpecificResults(array($active_id));
-        $questions =&$this->getSurveyQuestions(true);
+        $userResults = &$this->getUserSpecificResults(array($active_id));
+        $questions = &$this->getSurveyQuestions(true);
         $questioncounter = 1;
         foreach ($questions as $question_id => $question_data) {
             $textresult .= $questioncounter++ . ". " . $question_data["title"] . "\n";
@@ -2971,7 +2971,7 @@ class ilObjSurvey extends ilObject
             $question->loadFromDb($question_id);
             
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($question_id, $finished_ids);
-            $q_res =  $q_eval->getResults();
+            $q_res = $q_eval->getResults();
             
             $data = array();
             foreach ($finished_ids as $user_id) {
@@ -3118,12 +3118,12 @@ class ilObjSurvey extends ilObject
             }
         }
         
-        $spls =&$this->getAvailableQuestionpools($use_obj_id = true, $could_be_offline = false, $showPath = false);
+        $spls = &$this->getAvailableQuestionpools($use_obj_id = true, $could_be_offline = false, $showPath = false);
         $forbidden = "";
         $forbidden = " AND " . $ilDB->in('svy_question.obj_fi', array_keys($spls), false, 'integer');
         $forbidden .= " AND svy_question.complete = " . $ilDB->quote("1", 'text');
         $existing = "";
-        $existing_questions =&$this->getExistingQuestions();
+        $existing_questions = &$this->getExistingQuestions();
         if (count($existing_questions)) {
             $existing = " AND " . $ilDB->in('svy_question.question_id', $existing_questions, true, 'integer');
         }
@@ -3188,7 +3188,7 @@ class ilObjSurvey extends ilObject
                 $surveytitles[$survey_id] = ilObject::_lookupTitle($survey_id);
             }
             while ($row = $ilDB->fetchAssoc($query_result)) {
-                $questions_array =&$this->getQuestionblockQuestions($row["questionblock_id"]);
+                $questions_array = &$this->getQuestionblockQuestions($row["questionblock_id"]);
                 $counter = 1;
                 foreach ($questions_array as $key => $value) {
                     $questions_array[$key] = "$counter. $value";
@@ -3269,7 +3269,7 @@ class ilObjSurvey extends ilObject
         $a_xml_writer->xmlEndTag("restrictions");
         
         // constraints
-        $pages =&$this->getSurveyPages();
+        $pages = &$this->getSurveyPages();
         $hasconstraints = false;
         foreach ($pages as $question_array) {
             foreach ($question_array as $question) {
@@ -3426,7 +3426,7 @@ class ilObjSurvey extends ilObject
         }
 
         foreach ($files as $file) {
-            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file!="..")) {
+            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file != "..")) {
                 // found directory created by zip
                 $importDirectory = $a_dir . "/" . $file;
             }
@@ -3441,7 +3441,7 @@ class ilObjSurvey extends ilObject
             }
             foreach ($files as $file) {
                 if (@is_file($importDirectory . "/" . $file) &&
-                    ($file != "." && $file!="..") &&
+                    ($file != "." && $file != "..") &&
                     (preg_match("/^[0-9]{10}__[0-9]+__(svy_)*[0-9]+\.[A-Za-z]{1,3}$/", $file) ||
                         preg_match("/^[0-9]{10}__[0-9]+__(survey__)*[0-9]+\.[A-Za-z]{1,3}$/", $file))) {
                     // found xml file
@@ -4175,9 +4175,7 @@ class ilObjSurvey extends ilObject
         $check_finished = ($not_sent > 1);
         
 
-        #19956
-        $user_id = $DIC->user()->getId();
-        $mail = new ilMail($user_id);
+        $mail = new ilMail(ANONYMOUS_USER_ID);
         $recipients = $this->getExternalCodeRecipients($check_finished);
         foreach ($recipients as $data) {
             if ($data['email'] && $data['code']) {
@@ -4359,8 +4357,8 @@ class ilObjSurvey extends ilObject
         $codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         mt_srand();
         $code = "";
-        for ($i = 1; $i <=5; $i++) {
-            $index = mt_rand(0, strlen($codestring)-1);
+        for ($i = 1; $i <= 5; $i++) {
+            $index = mt_rand(0, strlen($codestring) - 1);
             $code .= substr($codestring, $index, 1);
         }
         // verify it against the database
@@ -4493,8 +4491,8 @@ class ilObjSurvey extends ilObject
     {
         if (extension_loaded("tidy")) {
             $config = array(
-                "indent"         => false,
-                "output-xml"     => true,
+                "indent" => false,
+                "output-xml" => true,
                 "numeric-entities" => true
             );
             $tidy = new tidy();
@@ -4601,14 +4599,14 @@ class ilObjSurvey extends ilObject
     {
         $ilDB = $this->db;
 
-        if (!is_array($ids) || count($ids) ==0) {
+        if (!is_array($ids) || count($ids) == 0) {
             return array();
         }
 
         $result = $ilDB->query("SELECT usr_id, login, lastname, firstname FROM usr_data WHERE " . $ilDB->in('usr_id', $ids, false, 'integer') . " ORDER BY login");
         $result_array = array();
         while ($row = $ilDB->fetchAssoc($result)) {
-            $result_array[$row["usr_id"]]= $row;
+            $result_array[$row["usr_id"]] = $row;
         }
         return $result_array;
     }
@@ -4648,7 +4646,7 @@ class ilObjSurvey extends ilObject
         $ilDB = $this->db;
         $time = time();
         //primary for table svy_times
-        $id =  $ilDB->nextId('svy_times');
+        $id = $ilDB->nextId('svy_times');
         $_SESSION['svy_entered_page'] = $time;
         $affectedRows = $ilDB->manipulateF(
             "INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s,%s)",
@@ -5307,7 +5305,7 @@ class ilObjSurvey extends ilObject
                 "finished" => (bool) $row["state"]);
         }
         
-        return array("code"=>$a_code, "runs"=>$res);
+        return array("code" => $a_code, "runs" => $res);
     }
     
     public function findCodeForUser($a_user_id)
@@ -5833,7 +5831,7 @@ class ilObjSurvey extends ilObject
 
         // check frequency
         $cut = new ilDate($today, IL_CAL_DATE);
-        $cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
+        $cut->increment(IL_CAL_DAY, $this->getReminderFrequency() * -1);
         if (!$this->getReminderLastSent() ||
             $cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10)) {
             $missing_ids = array();

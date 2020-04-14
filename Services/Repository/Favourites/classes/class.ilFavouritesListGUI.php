@@ -59,7 +59,7 @@ class ilFavouritesListGUI
             $items = [];
             foreach ($group->getItems() as $item) {
                 $items[] = $f->item()->standard(
-                    $f->button()->shy($item["title"], ilLink::_getLink($item["ref_id"]))
+                    $f->link()->standard($item["title"], ilLink::_getLink($item["ref_id"]))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
@@ -73,9 +73,10 @@ class ilFavouritesListGUI
         $panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard(
             $this->lng->txt("rep_configure"),
             $ctrl->getLinkTargetByClass(
-            ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-            "manage"
-        ))]));
+                ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
+                "manage"
+        )
+        )]));
         return $this->ui->renderer()->render([$panel]);
     }
 }

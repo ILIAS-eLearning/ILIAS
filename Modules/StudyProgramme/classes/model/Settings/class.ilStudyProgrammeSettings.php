@@ -257,22 +257,6 @@ class ilStudyProgrammeSettings
         return $clone;
     }
 
-    /**
-     * Choose whether the corresponding prg feature access is governed by positions.
-     */
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
-    {
-        $this->access_ctrl_positions = $access_ctrl_positions;
-    }
-
-    /**
-     * Is the corresponding prg feature access governed by positions?
-     */
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->access_ctrl_positions;
-    }
-
     public function validationExpires() : bool
     {
         return !is_null($this->getValidityOfQualificationSettings()->getQualificationDate()) ||

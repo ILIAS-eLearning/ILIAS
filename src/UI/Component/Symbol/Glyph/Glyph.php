@@ -24,7 +24,6 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
     const NEXT = "next";
     const SORT_ASCENDING = "sortAscending";
     const SORT_DESCENDING = "sortDescending";
-    const SORT = "sort";
     const USER = "user";
     const MAIL = "mail";
     const NOTIFICATION = "notification";

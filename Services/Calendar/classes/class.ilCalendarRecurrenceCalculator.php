@@ -597,13 +597,13 @@ class ilCalendarRecurrenceCalculator
             }
             foreach ($this->recurrence->getBYDAYList() as $byday) {
                 $year_day = array();
-                $day =  strtoupper(substr($byday, -2));
+                $day = strtoupper(substr($byday, -2));
                 $num_by_day = (int) $byday;
                 
                 if ($num_by_day) {
                     if ($num_by_day > 0) {
                         if (isset($day_sequence[$day][$num_by_day - 1])) {
-                            $year_day =  array($day_sequence[$day][$num_by_day - 1]);
+                            $year_day = array($day_sequence[$day][$num_by_day - 1]);
                         }
                     } else {
                         if (isset($day_sequence[$day][count($day_sequence[$day]) + $num_by_day])) {
@@ -653,7 +653,7 @@ class ilCalendarRecurrenceCalculator
             next($days);
         }
         
-        $num_days =  ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
+        $num_days = ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
         for ($i = 0;$i < $num_days;$i++) {
             if (($current_day = current($days)) == false) {
                 $current_day = reset($days);

@@ -465,7 +465,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     
                     $counter = 0;
                     foreach (array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $month) {
-                        for ($loop = 1; $loop<32; $loop++) {
+                        for ($loop = 1; $loop < 32; $loop++) {
                             $item_day = $month . "-" . str_pad($loop, 2, "0", STR_PAD_LEFT);
                             foreach (array_keys($custom_order) as $status) {
                                 if (isset($days[$item_day])) {
@@ -483,7 +483,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                     }
                 } else {
                     $x_axis = $this->lng->txt("day");
-                    for ($loop = 1; $loop<32; $loop++) {
+                    for ($loop = 1; $loop < 32; $loop++) {
                         foreach (array_keys($custom_order) as $status) {
                             if (isset($days[$loop])) {
                                 // as there is only 1 entry per day, avg == sum
@@ -514,7 +514,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 $counter += 31;
             }
         } else {
-            for ($loop = 1; $loop<32; $loop++) {
+            for ($loop = 1; $loop < 32; $loop++) {
                 $labels[$loop] = $loop . ".";
             }
         }

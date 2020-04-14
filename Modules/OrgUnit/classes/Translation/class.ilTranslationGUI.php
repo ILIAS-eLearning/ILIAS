@@ -87,9 +87,9 @@ class ilTranslationGUI
             $vals = array();
             foreach ($_POST["title"] as $k => $v) {
                 $vals[] = array(
-                    "title"   => $v,
-                    "desc"    => $_POST["desc"][$k],
-                    "lang"    => $_POST["lang"][$k],
+                    "title" => $v,
+                    "desc" => $_POST["desc"][$k],
+                    "lang" => $_POST["lang"][$k],
                     "default" => ($_POST["default"] == $k),
                 );
             }

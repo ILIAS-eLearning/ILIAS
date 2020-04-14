@@ -22,7 +22,7 @@ function base()
         return $s;
     });
     $equal_ten = $refinery->custom()->constraint(function ($v) {
-        return $v==10;
+        return $v == 10;
     }, "The sum must equal ten");
 
     //Step 2: Define inputs

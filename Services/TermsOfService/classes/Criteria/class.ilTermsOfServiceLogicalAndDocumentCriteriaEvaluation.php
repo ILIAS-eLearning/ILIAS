@@ -28,8 +28,8 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         ilLogger $log
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->user                 = $user;
-        $this->log                  = $log;
+        $this->user = $user;
+        $this->log = $log;
     }
 
     /**

@@ -165,7 +165,7 @@ class ilAdvancedMDValues
     {
         include_once "Services/ADT/classes/class.ilADTFactory.php";
         ilADTFactory::initActiveRecordByType();
-        return ilADTActiveRecordByType::readByPrimary("adv_md_values", array("obj_id"=>array("integer", $a_obj_id)));
+        return ilADTActiveRecordByType::readByPrimary("adv_md_values", array("obj_id" => array("integer", $a_obj_id)));
     }
     
         
@@ -232,7 +232,7 @@ class ilAdvancedMDValues
         ilADTFactory::getInstance()->initActiveRecordByType();
         ilADTActiveRecordByType::deleteByPrimary(
             "adv_md_values",
-            array("field_id"=>array("integer", $a_field_id)),
+            array("field_id" => array("integer", $a_field_id)),
             $a_adt->getType()
         );
     }
@@ -247,7 +247,7 @@ class ilAdvancedMDValues
         ilADTFactory::getInstance()->initActiveRecordByType();
         ilADTActiveRecordByType::deleteByPrimary(
             "adv_md_values",
-            array("obj_id"=>array("integer", $a_obj_id))
+            array("obj_id" => array("integer", $a_obj_id))
         );
     }
     
@@ -272,7 +272,7 @@ class ilAdvancedMDValues
         ilADTFactory::getInstance()->initActiveRecordByType();
         ilADTActiveRecordByType::preloadByPrimary(
             "adv_md_values",
-            array("obj_id"=>array("integer", $a_obj_ids))
+            array("obj_id" => array("integer", $a_obj_ids))
         );
         
         
@@ -335,7 +335,7 @@ class ilAdvancedMDValues
      * @param int source sub_id
      * @param int target sub_id
      */
-    public static function _cloneValues($a_source_id, $a_target_id, $a_sub_type = null, $a_source_sub_id = null, $a_target_sub_id=null)
+    public static function _cloneValues($a_source_id, $a_target_id, $a_sub_type = null, $a_source_sub_id = null, $a_target_sub_id = null)
     {
         global $DIC;
 
@@ -377,8 +377,8 @@ class ilAdvancedMDValues
 
         // clone values
         
-        $source_primary = array("obj_id"=>array("integer", $a_source_id));
-        $target_primary = array("obj_id"=>array("integer", $a_target_id));
+        $source_primary = array("obj_id" => array("integer", $a_source_id));
+        $target_primary = array("obj_id" => array("integer", $a_target_id));
         
         // sub-type support
         if ($a_sub_type &&
@@ -401,7 +401,7 @@ class ilAdvancedMDValues
             ),
             $source_primary,
             $target_primary,
-            array("disabled"=>"integer")
+            array("disabled" => "integer")
         );
         
         
@@ -418,9 +418,9 @@ class ilAdvancedMDValues
 
                     // create entry for new id
                     $fix_source_primary = $source_primary;
-                    $fix_source_primary["field_id"] =  array("integer", $source_field_id);
+                    $fix_source_primary["field_id"] = array("integer", $source_field_id);
                     $fix_target_primary = $target_primary;
-                    $fix_target_primary["field_id"] =  array("integer", $target_field_id);
+                    $fix_target_primary["field_id"] = array("integer", $target_field_id);
                     ilADTActiveRecordByType::cloneByPrimary(
                         "adv_md_values",
                         array(
@@ -431,7 +431,7 @@ class ilAdvancedMDValues
                         ),
                         $fix_source_primary,
                         $fix_target_primary,
-                        array("disabled"=>"integer")
+                        array("disabled" => "integer")
                     );
                 }
             }

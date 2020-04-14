@@ -111,7 +111,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                     if ($mode == ilObjSurvey::MODE_360) {
                         $props[] = array("alert" => false, "property" => $lng->txt("type"),
                                          "value" => $lng->txt("survey_360_mode"), 'propertyNameVisible' => true);
-                    } else if ($mode == ilObjSurvey::MODE_SELF_EVAL) {
+                    } elseif ($mode == ilObjSurvey::MODE_SELF_EVAL) {
                         $props[] = array("alert" => false, "property" => $lng->txt("type"),
                                          "value" => $lng->txt("survey_360_self_evaluation"), 'propertyNameVisible' => true);
                     } else {

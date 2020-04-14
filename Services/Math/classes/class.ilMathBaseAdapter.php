@@ -65,16 +65,16 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             return $number;
         }
 
-        $number      = str_replace(' ', '', $number);
-        $number      = $this->exp2dec($number);
+        $number = str_replace(' ', '', $number);
+        $number = $this->exp2dec($number);
         $locale_info = localeconv();
 
         if ($locale_info['decimal_point'] != '.') {
-            $append             = '';
+            $append = '';
             $number_of_decimals = (int) ini_get('precision') - (int) floor(log10(abs($number)));
             if (0 > $number_of_decimals) {
-                $number            *= pow(10, $number_of_decimals);
-                $append             = str_repeat('0', -$number_of_decimals);
+                $number *= pow(10, $number_of_decimals);
+                $append = str_repeat('0', -$number_of_decimals);
                 $number_of_decimals = 0;
             }
 
@@ -100,7 +100,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
         // if there is an E in the float string
         if (($pos = strpos(strtolower($float_str), 'e')) !== false) {
             // get either side of the E, e.g. 1.6E+6 => exp E+6, num 1.6
-            $exp = substr($float_str, $pos+1);
+            $exp = substr($float_str, $pos + 1);
             $num = substr($float_str, 0, $pos);
 
             // strip off num sign, if there is one, and leave it off if its + (not required)
@@ -121,7 +121,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             }
 
             // get the number of decimal places to the right of the decimal point (or 0 if there is no dec point), e.g., 1.6 => 1
-            $right_dec_places = (($dec_pos = strpos($num, '.')) === false) ? 0 : strlen(substr($num, $dec_pos+1));
+            $right_dec_places = (($dec_pos = strpos($num, '.')) === false) ? 0 : strlen(substr($num, $dec_pos + 1));
             // get the number of decimal places to the left of the decimal point (or the length of the entire num if there is no dec point), e.g. 1.6 => 1
             $left_dec_places = ($dec_pos === false) ? strlen($num) : strlen(substr($num, 0, $dec_pos));
 

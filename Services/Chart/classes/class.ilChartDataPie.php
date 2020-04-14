@@ -79,7 +79,7 @@ class ilChartDataPie extends ilChartData
             
             $series->data = $slice[0];
 
-            $options = array("show"=>($this->isHidden() ? false : true));
+            $options = array("show" => ($this->isHidden() ? false : true));
             
             $series->{$this->getTypeString()} = $options;
 

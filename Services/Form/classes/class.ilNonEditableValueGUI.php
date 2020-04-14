@@ -150,7 +150,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         $tpl->setVariable("ID", $this->getFieldId());
         $tpl->parseCurrentBlock();
         
-        if ($this->getMulti() && $postvar!= "" && !$this->getDisabled()) {
+        if ($this->getMulti() && $postvar != "" && !$this->getDisabled()) {
             $tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
         }
 

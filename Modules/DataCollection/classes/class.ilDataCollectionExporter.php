@@ -38,11 +38,11 @@ class ilDataCollectionExporter extends ilXmlExporter
     {
         return array(
             '4.5.0' => array(
-                'namespace'    => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
+                'namespace' => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
                 'xsd_file" => "ilias_dcl_4_5.xsd',
                 'uses_dataset' => true,
-                'min'          => '4.5.0',
-                'max'          => '',
+                'min' => '4.5.0',
+                'max' => '',
             ),
         );
     }
@@ -72,13 +72,13 @@ class ilDataCollectionExporter extends ilXmlExporter
         $dependencies = array(
             ilDclDatatype::INPUTFORMAT_FILE => array(
                 'component' => 'Modules/File',
-                'entity'    => 'file',
-                'ids'       => array(),
+                'entity' => 'file',
+                'ids' => array(),
             ),
-            ilDclDatatype::INPUTFORMAT_MOB  => array(
+            ilDclDatatype::INPUTFORMAT_MOB => array(
                 'component' => 'Services/MediaObjects',
-                'entity'    => 'mob',
-                'ids'       => array(),
+                'entity' => 'mob',
+                'ids' => array(),
             ),
         );
 
@@ -132,8 +132,8 @@ class ilDataCollectionExporter extends ilXmlExporter
             return array(
                 array(
                     'component' => 'Services/COPage',
-                    'entity'    => 'pg',
-                    'ids'       => $page_object_ids,
+                    'entity' => 'pg',
+                    'ids' => $page_object_ids,
                 ),
             );
         }
