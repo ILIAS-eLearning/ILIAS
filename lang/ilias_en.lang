@@ -15981,9 +15981,9 @@ prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
 prg#:#prg_title#:#Title
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
 prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
 prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
 prg#:#prg_processing_ends_no_success#:#Reminder mail failing
@@ -16113,3 +16113,7 @@ mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
 mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
 mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
 mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
+prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
