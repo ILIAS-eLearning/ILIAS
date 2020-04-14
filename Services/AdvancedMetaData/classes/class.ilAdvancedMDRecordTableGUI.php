@@ -60,7 +60,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
      * @param $a_field
      * @return bool
      */
-    public function numericOrdering(string $a_field)
+    public function numericOrdering($a_field)
     {
         if ($a_field == 'position') {
             return true;
