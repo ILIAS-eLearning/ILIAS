@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
-class Presentation implements T\Presentation
+class Presentation extends Table implements T\Presentation
 {
     use ComponentHelper;
     use HasViewControls;
@@ -17,11 +17,6 @@ class Presentation implements T\Presentation
      * @var SignalGeneratorInterface
      */
     protected $signal_generator;
-
-    /**
-     * @var	string
-     */
-    private $title;
     
     /**
      * @var \Closure
@@ -55,26 +50,6 @@ class Presentation implements T\Presentation
     public function getSignalGenerator()
     {
         return $this->signal_generator;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withTitle($title)
-    {
-        $this->checkStringArg("string", $title);
-        $clone = clone $this;
-        $clone->title = $title;
-        ;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     /**

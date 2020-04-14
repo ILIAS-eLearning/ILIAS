@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 2017 Nils Haagen <nhaageng@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2017 Nils Haagen <nhaagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Table;
 
@@ -91,5 +91,91 @@ interface Factory
      * UI examples.
      *
      */
-    public function presentation($title, array $view_controls, \Closure $row_mapping);
+    public function presentation(string $title, array $view_controls, \Closure $row_mapping) : Presentation;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The data table lists records in a complete and clear manner; the fields
+     *       of a record are always of the same nature as their counterparts in all other
+     *       records, i.e. a column has a dedicated shape.
+     *       Each record is mapped to one row, while the number of visible columns is
+     *       identical for each row.
+     *
+     *   composition: >
+     *       The Data Table consists of a title, a View Control Container for (and with)
+     *       View Controls and the table-body itself.
+     *       The Table brings some ViewControls with it: The assumption is that the exploration
+     *       of every Data Table will benefit from pagination, sortation and column selection.
+     *       Records are beeing applied to Columns to build the actual cells.
+     *
+     *   effect: >
+     *       The ordering among the records in the table, the visibility of columns as well as
+     *       the number of simultaneously displayed rows are controlled by the Table's View Controls.
+     *       Operating the order-glyphs in the column title will change the records' order.
+     *
+     *   rivals:
+     *     Presentation Table: >
+     *       There is a weighting in the prominence of fields in the Presentation Table;
+     *       Aside from maybe the column' order - left to right, not sortation of rows - all
+     *       fields are displayed with equal emphasis (or rather, the lack of it).
+     *     Listing Panel: >
+     *       Listing Panels list items, where an item is a unique entity
+     *       in the system, i.e. an identifyable, persistently stored object. This is
+     *       not necessarily the case for Tables, where records can be composed
+     *       of any data from any source in the system.
+     *
+     * rules:
+     *   usage:
+     *       1: >
+     *         Tables MUST NOT be used to merely arrange elements visually;
+     *         displayed records MUST have a certain consistency of content.
+     *       2: Rows in the table MUST be of the same structure.
+     *       3: Rows in the table MUST be of the same structure.
+     *       4: >
+     *         Tables MUST NOT have more than one View Control of a kind,
+     *         e.g. a second pagination would be forbidden.
+     *   interaction:
+     *       1: View Controls used here MUST only affect the table itself.
+     *
+     * ---
+     * @param string     $title
+     * @return \ILIAS\UI\Component\Table\Data
+     */
+    public function data(string $title) : Data;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       Tables display data in a very structured way; columns are essential
+     *       in that matter, for they define the nature of one field (aspect) of
+     *       the data record.
+     *
+     *   composition: >
+     *       Colums consist of a title and data-cells. Next to the title, according to config,
+     *       a Glyph will indicate the ability to sort as well as the current direction.
+     *
+     *   effect: >
+     *       Operating the order-glyphs in the column title will change the records' order.
+     *
+     * context:
+     *   Colums are used with Tables.
+     *
+     * rules:
+     *   usage:
+     *       1: Columns MUST be used in a Table.
+     *       2: Columns MUST have a title.
+     *
+     *   interaction
+     *       1: Columns optionally MAY be displayed or hidden.
+     *       2: Tables MAY be sortable by the data's field associated with the column.
+     *
+     * ---
+     * @param string     $title
+     * @return \ILIAS\UI\Component\Table\Column\Factory
+     */
+    public function column() : Column\Factory;
 }
