@@ -85,3 +85,12 @@ while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
 	$ilDB->manipulate($query);
 }
 ?>
+<#10>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text')
+);
+?>
