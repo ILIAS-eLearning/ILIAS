@@ -884,7 +884,7 @@ class ilAdvancedMDRecord
             $this->setTitle($row->title);
             $this->setDescription($row->description);
             $this->setParentObject($row->parent_obj);
-            $this->setGlobalPosition((int) $row->rpos);
+            $this->setGlobalPosition((int) $row->gpos);
         }
         $query = "SELECT * FROM adv_md_record_objs " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
@@ -990,7 +990,7 @@ class ilAdvancedMDRecord
             $r = "SELECT * FROM adv_md_obj_rec_select " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND sub_type = " . $ilDB->quote($a_sub_type, "text")
-        );
+            );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $recs[] = $rec["rec_id"];
         }
