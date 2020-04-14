@@ -4298,9 +4298,9 @@ ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
 <#5664>
 <?php
 $ilDB->manipulate(
-    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text')
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text')
 );
 $ilDB->manipulate(
-    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text')
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
 );
 ?>
