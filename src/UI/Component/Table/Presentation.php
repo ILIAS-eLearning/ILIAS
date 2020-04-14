@@ -8,24 +8,8 @@ use ILIAS\UI\Component\ViewControl\HasViewControls;
 /**
  * This describes a Presentation Table
  */
-interface Presentation extends \ILIAS\UI\Component\Component, HasViewControls
+interface Presentation extends Table, HasViewControls
 {
-
-    /**
-     * Get a table like this with title $title.
-     *
-     * @param string 	$title
-     * @return \Presentation
-     */
-    public function withTitle($title);
-
-    /**
-     * Get the title of the table.
-     *
-     * @return string
-     */
-    public function getTitle();
-
     /**
      * Get a table like this with the closure $row_mapping.
      * This closure is called by the renderer upon building a row from
