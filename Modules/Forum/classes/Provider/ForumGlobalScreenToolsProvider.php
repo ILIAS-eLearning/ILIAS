@@ -38,6 +38,17 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
         $queryParams = $this->dic->http()->request()->getQueryParams();
         $refId = (int) ($queryParams['ref_id'] ?? 0);
         $threadId = (int) ($queryParams['thr_pk'] ?? 0);
+        $target = (string) ($queryParams['target'] ?? '');
+
+        if (strlen($target) > 0 && count($targetParts = explode('_', $target)) >= 3) {
+            if (0 === $refId) {
+                $refId = $targetParts[1];
+            }
+
+            if (0 === $threadId) {
+                $threadId = $targetParts[2];
+            }
+        }
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
         if ($additional_data->exists(self::SHOW_FORUM_THREADS_TOOL) && $additional_data->get(self::SHOW_FORUM_THREADS_TOOL) === true) {
