@@ -81,7 +81,7 @@ class ilObjStudyProgrammeMembersGUI
         ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
         ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
-        ilStudyProgrammePostionBasedAccess $position_based_access
+        ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;

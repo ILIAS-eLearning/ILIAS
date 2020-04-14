@@ -96,7 +96,7 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeUserAssignmentDB'],
                 $dic['ilStudyProgrammeRepositorySearchGUI'],
                 $dic['ilObjStudyProgrammeIndividualPlanGUI'],
-                $dic['ilStudyProgrammePostionBasedAccess']
+                $dic['ilStudyProgrammePositionBasedAccess']
             );
         };
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function ($dic) use ($DIC) {
@@ -206,8 +206,8 @@ class ilStudyProgrammeDIC
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };
-        $dic['ilStudyProgrammePostionBasedAccess'] = function ($dic) {
-            return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
+        $dic['ilStudyProgrammePositionBasedAccess'] = function ($dic) {
+            return new ilStudyProgrammePositionBasedAccess(new ilOrgUnitPositionAccess());
         };
         $dic['ilStudyProgrammeMailMemberSearchGUI'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeMailMemberSearchGUI(
