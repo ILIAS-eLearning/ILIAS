@@ -599,12 +599,18 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                                    );
         }
 
-        if ($this->checkAccess("manage_members")) {
+        if (
+            $this->checkAccess("manage_members") ||
+            $this->ilAccess->checkPositionAccess(
+                ilOrgUnitOperation::OP_VIEW_MEMBERS,
+                (int)$this->object->getRefId()
+            )
+        ) {
             $this->tabs_gui->addTab(
                 self::TAB_MEMBERS,
                 $this->lng->txt("members"),
                 $this->getLinkTarget("members")
-                       );
+            );
         }
         parent::getTabs();
     }
