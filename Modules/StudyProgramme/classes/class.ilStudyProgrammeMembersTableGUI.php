@@ -79,7 +79,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $parent_cmd = '',
         string $template_context = '',
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammePostionBasedAccess $position_based_access
+        ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->setId("sp_member_list");
         parent::__construct($parent_obj, $parent_cmd, $template_context);
