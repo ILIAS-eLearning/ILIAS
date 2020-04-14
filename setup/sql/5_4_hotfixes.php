@@ -1310,3 +1310,12 @@ while ($rec = $ilDB->fetchAssoc($set)) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#88>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text')
+);
+?>
