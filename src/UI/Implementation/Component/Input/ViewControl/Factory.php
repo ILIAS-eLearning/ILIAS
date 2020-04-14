@@ -4,18 +4,18 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
-use ILIAS\UI\Component\Input\ViewControl as Interface;
+use ILIAS\UI\Component\Input\ViewControl as VCInterface;
 
 /**
  * Factory for View Controls
  */
-class Factory implements ViewControl\Factory
+class Factory implements VCInterface\Factory
 {
-	public function fieldSelection(
-		array $options,
-		string $label = Interface\FieldSelection::DEFAULT_DROPDOWN_LABEL,
-		string $button_label = Interface\FieldSelection::DEFAULT_BUTTON_LABEL
-	): Interface\FieldSelection {
-		throw new \ILIAS\UI\NotImplementedException();
-	}
+    public function fieldSelection(
+        array $options,
+        string $label = VCInterface\FieldSelection::DEFAULT_DROPDOWN_LABEL,
+        string $button_label = VCInterface\FieldSelection::DEFAULT_BUTTON_LABEL
+    ) : VCInterface\FieldSelection {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
