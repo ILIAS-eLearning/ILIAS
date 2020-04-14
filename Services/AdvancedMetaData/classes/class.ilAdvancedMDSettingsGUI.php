@@ -559,6 +559,8 @@ class ilAdvancedMDSettingsGUI
             $sorted_positions[$record_id] = $i++;
         }
 
+        $this->logger->dump($sorted_positions);
+
         $selected_global = array();
         foreach ($this->getParsedRecordObjects() as $item) {
             $perm = $this->getPermissions()->hasPermissions(
