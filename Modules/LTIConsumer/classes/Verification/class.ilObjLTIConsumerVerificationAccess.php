@@ -23,7 +23,7 @@ class ilObjLTIConsumerVerificationAccess extends ilObjectAccess
     
     public static function _checkGoto($a_target)
     {
-        global $ilAccess;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $t_arr = explode("_", $a_target);
         
@@ -34,7 +34,7 @@ class ilObjLTIConsumerVerificationAccess extends ilObjectAccess
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
         
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($DIC->access()->checkAccess("read", "", $t_arr[1])) {
             return true;
         }
         return false;

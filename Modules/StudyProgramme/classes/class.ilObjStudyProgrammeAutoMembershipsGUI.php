@@ -33,6 +33,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     const CMD_NEXT_STEP = 'nextStep';
     const CMD_ENABLE = 'enable';
     const CMD_DISABLE = 'disable';
+    const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
     private static $switch_to_ref_id = [
         ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
@@ -126,12 +127,15 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case self::CMD_DISABLE:
             case self::CMD_GET_ASYNC_MODAL_OUTPUT:
             case self::CMD_NEXT_STEP:
+            case self::CMD_SAVE:
                 $this->$cmd();
                 break;
-            case self::CMD_SAVE:
             case self::CMD_ENABLE:
                 $this->$cmd();
                 $this->ctrl->redirect($this, self::CMD_VIEW);
+                break;
+            case self::CMD_PROFILE_NOT_PUBLIC:
+                $this->view(true);
                 break;
             default:
                 throw new ilException(
@@ -717,7 +721,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $url = ilLink::_getStaticLink($usr_id, 'usr');
 
         if (!$usr->hasPublicProfile()) {
-            $url = $this->ctrl->getLinkTarget($this, 'profile_not_public');
+            $url = $this->ctrl->getLinkTarget($this, self::CMD_PROFILE_NOT_PUBLIC);
         }
         return $this->ui_factory->link()->standard($editor, $url);
     }

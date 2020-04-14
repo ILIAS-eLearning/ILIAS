@@ -97,9 +97,9 @@ class ilLTIConsumerLPStatus extends ilLPStatus
      */
     protected static function raiseEventStatic($a_obj_id, $a_usr_id, $a_status, $a_percentage)
     {
-        global $ilAppEventHandler;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
+        $DIC->event()->raise("Services/Tracking", "updateStatus", array(
             "obj_id" => $a_obj_id,
             "usr_id" => $a_usr_id,
             "status" => $a_status,

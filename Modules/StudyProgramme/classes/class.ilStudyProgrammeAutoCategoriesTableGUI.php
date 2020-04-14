@@ -36,7 +36,7 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoCategoriesGUI::CHECKBOX_CATEGORY_REF_IDS . '[]');
         $this->setEnableAllCommand(true);
-        $this->addMultiCommand('delete', $this->lng->txt('delete'));
+        $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
     protected function fillRow($set)
