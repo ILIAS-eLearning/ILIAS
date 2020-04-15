@@ -139,6 +139,13 @@ class ilIndividualAssessmentUserGrading
         return $clone;
     }
 
+    public function withFile(?string $file) : ilIndividualAssessmentUserGrading
+    {
+        $clone = clone $this;
+        $clone->file = $file;
+        return $clone;
+    }
+
     public function toFormInput(
         Field\Factory $input,
         \ilLanguage $lng,
