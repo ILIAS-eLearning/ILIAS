@@ -7568,8 +7568,14 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item-notification-replacement-container:not(:first-child) .il-notification-item {
   margin-top: 6px;
 }
+.il-notification-item {
+  padding-right: 15px;
+}
 .il-notification-item .il-item-additional-content {
   clear: both;
+}
+.il-notification-item .row {
+  margin-right: 0px;
 }
 .il-notification-item .dropdown {
   margin-top: -20px;
