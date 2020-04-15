@@ -2208,7 +2208,7 @@ class ilForum
             $targetThreadForMerge = $sourceThread;
         }
 
-        $threadSubject = $targetThread->getSubject();
+        $threadSubject = $targetThreadForMerge->getSubject();
 
         $targetWasClosedBeforeMerge = (bool) $targetThreadForMerge->isClosed();
         $sourceThreadForMerge->close();
