@@ -214,7 +214,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info)
     {
-        $content = $this->object->getSettings()->content();
+        $content = $this->object->getSettings()->getContent();
         if ($content !== null && $content !== '') {
             $info->addSection($this->txt('general'));
             $info->addProperty($this->txt('content'), $content);
