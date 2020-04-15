@@ -431,6 +431,10 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         if ($this->getFileName() == $identifier) {
             $this->deleteFile();
+            $member = $this->getMember();
+            $grading = $member->getGrading()->withFile(null);
+            $member = $member->withGrading($grading);
+            $this->getObject()->membersStorage()->updateMember($member);
             $status = HandlerResult::STATUS_OK;
             $message = 'File Deleted';
         }
@@ -463,13 +467,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getInfoForExistingFiles(array $file_ids) : array
     {
-        if (!in_array($this->getFileName(), $file_ids)) {
-            throw new LogicException("Wrong filename " . $this->getFileName());
-        }
         $name = $this->getFileName();
 
         if (is_null($name)) {
             return [];
+        }
+
+        if (!in_array($name, $file_ids)) {
+            throw new LogicException("Wrong filename " . $this->getFileName());
         }
 
         return [
@@ -521,8 +526,10 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     public function getFileRemovalURL() : string
     {
         $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), $this->getFileName());
         $link = $this->ctrl->getLinkTarget($this, self::CMD_REMOVE);
         $this->ctrl->setParameter($this, 'usr_id', null);
+        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), null);
 
         return $link;
     }
