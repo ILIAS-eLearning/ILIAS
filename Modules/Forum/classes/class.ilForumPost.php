@@ -704,20 +704,26 @@ class ilForumPost
         $this->setIsAuthorModerator($row['is_author_moderator']);
         $this->buildUserRelatedData($row);
     }
-    
+
     /**
-     * @param $source_thread_id
-     * @param $target_thread_id
+     * @param int $sourceThreadId
+     * @param int $targetThreadId
+     * @param int[] $excludedPostIds
      */
-    public static function mergePosts($source_thread_id, $target_thread_id)
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = [])
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
-        $ilDB->update(
-            'frm_posts',
-            array('pos_thr_fk' => array('integer', $target_thread_id)),
-            array('pos_thr_fk' => array('integer', $source_thread_id))
+
+        $conditions = ['pos_thr_fk = ' . $ilDB->quote($sourceThreadId, 'integer')];
+        if ($excludedPostIds !== []) {
+            $conditions[] = $ilDB->in('pos_pk', $excludedPostIds, true, 'integer');
+        }
+
+        $ilDB->manipulateF(
+            'UPDATE frm_posts SET pos_thr_fk = %s WHERE ' . implode(' AND ', $conditions),
+            ['integer',],
+            [$targetThreadId,]
         );
     }
 }
