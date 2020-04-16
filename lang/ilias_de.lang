@@ -13426,7 +13426,7 @@ prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant marki
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
 prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
 prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
-prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
@@ -15970,9 +15970,9 @@ prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_title#:#Titel
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigkeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
 prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
 prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
@@ -16108,6 +16108,16 @@ prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
 prg#:#prg_delete_success#:#Einträge wurden erfolgreich gelöscht.
 prg#:#prg_delete_single_confirmation#:#Möchten Sie den ausgewählten Eintrag wirklich löschen?
 prg#:#prg_delete_single_success#:#Eintrag wurde erfolgreich gelöscht.
+common#:#obj_lsos#:#Lernsequenzen
+common#:#obj_lsos_desc#:#Allgemeine Einstellungen für Lernsequenzen
+mail#:#mail_enable_lso_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_lso_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform.
+mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
+mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
+prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
+prg#:#prg_update_progress_title#:#Setzt Status nach Stichtag auf 'nicht bestanden'
+prg#:#prg_update_progress_description#:#Setzt den Status von 'In Bearbeitung' auf 'nicht bestanden' wenn der Stichtag überschritten ist.
 common#:#collapse_content#:#Inhalt einklappen
 common#:#expand_content#:#Inhalt ausklappen
 common#:#briefcase#:#Hintergrundprozesse

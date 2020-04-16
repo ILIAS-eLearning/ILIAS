@@ -9025,8 +9025,8 @@ exc#:#exc_portfolio_created#:#Portfolio was created.
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
 mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the plattform.
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the plattform.
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the platform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
 common#:#usr_account_inactive#:#Inactive Account
 common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
@@ -15982,9 +15982,9 @@ prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
 prg#:#prg_title#:#Title
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
 prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
 prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
 prg#:#prg_processing_ends_no_success#:#Reminder mail failing
@@ -16108,6 +16108,16 @@ prg#:#prg_delete_failure#:#Delete failed.
 prg#:#prg_delete_success#:#Successfuly delete entries.
 prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
 prg#:#prg_delete_single_success#:#Successfuly delete entry.
+common#:#obj_lsos#:#Learning Sequences
+common#:#obj_lsos_desc#:#General settings for Learning Sequences
+mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
+mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
+mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
+prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
 common#:#collapse_content#:#Collapse Content
 common#:#expand_content#:#Expand Content
 common#:#briefcase#:#Background Tasks

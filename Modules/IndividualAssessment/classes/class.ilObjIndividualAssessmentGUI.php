@@ -214,7 +214,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info)
     {
-        $content = $this->object->getSettings()->content();
+        $content = $this->object->getSettings()->getContent();
         if ($content !== null && $content !== '') {
             $info->addSection($this->txt('general'));
             $info->addProperty($this->txt('content'), $content);
@@ -227,11 +227,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $info_settings = $this->object->getInfoSettings();
         if ($this->shouldShowContactInfo($info_settings)) {
             $info->addSection($this->txt('iass_contact_info'));
-            $info->addProperty($this->txt('iass_contact'), $info_settings->contact());
-            $info->addProperty($this->txt('iass_responsibility'), $info_settings->responsibility());
-            $info->addProperty($this->txt('iass_phone'), $info_settings->phone());
-            $info->addProperty($this->txt('iass_mails'), $info_settings->mails());
-            $info->addProperty($this->txt('iass_consultation_hours'), $info_settings->consultationHours());
+            $info->addProperty($this->txt('iass_contact'), $info_settings->getContact());
+            $info->addProperty($this->txt('iass_responsibility'), $info_settings->getResponsibility());
+            $info->addProperty($this->txt('iass_phone'), $info_settings->getPhone());
+            $info->addProperty($this->txt('iass_mails'), $info_settings->getMails());
+            $info->addProperty($this->txt('iass_consultation_hours'), $info_settings->getConsultationHours());
         }
         return $info;
     }

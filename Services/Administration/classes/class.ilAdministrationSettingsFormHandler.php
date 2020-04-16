@@ -44,6 +44,7 @@ class ilAdministrationSettingsFormHandler
     const SETTINGS_WIKI = "wiks";
     const SETTINGS_PORTFOLIO = "prfa";
     const SETTINGS_LP_COMPLETION_STATUS = "trac";
+    const SETTINGS_LEARNINGSEQUENCE = "lsos";
 
     const VALUE_BOOL = "bool";
     
@@ -60,7 +61,7 @@ class ilAdministrationSettingsFormHandler
         
         self::$OBJ_MAP = $map;
     }
-    
+
     protected static function getRefId($a_obj_type)
     {
         if (!is_array(self::$OBJ_MAP)) {
@@ -82,7 +83,6 @@ class ilAdministrationSettingsFormHandler
         $class_name = $objDefinition->getClassName($obj_type);
         $class_name = "ilObj" . $class_name . "GUI";
         $class_path = $ilCtrl->lookupClassPath($class_name);
-        //include_once($class_path);
         
         if (is_subclass_of($class_name, "ilObject2GUI")) {
             $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
@@ -119,7 +119,7 @@ class ilAdministrationSettingsFormHandler
                 break;
                 
             case self::FORM_MAIL:
-                $types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP);
+                $types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP, self::SETTINGS_LEARNINGSEQUENCE);
                 break;
             
             case self::FORM_COURSE:

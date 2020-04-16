@@ -25,6 +25,11 @@ class ilObjStudyProgrammeMembersGUI
     public $tpl;
 
     /**
+     * @var ilAccess
+     */
+    public $access;
+
+    /**
      * @var ilObjStudyProgramme
      */
     public $object;
@@ -68,6 +73,7 @@ class ilObjStudyProgrammeMembersGUI
         \ilGlobalTemplateInterface $tpl,
         \ilCtrl $ilCtrl,
         \ilToolbarGUI $ilToolbar,
+        \ilAccess $access,
         \ilLanguage $lng,
         \ilObjUser $user,
         \ilTabsGUI $tabs,
@@ -75,11 +81,12 @@ class ilObjStudyProgrammeMembersGUI
         ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
         ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
-        ilStudyProgrammePostionBasedAccess $position_based_access
+        ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->toolbar = $ilToolbar;
+        $this->access = $access;
         $this->lng = $lng;
         $this->user = $user;
         $this->tabs = $tabs;
@@ -271,28 +278,12 @@ class ilObjStudyProgrammeMembersGUI
      *
      * @return null
      */
-    public function addUsers($users) : bool
+    public function addUsers(array $users) : bool
     {
         $prg = $this->getStudyProgramme();
+        $users = $this->getAddableUsers($users);
 
         $completed_courses = array();
-
-        if ($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
-            $to_add = $this->position_based_access->filterUsersAccessibleForOperation(
-                $this->getStudyProgramme(),
-                ilOrgUnitOperation::OP_MANAGE_MEMBERS,
-                $users
-            );
-            $cnt_not_added = count($users) - count($to_add);
-            if ($cnt_not_added > 0) {
-                ilUtil::sendInfo(
-                    sprintf($this->lng->txt('could_not_add_users_no_permissons'), $cnt_not_added),
-                    true
-                );
-            }
-            $users = $to_add;
-        }
-
         foreach ($users as $user_id) {
             $completed_crss = $prg->getCompletedCourses((int) $user_id);
             if ($completed_crss) {
@@ -362,6 +353,31 @@ class ilObjStudyProgrammeMembersGUI
     public function addUsersWithAcknowledgedCourses() : void
     {
         $users = $_POST["users"];
+        $users = $this->getAddableUsers($users);
+        $assignments = $this->_addUsers($users);
+
+        $completed_programmes = $_POST["courses"];
+        if (is_array($completed_programmes)) {
+            foreach ($completed_programmes as $user_id => $prg_ref_ids) {
+                $ass_id = $assignments[$user_id]->getId();
+                foreach ($prg_ref_ids as $ids) {
+                    [$prg_ref_id, $crs_id, $crsr_id] = explode(";", $ids);
+                    $prg = $this->getStudyProgramme((int) $prg_ref_id);
+                    $progress = $prg->getProgressForAssignment((int) $ass_id);
+                    $progress->setLPCompleted((int) $crsr_id, $user_id);
+                }
+            }
+        }
+
+        $this->ctrl->redirect($this, "view");
+    }
+
+    protected function getAddableUsers(array $users) : array
+    {
+        if ($this->mayManageMembers()) {
+            return $users;
+        }
+
         if ($this->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
             $to_add = $this->position_based_access->filterUsersAccessibleForOperation(
                 $this->getStudyProgramme(),
@@ -371,28 +387,15 @@ class ilObjStudyProgrammeMembersGUI
             $cnt_not_added = count($users) - count($to_add);
             if ($cnt_not_added > 0) {
                 ilUtil::sendInfo(
-                    sprintf($this->lng->txt('could_not_add_users_no_permissons'), $cnt_not_added),
+                    sprintf(
+                        $this->lng->txt('could_not_add_users_no_permissons'),
+                        $cnt_not_added
+                    ),
                     true
                 );
             }
-            $users = $to_add;
+            return $to_add;
         }
-
-        $assignments = $this->_addUsers($users);
-        $completed_programmes = $_POST["courses"];
-        if (is_array($completed_programmes)) {
-            foreach ($completed_programmes as $user_id => $prg_ref_ids) {
-                $ass_id = $assignments[$user_id]->getId();
-                foreach ($prg_ref_ids as $ids) {
-                    list($prg_ref_id, $crs_id, $crsr_id) = explode(";", $ids);
-                    $prg = $this->getStudyProgramme((int) $prg_ref_id);
-                    $progress = $prg->getProgressForAssignment((int) $ass_id);
-                    $progress->setLPCompleted((int) $crsr_id, $user_id);
-                }
-            }
-        }
-
-        $this->ctrl->redirect($this, "view");
     }
 
     /**
@@ -488,7 +491,8 @@ class ilObjStudyProgrammeMembersGUI
         $usr_id = $prgrs->getUserId();
         if (
             $this->object->getAccessControlByOrguPositionsGlobal() &&
-            !in_array($usr_id, $this->editIndividualPlan())
+            !in_array($usr_id, $this->editIndividualPlan()) &&
+            !$this->mayManageMembers()
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
                 'No permission to edit progress of user'
@@ -517,7 +521,8 @@ class ilObjStudyProgrammeMembersGUI
         $usr_id = $prgrs->getUserId();
         if (
             $this->object->getAccessControlByOrguPositionsGlobal() &&
-            !in_array($usr_id, $this->editIndividualPlan())
+            !in_array($usr_id, $this->editIndividualPlan()) &&
+            !$this->mayManageMembers()
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
                 'No permission to edit progress of user'
@@ -562,7 +567,8 @@ class ilObjStudyProgrammeMembersGUI
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             $usr_id = $prgrs->getUserId();
             if ($this->object->getAccessControlByOrguPositionsGlobal() &&
-                !in_array($usr_id, $this->editIndividualPlan())
+                !in_array($usr_id, $this->editIndividualPlan()) &&
+                !$this->mayManageMembers()
             ) {
                 $errors++;
                 continue;
@@ -596,7 +602,8 @@ class ilObjStudyProgrammeMembersGUI
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             $usr_id = $prgrs->getUserId();
             if ($this->object->getAccessControlByOrguPositionsGlobal() &&
-                !in_array($usr_id, $this->editIndividualPlan())
+                !in_array($usr_id, $this->editIndividualPlan()) &&
+                !$this->mayManageMembers()
             ) {
                 $errors++;
                 continue;
@@ -726,7 +733,8 @@ class ilObjStudyProgrammeMembersGUI
         $usr_id = $prgrs->getUserId();
         if (
             $this->object->getAccessControlByOrguPositionsGlobal() &&
-            !in_array($usr_id, $this->manageMembers())
+            !in_array($usr_id, $this->manageMembers()) &&
+            !$this->mayManageMembers()
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
                 'No permission to manage membership of user'
@@ -930,5 +938,15 @@ class ilObjStudyProgrammeMembersGUI
                 );
         }
         return $this->manage_members;
+    }
+
+    public function mayManageMembers() : bool
+    {
+        return $this->access->checkAccessOfUser(
+            $this->user->getId(),
+            'manage_members',
+            '',
+            $this->object->getRefId()
+        );
     }
 }

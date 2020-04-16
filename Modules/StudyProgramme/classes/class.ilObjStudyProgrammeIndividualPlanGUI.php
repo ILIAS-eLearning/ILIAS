@@ -352,10 +352,12 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
-        if (
-            $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal() ||
-            $this->ilAccess->checkAccess("manage_members", "", $ref_id)
-        ) {
+        if($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
+            $tabs[] = 'view';
+            $tabs[] = 'manage';
+        }
+
+        if ($this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()) {
             if (in_array($user_id, $this->parent_gui->viewIndividualPlan())) {
                 $tabs[] = 'view';
             }
@@ -364,6 +366,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             }
         }
 
+        $tabs = array_unique($tabs);
         foreach ($tabs as $_tab) {
             $tpl->setCurrentBlock("sub_tab");
             $tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");

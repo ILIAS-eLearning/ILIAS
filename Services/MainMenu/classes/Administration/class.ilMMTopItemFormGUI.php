@@ -108,7 +108,7 @@ class ilMMTopItemFormGUI
         }
 
         // TYPE
-        if (($this->item_facade->isEmpty() && $this->item_facade->isCustom())) {
+        if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
             $type = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'), $txt('topitem_type_byline'))->withRequired(true);
             if (!$this->item_facade->isEmpty()) {

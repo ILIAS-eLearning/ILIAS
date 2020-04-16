@@ -71,6 +71,7 @@ il.Explorer2 = {
 				e.preventDefault();
 				var pid = $(e.target).parents("li").parents("li").attr("id");
 				il.Explorer2.current_search_term = $(e.target).val();
+				console.log("refresh node " + pid);
 				$("#" + cid).jstree('refresh_node', pid);
 			}
 		});
