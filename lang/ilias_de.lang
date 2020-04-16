@@ -3433,6 +3433,7 @@ common#:#local_languages_already_installed#:#Ausgewählte Custom-Sprachdateien s
 common#:#location#:#Eigener Standort
 common#:#locator#:#Position:
 common#:#log_in#:#Anmelden
+common#:#log_out#:#Abmelden
 common#:#logic_or#:#oder
 common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
@@ -16117,3 +16118,16 @@ prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogra
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
 prg#:#prg_update_progress_title#:#Setzt Status nach Stichtag auf 'nicht bestanden'
 prg#:#prg_update_progress_description#:#Setzt den Status von 'In Bearbeitung' auf 'nicht bestanden' wenn der Stichtag überschritten ist.
+common#:#collapse_content#:#Inhalt einklappen
+common#:#expand_content#:#Inhalt ausklappen
+common#:#briefcase#:#Hintergrundprozesse
+common#:#sort_ascending#:#Aufsteigend sortieren
+common#:#sort_descending#:#Absteigend sortieren
+common#:#show_who_is_online#:#Zeig wer online ist
+common#:#tags#:#Tags
+common#:#comments#:#Kommentare
+common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
+common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
+common#:#show_more#:#Mehr zeigen
+common#:#disclose#:#Aufdecken
+common#:#switch_language#:#Sprache wechseln
