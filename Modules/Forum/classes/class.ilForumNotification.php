@@ -452,7 +452,7 @@ class ilForumNotification
         }
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (in_array($row['user_id'], $users_already_notified)) {
+            if (isset($users_already_notified[$row['user_id']])) {
                 // delete source notification because already exists for target_id
                 $ilDB->manipulatef(
                     'DELETE FROM frm_notification WHERE notification_id = %s',
