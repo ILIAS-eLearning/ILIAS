@@ -22,7 +22,7 @@ class orderTest extends TestCase
     public function testValues(Order $order)
     {
         $this->assertEquals(
-            [['subject', Order::ASC]],
+            ['subject' => Order::ASC],
             $order->get()
         );
     }
@@ -35,8 +35,8 @@ class orderTest extends TestCase
         $order = $order->append('sub2', Order::DESC);
         $this->assertEquals(
             [
-                ['subject', Order::ASC],
-                ['sub2', Order::DESC]
+                'subject' => Order::ASC,
+                'sub2' => Order::DESC
             ],
             $order->get()
         );
@@ -49,8 +49,13 @@ class orderTest extends TestCase
     public function testJoinOne(Order $order)
     {
         $this->assertEquals(
-            'subject ASC',
-            $order->join()
+            'SORT BY subject ASC',
+            $order->join(
+                function ($pre, $k, $v) {
+                    return "$pre $k $v";
+                },
+                'SORT BY'
+            )
         );
     }
 
@@ -60,8 +65,10 @@ class orderTest extends TestCase
     public function testJoinMore(Order $order)
     {
         $this->assertEquals(
-            'subject ASC, sub2 DESC',
-            $order->join()
+            'Sorting subject ASC, sub2 DESC,',
+            $order->join(function ($pre, $k, $v) {
+                return "$pre $k $v,";
+            }, 'Sorting')
         );
     }
 
@@ -72,5 +79,14 @@ class orderTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $order = $order->append('sub3', -1);
+    }
+
+    /**
+     * @depends testFactory
+     */
+    public function testInvalidSubject(Order $order)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $order = $order->append('subject', Order::ASC);
     }
 }

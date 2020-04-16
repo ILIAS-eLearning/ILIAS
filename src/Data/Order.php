@@ -13,19 +13,21 @@ class Order
     const DESC = 'DESC';
 
     /**
-     * @var array
+     * @var array <subject, direction>
      */
     protected $order = [];
-
-    /**
-     * @var mixed
-     */
-    protected $direction;
 
     public function __construct(string $subject, $direction)
     {
         $this->checkDirection($direction);
-        $this->order[] = [$subject, $direction];
+        $this->order[$subject] = $direction;
+    }
+
+    protected function checkSubject(string $subject)
+    {
+        if (array_key_exists($subject, $this->order)) {
+            throw new \InvalidArgumentException("already sorted by subject '$subject'", 1);
+        }
     }
 
     protected function checkDirection($direction)
@@ -37,9 +39,10 @@ class Order
 
     public function append(string $subject, $direction) : Order
     {
+        $this->checkSubject($subject);
         $this->checkDirection($direction);
         $clone = clone $this;
-        $clone->order[] = [$subject, $direction];
+        $clone->order[$subject] = $direction;
         return $clone;
     }
 
@@ -48,16 +51,12 @@ class Order
         return $this->order;
     }
 
-    public function join() : string
+    public function join(callable $fn, $prefix)
     {
-        return implode(
-            ', ',
-            array_map(
-                function ($entry) {
-                    return implode(' ', $entry);
-                },
-                $this->order
-            )
-        );
+        $ret = $prefix;
+        foreach ($this->order as $key => $value) {
+            $ret = $fn($ret, $key, $value);
+        }
+        return $ret;
     }
 }
