@@ -21,29 +21,47 @@ class orderTest extends TestCase
      */
     public function testValues(Order $order)
     {
-        $this->assertEquals('subject', $order->getSubject());
-        $this->assertEquals(Order::ASC, $order->getDirection());
-    }
-
-    /**
-     * @depends testFactory
-     */
-    public function testDirection(Order $order)
-    {
         $this->assertEquals(
-            Order::DESC,
-            $order->withDirection(Order::DESC)->getDirection()
+            [['subject', Order::ASC]],
+            $order->get()
         );
     }
 
     /**
      * @depends testFactory
      */
-    public function testSubject(Order $order)
+    public function testAppend(Order $order)
+    {
+        $order = $order->append('sub2', Order::DESC);
+        $this->assertEquals(
+            [
+                ['subject', Order::ASC],
+                ['sub2', Order::DESC]
+            ],
+            $order->get()
+        );
+        return $order;
+    }
+
+    /**
+     * @depends testFactory
+     */
+    public function testJoinOne(Order $order)
     {
         $this->assertEquals(
-            'new_subject',
-            $order->withSubject('new_subject')->getSubject()
+            'subject ASC',
+            $order->join()
+        );
+    }
+
+    /**
+     * @depends testAppend
+     */
+    public function testJoinMore(Order $order)
+    {
+        $this->assertEquals(
+            'subject ASC, sub2 DESC',
+            $order->join()
         );
     }
 
@@ -53,6 +71,6 @@ class orderTest extends TestCase
     public function testInvalidDirection(Order $order)
     {
         $this->expectException(InvalidArgumentException::class);
-        $order = $order->withDirection('ASC');
+        $order = $order->append('sub3', -1);
     }
 }

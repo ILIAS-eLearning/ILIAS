@@ -9,13 +9,13 @@ namespace ILIAS\Data;
  */
 class Order
 {
-    const ASC = 1;
-    const DESC = -1;
+    const ASC = 'ASC';
+    const DESC = 'DESC';
 
     /**
-     * @var string
+     * @var array
      */
-    protected $subject;
+    protected $order = [];
 
     /**
      * @var mixed
@@ -25,8 +25,7 @@ class Order
     public function __construct(string $subject, $direction)
     {
         $this->checkDirection($direction);
-        $this->subject = $subject;
-        $this->direction = $direction;
+        $this->order[] = [$subject, $direction];
     }
 
     protected function checkDirection($direction)
@@ -36,28 +35,29 @@ class Order
         }
     }
 
-    public function getSubject() : string
-    {
-        return $this->subject;
-    }
-
-    public function getDirection()
-    {
-        return $this->direction;
-    }
-
-    public function withSubject(string $subject) : Order
-    {
-        $clone = clone $this;
-        $clone->subject = $subject;
-        return $clone;
-    }
-
-    public function withDirection($direction) : Order
+    public function append(string $subject, $direction) : Order
     {
         $this->checkDirection($direction);
         $clone = clone $this;
-        $clone->direction = $direction;
+        $clone->order[] = [$subject, $direction];
         return $clone;
+    }
+
+    public function get() : array
+    {
+        return $this->order;
+    }
+
+    public function join() : string
+    {
+        return implode(
+            ', ',
+            array_map(
+                function ($entry) {
+                    return implode($entry, ' ');
+                },
+                $this->order
+            )
+        );
     }
 }
