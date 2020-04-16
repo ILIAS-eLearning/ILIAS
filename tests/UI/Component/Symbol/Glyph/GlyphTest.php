@@ -94,11 +94,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::CALENDAR => "calendar"
         , G\Glyph::TIME => "time"
         , G\Glyph::CLOSE => "close"
-        , G\Glyph::MORE => "more"
-        , G\Glyph::DISCLOSURE => "disclosure"
-        , G\Glyph::LANGUAGE => "switch language"
-        , G\Glyph::LOGIN => "login"
-        , G\Glyph::LOGOUT => "logout"
+        , G\Glyph::MORE => "show_more"
+        , G\Glyph::DISCLOSURE => "disclose"
+        , G\Glyph::LANGUAGE => "switch_language"
+        , G\Glyph::LOGIN => "log_in"
+        , G\Glyph::LOGOUT => "log_out"
     );
 
     /**
