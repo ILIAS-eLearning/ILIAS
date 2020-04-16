@@ -463,7 +463,7 @@ class ilDidacticTemplateSettingsGUI
             $lokal_templates->addSubItem($effrom);
             $form->addItem($lokal_templates);
 
-            $excl =  new ilCheckboxInputGUI($this->lng->txt("activate_exclusive_template"), "exclusive_template");
+            $excl = new ilCheckboxInputGUI($this->lng->txt("activate_exclusive_template"), "exclusive_template");
             $excl->setInfo($this->lng->txt("activate_exclusive_template_info"));
             $excl->setChecked($set->isExclusive());
 

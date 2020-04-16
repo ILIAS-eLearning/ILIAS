@@ -122,11 +122,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $reached = 0;
             $max = 0;
             if ($points[0]["pass_scoring"] == 0) {
-                $reached = $points[count($points)-1]["points"];
-                $max = $points[count($points)-1]["maxpoints"];
+                $reached = $points[count($points) - 1]["points"];
+                $max = $points[count($points) - 1]["maxpoints"];
                 if (!$max) {
-                    $active_id = $points[count($points)-1]["active_fi"];
-                    $pass = $points[count($points)-1]["pass"];
+                    $active_id = $points[count($points) - 1]["active_fi"];
+                    $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);
@@ -199,11 +199,11 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $reached = 0;
             $max = 0;
             if ($points[0]["pass_scoring"] == 0) {
-                $reached = $points[count($points)-1]["points"];
-                $max = $points[count($points)-1]["maxpoints"];
+                $reached = $points[count($points) - 1]["points"];
+                $max = $points[count($points) - 1]["maxpoints"];
                 if (!$max) {
-                    $active_id = $points[count($points)-1]["active_fi"];
-                    $pass = $points[count($points)-1]["pass"];
+                    $active_id = $points[count($points) - 1]["active_fi"];
+                    $pass = $points[count($points) - 1]["pass"];
                     if (strlen($active_id) && strlen($pass)) {
                         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                         $res = assQuestion::_updateTestPassResults($active_id, $pass, null, $a_obj_id);

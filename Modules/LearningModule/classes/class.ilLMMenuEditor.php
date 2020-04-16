@@ -170,12 +170,12 @@ class ilLMMenuEditor
         $r = $ilDB->query($q);
 
         while ($row = $ilDB->fetchObject($r)) {
-            $entries[] = array('id'		=> $row->id,
-                               'title'	=> $row->title,
-                               'link'	=> $row->target,
-                               'type'	=> $row->link_type,
-                               'ref_id'	=> $row->link_ref_id,
-                               'active'	=> $row->active
+            $entries[] = array('id' => $row->id,
+                               'title' => $row->title,
+                               'link' => $row->target,
+                               'type' => $row->link_type,
+                               'ref_id' => $row->link_ref_id,
+                               'active' => $row->active
                                );
         }
 
@@ -285,7 +285,7 @@ class ilLMMenuEditor
             // ... only check internal links
             if ($rec["link_type"] == "intern") {
                 $link = explode("_", $rec["link_ref_id"]);
-                $ref_id = (int) $link[count($link)-1];
+                $ref_id = (int) $link[count($link) - 1];
                 $new_ref_id = $ref_mapping[$ref_id];
                 // if ref id has been imported, update it
                 if ($new_ref_id > 0) {

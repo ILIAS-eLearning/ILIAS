@@ -22,9 +22,9 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT, false, $this->getField()->getId());
         $input->setOptions(
             array(
-                ""            => $this->lng->txt("dcl_any"),
+                "" => $this->lng->txt("dcl_any"),
                 "not_checked" => $this->lng->txt("dcl_not_checked"),
-                "checked"     => $this->lng->txt("dcl_checked"),
+                "checked" => $this->lng->txt("dcl_checked"),
             )
         );
 

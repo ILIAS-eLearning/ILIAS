@@ -346,7 +346,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $obj_def = $DIC["objDefinition"];
             $obj_id = ilObject::_lookupObjectId($ref_id);
             $obj_type = ilObject::_lookupType($ref_id, true);
-            $obj_class= strtolower($obj_def->getClassName($obj_type));
+            $obj_class = strtolower($obj_def->getClassName($obj_type));
             $parent_gui = "ilobj" . $obj_class . "gui";
 
             $ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
@@ -675,10 +675,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                         
             // media player
             $ui_renderer = $this->ui->renderer();
-            $ui_factory =  $this->ui->factory();
+            $ui_factory = $this->ui->factory();
             $this->ui->factory();
             if ($item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
-
                 $media_path = $this->getMediaPath($item["mob_id"]);
                 $mime = ilObjMediaObject::getMimeType($media_path);
                 if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
@@ -701,8 +700,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $html
                 );
                 $tpl->parseCurrentBlock();
-
-
             }
             
             // access
@@ -1311,7 +1308,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $block_id = $DIC->ctrl()->getContextObjId();
 
-        foreach ($a_values as $key=>$value) {
+        foreach ($a_values as $key => $value) {
             ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
         }
     }

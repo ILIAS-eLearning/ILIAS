@@ -31,7 +31,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     
     protected $js_onload_code = array();
     protected $additional = array();
-    protected $export_material = array("js"=>array(), "images"=>array(), "files"=>array());
+    protected $export_material = array("js" => array(), "images" => array(), "files" => array());
     
     protected static $initialized = 0;
     
@@ -795,7 +795,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     
                     foreach ($course["objectives"] as $objtv) {
                         if ($do_links) {
-                            $params = array("oobj"=>$objtv["id"]);
+                            $params = array("oobj" => $objtv["id"]);
                             $url = ilLink::_getLink($course["ref_id"], "crs", $params);
                             
                             // #15510

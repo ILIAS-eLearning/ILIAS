@@ -160,7 +160,8 @@ abstract class ilMathBaseAdapterTest extends PHPUnit_Framework_TestCase
     public function divData()
     {
         return [
-            ['1', '2', '0.5', self::DEFAULT_SCALE]
+            ['1', '2', '0.5', self::DEFAULT_SCALE],
+            ['', '2', '0', self::DEFAULT_SCALE],
         ];
     }
 

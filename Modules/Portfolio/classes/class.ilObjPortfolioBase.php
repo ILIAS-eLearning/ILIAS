@@ -267,7 +267,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $ilDB->update(
             "usr_portfolio",
             $fields,
-            array("id"=>array("integer", $this->id))
+            array("id" => array("integer", $this->id))
         );
     }
     

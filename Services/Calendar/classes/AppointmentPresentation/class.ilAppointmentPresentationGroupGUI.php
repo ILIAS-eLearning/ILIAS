@@ -67,10 +67,14 @@ class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI imp
 
                     $this->addAction($this->lng->txt('cal_reg_register'), $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'confirmRegister'));
                 }
-                include_once './Services/Link/classes/class.ilLink.php';
+                $registered = $reg->getRegisteredUsers(
+                    new \ilDateTime($app['dstart'], IL_CAL_UNIX),
+                    new \ilDateTime($app['dend'], IL_CAL_UNIX)
+                );
+
                 $users = "";
-                foreach ($reg->getRegisteredUsers(new ilDateTime($app['dstart'], IL_CAL_UNIX), new ilDateTime($app['dend'], IL_CAL_UNIX)) as $usr_data) {
-                    $users.= $this->getUserName($usr_data['usr_id']) . "<br>";
+                foreach ($registered as $user) {
+                    $users .= $this->getUserName($user) . '<br />';
                 }
                 if ($users != "") {
                     $this->addInfoProperty($this->lng->txt("cal_reg_registered_users"), $users);

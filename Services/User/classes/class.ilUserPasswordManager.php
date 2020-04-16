@@ -81,8 +81,8 @@ class ilUserPasswordManager
                 'encoder_factory' => new ilUserPasswordEncoderFactory(
                     array(
                         'default_password_encoder' => 'bcryptphp',
-                        'ignore_security_flaw'     => true,
-                        'data_directory'           => ilUtil::getDataDir()
+                        'ignore_security_flaw' => true,
+                        'data_directory' => ilUtil::getDataDir()
                     )
                 ),
                 'password_encoder' => 'bcryptphp'

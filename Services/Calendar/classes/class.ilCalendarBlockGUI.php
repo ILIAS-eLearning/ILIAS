@@ -107,7 +107,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             isset($_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"])) {
             $seed_str = $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"];
         } elseif (isset($_GET["seed"])) {
-            $seed_str =  $_GET["seed"];
+            $seed_str = $_GET["seed"];
         }
             
         if (isset($_GET["seed"]) && $_GET["seed"] != "") {
@@ -690,7 +690,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             global $DIC;
             $f = $DIC->ui()->factory()->legacy("");
-            $ret.= $DIC->ui()->renderer()->renderAsync($f);
+            $ret .= $DIC->ui()->renderer()->renderAsync($f);
         }
 
         return $ret;
@@ -1011,7 +1011,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $shy = $renderer->render($comps);
 
                 $data[] = array(
-                    "date" =>  ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
+                    "date" => ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
                     "title" => $item["event"]->getPresentationTitle(),
                     "url" => "#",
                     "shy_button" => $shy

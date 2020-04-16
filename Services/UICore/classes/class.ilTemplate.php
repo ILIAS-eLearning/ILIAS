@@ -402,9 +402,9 @@ class ilTemplate extends HTML_Template_ITX
                 // this is a workaround that allows to send rendered message boxes directly
                 // should be removed if we have a decent place for messages in a new ks layout
                 if (strpos($txt, 'role="alert"') > 0) {
-                    $out.= $txt;
+                    $out .= $txt;
                 } else {
-                    $out.= $this->getMessageHTML($txt, $m);
+                    $out .= $this->getMessageHTML($txt, $m);
                 }
             }
         
@@ -482,7 +482,7 @@ class ilTemplate extends HTML_Template_ITX
             case 'application/json':
                 $string = json_encode([
                     self::MESSAGE_TYPE_SUCCESS => is_null($this->message[self::MESSAGE_TYPE_FAILURE]),
-                    'message'                  => '',
+                    'message' => '',
                 ]);
                 $stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
                 $http->saveResponse($http->response()->withBody($stream));
@@ -630,6 +630,9 @@ class ilTemplate extends HTML_Template_ITX
             } elseif (is_object($lng)) {
                 $contentLanguage = $lng->getDefaultLanguage();
             }
+            if ($ilUser->getId() == ANONYMOUS_USER_ID && is_object($lng)) {
+                $contentLanguage = $lng->getLangKey();
+            }
         }
         $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
         if (in_array($contentLanguage, $rtl)) {
@@ -737,7 +740,7 @@ class ilTemplate extends HTML_Template_ITX
         }
         if ($this->blockExists("js_file")) {
             // three batches
-            for ($i=0; $i<=3; $i++) {
+            for ($i = 0; $i <= 3; $i++) {
                 reset($this->js_files);
                 foreach ($this->js_files as $file) {
                     if ($this->js_files_batch[$file] == $i) {
@@ -988,7 +991,7 @@ class ilTemplate extends HTML_Template_ITX
                         $file = $ilCtrl->lookupClassPath($entry["class"]);
                         $add = $entry["mode"] . " - " . $entry["cmd"];
                         if ($file != "") {
-                            $add.= " - " . $file;
+                            $add .= " - " . $file;
                         }
                         $ftpl->setVariable("C_FILE", $add);
                     }
@@ -1213,7 +1216,7 @@ class ilTemplate extends HTML_Template_ITX
     * @param	string
     * @param	string
     */
-    public function replaceFromDatabase(&$DB, $block, $conv, $select="default")
+    public function replaceFromDatabase(&$DB, $block, $conv, $select = "default")
     {
         $res = $DB->selectDbAll();
 
@@ -1223,13 +1226,13 @@ class ilTemplate extends HTML_Template_ITX
             reset($conv);
 
             while (list($key, $val) = each($conv)) {
-                $result[$val]=$DB->element->data[$key];
+                $result[$val] = $DB->element->data[$key];
             }
 
             if (($select != "default")
-                && ($DB->element->data[$select["id"]]==$select["value"]
+                && ($DB->element->data[$select["id"]] == $select["value"]
                 || (strtolower($select["text"]) == "checked"
-                && strpos(",," . $select["value"] . ",,", "," . $DB->element->data[$select["id"]] . ",")!=false))) {
+                && strpos(",," . $select["value"] . ",,", "," . $DB->element->data[$select["id"]] . ",") != false))) {
                 $result[$select["field"]] = $select["text"];
             }
 
@@ -1487,7 +1490,7 @@ class ilTemplate extends HTML_Template_ITX
             if ($fname == "" || !file_exists($fname)) {
                 $fname = "./" . $module_path . "templates/default/" . basename($a_tplname);
             }
-        } elseif (strpos($a_tplname, "src/UI")===0) {
+        } elseif (strpos($a_tplname, "src/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
             && ilStyleDefinition::getCurrentSkin() != "default") {
                 $fname = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . str_replace("src/UI/templates/default", "UI", $a_tplname);
@@ -1867,7 +1870,7 @@ class ilTemplate extends HTML_Template_ITX
             default: $center_column_class = "col-sm-12"; break;
         }
         if (trim($this->left_content) != "") {
-            $center_column_class.= " col-sm-push-3";
+            $center_column_class .= " col-sm-push-3";
         }
 
         $this->setCurrentBlock("center_col_width");
@@ -2095,7 +2098,7 @@ class ilTemplate extends HTML_Template_ITX
             require_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
             $dav_util = ilWebDAVUtil::getInstance();
             $a_ref_id = $this->mount_webfolder;
-            $a_link =  $dav_util->getMountURI($a_ref_id);
+            $a_link = $dav_util->getMountURI($a_ref_id);
             $a_folder = $dav_util->getFolderURI($a_ref_id);
             
             $this->setCurrentBlock("mount_webfolder");
@@ -2227,7 +2230,7 @@ class ilTemplate extends HTML_Template_ITX
         $html = "";
 
         foreach ($this->lightbox as $lb) {
-            $html.= $lb;
+            $html .= $lb;
         }
         $this->setVariable("LIGHTBOX", $html);
     }

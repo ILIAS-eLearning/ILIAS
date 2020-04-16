@@ -165,7 +165,7 @@ class ilKioskPageRenderer
             $order = min($order, 3);
             $sorted[$order][] = $file;
         }
-        $js_files = array_merge($sorted[0],$sorted[1],$sorted[2],$sorted[3]);
+        $js_files = array_merge($sorted[0], $sorted[1], $sorted[2], $sorted[3]);
         $js_files = array_filter(
             $js_files,
             function ($js_file) {

@@ -40,8 +40,8 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString(
-                                                                             "assessment"
-                                                                         )
+                    "assessment"
+                )
             );
         }
         $foundvalues = $_POST[$this->getPostVar()];
@@ -91,7 +91,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $lng = $DIC['lng'];
 
         $tpl = new ilTemplate("tpl.prop_essaykeywordswizardinput.html", true, true, "Modules/TestQuestionPool");
-        $i   = 0;
+        $i = 0;
         foreach ($this->values as $value) {
             if ($this->getSingleline()) {
                 if (is_object($value)) {

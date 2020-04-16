@@ -15,7 +15,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = array(
-                "link"  => $form->getInput("field_" . $this->getField()->getId()),
+                "link" => $form->getInput("field_" . $this->getField()->getId()),
                 "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'));
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());

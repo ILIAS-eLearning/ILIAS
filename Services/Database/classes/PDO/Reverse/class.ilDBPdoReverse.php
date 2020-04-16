@@ -102,7 +102,7 @@ class ilDBPdoReverse implements ilDBReverse
                 }
 
                 $definition[0] = array(
-                    'notnull'    => $notnull,
+                    'notnull' => $notnull,
                     'nativetype' => preg_replace('/^([a-z]+)[^a-z].*/i', '\\1', $column['type']),
                 );
                 if (!is_null($length)) {

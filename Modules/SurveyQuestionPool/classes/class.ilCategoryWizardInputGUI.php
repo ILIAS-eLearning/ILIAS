@@ -97,7 +97,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                     $scale += 1;
                 }
             }
-            return $scale+1;
+            return $scale + 1;
         } else {
             return 99;
         }

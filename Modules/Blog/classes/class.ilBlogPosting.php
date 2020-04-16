@@ -479,7 +479,7 @@ class ilBlogPosting extends ilPageObject
                 
         // language is not "used" anywhere
         $ulang = $ilUser->getLanguage();
-        $keywords = array($ulang=>$keywords);
+        $keywords = array($ulang => $keywords);
 
         include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
         ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);

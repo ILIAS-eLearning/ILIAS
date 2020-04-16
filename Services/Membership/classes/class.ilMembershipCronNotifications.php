@@ -215,7 +215,7 @@ class ilMembershipCronNotifications extends ilCronJob
         switch ($item_obj_type) {
             case "frm":
                 if (!$a_is_sub) {
-                    $res =  $lng->txt("obj_" . $item_obj_type) .
+                    $res = $lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '": ' . $title;
                 } else {
                     $res .= '"' . $title . '": "' . $content . '"';
@@ -225,7 +225,7 @@ class ilMembershipCronNotifications extends ilCronJob
             case "file":
                 if (!is_array($a_item["aggregation"]) ||
                     sizeof($a_item["aggregation"]) == 1) {
-                    $res =  $lng->txt("obj_" . $item_obj_type) .
+                    $res = $lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
                 } else {
                     // if files were removed from aggregation update summary count

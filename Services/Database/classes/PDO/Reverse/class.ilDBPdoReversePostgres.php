@@ -169,7 +169,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         foreach ($index_column_numbers as $number) {
             $definition['fields'][$columns[($number - 1)]] = array(
                 'position' => $colpos++,
-                'sorting'  => 'ascending',
+                'sorting' => 'ascending',
             );
         }
 
@@ -225,7 +225,7 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
         foreach ($index_column_numbers as $number) {
             $definition['fields'][$columns[($number - 1)]] = array(
                 'position' => $colpos++,
-                'sorting'  => 'ascending',
+                'sorting' => 'ascending',
             );
         }
 
@@ -281,11 +281,11 @@ class ilDBPdoReversePostgres extends ilDBPdoReverse
                      AND trg.tgfoid = p.oid
                      AND trg.tgname = " . $db->quote($trigger, 'text');
         $types = array(
-            'trigger_name'    => 'text',
-            'table_name'      => 'text',
-            'trigger_body'    => 'text',
-            'trigger_type'    => 'text',
-            'trigger_event'   => 'text',
+            'trigger_name' => 'text',
+            'table_name' => 'text',
+            'trigger_body' => 'text',
+            'trigger_type' => 'text',
+            'trigger_event' => 'text',
             'trigger_comment' => 'text',
             'trigger_enabled' => 'boolean',
         );

@@ -32,9 +32,9 @@ class ilObjectCustomIconFactory
         \ILIAS\FileUpload\FileUpload $uploadService,
         \ilObjectDataCache $objectCache
     ) {
-        $this->webDirectory  = $webDirectory;
+        $this->webDirectory = $webDirectory;
         $this->uploadService = $uploadService;
-        $this->objectCache   = $objectCache;
+        $this->objectCache = $objectCache;
     }
 
     /**

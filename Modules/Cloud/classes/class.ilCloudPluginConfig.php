@@ -131,12 +131,12 @@ class ilCloudPluginConfig
 
         if (!$ilDB->tableExists($this->getTableName())) {
             $fields = array(
-                'config_key'   => array(
-                    'type'    => 'text',
-                    'length'  => 128,
+                'config_key' => array(
+                    'type' => 'text',
+                    'length' => 128,
                     'notnull' => true),
                 'config_value' => array(
-                    'type'    => 'clob',
+                    'type' => 'clob',
                     'notnull' => false),);
             $ilDB->createTable($this->getTableName(), $fields);
             $ilDB->addPrimaryKey($this->getTableName(), array("config_key"));

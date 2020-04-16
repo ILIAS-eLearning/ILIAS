@@ -109,12 +109,12 @@ class ilMDDescription extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'description'	=> array('clob',$this->getDescription()),
+                     'description' => array('clob',$this->getDescription()),
                      'description_language' => array('text',$this->getDescriptionLanguageCode()));
     }
 

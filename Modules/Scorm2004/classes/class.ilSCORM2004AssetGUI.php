@@ -132,7 +132,7 @@ class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
                 $ilTabs->addTarget("export",
                 $ilCtrl->getLinkTarget($this, "showExportList"), "showExportList",
                 get_class($this));
-        
+
                 // import
                 $ilTabs->addTarget("import",
                 $ilCtrl->getLinkTarget($this, "import"), "import",

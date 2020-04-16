@@ -210,7 +210,7 @@ class ilForumSettingsGUI
 
         $a_values['default_view'] = $default_view;
         $a_values['default_view_sort_dir'] = $default_view_sort_dir;
-        $a_values['file_upload_allowed']   = (bool) $this->parent_obj->objProperties->getFileUploadAllowed();
+        $a_values['file_upload_allowed'] = (bool) $this->parent_obj->objProperties->getFileUploadAllowed();
     }
     
     /**
@@ -330,10 +330,10 @@ class ilForumSettingsGUI
     private function __showMembersTable(array $moderators, array $admins, array $members, array $tutors)
     {
         foreach (array_filter([
-                    'moderators'     => $moderators,
-                    'administrator'  => $admins,
-                    'tutors'         => $tutors,
-                    'members'        => $members
+                    'moderators' => $moderators,
+                    'administrator' => $admins,
+                    'tutors' => $tutors,
+                    'members' => $members
                 ]) as $type => $data) {
             $tbl_mod = new ilTable2GUI($this, 'showMembers');
             $tbl_mod->setId('tbl_id_mod');
@@ -516,7 +516,7 @@ class ilForumSettingsGUI
         $tutor_ids = $oParticipants->getTutors();
 
         $all_forum_users = array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids);
-        $all_forum_users= array_unique($all_forum_users);
+        $all_forum_users = array_unique($all_forum_users);
 
         $all_notis = $frm_noti->read();
 
@@ -544,7 +544,7 @@ class ilForumSettingsGUI
             $radio_grp = new ilRadioGroupInputGUI('', 'notification_type');
             $radio_grp->setValue('default');
 
-            $opt_default  = new ilRadioOption($this->lng->txt("user_decides_notification"), 'default');
+            $opt_default = new ilRadioOption($this->lng->txt("user_decides_notification"), 'default');
             $opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
             $opt_1 = new ilRadioOption($this->lng->txt("settings_per_users"), 'per_user');
 
@@ -579,13 +579,13 @@ class ilForumSettingsGUI
 
         // check input
         if ($this->notificationSettingsForm->checkInput()) {
-            if (isset($_POST['notification_type']) && $_POST['notification_type']== 'all_users') {
+            if (isset($_POST['notification_type']) && $_POST['notification_type'] == 'all_users') {
                 // set values and call update
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
                 $this->parent_obj->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));
                 $this->parent_obj->objProperties->setNotificationType('all_users');
                 $this->updateUserNotifications(true);
-            } elseif ($_POST['notification_type']== 'per_user') {
+            } elseif ($_POST['notification_type'] == 'per_user') {
                 $this->parent_obj->objProperties->setNotificationType('per_user');
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
                 $this->parent_obj->objProperties->setUserToggleNoti(0);

@@ -549,7 +549,7 @@ class ilCOPageHTMLExport
                         "</dummy>",
                     "/_xsl" => file_get_contents("./Services/COPage/xsl/page.xsl")
                 ),
-                array("mode"=>"fullscreen")
+                array("mode" => "fullscreen")
             );
             xslt_free($xh);
             unset($xh);

@@ -465,7 +465,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         if (is_dir($this->getExamplesPath())) {
             foreach (scandir($this->getExamplesPath()) as $file_name) {
                 $example_path = $this->getExamplesPath() . "/" . $file_name;
-                if (is_file($example_path) && pathinfo($example_path)["extension"] =="php") {
+                if (is_file($example_path) && pathinfo($example_path)["extension"] == "php") {
                     $example_name = str_replace(".php", "", $file_name);
                     $this->examples[$example_name] = $example_path;
                 }

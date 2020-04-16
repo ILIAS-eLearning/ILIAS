@@ -92,10 +92,10 @@ class ilMDFormat extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'format'	=> ilUtil::prepareDBString($this->getFormat()));
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'format' => ilUtil::prepareDBString($this->getFormat()));
     }
 
     public function read()

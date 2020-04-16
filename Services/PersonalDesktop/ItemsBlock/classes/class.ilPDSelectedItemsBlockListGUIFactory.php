@@ -30,7 +30,7 @@ class ilPDSelectedItemsBlockListGUIFactory
         global $DIC;
 
         $this->objDefinition = $DIC['objDefinition'];
-        $this->block         = $block;
+        $this->block = $block;
     }
 
     /**

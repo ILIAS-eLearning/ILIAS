@@ -53,7 +53,7 @@ class ilMailingList
     {
         global $DIC;
 
-        $this->db   = $DIC['ilDB'];
+        $this->db = $DIC['ilDB'];
         $this->user = $user;
         
         $this->mail_id = $id;
@@ -196,7 +196,7 @@ class ilMailingList
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $entries[$row->a_id] = array(
-                'a_id'   => $row->a_id,
+                'a_id' => $row->a_id,
                 'usr_id' => $row->usr_id
             );
             ++$counter;

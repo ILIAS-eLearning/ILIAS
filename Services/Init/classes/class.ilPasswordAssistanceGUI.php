@@ -11,7 +11,7 @@
  */
 class ilPasswordAssistanceGUI
 {
-    const PERMANENT_LINK_TARGET_PW   = 'pwassist';
+    const PERMANENT_LINK_TARGET_PW = 'pwassist';
     const PERMANENT_LINK_TARGET_NAME = 'nameassist';
 
     /**
@@ -54,12 +54,12 @@ class ilPasswordAssistanceGUI
     {
         global $DIC;
 
-        $this->ctrl       = $DIC->ctrl();
-        $this->lng        = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->rbacreview = $DIC->rbac()->review();
-        $this->tpl        = $DIC->ui()->mainTemplate();
-        $this->settings   = $DIC->settings();
-        $this->ilias      = $DIC['ilias'];
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->settings = $DIC->settings();
+        $this->ilias = $DIC['ilias'];
         $this->ilErr = $DIC['ilErr'];
     }
 
@@ -86,7 +86,7 @@ class ilPasswordAssistanceGUI
         }
         $this->lng->loadLanguageModule('pwassist');
 
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
@@ -207,9 +207,9 @@ class ilPasswordAssistanceGUI
         }
 
         $username = $form->getInput('username');
-        $email    = $form->getInput('email');
+        $email = $form->getInput('email');
 
-        $usrId  = \ilObjUser::getUserIdByLogin($username);
+        $usrId = \ilObjUser::getUserIdByLogin($username);
         if (!is_numeric($usrId) || !($usrId > 0)) {
             \ilLoggerFactory::getLogger('usr')->info(sprintf(
                 'Could not process password assistance form (reason: no user found) %s / %s',
@@ -314,8 +314,8 @@ class ilPasswordAssistanceGUI
             'pwassist.php',
             [
                 'client_id' => $this->ilias->getClientId(),
-                'lang'      => $this->lng->getLangKey(),
-                'key'       => $pwassist_session['pwassist_id']
+                'lang' => $this->lng->getLangKey(),
+                'key' => $pwassist_session['pwassist_id']
             ]
         );
 
@@ -323,14 +323,14 @@ class ilPasswordAssistanceGUI
             'pwassist.php',
             [
                 'client_id' => $this->ilias->getClientId(),
-                'lang'      => $this->lng->getLangKey(),
-                'key'       => $pwassist_session['pwassist_id']
+                'lang' => $this->lng->getLangKey(),
+                'key' => $pwassist_session['pwassist_id']
             ]
         );
 
         /** @var ilMailMimeSenderFactory $senderFactory */
         $senderFactory = $DIC["mail.mime.sender.factory"];
-        $sender        = $senderFactory->system();
+        $sender = $senderFactory->system();
 
         $mm = new ilMimeMail();
         $mm->Subject($this->lng->txt('pwassist_mail_subject'));
@@ -460,8 +460,8 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $username    = $form->getInput('username');
-        $password    = $form->getInput('password');
+        $username = $form->getInput('username');
+        $password = $form->getInput('password');
         $pwassist_id = $form->getInput('key');
 
         // Retrieve the session
@@ -478,7 +478,7 @@ class ilPasswordAssistanceGUI
             return;
         } else {
             $is_successful = true;
-            $message       = '';
+            $message = '';
 
             $userObj = \ilObjectFactory::getInstanceByObjId($pwassist_session['user_id'], false);
             if (!$userObj || !($userObj instanceof \ilObjUser)) {
@@ -489,13 +489,13 @@ class ilPasswordAssistanceGUI
             // check if the username entered by the user matches the
             // one of the user object.
             if ($is_successful && strcasecmp($userObj->getLogin(), $username) != 0) {
-                $message       = $this->lng->txt('pwassist_login_not_match');
+                $message = $this->lng->txt('pwassist_login_not_match');
                 $is_successful = false;
             }
 
             $error_lng_var = '';
             if (!ilUtil::isPasswordValidForUserContext($password, $userObj, $error_lng_var)) {
-                $message       = $this->lng->txt($error_lng_var);
+                $message = $this->lng->txt($error_lng_var);
                 $is_successful = false;
             }
 
@@ -651,13 +651,13 @@ class ilPasswordAssistanceGUI
             'pwassist.php',
             [
                 'client_id' => $this->ilias->getClientId(),
-                'lang'      => $this->lng->getLangKey()
+                'lang' => $this->lng->getLangKey()
             ]
         );
 
         /** @var ilMailMimeSenderFactory $senderFactory */
         $senderFactory = $DIC["mail.mime.sender.factory"];
-        $sender        = $senderFactory->system();
+        $sender = $senderFactory->system();
 
         $mm = new ilMimeMail();
         $mm->Subject($this->lng->txt('pwassist_mail_subject'));

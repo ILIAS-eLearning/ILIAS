@@ -172,7 +172,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
                 $ret = $this->ctrl->forwardCommand($style_gui);
@@ -1214,7 +1214,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $newObj->createLMTree();
 
             // since the "new" import already did the extracting
-            $mess =  $newObj->importFromDirectory($this->tmp_import_dir, $_POST["validate"]);
+            $mess = $newObj->importFromDirectory($this->tmp_import_dir, $_POST["validate"]);
 
             if ($mess == "") {
                 ilUtil::sendSuccess($this->lng->txt($this->type . "_added"), true);
@@ -1660,7 +1660,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             }
         }
 
-        if (count($operations)>0) {
+        if (count($operations) > 0) {
             foreach ($operations as $val) {
                 $this->tpl->setCurrentBlock("operation_btn");
                 $this->tpl->setVariable("BTN_NAME", $val["name"]);
@@ -2338,7 +2338,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             array(
                 'type' => 'new',
                 'rcp_to' => implode(',', $rcps),
-                'sig'	=> $this->getBlockedUsersMailSignature()
+                'sig' => $this->getBlockedUsersMailSignature()
             )
         ));
     }
@@ -2801,7 +2801,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
      */
     public function formatInvalidLinkArray(array $row)
     {
-        $row['title'] =  ilLMPageObject::_getPresentationTitle($row['page_id'], $this->object->getPageHeader());
+        $row['title'] = ilLMPageObject::_getPresentationTitle($row['page_id'], $this->object->getPageHeader());
     
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $actions = new ilAdvancedSelectionListGUI();

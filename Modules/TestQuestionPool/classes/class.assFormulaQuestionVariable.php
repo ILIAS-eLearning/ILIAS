@@ -35,9 +35,9 @@ class assFormulaQuestionVariable
         $this->variable = $variable;
         $this->setRangeMin($range_min);
         $this->setRangeMax($range_max);
-        $this->unit         = $unit;
-        $this->value        = null;
-        $this->precision    = $precision;
+        $this->unit = $unit;
+        $this->value = null;
+        $this->precision = $precision;
         $this->intprecision = $intprecision;
         $this->setRangeMinTxt($range_min);
         $this->setRangeMaxTxt($range_max);
@@ -49,9 +49,9 @@ class assFormulaQuestionVariable
 //		@todo check this
         
         include_once "./Services/Math/classes/class.ilMath.php";
-        $mul     = ilMath::_pow(10, $this->getPrecision());
-        $r1      = round(ilMath::_mul($this->getRangeMin(), $mul));
-        $r2      = round(ilMath::_mul($this->getRangeMax(), $mul));
+        $mul = ilMath::_pow(10, $this->getPrecision());
+        $r1 = round(ilMath::_mul($this->getRangeMin(), $mul));
+        $r2 = round(ilMath::_mul($this->getRangeMax(), $mul));
         $calcval = $this->getRangeMin() - 1;
         //test
 
@@ -61,7 +61,7 @@ class assFormulaQuestionVariable
         
     
 //		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
-            $rnd     = mt_rand($r1, $r2);
+            $rnd = mt_rand($r1, $r2);
             $calcval = ilMath::_div($rnd, $mul, $this->getPrecision());
             if (($this->getPrecision() == 0) && ($this->getIntprecision() != 0)) {
                 if ($this->getIntprecision() > 0) {
@@ -133,11 +133,11 @@ class assFormulaQuestionVariable
     public function setRangeMin($range_min)
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
-        $result                = $math->evaluate($range_min);
+        $result = $math->evaluate($range_min);
         
-        $this->range_min       = $result;
+        $this->range_min = $result;
     }
 
     public function getRangeMin()
@@ -148,10 +148,10 @@ class assFormulaQuestionVariable
     public function setRangeMax($range_max)
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
-        $result                = $math->evaluate($range_max);
-        $this->range_max       = $result;
+        $result = $math->evaluate($range_max);
+        $this->range_max = $result;
     }
 
     public function getRangeMax()

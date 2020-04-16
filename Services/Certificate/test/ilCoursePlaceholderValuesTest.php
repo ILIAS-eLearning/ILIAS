@@ -69,8 +69,8 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'COURSE_TITLE'       => 'Some Title',
-                'DATE_COMPLETED'     => '2018-09-10',
+                'COURSE_TITLE' => 'Some Title',
+                'DATE_COMPLETED' => '2018-09-10',
                 'DATETIME_COMPLETED' => '2018-09-10 10:32:00'
             ),
             $placeholderValues
@@ -86,8 +86,8 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
         $defaultPlaceholderValues->method('getPlaceholderValuesForPreview')
             ->willReturn(
                 array(
-                    'SOME_PLACEHOLDER'       => 'ANYTHING',
-                    'SOME_OTHER_PLACEHOLDER'  => '2018-09-10',
+                    'SOME_PLACEHOLDER' => 'ANYTHING',
+                    'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
                 )
             );
 
@@ -134,9 +134,9 @@ class ilCoursePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'SOME_PLACEHOLDER'        => 'ANYTHING',
-                'SOME_OTHER_PLACEHOLDER'  => '2018-09-10',
-                'COURSE_TITLE'            => 'SomeTitle'
+                'SOME_PLACEHOLDER' => 'ANYTHING',
+                'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
+                'COURSE_TITLE' => 'SomeTitle'
             ),
             $placeholderValues
         );

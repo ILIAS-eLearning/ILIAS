@@ -120,7 +120,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
             $tpl = $DIC['tpl'];
             $ilCtrl = $DIC['ilCtrl'];
 
-            $url =  $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+            $url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
 
             $tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
             $tpl->addOnLoadCode('il.BgTask.setAjax("' . $url . '");');
@@ -170,7 +170,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
                 $task->setParams(array(
                     "ref_ids" => $this->getRefIds()
                 ));
-                $task->setSteps($file_count+1); // +1 = create zip
+                $task->setSteps($file_count + 1); // +1 = create zip
                 $task->setStatus(ilBackgroundTask::STATUS_INITIALIZED);
                 $task->save();
                 
@@ -187,7 +187,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
                         $json = ilBackgroundTaskJson::getProcessingJson(
                             $task->getId(),
                             sprintf($lng->txt("bgtask_download_long"), $file_count, ilUtil::formatSize($total_bytes)),
-                            $file_count+1
+                            $file_count + 1
                         );
                     }
                 }
@@ -388,7 +388,7 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
         // copy_number can be determined correctly for other duplicates of this file
         if (!$duplicate_has_array_entry) {
             self::$duplicate_files[] = [
-                'file_name'   => $duplicate_filename,
+                'file_name' => $duplicate_filename,
                 'copy_number' => 2 // set as 2 because 1 is already used for this duplicate
             ];
         }

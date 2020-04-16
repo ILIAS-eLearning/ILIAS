@@ -199,7 +199,7 @@ class ilMediaItem
         }
 
         // create map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
+        for ($i = 0; $i < count($this->mapareas); $i++) {
             if (is_object($this->mapareas[$i])) {
                 $this->mapareas[$i]->setItemId($this->getId());
                 $this->mapareas[$i]->setNr($i + 1);
@@ -549,10 +549,10 @@ class ilMediaItem
     */
     public function deleteMapArea($nr)
     {
-        for ($i=1; $i<=$this->map_cnt; $i++) {
+        for ($i = 1; $i <= $this->map_cnt; $i++) {
             if ($i > $nr) {
-                $this->mapareas[$i-2] = $this->mapareas[$i-1];
-                $this->mapareas[$i-2]->setNr($i-1);
+                $this->mapareas[$i - 2] = $this->mapareas[$i - 1];
+                $this->mapareas[$i - 2]->setNr($i - 1);
             }
         }
         if ($nr <= $this->map_cnt) {
@@ -566,7 +566,7 @@ class ilMediaItem
     */
     public function &getMapArea($nr)
     {
-        return $this->mapareas[$nr-1];
+        return $this->mapareas[$nr - 1];
     }
 
     /**
@@ -955,9 +955,9 @@ class ilMediaItem
         }
 
         // draw map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
-            if (((($i+1) == $a_area_nr) && !$a_exclude) ||
-                    ((($i+1) != $a_area_nr) && $a_exclude) ||
+        for ($i = 0; $i < count($this->mapareas); $i++) {
+            if (((($i + 1) == $a_area_nr) && !$a_exclude) ||
+                    ((($i + 1) != $a_area_nr) && $a_exclude) ||
                     ($a_area_nr == 0)
                 ) {
                 $area = $this->mapareas[$i];
@@ -1104,7 +1104,7 @@ class ilMediaItem
         $xml = "";
 
         // build xml of map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
+        for ($i = 0; $i < count($this->mapareas); $i++) {
             $area = $this->mapareas[$i];
             
             // highlight mode
@@ -1114,7 +1114,7 @@ class ilMediaItem
                 $hcl = ($area->getHighlightClass() != "")
                     ? $area->getHighlightClass()
                     : "Accented";
-                $hm.= 'HighlightClass="' . $hcl . '" ';
+                $hm .= 'HighlightClass="' . $hcl . '" ';
             }
             
             $xml .= "<MapArea Shape=\"" . $area->getShape() . "\" Coords=\"" . $area->getCoords() . "\" " . $hm . ">";
@@ -1133,12 +1133,12 @@ class ilMediaItem
                     $area->getType() . "\" $tf_str>";
                 // see bug 17893 and http://stackoverflow.com/questions/4026502/xml-error-at-ampersand
                 $xml .= htmlspecialchars($area->getTitle(), ENT_QUOTES);
-                $xml .="</IntLink>";
+                $xml .= "</IntLink>";
             } else {
                 $xml .= "<ExtLink Href=\"" . str_replace("&", "&amp;", $area->getHref()) . "\" Title=\"" .
                     str_replace("&", "&amp;", $area->getExtTitle()) . "\">";
                 $xml .= str_replace("&", "&amp;", $area->getTitle());
-                $xml .="</ExtLink>";
+                $xml .= "</ExtLink>";
             }
             $xml .= "</MapArea>";
         }

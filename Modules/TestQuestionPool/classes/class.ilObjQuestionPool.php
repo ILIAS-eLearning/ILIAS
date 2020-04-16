@@ -113,7 +113,7 @@ class ilObjQuestionPool extends ilObject
         $ilUser = $DIC['ilUser'];
         include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_gen =&$md->getGeneral();
+        $md_gen = &$md->getGeneral();
         if ($md_gen == false) {
             include_once "./Services/MetaData/classes/class.ilMDCreator.php";
             $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
@@ -164,7 +164,7 @@ class ilObjQuestionPool extends ilObject
 
     public function deleteQuestionpool()
     {
-        $questions =&$this->getAllQuestions();
+        $questions = &$this->getAllQuestions();
 
         if (count($questions)) {
             foreach ($questions as $question_id) {
@@ -255,27 +255,27 @@ class ilObjQuestionPool extends ilObject
             $result = $ilDB->update(
                 'qpl_questionpool',
                 array(
-                    'isonline'			=> array('text', $this->getOnline()),
-                    'show_taxonomies'	=> array('integer', (int) $this->getShowTaxonomies()),
-                    'nav_taxonomy'		=> array('integer', (int) $this->getNavTaxonomyId()),
-                    'skill_service'		=> array('integer', (int) $this->isSkillServiceEnabled()),
-                    'tstamp'			=> array('integer', time())
+                    'isonline' => array('text', $this->getOnline()),
+                    'show_taxonomies' => array('integer', (int) $this->getShowTaxonomies()),
+                    'nav_taxonomy' => array('integer', (int) $this->getNavTaxonomyId()),
+                    'skill_service' => array('integer', (int) $this->isSkillServiceEnabled()),
+                    'tstamp' => array('integer', time())
                 ),
                 array(
-                    'obj_fi'			=> array('integer', $this->getId())
+                    'obj_fi' => array('integer', $this->getId())
                 )
             );
         } else {
             $next_id = $ilDB->nextId('qpl_questionpool');
             
             $result = $ilDB->insert('qpl_questionpool', array(
-                'id_questionpool'	=> array('integer', $next_id),
-                'isonline'			=> array('text', $this->getOnline()),
-                'show_taxonomies'	=> array('integer', (int) $this->getShowTaxonomies()),
-                'nav_taxonomy'		=> array('integer', (int) $this->getNavTaxonomyId()),
-                'skill_service'		=> array('integer', (int) $this->isSkillServiceEnabled()),
-                'tstamp'			=> array('integer', time()),
-                'obj_fi'			=> array('integer', $this->getId())
+                'id_questionpool' => array('integer', $next_id),
+                'isonline' => array('text', $this->getOnline()),
+                'show_taxonomies' => array('integer', (int) $this->getShowTaxonomies()),
+                'nav_taxonomy' => array('integer', (int) $this->getNavTaxonomyId()),
+                'skill_service' => array('integer', (int) $this->isSkillServiceEnabled()),
+                'tstamp' => array('integer', time()),
+                'obj_fi' => array('integer', $this->getId())
             ));
         }
     }
@@ -386,7 +386,7 @@ class ilObjQuestionPool extends ilObject
     */
     public function duplicateQuestion($question_id)
     {
-        $question =&$this->createQuestion("", $question_id);
+        $question = &$this->createQuestion("", $question_id);
         $newtitle = $question->object->getTitle();
         if ($question->object->questionTitleExists($this->getId(), $question->object->getTitle())) {
             $counter = 2;
@@ -410,7 +410,7 @@ class ilObjQuestionPool extends ilObject
     */
     public function copyQuestion($question_id, $questionpool_to)
     {
-        $question_gui =&$this->createQuestion("", $question_id);
+        $question_gui = &$this->createQuestion("", $question_id);
         if ($question_gui->object->getObjId() == $questionpool_to) {
             // the question is copied into the same question pool
             return $this->duplicateQuestion($question_id);
@@ -868,7 +868,7 @@ class ilObjQuestionPool extends ilObject
         // export button was pressed
         if (count($questions) > 0) {
             foreach ($questions as $key => $value) {
-                $question =&$this->createQuestion("", $value);
+                $question = &$this->createQuestion("", $value);
                 $xml .= $question->object->toXML();
             }
             if (count($questions) > 1) {
@@ -1201,7 +1201,7 @@ class ilObjQuestionPool extends ilObject
                     // of the original question must changed with the reference of the copy
 
                     // 1. Create a copy of the original question
-                    $question =&$this->createQuestion("", $row["question_id"]);
+                    $question = &$this->createQuestion("", $row["question_id"]);
                     $duplicate_id = $question->object->duplicate(true);
                     if ($duplicate_id > 0) {
                         // 2. replace the question id in the solutions
@@ -1255,7 +1255,7 @@ class ilObjQuestionPool extends ilObject
         $items = array();
         $counter = 0;
         foreach ($path as $item) {
-            if (($counter > 0) && ($counter < count($path)-1)) {
+            if (($counter > 0) && ($counter < count($path) - 1)) {
                 array_push($items, $item["title"]);
             }
             $counter++;
@@ -1263,7 +1263,7 @@ class ilObjQuestionPool extends ilObject
         $fullpath = join(" > ", $items);
         include_once "./Services/Utilities/classes/class.ilStr.php";
         if (strlen($fullpath) > 60) {
-            $fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath)-30, 30);
+            $fullpath = ilStr::subStr($fullpath, 0, 30) . "..." . ilStr::subStr($fullpath, ilStr::strLen($fullpath) - 30, 30);
         }
         return $fullpath;
     }
@@ -1380,7 +1380,7 @@ class ilObjQuestionPool extends ilObject
         $newObj->saveToDb();
         
         // clone the questions in the question pool
-        $questions =&$this->getQplQuestions();
+        $questions = &$this->getQplQuestions();
         $questionIdsMap = array();
         foreach ($questions as $question_id) {
             $newQuestionId = $newObj->copyQuestion($question_id, $newObj->getId());
@@ -1390,7 +1390,7 @@ class ilObjQuestionPool extends ilObject
         // clone meta data
         include_once "./Services/MetaData/classes/class.ilMD.php";
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $new_md =&$md->cloneMD($newObj->getId(), 0, $newObj->getType());
+        $new_md = &$md->cloneMD($newObj->getId(), 0, $newObj->getType());
 
         // update the metadata with the new title of the question pool
         $newObj->updateMetaData();

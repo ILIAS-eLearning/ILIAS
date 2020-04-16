@@ -314,7 +314,7 @@ class ilObjExercise extends ilObject
         $ilAppEventHandler->raise(
             'Modules/Exercise',
             'delete',
-            array('obj_id'=>$this->getId())
+            array('obj_id' => $this->getId())
         );
 
         return true;
@@ -528,7 +528,7 @@ class ilObjExercise extends ilObject
             }
         }
         
-        $ret =  array(
+        $ret = array(
             "overall_status" => $overall_stat,
             "failed_a_mandatory" => $failed_a_mandatory);
         //echo "<br>p:".$cnt_passed.":ng:".$cnt_notgraded;
@@ -593,7 +593,7 @@ class ilObjExercise extends ilObject
         $row = $cnt = 1;
         $excel->setCell($row, 0, $this->lng->txt("name"));
         foreach ($ass_data as $ass) {
-            $excel->setCell($row, $cnt++, $cnt-1);
+            $excel->setCell($row, $cnt++, $cnt - 1);
         }
         $excel->setCell($row, $cnt++, $this->lng->txt("exc_total_exc"));
         $excel->setCell($row, $cnt++, $this->lng->txt("exc_mark"));
@@ -649,7 +649,7 @@ class ilObjExercise extends ilObject
         $row = $cnt = 1;
         $excel->setCell($row, 0, $this->lng->txt("name"));
         foreach ($ass_data as $ass) {
-            $excel->setCell($row, $cnt++, $cnt-1);
+            $excel->setCell($row, $cnt++, $cnt - 1);
         }
         $excel->setCell($row++, $cnt++, $this->lng->txt("exc_total_exc"));
         $excel->setBold("A1:" . $excel->getColumnCoord($cnt) . "1");

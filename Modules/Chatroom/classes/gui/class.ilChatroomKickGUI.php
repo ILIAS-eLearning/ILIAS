@@ -23,10 +23,10 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $data = new stdClass();
 
-        $data->user       = $this->gui->object->getPersonalInformation($chat_user);
+        $data->user = $this->gui->object->getPersonalInformation($chat_user);
         $data->userToKick = $messageString;
-        $data->timestamp  = date('c');
-        $data->type       = 'kick';
+        $data->timestamp = date('c');
+        $data->type = 'kick';
 
         return $data;
     }
@@ -39,14 +39,14 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission(array('read', 'moderate'));
 
-        $room       = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $userToKick = $_REQUEST['user'];
-        $subRoomId  = $_REQUEST['sub'];
+        $subRoomId = $_REQUEST['sub'];
 
         $this->exitIfNoRoomExists($room);
 
         $connector = $this->gui->getConnector();
-        $response  = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+        $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
 
         if ($this->isSuccessful($response) && !$subRoomId) {
             // 2013-09-11: Should already been done by the chat server
@@ -58,14 +58,14 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
     public function main()
     {
-        $room       = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $userToKick = $_REQUEST['user'];
-        $subRoomId  = $_REQUEST['sub'];
+        $subRoomId = $_REQUEST['sub'];
 
         $this->exitIfNoRoomExists($room);
 
         $connector = $this->gui->getConnector();
-        $response  = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
+        $response = $connector->sendKick($room->getRoomId(), $subRoomId, $userToKick);
 
         if ($this->isSuccessful($response)) {
             // 2013-09-11: Should already been done by the chat server
@@ -90,13 +90,13 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
                 }
             }
 
-            $roomId     = $room->getRoomId();
-            $subRoomId  = $_REQUEST['sub'];
+            $roomId = $room->getRoomId();
+            $subRoomId = $_REQUEST['sub'];
             $userToKick = $_REQUEST['user'];
 
             if ($room->userIsInPrivateRoom($subRoomId, $userToKick)) {
                 $connector = $this->gui->getConnector();
-                $response  = $connector->sendKick($roomId, $subRoomId, $userToKick);
+                $response = $connector->sendKick($roomId, $subRoomId, $userToKick);
                 $this->sendResponse($response);
             }
         }

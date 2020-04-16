@@ -27,9 +27,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     public $validator;
     //	var $meta_data;
     
-    const CONVERT_XSL   = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    const WRAPPER_HTML  = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    const WRAPPER_JS  	= './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
     /**
     * Constructor
@@ -95,7 +95,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $ilErr = $this->error;
         
         //check for json_encode,json_decode
-        if (!function_exists('json_encode') ||  !function_exists('json_decode')) {
+        if (!function_exists('json_encode') || !function_exists('json_decode')) {
             $ilErr->raiseError($lng->txt('scplayer_phpmysqlcheck'), $ilErr->WARNING);
         }
 
@@ -231,9 +231,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     public function fixReload()
     {
         $out = file_get_contents($this->imsmanifestFile);
-        $check ='/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
-        $replace="xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
-        $out=preg_replace($check, $replace, $out);
+        $check = '/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
+        $replace = "xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
+        $out = preg_replace($check, $replace, $out);
         file_put_contents($this->imsmanifestFile, $out);
     }
     
@@ -247,34 +247,34 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         ##accept 2004 3rd Edition an CAM 1.3 as valid schemas
         
         //set variables
-        $this->packageFolder=$this->getDataDirectory();
-        $this->imsmanifestFile=$manifest;
+        $this->packageFolder = $this->getDataDirectory();
+        $this->imsmanifestFile = $manifest;
         $doc = new DomDocument();
         
         //fix reload errors before loading
         $this->fixReload();
         $doc->load($this->imsmanifestFile);
         $elements = $doc->getElementsByTagName("schemaversion");
-        $schema=$elements->item(0)->nodeValue;
-        if (strtolower(trim($schema))=="cam 1.3" || strtolower(trim($schema))=="2004 3rd edition" || strtolower(trim($schema))=="2004 4th edition") {
+        $schema = $elements->item(0)->nodeValue;
+        if (strtolower(trim($schema)) == "cam 1.3" || strtolower(trim($schema)) == "2004 3rd edition" || strtolower(trim($schema)) == "2004 4th edition") {
             //no conversion
-            $this->converted=false;
+            $this->converted = false;
             return true;
         } else {
-            $this->converted=true;
+            $this->converted = true;
             //convert to SCORM 2004
             
             //check for broken SCORM 1.2 manifest file (missing organization default-common error in a lot of manifest files)
             $organizations = $doc->getElementsByTagName("organizations");
             //first check if organizations is in manifest
-            if ($organizations->item(0)==null) {
+            if ($organizations->item(0) == null) {
                 die("organizations missing in manifest");
             }
-            $default=$organizations->item(0)->getAttribute("default");
-            if ($default=="" || $default==null) {
+            $default = $organizations->item(0)->getAttribute("default");
+            if ($default == "" || $default == null) {
                 //lookup identifier
                 $organization = $doc->getElementsByTagName("organization");
-                $ident=$organization->item(0)->getAttribute("identifier");
+                $ident = $organization->item(0)->getAttribute("identifier");
                 $organizations->item(0)->setAttribute("default", $ident);
             }
             
@@ -282,14 +282,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             
                     
             //first copy wrappers
-            $wrapperdir=$this->packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
+            $wrapperdir = $this->packageFolder . "/GenericRunTimeWrapper1.0_aadlc";
             mkdir($wrapperdir);
             copy(self::WRAPPER_HTML, $wrapperdir . "/GenericRunTimeWrapper.htm");
             copy(self::WRAPPER_JS, $wrapperdir . "/SCOPlayerWrapper.js");
             
             //backup manifestfile
-            $this->backupManifest=$this->packageFolder . "/imsmanifest.xml.back";
-            $ret=copy($this->imsmanifestFile, $this->backupManifest);
+            $this->backupManifest = $this->packageFolder . "/imsmanifest.xml.back";
+            $ret = copy($this->imsmanifestFile, $this->backupManifest);
             
             //transform manifest file
             $this->totransform = $doc;
@@ -428,9 +428,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $items = array();
 
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
-            $item['id']=$sco_rec["id"];
-            $item['title']=self::_lookupItemTitle($sco_rec["id"]);
-            $items[count($items)] =$item;
+            $item['id'] = $sco_rec["id"];
+            $item['title'] = self::_lookupItemTitle($sco_rec["id"]);
+            $items[count($items)] = $item;
         }
         return $items;
     }
@@ -468,17 +468,17 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             );
             
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
-                if ($data_rec["success_status"]!="" && $data_rec["success_status"]!="unknown") {
+                if ($data_rec["success_status"] != "" && $data_rec["success_status"] != "unknown") {
                     $status = $data_rec["success_status"];
                 } else {
-                    if ($data_rec["completion_status"]=="") {
-                        $status="unknown";
+                    if ($data_rec["completion_status"] == "") {
+                        $status = "unknown";
                     } else {
                         $status = $data_rec["completion_status"];
                     }
                 }
                 if (!$raw) {
-                    $time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
+                    $time = ilDatePresentation::secondsToString(self::_ISODurationToCentisec($data_rec["total_time"]) / 100);
                     $score = "";
                     if ($data_rec["c_raw"] != null) {
                         $score = $data_rec["c_raw"];
@@ -487,14 +487,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                         }
                     }
                     if ($data_rec["scaled"] != null) {
-                        $score .= ($data_rec["scaled"]*100) . "%";
+                        $score .= ($data_rec["scaled"] * 100) . "%";
                     }
                     $title = self::_lookupItemTitle($data_rec["cp_node_id"]);
-                    $last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'], IL_CAL_DATETIME));
-                    $data[] = array("sco_id"=>$data_rec["cp_node_id"],
-                        "score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
+                    $last_access = ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'], IL_CAL_DATETIME));
+                    $data[] = array("sco_id" => $data_rec["cp_node_id"],
+                        "score" => $score, "time" => $time, "status" => $status,"last_access" => $last_access,"title" => $title);
                 } else {
-                    $data_rec["total_time"] = self::_ISODurationToCentisec($data_rec["total_time"])/100;
+                    $data_rec["total_time"] = self::_ISODurationToCentisec($data_rec["total_time"]) / 100;
                     $data[$data_rec["cp_node_id"]] = $data_rec;
                 }
             }
@@ -519,7 +519,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $val_rec = $ilDB->fetchAssoc($val_set);
 
         if ($val_rec["package_attempts"] == null) {
-            $val_rec["package_attempts"]="";
+            $val_rec["package_attempts"] = "";
         }
 
         return $val_rec["package_attempts"];
@@ -541,7 +541,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $val_rec = $ilDB->fetchAssoc($val_set);
 
         if ($val_rec["module_version"] == null) {
-            $val_rec["module_version"]="";
+            $val_rec["module_version"] = "";
         }
         return $val_rec["module_version"];
     }
@@ -588,7 +588,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             if ($data["user"] && is_numeric($data["user"])) {
                 $user_id = $data["user"];
             }
-            if ($user_id>0) {
+            if ($user_id > 0) {
                 $last_access = ilUtil::now();
                 if ($data['Date']) {
                     $date_ex = explode('.', $data['Date']);
@@ -668,14 +668,14 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                                 $ilDB->update(
                                     'cmi_node',
                                     array(
-                                        'completion_status'	=> array('text', 'completed'),
-                                        'success_status'	=> array('text', ''),
-                                        'suspend_data'		=> array('text', ''),
-                                        'c_timestamp'		=> array('timestamp', $last_access)
+                                        'completion_status' => array('text', 'completed'),
+                                        'success_status' => array('text', ''),
+                                        'suspend_data' => array('text', ''),
+                                        'c_timestamp' => array('timestamp', $last_access)
                                     ),
                                     array(
-                                        'user_id'		=> array('integer', $user_id),
-                                        'cp_node_id'	=> array('integer', $sco_id)
+                                        'user_id' => array('integer', $user_id),
+                                        'cp_node_id' => array('integer', $sco_id)
                                     )
                                 );
                             }
@@ -687,7 +687,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             }
         }
         
-        if (count($usersToDelete)>0) {
+        if (count($usersToDelete) > 0) {
             // include_once("./Services/Tracking/classes/class.ilLPMarks.php");
             // ilLPMarks::_deleteForUsers($this->getId(), $usersToDelete);
             $this->deleteTrackingDataOfUsers($usersToDelete);
@@ -713,12 +713,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $bErr = true;
         }
         if (!$bErr) {
-            $aT =  array("Y", "M", "D", "H", "M", "S");
+            $aT = array("Y", "M", "D", "H", "M", "S");
             $p = 0;
             $i = 0;
             $str = substr($str, 1);
             for ($i = 0; $i < count($aT); $i++) {
-                if (strpos($str, "T")===0) {
+                if (strpos($str, "T") === 0) {
                     $str = substr($str, 1);
                     $i = max($i, 3);
                     $bTFound = true;
@@ -783,7 +783,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $scos_c = $scos;
         //copy SCO_array
         //check if all SCO's are completed
-        for ($i=0;$i<count($scos);$i++) {
+        for ($i = 0;$i < count($scos);$i++) {
             $val_set = $ilDB->queryF(
                 '
 				SELECT * FROM cmi_node 
@@ -842,7 +842,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $scos_c = $scos;
         //copy SCO_array
         //check if all SCO's are completed
-        for ($i=0;$i<count($scos);$i++) {
+        for ($i = 0;$i < count($scos);$i++) {
             $val_set = $ilDB->queryF(
                 '
 				SELECT * FROM cmi_node 
@@ -894,15 +894,15 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
         $set = 0;   //numbers of SCO that set cmi.score.scaled
         $scaled = null;
-        for ($i=0;$i<count($scos);$i++) {
+        for ($i = 0;$i < count($scos);$i++) {
             $val_set = $ilDB->queryF(
                 "SELECT scaled FROM cmi_node WHERE (user_id = %s AND cp_node_id = %s)",
                 array('integer', 'integer'),
                 array($a_user, $scos[$i])
             );
-            if ($val_set->numRows()>0) {
+            if ($val_set->numRows() > 0) {
                 $val_rec = $ilDB->fetchAssoc($val_set);
-                if ($val_rec['scaled']!=null) {
+                if ($val_rec['scaled'] != null) {
                     $set++;
                     $scaled = $val_rec['scaled'];
                 }
@@ -1377,7 +1377,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         file_put_contents($a_target_dir . '/indexMD.xml', $output);
 
         // export glossary
-        if ($this->getAssignedGlossary()!=0) {
+        if ($this->getAssignedGlossary() != 0) {
             ilUtil::makeDir($a_target_dir . "/glossary");
             include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
             include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
@@ -1404,7 +1404,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         // set xml header
         $a_xml_writer->xmlHeader();
 
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004LearningModule"));
+        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004LearningModule"));
 
         // MetaData
         $this->exportXMLMetaData($a_xml_writer);
@@ -1420,12 +1420,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $a_xml_writer->xmlDumpFile($a_target_dir . '/index.xml', false);
         
         if ($ver == "2004 4th") {
-            $revision ="4th";
+            $revision = "4th";
             $ver = "2004";
         }
     
         if ($ver == "2004 3rd") {
-            $revision ="3rd";
+            $revision = "3rd";
             $ver = "2004";
         }
 
@@ -1484,7 +1484,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     public function exportPDF($a_inst, $a_target_dir, &$expLog)
     {
         $a_xml_writer = new ilXmlWriter;
-        $a_xml_writer->xmlStartTag("ContentObject", array("Type"=>"SCORM2004SCO"));
+        $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
         $this->exportXMLMetaData($a_xml_writer);
         $tree = new ilTree($this->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -1496,7 +1496,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $node = new ilSCORM2004Sco($this, $sco['obj_id']);
             $node->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
         }
-        if ($this->getAssignedGlossary()!=0) {
+        if ($this->getAssignedGlossary() != 0) {
             ilUtil::makeDir($a_target_dir . "/glossary");
             include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
             include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
@@ -1624,7 +1624,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $tree->setTreeTablePK("slm_id");
         $a_xml_writer->xmlStartTag("StructureObject");
         foreach ($tree->getFilteredSubTree($tree->getRootId(), array('page')) as $obj) {
-            if ($obj['type']=='') {
+            if ($obj['type'] == '') {
                 continue;
             }
             
@@ -1733,7 +1733,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                     $sco_tpl
                 );
             }
-            if ($this->getAssignedGlossary()!=0) {
+            if ($this->getAssignedGlossary() != 0) {
                 include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
                 $glos = new ilObjGlossary($this->getAssignedGlossary(), false);
                 //$glos->exportHTML($sco_folder."/glossary", $expLog);
@@ -1895,12 +1895,12 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             array('integer', 'integer'),
             array($a_user, $a_cp_node_id)
         );
-        if ($val_set->numRows()>0) {
+        if ($val_set->numRows() > 0) {
             $val_rec = $ilDB->fetchAssoc($val_set);
             $retAr["raw"] = $val_rec['c_raw'];
             $retAr["max"] = $val_rec['c_max'];
             $retAr["scaled"] = $val_rec['scaled'];
-            if ($val_rec['scaled']==null && $val_rec['c_raw']!=null && $val_rec['c_max']!=null) {
+            if ($val_rec['scaled'] == null && $val_rec['c_raw'] != null && $val_rec['c_max'] != null) {
                 $retAr["scaled"] = ($val_rec['c_raw'] / $val_rec['c_max']);
             }
         }

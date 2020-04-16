@@ -172,12 +172,12 @@ class ilTestEvaluationPassData
     public function addAnsweredQuestion($question_id, $max_points, $reached_points, $isAnswered, $sequence = null, $manual = 0)
     {
         $this->answeredQuestions[] = array(
-            "id"			=> $question_id,
-            "points"		=> round($max_points, 2),
-            "reached"		=> round($reached_points, 2),
-            'isAnswered'	=> $isAnswered,
-            "sequence"		=> $sequence,
-            'manual'		=> $manual
+            "id" => $question_id,
+            "points" => round($max_points, 2),
+            "reached" => round($reached_points, 2),
+            'isAnswered' => $isAnswered,
+            "sequence" => $sequence,
+            'manual' => $manual
         );
     }
     

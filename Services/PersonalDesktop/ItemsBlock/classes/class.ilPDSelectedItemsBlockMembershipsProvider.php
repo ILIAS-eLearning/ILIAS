@@ -28,7 +28,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         global $DIC;
 
         $this->actor = $actor;
-        $this->tree  = $DIC->repositoryTree();
+        $this->tree = $DIC->repositoryTree();
     }
 
     /**
@@ -68,18 +68,18 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                     $object = ilObjectFactory::getInstanceByRefId($ref_id);
 
                     $parent_ref_id = $this->tree->getParentId($ref_id);
-                    $par_left      = $this->tree->getLeftValue($parent_ref_id);
-                    $par_left      = sprintf("%010d", $par_left);
+                    $par_left = $this->tree->getLeftValue($parent_ref_id);
+                    $par_left = sprintf("%010d", $par_left);
 
                     $references[$par_left . $object->getTitle() . $ref_id] = array(
-                        'ref_id'      => $ref_id,
-                        'obj_id'      => $obj_id,
-                        'type'        => $object->getType(),
-                        'title'       => $object->getTitle(),
+                        'ref_id' => $ref_id,
+                        'obj_id' => $obj_id,
+                        'type' => $object->getType(),
+                        'title' => $object->getTitle(),
                         'description' => $object->getDescription(),
-                        'parent_ref'  => $parent_ref_id,
-                        'start'       => $object->getType() == 'grp' ? $object->getStart() : $object->getCourseStart(),
-                        'end'         => $object->getType() == 'grp' ? $object->getEnd()   : $object->getCourseEnd()
+                        'parent_ref' => $parent_ref_id,
+                        'start' => $object->getType() == 'grp' ? $object->getStart() : $object->getCourseStart(),
+                        'end' => $object->getType() == 'grp' ? $object->getEnd()   : $object->getCourseEnd()
                     );
                 }
             }

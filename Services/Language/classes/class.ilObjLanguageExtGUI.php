@@ -64,7 +64,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         if (!is_array($_SESSION['lang_ext_maintenance'])) {
             $_SESSION['lang_ext_maintenance'] = array();
         }
-        $this->session =&$_SESSION['lang_ext_maintenance'];
+        $this->session = &$_SESSION['lang_ext_maintenance'];
 
 
         // read the lang mode
@@ -132,7 +132,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         include_once './Services/Language/classes/class.ilLanguageExtTableGUI.php';
         $table_gui = new ilLanguageExtTableGUI($this, 'view', array(
             'langmode' => $this->langmode,
-            'lang_key'=> $this->object->key,
+            'lang_key' => $this->object->key,
         ));
 
         return $table_gui;
@@ -739,13 +739,13 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $modules = ilObjLanguageExt::_getModules($this->object->key);
         
         $data = array();
-        $total = array("module"=>'',"all"=>0,"changed"=>0, "unchanged"=>0);
+        $total = array("module" => '',"all" => 0,"changed" => 0, "unchanged" => 0);
         foreach ($modules as $module) {
             $row = array();
             $row['module'] = $module;
             $row['all'] = count($this->object->getAllValues(array($module)));
             $row['changed'] = count($this->object->getChangedValues(array($module)));
-            $row['unchanged'] = $row['all']-$row['changed'];
+            $row['unchanged'] = $row['all'] - $row['changed'];
             $total['all'] += $row['all'];
             $total['changed'] += $row['changed'];
             $total['unchanged'] += $row['unchanged'];
@@ -953,7 +953,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $options = array_combine($mods, $mods);
     
         $mod = new ilSelectInputGUI(ucfirst($this->lng->txt("module")), "mod");
-        $mod->setOptions(array(""=>$this->lng->txt("please_select"))+$options);
+        $mod->setOptions(array("" => $this->lng->txt("please_select")) + $options);
         $mod->setRequired(true);
         $form->addItem($mod);
         

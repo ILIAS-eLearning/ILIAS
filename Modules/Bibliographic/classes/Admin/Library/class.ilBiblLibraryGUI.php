@@ -80,10 +80,10 @@ class ilBiblLibraryGUI
         $result = array();
         foreach ($settings as $set) {
             $result[] = array(
-                "id"   => $set->getId(),
+                "id" => $set->getId(),
                 "name" => $set->getName(),
-                "url"  => $set->getUrl(),
-                "img"  => $set->getImg(),
+                "url" => $set->getUrl(),
+                "img" => $set->getImg(),
             );
         }
         $table->setData($result);

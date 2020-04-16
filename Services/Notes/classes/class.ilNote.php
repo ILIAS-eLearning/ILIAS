@@ -527,7 +527,7 @@ class ilNote
             ? " AND obj_id = " . $ilDB->quote((int) 0, "integer") : "";
 
         if ($a_since != "") {
-            $sub_where.=" AND creation_date > " . $ilDB->quote($a_since, "timestamp");
+            $sub_where .= " AND creation_date > " . $ilDB->quote($a_since, "timestamp");
         }
 
         $sub_where .= " AND no_repository = " . $ilDB->quote(0, "integer");
@@ -994,7 +994,7 @@ class ilNote
                 }
                 $message = sprintf($ulng->txt('note_comment_notification_salutation'), ilObjUser::_lookupFullname($user_id)) . "\n\n";
 
-                $message.= sprintf($ulng->txt('note_comment_notification_user_has_written'), ilUserUtil::getNamePresentation($this->getAuthor())) . "\n\n";
+                $message .= sprintf($ulng->txt('note_comment_notification_user_has_written'), ilUserUtil::getNamePresentation($this->getAuthor())) . "\n\n";
 
                 $message .= $this->getText() . "\n\n";
 

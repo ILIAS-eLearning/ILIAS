@@ -66,7 +66,7 @@ class ilLearningHistoryGUI
 
         $this->user_id = $this->lhist_service->user()->getId();
 
-        $this->certificateSettings =  new ilSetting("certificate");
+        $this->certificateSettings = new ilSetting("certificate");
 
         $this->from = null;
         $this->to = ((int) $_GET["to_ts"] > 0)

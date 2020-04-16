@@ -266,7 +266,7 @@ class ilTimingsUser
                 }
 
                 if (
-                    ($a_only_exceeded && $row['ssend'] &&	$row['ssend'] < $now) ||
+                    ($a_only_exceeded && $row['ssend'] && $row['ssend'] < $now) ||
                     (!$a_only_exceeded && $row['sstart'] && $row['sstart'] < $now)
                 ) {
                     $res[$ref_id][$user_id] = $user_id;

@@ -15,7 +15,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 class ilContactGUI
 {
     const CONTACTS_VIEW_GALLERY = 1;
-    const CONTACTS_VIEW_TABLE   = 2;
+    const CONTACTS_VIEW_TABLE = 2;
 
     /**
      * @var ilTemplate
@@ -79,14 +79,14 @@ class ilContactGUI
     {
         global $DIC;
 
-        $this->tpl        = $DIC['tpl'];
-        $this->ctrl       = $DIC['ilCtrl'];
-        $this->lng        = $DIC['lng'];
-        $this->tabs_gui   = $DIC['ilTabs'];
-        $this->help       = $DIC['ilHelp'];
-        $this->toolbar    = $DIC['ilToolbar'];
-        $this->user       = $DIC['ilUser'];
-        $this->error      = $DIC['ilErr'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->tabs_gui = $DIC['ilTabs'];
+        $this->help = $DIC['ilHelp'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->user = $DIC['ilUser'];
+        $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
 
         $this->ctrl->saveParameter($this, "mobj_id");
@@ -192,7 +192,7 @@ class ilContactGUI
                     require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions(array(
-                        self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
+                        self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ));
                     $view_selection->setValue(
@@ -396,8 +396,8 @@ class ilContactGUI
 
         // get selected chatroom from POST-String, format: "room_id , scope"
         $room_ids = explode(',', $_POST['room_id']);
-        $room_id  = (int) $room_ids[0];
-        $scope    = 0;
+        $room_id = (int) $room_ids[0];
+        $scope = 0;
 
         if (count($room_ids) > 0) {
             $scope = (int) $room_ids[1];
@@ -405,10 +405,10 @@ class ilContactGUI
 
         include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-        $room                    = ilChatroom::byRoomId((int) $room_id, true);
-        $no_access               = array();
-        $no_login                = array();
-        $valid_users             = array();
+        $room = ilChatroom::byRoomId((int) $room_id, true);
+        $no_access = array();
+        $no_login = array();
+        $valid_users = array();
         $valid_user_to_login_map = array();
 
         foreach ($usr_ids as $usr_id) {
@@ -418,7 +418,7 @@ class ilContactGUI
                 continue;
             }
 
-            $ref_id  = $room->getRefIdByRoomId($room_id);
+            $ref_id = $room->getRefIdByRoomId($room_id);
 
             if (
                 !ilChatroom::checkPermissionsOfUser($usr_id, 'read', $ref_id) ||
@@ -426,7 +426,7 @@ class ilContactGUI
             ) {
                 $no_access[$usr_id] = $login;
             } else {
-                $valid_users[$usr_id]             = $usr_id;
+                $valid_users[$usr_id] = $usr_id;
                 $valid_user_to_login_map[$usr_id] = $login;
             }
         }
@@ -516,7 +516,7 @@ class ilContactGUI
 
         $ilChatroom = new ilChatroom();
         $chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
-        $subrooms   = array();
+        $subrooms = array();
 
         foreach ($chat_rooms as $room_id => $title) {
             $subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $this->user->getId());
@@ -527,7 +527,7 @@ class ilContactGUI
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('mail_invite_users_to_chat'));
 
-        $psel    = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
+        $psel = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
         $options = array();
 
         asort($chat_rooms);
@@ -543,7 +543,7 @@ class ilContactGUI
             foreach ($subrooms as $subroom) {
                 foreach ($subroom as $sub_id => $parent_id) {
                     if ($parent_id == $ref_id) {
-                        $title                            = ilChatroom::lookupPrivateRoomTitle($sub_id);
+                        $title = ilChatroom::lookupPrivateRoomTitle($sub_id);
                         $options[$ref_id . ',' . $sub_id] = '+&nbsp;' . $title;
                     }
                 }

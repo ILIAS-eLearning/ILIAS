@@ -27,20 +27,28 @@ class ilLearnerProgressDB
      */
     public function getLearnerItems(int $usr_id, int $container_ref_id, array $ls_items) : array
     {
-        $items =[];
+        $items = [];
         $states = $this->state_db->getStatesFor($container_ref_id, [$usr_id]);
         foreach ($ls_items as $ls_item) {
             if ($this->isItemVisibleForUser($usr_id, $ls_item) === false) {
                 continue;
             }
-            $lp = $this->getLearningProgressFor($usr_id, $ls_item);
+            $lp_refresher = $this->getLPStatusRefresher();
             $av = $this->getAvailabilityFor($usr_id, $ls_item);
             $state = $this->getStateFor($ls_item, $states[$usr_id]);
-            $items[] = new LSLearnerItem($usr_id, $lp, $av, $state, $ls_item);
+            $items[] = new LSLearnerItem($usr_id, $lp_refresher, $av, $state, $ls_item);
         }
 
         return $items;
     }
+
+    protected function getLPStatusRefresher(): \Closure {
+        return function(int $ref_id, int $usr_id)  {
+            $obj_id = ilObject::_lookupObjId($ref_id);
+            return (int)ilLPStatus::_lookupStatus($obj_id, $usr_id, true);
+        };
+    }
+
 
     protected function getObjIdForRefId(int $ref_id) : int
     {

@@ -24,8 +24,8 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
     /**
      * the available table modes controlling the tables behaviour
      */
-    const TBL_MODE_TESTOUTPUT		= '1';
-    const TBL_MODE_ADMINISTRATION	= '2';
+    const TBL_MODE_TESTOUTPUT = '1';
+    const TBL_MODE_ADMINISTRATION = '2';
     
     /**
      * the object instance for current question
@@ -155,9 +155,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
             
             if ($rowCount > 1) {
                 $this->addMultiCommand(
-                ilAssQuestionHintsGUI::CMD_CUT_TO_ORDERING_CLIPBOARD,
-                $lng->txt('tst_questions_hints_table_multicmd_cut_hint')
-            );
+                    ilAssQuestionHintsGUI::CMD_CUT_TO_ORDERING_CLIPBOARD,
+                    $lng->txt('tst_questions_hints_table_multicmd_cut_hint')
+                );
             }
 
             $this->addCommandButton(

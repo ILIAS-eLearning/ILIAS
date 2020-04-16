@@ -520,19 +520,19 @@ if (!$ilDB->tableColumnExists('il_poll', 'show_comments')) {
             $broken_sequences[] = array('active' => $row['active'], 'holes' => abs($row['pass']));
         }
 
-        $stmt_inc_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
-        $stmt_inc_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
-        $stmt_inc_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
-        $stmt_inc_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
-        $stmt_inc_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+        $stmt_inc_pass_res = $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+        $stmt_inc_man_fb = $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+        $stmt_inc_seq = $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+        $stmt_inc_sol = $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+        $stmt_inc_times = $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
 
-        $stmt_sel_passes 	= $ilDB->prepare('SELECT pass FROM tst_pass_result WHERE active_fi = ? ORDER BY pass', array('integer'));
+        $stmt_sel_passes = $ilDB->prepare('SELECT pass FROM tst_pass_result WHERE active_fi = ? ORDER BY pass', array('integer'));
 
-        $stmt_dec_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
-        $stmt_dec_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
-        $stmt_dec_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
-        $stmt_dec_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
-        $stmt_dec_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+        $stmt_dec_pass_res = $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+        $stmt_dec_man_fb = $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+        $stmt_dec_seq = $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+        $stmt_dec_sol = $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+        $stmt_dec_times = $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
 
         // Iterate over affected passes
         foreach ($broken_sequences as $broken_sequence) {
@@ -779,10 +779,10 @@ if (!$ilDB->tableColumnExists('qpl_qst_cloze', 'cloze_text')) {
         $ilDB->update(
             'qpl_qst_cloze',
             array(
-                'cloze_text'	=> array('clob', $row['question_text'] )
+                'cloze_text' => array('clob', $row['question_text'] )
             ),
             array(
-                'question_fi'	=> array('integer', $row['question_id'] )
+                'question_fi' => array('integer', $row['question_id'] )
             )
         );
         $ilDB->execute($clean_qst_txt, array($row['question_id']));
@@ -2333,8 +2333,8 @@ $ilCtrlStructureReader->getStructure();
 <#4289>
 <?php
 $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     );
@@ -2343,8 +2343,8 @@ $ilDB->addTableColumn("content_object", "progr_icons", $def);
 <#4290>
 <?php
 $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     );
@@ -2370,9 +2370,9 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
             'rbac_fa',
             'old_parent',
             array(
-                "type"    => "integer",
+                "type" => "integer",
                 "notnull" => true,
-                "length"  => 8,
+                "length" => 8,
                 "default" => 0
             )
         );
@@ -2381,8 +2381,8 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 
     if (!$ilDB->tableExists('rbac_fa_temp')) {
         $fields = array(
-            'role_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
-            'parent_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
+            'role_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+            'parent_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
         );
         $ilDB->createTable('rbac_fa_temp', $fields);
         $ilDB->addPrimaryKey('rbac_fa_temp', array('role_id', 'parent_id'));
@@ -2390,7 +2390,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
     }
 
 
-    $stmt  = $ilDB->prepareManip("UPDATE rbac_fa SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
+    $stmt = $ilDB->prepareManip("UPDATE rbac_fa SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
     $stmt2 = $ilDB->prepareManip("INSERT INTO rbac_fa_temp (role_id, parent_id) VALUES(?, ?)", array("integer", "integer"));
     $stmt3 = $ilDB->prepare("SELECT object_data.type FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE ref_id = ?", array("integer"));
 
@@ -2409,7 +2409,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
     $handled_roles_by_parent = array();
 
     while ($row = $ilDB->fetchAssoc($res)) {
-        $role_id   = $row["rol_id"];
+        $role_id = $row["rol_id"];
         $parent_id = $row["parent"];
 
         if ($handled_roles_by_parent[$role_id][$parent_id]) {
@@ -2467,9 +2467,9 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
             'rbac_templates',
             'old_parent',
             array(
-                "type"    => "integer",
+                "type" => "integer",
                 "notnull" => true,
-                "length"  => 8,
+                "length" => 8,
                 "default" => 0
             )
         );
@@ -2478,8 +2478,8 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 
     if (!$ilDB->tableExists('rbac_templates_temp')) {
         $fields = array(
-            'role_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
-            'parent_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
+            'role_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+            'parent_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0)
         );
         $ilDB->createTable('rbac_templates_temp', $fields);
         $ilDB->addPrimaryKey('rbac_templates_temp', array('role_id', 'parent_id'));
@@ -2487,7 +2487,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
     }
 
 
-    $stmt  = $ilDB->prepareManip("UPDATE rbac_templates SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
+    $stmt = $ilDB->prepareManip("UPDATE rbac_templates SET parent = ?, old_parent = ? WHERE  rol_id = ? AND parent = ?", array("integer", "integer", "integer", "integer"));
     $stmt2 = $ilDB->prepareManip("INSERT INTO rbac_templates_temp (role_id, parent_id) VALUES(?, ?)", array("integer", "integer"));
     $stmt3 = $ilDB->prepare("SELECT object_data.type FROM object_reference INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE ref_id = ?", array("integer"));
 
@@ -2506,7 +2506,7 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
     $handled_roles_by_parent = array();
 
     while ($row = $ilDB->fetchAssoc($res)) {
-        $role_id   = $row["rol_id"];
+        $role_id = $row["rol_id"];
         $parent_id = $row["parent"];
 
         if ($handled_roles_by_parent[$role_id][$parent_id]) {
@@ -2547,8 +2547,8 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 <#4293>
 <?php
 $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     );
@@ -2571,8 +2571,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if (!$ilDB->tableColumnExists('container_sorting_set', 'new_items_position')) {
     $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 1
     );
@@ -2581,8 +2581,8 @@ if (!$ilDB->tableColumnExists('container_sorting_set', 'new_items_position')) {
 
 if (!$ilDB->tableColumnExists('container_sorting_set', 'new_items_order')) {
     $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     );
@@ -2597,15 +2597,15 @@ if (!$ilDB->tableColumnExists('container_sorting_set', 'new_items_order')) {
 <?php
 if (!$ilDB->tableExists('usr_cron_mail_reminder')) {
     $fields = array(
-        'usr_id'    => array(
-            'type'    => 'integer',
-            'length'  => 4,
+        'usr_id' => array(
+            'type' => 'integer',
+            'length' => 4,
             'default' => 0,
             'notnull' => true
         ),
-        'ts'   => array(
-            'type'    => 'integer',
-            'length'  => 4,
+        'ts' => array(
+            'type' => 'integer',
+            'length' => 4,
             'default' => 0,
             'notnull' => true
         )
@@ -2618,11 +2618,11 @@ if (!$ilDB->tableExists('usr_cron_mail_reminder')) {
     <?php
     if (!$ilDB->tableExists('orgu_types')) {
         $fields = array(
-            'id'    => array('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
-            'default_lang'   => array('type' => 'text', 'notnull' => true, 'length' => 4, 'fixed' => false),
-            'icon'    => array('type' => 'text', 'length'  => 256, 'notnull' => false),
+            'id' => array('type' => 'integer', 'length' => 4,'notnull' => true, 'default' => 0),
+            'default_lang' => array('type' => 'text', 'notnull' => true, 'length' => 4, 'fixed' => false),
+            'icon' => array('type' => 'text', 'length' => 256, 'notnull' => false),
             'owner' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
-            'create_date'  => array('type' => 'timestamp'),
+            'create_date' => array('type' => 'timestamp'),
             'last_update' => array('type' => 'timestamp'),
         );
         $ilDB->createTable('orgu_types', $fields);
@@ -2634,8 +2634,8 @@ if (!$ilDB->tableExists('usr_cron_mail_reminder')) {
     <?php
     if (!$ilDB->tableExists('orgu_data')) {
         $fields = array(
-            'orgu_id'    => array('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
-            'orgu_type_id'   => array('type' => 'integer', 'notnull' => false, 'length' => 4),
+            'orgu_id' => array('type' => 'integer', 'length' => 4,'notnull' => true, 'default' => 0),
+            'orgu_type_id' => array('type' => 'integer', 'notnull' => false, 'length' => 4),
         );
         $ilDB->createTable('orgu_data', $fields);
         $ilDB->addPrimaryKey('orgu_data', array('orgu_id'));
@@ -2645,9 +2645,9 @@ if (!$ilDB->tableExists('usr_cron_mail_reminder')) {
     <?php
     if (!$ilDB->tableExists('orgu_types_trans')) {
         $fields = array(
-            'orgu_type_id'    => array('type' => 'integer', 'length'  => 4,'notnull' => true),
-            'lang'   => array('type' => 'text', 'notnull' => true, 'length' => 4),
-            'member'    => array('type' => 'text', 'length'  => 32, 'notnull' => true),
+            'orgu_type_id' => array('type' => 'integer', 'length' => 4,'notnull' => true),
+            'lang' => array('type' => 'text', 'notnull' => true, 'length' => 4),
+            'member' => array('type' => 'text', 'length' => 32, 'notnull' => true),
             'value' => array('type' => 'text', 'length' => 4000, 'notnull' => false),
         );
         $ilDB->createTable('orgu_types_trans', $fields);
@@ -2662,8 +2662,8 @@ if (!$ilDB->tableExists('usr_cron_mail_reminder')) {
     <?php
     if (!$ilDB->tableExists('orgu_types_adv_md_rec')) {
         $fields = array(
-            'type_id'    => array('type' => 'integer', 'length'  => 4,'notnull' => true),
-            'rec_id'   => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+            'type_id' => array('type' => 'integer', 'length' => 4,'notnull' => true),
+            'rec_id' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
         );
         $ilDB->createTable('orgu_types_adv_md_rec', $fields);
         $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
@@ -2698,8 +2698,8 @@ ilDBUpdateNewObjectType::varchar2text('exc_assignment_peer', 'pcomment');
 global $ilDB;
 
 $ilDB->modifyTableColumn('usr_data', 'passwd', array(
-    'type'    => 'text',
-    'length'  => 80,
+    'type' => 'text',
+    'length' => 80,
     'notnull' => false,
     'default' => null
 ));
@@ -2716,8 +2716,8 @@ $ilDB->manipulateF(
 <?php
 if (!$ilDB->tableColumnExists('usr_data', 'passwd_enc_type')) {
     $ilDB->addTableColumn('usr_data', 'passwd_enc_type', array(
-        'type'    => 'text',
-        'length'  => 10,
+        'type' => 'text',
+        'length' => 10,
         'notnull' => false,
         'default' => null
     ));
@@ -2749,8 +2749,8 @@ $ilDB->manipulateF(
 <?php
 if (!$ilDB->tableColumnExists('usr_data', 'passwd_salt')) {
     $ilDB->addTableColumn('usr_data', 'passwd_salt', array(
-        'type'    => 'text',
-        'length'  => 32,
+        'type' => 'text',
+        'length' => 32,
         'notnull' => false,
         'default' => null
     ));
@@ -2777,7 +2777,7 @@ if ($ilDB->tableColumnExists('usr_data', 'i2passwd')) {
         $a_obj_id[] = $data['targetobjectiveid'];
     }
     //make arrays
-    for ($i=0;$i<count($a_obj_id);$i++) {
+    for ($i = 0;$i < count($a_obj_id);$i++) {
         $a_scope_id[$a_obj_id[$i]] = array();
         $a_scope_id_one[$a_obj_id[$i]] = array();
     }
@@ -2797,7 +2797,7 @@ if ($ilDB->tableColumnExists('usr_data', 'i2passwd')) {
     }
 
     //for all targetobjectiveid
-    for ($i=0;$i<count($a_obj_id);$i++) {
+    for ($i = 0;$i < count($a_obj_id);$i++) {
         $a_toupdate = array();
         //get old data without correct scope_id
         $res = $ilDB->queryF(
@@ -2810,10 +2810,10 @@ if ($ilDB->tableColumnExists('usr_data', 'i2passwd')) {
         }
         //check specific possible scope_ids with global_to_system=0 -> a_o
         $a_o = $a_scope_id[$a_obj_id[$i]];
-        for ($z=0; $z<count($a_o); $z++) {
+        for ($z = 0; $z < count($a_o); $z++) {
             //for all existing entries
-            for ($y=0; $y<count($a_toupdate); $y++) {
-                $a_t=$a_toupdate[$y];
+            for ($y = 0; $y < count($a_toupdate); $y++) {
+                $a_t = $a_toupdate[$y];
                 //only users attempted
                 $res = $ilDB->queryF(
                     'SELECT user_id FROM sahs_user WHERE obj_id=%s AND user_id=%s',
@@ -3870,7 +3870,7 @@ if (!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list')) {
         $a_obj_id[] = $data['targetobjectiveid'];
     }
     //make arrays
-    for ($i=0;$i<count($a_obj_id);$i++) {
+    for ($i = 0;$i < count($a_obj_id);$i++) {
         $a_scope_id[$a_obj_id[$i]] = array();
         $a_scope_id_one[$a_obj_id[$i]] = array();
     }
@@ -3890,7 +3890,7 @@ if (!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list')) {
     }
 
     //for all targetobjectiveid
-    for ($i=0;$i<count($a_obj_id);$i++) {
+    for ($i = 0;$i < count($a_obj_id);$i++) {
         $a_toupdate = array();
         //get old data without correct scope_id
         $res = $ilDB->queryF(
@@ -3903,10 +3903,10 @@ if (!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list')) {
         }
         //check specific possible scope_ids with global_to_system=0 -> a_o
         $a_o = $a_scope_id[$a_obj_id[$i]];
-        for ($z=0; $z<count($a_o); $z++) {
+        for ($z = 0; $z < count($a_o); $z++) {
             //for all existing entries
-            for ($y=0; $y<count($a_toupdate); $y++) {
-                $a_t=$a_toupdate[$y];
+            for ($y = 0; $y < count($a_toupdate); $y++) {
+                $a_t = $a_toupdate[$y];
                 //only users attempted
                 $res = $ilDB->queryF(
                     'SELECT user_id FROM sahs_user WHERE obj_id=%s AND user_id=%s',
@@ -6399,7 +6399,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateChatProoms
 ";
-$res  = $ilDB->query($crpra_dup_query_num);
+$res = $ilDB->query($crpra_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $mopt_dup_query = "
@@ -6411,7 +6411,7 @@ if ($data['cnt']) {
     $res = $ilDB->query($mopt_dup_query);
 
     $stmt_del = $ilDB->prepareManip("DELETE FROM chatroom_proomaccess WHERE proom_id = ? AND user_id = ?", array('integer', 'integer'));
-    $stmt_in  = $ilDB->prepareManip("INSERT INTO chatroom_proomaccess (proom_id, user_id) VALUES(?, ?)", array('integer', 'integer'));
+    $stmt_in = $ilDB->prepareManip("INSERT INTO chatroom_proomaccess (proom_id, user_id) VALUES(?, ?)", array('integer', 'integer'));
 
     while ($row = $ilDB->fetchAssoc($res)) {
         $ilDB->execute($stmt_del, array($row['proom_id'], $row['user_id']));
@@ -6419,7 +6419,7 @@ if ($data['cnt']) {
     }
 }
 
-$res  = $ilDB->query($crpra_dup_query_num);
+$res = $ilDB->query($crpra_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
@@ -6438,7 +6438,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateMailOptions
 ";
-$res  = $ilDB->query($mopt_dup_query_num);
+$res = $ilDB->query($mopt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $mopt_dup_query = "
@@ -6451,7 +6451,7 @@ if ($data['cnt']) {
 
     $stmt_sel = $ilDB->prepare("SELECT * FROM mail_options WHERE user_id = ?", array('integer'));
     $stmt_del = $ilDB->prepareManip("DELETE FROM mail_options WHERE user_id = ?", array('integer'));
-    $stmt_in  = $ilDB->prepareManip("INSERT INTO mail_options (user_id, linebreak, signature, incoming_type, cronjob_notification) VALUES(?, ?, ?, ?, ?)", array('integer', 'integer', 'text', 'integer', 'integer'));
+    $stmt_in = $ilDB->prepareManip("INSERT INTO mail_options (user_id, linebreak, signature, incoming_type, cronjob_notification) VALUES(?, ?, ?, ?, ?)", array('integer', 'integer', 'text', 'integer', 'integer'));
 
     while ($row = $ilDB->fetchAssoc($res)) {
         $opt_res = $ilDB->execute($stmt_sel, array($row['user_id']));
@@ -6463,7 +6463,7 @@ if ($data['cnt']) {
     }
 }
 
-$res  = $ilDB->query($mopt_dup_query_num);
+$res = $ilDB->query($mopt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
@@ -6482,7 +6482,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicatePaymentStatistics
 ";
-$res  = $ilDB->query($psc_dup_query_num);
+$res = $ilDB->query($psc_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $psc_dup_query = "
@@ -6494,7 +6494,7 @@ if ($data['cnt']) {
     $res = $ilDB->query($psc_dup_query);
 
     $stmt_del = $ilDB->prepareManip("DELETE FROM payment_statistic_coup WHERE psc_ps_fk = ? AND psc_pc_fk = ? AND psc_pcc_fk = ?", array('integer', 'integer', 'integer'));
-    $stmt_in  = $ilDB->prepareManip("INSERT INTO payment_statistic_coup (psc_ps_fk, psc_pc_fk, psc_pcc_fk) VALUES(?, ?, ?)", array('integer', 'integer', 'integer'));
+    $stmt_in = $ilDB->prepareManip("INSERT INTO payment_statistic_coup (psc_ps_fk, psc_pc_fk, psc_pcc_fk) VALUES(?, ?, ?)", array('integer', 'integer', 'integer'));
 
     while ($row = $ilDB->fetchAssoc($res)) {
         $ilDB->execute($stmt_del, array($row['psc_ps_fk'], $row['psc_pc_fk'], $row['psc_pcc_fk']));
@@ -6502,7 +6502,7 @@ if ($data['cnt']) {
     }
 }
 
-$res  = $ilDB->query($psc_dup_query_num);
+$res = $ilDB->query($psc_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
@@ -6521,7 +6521,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateMailSaved
 ";
-$res  = $ilDB->query($msave_dup_query_num);
+$res = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $msave_dup_query = "
@@ -6543,23 +6543,23 @@ if ($data['cnt']) {
             $ilDB->insert(
                 'mail_saved',
                 array(
-                    'user_id'          => array('integer', $opt_row['user_id']),
-                    'm_type'           => array('text', $opt_row['m_type']),
-                    'm_email'          => array('integer', $opt_row['m_email']),
-                    'm_subject'        => array('text', $opt_row['m_subject']),
+                    'user_id' => array('integer', $opt_row['user_id']),
+                    'm_type' => array('text', $opt_row['m_type']),
+                    'm_email' => array('integer', $opt_row['m_email']),
+                    'm_subject' => array('text', $opt_row['m_subject']),
                     'use_placeholders' => array('integer', $opt_row['use_placeholders']),
-                    'm_message'        => array('clob', $opt_row['m_message']),
-                    'rcp_to'           => array('clob', $opt_row['rcp_to']),
-                    'rcp_cc'           => array('clob', $opt_row['rcp_cc']),
-                    'rcp_bcc'          => array('clob', $opt_row['rcp_bcc']),
-                    'attachments'      => array('clob', $opt_row['attachments'])
+                    'm_message' => array('clob', $opt_row['m_message']),
+                    'rcp_to' => array('clob', $opt_row['rcp_to']),
+                    'rcp_cc' => array('clob', $opt_row['rcp_cc']),
+                    'rcp_bcc' => array('clob', $opt_row['rcp_bcc']),
+                    'attachments' => array('clob', $opt_row['attachments'])
                 )
             );
         }
     }
 }
 
-$res  = $ilDB->query($msave_dup_query_num);
+$res = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     die("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
@@ -6578,7 +6578,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateChatroomBans
 ";
-$res  = $ilDB->query($chrban_dup_query_num);
+$res = $ilDB->query($chrban_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $chrban_dup_query = "
@@ -6600,7 +6600,7 @@ if ($data['cnt']) {
     $res = $ilDB->query($chrban_dup_query);
 
     $stmt_del = $ilDB->prepareManip("DELETE FROM chatroom_bans WHERE room_id = ? AND user_id = ?", array('integer', 'integer'));
-    $stmt_in  = $ilDB->prepareManip("INSERT INTO chatroom_bans (room_id, user_id, timestamp, remark) VALUES(?, ?, ?, ?)", array('integer', 'integer',  'integer',  'text'));
+    $stmt_in = $ilDB->prepareManip("INSERT INTO chatroom_bans (room_id, user_id, timestamp, remark) VALUES(?, ?, ?, ?)", array('integer', 'integer',  'integer',  'text'));
 
     while ($row = $ilDB->fetchAssoc($res)) {
         $ilDB->execute($stmt_del, array($row['room_id'], $row['user_id']));
@@ -6608,7 +6608,7 @@ if ($data['cnt']) {
     }
 }
 
-$res  = $ilDB->query($chrban_dup_query_num);
+$res = $ilDB->query($chrban_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     die("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
@@ -6626,10 +6626,10 @@ if (!$ilDB->sequenceExists('chatroom_psessionstmp')) {
 <?php
 if (!$ilDB->tableExists('chatroom_psessionstmp')) {
     $fields = array(
-        'psess_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
-        'proom_id'     => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'psess_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+        'proom_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
         'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
     );
     $ilDB->createTable('chatroom_psessionstmp', $fields);
@@ -6698,11 +6698,11 @@ if (!$ilDB->sequenceExists('chatroom_sessionstmp')) {
 <?php
 if (!$ilDB->tableExists('chatroom_sessionstmp')) {
     $fields = array(
-        'sess_id'     => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
-        'room_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'user_id'      => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'userdata'     => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null),
-        'connected'    => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'sess_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+        'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'userdata' => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null),
+        'connected' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
         'disconnected' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
     );
     $ilDB->createTable('chatroom_sessionstmp', $fields);
@@ -7092,11 +7092,11 @@ if (!$ilDB->sequenceExists('chatroom_historytmp')) {
 <?php
 if (!$ilDB->tableExists('chatroom_historytmp')) {
     $fields = array(
-        'hist_id'   => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
-        'room_id'   => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'message'   => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null),
+        'hist_id' => array('type' => 'integer', 'length' => 8, 'notnull' => true, 'default' => 0),
+        'room_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+        'message' => array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null),
         'timestamp' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
-        'sub_room'  => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
+        'sub_room' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0)
     );
     $ilDB->createTable('chatroom_historytmp', $fields);
     $ilDB->addPrimaryKey('chatroom_historytmp', array('hist_id'));
@@ -7178,8 +7178,8 @@ if ($ilDB->getDBType() == 'postgres') {
     $ilDB->manipulate("ALTER TABLE chatroom_prooms ALTER parent_id TYPE INTEGER USING (parent_id::INTEGER)");
 } else {
     $ilDB->modifyTableColumn('chatroom_prooms', 'parent_id', array(
-        'type'    => 'integer',
-        'length'  => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true,
         'default' => 0
     ));
@@ -7229,9 +7229,9 @@ if (!$ilDB->tableColumnExists('frm_settings', 'file_upload_allowed')) {
         'frm_settings',
         'file_upload_allowed',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 1,
+            "length" => 1,
             "default" => 0
         )
     );
@@ -7249,9 +7249,9 @@ if ($ilDB->tableExists('sysc_groups_seq')) {
 
 if (!$ilDB->tableExists('sysc_groups')) {
     $fields = array(
-    'id'    => array(
+    'id' => array(
             'type' => 'integer',
-            'length'  => 4,
+            'length' => 4,
             'notnull' => true),
     'component' => array(
             "type" => "text",
@@ -7279,9 +7279,9 @@ if (!$ilDB->tableExists('sysc_groups')) {
 
 if (!$ilDB->tableExists('sysc_tasks')) {
     $fields = array(
-    'id'    => array(
+    'id' => array(
             'type' => 'integer',
-            'length'  => 4,
+            'length' => 4,
             'notnull' => true),
     'grp_id' => array(
             "type" => "integer",
@@ -7324,14 +7324,14 @@ $cntRow = $ilDB->fetchAssoc($cntRes);
 if ($cntRow['cnt'] > 0) {
     $ilDB->createTable('tst_addtime_tmp', array(
         'active_fi' => array(
-            'type'  => 'integer',
-            'length'=> 8,
+            'type' => 'integer',
+            'length' => 8,
             'notnull' => true,
             'default' => 0
         ),
         'additionaltime' => array(
-            'type'  => 'integer',
-            'length'=> 8,
+            'type' => 'integer',
+            'length' => 8,
             'notnull' => false,
             'default' => null,
         ),
@@ -7502,9 +7502,9 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'delete_by_owner')) {
         'il_dcl_table',
         'delete_by_owner',
         array(
-        "type"    => "integer",
+        "type" => "integer",
         "notnull" => true,
-        "length"  => 1,
+        "length" => 1,
         "default" => 0
         )
     );
@@ -7529,8 +7529,8 @@ $row = $ilDB->fetchAssoc($res);
 if ($row['cnt'] > 0) {
     $ilDB->createTable('tst_result_cache_tmp', array(
         'active_fi' => array(
-            'type'  => 'integer',
-            'length'=> 8,
+            'type' => 'integer',
+            'length' => 8,
             'notnull' => true,
             'default' => 0
         )
@@ -7637,11 +7637,11 @@ FROM (
 ) duplicateMailFolders
 ";
 
-$res  = $ilDB->query($mod_dup_query_num);
+$res = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 
 $ilSetting = new ilSetting();
-$setting   = $ilSetting->get('mail_mod_dupl_warn_51x_shown', 0);
+$setting = $ilSetting->get('mail_mod_dupl_warn_51x_shown', 0);
 if ($data['cnt'] > 0 && !(int) $setting) {
     echo "<pre>
 
@@ -7721,9 +7721,9 @@ if ($data['cnt'] > 0) {
     $res = $ilDB->query($mod_dup_query);
     while ($row = $ilDB->fetchAssoc($res)) {
         $old_folder_id = $row['obj_id'];
-        $user_id       = $row['user_id'];
-        $title         = $row['title'];
-        $type          = $row['m_type'];
+        $user_id = $row['user_id'];
+        $title = $row['title'];
+        $type = $row['m_type'];
 
         // Delete old folder entry
         $ilDB->execute($ps_delete_mf_by_obj_and_usr, array($old_folder_id, $user_id));
@@ -7775,7 +7775,7 @@ if ($data['cnt'] > 0) {
     }
 }
 
-$res  = $ilDB->query($mod_dup_query_num);
+$res = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
@@ -7793,7 +7793,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateMailFolders
 ";
-$res  = $ilDB->query($mod_dup_query_num);
+$res = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
@@ -7872,11 +7872,11 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateMailFolderNodes
 ";
-$res  = $ilDB->query($mt_dup_query_num);
+$res = $ilDB->query($mt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 
 $ilSetting = new ilSetting();
-$setting   = $ilSetting->get('mail_mt_dupl_warn_51x_shown', 0);
+$setting = $ilSetting->get('mail_mt_dupl_warn_51x_shown', 0);
 if ($data['cnt'] > 0 && !(int) $setting) {
     echo "<pre>
 
@@ -7916,8 +7916,8 @@ if ($data['cnt'] > 0) {
     if (!$ilDB->tableExists('mail_tree_migr')) {
         $ilDB->createTable('mail_tree_migr', array(
             'usr_id' => array(
-                'type'    => 'integer',
-                'length'  => 4,
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
                 'default' => 0
             )
@@ -7976,12 +7976,12 @@ if ($ilDB->tableExists('mail_tree_migr')) {
     );
 
     $default_folders_title_to_type_map = array(
-        'a_root'   => 'root',
-        'b_inbox'  => 'inbox',
-        'c_trash'  => 'trash',
+        'a_root' => 'root',
+        'b_inbox' => 'inbox',
+        'c_trash' => 'trash',
         'd_drafts' => 'drafts',
-        'e_sent'   => 'sent',
-        'z_local'  => 'local'
+        'e_sent' => 'sent',
+        'z_local' => 'local'
     );
     $default_folder_type_to_title_map = array_flip($default_folders_title_to_type_map);
 
@@ -8033,7 +8033,7 @@ if ($ilDB->tableExists('mail_tree_migr')) {
         ));
 
         $fold_res = $ilDB->execute($ps_sel_fold_entries, array($usr_id));
-        $user_folders         = array();
+        $user_folders = array();
         $user_default_folders = array();
         while ($fold_row = $ilDB->fetchAssoc($fold_res)) {
             $user_folders[$fold_row['obj_id']] = $fold_row;
@@ -8050,8 +8050,8 @@ if ($ilDB->tableExists('mail_tree_migr')) {
 
             $user_folders[$folder_id] = array(
                 'obj_id' => $folder_id,
-                'user_id'=> $usr_id,
-                'title'  => $title,
+                'user_id' => $usr_id,
+                'title' => $title,
                 'm_type' => $type
             );
             $GLOBALS['ilLog']->write(sprintf(
@@ -8066,7 +8066,7 @@ if ($ilDB->tableExists('mail_tree_migr')) {
         }
 
         // Create a new root folder node
-        $root_id  = null;
+        $root_id = null;
         foreach ($user_folders as $folder_id => $data) {
             if ('root' != $data['m_type']) {
                 continue;
@@ -8111,8 +8111,8 @@ if ($ilDB->tableExists('mail_tree_migr')) {
             $parent_row = $ilDB->fetchAssoc($res_parent);
 
             $right = $parent_row['rgt'];
-            $lft   = $right;
-            $rgt   = $right + 1;
+            $lft = $right;
+            $rgt = $right + 1;
 
             $ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
             $ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $root_id, $lft, $rgt, 2));
@@ -8148,8 +8148,8 @@ if ($ilDB->tableExists('mail_tree_migr')) {
             $parent_row = $ilDB->fetchAssoc($res_parent);
 
             $right = $parent_row['rgt'];
-            $lft   = $right;
-            $rgt   = $right + 1;
+            $lft = $right;
+            $rgt = $right + 1;
 
             $ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
             $ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $custom_folder_root_id, $lft, $rgt, 3));
@@ -8200,7 +8200,7 @@ FROM (
 	HAVING COUNT(*) > 1
 ) duplicateMailFolderNodes
 ";
-$res  = $ilDB->query($mt_dup_query_num);
+$res = $ilDB->query($mt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
@@ -8328,7 +8328,7 @@ if (!$ilDB->tableColumnExists('frm_posts', 'pos_cens_date')) {
         'frm_posts',
         'pos_cens_date',
         array(
-            'type'    => 'timestamp',
+            'type' => 'timestamp',
             'notnull' => false)
     );
 }
@@ -8339,72 +8339,72 @@ if (!$ilDB->tableExists('frm_posts_deleted')) {
     $ilDB->createTable(
         'frm_posts_deleted',
         array(
-            'deleted_id'          => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'deleted_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'deleted_date'        => array(
-                'type'    => 'timestamp',
+            'deleted_date' => array(
+                'type' => 'timestamp',
                 'notnull' => true
             ),
-            'deleted_by'          => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'deleted_by' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'forum_title'         => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'forum_title' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'thread_title'        => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'thread_title' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'post_title'          => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'post_title' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'post_message'        => array(
-                'type'    => 'clob',
+            'post_message' => array(
+                'type' => 'clob',
                 'notnull' => true
             ),
-            'post_date'           => array(
-                'type'    => 'timestamp',
+            'post_date' => array(
+                'type' => 'timestamp',
                 'notnull' => true
             ),
-            'obj_id'              => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'obj_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'ref_id'              => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'ref_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'thread_id'           => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'thread_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'forum_id'            => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'forum_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
             'pos_display_user_id' => array(
-                'type'    => 'integer',
-                'length'  => 4,
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
                 'default' => 0
             ),
-            'pos_usr_alias'       => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'pos_usr_alias' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => false
             )
         )
@@ -8425,8 +8425,8 @@ if (!$ilDB->tableColumnExists('frm_posts_deleted', 'is_thread_deleted')) {
         'frm_posts_deleted',
         'is_thread_deleted',
         array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0)
     );
@@ -8770,10 +8770,10 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj')) {
 <?php
     if (!$ilDB->tableExists("copg_section_timings")) {
         $fields = array(
-            'pm_id'    => array('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
-            'pm_title'   => array('type' => 'text', 'notnull' => true, 'length' => 60, 'fixed' => false),
-            'pm_enabled'    => array('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0),
-            'save_usr_adr'  => array('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 0)
+            'pm_id' => array('type' => 'integer', 'length' => 4,'notnull' => true, 'default' => 0),
+            'pm_title' => array('type' => 'text', 'notnull' => true, 'length' => 60, 'fixed' => false),
+            'pm_enabled' => array('type' => 'integer', 'length' => 1,"notnull" => true,"default" => 0),
+            'save_usr_adr' => array('type' => 'integer', 'length' => 1,"notnull" => true,"default" => 0)
         );
 
 
@@ -8804,9 +8804,9 @@ if (!$ilDB->tableColumnExists('adv_md_record', 'parent_obj')) {
         'copg_section_timings',
         'unix_ts',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 4,
+            "length" => 4,
             "default" => 0
         )
     );
@@ -8929,35 +8929,35 @@ if (!$ilDB->tableColumnExists('skl_user_skill_level', 'unique_identifier')) {
 <?php
 if (!$ilDB->tableExists('mail_man_tpl')) {
     $ilDB->createTable('mail_man_tpl', array(
-        'tpl_id'    => array(
-            'type'    => 'integer',
-            'length'  => 4,
+        'tpl_id' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
-        'title'     => array(
-            'type'    => 'text',
-            'length'  => 255,
+        'title' => array(
+            'type' => 'text',
+            'length' => 255,
             'notnull' => true
         ),
-        'context'   => array(
-            'type'    => 'text',
-            'length'  => 100,
+        'context' => array(
+            'type' => 'text',
+            'length' => 100,
             'notnull' => true
         ),
-        'lang'      => array(
-            'type'    => 'text',
-            'length'  => 2,
+        'lang' => array(
+            'type' => 'text',
+            'length' => 2,
             'notnull' => true
         ),
         'm_subject' => array(
-            'type'    => 'text',
-            'length'  => 255,
+            'type' => 'text',
+            'length' => 255,
             'notnull' => false,
             'default' => null
         ),
         'm_message' => array(
-            'type'    => 'clob',
+            'type' => 'clob',
             'notnull' => false,
             'default' => null
         )
@@ -8971,24 +8971,24 @@ if (!$ilDB->tableExists('mail_man_tpl')) {
 <?php
 if (!$ilDB->tableExists('mail_tpl_ctx')) {
     $ilDB->createTable('mail_tpl_ctx', array(
-        'id'             => array(
-            'type'    => 'text',
-            'length'  => 100,
+        'id' => array(
+            'type' => 'text',
+            'length' => 100,
             'notnull' => true
         ),
-        'component'      => array(
-            'type'    => 'text',
-            'length'  => 100,
+        'component' => array(
+            'type' => 'text',
+            'length' => 100,
             'notnull' => true
         ),
         'class' => array(
-            'type'    => 'text',
-            'length'  => 100,
+            'type' => 'text',
+            'length' => 100,
             'notnull' => true
         ),
-        'path'           => array(
-            'type'    => 'text',
-            'length'  => 4000,
+        'path' => array(
+            'type' => 'text',
+            'length' => 4000,
             'notnull' => false,
             'default' => null
         )
@@ -9007,8 +9007,8 @@ if (!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_id')) {
         'mail_saved',
         'tpl_ctx_id',
         array(
-            'type'    => 'text',
-            'length'  => '100',
+            'type' => 'text',
+            'length' => '100',
             'notnull' => false,
             'default' => null
         )
@@ -9020,7 +9020,7 @@ if (!$ilDB->tableColumnExists('mail_saved', 'tpl_ctx_params')) {
         'mail_saved',
         'tpl_ctx_params',
         array(
-            'type'    => 'blob',
+            'type' => 'blob',
             'notnull' => false,
             'default' => null
         )
@@ -9034,8 +9034,8 @@ if (!$ilDB->tableColumnExists('mail', 'tpl_ctx_id')) {
         'mail',
         'tpl_ctx_id',
         array(
-            'type'    => 'text',
-            'length'  => '100',
+            'type' => 'text',
+            'length' => '100',
             'notnull' => false,
             'default' => null
         )
@@ -9047,7 +9047,7 @@ if (!$ilDB->tableColumnExists('mail', 'tpl_ctx_params')) {
         'mail',
         'tpl_ctx_params',
         array(
-            'type'    => 'blob',
+            'type' => 'blob',
             'notnull' => false,
             'default' => null
         )
@@ -9491,14 +9491,14 @@ if (!$ilDB->tableExists('il_wac_secure_path')) {
             if (!$ilDB->tableExists('desktop_item_tmp')) {
                 $ilDB->createTable('desktop_item_tmp', array(
                     'item_id' => array(
-                        'type'  => 'integer',
-                        'length'=> 8,
+                        'type' => 'integer',
+                        'length' => 8,
                         'notnull' => true,
                         'default' => 0
                     ),
                     'user_id' => array(
-                        'type'  => 'integer',
-                        'length'=> 8,
+                        'type' => 'integer',
+                        'length' => 8,
                         'notnull' => true,
                         'default' => 0
                     )
@@ -9661,7 +9661,7 @@ if ($ilDB->tableExists('addressbook')) {
         $this->db->replace(
             'buddylist',
             array(
-                'usr_id'       => array('integer', $row['u1']),
+                'usr_id' => array('integer', $row['u1']),
                 'buddy_usr_id' => array('integer', $row['u2'])
             ),
             array(
@@ -9672,7 +9672,7 @@ if ($ilDB->tableExists('addressbook')) {
         $this->db->replace(
             'buddylist',
             array(
-                'usr_id'       => array('integer', $row['u2']),
+                'usr_id' => array('integer', $row['u2']),
                 'buddy_usr_id' => array('integer', $row['u1'])
             ),
             array(
@@ -9694,11 +9694,11 @@ if ($ilDB->tableExists('addressbook')) {
         $this->db->replace(
             'buddylist_requests',
             array(
-                'usr_id'       => array('integer', $row['u1']),
+                'usr_id' => array('integer', $row['u1']),
                 'buddy_usr_id' => array('integer', $row['u2'])
             ),
             array(
-                'ts'      => array('integer', time()),
+                'ts' => array('integer', time()),
                 'ignored' => array('integer', 0)
             )
         );
@@ -9729,8 +9729,8 @@ if (!$ilDB->numRows($res)) {
     $ilDB->insert(
         'notification_usercfg',
         array(
-            'usr_id'  => array('integer', -1),
-            'module'  => array('text', 'buddysystem_request'),
+            'usr_id' => array('integer', -1),
+            'module' => array('text', 'buddysystem_request'),
             'channel' => array('text', 'mail')
         )
     );
@@ -9745,8 +9745,8 @@ if (!$ilDB->numRows($res)) {
     $ilDB->insert(
         'notification_usercfg',
         array(
-            'usr_id'  => array('integer', -1),
-            'module'  => array('text', 'buddysystem_request'),
+            'usr_id' => array('integer', -1),
+            'module' => array('text', 'buddysystem_request'),
             'channel' => array('text', 'osd')
         )
     );
@@ -9858,33 +9858,33 @@ if ($ilDB->tableExists('rbac_log') && !$ilDB->tableExists('rbac_log_old')) {
 
 if (!$ilDB->tableExists('rbac_log')) {
     $ilDB->createTable('rbac_log', array(
-        'log_id'		=> array(
-            'type'	=> 'integer',
+        'log_id' => array(
+            'type' => 'integer',
             'length' => 4,
             'notnull' => true
         ),
-        'user_id'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'user_id' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'created'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'created' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'ref_id'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'ref_id' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'action'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'action' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'data' 		=> array(
-            'type'    => 'clob',
+        'data' => array(
+            'type' => 'clob',
             'notnull' => false,
             'default' => null
         )
@@ -10022,9 +10022,9 @@ if ($ilDB->tableExists('search_tree')) {
             'sahs_lm',
             'mastery_score',
             array(
-                'type' 		=> 'integer',
-                'length' 	=> 1,
-                'notnull'	=> false
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => false
             )
         );
     }
@@ -10091,14 +10091,14 @@ if ($ilDB->tableExists('adm_set_templ_value')) {
         if (!$ilDB->tableExists('adm_set_tpl_val_tmp')) {
             $ilDB->createTable('adm_set_tpl_val_tmp', array(
                 'template_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'setting' => array(
-                    'type'  => 'text',
-                    'length'=> 40,
+                    'type' => 'text',
+                    'length' => 40,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -10188,27 +10188,27 @@ if ($ilDB->tableExists('svy_times') && !$ilDB->tableExists('svy_times_old')) {
 
 if (!$ilDB->tableExists('svy_times')) {
     $ilDB->createTable('svy_times', array(
-        'id'		=> array(
-            'type'	=> 'integer',
+        'id' => array(
+            'type' => 'integer',
             'length' => 4,
             'notnull' => true
         ),
-        'finished_fi'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'finished_fi' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'entered_page'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'entered_page' => array(
+            'type' => 'integer',
+            'length' => 4,
         ),
-        'left_page'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'left_page' => array(
+            'type' => 'integer',
+            'length' => 4,
         ),
-        'first_question'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'first_question' => array(
+            'type' => 'integer',
+            'length' => 4,
         )
     ));
     $ilDB->addPrimaryKey('svy_times', array('id'));
@@ -10446,7 +10446,7 @@ if (!$ilDB->tableExists('qpl_qst_lome')) {
             'notnull' => true,
             'default' => 1
         ),
-        'long_menu_text' =>	 array(
+        'long_menu_text' => array(
             "type" => "clob",
             "notnull" => false,
             "default" => null
@@ -10550,24 +10550,24 @@ if ($ilDB->tableExists('usr_data_multi') && !$ilDB->tableExists('usr_data_multi_
 
 if (!$ilDB->tableExists('usr_data_multi')) {
     $ilDB->createTable('usr_data_multi', array(
-        'id'		=> array(
-            'type'	=> 'integer',
+        'id' => array(
+            'type' => 'integer',
             'length' => 4,
             'notnull' => true
         ),
-        'usr_id'	=> array(
-            'type'	=> 'integer',
-            'length'=> 4,
+        'usr_id' => array(
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true
         ),
-        'field_id'	=> array(
-            'type'	=> 'text',
-            'length'=> 255,
+        'field_id' => array(
+            'type' => 'text',
+            'length' => 255,
             'notnull' => true
         ),
-        'value'	=> array(
-            'type'	=> 'text',
-            'length'=> 1000,
+        'value' => array(
+            'type' => 'text',
+            'length' => 1000,
             'default' => ''
         )
     ));
@@ -10838,14 +10838,14 @@ if ($ilDB->tableExists('xmlparam')) {
         if (!$ilDB->tableExists('xmlparam_tmp')) {
             $ilDB->createTable('xmlparam_tmp', array(
                 'tag_fk' => array(
-                    'type'  => 'integer',
-                    'length'=> 4,
+                    'type' => 'integer',
+                    'length' => 4,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'param_name' => array(
-                    'type'  => 'text',
-                    'length'=> 50,
+                    'type' => 'text',
+                    'length' => 50,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -11316,39 +11316,39 @@ ilDBUpdateNewObjectType::addAdminNode('prgs', 'StudyProgrammeAdmin');
 <?php
 if (!$ilDB->tableColumnExists("obj_members", "admin")) {
     $ilDB->addTableColumn(
-            "obj_members",
-            "admin",
-            array(
+        "obj_members",
+        "admin",
+        array(
                     'type' => 'integer',
                     'length' => 1,
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 if (!$ilDB->tableColumnExists("obj_members", "tutor")) {
     $ilDB->addTableColumn(
-            "obj_members",
-            "tutor",
-            array(
+        "obj_members",
+        "tutor",
+        array(
                     'type' => 'integer',
                     'length' => 1,
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 if (!$ilDB->tableColumnExists("obj_members", "member")) {
     $ilDB->addTableColumn(
-            "obj_members",
-            "member",
-            array(
+        "obj_members",
+        "member",
+        array(
                     'type' => 'integer',
                     'length' => 2,
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 ?>
 <#4750>
@@ -11394,13 +11394,13 @@ $ilCtrlStructureReader->getStructure();
 <#4755>
 <?php
 $ilDB->modifyTableColumn('il_wac_secure_path', 'path', array(
-    'length'  => 64,
+    'length' => 64,
 ));
 ?>
 <#4756>
 <?php
 $obj_type = 'icla';
-$set      = $ilDB->queryF(
+$set = $ilDB->queryF(
     "SELECT obj_id FROM object_data WHERE type = %s",
     array('text'),
     array($obj_type)
@@ -11455,7 +11455,7 @@ while ($row = $ilDB->fetchAssoc($set)) {
 <#4757>
 <?php
 $obj_type = 'icrs';
-$set      = $ilDB->queryF(
+$set = $ilDB->queryF(
     "SELECT obj_id FROM object_data WHERE type = %s",
     array('text'),
     array($obj_type)
@@ -11515,7 +11515,7 @@ $set = $ilDB->queryF(
     array('text', 'text'),
     array('typ', $a_type)
 );
-$row     = $ilDB->fetchAssoc($set);
+$row = $ilDB->fetchAssoc($set);
 $type_id = $row['obj_id'];
 if ($type_id) {
     // RBAC
@@ -11524,11 +11524,11 @@ if ($type_id) {
     $ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
 
     // creation operation
-    $set           = $ilDB->query("SELECT ops_id" .
+    $set = $ilDB->query("SELECT ops_id" .
         " FROM rbac_operations " .
         " WHERE class = " . $ilDB->quote("create", "text") .
         " AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
-    $row           = $ilDB->fetchAssoc($set);
+    $row = $ilDB->fetchAssoc($set);
     $create_ops_id = $row["ops_id"];
     if ($create_ops_id) {
         $ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = " . $ilDB->quote($create_ops_id, "integer"));
@@ -11589,7 +11589,7 @@ $set = $ilDB->queryF(
     array('text', 'text'),
     array('typ', $a_type)
 );
-$row     = $ilDB->fetchAssoc($set);
+$row = $ilDB->fetchAssoc($set);
 $type_id = $row['obj_id'];
 if ($type_id) {
     // RBAC
@@ -11598,11 +11598,11 @@ if ($type_id) {
     $ilDB->manipulate("DELETE FROM rbac_ta WHERE typ_id = " . $ilDB->quote($type_id, "integer"));
 
     // creation operation
-    $set           = $ilDB->query("SELECT ops_id" .
+    $set = $ilDB->query("SELECT ops_id" .
         " FROM rbac_operations " .
         " WHERE class = " . $ilDB->quote("create", "text") .
         " AND operation = " . $ilDB->quote("create_" . $a_type, "text"));
-    $row           = $ilDB->fetchAssoc($set);
+    $row = $ilDB->fetchAssoc($set);
     $create_ops_id = $row["ops_id"];
     if ($create_ops_id) {
         $ilDB->manipulate("DELETE FROM rbac_templates WHERE ops_id = " . $ilDB->quote($create_ops_id, "integer"));
@@ -11667,15 +11667,15 @@ $mt_mod_incon_query_num = "
 	INNER JOIN mail_tree ON mail_tree.child = mail_obj_data.obj_id
 	WHERE mail_tree.tree != mail_obj_data.user_id
 ";
-$res  = $ilDB->query($mt_mod_incon_query_num);
+$res = $ilDB->query($mt_mod_incon_query_num);
 $data = $ilDB->fetchAssoc($res);
 
 if ($data['cnt'] > 0) {
     if (!$ilDB->tableExists('mail_tree_mod_migr')) {
         $ilDB->createTable('mail_tree_mod_migr', array(
             'usr_id' => array(
-                'type'    => 'integer',
-                'length'  => 4,
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
                 'default' => 0
             )
@@ -11748,12 +11748,12 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
     );
 
     $default_folders_title_to_type_map = array(
-        'a_root'   => 'root',
-        'b_inbox'  => 'inbox',
-        'c_trash'  => 'trash',
+        'a_root' => 'root',
+        'b_inbox' => 'inbox',
+        'c_trash' => 'trash',
         'd_drafts' => 'drafts',
-        'e_sent'   => 'sent',
-        'z_local'  => 'local'
+        'e_sent' => 'sent',
+        'z_local' => 'local'
     );
     $default_folder_type_to_title_map = array_flip($default_folders_title_to_type_map);
 
@@ -11815,7 +11815,7 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
         $usr_id = $row['usr_id'];
 
         $fold_res = $ilDB->execute($ps_sel_fold_entries, array($usr_id));
-        $user_folders         = array();
+        $user_folders = array();
         $user_default_folders = array();
         while ($fold_row = $ilDB->fetchAssoc($fold_res)) {
             $user_folders[$fold_row['obj_id']] = $fold_row;
@@ -11832,8 +11832,8 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
 
             $user_folders[$folder_id] = array(
                 'obj_id' => $folder_id,
-                'user_id'=> $usr_id,
-                'title'  => $title,
+                'user_id' => $usr_id,
+                'title' => $title,
                 'm_type' => $type
             );
             $GLOBALS['ilLog']->write(sprintf(
@@ -11848,7 +11848,7 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
         }
 
         // Create a new root folder node
-        $root_id  = null;
+        $root_id = null;
         foreach ($user_folders as $folder_id => $data) {
             if ('root' != $data['m_type']) {
                 continue;
@@ -11893,8 +11893,8 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
             $parent_row = $ilDB->fetchAssoc($res_parent);
 
             $right = $parent_row['rgt'];
-            $lft   = $right;
-            $rgt   = $right + 1;
+            $lft = $right;
+            $rgt = $right + 1;
 
             $ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
             $ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $root_id, $lft, $rgt, 2));
@@ -11930,8 +11930,8 @@ if ($ilDB->tableExists('mail_tree_mod_migr')) {
             $parent_row = $ilDB->fetchAssoc($res_parent);
 
             $right = $parent_row['rgt'];
-            $lft   = $right;
-            $rgt   = $right + 1;
+            $lft = $right;
+            $rgt = $right + 1;
 
             $ilDB->execute($ps_up_tree_entry, array($right, $right, $usr_id));
             $ilDB->execute($ps_in_tree_entry, array($usr_id, $folder_id, $custom_folder_root_id, $lft, $rgt, 3));
@@ -11974,7 +11974,7 @@ $mt_mod_incon_query_num = "
 	INNER JOIN mail_tree ON mail_tree.child = mail_obj_data.obj_id
 	WHERE mail_tree.tree != mail_obj_data.user_id
 ";
-$res  = $ilDB->query($mt_mod_incon_query_num);
+$res = $ilDB->query($mt_mod_incon_query_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still wrong child entries in table 'mail_tree'. Please execute database update step 4761 again. Execute the following SQL string manually: UPDATE settings SET value = 4760 WHERE keyword = 'db_version'; ");
@@ -12006,7 +12006,7 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', array('pos_fk'))) {
 <#4768>
 <?php
 $ilDB->modifyTableColumn('cmi_gobjective', 'objective_id', array(
-    'length'  => 253,
+    'length' => 253,
 ));
 ?>
 <#4769>
@@ -12222,7 +12222,7 @@ $stmt = $ilDB->prepareManip('INSERT INTO usr_pref (usr_id, keyword, value) VALUE
 
 $notin = $ilDB->in('usr_data.usr_id', array(13), true, 'integer');
 $query = 'SELECT usr_data.usr_id FROM usr_data LEFT JOIN usr_pref ON usr_pref.usr_id = usr_data.usr_id AND usr_pref.keyword = %s WHERE usr_pref.keyword IS NULL AND ' . $notin;
-$res   = $ilDB->queryF($query, array('text'), array('bs_allow_to_contact_me'));
+$res = $ilDB->queryF($query, array('text'), array('bs_allow_to_contact_me'));
 while ($row = $ilDB->fetchAssoc($res)) {
     $ilDB->execute($stmt, array($row['usr_id'], 'bs_allow_to_contact_me', 'y'));
 }
@@ -12463,8 +12463,8 @@ if (!$ilDB->tableColumnExists('notification_osd', 'visible_for')) {
         'notification_osd',
         'visible_for',
         array(
-        'type'    => 'integer',
-        'length'  => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true,
         'default' => 0)
     );
@@ -12477,8 +12477,8 @@ if ($ilDB->tableColumnExists('svy_times', 'first_question')) {
         'svy_times',
         'first_question',
         array(
-            'type'	=> 'integer',
-            'length'=> 4)
+            'type' => 'integer',
+            'length' => 4)
     );
 }
 ?>
@@ -12498,14 +12498,14 @@ if ($ilDB->tableExists('ecs_part_settings')) {
         if (!$ilDB->tableExists('ecs_part_settings_tmp')) {
             $ilDB->createTable('ecs_part_settings_tmp', array(
                 'sid' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'mid' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -12708,8 +12708,8 @@ if ($ilDB->tableExists('il_verification')) {
         if (!$ilDB->tableExists('il_verification_tmp')) {
             $ilDB->createTable('il_verification_tmp', array(
                     'id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -12809,14 +12809,14 @@ if ($ilDB->tableExists('il_wiki_imp_pages')) {
         if (!$ilDB->tableExists('wiki_imp_pages_tmp')) {
             $ilDB->createTable('wiki_imp_pages_tmp', array(
                 'wiki_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'page_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -13058,32 +13058,32 @@ if ($ilDB->tableExists('obj_stat')) {
         if (!$ilDB->tableExists('obj_stat_tmpd')) {
             $ilDB->createTable('obj_stat_tmpd', array(
                 'obj_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'yyyy' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'mm' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'dd' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'hh' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -13524,7 +13524,7 @@ if (!$ilDB->tableExists('page_style_usage')) {
         ),
         'page_lang' => array(
             'type' => 'text',
-            'length'  => 2,
+            'length' => 2,
             'notnull' => true,
             'default' => "-")
     ));
@@ -13618,14 +13618,14 @@ if ($ilDB->tableExists('ut_lp_collections')) {
         if (!$ilDB->tableExists('ut_lp_collections_tmp')) {
             $ilDB->createTable('ut_lp_collections_tmp', array(
                 'obj_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'item_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -13719,7 +13719,7 @@ FROM (
     HAVING COUNT(*) > 1
 ) duplicateSessionStats
 ";
-$res  = $ilDB->query($usr_session_stats_temp_num);
+$res = $ilDB->query($usr_session_stats_temp_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt']) {
     $usr_session_stats_dup_query = "
@@ -13731,7 +13731,7 @@ if ($data['cnt']) {
     $res = $ilDB->query($usr_session_stats_dup_query);
 
     $stmt_del = $ilDB->prepareManip("DELETE FROM usr_session_stats WHERE slot_begin = ? ", array('integer'));
-    $stmt_in  = $ilDB->prepareManip(
+    $stmt_in = $ilDB->prepareManip(
         "INSERT INTO usr_session_stats ("
         . "slot_begin"
         . ",slot_end"
@@ -13793,7 +13793,7 @@ if ($data['cnt']) {
     }
 }
 
-$res  = $ilDB->query($usr_session_stats_temp_num);
+$res = $ilDB->query($usr_session_stats_temp_num);
 $data = $ilDB->fetchAssoc($res);
 if ($data['cnt'] > 0) {
     die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
@@ -13941,14 +13941,14 @@ if ($ilDB->tableExists('mob_parameter')) {
         if (!$ilDB->tableExists('mob_parameter_tmp')) {
             $ilDB->createTable('mob_parameter_tmp', array(
                 'med_item_id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 ),
                 'name' => array(
-                    'type'  => 'text',
-                    'length'=> 50,
+                    'type' => 'text',
+                    'length' => 50,
                     'notnull' => true,
                 )
             ));
@@ -13976,20 +13976,20 @@ if ($ilDB->tableExists('mob_parameter_tmp')) {
 
     while ($row = $ilDB->fetchAssoc($res)) {
         $res_data = $ilDB->query(
-        "
+            "
 		SELECT *
 		FROM mob_parameter
 		WHERE
 		med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') . " AND
 		name = " . $ilDB->quote($row['name'], 'text')
-    );
+        );
         $data = $ilDB->fetchAssoc($res_data);
 
         $ilDB->manipulate(
-        "DELETE FROM mob_parameter WHERE" .
+            "DELETE FROM mob_parameter WHERE" .
                       " med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') .
                       " AND name = " . $ilDB->quote($row['name'], 'integer')
-    );
+        );
 
         $ilDB->manipulate("INSERT INTO mob_parameter (med_item_id, name, value) " .
                       "VALUES ( " .
@@ -13999,10 +13999,10 @@ if ($ilDB->tableExists('mob_parameter_tmp')) {
                       ")");
 
         $ilDB->manipulate(
-        "DELETE FROM mob_parameter_tmp WHERE" .
+            "DELETE FROM mob_parameter_tmp WHERE" .
                       " med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') .
                       " AND name = " . $ilDB->quote($row['name'], 'text')
-    );
+        );
     }
 }
 ?>
@@ -14193,7 +14193,7 @@ $num_query = "
 	HAVING COUNT(*) > 1
 	) duplicateLMTree
 ";
-$res  = $ilDB->query($num_query);
+$res = $ilDB->query($num_query);
 $data = $ilDB->fetchAssoc($res);
 
 if ($data['cnt'] > 0) {
@@ -14249,7 +14249,7 @@ $num_query = "
 		HAVING COUNT(*) > 1
 	) duplicateMEPTree
 ";
-$res  = $ilDB->query($num_query);
+$res = $ilDB->query($num_query);
 $data = $ilDB->fetchAssoc($res);
 
 if ($data['cnt'] > 0) {
@@ -14305,7 +14305,7 @@ $num_query = "
 	HAVING COUNT(*) > 1
 	) duplicateSKLTree
 ";
-$res  = $ilDB->query($num_query);
+$res = $ilDB->query($num_query);
 $data = $ilDB->fetchAssoc($res);
 
 if ($data['cnt'] > 0) {
@@ -14718,8 +14718,8 @@ if (!$ilDB->indexExistsByFields('usr_data_multi', array('usr_id'))) {
 <?php
 if (!$ilDB->tableColumnExists('tst_tests', 'starting_time_tmp')) {
     $ilDB->addTableColumn('tst_tests', 'starting_time_tmp', array(
-        'type'    => 'integer',
-        'length'  => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true,
         'default' => 0
     ));
@@ -14733,7 +14733,7 @@ if ($ilDB->tableColumnExists('tst_tests', 'starting_time_tmp')) {
     $res = $ilDB->query("SELECT test_id, starting_time FROM tst_tests WHERE starting_time_tmp = " . $ilDB->quote(0, 'integer'));
     while ($row = $ilDB->fetchAssoc($res)) {
         $new_starting_time = 0;
-        $starting_time     = $row['starting_time'];
+        $starting_time = $row['starting_time'];
 
         if (strlen($starting_time) > 0) {
             if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $starting_time, $matches)) {
@@ -14765,8 +14765,8 @@ if (!$ilDB->tableColumnExists('tst_tests', 'starting_time') && $ilDB->tableColum
 <?php
 if (!$ilDB->tableColumnExists('tst_tests', 'ending_time_tmp')) {
     $ilDB->addTableColumn('tst_tests', 'ending_time_tmp', array(
-        'type'    => 'integer',
-        'length'  => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true,
         'default' => 0
     ));
@@ -14780,7 +14780,7 @@ if ($ilDB->tableColumnExists('tst_tests', 'ending_time_tmp')) {
     $res = $ilDB->query("SELECT test_id, ending_time FROM tst_tests WHERE ending_time_tmp = " . $ilDB->quote(0, 'integer'));
     while ($row = $ilDB->fetchAssoc($res)) {
         $new_ending_time = 0;
-        $ending_time     = $row['ending_time'];
+        $ending_time = $row['ending_time'];
 
         if (strlen($ending_time) > 0) {
             if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $ending_time, $matches)) {
@@ -14936,9 +14936,9 @@ if (!$ilDB->tableColumnExists('il_dcl_table', 'save_confirmation')) {
         'il_dcl_table',
         'save_confirmation',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 1,
+            "length" => 1,
             "default" => 0
         )
     );
@@ -15009,8 +15009,8 @@ if ($tgt_ops_id) {
 <?php
 if (!$ilDB->tableColumnExists('il_dcl_table', 'import_enabled')) {
     $ilDB->addTableColumn('il_dcl_table', 'import_enabled', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 1
     ));
@@ -15459,8 +15459,8 @@ if (!$ilDB->tableColumnExists('qpl_qst_lome', 'min_auto_complete')) {
         'qpl_qst_lome',
         'min_auto_complete',
         array(
-            'type'	=> 'integer',
-            'length'=> 1,
+            'type' => 'integer',
+            'length' => 1,
             'default' => 1)
     );
 }
@@ -15655,9 +15655,9 @@ if (!$ilDB->tableExists("copg_section_timings")) {
             "notnull" => true
         ),
         "unix_ts" => array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 4,
+            "length" => 4,
             "default" => 0
         )
     );
@@ -15969,7 +15969,7 @@ $dubs_sql = "SELECT * FROM (" .
                     "HAVING COUNT(*) > 1 ) " .
                 "duplicateBookmarkTree";
 
-$res  = $ilDB->query($dubs_sql);
+$res = $ilDB->query($dubs_sql);
 $dublicates = array();
 
 while ($row = $ilDB->fetchAssoc($res)) {
@@ -15981,7 +15981,7 @@ if (count($dublicates)) {
     $ilSetting->set('bookmark_tree_renumber', 1);
 
     foreach ($dublicates as $key => $row) {
-        $res  = $ilDB->query("SELECT * FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
+        $res = $ilDB->query("SELECT * FROM bookmark_tree WHERE tree = " . $ilDB->quote($row["tree"], "integer") .
             " AND child = " . $ilDB->quote($row["child"], "integer"));
 
         $first = $ilDB->fetchAssoc($res);
@@ -16061,12 +16061,12 @@ if (!$ilDB->tableExists('frm_posts_drafts')) {
             'default' => 0
         ),
         'post_subject' => array(
-            'type'    => 'text',
-            'length'  => 4000,
+            'type' => 'text',
+            'length' => 4000,
             'notnull' => true
         ),
         'post_message' => array(
-            'type'    => 'clob',
+            'type' => 'clob',
             'notnull' => true
         ),
         'post_notify' => array(
@@ -16076,11 +16076,11 @@ if (!$ilDB->tableExists('frm_posts_drafts')) {
             'default' => 0
         ),
         'post_date' => array(
-            'type'    => 'timestamp',
+            'type' => 'timestamp',
             'notnull' => true
         ),
         'post_update' => array(
-            'type'    => 'timestamp',
+            'type' => 'timestamp',
             'notnull' => true
         ),
         'update_user_id' => array(
@@ -16090,18 +16090,18 @@ if (!$ilDB->tableExists('frm_posts_drafts')) {
             'default' => 0
         ),
         'post_user_alias' => array(
-            'type'    => 'text',
-            'length'  => 255,
+            'type' => 'text',
+            'length' => 255,
             'notnull' => false
         ),
         'pos_display_usr_id' => array(
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
         'notify' => array(
-            'type'	=> 'integer',
+            'type' => 'integer',
             'length' => 1,
             'notnull' => true,
             'default' => 0
@@ -16149,16 +16149,16 @@ if (!$ilDB->tableExists('frm_drafts_history')) {
             'default' => 0
         ),
         'post_subject' => array(
-            'type'    => 'text',
-            'length'  => 4000,
+            'type' => 'text',
+            'length' => 4000,
             'notnull' => true
         ),
         'post_message' => array(
-            'type'    => 'clob',
+            'type' => 'clob',
             'notnull' => true
         ),
         'draft_date' => array(
-            'type'    => 'timestamp',
+            'type' => 'timestamp',
             'notnull' => true
             )
     );
@@ -16185,8 +16185,8 @@ if (!$ilDB->tableColumnExists('tst_tests', 'pass_waiting')) {
         'tst_tests',
         'pass_waiting',
         array(
-            'type'    => 'text',
-            'length'  => 15,
+            'type' => 'text',
+            'length' => 15,
             'notnull' => false,
             'default' => null)
     );
@@ -16435,9 +16435,9 @@ $ilDB->modifyTableColumn(
     "usr_pref",
     "value",
     array(
-        "type"    => "text",
-        "length"  => 4000,
-        "fixed"   => false,
+        "type" => "text",
+        "length" => 4000,
+        "fixed" => false,
         "notnull" => false,
         "default" => null
     )
@@ -16459,17 +16459,17 @@ $ilDB->modifyTableColumn(
 <?php
 if (!$ilDB->tableExists('wfe_workflows')) {
     $fields = array(
-        'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-        'workflow_type'		=> array('type' => 'text',	  'length' => 255),
-        'workflow_content'	=> array('type' => 'text',	  'length' => 255),
-        'workflow_class'	=> array('type' => 'text',	  'length' => 255),
+        'workflow_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+        'workflow_type' => array('type' => 'text',	  'length' => 255),
+        'workflow_content' => array('type' => 'text',	  'length' => 255),
+        'workflow_class' => array('type' => 'text',	  'length' => 255),
         'workflow_location' => array('type' => 'text',	  'length' => 255),
-        'subject_type'		=> array('type' => 'text',	  'length' => 30),
-        'subject_id'		=> array('type' => 'integer', 'length' => 4),
-        'context_type'		=> array('type' => 'text',    'length' => 30),
-        'context_id'		=> array('type' => 'integer', 'length' => 4),
-        'workflow_instance'	=> array('type' => 'clob',	  'notnull' => false, 'default' => null),
-        'active'			=> array('type' => 'integer', 'length' => 4)
+        'subject_type' => array('type' => 'text',	  'length' => 30),
+        'subject_id' => array('type' => 'integer', 'length' => 4),
+        'context_type' => array('type' => 'text',    'length' => 30),
+        'context_id' => array('type' => 'integer', 'length' => 4),
+        'workflow_instance' => array('type' => 'clob',	  'notnull' => false, 'default' => null),
+        'active' => array('type' => 'integer', 'length' => 4)
     );
 
     $ilDB->createTable('wfe_workflows', $fields);
@@ -16479,16 +16479,16 @@ if (!$ilDB->tableExists('wfe_workflows')) {
 
 if (!$ilDB->tableExists('wfe_det_listening')) {
     $fields = array(
-        'detector_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-        'workflow_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-        'type'				=> array('type' => 'text',	  'length' => 255),
-        'content'			=> array('type' => 'text',	  'length' => 255),
-        'subject_type'		=> array('type' => 'text',	  'length' => 30),
-        'subject_id'		=> array('type' => 'integer', 'length' => 4),
-        'context_type'		=> array('type' => 'text',    'length' => 30),
-        'context_id'		=> array('type' => 'integer', 'length' => 4),
-        'listening_start'	=> array('type' => 'integer', 'length' => 4),
-        'listening_end'		=> array('type' => 'integer', 'length' => 4)
+        'detector_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+        'workflow_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+        'type' => array('type' => 'text',	  'length' => 255),
+        'content' => array('type' => 'text',	  'length' => 255),
+        'subject_type' => array('type' => 'text',	  'length' => 30),
+        'subject_id' => array('type' => 'integer', 'length' => 4),
+        'context_type' => array('type' => 'text',    'length' => 30),
+        'context_id' => array('type' => 'integer', 'length' => 4),
+        'listening_start' => array('type' => 'integer', 'length' => 4),
+        'listening_end' => array('type' => 'integer', 'length' => 4)
     );
 
     $ilDB->createTable('wfe_det_listening', $fields);
@@ -16498,14 +16498,14 @@ if (!$ilDB->tableExists('wfe_det_listening')) {
 
 if (!$ilDB->tableExists('wfe_startup_events')) {
     $fields = array(
-        'event_id'		=> array('type' => 'integer',	'length' => 4, 	'notnull' => true),
-        'workflow_id'	=> array('type' => 'text',		'length' => 60, 'notnull' => true),
-        'type'			=> array('type' => 'text',		'length' => 255),
-        'content'		=> array('type' => 'text',		'length' => 255),
-        'subject_type'	=> array('type' => 'text',		'length' => 30),
-        'subject_id'	=> array('type' => 'integer',	'length' => 4),
-        'context_type'	=> array('type' => 'text',		'length' => 30),
-        'context_id'	=> array('type' => 'integer',	'length' => 4)
+        'event_id' => array('type' => 'integer',	'length' => 4, 	'notnull' => true),
+        'workflow_id' => array('type' => 'text',		'length' => 60, 'notnull' => true),
+        'type' => array('type' => 'text',		'length' => 255),
+        'content' => array('type' => 'text',		'length' => 255),
+        'subject_type' => array('type' => 'text',		'length' => 30),
+        'subject_id' => array('type' => 'integer',	'length' => 4),
+        'context_type' => array('type' => 'text',		'length' => 30),
+        'context_id' => array('type' => 'integer',	'length' => 4)
     );
 
     $ilDB->createTable('wfe_startup_events', $fields);
@@ -16515,10 +16515,10 @@ if (!$ilDB->tableExists('wfe_startup_events')) {
 
 if (!$ilDB->tableExists('wfe_static_inputs')) {
     $fields = array(
-        'input_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-        'event_id'		=> array('type' => 'integer', 'length' => 4, 'notnull' => true),
-        'name'			=> array('type' => 'text',	  'length' => 255),
-        'value'			=> array('type' => 'clob')
+        'input_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+        'event_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+        'name' => array('type' => 'text',	  'length' => 255),
+        'value' => array('type' => 'clob')
     );
 
     $ilDB->createTable('wfe_static_inputs', $fields);
@@ -16807,9 +16807,9 @@ if (!$ilDB->tableColumnExists('il_news_item', 'content_html')) {
         'il_news_item',
         'content_html',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 1,
+            "length" => 1,
             "default" => 0
         )
     );
@@ -16823,9 +16823,9 @@ if (!$ilDB->tableColumnExists('il_news_item', 'update_user_id')) {
         'il_news_item',
         'update_user_id',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 4,
+            "length" => 4,
             "default" => 0
         )
     );
@@ -16937,7 +16937,7 @@ $parent_types = array('root', 'cat', 'crs');
 ilDBUpdateNewObjectType::addRBACCreate('create_mass', 'Create Manuall Assessment', $parent_types);
 
 if (!$ilDB->tableExists("mass_settings")) {
-    $fields =  array(
+    $fields = array(
         'obj_id' => array(
             'type' => 'integer',
             'length' => 4,
@@ -16961,7 +16961,7 @@ if (!$ilDB->tableExists("mass_settings")) {
 }
 
 if (!$ilDB->tableExists('mass_members')) {
-    $fields =  array(
+    $fields = array(
         'obj_id' => array(
             'type' => 'integer',
             'length' => 4,
@@ -16984,7 +16984,7 @@ if (!$ilDB->tableExists('mass_members')) {
             'type' => 'text',
             'length' => 1000,
             'notnull' => false,
-            'default' =>  ''
+            'default' => ''
         ),
         'internal_note' => array(
             'type' => 'text',
@@ -17029,7 +17029,7 @@ if ($mass_type_id) {
             $ops_id,
             $ops_description,
             'object',
-            8000 + $counter*100
+            8000 + $counter * 100
         );
         $counter++;
         if ($new_ops_id) {
@@ -17042,7 +17042,7 @@ if ($mass_type_id) {
                         . "	WHERE type = 'rolt' AND title = " . $ilDB->quote($rolt_title, 'text'))
     );
     if ($rec) {
-        $mass_member_tpl_id  = $rec['obj_id'];
+        $mass_member_tpl_id = $rec['obj_id'];
     } else {
         $mass_member_tpl_id = $ilDB->nextId('object_data');
         $ilDB->manipulateF(
@@ -17081,7 +17081,7 @@ if ($mass_type_id) {
 <#5025>
 <?php
 if (!$ilDB->tableExists("mass_info_settings")) {
-    $fields =  array(
+    $fields = array(
         'obj_id' => array(
             'type' => 'integer',
             'length' => 4,
@@ -17147,19 +17147,19 @@ if (!$ilDB->tableExists('osc_activity')) {
         'osc_activity',
         array(
             'conversation_id' => array(
-                'type'    => 'text',
-                'length'  => 255,
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'user_id'         => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'user_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
                 'default' => 0
             ),
-            'timestamp'      => array(
-                'type'    => 'integer',
-                'length'  => 8,
+            'timestamp' => array(
+                'type' => 'integer',
+                'length' => 8,
                 'notnull' => true,
                 'default' => 0
             )
@@ -17174,30 +17174,30 @@ if (!$ilDB->tableExists('osc_messages')) {
     $ilDB->createTable(
         'osc_messages',
         array(
-            'id'             => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'id' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
             'conversation_id' => array(
-                'type'    => 'text',
-                'length'  => 255,
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
-            'user_id'         => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'user_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
                 'default' => 0
             ),
-            'message'        => array(
-                'type'    => 'clob',
+            'message' => array(
+                'type' => 'clob',
                 'notnull' => false,
                 'default' => null
             ),
-            'timestamp'      => array(
-                'type'    => 'integer',
-                'length'  => 8,
+            'timestamp' => array(
+                'type' => 'integer',
+                'length' => 8,
                 'notnull' => true,
                 'default' => 0
             )
@@ -17212,20 +17212,20 @@ if (!$ilDB->tableExists('osc_conversation')) {
     $ilDB->createTable(
         'osc_conversation',
         array(
-            'id'             => array(
-                'type'    => 'text',
-                'length'  => 255,
+            'id' => array(
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => true
             ),
             'is_group' => array(
-                'type'    => 'integer',
-                'length'  => 1,
+                'type' => 'integer',
+                'length' => 1,
                 'notnull' => true,
                 'default' => 0
             ),
             'participants' => array(
-                'type'    => 'text',
-                'length'  => 4000,
+                'type' => 'text',
+                'length' => 4000,
                 'notnull' => false,
                 'default' => null
             )
@@ -17238,8 +17238,8 @@ if (!$ilDB->tableExists('osc_conversation')) {
 <?php
 if (!$ilDB->tableColumnExists('osc_activity', 'is_closed')) {
     $ilDB->addTableColumn('osc_activity', 'is_closed', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     ));
@@ -17366,8 +17366,8 @@ if ($ilDB->tableExists('il_verification')) {
         if (!$ilDB->tableExists('il_verification_tmp')) {
             $ilDB->createTable('il_verification_tmp', array(
                     'id' => array(
-                    'type'  => 'integer',
-                    'length'=> 8,
+                    'type' => 'integer',
+                    'length' => 8,
                     'notnull' => true,
                     'default' => 0
                 )
@@ -17519,7 +17519,7 @@ while ($svy_data = $res->fetchAssoc()) {
     $q = "SELECT obj_fi FROM svy_svy WHERE survey_id = " . $ilDB->quote($svy_id, "integer");
     $res2 = $ilDB->query($q);
     $row = $res2->fetchAssoc();
-    $obj_id  = $row['obj_fi'];
+    $obj_id = $row['obj_fi'];
 
     $u = "UPDATE svy_question SET obj_fi = " . $ilDB->quote($obj_id, "integer") . " WHERE question_id = " . $ilDB->quote($question_id, "integer");
     $ilDB->query($u);
@@ -17542,8 +17542,8 @@ $ilDB->update(
 <?php
 if (!$ilDB->tableColumnExists('qpl_qst_type', 'plugin_name')) {
     $ilDB->addTableColumn('qpl_qst_type', 'plugin_name', array(
-        'type'    => 'text',
-        'length'  => 40,
+        'type' => 'text',
+        'length' => 40,
         'notnull' => false,
         'default' => null
     ));
@@ -17553,8 +17553,8 @@ if (!$ilDB->tableColumnExists('qpl_qst_type', 'plugin_name')) {
 <?php
 if (!$ilDB->tableColumnExists('qpl_a_ordering', 'order_position')) {
     $ilDB->addTableColumn('qpl_a_ordering', 'order_position', array(
-        'type'    => 'integer',
-        'length'  => 3,
+        'type' => 'integer',
+        'length' => 3,
         'notnull' => false,
         'default' => null
     ));
@@ -17661,7 +17661,7 @@ $ilDB->modifyTableColumn(
 
     if (!$ilDB->tableColumnExists('qpl_a_mterm', 'ident')) {
         $ilDB->addTableColumn('qpl_a_mterm', 'ident', array(
-            'type'    => 'integer', 'length'  => 4,
+            'type' => 'integer', 'length' => 4,
             'notnull' => false, 'default' => null
         ));
 
@@ -17680,8 +17680,8 @@ $ilDB->modifyTableColumn(
     'exc_returned',
     'mimetype',
     array(
-                                        'type'	=> 'text',
-                                        'length'=> 150,
+                                        'type' => 'text',
+                                        'length' => 150,
                                         'notnull' => false)
 );
 ?>
@@ -17880,9 +17880,9 @@ if (!$ilDB->tableColumnExists('grp_settings', 'grp_start')) {
         'grp_settings',
         'grp_start',
         array(
-            "type"		 => "integer",
-            "notnull"	 => false,
-            "length"	 => 4
+            "type" => "integer",
+            "notnull" => false,
+            "length" => 4
     )
     );
 }
@@ -17891,9 +17891,9 @@ if (!$ilDB->tableColumnExists('grp_settings', 'grp_end')) {
         'grp_settings',
         'grp_end',
         array(
-            "type"		 => "integer",
-            "notnull"	 => false,
-            "length"	 => 4
+            "type" => "integer",
+            "notnull" => false,
+            "length" => 4
     )
     );
 }
@@ -17924,7 +17924,7 @@ if ($ilDB->tableColumnExists('frm_posts', 'pos_activation_date')) {
 if ($ilDB->tableExists('svy_answer')) {
     if ($ilDB->tableColumnExists('svy_answer', 'textanswer')) {
         $ilDB->modifyTableColumn('svy_answer', 'textanswer', array(
-            'type'	=> 'clob',
+            'type' => 'clob',
             'notnull' => false
         ));
     }
@@ -18103,10 +18103,10 @@ $signature .= "[CLIENT_URL]\n";
 
 $ilSetting = new ilSetting();
 
-$prevent_smtp_globally        = $ilSetting->get('prevent_smtp_globally', 0);
-$mail_system_sender_name      = $ilSetting->get('mail_system_sender_name', '');
+$prevent_smtp_globally = $ilSetting->get('prevent_smtp_globally', 0);
+$mail_system_sender_name = $ilSetting->get('mail_system_sender_name', '');
 $mail_external_sender_noreply = $ilSetting->get('mail_external_sender_noreply', '');
-$mail_system_return_path      = $ilSetting->get('mail_system_return_path', '');
+$mail_system_return_path = $ilSetting->get('mail_system_return_path', '');
 
 $ilSetting->set('mail_allow_external', !(int) $prevent_smtp_globally);
 
@@ -18318,8 +18318,8 @@ if (!$ilDB->tableExists('il_bt_value_to_task')) {
 <?php
 if (!$ilDB->tableColumnExists('chatroom_settings', 'online_status')) {
     $ilDB->addTableColumn('chatroom_settings', 'online_status', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     ));
@@ -18334,8 +18334,8 @@ if (!$ilDB->tableColumnExists('chatroom_bans', 'actor_id')) {
         'chatroom_bans',
         'actor_id',
         array(
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => false,
             'default' => null
         )
@@ -18750,8 +18750,8 @@ if (!$ilDB->tableColumnExists('iass_members', 'event_time')) {
 
 if (!$ilDB->tableColumnExists("il_object_def", "orgunit_permissions")) {
     $def = array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         );
@@ -18999,11 +18999,11 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
 
     if (!$ilDB->tableExists('pdfgen_conf')) {
         $fields = array(
-            'conf_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
-            'renderer'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
-            'service'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
-            'purpose'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
-            'config'			=> array('type' => 'clob')
+            'conf_id' => array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+            'renderer' => array('type' => 'text', 		'length' => 255,	'notnull' => true),
+            'service' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+            'purpose' => array('type' => 'text',		'length' => 255,	'notnull' => true),
+            'config' => array('type' => 'clob')
         );
 
         $ilDB->createTable('pdfgen_conf', $fields);
@@ -19013,11 +19013,11 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
 
     if (!$ilDB->tableExists('pdfgen_map')) {
         $fields = array(
-            'map_id'			=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
-            'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
-            'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
-            'preferred'			=> array('type' => 'text',		'length' => 255,	'notnull' => true),
-            'selected'			=> array('type' => 'text',		'length' => 255,	'notnull' => true)
+            'map_id' => array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+            'service' => array('type' => 'text', 		'length' => 255,	'notnull' => true),
+            'purpose' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+            'preferred' => array('type' => 'text',		'length' => 255,	'notnull' => true),
+            'selected' => array('type' => 'text',		'length' => 255,	'notnull' => true)
     );
 
         $ilDB->createTable('pdfgen_map', $fields);
@@ -19029,9 +19029,9 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
 	<?php
         if (!$ilDB->tableExists('pdfgen_purposes')) {
             $fields = array(
-                'purpose_id'		=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
-                'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
-                'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+                'purpose_id' => array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+                'service' => array('type' => 'text', 		'length' => 255,	'notnull' => true),
+                'purpose' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
             );
 
             $ilDB->createTable('pdfgen_purposes', $fields);
@@ -19052,9 +19052,9 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
 <?php
     if (!$ilDB->tableExists('pdfgen_renderer')) {
         $fields = array(
-        'renderer_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
-        'renderer'		=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
-        'path'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+        'renderer_id' => array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+        'renderer' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+        'path' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
         );
 
         $ilDB->createTable('pdfgen_renderer', $fields);
@@ -19064,10 +19064,10 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
 
     if (!$ilDB->tableExists('pdfgen_renderer_avail')) {
         $fields = array(
-        'availability_id'	=> array('type' => 'integer', 	'length' => 4,		'notnull' => true),
-        'service'			=> array('type' => 'text', 		'length' => 255,	'notnull' => true),
-        'purpose'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
-        'renderer'			=> array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+        'availability_id' => array('type' => 'integer', 	'length' => 4,		'notnull' => true),
+        'service' => array('type' => 'text', 		'length' => 255,	'notnull' => true),
+        'purpose' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
+        'renderer' => array('type' => 'text',	  	'length' => 255,	'notnull' => true),
     );
 
         $ilDB->createTable('pdfgen_renderer_avail', $fields);
@@ -19085,8 +19085,8 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
     'pdfgen_renderer',
     array(
         'renderer_id' => array('integer', $ilDB->nextId('pdfgen_renderer')),
-        'renderer'	=> array('text', 'TCPDF'),
-        'path'		=> array('text', 'Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php')
+        'renderer' => array('text', 'TCPDF'),
+        'path' => array('text', 'Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php')
         )
 );
 ?>
@@ -19096,8 +19096,8 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
     'pdfgen_renderer',
     array(
         'renderer_id' => array('integer',$ilDB->nextId('pdfgen_renderer')),
-        'renderer'	=> array('text','PhantomJS'),
-        'path'		=> array('text','Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php')
+        'renderer' => array('text','PhantomJS'),
+        'path' => array('text','Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php')
         )
 );
 ?>
@@ -19107,9 +19107,9 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
     'pdfgen_renderer_avail',
     array(
         'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-        'service' 	=> array('text', 'Test'),
-        'purpose' 	=> array('text', 'PrintViewOfQuestions'),
-        'renderer'	=> array('text', 'PhantomJS')
+        'service' => array('text', 'Test'),
+        'purpose' => array('text', 'PrintViewOfQuestions'),
+        'renderer' => array('text', 'PhantomJS')
         )
 );
 ?>
@@ -19119,9 +19119,9 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
     'pdfgen_renderer_avail',
     array(
             'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-            'service' 	=> array('text', 'Test'),
-            'purpose' 	=> array('text', 'UserResult'),
-            'renderer'	=> array('text', 'PhantomJS')
+            'service' => array('text', 'Test'),
+            'purpose' => array('text', 'UserResult'),
+            'renderer' => array('text', 'PhantomJS')
         )
 );
 ?>
@@ -19131,9 +19131,9 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
     'pdfgen_renderer_avail',
     array(
             'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-            'service' 	=> array('text', 'Test'),
-            'purpose' 	=> array('text', 'PrintViewOfQuestions'),
-            'renderer'	=> array('text', 'TCPDF')
+            'service' => array('text', 'Test'),
+            'purpose' => array('text', 'PrintViewOfQuestions'),
+            'renderer' => array('text', 'TCPDF')
         )
 );
 ?>
@@ -19143,9 +19143,9 @@ $ilDB->insert(
     'pdfgen_renderer_avail',
     array(
         'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-        'service' 	=> array('text', 'Test'),
-        'purpose' 	=> array('text', 'UserResult'),
-        'renderer'	=> array('text', 'TCPDF')
+        'service' => array('text', 'Test'),
+        'purpose' => array('text', 'UserResult'),
+        'renderer' => array('text', 'TCPDF')
     )
 );
 ?>
@@ -19312,7 +19312,7 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'origin_tax_filter')) {
     $ilDB->addTableColumn(
         'tst_rnd_quest_set_qpls',
         'origin_tax_filter',
-        array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+        array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null)
     );
 }
 ?>
@@ -19323,7 +19323,7 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'mapped_tax_filter')) {
     $ilDB->addTableColumn(
         'tst_rnd_quest_set_qpls',
         'mapped_tax_filter',
-        array('type' => 'text', 'length' => 4000, 'notnull'	=> false, 'default'	=> null)
+        array('type' => 'text', 'length' => 4000, 'notnull' => false, 'default' => null)
     );
 }
 ?>
@@ -19360,7 +19360,7 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'type_filter')) {
     $ilDB->addTableColumn(
         'tst_rnd_quest_set_qpls',
         'type_filter',
-        array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+        array('type' => 'text', 'length' => 250, 'notnull' => false, 'default' => null)
     );
 }
 ?>
@@ -19391,19 +19391,19 @@ if (!$ilDB->tableExists('saml_attribute_mapping')) {
     $ilDB->createTable(
         'saml_attribute_mapping',
         array(
-            'idp_id'        => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'idp_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'attribute'     => array(
-                'type'    => 'text',
-                'length'  => '75',
+            'attribute' => array(
+                'type' => 'text',
+                'length' => '75',
                 'notnull' => true
             ),
             'idp_attribute' => array(
-                'type'    => 'text',
-                'length'  => '1000',
+                'type' => 'text',
+                'length' => '1000',
                 'notnull' => false,
                 'default' => null
             ),
@@ -19420,8 +19420,8 @@ $ilDB->addPrimaryKey('saml_attribute_mapping', array('idp_id', 'attribute'));
 <?php
 if (!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute')) {
     $ilDB->modifyTableColumn('saml_attribute_mapping', 'idp_attribute', array(
-        'type'    => 'text',
-        'length'  => '1000',
+        'type' => 'text',
+        'length' => '1000',
         'notnull' => false,
         'default' => null
     ));
@@ -19431,8 +19431,8 @@ if (!$ilDB->tableColumnExists('saml_attribute_mapping', 'idp_attribute')) {
 <?php
 if (!$ilDB->tableColumnExists('saml_attribute_mapping', 'update_automatically')) {
     $ilDB->addTableColumn('saml_attribute_mapping', 'update_automatically', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     ));
@@ -19448,14 +19448,14 @@ if (!$ilDB->tableExists('saml_idp_settings')) {
     $ilDB->createTable(
         'saml_idp_settings',
         array(
-            'idp_id'        => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'idp_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true
             ),
-            'is_active'     => array(
-                'type'    => 'integer',
-                'length'  => 1,
+            'is_active' => array(
+                'type' => 'integer',
+                'length' => 1,
                 'notnull' => true
             )
         )
@@ -19557,9 +19557,9 @@ if (!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_src_id') && $ilDB->
 <?php
 if (!$ilDB->tableColumnExists('auth_ext_attr_mapping', 'auth_mode')) {
     $ilDB->addTableColumn('auth_ext_attr_mapping', 'auth_mode', array(
-        'type'    => 'text',
+        'type' => 'text',
         'notnull' => false,
-        'length'  => 50
+        'length' => 50
     ));
 }
 ?>
@@ -19908,7 +19908,7 @@ if (!$ilDB->tableColumnExists('prg_usr_progress', 'deadline')) {
         'deadline',
         array('type' => 'text',
             'length' => 15,
-            'notnull'=> false
+            'notnull' => false
         )
     );
 }
@@ -19921,10 +19921,10 @@ if (!$ilDB->tableColumnExists('prg_usr_progress', 'deadline')) {
             'sahs_lm',
             'id_setting',
             array(
-                'type' 		=> 'integer',
-                'length' 	=> 1,
-                'notnull'	=> true,
-                'default'	=> 0
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
             )
         );
         $ilDB->query("UPDATE sahs_lm SET id_setting = 0");
@@ -19961,10 +19961,10 @@ $ilDB->modifyTableColumn(
             'sahs_lm',
             'name_setting',
             array(
-                'type' 		=> 'integer',
-                'length' 	=> 1,
-                'notnull'	=> true,
-                'default'	=> 0
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
             )
         );
         $ilDB->query("UPDATE sahs_lm SET name_setting = 0");
@@ -20110,18 +20110,18 @@ if (!$ilDB->tableColumnExists('il_orgu_positions', 'core_identifier')) {
         'il_orgu_positions',
         'core_identifier',
         array(
-            'type' 		=> 'integer',
-            'length' 	=> 4,
-            'default'	=> 0
+            'type' => 'integer',
+            'length' => 4,
+            'default' => 0
         )
     );
     $ilDB->query("UPDATE il_orgu_positions SET core_identifier = 0");
 }
-$employee = ilOrgUnitPosition::where(['title'=>"Employees", 'core_position'=>true])->first();
+$employee = ilOrgUnitPosition::where(['title' => "Employees", 'core_position' => true])->first();
 $employee->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 $employee->update();
 
-$superior = ilOrgUnitPosition::where(['title'=>"Superiors", 'core_position'=>true])->first();
+$superior = ilOrgUnitPosition::where(['title' => "Superiors", 'core_position' => true])->first();
 $superior->setCoreIdentifier(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 $superior->update();
 
@@ -20134,9 +20134,9 @@ $ilDB->insert(
     'pdfgen_renderer_avail',
     array(
         'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-        'service' 	=> array('text', 'Wiki'),
-        'purpose' 	=> array('text', 'ContentExport'),
-        'renderer'	=> array('text', 'PhantomJS')
+        'service' => array('text', 'Wiki'),
+        'purpose' => array('text', 'ContentExport'),
+        'renderer' => array('text', 'PhantomJS')
     )
 );
 ?>
@@ -20146,9 +20146,9 @@ $ilDB->insert(
     'pdfgen_renderer_avail',
     array(
         'availability_id' => array('integer', $ilDB->nextId('pdfgen_renderer_avail')),
-        'service' 	=> array('text', 'Portfolio'),
-        'purpose' 	=> array('text', 'ContentExport'),
-        'renderer'	=> array('text', 'PhantomJS')
+        'service' => array('text', 'Portfolio'),
+        'purpose' => array('text', 'ContentExport'),
+        'renderer' => array('text', 'PhantomJS')
     )
 );
 ?>
@@ -20648,8 +20648,8 @@ if ($ops_id && $type_id) {
 <?php
 if (!$ilDB->tableColumnExists("il_object_def", "lti_provider")) {
     $def = array(
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         );
@@ -20744,8 +20744,8 @@ if (!$ilDB->tableColumnExists('file_data', 'page_count')) {
         'file_data',
         'page_count',
         array(
-            'type' 		=> 'integer',
-            'length' 	=> 8,
+            'type' => 'integer',
+            'length' => 8,
         )
     );
 }
@@ -20757,9 +20757,9 @@ if (!$ilDB->tableColumnExists('il_blog', 'nav_list_mon_with_post')) {
         'il_blog',
         'nav_list_mon_with_post',
         array(
-            'type' 		=> 'integer',
-            'length' 	=> 4,
-            'default'	=> 3
+            'type' => 'integer',
+            'length' => 4,
+            'default' => 3
         )
     );
 }
@@ -20982,8 +20982,8 @@ if (!$ilDB->tableColumnExists('usr_session', 'context')) {
         'usr_session',
         'context',
         array(
-            'type'	=> 'text',
-            'length'	=> '80',
+            'type' => 'text',
+            'length' => '80',
             'notnull' => false)
     );
 }
@@ -21154,10 +21154,10 @@ while ($res = $ilDB->fetchAssoc($set)) {
       continue;
   }
     if (!ilOrgUnitUserAssignment::findOrCreateAssignment(
-      $user_id,
-      $position_id,
-      $orgu_ref_id
-  )) {
+        $user_id,
+        $position_id,
+        $orgu_ref_id
+    )) {
         //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
     }
 }
@@ -21242,8 +21242,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
     $ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
-        "type"    => "integer",
-        "length"  => 1,
+        "type" => "integer",
+        "length" => 1,
         "default" => 0,
     ]);
 }
@@ -21653,8 +21653,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if (!$ilDB->tableColumnExists('qpl_qst_lome', 'identical_scoring')) {
     $ilDB->addTableColumn('qpl_qst_lome', 'identical_scoring', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'default' => 1
     ));
 }
@@ -21671,7 +21671,7 @@ if ($ilSetting->get('show_mail_settings', false) === false) {
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
-$type_id  = ilDBUpdateNewObjectType::addNewType('copa', 'Content Page Object');
+$type_id = ilDBUpdateNewObjectType::addNewType('copa', 'Content Page Object');
 
 ilDBUpdateNewObjectType::addRBACOperations($type_id, [
     ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
@@ -21696,7 +21696,7 @@ require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObject
 
 $rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
 $ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
-$w_ops_id  = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
 if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
     $lp_types = array('copa');
 
@@ -21730,15 +21730,15 @@ $ilCtrlStructureReader->getStructure();
 if (!$ilDB->tableExists('content_page_data')) {
     $fields = array(
         'content_page_id' => array(
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
-        'stylesheet'    => array(
-            'type'    => 'integer',
+        'stylesheet' => array(
+            'type' => 'integer',
             'notnull' => true,
-            'length'  => 4,
+            'length' => 4,
             'default' => 0
         )
     );
@@ -21980,134 +21980,134 @@ if (!$ilDB->tableColumnExists('tst_result_cache', 'passed_once')) {
 <?php
 if (!$ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
     $ilDB->addTableColumn('exc_assignment', 'fb_date_custom', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_status')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_submit_status', [
-        "type"    => "integer",
-        "length"  => 1,
+        "type" => "integer",
+        "length" => 1,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_submit_start', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_end')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_submit_end', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_submit_freq')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_submit_freq', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_status')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_grade_status', [
-        "type"    => "integer",
-        "length"  => 1,
+        "type" => "integer",
+        "length" => 1,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_grade_start', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_end')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_grade_end', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'rmd_grade_freq')) {
     $ilDB->addTableColumn('exc_assignment', 'rmd_grade_freq', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_status')) {
     $ilDB->addTableColumn('exc_assignment', 'peer_rmd_status', [
-        "type"    => "integer",
-        "length"  => 1,
+        "type" => "integer",
+        "length" => 1,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
     $ilDB->addTableColumn('exc_assignment', 'peer_rmd_start', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_end')) {
     $ilDB->addTableColumn('exc_assignment', 'peer_rmd_end', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableColumnExists('exc_assignment', 'peer_rmd_freq')) {
     $ilDB->addTableColumn('exc_assignment', 'peer_rmd_freq', [
-        "type"    => "integer",
-        "length"  => 4,
+        "type" => "integer",
+        "length" => 4,
         "default" => null,
     ]);
 }
 if (!$ilDB->tableExists('exc_ass_reminders')) {
     $ilDB->createTable('exc_ass_reminders', array(
         'type' => array(
-            'type'     => 'text',
-            'length'   => 32,
+            'type' => 'text',
+            'length' => 32,
         ),
         'ass_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'exc_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'status' => array(
-            "type"    => "integer",
-            "length"  => 1,
+            "type" => "integer",
+            "length" => 1,
             "default" => null
         ),
         'start' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'end' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'freq' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'last_send' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'template_id' => array(
@@ -22154,8 +22154,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if (!$ilDB->tableColumnExists('file_data', 'max_version')) {
     $ilDB->addTableColumn('file_data', 'max_version', array(
-        'type'    => 'integer',
-        'length'  => 4
+        'type' => 'integer',
+        'length' => 4
     ));
 }
 ?>
@@ -22202,8 +22202,8 @@ if (!$ilDB->tableColumnExists('mail_man_tpl', 'is_default')) {
         'mail_man_tpl',
         'is_default',
         [
-            'type'    => 'integer',
-            'length'  => 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => true,
             'default' => 0,
         ]
@@ -22222,7 +22222,7 @@ if ($ilDB->tableExists('object_data_del')) {
             'object_data_del',
             'description',
             [
-                'type'    => 'clob',
+                'type' => 'clob',
                 'notnull' => false,
                 'default' => null,
             ]
@@ -22290,7 +22290,7 @@ if ($ilDB->tableExists('object_data_del')) {
             'object_data_del',
             'description',
             [
-                'type'    => 'clob',
+                'type' => 'clob',
                 'notnull' => false,
                 'default' => null,
             ]
@@ -22303,44 +22303,44 @@ if ($ilDB->tableExists('object_data_del')) {
 if (!$ilDB->tableExists('tos_documents')) {
     $fields = [
         'id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'title' => [
-            'type'     => 'text',
-            'length'   => 255,
-            'notnull'  => false,
-            'default'  => null
+            'type' => 'text',
+            'length' => 255,
+            'notnull' => false,
+            'default' => null
         ],
         'creation_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'modification_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'sorting' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'owner_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'last_modified_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ]
@@ -22355,9 +22355,9 @@ if (!$ilDB->tableExists('tos_documents')) {
 <?php
 if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
     $ilDB->addTableColumn('tos_documents', 'text', [
-        'type'     => 'clob',
-        'notnull'  => false,
-        'default'  => null
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => null
     ]);
 }
 ?>
@@ -22366,49 +22366,49 @@ if (!$ilDB->tableColumnExists('tos_documents', 'text')) {
 if (!$ilDB->tableExists('tos_criterion_to_doc')) {
     $fields = [
         'id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'doc_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'criterion_id' => [
-            'type'     => 'text',
-            'length'   => 50,
-            'notnull'  => true
+            'type' => 'text',
+            'length' => 50,
+            'notnull' => true
         ],
         'criterion_value' => [
-            'type'     => 'text',
-            'length'   => 255,
-            'notnull'  => false,
-            'default'  => null,
+            'type' => 'text',
+            'length' => 255,
+            'notnull' => false,
+            'default' => null,
         ],
         'assigned_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'modification_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'owner_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'last_modified_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ]
@@ -22423,8 +22423,8 @@ if (!$ilDB->tableExists('tos_criterion_to_doc')) {
 <?php
 if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
     $ilDB->addTableColumn('tos_versions', 'doc_id', [
-        'type'    => 'integer',
-        'length'  => 4,
+        'type' => 'integer',
+        'length' => 4,
         'notnull' => true,
         'default' => 0
     ]);
@@ -22432,7 +22432,7 @@ if (!$ilDB->tableColumnExists('tos_versions', 'doc_id')) {
 
 if (!$ilDB->tableColumnExists('tos_versions', 'title')) {
     $ilDB->addTableColumn('tos_versions', 'title', [
-        'type'    => 'text',
+        'type' => 'text',
         'notnull' => false,
         'default' => null
     ]);
@@ -22440,7 +22440,7 @@ if (!$ilDB->tableColumnExists('tos_versions', 'title')) {
 
 if (!$ilDB->tableColumnExists('tos_acceptance_track', 'criteria')) {
     $ilDB->addTableColumn('tos_acceptance_track', 'criteria', [
-        'type'    => 'clob',
+        'type' => 'clob',
         'notnull' => false,
         'default' => null
     ]);
@@ -22502,13 +22502,13 @@ if ($documentDirectoriesExist && !$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 if (!$ilDB->tableExists('agreement_migr')) {
     $fields = [
         'agr_type' => [
-            'type'    => 'text',
-            'length'  => 20,
+            'type' => 'text',
+            'length' => 20,
             'notnull' => true
         ],
         'agr_lng' => [
-            'type'    => 'text',
-            'length'  => 2,
+            'type' => 'text',
+            'length' => 2,
             'notnull' => true
         ]
     ];
@@ -23209,9 +23209,9 @@ if ($ilDB->tableExists('certificate_template')) {
     $web_path = CLIENT_WEB_DIR;
 
     $directories = array(
-        'exc'  => '/exercise/certificates/',
-        'crs'  => '/course/certificates/',
-        'tst'  => '/assessment/certificates/',
+        'exc' => '/exercise/certificates/',
+        'crs' => '/course/certificates/',
+        'tst' => '/assessment/certificates/',
         'sahs' => '/certificates/scorm/',
         'lti' => '/lti_data/certficates/',
         'cmix' => '/cmix_data/certficates/',
@@ -23221,8 +23221,8 @@ if ($ilDB->tableExists('certificate_template')) {
         "Started certificate template XML file migration"
     ));
 
-    $migratedObjectIds             = [];
-    $has_errors                    = false;
+    $migratedObjectIds = [];
+    $has_errors = false;
     $stmtSelectObjCertWithTemplate = $ilDB->prepare(
         "
 			SELECT od.obj_id, COUNT(certificate_template.obj_id) as num_migrated_cer_templates
@@ -23308,7 +23308,7 @@ if ($ilDB->tableExists('certificate_template')) {
                     continue;
                 }
 
-                $content   = file_get_contents($pathToFile);
+                $content = file_get_contents($pathToFile);
                 $timestamp = $certificateFile->getMTime();
 
                 if (false !== $content) {
@@ -23319,21 +23319,21 @@ if ($ilDB->tableExists('certificate_template')) {
                     }
 
                     if ('' === $backgroundImagePath && file_exists($web_path . '/certificates/default/background.jpg')) {
-                        $backgroundImagePath  = '/certificates/default/background.jpg';
+                        $backgroundImagePath = '/certificates/default/background.jpg';
                     }
 
-                    $id      = $ilDB->nextId('certificate_template');
+                    $id = $ilDB->nextId('certificate_template');
                     $columns = [
-                        'id'                    => ['integer', $id],
-                        'obj_id'                => ['integer', $objectId],
-                        'obj_type'              => ['text', $type],
-                        'certificate_content'   => ['text', $content],
-                        'certificate_hash'      => ['text', md5($content)],
-                        'template_values'       => ['text', ''],
-                        'version'               => ['text', '1'],
-                        'ilias_version'         => ['text', ILIAS_VERSION_NUMERIC],
-                        'created_timestamp'     => ['integer', $timestamp],
-                        'currently_active'      => ['integer', 1],
+                        'id' => ['integer', $id],
+                        'obj_id' => ['integer', $objectId],
+                        'obj_type' => ['text', $type],
+                        'certificate_content' => ['text', $content],
+                        'certificate_hash' => ['text', md5($content)],
+                        'template_values' => ['text', ''],
+                        'version' => ['text', '1'],
+                        'ilias_version' => ['text', ILIAS_VERSION_NUMERIC],
+                        'created_timestamp' => ['integer', $timestamp],
+                        'currently_active' => ['integer', 1],
                         'background_image_path' => ['text', $backgroundImagePath],
                     ];
 
@@ -23756,17 +23756,17 @@ if (!$ilDB->tableExists('il_mm_translation')) {
 <?php
 $fields = array(
     'provider_class' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '255',
 
     ),
-    'purpose'        => array(
-        'type'   => 'text',
+    'purpose' => array(
+        'type' => 'text',
         'length' => '255',
 
     ),
-    'dynamic'        => array(
-        'type'   => 'integer',
+    'dynamic' => array(
+        'type' => 'integer',
         'length' => '1',
 
     ),
@@ -23781,17 +23781,17 @@ if (!$ilDB->tableExists('il_gs_providers')) {
 <?php
 $fields = array(
     'identification' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '64',
 
     ),
     'provider_class' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '255',
 
     ),
-    'active'         => array(
-        'type'   => 'integer',
+    'active' => array(
+        'type' => 'integer',
         'length' => '1',
 
     ),
@@ -23873,8 +23873,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if (!$ilDB->tableColumnExists("il_object_def", "offline_handling")) {
     $def = array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => true,
         'default' => 0
     );
@@ -24130,18 +24130,18 @@ if (!$ilDB->tableColumnExists('event_participants', 'contact')) {
 if (!$ilDB->tableExists('post_conditions')) {
     $ilDB->createTable('post_conditions', array(
         'ref_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'condition_type' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'value' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         )
     ));
@@ -24169,18 +24169,18 @@ $ilDB->manipulate($query);
 if (!$ilDB->tableExists('lso_states')) {
     $ilDB->createTable('lso_states', array(
         'lso_ref_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'usr_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'current_item' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             "default" => null
         ),
         'states' => array(
@@ -24246,8 +24246,8 @@ if ($lso_type_id) {
 if (!$ilDB->tableExists('lso_settings')) {
     $ilDB->createTable('lso_settings', array(
         'obj_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'abstract' => array(
@@ -24257,14 +24257,14 @@ if (!$ilDB->tableExists('lso_settings')) {
             "type" => "clob"
         ),
         'abstract_image' => array(
-            'type'     => 'text',
-            'length'   => 128,
-            'default'   => null,
+            'type' => 'text',
+            'length' => 128,
+            'default' => null,
         ),
         'extro_image' => array(
-            'type'     => 'text',
-            'length'   => 128,
-            'default'   => null,
+            'type' => 'text',
+            'length' => 128,
+            'default' => null,
         )
     ));
     $ilDB->addPrimaryKey("lso_settings", array("obj_id"));
@@ -24621,27 +24621,27 @@ ilDBUpdateNewObjectType::cloneOperation('svy', $src_ops_id, $tgt_ops_id);
 <?php
 // Possibly missing primaries
 $ilDB->modifyTableColumn('il_mm_translation', 'identification', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 $ilDB->modifyTableColumn('il_gs_providers', 'provider_class', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 $ilDB->modifyTableColumn('il_gs_providers', 'purpose', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 $ilDB->modifyTableColumn('il_gs_identifications', 'provider_class', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 $ilDB->modifyTableColumn('il_mm_custom_items', 'identifier', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 $ilDB->modifyTableColumn('il_mm_actions', 'identification', array(
-    'length'  => 255
+    'length' => 255
 ));
 
 

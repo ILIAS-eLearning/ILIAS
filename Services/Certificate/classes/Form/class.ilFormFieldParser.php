@@ -98,14 +98,14 @@ class ilFormFieldParser
         $content = str_replace("&#160;", "<br />", $content);
 
         $formFields = array(
-            'pageformat'         => $pagesize,
-            'pagewidth'          => $pagewidth,
-            'pageheight'         => $pageheight,
-            'margin_body_top'    => $marginBody_top,
-            'margin_body_right'  => $marginBody_right,
+            'pageformat' => $pagesize,
+            'pagewidth' => $pagewidth,
+            'pageheight' => $pageheight,
+            'margin_body_top' => $marginBody_top,
+            'margin_body_right' => $marginBody_right,
             'margin_body_bottom' => $marginBody_bottom,
-            'margin_body_left'   => $marginBody_left,
-            'certificate_text'   => $content
+            'margin_body_left' => $marginBody_left,
+            'certificate_text' => $content
         );
 
         return $formFields;

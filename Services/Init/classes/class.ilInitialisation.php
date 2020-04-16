@@ -331,6 +331,13 @@ class ilInitialisation
         }
         if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
             return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators(dirname($protocol . $host . $uri)));
+        } elseif (ilContext::getType() == ilContext::CONTEXT_SAML) {
+            $iliasHttpPath = implode('', [$protocol, $host, $uri]);
+            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
+                return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators(
+                    substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'))
+                ));
+            }
         }
         return define('ILIAS_HTTP_PATH', ilUtil::removeTrailingPathSeparators($protocol . $host . $uri));
     }
@@ -1344,7 +1351,10 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+        if (
+            $GLOBALS['DIC']['ilAuthSession']->isExpired() &&
+            !\ilObjUser::_isAnonymous($GLOBALS['DIC']['ilAuthSession']->getUserId())
+        ) {
             ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
             return self::goToLogin();
         }
@@ -1529,22 +1539,22 @@ class ilInitialisation
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
-                $c["ui.resource_registry"],
-                new ILIAS\UI\Implementation\Render\FSLoader(
-                        new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
-                        $c["ui.factory"],
-                        $c["ui.template_factory"],
-                        $c["lng"],
-                        $c["ui.javascript_binding"]
-                    ),
-                        new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
-                              $c["ui.factory"],
-                              $c["ui.template_factory"],
-                              $c["lng"],
-                              $c["ui.javascript_binding"]
-                          )
-                    )
-            )
+                    $c["ui.resource_registry"],
+                    new ILIAS\UI\Implementation\Render\FSLoader(
+                    new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"]
+                        ),
+                    new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"]
+                        )
+                )
+                )
             );
         };
         $c["ui.template_factory"] = function ($c) {

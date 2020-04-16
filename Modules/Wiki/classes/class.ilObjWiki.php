@@ -845,7 +845,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
                 " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
             );
-            $ord+=10;
+            $ord += 10;
         }
         
         return $fixed;
@@ -880,7 +880,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
                 " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
             );
-            $ord+=10;
+            $ord += 10;
         }
     }
 

@@ -91,6 +91,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
                 
         foreach ($this->peer_data as $item) {
             $row = array();
+
+            if (ilObject::_lookupType($item["peer_id"]) != "usr") {
+                continue;
+            }
                         
             $row["giver_id"] = $item["giver_id"];
             $row["peer_id"] = $item["peer_id"];

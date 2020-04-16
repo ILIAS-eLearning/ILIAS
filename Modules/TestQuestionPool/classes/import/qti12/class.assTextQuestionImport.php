@@ -121,12 +121,12 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
         
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
-        $no_keywords_found=true;
+        $no_keywords_found = true;
         
         $termscoring = $this->fetchTermScoring($item);
         for ($i = 0; $i < count($termscoring); $i++) {
             $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
-            $no_keywords_found=false;
+            $no_keywords_found = false;
         }
         if (count($termscoring)) {
             $this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
@@ -140,7 +140,7 @@ class assTextQuestionImport extends assQuestionImport
                 $this->object->addAnswer($answer, 0);
             }
             $this->object->setKeywordRelation('one');
-            $no_keywords_found=false;
+            $no_keywords_found = false;
         }
         if ($no_keywords_found) {
             $this->object->setKeywordRelation('non');
@@ -179,7 +179,7 @@ class assTextQuestionImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($feedbacks as $ident => $material) {

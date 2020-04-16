@@ -203,8 +203,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
         $this->mainTemplate->addCss(
             \ilObjStyleSheet::getContentStylePath(
-            $this->contentPageObject->getStyleSheetId()
-        )
+                $this->contentPageObject->getStyleSheetId()
+            )
         );
     }
 }

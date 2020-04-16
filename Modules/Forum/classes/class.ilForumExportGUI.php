@@ -11,7 +11,7 @@
 */
 class ilForumExportGUI
 {
-    const MODE_EXPORT_WEB    = 1;
+    const MODE_EXPORT_WEB = 1;
     const MODE_EXPORT_CLIENT = 2;
 
     /**
@@ -93,7 +93,7 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
@@ -105,9 +105,9 @@ class ilForumExportGUI
             $this->ensureThreadBelongsToForum((int) $this->frm->getForumId(), $topic);
 
             $topic->setOrderField('frm_posts_tree.rgt');
-            $first_post      = $topic->getFirstPostNode();
+            $first_post = $topic->getFirstPostNode();
             $post_collection = $topic->getPostTree($first_post);
-            $num_posts       = count($post_collection);
+            $num_posts = count($post_collection);
 
             $tpl->setVariable('TITLE', $topic->getSubject());
             $tpl->setVariable(
@@ -136,7 +136,7 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl                 = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 

@@ -53,7 +53,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
         if ($has_url_property) {
             $values = array(
-                'link'  => $form->getInput("field_" . $this->getId()),
+                'link' => $form->getInput("field_" . $this->getId()),
                 'title' => $form->getInput("field_" . $this->getId() . "_title"),
             );
             $this->checkValidityOfURLField($values, $record_id);

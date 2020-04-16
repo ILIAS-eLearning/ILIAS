@@ -40,11 +40,11 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
     {
         global $DIC;
 
-        $this->usr_id    = $usr_id;
+        $this->usr_id = $usr_id;
         $this->buddylist = ilBuddyList::getInstanceByGlobalUser();
         
         $this->user = $DIC['ilUser'];
-        $this->lng  = $DIC['lng'];
+        $this->lng = $DIC['lng'];
     }
 
     /**

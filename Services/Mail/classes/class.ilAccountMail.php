@@ -113,7 +113,7 @@ class ilAccountMail
             $this->attachments = [];
         }
 
-        $this->user =&$a_user;
+        $this->user = &$a_user;
     }
 
     /**
@@ -206,7 +206,7 @@ class ilAccountMail
     {
         global $ilSetting;
         
-        $user =&$this->getUser();
+        $user = &$this->getUser();
         
         if (!$user->getEmail()) {
             return false;
@@ -248,8 +248,8 @@ class ilAccountMail
                 $tmp_lang->txt('reg_mail_body_text2') . "\n" .
                 ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID . "\n";
             $mail_body .= $tmp_lang->txt('login') . ': ' . $user->getLogin() . "\n";
-            $mail_body.= $tmp_lang->txt('passwd') . ': ' . $this->u_password . "\n";
-            $mail_body.= "\n" . $timelimit;
+            $mail_body .= $tmp_lang->txt('passwd') . ': ' . $this->u_password . "\n";
+            $mail_body .= "\n" . $timelimit;
             $mail_body .= $tmp_lang->txt('reg_mail_body_text3') . "\n\r";
             $mail_body .= $user->getProfileAsString($tmp_lang);
         } else {
@@ -306,14 +306,14 @@ class ilAccountMail
         // BEGIN Mail Include E-Mail Address in account mail
         $a_string = str_replace("[EMAIL]", $a_user->getEmail(), $a_string);
         // END Mail Include E-Mail Address in account mail
-        $a_string  = str_replace("[PASSWORD]", $this->getUserPassword(), $a_string);
-        $a_string  = str_replace(
+        $a_string = str_replace("[PASSWORD]", $this->getUserPassword(), $a_string);
+        $a_string = str_replace(
             "[ILIAS_URL]",
             ILIAS_HTTP_PATH . "/login.php?client_id=" . CLIENT_ID,
             $a_string
         );
-        $a_string  = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
-        $a_string  = str_replace(
+        $a_string = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
+        $a_string = str_replace(
             "[ADMIN_MAIL]",
             $ilSetting->get("admin_email"),
             $a_string
@@ -336,7 +336,7 @@ class ilAccountMail
             $timelimit_from = new ilDateTime($a_user->getTimeLimitFrom(), IL_CAL_UNIX);
             $timelimit_until = new ilDateTime($a_user->getTimeLimitUntil(), IL_CAL_UNIX);
             $timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
-            $a_string  = str_replace("[TIMELIMIT]", $timelimit, $a_string);
+            $a_string = str_replace("[TIMELIMIT]", $timelimit, $a_string);
         } else {
             $a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "", $a_string);
         }
@@ -349,12 +349,12 @@ class ilAccountMail
                 $obj_id = ilObject::_lookupObjId($tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type == $tarr[0]) {
-                    $a_string  = str_replace(
+                    $a_string = str_replace(
                         "[TARGET_TITLE]",
                         ilObject::_lookupTitle($obj_id),
                         $a_string
                     );
-                    $a_string  = str_replace(
+                    $a_string = str_replace(
                         "[TARGET]",
                         ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $_GET["target"],
                         $a_string
@@ -363,7 +363,7 @@ class ilAccountMail
                     // this looks complicated, but we may have no initilised $lng object here
                     // if mail is send during user creation in authentication
                     include_once("./Services/Language/classes/class.ilLanguage.php");
-                    $a_string  = str_replace(
+                    $a_string = str_replace(
                         "[TARGET_TYPE]",
                         ilLanguage::_lookupEntry($a_lang, "common", "obj_" . $tarr[0]),
                         $a_string

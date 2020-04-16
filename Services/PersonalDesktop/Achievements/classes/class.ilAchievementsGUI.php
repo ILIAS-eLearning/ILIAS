@@ -188,7 +188,7 @@ class ilAchievementsGUI
             ilAchievements::SERV_COMPETENCES => "ilpersonalskillsgui",
             ilAchievements::SERV_LEARNING_PROGRESS => "illearningprogressgui",
             ilAchievements::SERV_BADGES => "ilbadgeprofilegui",
-            ilAchievements::SERV_CERTIFICATES =>  "ilusercertificategui"
+            ilAchievements::SERV_CERTIFICATES => "ilusercertificategui"
         ];
 
         return $gui_classes;

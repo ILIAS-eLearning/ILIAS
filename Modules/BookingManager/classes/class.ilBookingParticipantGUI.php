@@ -116,10 +116,10 @@ class ilBookingParticipantGUI
                 $this,
                 $this->toolbar,
                 array(
-                    'auto_complete_name'	=> $this->lng->txt('user'),
-                    'submit_name'			=> $this->lng->txt('add'),
-                    'add_search'			=> true,
-                    'add_from_container'    => $this->ref_id
+                    'auto_complete_name' => $this->lng->txt('user'),
+                    'submit_name' => $this->lng->txt('add'),
+                    'add_search' => true,
+                    'add_from_container' => $this->ref_id
                 )
             );
 

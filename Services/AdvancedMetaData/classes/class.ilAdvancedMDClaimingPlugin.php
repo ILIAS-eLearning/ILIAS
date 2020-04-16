@@ -148,7 +148,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         foreach ($a_obj_types as $type) {
             if (!is_array($type)) {
                 $type = strtolower(trim($type));
-                $subtype  = "-";
+                $subtype = "-";
             } else {
                 $subtype = strtolower(trim($type[1]));
                 $type = strtolower(trim($type[0]));
@@ -297,7 +297,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             return;
         }
         
-        $pos = self::getDBFieldLastPosition($a_record_id)+1;
+        $pos = self::getDBFieldLastPosition($a_record_id) + 1;
         
         $fields = array(
             "record_id" => array("integer", $a_record_id),
@@ -509,7 +509,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 );
             }
             
-            $fields = array("substitution"=>array("text", serialize($fields)));
+            $fields = array("substitution" => array("text", serialize($fields)));
             $ilDB->update(
                 "adv_md_substitutions",
                 $fields,
@@ -549,7 +549,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 }
             }
             if ($found) {
-                $fields = array("substitution"=>array("text", serialize($fields)));
+                $fields = array("substitution" => array("text", serialize($fields)));
                 $ilDB->update(
                     "adv_md_substitutions",
                     $fields,

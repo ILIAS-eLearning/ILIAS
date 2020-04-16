@@ -22,10 +22,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     {
         $this->gui->switchToVisibleMode();
         $this->setupTemplate();
-        $room      = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $failure   = false;
-        $username  = '';
+        $failure = false;
+        $username = '';
 
         if ($_REQUEST['custom_username_radio'] == 'custom_username') {
             $username = $_REQUEST['custom_username_text'];
@@ -79,9 +79,9 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             return;
         }
 
-        $scope     = $room->getRoomId();
+        $scope = $room->getRoomId();
         $connector = $this->gui->getConnector();
-        $response  = @$connector->connect($scope, $user_id);
+        $response = @$connector->connect($scope, $user_id);
 
         if (!$response) {
             ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
@@ -99,23 +99,23 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
-        $connection_info    = json_decode($response);
-        $settings           = $connector->getSettings();
+        $connection_info = json_decode($response);
+        $settings = $connector->getSettings();
         $known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
 
-        $initial                        = new stdClass();
-        $initial->users                 = $room->getConnectedUsers();
-        $initial->private_rooms         = array_values($known_private_room);
-        $initial->redirect_url          = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
-        $initial->profile_image_url     = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
-        $initial->no_profile_image_url  = ilUtil::getImagePath('no_photo_xxsmall.jpg');
+        $initial = new stdClass();
+        $initial->users = $room->getConnectedUsers();
+        $initial->private_rooms = array_values($known_private_room);
+        $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
+        $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
+        $initial->no_profile_image_url = ilUtil::getImagePath('no_photo_xxsmall.jpg');
         $initial->private_rooms_enabled = (boolean) $room->getSetting('private_rooms_enabled');
-        $initial->subdirectory          = $settings->getSubDirectory();
+        $initial->subdirectory = $settings->getSubDirectory();
 
         $initial->userinfo = array(
             'moderator' => ilChatroom::checkUserPermissions('moderate', (int) $_GET['ref_id'], false),
-            'id'        => $chat_user->getUserId(),
-            'login'     => $chat_user->getUsername()
+            'id' => $chat_user->getUserId(),
+            'login' => $chat_user->getUsername()
         );
 
         $smileys = array();
@@ -126,7 +126,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
                 $new_keys = array();
-                $new_val  = '';
+                $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key == 'smiley_keywords') {
                         $new_keys = explode("\n", $value);
@@ -157,14 +157,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             if ($known_private_room[$_REQUEST['sub']]) {
                 if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $_REQUEST['sub'])) {
                     $initial->messages[] = array(
-                        'type'    => 'error',
+                        'type' => 'error',
                         'message' => $this->ilLng->txt('not_allowed_to_enter'),
                     );
                 } else {
-                    $scope          = $room->getRoomId();
-                    $params         = array();
+                    $scope = $room->getRoomId();
+                    $params = array();
                     $params['user'] = $chat_user->getUserId();
-                    $params['sub']  = $_REQUEST['sub'];
+                    $params['sub'] = $_REQUEST['sub'];
 
                     $params['message'] = json_encode(
                         array(
@@ -174,7 +174,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                     );
 
                     $connector = $this->gui->getConnector();
-                    $response  = $connector->sendEnterPrivateRoom($scope, $_REQUEST['sub'], $chat_user->getUserId());
+                    $response = $connector->sendEnterPrivateRoom($scope, $_REQUEST['sub'], $chat_user->getUserId());
 
                     if ($this->isSuccessful($response)) {
                         $room->subscribeUserToPrivateRoom($params['sub'], $params['user']);
@@ -184,7 +184,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 }
             } else {
                 $initial->messages[] = array(
-                    'type'    => 'error',
+                    'type' => 'error',
                     'message' => $this->ilLng->txt('user_invited'),
                 );
             }
@@ -275,43 +275,43 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     protected function renderLanguageVariables(ilTemplate $roomTpl)
     {
         $js_translations = array(
-            'LBL_MAINROOM'                     => 'chat_mainroom',
-            'LBL_LEAVE_PRIVATE_ROOM'           => 'leave_private_room',
-            'LBL_LEFT_PRIVATE_ROOM'            => 'left_private_room',
-            'LBL_JOIN'                         => 'chat_join',
-            'LBL_DELETE_PRIVATE_ROOM'          => 'delete_private_room',
+            'LBL_MAINROOM' => 'chat_mainroom',
+            'LBL_LEAVE_PRIVATE_ROOM' => 'leave_private_room',
+            'LBL_LEFT_PRIVATE_ROOM' => 'left_private_room',
+            'LBL_JOIN' => 'chat_join',
+            'LBL_DELETE_PRIVATE_ROOM' => 'delete_private_room',
             'LBL_DELETE_PRIVATE_ROOM_QUESTION' => 'delete_private_room_question',
-            'LBL_INVITE_TO_PRIVATE_ROOM'       => 'invite_to_private_room',
-            'LBL_KICK'                         => 'chat_kick',
-            'LBL_BAN'                          => 'chat_ban',
-            'LBL_KICK_QUESTION'                => 'kick_question',
-            'LBL_BAN_QUESTION'                 => 'ban_question',
-            'LBL_ADDRESS'                      => 'chat_address',
-            'LBL_WHISPER'                      => 'chat_whisper',
-            'LBL_CONNECT'                      => 'chat_connection_established',
-            'LBL_DISCONNECT'                   => 'chat_connection_disconnected',
-            'LBL_TO_MAINROOM'                  => 'chat_to_mainroom',
-            'LBL_CREATE_PRIVATE_ROOM_JS'       => 'chat_create_private_room_button',
-            'LBL_WELCOME_TO_CHAT'              => 'welcome_to_chat',
-            'LBL_USER_INVITED'                 => 'user_invited',
-            'LBL_USER_KICKED'                  => 'user_kicked',
-            'LBL_USER_INVITED_SELF'            => 'user_invited_self',
-            'LBL_PRIVATE_ROOM_CLOSED'          => 'private_room_closed',
-            'LBL_PRIVATE_ROOM_ENTERED'         => 'private_room_entered',
-            'LBL_PRIVATE_ROOM_LEFT'            => 'private_room_left',
-            'LBL_PRIVATE_ROOM_ENTERED_USER'    => 'private_room_entered_user',
-            'LBL_KICKED_FROM_PRIVATE_ROOM'     => 'kicked_from_private_room',
-            'LBL_OK'                           => 'ok',
-            'LBL_INVITE'                       => 'chat_invite',
-            'LBL_CANCEL'                       => 'cancel',
-            'LBL_WHISPER_TO'                   => 'whisper_to',
-            'LBL_SPEAK_TO'                     => 'speak_to',
-            'LBL_HISTORY_CLEARED'              => 'history_cleared',
-            'LBL_CLEAR_ROOM_HISTORY'           => 'clear_room_history',
-            'LBL_CLEAR_ROOM_HISTORY_QUESTION'  => 'clear_room_history_question',
-            'LBL_END_WHISPER'                  => 'end_whisper',
-            'LBL_TIMEFORMAT'                   => 'lang_timeformat_no_sec',
-            'LBL_DATEFORMAT'                   => 'lang_dateformat'
+            'LBL_INVITE_TO_PRIVATE_ROOM' => 'invite_to_private_room',
+            'LBL_KICK' => 'chat_kick',
+            'LBL_BAN' => 'chat_ban',
+            'LBL_KICK_QUESTION' => 'kick_question',
+            'LBL_BAN_QUESTION' => 'ban_question',
+            'LBL_ADDRESS' => 'chat_address',
+            'LBL_WHISPER' => 'chat_whisper',
+            'LBL_CONNECT' => 'chat_connection_established',
+            'LBL_DISCONNECT' => 'chat_connection_disconnected',
+            'LBL_TO_MAINROOM' => 'chat_to_mainroom',
+            'LBL_CREATE_PRIVATE_ROOM_JS' => 'chat_create_private_room_button',
+            'LBL_WELCOME_TO_CHAT' => 'welcome_to_chat',
+            'LBL_USER_INVITED' => 'user_invited',
+            'LBL_USER_KICKED' => 'user_kicked',
+            'LBL_USER_INVITED_SELF' => 'user_invited_self',
+            'LBL_PRIVATE_ROOM_CLOSED' => 'private_room_closed',
+            'LBL_PRIVATE_ROOM_ENTERED' => 'private_room_entered',
+            'LBL_PRIVATE_ROOM_LEFT' => 'private_room_left',
+            'LBL_PRIVATE_ROOM_ENTERED_USER' => 'private_room_entered_user',
+            'LBL_KICKED_FROM_PRIVATE_ROOM' => 'kicked_from_private_room',
+            'LBL_OK' => 'ok',
+            'LBL_INVITE' => 'chat_invite',
+            'LBL_CANCEL' => 'cancel',
+            'LBL_WHISPER_TO' => 'whisper_to',
+            'LBL_SPEAK_TO' => 'speak_to',
+            'LBL_HISTORY_CLEARED' => 'history_cleared',
+            'LBL_CLEAR_ROOM_HISTORY' => 'clear_room_history',
+            'LBL_CLEAR_ROOM_HISTORY_QUESTION' => 'clear_room_history_question',
+            'LBL_END_WHISPER' => 'end_whisper',
+            'LBL_TIMEFORMAT' => 'lang_timeformat_no_sec',
+            'LBL_DATEFORMAT' => 'lang_dateformat'
         );
         foreach ($js_translations as $placeholder => $lng_variable) {
             $roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable)));
@@ -343,8 +343,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     {
         require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
 
-        $name_options  = $chat_user->getChatNameSuggestions();
-        $formFactory   = new ilChatroomFormFactory();
+        $name_options = $chat_user->getChatNameSuggestions();
+        $formFactory = new ilChatroomFormFactory();
         $selectionForm = $formFactory->getUserChatNameSelectionForm($name_options);
 
         $this->ilCtrl->saveParameter($this->gui, 'sub');
@@ -410,11 +410,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
 
-        $room      = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $user_id   = $_REQUEST['usr_id'];
+        $user_id = $_REQUEST['usr_id'];
         $connector = $this->gui->getConnector();
-        $title     = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
+        $title = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
         $subRoomId = $room->addPrivateRoom($title, $chat_user, array('public' => false));
 
         $room->inviteUserToPrivateRoom($user_id, $subRoomId);
@@ -504,7 +504,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $chatRoomUserDetails
         );
 
-        $public_data  = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
+        $public_data = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
         $public_names = ilUserUtil::getNamePresentation($user_ids, false, false, '', false, true, false, false);
 
         foreach ($user_ids as $usr_id) {
@@ -522,7 +522,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $public_image = $avatar->getUrl();
             } else {
                 $public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
-                $public_name  = '';
+                $public_name = '';
                 if (isset($public_names[$usr_id])) {
                     $public_name = $public_names[$usr_id];
                     if ('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login'])) {
@@ -532,7 +532,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             }
 
             $response[$usr_id] = [
-                'public_name'   => $public_name,
+                'public_name' => $public_name,
                 'profile_image' => $public_image,
             ];
         }

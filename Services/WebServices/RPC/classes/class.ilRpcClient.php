@@ -72,7 +72,7 @@ class ilRpcClient
         //prepare xml post data
         $method_name = str_replace('_', '.', $this->prefix . $a_method);
         $rpc_options = array(
-            'verbosity'=>'newlines_only',
+            'verbosity' => 'newlines_only',
             'escaping' => 'markup'
         );
 
@@ -106,7 +106,7 @@ class ilRpcClient
         $resp = xmlrpc_decode($xml_resp, $this->encoding);
 
         //xmlrpc_is_fault can just handle arrays as response
-        if (is_array($resp)&& xmlrpc_is_fault($resp)) {
+        if (is_array($resp) && xmlrpc_is_fault($resp)) {
             ilLoggerFactory::getLogger('wsrv')->error('RpcClient recieved error ' . $resp['faultCode'] . ': ' . $resp['faultString']);
             include_once './Services/WebServices/RPC/classes/class.ilRpcClientException.php';
             throw new ilRpcClientException('RPC-Server returned fault message: ' . $resp['faultString'], $resp['faultCode']);

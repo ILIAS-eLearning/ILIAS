@@ -235,7 +235,7 @@ class ilDclExpressionParser
     {
         $return = array(
             'function' => '',
-            'args'     => array(),
+            'args' => array(),
         );
         for ($i = 1; $i < count($data); $i++) {
             $_data = $data[$i];

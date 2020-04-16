@@ -11,7 +11,7 @@
 */
 class ilSCORM2004StoreData
 {
-    public static function scormPlayerUnload($userId=null, $packageId, $time_from_lms)
+    public static function scormPlayerUnload($userId = null, $packageId, $time_from_lms)
     {
         global $DIC;
 
@@ -23,16 +23,16 @@ class ilSCORM2004StoreData
             return;
         }
         if ($userId == null) {
-            $userId=(int) $data->p;
+            $userId = (int) $data->p;
             self::checkIfAllowed($packageId, $userId, $data->hash);
         }
         $last_visited = null;
-        if ($data->last !="") {
+        if ($data->last != "") {
             $last_visited = $data->last;
         }
-        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
+        $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
         $total_time_sec = null;
-        if ($data->total_time_sec !="") {
+        if ($data->total_time_sec != "") {
             $total_time_sec = $data->total_time_sec;
             $ilDB->manipulateF(
                 'UPDATE sahs_user 
@@ -41,7 +41,7 @@ class ilSCORM2004StoreData
                 array('integer', 'text', 'timestamp', 'timestamp', 'integer', 'integer'),
                 array($total_time_sec,$last_visited, $endDate, date('Y-m-d H:i:s'), $packageId, $userId)
             );
-            if ($time_from_lms==true) {
+            if ($time_from_lms == true) {
                 self::ensureObjectDataCacheExistence();
                 global $DIC;
 
@@ -66,7 +66,7 @@ class ilSCORM2004StoreData
     }
 
 
-    public static function persistCMIData($userId=null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
+    public static function persistCMIData($userId = null, $packageId, $defaultLessonMode, $comments, $interactions, $objectives, $time_from_lms, $data = null)
     {
         global $DIC;
 
@@ -76,7 +76,7 @@ class ilSCORM2004StoreData
             return;
         }
 
-        $jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+        $jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;
 
         $data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
         $ilLog->write("dataTo_setCMIData: " . file_get_contents('php://input'));
@@ -84,7 +84,7 @@ class ilSCORM2004StoreData
             return;
         }
         if ($userId == null) {
-            $userId=(int) $data->p;
+            $userId = (int) $data->p;
             self::checkIfAllowed($packageId, $userId, $data->hash);
             //			header('Access-Control-Allow-Origin: http://localhost:50012');//just for tests - not for release UK
         }
@@ -125,8 +125,8 @@ class ilSCORM2004StoreData
             array('integer','integer','timestamp'),
             array($packageId,$userId,date('Y-m-d H:i:s'))
         );
-        $rowtmp=$ilDB->fetchAssoc($res);
-        if ($rowtmp['hash']==$hash) {
+        $rowtmp = $ilDB->fetchAssoc($res);
+        if ($rowtmp['hash'] == $hash) {
             return;
         } else {
             die("not allowed");
@@ -146,11 +146,11 @@ class ilSCORM2004StoreData
             return $result;
         }
 
-        $i_check=$data->i_check;
-        $i_set=$data->i_set;
-        $b_node_update=false;
-        $cmi_node_id=null;
-        $a_map_cmi_interaction_id=array();
+        $i_check = $data->i_check;
+        $i_set = $data->i_set;
+        $b_node_update = false;
+        $cmi_node_id = null;
+        $a_map_cmi_interaction_id = array();
 
         $tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
         
@@ -173,63 +173,63 @@ class ilSCORM2004StoreData
                             array('integer','integer'),
                             array($row[19],$userId)
                         );
-                        $rowtmp=$ilDB->fetchAssoc($res);
-                        $cmi_node_id=$rowtmp['cmi_node_id'];
-                        if ($cmi_node_id!=null) {
-                            $b_node_update=true;
+                        $rowtmp = $ilDB->fetchAssoc($res);
+                        $cmi_node_id = $rowtmp['cmi_node_id'];
+                        if ($cmi_node_id != null) {
+                            $b_node_update = true;
                         } else {
                             $cmi_node_id = $ilDB->nextId('cmi_node');
-                            $b_node_update=false;
+                            $b_node_update = false;
                         }
                         $ilLog->write("setCMIdata with cmi_node_id = " . $cmi_node_id);
-                        $a_data=array(
-                            'accesscount'			=> array('integer', $row[0]),
-                            'accessduration'		=> array('text', $row[1]),
-                            'accessed'				=> array('text', $row[2]),
-                            'activityabsduration'	=> array('text', $row[3]),
-                            'activityattemptcount'	=> array('integer', $row[4]),
-                            'activityexpduration'	=> array('text', $row[5]),
-                            'activityprogstatus'	=> array('integer', $row[6]),
-                            'attemptabsduration'	=> array('text', $row[7]),
-                            'attemptcomplamount'	=> array('float', $row[8]),
-                            'attemptcomplstatus'	=> array('integer', $row[9]),
-                            'attemptexpduration'	=> array('text', $row[10]),
-                            'attemptprogstatus'		=> array('integer', $row[11]),
-                            'audio_captioning'		=> array('integer', $row[12]),
-                            'audio_level'			=> array('float', $row[13]),
-                            'availablechildren'		=> array('text', $row[14]),
-                            'cmi_node_id'			=> array('integer', $cmi_node_id),
-                            'completion'			=> array('float', $row[16]),
-                            'completion_status'		=> array('text', $row[17]),
-                            'completion_threshold'	=> array('text', $row[18]),
-                            'cp_node_id'			=> array('integer', $row[19]),
-                            'created'				=> array('text', $row[20]),
-                            'credit'				=> array('text', $row[21]),
-                            'delivery_speed'		=> array('float', $row[22]),
-                            'c_entry'				=> array('text', $row[23]),
-                            'c_exit'				=> array('text', $row[24]),
-                            'c_language'			=> array('text', $row[25]),
-                            'launch_data'			=> array('clob', $row[26]),
-                            'learner_name'			=> array('text', $row[27]),
-                            'location'				=> array('text', $row[28]),
-                            'c_max'					=> array('float', $row[29]),
-                            'c_min'					=> array('float', $row[30]),
-                            'c_mode'				=> array('text', $row[31]),
-                            'modified'				=> array('text', $row[32]),
-                            'progress_measure'		=> array('float', $row[33]),
-                            'c_raw'					=> array('float', $row[34]),
-                            'scaled'				=> array('float', $row[35]),
-                            'scaled_passing_score'	=> array('float', $row[36]),
-                            'session_time'			=> array('text', $row[37]),
-                            'success_status'		=> array('text', $row[38]),
-                            'suspend_data'			=> array('clob', $row[39]),
-                            'total_time'			=> array('text', $row[40]),
-                            'user_id'				=> array('integer', $userId),
-                            'c_timestamp'			=> array('timestamp', date('Y-m-d H:i:s')),
-                            'additional_tables'		=> array('integer', $i_check)
+                        $a_data = array(
+                            'accesscount' => array('integer', $row[0]),
+                            'accessduration' => array('text', $row[1]),
+                            'accessed' => array('text', $row[2]),
+                            'activityabsduration' => array('text', $row[3]),
+                            'activityattemptcount' => array('integer', $row[4]),
+                            'activityexpduration' => array('text', $row[5]),
+                            'activityprogstatus' => array('integer', $row[6]),
+                            'attemptabsduration' => array('text', $row[7]),
+                            'attemptcomplamount' => array('float', $row[8]),
+                            'attemptcomplstatus' => array('integer', $row[9]),
+                            'attemptexpduration' => array('text', $row[10]),
+                            'attemptprogstatus' => array('integer', $row[11]),
+                            'audio_captioning' => array('integer', $row[12]),
+                            'audio_level' => array('float', $row[13]),
+                            'availablechildren' => array('text', $row[14]),
+                            'cmi_node_id' => array('integer', $cmi_node_id),
+                            'completion' => array('float', $row[16]),
+                            'completion_status' => array('text', $row[17]),
+                            'completion_threshold' => array('text', $row[18]),
+                            'cp_node_id' => array('integer', $row[19]),
+                            'created' => array('text', $row[20]),
+                            'credit' => array('text', $row[21]),
+                            'delivery_speed' => array('float', $row[22]),
+                            'c_entry' => array('text', $row[23]),
+                            'c_exit' => array('text', $row[24]),
+                            'c_language' => array('text', $row[25]),
+                            'launch_data' => array('clob', $row[26]),
+                            'learner_name' => array('text', $row[27]),
+                            'location' => array('text', $row[28]),
+                            'c_max' => array('float', $row[29]),
+                            'c_min' => array('float', $row[30]),
+                            'c_mode' => array('text', $row[31]),
+                            'modified' => array('text', $row[32]),
+                            'progress_measure' => array('float', $row[33]),
+                            'c_raw' => array('float', $row[34]),
+                            'scaled' => array('float', $row[35]),
+                            'scaled_passing_score' => array('float', $row[36]),
+                            'session_time' => array('text', $row[37]),
+                            'success_status' => array('text', $row[38]),
+                            'suspend_data' => array('clob', $row[39]),
+                            'total_time' => array('text', $row[40]),
+                            'user_id' => array('integer', $userId),
+                            'c_timestamp' => array('timestamp', date('Y-m-d H:i:s')),
+                            'additional_tables' => array('integer', $i_check)
                         );
                         
-                        if ($b_node_update==false) {
+                        if ($b_node_update == false) {
                             $ilDB->insert('cmi_node', $a_data);
                             $ilLog->write("inserted");
                         } else {
@@ -237,17 +237,17 @@ class ilSCORM2004StoreData
                             $ilLog->write("updated");
                         }
                         
-                        if ($b_node_update==true) {
+                        if ($b_node_update == true) {
                             //remove
-                            if ($i_set>7) {
-                                $i_set-=8;
+                            if ($i_set > 7) {
+                                $i_set -= 8;
                                 if ($getComments) {
                                     $q = 'DELETE FROM cmi_comment WHERE cmi_node_id = %s';
                                     $ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
                                 }
                             }
-                            if ($i_set>3) {
-                                $i_set-=4;
+                            if ($i_set > 3) {
+                                $i_set -= 4;
                                 if ($getInteractions) {
                                     $q = 'DELETE FROM cmi_correct_response 
 									WHERE cmi_interaction_id IN (
@@ -255,15 +255,15 @@ class ilSCORM2004StoreData
                                     $ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
                                 }
                             }
-                            if ($i_set>1) {
-                                $i_set-=2;
+                            if ($i_set > 1) {
+                                $i_set -= 2;
                                 if ($getInteractions) {
                                     $q = 'DELETE FROM cmi_interaction WHERE cmi_node_id = %s';
                                     $ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
                                 }
                             }
-                            if ($i_set>0) {
-                                $i_set=0;
+                            if ($i_set > 0) {
+                                $i_set = 0;
                                 if ($getObjectives) {
                                     $q = 'DELETE FROM cmi_objective WHERE cmi_node_id = %s';
                                     $ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
@@ -279,29 +279,29 @@ class ilSCORM2004StoreData
                         $row[0] = $ilDB->nextId('cmi_comment');
     
                         $ilDB->insert('cmi_comment', array(
-                            'cmi_comment_id'	=> array('integer', $row[0]),
-                            'cmi_node_id'		=> array('integer', $cmi_node_id),
-                            'c_comment'			=> array('clob', $row[2]),
-                            'c_timestamp'		=> array('text', $row[3]),
-                            'location'			=> array('text', $row[4]),
-                            'sourceislms'		=> array('integer', $row[5])
+                            'cmi_comment_id' => array('integer', $row[0]),
+                            'cmi_node_id' => array('integer', $cmi_node_id),
+                            'c_comment' => array('clob', $row[2]),
+                            'c_timestamp' => array('text', $row[3]),
+                            'location' => array('text', $row[4]),
+                            'sourceislms' => array('integer', $row[5])
                         ));
                     break;
 
                     case 'interaction':
                         $cmi_interaction_id = $ilDB->nextId('cmi_interaction');
-                        $a_map_cmi_interaction_id[]=array($row[0],$cmi_interaction_id);
+                        $a_map_cmi_interaction_id[] = array($row[0],$cmi_interaction_id);
                         $ilDB->insert('cmi_interaction', array(
-                            'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
-                            'cmi_node_id'			=> array('integer', $cmi_node_id),
-                            'description'			=> array('clob', $row[2]),
-                            'id'					=> array('text', $row[3]),
-                            'latency'				=> array('text', $row[4]),
-                            'learner_response'		=> array('clob', $row[5]),
-                            'result'				=> array('text', $row[6]),
-                            'c_timestamp'			=> array('text', $row[7]),
-                            'c_type'				=> array('text', $row[8]),
-                            'weighting'				=> array('float', $row[9])
+                            'cmi_interaction_id' => array('integer', $cmi_interaction_id),
+                            'cmi_node_id' => array('integer', $cmi_node_id),
+                            'description' => array('clob', $row[2]),
+                            'id' => array('text', $row[3]),
+                            'latency' => array('text', $row[4]),
+                            'learner_response' => array('clob', $row[5]),
+                            'result' => array('text', $row[6]),
+                            'c_timestamp' => array('text', $row[7]),
+                            'c_type' => array('text', $row[8]),
+                            'weighting' => array('float', $row[9])
                         ));
                     break;
 
@@ -309,42 +309,42 @@ class ilSCORM2004StoreData
                         $row[2] = $ilDB->nextId('cmi_objective');
                         $cmi_interaction_id = null;
                         if ($row[0] != null) {
-                            for ($i=0;$i<count($a_map_cmi_interaction_id);$i++) {
+                            for ($i = 0;$i < count($a_map_cmi_interaction_id);$i++) {
                                 if ($row[0] == $a_map_cmi_interaction_id[$i][0]) {
-                                    $cmi_interaction_id=$a_map_cmi_interaction_id[$i][1];
+                                    $cmi_interaction_id = $a_map_cmi_interaction_id[$i][1];
                                 }
                             }
                         }
                         $ilDB->insert('cmi_objective', array(
-                            'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
-                            'cmi_node_id'			=> array('integer', $cmi_node_id),
-                            'cmi_objective_id'		=> array('integer', $row[2]),
-                            'completion_status'		=> array('text', $row[3]),
-                            'description'			=> array('clob', $row[4]),
-                            'id'					=> array('text', $row[5]),
-                            'c_max'					=> array('float', $row[6]),
-                            'c_min'					=> array('float', $row[7]),
-                            'c_raw'					=> array('float', $row[8]),
-                            'scaled'				=> array('float', $row[9]),
-                            'progress_measure'		=> array('float', $row[10]),
-                            'success_status'		=> array('text', $row[11]),
-                            'scope'					=> array('text', $row[12])
+                            'cmi_interaction_id' => array('integer', $cmi_interaction_id),
+                            'cmi_node_id' => array('integer', $cmi_node_id),
+                            'cmi_objective_id' => array('integer', $row[2]),
+                            'completion_status' => array('text', $row[3]),
+                            'description' => array('clob', $row[4]),
+                            'id' => array('text', $row[5]),
+                            'c_max' => array('float', $row[6]),
+                            'c_min' => array('float', $row[7]),
+                            'c_raw' => array('float', $row[8]),
+                            'scaled' => array('float', $row[9]),
+                            'progress_measure' => array('float', $row[10]),
+                            'success_status' => array('text', $row[11]),
+                            'scope' => array('text', $row[12])
                         ));
                     break;
 
                     case 'correct_response':
                         $cmi_interaction_id = null;
                         if ($row[1] !== null) {
-                            for ($i=0;$i<count($a_map_cmi_interaction_id);$i++) {
+                            for ($i = 0;$i < count($a_map_cmi_interaction_id);$i++) {
                                 if ($row[1] == $a_map_cmi_interaction_id[$i][0]) {
-                                    $cmi_interaction_id=$a_map_cmi_interaction_id[$i][1];
+                                    $cmi_interaction_id = $a_map_cmi_interaction_id[$i][1];
                                 }
                             }
                             $row[0] = $ilDB->nextId('cmi_correct_response');
                             $ilDB->insert('cmi_correct_response', array(
-                                'cmi_correct_resp_id'	=> array('integer', $row[0]),
-                                'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
-                                'pattern'				=> array('text', $row[2])
+                                'cmi_correct_resp_id' => array('integer', $row[0]),
+                                'cmi_interaction_id' => array('integer', $cmi_interaction_id),
+                                'pattern' => array('text', $row[2])
                             ));
                         }
                     break;
@@ -386,10 +386,10 @@ class ilSCORM2004StoreData
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
-        $changed_seq_utilities=$data->changed_seq_utilities;
+        $changed_seq_utilities = $data->changed_seq_utilities;
         $ilLog->write("SCORM2004 adl_seq_utilities changed: " . $changed_seq_utilities);
         if ($changed_seq_utilities == 1) {
-            $returnAr=ilSCORM2004StoreData::writeGObjective($data->adl_seq_utilities, $userId, $packageId);
+            $returnAr = ilSCORM2004StoreData::writeGObjective($data->adl_seq_utilities, $userId, $packageId);
         }
     }
 
@@ -399,13 +399,13 @@ class ilSCORM2004StoreData
 
         $ilDB = $DIC->database();
         $ilLog = $DIC["ilLog"];
-        $saved_global_status=$data->saved_global_status;
+        $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
         
         //update percentage_completed, sco_total_time_sec,status in sahs_user
-        $totalTime=(int) $data->totalTimeCentisec;
-        $totalTime=round($totalTime/100);
+        $totalTime = (int) $data->totalTimeCentisec;
+        $totalTime = round($totalTime / 100);
         $ilDB->queryF(
             'UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s WHERE obj_id = %s AND user_id = %s',
             array('integer', 'integer', 'integer', 'integer', 'integer'),
@@ -426,7 +426,7 @@ class ilSCORM2004StoreData
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }
         // sync access number and time in read event table
-        if ($time_from_lms==false) {
+        if ($time_from_lms == false) {
             include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
             ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int) $_GET['ref_id'], $time_from_lms);
         }
@@ -446,7 +446,7 @@ class ilSCORM2004StoreData
         $ilLog = $DIC["ilLog"];
         $ilLog->write("SCORM2004 writeGObjective");
 
-        $returnAr=array(null,null,null);
+        $returnAr = array(null,null,null);
 
         //iterate over assoziative array
         if ($g_data == null) {
@@ -481,11 +481,11 @@ class ilSCORM2004StoreData
                 if ($key == "status") {
 
                     //special handling for status
-                    $completed =$g_data->$key->$skey->$user->{"completed"};
+                    $completed = $g_data->$key->$skey->$user->{"completed"};
                     $measure = $g_data->$key->$skey->$user->{"measure"};
                     $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
 
-                    $returnAr=array($completed, $satisfied, $measure);
+                    $returnAr = array($completed, $satisfied, $measure);
 
                     $obj = '-course_overall_status-';
                     $pkg_id = $package;
@@ -575,7 +575,7 @@ class ilSCORM2004StoreData
         foreach ($rows_to_insert as $obj_id => $vals) {
             if (in_array($obj_id, $existing_keys)) {
                 $ilDB->manipulateF(
-                     "UPDATE cmi_gobjective
+                    "UPDATE cmi_gobjective
 									 SET satisfied=%s,
 									 	 measure=%s,
 									 	 score_raw=%s,
@@ -586,13 +586,13 @@ class ilSCORM2004StoreData
 									 WHERE objective_id = %s
 									 AND user_id = %s
 									 AND scope_id = %s",
-                     array('text','text', 'text', 'text', 'text', 'text',
+                    array('text','text', 'text', 'text', 'text', 'text',
                                            'text', 'text', 'integer', 'integer'),
-                     array($vals['satisfied'], $vals["measure"], $vals["score_raw"],
+                    array($vals['satisfied'], $vals["measure"], $vals["score_raw"],
                                            $vals["score_min"], $vals["score_max"],
                                            $vals["completion_status"], $vals["progress_measure"],
                                            $obj_id, $dbuser, $scope_id)
-                 );
+                );
             } else {
                 $ilDB->manipulateF(
                     "INSERT INTO cmi_gobjective

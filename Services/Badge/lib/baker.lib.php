@@ -116,7 +116,7 @@ class PNGImageBaker
                 }
             }
             // Extract the data and the CRC
-            $data = substr($png, $ipos, $chunk['size']+4);
+            $data = substr($png, $ipos, $chunk['size'] + 4);
             $ipos = $ipos + $chunk['size'] + 4;
             // Add in the header, data, and CRC
             if (!$skip) {
@@ -139,7 +139,7 @@ class PNGImageBaker
      * If there is PNG information that matches the key an array is returned
      *
      */
-    public function extractBadgeInfo($png, $key='openbadges')
+    public function extractBadgeInfo($png, $key = 'openbadges')
     {
         // Read the magic bytes and verify
         $retval = substr($png, 0, 8);
@@ -163,7 +163,7 @@ class PNGImageBaker
                 }
             }
             // Extract the data and the CRC
-            $data = substr($png, $ipos, $chunk['size']+4);
+            $data = substr($png, $ipos, $chunk['size'] + 4);
             $ipos = $ipos + $chunk['size'] + 4;
 
             // Read next chunk header

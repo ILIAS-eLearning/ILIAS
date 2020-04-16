@@ -33,15 +33,15 @@ global $DIC;
 
 $ilIliasIniFile = $DIC['ilIliasIniFile'];
 
-$htdocs      = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
-$weburl      = $ilIliasIniFile->readVariable('server', 'http_path') . '/';
+$htdocs = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
+$weburl = $ilIliasIniFile->readVariable('server', 'http_path') . '/';
 $installpath = $htdocs;
 
 
 // directory where tinymce files are located
-$iliasMobPath      = 'data/' . CLIENT_ID . '/mobs/';
+$iliasMobPath = 'data/' . CLIENT_ID . '/mobs/';
 $iliasAbsolutePath = $htdocs;
-$iliasHttpPath     = $weburl;
+$iliasHttpPath = $weburl;
 // base url for images
 $tinyMCE_base_url = $weburl;
 $tinyMCE_DOC_url = $installpath;
@@ -66,12 +66,12 @@ $tinyMCE_valid_imgs = array('gif', 'jpg', 'jpeg', 'png');
 $tinyMCE_upload_allowed = true;
 
 include_once 'webservice/soap/include/inc.soap_functions.php';
-$mobs    = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
+$mobs = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
 $preview = '';
 
 
-$img    = isset($_POST['imglist']) ? $_POST['imglist'] : '';
-$_root  = $installpath;
+$img = isset($_POST['imglist']) ? $_POST['imglist'] : '';
+$_root = $installpath;
 $errors = array();
 
 // upload images
@@ -83,7 +83,7 @@ if (isset($_FILES['img_file']['size']) && $_FILES['img_file']['size'] > 0) {
         // only save usage if the file was uploaded
         $media_object->_saveUsage($media_object->getId(), $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
     }
-    $preview                      = $iliasHttpPath . $iliasMobPath . 'mm_' . $media_object->getId() . '/' . $media_object->getTitle();
+    $preview = $iliasHttpPath . $iliasMobPath . 'mm_' . $media_object->getId() . '/' . $media_object->getTitle();
     $mobs[$media_object->getId()] = $media_object->getId();
 }
 
@@ -91,7 +91,7 @@ $tpl = new ilTemplate(dirname(__FILE__) . '/tpl.imagemanager.html', true, true);
 
 // delete image
 if ($tinyMCE_img_delete_allowed && isset($_POST['lib_action'])
-    && ($_POST['lib_action']=='delete') && !empty($img)) {
+    && ($_POST['lib_action'] == 'delete') && !empty($img)) {
     deleteImg();
 }
 
@@ -136,14 +136,14 @@ function outMobImages()
     // read image directory
     foreach ($mobs as $mob) {
         $mobdir = $iliasAbsolutePath . $iliasMobPath . 'mm_' . $mob . '/';
-        $d      = @dir($mobdir);
+        $d = @dir($mobdir);
         if ($d) {
             while (false !== ($entry = $d->read())) {
                 $ext = strtolower(substr(strrchr($entry, '.'), 1));
                 if (is_file($mobdir . $entry) && in_array($ext, $tinyMCE_valid_imgs)) {
                     $arr_tinyMCE_image_files[$i]['file_name'] = $entry;
-                    $arr_tinyMCE_image_files[$i]['file_dir']  = $mobdir;
-                    $arr_tinyMCE_image_files[$i]['http_dir']  = $iliasHttpPath . $iliasMobPath . 'mm_' . $mob . '/';
+                    $arr_tinyMCE_image_files[$i]['file_dir'] = $mobdir;
+                    $arr_tinyMCE_image_files[$i]['http_dir'] = $iliasHttpPath . $iliasMobPath . 'mm_' . $mob . '/';
                     $i++;
                 }
             }
@@ -157,7 +157,7 @@ function outMobImages()
 
     for ($k = 0; $k < count($arr_tinyMCE_image_files); $k++) {
         $entry = $arr_tinyMCE_image_files[$k]['file_name'];
-        $size  = getimagesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
+        $size = getimagesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
         $fsize = filesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
         $tpl->setCurrentBlock('imagefile');
         $tpl->setVariable('IMAGEFILE_VALUE', $arr_tinyMCE_image_files[$k]['http_dir']);
@@ -181,7 +181,7 @@ function outMobImageParams()
     for ($k = 0; $k < count($arr_tinyMCE_image_files); $k++) {
         $tpl->setCurrentBlock('imageparams');
         $entry = $arr_tinyMCE_image_files[$k]['file_name'];
-        $size  = getimagesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
+        $size = getimagesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
         $fsize = filesize($arr_tinyMCE_image_files[$k]['file_dir'] . $entry);
         $tpl->setVariable('IMG_WIDTH', $size[0]);
         $tpl->setVariable('IMG_HEIGHT', $size[1]);

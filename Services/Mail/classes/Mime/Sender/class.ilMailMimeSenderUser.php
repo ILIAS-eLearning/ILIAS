@@ -31,7 +31,7 @@ class ilMailMimeSenderUser implements ilMailMimeSender
     public function __construct(\ilSetting $settings, \ilObjUser $user)
     {
         $this->settings = $settings;
-        $this->user     = $user;
+        $this->user = $user;
     }
 
     /**

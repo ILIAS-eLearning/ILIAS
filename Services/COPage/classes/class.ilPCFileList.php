@@ -90,7 +90,7 @@ class ilPCFileList extends ilPageContent
     public function getListTitle()
     {
         $chlds = $this->list_node->child_nodes();
-        for ($i=0; $i<count($chlds); $i++) {
+        for ($i = 0; $i < count($chlds); $i++) {
             if ($chlds[$i]->node_name() == "Title") {
                 return $chlds[$i]->get_content();
             }
@@ -101,7 +101,7 @@ class ilPCFileList extends ilPageContent
     public function getLanguage()
     {
         $chlds = $this->list_node->child_nodes();
-        for ($i=0; $i<count($chlds); $i++) {
+        for ($i = 0; $i < count($chlds); $i++) {
             if ($chlds[$i]->node_name() == "Title") {
                 return $chlds[$i]->get_attribute("Language");
             }
@@ -118,7 +118,7 @@ class ilPCFileList extends ilPageContent
         
         // File Item
         $childs = $this->list_node->child_nodes();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "FileItem") {
                 $id = $entry = "";
                 $pc_id = $childs[$i]->get_attribute("PCID");
@@ -152,7 +152,7 @@ class ilPCFileList extends ilPageContent
         // File Item
         $childs = $this->list_node->child_nodes();
 
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "FileItem") {
                 $id = $entry = "";
                 $pc_id = $childs[$i]->get_attribute("PCID");
@@ -175,7 +175,7 @@ class ilPCFileList extends ilPageContent
         // File Item
         $childs = $this->list_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "FileItem") {
                 $id = $entry = "";
                 $pc_id = $childs[$i]->get_attribute("PCID");
@@ -202,7 +202,7 @@ class ilPCFileList extends ilPageContent
         // File Item
         $childs = $this->list_node->child_nodes();
 
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "FileItem") {
                 $classes[$childs[$i]->get_attribute("HierId") . ":" .
                     $childs[$i]->get_attribute("PCID")] = $childs[$i]->get_attribute("Class");
@@ -219,7 +219,7 @@ class ilPCFileList extends ilPageContent
     {
         // File Item
         $childs = $this->list_node->child_nodes();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "FileItem") {
                 $childs[$i]->set_attribute(
                     "Class",

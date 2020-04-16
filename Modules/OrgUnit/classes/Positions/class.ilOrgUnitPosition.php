@@ -368,7 +368,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         }
         if (count($ids) > 0) {
             foreach (ilOrgUnitAuthority::where(array(
-                'id'          => $ids,
+                'id' => $ids,
                 'position_id' => $this->getId(),
             ), array( 'id' => 'NOT IN', 'position_id' => '=' ))->get() as $authority) {
                 $authority->delete();

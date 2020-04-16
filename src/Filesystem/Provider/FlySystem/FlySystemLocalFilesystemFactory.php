@@ -42,11 +42,11 @@ final class FlySystemLocalFilesystemFactory
             [
                 self::FILE_ACCESS_KEY => [
                     self::PRIVATE_ACCESS_KEY => $config->getFileAccessPrivate(),
-                    self::PUBLIC_ACCESS_KEY  => $config->getFileAccessPublic()
+                    self::PUBLIC_ACCESS_KEY => $config->getFileAccessPublic()
                 ],
-                self::DIRECTORY_ACCESS_KEY  => [
+                self::DIRECTORY_ACCESS_KEY => [
                     self::PRIVATE_ACCESS_KEY => $config->getDirectoryAccessPrivate(),
-                    self::PUBLIC_ACCESS_KEY  => $config->getDirectoryAccessPublic()
+                    self::PUBLIC_ACCESS_KEY => $config->getDirectoryAccessPublic()
                 ]
             ]
         );

@@ -113,8 +113,12 @@ class ilTestSkillLevelThresholdsGUI
 
             $valid = true;
 
-            $table    = $this->getPopulatedTable();
-            $elements = $table->getInputElements();
+            $table = $this->getPopulatedTable();
+            $renderedElements = [];
+            if (isset($_POST['rendered']) && is_array($_POST['rendered'])) {
+                $renderedElements = $_POST['rendered'];
+            }
+            $elements = $table->getInputElements($renderedElements);
             foreach ($elements as $elm) {
                 if (!$elm->checkInput()) {
                     $valid = false;
@@ -140,9 +144,9 @@ class ilTestSkillLevelThresholdsGUI
             $skillLevelThresholds = array();
 
             foreach ($assignmentList->getUniqueAssignedSkills() as $data) {
-                $skill    = $data['skill'];
+                $skill = $data['skill'];
                 $skillKey = $data['skill_base_id'] . ':' . $data['skill_tref_id'];
-                $levels   = $skill->getLevelData();
+                $levels = $skill->getLevelData();
 
                 $thresholds_by_level = array();
 
@@ -157,7 +161,7 @@ class ilTestSkillLevelThresholdsGUI
 
                         $skillLevelThreshold->setThreshold($threshold[$skillKey][$level['id']]);
                         $skillLevelThresholds[] = $skillLevelThreshold;
-                        $thresholds_by_level[]  = $threshold[$skillKey][$level['id']];
+                        $thresholds_by_level[] = $threshold[$skillKey][$level['id']];
                     }
                 }
 
@@ -217,7 +221,13 @@ class ilTestSkillLevelThresholdsGUI
     private function buildTableGUI()
     {
         require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
-        $table = new ilTestSkillLevelThresholdsTableGUI($this, self::CMD_SHOW_SKILL_THRESHOLDS, $this->ctrl, $this->lng);
+        $table = new ilTestSkillLevelThresholdsTableGUI(
+            $this,
+            $this->getTestId(),
+            self::CMD_SHOW_SKILL_THRESHOLDS,
+            $this->ctrl,
+            $this->lng
+        );
         $table->setQuestionAssignmentColumnsEnabled($this->areQuestionAssignmentColumnsEnabled());
         $table->initColumns();
 

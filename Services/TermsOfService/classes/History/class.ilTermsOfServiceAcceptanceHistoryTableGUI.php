@@ -230,12 +230,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends \ilTermsOfServiceTableGU
 
         $this->tpl->addJavaScript("./Services/Form/js/Form.js");
         $duration = new \ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
-        $duration->setRequired(true);
+        $duration->setAllowOpenIntervals(true);
+        $duration->setShowTime(true);
         $duration->setStartText($this->lng->txt('tos_period_from'));
         $duration->setEndText($this->lng->txt('tos_period_until'));
-        $duration->setStart(new \ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
-        $duration->setEnd(new \ilDateTime(time(), IL_CAL_UNIX));
-        $duration->setShowTime(true);
+        $duration->setStart(new \ilDateTime(null, IL_CAL_UNIX));
+        $duration->setEnd(new \ilDateTime(null, IL_CAL_UNIX));
         $this->addFilterItem($duration, true);
         $duration->readFromSession();
         $this->optional_filter['period'] = $duration->getValue();

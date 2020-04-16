@@ -151,7 +151,7 @@ class ilAwarenessGUI
                 $glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
             }
             if ($hcnt > 0) {
-                $glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+                $glyph = $glyph->withCounter($f->counter()->novelty((int) $hcnt));
             }
             $glyph_html = $renderer->render($glyph);
             $tpl->setVariable("GLYPH", $glyph_html);
@@ -259,10 +259,10 @@ class ilAwarenessGUI
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
-        $tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
         $tpl->parseCurrentBlock();
 
         echo json_encode(array("html" => $tpl->get(),
+            "filter_val" => ilUtil::prepareFormOutput($filter),
             "cnt" => $ad["cnt"]));
         exit;
     }

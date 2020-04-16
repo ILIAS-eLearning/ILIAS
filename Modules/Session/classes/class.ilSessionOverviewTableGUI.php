@@ -48,7 +48,7 @@ class ilSessionOverviewTableGUI extends ilTable2GUI
             }
             // use sequence
             else {
-                $caption = $idx+1;
+                $caption = $idx + 1;
             }
             $tt = implode("<br />\n", $tt);
             

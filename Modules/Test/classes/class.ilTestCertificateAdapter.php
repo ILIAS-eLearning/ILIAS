@@ -75,9 +75,9 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
         $userfilter = array_key_exists("userfilter", $params) ? $params["userfilter"] : "";
         $passedonly = array_key_exists("passedonly", $params) ? $params["passedonly"] : false;
         if (strlen($pass)) {
-            $result_array =&$this->object->getTestResult($active_id, $pass);
+            $result_array = &$this->object->getTestResult($active_id, $pass);
         } else {
-            $result_array =&$this->object->getTestResult($active_id);
+            $result_array = &$this->object->getTestResult($active_id);
         }
         if (($passedonly) && ($result_array["test"]["passed"] == false)) {
             return "";
@@ -86,7 +86,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
         if (!$result_array["test"]["total_max_points"]) {
             $percentage = 0;
         } else {
-            $percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+            $percentage = ($result_array["test"]["total_reached_points"] / $result_array["test"]["total_max_points"]) * 100;
         }
         $mark_obj = $this->object->mark_schema->getMatchingMark($percentage);
         $user_id = $this->object->_getUserIdFromActiveId($active_id);

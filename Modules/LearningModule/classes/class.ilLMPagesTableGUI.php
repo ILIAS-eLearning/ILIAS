@@ -140,7 +140,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
             $add_str = " <b>(" . $lng->txt("cont_header") . ")</b>";
         }
         if ($a_set["obj_id"] == $this->lm->getFooterPage()) {
-            $add_str.= " <b>(" . $lng->txt("cont_footer") . ")</b>";
+            $add_str .= " <b>(" . $lng->txt("cont_footer") . ")</b>";
         }
     
         $this->tpl->setVariable("USAGE", $path_str . $add_str);

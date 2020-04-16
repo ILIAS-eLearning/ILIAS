@@ -11,15 +11,15 @@ use ILIAS\UI\Component\Component;
  */
 interface Step extends Component
 {
-    const AVAILABLE		= 1;
-    const NOT_AVAILABLE	= 2;
-    const NOT_ANYMORE	= 3;
-    const ACTIVE		= 4;
+    const AVAILABLE = 1;
+    const NOT_AVAILABLE = 2;
+    const NOT_ANYMORE = 3;
+    const ACTIVE = 4;
 
-    const NOT_STARTED	= 1;
-    const IN_PROGRESS	= 2;
-    const SUCCESSFULLY	= 3;
-    const UNSUCCESSFULLY= 4;
+    const NOT_STARTED = 1;
+    const IN_PROGRESS = 2;
+    const SUCCESSFULLY = 3;
+    const UNSUCCESSFULLY = 4;
 
     /**
      * Get the label of this step.

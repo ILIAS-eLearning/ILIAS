@@ -47,7 +47,7 @@ class ilLSPlayer
         $this->ui_factory = $ui_factory;
     }
 
-    public function render(array $get, array $post=null)
+    public function render(array $get, array $post = null)
     {
         //init state and current item
         $stored = $this->state_db->getCurrentItemsFor(
@@ -147,7 +147,7 @@ class ilLSPlayer
         ILIAS\KioskMode\State $state,
         ILIAS\KioskMode\View $view,
         array $get,
-        array $post=null
+        array $post = null
     ) : ILIAS\KioskMode\State {
         //get view internal command
         $command = $_GET[self::PARAM_LSO_COMMAND];
@@ -177,7 +177,7 @@ class ilLSPlayer
      */
     protected function findItemByRefId(int $ref_id) : array
     {
-        foreach ($this->items as $index=>$item) {
+        foreach ($this->items as $index => $item) {
             if ($item->getRefId() === $ref_id) {
                 return [$index, $item];
             }

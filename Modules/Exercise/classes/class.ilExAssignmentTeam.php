@@ -549,7 +549,7 @@ class ilExAssignmentTeam
             
             $res[$grp_obj_id] = array(
                 "title" => ilObject::_lookupTitle($grp_obj_id)
-                ,"members" =>  $members_obj->getMembers()
+                ,"members" => $members_obj->getMembers()
             );
         }
         
@@ -590,7 +590,7 @@ class ilExAssignmentTeam
         }
         $members_per_team = round($total_exc_members / $number_of_teams);
         shuffle($members);
-        for ($i=0;$i<$number_of_teams;$i++) {
+        for ($i = 0;$i < $number_of_teams;$i++) {
             $members_counter = 0;
             while (!empty($members) && $members_counter < $members_per_team) {
                 $member_id = array_pop($members);

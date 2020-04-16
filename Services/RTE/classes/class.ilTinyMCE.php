@@ -44,7 +44,7 @@ class ilTinyMCE extends ilRTE
             case '3.4.7':
             case '3.5.11':
                 $this->version = $a_version;
-                $this->vd      = '_' . str_replace('.', '_', $a_version);
+                $this->vd = '_' . str_replace('.', '_', $a_version);
                 break;
 
             default:

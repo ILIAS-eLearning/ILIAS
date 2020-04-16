@@ -37,9 +37,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->addColumn("", "", "1", true);
         $this->addColumn($lng->txt("trac_title"), "title");
         $this->addColumn($lng->txt("object_id"), "obj_id");
-        for ($loop = 0; $loop<24; $loop+=2) {
+        for ($loop = 0; $loop < 24; $loop += 2) {
             $this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT) . ":00-<br />" .
-                str_pad($loop+2, 2, "0", STR_PAD_LEFT) . ":00 ", "hour" . $loop);
+                str_pad($loop + 2, 2, "0", STR_PAD_LEFT) . ":00 ", "hour" . $loop);
         }
         $this->addColumn($lng->txt("total"), "sum");
 
@@ -106,8 +106,8 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
         // read_count/spent_seconds
         $si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
-        $si->setOptions(array("read_count"=>$lng->txt("trac_read_count"),
-            "spent_seconds"=>$lng->txt("trac_spent_seconds")));
+        $si->setOptions(array("read_count" => $lng->txt("trac_read_count"),
+            "spent_seconds" => $lng->txt("trac_spent_seconds")));
         $this->addFilterItem($si);
         $si->readFromSession();
         if (!$si->getValue()) {
@@ -162,7 +162,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
                 
                 foreach ($hours as $hour => $values) {
                     // table data
-                    $data[$obj_id]["hour" . floor($hour/2)*2] += (int) $values[$this->filter["measure"]];
+                    $data[$obj_id]["hour" . floor($hour / 2) * 2] += (int) $values[$this->filter["measure"]];
                     $data[$obj_id]["sum"] += (int) $values[$this->filter["measure"]];
                     
                     // graph data
@@ -203,7 +203,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
 
         $this->tpl->setCurrentBlock("hour");
-        for ($loop = 0; $loop<24; $loop+=2) {
+        for ($loop = 0; $loop < 24; $loop += 2) {
             $value = (int) $a_set["hour" . $loop];
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);
@@ -241,7 +241,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
                 $series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
                 $series->setLabel(ilObject::_lookupTitle($object["obj_id"]));
 
-                for ($loop = 0; $loop<24; $loop++) {
+                for ($loop = 0; $loop < 24; $loop++) {
                     $value = (int) $object["graph"]["hour" . $loop];
                     $max_value = max($max_value, $value);
                     if ($this->filter["measure"] != "spent_seconds") {
@@ -261,7 +261,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         );
 
         $labels = array();
-        for ($loop = 0; $loop<24; $loop++) {
+        for ($loop = 0; $loop < 24; $loop++) {
             $labels[$loop] = str_pad($loop, 2, "0", STR_PAD_LEFT);
         }
         $chart->setTicks($labels, $value_ticks, true);
@@ -279,7 +279,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
             
         $col = 1;
-        for ($loop = 0; $loop<24; $loop+=2) {
+        for ($loop = 0; $loop < 24; $loop += 2) {
             $value = (int) $a_set["hour" . $loop];
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);
@@ -307,7 +307,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
         $a_csv->addColumn($a_set["obj_id"]);
             
-        for ($loop = 0; $loop<24; $loop+=2) {
+        for ($loop = 0; $loop < 24; $loop += 2) {
             $value = (int) $a_set["hour" . $loop];
             if ($this->filter["measure"] != "spent_seconds") {
                 $value = $this->anonymizeValue($value);

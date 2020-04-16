@@ -92,9 +92,9 @@ class ilBookmarkAdministrationGUI
             : $_GET["bmf_id"];
     
         // initiate variables
-        $this->tpl   = $tpl;
-        $this->lng   = $lng;
-        $this->ctrl  = $ilCtrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->ctrl = $ilCtrl;
         $this->ctrl->setParameter($this, "bmf_id", $this->id);
         $this->user_id = $ilUser->getId();
 
@@ -381,11 +381,11 @@ class ilBookmarkAdministrationGUI
             $this->ctrl->redirect($this);
         }
         
-        $bmf  = new ilBookmarkFolder($_GET["obj_id"]);
+        $bmf = new ilBookmarkFolder($_GET["obj_id"]);
         $form = $this->initFormBookmarkFolder('updateBookmarkFolder', $this->id);
         $form->setValuesByArray(
             array(
-                "title"  => $this->get_last("title", $bmf->getTitle()),
+                "title" => $this->get_last("title", $bmf->getTitle()),
                 "obj_id" => $_GET["obj_id"],
             )
         );
@@ -509,7 +509,7 @@ class ilBookmarkAdministrationGUI
      */
     public function newFormBookmark()
     {
-        $form  = $this->initFormBookmark();
+        $form = $this->initFormBookmark();
         $html1 = $form->getHTML();
         $html2 = '';
         if (!$_REQUEST["bm_link"]) {
@@ -544,14 +544,14 @@ class ilBookmarkAdministrationGUI
             $this->ctrl->redirect($this);
         }
 
-        $form     = $this->initFormBookmark('updateBookmark');
+        $form = $this->initFormBookmark('updateBookmark');
         $bookmark = new ilBookmark($_GET["obj_id"]);
         $form->setValuesByArray(
             array(
-                "title"       => $bookmark->getTitle(),
-                "target"      => $bookmark->getTarget(),
+                "title" => $bookmark->getTitle(),
+                "target" => $bookmark->getTarget(),
                 "description" => $bookmark->getDescription(),
-                "obj_id"      => $_GET["obj_id"],
+                "obj_id" => $_GET["obj_id"],
             )
         );
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
@@ -729,8 +729,8 @@ class ilBookmarkAdministrationGUI
         $umail = new ilFormatMail($ilUser->getId());
 
         $html_content = $this->export(false);
-        $tempfile     = ilUtil::ilTempnam();
-        $fp           = fopen($tempfile, 'w');
+        $tempfile = ilUtil::ilTempnam();
+        $fp = fopen($tempfile, 'w');
         fwrite($fp, $html_content);
         fclose($fp);
         $filename = 'bookmarks.html';
@@ -784,15 +784,15 @@ class ilBookmarkAdministrationGUI
             switch ($type) {
                 case "bmf":
                     $BookmarkFolder = new ilBookmarkFolder($obj_id);
-                    $title          = $BookmarkFolder->getTitle();
-                    $target         = "";
+                    $title = $BookmarkFolder->getTitle();
+                    $target = "";
                     unset($BookmarkFolder);
                     break;
 
                 case "bm":
                     $Bookmark = new ilBookmark($obj_id);
-                    $title    = $Bookmark->getTitle();
-                    $target   = $Bookmark->getTarget();
+                    $title = $Bookmark->getTitle();
+                    $target = $Bookmark->getTarget();
                     unset($Bookmark);
                     break;
             }
@@ -835,7 +835,7 @@ class ilBookmarkAdministrationGUI
 
             // get node data and subtree nodes
             if ($this->tree->isInTree($id)) {
-                $node_data     = $this->tree->getNodeData($id);
+                $node_data = $this->tree->getNodeData($id);
                 $subtree_nodes = $this->tree->getSubTree($node_data);
             } else {
                 continue;
@@ -873,9 +873,9 @@ class ilBookmarkAdministrationGUI
     public function showPossibleSubObjects()
     {
         $actions = array(
-            "delete"  => $this->lng->txt("delete"),
-            "export"  => $this->lng->txt("export"),
-            "sendmail"=> $this->lng->txt("bkm_sendmail"),
+            "delete" => $this->lng->txt("delete"),
+            "export" => $this->lng->txt("export"),
+            "sendmail" => $this->lng->txt("bkm_sendmail"),
         );
 
         $subobj = array("bm", "bmf");
@@ -948,7 +948,7 @@ class ilBookmarkAdministrationGUI
             return;
         }
         // holds the number of created objects
-        $num_create = array('bm'=> 0, 'bmf'=> 0);
+        $num_create = array('bm' => 0, 'bmf' => 0);
         $this->__importBookmarks($objects, $num_create, $this->id, 0);
 
         ilUtil::sendSuccess(sprintf(
@@ -970,7 +970,7 @@ class ilBookmarkAdministrationGUI
     public function __importBookmarks(&$objects, &$num_create, $folder_id, $start_key = 0)
     {
         if (is_array($objects[$start_key])) {
-            foreach ($objects[$start_key] as $obj_key=> $object) {
+            foreach ($objects[$start_key] as $obj_key => $object) {
                 switch ($object['type']) {
                     case 'bm':
                         if (!$object["title"]) {
@@ -1038,7 +1038,7 @@ class ilBookmarkAdministrationGUI
     {
         $ilUser = $this->user;
 
-        $tgt    = (int) $_REQUEST["bmfmv_id"];
+        $tgt = (int) $_REQUEST["bmfmv_id"];
         $bm_ids = explode(";", $_REQUEST['bm_id_tgt']);
         if (!$bm_ids || !$tgt) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));

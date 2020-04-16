@@ -304,7 +304,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if ($ilSetting->get("repository_tree_pres")  == "all_types") {
+        if ($ilSetting->get("repository_tree_pres") == "all_types") {
             /*$container_parent_id = $tree->checkForParentType($a_node["child"], 'grp');
             if (!$container_parent_id) {
                 $container_parent_id = $tree->checkForParentType($a_node["child"], 'crs');
@@ -366,7 +366,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         if ($parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($parent_obj_id);
         } else {
-            $parent_type  = "dummy";
+            $parent_type = "dummy";
             $this->type_grps["dummy"] = array("root" => "dummy");
         }
 

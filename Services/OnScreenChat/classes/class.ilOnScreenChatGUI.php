@@ -41,7 +41,7 @@ class ilOnScreenChatGUI
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
                 $new_keys = array();
-                $new_val  = '';
+                $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key == 'smiley_keywords') {
                         $new_keys = explode("\n", $value);
@@ -143,7 +143,7 @@ class ilOnScreenChatGUI
         $DIC['lng']->loadLanguageModule('user');
 
         $userProvider = new \ilOnScreenChatUserDataProvider($DIC->database(), $DIC->user());
-        $data         = $userProvider->getDataByUserIds(explode(',', $_GET['usr_ids']));
+        $data = $userProvider->getDataByUserIds(explode(',', $_GET['usr_ids']));
 
         require_once 'Services/Authentication/classes/class.ilSession.php';
         ilSession::enableWebAccessWithoutSession(true);
@@ -175,7 +175,7 @@ class ilOnScreenChatGUI
             $DIC->language()->loadLanguageModule('user');
 
             $renderer = $DIC->ui()->renderer();
-            $factory  = $DIC->ui()->factory();
+            $factory = $DIC->ui()->factory();
 
             $chatWindowTemplate = new ilTemplate('tpl.chat-window.html', false, false, 'Services/OnScreenChat');
             $chatWindowTemplate->setVariable('SUBMIT_ACTION', $renderer ->render(
@@ -193,24 +193,24 @@ class ilOnScreenChatGUI
 
             $guiConfig = array(
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
-                'messageTemplate'    => (new ilTemplate('tpl.chat-message.html', false, false, 'Services/OnScreenChat'))->get(),
-                'modalTemplate'      => (new ilTemplate('tpl.chat-add-user.html', false, false, 'Services/OnScreenChat'))->get(),
-                'userId'             => $DIC->user()->getId(),
-                'username'           => $DIC->user()->getLogin(),
-                'userListURL'        => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserList', '', true, false),
+                'messageTemplate' => (new ilTemplate('tpl.chat-message.html', false, false, 'Services/OnScreenChat'))->get(),
+                'modalTemplate' => (new ilTemplate('tpl.chat-add-user.html', false, false, 'Services/OnScreenChat'))->get(),
+                'userId' => $DIC->user()->getId(),
+                'username' => $DIC->user()->getLogin(),
+                'userListURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserList', '', true, false),
                 'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserProfileData', '', true, false),
-                'verifyLoginURL'     => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'verifyLogin', '', true, false),
-                'loaderImg'          => ilUtil::getImagePath('loader.svg'),
-                'emoticons'          => self::getEmoticons($settings),
-                'locale'             => $DIC->language()->getLangKey(),
-                'initialUserData'    => $userProvider->getInitialUserProfileData(),
+                'verifyLoginURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'verifyLogin', '', true, false),
+                'loaderImg' => ilUtil::getImagePath('loader.svg'),
+                'emoticons' => self::getEmoticons($settings),
+                'locale' => $DIC->language()->getLangKey(),
+                'initialUserData' => $userProvider->getInitialUserProfileData(),
             );
 
             $chatConfig = array(
-                'url'           => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
-                'subDirectory'  => $settings->getSubDirectory() . '/socket.io',
-                'userId'        => $DIC->user()->getId(),
-                'username'      => $DIC->user()->getLogin(),
+                'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
+                'subDirectory' => $settings->getSubDirectory() . '/socket.io',
+                'userId' => $DIC->user()->getId(),
+                'username' => $DIC->user()->getLogin(),
             );
 
             $DIC->language()->toJS(array(

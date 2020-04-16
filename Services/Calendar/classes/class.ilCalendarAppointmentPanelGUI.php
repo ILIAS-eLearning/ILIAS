@@ -149,7 +149,7 @@ class ilCalendarAppointmentPanelGUI
             $users = $a_app['event']->readResponsibleUsers();
             $delim = "";
             foreach ($users as $r) {
-                $value.= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
+                $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
             }
             if (count($users) > 0) {
@@ -209,7 +209,7 @@ class ilCalendarAppointmentPanelGUI
                         include_once './Services/Link/classes/class.ilLink.php';
                         $registrations = array();
                         foreach ($reg->getRegisteredUsers(new ilDateTime($a_app['dstart'], IL_CAL_UNIX), new ilDateTime($a_app['dend'], IL_CAL_UNIX)) as $usr_data) {
-                            $usr_id = $usr_data['usr_id'];
+                            $usr_id = $usr_data;
                             $this->ctrl->setParameterByClass('ilconsultationhoursgui', 'user', $usr_id);
                             $registrations[] = '<a href="' . $this->ctrl->getLinkTargetByClass('ilconsultationhoursgui', 'showprofile') . '">' . ilObjUser::_lookupFullname($usr_id);
                             $this->ctrl->setParameterByClass('ilconsultationhoursgui', 'user', '');

@@ -147,43 +147,43 @@ class ilCASAuth extends Auth
         function checkAuth()
         {
             $session = &$this->_importGlobalVariable('session');
-    
+
             if (isset($session[$this->_sessionName])) {
                 // Check if authentication session is expired
                 if ($this->expire > 0 &&
                     isset($session[$this->_sessionName]['timestamp']) &&
                     ($session[$this->_sessionName]['timestamp'] + $this->expire) < time()) {
-    
+
                     $this->logout();
                     $this->expired = true;
                     $this->status = AUTH_EXPIRED;
-    
+
                     return false;
                 }
-    
+
                 // Check if maximum idle time is reached
                 if ($this->idle > 0 &&
                     isset($session[$this->_sessionName]['idle']) &&
                     ($session[$this->_sessionName]['idle'] + $this->idle) < time()) {
-    
+
                     $this->logout();
                     $this->idled = true;
                     $this->status = AUTH_IDLED;
-    
+
                     return false;
                 }
-    
+
                 if (isset($session[$this->_sessionName]['registered']) &&
                     isset($session[$this->_sessionName]['username']) &&
                     $session[$this->_sessionName]['registered'] == true &&
                     $session[$this->_sessionName]['username'] != '') {
-    
+
                     Auth::updateIdle();
-    
+
                     return true;
                 }
             }
-    
+
             return false;
         }
     */
@@ -198,7 +198,7 @@ class ilCASAuth extends Auth
         function start()
         {
             @session_start();
-    
+
             if (!$this->checkAuth()) {
                 $this->login();
             }
@@ -301,15 +301,15 @@ class ilCASAuth extends Auth
         function setAuth($username)
         {
             $session = &Auth::_importGlobalVariable('session');
-    
+
             if (!isset($session[$this->_sessionName]) && !isset($_SESSION)) {
                 session_register($this->_sessionName);
             }
-    
+
             if (!isset($session[$this->_sessionName]) || !is_array($session[$this->_sessionName])) {
                 $session[$this->_sessionName] = array();
             }
-    
+
             if(!isset($session[$this->_sessionName]['data'])){
                 $session[$this->_sessionName]['data']       = array();
             }

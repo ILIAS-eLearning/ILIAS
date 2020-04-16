@@ -209,7 +209,7 @@ class ilCertificateMigrationJob extends AbstractJob
                     }
                     $this->updateTask([
                         'processed_items' => $processed_items,
-                        'progress' => ($processed_items/$found_items)*100
+                        'progress' => ($processed_items / $found_items) * 100
                     ]);
 
                     $observer->heartbeat();

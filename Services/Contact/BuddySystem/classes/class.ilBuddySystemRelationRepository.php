@@ -8,9 +8,9 @@
  */
 class ilBuddySystemRelationRepository
 {
-    const TYPE_APPROVED  = 'app';
+    const TYPE_APPROVED = 'app';
     const TYPE_REQUESTED = 'req';
-    const TYPE_IGNORED   = 'ign';
+    const TYPE_IGNORED = 'ign';
 
     /**
      * @var ilDBInterface
@@ -29,7 +29,7 @@ class ilBuddySystemRelationRepository
     {
         global $DIC;
 
-        $this->db     = $DIC['ilDB'];
+        $this->db = $DIC['ilDB'];
         $this->usr_id = $usr_id;
     }
 
@@ -130,7 +130,7 @@ class ilBuddySystemRelationRepository
         $this->db->replace(
             'buddylist',
             array(
-                'usr_id'       => array('integer', $relation->getUserId()),
+                'usr_id' => array('integer', $relation->getUserId()),
                 'buddy_usr_id' => array('integer', $relation->getBuddyUserId())
             ),
             array(
@@ -141,7 +141,7 @@ class ilBuddySystemRelationRepository
         $this->db->replace(
             'buddylist',
             array(
-                'usr_id'       => array('integer', $relation->getBuddyUserId()),
+                'usr_id' => array('integer', $relation->getBuddyUserId()),
                 'buddy_usr_id' => array('integer', $relation->getUserId())
             ),
             array(
@@ -177,11 +177,11 @@ class ilBuddySystemRelationRepository
         $this->db->replace(
             'buddylist_requests',
             array(
-                'usr_id'       => array('integer', $relation->getUserId()),
+                'usr_id' => array('integer', $relation->getUserId()),
                 'buddy_usr_id' => array('integer', $relation->getBuddyUserId())
             ),
             array(
-                'ts'      => array('integer', $relation->getTimestamp()),
+                'ts' => array('integer', $relation->getTimestamp()),
                 'ignored' => array('integer', (int) $ignored)
             )
         );

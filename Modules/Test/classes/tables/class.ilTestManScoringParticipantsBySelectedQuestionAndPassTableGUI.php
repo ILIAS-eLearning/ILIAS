@@ -12,7 +12,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTable2GUI
 {
-    const PARENT_DEFAULT_CMD      = 'showManScoringByQuestionParticipantsTable';
+    const PARENT_DEFAULT_CMD = 'showManScoringByQuestionParticipantsTable';
     const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
     const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
     const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
@@ -68,7 +68,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
         $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
-        $select_questions    = array();
+        $select_questions = array();
         if (!$this->getParentObject()->object->isRandomTest()) {
             $questions = $this->getParentObject()->object->getTestQuestions();
         } else {
@@ -98,8 +98,8 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $available_questions->readFromSession();
         $this->filter['question'] = $available_questions->getValue();
 
-        $pass     = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
-        $passes   = array();
+        $pass = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
+        $passes = array();
         $max_pass = $this->getParentObject()->object->getMaxPassOfTest();
         for ($i = 1; $i <= $max_pass; $i++) {
             $passes[$i] = $i;

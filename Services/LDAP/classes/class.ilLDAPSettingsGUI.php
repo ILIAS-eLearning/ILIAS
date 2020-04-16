@@ -622,7 +622,7 @@ class ilLDAPSettingsGUI
             $ilErr->raiseError($this->lng->txt('msg_no_perm_write'), $ilErr->WARNING);
         }
         
-        if (!ilLDAPServer::checkLDAPLib() and  $this->server->isActive()) {
+        if (!ilLDAPServer::checkLDAPLib() and $this->server->isActive()) {
             ilUtil::sendFailure('Missing LDAP libraries. Please ensure that the PHP LDAP module is installed on your server.');
         }
 
@@ -1108,22 +1108,22 @@ class ilLDAPSettingsGUI
         
     private function getMappingFields()
     {
-        return array('gender' 	=> $this->lng->txt('gender'),
-                'firstname'		=> $this->lng->txt('firstname'),
-                'lastname'		=> $this->lng->txt('lastname'),
-                'title'			=> $this->lng->txt('person_title'),
-                'institution' 	=> $this->lng->txt('institution'),
-                'department'	=> $this->lng->txt('department'),
-                'street'		=> $this->lng->txt('street'),
-                'city'			=> $this->lng->txt('city'),
-                'zipcode'		=> $this->lng->txt('zipcode'),
-                'country'		=> $this->lng->txt('country'),
-                'phone_office'	=> $this->lng->txt('phone_office'),
-                'phone_home'	=> $this->lng->txt('phone_home'),
-                'phone_mobile'  => $this->lng->txt('phone_mobile'),
-                'fax'			=> $this->lng->txt('fax'),
-                'email'			=> $this->lng->txt('email'),
-                'hobby'			=> $this->lng->txt('hobby'),
+        return array('gender' => $this->lng->txt('gender'),
+                'firstname' => $this->lng->txt('firstname'),
+                'lastname' => $this->lng->txt('lastname'),
+                'title' => $this->lng->txt('person_title'),
+                'institution' => $this->lng->txt('institution'),
+                'department' => $this->lng->txt('department'),
+                'street' => $this->lng->txt('street'),
+                'city' => $this->lng->txt('city'),
+                'zipcode' => $this->lng->txt('zipcode'),
+                'country' => $this->lng->txt('country'),
+                'phone_office' => $this->lng->txt('phone_office'),
+                'phone_home' => $this->lng->txt('phone_home'),
+                'phone_mobile' => $this->lng->txt('phone_mobile'),
+                'fax' => $this->lng->txt('fax'),
+                'email' => $this->lng->txt('email'),
+                'hobby' => $this->lng->txt('hobby'),
                 'matriculation' => $this->lng->txt('matriculation'));
         #'photo'			=> $this->lng->txt('photo'));
     }
@@ -1202,7 +1202,7 @@ class ilLDAPSettingsGUI
         $role_select->setOptions($this->prepareGlobalRoleSelection());
         $global->addSubItem($role_select);
             
-        $local  = new ilRadioOption($this->lng->txt('ldap_local_role'), 1);
+        $local = new ilRadioOption($this->lng->txt('ldap_local_role'), 1);
         $role->addOption($local);
             
         include_once './Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php';
@@ -1277,7 +1277,7 @@ class ilLDAPSettingsGUI
         $group->addOption($radio_attribute);
         
         // Option by Plugin
-        $pl_active =  (bool) $this->hasActiveRoleAssignmentPlugins();
+        $pl_active = (bool) $this->hasActiveRoleAssignmentPlugins();
         $pl = new ilRadioOption($this->lng->txt('ldap_plugin'), 3);
         $pl->setInfo($this->lng->txt('ldap_plugin_info'));
         $pl->setDisabled(!$pl_active);

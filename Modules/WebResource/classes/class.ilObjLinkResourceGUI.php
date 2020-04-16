@@ -76,7 +76,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $ilTabs->activateTab('id_permissions');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'ilobjectcopygui':
@@ -584,12 +584,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         
         $this->form->setValuesByArray(
             array(
-                'tit'		=> $values['title'],
-                'tar'		=> $values['target'],
-                'des'		=> $values['description'],
-                'act'		=> (int) $values['active'],
-                'che'		=> (int) $values['disable_check'],
-                'vali'		=> (int) $values['valid']
+                'tit' => $values['title'],
+                'tar' => $values['target'],
+                'des' => $values['description'],
+                'act' => (int) $values['active'],
+                'che' => (int) $values['disable_check'],
+                'vali' => (int) $values['valid']
             )
         );
     }
@@ -1025,7 +1025,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $link_ids = array();
 
         if (is_array($_POST['link_ids'])) {
-            $link_ids =$_POST['link_ids'];
+            $link_ids = $_POST['link_ids'];
         } elseif (isset($_GET['link_id'])) {
             $link_ids = array($_GET['link_id']);
         }

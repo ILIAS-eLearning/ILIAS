@@ -40,13 +40,13 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @access public
     */
     public function __construct(
-      $answertext = "",
-      $points_checked = 0.0,
-      $order = 0,
-      $points_unchecked = 0,
-      $a_image = "",
-      $id = -1
-  ) {
+        $answertext = "",
+        $points_checked = 0.0,
+        $order = 0,
+        $points_unchecked = 0,
+        $a_image = "",
+        $id = -1
+    ) {
         parent::__construct($answertext, $points_checked, $order, $points_unchecked, $id);
         $this->image = $a_image;
     }
@@ -56,7 +56,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * Gets the image filename
     *
     * Returns the image filename
-    
+
     * @return string The image filename
     * @access public
     * @see $image

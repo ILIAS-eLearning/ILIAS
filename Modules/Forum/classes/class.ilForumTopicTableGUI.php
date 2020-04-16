@@ -75,7 +75,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
@@ -119,7 +119,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
      */
     public function initTopicsOverviewTable()
     {
-        if ($this->parent_cmd  == "showThreads") {
+        if ($this->parent_cmd == "showThreads") {
             $this->setSelectAllCheckbox('thread_ids');
             $this->addColumn('', 'check', '1px', true);
         } else {
@@ -151,7 +151,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         } else {
             // Multi commands
             $this->addMultiCommand('', $this->lng->txt('please_choose'));
-            if ($this->settings->get('forum_notification') > 0  && !$this->user->isAnonymous()) {
+            if ($this->settings->get('forum_notification') > 0 && !$this->user->isAnonymous()) {
                 $this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
                 $this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
             }
@@ -256,9 +256,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $subject .= '<span class="light">[' . $this->lng->txt('forums_notification_enabled') . ']</span> ';
         }
 
-        $num_posts  = $thread->getNumPosts();
+        $num_posts = $thread->getNumPosts();
         $num_unread = $thread->getNumUnreadPosts();
-        $num_new    = $thread->getNumNewPosts();
+        $num_new = $thread->getNumNewPosts();
 
         $subject = '<div><a href="' . $this->ctrl->getLinkTarget($this->getParentObject(), 'viewThread') . '">' . $thread->getSubject() . '</a></div>' . $subject;
         $this->tpl->setVariable('VAL_SUBJECT', $subject);
@@ -274,7 +274,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $thread->getImportName(),
             array(
                  'class' => 'il_ItemProperty',
-                 'href'  => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
+                 'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
             )
         );
         $this->tpl->setVariable('VAL_AUTHOR', $authorinfo->getLinkedAuthorName());
@@ -364,9 +364,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
         
         $params = array(
-            'is_moderator'    => $this->getIsModerator(),
-            'excluded_ids'    => $excluded_ids,
-            'order_column'    => $this->getOrderField(),
+            'is_moderator' => $this->getIsModerator(),
+            'excluded_ids' => $excluded_ids,
+            'order_column' => $this->getOrderField(),
             'order_direction' => $this->getOrderDirection()
         );
 
@@ -381,7 +381,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         // Collect user ids for preloading user objects
         $thread_ids = array();
-        $user_ids   = array();
+        $user_ids = array();
         foreach ($data['items'] as $thread) {
             /**
              * @var $thread ilForumTopic

@@ -37,23 +37,23 @@
  */
 function codepointToUtf8($codepoint)
 {
-    if ($codepoint <		0x80) {
+    if ($codepoint < 0x80) {
         return chr($codepoint);
     }
-    if ($codepoint <    0x800) {
-        return chr($codepoint >>	6 & 0x3f | 0xc0) .
-                                     chr($codepoint		  & 0x3f | 0x80);
+    if ($codepoint < 0x800) {
+        return chr($codepoint >> 6 & 0x3f | 0xc0) .
+                                     chr($codepoint & 0x3f | 0x80);
     }
-    if ($codepoint <  0x10000) {
+    if ($codepoint < 0x10000) {
         return chr($codepoint >> 12 & 0x0f | 0xe0) .
-                                     chr($codepoint >>	6 & 0x3f | 0x80) .
-                                     chr($codepoint		  & 0x3f | 0x80);
+                                     chr($codepoint >> 6 & 0x3f | 0x80) .
+                                     chr($codepoint & 0x3f | 0x80);
     }
     if ($codepoint < 0x110000) {
         return chr($codepoint >> 18 & 0x07 | 0xf0) .
                                      chr($codepoint >> 12 & 0x3f | 0x80) .
-                                     chr($codepoint >>	6 & 0x3f | 0x80) .
-                                     chr($codepoint		  & 0x3f | 0x80);
+                                     chr($codepoint >> 6 & 0x3f | 0x80) .
+                                     chr($codepoint & 0x3f | 0x80);
     }
 
     echo "Asked for code outside of range ($codepoint)\n";
@@ -132,7 +132,7 @@ function utf8ToCodepoint($char)
     $z >>= $length;
 
     # Add in the free bits from subsequent bytes
-    for ($i=1; $i<$length; $i++) {
+    for ($i = 1; $i < $length; $i++) {
         $z <<= 6;
         $z |= ord($char{$i}) & 0x3f;
     }

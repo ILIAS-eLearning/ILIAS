@@ -242,7 +242,7 @@ class ilObjTaxonomy extends ilObject2
             "SELECT * FROM tax_data " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         $this->setSortingMode($rec["sorting_mode"]);
         $this->setItemSorting($rec["item_sorting"]);
     }
@@ -290,7 +290,7 @@ class ilObjTaxonomy extends ilObject2
 
         $ilDB = $DIC->database();
 
-        if ($a_tax_id > 0 &&  $a_obj_id > 0) {
+        if ($a_tax_id > 0 && $a_obj_id > 0) {
             $ilDB->replace(
                 "tax_usage",
                 array("tax_id" => array("integer", $a_tax_id),

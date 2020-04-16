@@ -166,13 +166,13 @@ class ilCalendarUtil
                 
                 $day_list->add(new ilDate(
                     gmmktime(
-                    0,
-                    0,
-                    0,
-                    $prev_month,
-                    $days_in_prev_month - $first_day_offset + $i + 1,
-                    $prev_year
-                ),
+                        0,
+                        0,
+                        0,
+                        $prev_month,
+                        $days_in_prev_month - $first_day_offset + $i + 1,
+                        $prev_year
+                    ),
                     IL_CAL_UNIX
                 ));
             } elseif ($i < $days_in_month + $first_day_offset) {
@@ -181,26 +181,26 @@ class ilCalendarUtil
                                 
                 $day_list->add(new ilDate(
                     gmmktime(
-                    0,
-                    0,
-                    0,
-                    $a_month,
-                    $i - $first_day_offset + 1,
-                    $a_year
-                ),
+                        0,
+                        0,
+                        0,
+                        $a_month,
+                        $i - $first_day_offset + 1,
+                        $a_year
+                    ),
                     IL_CAL_UNIX
                 ));
             } else {
                 $day = $i - $days_in_month - $first_day_offset + 1;
                 $day_list->add(new ilDate(
                     gmmktime(
-                    0,
-                    0,
-                    0,
-                    $next_month,
-                    $i - $days_in_month - $first_day_offset + 1,
-                    $next_year
-                ),
+                        0,
+                        0,
+                        0,
+                        $next_month,
+                        $i - $days_in_month - $first_day_offset + 1,
+                        $next_year
+                    ),
                     IL_CAL_UNIX
                 ));
             }
@@ -451,9 +451,9 @@ class ilCalendarUtil
         }
         
         // http://en.wikipedia.org/wiki/Luminance_(relative)
-        $lum = round(hexdec(substr($a_html_color_code, 1, 2))*0.2126+
-            hexdec(substr($a_html_color_code, 3, 2))*0.7152+
-            hexdec(substr($a_html_color_code, 5, 2))*0.0722);
+        $lum = round(hexdec(substr($a_html_color_code, 1, 2)) * 0.2126 +
+            hexdec(substr($a_html_color_code, 3, 2)) * 0.7152 +
+            hexdec(substr($a_html_color_code, 5, 2)) * 0.0722);
         
         return ($lum <= 128) ? "#FFFFFF" : "#000000";
         

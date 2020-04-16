@@ -173,13 +173,13 @@ class ilExportSelectionTableGUI extends ilTable2GUI
                 $r['last_export'] = 0;
             }
             
-            $r['last'] 	= false;
-            $r['source']= $first;
-            $r['ref_id']= $node['child'];
+            $r['last'] = false;
+            $r['source'] = $first;
+            $r['ref_id'] = $node['child'];
             $r['depth'] = $node['depth'] - $root['depth'];
-            $r['type']	= $node['type'];
-            $r['title']	= $node['title'];
-            $r['export']	= $objDefinition->allowExport($node['type']);
+            $r['type'] = $node['type'];
+            $r['title'] = $node['title'];
+            $r['export'] = $objDefinition->allowExport($node['type']);
             $r['perm_export'] = $ilAccess->checkAccess('write', '', $node['child']);
 
             $rows[] = $r;

@@ -52,9 +52,9 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
     {
         global $DIC;
 
-        $parts  = explode('_', $params);
+        $parts = explode('_', $params);
         $ref_id = $parts[0];
-        $sub    = $parts[1];
+        $sub = $parts[1];
 
         if (ilChatroom::checkUserPermissions('read', $ref_id, false)) {
             if ($sub) {
@@ -168,7 +168,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
                 require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
                 $factory = new ilChatroomFormFactory();
-                $form    = $factory->getClientSettingsForm();
+                $form = $factory->getClientSettingsForm();
 
                 $this->ctrl->forwardCommand($form);
                 break;
@@ -206,7 +206,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
             default:
                 try {
-                    $res    = explode('-', $this->ctrl->getCmd(), 2);
+                    $res = explode('-', $this->ctrl->getCmd(), 2);
                     $result = $this->dispatchCall($res[0], isset($res[1]) ? $res[1] : '');
                     if (!$result && method_exists($this, $this->ctrl->getCmd() . 'Object')) {
                         $this->prepareOutput();
@@ -215,7 +215,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                 } catch (Exception $e) {
                     $error = array(
                         'success' => false,
-                        'reason'  => $e->getMessage()
+                        'reason' => $e->getMessage()
                     );
                     echo json_encode($error);
                     exit;
@@ -233,7 +233,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
         require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
-        $settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+        $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
         $connector = new ilChatroomServerConnector($settings);
 
         return $connector;
@@ -302,16 +302,16 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
 
         $room->saveSettings(
             array(
-                'object_id'             => $objId,
-                'autogen_usernames'     => 'Autogen #',
-                'display_past_msgs'     => 20,
+                'object_id' => $objId,
+                'autogen_usernames' => 'Autogen #',
+                'display_past_msgs' => 20,
                 'private_rooms_enabled' => 0
             )
         );
 
         include_once 'Services/AccessControl/classes/class.ilRbacLog.php';
         $rbac_log_roles = $DIC->rbac()->review()->getParentRoleIds($newObj->getRefId(), false);
-        $rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
+        $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
         $this->object = $newObj;

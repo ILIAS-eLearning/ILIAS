@@ -88,7 +88,7 @@ class Renderer extends AbstractComponentRenderer
                 "$(document).on('{$show}', function(event, signalData) { il.UI.modal.showModal('{$id}', {$options}, signalData); return false; });" .
                 "$(document).on('{$close}', function() { il.UI.modal.closeModal('{$id}'); return false; });";
             if ($replace != "") {
-                $code.= "$(document).on('{$replace}', function(event, signalData) { il.UI.modal.replaceFromSignal('{$id}', signalData);});";
+                $code .= "$(document).on('{$replace}', function(event, signalData) { il.UI.modal.replaceFromSignal('{$id}', signalData);});";
             }
             return $code;
         });

@@ -452,7 +452,7 @@ class ilInternalLinkGUI
                 $cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
                 // get all chapters
-                $ctree =&$cont_obj->getLMTree();
+                $ctree = &$cont_obj->getLMTree();
                 $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
                 $tpl->setCurrentBlock("chapter_list");
                 $tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_lm"));
@@ -820,7 +820,7 @@ class ilInternalLinkGUI
     {
         // output thumbnail
         $mob = new ilObjMediaObject($a_id);
-        $med =&$mob->getMediaItem("Standard");
+        $med = &$mob->getMediaItem("Standard");
         $target = $med->getThumbnailTarget("small");
         $suff = "";
         if ($this->getSetLinkTargetScript() != "") {

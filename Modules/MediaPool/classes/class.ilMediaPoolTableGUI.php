@@ -96,7 +96,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         // folder determination
         if ($_GET[$this->folder_par] > 0) {
             $this->current_folder = $_GET[$this->folder_par];
-        } elseif ($_SESSION["mep_pool_folder"] > 0  && $this->tree->isInTree($_SESSION["mep_pool_folder"])) {
+        } elseif ($_SESSION["mep_pool_folder"] > 0 && $this->tree->isInTree($_SESSION["mep_pool_folder"])) {
             $this->current_folder = $_SESSION["mep_pool_folder"];
         } else {
             $this->current_folder = $this->tree->getRootId();
@@ -236,7 +236,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     {
         $html = parent::getHTML();
         include_once("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
-        $html.= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
+        $html .= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
         return $html;
     }
     
@@ -505,8 +505,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                             $wr = $size[0] / 80;
                             $hr = $size[1] / 80;
                             $r = max($wr, $hr);
-                            $w = (int) ($size[0]/$r);
-                            $h = (int) ($size[1]/$r);
+                            $w = (int) ($size[0] / $r);
+                            $h = (int) ($size[1] / $r);
                             $this->tpl->setVariable(
                                 "IMG",
                                 ilUtil::img($med->getLocation(), "", $w, $h)

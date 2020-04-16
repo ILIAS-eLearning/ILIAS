@@ -26,14 +26,14 @@ function with_keys()
     // on the complete input of the form.
     $form = $ui->input()->container()->form()->standard(
         $form_action,
-        [ 'input1'=>$number_input->withLabel("Input 1")
-        , 'input2'=>$number_input->withLabel("Input 2")
+        [ 'input1' => $number_input->withLabel("Input 1")
+        , 'input2' => $number_input->withLabel("Input 2")
         ]
     );
 
     //Step 6: Define some data processing.
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] =='keys') {
+            && $request->getQueryParams()['example_name'] == 'keys') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

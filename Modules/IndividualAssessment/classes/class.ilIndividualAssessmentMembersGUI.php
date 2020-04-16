@@ -54,7 +54,7 @@ class ilIndividualAssessmentMembersGUI
         $this->parent_gui = $a_parent_gui;
         $this->object = $a_parent_gui->object;
         $this->ref_id = $a_ref_id;
-        $this->tpl =  $DIC['tpl'];
+        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->user = $DIC["ilUser"];
@@ -125,10 +125,10 @@ class ilIndividualAssessmentMembersGUI
                     $this,
                     $this->toolbar,
                     array(
-                        'auto_complete_name'	=> $this->txt('user'),
-                        'submit_name'			=> $this->txt('add'),
-                        'add_search'			=> true,
-                        'add_from_container'		=> $container_id
+                        'auto_complete_name' => $this->txt('user'),
+                        'submit_name' => $this->txt('add'),
+                        'add_search' => true,
+                        'add_from_container' => $container_id
                     )
                 );
             } else {
@@ -136,9 +136,9 @@ class ilIndividualAssessmentMembersGUI
                     $this,
                     $this->toolbar,
                     array(
-                        'auto_complete_name'	=> $this->txt('user'),
-                        'submit_name'			=> $this->txt('add'),
-                        'add_search'			=> true
+                        'auto_complete_name' => $this->txt('user'),
+                        'submit_name' => $this->txt('add'),
+                        'add_search' => true
                     )
                 );
             }
@@ -273,7 +273,7 @@ class ilIndividualAssessmentMembersGUI
 
         $vc_factory = $this->factory->viewControl();
 
-        $sort =  $this->getSortationControl($vc_factory);
+        $sort = $this->getSortationControl($vc_factory);
         $ret[] = $this->getModeControl($get, $vc_factory);
         $ret[] = $sort;
 
@@ -394,8 +394,8 @@ class ilIndividualAssessmentMembersGUI
             self::S_NAME_DESC => $this->txt("iass_sort_name_desc"),
             self::S_EXAMINER_ASC => $this->txt("iass_sort_examiner_login_asc"),
             self::S_EXAMINER_DESC => $this->txt("iass_sort_examiner_login_desc"),
-            self::S_CHANGETIME_ASC  => $this->txt("iass_sort_changetime_asc"),
-            self::S_CHANGETIME_DESC  => $this->txt("iass_sort_changetime_desc")
+            self::S_CHANGETIME_ASC => $this->txt("iass_sort_changetime_asc"),
+            self::S_CHANGETIME_DESC => $this->txt("iass_sort_changetime_desc")
         );
     }
 

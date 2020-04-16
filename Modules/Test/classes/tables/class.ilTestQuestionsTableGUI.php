@@ -94,10 +94,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function getSelectableColumns()
     {
         $cols = array(
-            'qid'         => array('txt' => $this->lng->txt('question_id'), 'default' => true),
+            'qid' => array('txt' => $this->lng->txt('question_id'), 'default' => true),
             'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
-            'author'      => array('txt' => $this->lng->txt('author'), 'default' => false),
-            'working_time'=> array('txt' => $this->lng->txt('working_time'), 'default' => false)
+            'author' => array('txt' => $this->lng->txt('author'), 'default' => false),
+            'working_time' => array('txt' => $this->lng->txt('working_time'), 'default' => false)
         );
         
         return $cols;

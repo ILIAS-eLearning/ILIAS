@@ -176,7 +176,7 @@ class ilRegistrationRoleAssignments
 
         $this->assignments = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->assignments[$row->assignment_id]['id'] =  $row->assignment_id;
+            $this->assignments[$row->assignment_id]['id'] = $row->assignment_id;
             $this->assignments[$row->assignment_id]['role'] = $row->role;
             $this->assignments[$row->assignment_id]['domain'] = $row->domain;
         }

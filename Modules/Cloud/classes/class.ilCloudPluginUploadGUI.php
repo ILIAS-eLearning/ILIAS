@@ -47,13 +47,13 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         echo $this->form->getHTML();
 
 
-        $options                   = new stdClass();
-        $options->dropZone         = "#ilFileUploadDropZone_1";
-        $options->fileInput        = "#ilFileUploadInput_1";
-        $options->submitButton     = "uploadFiles";
-        $options->cancelButton     = "cancelAll";
-        $options->dropArea         = "#ilFileUploadDropArea_1";
-        $options->fileList         = "#ilFileUploadList_1";
+        $options = new stdClass();
+        $options->dropZone = "#ilFileUploadDropZone_1";
+        $options->fileInput = "#ilFileUploadInput_1";
+        $options->submitButton = "uploadFiles";
+        $options->cancelButton = "cancelAll";
+        $options->dropArea = "#ilFileUploadDropArea_1";
+        $options->fileList = "#ilFileUploadList_1";
         $options->fileSelectButton = "#ilFileUploadFileSelect_1";
         echo "<script language='javascript' type='text/javascript'>var fileUpload1 = new ilFileUpload(1, " . ilJsonUtil::encode($options) . ");</script>";
 
@@ -105,7 +105,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
     public function uploadFiles()
     {
-        $response        = new stdClass();
+        $response = new stdClass();
         $response->error = null;
         $response->debug = null;
 
@@ -134,12 +134,12 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
     public function handleFileUpload($file_upload)
     {
         // create answer object
-        $response               = new stdClass();
-        $response->fileName     = $_POST["title"];
-        $response->fileSize     = intval($file_upload["size"]);
-        $response->fileType     = $file_upload["type"];
+        $response = new stdClass();
+        $response->fileName = $_POST["title"];
+        $response->fileSize = intval($file_upload["size"]);
+        $response->fileType = $file_upload["type"];
         $response->fileUnzipped = $file_upload["extract"];
-        $response->error        = null;
+        $response->error = null;
 
         $file_tree = ilCloudFileTree::getFileTreeFromSession();
 

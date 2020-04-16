@@ -67,16 +67,18 @@ class ilCalendarRegistration
      * Get all registered users
      * @return
      */
-    public function getRegisteredUsers()
+    public function getRegisteredUsers(\ilDateTime $start, \ilDateTime $end)
     {
+        $users = [];
         foreach ($this->registered as $reg_data) {
-            if ($reg_data['usr_id'] == $a_usr_id) {
-                if ($reg_data['dstart'] == $start->get(IL_CAL_UNIX) and $reg_data['dend'] == $end->get(IL_CAL_UNIX)) {
-                    return true;
-                }
+            if (
+                $reg_data['dstart'] == $start->get(IL_CAL_UNIX) &&
+                $reg_data['dend'] == $end->get(IL_CAL_UNIX)
+            ) {
+                $users[] = $reg_data['usr_id'];
             }
         }
-        return (array) $this->registered;
+        return $users;
     }
     
     /**
@@ -159,9 +161,9 @@ class ilCalendarRegistration
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->registered[] = array(
-                'usr_id'=> $row->usr_id,
-                'dstart' =>$row->dstart,
-                'dend'	=> $row->dend
+                'usr_id' => $row->usr_id,
+                'dstart' => $row->dstart,
+                'dend' => $row->dend
             );
         }
     }

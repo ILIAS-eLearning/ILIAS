@@ -316,7 +316,7 @@ class ilObjMediaPool extends ilObject
             " JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
             
         if ($a_format_filter != "" or $a_caption_filter != '') {
-            $query.= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
+            $query .= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
         }
             
         $query .=
@@ -325,19 +325,19 @@ class ilObjMediaPool extends ilObject
             
         // filter
         if (trim($a_title_filter) != "") {	// title
-            $query.= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
+            $query .= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
         }
         if ($a_format_filter != "") {			// format
             $filter = ($a_format_filter == "unknown")
                 ? ""
                 : $a_format_filter;
-            $query.= " AND " . $ilDB->equals("media_item.format", $filter, "text", true);
+            $query .= " AND " . $ilDB->equals("media_item.format", $filter, "text", true);
         }
         if (trim($a_caption_filter)) {
             $query .= 'AND ' . $ilDB->like('media_item.caption', 'text', '%' . trim($a_caption_filter) . '%');
         }
             
-        $query.=
+        $query .=
             " ORDER BY object_data.title";
         
         $objs = array();
@@ -382,7 +382,7 @@ class ilObjMediaPool extends ilObject
             " AND object_data.type = " . $ilDB->quote("mob", "text");
         $set = $ilDB->query($query);
         $ids = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $ids[] = $rec["id"];
         }
         return $ids;
@@ -509,7 +509,7 @@ class ilObjMediaPool extends ilObject
             " foreign_id = " . $ilDB->quote($a_foreign_id, "integer") .
             " AND mep_id = " . $ilDB->quote($a_pool_id, "integer")
         );
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;
@@ -527,7 +527,7 @@ class ilObjMediaPool extends ilObject
         $set = $ilDB->query("SELECT * FROM mep_tree WHERE child = " .
             $ilDB->quote($a_item_id, "integer") .
             " AND mep_id = " . $ilDB->quote($a_pool_id, "integer"));
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;

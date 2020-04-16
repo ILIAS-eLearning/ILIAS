@@ -75,7 +75,7 @@ class ilSetupGUI
         $this->setup = new ilSetup(
             new \ilSetupPasswordManager([
                 'password_encoder' => 'bcryptphp',
-                'encoder_factory'  => new \ilSetupPasswordEncoderFactory([
+                'encoder_factory' => new \ilSetupPasswordEncoderFactory([
                     'default_password_encoder' => 'bcryptphp'
                 ])
             ]),
@@ -1492,7 +1492,7 @@ class ilSetupGUI
         if (!ilUtil::isWindows()) {
             $tools = array("convert" => "convert",
                 "zip" => "zip", "unzip" => "unzip", "ghostscript" => "gs",
-                "java" => "java", "ffmpeg" => "ffmpeg", "lessc"=>"lessc", "phantomjs"=>"phantomjs");
+                "java" => "java", "ffmpeg" => "ffmpeg", "lessc" => "lessc", "phantomjs" => "phantomjs");
             $dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
         } else {
             $tools = array("convert" => "convert.exe",
@@ -1875,13 +1875,13 @@ class ilSetupGUI
         unset($steps["access"]);
 
         $steps["ini"]["text"] = $this->lng->txt("setup_process_step_ini");
-        $steps["db"]["text"]  = $this->lng->txt("setup_process_step_db");
+        $steps["db"]["text"] = $this->lng->txt("setup_process_step_db");
         //$steps["sess"]["text"]      = $this->lng->txt("setup_process_step_sess");
-        $steps["lang"]["text"]    = $this->lng->txt("setup_process_step_lang");
+        $steps["lang"]["text"] = $this->lng->txt("setup_process_step_lang");
         $steps["contact"]["text"] = $this->lng->txt("setup_process_step_contact");
-        $steps["proxy"]["text"]   = $this->lng->txt("setup_process_step_proxy");
-        $steps["nic"]["text"]     = $this->lng->txt("setup_process_step_nic");
-        $steps["finish"]["text"]  = $this->lng->txt("setup_process_step_finish");
+        $steps["proxy"]["text"] = $this->lng->txt("setup_process_step_proxy");
+        $steps["nic"]["text"] = $this->lng->txt("setup_process_step_nic");
+        $steps["finish"]["text"] = $this->lng->txt("setup_process_step_finish");
 
         $stpl = new ilTemplate("tpl.process_panel.html", true, true, "setup");
 
@@ -2703,10 +2703,10 @@ class ilSetupGUI
             $sep = "";
             foreach ($dbupdate->updateMsg as $row) {
                 if ($row["msg"] == "update_applied") {
-                    $a_message.= $sep . $row["nr"];
+                    $a_message .= $sep . $row["nr"];
                     $sep = ", ";
                 } else {
-                    $e_message.= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
+                    $e_message .= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
                 }
             }
             if ($a_message != "") {
@@ -2804,10 +2804,10 @@ class ilSetupGUI
             $sep = "";
             foreach ($dbupdate->updateMsg as $row) {
                 if ($row["msg"] == "update_applied") {
-                    $a_message.= $sep . $row["nr"];
+                    $a_message .= $sep . $row["nr"];
                     $sep = ", ";
                 } else {
-                    $e_message.= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
+                    $e_message .= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
                 }
             }
             if ($a_message != "") {
@@ -3980,10 +3980,10 @@ class ilSetupGUI
             $sep = "";
             foreach ($dbupdate->updateMsg as $row) {
                 if ($row["msg"] == "update_applied") {
-                    $a_message.= $sep . $row["nr"];
+                    $a_message .= $sep . $row["nr"];
                     $sep = ", ";
                 } else {
-                    $e_message.= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
+                    $e_message .= "<br/>" . $this->lng->txt($row["msg"]) . ": " . $row["nr"];
                 }
             }
             if ($a_message != "") {

@@ -91,11 +91,11 @@ class ilCOPageImporter extends ilXmlImporter
                     while (substr($a_xml, 0, 11) == "<PageObject") {
                         $l1 = strpos($a_xml, ">");
 
-                        $page_tag = "<?xml version='1.0'?> " . substr($a_xml, 0, $l1+1) . "</PageObject>";
+                        $page_tag = "<?xml version='1.0'?> " . substr($a_xml, 0, $l1 + 1) . "</PageObject>";
                         $page_data = simplexml_load_string($page_tag);
                         $lstr = $page_data['Language'];
                         $p = strpos($a_xml, "</PageObject>") + 13;
-                        $next_xml = "<PageObject>" . substr($a_xml, $l1+1, $p - $l1 -1);
+                        $next_xml = "<PageObject>" . substr($a_xml, $l1 + 1, $p - $l1 - 1);
 
                         if ($this->config->getForceLanguage() != "") {
                             $lstr = $this->config->getForceLanguage();

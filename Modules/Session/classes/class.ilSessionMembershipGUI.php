@@ -271,7 +271,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             [
                 ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
                 'ref_id' => $this->getParentObject()->getRefId(),
-                'ts'     => time()
+                'ts' => time()
             ];
         return $context_options;
     }

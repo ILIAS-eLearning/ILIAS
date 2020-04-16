@@ -72,7 +72,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
 
         if (substr($path, 0, 4) !== 'http') {
             $parts = parse_url(ILIAS_HTTP_PATH);
-            $path  = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
+            $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
         }
 
         $this->ctrl->redirectToURL(
@@ -127,7 +127,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
         }
 
         $validDomains = array();
-        $path         = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
+        $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
         if (file_exists($path) && is_readable($path)) {
             foreach (file($path) as $line) {
                 if (trim($line)) {

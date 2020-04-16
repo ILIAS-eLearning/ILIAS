@@ -158,7 +158,7 @@ class ilLMEditorGUI
         $loc = $DIC["ilLocator"];
         $loc->addRepositoryItems((int) $_GET["ref_id"]);
 
-        if ($_GET["to_page"]== 1) {
+        if ($_GET["to_page"] == 1) {
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
             $this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
         }
@@ -194,7 +194,7 @@ class ilLMEditorGUI
                 // (horrible) workaround for preventing template engine
                 // from hiding paragraph text that is enclosed
                 // in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-                $output =  $this->tpl->get("DEFAULT", true, true, $show_footer, true);
+                $output = $this->tpl->get("DEFAULT", true, true, $show_footer, true);
                 $output = str_replace("&#123;", "{", $output);
                 $output = str_replace("&#125;", "}", $output);
                 header('Content-type: text/html; charset=UTF-8');

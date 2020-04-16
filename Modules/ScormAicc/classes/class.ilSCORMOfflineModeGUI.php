@@ -142,11 +142,11 @@ class ilSCORMOfflineModeGUI
                 $langstrings['btnSuspendAll'] = $lng->txt('scplayer_suspendall');
                 $langstrings['btnPrevious'] = $lng->txt('scplayer_previous');
                 $langstrings['btnContinue'] = $lng->txt('scplayer_continue');
-                $langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
-                $langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
-                $langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
-                $langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
-                $langstrings['contCreditOff']=$lng->txt('cont_credit_off');
+                $langstrings['btnhidetree'] = $lng->txt('scplayer_hidetree');
+                $langstrings['btnshowtree'] = $lng->txt('scplayer_showtree');
+                $langstrings['linkexpandTree'] = $lng->txt('scplayer_expandtree');
+                $langstrings['linkcollapseTree'] = $lng->txt('scplayer_collapsetree');
+                $langstrings['contCreditOff'] = $lng->txt('cont_credit_off');
                 // if ($this->slm->getAutoReviewChar() == "s") {
                     // $langstrings['contCreditOff']=$lng->txt('cont_sc_score_was_higher_message');
                 // }
@@ -164,7 +164,7 @@ class ilSCORMOfflineModeGUI
                 $player2004->setVariable("DOC_TITLE", "ILIAS SCORM 2004 Offline Player");
                 $player2004->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
                 list($tsfrac, $tsint) = explode(' ', microtime());
-                $player2004->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float) $tsfrac));
+                $player2004->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
                 $player2004->setVariable('BASE_DIR', './Modules/Scorm2004/');
 
                 include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
@@ -252,7 +252,7 @@ class ilSCORMOfflineModeGUI
         $icon = ($offline_mode == "online") ? "icon_sahs.svg" : "icon_sahs_offline.svg";
         $tabTitle = $this->lng->txt("offline_mode");
         $a_active = $offline_mode; //workaround
-        $thisurl =$this->ctrl->getLinkTarget($this, $a_active);
+        $thisurl = $this->ctrl->getLinkTarget($this, $a_active);
         $ilTabs->addTab($a_active, $tabTitle, $thisurl);
         $ilTabs->activateTab($a_active);
         $tpl->getStandardTemplate();

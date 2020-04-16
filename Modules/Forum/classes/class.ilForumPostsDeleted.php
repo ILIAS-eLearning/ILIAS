@@ -119,22 +119,22 @@ class ilForumPostsDeleted
         $next_id = $this->db->nextId('frm_posts_deleted');
 
         $this->db->insert('frm_posts_deleted', array(
-            'deleted_id'   => array('integer', $next_id),
+            'deleted_id' => array('integer', $next_id),
             'deleted_date' => array('timestamp', $this->getDeletedDate()),
-            'deleted_by'   => array('text', $this->getDeletedBy()),
-            'forum_title'  => array('text', $this->getForumTitle()),
+            'deleted_by' => array('text', $this->getDeletedBy()),
+            'forum_title' => array('text', $this->getForumTitle()),
             'thread_title' => array('text', $this->getThreadTitle()),
-            'post_title'   => array('text', $this->getPostTitle()),
+            'post_title' => array('text', $this->getPostTitle()),
             'post_message' => array('text', $this->getPostMessage()),
 
-            'post_date'    => array('timestamp', $this->getPostDate()),
-            'obj_id'       => array('integer', $this->getObjId()),
-            'ref_id'       => array('integer', $this->getRefId()),
-            'thread_id'    => array('integer', $this->getThreadId()),
-            'forum_id'	   => array('integer', $this->getForumId()),
+            'post_date' => array('timestamp', $this->getPostDate()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'ref_id' => array('integer', $this->getRefId()),
+            'thread_id' => array('integer', $this->getThreadId()),
+            'forum_id' => array('integer', $this->getForumId()),
             'pos_display_user_id' => array('integer', $this->getPosDisplayUserId()),
-            'pos_usr_alias'		=> array('text', $this->getPosUserAlias()),
-            'is_thread_deleted'	=> array('integer', $this->isThreadDeleted())
+            'pos_usr_alias' => array('text', $this->getPosUserAlias()),
+            'is_thread_deleted' => array('integer', $this->isThreadDeleted())
         ));
     }
 

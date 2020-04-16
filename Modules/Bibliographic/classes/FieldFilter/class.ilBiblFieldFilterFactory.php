@@ -55,7 +55,7 @@ class ilBiblFieldFilterFactory implements ilBiblFieldFilterFactoryInterface
     {
         $list = ilBiblFieldFilter::where([
             'object_id' => $object_id,
-            'field_id'  => $field->getId(),
+            'field_id' => $field->getId(),
         ])->first();
         if (!$list) {
             throw new LogicException("filter not found");

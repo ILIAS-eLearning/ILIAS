@@ -97,7 +97,7 @@ class ilSystemStyleIconColor
     {
         $color = strtoupper($color);
 
-        if (!ctype_xdigit($color) ||  strlen($color)!=6) {
+        if (!ctype_xdigit($color) || strlen($color) != 6) {
             throw new ilSystemStyleColorException(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $color);
         }
 
@@ -147,7 +147,7 @@ class ilSystemStyleIconColor
         $g = $this->getGreenAspect();
         $b = $this->getBlueAspect();
 
-        if ($r == $g && $r==$b && $g==$b) {
+        if ($r == $g && $r == $b && $g == $b) {
             return self::GREY;
         } elseif ($r > $g && $r > $b) {
             return self::RED;
@@ -202,7 +202,7 @@ class ilSystemStyleIconColor
             $g = $this->getGreenAspect();
             $b = $this->getBlueAspect();
 
-            $this->brightness =  sqrt(
+            $this->brightness = sqrt(
                 $r * $r * .299 +
                 $g * $g * .587 +
                 $b * $b * .114

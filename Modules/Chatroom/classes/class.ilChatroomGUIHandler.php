@@ -104,7 +104,7 @@ abstract class ilChatroomGUIHandler
             $this->sendResponse(
                 array(
                     'success' => false,
-                    'reason'  => 'unkown room',
+                    'reason' => 'unkown room',
                 )
             );
         }
@@ -132,7 +132,7 @@ abstract class ilChatroomGUIHandler
             $this->sendResponse(
                 array(
                     'success' => false,
-                    'reason'  => 'not owner of private room',
+                    'reason' => 'not owner of private room',
                 )
             );
         }

@@ -37,12 +37,12 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     */
     public function __construct(
-      $answertext = "",
-      $points_checked = 0.0,
-      $order = 0,
-      $points_unchecked = 0,
-      $id = -1
-  ) {
+        $answertext = "",
+        $points_checked = 0.0,
+        $order = 0,
+        $points_unchecked = 0,
+        $id = -1
+    ) {
         parent::__construct($answertext, $points_checked, $order, $id);
         $this->setPointsUnchecked($points_unchecked);
     }
@@ -52,7 +52,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * Returns the points for an unchecked answer
     *
     * Returns the points for an unchecked answer
-    
+
     * @return double The points for an unchecked answer
     * @access public
     * @see $points_unchecked

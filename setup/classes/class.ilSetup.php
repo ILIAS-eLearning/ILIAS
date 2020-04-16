@@ -335,7 +335,7 @@ class ilSetup
     */
     public function checkPHPVersion()
     {
-        $version =  PHP_VERSION;
+        $version = PHP_VERSION;
 
         $arr["status"] = true;
         $arr["comment"] = "PHP " . $version;
@@ -655,15 +655,15 @@ class ilSetup
 
             $password_valid = ilUserPasswordManager::getInstance()->verifyPassword($user, $a_auth_data['password']);
         } else {
-            $password_valid =  $data['passwd'] == md5($a_auth_data['password']);
+            $password_valid = $data['passwd'] == md5($a_auth_data['password']);
         }
 
         if ($password_valid) {
             // all checks passed -> user valid
-            $_SESSION['auth']        = true;
-            $_SESSION['auth_path']   = ILIAS_HTTP_PATH;
+            $_SESSION['auth'] = true;
+            $_SESSION['auth_path'] = ILIAS_HTTP_PATH;
             $_SESSION['access_mode'] = 'client';
-            $_SESSION['ClientId']    = $this->client->getId();
+            $_SESSION['ClientId'] = $this->client->getId();
             return true;
         } else {
             $this->error = 'login_invalid';
@@ -684,8 +684,8 @@ class ilSetup
         };
 
         if ($this->passwordManager->verifyPassword($this->getMasterPassword(), $raw, $passwordReHashCallback)) {
-            $_SESSION['auth']        = true;
-            $_SESSION['auth_path']   = ILIAS_HTTP_PATH;
+            $_SESSION['auth'] = true;
+            $_SESSION['auth_path'] = ILIAS_HTTP_PATH;
             $_SESSION['access_mode'] = 'admin';
             return true;
         }
@@ -727,7 +727,7 @@ class ilSetup
     {
         if (!is_object($client)) {
             if ($this->ini_client_exists) {
-                $client =&$this->client;
+                $client = &$this->client;
             } else {
                 $client = new ilClient(0, $this->db_connections);
             }
@@ -1104,7 +1104,7 @@ class ilSetup
 
         $form_log_path = preg_replace("/\\\\/", "/", ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
         $log_path = substr($form_log_path, 0, strrpos($form_log_path, "/"));
-        $log_file = substr($form_log_path, strlen($log_path)+1);
+        $log_file = substr($form_log_path, strlen($log_path) + 1);
         $error_log_path = preg_replace("/\\\\/", "/", ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
 
         $this->ini->setVariable("server", "http_path", ILIAS_HTTP_PATH);
@@ -1190,7 +1190,7 @@ class ilSetup
 
         $form_log_path = preg_replace("/\\\\/", "/", ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
         $log_path = substr($form_log_path, 0, strrpos($form_log_path, "/"));
-        $log_file = substr($form_log_path, strlen($log_path)+1);
+        $log_file = substr($form_log_path, strlen($log_path) + 1);
 
         $error_log_path = preg_replace("/\\\\/", "/", ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["error_log_path"])));
 
@@ -1359,7 +1359,7 @@ class ilSetup
         // create dir
         if ($a_formdata["chk_datadir_path"] == 1) {
             $dir_to_create = substr(strrchr($datadir_path, "/"), 1);
-            $dir_to_check = substr($datadir_path, 0, -strlen($dir_to_create)-1);
+            $dir_to_check = substr($datadir_path, 0, -strlen($dir_to_create) - 1);
 
             if ($this->isDirectoryInOther($dir_to_create, ILIAS_ABSOLUTE_PATH)) {
                 $this->error = "cannot_create_datadir_inside_webdir";
@@ -1555,9 +1555,9 @@ class ilSetup
         return "";
         /*
                 exec($a_java_path, $out, $back);
-        
+
                 unset($out);
-        
+
                 return ($back != 1) ? false : true;
         */
     }
@@ -1606,23 +1606,23 @@ class ilSetup
         /*
                 // create test file and run zip
                 $fp = fopen(ILIAS_ABSOLUTE_PATH."/test.dat", "w");
-        
+
                 fwrite($fp, "test");
                 fclose($fp);
-        
+
                 if (file_exists(ILIAS_ABSOLUTE_PATH."/test.dat"))
                 {
                     $curDir = getcwd();
                     chdir(ILIAS_ABSOLUTE_PATH);
-        
+
                     $zipCmd = $a_zip_path." -m zip_test_file.zip test.dat";
-        
+
                     exec($zipCmd);
-        
+
                     chdir($curDir);
-        
+
                 }
-        
+
                 // check wether zip generated test file or not
                 if (file_exists(ILIAS_ABSOLUTE_PATH."/zip_test_file.zip"))
                 {
@@ -1656,22 +1656,22 @@ class ilSetup
         return "";
         /*
                 $curDir = getcwd();
-        
+
                 chdir(ILIAS_ABSOLUTE_PATH);
-        
+
                 if (file_exists(ILIAS_ABSOLUTE_PATH."/unzip_test_file.zip"))
                 {
                     $unzipCmd = $a_unzip_path." unzip_test_file.zip";
                     exec($unzipCmd);
                 }
-        
+
                 chdir($curDir);
-        
+
                 // check wether unzip extracted the test file or not
                 if (file_exists(ILIAS_ABSOLUTE_PATH."/unzip_test_file.txt"))
                 {
                     unlink(ILIAS_ABSOLUTE_PATH."/unzip_test_file.txt");
-        
+
                     return true;
                 }
                 else
@@ -1940,7 +1940,7 @@ class ilSetup
         }
 
         foreach ($srcTables->fetchAll() as $cTable) {
-            $drop   = $target->db->query("DROP TABLE IF EXISTS " . $cTable[0]);
+            $drop = $target->db->query("DROP TABLE IF EXISTS " . $cTable[0]);
             $create = $target->db->query("CREATE TABLE " . $cTable[0] . " LIKE " . $source->getDbName() . "." . $cTable[0]);
             if (!$create) {
                 $error = true;

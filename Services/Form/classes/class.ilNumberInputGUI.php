@@ -389,11 +389,11 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $delim = ", ";
         }
         if ($this->getMinValue() !== false && $this->minvalue_visible) {
-            $constraints.= $delim . $lng->txt("form_min_value") . ": " . (($this->minvalueShouldBeGreater()) ? "&gt; " : "") . $this->getMinValue();
+            $constraints .= $delim . $lng->txt("form_min_value") . ": " . (($this->minvalueShouldBeGreater()) ? "&gt; " : "") . $this->getMinValue();
             $delim = ", ";
         }
         if ($this->getMaxValue() !== false && $this->maxvalue_visible) {
-            $constraints.= $delim . $lng->txt("form_max_value") . ": " . (($this->maxvalueShouldBeLess()) ? "&lt; " : "") . $this->getMaxValue();
+            $constraints .= $delim . $lng->txt("form_max_value") . ": " . (($this->maxvalueShouldBeLess()) ? "&lt; " : "") . $this->getMaxValue();
             $delim = ", ";
         }
         if ($constraints != "") {

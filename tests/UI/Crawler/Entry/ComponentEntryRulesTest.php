@@ -10,54 +10,54 @@ use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 class ComponentEntryRulesTest extends PHPUnit_Framework_TestCase
 {
     protected $empty_rules_array = array(
-        "usage"=>array(),
-        "composition"=>array(),
-        "interaction"=>array(),
-        "wording"=>array(),
-        "ordering"=>array(),
-        "style"=>array(),
-        "responsiveness"=>array(),
-        "accessibility"=>array()
+        "usage" => array(),
+        "composition" => array(),
+        "interaction" => array(),
+        "wording" => array(),
+        "ordering" => array(),
+        "style" => array(),
+        "responsiveness" => array(),
+        "accessibility" => array()
     );
     protected $invalid_categories1_array = array(
         "usage",
         "wrong"
     );
     protected $invalid_categories2_array = array(
-        "usage"=>array(),
-        "wrong"=>array()
+        "usage" => array(),
+        "wrong" => array()
     );
     protected $invalid_category_item_array = array(
-        "usage"=>array("Correct"),
-        "composition"=>"Wrong"
+        "usage" => array("Correct"),
+        "composition" => "Wrong"
     );
     protected $invalid_category_value_array = array(
-        "usage"=>array("Correct"),
-        "composition"=>array(array("wrong"))
+        "usage" => array("Correct"),
+        "composition" => array(array("wrong"))
     );
     protected $correct_rules1_array = array(
-        "usage"=>array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
-        "composition"=>array(1 => "composition Rule 1", 2 => "composition Rule 2"),
-        "interaction"=>array(1 => "interaction Rule 1", 2 => "interaction Rule 2"),
-        "wording"=>array(1 => "wording Rule 1", 2 => "wording Rule 2"),
-        "ordering"=>array(1 => "ordering Rule 1", 2 => "ordering Rule 2"),
-        "style"=>array(1 => "style Rule 1", 2 => "style Rule 2"),
-        "responsiveness"=>array(1 => "responsiveness Rule 1", 2 => "responsiveness Rule 2"),
-        "accessibility"=>array(1 => "accessibility Rule 1", 2 => "accessibility Rule 2")
+        "usage" => array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
+        "composition" => array(1 => "composition Rule 1", 2 => "composition Rule 2"),
+        "interaction" => array(1 => "interaction Rule 1", 2 => "interaction Rule 2"),
+        "wording" => array(1 => "wording Rule 1", 2 => "wording Rule 2"),
+        "ordering" => array(1 => "ordering Rule 1", 2 => "ordering Rule 2"),
+        "style" => array(1 => "style Rule 1", 2 => "style Rule 2"),
+        "responsiveness" => array(1 => "responsiveness Rule 1", 2 => "responsiveness Rule 2"),
+        "accessibility" => array(1 => "accessibility Rule 1", 2 => "accessibility Rule 2")
     );
     protected $correct_rules2_array = array(
-        "usage"=>array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
-        "accessibility"=>""
+        "usage" => array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
+        "accessibility" => ""
     );
     protected $correct_rules2_array_return = array(
-        "usage"=>array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
-        "composition"=>array(),
-        "interaction"=>array(),
-        "wording"=>array(),
-        "ordering"=>array(),
-        "style"=>array(),
-        "responsiveness"=>array(),
-        "accessibility"=>array()
+        "usage" => array(1 => "Usage Rule 1", 2 => "Usage Rule 2"),
+        "composition" => array(),
+        "interaction" => array(),
+        "wording" => array(),
+        "ordering" => array(),
+        "style" => array(),
+        "responsiveness" => array(),
+        "accessibility" => array()
     );
 
     /**

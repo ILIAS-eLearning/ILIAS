@@ -44,8 +44,8 @@ class ilCourseContentGUI
         $this->lng->loadLanguageModule('crs');
         $this->tabs_gui = $ilTabs;
 
-        $this->container_gui =&$container_gui_obj;
-        $this->container_obj =&$this->container_gui->object;
+        $this->container_gui = &$container_gui_obj;
+        $this->container_obj = &$this->container_gui->object;
 
         $this->__initCourseObject();
     }
@@ -638,20 +638,20 @@ class ilCourseContentGUI
             $this->tpl->setVariable(
                 "SUG_START",
                 ilUtil::makeDateSelect(
-                                        $item_prefix . "[sug_start]",
-                                        $date['y'],
-                                        $date['m'],
-                                        $date['d'],
-                                        date('Y', time()),
-                                        false
-                                    )
+                    $item_prefix . "[sug_start]",
+                    $date['y'],
+                    $date['m'],
+                    $date['d'],
+                    date('Y', time()),
+                    false
+                )
             );
 
             $this->tpl->setVariable("NAME_DURATION_A", $item_prefix . "[duration_a]");
             if (isset($_POST['item']["$item[ref_id]"]['duration_a'])) {
                 $this->tpl->setVariable("VAL_DURATION_A", abs($_POST['item']["$item[ref_id]"]['duration_a']));
             } else {
-                $this->tpl->setVariable("VAL_DURATION_A", intval(($end-$start)/(60*60*24)));
+                $this->tpl->setVariable("VAL_DURATION_A", intval(($end - $start) / (60 * 60 * 24)));
             }
 
             $this->tpl->setVariable('SUG_END', ilDatePresentation::formatDate(new ilDate($item['suggestion_end'], IL_CAL_UNIX)));
@@ -661,13 +661,13 @@ class ilCourseContentGUI
             $this->tpl->setVariable(
                 "LIM_END",
                 ilUtil::makeDateSelect(
-                                        $item_prefix . "[lim_end]",
-                                        $date['y'],
-                                        $date['m'],
-                                        $date['d'],
-                                        date('Y', time()),
-                                        false
-                                    )
+                    $item_prefix . "[lim_end]",
+                    $date['y'],
+                    $date['m'],
+                    $date['d'],
+                    date('Y', time()),
+                    false
+                )
             );
 
             $this->tpl->setVariable("NAME_CHANGE", $item_change_prefix . "[change]");
@@ -853,7 +853,7 @@ class ilCourseContentGUI
         foreach (ilObjectActivation::getTimingsAdministrationItems($item['ref_id']) as $item_data) {
             if (($item_data['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
                ilObjectActivation::hasChangeableTimings($item_data['ref_id'])) {
-                $this->__renderUserItem($item_data, $level+1);
+                $this->__renderUserItem($item_data, $level + 1);
             }
         }
     }
@@ -1040,13 +1040,13 @@ class ilCourseContentGUI
             $this->tpl->setVariable(
                 "OWN_START",
                 ilUtil::makeDateSelect(
-                                        $item_prefix . "[own_start]",
-                                        $date['y'],
-                                        $date['m'],
-                                        $date['d'],
-                                        date('Y', time()),
-                                        false
-                                    )
+                    $item_prefix . "[own_start]",
+                    $date['y'],
+                    $date['m'],
+                    $date['d'],
+                    date('Y', time()),
+                    false
+                )
             );
 
             if ($usr_planed->getPlanedEndingTime()) {
@@ -1074,7 +1074,7 @@ class ilCourseContentGUI
         }
         
         foreach (ilObjectActivation::getTimingsItems($item['ref_id']) as $item_data) {
-            $this->__renderItem($item_data, $level+1);
+            $this->__renderItem($item_data, $level + 1);
         }
     }
 
@@ -1263,7 +1263,7 @@ class ilCourseContentGUI
             if (!$item_obj->validateActivation()) {
                 $this->failed[$ref_id] = $old_data['title'];
             }
-            $all_items[$ref_id] =&$item_obj;
+            $all_items[$ref_id] = &$item_obj;
             unset($item_obj);
         }
 
@@ -1300,10 +1300,10 @@ class ilCourseContentGUI
 
         if ($this->container_obj->getType() == 'crs') {
             // Container is course
-            $this->course_obj =&$this->container_obj;
+            $this->course_obj = &$this->container_obj;
         } else {
             $course_ref_id = $tree->checkForParentType($this->container_obj->getRefId(), 'crs');
-            $this->course_obj =&ilObjectFactory::getInstanceByRefId($course_ref_id);
+            $this->course_obj = &ilObjectFactory::getInstanceByRefId($course_ref_id);
         }
         return true;
     }

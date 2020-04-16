@@ -65,24 +65,24 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
 
         $placeholders = [];
         $placeholders['sess_title'] = [
-            'placeholder'	=> 'SESS_TITLE',
-            'label'			=> $lng->txt('sess_title')
+            'placeholder' => 'SESS_TITLE',
+            'label' => $lng->txt('sess_title')
         ];
 
         $placeholders['sess_appointment'] = [
-            'placeholder'	=> 'SESS_APPOINTMENT',
-            'label'			=> $lng->txt('event_date_time')
+            'placeholder' => 'SESS_APPOINTMENT',
+            'label' => $lng->txt('event_date_time')
         ];
 
 
         $placeholders['sess_location'] = [
-            'placeholder'	=> 'SESS_LOCATION',
-            'label'			=> $lng->txt('event_location')
+            'placeholder' => 'SESS_LOCATION',
+            'label' => $lng->txt('event_location')
         ];
 
         $placeholders['sess_details'] = [
-            'placeholder'	=> 'SESS_DETAILS',
-            'label'			=> $lng->txt('event_details_workflow')
+            'placeholder' => 'SESS_DETAILS',
+            'label' => $lng->txt('event_details_workflow')
         ];
 
         

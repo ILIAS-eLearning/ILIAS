@@ -66,13 +66,13 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
         if ($total_of_answers) {
             $rows[] = array(
                 'result' => $this->lng->txt('qpl_assessment_total_of_answers'),
-                'value'  => $total_of_answers,
+                'value' => $total_of_answers,
                 'is_percent' => false
             );
 
             $rows[] = array(
                 'result' => $this->lng->txt('qpl_assessment_total_of_right_answers'),
-                'value'  => assQuestion::_getTotalRightAnswers($this->question->getId()) * 100.0,
+                'value' => assQuestion::_getTotalRightAnswers($this->question->getId()) * 100.0,
                 'is_percent' => true
             );
         } else {

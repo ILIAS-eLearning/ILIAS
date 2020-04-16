@@ -142,18 +142,18 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             $config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin));
         }
 
-        return array("slot_name"           => $a_slot->getSlotName(),
-                     "component_type"      => $a_type,
-                     "component_name"      => $a_slot_subdir,
-                     "slot_id"             => $a_slot->getSlotId(),
-                     "plugin_id"           => $a_plugin["id"],
-                     "plugin_name"         => $a_plugin["name"],
-                     "must_install"        => $a_plugin["must_install"],
-                     "plugin_active"       => $a_plugin["is_active"],
+        return array("slot_name" => $a_slot->getSlotName(),
+                     "component_type" => $a_type,
+                     "component_name" => $a_slot_subdir,
+                     "slot_id" => $a_slot->getSlotId(),
+                     "plugin_id" => $a_plugin["id"],
+                     "plugin_name" => $a_plugin["name"],
+                     "must_install" => $a_plugin["must_install"],
+                     "plugin_active" => $a_plugin["is_active"],
                      "activation_possible" => $a_plugin["activation_possible"],
-                     "needs_update"        => $a_plugin["needs_update"],
-                     "config_class"        => $config_class,
-                     "has_lang"            => (bool) sizeof(
+                     "needs_update" => $a_plugin["needs_update"],
+                     "config_class" => $config_class,
+                     "has_lang" => (bool) sizeof(
                          ilPlugin::getAvailableLangFiles(
                              $a_slot->getPluginsDirectory() . "/" . $a_plugin["name"] . "/lang"
                          )

@@ -90,10 +90,10 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 
 For best results we RECOMMEND:
 
-  * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
+  * Debian GNU Linux 9 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
   * MySQL 5.6+
   * MariaDB 10.2
-  * PHP 7.1
+  * PHP 7.0
   * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -201,7 +201,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 
     DocumentRoot /var/www/html/ilias/
     <Directory /var/www/html/>
-        Options FollowSymLinks
+        Options FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -213,6 +213,14 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
     ErrorLog /var/log/apache2/error.log
     CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
+```
+
+In order to secure access to the files in your `data` directory, you SHOULD
+enable `mod\_rewrite` on Debian/Ubuntu (should be enabled by default on
+RHEL/CentOS):
+
+```
+a2enmod rewrite
 ```
 
 Please take care to [restrict access to the setup-folder](#secure-installation-files)
@@ -237,7 +245,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xml
+apt-get install libapache2-mod-php7.0 php7.0-gd php7.0-mysql php7.0-mbstring php-xml
 ```
 
 On RHEL/CentOS execute: 
@@ -743,7 +751,7 @@ The ILIAS Testserver (https://test54.ilias.de) is currently configured as follow
 | Distribution   | Ubuntu 16.04.1 LTS          |
 | MySQL          | MySQL 5.5.58                |
 | MariaDB        | 10.1                        |
-| PHP            | 7.1.20                      |
+| PHP            | 7.0.33                      |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |

@@ -139,30 +139,30 @@ class ilDiskQuotaSummaryNotification extends ilMailNotification
                         }
                     
                         $this->appendBody(
-                        $this->getLanguage()->txt('fullname') . ': ' .
+                            $this->getLanguage()->txt('fullname') . ': ' .
                         $user['lastname'] . ', ' . $user['firstname']
                     . "\n"
-                    );
+                        );
                         $this->appendBody(
-                        $this->getLanguage()->txt('email') . ': ' .
+                            $this->getLanguage()->txt('email') . ': ' .
                         $user['email']
                     . "\n"
-                    );
+                        );
                         $this->appendBody(
-                        $this->getLanguage()->txt('disk_quota') . ': ' .
+                            $this->getLanguage()->txt('disk_quota') . ': ' .
                         ilUtil::formatSize($user['disk_quota'], 'short', $this->getLanguage())
                     . "\n"
-                    );
+                        );
                         $this->appendBody(
-                        $this->getLanguage()->txt('currently_used_disk_space') . ': ' .
+                            $this->getLanguage()->txt('currently_used_disk_space') . ': ' .
                         ilUtil::formatSize($user['disk_usage'], 'short', $this->getLanguage())
                     . "\n"
-                    );
+                        );
                     
                         $this->appendBody(
-                        $this->getLanguage()->txt('usrf_profile_link') . ': ' .
+                            $this->getLanguage()->txt('usrf_profile_link') . ': ' .
                         ilUtil::_getHttpPath() . '/goto.php?target=usrf&client_id=' . CLIENT_ID
-                    );
+                        );
                     
                         if ($counter < $numUsers - 1) {
                             $this->appendBody("\n");

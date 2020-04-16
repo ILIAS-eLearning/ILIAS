@@ -77,7 +77,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
         $olp = ilObjectLP::getInstance($this->object->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $counter=0;
+            $counter = 0;
             foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
                     $insert_tags['[SCO_T_' . $counter . ']'] = $sahs_item['title'];
@@ -140,7 +140,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
         $olp = ilObjectLP::getInstance($this->object->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $counter=0;
+            $counter = 0;
             foreach ($collection->getPossibleItems() as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
                     $insert_tags['[SCO_T_' . $counter . ']'] = $sahs_item['title'];//." getId=".$this->object->getId()." item_id=".$item_id." user_id=".$ilUser->getId()
@@ -158,7 +158,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
                     if ($a_scores["scaled"] == null) {
                         $insert_tags['[SCO_PP_' . $counter . ']'] = $this->lng->txt("certificate_points_notavailable");
                     } else {
-                        $insert_tags['[SCO_PP_' . $counter . ']'] = number_format(($a_scores["scaled"]*100), 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
+                        $insert_tags['[SCO_PP_' . $counter . ']'] = number_format(($a_scores["scaled"] * 100), 1, $this->lng->txt("lang_sep_decimal"), $this->lng->txt("lang_sep_thousand")) . " %";
                     }
                     $counter++;
                 }
@@ -217,7 +217,7 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
         }
 
         if ($collection) {
-            $counter=0;
+            $counter = 0;
             foreach ($items as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
                     $template->setCurrentBlock("SCO");

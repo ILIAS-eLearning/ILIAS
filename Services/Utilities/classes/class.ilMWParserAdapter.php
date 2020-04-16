@@ -87,7 +87,7 @@ class ilMWFakery
         //return '<a href="'.$url.'"'.$style.'>'.$text.'</a>';
     }
     
-    public function markNoConversion($text, $noParse=false)
+    public function markNoConversion($text, $noParse = false)
     {
         return $text;
     }

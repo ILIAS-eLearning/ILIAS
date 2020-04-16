@@ -109,7 +109,7 @@ class ilGlossaryPresentationGUI
         $term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
         include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
         if (!in_array($term_glo_id, $glo_ids) && !ilGlossaryTermReferences::isReferenced($glo_ids, $this->term_id)) {
-            if ((int) $this->term_id  > 0) {
+            if ((int) $this->term_id > 0) {
                 include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
                 throw new ilGlossaryException("Term ID does not match the glossary.");
             }
@@ -267,7 +267,7 @@ class ilGlossaryPresentationGUI
             $ilToolbar->addInputItem($ai, true);
         }
         
-        $ret =  $this->listTermByGiven();
+        $ret = $this->listTermByGiven();
         $ilCtrl->setParameter($this, "term_id", "");
         
         $ilTabs->activateTab("terms");
@@ -485,7 +485,7 @@ class ilGlossaryPresentationGUI
         // toc
         if (count($defs) > 1 && $a_page_mode == IL_PAGE_PRESENTATION) {
             $tpl->setCurrentBlock("toc");
-            for ($j=1; $j<=count($defs); $j++) {
+            for ($j = 1; $j <= count($defs); $j++) {
                 $tpl->setCurrentBlock("toc_item");
                 $tpl->setVariable("TOC_DEF_NR", $j);
                 $tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
@@ -495,7 +495,7 @@ class ilGlossaryPresentationGUI
             $tpl->parseCurrentBlock();
         }
 
-        for ($j=0; $j<count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $page_gui->setGlossary($this->glossary);
@@ -529,9 +529,9 @@ class ilGlossaryPresentationGUI
                 $tpl->setCurrentBlock("definition_header");
                 $tpl->setVariable(
                     "TXT_DEFINITION",
-                    $this->lng->txt("cont_definition") . " " . ($j+1)
+                    $this->lng->txt("cont_definition") . " " . ($j + 1)
                 );
-                $tpl->setVariable("DEF_NR", ($j+1));
+                $tpl->setVariable("DEF_NR", ($j + 1));
                 $tpl->parseCurrentBlock();
             }
             
@@ -595,7 +595,7 @@ class ilGlossaryPresentationGUI
         // highlighting?
         if ($_GET["srcstring"] != "" && !$this->offlineMode()) {
             include_once './Services/Search/classes/class.ilUserSearchCache.php';
-            $cache =  ilUserSearchCache::_getInstance($ilUser->getId());
+            $cache = ilUserSearchCache::_getInstance($ilUser->getId());
             $cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
             $search_string = $cache->getQuery();
 
@@ -711,10 +711,10 @@ class ilGlossaryPresentationGUI
         $xml = "<dummy>";
         // todo: we get always the first alias now (problem if mob is used multiple
         // times in page)
-        $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-        $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-        $xml.= $link_xml;
-        $xml.="</dummy>";
+        $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+        $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+        $xml .= $link_xml;
+        $xml .= "</dummy>";
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -834,7 +834,7 @@ class ilGlossaryPresentationGUI
 
         $tbl->render();
         if (count($export_files) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($export_files as $exp_file) {
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
@@ -1052,13 +1052,13 @@ class ilGlossaryPresentationGUI
                 
                 $anc_par = 'Anchor="' . $anc . '"';
                 
-                $link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+                $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
                     "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
                 
                 $this->ctrl->clearParameters($this);
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
 
         return $link_info;
     }
@@ -1090,7 +1090,7 @@ class ilGlossaryPresentationGUI
                     break;
                 
                 default:
-                    $link.= "&amp;cmd=" . $a_cmd;
+                    $link .= "&amp;cmd=" . $a_cmd;
                     if ($a_frame != "") {
                         $this->ctrl->setParameter($this, "frame", $a_frame);
                     }
@@ -1224,7 +1224,7 @@ class ilGlossaryPresentationGUI
         }
             
         // selected terms
-        $op3= new ilRadioOption($lng->txt("cont_selected_terms"), "selection");
+        $op3 = new ilRadioOption($lng->txt("cont_selected_terms"), "selection");
         $radg->addOption($op3);
 
         include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
@@ -1313,7 +1313,7 @@ class ilGlossaryPresentationGUI
         // determine target frames for internal links
 
         foreach ($terms as $t_id) {
-            $page_content.= $this->listDefinitions($_GET["ref_id"], $t_id, true, IL_PAGE_PRINT);
+            $page_content .= $this->listDefinitions($_GET["ref_id"], $t_id, true, IL_PAGE_PRINT);
         }
         $tpl->setVariable("CONTENT", $page_content .
         '<script type="text/javascript" language="javascript1.2">

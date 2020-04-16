@@ -21,7 +21,7 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     
     protected function setUp()
     {
-        $GLOBALS['DIC']['ilDB']  = 'test';
+        $GLOBALS['DIC']['ilDB'] = 'test';
 
         require_once './Modules/TestQuestionPool/classes/class.assLongMenu.php';
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
@@ -77,8 +77,8 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_getMaximumPoints_shouldBeFour()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2', 2 => '1'),
-                                        1 => array( 0 =>array(0 => 'answer'),1 => '2', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2', 2 => '1'),
+                                        1 => array( 0 => array(0 => 'answer'),1 => '2', 2 => '1')));
         $value = $obj->getMaximumPoints();
         $this->assertEquals(4, $value);
     }
@@ -86,8 +86,8 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_getMaximumPoints_shouldBeFourPointFive()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1'),
-                                           1 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
+                                           1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $value = $obj->getMaximumPoints();
         $this->assertEquals(4.5, $value);
     }
@@ -95,8 +95,8 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_isComplete_shouldBeFalse()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1'),
-                                           1 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
+                                           1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array(1,2,3,4)));
         $this->assertEquals($obj->isComplete(), false);
     }
@@ -104,8 +104,8 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_isComplete_shouldBeTrue()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1'),
-                                           1 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
+                                           1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array(1,2,3,4)));
         $obj->setPoints(4.5);
         $obj->setTitle('LongMenu Title');
@@ -129,22 +129,22 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyCorrectAnswers()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1'),
-                                           1 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
+                                           1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseToManyCorrectAnswers()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1'),
-                                        1 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
+                                        1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerDoesNotExistsInAnswers()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(0 => 'answer'),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array(1)));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
@@ -152,7 +152,7 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoAnswers()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array(),1 => '2.25', 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array(),1 => '2.25', 2 => '1')));
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
@@ -160,7 +160,7 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoPoints()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array())));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array())));
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
@@ -168,7 +168,7 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerPointsAreZero()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array('answer'),1 => 0, 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array('answer'),1 => 0, 2 => '1')));
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
@@ -176,7 +176,7 @@ class assLongmenuTest extends PHPUnit_Framework_TestCase
     public function test_checkQuestionCustomPart_shouldBeTrue()
     {
         $obj = new assLongMenu();
-        $obj->setCorrectAnswers(array(	0 => array( 0 =>array('answer'),1 => 1, 2 => '1')));
+        $obj->setCorrectAnswers(array(	0 => array( 0 => array('answer'),1 => 1, 2 => '1')));
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), true);
     }

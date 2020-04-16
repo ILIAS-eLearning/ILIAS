@@ -23,10 +23,10 @@ class ilUserUtil
     const START_PD_CALENDAR = 10;
     const START_PD_MAIL = 11;
     const START_PD_CONTACTS = 12;
-    const START_PD_PROFILE= 13;
+    const START_PD_PROFILE = 13;
     const START_PD_SETTINGS = 14;
-    const START_REPOSITORY= 15;
-    const START_REPOSITORY_OBJ= 16;
+    const START_REPOSITORY = 15;
+    const START_REPOSITORY_OBJ = 16;
     const START_PD_MYSTAFF = 17;
     
     /**
@@ -121,7 +121,7 @@ class ilUserUtil
 
             
             if (!$a_omit_login) {
-                $pres.= "[" . $row->login . "]";
+                $pres .= "[" . $row->login . "]";
             }
 
             if ($a_profile_link && $has_public_profile) {

@@ -126,7 +126,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="il-item-group">
-<h4>group</h4><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
+<h4>group</h4><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 		<ul class="dropdown-menu">
 			<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 			<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>

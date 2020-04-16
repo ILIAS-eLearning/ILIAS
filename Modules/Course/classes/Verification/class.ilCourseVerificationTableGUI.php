@@ -67,8 +67,8 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         $data = array();
         foreach ($certificateArray as $certificate) {
             $data[] = array(
-                'id'     => $certificate->getUserCertificate()->getObjId(),
-                'title'  => $certificate->getObjectTitle(),
+                'id' => $certificate->getUserCertificate()->getObjId(),
+                'title' => $certificate->getObjectTitle(),
                 'passed' => true
             );
         }

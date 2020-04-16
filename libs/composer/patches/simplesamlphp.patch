@@ -16,3 +16,17 @@ index 81fecd3..2239a4f 100644
  
          if (isset($state['SimpleSAML_Auth_Source.ReturnURL'])) {
              $ar->setRelayState($state['SimpleSAML_Auth_Source.ReturnURL']);
+--- a/www/errorreport.php
++++ b/www/errorreport.php
+@@ -17,6 +17,11 @@
+ $email = (string) $_REQUEST['email'];
+ $text = htmlspecialchars((string) $_REQUEST['text']);
+ 
++// ilias-patch: begin
++if (!preg_match('/^[0-9a-f]{8}$/', $reportId)) {
++    throw new SimpleSAML_Error_Exception('Invalid reportID');
++}
++// ilias-patch: end
+ $data = null;
+ try {
+     $session = SimpleSAML_Session::getSessionFromRequest();

@@ -51,7 +51,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         parent::__construct();
 
         $ilAccess = $DIC->access();
-        $ilSetting =  $DIC->settings();
+        $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
         $rbacsystem = $DIC->rbac()->system();
 

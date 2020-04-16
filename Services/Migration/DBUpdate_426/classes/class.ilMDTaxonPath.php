@@ -141,12 +141,12 @@ class ilMDTaxonPath extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'source'	=> ilUtil::prepareDBString($this->getSource()),
+                     'source' => ilUtil::prepareDBString($this->getSource()),
                      'source_language' => ilUtil::prepareDBString($this->getSourceLanguageCode()));
     }
 
@@ -187,7 +187,7 @@ class ilMDTaxonPath extends ilMDBase
 
         // Taxon
         foreach ($this->getTaxonIds() as $id) {
-            $tax =&$this->getTaxon($id);
+            $tax = &$this->getTaxon($id);
             $tax->toXML($writer);
         }
         

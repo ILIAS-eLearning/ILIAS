@@ -48,7 +48,7 @@ class ilAccountCode
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
         
         $code = "";
-        $max = strlen($map)-1;
+        $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
             $code .= $map[mt_rand(0, $max)];
         }
@@ -137,10 +137,10 @@ class ilAccountCode
             $where[] = $ilDB->like("code", "text", "%" . $filter_code . "%");
         }
         if ($filter_valid_until) {
-            $where[] ="valid_until = " . $ilDB->quote($filter_valid_until, "text");
+            $where[] = "valid_until = " . $ilDB->quote($filter_valid_until, "text");
         }
         if ($filter_generated) {
-            $where[] ="generated = " . $ilDB->quote($filter_generated, "text");
+            $where[] = "generated = " . $ilDB->quote($filter_generated, "text");
         }
         if (sizeof($where)) {
             return " WHERE " . implode(" AND ", $where);
@@ -194,7 +194,7 @@ class ilAccountCode
         include_once './Services/Registration/classes/class.ilRegistrationCode.php';
         return (bool) ilRegistrationCode::useCode($code);
 
-        return (bool) $ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
+        return (bool) $ilDB->update(self::DB_TABLE, array("used" => array("timestamp", time())), array("code" => array("text", $code)));
     }
 
     public static function getCodeValidUntil($code)

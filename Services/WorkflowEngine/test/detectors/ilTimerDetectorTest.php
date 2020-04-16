@@ -38,7 +38,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         global $ilSetting;
-        if ($ilSetting !=  null) {
+        if ($ilSetting != null) {
             $ilSetting->delete('IL_PHPUNIT_TEST_TIME');
             $ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
@@ -75,7 +75,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $expected = 5*60*60;
+        $expected = 5 * 60 * 60;
         
         // Act
         $detector->setTimerLimit($expected);
@@ -90,7 +90,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
         // Arrange
         $detector = new ilTimerDetector($this->node);
         $timer_start = ilWorkflowUtils::time(); # +5 Minutes from here.
-        $timer_limit = 5*60;
+        $timer_limit = 5 * 60;
         $detector->setTimerStart($timer_start);
         $detector->setTimerLimit($timer_limit);
         
@@ -140,7 +140,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() + 5*60; # +5 Minutes from here.
+        $timer_start = ilWorkflowUtils::time() + 5 * 60; # +5 Minutes from here.
         $timer_end = 0;
         $detector->setListeningTimeframe($timer_start, $timer_end);
         
@@ -155,7 +155,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() + 5*60; # +5 Minutes from here.
+        $timer_start = ilWorkflowUtils::time() + 5 * 60; # +5 Minutes from here.
         $timer_end = 0;
         
         // Act
@@ -187,8 +187,8 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() - 5*60; # -5 Minutes from now.
-        $timer_end = ilWorkflowUtils::time() - 1*60; # -1 Minute from now.
+        $timer_start = ilWorkflowUtils::time() - 5 * 60; # -5 Minutes from now.
+        $timer_end = ilWorkflowUtils::time() - 1 * 60; # -1 Minute from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
         // Act
@@ -202,7 +202,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() - 5*60; # -5 Minutes from now.
+        $timer_start = ilWorkflowUtils::time() - 5 * 60; # -5 Minutes from now.
         $timer_end = 0; # Wildcard.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
@@ -218,7 +218,7 @@ class ilTimerDetectorTest extends PHPUnit_Framework_TestCase
         // Arrange
         $detector = new ilTimerDetector($this->node);
         $timer_start = 0; # Wildcard.
-        $timer_end = ilWorkflowUtils::time() + 5*60; # +5 Minutes from now.
+        $timer_end = ilWorkflowUtils::time() + 5 * 60; # +5 Minutes from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
         // Act

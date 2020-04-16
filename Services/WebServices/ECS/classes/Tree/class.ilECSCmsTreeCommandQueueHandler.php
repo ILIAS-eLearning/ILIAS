@@ -189,11 +189,11 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
         // Mark all nodes in cms data as deleted
         include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
         ilECSCmsData::writeAllDeleted(
-           $this->getServer()->getServerId(),
-           $this->mid,
-           $a_content_id,
-           true
-       );
+            $this->getServer()->getServerId(),
+            $this->mid,
+            $a_content_id,
+            true
+        );
        
         // Check for update or new entry
         $cms_tree = $nodes;

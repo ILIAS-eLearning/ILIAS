@@ -146,7 +146,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 }
 
                 $cmd .= 'Cmd';
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -264,7 +264,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
     {
         $_SESSION['tst_pass_finish'] = 0;
 
-        $_SESSION["active_time_id"]= $this->object->startWorkingTime(
+        $_SESSION["active_time_id"] = $this->object->startWorkingTime(
             $this->testSession->getActiveId(),
             $this->testSession->getPass()
         );

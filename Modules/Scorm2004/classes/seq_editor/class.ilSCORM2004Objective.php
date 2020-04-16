@@ -31,7 +31,7 @@ class ilSCORM2004Objective extends ilSCORM2004Item
     private $satisfiedByMeasure = false;
     
     //mappings
-    private $mappings =array();
+    private $mappings = array();
     
     /**
     * Constructor
@@ -41,19 +41,19 @@ class ilSCORM2004Objective extends ilSCORM2004Item
     {
         parent::__construct($a_treeid);
         
-        if ($a_obj_id !=null && $a_treeid != null) {
+        if ($a_obj_id != null && $a_treeid != null) {
             $xpath_obj = new DOMXPath($this->dom);
             $obj_node_list = $xpath_obj->query('//objective[@objectiveID = "' . $a_obj_id . '"] | ' .
                                                '//primaryObjective[@objectiveID = "' . $a_obj_id . '"]');
             $this->setNode($obj_node_list->item(0));
         } else {
-            if ($a_obj_id ==null &&  $a_treeid != null) {
+            if ($a_obj_id == null && $a_treeid != null) {
                 $obj_con = $this->dom->createElement("objectives");
                 $obj = $this->dom->createElement("primaryObjective");
                 $root = $this->dom->getElementsByTagName("sequencing")->item(0);
                 $obj_con->appendChild($obj);
                 $root->appendChild($obj_con);
-                $this->node =$this->dom->getElementsByTagName("primaryObjective")->item(0);
+                $this->node = $this->dom->getElementsByTagName("primaryObjective")->item(0);
             }
         }
     }
@@ -164,7 +164,7 @@ class ilSCORM2004Objective extends ilSCORM2004Item
         $seq_item = new ilSCORM2004Item($a_tree_node_id);
         $xpath_obj = new DOMXPath($seq_item->dom);
         $obj_node_list = $xpath_obj->query('//objective | //primaryObjective');
-        for ($i=0;$i<$obj_node_list->length;$i++) {
+        for ($i = 0;$i < $obj_node_list->length;$i++) {
             $obj = new ilSCORM2004Objective();
             $obj->setNode($obj_node_list->item($i));
             $mapping_node_list = $xpath_obj->query('//objective | //primaryObjective');

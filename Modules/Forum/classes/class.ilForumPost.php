@@ -112,20 +112,20 @@ class ilForumPost
             $this->id = $this->db->nextId('frm_posts');
             
             $this->db->insert('frm_posts', array(
-                'pos_pk'		=> array('integer', $this->id),
-                'pos_top_fk'	=> array('integer', $this->forum_id),
-                'pos_thr_fk'	=> array('integer', $this->thread_id),
-                'pos_display_user_id'	=> array('integer', $this->display_user_id),
-                'pos_usr_alias'	=> array('text', $this->user_alias),
-                'pos_subject'	=> array('text', $this->subject),
-                'pos_message'	=> array('clob', $this->message),
-                'pos_date'		=> array('timestamp', $this->createdate),
-                'pos_update'	=> array('timestamp', $this->createdate),
-                'update_user'	=> array('integer', $this->user_id_update),
-                'pos_cens'		=> array('integer', $this->censored),
-                'notify'		=> array('integer', (int) $this->notification),
-                'import_name'	=> array('text', (string) $this->import_name),
-                'pos_status'	=> array('integer', (int) $this->status),
+                'pos_pk' => array('integer', $this->id),
+                'pos_top_fk' => array('integer', $this->forum_id),
+                'pos_thr_fk' => array('integer', $this->thread_id),
+                'pos_display_user_id' => array('integer', $this->display_user_id),
+                'pos_usr_alias' => array('text', $this->user_alias),
+                'pos_subject' => array('text', $this->subject),
+                'pos_message' => array('clob', $this->message),
+                'pos_date' => array('timestamp', $this->createdate),
+                'pos_update' => array('timestamp', $this->createdate),
+                'update_user' => array('integer', $this->user_id_update),
+                'pos_cens' => array('integer', $this->censored),
+                'notify' => array('integer', (int) $this->notification),
+                'import_name' => array('text', (string) $this->import_name),
+                'pos_status' => array('integer', (int) $this->status),
                 'pos_author_id' => array('integer', (int) $this->pos_author_id),
                 'is_author_moderator' => array('integer', $this->is_author_moderator),
                 'pos_activation_date' => array('timestamp', $this->createdate)
@@ -143,20 +143,20 @@ class ilForumPost
             $this->db->update(
                 'frm_posts',
                 array(
-                    'pos_top_fk'	=> array('integer', $this->forum_id),
-                    'pos_thr_fk'	=> array('integer', $this->thread_id),
-                    'pos_subject'	=> array('text', $this->subject),
-                    'pos_message'	=> array('clob', $this->message),
-                    'pos_update'	=> array('timestamp', $this->changedate),
-                    'update_user'	=> array('integer', $this->user_id_update),
-                    'pos_cens'		=> array('integer', $this->censored),
+                    'pos_top_fk' => array('integer', $this->forum_id),
+                    'pos_thr_fk' => array('integer', $this->thread_id),
+                    'pos_subject' => array('text', $this->subject),
+                    'pos_message' => array('clob', $this->message),
+                    'pos_update' => array('timestamp', $this->changedate),
+                    'update_user' => array('integer', $this->user_id_update),
+                    'pos_cens' => array('integer', $this->censored),
                     'pos_cens_date' => array('timestamp', $this->censored_date),
-                    'pos_cens_com'	=> array('text', $this->censorship_comment),
-                    'notify'		=> array('integer', (int) $this->notification),
-                    'pos_status'	=> array('integer', (int) $this->status)
+                    'pos_cens_com' => array('text', $this->censorship_comment),
+                    'notify' => array('integer', (int) $this->notification),
+                    'pos_status' => array('integer', (int) $this->status)
                 ),
                 array(
-                    'pos_pk'		=> array('integer', (int) $this->id)
+                    'pos_pk' => array('integer', (int) $this->id)
                 )
             );
             
@@ -186,28 +186,28 @@ class ilForumPost
             $row = $this->db->fetchObject($res);
             
             if (is_object($row)) {
-                $this->id                 = $row->pos_pk;
-                $this->forum_id           = $row->pos_top_fk;
-                $this->thread_id          = $row->pos_thr_fk;
-                $this->display_user_id    = $row->pos_display_user_id;
-                $this->user_alias         = $row->pos_usr_alias;
-                $this->subject            = $row->pos_subject;
-                $this->message            = $row->pos_message;
-                $this->createdate         = $row->pos_date;
-                $this->changedate         = $row->pos_update;
-                $this->user_id_update     = $row->update_user;
-                $this->censored           = $row->pos_cens;
-                $this->censored_date      = $row->pos_cens_date;
+                $this->id = $row->pos_pk;
+                $this->forum_id = $row->pos_top_fk;
+                $this->thread_id = $row->pos_thr_fk;
+                $this->display_user_id = $row->pos_display_user_id;
+                $this->user_alias = $row->pos_usr_alias;
+                $this->subject = $row->pos_subject;
+                $this->message = $row->pos_message;
+                $this->createdate = $row->pos_date;
+                $this->changedate = $row->pos_update;
+                $this->user_id_update = $row->update_user;
+                $this->censored = $row->pos_cens;
+                $this->censored_date = $row->pos_cens_date;
                 $this->censorship_comment = $row->pos_cens_com;
-                $this->notification       = $row->notify;
-                $this->import_name        = $row->import_name;
-                $this->status             = $row->pos_status;
-                $this->tree_id            = $row->fpt_pk;
-                $this->parent_id          = $row->parent_pos;
-                $this->lft                = $row->lft;
-                $this->rgt                = $row->rgt;
-                $this->depth              = $row->depth;
-                $this->pos_author_id      = $row->pos_author_id;
+                $this->notification = $row->notify;
+                $this->import_name = $row->import_name;
+                $this->status = $row->pos_status;
+                $this->tree_id = $row->fpt_pk;
+                $this->parent_id = $row->parent_pos;
+                $this->lft = $row->lft;
+                $this->rgt = $row->rgt;
+                $this->depth = $row->depth;
+                $this->pos_author_id = $row->pos_author_id;
                 $this->is_author_moderator = $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
                 $this->getUserData();
@@ -305,9 +305,9 @@ class ilForumPost
             $now = date("Y-m-d H:i:s");
             $this->db->update(
                 'frm_posts',
-                array('pos_status'	=>	array('integer', 1),
+                array('pos_status' => array('integer', 1),
                       'pos_activation_date' => array('timestamp', $now)),
-                array('pos_pk'		=>	array('integer', $this->id))
+                array('pos_pk' => array('integer', $this->id))
             );
 
             $this->activateParentPosts();
@@ -337,9 +337,9 @@ class ilForumPost
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
+                    array('pos_status' => array('integer', 1),
                           'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    array('pos_pk' => array('integer', $row['pos_pk']))
                 );
             }
             
@@ -367,9 +367,9 @@ class ilForumPost
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
+                    array('pos_status' => array('integer', 1),
                           'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    array('pos_pk' => array('integer', $row['pos_pk']))
                 );
             }
             

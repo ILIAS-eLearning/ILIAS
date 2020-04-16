@@ -91,9 +91,9 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         // now compute control information
         foreach ($this->data["data"] as $key => $val) {
             $this->data["ctrl"][$key] = array(
-                                            "ref_id"	=> $this->id,
-                                            "obj_id"	=> $val["obj_id"],
-                                            "type"		=> $val["type"],
+                                            "ref_id" => $this->id,
+                                            "obj_id" => $val["obj_id"],
+                                            "type" => $val["type"],
                                             );
 
             unset($this->data["data"][$key]["obj_id"]);
@@ -160,12 +160,12 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 
         if (is_array($this->data["data"][0])) {
             //table cell
-            for ($i=0; $i < count($this->data["data"]); $i++) {
+            for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
                 $ctrl = $this->data["ctrl"][$i];
 
                 // color changing
-                $css_row = ilUtil::switchColor($i+1, "tblrow1", "tblrow2");
+                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -252,7 +252,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:

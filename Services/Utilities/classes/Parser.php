@@ -314,7 +314,7 @@ class Parser
         }
 
         $this->mOptions = $options;
-        $this->mTitle =&$title;
+        $this->mTitle = &$title;
         $oldRevisionId = $this->mRevisionId;
         $oldRevisionTimestamp = $this->mRevisionTimestamp;
         if ($revid !== null) {
@@ -506,16 +506,16 @@ class Parser
             }
             if (count($p) > 5) {
                 // comment
-                $element    = $p[4];
+                $element = $p[4];
                 $attributes = '';
-                $close      = '';
-                $inside     = $p[5];
+                $close = '';
+                $inside = $p[5];
             } else {
                 // tag
-                $element    = $p[1];
+                $element = $p[1];
                 $attributes = $p[2];
-                $close      = $p[3];
-                $inside     = $p[4];
+                $close = $p[3];
+                $inside = $p[4];
             }
 
             $marker = "$uniq_prefix-$element-" . sprintf('%08X', $n++) . '-QINU';
@@ -924,7 +924,7 @@ class Parser
                 array_push($tr_history, false);
                 array_push($td_history, false);
                 array_push($last_tag_history, '');
-            } elseif ($first_character == '|' || $first_character == '!' || substr($line, 0, 2)  == '|+') {
+            } elseif ($first_character == '|' || $first_character == '!' || substr($line, 0, 2) == '|+') {
                 // This might be cell elements, td, th or captions
                 if (substr($line, 0, 2) == '|+') {
                     $first_character = '+';
@@ -1066,7 +1066,7 @@ class Parser
         $this->stripNoGallery($text);
         $text = $this->doHeadings($text);
         if ($this->mOptions->getUseDynamicDates()) {
-            $df =&DateFormatter::getInstance();
+            $df = &DateFormatter::getInstance();
             $text = $df->reformat($this->mOptions->getDateFormat(), $text);
         }
         $text = $this->doAllQuotes($text);
@@ -1210,13 +1210,13 @@ class Parser
                     # If there are ever four apostrophes, assume the first is supposed to
                     # be text, and the remaining three constitute mark-up for bold text.
                     if (strlen($arr[$i]) == 4) {
-                        $arr[$i-1] .= "'";
+                        $arr[$i - 1] .= "'";
                         $arr[$i] = "'''";
                     }
                     # If there are more than 5 apostrophes in a row, assume they're all
                     # text except for the last 5.
                     elseif (strlen($arr[$i]) > 5) {
-                        $arr[$i-1] .= str_repeat("'", strlen($arr[$i]) - 5);
+                        $arr[$i - 1] .= str_repeat("'", strlen($arr[$i]) - 5);
                         $arr[$i] = "'''''";
                     }
                     # Count the number of occurrences of bold and italics mark-ups.
@@ -1244,8 +1244,8 @@ class Parser
                 $firstspace = -1;
                 foreach ($arr as $r) {
                     if (($i % 2 == 1) and (strlen($r) == 3)) {
-                        $x1 = substr($arr[$i-1], -1);
-                        $x2 = substr($arr[$i-1], -2, 1);
+                        $x1 = substr($arr[$i - 1], -1);
+                        $x2 = substr($arr[$i - 1], -2, 1);
                         if ($x1 == ' ') {
                             if ($firstspace == -1) {
                                 $firstspace = $i;
@@ -1266,19 +1266,19 @@ class Parser
                 # If there is a single-letter word, use it!
                 if ($firstsingleletterword > -1) {
                     $arr [ $firstsingleletterword ] = "''";
-                    $arr [ $firstsingleletterword-1 ] .= "'";
+                    $arr [ $firstsingleletterword - 1 ] .= "'";
                 }
                 # If not, but there's a multi-letter word, use that one.
                 elseif ($firstmultiletterword > -1) {
                     $arr [ $firstmultiletterword ] = "''";
-                    $arr [ $firstmultiletterword-1 ] .= "'";
+                    $arr [ $firstmultiletterword - 1 ] .= "'";
                 }
                 # ... otherwise use the first one that has neither.
                 # (notice that it is possible for all three to be -1 if, for example,
                 # there is only one pentuple-apostrophe in the line)
                 elseif ($firstspace > -1) {
                     $arr [ $firstspace ] = "''";
-                    $arr [ $firstspace-1 ] .= "'";
+                    $arr [ $firstspace - 1 ] .= "'";
                 }
             }
 
@@ -1392,7 +1392,7 @@ class Parser
         $s = $this->replaceFreeExternalLinks(array_shift($bits));
 
         $i = 0;
-        while ($i<count($bits)) {
+        while ($i < count($bits)) {
             $url = $bits[$i++];
             $protocol = $bits[$i++];
             $text = $bits[$i++];
@@ -1679,7 +1679,7 @@ class Parser
                     $prefix = $m[2];
                     $s = $m[1];
                 } else {
-                    $prefix='';
+                    $prefix = '';
                 }
                 # first link
                 if ($first_prefix) {
@@ -1768,7 +1768,7 @@ class Parser
                 wfProfileIn("$fname-might_be_img");
                 if ($ns == NS_IMAGE && $noforce) { #but might be an image
                     $found = false;
-                    while (isset($a[$k+1])) {
+                    while (isset($a[$k + 1])) {
                         #look at the next 'line' to see if we can close it there
                         $spliced = array_splice($a, $k + 1, 1);
                         $next_line = array_shift($spliced);
@@ -1927,7 +1927,7 @@ class Parser
             if ($nt->isExternal()) {
                 $nr = array_push($this->mInterwikiLinkHolders['texts'], $prefix . $text . $inside);
                 $this->mInterwikiLinkHolders['titles'][] = $nt;
-                $retVal = '<!--IWLINK ' . ($nr-1) . "-->{$trail}";
+                $retVal = '<!--IWLINK ' . ($nr - 1) . "-->{$trail}";
             } else {
                 $nr = array_push($this->mLinkHolders['namespaces'], $nt->getNamespace());
                 $this->mLinkHolders['dbkeys'][] = $nt->getDBkey();
@@ -1935,7 +1935,7 @@ class Parser
                 $this->mLinkHolders['texts'][] = $prefix . $text . $inside;
                 $this->mLinkHolders['titles'][] = $nt;
 
-                $retVal = '<!--LINK ' . ($nr-1) . "-->{$trail}";
+                $retVal = '<!--LINK ' . ($nr - 1) . "-->{$trail}";
             }
         }
         wfProfileOut(__METHOD__);
@@ -2232,11 +2232,11 @@ class Parser
                 $paragraphStack = false;
 
                 while ($commonPrefixLength < $lastPrefixLength) {
-                    $output .= $this->closeList($lastPrefix{$lastPrefixLength-1});
+                    $output .= $this->closeList($lastPrefix{$lastPrefixLength - 1});
                     --$lastPrefixLength;
                 }
                 if ($prefixLength <= $commonPrefixLength && $commonPrefixLength > 0) {
-                    $output .= $this->nextItem($pref{$commonPrefixLength-1});
+                    $output .= $this->nextItem($pref{$commonPrefixLength - 1});
                 }
                 while ($prefixLength > $commonPrefixLength) {
                     $char = substr($pref, $commonPrefixLength, 1);
@@ -2323,7 +2323,7 @@ class Parser
             }
         }
         while ($prefixLength) {
-            $output .= $this->closeList($pref2{$prefixLength-1});
+            $output .= $this->closeList($pref2{$prefixLength - 1});
             --$prefixLength;
         }
         if ('' != $this->mLastSection) {
@@ -2359,7 +2359,7 @@ class Parser
         if ($lt === false || $lt > $pos) {
             // Easy; no tag nesting to worry about
             $before = substr($str, 0, $pos);
-            $after = substr($str, $pos+1);
+            $after = substr($str, $pos + 1);
             wfProfileOut($fname);
             return $pos;
         }
@@ -2666,9 +2666,9 @@ class Parser
             case 'numberofpages':
                 return $varCache[$index] = $wgContLang->formatNum(SiteStats::pages());
             case 'numberofadmins':
-                return $varCache[$index]  = $wgContLang->formatNum(SiteStats::admins());
+                return $varCache[$index] = $wgContLang->formatNum(SiteStats::admins());
             case 'numberofedits':
-                return $varCache[$index]  = $wgContLang->formatNum(SiteStats::edits());
+                return $varCache[$index] = $wgContLang->formatNum(SiteStats::edits());
             case 'currenttimestamp':
                 return $varCache[$index] = wfTimestampNow();
             case 'localtimestamp':
@@ -2711,7 +2711,7 @@ class Parser
 
         $this->mVariables = array();
         foreach ($variableIDs as $id) {
-            $mw =&MagicWord::get($id);
+            $mw = &MagicWord::get($id);
             $mw->addToArray($this->mVariables, $id);
         }
         wfProfileOut($fname);
@@ -2844,7 +2844,7 @@ class Parser
                                      'text' => substr($text, $pieceStart, $pieceEnd - $pieceStart),
                                      'title' => trim($openingBraceStack[$lastOpeningBrace]['title']),
                                      'parts' => $openingBraceStack[$lastOpeningBrace]['parts'],
-                                     'lineStart' => (($pieceStart > 0) && ($text[$pieceStart-1] == "\n")),
+                                     'lineStart' => (($pieceStart > 0) && ($text[$pieceStart - 1] == "\n")),
                                      );
                     # finally we can call a user callback and replace piece of text
                     $replaceWith = call_user_func($matchingCallback, $cbArgs);
@@ -2950,7 +2950,7 @@ class Parser
                 ),
                 '[' => array(
                     'end' => ']',
-                    'cb' => array(2=>null),
+                    'cb' => array(2 => null),
                     'min' => 2,
                     'max' => 2,
                 )
@@ -2976,7 +2976,7 @@ class Parser
         $skip = false;
         if ($this->mOutputType == OT_WIKI) {
             # Do only magic variables prefixed by SUBST
-            $mwSubst =&MagicWord::get('subst');
+            $mwSubst = &MagicWord::get('subst');
             if (!$mwSubst->matchStartAndRemove($varname)) {
                 $skip = true;
             }
@@ -2987,7 +2987,7 @@ class Parser
         if (!$skip && array_key_exists($varname, $this->mVariables)) {
             $id = $this->mVariables[$varname];
             # Now check if we did really match, case sensitive or not
-            $mw =&MagicWord::get($id);
+            $mw = &MagicWord::get($id);
             if ($mw->match($matches[1])) {
                 $text = $this->getVariableValue($id);
                 $this->mOutput->mContainsOldMagic = true;
@@ -3013,7 +3013,7 @@ class Parser
                 $assocArgs[$index++] = $arg;
             } else {
                 $name = trim(substr($arg, 0, $eqpos));
-                $value = trim(substr($arg, $eqpos+1));
+                $value = trim(substr($arg, $eqpos + 1));
                 if ($value === false) {
                     $value = '';
                 }
@@ -3082,7 +3082,7 @@ class Parser
         # SUBST
         wfProfileIn(__METHOD__ . '-modifiers');
         if (!$found) {
-            $mwSubst =&MagicWord::get('subst');
+            $mwSubst = &MagicWord::get('subst');
             if ($mwSubst->matchStartAndRemove($part1) xor $this->ot['wiki']) {
                 # One of two possibilities is true:
                 # 1) Found SUBST but not in the PST phase
@@ -3098,17 +3098,17 @@ class Parser
         # MSG, MSGNW and RAW
         if (!$found) {
             # Check for MSGNW:
-            $mwMsgnw =&MagicWord::get('msgnw');
+            $mwMsgnw = &MagicWord::get('msgnw');
             if ($mwMsgnw->matchStartAndRemove($part1)) {
                 $nowiki = true;
             } else {
                 # Remove obsolete MSG:
-                $mwMsg =&MagicWord::get('msg');
+                $mwMsg = &MagicWord::get('msg');
                 $mwMsg->matchStartAndRemove($part1);
             }
 
             # Check for RAW:
-            $mwRaw =&MagicWord::get('raw');
+            $mwRaw = &MagicWord::get('raw');
             if ($mwRaw->matchStartAndRemove($part1)) {
                 $forceRawInterwiki = true;
             }
@@ -3581,7 +3581,7 @@ class Parser
      * @param boolean $isMain
      * @private
      */
-    public function formatHeadings($text, $isMain=true)
+    public function formatHeadings($text, $isMain = true)
     {
         global $wgMaxTocLevel, $wgContLang;
 
@@ -3593,7 +3593,7 @@ class Parser
         }
 
         # Inhibit editsection links if requested in the page
-        $esw =&MagicWord::get('noeditsection');
+        $esw = &MagicWord::get('noeditsection');
         if ($esw->matchAndRemove($text)) {
             $showEditLink = 0;
         }
@@ -3610,14 +3610,14 @@ class Parser
 
         # Allow user to stipulate that a page should have a "new section"
         # link added via __NEWSECTIONLINK__
-        $mw =&MagicWord::get('newsectionlink');
+        $mw = &MagicWord::get('newsectionlink');
         if ($mw->matchAndRemove($text)) {
             $this->mOutput->setNewSection(true);
         }
 
         # if the string __FORCETOC__ (not case-sensitive) occurs in the HTML,
         # override above conditions and always show TOC above first header
-        $mw =&MagicWord::get('forcetoc');
+        $mw = &MagicWord::get('forcetoc');
         if ($mw->matchAndRemove($text)) {
             $this->mShowToc = true;
             $enoughToc = true;
@@ -3672,7 +3672,7 @@ class Parser
                     # Increase TOC level
                     $toclevel++;
                     $sublevelCount[$toclevel] = 0;
-                    if ($toclevel<$wgMaxTocLevel) {
+                    if ($toclevel < $wgMaxTocLevel) {
                         $toc .= $sk->tocIndent();
                     }
                 } elseif ($level < $prevlevel && $toclevel > 1) {
@@ -3694,12 +3694,12 @@ class Parser
                             }
                         }
                     }
-                    if ($toclevel<$wgMaxTocLevel) {
+                    if ($toclevel < $wgMaxTocLevel) {
                         $toc .= $sk->tocUnindent($prevtoclevel - $toclevel);
                     }
                 } else {
                     # No change in level, end TOC line
-                    if ($toclevel<$wgMaxTocLevel) {
+                    if ($toclevel < $wgMaxTocLevel) {
                         $toc .= $sk->tocLineEnd();
                     }
                 }
@@ -3753,12 +3753,12 @@ class Parser
 
             # count how many in assoc. array so we can track dupes in anchors
             isset($refers[$canonized_headline]) ? $refers[$canonized_headline]++ : $refers[$canonized_headline] = 1;
-            $refcount[$headlineCount]=$refers[$canonized_headline];
+            $refcount[$headlineCount] = $refers[$canonized_headline];
 
             # Don't number the heading if it is the only one (looks silly)
             if ($doNumberHeadings && count($matches[3]) > 1) {
                 # the two are different if the line contains a link
-                $headline=$numbering . ' ' . $headline;
+                $headline = $numbering . ' ' . $headline;
             }
 
             # Create the anchor for linking from the TOC to the section
@@ -3766,7 +3766,7 @@ class Parser
             if ($refcount[$headlineCount] > 1) {
                 $anchor .= '_' . $refcount[$headlineCount];
             }
-            if ($enoughToc && (!isset($wgMaxTocLevel) || $toclevel<$wgMaxTocLevel)) {
+            if ($enoughToc && (!isset($wgMaxTocLevel) || $toclevel < $wgMaxTocLevel)) {
                 $toc .= $sk->tocLine($anchor, $tocline, $numbering, $toclevel);
             }
             # give headline the correct <h#> tag
@@ -3774,7 +3774,7 @@ class Parser
                 if ($istemplate) {
                     $editlink = $sk->editSectionLinkForOther($templatetitle, $templatesection);
                 } else {
-                    $editlink = $sk->editSectionLink($this->mTitle, $sectionCount+1, $headline_hint);
+                    $editlink = $sk->editSectionLink($this->mTitle, $sectionCount + 1, $headline_hint);
                 }
             } else {
                 $editlink = '';
@@ -3788,7 +3788,7 @@ class Parser
         }
 
         if ($enoughToc) {
-            if ($toclevel<$wgMaxTocLevel) {
+            if ($toclevel < $wgMaxTocLevel) {
                 $toc .= $sk->tocUnindent($toclevel - 1);
             }
             $toc = $sk->tocList($toc);
@@ -3841,7 +3841,7 @@ class Parser
     public function preSaveTransform($text, &$title, $user, $options, $clearState = true)
     {
         $this->mOptions = $options;
-        $this->mTitle =&$title;
+        $this->mTitle = &$title;
         $this->setOutputType(OT_WIKI);
 
         if ($clearState) {
@@ -4018,7 +4018,7 @@ class Parser
      */
     public function startExternalParse(&$title, $options, $outputType, $clearState = true)
     {
-        $this->mTitle =&$title;
+        $this->mTitle = &$title;
         $this->mOptions = $options;
         $this->setOutputType($outputType);
         if ($clearState) {
@@ -4174,7 +4174,7 @@ class Parser
         $pdbks = array();
         $colours = array();
         $sk = $this->mOptions->getSkin();
-        $linkCache =&LinkCache::singleton();
+        $linkCache = &LinkCache::singleton();
 
         if (!empty($this->mLinkHolders['namespaces'])) {
             wfProfileIn($fname . '-check');
@@ -4211,7 +4211,7 @@ class Parser
                     # Not in the link cache, add it to the query
                     if (!isset($current)) {
                         $current = $ns;
-                        $query =  "SELECT page_id, page_namespace, page_title";
+                        $query = "SELECT page_id, page_namespace, page_title";
                         if ($threshold > 0) {
                             $query .= ', page_len, page_is_redirect';
                         }
@@ -4244,7 +4244,7 @@ class Parser
                     $linkCache->addGoodLinkObj($s->page_id, $title);
                     $this->mOutput->addLink($title, $s->page_id);
 
-                    if ($threshold >  0) {
+                    if ($threshold > 0) {
                         $size = $s->page_len;
                         if ($s->page_is_redirect || $s->page_namespace != 0 || $size >= $threshold) {
                             $colours[$pdbk] = 1;
@@ -4315,7 +4315,7 @@ class Parser
                     // construct query
                     $titleClause = $linkBatch->constructSet('page', $dbr);
 
-                    $variantQuery =  "SELECT page_id, page_namespace, page_title";
+                    $variantQuery = "SELECT page_id, page_namespace, page_title";
                     if ($threshold > 0) {
                         $variantQuery .= ', page_len, page_is_redirect';
                     }
@@ -4356,7 +4356,7 @@ class Parser
 
                                 // set pdbk and colour
                                 $pdbks[$key] = $varPdbk;
-                                if ($threshold >  0) {
+                                if ($threshold > 0) {
                                     $size = $s->page_len;
                                     if ($s->page_is_redirect || $s->page_namespace != 0 || $size >= $threshold) {
                                         $colours[$varPdbk] = 1;
@@ -4373,13 +4373,13 @@ class Parser
                         if (isset($categoryMap[$vardbk])) {
                             $oldkey = $categoryMap[$vardbk];
                             if ($oldkey != $vardbk) {
-                                $varCategories[$oldkey]=$vardbk;
+                                $varCategories[$oldkey] = $vardbk;
                             }
                         }
                     }
 
                     // rebuild the categories in original order (if there are replacements)
-                    if (count($varCategories)>0) {
+                    if (count($varCategories) > 0) {
                         $newCats = array();
                         $originalCats = $this->mOutput->getCategories();
                         foreach ($originalCats as $cat => $sortkey) {
@@ -4492,7 +4492,7 @@ class Parser
     public function replaceLinkHoldersTextCallback($matches)
     {
         $type = $matches[1];
-        $key  = $matches[2];
+        $key = $matches[2];
         if ($type == 'LINK') {
             if (isset($this->mLinkHolders['texts'][$key])) {
                 return $this->mLinkHolders['texts'][$key];
@@ -4564,7 +4564,7 @@ class Parser
                 continue;
             }
             $tp = Title::newFromText($matches[1]);
-            $nt =&$tp;
+            $nt = &$tp;
             if (is_null($nt)) {
                 # Bogus title. Ignore these so we don't bomb out later.
                 continue;
@@ -4626,13 +4626,13 @@ class Parser
         $mwAlign = array();
         $alignments = array( 'left', 'right', 'center', 'none', 'baseline', 'sub', 'super', 'top', 'text-top', 'middle', 'bottom', 'text-bottom' );
         foreach ($alignments as $alignment) {
-            $mwAlign[$alignment] =&MagicWord::get('img_' . $alignment);
+            $mwAlign[$alignment] = &MagicWord::get('img_' . $alignment);
         }
-        $mwThumb  =&MagicWord::get('img_thumbnail');
-        $mwManualThumb =&MagicWord::get('img_manualthumb');
-        $mwWidth  =&MagicWord::get('img_width');
-        $mwFramed =&MagicWord::get('img_framed');
-        $mwPage   =&MagicWord::get('img_page');
+        $mwThumb = &MagicWord::get('img_thumbnail');
+        $mwManualThumb = &MagicWord::get('img_manualthumb');
+        $mwWidth = &MagicWord::get('img_width');
+        $mwFramed = &MagicWord::get('img_framed');
+        $mwPage = &MagicWord::get('img_page');
         $caption = '';
 
         $params = array();
@@ -4643,10 +4643,10 @@ class Parser
 
         foreach ($part as $val) {
             if (!is_null($mwThumb->matchVariableStartToEnd($val))) {
-                $thumb=true;
+                $thumb = true;
             } elseif (!is_null($match = $mwManualThumb->matchVariableStartToEnd($val))) {
                 # use manually specified thumbnail
-                $thumb=true;
+                $thumb = true;
                 $manual_thumb = $match;
             } else {
                 foreach ($alignments as $alignment) {
@@ -4674,7 +4674,7 @@ class Parser
                         $params['width'] = intval($match);
                     }
                 } elseif (!is_null($mwFramed->matchVariableStartToEnd($val))) {
-                    $framed=true;
+                    $framed = true;
                 } else {
                     $caption = $val;
                 }
@@ -4762,7 +4762,7 @@ class Parser
      * @return string for "get", the extracted section text.
      *                for "replace", the whole page with the section replaced.
      */
-    private function extractSections($text, $section, $mode, $newtext='')
+    private function extractSections($text, $section, $mode, $newtext = '')
     {
         # strip NOWIKI etc. to avoid confusion (true-parameter causes HTML
         # comments to be stripped as well)
@@ -4884,7 +4884,7 @@ class Parser
      * @param $deftext: default to return if section is not found
      * @return string text of the requested section
      */
-    public function getSection($text, $section, $deftext='')
+    public function getSection($text, $section, $deftext = '')
     {
         return $this->extractSections($text, $section, "get", $deftext);
     }

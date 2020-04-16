@@ -126,7 +126,7 @@ class ilExerciseXMLParser extends ilSaxParser
             case 'Exercise':
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-                    if ($this->obj_id != -1 && (int) $read_obj_id  != -1 && (int) $this->obj_id != (int) $read_obj_id) {
+                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id) {
                         throw new ilExerciseException("Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!", ilExerciseException::$ID_MISMATCH);
                     }
                 }
@@ -277,13 +277,13 @@ class ilExerciseXMLParser extends ilSaxParser
         if (strlen($filename) == 0) {
             return;
         }
-        $filename= $this->storage->getAbsolutePath() . "/" . $filename;
+        $filename = $this->storage->getAbsolutePath() . "/" . $filename;
         
         if ($action == "Attach") {
             $content = base64_decode((string) $b64encodedContent);
             if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
                 $content = gzdecode($content);
-            } elseif ($this->mode ==ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
+            } elseif ($this->mode == ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
                 $content = gzuncompress($content);
             }
           

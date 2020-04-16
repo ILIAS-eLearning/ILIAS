@@ -292,7 +292,7 @@ class ilHelpGUI
 
         $h_tpl->setCurrentBlock("backlink");
         $h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
-        if (($t =ilSession::get("help_search_term")) != "") {
+        if (($t = ilSession::get("help_search_term")) != "") {
             $h_tpl->setVariable(
                 "ONCLICK_BACK",
                 "return il.Help.search('" . ilUtil::prepareFormOutput($t) . "');"
@@ -332,7 +332,7 @@ class ilHelpGUI
         $page_gui->getPageObject()->buildDom();
         $int_links = $page_gui->getPageObject()->getInternalLinks();
         $link_xml = $this->getLinkXML($int_links);
-        $link_xml.= $this->getLinkTargetsXML();
+        $link_xml .= $this->getLinkTargetsXML();
         //echo htmlentities($link_xml);
         $page_gui->setLinkXML($link_xml);
         
@@ -470,11 +470,11 @@ class ilHelpGUI
 
                 }
                 
-                $link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+                $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
                     "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"\" Anchor=\"\"/>";
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
 
         return $link_info;
     }
@@ -485,8 +485,8 @@ class ilHelpGUI
     public function getLinkTargetsXML()
     {
         $link_info = "<LinkTargets>";
-        $link_info.="<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
-        $link_info.= "</LinkTargets>";
+        $link_info .= "<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
+        $link_info .= "</LinkTargets>";
         return $link_info;
     }
 

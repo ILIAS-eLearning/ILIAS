@@ -80,9 +80,9 @@ class ilPCVerification extends ilPageContent
     public function getData()
     {
         if (is_object($this->vrfc_node)) {
-            return array("id"=>$this->vrfc_node->get_attribute("Id"),
-                "type"=>$this->vrfc_node->get_attribute("Type"),
-                "user"=>$this->vrfc_node->get_attribute("User"));
+            return array("id" => $this->vrfc_node->get_attribute("Id"),
+                "type" => $this->vrfc_node->get_attribute("Type"),
+                "user" => $this->vrfc_node->get_attribute("User"));
         }
     }
     

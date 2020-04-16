@@ -74,9 +74,9 @@ class ilErrorHandling extends PEAR
 
         // init vars
         $this->DEBUG_ENV = true;
-        $this->FATAL	 = 1;
-        $this->WARNING	 = 2;
-        $this->MESSAGE	 = 3;
+        $this->FATAL = 1;
+        $this->WARNING = 2;
+        $this->MESSAGE = 3;
 
         $this->error_obj = false;
         
@@ -157,7 +157,7 @@ class ilErrorHandling extends PEAR
             $a_error_obj->code = $this->WARNING;
         }
 
-        $this->error_obj =&$a_error_obj;
+        $this->error_obj = &$a_error_obj;
         //echo "-".$_SESSION["referer"]."-";
         if ($_SESSION["failure"] && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block") {
             $m = "Fatal Error: Called raise error two times.<br>" .
@@ -239,7 +239,7 @@ class ilErrorHandling extends PEAR
                 if ($subdir) {
                     $num_subdirs = substr_count($subdir, "/");
 
-                    for ($i=1;$i<=$num_subdirs;$i++) {
+                    for ($i = 1;$i <= $num_subdirs;$i++) {
                         $updir .= "../";
                     }
                 }

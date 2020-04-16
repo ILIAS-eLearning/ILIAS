@@ -538,7 +538,7 @@ class ilDBUpdateNewObjectType
         $ilAtomQuery->addQueryCallable(
             function (ilDBInterface $ilDB) use ($a_table_name, $a_column_name, $tmp_column_name) {
                 $def = array(
-                    'type'    => 'clob',
+                    'type' => 'clob',
                     'notnull' => false
                 );
                 $ilDB->addTableColumn($a_table_name, $tmp_column_name, $def);
@@ -679,7 +679,7 @@ class ilDBUpdateNewObjectType
                     $queryValues = [$roleType, $roleTitle];
                 }
 
-                $res   = $ilDB->queryF($query, $queryTypes, $queryValues);
+                $res = $ilDB->queryF($query, $queryTypes, $queryValues);
                 if (1 == $ilDB->numRows($res)) {
                     $row = $ilDB->fetchAssoc($res);
                     $roleId = (int) $row['obj_id'];

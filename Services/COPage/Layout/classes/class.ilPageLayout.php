@@ -30,7 +30,7 @@ class ilPageLayout
     public $active = null;
     public $modules = array();
     
-    public function __construct($a_id=null)
+    public function __construct($a_id = null)
     {
         global $DIC;
 
@@ -146,7 +146,7 @@ class ilPageLayout
      *
      * @param boolean $a_setting true/false
      */
-    public function activate($a_setting=true)
+    public function activate($a_setting = true)
     {
         $ilDB = $this->db;
 
@@ -205,8 +205,8 @@ class ilPageLayout
         $this->title = $row['title'];
         $this->setStyleId($row['style_id']);
         $this->setSpecialPage($row['special_page']);
-        $this->description=$row['description'];
-        $this->active=$row['active'];
+        $this->description = $row['description'];
+        $this->active = $row['active'];
         
         $mods = array();
         if ($row["mod_scorm"]) {
@@ -258,7 +258,7 @@ class ilPageLayout
             $height = $item->get_attribute("Height");
                 
             $height = str_ireplace("px", "", $height);
-            $height=$height/10;
+            $height = $height / 10;
             $item->set_attribute("Height", $height . "px");
         }
         $xsl = file_get_contents($this->getXSLPath());
@@ -279,14 +279,14 @@ class ilPageLayout
     *	Static access functions
     */
     
-    public static function getLayoutsAsArray($a_active=0)
+    public static function getLayoutsAsArray($a_active = 0)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $arr_layouts = array();
-        if ($active!=0) {
-            $add ="WHERE (active=1)";
+        if ($active != 0) {
+            $add = "WHERE (active=1)";
         }
         $query = "SELECT * FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
@@ -307,7 +307,7 @@ class ilPageLayout
         $arr_layouts = array();
         $add = "WHERE special_page = " . $ilDB->quote($a_special_page, "integer");
         if ($a_active) {
-            $add.= " AND (active = 1)";
+            $add .= " AND (active = 1)";
         }
         switch ($a_module) {
             case self::MODULE_SCORM:

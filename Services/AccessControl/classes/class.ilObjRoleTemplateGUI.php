@@ -48,7 +48,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         
         $this->type = "rolt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->rolf_ref_id =&$this->ref_id;
+        $this->rolf_ref_id = &$this->ref_id;
         $this->ctrl->saveParameter($this, "obj_id");
     }
     
@@ -426,7 +426,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             $this->object->update();
 
             // send info
-            $obj_data =&$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+            $obj_data = &$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
             ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $obj_data->getTitle() . "'.<br/>" . $this->lng->txt("msg_perm_adopted_from2"), true);
         }
 
@@ -490,8 +490,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
                 
         $ilLocator->addItem(
             ilObject::_lookupTitle(
-            ilObject::_lookupObjId($_GET["ref_id"])
-        ),
+                ilObject::_lookupObjId($_GET["ref_id"])
+            ),
             $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
         );
     }

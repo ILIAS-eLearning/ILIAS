@@ -2120,10 +2120,10 @@ class ilStartUpGUI
 
         if (is_array($a_tmpl)) {
             $template_file = $a_tmpl[0];
-            $template_dir  = $a_tmpl[1];
+            $template_dir = $a_tmpl[1];
         } else {
             $template_file = $a_tmpl;
-            $template_dir  = 'Services/Init';
+            $template_dir = 'Services/Init';
         }
 
         //Header Title
@@ -2204,15 +2204,17 @@ class ilStartUpGUI
         if ($oidc_settings->getActive()) {
             $tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
 
+            $target = empty($_GET['target']) ? '' : ('?target=' . (string) $_GET['target']);
             switch ($oidc_settings->getLoginElementType()) {
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
 
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php');
+
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
                     $tpl->setVariable('TXT_OIDC', $oidc_settings->getLoginElemenText());
                     break;
 
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php');
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
                     $tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
                     break;
             }
@@ -2286,7 +2288,7 @@ class ilStartUpGUI
         $this->getLogger()->debug('Trying saml authentication');
 
         $request = $DIC->http()->request();
-        $params  = $request->getQueryParams();
+        $params = $request->getQueryParams();
 
         require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
         $factory = new ilSamlAuthFactory();
@@ -2382,8 +2384,8 @@ class ilStartUpGUI
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
-        $mainTpl  = $DIC->ui()->mainTemplate();
-        $factory  = $DIC->ui()->factory();
+        $mainTpl = $DIC->ui()->mainTemplate();
+        $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
         $DIC->ctrl()->setTargetScript('saml.php');

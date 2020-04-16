@@ -56,11 +56,11 @@ class ilTestTopList
 		'
         );
 
-        $row                 = $ilDB->fetchAssoc($result);
+        $row = $ilDB->fetchAssoc($result);
         $better_participants = $row['count'];
-        $own_placement       = $better_participants + 1;
+        $own_placement = $better_participants + 1;
 
-        $result       = $ilDB->query(
+        $result = $ilDB->query(
             '
 			SELECT count(tst_pass_result.workingtime) as count
 			FROM object_reference
@@ -72,7 +72,7 @@ class ilTestTopList
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer')
         );
-        $row          = $ilDB->fetchAssoc($result);
+        $row = $ilDB->fetchAssoc($result);
         $number_total = $row['count'];
 
         $result = $ilDB->query(
@@ -154,7 +154,7 @@ class ilTestTopList
         $data = array();
 
         if ($i > 1) {
-            $item   = array('Rank' => '...');
+            $item = array('Rank' => '...');
             $data[] = $item;
         }
 
@@ -166,7 +166,7 @@ class ilTestTopList
         }
 
         if ($number_total > $i) {
-            $item   = array('Rank' => '...');
+            $item = array('Rank' => '...');
             $data[] = $item;
         }
 
@@ -197,8 +197,8 @@ class ilTestTopList
 			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer') . '
 			'
         );
-        $i      = 0;
-        $data   = array();
+        $i = 0;
+        $data = array();
         /** @noinspection PhpAssignmentInConditionInspection */
         while ($row = $ilDB->fetchAssoc($result)) {
             $i++;
@@ -233,12 +233,12 @@ class ilTestTopList
 			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer') . '
 			'
         );
-        $i      = 0;
-        $data   = array();
+        $i = 0;
+        $data = array();
         /** @noinspection PhpAssignmentInConditionInspection */
         while ($row = $ilDB->fetchAssoc($result)) {
             $i++;
-            $item   = $this->getResultTableRow($row, $i, $a_user_id);
+            $item = $this->getResultTableRow($row, $i, $a_user_id);
             $data[] = $item;
         }
         return $data;
@@ -283,11 +283,11 @@ class ilTestTopList
 		'
         );
 
-        $row                 = $ilDB->fetchAssoc($result);
+        $row = $ilDB->fetchAssoc($result);
         $better_participants = $row['count'];
-        $own_placement       = $better_participants + 1;
+        $own_placement = $better_participants + 1;
 
-        $result       = $ilDB->query(
+        $result = $ilDB->query(
             '
 			SELECT count(tst_pass_result.workingtime) as count
 			FROM object_reference
@@ -299,7 +299,7 @@ class ilTestTopList
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer')
         );
-        $row          = $ilDB->fetchAssoc($result);
+        $row = $ilDB->fetchAssoc($result);
         $number_total = $row['count'];
 
         $result = $ilDB->query(
@@ -381,7 +381,7 @@ class ilTestTopList
         $data = array();
 
         if ($i > 1) {
-            $item   = array('Rank' => '...');
+            $item = array('Rank' => '...');
             $data[] = $item;
         }
 
@@ -393,7 +393,7 @@ class ilTestTopList
         }
 
         if ($number_total > $i) {
-            $item   = array('Rank' => '...');
+            $item = array('Rank' => '...');
             $data[] = $item;
         }
 
@@ -408,7 +408,7 @@ class ilTestTopList
      */
     private function getResultTableRow($row, $i, $a_user_id)
     {
-        $item         = array();
+        $item = array();
         $item['Rank'] = $i . '. ';
 
         if ($this->object->isHighscoreAnon() && $row['usr_id'] != $a_user_id) {
@@ -448,7 +448,7 @@ class ilTestTopList
     private function formatTime($seconds)
     {
         $retval = '';
-        $hours  = intval(intval($seconds) / 3600);
+        $hours = intval(intval($seconds) / 3600);
         $retval .= str_pad($hours, 2, "0", STR_PAD_LEFT) . ":";
         $minutes = intval(($seconds / 60) % 60);
         $retval .= str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":";

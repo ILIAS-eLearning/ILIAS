@@ -18,16 +18,16 @@ class ButtonTest extends ILIAS_UI_TestBase
         return new \ILIAS\UI\Implementation\Component\Button\Factory();
     }
 
-    public static $canonical_css_classes = array( "standard" =>	 "btn btn-default"
-        , "primary"	 =>	 "btn btn-default btn-primary"
-        , "shy"	 =>	 "btn btn-link"
-        , "tag"	 =>	 "btn btn-tag btn-tag-relevance-veryhigh"
+    public static $canonical_css_classes = array( "standard" => "btn btn-default"
+        , "primary" => "btn btn-default btn-primary"
+        , "shy" => "btn btn-link"
+        , "tag" => "btn btn-tag btn-tag-relevance-veryhigh"
         );
 
-    public static $canonical_css_inactivation_classes = array( "standard" =>	"ilSubmitInactive disabled"
-        , "primary"	=> "ilSubmitInactive disabled"
-        , "shy"	=> "ilSubmitInactive disabled"
-        , "tag"	=> "btn-tag-inactive"
+    public static $canonical_css_inactivation_classes = array( "standard" => "ilSubmitInactive disabled"
+        , "primary" => "ilSubmitInactive disabled"
+        , "shy" => "ilSubmitInactive disabled"
+        , "tag" => "btn-tag-inactive"
         );
 
 

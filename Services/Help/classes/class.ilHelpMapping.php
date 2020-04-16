@@ -141,7 +141,7 @@ class ilHelpMapping
             " ORDER BY component, screen_id, screen_sub_id"
         );
         $screen_ids = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             if ($rec["screen_id"] == "-") {
                 $rec["screen_id"] = "";
             }
@@ -150,7 +150,7 @@ class ilHelpMapping
             }
             $id = $rec["component"] . "/" . $rec["screen_id"] . "/" . $rec["screen_sub_id"];
             if ($rec["perm"] != "" && $rec["perm"] != "-") {
-                $id.= "#" . $rec["perm"];
+                $id .= "#" . $rec["perm"];
             }
             $screen_ids[] = $id;
         }

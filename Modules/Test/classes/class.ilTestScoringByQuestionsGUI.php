@@ -72,7 +72,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         
         $table->setManualScoringPointsPostData($manPointsPost);
 
-        $qst_id  = $table->getFilterItemByPostVar('question')->getValue();
+        $qst_id = $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
 
         $table_data = array();
@@ -112,12 +112,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                     }
 
                     $table_data[] = array(
-                        'pass_id'        => $passNr - 1,
-                        'active_id'      => $active_id,
-                        'qst_id'         => $questionData['qid'],
+                        'pass_id' => $passNr - 1,
+                        'active_id' => $active_id,
+                        'qst_id' => $questionData['qid'],
                         'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                         'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-                        'participant'    => $participant,
+                        'participant' => $participant,
                     );
                 }
             }
@@ -295,8 +295,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id   = (int) $_GET['active_id'];
-        $pass        = (int) $_GET['pass_id'];
+        $active_id = (int) $_GET['active_id'];
+        $pass = (int) $_GET['pass_id'];
         $question_id = (int) $_GET['qst_id'];
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {

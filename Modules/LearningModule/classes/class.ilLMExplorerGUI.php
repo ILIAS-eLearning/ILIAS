@@ -164,7 +164,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
                             in_array($ilUser->getId(), $info["completed"][$item_id])) {
                             $status = ilLPStatus::LP_STATUS_COMPLETED_NUM;
                         }
-                        $this->lp_cache[$this->lm->getId()][$item_id] =$status;
+                        $this->lp_cache[$this->lm->getId()][$item_id] = $status;
                     }
                 }
             }

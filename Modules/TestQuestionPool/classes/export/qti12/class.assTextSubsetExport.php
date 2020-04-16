@@ -137,7 +137,7 @@ class assTextSubsetExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("outcomes");
         // add response conditions
         for ($counter = 1; $counter <= $this->object->getCorrectAnswers(); $counter++) {
-            $scoregroups =&$this->object->joinAnswers();
+            $scoregroups = &$this->object->joinAnswers();
             foreach ($scoregroups as $points => $scoreanswers) {
                 $attrs = array(
                     "continue" => "Yes"

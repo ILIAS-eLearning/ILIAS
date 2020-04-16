@@ -31,9 +31,9 @@ class ilObjectCustomIconConfigurationGUI
      */
     public function __construct(\ILIAS\DI\Container $dic, $parentGui, \ilObject $object)
     {
-        $this->dic       = $dic;
+        $this->dic = $dic;
         $this->parentGui = $parentGui;
-        $this->object    = $object;
+        $this->object = $object;
     }
 
     /**
@@ -47,7 +47,7 @@ class ilObjectCustomIconConfigurationGUI
     public function executeCommand()
     {
         $nextClass = $this->dic->ctrl()->getNextClass($this);
-        $cmd       = $this->dic->ctrl()->getCmd(self::DEFAULT_CMD);
+        $cmd = $this->dic->ctrl()->getCmd(self::DEFAULT_CMD);
 
         switch (true) {
             case method_exists($this, $cmd):
@@ -99,7 +99,7 @@ class ilObjectCustomIconConfigurationGUI
     {
         /** @var \ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $this->dic['object.customicons.factory'];
-        $customIcon        = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
+        $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
         $icon = new \ilImageFileInputGUI($this->dic->language()->txt('cont_custom_icon'), 'icon');
         if (is_string($this->uploadFieldInformationText)) {
@@ -141,11 +141,11 @@ class ilObjectCustomIconConfigurationGUI
     {
         /** @var \ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $this->dic['object.customicons.factory'];
-        $customIcon        = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
+        $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
         /** @var \ilImageFileInputGUI $item */
         $fileData = (array) $form->getInput('icon');
-        $item     = $form->getItemByPostVar('icon');
+        $item = $form->getItemByPostVar('icon');
 
         if ($item->getDeletionFlag()) {
             $customIcon->remove();

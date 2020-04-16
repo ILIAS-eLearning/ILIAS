@@ -355,7 +355,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 }
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
         //echo ":".htmlentities($link_info).":";
         return $link_info;
     }

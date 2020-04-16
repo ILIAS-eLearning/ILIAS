@@ -26,7 +26,7 @@ class ilTermsOfServiceDocumentHtmlPurifier extends \ilHtmlPurifierAbstractLibWra
         $this->cacheDirectory = $cacheDirectory;
 
         if (null === $allowedTags) {
-            $allowedTags =  \ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
+            $allowedTags = \ilObjAdvancedEditing::_getUsedHTMLTags('textarea');
         }
         $this->allowedTags = $allowedTags;
 

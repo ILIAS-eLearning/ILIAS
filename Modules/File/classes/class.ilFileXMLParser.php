@@ -355,12 +355,12 @@ class ilFileXMLParser extends ilSaxParser
                 }
 
                 $this->versions[] = [
-                    "version"          => $this->version,
-                    "max_version"      => $this->max_version,
-                    "tmpFilename"      => $this->tmpFilename,
-                    "date"             => $this->date,
-                    "usr_id"           => $this->usr_id,
-                    "action"           => $this->action,
+                    "version" => $this->version,
+                    "max_version" => $this->max_version,
+                    "tmpFilename" => $this->tmpFilename,
+                    "date" => $this->date,
+                    "usr_id" => $this->usr_id,
+                    "action" => $this->action,
                     "rollback_version" => $this->rollback_version,
                     "rollback_user_id" => $this->rollback_user_id,
                 ];

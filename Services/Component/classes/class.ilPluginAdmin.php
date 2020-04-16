@@ -236,14 +236,14 @@ class ilPluginAdmin
     {
         include_once($plugin_php_file);
 
-        $values = ["version"           => $version,
-                   "id"                => $id,
+        $values = ["version" => $version,
+                   "id" => $id,
                    "ilias_min_version" => $ilias_min_version,
                    "ilias_max_version" => $ilias_max_version,
-                   "responsible"       => $responsible,
-                   "responsible_mail"  => $responsible_mail,
+                   "responsible" => $responsible,
+                   "responsible_mail" => $responsible_mail,
                    "learning_progress" => (bool) $learning_progress,
-                   "supports_export"   => (bool) $supports_export];
+                   "supports_export" => (bool) $supports_export];
 
         return $values;
     }

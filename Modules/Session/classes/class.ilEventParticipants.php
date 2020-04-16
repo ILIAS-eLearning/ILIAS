@@ -43,7 +43,7 @@ class ilEventParticipants
         $tree = $DIC['tree'];
 
         $this->ilErr = $ilErr;
-        $this->db  = $ilDB;
+        $this->db = $ilDB;
         $this->lng = $lng;
 
         $this->event_id = $a_event_id;

@@ -67,7 +67,7 @@ class ilLearningSequenceParticipants extends ilParticipants
                     $roles[$role] = $role;
                     // no break
                 default:
-                    continue;
+                    break;
             }
         }
 

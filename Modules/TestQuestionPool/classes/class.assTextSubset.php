@@ -86,7 +86,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         if (
             strlen($this->title)
             && $this->author
-            && $this->question  &&
+            && $this->question &&
             count($this->answers) >= $this->correctanswers
             && $this->getMaximumPoints() > 0
         ) {
@@ -187,7 +187,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             array_push($newchoices, $answer);
             for ($i = $order; $i < count($this->answers); $i++) {
                 $changed = $this->answers[$i];
-                $changed->setOrder($i+1);
+                $changed->setOrder($i + 1);
                 array_push($newchoices, $changed);
             }
             $this->answers = $newchoices;
@@ -662,7 +662,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         foreach ($this->answers as $key => $value) {
             $answer_obj = $this->answers[$key];
-            $next_id    = $ilDB->nextId('qpl_a_textsubset');
+            $next_id = $ilDB->nextId('qpl_a_textsubset');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_textsubset (answer_id, question_fi, answertext, points, aorder, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
                 array( 'integer', 'integer', 'text', 'float', 'integer', 'integer' ),
@@ -789,7 +789,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['matching_method'] = (string) $this->getTextRating();
         $result['feedback'] = array(
@@ -925,7 +925,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

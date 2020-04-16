@@ -45,7 +45,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
                         default:
@@ -96,10 +96,10 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
         if ($this->access->checkAccess("edit_permission", "", $this->ref_id)) {
             $this->tabs_gui->addTab(
-                    "id_permissions",
-                    $this->lng->txt("perm_settings"),
-                    $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
-                );
+                "id_permissions",
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
+            );
         }
     }
 

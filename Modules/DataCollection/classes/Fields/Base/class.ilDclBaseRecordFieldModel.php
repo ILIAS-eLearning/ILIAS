@@ -141,9 +141,9 @@ class ilDclBaseRecordFieldModel
             }
 
             $insert_params = array(
-                "value"           => array($datatype->getDbType(), $value),
+                "value" => array($datatype->getDbType(), $value),
                 "record_field_id" => array("integer", $this->getId()),
-                "id"              => array("integer", $next_id),
+                "id" => array("integer", $next_id),
             );
 
             $this->db->insert("il_dcl_stloc" . $storage_location . "_value", $insert_params);

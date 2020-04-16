@@ -11,7 +11,7 @@ require_once 'Services/Contact/BuddySystem/exceptions/class.ilBuddySystemExcepti
  */
 class ilBuddySystemGUI
 {
-    const BS_REQUEST_HTTP_GET  = 1;
+    const BS_REQUEST_HTTP_GET = 1;
     const BS_REQUEST_HTTP_POST = 2;
 
     /**
@@ -59,12 +59,12 @@ class ilBuddySystemGUI
         $this->http = $DIC->http();
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
-        $this->lng  = $DIC['lng'];
+        $this->lng = $DIC['lng'];
 
         require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
         require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
-        $this->buddylist     = ilBuddyList::getInstanceByGlobalUser();
-        $this->statefactory  = ilBuddySystemRelationStateFactory::getInstance();
+        $this->buddylist = ilBuddyList::getInstanceByGlobalUser();
+        $this->statefactory = ilBuddySystemRelationStateFactory::getInstance();
 
         $this->lng->loadLanguageModule('buddysystem');
     }
@@ -84,7 +84,7 @@ class ilBuddySystemGUI
             $DIC['tpl']->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
 
             $config = new stdClass();
-            $config->http_post_url        = $DIC->ctrl()->getFormActionByClass(array('ilUIPluginRouterGUI', 'ilBuddySystemGUI'), '', '', true, false);
+            $config->http_post_url = $DIC->ctrl()->getFormActionByClass(array('ilUIPluginRouterGUI', 'ilBuddySystemGUI'), '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
             $DIC['tpl']->addOnLoadCode("il.BuddySystem.setConfig(" . ilJsonUtil::encode($config) . ");");
 
@@ -108,7 +108,7 @@ class ilBuddySystemGUI
         }
 
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             default:
@@ -248,7 +248,7 @@ class ilBuddySystemGUI
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');
             }
 
-            $response->state      = get_class($relation->getState());
+            $response->state = get_class($relation->getState());
             $response->state_html = $this->statefactory->getRendererByOwnerAndRelation($this->buddylist->getOwnerId(), $relation)->getHtml();
         } catch (Exception $e) {
             $response->message = $this->lng->txt('buddy_bs_action_not_possible');
@@ -262,7 +262,7 @@ class ilBuddySystemGUI
     {
         if (isset($this->http->request()->getServerParams()['HTTP_REFERER'])) {
             $redirectUrl = $this->http->request()->getServerParams()['HTTP_REFERER'];
-            $urlParts    = parse_url($redirectUrl);
+            $urlParts = parse_url($redirectUrl);
 
             if (isset($urlParts['path'])) {
                 $script = basename($urlParts['path'], '.php');

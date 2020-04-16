@@ -21,7 +21,7 @@ class ilWhiteListUrlValidator
      */
     public function __construct(string $url, array $whitelist)
     {
-        $this->url       = $url;
+        $this->url = $url;
         $this->whitelist = array_filter(array_map(function (string $domain) {
             return trim($domain); // Used for trimming and type validation (strict primitive type hint)
         }, $whitelist));

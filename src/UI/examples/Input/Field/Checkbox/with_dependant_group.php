@@ -12,7 +12,7 @@ function with_dependant_group()
 
     //Step 1: Define the dependent group (aka sub section)
     $dependant_field = $ui->input()->field()->text("Item 1", "Just some dependent group field");
-    $dependant_group = $ui->input()->field()->dependantGroup(["dependant_field"=>$dependant_field]);
+    $dependant_group = $ui->input()->field()->dependantGroup(["dependant_field" => $dependant_field]);
 
     //Step 2: define the checkbox and attach the dependant group
     $checkbox_input = $ui->input()->field()->checkbox("Checkbox", "Check to display dependant field.")
@@ -30,7 +30,7 @@ function with_dependant_group()
     //Step 4: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='dependant_checkbox') {
+        && $request->getQueryParams()['example_name'] == 'dependant_checkbox') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

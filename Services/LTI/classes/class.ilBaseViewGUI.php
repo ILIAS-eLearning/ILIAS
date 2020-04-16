@@ -222,7 +222,7 @@ abstract class ilBaseViewGUI
     /**
      *
      */
-    public function redirectToHome($_msg_type=self::MSG_INFO, $_msg='')
+    public function redirectToHome($_msg_type = self::MSG_INFO, $_msg = '')
     {
         //$msg = ($_msg !== '') ? '&view_msg='.$_msg.'&view_msg_type='.$_msg_type : '';
         //$link = $this->getHomeLink().$msg;

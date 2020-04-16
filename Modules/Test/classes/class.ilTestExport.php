@@ -54,13 +54,13 @@ abstract class ilTestExport
         $ilias = $DIC['ilias'];
         $lng = $DIC['lng'];
 
-        $this->test_obj =&$a_test_obj;
+        $this->test_obj = &$a_test_obj;
 
-        $this->err =&$ilErr;
-        $this->ilias =&$ilias;
-        $this->db =&$ilDB;
+        $this->err = &$ilErr;
+        $this->ilias = &$ilias;
+        $this->db = &$ilDB;
         $this->mode = $a_mode;
-        $this->lng =&$lng;
+        $this->lng = &$lng;
 
         $this->inst_id = IL_INST_ID;
 
@@ -306,7 +306,7 @@ abstract class ilTestExport
         $csv = "";
         $separator = ";";
         foreach ($rows as $evalrow) {
-            $csvrow =&$this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
             $csv .= join($csvrow, $separator) . "\n";
         }
         if ($deliver) {
@@ -431,16 +431,16 @@ abstract class ilTestExport
 
             $time = $data->getParticipant($active_id)->getTimeOfWork();
             $time_seconds = $time;
-            $time_hours    = floor($time_seconds/3600);
-            $time_seconds -= $time_hours   * 3600;
-            $time_minutes  = floor($time_seconds/60);
+            $time_hours = floor($time_seconds / 3600);
+            $time_seconds -= $time_hours * 3600;
+            $time_minutes = floor($time_seconds / 60);
             $time_seconds -= $time_minutes * 60;
             $worksheet->setCell($row, $col++, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
             $time = $data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $data->getParticipant($active_id)->getTimeOfWork() / $data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
             $time_seconds = $time;
-            $time_hours    = floor($time_seconds/3600);
-            $time_seconds -= $time_hours   * 3600;
-            $time_minutes  = floor($time_seconds/60);
+            $time_hours = floor($time_seconds / 3600);
+            $time_seconds -= $time_hours * 3600;
+            $time_minutes = floor($time_seconds / 60);
             $time_seconds -= $time_minutes * 60;
             $worksheet->setCell($row, $col++, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
             $worksheet->setCell($row, $col++, new ilDateTime($data->getParticipant($active_id)->getFirstVisit(), IL_CAL_UNIX));
@@ -593,7 +593,7 @@ abstract class ilTestExport
                                     $selectedanswer = $answer->getAnswertext();
                                 }
                             }
-                            $worksheet->setCell($row, $col+$pos, $selectedanswer);
+                            $worksheet->setCell($row, $col + $pos, $selectedanswer);
                         }
                     }
                 }
@@ -658,8 +658,8 @@ abstract class ilTestExport
                             if (is_object($objQuestion) && strcmp($objQuestion->getQuestionType(), 'assSingleChoice') == 0) {
                                 $solution = $objQuestion->getSolutionValues($active_id, $pass);
                                 $pos = $positions[$question["aid"]];
-                                $selectedanswer = chr(65+$solution[0]["value1"]);
-                                $worksheet->setCell($row, $col+$pos, $selectedanswer);
+                                $selectedanswer = chr(65 + $solution[0]["value1"]);
+                                $worksheet->setCell($row, $col + $pos, $selectedanswer);
                             }
                         }
                     }
@@ -685,8 +685,8 @@ abstract class ilTestExport
                 }
 
                 if ($participantcount > 250) {
-                    if (!$allusersheet || ($pages-1) < floor($row / 64000)) {
-                        $worksheet->addSheet($this->lng->txt("eval_all_users") . (($pages > 0) ? " (" . ($pages+1) . ")" : ""));
+                    if (!$allusersheet || ($pages - 1) < floor($row / 64000)) {
+                        $worksheet->addSheet($this->lng->txt("eval_all_users") . (($pages > 0) ? " (" . ($pages + 1) . ")" : ""));
                         $allusersheet = true;
                         $row = 1;
                         $pages++;
@@ -697,7 +697,7 @@ abstract class ilTestExport
 
                 $pass = $userdata->getScoredPass();
                 $row = ($allusersheet) ? $row : 1;
-                $worksheet->setCell($row, 0, sprintf($this->lng->txt("tst_result_user_name_pass"), $pass+1, $userdata->getName()));
+                $worksheet->setCell($row, 0, sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $userdata->getName()));
                 $worksheet->setBold($worksheet->getColumnCoord(0) . $row);
                 $row += 2;
                 if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
@@ -809,7 +809,7 @@ abstract class ilTestExport
         array_push($datarow, $this->lng->txt("pass"));
         $col++;
 
-        $data =&$this->test_obj->getCompleteEvaluationData(true, $filterby, $filtertext);
+        $data = &$this->test_obj->getCompleteEvaluationData(true, $filterby, $filtertext);
         $headerrow = $datarow;
         $counter = 1;
         foreach ($data->getParticipants() as $active_id => $userdata) {
@@ -849,16 +849,16 @@ abstract class ilTestExport
                 array_push($datarow2, $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent() / 100.0);
                 $time = $data->getParticipant($active_id)->getTimeOfWork();
                 $time_seconds = $time;
-                $time_hours    = floor($time_seconds/3600);
-                $time_seconds -= $time_hours   * 3600;
-                $time_minutes  = floor($time_seconds/60);
+                $time_hours = floor($time_seconds / 3600);
+                $time_seconds -= $time_hours * 3600;
+                $time_minutes = floor($time_seconds / 60);
                 $time_seconds -= $time_minutes * 60;
                 array_push($datarow2, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
                 $time = $data->getParticipant($active_id)->getQuestionsWorkedThrough() ? $data->getParticipant($active_id)->getTimeOfWork() / $data->getParticipant($active_id)->getQuestionsWorkedThrough() : 0;
                 $time_seconds = $time;
-                $time_hours    = floor($time_seconds/3600);
-                $time_seconds -= $time_hours   * 3600;
-                $time_minutes  = floor($time_seconds/60);
+                $time_hours = floor($time_seconds / 3600);
+                $time_seconds -= $time_hours * 3600;
+                $time_minutes = floor($time_seconds / 60);
                 $time_seconds -= $time_minutes * 60;
                 array_push($datarow2, sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
                 
@@ -894,13 +894,13 @@ abstract class ilTestExport
                     $finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
                     if ($finishdate > 0) {
                         if ($pass > 0) {
-                            for ($i = 1; $i < $col-1; $i++) {
+                            for ($i = 1; $i < $col - 1; $i++) {
                                 array_push($datarow2, "");
                                 array_push($datarow, "");
                             }
                             array_push($datarow, "");
                         }
-                        array_push($datarow2, $pass+1);
+                        array_push($datarow2, $pass + 1);
                         if (is_object($data->getParticipant($active_id)) && is_array($data->getParticipant($active_id)->getQuestions($pass))) {
                             foreach ($data->getParticipant($active_id)->getQuestions($pass) as $question) {
                                 $question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
@@ -922,7 +922,7 @@ abstract class ilTestExport
         $csv = "";
         $separator = ";";
         foreach ($rows as $evalrow) {
-            $csvrow =&$this->test_obj->processCSVRow($evalrow, true, $separator);
+            $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
             $csv .= join($csvrow, $separator) . "\n";
         }
         if ($deliver) {

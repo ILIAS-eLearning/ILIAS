@@ -99,14 +99,14 @@ class ilWebDAVUtil
         echo "  <body>\n";
             
         echo ilDAVServer::_getWebfolderInstructionsFor(
-                $webfolderTitle,
-                $webfolderURI,
-                $webfolderURI_IE,
-                $webfolderURI_Konqueror,
-                $webfolderURI_Nautilus,
-                $this->clientOS,
-                $this->clientOSFlavor
-            );
+            $webfolderTitle,
+            $webfolderURI,
+            $webfolderURI_IE,
+            $webfolderURI_Konqueror,
+            $webfolderURI_Nautilus,
+            $this->clientOS,
+            $this->clientOSFlavor
+        );
             
         echo "  </body>\n";
         echo "</html>\n";
@@ -167,13 +167,13 @@ class ilWebDAVUtil
                     // FIXME - Shouldn't we collect all locks instead of
                     //         using an arbitrary one?
                     $result = array(
-                        "type"    => "write",
-                        "obj_id"   => $lock['obj_id'],
-                        "node_id"   => $lock['node_id'],
-                        "scope"   => $lock['scope'],
-                        "depth"   => $lock['depth'],
-                        "owner"   => $owner,
-                        "token"   => $lock['token'],
+                        "type" => "write",
+                        "obj_id" => $lock['obj_id'],
+                        "node_id" => $lock['node_id'],
+                        "scope" => $lock['scope'],
+                        "depth" => $lock['depth'],
+                        "owner" => $owner,
+                        "token" => $lock['token'],
                         "expires" => $lock['expires']
                     );
                     if ($lock['scope'] == 'exclusive') {
@@ -239,7 +239,7 @@ class ilWebDAVUtil
         if (is_null($nodePath)) {
             return null;
         } else {
-            $top = $nodePath[count($nodePath)  - 1];
+            $top = $nodePath[count($nodePath) - 1];
             return ilObjectDAV::createObject($top['child'], $top['type']);
         }
     }
@@ -335,7 +335,7 @@ class ilWebDAVUtil
     {
         $path = UtfNormal::toNFC($path);
         
-        if ($path[strlen($path)-1] == '/') {
+        if ($path[strlen($path) - 1] == '/') {
             $path = substr($path, 0, strlen($path) - 1);
         }
         return $path;
@@ -384,7 +384,7 @@ class ilWebDAVUtil
             $baseUri = "https:";
             $query = null;
         }
-        $baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+        $baseUri .= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
         $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
         
         $uri = $baseUri . '/ref_' . $refId . '/';
@@ -428,7 +428,7 @@ class ilWebDAVUtil
             $baseUri = "https:";
             $query = 'mount-instructions';
         }
-        $baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
+        $baseUri .= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
         $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
         
         $uri = $baseUri . '/ref_' . $refId . '/';
@@ -565,7 +565,7 @@ class ilWebDAVUtil
         $val = ini_get('upload_max_filesize');
 
         $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
+        $last = strtolower($val[strlen($val) - 1]);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':

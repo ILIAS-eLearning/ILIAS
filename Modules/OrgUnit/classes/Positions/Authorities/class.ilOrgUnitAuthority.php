@@ -127,9 +127,9 @@ class ilOrgUnitAuthority extends \ActiveRecord
     public function __toArray()
     {
         return array(
-            'id'          => $this->getId(),
-            'over'        => $this->getOver(),
-            'scope'       => $this->getScope(),
+            'id' => $this->getId(),
+            'over' => $this->getOver(),
+            'scope' => $this->getScope(),
             'position_id' => $this->getPositionId(),
         );
     }

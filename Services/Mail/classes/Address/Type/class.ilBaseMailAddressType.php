@@ -30,7 +30,7 @@ abstract class ilBaseMailAddressType implements \ilMailAddressType
         \ilMailAddress $address,
         \ilLogger $logger
     ) {
-        $this->address    = $address;
+        $this->address = $address;
         $this->typeHelper = $typeHelper;
         $this->logger = $logger;
     }

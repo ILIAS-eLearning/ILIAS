@@ -35,6 +35,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
      */
     protected $ctrl;
 
+    /**
+     * @var ilPageConfig
+     */
+    protected $page_config;
 
     /**
      * Constructor
@@ -57,7 +61,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $this->tax_node = $a_tax_node;
         $this->tax_id = $a_tax_id;
         $this->setId("glopr" . $this->glossary->getId());
-        
+
+        $gdf = new ilGlossaryDefPage();
+        $this->page_config = $gdf->getPageConfig();
+
         include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
         $adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
         $this->adv_fields = $adv_ad->getAllFields();
@@ -195,7 +202,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         } else {
             if (sizeof($defs)) {
-                for ($j=0; $j < count($defs); $j++) {
+                for ($j = 0; $j < count($defs); $j++) {
                     $def = $defs[$j];
                     if (count($defs) > 1) {
                         if (!$this->offline) {
@@ -228,6 +235,12 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     } else {
                         $short_str = $def["short_text"];
                     }
+                    
+                    if (!$this->page_config->getPreventHTMLUnmasking()) {
+                        $short_str = str_replace("&lt;", "<", $short_str);
+                        $short_str = str_replace("&gt;", ">", $short_str);
+                    }
+
                     // replace tex
                     // if a tex end tag is missing a tex end tag
                     $ltexs = strrpos($short_str, "[tex]");
@@ -238,7 +251,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         $short_str = $page->getFirstParagraphText();
                         $short_str = strip_tags($short_str, "<br>");
                         $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                        $short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+                        $short_str = ilUtil::shortenText($short_str, $ltexe + 6, true);
                     }
 
                     include_once './Services/MathJax/classes/class.ilMathJax.php';
@@ -254,7 +267,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         );
                     }
 
-                    $short_str = ilPCParagraph::xml2output($short_str);
+
+                    $short_str = ilPCParagraph::xml2output($short_str, false, true, false);
 
                     $this->tpl->setVariable("DEF_SHORT", $short_str);
                     $this->tpl->parseCurrentBlock();

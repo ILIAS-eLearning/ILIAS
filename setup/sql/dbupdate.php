@@ -1186,10 +1186,10 @@ $res = $this->db->query($query);
 
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $arr_pa_entries[] = array(
-                                "ref_id"	=>	$row->ref_id,
-                                "rol_id"	=>	$row->rol_id,
-                                "type"		=>	$row->type,
-                                "operations"=>	unserialize($row->ops_id)
+                                "ref_id" => $row->ref_id,
+                                "rol_id" => $row->rol_id,
+                                "type" => $row->type,
+                                "operations" => unserialize($row->ops_id)
                             );
 }
 
@@ -1262,8 +1262,8 @@ $query = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta
 $res = $this->db->query($query);
 
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-    $rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
-                                        "type"		=> $row->title
+    $rbac_objects[$row->typ_id] = array("obj_id" => $row->typ_id,
+                                        "type" => $row->title
                                         );
 
     $rbac_operations[$row->typ_id][$row->ops_id] = $row->ops_id;
@@ -1279,9 +1279,9 @@ $res = $this->db->query($query);
 
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $arr_roles[] = array(
-                        "rol_id"	=>	$row->rol_id,
-                        "rolf_id"	=>	$row->parent,
-                        "assign"	=>	$row->assign
+                        "rol_id" => $row->rol_id,
+                        "rolf_id" => $row->parent,
+                        "assign" => $row->assign
                         );
 }
 
@@ -6668,7 +6668,7 @@ $log->write("MetaData (Migration type 'mob'): Number of objects: " . $res->numRo
 
 $counter = 0;
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-    if (!(++$counter%100)) {
+    if (!(++$counter % 100)) {
         $log->write("MetaData (Migration type 'mob'): Processing obj number: " . $row->obj_id);
     }
 
@@ -7356,7 +7356,7 @@ ADD `typical_age_range_max` TINYINT( 3 ) DEFAULT '-1' NOT NULL ;
 <#475>
 <?php
 $query = "SELECT * FROM il_meta_typical_age_range ";
-$res =&$ilDB->query($query);
+$res = &$ilDB->query($query);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     if (preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/", $row->typical_age_range, $matches)) {
         if (!$matches[2] and !$matches[3]) {
@@ -9524,7 +9524,7 @@ foreach ($foundactive as $missingarray) {
     $result = $ilDB->query($query);
     while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         $tries = $row["tries"];
-        while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries-1) == 0) && ($tries > 0)) {
+        while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries - 1) == 0) && ($tries > 0)) {
             $tries--;
         }
         if ($tries < $row["tries"]) {

@@ -351,7 +351,7 @@ class ilLPStatus
             }
         }
         if ($a_users) {
-            $missing_users = array_diff($a_users, $not_attempted+$in_progress+$completed+$failed);
+            $missing_users = array_diff($a_users, $not_attempted + $in_progress + $completed + $failed);
             if ($missing_users) {
                 foreach ($missing_users as $user_id) {
                     ilLPStatusWrapper::_updateStatus($a_obj_id, $user_id);

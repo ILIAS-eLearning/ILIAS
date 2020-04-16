@@ -56,13 +56,13 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
         $get = $cache->storeEntry("test_id", "test_value");
         $get = $cache->getEntry("test_id");
         $stat = $cache->getLastAccessStatus();
-        $value.= $stat . "-" . $get . "-";
+        $value .= $stat . "-" . $get . "-";
         
         sleep(6);
 
         $get = $cache->getEntry("test_id");
         $stat = $cache->getLastAccessStatus();
-        $value.= $stat . "-" . $get . "-";
+        $value .= $stat . "-" . $get . "-";
         
         $this->assertEquals("miss--hit-test_value-miss--", $value);
     }

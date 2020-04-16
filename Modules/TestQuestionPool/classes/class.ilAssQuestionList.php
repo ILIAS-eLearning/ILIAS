@@ -422,15 +422,15 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     {
         $taxTree = new ilTaxonomyTree($taxId);
 
-        $taxNodeAssignment   = new ilTaxNodeAssignment(
+        $taxNodeAssignment = new ilTaxNodeAssignment(
             $parentType,
             $parentObjId,
             'quest',
             $taxId
         );
 
-        $subNodes            = $taxTree->getSubTreeIds($taxNode);
-        $subNodes[]          = $taxNode;
+        $subNodes = $taxTree->getSubTreeIds($taxNode);
+        $subNodes[] = $taxNode;
 
         return $taxNodeAssignment->getAssignmentsOfNode($subNodes);
     }

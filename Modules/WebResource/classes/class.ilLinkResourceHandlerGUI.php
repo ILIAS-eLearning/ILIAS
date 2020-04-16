@@ -45,7 +45,7 @@ class ilLinkResourceHandlerGUI
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
 
         // initialisation stuff
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
     }
     
     /**

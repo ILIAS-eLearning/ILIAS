@@ -150,24 +150,24 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->obj_id = $row['obj_id'];
         $this->ref_id = $row['ref_id'];
 
-        $this->thread_id    = $row['thread_id'];
+        $this->thread_id = $row['thread_id'];
         $this->thread_title = $row['thr_subject'];
 
-        $this->forum_id    = $row['pos_top_fk'];
+        $this->forum_id = $row['pos_top_fk'];
         $this->forum_title = $row['top_name'];
 
-        $this->post_id     = $row['pos_pk'];
-        $this->post_title  = $row['pos_subject'];
-        $this->post_message  = $row['pos_message'];
-        $this->post_date   = $row['pos_date'];
+        $this->post_id = $row['pos_pk'];
+        $this->post_title = $row['pos_subject'];
+        $this->post_message = $row['pos_message'];
+        $this->post_date = $row['pos_date'];
         $this->post_update = $row['pos_update'];
         $this->post_update_user_id = $row['update_user'];
 
-        $this->post_censored         = $row['pos_cens'];
-        $this->post_censored_date    = $row['pos_cens_date'];
+        $this->post_censored = $row['pos_cens'];
+        $this->post_censored_date = $row['pos_cens_date'];
         $this->post_censored_comment = $row['pos_cens_com'];
 
-        $this->pos_usr_alias       = $row['pos_usr_alias'];
+        $this->pos_usr_alias = $row['pos_usr_alias'];
         $this->pos_display_user_id = $row['pos_display_user_id'];
         $this->pos_author_id = $row['pos_author_id'];
 
@@ -206,7 +206,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
             // get attachments
             $fileDataForum = new ilFileDataForum($this->getObjId(), $this->getPostId());
-            $filesOfPost   = $fileDataForum->getFilesOfPost();
+            $filesOfPost = $fileDataForum->getFilesOfPost();
 
             foreach ($filesOfPost as $attachment) {
                 $this->attachments[] = $attachment['name'];

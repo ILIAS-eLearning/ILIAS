@@ -231,17 +231,17 @@ class ilScormPlaceholderValuesTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                'SCORM_TITLE'      => 'Some Title',
-                'SCORM_POINTS'     => '80,7 %',
+                'SCORM_TITLE' => 'Some Title',
+                'SCORM_POINTS' => '80,7 %',
                 'SCORM_POINTS_MAX' => '90',
-                'SCO_T_0'          => 'Some Title',
-                'SCO_P_0'          => '30,3',
-                'SCO_PM_0'         => '90,9',
-                'SCO_PP_0'         => '33,3 %',
-                'SCO_T_1'          => 'Some Other Title',
-                'SCO_P_1'          => '30,3',
-                'SCO_PM_1'         => '90,9',
-                'SCO_PP_1'         => '33,3 %',
+                'SCO_T_0' => 'Some Title',
+                'SCO_P_0' => '30,3',
+                'SCO_PM_0' => '90,9',
+                'SCO_PP_0' => '33,3 %',
+                'SCO_T_1' => 'Some Other Title',
+                'SCO_P_1' => '30,3',
+                'SCO_PM_1' => '90,9',
+                'SCO_PP_1' => '33,3 %',
                 'SOME_PLACEHOLDER' => 'aaa',
                 'SOME_OTHER_PLACEHOLDER' => 'bbb'
             ),

@@ -28,14 +28,16 @@
 * @version $Id$
 *
 */
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
 class ilObjCourseGrouping
 {
     public $db;
     
     protected static $assignedObjects = array();
+
+    /**
+     * @var null | \ilLogger
+     */
+    private $logger = null;
 
     /**
      * Constructor
@@ -47,6 +49,8 @@ class ilObjCourseGrouping
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+
+        $this->logger = $DIC->logger()->crs();
 
         $this->setType('crsg');
         $this->db = $ilDB;
@@ -387,6 +391,64 @@ class ilObjCourseGrouping
 
         return true;
     }
+
+    /**
+     * @param int $a_target_id
+     * @param int $a_copy_id
+     */
+    public function cloneGrouping($a_target_id, $a_copy_id)
+    {
+        $this->logger->debug('Start cloning membership limitations...');
+        $mappings = \ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
+        $target_ref_id = 0;
+        $target_obj_id = 0;
+
+        if (array_key_exists($this->getContainerRefId(), $mappings) && $mappings[$this->getContainerRefId()]) {
+            $target_ref_id = $mappings[$this->getContainerRefId()];
+            $target_obj_id = \ilObject::_lookupObjId($target_ref_id);
+            $this->logger->dump($target_ref_id);
+            $this->logger->dump($target_obj_id);
+        }
+        if (!$target_ref_id || !$target_obj_id) {
+            $this->logger->debug('No target ref_id found.');
+            return false;
+        }
+
+        $new_grouping = new \ilObjCourseGrouping();
+        $new_grouping->setTitle($this->getTitle());
+        $new_grouping->setDescription($this->getDescription());
+        $new_grouping->setContainerRefId($target_ref_id);
+        $new_grouping->setContainerObjId($target_obj_id);
+        $new_grouping->setContainerType(\ilObject::_lookupType($target_obj_id));
+        $new_grouping->setUniqueField($this->getUniqueField());
+        $new_grouping->create($target_ref_id, $target_obj_id);
+
+        $obj_instance = \ilObjectFactory::getInstanceByRefId($this->getContainerRefId(), false);
+        if (!$obj_instance instanceof \ilObject) {
+            $this->logger->info('Cannot create object instance for membership limitation');
+            return false;
+        }
+        $limitation_items = self::_getGroupingItems($obj_instance);
+        $this->logger->dump($limitation_items);
+
+        foreach ($limitation_items as $item_ref_id) {
+            $target_item_ref_id = 0;
+            $target_item_obj_id = 0;
+            if (array_key_exists($item_ref_id, $mappings) && $mappings[$item_ref_id]) {
+                $target_item_ref_id = $mappings[$item_ref_id];
+                $target_item_obj_id = \ilObject::_lookupObjId($target_item_ref_id);
+            }
+            if (!$target_item_ref_id || !$target_item_obj_id) {
+                $this->logger->info('No mapping found for: ' . $item_ref_id);
+                continue;
+            }
+            $new_grouping->assign($target_item_ref_id, $target_item_obj_id);
+        }
+
+        return true;
+    }
+
+
     // PRIVATE
     public function __addCondition($a_target_ref_id, $a_target_obj_id)
     {
@@ -397,7 +459,7 @@ class ilObjCourseGrouping
 
         $tmp_condh->setTargetRefId($a_target_ref_id);
         $tmp_condh->setTargetObjId($a_target_obj_id);
-        $tmp_condh->setTargetType('crs');
+        $tmp_condh->setTargetType(\ilObject::_lookupType($a_target_obj_id));
         $tmp_condh->setTriggerRefId(0);
         $tmp_condh->setTriggerObjId($this->getId());
         $tmp_condh->setTriggerType('crsg');
@@ -434,6 +496,10 @@ class ilObjCourseGrouping
         return true;
     }
 
+    /**
+     * @param $a_course_id
+     * @return int[]
+     */
     public static function _getGroupings($a_course_id)
     {
         global $DIC;
@@ -479,8 +545,8 @@ class ilObjCourseGrouping
                     if ($tree->isDeleted($target_condition['target_ref_id'])) {
                         continue;
                     }
-                    $course_ids[] = array('id'			=> $target_condition['target_obj_id'],
-                                          'unique'		=> $target_condition['value']);
+                    $course_ids[] = array('id' => $target_condition['target_obj_id'],
+                                          'unique' => $target_condition['value']);
                 }
             }
         }

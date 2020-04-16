@@ -377,7 +377,7 @@ class ilLanguage
         
         if ($rec["value"] != "") {
             // remember the used topics
-            self::$used_topics[$a_id]   = $a_id;
+            self::$used_topics[$a_id] = $a_id;
             self::$used_modules[$a_mod] = $a_mod;
 
             if (self::isUsageLogEnabled()) {
@@ -458,7 +458,7 @@ class ilLanguage
             ) {
                 require_once 'Services/Language/classes/class.ilLanguageDetection.php';
                 $language_detection = new ilLanguageDetection();
-                $language           = $language_detection->detect();
+                $language = $language_detection->detect();
 
                 $ilUser->setPref('language', $language);
                 $_GET['lang'] = $language;

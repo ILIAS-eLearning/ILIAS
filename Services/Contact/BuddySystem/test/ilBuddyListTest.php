@@ -72,7 +72,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
             4712 => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState())
         );
 
-        $buddylist       = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
+        $buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $buddylist->setRelations(new ilBuddySystemRelationCollection($relations));
         $other_buddylist = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
         $other_buddylist->setRelations(new ilBuddySystemRelationCollection());

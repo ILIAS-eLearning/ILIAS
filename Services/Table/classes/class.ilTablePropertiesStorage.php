@@ -166,7 +166,7 @@ class ilTablePropertiesStorage
                     " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
                     " AND property = " . $ilDB->quote($a_property, "text")
                 );
-                $rec  = $ilDB->fetchAssoc($set);
+                $rec = $ilDB->fetchAssoc($set);
                 return $rec["value"];
                 break;
         }

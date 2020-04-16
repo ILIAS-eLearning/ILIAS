@@ -62,7 +62,7 @@ class ilUserSearchFilter
         $ilias = $DIC['ilias'];
 
         $this->usr_id = $a_usr_id;
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
 
         // Limit of filtered objects is search max hits
         $this->limit = $ilias->getSetting('search_max_hits', 50);
@@ -150,7 +150,7 @@ class ilUserSearchFilter
                 ilUtil::sendInfo($query_parser);
                 return false;
             }
-            $user_search =&ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+            $user_search = &ilObjectSearchFactory::_getUserSearchInstance($query_parser);
             $user_search->setFields(array($field));
             
             // store entries

@@ -226,7 +226,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                     $val = $a_values[$this->getPostVar() . "_ajax_type"] . "|" .
                         $a_values[$this->getPostVar() . "_ajax_id"];
                     if ($a_values[$this->getPostVar() . "_ajax_target"] != "") {
-                        $val.= "|" . $a_values[$this->getPostVar() . "_ajax_target"];
+                        $val .= "|" . $a_values[$this->getPostVar() . "_ajax_target"];
                     }
                     $this->setValue($val);
                 }
@@ -288,7 +288,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             $val = $_POST[$this->getPostVar() . "_ajax_type"] . "|" .
                 $_POST[$this->getPostVar() . "_ajax_id"];
             if ($_POST[$this->getPostVar() . "_ajax_target"] != "") {
-                $val.= "|" . $_POST[$this->getPostVar() . "_ajax_target"];
+                $val .= "|" . $_POST[$this->getPostVar() . "_ajax_target"];
             }
 
             $_POST[$this->getPostVar()] = $val;
@@ -432,9 +432,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             $html = $mode->getToolbarHTML();
             
             if ($has_ext) {
-                $html.= $ti->getToolbarHTML();
+                $html .= $ti->getToolbarHTML();
             } else {
-                $html.= $ne->render() .
+                $html .= $ne->render() .
                     '<div class="help-block">' . $ne->getInfo() . '</div>';
             }
         }
@@ -442,7 +442,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         // js for internal link
         if ($has_int) {
             include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-            $html.= $hidden_type->getToolbarHTML() .
+            $html .= $hidden_type->getToolbarHTML() .
                 $hidden_id->getToolbarHTML() .
                 $hidden_target->getToolbarHTML();
         }
@@ -493,28 +493,28 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             case "page":
                 include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
                 $type = $lng->txt("obj_pg");
-                $name =	ilLMPageObject::_lookupTitle($value[1]);
+                $name = ilLMPageObject::_lookupTitle($value[1]);
                 break;
 
             case "chap":
                 include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
                 $type = $lng->txt("obj_st");
-                $name =	ilStructureObject::_lookupTitle($value[1]);
+                $name = ilStructureObject::_lookupTitle($value[1]);
                 break;
 
             case "term":
                 include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
                 $type = $lng->txt("term");
-                $name =	ilGlossaryTerm::_lookGlossaryTerm($value[1]);
+                $name = ilGlossaryTerm::_lookGlossaryTerm($value[1]);
                 break;
 
             default:
                 $type = $lng->txt("obj_" . $value[0]);
-                $name =	ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
+                $name = ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
                 break;
         }
         
-        return array("type"=>$type, "name"=>$name);
+        return array("type" => $type, "name" => $name);
     }
 
     /**
@@ -594,7 +594,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         if ($type != "" && $target_id != "") {
             $val = $type . "|" . $target_id;
             if ($a_target_frame != "") {
-                $val.= 	"|" . $a_target_frame;
+                $val .= "|" . $a_target_frame;
             }
             $this->setValue($val);
         }
