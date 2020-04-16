@@ -54,7 +54,7 @@ class Order
             ', ',
             array_map(
                 function ($entry) {
-                    return implode($entry, ' ');
+                    return implode(' ', $entry);
                 },
                 $this->order
             )
