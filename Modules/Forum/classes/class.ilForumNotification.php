@@ -438,7 +438,7 @@ class ilForumNotification
         );
 
         $res_2 = $ilDB->queryF(
-            'SELECT user_id FROM frm_notification 
+            'SELECT DISTINCT user_id FROM frm_notification 
 		WHERE frm_id = %s 
 		AND  thread_id = %s
 		 ORDER BY user_id ASC',
@@ -446,9 +446,13 @@ class ilForumNotification
             array(0, $merge_target_thread_id)
         );
 
-        $users_already_notified = $ilDB->fetchAssoc($res_2);
+        $users_already_notified = array();
+        while ($users_row = $ilDB->fetchAssoc($res_2)) {
+            $users_already_notified[$users_row['user_id']] = $users_row['user_id'];
+        }
+
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (in_array($row['user_id'], $users_already_notified)) {
+            if (isset($users_already_notified[$row['user_id']])) {
                 // delete source notification because already exists for target_id
                 $ilDB->manipulatef(
                     'DELETE FROM frm_notification WHERE notification_id = %s',
