@@ -2226,49 +2226,64 @@ class ilForum
 
         $sourceThreadRootArray = $this->getPostNode($sourceThreadRootNode->getId());
 
-        $targetRootNodeRgt = $targetThreadRootNode->getRgt();
-        // update target root node rgt: Ignore the root node itself from the source (= -2)
-        \ilForumPostsTree::updateTargetRootRgt(
-            $targetThreadRootNode->getId(),
-            ($targetThreadRootNode->getRgt() + $sourceThreadRootNode->getRgt() - 2)
-        );
+        $ilAtomQuery = $this->db->buildAtomQuery();
+        $ilAtomQuery->addTableLock('frm_posts');
+        $ilAtomQuery->addTableLock('frm_posts_tree');
+        $ilAtomQuery->addTableLock('frm_threads');
+        $ilAtomQuery->addTableLock('frm_data');
 
-        $targetRootNodeId = $targetThreadRootNode->getId();
+        $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use (
+            $targetThreadForMerge,
+            $sourceThreadForMerge,
+            $targetThreadRootNode,
+            $sourceThreadRootNode,
+            $allSourcePostings
+        ) {
+            $targetRootNodeRgt = $targetThreadRootNode->getRgt();
+            $targetRootNodeId = $targetThreadRootNode->getId();
 
-        // get source post tree and update posts tree
-        foreach ($allSourcePostings as $post) {
-            $post_obj = new ilForumPost($post->pos_pk);
-
-            if ((int) $post_obj->getId() === (int) $sourceThreadRootNode->getId()) {
-                // Ignore the source root node (MUST be deleted later)
-                continue;
+            // update target root node rgt: Ignore the root node itself from the source (= -2)
+            \ilForumPostsTree::updateTargetRootRgt(
+                $targetThreadRootNode->getId(),
+                ($targetThreadRootNode->getRgt() + $sourceThreadRootNode->getRgt() - 2)
+            );
+    
+            // get source post tree and update posts tree
+            foreach ($allSourcePostings as $post) {
+                $post_obj = new ilForumPost($post->pos_pk);
+    
+                if ((int) $post_obj->getId() === (int) $sourceThreadRootNode->getId()) {
+                    // Ignore the source root node (MUST be deleted later)
+                    continue;
+                }
+    
+                $tree = new \ilForumPostsTree();
+                $tree->setPosFk($post->pos_pk);
+    
+                if ((int) $post_obj->getParentId() === (int) $sourceThreadRootNode->getId()) {
+                    $tree->setParentPos($targetRootNodeId);
+                } else {
+                    $tree->setParentPos($post_obj->getParentId());
+                }
+    
+                $tree->setLft(($post_obj->getLft() + $targetRootNodeRgt) - 2);
+                $tree->setRgt(($post_obj->getRgt() + $targetRootNodeRgt) - 2);
+    
+                $tree->setDepth($post_obj->getDepth());
+                $tree->setTargetThreadId($targetThreadForMerge->getId());
+                $tree->setSourceThreadId($sourceThreadForMerge->getId());
+    
+                $tree->merge();
             }
-
-            $tree = new \ilForumPostsTree();
-            $tree->setPosFk($post->pos_pk);
-
-            if ((int) $post_obj->getParentId() === (int) $sourceThreadRootNode->getId()) {
-                $tree->setParentPos($targetRootNodeId);
-            } else {
-                $tree->setParentPos($post_obj->getParentId());
-            }
-
-            $tree->setLft(($post_obj->getLft() + $targetRootNodeRgt) - 2);
-            $tree->setRgt(($post_obj->getRgt() + $targetRootNodeRgt) - 2);
-
-            $tree->setDepth($post_obj->getDepth());
-            $tree->setTargetThreadId($targetThreadForMerge->getId());
-            $tree->setSourceThreadId($sourceThreadForMerge->getId());
-
-            $tree->merge();
-        }
-
-        // update frm_posts pos_thr_fk = target_thr_id
-        \ilForumPost::mergePosts(
-            (int) $sourceThreadForMerge->getId(),
-            (int) $targetThreadForMerge->getId(),
-            [(int) $sourceThreadRootNode->getId(),]
-        );
+    
+            // update frm_posts pos_thr_fk = target_thr_id
+            \ilForumPost::mergePosts(
+                (int) $sourceThreadForMerge->getId(),
+                (int) $targetThreadForMerge->getId(),
+                [(int) $sourceThreadRootNode->getId(),]
+            );
+        });
+        $ilAtomQuery->run();
 
         // check notifications
         \ilForumNotification::mergeThreadNotificiations($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
