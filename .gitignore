@@ -11,6 +11,7 @@
 /extern
 /Services/PHPUnit/config/cfg.phpunit.php
 /nbproject
+/node_modules
 
 # General Patterns
 *.bak

@@ -1,16 +1,15 @@
-# How to add dependencies with bower in ILIAS
+# npm
 
-**DEPRECATED**: Please use [npm](../docs/development/js/npm.md) instead.
+npm is used in ILIAS mostly to organise client side js and css libraries.
 
 **New dependencies MUST be approved by the Jour Fixe of the ILIAS society or by the Technical Board.**
 
 To propose a new dependency, create a Pull Request on GitHub that contains the
-proposed changes to `bower.json`, name it like "Add library XYZ" and assign
+proposed changes to `package.json`, name it like "Add library XYZ" and assign
 the "jour fixe"-label.
 
 ## Dependencies for production
-- Comment all lines in libs/.gitignore which begin with bower/
-- Add a new library using bower, e.g. "bower install bootstrap@3.3.7 --save"
+- Install the new library, e.g. "npm install bootstrap@3.3.7"
 - Add a section in "extra" with the following metadata":
 ```json
  "jquery": {
@@ -21,10 +20,10 @@ the "jour fixe"-label.
       "last-update-for-ilias": "5.3.0" // ILIAS Version that last updated this Library
     },
 ```
-- Run "bower install"
-- Add all files to ILIAS git-repository and commit
+- Commit the changes in packages.json and package-lock.json
 
 ## Dependencies for development
-- Add a new library using bower, e.g. "bower install mocha --save-dev" 
-- Ignore all directories which are added by installation (uncomment existing)
-- commit changes in gitignore and bower.json.
+- Install the new library, e.g. "npm install webpack --save-dev"
+- Commit the changes in packages.json and package-lock.json
+
+The node_modules/ directory is currently not committed, this is open for discussion.

@@ -276,8 +276,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot');
-  src: url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../libs/bower/bower_components/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../../node_modules/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;

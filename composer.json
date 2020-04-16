@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "php setup/cli.php build-artifacts --yes"
+			"php setup/cli.php build-artifacts --yes",
+			"npm i"
 		],
 		"test-php-all": [
 		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
