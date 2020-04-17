@@ -349,7 +349,7 @@ class ilObjStudyProgrammeSettingsGUI
                        ->withRequired(true),
                 self::PROP_DESC =>
                     $ff->textarea($this->txt("description"))
-                       ->withValue($trans->getDefaultDescription())
+                       ->withValue($trans->getDefaultDescription() ?? "")
             ],
             $this->txt("prg_edit"),
             $this->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .
