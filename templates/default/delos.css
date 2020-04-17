@@ -8225,10 +8225,10 @@ ul.dropdown-menu > li > .btn:focus {
   align-self: auto;
 }
 .il-table-presentation-viewcontrols {
+  background-color: #e2e8ef;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #e2e8ef;
 }
 .il-table-presentation-viewcontrols > div {
   padding: 6px;
@@ -8296,16 +8296,21 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-viewcontrols .il-viewcontrol-mode {
   order: 2;
 }
-.il-table-presentation-viewcontrols .il-viewcontrol-sortation {
+.il-table-presentation-viewcontrols .il-viewcontrol-sortatio {
   order: 3;
 }
 .il-table-presentation-row {
-  white-space: nowrap;
-  margin: 0;
+  background-color: white;
   border-top: 1px solid #ddd;
+  margin: 0;
   padding-top: 6px;
   padding-bottom: 6px;
-  background-color: white;
+  position: relative;
+  white-space: nowrap;
+}
+.il-table-presentation-row .il-table-presentation-actions {
+  right: 10px;
+  position: absolute;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -8327,6 +8332,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
   width: 95%;
+}
+.il-table-presentation-row .il-table-presentation-actions {
+  margin: 5px 0;
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 17px;
