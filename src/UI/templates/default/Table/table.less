@@ -1,60 +1,72 @@
 
-.il-table-presentation-viewcontrols{
+.il-table-presentation-viewcontrols {
+	background-color: @il-table-presentation-details-viewcontrols-bg-color;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 
-	background-color: @il-table-presentation-details-viewcontrols-bg-color;
-
-	>div{
+	> div {
 		padding: @padding-large-vertical;
 	}
 
-	.btn-default:not(.disabled){
+	.btn-default:not(.disabled) {
 		//Using Mixin for buttons
 		.button-variant(@il-table-presentation-details-viewcontrols-btn-color; @il-table-presentation-details-viewcontrols-btn-bg; @il-btn-standard-border);
 	}
 
-	.il-viewcontrol-pagination{
+	.il-viewcontrol-pagination {
 		order: 1;
 	}
-	.il-viewcontrol-mode{
+	.il-viewcontrol-mode {
 		order: 2;
 	}
-	.il-viewcontrol-sortation{
+	.il-viewcontrol-sortatio {
 		order: 3;
 	}
 }
 
 .il-table-presentation-row {
-	white-space: nowrap;
-	margin: 0;
+	background-color: @il-primary-container-bg;
 	border-top: @il-table-presentation-rowborder-top;
+	margin: 0;
 	padding-top: @padding-large-vertical;
 	padding-bottom: @padding-large-vertical;
-	background-color: @il-primary-container-bg;
+	position: relative;
+	white-space: nowrap;
+
+	.il-table-presentation-actions {
+		right: 10px;
+		position: absolute;
+	}
 
 	.il-table-presentation-row-controls,
 	.il-table-presentation-row-contents {
 		display: inline-block;
 		vertical-align: top;
 	}
+
 	.il-table-presentation-row-controls {
 		width: @il-table-presentation-rowcontrol-colwidth;
 		padding-left: @padding-small-horizontal;
 		.il-table-presentation-row-controls-collapser {
 			display: none; /*initially hidden*/
 		}
+
 		.il-table-presentation-row-controls-expander {
 			display: block; /*initially visible*/
 		}
 	}
+
 	.il-table-presentation-row-contents {
 		white-space: normal;
 		width: @il-table-presentation-contents-colwidth;
 	}
 
-	.il-table-presentation-row-header{
+	.il-table-presentation-actions {
+		margin: 5px 0;
+	}
+
+	.il-table-presentation-row-header {
 		h4 {
 			font-size: @font-size-h4;
 			font-weight: normal;
@@ -62,6 +74,7 @@
 			margin: 0;
 			cursor: pointer;
 		}
+
 		.il-table-presentation-row-header-fields {
 			display: block; /*initially visible*/
 		}
@@ -75,12 +88,12 @@
 		margin-left: 0;
 		margin-right: 0;
 
-
 		.il-table-presentation-desclist {
 			//Using column mixin, to make this responsive
 			.make-sm-column(7);
 			padding-left: 0;
 		}
+
 		.il-table-presentation-details {
 			//Using column mixin, to make this responsive
 			.make-sm-column(5);
@@ -98,5 +111,4 @@
 			}
 		}
 	}
-
 }
