@@ -91,7 +91,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 		<label>label</label>
-<button class="il-toggle-button" id="id_1" aria-pressed="false">
+<button class="il-toggle-button off" id="id_1" aria-pressed="false">
     <div class="il-toggle-switch"></div>
 </button>
 EOT;
@@ -110,6 +110,7 @@ EOT;
             . '</button>';
 
         $this->assertHTMLEquals($expected, $r->render($button));
+        return $button;
     }
 
     public function test_render_with_signals()
@@ -125,11 +126,32 @@ EOT;
 
         $expected = <<<EOT
 		<label>label</label>
-<button class="il-toggle-button" id="id_1" aria-pressed="false">
+<button class="il-toggle-button off" id="id_1" aria-pressed="false">
     <div class="il-toggle-switch"></div>
 </button>
 EOT;
 
         $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
+    }
+
+    /**
+     * @depends test_render_setOn_on_default
+     */
+    public function test_append_UnavailAction($button)
+    {
+        $r = $this->getDefaultRenderer();
+        $button = $button->withUnavailableAction();
+
+        $html = $r->render($button);
+
+        $expected = ''
+            . '<button class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
+            . '    <div class="il-toggle-switch"></div>'
+            . '</button>';
+
+        $this->assertHTMLEquals(
+            $expected,
+            $html
+        );
     }
 }
