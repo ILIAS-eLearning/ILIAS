@@ -6,6 +6,6 @@ class ilImagePathResolver implements ImagePathResolver
 {
     public function resolveImagePath(string $image_path) : string
     {
-        return '';
+        return ilUtil::getImagePath($image_path);
     }
 }

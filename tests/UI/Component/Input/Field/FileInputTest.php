@@ -222,7 +222,6 @@ class FileInputTest extends ILIAS_UI_TestBase
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
-
     public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
     {
         $ui_factory = $this->getUIFactory();
@@ -234,6 +233,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         }
 
         $refinery = $this->getRefinery();
+        $img_resolver = new ilImagePathResolver();
 
         $component_renderer_loader
             = new LoaderCachingWrapper(
@@ -241,25 +241,28 @@ class FileInputTest extends ILIAS_UI_TestBase
                     $resource_registry,
                     new FSLoader(
                         new DefaultRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver
                     ),
                         new GlyphRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver
                     ),
                         new FieldRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver
                     )
                 )
             )

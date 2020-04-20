@@ -11,9 +11,8 @@ use ILIAS\UI\Component;
 class Renderer extends AbstractComponentRenderer
 {
     const DEFAULT_ICON_NAME = 'default';
-    const ICON_PATH = './templates/default/images';
-    const ICON_OUTLINED_PATH = './templates/default/images/outlined';
     const ICON_NAME_PATTERN = 'icon_%s.svg';
+    const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
 
     /**
      * @inheritdoc
@@ -60,12 +59,13 @@ class Renderer extends AbstractComponentRenderer
         if (!in_array($name, $icon->getAllStandardHandles())) {
             $name = self::DEFAULT_ICON_NAME;
         }
-
-        $path = self::ICON_PATH;
+        $pattern = self::ICON_NAME_PATTERN;
         if ($icon->isOutlined()) {
-            $path = self::ICON_OUTLINED_PATH;
+            $pattern = self::ICON_NAME_PATTERN_OUTLINED;
         }
-        return $path . '/' . sprintf(self::ICON_NAME_PATTERN, $name);
+
+        $icon_name = sprintf($pattern, $name);
+        return $this->getImagePathResolver()->resolveImagePath($icon_name);
     }
 
     /**
