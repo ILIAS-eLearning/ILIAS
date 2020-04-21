@@ -115,10 +115,13 @@
 
 .il-maincontrols-slate-content {
 	p, h1, h2, h3, h4, li {
-		padding: @il-slate-content-padding;
+		padding: @il-slate-content-padding @il-slate-content-padding*2;
 	}
 	li.jstree-node {
 		padding: @il-slate-tree-padding;
+	}
+	li.il-workflow-step {
+		padding: 0 @il-slate-content-padding*2;
 	}
 }
 
