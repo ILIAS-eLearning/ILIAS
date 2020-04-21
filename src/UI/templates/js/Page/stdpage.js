@@ -70,5 +70,5 @@ il.UI = il.UI || {};
 	})($);
 })($, il.UI);
 il.Util.addOnLoad(function() {
-    $("main").focus();
+    $("main").attr("tabindex", -1).focus();
 });
