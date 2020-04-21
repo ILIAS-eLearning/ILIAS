@@ -165,9 +165,7 @@ class Factory
     }
 
     /**
-     * @param string $id
      * @param mixed $direction Order::ASC|Order::DESC
-     * @return Order
      */
     public function order(string $subject, $direction) : Order
     {
