@@ -51,9 +51,9 @@ class Order
         return $this->order;
     }
 
-    public function join(callable $fn, $prefix)
+    public function join($init, callable $fn)
     {
-        $ret = $prefix;
+        $ret = $init;
         foreach ($this->order as $key => $value) {
             $ret = $fn($ret, $key, $value);
         }

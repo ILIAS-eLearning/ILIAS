@@ -51,10 +51,10 @@ class orderTest extends TestCase
         $this->assertEquals(
             'SORT BY subject ASC',
             $order->join(
+                'SORT BY',
                 function ($pre, $k, $v) {
                     return "$pre $k $v";
-                },
-                'SORT BY'
+                }
             )
         );
     }
@@ -66,9 +66,12 @@ class orderTest extends TestCase
     {
         $this->assertEquals(
             'Sorting subject ASC, sub2 DESC,',
-            $order->join(function ($pre, $k, $v) {
-                return "$pre $k $v,";
-            }, 'Sorting')
+            $order->join(
+                'Sorting',
+                function ($pre, $k, $v) {
+                    return "$pre $k $v,";
+                }
+            )
         );
     }
 
