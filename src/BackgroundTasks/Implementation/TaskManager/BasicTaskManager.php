@@ -90,9 +90,15 @@ abstract class BasicTaskManager implements TaskManager
         if (is_a($task, Task\UserInteraction::class)) {
             /** @var Task\UserInteraction $userInteraction */
             $userInteraction = $task;
-            $observer->notifyCurrentTask($userInteraction);
-            $observer->notifyState(State::USER_INTERACTION);
-            throw new UserInteractionRequiredException("User interaction required.");
+
+            if ($userInteraction->canBeSkipped($final_values)) {
+                return $userInteraction->getSkippedValue($final_values);
+            //
+            } else {
+                $observer->notifyCurrentTask($userInteraction);
+                $observer->notifyState(State::USER_INTERACTION);
+                throw new UserInteractionRequiredException("User interaction required.");
+            }
         }
 
         throw new Exception("You need to execute a Job or a UserInteraction.");

@@ -216,6 +216,9 @@ class BasicPersistence implements Persistence
         $taskContainer->setBucketId($bucketId);
         $reflection = new \ReflectionClass(get_class($task));
         $taskContainer->setClassName(get_class($task));
+        // bugfix mantis 23503
+        $absolute_class_path = $reflection->getFileName();
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         $taskContainer->setClassPath($reflection->getFileName());
 
         // Recursivly save the inputs and link them to this task.
@@ -282,7 +285,10 @@ class BasicPersistence implements Persistence
         // Save information about the value
         $reflection = new \ReflectionClass(get_class($value));
         $valueContainer->setClassName(get_class($value));
-        $valueContainer->setClassPath($reflection->getFileName());
+        // bugfix mantis 23503
+        // $absolute_class_path = $reflection->getFileName();
+        // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
+        // $valueContainer->setClassPath($relative_class_path);
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
         $valueContainer->setBucketId($bucketId);
@@ -402,12 +408,12 @@ class BasicPersistence implements Persistence
         /** @var TaskContainer $taskContainer */
         $taskContainer = TaskContainer::find($taskContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($taskContainer->getClassPath());
         /** @var Task $task */
         $task = $factory->createTask($taskContainer->getClassName());
 
         // Bugfix 0023775
         // Added additional orderBy for the id to ensure that the items are returned in the right order.
+
         /** @var ValueToTaskContainer $valueToTask */
         $valueToTasks = ValueToTaskContainer::where(['task_id' => $taskContainerId])->orderBy('task_id')->orderBy('id')->get();
         $inputs = [];
@@ -434,7 +440,7 @@ class BasicPersistence implements Persistence
         /** @var ValueContainer $valueContainer */
         $valueContainer = ValueContainer::find($valueContainerId);
         /** @noinspection PhpIncludeInspection */
-        require_once($valueContainer->getClassPath());
+        
         /** @var Value $value */
         $value = $factory->createInstance($valueContainer->getClassName());
 
