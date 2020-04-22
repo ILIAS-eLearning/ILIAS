@@ -80,6 +80,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     public function beforeRendering()
     {
         if ($this->cnt_lmobj > 200 && !$this->getOfflineMode()) {
+            $this->ctrl->setParameter($this->parent_obj, "obj_id", $_GET["obj_id"]);
             $this->setAjax(true);
         }
     }
