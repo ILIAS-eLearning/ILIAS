@@ -193,6 +193,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 }
                 $this->ctrl->redirectByClass($struct, $cmd);
                 break;
+            case 'ilobjtestgui':
+                $struct = ['ilrepositorygui','ilobjtestgui'];
+                $this->ctrl->redirectByClass($struct, $cmd);
+                break;
 
             case false:
                 if ($cmd === '') {
@@ -570,7 +574,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->getLinkTarget(self::CMD_LEARNER_VIEW)
         );
 
-        if ($this->checkAccess("edit_permission")) {
+        if ($this->checkAccess("write")) {
             $this->tabs->addSubTab(
                 self::TAB_MANAGE,
                 $this->lng->txt(self::TAB_MANAGE),

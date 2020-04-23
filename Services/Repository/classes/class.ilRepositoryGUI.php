@@ -28,6 +28,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjIndividualAssessmentGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLTIConsumerGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCmiXapiGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilPermissionGUI
 *
 */
 class ilRepositoryGUI
@@ -135,16 +136,16 @@ class ilRepositoryGUI
                     //echo "hhh";
                     $get_str = $post_str = "";
                     foreach ($_GET as $key => $value) {
-                        $get_str.= "-$key:$value";
+                        $get_str .= "-$key:$value";
                     }
                     foreach ($_POST as $key => $value) {
-                        $post_str.= "-$key:$value";
+                        $post_str .= "-$key:$value";
                     }
                     $ilLog->write("Repository: command called without ref_id." .
                         "GET:" . $get_str . "-POST:" . $post_str, $ilLog->WARNING);
                 }
                 // #10033
-                $_GET = array("baseClass"=>"ilRepositoryGUI");
+                $_GET = array("baseClass" => "ilRepositoryGUI");
                 $_POST = array();
                 $this->ctrl->setCmd("frameset");
             }
@@ -158,10 +159,10 @@ class ilRepositoryGUI
             if ($_GET["cmd"] != "" && $_GET["cmd"] != "frameset") {
                 $get_str = $post_str = "";
                 foreach ($_GET as $key => $value) {
-                    $get_str.= "-$key:$value";
+                    $get_str .= "-$key:$value";
                 }
                 foreach ($_POST as $key => $value) {
-                    $post_str.= "-$key:$value";
+                    $post_str .= "-$key:$value";
                 }
                 $ilLog->write("Repository: command called with ref_id that is not in tree." .
                     "GET:" . $get_str . "-POST:" . $post_str, $ilLog->WARNING);
@@ -343,7 +344,7 @@ class ilRepositoryGUI
                     $cmd = $this->ctrl->getCmd("");
                     
                     // check read access for category
-                    if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id)) {
+                    if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id) && $cmd != "showRepTree") {
                         $_SESSION["il_rep_ref_id"] = "";
                         $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
                         $this->tpl->printToStdout();

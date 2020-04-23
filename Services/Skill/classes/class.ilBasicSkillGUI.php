@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
-include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Basic skill GUI class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI
-* @ilCtrl_Calls ilBasicSkillGUI: ilCertificateGUI
-*
-* @ingroup ServicesSkill
-*/
+ * Basic skill GUI class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI
+ * @ilCtrl_Calls ilBasicSkillGUI: ilCertificateGUI
+ */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 {
     /**
@@ -209,7 +203,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             }
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
         $table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit", 0, $this->isInUse());
         $tpl->setContent($table->getHTML());
     }
@@ -224,7 +217,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -246,7 +238,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ni->setSize(6);
         $ni->setRequired(true);
         if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
             $ni->setValue($max + 10);
@@ -396,8 +387,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->saveParameter($this, "level_id");
         $this->setLevelHead();
         $ilTabs->activateTab("level_settings");
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -478,7 +468,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_really_delete_levels"));
@@ -565,13 +554,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $tpl->setTitle($lng->txt("skmg_skill_level"));
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         $path = $tree->getPathFull($this->node_object->getId());
         $desc = "";
         foreach ($path as $p) {
             if (in_array($p["type"], array("scat", "skll"))) {
-                $desc.= $sep . $p["title"];
+                $desc .= $sep . $p["title"];
                 $sep = " > ";
             }
         }
@@ -661,8 +649,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             ilObject::_isInTrash($trigger["ref_id"])) {
             $trigger = array();
         }
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
         
         // trigger
@@ -703,7 +690,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setLevelHead();
         $ilTabs->activateTab("level_trigger");
 
-        include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
         $exp = new ilSearchRootSelector(
             $ilCtrl->getLinkTarget($this, 'showRepositorySelection')
         );
@@ -788,8 +774,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
-        
-        include_once("./Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php");
+
         $tab = new ilSkillLevelResourcesTableGUI(
             $this,
             "showLevelResources",
@@ -807,16 +792,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     public function addLevelResource()
     {
-        $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $tree = $this->tree;
         $tpl = $this->tpl;
 
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
 
-        include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
             "addLevelResource",
@@ -844,7 +825,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
 
         if ($ref_id > 0) {
-            include_once("./Services/Skill/classes/class.ilSkillResources.php");
             $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
             $sres->setResourceAsImparting((int) $_GET["level_id"], $ref_id);
             $sres->save();
@@ -876,7 +856,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showLevelResources");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_confirm_level_resources_removal"));
@@ -905,7 +884,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
 
         if (is_array($_POST["id"])) {
-            include_once("./Services/Skill/classes/class.ilSkillResources.php");
             $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
             foreach ($_POST["id"] as $i) {
                 $sres->setResourceAsImparting((int) $_GET["level_id"], $i, false);
@@ -928,7 +906,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        include_once("./Services/Skill/classes/class.ilSkillResources.php");
         $resources = new ilSkillResources($this->base_skill_id, $this->tref_id);
 
         foreach ($resources->getResourcesOfLevel((int) $_GET["level_id"]) as $r) {

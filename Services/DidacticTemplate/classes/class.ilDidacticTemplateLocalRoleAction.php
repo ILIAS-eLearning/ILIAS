@@ -165,7 +165,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $writer->xmlStartTag(
             'roleTemplate',
             array(
-                'id'	=> $il_id
+                'id' => $il_id
             )
         );
 

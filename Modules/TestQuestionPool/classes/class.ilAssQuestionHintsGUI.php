@@ -24,16 +24,16 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     /**
      * command constants
      */
-    const CMD_SHOW_LIST								= 'showList';
-    const CMD_SHOW_HINT								= 'showHint';
-    const CMD_CONFIRM_DELETE						= 'confirmDelete';
-    const CMD_PERFORM_DELETE						= 'performDelete';
-    const CMD_SAVE_LIST_ORDER						= 'saveListOrder';
-    const CMD_CUT_TO_ORDERING_CLIPBOARD				= 'cutToOrderingClipboard';
-    const CMD_PASTE_FROM_ORDERING_CLIPBOARD_BEFORE	= 'pasteFromOrderingClipboardBefore';
-    const CMD_PASTE_FROM_ORDERING_CLIPBOARD_AFTER	= 'pasteFromOrderingClipboardAfter';
-    const CMD_RESET_ORDERING_CLIPBOARD				= 'resetOrderingClipboard';
-    const CMD_CONFIRM_SYNC							= 'confirmSync';
+    const CMD_SHOW_LIST = 'showList';
+    const CMD_SHOW_HINT = 'showHint';
+    const CMD_CONFIRM_DELETE = 'confirmDelete';
+    const CMD_PERFORM_DELETE = 'performDelete';
+    const CMD_SAVE_LIST_ORDER = 'saveListOrder';
+    const CMD_CUT_TO_ORDERING_CLIPBOARD = 'cutToOrderingClipboard';
+    const CMD_PASTE_FROM_ORDERING_CLIPBOARD_BEFORE = 'pasteFromOrderingClipboardBefore';
+    const CMD_PASTE_FROM_ORDERING_CLIPBOARD_AFTER = 'pasteFromOrderingClipboardAfter';
+    const CMD_RESET_ORDERING_CLIPBOARD = 'resetOrderingClipboard';
+    const CMD_CONFIRM_SYNC = 'confirmSync';
     
     /**
      * object that handles the current ordering clipboard state

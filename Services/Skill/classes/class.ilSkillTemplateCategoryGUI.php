@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
-include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill template category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_isCalledBy ilSkillTemplateCategoryGUI: ilObjSkillManagementGUI
- * @ingroup ServicesSkill
  */
 class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -162,7 +156,6 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $r = parent::initForm($a_mode);
         if ($a_mode == "create") {
             $ni = $this->form->getItemByPostVar("order_nr");
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
             $ni->setValue($max + 10);
@@ -192,8 +185,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         }
 
         $this->setTabs("content");
-        
-        include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
+
         $table = new ilSkillCatTableGUI(
             $this,
             "listItems",
@@ -332,15 +324,13 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         $this->setTabs("usage");
 
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         $usage_info = new ilSkillUsage();
         $usages = $usage_info->getAllUsagesOfTemplate((int) $_GET["obj_id"]);
 
         $html = "";
-        include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html.= $tab->getHTML() . "<br/><br/>";
+            $html .= $tab->getHTML() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

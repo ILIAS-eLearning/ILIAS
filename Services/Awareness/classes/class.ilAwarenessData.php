@@ -193,9 +193,9 @@ class ilAwarenessData
             $names[$k]["last_login"] = $online_users[$n["id"]]["last_login"];
             $sort_str = "";
             if ($n["public_profile"]) {
-                $sort_str.= $n["lastname"] . " " . $n["firstname"];
+                $sort_str .= $n["lastname"] . " " . $n["firstname"];
             } else {
-                $sort_str.= $n["login"];
+                $sort_str .= $n["login"];
             }
             $names[$k]["sort_str"] = $sort_str;
         }
@@ -283,9 +283,9 @@ class ilAwarenessData
                         $sort_str = "2";
                     }
                     if ($n["public_profile"]) {
-                        $sort_str.= $n["lastname"] . " " . $n["firstname"];
+                        $sort_str .= $n["lastname"] . " " . $n["firstname"];
                     } else {
-                        $sort_str.= $n["login"];
+                        $sort_str .= $n["login"];
                     }
                     $names[$k]["sort_str"] = $sort_str;
                 }

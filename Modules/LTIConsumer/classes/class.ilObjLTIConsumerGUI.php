@@ -782,7 +782,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
         
         $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
-        $target = $this->object->getLaunchMethod()=="newWin" ? "_blank" : "_self";
+        $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
         
         $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
         foreach ($launchParameters as $field => $value) {

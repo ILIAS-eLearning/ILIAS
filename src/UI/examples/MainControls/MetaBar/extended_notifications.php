@@ -34,8 +34,8 @@ function extended_notifications()
     $renderer = $DIC->ui()->renderer();
 
     //Create some bare UI Components Notification Item to be used all over the place
-    $icon              = $f->symbol()->icon()->standard("chtr", "chtr");
-    $title             = $f->link()->standard("Some Title", "#");
+    $icon = $f->symbol()->icon()->standard("chtr", "chtr");
+    $title = $f->link()->standard("Some Title", "#");
     $item = $f->item()->notification($title, $icon);
 
     //We provide 4 async endpoints here
@@ -50,7 +50,7 @@ function extended_notifications()
     //Endpoint for adding one single aggreate item
     $async_add_aggregate = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=true';
 
-    if ($_GET['close_item']==="true") {
+    if ($_GET['close_item'] === "true") {
         //Note that we passe back JS logic here for further processing here
         $js = $f->legacy("")->withOnLoadCode(function ($id) use ($async_replace_content_load_url) {
             return "
@@ -62,14 +62,14 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_load_replace']==="true") {
+    if ($_GET['async_load_replace'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
 
         //We create the amount of aggregates send to us by get and put an according
         //description into the newly create Notification Item
         $items = [];
-        for ($i = 1; $i<$added+1; $i++) {
+        for ($i = 1; $i < $added + 1; $i++) {
             $items[] = $closable_item->withDescription("This item is number: " . $i . " of a fix set of 10 entries.");
         }
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added)
@@ -79,7 +79,7 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_load_replace_content']==="true") {
+    if ($_GET['async_load_replace_content'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added);
@@ -87,7 +87,7 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_add_aggregate']==="true") {
+    if ($_GET['async_add_aggregate'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
 
@@ -167,12 +167,12 @@ function usuallyDoneByGlobalScreenProbablyIgnore($async_item, $f, $renderer, $ad
 
 
     //Just some candy, to give the whole example a more realistic look.
-    $mail_icon              = $f->symbol()->icon()->standard("mail", "mail");
-    $mail_title             = $f->link()->standard("Inbox", "link_to_inbox");
+    $mail_icon = $f->symbol()->icon()->standard("mail", "mail");
+    $mail_title = $f->link()->standard("Inbox", "link_to_inbox");
     $mail_notification_item = $f->item()->notification($mail_title, $mail_icon)
                                 ->withDescription("You have 23 unread mails in your inbox")
                                 ->withProperties(["Time" => "3 days ago"]);
-    $mail_slate    = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
+    $mail_slate = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
 
 
     //Note

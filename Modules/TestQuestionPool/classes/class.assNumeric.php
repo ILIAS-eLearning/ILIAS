@@ -450,7 +450,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $numeric_result, $ilDB, $active_id, $pass, $authorized) {
             $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
-            $row    = $ilDB->fetchAssoc($result);
+            $row = $ilDB->fetchAssoc($result);
             $update = $row["solution_id"];
             if ($update) {
                 if (strlen($numeric_result)) {
@@ -472,9 +472,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction(
                     $this->lng->txtlng(
-                    "assessment",
-                    "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
+                        "assessment",
+                        "log_user_entered_values",
+                        ilObjAssessmentFolder::_getLogLanguage()
                 ),
                     $active_id,
                     $this->getId()
@@ -485,9 +485,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction(
                     $this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
+                        "assessment",
+                        "log_user_not_entered_values",
+                        ilObjAssessmentFolder::_getLogLanguage()
                 ),
                     $active_id,
                     $this->getId()
@@ -687,7 +687,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

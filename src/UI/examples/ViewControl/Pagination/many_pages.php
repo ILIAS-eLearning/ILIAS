@@ -17,9 +17,9 @@ function many_pages()
         ->withMaxPaginationButtons(5)
         ->withCurrentPage($current_page);
 
-    $start = $pagination->getOffset();
-    $stop = $start + $pagination->getPageLength();
-    $result = "entries $start to $stop";
+    list($range_offset, $range_length) = $pagination->getRange()->unpack();
+    $result = "Show $range_length entries starting at $range_offset";
+
     return $renderer->render($pagination)
         . '<hr>'
         . $result;

@@ -26,10 +26,10 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $this->dic        = $DIC;
-        $this->lng        = $DIC['lng'];
+        $this->dic = $DIC;
+        $this->lng = $DIC['lng'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->error      = $DIC['ilErr'];
+        $this->error = $DIC['ilErr'];
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -54,7 +54,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $this->prepareOutput();
 
         $nextClass = $this->ctrl->getNextClass($this);
-        $cmd       = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         $tableDataProviderFactory = new ilTermsOfServiceTableDataProviderFactory();
         $tableDataProviderFactory->setDatabaseAdapter($this->dic->database());

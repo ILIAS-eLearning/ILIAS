@@ -1,16 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilSkillProfile.php");
 
 /**
  * Skill profile GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ilCtrl_Calls ilSkillProfileGUI: ilRepositorySearchGUI
- * @ingroup Skill/Profile
  */
 class ilSkillProfileGUI
 {
@@ -106,7 +103,6 @@ class ilSkillProfileGUI
         $next_class = $ilCtrl->getNextClass();
         switch ($next_class) {
             case 'ilrepositorysearchgui':
-                include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
                 $user_search = new ilRepositorySearchGUI();
                 $user_search->setTitle($lng->txt('skmg_add_user_to_profile'));
                 $user_search->setCallback($this, 'assignUser');
@@ -204,7 +200,6 @@ class ilSkillProfileGUI
             );
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillProfileTableGUI.php");
         $tab = new ilSkillProfileTableGUI($this, "listProfiles", $this->checkPermissionBool("write"));
         
         $tpl->setContent($tab->getHTML());
@@ -243,8 +238,7 @@ class ilSkillProfileGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $form = new ilPropertyFormGUI();
         
         // title
@@ -349,7 +343,6 @@ class ilSkillProfileGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listProfiles");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_delete_profiles"));
@@ -414,7 +407,6 @@ class ilSkillProfileGUI
             );
         }
         
-        include_once("./Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php");
         $tab = new ilSkillProfileLevelsTableGUI(
             $this,
             "showLevels",
@@ -448,7 +440,7 @@ class ilSkillProfileGUI
             $ilCtrl->getLinkTarget($this, "showLevels")
         );
 
-        include_once("./Services/Skill/classes/class.ilSkillSelectorGUI.php");
+
         $exp = new ilSkillSelectorGUI($this, "assignLevel", $this, "assignLevelSelectSkill", "cskill_id");
         if (!$exp->handleCommand()) {
             $tpl->setContent($exp->getHTML());
@@ -477,7 +469,6 @@ class ilSkillProfileGUI
             $ilCtrl->getLinkTarget($this, "showLevels")
         );
 
-        include_once("./Services/Skill/classes/class.ilSkillLevelProfileAssignmentTableGUI.php");
         $tab = new ilSkillLevelProfileAssignmentTableGUI(
             $this,
             "assignLevelSelectSkill",
@@ -527,14 +518,12 @@ class ilSkillProfileGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showLevels");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_confirm_remove_level_ass"));
             $cgui->setCancel($lng->txt("cancel"), "showLevels");
             $cgui->setConfirm($lng->txt("remove"), "removeLevelAssignments");
             
-            include_once("./Services/Skill/classes/class.ilBasicSkill.php");
             foreach ($_POST["ass_id"] as $i) {
                 $id_arr = explode(":", $i);
                 $cgui->addItem(
@@ -585,7 +574,6 @@ class ilSkillProfileGUI
         
         // add member
         if ($this->checkPermissionBool("write")) {
-            include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $ilToolbar,
@@ -605,7 +593,6 @@ class ilSkillProfileGUI
         
         $this->setTabs("users");
         
-        include_once("./Services/Skill/classes/class.ilSkillProfileUserTableGUI.php");
         $tab = new ilSkillProfileUserTableGUI(
             $this,
             "showUsers",
@@ -696,7 +683,6 @@ class ilSkillProfileGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showUsers");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_confirm_user_removal"));
@@ -781,7 +767,6 @@ class ilSkillProfileGUI
             $ilCtrl->redirect($this, "");
         }
 
-        include_once("./Services/Export/classes/class.ilExport.php");
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
@@ -814,10 +799,8 @@ class ilSkillProfileGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("skmg_input_file"), "import_file");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
@@ -841,11 +824,9 @@ class ilSkillProfileGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
 
         $form = $this->initInputForm();
         if ($form->checkInput()) {
-            include_once("./Services/Export/classes/class.ilImport.php");
             $imp = new ilImport();
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
 

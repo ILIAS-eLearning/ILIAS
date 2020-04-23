@@ -875,6 +875,10 @@ class ilWkhtmlToPdfConfig
      */
     public function getWKHTMLToPdfDefaultPath()
     {
+        $path = $this->getSavedDefaultBinaryPath();
+        if($path !== ''){
+            return $path;
+        }
         return '/usr/local/bin/wkhtmltopdf';
     }
 
@@ -1160,5 +1164,17 @@ class ilWkhtmlToPdfConfig
     {
         $this->config[] = 'cookie "PHPSESSID" "' . session_id() . '"';
         $this->config[] = 'cookie "ilClientId" "' . CLIENT_ID . '"';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSavedDefaultBinaryPath(){
+        $settings = new ilSetting('wkhtmltopdfrenderer');
+        $path = $settings->get('path');
+        if( ! is_bool($path) && $path != null && $path != ''){
+            return $path;
+        }
+        return '';
     }
 }

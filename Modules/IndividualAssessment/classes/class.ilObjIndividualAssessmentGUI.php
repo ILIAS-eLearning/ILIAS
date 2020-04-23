@@ -18,11 +18,6 @@
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
 
-require_once 'Services/Object/classes/class.ilObjectGUI.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php';
-require_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-
-
 class ilObjIndividualAssessmentGUI extends ilObjectGUI
 {
     const TAB_SETTINGS = 'settings';
@@ -33,6 +28,31 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     const TAB_EXPORT = 'export';
     const TAB_META_DATA = "meta_data";
 
+    /**
+     * @var ilNavigationHistory
+     */
+    protected $ilNavigationHistory;
+
+    /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @var ilObjUser
+     */
+    protected $usr;
+
+    /**
+     * @var ilErrorHandling
+     */
+    protected $error_object;
+
+    /**
+     * @var ilAccessHandler
+     */
+    protected $ilAccess;
+
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
@@ -41,12 +61,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->usr = $DIC['ilUser'];
-        $this->ilias = $DIC['ilias'];
+        $this->error_object = $DIC['ilErr'];
         $this->lng = $DIC['lng'];
-        $this->ilAccess = $DIC['ilAccess'];
         $this->lng->loadLanguageModule('iass');
         $this->tpl->loadStandardTemplate();
-        $this->locator = $DIC['ilLocator'];
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
     }
@@ -67,23 +85,20 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilpermissiongui':
-                $this->tabs_gui->setTabActive(self::TAB_PERMISSION);
-                require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
+                $this->tabs_gui->activateTab(self::TAB_PERMISSION);
                 $ilPermissionGUI = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($ilPermissionGUI);
                 break;
             case 'ilindividualassessmentsettingsgui':
-                $this->tabs_gui->setTabActive(self::TAB_SETTINGS);
-                require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php';
-                $gui = new ilIndividualAssessmentSettingsGUI($this, $this->ref_id);
+                $this->tabs_gui->activateTab(self::TAB_SETTINGS);
+                $gui = $this->object->getSettingsGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilindividualassessmentmembersgui':
                 $this->membersObject();
                 break;
             case 'ilinfoscreengui':
-                $this->tabs_gui->setTabActive(self::TAB_INFO);
-                require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
+                $this->tabs_gui->activateTab(self::TAB_INFO);
                 $info = $this->buildInfoScreen();
                 $this->ctrl->forwardCommand($info);
                 break;
@@ -91,8 +106,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 if (!$this->object->accessHandler()->mayViewObject()) {
                     $this->handleAccessViolation();
                 }
-                require_once 'Services/Tracking/classes/class.ilLearningProgressGUI.php';
-                $this->tabs_gui->setTabActive(self::TAB_LP);
+                $this->tabs_gui->activateTab(self::TAB_LP);
                 $learning_progress = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
@@ -101,13 +115,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($learning_progress);
                 break;
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilexportgui":
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
-                $this->tabs_gui->setTabActive(self::TAB_EXPORT);
+                $this->tabs_gui->activateTab(self::TAB_EXPORT);
                 $exp_gui = new ilExportGUI($this); // $this is the ilObj...GUI class of the resource
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
@@ -115,12 +127,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             case 'ilobjectmetadatagui':
                 $this->checkPermissionBool("write");
                 $this->tabs_gui->activateTab(self::TAB_META_DATA);
-                include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI($this->object);
                 $this->ctrl->forwardCommand($md_gui);
                 break;
             case 'ilobjectcopygui':
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('crs');
                 $this->ctrl->forwardCommand($cp);
@@ -139,15 +149,9 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         return true;
     }
 
-    public function tabsGUI()
-    {
-        return $this->tabs_gui;
-    }
-
     public function viewObject()
     {
-        $this->tabs_gui->setTabActive(self::TAB_INFO);
-        require_once 'Services/InfoScreen/classes/class.ilInfoScreenGUI.php';
+        $this->tabs_gui->activateTab(self::TAB_INFO);
         $this->ctrl->setCmd('showSummary');
         $this->ctrl->setCmdClass('ilinfoscreengui');
         $info = $this->buildInfoScreen();
@@ -156,9 +160,8 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     public function membersObject()
     {
-        $this->tabs_gui->setTabActive(self::TAB_MEMBERS);
-        require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php';
-        $gui = new ilIndividualAssessmentMembersGUI($this, $this->ref_id);
+        $this->tabs_gui->activateTab(self::TAB_MEMBERS);
+        $gui = $this->object->getMembersGUI();
         $this->ctrl->forwardCommand($gui);
     }
 
@@ -166,7 +169,6 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     {
         $info = new ilInfoScreenGUI($this);
         if ($this->object) {
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
             $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'iass', $this->object->getId());
             $record_gui->setInfoObject($info);
             $record_gui->parse();
@@ -185,17 +187,17 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     protected function addMemberDataToInfo(ilInfoScreenGUI $info)
     {
         $member = $this->object->membersStorage()->loadMember($this->object, $this->usr);
-        $info->addSection($this->lng->txt('grading_info'));
+        $info->addSection($this->txt('grading_info'));
         if ($member->finalized()) {
-            $info->addProperty($this->lng->txt('grading'), $this->getEntryForStatus($member->LPStatus()));
+            $info->addProperty($this->txt('grading'), $this->getEntryForStatus($member->LPStatus()));
         }
         if ($member->notify() && $member->finalized()) {
-            $info->addProperty($this->lng->txt('grading_record'), nl2br($member->record()));
+            $info->addProperty($this->txt('grading_record'), nl2br($member->record()));
             if (($member->viewFile() || $view_self) && $member->fileName() && $member->fileName() != "") {
                 $tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
                 $tpl->setVariable("FILE_NAME", $member->fileName());
                 $tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadFile"));
-                $info->addProperty($this->lng->txt('iass_upload_file'), $tpl->get());
+                $info->addProperty($this->txt('iass_upload_file'), $tpl->get());
             }
         }
 
@@ -212,10 +214,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     protected function addGeneralDataToInfo(ilInfoScreenGUI $info)
     {
-        $content = $this->object->getSettings()->content();
+        $content = $this->object->getSettings()->getContent();
         if ($content !== null && $content !== '') {
-            $info->addSection($this->lng->txt('general'));
-            $info->addProperty($this->lng->txt('content'), $content);
+            $info->addSection($this->txt('general'));
+            $info->addProperty($this->txt('content'), $content);
         }
         return $info;
     }
@@ -224,35 +226,35 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     {
         $info_settings = $this->object->getInfoSettings();
         if ($this->shouldShowContactInfo($info_settings)) {
-            $info->addSection($this->lng->txt('iass_contact_info'));
-            $info->addProperty($this->lng->txt('iass_contact'), $info_settings->contact());
-            $info->addProperty($this->lng->txt('iass_responsibility'), $info_settings->responsibility());
-            $info->addProperty($this->lng->txt('iass_phone'), $info_settings->phone());
-            $info->addProperty($this->lng->txt('iass_mails'), $info_settings->mails());
-            $info->addProperty($this->lng->txt('iass_consultation_hours'), $info_settings->consultationHours());
+            $info->addSection($this->txt('iass_contact_info'));
+            $info->addProperty($this->txt('iass_contact'), $info_settings->getContact());
+            $info->addProperty($this->txt('iass_responsibility'), $info_settings->getResponsibility());
+            $info->addProperty($this->txt('iass_phone'), $info_settings->getPhone());
+            $info->addProperty($this->txt('iass_mails'), $info_settings->getMails());
+            $info->addProperty($this->txt('iass_consultation_hours'), $info_settings->getConsultationHours());
         }
         return $info;
     }
 
     protected function shouldShowContactInfo(ilIndividualAssessmentInfoSettings $info_settings)
     {
-        $val = $info_settings->contact();
+        $val = $info_settings->getContact();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->responsibility();
+        $val = $info_settings->getResponsibility();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->phone();
+        $val = $info_settings->getPhone();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->mails();
+        $val = $info_settings->getMails();
         if ($val !== null && $val !== '') {
             return true;
         }
-        $val = $info_settings->consultationHours();
+        $val = $info_settings->getConsultationHours();
         if ($val !== null && $val !== '') {
             return true;
         }
@@ -264,23 +266,22 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         if ($this->object->accessHandler()->mayViewObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_INFO,
-                $this->lng->txt('info_short'),
+                $this->txt('info_short'),
                 $this->getLinkTarget('info')
                                     );
         }
         if ($this->object->accessHandler()->mayEditObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_SETTINGS,
-                $this->lng->txt('settings'),
+                $this->txt('settings'),
                 $this->getLinkTarget('settings')
                                     );
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
                 $this->tabs_gui->addTab(
                     self::TAB_META_DATA,
-                    $this->lng->txt("meta_data"),
+                    $this->txt("meta_data"),
                     $mdtab
                 );
             }
@@ -291,7 +292,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             || $this->object->accessHandler()->mayViewUser()) {
             $this->tabs_gui->addTab(
                 self::TAB_MEMBERS,
-                $this->lng->txt('il_iass_members'),
+                $this->txt('il_iass_members'),
                 $this->getLinkTarget('members')
                                     );
         }
@@ -302,7 +303,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
             && ilObjUserTracking::_enabledLearningProgress()) {
             $this->tabs_gui->addTab(
                 self::TAB_LP,
-                $this->lng->txt('learning_progress'),
+                $this->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui')
                                     );
         }
@@ -340,6 +341,11 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         }
         return $this->ctrl->getLinkTarget($this, $a_cmd);
     }
+    public function editObject()
+    {
+        $link = $this->getLinkTarget('settings');
+        $this->ctrl->redirectToURL($link);
+    }
 
     public function getBaseEditForm()
     {
@@ -348,8 +354,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
 
     public function handleAccessViolation()
     {
-        global $DIC;
-        $DIC['ilias']->raiseError($DIC['lng']->txt("msg_no_perm_read"), $DIC['ilias']->error_obj->WARNING);
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
     public static function _goto($a_target, $a_add = '')
@@ -367,20 +372,20 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
     {
         switch ($a_status) {
             case ilIndividualAssessmentMembers::LP_IN_PROGRESS:
-                return $this->lng->txt('iass_status_pending');
+                return $this->txt('iass_status_pending');
                 break;
             case ilIndividualAssessmentMembers::LP_COMPLETED:
-                return $this->lng->txt('iass_status_completed');
+                return $this->txt('iass_status_completed');
                 break;
             case ilIndividualAssessmentMembers::LP_FAILED:
-                return $this->lng->txt('iass_status_failed');
+                return $this->txt('iass_status_failed');
                 break;
         }
     }
 
     protected function afterSave(ilObject $a_new_object)
     {
-        ilUtil::sendSuccess($this->lng->txt("iass_added"), true);
+        ilUtil::sendSuccess($this->txt("iass_added"), true);
         $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
         ilUtil::redirect($this->ctrl->getLinkTargetByClass('ilIndividualassessmentsettingsgui', 'edit', '', false, false));
     }
@@ -393,5 +398,10 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->ilNavigationHistory->addItem($_GET['ref_id'], $link, 'iass');
             }
         }
+    }
+
+    protected function txt(string $code) : string
+    {
+        return $this->lng->txt($code);
     }
 }

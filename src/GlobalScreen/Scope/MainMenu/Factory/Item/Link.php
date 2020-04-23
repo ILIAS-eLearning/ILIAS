@@ -41,7 +41,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -61,7 +61,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withAltText(string $alt_text) : Link
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -81,7 +81,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
 
         return $clone;
@@ -101,7 +101,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
 
         return $clone;
@@ -114,5 +114,4 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
     {
         return $this->is_external_action;
     }
-
 }

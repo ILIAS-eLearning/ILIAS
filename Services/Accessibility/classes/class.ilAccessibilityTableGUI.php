@@ -28,8 +28,8 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
     {
         parent::__construct($a_parent_obj, $command, $a_template_context);
 
-        $columns                      = $this->getColumnDefinition();
-        $this->optionalColumns        = (array) $this->getSelectableColumns();
+        $columns = $this->getColumnDefinition();
+        $this->optionalColumns = (array) $this->getSelectableColumns();
         $this->visibleOptionalColumns = (array) $this->getSelectedColumns();
 
         foreach ($columns as $index => $column) {
@@ -179,11 +179,11 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
 
         $params = [];
         if ($this->getExternalSegmentation()) {
-            $params['limit']  = $this->getLimit();
+            $params['limit'] = $this->getLimit();
             $params['offset'] = $this->getOffset();
         }
         if ($this->getExternalSorting()) {
-            $params['order_field']     = $this->getOrderField();
+            $params['order_field'] = $this->getOrderField();
             $params['order_direction'] = $this->getOrderDirection();
         }
 
@@ -202,7 +202,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         if (!count($data['items']) && $this->getOffset() > 0 && $this->getExternalSegmentation()) {
             $this->resetOffset();
             if ($this->getExternalSegmentation()) {
-                $params['limit']  = $this->getLimit();
+                $params['limit'] = $this->getLimit();
                 $params['offset'] = $this->getOffset();
             }
             $data = $this->provider->getList($params, $filter);

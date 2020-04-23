@@ -379,7 +379,7 @@ class ilCustomBlock
                 $ilDB->in("context_obj_id", $a_context_obj_ids, "", "integer") .
                 " AND context_obj_type = " . $ilDB->quote($a_context_obj_type, "text") .
             " ORDER BY title";
-        $set =  $ilDB->query($query);
+        $set = $ilDB->query($query);
         $result = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;

@@ -103,23 +103,23 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
         ilHtmlPurifierInterface $documentPurifier
     ) {
-        $this->tos                      = $tos;
-        $this->criterionTypeFactory     = $criterionTypeFactory;
-        $this->tpl                      = $tpl;
-        $this->ctrl                     = $ctrl;
-        $this->lng                      = $lng;
-        $this->rbacsystem               = $rbacsystem;
-        $this->error                    = $error;
-        $this->user                     = $user;
-        $this->log                      = $log;
-        $this->toolbar                  = $toolbar;
-        $this->httpState                = $httpState;
-        $this->uiFactory                = $uiFactory;
-        $this->uiRenderer               = $uiRenderer;
-        $this->fileSystems              = $fileSystems;
-        $this->fileUpload               = $fileUpload;
+        $this->tos = $tos;
+        $this->criterionTypeFactory = $criterionTypeFactory;
+        $this->tpl = $tpl;
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->rbacsystem = $rbacsystem;
+        $this->error = $error;
+        $this->user = $user;
+        $this->log = $log;
+        $this->toolbar = $toolbar;
+        $this->httpState = $httpState;
+        $this->uiFactory = $uiFactory;
+        $this->uiRenderer = $uiRenderer;
+        $this->fileSystems = $fileSystems;
+        $this->fileUpload = $fileUpload;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
-        $this->documentPurifier         = $documentPurifier;
+        $this->documentPurifier = $documentPurifier;
     }
 
     /**
@@ -252,11 +252,11 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->ctrl->setParameter($this, 'tos_id', $document->getId());
         }
 
-        $formAction  = $this->ctrl->getFormAction($this, 'saveAddDocumentForm');
+        $formAction = $this->ctrl->getFormAction($this, 'saveAddDocumentForm');
         $saveCommand = 'saveAddDocumentForm';
 
         if ($document->getId() > 0) {
-            $formAction  = $this->ctrl->getFormAction($this, 'saveEditDocumentForm');
+            $formAction = $this->ctrl->getFormAction($this, 'saveEditDocumentForm');
             $saveCommand = 'saveEditDocumentForm';
         }
 
@@ -530,11 +530,11 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->ctrl->setParameter($this, 'crit_id', $criterionAssignment->getId());
         }
 
-        $formAction  = $this->ctrl->getFormAction($this, 'saveAttachCriterionForm');
+        $formAction = $this->ctrl->getFormAction($this, 'saveAttachCriterionForm');
         $saveCommand = 'saveAttachCriterionForm';
 
         if ($criterionAssignment->getId() > 0) {
-            $formAction  = $this->ctrl->getFormAction($this, 'saveChangeCriterionForm');
+            $formAction = $this->ctrl->getFormAction($this, 'saveChangeCriterionForm');
             $saveCommand = 'saveChangeCriterionForm';
         }
 

@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This is what a radio-input looks like.
  */
-interface Radio extends Input
+interface Radio extends FormInput
 {
 
     /**
@@ -19,7 +19,7 @@ interface Radio extends Input
      *
      * @return 	Radio
      */
-    public function withOption(string $value, string $label, string $byline=null) : Radio;
+    public function withOption(string $value, string $label, string $byline = null) : Radio;
 
     /**
      * Get all options as value=>label.

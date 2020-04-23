@@ -19,14 +19,11 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
  */
 class ilIndividualAssessmentMembersTableGUI
 {
-    const CHANGED = "changed";
-    const GRADED = "graded";
-
     public function __construct(
         ilIndividualAssessmentMembersGUI $parent,
         ilLanguage $lng,
         ilCtrl $ctrl,
-        ilIndividualAssessmentAccessHandler $iass_access,
+        IndividualAssessmentAccessHandler $iass_access,
         Factory $factory,
         Renderer $renderer,
         int $current_user_id
@@ -109,8 +106,8 @@ class ilIndividualAssessmentMembersTableGUI
             return "";
         }
 
-        $examiner_id = $this->getExaminerId($record);
-        return $this->txt("grading") . ": " . $this->getStatus($record->finalized(), (int) $record->LPStatus(), $examiner_id);
+        $examiner_id = $record->examinerId();
+        return $this->txt("grading") . ": " . $this->getStatus($record->finalized(), $record->LPStatus(), $examiner_id);
     }
 
     /**
@@ -126,18 +123,51 @@ class ilIndividualAssessmentMembersTableGUI
             return [];
         }
 
-        $changer = array();
-        if (!is_null($record->changerId())) {
-            $changer_id = $this->getChangerId($record);
-            $changer = $this->getProfileLink(self::CHANGED, $this->getFullNameFor($changer_id), $changer_id);
+        $dfdf = array_merge(
+            $this->getGradedInformations($record->eventTime()),
+            $this->getGradedByInformation($record->examinerId()),
+            $this->getChangedByInformation($record->changerId(), $record->changeTime())
+        );
+
+        return  $dfdf;
+    }
+
+    protected function getGradedByInformation(?int $graded_by_id) : array
+    {
+        if (is_null($graded_by_id)) {
+            return [];
         }
 
-        $examiner_id = $this->getExaminerId($record);
-        return array_merge(
-            $this->getGradedInformations($record->eventTime()),
-            $this->getProfileLink(self::GRADED, $this->getFullNameFor($examiner_id), $examiner_id),
-            $changer
-        );
+        $full_name = $this->getFullNameFor($graded_by_id);
+        if (!$this->hasPublicProfile($graded_by_id)) {
+            return [$this->txt('iass_graded_by') => $full_name];
+        }
+
+        return [
+            $this->txt('iass_graded_by') => $this->getProfileLink($full_name, $graded_by_id)
+        ];
+    }
+
+    protected function getChangedByInformation(?int $changed_by_id, ?DateTime $change_date) : array
+    {
+        if (is_null($changed_by_id)) {
+            return [];
+        }
+
+        $changed_date_str = "";
+        if (!is_null($change_date)) {
+            $dt = new ilDate($change_date->format("Y-m-d"), IL_CAL_DATE);
+            $changed_date_str = ilDatePresentation::formatDate($dt);
+        }
+
+        $full_name = $this->getFullNameFor($changed_by_id);
+        if (!$this->hasPublicProfile($changed_by_id)) {
+            return [$this->txt('iass_changed_by') => $full_name . ' ' . $changed_date_str];
+        }
+
+        return [
+            $this->txt('iass_changed_by') => $this->getProfileLink($full_name, $changed_by_id) . ' ' . $changed_date_str
+        ];
     }
 
     /**
@@ -147,7 +177,7 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getContent(ilIndividualAssessmentMember $record) : array
     {
-        $examiner_id = $this->getExaminerId($record);
+        $examiner_id = $record->examinerId();
         if (
             !$this->checkEditable($record->finalized(), $examiner_id, (int) $record->id())
             && !$this->checkAmendable($record->finalized())
@@ -185,7 +215,7 @@ class ilIndividualAssessmentMembersTableGUI
             $this->getLocationInfos(
                 $record->place(),
                 $record->finalized(),
-                $this->getExaminerId($record),
+                $record->examinerId(),
                 (int) $record->id()
             )
         );
@@ -198,7 +228,7 @@ class ilIndividualAssessmentMembersTableGUI
     {
         $items = [];
 
-        $examiner_id = $this->getExaminerId($record);
+        $examiner_id = $record->examinerId();
         $usr_id = (int) $record->id();
         $finalized = $record->finalized();
         $file_name = $record->fileName();
@@ -206,7 +236,7 @@ class ilIndividualAssessmentMembersTableGUI
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
 
         if ($this->checkEditable($finalized, $examiner_id, $usr_id)) {
-            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'edit');
+            $target = $this->ctrl->getLinkTargetByClass(ilIndividualAssessmentMemberGUI::class, 'edit');
             $items[] = $ui_factory->button()->shy($this->txt('iass_usr_edit'), $target);
         }
 
@@ -223,7 +253,7 @@ class ilIndividualAssessmentMembersTableGUI
         }
 
         if ($this->checkDownloadFile($usr_id, $file_name)) {
-            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+            $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadFile');
             $items[] = $ui_factory->button()->shy($this->txt('iass_usr_download_attachment'), $target);
         }
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
@@ -241,8 +271,8 @@ class ilIndividualAssessmentMembersTableGUI
             $status = ilIndividualAssessmentMembers::LP_IN_PROGRESS;
         }
 
-        if (!$finalized && !is_null($examinerId)) {
-            $status = ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED;
+        if (!$finalized && !is_null($examiner_id)) {
+            return $this->txt('iass_assessment_not_completed');
         }
 
         return $this->getEntryForStatus($status);
@@ -253,10 +283,15 @@ class ilIndividualAssessmentMembersTableGUI
      *
      * @return string[]
      */
-    protected function getGradedInformations(ilDate $event_time) : array
+    protected function getGradedInformations(?DateTimeImmutable $event_time) : array
     {
+        $event_time_str = "";
+        if (!is_null($event_time)) {
+            $dt = new ilDate($event_time->format("Y-m-d"), IL_CAL_DATE);
+            $event_time_str = ilDatePresentation::formatDate($dt);
+        }
         return array(
-            $this->txt("iass_event_time") . ": " => ilDatePresentation::formatDate($event_time)
+            $this->txt("iass_event_time") . ": " => $event_time_str
         );
     }
 
@@ -277,27 +312,15 @@ class ilIndividualAssessmentMembersTableGUI
         return $name;
     }
 
-    protected function getProfileLink(string $case, string $examiner, int $examiner_id)
+    protected function getProfileLink(string $full_name, int $user_id)
     {
-        if ($examiner === "") {
-            return array();
-        }
-
-        if (!$this->hasPublicProfile($examiner_id)) {
-            return array(
-                $this->txt("iass_" . $case . "_by") => $examiner
-            );
-        }
-
         $back_url = $this->ctrl->getLinkTarget($this->parent, "view");
-        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $examiner_id);
+        $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user_id', $user_id);
         $this->ctrl->setParameterByClass('ilpublicuserprofilegui', "back_url", rawurlencode($back_url));
         $link = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-        $link = $this->factory->link()->standard($examiner, $link);
+        $link = $this->factory->link()->standard($full_name, $link);
 
-        return array(
-            $this->txt("iass_" . $case . "_by") => $this->renderer->render($link)
-        );
+        return $this->renderer->render($link);
     }
 
     protected function hasPublicProfile(int $examiner_id) : bool
@@ -391,37 +414,9 @@ class ilIndividualAssessmentMembersTableGUI
             case ilIndividualAssessmentMembers::LP_FAILED:
                 return $this->txt('iass_status_failed');
                 break;
-            case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
-                return $this->txt('iass_assessment_not_completed');
-                break;
+            default:
+                throw new ilIndividualAssessmentException("Invalid status: " . $a_status);
         }
-    }
-
-    /**
-     * Returns the examnier id from record
-     *
-     * @return int | null
-     */
-    protected function getExaminerId(ilIndividualAssessmentMember $record)
-    {
-        $examiner_id = $record->examinerId();
-
-        if (is_null($examiner_id)) {
-            return null;
-        }
-
-        return (int) $examiner_id;
-    }
-
-    protected function getChangerId(ilIndividualAssessmentMember $record)
-    {
-        $changer_id = $record->changerId();
-
-        if (is_null($changer_id)) {
-            return null;
-        }
-
-        return (int) $changer_id;
     }
 
     /**

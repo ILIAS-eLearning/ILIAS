@@ -443,7 +443,7 @@ class ilSetupLanguage extends ilLanguage
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
-                return array_slice($content, $key +1);
+                return array_slice($content, $key + 1);
             }
         }
 
@@ -532,7 +532,7 @@ class ilSetupLanguage extends ilLanguage
      */
     protected function insertLanguage($lang_key, $scope = '')
     {
-        $ilDB =&$this->db;
+        $ilDB = &$this->db;
         
         $lang_array = array();
         
@@ -785,7 +785,7 @@ class ilSetupLanguage extends ilLanguage
             return false;
         }
         
-        $this->db =&$a_db_handler;
+        $this->db = &$a_db_handler;
         
         return true;
     }

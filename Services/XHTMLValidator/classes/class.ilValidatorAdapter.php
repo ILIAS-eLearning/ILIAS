@@ -82,41 +82,41 @@ class ilValidatorAdapter
         /* no fatal errors. continue */
         if ($result) {
             if ($validator->internal_error()) {
-                $answer.= "<p>$message[13]:<br />\n";
-                $answer.= nl2br($validator->internal_errors_string()) . "</p>\n";
+                $answer .= "<p>$message[13]:<br />\n";
+                $answer .= nl2br($validator->internal_errors_string()) . "</p>\n";
             }
         
-            $answer.= '<p>';
+            $answer .= '<p>';
         
         
             /* If the document contains too many errors, the version may not be found */
             if ($detected_version = $validator->detected_version()) {
-                $answer.= "<strong>$message[14]</strong>: $detected_version<br />\n";
+                $answer .= "<strong>$message[14]</strong>: $detected_version<br />\n";
             }
         
             // enconding in use
-            $answer.= "<strong>$message[20]</strong>: {$validator->readable_charset()}";
+            $answer .= "<strong>$message[20]</strong>: {$validator->readable_charset()}";
         
             // language
             if ($validator->lang) {
-                $answer.= "<br />\n<strong>$message[24]</strong>: {$langs[$validator->lang]}";
+                $answer .= "<br />\n<strong>$message[24]</strong>: {$langs[$validator->lang]}";
             }
         
         
             /* Show HTML/XML errors */
             if ($errors = $validator->error()) {
-                $answer.= "<br />\n<strong>$message[21]</strong>: $errors</p>\n" .
+                $answer .= "<br />\n<strong>$message[21]</strong>: $errors</p>\n" .
                      "<h2>$message[16]</h2>\n";
         
                 if (empty($_REQUEST['errors']) || $_REQUEST['errors'] == 'along') {
-                    $answer.= '<code>' . $validator->errors_source() . "</code>\n\n";
+                    $answer .= '<code>' . $validator->errors_source() . "</code>\n\n";
                 } else { //errors alone
-                    $answer.= '<p>' . $validator->errors_string() . "</p>\n\n";
+                    $answer .= '<p>' . $validator->errors_string() . "</p>\n\n";
                 }
         
                 /* no errors found in the document */
             } else {
-                $answer.= "</p><p>$message[15]</p>\n";
+                $answer .= "</p><p>$message[15]</p>\n";
             }
         
         
@@ -124,8 +124,8 @@ class ilValidatorAdapter
             if (!isset($_REQUEST['repair']) || $_REQUEST['repair'] == 'full') {
                 $html = strtr(nl2br(htmlspecialchars($validator->repaired_source(), ENT_QUOTES, 'UTF-8')), array('  ' => ' &nbsp;'));
         
-                $answer.= "\n<p>&nbsp;</p>\n<h2>$message[17]</h2>\n";
-                $answer.= '<div class="code"><code>' . $html . "</code></div>\n";
+                $answer .= "\n<p>&nbsp;</p>\n<h2>$message[17]</h2>\n";
+                $answer .= '<div class="code"><code>' . $html . "</code></div>\n";
             }
             /* Diff */
         /*
@@ -140,8 +140,8 @@ class ilValidatorAdapter
         
         /* there was some error handling the URL/file upload */
         } else {
-            $answer.= "<p>$message[13]:<br />\n";
-            $answer.= nl2br($validator->internal_errors_string()) . "</p>\n";
+            $answer .= "<p>$message[13]:<br />\n";
+            $answer .= nl2br($validator->internal_errors_string()) . "</p>\n";
         }
 
         return $answer;

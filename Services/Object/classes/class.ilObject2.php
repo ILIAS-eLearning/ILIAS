@@ -139,7 +139,12 @@ abstract class ilObject2 extends ilObject
     protected function doCreate()
     {
     }
-    
+
+    /**
+     * If overwritten this method should return true,
+     * there is currently no "abort" handling for cases where "false" is returned.
+     * @return bool
+     */
     protected function beforeCreate()
     {
         return true;

@@ -116,10 +116,8 @@ class ilObjGroupListGUI extends ilObjectListGUI
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
 
-        // BEGIN WebDAV get parent properties
         $props = parent::getProperties();
-        // END WebDAV get parent properties
-        
+
         include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
         $info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
         //var_dump($info);
@@ -147,9 +145,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
         include_once './Modules/Group/classes/class.ilGroupWaitingList.php';
         if (ilGroupWaitingList::_isOnList($ilUser->getId(), $this->obj_id)) {
             $props[] = array(
-                "alert" 	=> true,
-                "property" 	=> $lng->txt('member_status'),
-                "value"		=> $lng->txt('on_waiting_list')
+                "alert" => true,
+                "property" => $lng->txt('member_status'),
+                "value" => $lng->txt('on_waiting_list')
             );
         }
         

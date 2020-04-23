@@ -63,11 +63,11 @@ class ilAssLacCompositeValidator
             //$this->checkQuestionIsReachable($question, $question_index);
 
             if ($this->isResultOfAnswerExpression($question_expression)) {
-                $answer_index = $question_expression->getAnswerIndex()-1;
+                $answer_index = $question_expression->getAnswerIndex() - 1;
                 $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index);
             }
             if ($answer_expression instanceof ilAssLacNumberOfResultExpression && !($question instanceof assClozeTest)) {
-                $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_expression->getNumericValue()-1);
+                $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_expression->getNumericValue() - 1);
             }
 
             $this->checkAnswerExpressionExist($question->getExpressionTypes(), $answer_expression, $question_index);
@@ -87,7 +87,7 @@ class ilAssLacCompositeValidator
                         throw new ilAssLacDuplicateElement($order);
                     }
 
-                    $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $order-1);
+                    $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $order - 1);
                 }
             }
             if ($question instanceof assClozeTest) {
@@ -97,7 +97,7 @@ class ilAssLacCompositeValidator
                 $this->isResultOfAnswerExpression($question_expression) &&
                 !($question instanceof assFormulaQuestion)
             ) {
-                throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index . "[" . ($answer_index+1) . "]");
+                throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index . "[" . ($answer_index + 1) . "]");
             }
         } elseif (
             ($composite->nodes[0] instanceof ilAssLacAbstractOperation &&
@@ -142,7 +142,7 @@ class ilAssLacCompositeValidator
                         }
                     } elseif ($answer_expression instanceof ilAssLacNumberOfResultExpression) {
                         foreach ($options->getItems($question->getShuffler()) as $item) {
-                            if ($item->getOrder() == $answer_expression->getNumericValue()-1) {
+                            if ($item->getOrder() == $answer_expression->getNumericValue() - 1) {
                                 $found = true;
                             }
                         }
@@ -159,7 +159,7 @@ class ilAssLacCompositeValidator
                 $found = true;
             }
             if (!$found && !($answer_expression instanceof ilAssLacPercentageResultExpression)) {
-                throw new ilAssLacAnswerValueNotExist($question_index, $answer_expression->getValue(), $answer_index+1);
+                throw new ilAssLacAnswerValueNotExist($question_index, $answer_expression->getValue(), $answer_index + 1);
             }
         }
     }
@@ -175,7 +175,7 @@ class ilAssLacCompositeValidator
     {
         $answer_options = $question->getAvailableAnswerOptions($answer_index);
         if ($answer_options == null) {
-            throw new ilAssLacAnswerIndexNotExist($question_index, $answer_index+1);
+            throw new ilAssLacAnswerIndexNotExist($question_index, $answer_index + 1);
         }
     }
 

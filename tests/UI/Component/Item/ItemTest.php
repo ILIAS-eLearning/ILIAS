@@ -143,7 +143,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 			<h5>Item Title</h5>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
 </li>
@@ -298,6 +298,21 @@ EOT;
 				</div>
 			</div>
 </div>
+EOT;
+
+        $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function test_link_title()
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $c = $f->standard(new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"));
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="il-item il-std-item "><h5><a href="https://www.ilias.de">ILIAS</a></h5></div>
 EOT;
 
         $this->assertHTMLEquals($expected, $html);

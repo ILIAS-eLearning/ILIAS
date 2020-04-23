@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Services/Link/classes/class.ilLink.php");
 
 /**
  * Skill level table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
@@ -45,7 +40,6 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $this->skill_id = $a_skill_id;
         $this->skill = new ilBasicSkill($a_skill_id);
         $this->tref_id = $a_tref_id;
@@ -110,7 +104,6 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     
         // add ressource data
         $res = array();
-        include_once("./Services/Skill/classes/class.ilSkillResources.php");
         $resources = new ilSkillResources($this->skill_id, $this->tref_id);
         foreach ($resources->getResources() as $level_id => $item) {
             $res[$level_id] = array_keys($item);

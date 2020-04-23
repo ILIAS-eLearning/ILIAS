@@ -17,7 +17,7 @@ trait ilHelpDisplayed
         if (!isset($show)) {
             global $DIC;
 
-            $user     = $DIC->user();
+            $user = $DIC->user();
             $settings = $DIC->settings();
 
             if ($user->getLanguage() != "de") {

@@ -4,8 +4,7 @@
 
 /**
  * Single news timeline item
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesNews
  */
@@ -38,7 +37,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Ref ID of news item
-     *
      * @var int
      */
     protected $news_item_ref_id;
@@ -61,10 +59,9 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Constructor
-     *
      * @param ilNewsItem $a_news_item
-     * @param $a_news_ref_id
-     * @param ilLikeGUI $a_like_gui
+     * @param            $a_news_ref_id
+     * @param ilLikeGUI  $a_like_gui
      */
     protected function __construct(ilNewsItem $a_news_item, $a_news_ref_id, \ilLikeGUI $a_like_gui)
     {
@@ -84,7 +81,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Get instance
-     *
      * @param ilNewsItem $a_news_item news item
      * @return ilNewsTimelineItemGUI
      */
@@ -93,10 +89,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return new self($a_news_item, $a_news_ref_id, $a_like_gui);
     }
 
-
     /**
      * Set news item
-     *
      * @param ilNewsItem $a_val news item
      */
     public function setNewsItem(ilNewsItem $a_val)
@@ -106,27 +100,24 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Get news item
-     *
      * @return ilNewsItem news item
      */
     public function getNewsItem()
     {
         return $this->news_item;
     }
-    
+
     /**
      * Set user can edit other users postings
-     *
      * @param bool $a_val user can edit all postings
      */
     public function setUserEditAll($a_val)
     {
         $this->user_edit_all = $a_val;
     }
-    
+
     /**
      * Get user can edit other users postings
-     *
      * @return bool user can edit all postings
      */
     public function getUserEditAll()
@@ -142,7 +133,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $i = $this->getNewsItem();
         return new ilDateTime($i->getCreationDate(), IL_CAL_DATETIME);
     }
-
 
     /**
      * @inheritdoc
@@ -171,13 +161,12 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
                     false,
                     true,
                     $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
-                ) . " - ");
+                    ) . " - ");
             }
             include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
             $tpl->setVariable("TIME_EDITED", ilDatePresentation::formatDate($update_date));
             $tpl->parseCurrentBlock();
         }
-
 
         // context object link
         include_once("./Services/Link/classes/class.ilLink.php");
@@ -262,7 +251,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Render media
-     *
      * @param
      * @return
      */
@@ -289,7 +277,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
             $mp = new ilMediaPlayerGUI();
             $mp->setFile($media_path);
-            $mp->setDisplayHeight(200);
             $html = $mp->getMediaPlayerHtml();
         } else {
             // download?
@@ -300,7 +287,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
     /**
      * Render media
-     *
      * @param ilNewsItem
      * @return string
      */
@@ -329,7 +315,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         }
         return $modal_html;
     }
-
 
     /**
      * Render footer
@@ -364,7 +349,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $note_gui->setDefaultCommand("getWidget");
 
         //ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
-        $html.= $this->ctrl->getHTML($note_gui);
+        $html .= $this->ctrl->getHTML($note_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $_GET["news_id"]);
 

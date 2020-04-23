@@ -7,14 +7,19 @@
 class ilTestTopList
 {
     /** @var $object ilObjTest */
-    protected $object;
+    private $object;
+    /** @var \ilDBInterface */
+    private $db;
 
     /**
      * @param ilObjTest $a_object
      */
     public function __construct(ilObjTest $a_object)
     {
+        global $DIC;
+
         $this->object = $a_object;
+        $this->db = $DIC->database();
     }
 
     /**
@@ -22,16 +27,11 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByWorkingtime($a_test_ref_id, $a_user_id)
+    public function getUserToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        // Get placement of user
-        $result = $ilDB->query(
+        $result = $this->db->query(
             '
-			SELECT count(tst_pass_result.workingtime) as count
+			SELECT COUNT(tst_pass_result.workingtime) cnt
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -39,8 +39,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND workingtime <
 			(
 				SELECT workingtime
@@ -50,19 +50,18 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 		'
         );
+        $row = $this->db->fetchAssoc($result);
+        $better_participants = $row['cnt'];
+        $own_placement = $better_participants + 1;
 
-        $row                 = $ilDB->fetchAssoc($result);
-        $better_participants = $row['count'];
-        $own_placement       = $better_participants + 1;
-
-        $result       = $ilDB->query(
+        $result = $this->db->query(
             '
-			SELECT count(tst_pass_result.workingtime) as count
+			SELECT COUNT(tst_pass_result.workingtime) cnt
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -70,12 +69,12 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer')
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer')
         );
-        $row          = $ilDB->fetchAssoc($result);
-        $number_total = $row['count'];
+        $row = $this->db->fetchAssoc($result);
+        $number_total = $row['cnt'];
 
-        $result = $ilDB->query(
+        $result = $this->db->query(
             '
 		SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
 			tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
@@ -87,8 +86,8 @@ class ilTestTopList
 			AND tst_pass_result.pass = tst_result_cache.pass
 		INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 
-		WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-		AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+		WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+		AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 
 		UNION(
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
@@ -100,8 +99,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND workingtime >=
 			(
 				SELECT tst_pass_result.workingtime
@@ -111,8 +110,8 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY workingtime DESC
 			LIMIT 0,3
@@ -127,8 +126,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND workingtime <
 			(
 				SELECT tst_pass_result.workingtime
@@ -138,8 +137,8 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY workingtime DESC
 			LIMIT 0,3
@@ -151,22 +150,21 @@ class ilTestTopList
 
         $i = $own_placement - (($better_participants >= 3) ? 3 : $better_participants);
 
-        $data = array();
+        $data = [];
 
         if ($i > 1) {
-            $item   = array('Rank' => '...');
+            $item = ['Rank' => '...'];
             $data[] = $item;
         }
 
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $item = $this->getResultTableRow($row, $i, $a_user_id);
             $i++;
             $data[] = $item;
         }
 
         if ($number_total > $i) {
-            $item   = array('Rank' => '...');
+            $item = ['Rank' => '...'];
             $data[] = $item;
         }
 
@@ -178,12 +176,10 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByPercentage($a_test_ref_id, $a_user_id)
+    public function getGeneralToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->query(
+        $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
+        $result = $this->db->query(
             '
 			SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname
 			FROM object_reference
@@ -192,20 +188,20 @@ class ilTestTopList
 			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			ORDER BY percentage DESC
-			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer') . '
-			'
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			ORDER BY percentage DESC'
         );
-        $i      = 0;
-        $data   = array();
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
+
+        $i = 0;
+        $data = [];
+
+        while ($row = $this->db->fetchAssoc($result)) {
             $i++;
             $item = $this->getResultTableRow($row, $i, $a_user_id);
 
             $data[] = $item;
         }
+
         return $data;
     }
 
@@ -214,12 +210,10 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByWorkingtime($a_test_ref_id, $a_user_id)
+    public function getGeneralToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->query(
+        $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
+        $result = $this->db->query(
             '
 			SELECT tst_result_cache.*, round(points/maxpoints*100,2) as percentage, tst_pass_result.workingtime, usr_data.usr_id, usr_data.firstname, usr_data.lastname
 			FROM object_reference
@@ -228,19 +222,19 @@ class ilTestTopList
 			INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			ORDER BY workingtime ASC
-			LIMIT 0, ' . $ilDB->quote($this->object->getHighscoreTopNum(), 'integer') . '
-			'
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			ORDER BY workingtime ASC'
         );
-        $i      = 0;
-        $data   = array();
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
+
+        $i = 0;
+        $data = [];
+
+        while ($row = $this->db->fetchAssoc($result)) {
             $i++;
-            $item   = $this->getResultTableRow($row, $i, $a_user_id);
+            $item = $this->getResultTableRow($row, $i, $a_user_id);
             $data[] = $item;
         }
+
         return $data;
     }
 
@@ -249,16 +243,11 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByPercentage($a_test_ref_id, $a_user_id)
+    public function getUserToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        // Get placement of user
-        $result = $ilDB->query(
+        $result = $this->db->query(
             '
-			SELECT count(tst_pass_result.workingtime) as count
+			SELECT COUNT(tst_pass_result.workingtime) cnt
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -266,8 +255,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND round(reached_points/max_points*100) >=
 			(
 				SELECT round(reached_points/max_points*100)
@@ -277,19 +266,18 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 		'
         );
+        $row = $this->db->fetchAssoc($result);
+        $better_participants = $row['cnt'];
+        $own_placement = $better_participants + 1;
 
-        $row                 = $ilDB->fetchAssoc($result);
-        $better_participants = $row['count'];
-        $own_placement       = $better_participants + 1;
-
-        $result       = $ilDB->query(
+        $result = $this->db->query(
             '
-			SELECT count(tst_pass_result.workingtime) as count
+			SELECT COUNT(tst_pass_result.workingtime) cnt
 			FROM object_reference
 			INNER JOIN tst_tests ON object_reference.obj_id = tst_tests.obj_fi
 			INNER JOIN tst_active ON tst_tests.test_id = tst_active.test_fi
@@ -297,12 +285,12 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer')
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer')
         );
-        $row          = $ilDB->fetchAssoc($result);
-        $number_total = $row['count'];
+        $row = $this->db->fetchAssoc($result);
+        $number_total = $row['cnt'];
 
-        $result = $ilDB->query(
+        $result = $this->db->query(
             '
 		SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage ,
 			tst_pass_result.workingtime, usr_id, usr_data.firstname, usr_data.lastname
@@ -314,8 +302,8 @@ class ilTestTopList
 			AND tst_pass_result.pass = tst_result_cache.pass
 		INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
 
-		WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-		AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+		WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+		AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 
 		UNION(
 			SELECT tst_result_cache.*, round(reached_points/max_points*100) as percentage,
@@ -327,8 +315,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND round(reached_points/max_points*100) >=
 			(
 				SELECT round(reached_points/max_points*100)
@@ -338,8 +326,8 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY round(reached_points/max_points*100) ASC
 			LIMIT 0,3
@@ -354,8 +342,8 @@ class ilTestTopList
 			INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 				AND tst_pass_result.pass = tst_result_cache.pass
 			INNER JOIN usr_data ON usr_data.usr_id = tst_active.user_fi
-			WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-			AND tst_active.user_fi != ' . $ilDB->quote($a_user_id, 'integer') . '
+			WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+			AND tst_active.user_fi != ' . $this->db->quote($a_user_id, 'integer') . '
 			AND round(reached_points/max_points*100) <=
 			(
 				SELECT round(reached_points/max_points*100)
@@ -365,8 +353,8 @@ class ilTestTopList
 				INNER JOIN tst_result_cache ON tst_active.active_id = tst_result_cache.active_fi
 				INNER JOIN tst_pass_result ON tst_active.active_id = tst_pass_result.active_fi
 					AND tst_pass_result.pass = tst_result_cache.pass
-				WHERE object_reference.ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer') . '
-				AND tst_active.user_fi = ' . $ilDB->quote($a_user_id, 'integer') . '
+				WHERE object_reference.ref_id = ' . $this->db->quote($a_test_ref_id, 'integer') . '
+				AND tst_active.user_fi = ' . $this->db->quote($a_user_id, 'integer') . '
 			)
 			ORDER BY round(reached_points/max_points*100) ASC
 			LIMIT 0,3
@@ -378,22 +366,21 @@ class ilTestTopList
 
         $i = $own_placement - (($better_participants >= 3) ? 3 : $better_participants);
 
-        $data = array();
+        $data = [];
 
         if ($i > 1) {
-            $item   = array('Rank' => '...');
+            $item = ['Rank' => '...'];
             $data[] = $item;
         }
 
-        /** @noinspection PhpAssignmentInConditionInspection */
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             $item = $this->getResultTableRow($row, $i, $a_user_id);
             $i++;
             $data[] = $item;
         }
 
         if ($number_total > $i) {
-            $item   = array('Rank' => '...');
+            $item = ['Rank' => '...'];
             $data[] = $item;
         }
 
@@ -402,42 +389,45 @@ class ilTestTopList
 
     /**
      * @param array $row
-     * @param int   $i
-     * @param int   $a_user_id
+     * @param int $i
+     * @param int $usrId
      * @return array
+     * @throws ilDateTimeException
      */
-    private function getResultTableRow($row, $i, $a_user_id)
+    private function getResultTableRow(array $row, int $i, int $usrId) : array
     {
-        $item         = array();
-        $item['Rank'] = $i . '. ';
+        $item = [];
 
-        if ($this->object->isHighscoreAnon() && $row['usr_id'] != $a_user_id) {
-            $item['Participant'] = "-, -";
+        $item['rank'] = $i . '. ';
+
+        if ($this->object->isHighscoreAnon() && (int) $row['usr_id'] !== $usrId) {
+            $item['participant'] = '-, -';
         } else {
-            $item['Participant'] = $row['lastname'] . ', ' . $row['firstname'];
+            $item['participant'] = $row['lastname'] . ', ' . $row['firstname'];
         }
 
         if ($this->object->getHighscoreAchievedTS()) {
-            $item['Achieved'] = new ilDateTime($row['tstamp'], IL_CAL_UNIX);
+            $item['achieved'] = new ilDateTime($row['tstamp'], IL_CAL_UNIX);
         }
 
         if ($this->object->getHighscoreScore()) {
-            $item['Score'] = $row['reached_points'] . ' / ' . $row['max_points'];
+            $item['score'] = $row['reached_points'] . ' / ' . $row['max_points'];
         }
 
         if ($this->object->getHighscorePercentage()) {
-            $item['Percentage'] = $row['percentage'] . '%';
+            $item['percentage'] = $row['percentage'] . '%';
         }
 
         if ($this->object->getHighscoreHints()) {
-            $item['Hints'] = $row['hint_count'];
+            $item['hints'] = $row['hint_count'];
         }
 
         if ($this->object->getHighscoreWTime()) {
-            $item['time'] = $this->formatTime($row['workingtime']);
+            $item['time'] = $this->formatTime((int) $row['workingtime']);
         }
 
-        $item['Highlight'] = ($row['usr_id'] == $a_user_id) ? 'tblrowmarked' : '';
+        $item['is_actor'] = ((int) $row['usr_id'] === $usrId);
+
         return $item;
     }
 
@@ -445,15 +435,16 @@ class ilTestTopList
      * @param int $seconds
      * @return string
      */
-    private function formatTime($seconds)
+    private function formatTime(int $seconds) : string
     {
         $retval = '';
-        $hours  = intval(intval($seconds) / 3600);
+        $hours = intval(intval($seconds) / 3600);
         $retval .= str_pad($hours, 2, "0", STR_PAD_LEFT) . ":";
         $minutes = intval(($seconds / 60) % 60);
         $retval .= str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":";
         $seconds = intval($seconds % 60);
         $retval .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
+
         return $retval;
     }
 }

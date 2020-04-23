@@ -97,6 +97,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $this->getLogger()->dump($claims, \ilLogLevel::DEBUG);
             $status = $this->handleUpdate($status, $claims);
 
+            // @todo : provide a general solution for all authentication methods
+            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
+
             if ($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
                 $token = $oidc->requestClientCredentialsToken();
                 ilSession::set('oidc_auth_token', $token->access_token);
@@ -127,19 +130,24 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
         }
 
         $uid_field = $this->settings->getUidField();
-        $ext_acocunt = $user_info->$uid_field;
+        $ext_account = $user_info->$uid_field;
 
-        $this->getLogger()->debug('Authenticated external account: ' . $ext_acocunt);
+        $this->getLogger()->debug('Authenticated external account: ' . $ext_account);
 
 
         $int_account = ilObjUser::_checkExternalAuthAccount(
             ilOpenIdConnectUserSync::AUTH_MODE,
-            $ext_acocunt
+            $ext_account
         );
 
         try {
             $sync = new ilOpenIdConnectUserSync($this->settings, $user_info);
-            $sync->setExternalAccount($ext_acocunt);
+            if (!is_string($ext_account)) {
+                $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+                $status->setReason('err_wrong_login');
+                return $status;
+            }
+            $sync->setExternalAccount($ext_account);
             $sync->setInternalAccount($int_account);
             $sync->updateUser();
 
@@ -147,6 +155,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             ilSession::set('used_external_auth', true);
             $status->setAuthenticatedUserId($user_id);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+
+            // @todo : provide a general solution for all authentication methods
+            $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
         } catch (ilOpenIdConnectSyncForbiddenException $e) {
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $status->setReason('err_wrong_login');

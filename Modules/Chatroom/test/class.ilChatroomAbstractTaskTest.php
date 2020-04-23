@@ -104,7 +104,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
     {
         require_once './Modules/Chatroom/classes/class.ilObjChatroomGUI.php';
 
-        $this->gui         = $this->getMockBuilder('ilObjChatroomGUI')->disableOriginalConstructor()->disableArgumentCloning()->setMethods(
+        $this->gui = $this->getMockBuilder('ilObjChatroomGUI')->disableOriginalConstructor()->disableArgumentCloning()->setMethods(
             array('getRefId', 'getConnector', 'switchToVisibleMode')
         )->getMock();
         $this->gui->ref_id = self::TEST_REF_ID;

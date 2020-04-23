@@ -33,7 +33,7 @@ class FactoriesCrawler implements Crawler
     /**
      * @inheritdoc
      */
-    public function crawlFactory($factoryPath, Entry\ComponentEntry $parent = null, $depth=0)
+    public function crawlFactory($factoryPath, Entry\ComponentEntry $parent = null, $depth = 0)
     {
         $depth++;
         if ($depth > 30) {

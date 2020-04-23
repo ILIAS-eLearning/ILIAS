@@ -94,7 +94,7 @@ class ilSurveyPhrasesGUI
         $cmd = $this->getCommand($cmd);
         switch ($next_class) {
             default:
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -146,10 +146,10 @@ class ilSurveyPhrasesGUI
             $ilToolbar->addButtonInstance($button);
         
             $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
-            $phrases =&ilSurveyPhrases::_getAvailablePhrases(1);
+            $phrases = &ilSurveyPhrases::_getAvailablePhrases(1);
             $data = array();
             foreach ($phrases as $phrase_id => $phrase_array) {
-                $categories =&ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+                $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
                 array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
             }
             $table_gui->setData($data);
@@ -220,11 +220,11 @@ class ilSurveyPhrasesGUI
     public function deletePhrasesForm($checked_phrases)
     {
         $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
-        $phrases =&ilSurveyPhrases::_getAvailablePhrases(1);
+        $phrases = &ilSurveyPhrases::_getAvailablePhrases(1);
         $data = array();
         foreach ($checked_phrases as $phrase_id) {
             $phrase_array = $phrases[$phrase_id];
-            $categories =&ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
+            $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
             array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
         }
         $table_gui->setData($data);
@@ -329,7 +329,7 @@ class ilSurveyPhrasesGUI
         $answers->setUseOtherAnswer(false);
         $answers->setShowNeutralCategory(true);
         $answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
-        $categories =&$this->getCategoriesForPhrase($phrase_id);
+        $categories = &$this->getCategoriesForPhrase($phrase_id);
         if (!$categories->getCategoryCount()) {
             $categories->addCategory("");
         }

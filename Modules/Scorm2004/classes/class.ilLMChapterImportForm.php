@@ -258,7 +258,7 @@ class ilLMChapterImportForm
                                 $this->slm,
                                 $a_node["id"],
                                 $a_parent["insert_id"],
-                                $a_target,
+                                $target,
                                 $a_node["insert_time"],
                                 $copied_nodes,
                                 true,

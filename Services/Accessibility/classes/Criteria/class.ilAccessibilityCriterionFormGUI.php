@@ -51,13 +51,13 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
         string $saveCommand = 'saveDocument',
         string $cancelCommand = 'showDocuments'
     ) {
-        $this->document             = $document;
-        $this->assignment           = $assignment;
+        $this->document = $document;
+        $this->assignment = $assignment;
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->actor                = $actor;
-        $this->formAction           = $formAction;
-        $this->saveCommand          = $saveCommand;
-        $this->cancelCommand        = $cancelCommand;
+        $this->actor = $actor;
+        $this->formAction = $formAction;
+        $this->saveCommand = $saveCommand;
+        $this->cancelCommand = $cancelCommand;
 
         parent::__construct();
 
@@ -110,8 +110,7 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
                 $this->addItem($languageSelection);
             }
             $this->addItem($criteriaSelection);
-        }
-        else {
+        } else {
             $criteriaSelection = new ilRadioGroupInputGUI($this->lng->txt('acc_form_criterion'), 'criterion');
             $criteriaSelection->setRequired(true);
             $criteriaSelection->setValue($this->assignment->getCriterionId());
@@ -205,7 +204,7 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
 
         try {
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($this->getInput('criterion'));
-            $criterionGui  = $criterionType->ui($this->lng);
+            $criterionGui = $criterionType->ui($this->lng);
 
             $this->assignment->setCriterionId($criterionType->getTypeIdent());
             $this->assignment->setCriterionValue($criterionGui->getConfigByForm($this));

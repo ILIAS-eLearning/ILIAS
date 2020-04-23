@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\UI\Implementation\Component\Button\Bulky;
 
-
 /**
  * Who-Is-Online meta bar provider
  *
@@ -101,7 +100,8 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
                 ->symbol()
                 ->glyph()
                 ->user()
-                ->withCounter($f->counter()->status((int) $online))
+                ->withCounter($f->counter()->status((int) $cnt))
+                ->withCounter($f->counter()->novelty((int) $hcnt))
             )
             ->withTitle("Who is online")
             ->withPosition(2)
@@ -119,6 +119,4 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
 
         return [$item];
     }
-
-
 }

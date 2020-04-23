@@ -69,6 +69,17 @@ class BasicAccessCheckClosures
         }, $additional);
     }
 
+    public function hasAdministrationAccess(?Closure $additional = null) : Closure
+    {
+        static $is_anonymous;
+        if (!isset($is_anonymous)) {
+            $is_anonymous = (bool) ($this->dic->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID));
+        }
+        return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous) : bool {
+            return !$is_anonymous;
+        }, $additional);
+    }
+
 
     //
     // Internal

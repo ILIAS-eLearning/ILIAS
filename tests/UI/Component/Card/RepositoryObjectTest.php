@@ -19,8 +19,8 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
     public function getFactory()
     {
         $mocks = [
-            'button' =>  $this->createMock(C\Button\Factory::class),
-            'divider' =>  $this->createMock(C\Divider\Factory::class),
+            'button' => $this->createMock(C\Button\Factory::class),
+            'divider' => $this->createMock(C\Divider\Factory::class),
         ];
         $factory = new class($mocks) extends NoUIFactory {
             public function __construct($mocks)
@@ -266,7 +266,7 @@ EOT;
 			
 		</div>
 		<div class="il-card-repository-dropdown">
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >Visit ILIAS</button>
 </li>

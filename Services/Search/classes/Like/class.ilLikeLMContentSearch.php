@@ -42,7 +42,7 @@ class ilLikeLMContentSearch extends ilLMContentSearch
 
         $ilDB = $DIC['ilDB'];
 
-        $concat  = " content ";
+        $concat = " content ";
 
         $and = "  WHERE ( ";
         $counter = 0;

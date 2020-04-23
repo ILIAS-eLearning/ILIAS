@@ -376,10 +376,10 @@ class ilExerciseManagementGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $lng->txt('user'),
-                    'submit_name'			=> $lng->txt('add'),
-                    'add_search'			=> true,
-                    'add_from_container'    => $this->exercise->getRefId()
+                    'auto_complete_name' => $lng->txt('user'),
+                    'submit_name' => $lng->txt('add'),
+                    'add_search' => true,
+                    'add_from_container' => $this->exercise->getRefId()
                 )
             );
         }
@@ -599,7 +599,6 @@ class ilExerciseManagementGUI
         $modal = $this->getEvaluationModal($a_data);
 
         $this->ctrl->setParameter($this, "member_id", $a_data['uid']);
-
         $actions = array(
             $this->ui_factory->button()->shy($this->lng->txt("grade_evaluate"), "#")->withOnClick($modal->getShowSignal())
         );
@@ -667,8 +666,12 @@ class ilExerciseManagementGUI
         if (array_key_exists("peer", $a_data) && ($this->filter["feedback"] == self::FEEDBACK_FULL_SUBMISSION) || $this->filter["feedback"] == "") {
             $feedback_tpl->setCurrentBlock("feedback");
             foreach ($a_data["peer"] as $peer_id) {
-                $user = new ilObjUser($peer_id);
-                $peer_name =  $user->getFirstname() . " " . $user->getLastname();
+                if (ilObject::_lookupType($peer_id) == "usr") {
+                    $user = new ilObjUser($peer_id);
+                    $peer_name = $user->getFirstname() . " " . $user->getLastname();
+                } else {
+                    $peer_name = $this->lng->txt("exc_deleted_user");
+                }
 
                 $feedback_tpl->setCurrentBlock("peer_feedback");
                 $feedback_tpl->setVariable("PEER_NAME", $peer_name);
@@ -1376,7 +1379,7 @@ class ilExerciseManagementGUI
      */
     public function saveCommentForLearnersObject()
     {
-        $res = array("result"=>false);
+        $res = array("result" => false);
         
         if ($this->ctrl->isAsynch()) {
             $ass_id = (int) $_POST["ass_id"];
@@ -1414,7 +1417,7 @@ class ilExerciseManagementGUI
                     );
                 }
                 
-                $res = array("result"=>true, "snippet"=>nl2br($comment));
+                $res = array("result" => true, "snippet" => nl2br($comment));
             }
         }
         
@@ -1620,7 +1623,7 @@ class ilExerciseManagementGUI
                     $existing_users = array_keys(ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId()));
                     
                     // create teams from group selections
-                    $sum = array("added"=>0, "blocked"=>0);
+                    $sum = array("added" => 0, "blocked" => 0);
                     foreach ($teams as $members) {
                         foreach ($members as $user_id) {
                             if (!$this->exercise->members_obj->isAssigned($user_id)) {

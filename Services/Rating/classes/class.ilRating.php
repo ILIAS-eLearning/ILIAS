@@ -185,7 +185,7 @@ class ilRating
             $avg += $rec["av"];
         }
         if ($cnt > 0) {
-            $avg = $avg/$cnt;
+            $avg = $avg / $cnt;
         } else {
             $avg = 0;
         }
@@ -253,8 +253,8 @@ class ilRating
         
         // average for main objects without sub-objects
         foreach ($tmp as $obj_id => $votes) {
-            $res[$obj_id] = array("avg"=>array_sum($votes)/sizeof($votes),
-                "cnt"=>sizeof($votes));
+            $res[$obj_id] = array("avg" => array_sum($votes) / sizeof($votes),
+                "cnt" => sizeof($votes));
         }
         
         // file/wiki/lm rating toggles
@@ -265,7 +265,7 @@ class ilRating
         while ($row = $ilDB->fetchAssoc($set)) {
             $id = "file/" . $row["file_id"];
             if ($row["rating"] && !isset($res[$id])) {
-                $res[$id] = array("avg"=>0, "cnt"=>0);
+                $res[$id] = array("avg" => 0, "cnt" => 0);
             } elseif (!$row["rating"] && isset($res[$id])) {
                 unset($res[$id]);
             }
@@ -277,7 +277,7 @@ class ilRating
         while ($row = $ilDB->fetchAssoc($set)) {
             $id = "wiki/" . $row["id"];
             if ($row["rating_overall"] && !isset($res[$id])) {
-                $res[$id] = array("avg"=>0, "cnt"=>0);
+                $res[$id] = array("avg" => 0, "cnt" => 0);
             } elseif (!$row["rating_overall"] && isset($res[$id])) {
                 unset($res[$id]);
             }
@@ -289,13 +289,13 @@ class ilRating
         while ($row = $ilDB->fetchAssoc($set)) {
             $id = "lm/" . $row["id"];
             if ($row["rating"] && !isset($res[$id])) {
-                $res[$id] = array("avg"=>0, "cnt"=>0);
+                $res[$id] = array("avg" => 0, "cnt" => 0);
             } elseif (!$row["rating"] && isset($res[$id])) {
                 unset($res[$id]);
             }
         }
         
-        self::$list_data = array("all"=>$res, "user"=>$res_user);
+        self::$list_data = array("all" => $res, "user" => $res_user);
     }
     
     public static function hasRatingInListGUI($a_obj_id, $a_obj_type)

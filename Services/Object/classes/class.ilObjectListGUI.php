@@ -980,7 +980,7 @@ class ilObjectListGUI
      * @param
      * @return
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id="")
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
     {
         $ilAccess = $this->access;
         
@@ -1237,7 +1237,7 @@ class ilObjectListGUI
                             "alert" => false,
                             "property" => $lng->txt("in_use_by"),
                             "value" => $lock_user->getLogin(),
-                            "link" => 	"./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
+                            "link" => "./ilias.php?user=" . $lock_user->getId() . '&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
                         );
                     }
                 }
@@ -1375,13 +1375,11 @@ class ilObjectListGUI
                 $txt = $command["txt"];
             }
 
-            // BEGIN WebDAV: Suppress commands that don't make sense for anonymous users.
             // Suppress commands that don't make sense for anonymous users
             if ($ilUser->getId() == ANONYMOUS_USER_ID &&
                 $command['enable_anonymous'] == 'false') {
                 continue;
             }
-            // END WebDAV: Suppress commands that don't make sense for anonymous users.
 
             // all access checking should be made within $ilAccess and
             // the checkAccess of the ilObj...Access classes
@@ -1418,7 +1416,6 @@ class ilObjectListGUI
         return $ref_commands;
     }
 
-    // BEGIN WebDAV: Visualize object state in its icon.
     /**
     * Returns the icon image type.
     * For most objects, this is same as the object type, e.g. 'cat','fold'.
@@ -1433,7 +1430,6 @@ class ilObjectListGUI
         }
         return $this->type;
     }
-    // END WebDAV: Visualize object state in its icon.
 
     /**
     * insert item title
@@ -1804,11 +1800,9 @@ class ilObjectListGUI
         $cnt = 1;
         if (is_array($props) && count($props) > 0) {
             foreach ($props as $prop) {
-                // BEGIN WebDAV: Display a separator between properties.
                 if ($cnt > 1) {
                     $this->tpl->touchBlock("separator_prop");
                 }
-                // END WebDAV: Display a separator between properties.
 
                 if ($prop["alert"] == true) {
                     $this->tpl->touchBlock("alert_prop");
@@ -3120,7 +3114,7 @@ class ilObjectListGUI
                 $om++;
             }
             if ($om != 0 && !$DIC['ilBrowser']->isMobile()) {
-                $this->default_command["frame"]="";
+                $this->default_command["frame"] = "";
                 $a_link = "javascript:void(0); onclick=startSAHS('" . $a_link . "','" . $wtarget . "'," . $om . "," . $width . "," . $height . ");";
             }
         }
@@ -3400,7 +3394,7 @@ class ilObjectListGUI
         }
         
         // BEGIN WEBDAV
-        if ($type=='file' and ilObjFileAccess::_isFileHidden($a_title)) {
+        if ($type == 'file' and ilObjFileAccess::_isFileHidden($a_title)) {
             $this->resetCustomData();
             return "";
         }
@@ -3597,7 +3591,7 @@ class ilObjectListGUI
         $ilUser = $DIC->user();
         
         if ($a_context == self::CONTEXT_REPOSITORY) {
-            $active_notes =	!$ilSetting->get("disable_notes");
+            $active_notes = !$ilSetting->get("disable_notes");
             $active_comments = !$ilSetting->get("disable_comments");
         
             if ($active_notes || $active_comments) {
@@ -3769,26 +3763,17 @@ class ilObjectListGUI
 
         $def_command = $this->getDefaultCommand();
 
-        if ($type == 'sess' && $title == '') {
-            $app_info = ilSessionAppointment::_lookupAppointment($obj_id);
-            $title = ilSessionAppointment::_appointmentToString(
-                $app_info['start'],
-                $app_info['end'],
-                $app_info['fullday']
-            );
-        }
-
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
-            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt('obj_' . $type))
+            ->custom(ilObject::_getIcon($obj_id), $this->lng->txt("icon") . " " . $this->lng->txt('obj_' . $type))
             ->withSize('medium');
 
 
         if ($def_command['link']) {
-            $list_item = $ui->factory()->item()->standard($this->ui->factory()->button()->shy($title, $def_command['link']));
+            $list_item = $ui->factory()->item()->standard($this->ui->factory()->link()->standard($this->getTitle(), $def_command['link']));
         } else {
-            $list_item = $ui->factory()->item()->standard($title);
+            $list_item = $ui->factory()->item()->standard($this->getTitle());
         }
 
         $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);

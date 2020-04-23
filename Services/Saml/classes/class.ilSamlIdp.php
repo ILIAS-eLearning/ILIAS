@@ -128,8 +128,10 @@ class ilSamlIdp
             array('default', AUTH_SAML . '_' . $this->getIdpId())
         );
 
-        $this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->getIdpId(),
-                'integer'));
+        $this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote(
+            $this->getIdpId(),
+            'integer'
+        ));
     }
 
     /**

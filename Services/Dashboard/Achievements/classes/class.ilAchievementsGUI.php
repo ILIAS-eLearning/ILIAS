@@ -86,7 +86,6 @@ class ilAchievementsGUI
             case 'ilpersonalskillsgui':
                 $main_tpl->setTitle($lng->txt("skills"));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
-                include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
                 $skgui = new ilPersonalSkillsGUI();
                 $ctrl->forwardCommand($skgui);
                 $this->main_tpl->printToStdout();
@@ -198,7 +197,7 @@ class ilAchievementsGUI
             ilAchievements::SERV_COMPETENCES => "ilpersonalskillsgui",
             ilAchievements::SERV_LEARNING_PROGRESS => "illearningprogressgui",
             ilAchievements::SERV_BADGES => "ilbadgeprofilegui",
-            ilAchievements::SERV_CERTIFICATES =>  "ilusercertificategui"
+            ilAchievements::SERV_CERTIFICATES => "ilusercertificategui"
         ];
 
         return $gui_classes;

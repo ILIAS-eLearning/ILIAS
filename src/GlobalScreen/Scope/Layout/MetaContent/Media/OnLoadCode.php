@@ -34,4 +34,9 @@ class OnLoadCode extends AbstractMedia
     {
         return $this->batch;
     }
+
+    public function getContent() : string
+    {
+        return 'try { ' . parent::getContent() . ' } catch (e) { console.log(e); }';
+    }
 }

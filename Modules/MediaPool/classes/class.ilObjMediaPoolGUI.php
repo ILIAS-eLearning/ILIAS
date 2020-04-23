@@ -164,7 +164,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI($this->object, 'mob');
                 $this->ctrl->forwardCommand($md_gui);
-                $this->tpl->show();
+                $this->tpl->printToStdout();
                 break;
 
 
@@ -248,7 +248,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->addHeaderAction();
                 $folder_gui = new ilObjFolderGUI("", 0, false, false);
                 $this->ctrl->setReturn($this, "listMedia");
-                $cmd.="Object";
+                $cmd .= "Object";
                 switch ($cmd) {
                     case "createObject":
                         $this->prepareOutput();
@@ -777,10 +777,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $xml = "<dummy>";
         // todo: we get always the first alias now (problem if mob is used multiple
         // times in page)
-        $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-        $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-        $xml.= $link_xml;
-        $xml.="</dummy>";
+        $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+        $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+        $xml .= $link_xml;
+        $xml .= "</dummy>";
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -813,42 +813,24 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     public function showPage()
     {
         $tpl = $this->tpl;
-        
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
-        include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
+        //$tpl = new \ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->parseCurrentBlock();
+        $tpl->addCss(ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
         // get page object
-        //include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-        //$ot = ilObjectTranslation::getInstance($this->object->getId());
-        //$lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
         $page_gui = new ilMediaPoolPageGUI((int) $_GET["mepitem_id"]);
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        //$page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
-        //	$this->object->getStyleSheetId(), $this->object->getType()));
+        $page_gui->setTemplate($tpl);
 
         $page_gui->setTemplateOutput(false);
         $page_gui->setHeader("");
         $ret = $page_gui->showPage(true);
 
-        $tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("CONTENT", $ret);
-        //$ret = "<div style='background-color: white; padding:5px; margin-bottom: 30px;'>".$ret."</div>";
+        //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
+        $tpl->setVariable("MEDIA_CONTENT", $ret);
 
 
         $tpl->printToStdout();
@@ -1845,7 +1827,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         if (is_array($_POST["file"]) && ilMainMenuGUI::_checkAdministrationPermission()) {
             foreach ($_POST["file"] as $f) {
-                $f  = str_replace("..", "", $f);
+                $f = str_replace("..", "", $f);
                 $fullpath = $upload_dir . "/" . $f;
                 $mob = new ilObjMediaObject();
                 $mob->setTitle(basename($fullpath));
@@ -2147,10 +2129,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $form = $this->initMediaBulkForm($mi["mob_id"], $mob->getTitle());
             $acc->addItem($mob->getTitle(), $form->getHTML());
 
-            $html.= $acc->getHTML();
+            $html .= $acc->getHTML();
         }
 
-        $html.= $tb->getHTML();
+        $html .= $tb->getHTML();
         $tb->setOpenFormTag(false);
         $tb->setCloseFormTag(true);
         $tb->setId("tb_bottom");

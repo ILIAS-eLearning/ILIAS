@@ -21,7 +21,7 @@ class ilLSLearnerItemsQueries
     }
 
     /**
-     * @return LSLearnerItems[]
+     * @return LSLearnerItem[]
      */
     public function getItems() : array
     {
@@ -39,7 +39,7 @@ class ilLSLearnerItemsQueries
     {
         $current_position = 0;
         $items = $this->getItems();
-        foreach ($items as $index=>$item) {
+        foreach ($items as $index => $item) {
             if ($item->getRefId() === $this->getCurrentItemRefId()) {
                 $current_position = $index;
             }

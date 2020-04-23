@@ -49,7 +49,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     public function populateConfigElementsInForm(ilPropertyFormGUI $form, $service, $purpose, $config)
     {
         $this->config = new ilWkhtmlToPdfConfig($config);
-        $gui          = new ilWkhtmlToPdfConfigFormGUI();
+        $gui = new ilWkhtmlToPdfConfigFormGUI();
         $gui->populateForm($form, $this->config);
     }
 
@@ -148,10 +148,10 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     protected function runCommandLine($a_path_to_file, $a_target, $config)
     {
         global $DIC;
-        $log       = $DIC['ilLog'];
-        $config    = new ilWkhtmlToPdfConfig($config);
+        $log = $DIC['ilLog'];
+        $config = new ilWkhtmlToPdfConfig($config);
         $temp_file = $this->getPdfTempName();
-        $args      = $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
+        $args = $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
         $this->appendDefaultFontStyle($a_path_to_file, $config);
         $return_value = ilUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
         $log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
@@ -188,7 +188,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      */
     protected function appendDefaultFontStyle($a_path_to_file, $config)
     {
-        $backupStyle  = $config->getOverwriteDefaultFont(true);
+        $backupStyle = $config->getOverwriteDefaultFont(true);
         $originalFile = file_get_contents($a_path_to_file) . $backupStyle;
         file_put_contents($a_path_to_file, $originalFile);
     }

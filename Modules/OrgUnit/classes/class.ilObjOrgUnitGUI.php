@@ -33,6 +33,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     const TAB_STAFF = 'orgu_staff';
     const TAB_GLOBAL_SETTINGS = 'global_settings';
     const TAB_EXPORT = 'export';
+    const TAB_VIEW_CONTENT = 'view_content';
     /**
      * @var ilCtrl
      */
@@ -253,6 +254,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($ilOrgUnitUserAssignmentGUI);
                 break;
             default:
+                $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
                 switch ($cmd) {
                     case '':
                     case 'view':
@@ -357,7 +359,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
 
         parent::renderObject();
-        $this->tabs_gui->activateTab("view_content");
+        $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
     }
@@ -376,7 +378,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     protected function initCreationForms($a_new_type)
     {
         $forms = array(
-            self::CFORM_NEW    => $this->initCreateForm($a_new_type),
+            self::CFORM_NEW => $this->initCreateForm($a_new_type),
             self::CFORM_IMPORT => $this->initImportForm($a_new_type),
         );
 
@@ -458,7 +460,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
-            $this->tabs_gui->addTab("view_content", $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
+            $this->tabs_gui->addTab(self::TAB_VIEW_CONTENT, $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
             $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
         }
 

@@ -110,7 +110,7 @@ class ilSCORM2004Condition extends ilSCORM2004SeqNode
     
     public function insert($a_insert_node = false)
     {
-        if ($a_insert_node==true) {
+        if ($a_insert_node == true) {
             $this->setSeqNodeId(parent::insert());
         }
         $sql = "INSERT INTO sahs_sc13_seq_cond (seqnodeid,referencedobjective,cond,measurethreshold,operator)" .

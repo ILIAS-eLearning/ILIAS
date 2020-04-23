@@ -319,7 +319,7 @@ class ilMembershipGUI
                 require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
 
 
-                $provider    = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
+                $provider = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
                 $gallery_gui = new ilUsersGalleryGUI($provider);
                 $this->ctrl->forwardCommand($gallery_gui);
                 break;
@@ -785,7 +785,7 @@ class ilMembershipGUI
                 'participants',
                 array(),
                 array(
-                    'type'   => 'new',
+                    'type' => 'new',
                     'sig' => $this->createMailSignature()
                 ),
                 $context_options
@@ -870,10 +870,10 @@ class ilMembershipGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $this->lng->txt('user'),
-                    'user_type'				=> $this->getParentGUI()->getLocalRoles(),
-                    'user_type_default'		=> $this->getDefaultRole(),
-                    'submit_name'			=> $this->lng->txt('add')
+                    'auto_complete_name' => $this->lng->txt('user'),
+                    'user_type' => $this->getParentGUI()->getLocalRoles(),
+                    'user_type_default' => $this->getDefaultRole(),
+                    'submit_name' => $this->lng->txt('add')
                 )
             );
 
@@ -996,10 +996,10 @@ class ilMembershipGUI
         return 'mailMembersBtn';
     }
 
-    
     /**
      * add member tab
      * @param ilTabsGUI $tabs
+     * @param bool      $a_is_participant
      */
     public function addMemberTab(ilTabsGUI $tabs, $a_is_participant = false)
     {
@@ -1624,6 +1624,15 @@ class ilMembershipGUI
      */
     protected function printMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'participants')
+        );
+
         $list = $this->initAttendanceList();
         $list->initFromForm();
         $list->setCallback(array($this, 'getAttendanceListUserData'));
@@ -1634,9 +1643,7 @@ class ilMembershipGUI
         );
         
         $list->getNonMemberUserData($this->member_data);
-        
         $list->getFullscreenHTML();
-        exit();
     }
     
     /**
@@ -1644,6 +1651,15 @@ class ilMembershipGUI
      */
     protected function printForMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'jump2UsersGallery')
+        );
+
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
         $list->setId(0);
@@ -1654,7 +1670,6 @@ class ilMembershipGUI
         $list->getNonMemberUserData($this->member_data);
         
         $list->getFullscreenHTML();
-        exit();
     }
 
     /**

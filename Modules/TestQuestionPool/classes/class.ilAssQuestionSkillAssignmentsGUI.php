@@ -1,18 +1,14 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package     Modules/Test
+ * @author  Björn Heyser <bheyser@databay.de>
+ * @package Modules/Test
  *
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentsTableGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilSkillSelectorGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilToolbarGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionSkillAssignmentPropertyFormGUI
- * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssLacLegendGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilAssQuestionSkillAssignmentsGUI: ilConfirmationGUI
  */
@@ -40,7 +36,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private $access;
 
     /**
-     * @var ilGlobalPageTemplate
+     * @var ilGlobalTemplateInterface
      */
     private $tpl;
 
@@ -82,11 +78,11 @@ class ilAssQuestionSkillAssignmentsGUI
     /**
      * @param ilCtrl $ctrl
      * @param ilAccessHandler $access
-     * @param ilGlobalPageTemplate $tpl
+     * @param ilGlobalTemplateInterface $tpl
      * @param ilLanguage $lng
      * @param ilDBInterface $db
      */
-    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalPageTemplate $tpl, ilLanguage $lng, ilDBInterface $db)
+    public function __construct(ilCtrl $ctrl, ilAccessHandler $access, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db)
     {
         $this->ctrl = $ctrl;
         $this->access = $access;
@@ -220,14 +216,12 @@ class ilAssQuestionSkillAssignmentsGUI
         $success = true;
 
         if (is_array($_POST['skill_points'])) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
-
             for ($i = 0; $i < 2; $i++) {
                 foreach ($_POST['skill_points'] as $assignmentKey => $skillPoints) {
                     $assignmentKey = explode(':', $assignmentKey);
-                    $skillBaseId   = (int) $assignmentKey[0];
-                    $skillTrefId   = (int) $assignmentKey[1];
-                    $questionId    = (int) $assignmentKey[2];
+                    $skillBaseId = (int) $assignmentKey[0];
+                    $skillTrefId = (int) $assignmentKey[1];
+                    $questionId = (int) $assignmentKey[2];
 
                     if ($this->isTestQuestion($questionId)) {
                         $assignment = new ilAssQuestionSkillAssignment($this->db);
@@ -269,8 +263,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function updateSkillQuestionAssignmentsCmd()
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-        
         $questionId = (int) $_GET['question_id'];
 
         if ($this->isTestQuestion($questionId)) {
@@ -331,7 +323,6 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->ctrl->saveParameter($this, 'question_id');
         $questionId = (int) $_GET['question_id'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->getQuestionContainerId());
         $assignmentList->loadFromDb();
@@ -373,7 +364,6 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->keepAssignmentParameters();
         
         if ($questionGUI === null) {
-            require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
             $questionGUI = assQuestionGUI::_getQuestionGUI('', (int) $_GET['question_id']);
         }
 
@@ -391,9 +381,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
         $questionPageHTML = $this->buildQuestionPage($questionGUI);
 
-        $lacLegendHTML = $this->buildLacLegendHTML($questionGUI->object, $assignment);
-
-        $this->tpl->setContent($this->ctrl->getHTML($form) . '<br />' . $questionPageHTML . $lacLegendHTML);
+        $this->tpl->setContent($this->ctrl->getHTML($form) . '<br />' . $questionPageHTML);
     }
     
     private function saveSkillQuestionAssignmentPropertiesFormCmd()
@@ -401,7 +389,6 @@ class ilAssQuestionSkillAssignmentsGUI
         $questionId = (int) $_GET['question_id'];
         
         if ($this->isTestQuestion($questionId)) {
-            require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
             $questionGUI = assQuestionGUI::_getQuestionGUI('', $questionId);
     
             $assignment = $this->buildQuestionSkillAssignment(
@@ -458,8 +445,7 @@ class ilAssQuestionSkillAssignmentsGUI
     
     private function buildSkillQuestionAssignmentPropertiesForm(assQuestion $question, ilAssQuestionSkillAssignment $assignment)
     {
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php';
-        $form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->ctrl, $this->lng, $this);
+        $form = new ilAssQuestionSkillAssignmentPropertyFormGUI($this->tpl, $this->ctrl, $this->lng, $this);
 
         $form->setQuestion($question);
         $form->setAssignment($assignment);
@@ -494,7 +480,6 @@ class ilAssQuestionSkillAssignmentsGUI
             return false;
         }
 
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
         $parentObjId = assQuestion::lookupParentObjId($questionData['original_id']);
 
         if (!$this->doesObjectTypeMatch($parentObjId)) {
@@ -514,7 +499,6 @@ class ilAssQuestionSkillAssignmentsGUI
     {
         $questionId = (int) $_GET['question_id'];
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
 
         $confirmation->setHeaderText($this->lng->txt('qpl_sync_quest_skl_assigns_confirmation'));
@@ -549,7 +533,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function buildTableGUI()
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php';
         $table = new ilAssQuestionSkillAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
         $table->setManipulationsEnabled($this->isAssignmentEditingEnabled());
         $table->init();
@@ -559,7 +542,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function buildSkillQuestionAssignmentList()
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->getQuestionContainerId());
 
@@ -571,8 +553,6 @@ class ilAssQuestionSkillAssignmentsGUI
      */
     private function buildSkillSelectorExplorerGUI($assignments)
     {
-        require_once 'Services/Skill/classes/class.ilSkillSelectorGUI.php';
-
         $skillSelectorExplorerGUI = new ilSkillSelectorGUI(
             $this,
             self::CMD_SHOW_SKILL_SELECT,
@@ -601,8 +581,6 @@ class ilAssQuestionSkillAssignmentsGUI
      */
     private function buildSkillSelectorToolbarGUI()
     {
-        require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-
         $skillSelectorToolbarGUI = new ilToolbarGUI();
 
         $skillSelectorToolbarGUI->setFormAction($this->ctrl->getFormAction($this));
@@ -616,7 +594,6 @@ class ilAssQuestionSkillAssignmentsGUI
     {
         $this->tpl->addCss('Services/COPage/css/content.css');
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
         $pageGUI = new ilAssQuestionPageGUI($questionGUI->object->getId());
 
         $pageGUI->setOutputMode("presentation");
@@ -639,8 +616,6 @@ class ilAssQuestionSkillAssignmentsGUI
      */
     private function buildQuestionSkillAssignment($questionId, $skillBaseId, $skillTrefId)
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
-        
         $assignment = new ilAssQuestionSkillAssignment($this->db);
         
         $assignment->setParentObjId($this->getQuestionContainerId());
@@ -683,10 +658,6 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function validateSolutionCompareExpression(ilAssQuestionSolutionComparisonExpression $expression, iQuestionCondition $question)
     {
-        require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacConditionParser.php';
-        require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacQuestionProvider.php';
-        require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeValidator.php';
-
         try {
             $conditionParser = new ilAssLacConditionParser();
             $conditionComposite = $conditionParser->parse($expression->getExpression());
@@ -774,26 +745,5 @@ class ilAssQuestionSkillAssignmentsGUI
     protected function doesObjectTypeMatch($objectId)
     {
         return ilObject::_lookupType($objectId) == 'qpl';
-    }
-
-    /**
-     * @param assQuestionGUI $questionGUI
-     * @param ilAssQuestionSkillAssignment $assignment
-     * @return string
-     * @throws ilCtrlException
-     */
-    private function buildLacLegendHTML(assQuestion $questionOBJ, ilAssQuestionSkillAssignment $assignment)
-    {
-        // #19192
-        if ($questionOBJ instanceof iQuestionCondition && $this->isAssignmentEditingEnabled()) {
-            require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssLacLegendGUI.php';
-            $legend = new ilAssLacLegendGUI($this->lng, $this->tpl);
-            $legend->setQuestionOBJ($questionOBJ);
-            $legend->setInitialVisibilityEnabled($assignment->hasEvalModeBySolution());
-            $lacLegendHTML = $this->ctrl->getHTML($legend);
-            return $lacLegendHTML;
-        }
-        
-        return '';
     }
 }

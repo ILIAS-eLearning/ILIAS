@@ -107,12 +107,10 @@ class ilSkillSelfEvaluationGUI
         $this->form->addItem($ne);*/
 
         // select skill for self evaluation
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
         $se_nodes = ilSkillTreeNode::getAllSelfEvaluationNodes();
         foreach ($se_nodes as $n_id => $title) {
             $options[$n_id] = $title;
         }
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($lng->txt("skmg_please_select_self_skill"), "sn_id");
         $si->setOptions($options);
 
@@ -121,7 +119,6 @@ class ilSkillSelfEvaluationGUI
 
         $ilToolbar->addFormButton($lng->txt("skmg_execute_self_evaluation"), "startSelfEvaluation");
 
-        include_once("./Services/Skill/classes/class.ilSelfEvaluationTableGUI.php");
         $table = new ilSelfEvaluationTableGUI($this, "listSelfEvaluations");
 
         $tpl->setContent($table->getHTML());
@@ -141,9 +138,6 @@ class ilSkillSelfEvaluationGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSelfEvaluations");
         } else {
-            include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
-            include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("skmg_sure_delete_self_evaluation"));
@@ -171,10 +165,8 @@ class ilSkillSelfEvaluationGUI
     public function deleteSelfEvaluation()
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         $ilUser = $this->user;
 
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
         if (is_array($_POST["id"])) {
             foreach ($_POST["id"] as $i) {
                 $se = new ilSkillSelfEvaluation((int) $i);
@@ -202,19 +194,16 @@ class ilSkillSelfEvaluationGUI
 
         $se = null;
         if ($a_mode == "edit") {
-            include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
             $se = new ilSkillSelfEvaluation((int) $_GET["se_id"]);
             $this->sn_id = $se->getTopSkillId();
         }
         ilUtil::sendInfo($lng->txt("skmg_please_select_your_skill_levels"));
 
         $se_tpl = new ilTemplate("tpl.self_evaluation.html", true, true, "Services/Skill");
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
 
         $steps = ilSkillSelfEvaluation::determineSteps($this->sn_id);
         $cstep = (int) $_GET["step"];
         $ilCtrl->setParameter($this, "step", $cstep);
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php");
         $table = new ilSkillSelfEvalSkillTableGUI(
             $this,
             "startSelfEvaluation",
@@ -226,7 +215,6 @@ class ilSkillSelfEvaluationGUI
         $se_tpl->setVariable("SE_TABLE", $table->getHTML());
         $se_tpl->parseCurrentBlock();
 
-        include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
         $tb = new ilToolbarGUI();
         if ($a_mode == "edit") {
             if ($cstep > 0) {
@@ -261,8 +249,6 @@ class ilSkillSelfEvaluationGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
-        
         $se = new ilSkillSelfEvaluation();
         $se->setUserId($ilUser->getId());
         $se->setTopSkillId($_GET["sn_id"]);
@@ -320,7 +306,6 @@ class ilSkillSelfEvaluationGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
         $se = new ilSkillSelfEvaluation((int) $_GET["se_id"]);
 
         if ($se->getUserId() == $ilUser->getId()) {
@@ -360,13 +345,12 @@ class ilSkillSelfEvaluationGUI
      */
     public function getPresentationView($a_user_id)
     {
-        include_once("./Services/Skill/classes/class.ilSkillSelfEvaluation.php");
         $ses = ilSkillSelfEvaluation::getAllSelfEvaluationsOfUser($a_user_id);
 
         $html = "";
         foreach ($ses as $se) {
             $this->setSelfEvaluationPresentationForm($se);
-            $html.= $this->form->getHTML() . "<br /><br />";
+            $html .= $this->form->getHTML() . "<br /><br />";
         }
 
         return $html;
@@ -378,9 +362,7 @@ class ilSkillSelfEvaluationGUI
     public function setSelfEvaluationPresentationForm($se)
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         ilDatePresentation::setUseRelativeDates(false);
@@ -390,7 +372,7 @@ class ilSkillSelfEvaluationGUI
                 new ilDateTime($se["created"], IL_CAL_DATETIME)
             );
         if ($se["created"] != $se["last_update"]) {
-            $dates.= ", " . $lng->txt("last_update") . ": " .
+            $dates .= ", " . $lng->txt("last_update") . ": " .
             ilDatePresentation::formatDate(
                 new ilDateTime($se["last_update"], IL_CAL_DATETIME)
             );
@@ -402,8 +384,6 @@ class ilSkillSelfEvaluationGUI
 
         $this->form->setTitle($lng->txt("skmg_self_evaluation") . $dates);
 
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $stree = new ilSkillTree();
 
         if ($stree->isInTree($se->getTopSkillId())) {
@@ -416,7 +396,7 @@ class ilSkillSelfEvaluationGUI
                     $title = $sep = "";
                     foreach ($path as $p) {
                         if ($p["type"] != "skrt") {
-                            $title.= $sep . $p["title"];
+                            $title .= $sep . $p["title"];
                             $sep = " > ";
                         }
                     }

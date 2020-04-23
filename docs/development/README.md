@@ -14,12 +14,14 @@ A general overview on our processes can be found in the [development guide](http
 
 ## Coding
 
-- [Coding Guidelines](coding-style.md): PSR-2 based coding style guidelines
+- [PHP Coding Guidelines](coding-style.md): PSR-2 based coding style guidelines for PHP
+- [Javascript Coding Guidelines](js/js-coding-style.md): Airbnb based coding style guidelines for Javascript
 - [Namespaces](namespaces.md): Guidelines for using namespaces.
 - [Basic Architecture](https://docu.ilias.de/goto_docu_pg_199_42.html): Slightly outdated, but still relevant. Additionally code is going into our core libraries in the [src directory](../../src/README.md).
 - [GIT introduction](https://docu.ilias.de/goto_docu_pg_15604_42.html)
 - [Git Hooks](git-hooks.md)
 - [Unit Tests](../../tests/README.md): How to write unit tests
+- [Dependency Management](../../libs/README.md): Managing dependencies to third party PHP and JS libs.
 - [Accessibility Guidelines](accessibility.md): Foster an accessible user interface
 - [Input Processing](input-processing.md): Securely process user input
 - [API overview](api-overview.md): Overview on APIs and services

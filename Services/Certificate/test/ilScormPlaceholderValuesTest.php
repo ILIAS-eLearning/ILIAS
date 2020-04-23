@@ -8,11 +8,11 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testGetPlaceholderValues()
     {
-        $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -30,12 +30,12 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $language->expects($this->once())
             ->method('loadLanguageModule');
 
-        $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
+        $dateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
             ->getMock();
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObjSAHSLearningModule::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getPointsInPercent', 'getMaxPoints', 'getTitle', 'getId'))
+            ->onlyMethods(['getPointsInPercent', 'getMaxPoints', 'getTitle', 'getId'])
             ->getMock();
 
         $objectMock->method('getPointsInPercent')
@@ -50,24 +50,24 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectMock->method('getId')
             ->willReturn(500);
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
             ->willReturn('Formatted String');
 
-        $objectLPHelper = $this->getMockBuilder('ilCertificateObjectLPHelper')
+        $objectLPHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
             ->getMock();
 
-        $lpCollection = $this->getMockBuilder('ilLPCollection')
+        $lpCollection = $this->getMockBuilder(ilLPCollectionOfSCOs::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getPossibleItems', 'getScoresForUserAndCP_Node_Id', 'isAssignedEntry'))
+            ->onlyMethods(['getPossibleItems', 'getScoresForUserAndCP_Node_Id', 'isAssignedEntry'])
             ->getMock();
 
         $lpCollection->method('getPossibleItems')
@@ -85,9 +85,9 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $lpCollection->method('isAssignedEntry')
             ->willReturn(true);
 
-        $olp = $this->getMockBuilder('ilObjectLP')
+        $olp = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollectionInstance'))
+            ->onlyMethods(['getCollectionInstance'])
             ->getMock();
 
         $olp->method('getCollectionInstance')
@@ -96,7 +96,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectLPHelper->method('getInstance')
             ->willReturn($olp);
 
-        $lpStatusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
+        $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
         $lpStatusHelper->method('lookupStatusChanged')
@@ -132,7 +132,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 
     public function testGetPlaceholderValuesForPreview()
     {
-        $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -144,7 +144,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
                 )
             );
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -159,23 +159,23 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
                 return 'Some Translation: ' . $variableValue;
             });
 
-        $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
+        $dateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
             ->getMock();
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('Some Title');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
@@ -183,12 +183,12 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
                 return $input;
             });
 
-        $objectLPHelper = $this->getMockBuilder('ilCertificateObjectLPHelper')
+        $objectLPHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
             ->getMock();
 
-        $lpCollection = $this->getMockBuilder('ilLPCollection')
+        $lpCollection = $this->getMockBuilder(ilLPCollectionOfSCOs::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('getPossibleItems', 'isAssignedEntry'))
+            ->onlyMethods(['getPossibleItems', 'isAssignedEntry'])
             ->getMock();
 
         $lpCollection->method('getPossibleItems')
@@ -204,7 +204,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $lpCollection->method('isAssignedEntry')
             ->willReturn(true);
 
-        $objectLPMock = $this->getMockBuilder('ilObjectLP')
+        $objectLPMock = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -214,7 +214,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectLPHelper->method('getInstance')
             ->willReturn($objectLPMock);
 
-        $lpStatusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
+        $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
         $scormPlaceholderValues = new ilScormPlaceholderValues(
@@ -231,17 +231,17 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $this->assertEquals(
             array(
-                'SCORM_TITLE'      => 'Some Title',
-                'SCORM_POINTS'     => '80,7 %',
+                'SCORM_TITLE' => 'Some Title',
+                'SCORM_POINTS' => '80,7 %',
                 'SCORM_POINTS_MAX' => '90',
-                'SCO_T_0'          => 'Some Title',
-                'SCO_P_0'          => '30,3',
-                'SCO_PM_0'         => '90,9',
-                'SCO_PP_0'         => '33,3 %',
-                'SCO_T_1'          => 'Some Other Title',
-                'SCO_P_1'          => '30,3',
-                'SCO_PM_1'         => '90,9',
-                'SCO_PP_1'         => '33,3 %',
+                'SCO_T_0' => 'Some Title',
+                'SCO_P_0' => '30,3',
+                'SCO_PM_0' => '90,9',
+                'SCO_PP_0' => '33,3 %',
+                'SCO_T_1' => 'Some Other Title',
+                'SCO_P_1' => '30,3',
+                'SCO_PM_1' => '90,9',
+                'SCO_PP_1' => '33,3 %',
                 'SOME_PLACEHOLDER' => 'aaa',
                 'SOME_OTHER_PLACEHOLDER' => 'bbb'
             ),

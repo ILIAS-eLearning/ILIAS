@@ -2,15 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * Self evaluation, second simplier implementation
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 {
@@ -63,13 +58,12 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         );
         
         // build title
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $stree = new ilSkillTree();
         $path = $stree->getPathFull($this->basic_skill_id);
         $title = $sep = "";
         foreach ($path as $p) {
             if ($p["type"] != "skrt") {
-                $title.= $sep . $p["title"];
+                $title .= $sep . $p["title"];
                 $sep = " > ";
             }
         }
@@ -104,8 +98,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
     public function getLevels()
     {
         $lng = $this->lng;
-        
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
+
         $this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
         $levels[] = array("id" => 0, "description" => $lng->txt("skmg_no_skills"));
         foreach ($this->skill->getLevelData() as $k => $v) {
@@ -120,12 +113,6 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
      */
     protected function fillRow($a_set)
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
-
         if ($this->cur_level_id == $a_set["id"]) {
             $this->tpl->setVariable("CHECKED", "checked='checked'");
         }

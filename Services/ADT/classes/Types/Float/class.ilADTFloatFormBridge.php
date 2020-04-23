@@ -28,7 +28,7 @@ class ilADTFloatFormBridge extends ilADTFormBridge
         if ($max !== null) {
             $number->setMaxValue($max);
             
-            $length = strlen($max)+$def->getDecimals()+1;
+            $length = strlen($max) + $def->getDecimals() + 1;
             $number->setSize($length);
             $number->setMaxLength($length);
         }

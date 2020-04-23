@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI
- * @ingroup ServicesSkill
+ * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {

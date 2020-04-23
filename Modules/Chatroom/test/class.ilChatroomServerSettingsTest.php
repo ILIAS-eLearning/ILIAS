@@ -83,8 +83,8 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
     public function testGetBaseUrl()
     {
         $protocol = 'http://';
-        $domain   = '127.0.0.1';
-        $port     = '7373';
+        $domain = '127.0.0.1';
+        $port = '7373';
         $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setProtocol($protocol);
@@ -96,11 +96,11 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateClientUrlIfEnabled()
     {
-        $protocol     = 'http://';
-        $domain       = '127.0.0.1';
+        $protocol = 'http://';
+        $domain = '127.0.0.1';
         $clientDomain = 'proxy.localhost';
-        $port         = '7373';
-        $expected     = sprintf('%s%s:%s', $protocol, $clientDomain, $port);
+        $port = '7373';
+        $expected = sprintf('%s%s:%s', $protocol, $clientDomain, $port);
 
         $this->settings->setClientUrlEnabled(true);
         $this->settings->setProtocol($protocol);
@@ -113,11 +113,11 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateClientUrlIfDisabled()
     {
-        $protocol     = 'http://';
-        $domain       = '127.0.0.1';
+        $protocol = 'http://';
+        $domain = '127.0.0.1';
         $clientDomain = 'proxy.localhost';
-        $port         = '7373';
-        $expected     = sprintf('%s%s:%s', $protocol, $domain, $port);
+        $port = '7373';
+        $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setClientUrlEnabled(false);
         $this->settings->setDomain($domain);
@@ -130,11 +130,11 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateIliasUrlIfEnabled()
     {
-        $protocol    = 'http://';
-        $domain      = '127.0.0.1';
+        $protocol = 'http://';
+        $domain = '127.0.0.1';
         $iliasDomain = 'proxy.localhost';
-        $port        = '7373';
-        $expected    = sprintf('%s%s:%s', $protocol, $iliasDomain, $port);
+        $port = '7373';
+        $expected = sprintf('%s%s:%s', $protocol, $iliasDomain, $port);
 
         $this->settings->setIliasUrlEnabled(true);
         $this->settings->setProtocol($protocol);
@@ -147,11 +147,11 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testGenerateIliasUrlIfDisabled()
     {
-        $protocol    = 'http://';
-        $domain      = '127.0.0.1';
+        $protocol = 'http://';
+        $domain = '127.0.0.1';
         $iliasDomain = 'proxy.localhost';
-        $port        = '7373';
-        $expected    = sprintf('%s%s:%s', $protocol, $domain, $port);
+        $port = '7373';
+        $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setIliasUrlEnabled(false);
         $this->settings->setDomain($domain);
@@ -164,13 +164,13 @@ class ilChatroomServerSettingsTest extends PHPUnit_Framework_TestCase
 
     public function testGetUrl()
     {
-        $protocol    = 'http://';
-        $domain      = '127.0.0.1';
+        $protocol = 'http://';
+        $domain = '127.0.0.1';
         $iliasDomain = 'proxy.localhost:8080';
-        $port        = 7373;
-        $action      = 'Heartbeat';
-        $instance    = 'master';
-        $scope       = 123;
+        $port = 7373;
+        $action = 'Heartbeat';
+        $instance = 'master';
+        $scope = 123;
 
         $this->settings->setProtocol($protocol . '');
         $this->settings->setDomain($domain);

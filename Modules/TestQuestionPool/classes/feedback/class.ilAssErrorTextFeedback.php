@@ -35,7 +35,7 @@ class ilAssErrorTextFeedback extends ilAssMultiOptionQuestionFeedback
      */
     protected function buildAnswerOptionLabel($index, $answer)
     {
-        $caption = $ordinal = $index+1;
+        $caption = $ordinal = $index + 1;
         $caption .= '. <br />"' . $answer->text_wrong . '" =&gt; ';
         $caption .= '"' . $answer->text_correct . '"';
         $caption .= '</i>';

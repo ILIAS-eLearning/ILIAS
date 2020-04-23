@@ -132,7 +132,7 @@ EOT;
             new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
         );
 
-        $glyphRendererFactory   = new GlyphRendererFactory(
+        $glyphRendererFactory = new GlyphRendererFactory(
             $ui_factory,
             $tpl_factory,
             $lng,
@@ -148,7 +148,7 @@ EOT;
             new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
         );
 
-        $fsLoader               = new \ILIAS\UI\Implementation\Render\FSLoader(
+        $fsLoader = new \ILIAS\UI\Implementation\Render\FSLoader(
             $defaultRendererFactory,
             $glyphRendererFactory,
             $fieldRendererFactory

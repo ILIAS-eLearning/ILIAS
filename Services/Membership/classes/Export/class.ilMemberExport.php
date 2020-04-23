@@ -242,7 +242,7 @@ class ilMemberExport
                 break;
                 
             case self::EXPORT_EXCEL:
-                $this->worksheet->setCell($a_row+1, $a_col, $a_value);
+                $this->worksheet->setCell($a_row + 1, $a_col, $a_value);
                 break;
         }
     }
@@ -620,6 +620,7 @@ class ilMemberExport
         if (substr($a_field, 0, 4) != 'udf_') {
             return false;
         }
+
         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$udf_data->getUserId()]['accepted']) {
             $field_info = explode('_', $a_field);
             $field_id = $field_info[1];
@@ -628,8 +629,9 @@ class ilMemberExport
             $this->addCol($value, $row, $col);
             return true;
         }
-        #$this->csv->addColumn('');
+
         $this->addCol('', $row, $col);
+        return true;
     }
     
     /**
@@ -660,7 +662,7 @@ class ilMemberExport
             $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];

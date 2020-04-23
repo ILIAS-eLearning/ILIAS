@@ -159,7 +159,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         
         if (!$this->portfolio_mode) {
             // see ilPersonalWorkspaceGUI::renderToolbar
-            $options = array(""=>$lng->txt("search_any"));
+            $options = array("" => $lng->txt("search_any"));
             $settings_map = array("blog" => "blogs",
                 "file" => "files");
             // see ilObjWorkspaceFolderTableGUI
@@ -170,7 +170,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
                 $options[$type] = $lng->txt("wsp_type_" . $type);
             }
         } else {
-            $options = array("prtf"=>$lng->txt("obj_prtf"));
+            $options = array("prtf" => $lng->txt("obj_prtf"));
         }
         if (sizeof($options)) {
             asort($options);
@@ -208,7 +208,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         if (sizeof($options)) {
             // asort($options);
             $item = $this->addFilterItemByMetaType("acl_type", self::FILTER_SELECT, false, $lng->txt("wsp_shared_type"));
-            $item->setOptions(array(""=>$lng->txt("search_any"))+$options);
+            $item->setOptions(array("" => $lng->txt("search_any")) + $options);
             $this->filter["acl_type"] = $item->getValue();
         }
                         
@@ -222,7 +222,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
             }
             asort($options);
             $item = $this->addFilterItemByMetaType("crsgrp", self::FILTER_SELECT, false, $lng->txt("wsp_shared_member_filter"));
-            $item->setOptions(array(""=>$lng->txt("search_any"))+$options);
+            $item->setOptions(array("" => $lng->txt("search_any")) + $options);
             $this->filter["crsgrp"] = $item->getValue();
         }
     }

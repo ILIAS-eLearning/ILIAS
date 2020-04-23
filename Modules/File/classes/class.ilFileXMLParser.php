@@ -114,7 +114,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @access    public
      */
-    public function __construct(&$file, $a_xml_data, $obj_id = -1, $mode = 0)
+    public function __construct($file, $a_xml_data, $obj_id = -1, $mode = 0)
     {
         parent::__construct();
         $this->file = $file;
@@ -316,7 +316,6 @@ class ilFileXMLParser extends ilSaxParser
                     $this->tmpFilename = $baseDecodedFilename;
                 } // end-patch fm
                 else {
-                    $this->tmpFilename = ilUtil::ilTempnam();
                     if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
                         throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
                     }
@@ -355,12 +354,12 @@ class ilFileXMLParser extends ilSaxParser
                 }
 
                 $this->versions[] = [
-                    "version"          => $this->version,
-                    "max_version"      => $this->max_version,
-                    "tmpFilename"      => $this->tmpFilename,
-                    "date"             => $this->date,
-                    "usr_id"           => $this->usr_id,
-                    "action"           => $this->action,
+                    "version" => $this->version,
+                    "max_version" => $this->max_version,
+                    "tmpFilename" => $this->tmpFilename,
+                    "date" => $this->date,
+                    "usr_id" => $this->usr_id,
+                    "action" => $this->action,
                     "rollback_version" => $this->rollback_version,
                     "rollback_user_id" => $this->rollback_user_id,
                 ];

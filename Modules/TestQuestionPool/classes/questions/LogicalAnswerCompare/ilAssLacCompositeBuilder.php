@@ -53,8 +53,8 @@ class ilAssLacCompositeBuilder
                         $operator = $operation_manufacture->manufacture($nodes['nodes'][$index]['value']);
 
                         $operator->setNegated($nodes["negated"]);
-                        $operator->addNode($this->getExpression($nodes, $index-1));
-                        $operator->addNode($this->getExpression($nodes, $index+1));
+                        $operator->addNode($this->getExpression($nodes, $index - 1));
+                        $operator->addNode($this->getExpression($nodes, $index + 1));
 
                         $new_nodes = array_slice($nodes['nodes'], 0, $index - 1);
                         $new_nodes[] = $operator;

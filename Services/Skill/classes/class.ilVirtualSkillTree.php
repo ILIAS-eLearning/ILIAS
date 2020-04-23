@@ -31,7 +31,6 @@ class ilVirtualSkillTree
         global $DIC;
 
         $this->lng = $DIC->language();
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->tree = new ilSkillTree();
     }
     
@@ -147,8 +146,7 @@ class ilVirtualSkillTree
         } else {
             $childs = $this->tree->getChildsByTypeFilter($a_parent_skl_template_tree_id, array("sktp", "sctp"), "order_nr");
         }
-        
-        include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+
         $drafts = array();
         $outdated = array();
         foreach ($childs as $k => $c) {
@@ -160,7 +158,6 @@ class ilVirtualSkillTree
                 $child_id = $c["child"] . ":0";
             } else {
                 // get template id for references
-                include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                 $child_id = $c["child"] . ":" . ilSkillTemplateReference::_lookupTemplateId($c["child"]);
             }
             unset($childs[$k]["child"]);
@@ -285,8 +282,7 @@ class ilVirtualSkillTree
             $lng->txt("skmg_skills");
         } else {
             if ($a_node["type"] == "sktr") {
-                //				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
-//				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
+                //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
             }
         }
         

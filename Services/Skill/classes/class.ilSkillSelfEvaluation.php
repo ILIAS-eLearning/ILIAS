@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Self evaluation application class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillSelfEvaluation
 {
@@ -337,8 +335,6 @@ class ilSkillSelfEvaluation
 
         $lng->loadLanguageModule("skmg");
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         $stree = new ilSkillTree();
         $cnt = 0;
         $sum = 0;
@@ -360,15 +356,15 @@ class ilSkillSelfEvaluation
                     reset($ls);
                     foreach ($ls as $ld) {
                         if ($ld["id"] == $levels[$child["child"]]) {
-                            $sum+= $ord[$ld["id"]];
+                            $sum += $ord[$ld["id"]];
                         }
                     }
-                    $cnt+= 1;
+                    $cnt += 1;
                 }
             }
         }
         if ($cnt > 0) {
-            $avg = round($sum/$cnt);
+            $avg = round($sum / $cnt);
             if ($avg > 0) {
                 return (array("skill_title" => $cnode["title"],
                     "ord" => $avg, "avg_title" => $ls[$avg - 1]["title"]));
@@ -390,8 +386,6 @@ class ilSkillSelfEvaluation
     {
         $steps = array();
         if ($a_sn_id > 0) {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
-            include_once("./Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php");
             $stree = new ilSkillTree();
 
             if ($stree->isInTree($a_sn_id)) {

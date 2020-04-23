@@ -434,7 +434,7 @@ class ilObjLanguageExt extends ilObjLanguage
                 $save_array[$module][$topic] = $value;
 
                 if ($global_values[$key] != $value
-                or  $global_comments[$key] != $a_remarks[$key]) {
+                or $global_comments[$key] != $a_remarks[$key]) {
                     $local_change = $save_date;
                 } else {
                     $local_change = null;

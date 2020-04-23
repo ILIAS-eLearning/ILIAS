@@ -1,0 +1,15 @@
+<phpunit
+        colors="true"
+        stopOnFailure="false"
+        backupGlobals="false"
+        bootstrap="./test/bootstrap.php"
+>
+    <testsuite name="ilServicesCertificateSuite">
+        <file>./test/ilServicesCertificateSuite.php</file>
+    </testsuite>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">classes</directory>
+        </whitelist>
+    </filter>
+</phpunit>

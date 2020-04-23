@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSkillCatTableGUI extends ilTable2GUI
 {
@@ -51,7 +46,6 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
         
         $this->mode = $a_mode;
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->skill_tree = new ilSkillTree();
         $this->obj_id = $a_obj_id;
 

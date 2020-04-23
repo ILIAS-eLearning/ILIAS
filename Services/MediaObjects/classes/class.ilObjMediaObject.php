@@ -346,7 +346,7 @@ class ilObjMediaObject extends ilObject
 
     public function getMediaItemNr($a_purpose)
     {
-        for ($i=0; $i<count($this->media_items); $i++) {
+        for ($i = 0; $i < count($this->media_items); $i++) {
             if ($this->media_items[$i]->getPurpose() == $a_purpose) {
                 return $i + 1;
             }
@@ -445,10 +445,10 @@ class ilObjMediaObject extends ilObject
 
         if ($a_save_media_items) {
             $media_items = $this->getMediaItems();
-            for ($i=0; $i<count($media_items); $i++) {
+            for ($i = 0; $i < count($media_items); $i++) {
                 $item = $media_items[$i];
                 $item->setMobId($this->getId());
-                $item->setNr($i+1);
+                $item->setNr($i + 1);
                 $item->create();
             }
         }
@@ -469,7 +469,7 @@ class ilObjMediaObject extends ilObject
     /**
     * update media object in db
     */
-    public function update($a_upload=false)
+    public function update($a_upload = false)
     {
         parent::update();
         
@@ -526,7 +526,7 @@ class ilObjMediaObject extends ilObject
             $parent_obj_id = $a_mob->getParentObjectIdForUsage($item);
             if ($parent_obj_id &&
                 !in_array($parent_obj_id, $parent_obj_ids)) {
-                $parent_obj_ids[]= $parent_obj_id;
+                $parent_obj_ids[] = $parent_obj_id;
             }
         }
         
@@ -662,7 +662,7 @@ class ilObjMediaObject extends ilObject
         $a_subdir = str_replace("..", "", $a_subdir);
         $dir = ilObjMediaObject::_getDirectory($this->getId());
         if ($a_subdir != "") {
-            $dir.= "/" . $a_subdir;
+            $dir .= "/" . $a_subdir;
         }
         
         $files = array();
@@ -694,7 +694,7 @@ class ilObjMediaObject extends ilObject
                 $xml = "<MediaObject>";
                 $xml .= "<MediaAlias OriginId=\"il__mob_" . $this->getId() . "\"/>";
                 $media_items = $this->getMediaItems();
-                for ($i=0; $i<count($media_items); $i++) {
+                for ($i = 0; $i < count($media_items); $i++) {
                     $item = $media_items[$i];
                     $xml .= "<MediaAliasItem Purpose=\"" . $item->getPurpose() . "\">";
 
@@ -740,7 +740,7 @@ class ilObjMediaObject extends ilObject
                 $xml = "<MediaObject Id=\"il__mob_" . $this->getId() . "\">";
 
                 $media_items = $this->getMediaItems();
-                for ($i=0; $i<count($media_items); $i++) {
+                for ($i = 0; $i < count($media_items); $i++) {
                     $item = $media_items[$i];
 
                     $xml .= "<MediaItem Purpose=\"" . $item->getPurpose() . "\">";
@@ -756,11 +756,11 @@ class ilObjMediaObject extends ilObject
                         }
                     }
 
-                    $xml.= "<Location Type=\"" . $item->getLocationType() . "\">" .
+                    $xml .= "<Location Type=\"" . $item->getLocationType() . "\">" .
                         $this->handleAmps($location) . "</Location>";
 
                     // Format
-                    $xml.= "<Format>" . $item->getFormat() . "</Format>";
+                    $xml .= "<Format>" . $item->getFormat() . "</Format>";
 
                     // Layout
                     $width = ($item->getWidth() != "")
@@ -828,21 +828,21 @@ class ilObjMediaObject extends ilObject
                 $md2xml = new ilMD2XML(0, $this->getId(), $this->getType());
                 $md2xml->setExportMode(true);
                 $md2xml->startExport();
-                $xml.= $md2xml->getXML();
+                $xml .= $md2xml->getXML();
 
                 $media_items = $this->getMediaItems();
-                for ($i=0; $i<count($media_items); $i++) {
+                for ($i = 0; $i < count($media_items); $i++) {
                     $item = $media_items[$i];
                     
                     // highlight mode
                     $xml .= "<MediaItem Purpose=\"" . $item->getPurpose() . "\">";
 
                     // Location
-                    $xml.= "<Location Type=\"" . $item->getLocationType() . "\">" .
+                    $xml .= "<Location Type=\"" . $item->getLocationType() . "\">" .
                         $this->handleAmps($item->getLocation()) . "</Location>";
 
                     // Format
-                    $xml.= "<Format>" . $item->getFormat() . "</Format>";
+                    $xml .= "<Format>" . $item->getFormat() . "</Format>";
 
                     // Layout
                     $width = ($item->getWidth() != "")
@@ -951,10 +951,10 @@ class ilObjMediaObject extends ilObject
         $xml = "<dummy>";
         // todo: we get always the first alias now (problem if mob is used multiple
         // times in page)
-        $xml.= $pg_obj->getMediaAliasElement($this->getId());
-        $xml.= $this->getXML(IL_MODE_OUTPUT);
+        $xml .= $pg_obj->getMediaAliasElement($this->getId());
+        $xml .= $this->getXML(IL_MODE_OUTPUT);
         //$xml.= $link_xml;
-        $xml.="</dummy>";
+        $xml .= "</dummy>";
         
         //die(htmlspecialchars($xml));
 
@@ -1164,7 +1164,7 @@ class ilObjMediaObject extends ilObject
             $ilDB->quote($a_id, "integer");
 
         if (!$a_include_history) {
-            $q.= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
+            $q .= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
         }
         
         $us_set = $ilDB->query($q);
@@ -1301,7 +1301,7 @@ class ilObjMediaObject extends ilObject
                         include_once 'Modules/Forum/classes/class.ilForumPost.php';
                         include_once 'Modules/Forum/classes/class.ilForum.php';
                         $oPost = new ilForumPost($post_pk);
-                        $frm_pk =  $oPost->getForumId();
+                        $frm_pk = $oPost->getForumId();
                         $obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
                         break;
                     
@@ -1312,7 +1312,7 @@ class ilObjMediaObject extends ilObject
                         include_once 'Modules/Forum/classes/class.ilForum.php';
                         $oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
                         
-                        $frm_pk =  $oDraft->getForumId();
+                        $frm_pk = $oDraft->getForumId();
                         $obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
                         break;
                     case "frm~h":
@@ -1323,7 +1323,7 @@ class ilObjMediaObject extends ilObject
                         $oHistoryDraft = new ilForumDraftsHistory($history_id);
                         $oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
                         
-                        $frm_pk =  $oDraft->getForumId();
+                        $frm_pk = $oDraft->getForumId();
                         $obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
                         break;
                     // temporary items (per user)
@@ -1560,8 +1560,8 @@ class ilObjMediaObject extends ilObject
                     //echo "<br>+".$hr."+".$size[1]."+".$h."+";
                     $r = max($wr, $hr);
                     if ($r > 0) {
-                        $width = (int) ($size[0]/$r);
-                        $height = (int) ($size[1]/$r);
+                        $width = (int) ($size[0] / $r);
+                        $height = (int) ($size[1] / $r);
                     }
                 }
             }
@@ -1675,7 +1675,7 @@ class ilObjMediaObject extends ilObject
         $a_subdir = str_replace("..", "", $a_subdir);
         $dir = $mob_dir = ilObjMediaObject::_getDirectory($this->getId());
         if ($a_subdir != "") {
-            $dir.= "/" . $a_subdir;
+            $dir .= "/" . $a_subdir;
         }
         ilUtil::makeDirParents($dir);
         if ($a_mode == "rename") {

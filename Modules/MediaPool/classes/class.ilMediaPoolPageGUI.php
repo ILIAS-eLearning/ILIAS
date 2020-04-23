@@ -128,12 +128,12 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
             );
             $tpl->parseCurrentBlock();
 
-            $tpl->setCurrentBlock("SyntaxStyle");
-            $tpl->setVariable(
-                "LOCATION_SYNTAX_STYLESHEET",
-                ilObjStyleSheet::getSyntaxStylePath()
-            );
-            $tpl->parseCurrentBlock();
+            /*            $tpl->setCurrentBlock("SyntaxStyle");
+                        $tpl->setVariable(
+                            "LOCATION_SYNTAX_STYLESHEET",
+                            ilObjStyleSheet::getSyntaxStylePath()
+                        );
+                        $tpl->parseCurrentBlock();*/
         }
 
         $this->setTemplateOutput(false);
@@ -164,5 +164,14 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->setRawPageContent(true);
         $this->setLinkXML("");
         return $this->showPage(true);
+    }
+
+    /**
+     * Set template
+     * @param ilTemplate
+     */
+    public function setTemplate($tpl)
+    {
+        $this->tpl = $tpl;
     }
 }

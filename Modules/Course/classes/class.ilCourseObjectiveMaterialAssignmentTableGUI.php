@@ -68,11 +68,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.crs_objective_list_materials_row.html", "Modules/Course");
-        #$this->disable('sort');
-        #$this->disable('header');
-        #$this->disable('numinfo');
-        #$this->disable('select_all');
-        
+
         $this->setDefaultOrderField('title');
         $this->setLimit(200);
         
@@ -80,9 +76,7 @@ class ilCourseObjectiveMaterialAssignmentTableGUI extends ilTable2GUI
         
         
         $this->addCommandButton('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
-        #$this->addMultiCommand('updateMaterialAssignment', $this->lng->txt('crs_wiz_next'));
-        $this->addCommandButton('create', $this->lng->txt('crs_wiz_back'));
-        
+
         $this->initObjectiveAssignments();
     }
     

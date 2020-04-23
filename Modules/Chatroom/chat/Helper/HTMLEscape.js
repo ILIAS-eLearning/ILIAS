@@ -17,7 +17,7 @@ HTMLEscape.prototype.escape = function(html) {
 		.replace(/>/g, '&gt;')
 		.replace(/"/g, '&quot;');
 
-	return html;
+	return html.replace(new RegExp("[\uD800-\uDBFF][\uDC00-\uDFFF]", "g"), "?");
 };
 
 /**

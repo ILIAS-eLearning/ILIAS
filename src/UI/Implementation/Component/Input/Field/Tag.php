@@ -16,7 +16,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tag extends Input implements C\Input\Field\Tag
+class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
 {
     const EVENT_ITEM_ADDED = 'itemAdded';
     const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
@@ -274,16 +274,6 @@ class Tag extends Input implements C\Input\Field\Tag
     {
         return $this->max_tags;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withInput(InputData $input)
-    {
-        return parent::withInput($input);
-    }
-
 
 
     // Events

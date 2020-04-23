@@ -10,34 +10,34 @@
 */
 class ilMailFormGUI
 {
-    /** @var \ilTemplate */
+    /** @var ilTemplate */
     private $tpl;
 
-    /** @var \ilCtrl */
+    /** @var ilCtrl */
     private $ctrl;
 
-    /** @var \ilLanguage */
+    /** @var ilLanguage */
     private $lng;
 
-    /** @var \ilObjUser */
+    /** @var ilObjUser */
     private $user;
 
-    /** @var \ilTabsGUI */
+    /** @var ilTabsGUI */
     private $tabs;
 
-    /** @var \ilToolbarGUI */
+    /** @var ilToolbarGUI */
     private $toolbar;
 
-    /** @var \ilRbacSystem */
+    /** @var ilRbacSystem */
     private $rbacsystem;
 
-    /** @var \ilFormatMail */
+    /** @var ilFormatMail */
     private $umail;
 
-    /** @var \ilMailBox*/
+    /** @var ilMailBox */
     private $mbox;
 
-    /** @var \ilFileDataMail */
+    /** @var ilFileDataMail */
     private $mfile;
 
     /** @var ilMailTemplateService */
@@ -52,8 +52,8 @@ class ilMailFormGUI
      * @param ilMailBodyPurifier|null $bodyPurifier
      */
     public function __construct(
-        \ilMailTemplateService $templateService = null,
-        \ilMailBodyPurifier $bodyPurifier = null
+        ilMailTemplateService $templateService = null,
+        ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
 
@@ -62,17 +62,17 @@ class ilMailFormGUI
         }
         $this->templateService = $templateService;
 
-        $this->tpl        = $DIC->ui()->mainTemplate();
-        $this->ctrl       = $DIC->ctrl();
-        $this->lng        = $DIC->language();
-        $this->user       = $DIC->user();
-        $this->tabs       = $DIC->tabs();
-        $this->toolbar    = $DIC->toolbar();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mfile = new ilFileDataMail($this->user->getId());
-        $this->mbox  = new ilMailbox($this->user->getId());
+        $this->mbox = new ilMailbox($this->user->getId());
 
         if (null === $bodyPurifier) {
             $bodyPurifier = new ilMailBodyPurifier();
@@ -162,7 +162,7 @@ class ilMailFormGUI
         $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         $mailer = $this->umail
-            ->withContextId(\ilMailFormCall::getContextId() ? \ilMailFormCall::getContextId() : '')
+            ->withContextId(ilMailFormCall::getContextId() ? ilMailFormCall::getContextId() : '')
             ->withContextParameters(is_array(ilMailFormCall::getContextParameters()) ? ilMailFormCall::getContextParameters() : []);
 
         $mailer->setSaveInSentbox(true);
@@ -202,12 +202,12 @@ class ilMailFormGUI
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
-        $files         = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
+        $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         if ($errors = $this->umail->validateRecipients(
-            (string) \ilUtil::securePlainString($_POST['rcp_to']),
-            (string) \ilUtil::securePlainString($_POST['rcp_cc']),
-            (string) \ilUtil::securePlainString($_POST['rcp_bcc'])
+            (string) ilUtil::securePlainString($_POST['rcp_to']),
+            (string) ilUtil::securePlainString($_POST['rcp_cc']),
+            (string) ilUtil::securePlainString($_POST['rcp_bcc'])
         )) {
             $_POST['attachments'] = $files;
             $this->showSubmissionErrors($errors);
@@ -560,7 +560,7 @@ class ilMailFormGUI
         
                 $mailData['m_message'] .= $_POST["additional_message_text"] . chr(13) . chr(10) . $this->umail->appendSignature();
                 $_POST["additional_message_text"] = "";
-                $_SESSION['mail_roles'] = "";
+                $_SESSION['mail_roles'] = [];
                 break;
         
             case 'address':
@@ -663,19 +663,19 @@ class ilMailFormGUI
         }
         $form_gui->addItem($att);
 
-        if (\ilMailFormCall::getContextId()) {
-            $context_id = \ilMailFormCall::getContextId();
+        if (ilMailFormCall::getContextId()) {
+            $context_id = ilMailFormCall::getContextId();
 
             $mailData['use_placeholders'] = true;
 
             try {
-                $context = \ilMailTemplateContextService::getTemplateContextById($context_id);
+                $context = ilMailTemplateContextService::getTemplateContextById($context_id);
 
                 $templates = $this->templateService->loadTemplatesForContextId($context->getId());
                 if (count($templates) > 0) {
                     $options = array();
 
-                    $template_chb = new \ilMailTemplateSelectInputGUI(
+                    $template_chb = new ilMailTemplateSelectInputGUI(
                         $this->lng->txt('mail_template_client'),
                         'template_id',
                         $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
@@ -700,15 +700,15 @@ class ilMailFormGUI
                     $template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
                     $form_gui->addItem($template_chb);
                 }
-            } catch (\Exception $e) {
-                \ilLoggerFactory::getLogger('mail')->error(sprintf(
+            } catch (Exception $e) {
+                ilLoggerFactory::getLogger('mail')->error(sprintf(
                     '%s has been called with invalid context id: %s.',
                     __METHOD__,
                     $context_id
                 ));
             }
         } else {
-            $context = new \ilMailTemplateGenericContext();
+            $context = new ilMailTemplateGenericContext();
         }
 
         // MESSAGE
@@ -766,7 +766,7 @@ class ilMailFormGUI
         $result = array();
 
         require_once 'Services/Utilities/classes/class.ilStr.php';
-        if (\ilStr::strLen($search) < 3) {
+        if (ilStr::strLen($search) < 3) {
             echo json_encode($result);
             exit;
         }
@@ -777,7 +777,7 @@ class ilMailFormGUI
         $quoted = str_replace('_', '\_', $quoted);
 
         $mailFormObj = new ilMailForm;
-        $result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
+        $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
 
         echo json_encode($result);
         exit;
@@ -831,15 +831,15 @@ class ilMailFormGUI
     }
 
     /**
-     * @param $errors \ilMailError[]
+     * @param $errors ilMailError[]
      */
     protected function showSubmissionErrors(array $errors)
     {
-        $formatter = new \ilMailErrorFormatter($this->lng);
+        $formatter = new ilMailErrorFormatter($this->lng);
         $formattedErrors = $formatter->format($errors);
 
         if (strlen($formattedErrors) > 0) {
-            \ilUtil::sendInfo($formattedErrors);
+            ilUtil::sendFailure($formattedErrors);
         }
     }
 }

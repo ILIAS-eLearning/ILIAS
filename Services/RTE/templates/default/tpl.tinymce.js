@@ -65,6 +65,8 @@
 	};
 
 	var ilTinyMceInitCallbackRegistry = new _ilTinyMceInitCallbackRegistry();
+	
+	window.ilTinyMceInitCallbackRegistry = ilTinyMceInitCallbackRegistry;
 
 	tinyMCE.init({
 		mode : "textareas",

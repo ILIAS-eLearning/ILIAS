@@ -145,7 +145,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         if ($this->getFailureStatus()) {
             $this->tpl->setVariable('CHECKED_ACTIVE', $_POST['item'][$set['ref_id']]['active'] ? 'checked="checked"' : '');
         } else {
-            $this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type']  == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+            $this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
         }
         
         // start

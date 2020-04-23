@@ -221,7 +221,7 @@ class ilCopyWizardPage
             }
             if ($this->objDefinition->allowLink($this->item_type)) {
                 $this->tpl->setCurrentBlock('item_options');
-                if ($selected ==ilCopyWizardOptions::COPY_WIZARD_LINK) {
+                if ($selected == ilCopyWizardOptions::COPY_WIZARD_LINK) {
                     $this->tpl->setVariable('ITEM_CHECKED', 'checked="checked"');
                 }
                 $this->tpl->setVariable('ITEM_CHECK_NAME', 'cp_options[' . $node['child'] . '][type]');

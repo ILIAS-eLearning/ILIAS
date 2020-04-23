@@ -25,4 +25,3 @@ function base()
         $link2,
     ]);
 }
-

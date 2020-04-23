@@ -55,7 +55,7 @@ class ilTestStatistics
         $median_array = array();
 
         foreach ($eval_data->getParticipantIds() as $active_id) {
-            $participant =&$eval_data->getParticipant($active_id);
+            $participant = &$eval_data->getParticipant($active_id);
             array_push($median_array, $participant->getReached());
         }
 

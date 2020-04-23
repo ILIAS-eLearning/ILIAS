@@ -189,7 +189,7 @@ class ilConfirmationGUI
             $confirm->setCaption($this->confirm_txt, false);
             $confirm->setId($this->confirm_id);
 
-            $cancel  = ilSubmitButton::getInstance();
+            $cancel = ilSubmitButton::getInstance();
             $cancel->setCommand($this->cancel_cmd);
             $cancel->setCaption($this->cancel_txt, false);
             $cancel->setId($this->cancel_id);

@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
-include_once("./Services/Skill/classes/class.ilBasicSkillGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Basic skill template GUI class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_isCalledBy ilBasicSkillTemplateGUI: ilObjSkillManagementGUI
-*
-* @ingroup ServicesSkill
-*/
+ * Basic skill template GUI class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_isCalledBy ilBasicSkillTemplateGUI: ilObjSkillManagementGUI
+ */
 class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 {
     /**
@@ -87,7 +81,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -109,7 +102,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ni->setSize(6);
         $ni->setRequired(true);
         if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
             $ni->setValue($max + 10);
@@ -183,13 +175,12 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             $tpl->setTitle($lng->txt("skmg_skill_level"));
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $tree = new ilSkillTree();
         $path = $tree->getPathFull($this->node_object->getId());
         $desc = "";
         foreach ($path as $p) {
             if (in_array($p["type"], array("scat", "skll"))) {
-                $desc.= $sep . $p["title"];
+                $desc .= $sep . $p["title"];
                 $sep = " > ";
             }
         }
@@ -333,7 +324,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
 
-        include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
         $table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id, $this->isInUse());
         $tpl->setContent($table->getHTML());
     }
@@ -355,15 +345,13 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
         $this->setTabs("usage");
 
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         $usage_info = new ilSkillUsage();
         $usages = $usage_info->getAllUsagesOfTemplate($this->base_skill_id);
 
         $html = "";
-        include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html.= $tab->getHTML() . "<br/><br/>";
+            $html .= $tab->getHTML() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

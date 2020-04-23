@@ -117,7 +117,7 @@ class ilIndependantTemplate extends ilTemplate
         if ($part === null) {
             $part = "__global__";
         }
-        if ($part == '__global__'  && !$this->flagGlobalParsed) {
+        if ($part == '__global__' && !$this->flagGlobalParsed) {
             $this->parse('__global__');
         }
 

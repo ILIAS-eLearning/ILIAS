@@ -165,7 +165,7 @@ class ilTaggingSlateContentGUI
 
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
-                    $f->button()->shy($title, ilLink::_getLink($ref_id))
+                    $f->link()->standard($title, ilLink::_getLink($ref_id))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
             }
         }

@@ -179,8 +179,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
     
     protected function addPropertiesToXML(ilXmlWriter $a_writer)
     {
-        $a_writer->xmlElement('FieldValue', array("id"=>"max"), $this->getMaxLength());
-        $a_writer->xmlElement('FieldValue', array("id"=>"multi"), $this->isMulti());
+        $a_writer->xmlElement('FieldValue', array("id" => "max"), $this->getMaxLength());
+        $a_writer->xmlElement('FieldValue', array("id" => "multi"), $this->isMulti());
     }
     
     public function importXMLProperty($a_key, $a_value)

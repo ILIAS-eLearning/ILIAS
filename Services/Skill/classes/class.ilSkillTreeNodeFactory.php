@@ -1,21 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-include_once("./Services/Skill/classes/class.ilSkillCategory.php");
-include_once("./Services/Skill/classes/class.ilSkillRoot.php");
-include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
-include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
-include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Factory for skill tree nodes
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillTreeNodeFactory
 {

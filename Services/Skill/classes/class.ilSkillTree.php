@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Tree/classes/class.ilTree.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill tree
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesSkill
  */
 class ilSkillTree extends ilTree
 {
@@ -30,7 +26,6 @@ class ilSkillTree extends ilTree
     public function getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
     {
         if ($a_tref_id > 0) {
-            include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
             $path = $this->getPathFull($a_tref_id);
             $sub_path = $this->getPathFull($a_base_skill_id);
             if (is_array($path)) {
@@ -87,7 +82,7 @@ class ilSkillTree extends ilTree
         $sep = "";
         foreach ($path as $p) {
             if ($p["type"] != "skrt" && $p["child"] != $a_base_skill_id) {
-                $str.= $sep . $p["title"];
+                $str .= $sep . $p["title"];
                 $sep = " > ";
             }
         }

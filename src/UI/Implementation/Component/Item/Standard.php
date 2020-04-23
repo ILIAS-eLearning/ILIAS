@@ -22,7 +22,7 @@ class Standard extends Item implements C\Item\Standard
      */
     public function withColor(\ILIAS\Data\Color $color) : C\Item\Item
     {
-        $clone        = clone $this;
+        $clone = clone $this;
         $clone->color = $color;
         return $clone;
     }
@@ -40,7 +40,7 @@ class Standard extends Item implements C\Item\Standard
      */
     public function withLeadImage(\ILIAS\UI\Component\Image\Image $image) : C\Item\Item
     {
-        $clone       = clone $this;
+        $clone = clone $this;
         $clone->lead = $image;
         return $clone;
     }
@@ -50,7 +50,7 @@ class Standard extends Item implements C\Item\Standard
      */
     public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) : C\Item\Item
     {
-        $clone       = clone $this;
+        $clone = clone $this;
         $clone->lead = $icon;
         return $clone;
     }
@@ -61,7 +61,7 @@ class Standard extends Item implements C\Item\Standard
     public function withLeadText(string $text) : C\Item\Item
     {
         $this->checkStringArg("lead_text", $text);
-        $clone       = clone $this;
+        $clone = clone $this;
         $clone->lead = (string) $text;
         return $clone;
     }
@@ -71,7 +71,7 @@ class Standard extends Item implements C\Item\Standard
      */
     public function withNoLead() : C\Item\Item
     {
-        $clone       = clone $this;
+        $clone = clone $this;
         $clone->lead = null;
         return $clone;
     }

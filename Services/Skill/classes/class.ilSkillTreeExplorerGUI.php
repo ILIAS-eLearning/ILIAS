@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
@@ -64,9 +60,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
             $title = $lng->txt("skmg_skills");
         } else {
             if ($a_node["type"] == "sktr") {
-                include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);
-                $title.= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
+                $title .= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }
             
             // @todo: fix this if possible for skill/tref_id combination

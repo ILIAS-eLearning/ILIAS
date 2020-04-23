@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for personal skills
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilPersonalSkillTableGUI extends ilTable2GUI
 {
@@ -48,7 +43,6 @@ class ilPersonalSkillTableGUI extends ilTable2GUI
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
         $this->setData(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
         $this->setTitle($lng->txt("skills"));
         

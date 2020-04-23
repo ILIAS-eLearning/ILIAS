@@ -9377,7 +9377,7 @@ lso#:#lso_settings_availability#:#dostupnost
 lso#:#lso_settings_extro#:#Nastavení Exitpage
 lso#:#lso_settings_intro#:#Nastavení Intropage
 lso#:#lso_show_members_info#:#Galerie uživatelů dostupná pro uživatele
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#Open %s
 lso#:#lso_users_already_assigned#:#Uživatel je již přiřazen k této sekvenci učení
 lso#:#mail_lso_roles#:#Posílat maily rolím sekvence učení.
 lso#:#manage#:#Spravovat
@@ -15959,10 +15959,10 @@ prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###0
 prg#:#modal_automembership_title#:#Automatismus hinzufügen###07 02 2020 new variable
 prg#:#membership_source_type#:#Source###07 02 2020 new variable
 prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
-prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
 orgu#:#org_op_view_members#:#View Members###07 02 2020 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable

@@ -170,7 +170,7 @@ class ilForumNotification
 			WHERE 	user_id = %s
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
-			AND		user_id_noti > %s' ,
+			AND		user_id_noti > %s',
             array('integer', 'integer','integer', 'integer'),
             array($this->getUserId(), $this->getForumId(), 1, 0)
         );
@@ -185,7 +185,7 @@ class ilForumNotification
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
 			AND		user_toggle_noti = %s			
-			AND		user_id_noti > %s' ,
+			AND		user_id_noti > %s',
             array('integer', 'integer','integer','integer', 'integer'),
             array($this->getUserId(),$this->getForumId(),1,1, 0 )
         );
@@ -277,7 +277,21 @@ class ilForumNotification
     {
         if (!array_key_exists($ref_id, self::$node_data_cache)) {
             global $DIC;
-            self::$node_data_cache[$ref_id] = $DIC->repositoryTree()->getChildsByType($ref_id, 'frm');
+            $node_data = $DIC->repositoryTree()->getSubTree(
+                $DIC->repositoryTree()->getNodeData($ref_id),
+                true,
+                'frm'
+            );
+            $node_data = array_filter($node_data, function ($forum_node) use ($DIC, $ref_id) {
+                // filter out forum if a grp lies in the path (#0027702)
+                foreach ($DIC->repositoryTree()->getNodePath($forum_node['child'], $ref_id) as $path_node) {
+                    if ((int) $path_node['child'] !== (int) $ref_id && $path_node['type'] === 'grp') {
+                        return false;
+                    }
+                }
+                return true;
+            });
+            self::$node_data_cache[$ref_id] = $node_data;
         }
         
         return self::$node_data_cache[$ref_id];
@@ -424,7 +438,7 @@ class ilForumNotification
         );
 
         $res_2 = $ilDB->queryF(
-            'SELECT user_id FROM frm_notification 
+            'SELECT DISTINCT user_id FROM frm_notification 
 		WHERE frm_id = %s 
 		AND  thread_id = %s
 		 ORDER BY user_id ASC',
@@ -432,9 +446,13 @@ class ilForumNotification
             array(0, $merge_target_thread_id)
         );
 
-        $users_already_notified = $ilDB->fetchAssoc($res_2);
+        $users_already_notified = array();
+        while ($users_row = $ilDB->fetchAssoc($res_2)) {
+            $users_already_notified[$users_row['user_id']] = $users_row['user_id'];
+        }
+
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (in_array($row['user_id'], $users_already_notified)) {
+            if (isset($users_already_notified[$row['user_id']])) {
                 // delete source notification because already exists for target_id
                 $ilDB->manipulatef(
                     'DELETE FROM frm_notification WHERE notification_id = %s',

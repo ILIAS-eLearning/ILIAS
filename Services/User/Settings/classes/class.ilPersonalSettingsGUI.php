@@ -206,7 +206,7 @@ class ilPersonalSettingsGUI
                 $this->lng->txt('password_change_on_first_login_demand')
             );
         } elseif ($ilUser->isPasswordExpired()) {
-            $msg          = $this->lng->txt('password_expired');
+            $msg = $this->lng->txt('password_expired');
             $password_age = $ilUser->getPasswordAge();
             ilUtil::sendInfo(sprintf($msg, $password_age));
         }
@@ -898,7 +898,7 @@ class ilPersonalSettingsGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
         
-        ilUtil::redirect("login.php?target=usr_" . md5("usrdelown"));
+        ilUtil::redirect("login.php?cmd=force_login&target=usr_" . md5("usrdelown"));
     }
     
     /**

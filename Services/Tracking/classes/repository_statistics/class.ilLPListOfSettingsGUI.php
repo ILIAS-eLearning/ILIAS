@@ -98,9 +98,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         } else {
             foreach ($this->obj_lp->getValidModes() as $mode_key) {
                 $opt = new ilRadioOption(
-                $this->obj_lp->getModeText($mode_key),
-                $mode_key,
-                $this->obj_lp->getModeInfoText($mode_key)
+                    $this->obj_lp->getModeText($mode_key),
+                    $mode_key,
+                    $this->obj_lp->getModeInfoText($mode_key)
             );
                 $opt->setValue($mode_key);
                 $mod->addOption($opt);
@@ -111,8 +111,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $vis->setSize(3);
                     $vis->setMaxLength(4);
                     $vis->setInfo(sprintf(
-                    $this->lng->txt('trac_visits_info'),
-                    ilObjUserTracking::_getValidTimeSpan()
+                        $this->lng->txt('trac_visits_info'),
+                        ilObjUserTracking::_getValidTimeSpan()
                 ));
                     $vis->setRequired(true);
                     $vis->setValue($this->obj_settings->getVisits());

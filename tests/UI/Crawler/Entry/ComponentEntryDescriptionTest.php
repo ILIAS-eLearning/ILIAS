@@ -15,10 +15,10 @@ class ComponentEntryDescriptionTest extends TestCase
      * @var array
      */
     protected $empty_description_array = array(
-        "purpose"=>"",
-        "composition"=>"",
-        "effect"=>"",
-        "rivals"=>array()
+        "purpose" => "",
+        "composition" => "",
+        "effect" => "",
+        "rivals" => array()
     );
 
     protected $invalid_categories1_array = array(
@@ -26,34 +26,34 @@ class ComponentEntryDescriptionTest extends TestCase
         "wrong"
     );
     protected $invalid_categories2_array = array(
-        "purpose"=>"",
-        "wrong"=>""
+        "purpose" => "",
+        "wrong" => ""
     );
     protected $invalid_category_item_array = array(
-        "purpose"=>"Correct",
-        "composition"=>array("Wrong")
+        "purpose" => "Correct",
+        "composition" => array("Wrong")
     );
     protected $invalid_category_value_array = array(
-        "purpose"=>"Correct",
-        "rivals"=>array(array("wrong"))
+        "purpose" => "Correct",
+        "rivals" => array(array("wrong"))
     );
 
     protected $correct_description1_array = array(
-        "purpose"=>"Purpose Description",
-        "composition"=>"Composition Description",
-        "effect"=>"Effect Description",
-        "rivals"=>array("Element 1" => "Rival 1", "Element 2" => "Rival 2")
+        "purpose" => "Purpose Description",
+        "composition" => "Composition Description",
+        "effect" => "Effect Description",
+        "rivals" => array("Element 1" => "Rival 1", "Element 2" => "Rival 2")
     );
 
     protected $correct_description2_array = array(
-        "purpose"=>"Purpose Description"
+        "purpose" => "Purpose Description"
     );
 
     protected $correct_description2_array_return = array(
-        "purpose"=>"Purpose Description",
-        "composition"=>"",
-        "effect"=>"",
-        "rivals"=>array()
+        "purpose" => "Purpose Description",
+        "composition" => "",
+        "effect" => "",
+        "rivals" => array()
     );
 
     /**

@@ -276,9 +276,6 @@ class ilAssQuestionSkillAssignment
 
     public function loadAdditionalSkillData()
     {
-        require_once 'Services/Skill/classes/class.ilBasicSkill.php';
-        require_once 'Services/Skill/classes/class.ilSkillTree.php';
-
         $this->setSkillTitle(
             ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
         );

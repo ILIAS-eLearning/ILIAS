@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill root GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI
- * @ingroup ServicesSkill
  */
 class ilSkillRootGUI extends ilSkillTreeNodeGUI
 {
@@ -107,12 +102,10 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->getParentGUI()->showTree(true, $this, "listTemplates");
         $ilTabs->activateTab("skill_templates");
 
-        include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
         if ($this->checkPermissionBool("write")) {
             ilSkillTemplateCategoryGUI::addCreationButtons();
         }
-        
-        include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
+
         $table = new ilSkillCatTableGUI(
             $this,
             "listTemplates",
@@ -142,13 +135,11 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 
         $this->getParentGUI()->showTree(false, $this, "listSkills");
         $ilTabs->activateTab("skills");
-        
-        include_once("./Services/Skill/classes/class.ilSkillCategoryGUI.php");
+
         if ($this->checkPermissionBool("write")) {
             ilSkillCategoryGUI::addCreationButtons();
         }
-        
-        include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
+
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
@@ -193,10 +184,8 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("skmg_input_file"), "import_file");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
@@ -224,7 +213,6 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
 
         $form = $this->initInputForm();
         if ($form->checkInput()) {
-            include_once("./Services/Export/classes/class.ilImport.php");
             $imp = new ilImport();
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
 

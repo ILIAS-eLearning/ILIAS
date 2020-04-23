@@ -20,7 +20,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 /**
  * This implements commonalities between inputs.
  */
-abstract class Input implements C\Input\Field\Input, InputInternal
+abstract class Input implements C\Input\Field\Input, FormInputInternal
 {
     use ComponentHelper;
     use JavaScriptBindable;
@@ -324,7 +324,7 @@ abstract class Input implements C\Input\Field\Input, InputInternal
         }
     }
 
-    // Implementation of InputInternal
+    // Implementation of FormInputInternal
 
     // This is the machinery to be used to process the input from the client side.
     // This should not be exposed to the consumers of the inputs. These methods
@@ -367,13 +367,12 @@ abstract class Input implements C\Input\Field\Input, InputInternal
         //We assign null. Note that unset checkboxes are not contained in POST.
         if (!$this->isDisabled()) {
             $value = $input->getOr($this->getName(), null);
-            //This is necessary when putting a Filter from off to on.
-            if (!is_null($value)) {
-                $clone = $this->withValue($value);
-            } else {
-                $value = $this->getValue();
-                $clone = $this;
-            }
+            // ATTENTION: There was a special case for the Filter Input Container here,
+            // which lead to #27909. The issue will most certainly appear again in. If
+            // you are the one debugging it and came here: Please don't put knowledge
+            // of the special case for the filter in this general class. Have a look
+            // into https://mantis.ilias.de/view.php?id=27909 for the according discussion.
+            $clone = $this->withValue($value);
         } else {
             $clone = $this;
         }

@@ -102,7 +102,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         ilTermsOfServiceUserHasLanguageCriterion $criterion
     ) : ilTermsOfServiceUserHasLanguageCriterion {
         $httpCriterionSelectionBodyParameter = 'criterion';
-        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_lng';
+        $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
         $gui = $criterion->ui($this->lng);
 
@@ -126,7 +126,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         ilTermsOfServiceUserHasLanguageCriterion $criterion
     ) : void {
         $httpCriterionSelectionBodyParameter = 'criterion';
-        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_lng';
+        $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
         $gui = $criterion->ui($this->lng);
 
@@ -191,7 +191,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
             ->willReturn($translation);
 
         $criterion = new ilTermsOfServiceUserHasLanguageCriterion();
-        $gui       = $criterion->ui($language);
+        $gui = $criterion->ui($language);
 
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(

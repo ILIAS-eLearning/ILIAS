@@ -7,7 +7,6 @@ require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/il
 require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeEvaluator.php';
 require_once 'Modules/Test/classes/class.ilTestSkillPointAccount.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
-require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -240,7 +239,7 @@ class ilTestSkillEvaluation
     
     private function determineReachedSkillPointsWithSolutionCompare(ilAssQuestionSolutionComparisonExpressionList $expressionList)
     {
-        $questionProvider  = new ilAssLacQuestionProvider();
+        $questionProvider = new ilAssLacQuestionProvider();
         $questionProvider->setQuestionId($expressionList->getQuestionId());
 
         foreach ($expressionList->get() as $expression) {
@@ -410,7 +409,6 @@ class ilTestSkillEvaluation
     {
         $matchingSkillProfiles = array();
 
-        include_once("./Services/Skill/classes/class.ilSkillProfile.php");
         $usersProfiles = ilSkillProfile::getProfilesOfUser($this->getUserId());
 
         foreach ($usersProfiles as $profileData) {

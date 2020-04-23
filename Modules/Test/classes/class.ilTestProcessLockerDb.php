@@ -26,7 +26,7 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
      */
     public function __construct(ilDBInterface $db)
     {
-        $this->db         = $db;
+        $this->db = $db;
         $this->atom_query = $this->db->buildAtomQuery();
     }
 

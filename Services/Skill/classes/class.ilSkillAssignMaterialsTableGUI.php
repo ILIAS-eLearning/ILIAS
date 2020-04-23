@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Assign materials to skill levels table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
 class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 {
@@ -42,8 +37,6 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $ilUser = $DIC->user();
 
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
         $this->ws_access = new ilWorkspaceAccessHandler();
 
@@ -52,18 +45,16 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->basic_skill_id = $a_basic_skill_id;
         
         // workspace tree
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
 
 
         // build title
-        include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $stree = new ilSkillTree();
         $path = $stree->getPathFull($this->basic_skill_id);
         $title = $sep = "";
         foreach ($path as $p) {
             if ($p["type"] != "skrt") {
-                $title.= $sep . $p["title"];
+                $title .= $sep . $p["title"];
                 $sep = " > ";
             }
         }
@@ -96,7 +87,6 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
      */
     public function getLevels()
     {
-        include_once("./Services/Skill/classes/class.ilSkillTreeNodeFactory.php");
         $this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
         foreach ($this->skill->getLevelData() as $k => $v) {
             $levels[] = $v;
@@ -114,7 +104,6 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        include_once("./Services/Skill/classes/class.ilPersonalSkill.php");
         $mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, $a_set["id"]);
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         foreach ($mat as $m) {

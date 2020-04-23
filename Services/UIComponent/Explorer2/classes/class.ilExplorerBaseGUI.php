@@ -88,6 +88,8 @@ abstract class ilExplorerBaseGUI
             $this->open_nodes = array();
         }
 
+        $this->requested_node_id = $_GET["node_id"];
+
         $this->nodeOnclickEnabled = true;
         ilYuiUtil::initConnection();
     }
@@ -889,7 +891,7 @@ abstract class ilExplorerBaseGUI
         $childs = $this->getChildsOfNode($a_node_id);
         $childs = $this->sortChilds($childs, $a_node_id);
 
-        if (count($childs) > 0 || $this->getSearchTerm() != "") {
+        if (count($childs) > 0 || ($this->getSearchTerm() != "" && $this->requested_node_id == $this->getDomNodeIdForNodeId($a_node_id))) {
             // collect visible childs
 
             $visible_childs = [];
@@ -909,14 +911,16 @@ abstract class ilExplorerBaseGUI
             // search field, if too many childs
             $any = false;
             if ($this->getChildLimit() > 0 && $this->getChildLimit() < $cnt_child
-                || $this->getSearchTerm() != "") {
+                || ($this->getSearchTerm() != "")) {
                 if (!$any) {
                     $this->listStart($tpl);
                     $any = true;
                 }
                 $tpl->setCurrentBlock("list_search");
                 $tpl->setVariable("SEARCH_CONTAINER_ID", $a_node_id);
-                $tpl->setVariable("SEARCH_VAL", $this->getSearchTerm());
+                if ($this->requested_node_id == $this->getDomNodeIdForNodeId($a_node_id)) {
+                    $tpl->setVariable("SEARCH_VAL", $this->getSearchTerm());
+                }
                 $tpl->parseCurrentBlock();
                 $tpl->touchBlock("tag");
             }

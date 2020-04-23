@@ -79,7 +79,7 @@ class ilObjRoleFolder extends ilObject
         
         // FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
         foreach ($roles as $role_id) {
-            $roleObj =&$this->ilias->obj_factory->getInstanceByObjId($role_id);
+            $roleObj = &$this->ilias->obj_factory->getInstanceByObjId($role_id);
             $roleObj->setParent($this->getRefId());
             $roleObj->delete();
             unset($roleObj);

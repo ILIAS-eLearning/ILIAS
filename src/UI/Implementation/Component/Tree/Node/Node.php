@@ -50,7 +50,7 @@ abstract class Node implements INode
     public function __construct(string $label, URI $link = null)
     {
         $this->label = $label;
-        $this->link  = $link;
+        $this->link = $link;
     }
 
     /**

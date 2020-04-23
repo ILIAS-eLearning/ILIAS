@@ -50,9 +50,9 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
     public function fillRow($row)
     {
         parent::fillRow(array(
-            'name'     => $row['name'],
+            'name' => $row['name'],
             'checkbox' => ilUtil::formCheckbox(false, 'chb_defaults[]', $row['test_defaults_id']),
-            'tstamp'   => ilDatePresentation::formatDate(new ilDateTime($row['tstamp'], IL_CAL_UNIX))
+            'tstamp' => ilDatePresentation::formatDate(new ilDateTime($row['tstamp'], IL_CAL_UNIX))
         ));
     }
 

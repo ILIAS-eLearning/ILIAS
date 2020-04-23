@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Skill/classes/class.ilPersonalSkillsGUI.php';
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>

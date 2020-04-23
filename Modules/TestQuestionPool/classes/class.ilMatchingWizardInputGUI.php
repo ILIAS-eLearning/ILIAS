@@ -111,7 +111,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
     */
     public function setQuestionObject($a_value)
     {
-        $this->qstObject =&$a_value;
+        $this->qstObject = &$a_value;
     }
 
     /**
@@ -328,7 +328,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             }
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POST_VAR", $this->getPostVar());
-            $tpl->setVariable("ROW_NUMBER", $i+1);
+            $tpl->setVariable("ROW_NUMBER", $i + 1);
             $tpl->setVariable("ROW_IDENTIFIER", $value->identifier);
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
             $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
@@ -343,7 +343,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
             if (is_array($this->getSuffixes())) {
                 $suff_str = $delim = "";
                 foreach ($this->getSuffixes() as $suffix) {
-                    $suff_str.= $delim . "." . $suffix;
+                    $suff_str .= $delim . "." . $suffix;
                     $delim = ", ";
                 }
                 $tpl->setCurrentBlock('allowed_image_suffixes');

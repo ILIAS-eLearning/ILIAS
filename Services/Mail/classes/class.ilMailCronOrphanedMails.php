@@ -47,9 +47,9 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         if (!$this->initDone) {
             $this->settings = $DIC->settings();
-            $this->lng      = $DIC->language();
-            $this->db       = $DIC->database();
-            $this->user     = $DIC->user();
+            $this->lng = $DIC->language();
+            $this->db = $DIC->database();
+            $this->user = $DIC->user();
 
             $this->lng->loadLanguageModule('mail');
             $this->initDone = true;
@@ -171,7 +171,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $notification->setMinValue(0);
         
         $mail_threshold = isset($_POST['mail_threshold']) ? (int) $_POST['mail_threshold'] : $this->settings->get('mail_threshold');
-        $maxvalue = $mail_threshold-1;
+        $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
         $notification->setValue($this->settings->get('mail_notify_orphaned'));
         $a_form->addItem($notification);

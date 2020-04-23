@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for skill profile skill level assignment
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
 {
@@ -31,8 +26,6 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
-        include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
         $parts = explode(":", $a_cskill_id);
         $this->skill_id = (int) $parts[0];
         $this->tref_id = (int) $parts[1];

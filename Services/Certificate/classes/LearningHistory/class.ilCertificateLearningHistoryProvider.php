@@ -81,7 +81,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         $this->controller = $controller;
 
         if (null === $certificateSettings) {
-            $certificateSettings =  new ilSetting("certificate");
+            $certificateSettings = new ilSetting("certificate");
         }
         $this->certificateSettings = $certificateSettings;
 

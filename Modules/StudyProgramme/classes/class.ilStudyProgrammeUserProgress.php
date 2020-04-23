@@ -150,7 +150,7 @@ class ilStudyProgrammeUserProgress
     /**
      * Get the id of the user who did the last change on this progress.
      */
-    public function getLastChangeBy() : int
+    public function getLastChangeBy() : ?int
     {
         return $this->progress->getLastChangeBy();
     }
@@ -174,7 +174,7 @@ class ilStudyProgrammeUserProgress
     /**
      * Get the completion date of this node.
      */
-    public function getCompletionDate() : DateTime
+    public function getCompletionDate() : ?DateTime
     {
         return $this->progress->getCompletionDate();
     }
@@ -241,13 +241,15 @@ class ilStudyProgrammeUserProgress
                 );
             }
         }
+        $progress = $this->progress
+            ->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
+            ->setCompletionBy($user_id)
+            ->setLastChangeBy($user_id)
+            ->setLastChange(new DateTime())
+            ->setCompletionDate(new DateTime())
+        ;
 
-        $this->progress_repository->update(
-            $this->progress
-                ->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED)
-                ->setCompletionBy($user_id)
-                ->setCompletionDate(new DateTime())
-        );
+        $this->progress_repository->update($progress);
 
         $assignment = $this->assignment_repository->read($this->getAssignmentId());
         if ((int) $prg->getId() === $assignment->getRootId()) {
@@ -308,7 +310,7 @@ class ilStudyProgrammeUserProgress
         $this->progress_repository->update(
             $this->progress
                 ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-                ->setLastChangeBy($user_id)
+                ->setLastChangeBy($a_user_id)
                 ->setCompletionDate(null)
         );
 
@@ -667,6 +669,7 @@ class ilStudyProgrammeUserProgress
         if (!$achieved_points) {
             $achieved_points = 0;
         }
+
         $successful = $achieved_points >= $this->getAmountOfPoints() && $this->hasSuccessfullChildren();
         $this->progress->setCurrentAmountOfPoints($achieved_points);
 
@@ -783,29 +786,26 @@ class ilStudyProgrammeUserProgress
         ilObjStudyProgramme $prg,
         ilStudyProgrammeAssignment $assignment
     ) : void {
-        if (null !== $prg->getValidityOfQualificationDate()) {
-            $date = $prg->getValidityOfQualificationDate();
+        $qualification_date = $prg->getValidityOfQualificationSettings()->getQualificationDate();
+        $qualification_period = $prg->getValidityOfQualificationSettings()->getQualificationPeriod();
+        if (!is_null($qualification_date)) {
+            $date = $qualification_date;
         } elseif (
-            ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD !==
-            $prg->getValidityOfQualificationPeriod()
+            ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD !== $qualification_period
         ) {
             $date = new DateTime();
-            $date->add(new DateInterval('P' . $prg->getValidityOfQualificationPeriod() . 'D'));
+            $date->add(new DateInterval('P' . $qualification_period . 'D'));
         } else {
             // nothing to do
             return;
         }
 
-        $this->progress_repository->update(
-            $this->progress
-                ->setValidityOfQualification($date)
-        );
+        $this->progress_repository->update($this->progress->setValidityOfQualification($date));
 
-        if (ilStudyProgrammeSettings::NO_RESTART !== $prg->getRestartPeriod()) {
-            $date->sub(new DateInterval('P' . $prg->getRestartPeriod() . 'D'));
-            $this->assignment_repository->update(
-                $assignment->setRestartDate($date)
-            );
+        $restart_period = $prg->getValidityOfQualificationSettings()->getRestartPeriod();
+        if (ilStudyProgrammeSettings::NO_RESTART !== $restart_period) {
+            $date->sub(new DateInterval('P' . $restart_period . 'D'));
+            $this->assignment_repository->update($assignment->setRestartDate($date));
         }
     }
 
@@ -956,7 +956,7 @@ class ilStudyProgrammeUserProgress
         $lng = $DIC['lng'];
         $log = $DIC['ilLog'];
         $lng->loadLanguageModule("prg");
-        $senderFactory = $DIC["mail.mime.sender.factory"];
+        $lng->loadLanguageModule("mail");
 
         /** @var ilStudyProgrammeUserProgressDB $usr_progress_db */
         $usr_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
@@ -970,27 +970,32 @@ class ilStudyProgrammeUserProgress
             return;
         }
 
-        $mail = new ilMimeMail();
-        $mail->From($senderFactory->system());
-
-        $mailOptions = new \ilMailOptions($usr_id);
-        $mail->To($mailOptions->getExternalEmailAddresses());
-
         $subject = $lng->txt("risky_to_fail_mail_subject");
-        $mail->Subject($subject);
-
         $gender = ilObjUser::_lookupGender($usr_id);
         $name = ilObjUser::_lookupFullname($usr_id);
-
         $body = sprintf(
             $lng->txt("risky_to_fail_mail_body"),
             $lng->txt("mail_salutation_" . $gender),
             $name,
             $prg->getTitle()
         );
-        $mail->Body($body);
 
-        if ($mail->Send()) {
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        if ($send) {
             $usr_progress_db->reminderSendFor($usr_progress->getId());
         }
     }

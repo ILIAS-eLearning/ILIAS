@@ -165,15 +165,15 @@ class ilMDRequirement extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'operating_system_name'	=> ilUtil::prepareDBString($this->getOperatingSystemName()),
+                     'operating_system_name' => ilUtil::prepareDBString($this->getOperatingSystemName()),
                      'operating_system_minimum_version' => ilUtil::prepareDBString($this->getOperatingSystemMinimumVersion()),
                      'operating_system_maximum_version' => ilUtil::prepareDBString($this->getOperatingSystemMaximumVersion()),
-                     'browser_name'	=> ilUtil::prepareDBString($this->getBrowserName()),
+                     'browser_name' => ilUtil::prepareDBString($this->getBrowserName()),
                      'browser_minimum_version' => ilUtil::prepareDBString($this->getBrowserMinimumVersion()),
                      'browser_maximum_version' => ilUtil::prepareDBString($this->getBrowserMaximumVersion()),
                      'or_composite_id' => $this->getOrCompositeId());

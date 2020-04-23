@@ -268,7 +268,7 @@ class ilToolbarGUI
      */
     public function addStickyItem($a_item, $a_output_label = false)
     {
-        $this->sticky_items[] = array("item"=>$a_item, "label"=>$a_output_label);
+        $this->sticky_items[] = array("item" => $a_item, "label" => $a_output_label);
     }
 
 

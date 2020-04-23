@@ -160,8 +160,8 @@ function Participant(id, name) {
 	};
 
 	this.removeConversation = function(conversation) {
-		var conversationIndex = getConversationIndex(conversation, _conversations);
-		if (conversationIndex !== false) {
+		let conversationIndex = getConversationIndex(conversation, _conversations);
+		if (conversationIndex !== -1) {
 			_conversations.splice(conversationIndex, 1);
 		}
 	};
@@ -170,17 +170,22 @@ function Participant(id, name) {
 		return _conversations;
 	};
 
+	/**
+	 * 
+	 * @param conversation
+	 * @param conversations
+	 * @returns {number}
+	 */
 	function getConversationIndex(conversation, conversations) {
-		for (var key in conversations) {
-			if (conversations.hasOwnProperty(key)) {
-				var id = conversations[key].getId();
-
-				if (id == conversation.getId()) {
-					return key;
-				}
+		const index =  conversations.findIndex(function(val) {
+			if (null === val) {
+				return false;
 			}
-		}
-		return false;
+
+			return val.getId().toString() === conversation.getId().toString();
+		});
+
+		return index;
 	}
 
 	/**

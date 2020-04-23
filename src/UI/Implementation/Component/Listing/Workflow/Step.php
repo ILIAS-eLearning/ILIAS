@@ -44,7 +44,7 @@ class Step implements C\Listing\Workflow\Step
      * @param string 	$label
      * @param string 	$description
      */
-    public function __construct($label, $description='', $action=null)
+    public function __construct($label, $description = '', $action = null)
     {
         $this->checkStringArg("string", $label);
         $this->checkStringArg("string", $description);

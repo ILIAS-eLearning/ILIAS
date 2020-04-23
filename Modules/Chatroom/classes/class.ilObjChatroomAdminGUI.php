@@ -110,7 +110,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
 
-        $settings  = ilChatroomServerSettings::loadDefault();
+        $settings = ilChatroomServerSettings::loadDefault();
         $connector = new ilChatroomServerConnector($settings);
 
         return $connector;

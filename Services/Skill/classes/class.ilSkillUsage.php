@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill usage
@@ -20,8 +18,6 @@ include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
  * - RESOURCE: A resource is assigned to a skill level (table "skl_skill_resource")
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesSkill
  */
 class ilSkillUsage implements ilSkillUsageInfo
 {
@@ -147,11 +143,11 @@ class ilSkillUsage implements ilSkillUsageInfo
         $w = "WHERE";
         $q = "SELECT " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field . " FROM " . $a_table . " ";
         foreach ($a_cskill_ids as $sk) {
-            $q.= $w . " (" . $a_skill_field . " = " . $ilDB->quote($sk["skill_id"], "integer") .
+            $q .= $w . " (" . $a_skill_field . " = " . $ilDB->quote($sk["skill_id"], "integer") .
             " AND " . $a_tref_field . " = " . $ilDB->quote($sk["tref_id"], "integer") . ") ";
             $w = "OR";
         }
-        $q.= " GROUP BY " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field;
+        $q .= " GROUP BY " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field;
 
         $set = $ilDB->query($q);
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -173,9 +169,6 @@ class ilSkillUsage implements ilSkillUsageInfo
         
         $usages = array();
         foreach ($classes as $class) {
-            // make static call
-            include_once("./Services/Skill/classes/class." . $class . ".php");
-            //call_user_func($class.'::getUsageInfo', $a_cskill_ids, $usages);
             $class::getUsageInfo($a_cskill_ids, $usages);
         }
         return $usages;
@@ -191,7 +184,6 @@ class ilSkillUsage implements ilSkillUsageInfo
     public function getAllUsagesInfoOfSubtree($a_skill_id, $a_tref_id = 0)
     {
         // get nodes
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $nodes = $vtree->getSubTreeForCSkillId($a_skill_id . ":" . $a_tref_id);
 
@@ -207,7 +199,6 @@ class ilSkillUsage implements ilSkillUsageInfo
     public function getAllUsagesInfoOfSubtrees($a_cskill_ids)
     {
         // get nodes
-        include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
         $vtree = new ilVirtualSkillTree();
         $allnodes = array();
         foreach ($a_cskill_ids as $s) {
@@ -232,7 +223,6 @@ class ilSkillUsage implements ilSkillUsageInfo
         $skill_logger->debug("ilSkillUsage: getAllUsagesOfTemplate(" . $a_tempate_id . ")");
 
         // get all trefs for template id
-        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
         $trefs = ilSkillTemplateReference::_lookupTrefIdsForTemplateId($a_tempate_id);
 
         // get all usages of subtrees of template_id:tref

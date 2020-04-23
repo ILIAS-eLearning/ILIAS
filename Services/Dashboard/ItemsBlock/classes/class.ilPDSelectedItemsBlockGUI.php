@@ -83,7 +83,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         parent::__construct();
 
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
 
@@ -145,7 +145,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     public function addToDeskObject()
     {
         $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        ilUtil::sendSuccess($this->lng->txt("rep_added_to_favourites"), true);
+        $this->returnToContext();
+    }
+
+    /**
+     * Return to context
+     * @param
+     * @return
+     */
+    protected function returnToContext()
+    {
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
@@ -155,10 +165,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function removeFromDeskObject()
     {
+        $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
-        $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
-        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+        ilUtil::sendSuccess($this->lng->txt("rep_removed_from_favourites"), true);
+        $this->returnToContext();
     }
 
     /**
@@ -199,13 +209,22 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     }
 
     /**
+     * Get view title
+     * @return string
+     */
+    protected function getViewTitle()
+    {
+        return $this->blockView->getTitle();
+    }
+
+    /**
      * @inheritdoc
      */
     public function getHTML()
     {
         global $DIC;
 
-        $this->setTitle($this->blockView->getTitle());
+        $this->setTitle($this->getViewTitle());
 
         $DIC->database()->useSlave(true);
 
@@ -239,7 +258,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
-        $cmd        = $this->ctrl->getCmd('getHTML');
+        $cmd = $this->ctrl->getCmd('getHTML');
 
         switch ($next_class) {
             case 'ilcommonactiondispatchergui':
@@ -322,7 +341,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'sorting', null);
         }
 
-        if (count($sortingCommands) > 0) {
+        if (count($sortingCommands) > 1) {
             $commandGroups[] = $sortingCommands;
         }
 
@@ -345,7 +364,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->setParameter($this, 'presentation', null);
         }
 
-        if (count($presentationCommands) > 0) {
+        if (count($presentationCommands) > 1) {
             $commandGroups[] = $presentationCommands;
         }
 
@@ -804,8 +823,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 }
             }
             if (count($cards) > 0) {
-                $subs[] = $factory->panel()->sub($group->getLabel(),
-                    $factory->deck($cards)->withNormalCardsSize());
+                $subs[] = $factory->panel()->sub(
+                    $group->getLabel(),
+                    $factory->deck($cards)->withNormalCardsSize()
+                );
             }
         }
 
@@ -855,11 +876,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     protected function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
-        $txt.= sprintf(
+        $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),
             '<a href="' . ilLink::_getStaticLink(1, 'root', true) . '">' . $this->getRepositoryTitle() . '</a>'
         ) . "<br>";
-        $txt.= $this->lng->txt("rep_fav_intro3");
+        $txt .= $this->lng->txt("rep_fav_intro3");
         return $txt;
     }
 
@@ -868,7 +889,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     protected function getRepositoryTitle()
     {
-        $nd    = $this->tree->getNodeData($this->tree->getRootId());
+        $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
         if ($title == 'ILIAS') {

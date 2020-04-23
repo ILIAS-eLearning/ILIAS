@@ -318,12 +318,12 @@ class SurveyQuestion
     * @access public
     * @see $materials
     */
-    public function addMaterials($materials_file, $materials_name="")
+    public function addMaterials($materials_file, $materials_name = "")
     {
         if (empty($materials_name)) {
             $materials_name = $materials_file;
         }
-        if ((!empty($materials_name))&&(!array_key_exists($materials_name, $this->materials))) {
+        if ((!empty($materials_name)) && (!array_key_exists($materials_name, $this->materials))) {
             $this->materials[$materials_name] = $materials_file;
         }
     }
@@ -335,7 +335,7 @@ class SurveyQuestion
     * @access public
     * @see $materials
     */
-    public function setMaterialsfile($materials_filename, $materials_tempfilename="", $materials_name="")
+    public function setMaterialsfile($materials_filename, $materials_tempfilename = "", $materials_name = "")
     {
         if (!empty($materials_filename)) {
             $materialspath = $this->getMaterialsPath();
@@ -364,7 +364,7 @@ class SurveyQuestion
     public function deleteMaterial($materials_name = "")
     {
         foreach ($this->materials as $key => $value) {
-            if (strcmp($key, $materials_name)==0) {
+            if (strcmp($key, $materials_name) == 0) {
                 if (file_exists($this->getMaterialsPath() . $value)) {
                     unlink($this->getMaterialsPath() . $value);
                 }
@@ -1644,7 +1644,7 @@ class SurveyQuestion
         } elseif ($gui == 2) {
             $type .= "Evaluation";
         }
-        if (file_exists("./Modules/SurveyQuestionPool/classes/class." . $type . ".php")) {
+        if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type . ".php")) {
             return true;
         } else {
             global $DIC;

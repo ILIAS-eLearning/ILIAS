@@ -15233,7 +15233,7 @@ iass#:#iass_sort_changetime_asc#:#Last Change ascending###07 02 2020 new variabl
 iass#:#iass_sort_changetime_desc#:#Last Change descending###07 02 2020 new variable
 rbac#:#lso_lp_other_users#:#User can view learning progress of other users###07 02 2020 new variable
 lso#:#manage#:#Manage###07 02 2020 new variable
-lso#:#lso_start_item#:#Start###07 02 2020 new variable
+lso#:#lso_start_item#:#Open %s###07 02 2020 new variable
 common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
 lso#:#finished#:#Finished###07 02 2020 new variable
 lso#:#not_finished#:#Not Finished###07 02 2020 new variable
@@ -15959,10 +15959,10 @@ prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###0
 prg#:#modal_automembership_title#:#Automatismus hinzufügen###07 02 2020 new variable
 prg#:#membership_source_type#:#Source###07 02 2020 new variable
 prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
-prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
 orgu#:#org_op_view_members#:#View Members###07 02 2020 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable

@@ -103,7 +103,7 @@ class ilQuestionExporter
     {
         $allmobs = array();
         foreach (self::$mobs as $key => $value) {
-            for ($i=0;$i<count(self::$mobs[$key]);$i++) {
+            for ($i = 0;$i < count(self::$mobs[$key]);$i++) {
                 array_push($allmobs, self::$mobs[$key][$i]);
             }
         }
@@ -119,7 +119,7 @@ class ilQuestionExporter
     {
         $exportstring = '';
         if (!is_array($a_qids)) {
-            $exportstring ='var questions = new Array();';
+            $exportstring = 'var questions = new Array();';
         }
         foreach (self::$exported as $key => $value) {
             if (!is_array($a_qids) || in_array($key, $a_qids)) {
@@ -153,7 +153,7 @@ class ilQuestionExporter
         }
         $this->tpl->parseCurrentBlock();
         foreach ($this->json_decoded->answers as $answer) {
-            if ($answer->image!="") {
+            if ($answer->image != "") {
                 array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->image);
                 if (is_file($this->q_gui->object->getImagePath() . "thumb." . $answer->image)) {
                     array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->image);
@@ -191,7 +191,7 @@ class ilQuestionExporter
         }
         $this->tpl->parseCurrentBlock();
         foreach ($this->json_decoded->answers as $answer) {
-            if ($answer->image!="") {
+            if ($answer->image != "") {
                 array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->image);
                 array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->image);
             }
@@ -301,7 +301,7 @@ class ilQuestionExporter
             );
 
             foreach ($this->json_decoded->answers as $answer) {
-                if ($answer->answertext!="") {
+                if ($answer->answertext != "") {
                     array_push(self::$media_files, $this->q_gui->object->getImagePath() . $answer->answertext);
                     array_push(self::$media_files, $this->q_gui->object->getImagePath() . "thumb." . $answer->answertext);
                 }
@@ -358,7 +358,6 @@ class ilQuestionExporter
         $this->tpl->setCurrentBlock("textsubset");
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
-        $this->tpl->setVariable("VAL_MAXLENGTH", $maxlength);
         if ($this->preview_mode) {
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }

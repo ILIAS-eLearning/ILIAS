@@ -65,7 +65,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $cmd = "showObjectSummary";
                 if (!$this->details_id) {
                     $this->details_id = ROOT_FOLDER_ID;
-                    $cmd =  "show";
+                    $cmd = "show";
                 }
                 include_once './Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php';
                 $table_gui = new ilTrSummaryTableGUI($this, $cmd, $this->details_id);

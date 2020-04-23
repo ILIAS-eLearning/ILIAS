@@ -27,22 +27,22 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      */
 
     /** @var string $event_type */
-    private $event_type					= 'time_passed';
+    private $event_type = 'time_passed';
 
     /** @var string $event_content */
-    private $event_content				= 'time_passed';
+    private $event_content = 'time_passed';
 
     /** @var string $event_subject_type */
-    private $event_subject_type			= 'none';
+    private $event_subject_type = 'none';
 
     /** @var string $event_subject_identifier SIC! */
-    private $event_subject_identifier	= '0';
+    private $event_subject_identifier = '0';
 
     /** @var string $event_context_type */
-    private $event_context_type			= 'none';
+    private $event_context_type = 'none';
 
     /** @var string $event_context_identifier SIC! */
-    private $event_context_identifier	= '0';
+    private $event_context_identifier = '0';
 
     /** @var bool $relative_timer */
     private $timer_relative;
@@ -190,7 +190,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     {
         $this->listening_start = $listening_start;
 
-        if ($this->listening_start > $listening_end  && $listening_end != 0) {
+        if ($this->listening_start > $listening_end && $listening_end != 0) {
             require_once './Services/WorkflowEngine/exceptions/ilWorkflowInvalidArgumentException.php';
             throw new ilWorkflowInvalidArgumentException('Listening timeframe is (start vs. end) is invalid.');
         }

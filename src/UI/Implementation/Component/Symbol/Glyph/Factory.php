@@ -109,14 +109,6 @@ class Factory implements G\Factory
     /**
      * @inheritdoc
      */
-    public function sort(string $action = null) : G\Glyph
-    {
-        return new Glyph(G\Glyph::SORT, "sort", $action);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function user(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::USER, "show_who_is_online", $action);
@@ -223,7 +215,7 @@ class Factory implements G\Factory
      */
     public function eyeopen(string $action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::EYEOPEN, "eyeopen", $action);
+        return new Glyph(G\Glyph::EYEOPEN, "eyeopened", $action);
     }
 
     /**
@@ -303,7 +295,7 @@ class Factory implements G\Factory
      */
     public function more($action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::MORE, "more", $action);
+        return new Glyph(G\Glyph::MORE, "show_more", $action);
     }
 
     /**
@@ -311,7 +303,7 @@ class Factory implements G\Factory
      */
     public function disclosure($action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::DISCLOSURE, "disclosure", $action);
+        return new Glyph(G\Glyph::DISCLOSURE, "disclose", $action);
     }
 
     /**
@@ -319,7 +311,7 @@ class Factory implements G\Factory
      */
     public function language(?string $action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::LANGUAGE, "switch language", $action);
+        return new Glyph(G\Glyph::LANGUAGE, "switch_language", $action);
     }
   
     /**
@@ -327,7 +319,7 @@ class Factory implements G\Factory
      */
     public function login(string $action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::LOGIN, "login", $action);
+        return new Glyph(G\Glyph::LOGIN, "log_in", $action);
     }
 
     /**
@@ -335,6 +327,6 @@ class Factory implements G\Factory
      */
     public function logout(string $action = null) : G\Glyph
     {
-        return new Glyph(G\Glyph::LOGOUT, "logout", $action);
+        return new Glyph(G\Glyph::LOGOUT, "log_out", $action);
     }
 }

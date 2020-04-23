@@ -5,13 +5,11 @@
 include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI class for media pool page usages listing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * TableGUI class for media pool page usages listing
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ModulesMediaPool
+ */
 class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 {
     /**
@@ -19,10 +17,9 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
      */
     protected $access;
 
-    
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_page, $a_incl_hist)
     {
         global $DIC;
@@ -34,11 +31,12 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
-        
+        $this->repo_tree = $DIC->repositoryTree();
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->page = $a_page;
         $this->incl_hist = $a_incl_hist;
-        $this->addColumn("", "", "1");	// checkbox
+        $this->addColumn("", "", "1");    // checkbox
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.mep_page_usage_row.html", "Modules/MediaPool");
@@ -47,25 +45,49 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
     }
 
     /**
-    * Get usages
-    */
+     * Get usages
+     */
     public function getItems()
     {
         $usages = $this->page->getUsages($this->incl_hist);
-        
+
         $clip_cnt = 0;
         $to_del = array();
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
+            $usage["trash"] = false;
+            if (is_int(strpos($usage["type"], ":"))) {
+                $us_arr = explode(":", $usage["type"]);
+
+                // try to figure out object id of pages
+                if ($us_arr[1] == "pg") {
+                    $page_obj = ilPageObjectFactory::getInstance($us_arr[0], $usage["id"]);
+                    $usage["page"] = $page_obj;
+                    $repo_tree = $this->repo_tree;
+                    $ref_ids = array_filter(
+                        ilObject::_getAllReferences($page_obj->getRepoObjId()),
+                        function ($ref_id) use ($repo_tree) {
+                            return $repo_tree->isInTree($ref_id);
+                        }
+                    );
+                    $usage["ref_ids"] = $ref_ids;
+                    if (count($ref_ids) == 0) {
+                        $usage["trash"] = true;
+                    }
+                }
+            }
+
             if ($usage["type"] == "clip") {
                 $clip_cnt++;
             } else {
-                if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
-                    $usage["hist_nr"] = array($usage["hist_nr"]);
-                    $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
-                } else {
-                    $agg_usages[$usage["type"] . ":" . $usage["id"]]["hist_nr"][] =
-                        $usage["hist_nr"];
+                if ($this->incl_hist || !$usage["trash"]) {
+                    if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
+                        $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
+                    }
+                    $agg_usages[$usage["type"] . ":" . $usage["id"]]["versions"][] =
+                        ["hist_nr" => $usage["hist_nr"],
+                         "lang" => $usage["lang"]
+                        ];
                 }
             }
         }
@@ -74,14 +96,13 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         if ($clip_cnt > 0) {
             $agg_usages[] = array("type" => "clip", "cnt" => $clip_cnt);
         }
-
         $this->setData($agg_usages);
     }
-    
+
     /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
+     * Standard Version of Fill Row. Most likely to
+     * be overwritten by derived class.
+     */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;
@@ -89,7 +110,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $ilAccess = $this->access;
 
         $usage = $a_set;
-        
+
         //var_dump($usage);
 
         if (is_int(strpos($usage["type"], ":"))) {
@@ -104,7 +125,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         switch ($usage["type"]) {
             case "pg":
                 include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-                $page_obj = ilPageObjectFactory::getInstance($cont_type, $usage["id"]);
+                $page_obj = $usage["page"];
                 $item = array();
 
                 //$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
@@ -158,6 +179,11 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                         }
                         break;
                 }
+
+                if ($usage["trash"]) {
+                    $item["obj_title"] .= " (" . $lng->txt("trash") . ")";
+                }
+
                 break;
 
             case "mep":
@@ -175,29 +201,25 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                 $item["sub_txt"] = $this->lng->txt("cont_link_area");
                 break;
         }
-        
-        // show versions
-        if (is_array($usage["hist_nr"]) &&
-            (count($usage["hist_nr"]) > 1 || $usage["hist_nr"][0] > 0)) {
-            asort($usage["hist_nr"]);
-            $ver = $sep = "";
-            if ($usage["hist_nr"][0] == 0) {
-                array_shift($usage["hist_nr"]);
-                $usage["hist_nr"][] = 0;
-            }
 
-            if (count($usage["hist_nr"]) > 5) {
-                $ver.= "..., ";
-                $cnt = count($usage["hist_nr"]) - 5;
+        // show versions
+        if (is_array($usage["versions"]) && is_object($usage["page"])) {
+            $ver = $sep = "";
+
+            if (count($usage["versions"]) > 5) {
+                $ver .= "..., ";
+                $cnt = count($usage["versions"]) - 5;
                 for ($i = 0; $i < $cnt; $i++) {
-                    unset($usage["hist_nr"][$i]);
+                    unset($usage["versions"][$i]);
                 }
             }
-            foreach ($usage["hist_nr"] as $nr) {
-                if ($nr > 0) {
-                    $ver.= $sep . $nr;
-                } else {
-                    $ver.= $sep . $this->lng->txt("cont_current_version");
+            foreach ($usage["versions"] as $version) {
+                if ($version["hist_nr"] == 0) {
+                    $version["hist_nr"] = $this->lng->txt("cont_current_version");
+                }
+                $ver .= $sep . $version["hist_nr"];
+                if ($version["lang"] != "") {
+                    $ver .= "/" . $version["lang"];
                 }
                 $sep = ", ";
             }
@@ -224,7 +246,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
-            
+
             if ($item["sub_txt"] != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
@@ -242,7 +264,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
     public function getFirstWritableRefId($a_obj_id)
     {
         $ilAccess = $this->access;
-        
+
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
             if ($ilAccess->checkAccess("write", "", $ref_id)) {

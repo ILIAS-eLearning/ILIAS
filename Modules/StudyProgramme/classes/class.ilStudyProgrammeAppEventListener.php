@@ -264,29 +264,41 @@ class ilStudyProgrammeAppEventListener
     private static function addMemberToProgrammes(string $src_type, array $params)
     {
         $usr_id = $params['usr_id'];
-        $obj_id = $params['obj_id'];
+        $id = $params['obj_id'];
+        if (
+            $src_type === ilStudyProgrammeAutoMembershipSource::TYPE_GROUP ||
+            $src_type === ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
+        ) {
+            $id = array_shift(ilObject::_getAllReferences($id));
+        }
         if ($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
-            $obj_id = $params['role_id'];
+            $id = $params['role_id'];
         }
 
-        ilObjStudyProgramme::addMemberToProgrammes($src_type, $obj_id, $usr_id);
+        ilObjStudyProgramme::addMemberToProgrammes($src_type, $id, $usr_id);
     }
 
     private static function removeMemberFromProgrammes(string $src_type, array $params)
     {
         $usr_id = $params['usr_id'];
-        $obj_id = $params['obj_id'];
+        $id = $params['obj_id'];
+        if (
+            $src_type === ilStudyProgrammeAutoMembershipSource::TYPE_GROUP ||
+            $src_type === ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
+        ) {
+            $id = array_shift(ilObject::_getAllReferences($id));
+        }
         if ($src_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
-            $obj_id = $params['role_id'];
+            $id = $params['role_id'];
         }
 
-        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $obj_id, $usr_id);
+        ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
     }
 
     private static function sendReAssignedMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $ref_id = $params['ref_id'];
+        $ref_id = $params['root_prg_ref_id'];
 
         ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
     }
@@ -297,7 +309,7 @@ class ilStudyProgrammeAppEventListener
     private static function sendInformToReAssignMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $assignment_id = $params['ref_id'];
+        $assignment_id = $params['ass_id'];
 
         ilStudyProgrammeUserAssignment::sendInformToReAssignMail($assignment_id, $usr_id);
     }

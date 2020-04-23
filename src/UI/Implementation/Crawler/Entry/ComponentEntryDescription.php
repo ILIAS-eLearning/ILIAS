@@ -15,10 +15,10 @@ class ComponentEntryDescription extends AbstractEntryPart implements \JsonSerial
      * @var array
      */
     protected $description = array(
-        "purpose"=>"",
-        "composition"=>"",
-        "effect"=>"",
-        "rivals"=>array()
+        "purpose" => "",
+        "composition" => "",
+        "effect" => "",
+        "rivals" => array()
     );
 
     /**

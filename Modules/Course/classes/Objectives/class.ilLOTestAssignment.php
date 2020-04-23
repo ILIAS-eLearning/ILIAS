@@ -9,7 +9,7 @@
  */
 class ilLOTestAssignment
 {
-    private $assignment_id  = 0;
+    private $assignment_id = 0;
     private $container_id = 0;
     private $assignment_type = 0;
     private $objective_id = 0;

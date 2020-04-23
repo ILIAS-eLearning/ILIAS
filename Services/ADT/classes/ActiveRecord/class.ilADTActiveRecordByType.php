@@ -160,7 +160,7 @@ class ilADTActiveRecordByType
 
             default:
                 if ($a_row[self::SINGLE_COLUMN_NAME] !== null) {
-                    return array($a_element_id=>$a_row[self::SINGLE_COLUMN_NAME]);
+                    return array($a_element_id => $a_row[self::SINGLE_COLUMN_NAME]);
                 }
                 break;
         }
@@ -198,7 +198,7 @@ class ilADTActiveRecordByType
                     
                     $element_id = $row[$this->getElementIdColumn()];
                     if ($this->properties->getADT()->hasElement($element_id)) {
-                        $element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);
+                        $element_row = $this->processTableRowForElement($sub_table, $element_id, $row);
                         if (is_array($element_row)) {
                             $this->properties->getElement($element_id)->readRecord($element_row);
                         }
@@ -225,7 +225,7 @@ class ilADTActiveRecordByType
                     if (in_array($element_id, $element_ids)) {
                         $has_data = true;
                         
-                        $element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);
+                        $element_row = $this->processTableRowForElement($sub_table, $element_id, $row);
                         if (is_array($element_row)) {
                             $this->properties->getElement($element_id)->readRecord($element_row);
                         }
@@ -293,7 +293,7 @@ class ilADTActiveRecordByType
                         $tmp[$table][$element_id][self::SINGLE_COLUMN_NAME] = $fields[$element_id];
                     } else {
                         foreach ($fields as $key => $value) {
-                            $key = substr($key, strlen($element_id)+1);
+                            $key = substr($key, strlen($element_id) + 1);
                             if (substr($table, -8) == "location") {
                                 // long is reserved word
                                 $key = "loc_" . $key;

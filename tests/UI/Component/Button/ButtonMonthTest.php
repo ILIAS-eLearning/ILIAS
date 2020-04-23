@@ -32,7 +32,7 @@ class ButtonMonthTest extends ILIAS_UI_TestBase
     public function test_get_default()
     {
         $f = $this->getFactory();
-        $c =  $f->month("02-2017");
+        $c = $f->month("02-2017");
 
         $this->assertEquals($c->getDefault(), "02-2017");
     }

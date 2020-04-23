@@ -28,6 +28,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
+   1. [WebDAV Configuration \(OPTIONAL\)](#webdav-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
       1. [Optional Dependencies](#optional-dependencies)
    1. [Installation Wizard](#installation-wizard)
@@ -42,7 +43,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Information on Updates](#information-on-updates)
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
-   1. [MySQL](#mysql)
+   1. [DBMS](#dbms)
    1. [ImageMagick](#imagemagick)
 1. [Contribute](#contribute)
    1. [Pull Requests](#pull-requests)
@@ -173,7 +174,7 @@ download the required PHP-dependencies and to create static artifacts from
 the source, run the following in your ILIAS folder:
 
 ```
-composer install --no-dev -d libs/composer
+composer install --no-dev
 ```
 
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or
@@ -402,6 +403,25 @@ hostname=yourserver.example.com
 FromLineOverride=YES
 ```
 
+<a name="webdav-configuration-optional"></a>
+## WebDAV Configuration (OPTIONAL)
+
+The recommended webserver configuration is either **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you use WebDAV.
+
+### WebDAV with Windows Explorer
+Because of a special behaviour in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
+
+To prevent this behaviour, add the following rewrite rules to a .htaccess file in your webroot or to the corresponding section of the configuration of your webserver:
+
+```
+RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
+RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
+RewriteRule .* "-" [R=401,L]
+```
+
+### WebDAV with Mac Finder
+To upload files, the WebDAV Client *Finder* on Mac uses chunked transfer encoding. Some webservers can't handle this way of uploading files and are serving ILIAS an empty files, which results in an empty file object on ILIAS. Due to a bug in apache, the configuration of **Apache with PHP-FPM** does not work with the *Mac Finder*. If you use WebDAV on your ILIAS installation, we recommend to either use **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**.
+
 <a name="install-other-depedencies"></a>
 ## Install other Depedencies
 
@@ -527,7 +547,7 @@ To apply a minor update (e.g. v5.2.0 to v5.2.1) execute the following command in
 
 ```
 git pull
-composer install --no-dev -d libs/composer
+composer install --no-dev
 ```
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
@@ -537,15 +557,15 @@ See [Database Update](#database-update) for details on how to complete the Upgra
 <a name="major-upgrade"></a>
 ## Major Upgrade
 
-To apply a major update (e.g. v5.1.0 to 5.2.0 or v4.x.x to 5.x.x) please check that your OS has the [proper dependency versions](#upgrading-dependencies) installed. If everything is fine change your default skin to Delos and apply this at least to your root user, otherwise ILIAS might become unusable due to changes in the layout templates. Then execute the following commands in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
+To apply a major update (e.g. v5.4.0 to 6.0) please check that your OS has the [proper dependency versions](#upgrading-dependencies) installed. If everything is fine change your default skin to Delos and apply this at least to your root user, otherwise ILIAS might become unusable due to changes in the layout templates. Then execute the following commands in your ILIAS basepath (e.g. ```/var/www/html/ilias/```):
 
 ```
 git fetch
-git checkout release_5-2
-composer install --no-dev -d libs/composer
+git checkout release_6
+composer install --no-dev
 ```
 
-Replace ```release_5-2``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
+Replace ```release_6``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
@@ -586,18 +606,20 @@ When you upgrade from rather old versions please make sure that the dependencies
 | 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
 | 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
 
-<a name="mysql"></a>
-## MySQL
+<a name="dbms"></a>
+## DBMS
 
-| ILIAS Version   | MySQL Version                         |
-|-----------------|---------------------------------------|
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                   |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
+| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
+|-----------------|-------------------------------------|-------------------------|--------------------------|
+| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
+| 6.0 - 6.x       | 5.6.x, 5.7.x                        | 10.0, 10.1, 10.2        | 9.x                      |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
 
 <a name="imagemagick"></a>
 ## ImageMagick

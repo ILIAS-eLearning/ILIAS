@@ -171,7 +171,7 @@ class ilCOPageHTMLExport
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
-            $style->copyImagesToDir($this->exp_dir ."/".$style->getImagesDirectory());
+            $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
         }
         
         // export syntax highlighting style
@@ -230,7 +230,7 @@ class ilCOPageHTMLExport
         copy(
             ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
             $this->css_dir . '/yahoo/container.css'
-        );*/		// see #23083
+        );*/        // see #23083
 
 
         // mediaelement.js
@@ -272,6 +272,7 @@ class ilCOPageHTMLExport
 
 
         $resource_collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE);
+        $resource_injector = new \ILIAS\COPage\ResourcesInjector($resource_collector);
 
 
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
@@ -301,24 +302,7 @@ class ilCOPageHTMLExport
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-        foreach ($resource_collector->getCssFiles() as $css) {
-            $tpl->addCss($css);
-        }
-
-        foreach ($resource_collector->getJavascriptFiles() as $js) {
-            $batch = 3;
-            if (is_int(strpos($js, "jquery"))) {
-                $batch = 1;
-            }
-            if (is_int(strpos($js, "Basic.js"))) {
-                $batch = 2;
-            }
-            $tpl->addJavaScript($js, false, $batch);
-        }
-
-        foreach ($resource_collector->getOnloadCode() as $code) {
-            $tpl->addOnLoadCode($code);
-        }
+        $resource_injector->inject($tpl);
 
         return $tpl;
     }
@@ -422,23 +406,16 @@ class ilCOPageHTMLExport
                 if ($user_id) {
                     // we only need 1 instance each
                     if (!$skill_tree) {
-                        include_once "Services/Skill/classes/class.ilSkillTree.php";
                         $skill_tree = new ilSkillTree();
 
-                        include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-
-                        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                         $ws_tree = new ilWorkspaceTree($user_id);
                     }
 
                     // walk skill tree
-                    include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
                     $vtree = new ilVirtualSkillTree();
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
-                    include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
-                        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                         $tref_id = $skill_id;
                         $skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
                     }

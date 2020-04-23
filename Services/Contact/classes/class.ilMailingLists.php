@@ -53,7 +53,7 @@ class ilMailingLists
     {
         global $DIC;
 
-        $this->db   = $DIC['ilDB'];
+        $this->db = $DIC['ilDB'];
         $this->user = $a_user;
     }
 

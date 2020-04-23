@@ -251,13 +251,13 @@ class ilAssQuestionHint
         return $ilDB->update(
             'qpl_hints',
             array(
-                    'qht_question_fi'	=> array('integer', $this->getQuestionId()),
-                    'qht_hint_index'	=> array('integer', $this->getIndex()),
-                    'qht_hint_points'	=> array('float', $this->getPoints()),
-                    'qht_hint_text'		=> array('clob', $this->getText())
+                    'qht_question_fi' => array('integer', $this->getQuestionId()),
+                    'qht_hint_index' => array('integer', $this->getIndex()),
+                    'qht_hint_points' => array('float', $this->getPoints()),
+                    'qht_hint_text' => array('clob', $this->getText())
                 ),
             array(
-                    'qht_hint_id'		=> array('integer', $this->getId())
+                    'qht_hint_id' => array('integer', $this->getId())
                 )
         );
     }
@@ -278,11 +278,11 @@ class ilAssQuestionHint
         $this->setId($ilDB->nextId('qpl_hints'));
         
         return $ilDB->insert('qpl_hints', array(
-            'qht_hint_id'		=> array('integer', $this->getId()),
-            'qht_question_fi'	=> array('integer', $this->getQuestionId()),
-            'qht_hint_index'	=> array('integer', $this->getIndex()),
-            'qht_hint_points'	=> array('float', $this->getPoints()),
-            'qht_hint_text'		=> array('clob', $this->getText())
+            'qht_hint_id' => array('integer', $this->getId()),
+            'qht_question_fi' => array('integer', $this->getQuestionId()),
+            'qht_hint_index' => array('integer', $this->getIndex()),
+            'qht_hint_points' => array('float', $this->getPoints()),
+            'qht_hint_text' => array('clob', $this->getText())
         ));
     }
     

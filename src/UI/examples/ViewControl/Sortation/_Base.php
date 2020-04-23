@@ -5,14 +5,14 @@ function _Base()
 {
     //Loading factories
     global $DIC;
-    $f        = $DIC->ui()->factory();
+    $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
     //Initializing the options
     $options = [
         'default_option' => 'Default Ordering',
-        'latest'         => 'Most Recent Ordering',
-        'oldest'         => 'Oldest Ordering'
+        'latest' => 'Most Recent Ordering',
+        'oldest' => 'Oldest Ordering'
     ];
 
     //Note that the selected option needs to be displayed in the label

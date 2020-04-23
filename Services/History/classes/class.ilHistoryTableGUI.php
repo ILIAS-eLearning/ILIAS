@@ -147,7 +147,7 @@ class ilHistoryTableGUI extends ilTable2GUI
                 break;
         }
 
-        $i=1;
+        $i = 1;
         foreach ($info_params as $info_param) {
             $info_text = str_replace("%" . $i, $info_param, $info_text);
             $i++;

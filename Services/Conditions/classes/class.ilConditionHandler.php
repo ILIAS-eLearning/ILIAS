@@ -126,8 +126,8 @@ class ilConditionHandler
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
 
-        $this->db =&$ilDB;
-        $this->lng =&$lng;
+        $this->db = &$ilDB;
+        $this->lng = &$lng;
         $this->validation = true;
     }
 
@@ -493,7 +493,7 @@ class ilConditionHandler
         /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC['objDefinition'];
         
-        $trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa', 'lti', 'cmix');
+        $trigger_types = array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa', 'lti', 'cmix');
 
         // Add operator lp trigger
         if (ilObjUserTracking::_enabledLearningProgress()) {
@@ -760,17 +760,17 @@ class ilConditionHandler
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tmp_array['id']			= $row->condition_id;
+            $tmp_array['id'] = $row->condition_id;
             $tmp_array['target_ref_id'] = $row->target_ref_id;
             $tmp_array['target_obj_id'] = $row->target_obj_id;
-            $tmp_array['target_type']	= $row->target_type;
+            $tmp_array['target_type'] = $row->target_type;
             $tmp_array['trigger_ref_id'] = $row->trigger_ref_id;
             $tmp_array['trigger_obj_id'] = $row->trigger_obj_id;
-            $tmp_array['trigger_type']	= $row->trigger_type;
-            $tmp_array['operator']		= $row->operator;
-            $tmp_array['value']			= $row->value;
-            $tmp_array['ref_handling']  = $row->ref_handling;
-            $tmp_array['obligatory']	= $row->obligatory;
+            $tmp_array['trigger_type'] = $row->trigger_type;
+            $tmp_array['operator'] = $row->operator;
+            $tmp_array['value'] = $row->value;
+            $tmp_array['ref_handling'] = $row->ref_handling;
+            $tmp_array['obligatory'] = $row->obligatory;
             $tmp_array['hidden_status'] = $row->hidden_status;
 
             $conditions[] = $tmp_array;
@@ -948,17 +948,17 @@ class ilConditionHandler
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tmp_array['id']			= $row->condition_id;
+            $tmp_array['id'] = $row->condition_id;
             $tmp_array['target_ref_id'] = $row->target_ref_id;
             $tmp_array['target_obj_id'] = $row->target_obj_id;
-            $tmp_array['target_type']	= $row->target_type;
+            $tmp_array['target_type'] = $row->target_type;
             $tmp_array['trigger_ref_id'] = $row->trigger_ref_id;
             $tmp_array['trigger_obj_id'] = $row->trigger_obj_id;
-            $tmp_array['trigger_type']	= $row->trigger_type;
-            $tmp_array['operator']		= $row->operator;
-            $tmp_array['value']			= $row->value;
-            $tmp_array['ref_handling']  = $row->ref_handling;
-            $tmp_array['obligatory']	= $row->obligatory;
+            $tmp_array['trigger_type'] = $row->trigger_type;
+            $tmp_array['operator'] = $row->operator;
+            $tmp_array['value'] = $row->value;
+            $tmp_array['ref_handling'] = $row->ref_handling;
+            $tmp_array['obligatory'] = $row->obligatory;
             $tmp_array['hidden_status'] = $row->hidden_status;
 
             return $tmp_array;
@@ -1104,7 +1104,7 @@ class ilConditionHandler
         // existing value is valid
         if ($set_obl > 0 and
             $set_obl < count($all) and
-            $set_obl > (count($all) - count($opt)  + 1)) {
+            $set_obl > (count($all) - count($opt) + 1)) {
             return $set_obl;
         }
 
@@ -1140,7 +1140,7 @@ class ilConditionHandler
         // existing value is valid
         if ($set_obl > 0 and
             $set_obl < count($all) and
-            $set_obl > (count($all) - count($opt)  + 1)) {
+            $set_obl > (count($all) - count($opt) + 1)) {
             return $set_obl;
         }
         
@@ -1183,6 +1183,7 @@ class ilConditionHandler
 
         $ilUser = $DIC['ilUser'];
         $tree = $DIC['tree'];
+        $logger = $DIC->logger()->ac();
         
         $a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
@@ -1210,15 +1211,17 @@ class ilConditionHandler
 
             if ($check) {
                 ++$passed;
-                if ($passed >= $num_required) {
-                    return true;
-                }
             } else {
-                if (!count($optional)) {
+                // #0027223 if condition is obligatory => return false
+                if ($condition['obligatory']) {
                     return false;
                 }
             }
         }
+        if ($passed >= $num_required) {
+            return true;
+        }
+
         // not all optional conditions passed
         return false;
     }
@@ -1231,8 +1234,8 @@ class ilConditionHandler
         $ilDB = $DIC['ilDB'];
         
         // check if obj_id is already assigned
-        $trigger_obj =&ilObjectFactory::getInstanceByRefId($this->getTriggerRefId());
-        $target_obj =&ilObjectFactory::getInstanceByRefId($this->getTargetRefId());
+        $trigger_obj = &ilObjectFactory::getInstanceByRefId($this->getTriggerRefId());
+        $target_obj = &ilObjectFactory::getInstanceByRefId($this->getTargetRefId());
 
 
         $query = "SELECT * FROM conditions WHERE " .

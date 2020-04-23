@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Skill/classes/class.ilBasicSkill.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionAssignedSkillList.php';
 
@@ -230,7 +229,6 @@ class ilTestSkillLevelThresholdImporter
     protected function getLevelIdMapping($importLevelId)
     {
         /*
-                include_once("./Services/Skill/classes/class.ilBasicSkill.php");
                 $r = ilBasicSkill::getLevelIdForImportId($a_source_inst_id,
                 $a_level_import_id);
 

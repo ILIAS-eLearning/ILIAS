@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Skill profile
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup Services/Skill
  */
 class ilSkillProfile implements ilSkillUsageInfo
 {
@@ -163,7 +159,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "SELECT * FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
             );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         
@@ -309,7 +305,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "SELECT " . $a_field . " FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
             );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_field];
     }
     
@@ -441,7 +437,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " ORDER BY p.title ASC"
             );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $user_profiles[] = $rec;
         }
 
@@ -460,7 +456,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $temp_profiles = array();
         foreach ($all_profiles as &$v) {
             if (!isset($temp_profiles[$v["id"]])) {
-                $temp_profiles[$v["id"]] =&$v;
+                $temp_profiles[$v["id"]] = &$v;
             }
         }
         $all_profiles = array_values($temp_profiles);
@@ -580,7 +576,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE role_id = " . $ilDB->quote($a_role_id, "integer") .
             " ORDER BY p.title ASC"
         );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[] = $rec;
         }
         return $profiles;
@@ -616,9 +612,6 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-        
-        include_once("./Services/Skill/classes/class.ilSkillUsage.php");
         ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
             $a_usages,

@@ -83,8 +83,16 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 
         if (!$this->onclick && $this->target_gui != "") {
             $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
-            $href = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->target_cmd);
-            $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $_GET["tax_node"]);
+            if (is_array($this->parent_obj)) {
+                // Used for taxonomies in categories
+                $href = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->target_cmd);
+            } else {
+                // See: https://mantis.ilias.de/view.php?id=27727
+                $href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
+            }
+            if (isset($_GET["tax_node"]) && !is_array($_GET['tax_node'])) {
+                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", ilUtil::stripSlashes((string) $_GET["tax_node"]));
+            }
             return $href;
         } else {
             return "#";

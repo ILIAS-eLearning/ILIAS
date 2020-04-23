@@ -402,11 +402,11 @@ abstract class ilContainerContentGUI
 
         // get item list gui object
         if (!is_object($this->list_gui[$item_data["type"]])) {
-            $item_list_gui =&ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
+            $item_list_gui = &ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
             $item_list_gui->setContainerObject($this->getContainerGUI());
-            $this->list_gui[$item_data["type"]] =&$item_list_gui;
+            $this->list_gui[$item_data["type"]] = &$item_list_gui;
         } else {
-            $item_list_gui =&$this->list_gui[$item_data["type"]];
+            $item_list_gui = &$this->list_gui[$item_data["type"]];
         }
 
         // unique js-ids
@@ -574,7 +574,7 @@ abstract class ilContainerContentGUI
         if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
-                sprintf('%d', (int) $a_position*10)
+                sprintf('%d', (int) $a_position * 10)
             );
         }
         
@@ -655,7 +655,7 @@ abstract class ilContainerContentGUI
                 if ($this->getContainerGUI()->isActiveItemOrdering()) {
                     $item_list_gui2->setPositionInputField(
                         "[sess][" . $a_item_data['obj_id'] . "][" . $item["ref_id"] . "]",
-                        sprintf('%d', (int) $pos*10)
+                        sprintf('%d', (int) $pos * 10)
                     );
                     $pos++;
                 }
@@ -946,7 +946,7 @@ abstract class ilContainerContentGUI
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
         include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
         $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
-        if ($stored_val !== false) {
+        if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;

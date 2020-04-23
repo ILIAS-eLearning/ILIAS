@@ -581,7 +581,7 @@ class ilLMPresentationGUI
                         $this->setHeader();
                         $this->ilLMMenu();
                         $content = $this->getContent();
-                        $content.= $this->ilLMNotes();
+                        $content .= $this->ilLMNotes();
                         $this->tpl->setContent($content);
                         break;
 
@@ -970,7 +970,7 @@ class ilLMPresentationGUI
                 $this->lang
             );
             if ($pg_title != "") {
-                $title.= ": " . $pg_title;
+                $title .= ": " . $pg_title;
             }
             
             $plinkgui->setTitle($title);
@@ -1090,7 +1090,7 @@ class ilLMPresentationGUI
     /**
     * output notes of page
     */
-    public function ilLMNotes(): string
+    public function ilLMNotes() : string
     {
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
@@ -1631,18 +1631,18 @@ class ilLMPresentationGUI
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml.= $pg_obj->getMediaAliasElement($this->requested_mob_id);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $pg_obj->getMediaAliasElement($this->requested_mob_id);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         } else {
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         }
 
 
@@ -1802,11 +1802,11 @@ class ilLMPresentationGUI
                         );
                     $attributes["title"] = $this->lng->txt("cont_frame_" . $attributes["name"]);
                     if ($attributes["name"] == "toc") {
-                        $attributes["src"].= "#" . $this->requested_obj_id;
+                        $attributes["src"] .= "#" . $this->requested_obj_id;
                     } else {
                         // Handle Anchors
                         if ($_GET["anchor"] != "") {
-                            $attributes["src"].= "#" . rawurlencode($_GET["anchor"]);
+                            $attributes["src"] .= "#" . rawurlencode($_GET["anchor"]);
                         }
                     }
                     $a_content .= $this->buildTag("", "frame", $attributes);
@@ -1823,15 +1823,15 @@ class ilLMPresentationGUI
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -1840,10 +1840,10 @@ class ilLMPresentationGUI
         }
 
         if ($type == "") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= ">\n";
+        $tag .= ">\n";
 
         return $tag;
     }
@@ -2058,7 +2058,7 @@ class ilLMPresentationGUI
                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
-                            $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
                     $img_src = ilUtil::getImagePath("icon_pg.svg");
@@ -2088,7 +2088,7 @@ class ilLMPresentationGUI
                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
-                            $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
                     $img_src = ilUtil::getImagePath("icon_st.svg");
@@ -2097,7 +2097,7 @@ class ilLMPresentationGUI
             }
 
             if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $node["obj_id"])) {
-                $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                $text .= " (" . $this->lng->txt("cont_no_access") . ")";
             }
 
             $this->nl->addListNode(
@@ -2129,7 +2129,7 @@ class ilLMPresentationGUI
                $this->lm_gui->object->getPublicAccessMode() == "selected") {
                 if (!ilLMObject::_isPagePublic($this->requested_obj_id)) {
                     $disabled = true;
-                    $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                    $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                 }
             }
             $img_src = ilUtil::getImagePath("icon_pg.svg");
@@ -2196,7 +2196,7 @@ class ilLMPresentationGUI
         $radg->addOption($op1);
         $op2 = new ilRadioOption($lng->txt("cont_current_chapter"), "chapter");
         $radg->addOption($op2);
-        $op3= new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
+        $op3 = new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
         $radg->addOption($op3);
 
         $nl = new ilNestedListInputGUI("", "obj_id");
@@ -2578,7 +2578,7 @@ class ilLMPresentationGUI
             $annex_cnt++;
             $tpl->setCurrentBlock("glossary");
             $annex_title = $this->lng->txt("cont_annex") . " " .
-                chr(64+$annex_cnt) . ": " . $this->lng->txt("glo");
+                chr(64 + $annex_cnt) . ": " . $this->lng->txt("glo");
             $tpl->setVariable("TXT_GLOSSARY", $annex_title);
             $tpl->parseCurrentBlock();
 
@@ -2627,7 +2627,7 @@ class ilLMPresentationGUI
             $annex_cnt++;
             $tpl->setCurrentBlock("ref_images");
             $annex_title = $this->lng->txt("cont_annex") . " " .
-                chr(64+$annex_cnt) . ": " . $this->lng->txt("cont_ref_images");
+                chr(64 + $annex_cnt) . ": " . $this->lng->txt("cont_ref_images");
             $tpl->setVariable("TXT_REF_IMAGES", $annex_title);
             $tpl->parseCurrentBlock();
 
@@ -2658,7 +2658,7 @@ class ilLMPresentationGUI
             foreach ($nodes2 as $node2) {
                 if ($node2["type"] == "st"
                     && ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $node2["obj_id"])) {
-                    for ($j=1; $j < $node2["depth"]; $j++) {
+                    for ($j = 1; $j < $node2["depth"]; $j++) {
                         $tpl->setCurrentBlock("indent");
                         $tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.png"));
                         $tpl->parseCurrentBlock();

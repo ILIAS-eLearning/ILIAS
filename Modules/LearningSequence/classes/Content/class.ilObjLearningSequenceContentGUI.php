@@ -95,7 +95,7 @@ class ilObjLearningSequenceContentGUI
     {
         $ref_ids = $_POST["id"];
 
-        if (count($ref_ids) < 1) {
+        if (!$ref_ids || count($ref_ids) < 1) {
             ilUtil::sendInfo($this->lng->txt('no_entries_selected_for_delete'), true);
             $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
         }

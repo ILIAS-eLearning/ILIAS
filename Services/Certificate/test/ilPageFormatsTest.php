@@ -10,7 +10,7 @@ class ilPageFormatsTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt'))
+            ->onlyMethods(['txt'])
             ->getMock();
 
         $languageMock->method('txt')

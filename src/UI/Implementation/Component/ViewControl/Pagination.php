@@ -10,6 +10,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
+use ILIAS\Data\Range;
+
 class Pagination implements PaginationInterface
 {
     use ComponentHelper;
@@ -176,10 +178,7 @@ class Pagination implements PaginationInterface
         return $this->current_page;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOffset() : int
+    protected function getOffset() : int
     {
         $offset = $this->page_size * $this->current_page;
         return $offset;
@@ -221,10 +220,7 @@ class Pagination implements PaginationInterface
         return $this->max_pages_shown;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getPageLength() : int
+    protected function getPageLength() : int
     {
         if ($this->getOffset() + $this->page_size > $this->total_entries) {
             return $this->total_entries - $this->getOffset();
@@ -275,5 +271,11 @@ class Pagination implements PaginationInterface
     public function getDefaultDropdownLabel() : string
     {
         return self::DEFAULT_DROPDOWN_LABEL;
+    }
+
+    public function getRange() : Range
+    {
+        $f = new \ILIAS\Data\Factory();
+        return $f->range($this->getOffset(), $this->getPageLength());
     }
 }
