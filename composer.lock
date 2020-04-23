@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c4e965c0509a2ffeb8137f7fa513b52",
+    "content-hash": "73f944a85c1277068831e60f45365903",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -2454,16 +2454,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp",
-            "version": "v1.18.4",
+            "version": "v1.18.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp.git",
-                "reference": "864f0392480317a6f44b0e3c26db23ad0e21e5fb"
+                "reference": "9fd1c3c5e5f9e6fed8de3c36e14ccdcce31e3dc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/864f0392480317a6f44b0e3c26db23ad0e21e5fb",
-                "reference": "864f0392480317a6f44b0e3c26db23ad0e21e5fb",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp/zipball/9fd1c3c5e5f9e6fed8de3c36e14ccdcce31e3dc7",
+                "reference": "9fd1c3c5e5f9e6fed8de3c36e14ccdcce31e3dc7",
                 "shasum": ""
             },
             "require": {
@@ -2580,7 +2580,7 @@
                 "sp",
                 "ws-federation"
             ],
-            "time": "2020-01-24T09:57:02+00:00"
+            "time": "2020-04-16T13:40:56+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-adfs",
