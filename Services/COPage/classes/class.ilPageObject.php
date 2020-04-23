@@ -5130,4 +5130,14 @@ abstract class ilPageObject
         include_once("./Services/COPage/classes/class.ilPCResources.php");
         ilPCResources::resolveResources($this, $ref_mapping);
     }
+
+    /**
+     * Get object id of repository object that contains this page, return 0 if page does not belong to a repo object
+     * @return int
+     */
+    public function getRepoObjId()
+    {
+        return $this->getParentId();
+    }
+
 }
