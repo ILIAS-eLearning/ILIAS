@@ -162,14 +162,14 @@ interface Factory
      *       Operating the order-glyphs in the column title will change the records' order.
      *
      * context:
-     *   Colums are used with Tables.
+     *    - Colums are used with Tables.
      *
      * rules:
      *   usage:
      *       1: Columns MUST be used in a Table.
      *       2: Columns MUST have a title.
      *
-     *   interaction
+     *   interaction:
      *       1: Columns optionally MAY be displayed or hidden.
      *       2: Tables MAY be sortable by the data's field associated with the column.
      *
