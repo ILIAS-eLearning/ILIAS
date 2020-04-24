@@ -84,28 +84,6 @@ class Data extends Table implements T\Data
         return $this->view_controls;
     }
 
-    public function withPagination(bool $flag) : T\Data
-    {
-        $clone = clone $this;
-        $clone->has_pagination = $flag;
-        return $clone;
-    }
-
-    public function hasPagination() : bool
-    {
-        return $this->has_pagination;
-    }
-
-    public function withNumberOfRows(int $amount) : T\Data
-    {
-        if ($amount < 1) {
-            throw new InvalidArgumentException("Tables need at least one row.", 1);
-        }
-        $clone = clone $this;
-        $clone->number_of_rows = $amount;
-        return $clone;
-    }
-
     public function getNumberOfRows() : int
     {
         return $this->number_of_rows;
