@@ -374,6 +374,9 @@ class ilContainerReference extends ilObject
             $ilDB->quote($this->getTitleType(), 'integer') . ' ' .
             ")";
         $ilDB->manipulate($query);
+
+        $new_obj->setTargetId($this->getTargetId());
+        $new_obj->setTitleType($this->getTitleType());
         return $new_obj;
     }
 }
