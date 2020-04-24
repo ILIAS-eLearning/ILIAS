@@ -137,9 +137,11 @@ class ilForumSettingsGUI
         $stickyThreadSorting->addOption($manualSorting);
         $a_form->addItem($stickyThreadSorting);
 
-        $privacyHeader = new \ilFormSectionHeaderGUI();
-        $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
-        $a_form->addItem($privacyHeader);
+        if ($this->settings->get('enable_anonymous_fora') || $this->settings->get('enable_fora_statistics', false)) {
+            $privacyHeader = new \ilFormSectionHeaderGUI();
+            $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
+            $a_form->addItem($privacyHeader);
+        }
 
         if ($this->settings->get('enable_fora_statistics', false)) {
             $cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
