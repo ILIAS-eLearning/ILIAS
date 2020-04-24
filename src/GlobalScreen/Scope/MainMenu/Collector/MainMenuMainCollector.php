@@ -16,6 +16,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
@@ -76,10 +77,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         }
     }
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         // apply filter
-        $this->map->filter(function (isItem $item) : bool {
+        $this->map->filter(function (isItem $item) use ($async_only) : bool {
+            if ($async_only && !$item instanceof supportsAsynchronousLoading) {
+                return false;
+            }
             // make parent available if one child is always available
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
