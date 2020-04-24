@@ -16,6 +16,6 @@ class Factory implements VCInterface\Factory
         string $label = VCInterface\FieldSelection::DEFAULT_DROPDOWN_LABEL,
         string $button_label = VCInterface\FieldSelection::DEFAULT_BUTTON_LABEL
     ) : VCInterface\FieldSelection {
-        throw new \ILIAS\UI\NotImplementedException();
+        throw new \ILIAS\UI\NotImplementedException('');
     }
 }

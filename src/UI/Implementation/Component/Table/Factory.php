@@ -37,9 +37,9 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function data(string $title) : T\Data
+    public function data(string $title, ?int $page_size = 50) : T\Data
     {
-        return new Data($title);
+        throw new \ILIAS\UI\NotImplementedException('NYI');
     }
 
     /**

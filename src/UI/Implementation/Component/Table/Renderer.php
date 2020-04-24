@@ -23,9 +23,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\PresentationRow) {
             return $this->renderPresentationRow($component, $default_renderer);
         }
-        if ($component instanceof Component\Table\Data) {
-            return $this->renderDataTable($component, $default_renderer);
-        }
     }
 
     /**
@@ -134,64 +131,6 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer)
-    {
-        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-        $tpl->setVariable("TITLE", $component->getTitle());
-
-        $cols = $component->getColumns();
-        //defaults
-        $visible_col_ids = [];
-        foreach ($cols as $id => $col) {
-            if ($col->isInitiallyVisible()) {
-                $visible_col_ids[] = $id;
-            }
-        }
-        $data_factory = new \ILIAS\Data\Factory();
-        $range = $data_factory->range(0, $component->getNumberOfRows());
-        $order = $data_factory->order($visible_col_ids[0], \ILIAS\Data\Order::ASC);
-        $additional_parameter = [];
-
-        //digest request
-        /*
-        $range = ;
-        $order = ;
-        $visible_col_ids = ;
-        $additional_parameter = [];
-        */
-
-        $transformations = [];
-        foreach ($cols as $id => $col) {
-            if (in_array($id, $visible_col_ids)) {
-                $tpl->setCurrentBlock('header_cell');
-                $tpl->setVariable('COL_TITLE', strip_tags($col->getTitle()));
-                $tpl->parseCurrentBlock();
-                $transformations[$id] = $col->getTransformations();
-            }
-        }
-
-        $row_factory = new RowFactory($transformations);
-        $rows = $component->getData()->getRows($row_factory, $range, $order, $visible_col_ids, $additional_parameter);
-
-        $alternation = 'even';
-        foreach ($rows as $row) {
-            $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
-            foreach ($row as $id => $cell_html) {
-                $cell_tpl->setCurrentBlock('cell');
-                $cell_tpl->setVariable('CELL_CONTENT', $cell_html);
-                $cell_tpl->setVariable('COL_TYPE', strtolower($cols[$id]->getType()));
-                $cell_tpl->parseCurrentBlock();
-            }
-
-            $alternation = ($alternation === 'even')  ? 'odd' : 'even';
-            $tpl->setCurrentBlock('row');
-            $tpl->setVariable('ALTERNATION', $alternation);
-            $tpl->setVariable('CELLS', $cell_tpl->get());
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl->get();
-    }
-
     /**
      * @inheritdoc
      */
@@ -225,8 +164,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return array(
             Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class,
-            Component\Table\Data::class,
+            Component\Table\Presentation::class
         );
     }
 }
