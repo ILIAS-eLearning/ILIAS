@@ -180,6 +180,19 @@ In the footer's template, an input-tag in cconunction with some inline-js is
 used to display the perma-link. This should be substituted by a non-input 
 block-element, respectively an UI-Component on its own.
 
+### Turn View Controls into View Control Inputs (advanced)
+
+View Controls actually are more like Inputs and should be treated that way.
+They accordingly should be implemented as Input\ViewControl\ViewControlControl.
+Finally, when consumers are adapted, ViewControl can be removed from UI's root
+entirely.
+
+#### View Control Inputs to be created (moved):
+* Mode View Control Input
+* Pagination View Control Input
+* Section View Control Input
+* Sortation View Control Input
+
 ## Long Term
 
 ### Glyphs as Toggle

@@ -122,4 +122,31 @@ interface Factory
      * @return    \ILIAS\UI\Component\Input\Container\Factory
      */
     public function container();
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A View Control is used to change the visualization of data.
+     *     There is usually no way of inputting "free" data, like in text-fields e.g.,
+     *     but rather a choice of options suitable for and adjusted to the data's
+     *     representation.
+     *     Control Inputs are used in View Control Container Inputs.
+     *
+     *   effect: >
+     *     When operating a View Control, the effect will reflect immediately in the
+     *     according visualization (without further user induced submission/application).
+     *
+     * rules:
+     *   usage:
+     *      1: View Controls MUST reside in a View Control Container.
+     *      2: View Controls MUST be visually close to the visualization their operation will have effect upon.
+     *   accessibility:
+     *      1: View  Controls MUST be operable via keyboard only.
+     *
+     * ---
+     *
+     * @return \ILIAS\UI\Component\Input\ViewControl\Factory
+     */
+    public function viewControl() : ViewControl\Factory;
 }
