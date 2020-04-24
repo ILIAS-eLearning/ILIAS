@@ -164,9 +164,6 @@ interface Factory
      *   effect: >
      *       Operating the order-glyphs in the column title will change the records' order.
      *
-     * context:
-     *    - Colums are used with Tables.
-     *
      * rules:
      *   usage:
      *       1: Columns MUST be used in a Table.
