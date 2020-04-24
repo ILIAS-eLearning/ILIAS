@@ -38,7 +38,7 @@ function base()
             ->withIsOptional(false)
     ];
 
-    // map records to table rows
+    // retrieve data and map records to table rows
     $data_retrieval = new class($dummy_records) extends T\DataRetrieval {
         public function __construct(array $dummy_records)
         {
@@ -61,7 +61,7 @@ function base()
         }
     };
 
-    //configure the table
+    //setup the table
     $table = $f->table()->data('a data table', 50)
         ->withColumns($columns)
         ->withData($data_retrieval);
