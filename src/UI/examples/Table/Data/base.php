@@ -23,7 +23,9 @@ function base()
     $columns = [
         'f1' => $f->table()->column()->text("Field 1")
             ->withIsSortable(false),
+
         'f0' => $f->table()->column()->text("empty"),
+
         'f2' => $f->table()->column()->text("Field 2")
             ->withIsOptional(true)
             ->withIsInitiallyVisible(false),
@@ -60,11 +62,9 @@ function base()
     };
 
     //configure the table
-    $table = $f->table()->data('a data table')
+    $table = $f->table()->data('a data table', 50)
         ->withColumns($columns)
-        ->withData($data_retrieval)
-        ->withNumberOfRows(10)
-    ;
+        ->withData($data_retrieval);
 
     //apply request and render
     $request = $DIC->http()->request();

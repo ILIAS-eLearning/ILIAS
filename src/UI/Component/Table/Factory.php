@@ -103,6 +103,8 @@ interface Factory
      *       records, i.e. a column has a dedicated shape.
      *       Each record is mapped to one row, while the number of visible columns is
      *       identical for each row.
+     *       The purpose of exploration is unknown to the Data Table, and it does not suggest
+     *       or favor a certain way of doing so.
      *
      *   composition: >
      *       The Data Table consists of a title, a View Control Container for (and with)
@@ -132,9 +134,10 @@ interface Factory
      *       1: >
      *         Tables MUST NOT be used to merely arrange elements visually;
      *         displayed records MUST have a certain consistency of content.
-     *       2: Rows in the table MUST be of the same structure.
-     *       3: Rows in the table MUST be of the same structure.
-     *       4: >
+     *       2: A Data Table SHOULD have at least 3 Columns.
+     *       3: A Data Table SHOULD potentially have an unlimited number of rows.
+     *       4: Rows in the table MUST be of the same structure.
+     *       5: >
      *         Tables MUST NOT have more than one View Control of a kind,
      *         e.g. a second pagination would be forbidden.
      *   interaction:
@@ -144,7 +147,7 @@ interface Factory
      * @param string     $title
      * @return \ILIAS\UI\Component\Table\Data
      */
-    public function data(string $title) : Data;
+    public function data(string $title, ?int $page_size = 50) : Data;
 
     /**
      * ---

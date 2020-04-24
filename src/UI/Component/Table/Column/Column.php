@@ -6,6 +6,10 @@ namespace ILIAS\UI\Component\Table\Column;
 
 use ILIAS\Refinery\Transformation;
 
+/**
+ * A Column describes the form of presentation for a certain aspect of data,
+ * i.e. a field of a record within a table.
+ */
 interface Column
 {
     public function getTitle() : string;
@@ -19,6 +23,4 @@ interface Column
 
     public function withIsInitiallyVisible(bool $flag) : Column;
     public function isInitiallyVisible() : bool;
-
-    public function withAdditionalTransformation(Transformation $trafo);
 }

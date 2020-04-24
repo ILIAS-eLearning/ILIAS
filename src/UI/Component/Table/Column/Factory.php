@@ -12,12 +12,6 @@ interface Factory
      *   purpose: >
      *       The Text Column is used for (short) text.
      *
-     * rules:
-     *   usage:
-     *     1: Text Columns SHOULD be used to display short textual information.
-     *   style:
-     *     1: Text Columns SHOULD NOT exceed one line.
-     *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Text
      */
@@ -29,12 +23,6 @@ interface Factory
      *   purpose: >
      *       The Number Column is used for numeric values.
      *
-     * rules:
-     *   usage:
-     *     1: Number Columns SHOULD be used to display numeric values.
-     *   style:
-     *     1: Number Columns MUST NOT have more than one value.
-     *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Number
      */
@@ -45,12 +33,6 @@ interface Factory
      * description:
      *   purpose: >
      *       The Date Column is used for single dates.
-     *
-     * rules:
-     *   usage:
-     *     1: Date Columns SHOULD be used to display dates.
-     *   style:
-     *     1: Date Columns MUST NOT have more than one value.
      *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Date
