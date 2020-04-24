@@ -15092,3 +15092,5 @@ cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 ne
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
 auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
 impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable

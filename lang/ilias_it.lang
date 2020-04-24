@@ -903,8 +903,6 @@ assessment#:#positive_numbers_required#:#Si prega di digitare solo numeri positi
 assessment#:#postpone_question#:#Sposta la domanda alla fine
 assessment#:#postponed#:#Non eseguita
 assessment#:#precision#:#Precisione
-assessment#:#preserve_manscoring#:#Mantieni i punteggi manuali
-assessment#:#preserve_manscoring_info#:#Le modifiche nel punteggio di una domanda possono rendere necessario annullare i punteggi manuali. Questa opzione consente di annullare TUTTI i punteggi manuali nel test e dovrebbe essere utilizzata solo in poche occasioni.
 assessment#:#preview#:#Anteprima
 assessment#:#previous_question#:#Domanda precedente
 assessment#:#previous_question_rows#:#<< Domande %d - %d di %d
@@ -1060,7 +1058,6 @@ assessment#:#save_on_navigation#:#Salva nella navigazione
 assessment#:#save_on_navigation_confirmation#:#Le tue risposte modificate verranno automaticamente salvate quando navighi.
 assessment#:#save_on_navigation_forced_feedback_hint#:#Prima bisogna ottenere un feedback sulla risposta data.
 assessment#:#save_on_navigation_locked_confirmation#:#Le tue risposte cambiate verranno automaticamente salvate e bloccate quando navighi.
-assessment#:#save_on_navigation_prevent_confirmation#:#Non mostrare più questo messaggio
 assessment#:#saved_adjustment#:#Modifiche salvate.
 assessment#:#saveOrder#:#Ordine di salvataggio
 assessment#:#saveOrderAndObligations#:#Salva Ordine e Obblighi
@@ -1163,8 +1160,6 @@ assessment#:#toplist_col_percentage#:#Percentuale
 assessment#:#toplist_col_rank#:#Classifica
 assessment#:#toplist_col_score#:#Punteggio
 assessment#:#toplist_col_wtime#:#Tempo di lavoro
-assessment#:#toplist_top_n_results#:#Migliori %s risultati
-assessment#:#toplist_your_result#:#La tua valutazione
 assessment#:#true#:#Vero
 assessment#:#tst_access_code_created#:#Per renderti accessibile sempre il test ed offrirti la possibilità di rivederlo, è stato creato un codice unico. Per favore scrivitelo per usarlo in futuro.
 assessment#:#tst_activate_skill_service#:#Attiva il servizio competenze
@@ -1225,9 +1220,6 @@ assessment#:#tst_comp_eval_mode#:#Valutazione da
 assessment#:#tst_comp_points#:#Punti di competenze
 assessment#:#tst_competence#:#competenze
 assessment#:#tst_confirm_submit_answers#:#Per favore conferma l'invio della soluzione. Non sarai piu' in grado di correggere le risposte dopo aver premuto 'Invia'. Se vuoi stampare le risposte utilizza il menu 'Stampa' del tuo Browser.
-assessment#:#tst_conflict_fbh_oblig_quest#:#Non è consentita la combinazione di utilizzo di domande obbligatorie e risposte bloccate.
-assessment#:#tst_conflict_reset_fbh_force#:#L’impostazione "Blocca risposte" è stata modificata con "Non bloccare risposte ma Forza riscontro".
-assessment#:#tst_conflict_reset_non_fbh#:#L’impostazione "Blocca risposte" è stata modificata con "Non bloccare risposte".
 assessment#:#tst_copy#:#Copia test
 assessment#:#tst_corr_add_as_answer_btn#:#Aggiungi come risposta corretta
 assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Risposta
@@ -1381,15 +1373,6 @@ assessment#:#tst_instant_feedback_answer_specific_desc#:#Se viene selezionato un
 assessment#:#tst_instant_feedback_contents#:#Contenuto incluso
 assessment#:#tst_instant_feedback_desc#:#Quando le domande sono configurate con feedback, vengono fornite ai partecipanti durante il superamento del test.														  																																		 
 assessment#:#tst_instant_feedback_forced#:#Forza feedback immediato
-assessment#:#tst_instant_feedback_handling#:#tst_instant_feedback_handling
-assessment#:#tst_instant_feedback_handling_force#:#Non congelare le risposte ma forzare il feedback
-assessment#:#tst_instant_feedback_handling_force_and_freeze#:#tst_instant_feedback_handling_force_and_freeze
-assessment#:#tst_instant_feedback_handling_force_and_freeze_desc#:#tst_instant_feedback_handling_force_and_freeze_desc
-assessment#:#tst_instant_feedback_handling_force_desc#:#tst_instant_feedback_handling_force_desc
-assessment#:#tst_instant_feedback_handling_freeze#:#tst_instant_feedback_handling_freeze
-assessment#:#tst_instant_feedback_handling_freeze_desc#:#tst_instant_feedback_handling_freeze_desc
-assessment#:#tst_instant_feedback_handling_none#:#tst_instant_feedback_handling_none
-assessment#:#tst_instant_feedback_handling_none_desc#:#tst_instant_feedback_handling_desc
 assessment#:#tst_instant_feedback_results#:#Mostra il risultato (in punti)
 assessment#:#tst_instant_feedback_results_desc#:#Se vengono selezionati i risultati (in punti), verranno visualizzati i punti raggiunti.
 assessment#:#tst_instant_feedback_solution#:#Mostra soluzione
@@ -1452,7 +1435,6 @@ assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Inoltre,
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Regola %s richiede %s domande e ci sono %s domande fornite.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Ma ci sono solo %s delle domande disponibili fornite garantite, a causa di intersezioni con le seguenti altre regole: %s
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Data dell'ultima sincronizzazione dei pool di domande selezionati: <b>% s </b>
-assessment#:#tst_msg_rand_quest_set_sync_duration#:#La sincronizzazione copia tutte le domande che corrispondono alle regole nel test. Questo potrebbe richiedere diversi minuti per gruppi più grandi.
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#La configurazione per la serie casuale di domande è stata modificata con successo. Adesso si può aggiungere una nuova regola.
 assessment#:#tst_msg_random_question_set_config_modified#:#La configurazione per il test casuale è stata modificata con successo.
 assessment#:#tst_msg_random_question_set_synced#:#Le domande per l’attuale configurazione sono state sincronizzate con successo.
@@ -2141,7 +2123,6 @@ bibl#:#bibl_settings_new#:#Aggiungi biblioteca
 bibl#:#bibl_translation_desc#:#Descrizione
 bibl#:#bibl_translation_lang#:#Linguaggio
 bibl#:#bibl_translation_trans#:#Traduzione										  									   										   
-bibl#:#bibliography file#:#File di bibliografia
 bibl#:#bibtex#:#Bibtex
 bibl#:#changes_saved#:#Le modifiche sono state salvate.
 bibl#:#custom#:#Personalizzato					  
@@ -2252,7 +2233,6 @@ blog#:#blog_import#:#Importa blog
 blog#:#blog_keyword#:#Parola chiave
 blog#:#blog_keyword_enter#:#Scrivi una parola chiave e premi Invio.															
 blog#:#blog_keywords#:#Parole chiave
-blog#:#blog_keywords_info#:#Usa le icone +/-per aggiungere e rimuovere parole chiave.
 blog#:#blog_keywords_other#:#Altre parole chiave
 blog#:#blog_keywords_other_info#:#Queste parole chiave sono state impostate per altri messaggi del blog.
 blog#:#blog_latest_posting#:#Ultimi messaggi
@@ -3979,13 +3959,9 @@ common#:#ldap_tls#:#Usa canale TLS di LDAP
 common#:#ldap_version#:#Versione LDAP
 common#:#learning module#:#Modulo ILIAS
 common#:#learning_progress#:#Progressi didattici
-common#:#learning_resource#:#Risorsa didattica
-common#:#learning_resources#:#Risorse didattiche
 common#:#leave_waiting_list#:#Abbandona lista di attesta
 common#:#legend#:#Legenda
 common#:#level#:#Livello
-common#:#license#:#Autorizzazione
-common#:#licenses#:#Autorizzazioni
 common#:#link#:#Collega
 common#:#link_all#:#Collega tutti
 common#:#link_check#:#Verifica i collegamenti
@@ -4273,7 +4249,6 @@ common#:#no_gallery_users_available#:#Attualmente non ci sono utenti nella galle
 common#:#no_global_role_left#:#Tutti gli utenti devono essere assegnati ad almeno un ruolo.
 common#:#no_import_file_found#:#Nessun file di importazione trovato
 common#:#no_items#:#No Items
-common#:#no_license_available#:#Nessuna licenza disponibile!
 common#:#no_limit#:#Nessun limite
 common#:#no_mkisofs_configured#:#È necessario configurare l'utilità mkisofs nel Setup ILIAS per eseguire l'esportazione ISO
 common#:#no_owner#:#Nessun proprietario
@@ -4420,7 +4395,6 @@ common#:#obj_pdts#:#Personal Desktop Settings
 common#:#obj_pdts_desc#:#Configura Personal Desktop
 common#:#obj_pg#:#Pagina
 common#:#obj_poll#:#Gruppo
-common#:#obj_poll_dupliate#:#Copia gruppo
 common#:#obj_poll_duplicate#:#Copia gruppo
 common#:#obj_prg#:#Programma di studio
 common#:#obj_prg_duplicate#:#Copia programma di studio
@@ -5759,7 +5733,6 @@ content#:#cont_glo_create#:#Crea Glossario
 content#:#cont_glo_detach#:#Separa Glossario
 content#:#cont_glo_properties#:#Proprietà del glossario
 content#:#cont_glossaries#:#Glossari
-content#:#cont_got_lock_until#:#Questa pagina è stata bloccata per la modifica fino a %1. Si prega di rilasciare la pagina dopo aver fatto tutte le modifiche premendo %2
 content#:#cont_grid_cell#:#Colonna
 content#:#cont_grid_cell_confirm_deletion#:#Vuoi davvero eliminare la/e colonna/e?
 content#:#cont_grid_nr_cells#:#Numero di colonne
@@ -7601,8 +7574,6 @@ dcl#:#dcl_confirm_delete_fields#:#Vuoi davvero eliminare questi campi?
 dcl#:#dcl_confirm_delete_record#:#Elimina questo record?
 dcl#:#dcl_confirm_delete_records#:#Sei sicuro di voler eliminare i seguenti record?
 dcl#:#dcl_confirm_delete_table#:#Vuoi davvero eliminare questa tabella con il suo contenuto e la sua struttura?
-dcl#:#dcl_confirm_delete_view_text#:#La Viewdefinition dei record di questa tabella verrà rimossa irreversibilmente, i record e i campi stessi non verranno modificati.
-dcl#:#dcl_confirm_delete_view_title#:#Vuoi davvero eliminare questa visualizzazione?
 dcl#:#dcl_confirm_storing_records#:#Si prega di convalidare e confermare il proprio input.
 dcl#:#dcl_confirm_storing_records_no_permission#:#Non è possibile cambiare successivamente la registrazione.
 dcl#:#dcl_copy#:#Copia raccolta dati
@@ -7637,8 +7608,6 @@ dcl#:#dcl_edit_perm#:#Modifica autorizzazione
 dcl#:#dcl_edit_record#:#Modifica record
 dcl#:#dcl_edit_table#:#Modifica impostazioni tabella
 dcl#:#dcl_editable_in_table_gui#:#Si prega di votare nella visualizzazione della tabella.
-dcl#:#dcl_empty_view#:#Elimina questa visualizzazione
-dcl#:#dcl_empty_view_success#:#La definizione di visualizzazione è stata eliminata correttamente.
 dcl#:#dcl_err_formula_field_not_found#:#Non è stato trovato il campo con il titolo '%s'
 dcl#:#dcl_error_parsing_expression#:#Errore durante l'analisi dell'espressione
 dcl#:#dcl_export_enabled#:#Consenti funzione di esportazione per tutti gli utenti
@@ -9349,22 +9318,6 @@ ldap#:#ldap_user_sync_cron_info#:#Se attivati, i dati di base per le statistiche
 ldap#:#ldap_user_sync_info#:#Definisce se i nuovi utenti sono creati automaticamente al login oppure con regolarità secondo un Cron-Job.
 ldap#:#ldap_username_filter#:#Filtro nome utente
 ldap#:#ldap_username_filter_info#:#Utilizza * come carattere jolly.
-license#:#arbitrary#:#arbitrario
-license#:#course_licenses_rare#:#Attenzione: solo le licenze% s sono disponibili per un oggetto del corso. Guarda la scheda "Licenze" per vedere quali titoli devono essere estesi
-license#:#edit_license#:#modifica licenza
-license#:#existing_licenses#:#licenze esistenti
-license#:#license_counter#:#Licenza contatore
-license#:#license_counter_info#:#Permette di contare i titoli utilizzati di moduli di apprendimento acquistati SCORM  e HTML
-license#:#license_updated#:#I dati di licenza sono aggiornati
-license#:#license_warning#:#avviso relativo alla licenza
-license#:#license_warning_info#:#Fino a questo numero di licenze rimanenti per un oggetto di corso viene presentato un messaggio di avviso quando un utente inserisce il corso.
-license#:#potential_accesses#:#accessi potenziali
-license#:#potential_accesses_explanation#:#ogni utente che accede in modalità sola lettura, che non ha ancora effettuato l'accesso,  viene conteggiato come potenziale accesso.
-license#:#remaining_licenses#:#licenze disponibili
-license#:#remaining_licenses_explanation#:#Le licenze disponibili sono calcolate come acquistate meno consumate
-license#:#used_licenses#:#licenze Consumed
-license#:#used_licenses_explanation#:#Ogni primo accesso di un utente consuma una licenza
-license#:#zero_licenses_explanation#:#Inserire 0 per disattivare la licenza.
 link#:#link_chapters#:#Capitoli
 link#:#link_link#:#Collegamento
 link#:#link_mobs#:#Oggetti multimediali
@@ -11459,16 +11412,11 @@ pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abi
 pwassist#:#pwassist_enter_email#:#Inserisci un indirizzo e-mail e invia il modulo. \ NILIAS invierà un'e-mail a tale indirizzo. L'e-mail contiene tutti i nomi utente che hanno registrato questo indirizzo e-mail. \ NScegliere un nome utente adatto e utilizzare il servizio password per recuperare una nuova password. Se non si recupera alcuna e-mail da questo servizio, contattare l'amministratore del corso o% 1 $ s.
 pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indirizzo e-mail associato nei campi indicati di seguito. \ NILIAS invierà un messaggio a tale indirizzo e-mail. Il messaggio contiene un indirizzo per una pagina Web, in cui è possibile inserire una nuova password per l'account utente. \ NSe non è possibile assegnare una password al proprio account utente utilizzando questo modulo, contattare l'amministrazione del corso o inviare un'e-mail a% 1 $ s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome utente e la nuova password nei campi sottostanti.
-pwassist#:#pwassist_invalid_auth_mode#:#Questo utente non è autentificato in ILIAS. Non è possibile inviare una password.
-pwassist#:#pwassist_invalid_email#:#Correggi il tuo indirizzo e-mail. \ NL'indirizzo e-mail indicato non è stato trovato nel database.
-pwassist#:#pwassist_invalid_username_or_email#:#Correggi il testo nei campi di immissione. \ NIl nome utente e l'indirizzo e-mail che hai inserito non corrispondono a una voce nel database.
 pwassist#:#pwassist_login_not_match#:#Inserisci un altro nome utente. \ Il nome utente che hai inserito non corrisponde al nome utente per il quale hai richiesto l'assistenza tramite password.
 pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: \ n \ t% 1 $ s \ n \ n Questo messaggio è stato generato automaticamente dal server ILIAS \ n \ t% 2 $ s \ n \ nYou (o qualcuno a% 3 $ s ) ha richiesto l'assistenza per la password per l'account utente "% 4 $ s". \ n \ nControlla attentamente le condizioni elencate di seguito e procedi di conseguenza: \ n \ n- Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: \ nElimina questa mail. \ n \ n- Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: \ nSi prega di contattare% 5 $ s. \ n \ n- Se hai chiesto assistenza per la password, per favore procedere come segue: \ n \ n1. Apri il tuo browser. \ N \ n2. Immettere il seguente indirizzo nel browser: \ n \ t% 6 $ s \ n \ nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \ N \ n3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente. \ N \ nSi prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra esattamente una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e è necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
 pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\\nPer favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
-pwassist#:#pwassist_no_email_found#:#Non puoi usufruire dell'assistenza perche' per questo conto utente non risulta attiva una e-mail.
-pwassist#:#pwassist_not_permitted#:#Inserisci un altro nome utente. \ NL'assistenza password non è consentita per il nome utente che hai inserito.
 pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente "% 1 $ s".
 pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. \ NLa tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
 pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovati per l'indirizzo e-mail indicato: \ n% s \ n \ n Questo messaggio è stato creato automaticamente dal seguente server ILIAS: \ n \ t% s \ n \ nYou (o qualcuno con IP% s ) ha richiesto il supporto per i nomi utente dimenticati per l'indirizzo e-mail "% s". \ n \ nSi prega di controllare quanto segue e agire come suggerito :: \ n \ n-Hai richiesto questa e-mail per sbaglio: \ nElimina questo e-mail. \ n \ n-Sei sicuro di non aver mai richiesto questa e-mail: \ nSi prega di contattare% s. \ n \ n- Se hai richiesto questa e-mail, procedi come segue :: \ n \ n1. Avvia il tuo browser Internet. \ N \ n2. Immettere il seguente URL: \ n \ t% s \ n \ nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \ N \ n3. Il tuo browser ora mostra il servizio password. Utilizzare questa pagina insieme a uno dei nomi utente e all'indirizzo e-mail corrispondente per recuperare una nuova password.
@@ -14363,12 +14311,10 @@ tbl#:#tbl_template_created#:#L’attuale visualizzazione è stata salvata.
 tbl#:#tbl_template_delete#:#Elimina visualizzazione salvata
 tbl#:#tbl_template_deleted#:#La visualizzazione salvata è stato eliminata.
 tbl#:#tbl_templates#:#Visualizza
-tos#:#tos_acceptance_datetime#:#Data
 tos#:#tos_acceptance_history#:#Cronologia di accettazione
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
 tos#:#tos_agreement#:#Termini di servizio
-tos#:#tos_agreement_by_lng#:#Termini di servizio
 tos#:#tos_agreement_document#:#Documento
 tos#:#tos_agreement_document_missing#:#Mancante
 tos#:#tos_agreement_documents_tab_label#:#Termini di servizio
@@ -14410,7 +14356,6 @@ tos#:#tos_no_documents_exist_cant_save#:#Attualmente non ci sono termini di serv
 tos#:#tos_period#:#Periodo
 tos#:#tos_period_from#:#Da
 tos#:#tos_period_until#:#Fino a
-tos#:#tos_reset_successfull#:#I termini di servizio sono stati resettati con successo.
 tos#:#tos_reset_tos_for_all_users#:#Resetta termini di servizio
 tos#:#tos_saved_sorting#:#L'ordinamento è stato salvato.
 tos#:#tos_status_desc#:#Se attivato, gli utenti sono costretti ad accettare i termini di servizio prima di poter entrare in ILIAS.
@@ -14541,8 +14486,6 @@ trac#:#trac_mode_collection_tlt#:#Tempo di apprendimento tipico (per capitolo)
 trac#:#trac_mode_collection_tlt_info#:#Gli utenti che hanno raggiunto il Tempo di apprendimento tipico di tutti i capitoli pertinenti otterranno lo stato "Completato".
 trac#:#trac_mode_deactivated#:#Disattivato
 trac#:#trac_mode_deactivated_info_new#:#Lo stato di avanzamento dell'apprendimento non verrà visualizzato.
-trac#:#trac_mode_downloaded#:#Scaricati
-trac#:#trac_mode_downloaded_info#:#Il processo di apprendimento viene determinato dallo stato di download del file.
 trac#:#trac_mode_event#:#Partecipazione a sessioni
 trac#:#trac_mode_event_info#:#Lo stato di avanzamento dell'apprendimento sarà determinato dallo stato di partecipazione.
 trac#:#trac_mode_exercise_returned#:#L'esercizio è tornato
@@ -14712,7 +14655,6 @@ user#:#starting_point_settings#:#Impostazione punto di inizio
 user#:#starting_points#:#Punti di inizio
 user#:#tos_accepted_content#:#Contenuto accettato
 user#:#tos_not_accepted_yet#:#Non ancora accettati
-user#:#tos_show_signed_text#:#Mostra dettagli
 user#:#user_access_limited#:#Limitato
 user#:#user_access_unlimited#:#Illimitato
 user#:#user_account_code#:#Codice
@@ -15123,3 +15065,32 @@ cont#:#cont_page_type_cont#:#Repository Page (Corsi, Gruppi, ...)
 cont#:#cont_page_type_cstr#:#Pagina iniziale del corso (visualizzazione degli obiettivi di apprendimento)
 auth#:#auth_page_type_auth#:#Pagina di Login
 impr#:#impr_page_type_impr#:#Imprint
+assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.###24 04 2020 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###24 04 2020 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###24 04 2020 new variable
+common#:#obj_poll_dupliate:#:#Copy Poll###24 04 2020 new variable
+dcl#:#dcl_empty_detailed_view#:#Delete this detailed view###24 04 2020 new variable
+dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.###24 04 2020 new variable
+tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###24 04 2020 new variable
+bibl#:#bibliography_file#:#Bibliography File###24 04 2020 new variable
+trac#:#trac_mode_content_visited#:#Visited###24 04 2020 new variable
+trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.###24 04 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+lhist#:#lhist_learning_history#:#Learning History###24 04 2020 new variable
+lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.###24 04 2020 new variable
+like#:#reaction#:#Reaction###24 04 2020 new variable
+common#:#like#:#Like###24 04 2020 new variable
+like#:#like#:#Like###24 04 2020 new variable
+lhist#:#lhist_first_login#:#First Login###24 04 2020 new variable
+content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.###24 04 2020 new variable
+lhist#:#lhist_all#:#All###24 04 2020 new variable
+lhist#:#lhist_selected#:#Selected###24 04 2020 new variable
+lhist#:#lhist_manual#:#Manual###24 04 2020 new variable
+lhist#:#lhist_period#:#Period###24 04 2020 new variable
+lhist#:#lhist_type_of_achievement#:#Type of Achievement###24 04 2020 new variable
+lhist#:#cont_update_lhist#:#Edit Learning History Element###24 04 2020 new variable
+lhist#:#cont_create_lhist#:#Create Learning History Element###24 04 2020 new variable
+lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.###24 04 2020 new variable
+lhist#:#lhist_lhist#:#Learning History###24 04 2020 new variable
+lhist#:#lhist_show_more#:#Show More###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
