@@ -93,7 +93,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             $is_always_available = $item->isAlwaysAvailable();
             $is_visible          = $item->isVisible();
             $active              = $this->information->isItemActive($item);
-
+return true;
             // Always avaiable must be delivered when visible
             if ($is_always_available) {
                 return $is_visible;
