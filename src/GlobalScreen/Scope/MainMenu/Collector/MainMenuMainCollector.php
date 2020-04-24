@@ -89,17 +89,12 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 }
             }
 
-            $is_available        = $item->isAvailable();
-            $is_always_available = $item->isAlwaysAvailable();
-            $is_visible          = $item->isVisible();
-            $active              = $this->information->isItemActive($item);
-return true;
             // Always avaiable must be delivered when visible
-            if ($is_always_available) {
-                return $is_visible;
+            if ($item->isAlwaysAvailable()) {
+                return $item->isVisible();
             }
-            // Not always available
-            return $is_available && $is_visible && $active;
+            // All other cases
+            return $item->isAvailable() && $item->isVisible() && $this->information->isItemActive($item);
         });
     }
 
@@ -160,6 +155,9 @@ return true;
         // Remove not visible children
         $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isParent) {
+                if ($item->getProviderIdentification()->serialize() === 'ILIAS\MainMenu\Provider\StandardTopItemsProvider|administration') {
+                    $a = 1;
+                }
                 foreach ($item->getChildren() as $child) {
                     if (!$this->map->existsInFilter($child->getProviderIdentification())) {
                         $item->removeChild($child);
@@ -170,13 +168,13 @@ return true;
         });
 
         // filter empty slates
-        $this->map->filter(static function (isItem $i) : bool {
+        /* $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
                 return count($i->getChildren()) > 0;
             }
 
             return true;
-        });
+        });*/
 
         $this->map->sort();
     }

@@ -109,7 +109,9 @@ class Map implements Filterable, Walkable
     private function applyFilters() : void
     {
         if (count($this->filters) > 0) {
-            $this->filtered = $this->raw->getArrayCopy();
+            if (count($this->filtered) === 0) {
+                $this->filtered = $this->raw->getArrayCopy();
+            }
             foreach ($this->filters as $filter) {
                 $this->filtered = array_filter($this->filtered, $filter);
             }
