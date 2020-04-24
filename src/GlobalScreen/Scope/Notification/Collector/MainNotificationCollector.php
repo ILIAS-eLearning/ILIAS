@@ -56,7 +56,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     }
 
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         // TODO: Implement filterItemsByVisibilty() method.
     }
