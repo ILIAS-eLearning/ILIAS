@@ -82,13 +82,17 @@ class ilStaticCache extends ilGlobalCacheService
         unset(self::$cache[$this->getComponent()][$key]);
     }
 
-
     /**
+     * @param bool $complete
      * @return bool
      */
-    public function flush()
+    public function flush($complete = false)
     {
-        self::$cache = array();
+        if ($complete) {
+            self::$cache = array();
+        } else {
+            unset(self::$cache[$this->getComponent()]);
+        }
 
         return true;
     }

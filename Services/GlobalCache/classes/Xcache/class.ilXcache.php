@@ -74,9 +74,11 @@ class ilXcache extends ilGlobalCacheService
 
 
     /**
+     * @param bool $complete
+     *
      * @return bool
      */
-    public function flush()
+    public function flush($complete = false)
     {
         $_SERVER["PHP_AUTH_USER"] = "xcache";
         $_SERVER["PHP_AUTH_PW"] = "xcache";
