@@ -147,8 +147,9 @@ class Renderer extends AbstractComponentRenderer
                 $visible_col_ids[] = $id;
             }
         }
-        $range = new \ILIAS\Data\Range(0, $component->getNumberOfRows());
-        $order = null;
+        $data_factory = new \ILIAS\Data\Factory();
+        $range = $data_factory->range(0, $component->getNumberOfRows());
+        $order = $data_factory->order($visible_col_ids[0], \ILIAS\Data\Order::ASC);
         $additional_parameter = [];
 
         //digest request
