@@ -3,8 +3,7 @@
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\Data\Range;
-
-//use ILIAS\Data\Order;
+use ILIAS\Data\Order;
 
 interface DataRetrieval
 {
@@ -15,8 +14,7 @@ interface DataRetrieval
     public function getRows(
         RowFactory $row_factory,
         Range $range,
-        //Order $order,
-        $order,
+        Order $order,
         array $visible_column_ids,
         array $additional_parameters
     ) : \Generator;

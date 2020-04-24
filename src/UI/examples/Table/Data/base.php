@@ -3,6 +3,7 @@
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;
 use ILIAS\Data\Range;
+use ILIAS\Data\Order;
 
 function base()
 {
@@ -45,8 +46,7 @@ function base()
         public function getRows(
             I\RowFactory $row_factory,
             Range $range,
-            //Order $order,
-            $order,
+            Order $order,
             array $visible_column_ids,
             array $additional_parameters
         ) : \Generator {
