@@ -82,7 +82,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
     }
 
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
