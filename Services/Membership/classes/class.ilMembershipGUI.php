@@ -1005,7 +1005,13 @@ class ilMembershipGUI
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
+
+        // no read no tab
+        if (!$ilAccess->checkAccess('read', '', $this->getParentObject()->getRefId())) {
+            return false;
+        }
+
         
         include_once './Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
