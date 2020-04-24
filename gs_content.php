@@ -18,6 +18,7 @@ class ContentRenderer
         $GS = $DIC->globalScreen();
 
         $GS->collector()->mainmenu()->collectStructure();
+        $GS->collector()->mainmenu()->filterItemsByVisibilty(true);
         $GS->collector()->mainmenu()->prepareItemsForUIRepresentation();
 
         $unhash = $this->unhash($_GET['item']);

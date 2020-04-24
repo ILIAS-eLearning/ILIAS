@@ -163,4 +163,12 @@ class Factory
     {
         return new Range($start, $length);
     }
+
+    /**
+     * @param mixed $direction Order::ASC|Order::DESC
+     */
+    public function order(string $subject, $direction) : Order
+    {
+        return new Order($subject, $direction);
+    }
 }

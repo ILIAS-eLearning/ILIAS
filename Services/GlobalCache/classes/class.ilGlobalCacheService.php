@@ -253,9 +253,11 @@ abstract class ilGlobalCacheService
 
 
     /**
+     * @param bool $complete
+     *
      * @return mixed
      */
-    abstract public function flush();
+    abstract public function flush($complete = false);
 
 
     /**

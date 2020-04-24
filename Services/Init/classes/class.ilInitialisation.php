@@ -1471,7 +1471,10 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Item\Factory();
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\ViewControl\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
+                $c["ui.signal_generator"],
+                $c["ui.factory.input"]
+            );
         };
         $c["ui.factory.chart"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
@@ -1480,7 +1483,8 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Input\Factory(
                 $c["ui.signal_generator"],
                 $c["ui.factory.input.field"],
-                $c["ui.factory.input.container"]
+                $c["ui.factory.input.container"],
+                $c["ui.factory.input.viewcontrol"]
             );
         };
         $c["ui.factory.table"] = function ($c) {
@@ -1546,7 +1550,8 @@ class ilInitialisation
         $c["ui.factory.input.container"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Factory(
                 $c["ui.factory.input.container.form"],
-                $c["ui.factory.input.container.filter"]
+                $c["ui.factory.input.container.filter"],
+                $c["ui.factory.input.container.viewcontrol"]
             );
         };
         $c["ui.factory.input.container.form"] = function ($c) {
@@ -1560,49 +1565,53 @@ class ilInitialisation
                 $c["ui.factory.input.field"]
             );
         };
+        $c["ui.factory.input.container.viewcontrol"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\Container\ViewControl\Factory();
+        };
+        $c["ui.factory.input.viewcontrol"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory();
+        };
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
         };
-
         $c["ui.renderer"] = function ($c) {
             return new ILIAS\UI\Implementation\DefaultRenderer(
                 $c["ui.component_renderer_loader"]
-                );
+            );
         };
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
                     $c["ui.resource_registry"],
                     new ILIAS\UI\Implementation\Render\FSLoader(
-                    new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                        new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"]
-                            ),
-                    new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+                        ),
+                        new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"]
-                          ),
-                    new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+
+                        ),
+                        new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"]
-                          )
                         )
                     )
-                );
+                )
+            );
         };
         $c["ui.template_factory"] = function ($c) {
-            return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory(
-                $c["tpl"]
-                );
+            return new ILIAS\UI\Implementation\Render\ilTemplateWrapperFactory($c["tpl"]);
         };
         $c["ui.resource_registry"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\ilResourceRegistry($c["tpl"]);

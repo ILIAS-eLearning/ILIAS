@@ -169,6 +169,8 @@ auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
 auth#:#auth_oidc_settings_provider#:#Provider-Url
 auth#:#auth_oidc_settings_client_id#:#Client-ID
 auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
+auth#:#auth_oidc_settings_additional_scopes#:#Additional Scopes
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
