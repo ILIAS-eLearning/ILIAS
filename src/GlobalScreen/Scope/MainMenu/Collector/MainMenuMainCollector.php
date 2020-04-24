@@ -53,10 +53,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information = $information;
-        $this->providers = $providers;
+        $this->information                 = $information;
+        $this->providers                   = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map = new Map();
+        $this->map                         = new Map();
     }
 
     /**
@@ -89,27 +89,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 }
             }
 
-            $is_available = $item->isAvailable();
-            $is_always_available = $item->isAlwaysAvailable();
-            if (!$is_available) {
-                return $is_always_available;
+            // Always avaiable must be delivered when visible
+            if ($item->isAlwaysAvailable()) {
+                return $item->isVisible();
             }
-
-            $is_visible = $item->isVisible();
-            if (!$is_visible) {
-                return $is_always_available;
-            }
-
-            $active = $this->information->isItemActive($item);
-            if (!$active) {
-                return $is_always_available;
-            }
-            return $active;
+            // All other cases
+            return $item->isAvailable() && $item->isVisible() && $this->information->isItemActive($item);
         });
-
-        // apply special filters such as double dividers etc.
-
-        // TODO!!
     }
 
     public function prepareItemsForUIRepresentation() : void
@@ -154,15 +140,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item;
         });
 
-        $this->map->walk(function (isItem &$item) : isItem {
+        // Override parent from configuration
+        $this->map->walk(function (isItem &$item) {
             if ($item instanceof isChild && $item->hasParent()) {
-                if (!$this->map->existsInFilter($item->getProviderIdentification())) {
-                    $parent = $this->map->getSingleItemFromFilter($item->getParent(), true);
-                    if ($parent instanceof isParent) {
-                        $parent->removeChild($item);
-                    }
-                    return $item;
-                }
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
@@ -171,14 +151,30 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
+
+        // Remove not visible children
+        $this->map->walk(function (isItem &$item) : isItem {
+            if ($item instanceof isParent) {
+                if ($item->getProviderIdentification()->serialize() === 'ILIAS\MainMenu\Provider\StandardTopItemsProvider|administration') {
+                    $a = 1;
+                }
+                foreach ($item->getChildren() as $child) {
+                    if (!$this->map->existsInFilter($child->getProviderIdentification())) {
+                        $item->removeChild($child);
+                    }
+                }
+            }
+            return $item;
+        });
+
         // filter empty slates
-        $this->map->filter(static function (isItem $i) : bool {
+        /* $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
                 return count($i->getChildren()) > 0;
             }
 
             return true;
-        });
+        });*/
 
         $this->map->sort();
     }
