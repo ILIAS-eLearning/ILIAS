@@ -10806,7 +10806,7 @@ obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_target_location#:#Zielordner
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
 obj#:#obj_tool_setting_info_tab#:#Info-Reiter
