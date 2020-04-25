@@ -15262,7 +15262,7 @@ cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
 cont#:#cont_item_list#:#Liste
 cont#:#cont_tile_view#:#Kacheln
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
 fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
 validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
