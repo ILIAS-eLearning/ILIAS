@@ -910,7 +910,7 @@ assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden:
 assessment#:#kprim_answers_info#:#Der Multiple Choice-Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
 assessment#:#ass_process_lock#:#Verwende Locking-Mechanismus während der Testdurchläufe
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkonsistenten Testergebnissen führen.
 assessment#:#ass_process_lock_mode#:#Locking-Modus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
 assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
