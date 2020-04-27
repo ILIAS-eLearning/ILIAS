@@ -4,9 +4,10 @@ TMP_DIR="/tmp"
 PHP_CS_FIXER_RESULTS_PATH="$TMP_DIR/phpfix_results"
 PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 
-PHPUNIT_PATH="$TMP_DIR/phpunit_latest.csv"
-PHPUNIT_PATH_TMP="$TMP_DIR/phpunit_changed.csv"
-PHPUNIT_RESULTS_PATH="$TMP_DIR/phpunit_results"
+PHP_VERSION=$(phpenv version-name)
+PHPUNIT_PATH="$TMP_DIR/phpunit_latest_$PHP_VERSION.csv"
+PHPUNIT_PATH_TMP="$TMP_DIR/phpunit_changed_$PHP_VERSION.csv"
+PHPUNIT_RESULTS_PATH="$TMP_DIR/phpunit_results_$PHP_VERSION"
 
 DICTO_PATH="$TMP_DIR/dicto_latest.csv"
 
