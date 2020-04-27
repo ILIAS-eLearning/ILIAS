@@ -177,7 +177,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-maincontrols-footer">
             <div class="il-footer-content">
-                <div class="il-footer-permanent-url">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" onclick="this.select();document.execCommand('copy'); return false;" readonly="readOnly">
+                <div class="il-footer-permanent-url"  onclick="document.getElementById('current_perma_link').select();document.execCommand('copy'); return false;">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" readonly="readOnly">
                 </div>
 
                 <div class="il-footer-text">footer text</div>
