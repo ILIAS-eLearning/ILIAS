@@ -1066,8 +1066,6 @@ class ilTree
             usort($pathFull, static function(array $leftNode, array $rightNode) : int {
                 return strcmp($leftNode['depth'], $rightNode['depth']);
             });
-
-            return $pathFull;
         }
 
         return $pathFull;
