@@ -81,7 +81,7 @@ class ilMyStaffAccess extends ilObjectAccess
             return false;
         }
 
-        if (!$this->hasCurrentUserAccessToUser()) {
+        if ($this->hasCurrentUserAccessToUser()) {
             return true;
         }
 
@@ -158,7 +158,8 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (in_array($usr_id, $this->getUsersForUser($DIC->user()->getId()))) {
+        $arr_users = $this->getUsersForUser($DIC->user()->getId());
+        if (count($arr_users) > 0 && in_array($usr_id, $arr_users)) {
             return true;
         }
 

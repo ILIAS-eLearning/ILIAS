@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ilObjOrgUnit;
 
 /**
@@ -45,11 +46,16 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withSymbol($icon)
             ->withPosition(7)
+            ->withAvailableCallable(
+                static function () {
+                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                }
+            )
             ->withVisibilityCallable(
-                $access_helper->hasAdministrationAccess()
-            )->withAvailableCallable(
-                $access_helper->isUserLoggedIn()
-            );
+                static function () {
+                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                }
+            )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"));
         ;
 
         return $items;
