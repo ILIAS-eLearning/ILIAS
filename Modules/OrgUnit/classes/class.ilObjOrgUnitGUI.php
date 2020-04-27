@@ -752,7 +752,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
-        if (count($_POST['id']) > 0) {
+        if (is_array($_POST['id']) && count($_POST['id']) > 0) {
             $arr_ref_ids = $_POST['id'];
         } elseif ($_GET['item_ref_id'] > 0) {
             $arr_ref_ids = [$_GET['item_ref_id']];
