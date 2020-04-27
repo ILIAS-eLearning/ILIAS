@@ -1321,7 +1321,6 @@ $ilDB->manipulate(
 ?>
 <#89>
 <?php
-ini_set("display_errors", 1);
 $setting = new ilSetting();
 $idx = $setting->get('ilfrmreadidx1', 0);
 if (!$idx) {
