@@ -122,7 +122,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			//unfortunately, this does not work properly via a class
 			$('.' + _cls_entries).css("visibility","visible");
 			$('#' + id +' .' + _cls_slates).children('.' + _cls_single_slate)
-				.attr('aria-hidden', false)
+				.attr('aria-hidden', true)
 				.attr('aria-expanded', false);
 		};
 
