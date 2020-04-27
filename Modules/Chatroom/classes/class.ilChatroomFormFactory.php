@@ -285,7 +285,7 @@ class ilChatroomFormFactory
         $dhparam->setRequired(true);
         $https->addSubItem($dhparam);
 
-        $chatLog = new ilTextInputGUI($this->lng->txt('log'), 'log');
+        $chatLog = new ilTextInputGUI($this->lng->txt('chatroom_log'), 'log');
         $chatLog->setInfo($this->lng->txt('chat_log_info'));
         $chatLog->setRequired(false);
         $form->addItem($chatLog);
