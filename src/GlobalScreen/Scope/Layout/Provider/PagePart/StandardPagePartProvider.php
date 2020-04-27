@@ -4,7 +4,6 @@ use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;

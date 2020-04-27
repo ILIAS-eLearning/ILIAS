@@ -25,6 +25,7 @@ interface Factory
      *          Filters are used to limit search results; they never modify data in
      *          the system.
      *
+     *
      * ---
      * @return  \ILIAS\UI\Component\Input\Container\Form\Factory
      */

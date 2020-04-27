@@ -78,8 +78,7 @@ interface Factory
      *       inform the user if the entry is engaged or disengaged at the moment.
      *     3: Bulky Buttons in the Meta Bar MUST bear the "aria-haspopup" attribute.
      *     4: Bulky Buttons in the Meta Bar MUST bear the ARIA role "menuitem".
-     *     5: The "Search" entry in the Meta Bar MUST bear the ARIA role "search".
-     *     6: Slates in the Meta Bar MUST bear the ARIA role "menu".
+     *     5: Slates in the Meta Bar MUST bear the ARIA role "menu".
      * ----
      *
      * @return  \ILIAS\UI\Component\MainControls\MetaBar

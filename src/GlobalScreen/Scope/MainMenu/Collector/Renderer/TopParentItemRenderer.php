@@ -5,7 +5,6 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**
  * Class TopParentItemRenderer
