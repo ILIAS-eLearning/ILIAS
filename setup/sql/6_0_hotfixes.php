@@ -271,3 +271,12 @@ if ($new_tpl_id > 0) {
 }
 
 ?>
+<#20>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmreadidx1', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
+    $setting->set('ilfrmreadidx1', 1);
+}
+?>

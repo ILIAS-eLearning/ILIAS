@@ -4,8 +4,8 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ilMyStaffAccess;
 
 /**
  * Class StandardTopItemsProvider
@@ -156,10 +156,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                static function () use ($dic) {
-                    return (bool) ($dic->settings()->get('enable_my_staff'));
-                }
-            );
+                static function () {
+                    return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+                });
 
         $title = $f("mm_administration");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
