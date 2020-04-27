@@ -1033,24 +1033,43 @@ class ilTree
         }
         $inClause .= ')';
 
+        if ($this->__isMainTree() && $this->tree_id == 1) {
+            $treeClause = '';
+            $orderBy = '';
+        } else {
+            $treeClause = ' AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->ilDB->quote($this->tree_id, 'integer') . ' ';
+            $orderBy = ' ORDER BY depth ';
+        }
+
         $q = 'SELECT * ' .
             'FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() . ' ' .
             'WHERE ' . $inClause . ' ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->ilDB->quote($this->tree_id, 'integer') . ' ' .
-            'ORDER BY depth';
+            $treeClause .
+            $orderBy;
         $r = $ilDB->query($q);
 
         $pathFull = array();
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            if ($row[$this->tree_pk] != $this->tree_id) {
+                continue;
+            }
+
             $pathFull[] = $this->fetchNodeData($row);
 
-            // Update cache
             if ($this->__isMainTree()) {
-                #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$row['child']);
                 $this->in_tree_cache[$row['child']] = $row['tree'] == 1;
             }
         }
+
+        if ($this->__isMainTree() && $this->tree_id == 1) {
+            usort($pathFull, static function(array $leftNode, array $rightNode) {
+                return strcmp($leftNode['depth'], $rightNode['depth']);
+            });
+
+            return $pathFull;
+        }
+
         return $pathFull;
     }
     
