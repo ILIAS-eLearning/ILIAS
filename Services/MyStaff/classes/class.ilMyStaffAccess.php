@@ -7,8 +7,6 @@ use ilOrgUnitOperation;
 use ilOrgUnitOperationContext;
 use ilOrgUnitOperationContextQueries;
 use ilOrgUnitOperationQueries;
-use ilOrgUnitPosition;
-use ilOrgUnitPositionAccess;
 use ilOrgUnitUserAssignmentQueries;
 
 /**
@@ -18,6 +16,7 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class ilMyStaffAccess extends ilObjectAccess
 {
+
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
@@ -76,6 +75,10 @@ class ilMyStaffAccess extends ilObjectAccess
     public function hasCurrentUserAccessToMyStaff() : bool
     {
         global $DIC;
+
+        if ($DIC->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID)) {
+            return true;
+        }
 
         if (!$DIC->settings()->get("enable_my_staff")) {
             return false;
