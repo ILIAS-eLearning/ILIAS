@@ -15,6 +15,9 @@ class Bulky extends Button implements C\Button\Bulky
 {
     use Engageable;
 
+    // allowed ARIA roles
+    const MENUITEM = 'menuitem';
+
     /**
      * @var Symbol
      */
@@ -29,8 +32,7 @@ class Bulky extends Button implements C\Button\Bulky
      * @var string[]
      */
     protected static $allowed_aria_roles = array(
-        self::MENUITEM,
-        self::MENUITEM_SEARCH
+        self::MENUITEM
     );
 
     public function __construct(Symbol $icon_or_glyph, string $label, string $action)
@@ -49,9 +51,12 @@ class Bulky extends Button implements C\Button\Bulky
     }
 
     /**
-     * @inheritdoc
+     * Get a button like this, but with an additional ARIA role.
+     *
+     * @param string $aria_role
+     * @return Button
      */
-    public function withAriaRole(string $aria_role)
+    public function withAriaRole(string $aria_role) : Button
     {
         $this->checkArgIsElement(
             "role",
@@ -59,16 +64,17 @@ class Bulky extends Button implements C\Button\Bulky
             self::$allowed_aria_roles,
             implode('/', self::$allowed_aria_roles)
         );
-        $this->checkStringArg("role", $aria_role);
         $clone = clone $this;
         $clone->aria_role = $aria_role;
         return $clone;
     }
 
     /**
-     * @inheritdoc
+     * Get the ARIA role on the button.
+     *
+     * @return string|null
      */
-    public function getAriaRole()
+    public function getAriaRole() : ?string
     {
         return $this->aria_role;
     }

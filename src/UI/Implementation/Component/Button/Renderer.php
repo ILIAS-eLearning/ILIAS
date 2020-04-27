@@ -285,7 +285,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_ROLE", $aria_role);
             $tpl->parseCurrentBlock();
         }
-        if ($aria_role == Bulky::MENUITEM || $aria_role == Bulky::MENUITEM_SEARCH) {
+        if ($aria_role == Bulky::MENUITEM) {
             $tpl->touchBlock("with_aria_haspopup");
         }
     }

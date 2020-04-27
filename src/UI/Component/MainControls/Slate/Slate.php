@@ -16,9 +16,6 @@ use ILIAS\UI\Component\Triggerer;
  */
 interface Slate extends Component, JavaScriptBindable, Triggerer
 {
-    // allowed ARIA roles
-    const MENU = 'menu';
-
     /**
      * Get the name of this slate
      */
@@ -71,19 +68,4 @@ interface Slate extends Component, JavaScriptBindable, Triggerer
     public function withMainBarTreePosition(string $tree_pos);
 
     public function getMainBarTreePosition();
-
-    /**
-     * Get a slate like this, but with an additional ARIA role.
-     *
-     * @param	string	$aria_role
-     * @return	Slate
-     */
-    public function withAriaRole(string $aria_role);
-
-    /**
-     * Get the ARIA role on the button.
-     *
-     * @return	string
-     */
-    public function getAriaRole();
 }

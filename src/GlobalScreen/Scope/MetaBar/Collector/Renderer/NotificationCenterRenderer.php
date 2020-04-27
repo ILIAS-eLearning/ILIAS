@@ -43,8 +43,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
         $f = $this->ui->factory();
 
         $center = $f->mainControls()->slate()->combined("Notification Center", $item->getSymbol())
-            ->withEngaged(false)
-            ->withAriaRole(Slate::MENU);
+            ->withEngaged(false);
 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {
             $center = $center->withAdditionalEntry($notification->getRenderer($this->ui->factory())->getNotificationComponentForItem($notification));

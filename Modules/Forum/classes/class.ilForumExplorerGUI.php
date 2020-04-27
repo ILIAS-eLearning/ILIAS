@@ -138,7 +138,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
 
         $tree = $this->ui->factory()->tree()
-            ->expandable("Testlabel", $this)
+            ->expandable($this)
             ->withData($rootNode)
             ->withHighlightOnNodeClick(false);
 

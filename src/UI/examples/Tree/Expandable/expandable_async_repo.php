@@ -81,7 +81,7 @@ function expandable_async_repo($ref = null)
         'icon_factory' => $f->symbol()->icon()
     ];
 
-    $tree = $f->tree()->expandable("Label", $recursion)
+    $tree = $f->tree()->expandable($recursion)
         ->withEnvironment($environment)
         ->withData($data);
 

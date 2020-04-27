@@ -20,7 +20,6 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     protected $httpRequest;
 
     protected $tree = null;
-    protected $tree_label = "Testlabel";
     protected $order_field = "";
     protected $order_field_numeric = false;
     protected $type_white_list = array();
@@ -441,14 +440,6 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     }
 
     /**
-     * @return string
-     */
-    public function getTreeLabel()
-    {
-        return $this->tree_label;
-    }
-
-    /**
      * Get Tree UI
      *
      * @return \ILIAS\UI\Component\Tree\Tree|object
@@ -462,7 +453,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
             $tree->getNodeData($tree->readRootId())
         );
 
-        $tree = $f->tree()->expandable($this->getTreeLabel(), $this)
+        $tree = $f->tree()->expandable($this)
             ->withData($data)
             ->withHighlightOnNodeClick(true);
 

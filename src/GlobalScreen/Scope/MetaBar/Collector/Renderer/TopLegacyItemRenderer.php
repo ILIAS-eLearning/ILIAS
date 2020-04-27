@@ -26,6 +26,6 @@ class TopLegacyItemRenderer extends AbstractMetaBarItemRenderer
             $item->getTitle(),
             $item->getSymbol(),
             $item->getLegacyContent()
-        )->withAriaRole(Slate::MENU);
+        );
     }
 }

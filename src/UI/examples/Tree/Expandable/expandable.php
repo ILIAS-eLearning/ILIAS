@@ -65,7 +65,7 @@ function expandable()
         'modal' => $modal
     ];
 
-    $tree = $f->tree()->expandable("Label", $recursion)
+    $tree = $f->tree()->expandable($recursion)
         ->withEnvironment($environment)
         ->withData($data)
         ->withHighlightOnNodeClick(true);

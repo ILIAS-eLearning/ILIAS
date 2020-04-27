@@ -33,7 +33,6 @@ class TreeTest extends ILIAS_UI_TestBase
 
     public function testConstruction()
     {
-        $label = "label";
         $recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion {
             public function getChildren($record, $environment = null) : array
             {
@@ -48,24 +47,13 @@ class TreeTest extends ILIAS_UI_TestBase
             }
         };
 
-        $tree = new TestingTree($label, $recursion);
+        $tree = new TestingTree($recursion);
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Tree\\Tree",
             $tree
         );
 
         return $tree;
-    }
-
-    /**
-     * @depends testConstruction
-     */
-    public function testGetLabel($tree)
-    {
-        $this->assertEquals(
-            "label",
-            $tree->getLabel()
-        );
     }
 
     /**

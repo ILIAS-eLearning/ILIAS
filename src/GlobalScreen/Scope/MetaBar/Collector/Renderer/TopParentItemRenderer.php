@@ -21,8 +21,7 @@ class TopParentItemRenderer extends AbstractMetaBarItemRenderer
         /**
          * @var $item TopParentItem
          */
-        $component = $this->ui->factory()->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol())
-            ->withAriaRole(Slate::MENU);
+        $component = $this->ui->factory()->mainControls()->slate()->combined($item->getTitle(), $item->getSymbol());
         foreach ($item->getChildren() as $child) {
             /**
              * @var $child isItem

@@ -23,6 +23,9 @@ abstract class Slate implements ISlate\Slate
     use JavaScriptBindable;
     use Triggerer;
 
+    // allowed ARIA roles
+    const MENU = 'menu';
+
     /**
      * @var string
      */
@@ -195,9 +198,12 @@ abstract class Slate implements ISlate\Slate
     }
 
     /**
-     * @inheritdoc
+     * Get a slate like this, but with an additional ARIA role.
+     *
+     * @param string $aria_role
+     * @return Slate
      */
-    public function withAriaRole(string $aria_role)
+    public function withAriaRole(string $aria_role) : Slate
     {
         $this->checkArgIsElement(
             "role",
@@ -205,16 +211,17 @@ abstract class Slate implements ISlate\Slate
             self::$allowed_aria_roles,
             implode('/', self::$allowed_aria_roles)
         );
-        $this->checkStringArg("role", $aria_role);
         $clone = clone $this;
         $clone->aria_role = $aria_role;
         return $clone;
     }
 
     /**
-     * @inheritdoc
+     * Get the ARIA role on the slate.
+     *
+     * @return string|null
      */
-    public function getAriaRole()
+    public function getAriaRole() : ?string
     {
         return $this->aria_role;
     }
