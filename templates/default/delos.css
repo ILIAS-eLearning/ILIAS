@@ -15719,9 +15719,10 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .table-responsive {
-    overflow: visible;
+    overflow-x: auto;
+    max-width: 94vw;
   }
 }
 /* Services/Notes */
