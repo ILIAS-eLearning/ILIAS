@@ -217,7 +217,7 @@ class PageContentGUI
     {
         $this->banner = $a_val;
     }
-    
+
     /**
      * Get banner
      *
@@ -227,7 +227,7 @@ class PageContentGUI
     {
         return $this->banner;
     }
-    
+
 
     /**
      * @param mixed $title
@@ -452,7 +452,7 @@ class PageContentGUI
                 $this->fillTabs();
                 $this->fillMainContent();
                 // $this->fillMainMenu();
-                $this->fillLightbox(); // TODO
+                $this->fillLightbox();
                 $this->template_file->parseCurrentBlock();
             }
         }
@@ -797,11 +797,6 @@ class PageContentGUI
 
     private function fillLightbox()
     {
-        $html = "";
-
-        foreach ($this->lightbox as $lb) {
-            $html .= $lb;
-        }
-        $this->template_file->setVariable("LIGHTBOX", $html);
+        $this->template_file->setVariable('LIGHTBOX', implode('', $this->lightbox));
     }
 }
