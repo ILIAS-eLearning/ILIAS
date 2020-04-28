@@ -230,7 +230,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
 
             case "ilobjstudyprogrammemembersgui":
-                $this->denyAccessIfNot("manage_members");
+                $this->denyAccessIfNot("manage_members", ilOrgUnitOperation::OP_VIEW_MEMBERS);
                 $this->getSubTabs('members');
 
                 $this->tabs_gui->activateTab(self::TAB_MEMBERS);
@@ -545,16 +545,29 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         return $this->ilAccess->checkAccess($a_which, "", $this->ref_id);
     }
 
-    protected function denyAccessIfNot($a_perm)
+    protected function denyAccessIfNot($a_perm, $position_permission = null)
     {
-        return $this->denyAccessIfNotAnyOf(array($a_perm));
+        $perm = array($a_perm);
+        if (!is_null($position_permission)) {
+            $position_permission = array($position_permission);
+        }
+
+        return $this->denyAccessIfNotAnyOf($perm, $position_permission);
     }
 
-    protected function denyAccessIfNotAnyOf($a_perms)
+    protected function denyAccessIfNotAnyOf($a_perms, $position_permissions = null)
     {
         foreach ($a_perms as $perm) {
             if ($this->checkAccess($perm)) {
                 return;
+            }
+        }
+        if (!is_null($position_permissions)) {
+            $ref_id = (int) $this->object->getRefId();
+            foreach ($position_permissions as $perm) {
+                if ($this->ilAccess->checkPositionAccess($perm, $ref_id)) {
+                    return true;
+                }
             }
         }
 
@@ -603,7 +616,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->checkAccess("manage_members") ||
             $this->ilAccess->checkPositionAccess(
                 ilOrgUnitOperation::OP_VIEW_MEMBERS,
-                (int)$this->object->getRefId()
+                (int) $this->object->getRefId()
             )
         ) {
             $this->tabs_gui->addTab(

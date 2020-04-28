@@ -289,20 +289,21 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $usr_id
     ) : string {
         $l = new ilAdvancedSelectionListGUI();
-        $no_orgu_position_access_ctrl = !$this->prg->getAccessControlByOrguPositionsGlobal();
+
+        $access_by_position = $this->isPermissionControlledByOrguPosition();
 
         $view_individual_plan =
-            $no_orgu_position_access_ctrl ||
+           $access_by_position == false ||
             in_array($usr_id, $this->getParentObject()->viewIndividualPlan())
         ;
 
         $manage_members =
-            $no_orgu_position_access_ctrl ||
+            $access_by_position == false ||
             in_array($usr_id, $this->getParentObject()->manageMembers())
         ;
 
         $edit_individual_plan =
-            $no_orgu_position_access_ctrl ||
+            $access_by_position == false ||
             in_array($usr_id, $this->getParentObject()->editIndividualPlan())
         ;
 
@@ -559,16 +560,36 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getMultiCommands() : array
     {
-        return [
-            'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
-            'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
-            'removeUserMulti' => $this->lng->txt('prg_multi_remove_user'),
-            'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
-            'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
-            'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
-            'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
-            'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date')
-        ];
+        $access_by_position = $this->isPermissionControlledByOrguPosition();
+        if ($access_by_position) {
+            $edit_individual_plan = count($this->getParentObject()->editIndividualPlan()) > 0;
+            $manage_members = count($this->getParentObject()->manageMembers()) > 0;
+        } else {
+            $edit_individual_plan =
+            $manage_members = true;
+        }
+
+        $perms = [];
+        if ($edit_individual_plan) {
+            $perms['markAccreditedMulti'] = $this->lng->txt('prg_multi_mark_accredited');
+            $perms['unmarkAccreditedMulti'] = $this->lng->txt('prg_multi_unmark_accredited');
+        }
+
+        if ($manage_members) {
+            $perms['removeUserMulti'] = $this->lng->txt('prg_multi_remove_user');
+        }
+        $perms = array_merge(
+            $perms,
+            [
+                'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
+                'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
+                'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
+                'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
+                'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date')
+            ]
+        );
+
+        return $perms;
     }
 
     /**
@@ -674,5 +695,15 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $conditions = implode(PHP_EOL, $buf);
 
         return $conditions;
+    }
+
+
+    protected function isPermissionControlledByOrguPosition()
+    {
+        return (
+            $this->prg->getAccessControlByOrguPositionsGlobal()
+            ||
+            $this->prg->getPositionSettingsIsActiveForPrg()
+        );
     }
 }
