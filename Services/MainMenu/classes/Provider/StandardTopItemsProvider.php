@@ -167,11 +167,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(70)
-            ->withVisibilityCallable(
-                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) {
-                    return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID));
-                })
-            );
+            ->withVisibilityCallable($this->basic_access_helper->hasAdministrationAccess());
 
         return [
             $dashboard,
