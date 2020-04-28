@@ -2,7 +2,6 @@
 
 /**
  * Class ilObjMainMenuAccess
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjMainMenuAccess extends ilObjectAccess
@@ -17,7 +16,6 @@ class ilObjMainMenuAccess extends ilObjectAccess
      */
     private $rbacsystem;
 
-
     /**
      * ilObjMainMenuAccess constructor.
      */
@@ -25,29 +23,22 @@ class ilObjMainMenuAccess extends ilObjectAccess
     {
         global $DIC;
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->http = $DIC->http();
+        $this->http       = $DIC->http();
     }
-
 
     /**
      * @param string $permission
-     *
      * @throws ilException
      */
-    public function checkAccessAndThrowException(string $permission)
+    public function checkAccessAndThrowException(string $permission) : void
     {
         if (!$this->hasUserPermissionTo($permission)) {
-            //throw new ilException('Permission denied');
-
-            echo "KEIN ZUGRIFF!!";
-            exit;
+            throw new ilException('Permission denied');
         }
     }
 
-
     /**
      * @param string $permission
-     *
      * @return bool
      */
     public function hasUserPermissionTo(string $permission) : bool

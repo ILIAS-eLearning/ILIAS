@@ -224,7 +224,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
-        return $this->map->getSingleItemFromFilter($identification);
+        $item = $this->map->getSingleItemFromFilter($identification);
+        $this->map->add($item);
+
+        return $item;
     }
 
     /**
