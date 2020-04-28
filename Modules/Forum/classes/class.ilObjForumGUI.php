@@ -3020,6 +3020,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $threadContentTemplate->setVariable('THREAD_MENU', $this->uiRenderer->render(
                     $pagination
                 ));
+                $threadContentTemplate->setVariable('THREAD_MENU_BOTTOM', $this->uiRenderer->render(
+                    $pagination
+                ));
             }
 
             // assistance val for anchor-links
