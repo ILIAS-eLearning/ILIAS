@@ -188,7 +188,7 @@ class Map implements Filterable, Walkable
     {
         global $DIC;
 
-        $lost_item = $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
+        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
                          ->withAlwaysAvailable(true)
                          ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
                          ->withVisibilityCallable(
@@ -196,9 +196,5 @@ class Map implements Filterable, Walkable
                                  return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
                              }
                          )->withTitle($DIC->language()->txt("mme_lost_item_title"));
-
-//        $this->add($lost_item);
-
-        return $lost_item;
     }
 }
