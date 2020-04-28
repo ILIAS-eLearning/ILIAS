@@ -1456,6 +1456,8 @@ class ilLMPresentationGUI
         $tpl->setVariable("TOP_NAVIGATION", $navigation_renderer->renderTop());
         $tpl->setVariable("BOTTOM_NAVIGATION", $navigation_renderer->renderBottom());
         $tpl->setVariable("PAGE_CONTENT", $this->getPageContent());
+        $tpl->setVariable("RATING", $this->renderRating());
+
 
         return $tpl->get();
     }
@@ -1479,7 +1481,6 @@ class ilLMPresentationGUI
         return $content_renderer->render();
     }
 
-
     /**
      * Render rating
      *
@@ -1491,7 +1492,7 @@ class ilLMPresentationGUI
         $rating = "";
         if ($this->lm->hasRatingPages() && !$this->offlineMode()) {
             $rating_gui = new ilRatingGUI();
-            $rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");
+            $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
             /*
@@ -1499,7 +1500,7 @@ class ilLMPresentationGUI
                     "il.ExcPeerReview.saveComments(".$a_set["peer_id"].", %rating%)"));
             */
 
-            $this->ctrl->setParameter($this, "pgid", $page_id);
+            $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
                 "')");
@@ -1511,6 +1512,7 @@ class ilLMPresentationGUI
         }
         return $rating;
     }
+
 
     
     public function updatePageRating()
