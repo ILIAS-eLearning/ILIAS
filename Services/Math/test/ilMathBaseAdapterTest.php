@@ -169,7 +169,8 @@ abstract class ilMathBaseAdapterTest extends TestCase
     public function mulData()
     {
         return [
-            ['1', '2', '2', self::DEFAULT_SCALE]
+            ['1', '2', '2', self::DEFAULT_SCALE],
+            ['1', '', '0', self::DEFAULT_SCALE]
         ];
     }
 
