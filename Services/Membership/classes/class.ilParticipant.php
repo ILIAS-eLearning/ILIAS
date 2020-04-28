@@ -50,7 +50,9 @@ abstract class ilParticipant
     private $tutors = false;
     private $members = false;
     
-    private $numMembers = 0;
+    private $numMembers;
+
+    private $member_roles = [];
 
     private $participants_status = array();
 
@@ -287,6 +289,13 @@ abstract class ilParticipant
     
     public function getNumberOfMembers()
     {
+        global $DIC;
+
+        $rbacreview = $DIC['rbacreview'];
+
+        if(!$this->numMembers){
+            $this->numMembers = $rbacreview->getNumberOfAssignedUsers($this->member_roles);
+        }
         return $this->numMembers;
     }
     
@@ -307,14 +316,12 @@ abstract class ilParticipant
         $users = array();
         $this->participants = array();
         $this->members = $this->admins = $this->tutors = array();
-        
-        $member_roles = array();
 
         foreach ($this->roles as $role_id) {
             $title = $ilObjDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
-                    $member_roles[] = $role_id;
+                    $this->member_roles[] = $role_id;
                     $this->role_data[IL_CRS_MEMBER] = $role_id;
                     if ($rbacreview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
@@ -347,7 +354,7 @@ abstract class ilParticipant
                     break;
 
                 case 'il_grp_m':
-                    $member_roles[] = $role_id;
+                    $this->member_roles[] = $role_id;
                     $this->role_data[IL_GRP_MEMBER] = $role_id;
                     if ($rbacreview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
@@ -356,8 +363,8 @@ abstract class ilParticipant
                     break;
 
                 default:
-                    
-                    $member_roles[] = $role_id;
+
+                    $this->member_roles[] = $role_id;
                     if ($rbacreview->isAssigned($this->getUserId(), $role_id)) {
                         $this->participants = true;
                         $this->members = true;
@@ -365,7 +372,6 @@ abstract class ilParticipant
                     break;
             }
         }
-        $this->numMembers = $rbacreview->getNumberOfAssignedUsers((array) $member_roles);
     }
 
     /**
