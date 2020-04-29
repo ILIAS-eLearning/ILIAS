@@ -1319,3 +1319,12 @@ $ilDB->manipulate(
     "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
 );
 ?>
+<#89>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmreadidx1', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
+    $setting->set('ilfrmreadidx1', 1);
+}
+?>

@@ -10318,145 +10318,145 @@ meta#:#meta_is_referenced_by#:#O utilizador pode mover ou apagar o curso ECS
 meta#:#meta_is_required_by#:#O utilizador pode mudar as definições de permissões
 meta#:#meta_is_version_of#:#O utilizador pode usar o curso ECS
 meta#:#meta_keyword#:#O curso ECS está visível
-meta#:#meta_kind#:#O utilizador pode editar definições do curso ECS
-meta#:#meta_l_aa#:#À distância
-meta#:#meta_l_ab#:#Os seguintes passos serão executados para a ação "Bloquear função":<br /><br />- as permissões de funções deste e de todos os objetos subordinados serão bloqueadas.<br />- as novas definições de permissões serão protegidas.
-meta#:#meta_l_af#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_am#:#O utilizador tem acesso de leitura <i>Repositório - Página inicial</i>
-meta#:#meta_l_ar#:#<i>Repositório - Página inicial</i> está visível
-meta#:#meta_l_as#:#Assamês
-meta#:#meta_l_ay#:#O utilizador pode editar definições de <i>Repositório - Página inicial</i> e gerir conteúdo
-meta#:#meta_l_az#:#O utilizador pode copiar o módulo de aprendizagem SCORM
+meta#:#meta_kind#:#Tipo
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkaziano
+meta#:#meta_l_af#:#Africano
+meta#:#meta_l_am#:#Amharico
+meta#:#meta_l_ar#:#Arábe###14 Sep 2004 content changed
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aimara
+meta#:#meta_l_az#:#Azerbaijanes
 meta#:#meta_l_ba#:#Bashkir
-meta#:#meta_l_be#:#O utilizador pode mover ou apagar o módulo de aprendizagem SCORM
-meta#:#meta_l_bg#:#O utilizador pode editar as definições do progresso de aprendizagem
+meta#:#meta_l_be#:#Bielorusso
+meta#:#meta_l_bg#:#Búlgaro###14 Sep 2004 content changed
 meta#:#meta_l_bh#:#Bihari
-meta#:#meta_l_bi#:#Bislamá
+meta#:#meta_l_bi#:#Bislama
 meta#:#meta_l_bn#:#Bengali; Bangla
-meta#:#meta_l_bo#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_br#:#O utilizador pode ler o módulo de aprendizagem SCORM
-meta#:#meta_l_ca#:#O módulo de aprendizagem SCORM está visível
-meta#:#meta_l_co#:#O utilizador pode editar o conteúdo e as definições do módulo de aprendizagem SCORM
-meta#:#meta_l_cs#:#O utilizador pode mudar definições de permissões da administração de pesquisa
-meta#:#meta_l_cy#:#Galês
-meta#:#meta_l_da#:#O utilizador tem acesso de leitura à administração de pesquisa
-meta#:#meta_l_de#:#O utilizador pode usar a pesquisa global em ILIAS
-meta#:#meta_l_dz#:#A administração de pesquisa está visível
-meta#:#meta_l_el#:#Editar definições na administração de pesquisa
-meta#:#meta_l_en#:#O utilizador pode copiar uma sessão
+meta#:#meta_l_bo#:#Tibetano
+meta#:#meta_l_br#:#Bretão
+meta#:#meta_l_ca#:#Catalão
+meta#:#meta_l_co#:#Corsicão
+meta#:#meta_l_cs#:#Checo###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#Welsh
+meta#:#meta_l_da#:#Dinamarquês###14 Sep 2004 content changed
+meta#:#meta_l_de#:#Alemão###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#Butanez
+meta#:#meta_l_el#:#Grego###14 Sep 2004 content changed
+meta#:#meta_l_en#:#Inglês###14 Sep 2004 content changed
 meta#:#meta_l_eo#:#Esperanto
-meta#:#meta_l_es#:#O utilizador pode mover ou apagar uma sessão
-meta#:#meta_l_et#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_eu#:#O utilizador tem acesso de leitura às sessões
-meta#:#meta_l_fa#:#O utilizador pode editar o conteúdo e as definições da sessão
-meta#:#meta_l_fi#:#O utilizador pode mudar definições de permissões da administração de gestão de competências
-meta#:#meta_l_fj#:#Fijiano
-meta#:#meta_l_fo#:#Feroês
-meta#:#meta_l_fr#:#O utilizador tem acesso de leitura à administração de gestão de competências
-meta#:#meta_l_fy#:#Frisão
-meta#:#meta_l_ga#:#A administração de gestão de competências está visível
-meta#:#meta_l_gd#:#Escocês gaélico
-meta#:#meta_l_gl#:#O utilizador pode editar definições da gestão de competências
+meta#:#meta_l_es#:#Espanhol###14 Sep 2004 content changed
+meta#:#meta_l_et#:#Estoniano###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#Basco
+meta#:#meta_l_fa#:#Persa (farsi)
+meta#:#meta_l_fi#:#Finlandês
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faroese
+meta#:#meta_l_fr#:#Francês###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#Frisian
+meta#:#meta_l_ga#:#Irlândes
+meta#:#meta_l_gd#:#Scots gaelic
+meta#:#meta_l_gl#:#Galego
 meta#:#meta_l_gn#:#Guarani
-meta#:#meta_l_gu#:#Guzerate
-meta#:#meta_l_ha#:#Hauçá
-meta#:#meta_l_he#:#E-mail SMTP
+meta#:#meta_l_gu#:#Gujarati
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Hebreu
 meta#:#meta_l_hi#:#Hindi
-meta#:#meta_l_hr#:#O utilizador pode copiar banco de perguntas para inquéritos
-meta#:#meta_l_hu#:#O utilizador pode mover ou apagar bancos de perguntas
-meta#:#meta_l_hy#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_ia#:#O utilizador pode ler perguntas do inquérito no banco e inseri-las no inquérito
-meta#:#meta_l_id#:#O utilizador pode editar perguntas do inquérito e definições do banco de perguntas
-meta#:#meta_l_ie#:#Interlíngua
-meta#:#meta_l_ik#:#Inuíte
-meta#:#meta_l_is#:#O utilizador pode mudar definições de permissões da administração de layout e estilos
-meta#:#meta_l_it#:#O utilizador tem acesso de leitura à administração de layout e estilos
-meta#:#meta_l_iu#:#Inuctitut
-meta#:#meta_l_ja#:#A administração de layout e estilos está visível
-meta#:#meta_l_jv#:#O utilizador pode mudar definições de permissões na administração de inquérito
-meta#:#meta_l_ka#:#O utilizador tem acesso de leitura à administração de inquérito
-meta#:#meta_l_kk#:#Cazaque
-meta#:#meta_l_kl#:#A administração de inquérito está visível
-meta#:#meta_l_km#:#Editar definições na administração de inquérito
-meta#:#meta_l_kn#:#O utilizador pode copiar um inquérito
-meta#:#meta_l_ko#:#O utilizador pode mover ou apagar um inquérito
-meta#:#meta_l_ks#:#Caxemiriano
-meta#:#meta_l_ku#:#Curdo
-meta#:#meta_l_ky#:#Quirguiz
-meta#:#meta_l_la#:#Latim
+meta#:#meta_l_hr#:#Croáta
+meta#:#meta_l_hu#:#Húngaro###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#Arménio
+meta#:#meta_l_ia#:#Interlíngua
+meta#:#meta_l_id#:#Indonésio
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Islandês
+meta#:#meta_l_it#:#Italiano###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_ja#:#Japonês###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#Javanês
+meta#:#meta_l_ka#:#Georgiano
+meta#:#meta_l_kk#:#Kazakh
+meta#:#meta_l_kl#:#Gronelandês
+meta#:#meta_l_km#:#Cambodjiano
+meta#:#meta_l_kn#:#Cannada
+meta#:#meta_l_ko#:#Coreano
+meta#:#meta_l_ks#:#Kashmiri
+meta#:#meta_l_ku#:#Kurdish
+meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_la#:#Latin
 meta#:#meta_l_ln#:#Lingala
-meta#:#meta_l_lo#:#Laosiano
-meta#:#meta_l_lt#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_lv#:#O utilizador pode convidar outros para um inquérito
-meta#:#meta_l_mg#:#Malgaxe
+meta#:#meta_l_lo#:#Laothian
+meta#:#meta_l_lt#:#Lituano###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#Latvian; Lettish
+meta#:#meta_l_mg#:#Malagasy
 meta#:#meta_l_mi#:#Maori
-meta#:#meta_l_mk#:#O utilizador pode participar num inquérito
-meta#:#meta_l_ml#:#Malaiala
-meta#:#meta_l_mn#:#O utilizador pode editar conteúdo e definições de um inquérito
-meta#:#meta_l_mo#:#O utilizador pode mudar definições de permissões na administração de identificação
-meta#:#meta_l_mr#:#Marati
-meta#:#meta_l_ms#:#Malaio
-meta#:#meta_l_mt#:#Maltês
-meta#:#meta_l_my#:#Birmanês
-meta#:#meta_l_na#:#Nauruano
-meta#:#meta_l_ne#:#Nepalês
-meta#:#meta_l_nl#:#O utilizador tem acesso de leitura à administração de identificação
-meta#:#meta_l_no#:#A administração de identificação está visível
-meta#:#meta_l_oc#:#Occitano
-meta#:#meta_l_om#:#Afaan oromoo
-meta#:#meta_l_or#:#Oriá
-meta#:#meta_l_pa#:#Panjábi
-meta#:#meta_l_pl#:#O utilizador pode editar definições na administração de identificação
-meta#:#meta_l_ps#:#O utilizador pode apagar dados de rastreio
-meta#:#meta_l_pt#:#Mudar definições de permissões na administração na administração de estatísticas e do progresso de aprendizagem
-meta#:#meta_l_qu#:#Quíchua
-meta#:#meta_l_rm#:#Reto-românico
-meta#:#meta_l_rn#:#Kirundi
-meta#:#meta_l_ro#:#O utilizador tem acesso de leitura à administração de estatísticas e do progresso de aprendizagem
-meta#:#meta_l_ru#:#A administração de estatísticas e do progresso de aprendizagem está visível
-meta#:#meta_l_rw#:#Quiniaruanda
-meta#:#meta_l_sa#:#Sânscrito
-meta#:#meta_l_sd#:#Sindi
-meta#:#meta_l_sg#:#Sango
-meta#:#meta_l_sh#:#O utilizador pode copiar um teste
-meta#:#meta_l_si#:#Cingalês
-meta#:#meta_l_sk#:#O utilizador pode mover ou apagar um teste
-meta#:#meta_l_sl#:#O utilizador pode editar as definições do progresso de aprendizagem
-meta#:#meta_l_sm#:#Samoano
-meta#:#meta_l_sn#:#Xona
+meta#:#meta_l_mk#:#Macedónio
+meta#:#meta_l_ml#:#Malayalam
+meta#:#meta_l_mn#:#Mongólio
+meta#:#meta_l_mo#:#Moldávo
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malay
+meta#:#meta_l_mt#:#Maltese
+meta#:#meta_l_my#:#Burmese
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepali
+meta#:#meta_l_nl#:#Holandês###14 Sep 2004 content changed
+meta#:#meta_l_no#:#Norueguês
+meta#:#meta_l_oc#:#Occitan
+meta#:#meta_l_om#:#Afan (oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
+meta#:#meta_l_pl#:#Poláco###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#Pashto;pushto
+meta#:#meta_l_pt#:#Português
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rhaeto-romance
+meta#:#meta_l_rn#:#Kurundi
+meta#:#meta_l_ro#:#Romeno###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#Russo###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
+meta#:#meta_l_sh#:#Servo-croáta
+meta#:#meta_l_si#:#Singhalese
+meta#:#meta_l_sk#:#Eslováco###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#Esloveno
+meta#:#meta_l_sm#:#Samoan
+meta#:#meta_l_sn#:#Shona
 meta#:#meta_l_so#:#Somali
-meta#:#meta_l_sq#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_sr#:#O utilizador pode realizar o teste
-meta#:#meta_l_ss#:#Suázi
-meta#:#meta_l_st#:#Sesoto
-meta#:#meta_l_su#:#O teste está visível
-meta#:#meta_l_sv#:#O utilizador pode editar conteúdo e definições de um teste
-meta#:#meta_l_sw#:#Suaíli
-meta#:#meta_l_ta#:#Tâmil
-meta#:#meta_l_te#:#Telugo
-meta#:#meta_l_tg#:#Tajique
-meta#:#meta_l_th#:#Tailandês
-meta#:#meta_l_ti#:#Tigrinha
-meta#:#meta_l_tk#:#Turcomeno
-meta#:#meta_l_tl#:#Tagalo
-meta#:#meta_l_tn#:#Tsuana
+meta#:#meta_l_sq#:#Albanês###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#Servio###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sundanês
+meta#:#meta_l_sv#:#Suéco
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmen
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
 meta#:#meta_l_to#:#Tonga
-meta#:#meta_l_tr#:#O utilizador pode apagar contas de utilizador
+meta#:#meta_l_tr#:#Turco###14 Sep 2004 content changed
 meta#:#meta_l_ts#:#Tsonga
-meta#:#meta_l_tt#:#Tártaro
-meta#:#meta_l_tw#:#Axante
+meta#:#meta_l_tt#:#Tatar
+meta#:#meta_l_tw#:#Twi
 meta#:#meta_l_ug#:#Uigur
-meta#:#meta_l_uk#:#O utilizador pode mudar definições de permissões na administração de utilizadores
+meta#:#meta_l_uk#:#Ucraniano###14 Sep 2004 content changed
 meta#:#meta_l_ur#:#Urdu
-meta#:#meta_l_uz#:#Usbeque
-meta#:#meta_l_vi#:#O utilizador pode mudar a atribuição da função da conta do utilizador
-meta#:#meta_l_vo#:#Volapuque
-meta#:#meta_l_wo#:#Uolofe
+meta#:#meta_l_uz#:#Uzbek
+meta#:#meta_l_vi#:#Vietnamês###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
-meta#:#meta_l_yi#:#Iídiche
-meta#:#meta_l_yo#:#Iorubá
+meta#:#meta_l_yi#:#Yiddish
+meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
-meta#:#meta_l_zh#:#O utilizador está autorizado a avançar itens no computador pessoal dos membros das funções
+meta#:#meta_l_zh#:#Chinês###14 Sep 2004 content changed
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Acesso de leitura para contas de utilizador
 meta#:#meta_learner#:#O utilizador pode mudar definições de permissões da administração de objetos restaurados
@@ -15092,3 +15092,5 @@ cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 ne
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
 auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
 impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable

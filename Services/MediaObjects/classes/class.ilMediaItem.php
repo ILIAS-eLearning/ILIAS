@@ -836,13 +836,19 @@ class ilMediaItem
     */
     public function getThumbnailTarget($a_size = "")
     {
+        $jpeg_file = $this->getThumbnailDirectory() . "/" .
+            $this->getPurpose() . ".jpeg";
+        $format = "png";
+        if (is_file($jpeg_file)) {
+            $format = "jpeg";
+        }
+
         if (is_int(strpos($this->getFormat(), "image"))) {
             $thumb_file = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . ".jpeg";
+                $this->getPurpose() . ".".$format;
 
             $thumb_file_small = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . "_small.jpeg";
-
+                $this->getPurpose() . "_small.".$format;
             // generate thumbnail (if not tried before)
             if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile") {
                 if (is_file($thumb_file)) {
@@ -856,20 +862,19 @@ class ilMediaItem
                 $med_file = $this->getDirectory() . "/" . $this->getLocation();
 
                 if (is_file($med_file)) {
-                    ilUtil::convertImage($med_file, $thumb_file, "jpeg", "80");
-                    ilUtil::convertImage($med_file, $thumb_file_small, "jpeg", "40");
+                    ilUtil::convertImage($med_file, $thumb_file, $format, "80");
+                    ilUtil::convertImage($med_file, $thumb_file_small, $format, "40");
                 }
             }
-
             if ($a_size == "small") {
                 if (is_file($thumb_file_small)) {
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small.jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . "_small.".$format."?dummy=" . rand(1, 999999);
                 }
             } else {
                 if (is_file($thumb_file)) {
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . ".jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . ".".$format."?dummy=" . rand(1, 999999);
                 }
             }
         }

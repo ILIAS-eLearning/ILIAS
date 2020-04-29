@@ -332,4 +332,16 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
             return false;
         }
     }
+
+    public function isVisible($a_ref_id, $a_type)
+    {
+        $ilAccess = $this->access;
+
+        if (!$ilAccess->checkAccess('visible', '', $a_ref_id)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

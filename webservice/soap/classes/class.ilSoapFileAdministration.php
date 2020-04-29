@@ -54,22 +54,18 @@ class ilSoapFileAdministration extends ilSoapAdministration
         }
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $tree = $DIC['tree'];
-        $ilLog = $DIC['ilLog'];
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess   = $DIC['ilAccess'];
 
-        if (!$target_obj =&ilObjectFactory::getInstanceByRefId($target_id, false)) {
+        if (!$target_obj = ilObjectFactory::getInstanceByRefId($target_id, false)) {
             return $this->__raiseError('No valid target given.', 'Client');
         }
-
 
         if (ilObject::_isInTrash($target_id)) {
             return $this->__raiseError("Parent with ID $target_id has been deleted.", 'CLIENT_TARGET_DELETED');
         }
 
         // Check access
-        $allowed_types = array('cat','grp','crs','fold','root');
+        $allowed_types = array('cat', 'grp', 'crs', 'fold', 'root');
         if (!in_array($target_obj->getType(), $allowed_types)) {
             return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
         }
@@ -91,9 +87,9 @@ class ilSoapFileAdministration extends ilSoapAdministration
                 global $DIC;
 
                 $ilLog = $DIC['ilLog'];
-                
+
                 $ilLog->write(__METHOD__ . ': File type: ' . $file->getFileType());
-                
+
                 $file->create();
                 $file->createReference();
                 $file->putInTree($target_id);

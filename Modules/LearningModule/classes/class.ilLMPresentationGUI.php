@@ -780,33 +780,33 @@ class ilLMPresentationGUI
         $exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
         $exp->setMainTemplate($this->tpl);
         $exp->setTracker($this->getTracker());
-        if (!$exp->handleCommand()) {
-            // determine highlighted and force open nodes
-            $page_id = $this->getCurrentPageId();
-            if ($this->deactivated_page) {
-                $page_id = $_GET["obj_id"];
-            }
-            if ($page_id > 0) {
-                $exp->setPathOpen((int) $page_id);
-            }
-            // empty chapter
-            if ($this->chapter_has_no_active_page &&
-                ilLMObject::_lookupType($_GET["obj_id"]) == "st") {
-                $exp->setHighlightNode($_GET["obj_id"]);
-            } else {
-                if ($this->lm->getTOCMode() == "pages") {
-                    if ($this->deactivated_page) {
-                        $exp->setHighlightNode($_GET["obj_id"]);
-                    } else {
-                        $exp->setHighlightNode($page_id);
-                    }
+        // determine highlighted and force open nodes
+        $page_id = $this->getCurrentPageId();
+        if ($this->deactivated_page) {
+            $page_id = $_GET["obj_id"];
+        }
+        if ($page_id > 0) {
+            $exp->setPathOpen((int) $page_id);
+        }
+        // empty chapter
+        if ($this->chapter_has_no_active_page &&
+            ilLMObject::_lookupType($_GET["obj_id"]) == "st") {
+            $exp->setHighlightNode($_GET["obj_id"]);
+        } else {
+            if ($this->lm->getTOCMode() == "pages") {
+                if ($this->deactivated_page) {
+                    $exp->setHighlightNode($_GET["obj_id"]);
                 } else {
-                    $exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+                    $exp->setHighlightNode($page_id);
                 }
+            } else {
+                $exp->setHighlightNode($this->lm_tree->getParentId($page_id));
             }
-            if ($this->offlineMode()) {
-                $exp->setOfflineMode(true);
-            }
+        }
+        if ($this->offlineMode()) {
+            $exp->setOfflineMode(true);
+        }
+        if (!$exp->handleCommand()) {
 
             if ($a_get_explorer) {
                 return $exp;

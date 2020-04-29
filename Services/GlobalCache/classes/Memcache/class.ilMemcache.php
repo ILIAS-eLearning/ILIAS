@@ -108,10 +108,13 @@ class ilMemcache extends ilGlobalCacheService
 
 
     /**
+     * @param bool $complete
+     *
      * @return bool
      */
-    public function flush()
+    public function flush($complete = false)
     {
+        // currently a partial flushing is missing
         return $this->getMemcacheObject()->flush();
     }
 

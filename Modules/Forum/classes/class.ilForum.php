@@ -780,15 +780,18 @@ class ilForum
     }
 
     /**
-     * delete post and sub-posts
-     * @param    integer $post : ID
+     * Delete post and sub-posts
+     * @param int|array<string, mixed> $postIdOrArray
      * @param bool $raiseEvents
-     * @return    integer    0 or thread-ID
-     * @access    public
+     * @return int|mixed
      */
-    public function deletePost($post, $raiseEvents = true)
+    public function deletePost($postIdOrArray, $raiseEvents = true)
     {
-        $p_node = $this->getPostNode($post);
+        if (is_numeric($postIdOrArray)) {
+            $p_node = $this->getPostNode($postIdOrArray);
+        } else {
+            $p_node = $postIdOrArray;
+        }
 
         if ($raiseEvents) {
             $GLOBALS['ilAppEventHandler']->raise(
@@ -796,7 +799,7 @@ class ilForum
                 'deletedPost',
                 [
                     'ref_id' => $this->getForumRefId(),
-                    'post' => new ilForumPost($post),
+                    'post' => new ilForumPost($p_node['pos_pk']),
                     'thread_deleted' => ($p_node["parent"] == 0) ? true : false
                 ]
             );
@@ -1645,7 +1648,7 @@ class ilForum
     * get data of given node from frm_posts_tree and frm_posts
     * @access	public
     * @param	integer		post_id
-    * @return	object		db result object
+    * @return	array<string, mixed>
     */
     public function getPostNode($post_id)
     {
@@ -2208,7 +2211,7 @@ class ilForum
             $targetThreadForMerge = $sourceThread;
         }
 
-        $threadSubject = $targetThread->getSubject();
+        $threadSubject = $targetThreadForMerge->getSubject();
 
         $targetWasClosedBeforeMerge = (bool) $targetThreadForMerge->isClosed();
         $sourceThreadForMerge->close();
@@ -2221,45 +2224,66 @@ class ilForum
         $sourceThreadRootNode = $sourceThreadForMerge->getFirstPostNode();
         $targetThreadRootNode = $targetThreadForMerge->getFirstPostNode();
 
-        $targetRootNodeRgt = $targetThreadRootNode->getRgt();
-        // update target root node rgt: Ignore the root node itself from the source (= -2)
-        \ilForumPostsTree::updateTargetRootRgt(
-            $targetThreadRootNode->getId(),
-            ($targetThreadRootNode->getRgt() + $sourceThreadRootNode->getRgt() - 2)
-        );
+        $sourceThreadRootArray = $this->getPostNode($sourceThreadRootNode->getId());
 
-        $targetRootNodeId = $targetThreadRootNode->getId();
+        $ilAtomQuery = $this->db->buildAtomQuery();
+        $ilAtomQuery->addTableLock('frm_posts');
+        $ilAtomQuery->addTableLock('frm_posts_tree');
+        $ilAtomQuery->addTableLock('frm_threads');
+        $ilAtomQuery->addTableLock('frm_data');
 
-        // get source post tree and update posts tree
-        foreach ($allSourcePostings as $post) {
-            $post_obj = new ilForumPost($post->pos_pk);
+        $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use (
+            $targetThreadForMerge,
+            $sourceThreadForMerge,
+            $targetThreadRootNode,
+            $sourceThreadRootNode,
+            $allSourcePostings
+        ) {
+            $targetRootNodeRgt = $targetThreadRootNode->getRgt();
+            $targetRootNodeId = $targetThreadRootNode->getId();
 
-            if ((int) $post_obj->getId() === (int) $sourceThreadRootNode->getId()) {
-                // Ignore the source root node (MUST be deleted later)
-                continue;
+            // update target root node rgt: Ignore the root node itself from the source (= -2)
+            \ilForumPostsTree::updateTargetRootRgt(
+                $targetThreadRootNode->getId(),
+                ($targetThreadRootNode->getRgt() + $sourceThreadRootNode->getRgt() - 2)
+            );
+    
+            // get source post tree and update posts tree
+            foreach ($allSourcePostings as $post) {
+                $post_obj = new ilForumPost($post->pos_pk);
+    
+                if ((int) $post_obj->getId() === (int) $sourceThreadRootNode->getId()) {
+                    // Ignore the source root node (MUST be deleted later)
+                    continue;
+                }
+    
+                $tree = new \ilForumPostsTree();
+                $tree->setPosFk($post->pos_pk);
+    
+                if ((int) $post_obj->getParentId() === (int) $sourceThreadRootNode->getId()) {
+                    $tree->setParentPos($targetRootNodeId);
+                } else {
+                    $tree->setParentPos($post_obj->getParentId());
+                }
+    
+                $tree->setLft(($post_obj->getLft() + $targetRootNodeRgt) - 2);
+                $tree->setRgt(($post_obj->getRgt() + $targetRootNodeRgt) - 2);
+    
+                $tree->setDepth($post_obj->getDepth());
+                $tree->setTargetThreadId($targetThreadForMerge->getId());
+                $tree->setSourceThreadId($sourceThreadForMerge->getId());
+    
+                $tree->merge();
             }
-
-            $tree = new \ilForumPostsTree();
-            $tree->setPosFk($post->pos_pk);
-
-            if ((int) $post_obj->getParentId() === (int) $sourceThreadRootNode->getId()) {
-                $tree->setParentPos($targetRootNodeId);
-            } else {
-                $tree->setParentPos($post_obj->getParentId());
-            }
-
-            $tree->setLft(($post_obj->getLft() + $targetRootNodeRgt) - 2);
-            $tree->setRgt(($post_obj->getRgt() + $targetRootNodeRgt) - 2);
-
-            $tree->setDepth($post_obj->getDepth());
-            $tree->setTargetThreadId($targetThreadForMerge->getId());
-            $tree->setSourceThreadId($sourceThreadForMerge->getId());
-
-            $tree->merge();
-        }
-
-        // update frm_posts pos_thr_fk = target_thr_id
-        \ilForumPost::mergePosts($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
+    
+            // update frm_posts pos_thr_fk = target_thr_id
+            \ilForumPost::mergePosts(
+                (int) $sourceThreadForMerge->getId(),
+                (int) $targetThreadForMerge->getId(),
+                [(int) $sourceThreadRootNode->getId(),]
+            );
+        });
+        $ilAtomQuery->run();
 
         // check notifications
         \ilForumNotification::mergeThreadNotificiations($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
@@ -2286,9 +2310,6 @@ class ilForum
         $frm_topic_obj->setId($targetThreadForMerge->getId());
         $frm_topic_obj->updateMergedThread();
 
-        // update frm_data:  top_last_post , top_num_threads
-        \ilForum::updateLastPostByObjId($this->getForumId());
-
         if (!$targetWasClosedBeforeMerge) {
             $targetThreadForMerge->reopen();
         }
@@ -2303,6 +2324,6 @@ class ilForum
             ]
         );
 
-        $this->deletePost($sourceThreadRootNode->getId(), false);
+        $this->deletePost($sourceThreadRootArray, false);
     }
 }
