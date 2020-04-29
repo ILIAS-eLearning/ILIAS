@@ -1064,7 +1064,7 @@ class ilTree
 
         if ($this->__isMainTree() && $this->tree_id == 1) {
             usort($pathFull, static function(array $leftNode, array $rightNode) : int {
-                return strcmp($leftNode['depth'], $rightNode['depth']);
+                return (int) $leftNode['depth'] <=> (int) $rightNode['depth'];
             });
         }
 
