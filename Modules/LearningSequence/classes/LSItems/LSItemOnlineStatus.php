@@ -24,15 +24,17 @@ class LSItemOnlineStatus
 
     public function setOnlineStatus(int $ref_id, bool $status)
     {
-        $obj = $this->getObjectFor($ref_id);
+        $obj = \ilObjectFactory::getInstanceByRefId($ref_id);
         $obj->setOfflineStatus(!$status);
         $obj->update();
     }
 
     public function getOnlineStatus(int $ref_id) : bool
     {
-        $obj = $this->getObjectFor($ref_id);
-        return !$obj->getOfflineStatus();
+        if(!$this->hasOnlineStatus($ref_id)) {
+            return true;
+        }
+        return !\ilObject::lookupOfflineStatus(\ilObject::_lookupObjId($ref_id));
     }
 
     public function hasOnlineStatus(int $ref_id) : bool
@@ -45,13 +47,8 @@ class LSItemOnlineStatus
         return false;
     }
 
-    protected function getObjectFor(int $ref_id) : ilObject
-    {
-        return ilObjectFactory::getInstanceByRefId($ref_id);
-    }
-
     protected function getObjectTypeFor(int $ref_id) : string
     {
-        return ilObject::_lookupType($ref_id, true);
+        return \ilObject::_lookupType($ref_id, true);
     }
 }
