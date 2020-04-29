@@ -671,3 +671,10 @@ div.ilc_Page.readonly textarea[disabled]
 .ilSpecificAnswerFeedback td:first-child {
 	padding-right: 30px;
 }
+
+.ilc_question_MultipleChoice .ilc_qanswer_Answer > div {
+	vertical-align: top;
+}
+.ilc_question_SingleChoice .ilc_qanswer_Answer > div {
+	vertical-align: top;
+}
