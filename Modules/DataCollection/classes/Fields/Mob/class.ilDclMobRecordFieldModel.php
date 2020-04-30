@@ -40,7 +40,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $location = $file_name;
             if ($has_save_confirmation) {
                 $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'], 'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
-                ilUtil::moveUploadedFile($move_file, $file_name, $file);
+                ilFileUtils::rename($move_file, $file);
             } else {
                 ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
             }

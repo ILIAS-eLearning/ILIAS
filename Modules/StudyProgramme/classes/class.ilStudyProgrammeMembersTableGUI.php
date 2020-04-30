@@ -79,7 +79,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $parent_cmd = '',
         string $template_context = '',
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammePostionBasedAccess $position_based_access
+        ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->setId("sp_member_list");
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -415,7 +415,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    if(
+                    if (
                         ilObject::_exists($ref_id, true) &&
                         is_null(ilObject::_lookupDeletedDate($ref_id))
                     ) {
@@ -514,7 +514,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
 
-        if ($this->prg->getAccessControlByOrguPositionsGlobal()) {
+        if ($this->prg->getAccessControlByOrguPositionsGlobal() && !$this->parent_obj->mayManageMembers()) {
             $visible = $this->getParentObject()->visibleUsers();
             if (count($visible) > 0) {
                 $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
@@ -668,7 +668,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $exp_to = $filter['prg_expiry_date']['to'];
         if (!is_null($exp_to)) {
             $dat = $exp_to->get(IL_CAL_DATE);
-            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . '23:59:59\'';
+            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . ' 23:59:59\'';
         }
 
         $conditions = implode(PHP_EOL, $buf);

@@ -57,7 +57,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
     public function send() : bool
     {
         if (!$this->isNotificationTypeEnabled($this->getType())) {
-            $this->logger->lso()->info('Membership mail disabled globally.');
+            $this->logger->info('Membership mail disabled globally.');
             return false;
         }
 

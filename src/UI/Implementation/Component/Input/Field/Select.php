@@ -52,7 +52,7 @@ class Select extends Input implements C\Input\Field\Select
     {
         return
             in_array($value, array_keys($this->options))
-            || (!$this->isRequired() && $value == "");
+            || $value == "";
     }
 
     /**

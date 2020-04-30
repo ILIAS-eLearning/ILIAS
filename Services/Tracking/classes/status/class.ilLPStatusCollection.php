@@ -274,6 +274,7 @@ class ilLPStatusCollection extends ilLPStatus
             case "crs":
             case "fold":
             case "grp":
+            case "lso":
                 include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
                     $status['in_progress'] = true;

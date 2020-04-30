@@ -400,7 +400,7 @@ administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
 administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
 administration#:#adm_db_benchmark#:#Datenbank Benchmark
-administration#:#adm_db_benchmark_user#:#Benutzer Login
+administration#:#adm_db_benchmark_user#:#Benutzer-Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
 administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
@@ -432,7 +432,7 @@ administration#:#allow_change_loginname#:#Ändern des Benutzernamens in den Pers
 administration#:#analysis_options#:#Analyse-Optionen
 administration#:#analyze_data#:#Analysiere und repariere Datenintegrität
 administration#:#analyzing_tree_structure#:#Überprüfe Baumstruktur...
-administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authentifizierungsversuch beim Betreten der Loginseite
+administration#:#apache_auth_authenticate_on_login_page#:#Automatischer Authentifizierungsversuch beim Betreten der Login-Seite
 administration#:#apache_auth_domains#:#Erlaubte Umleitungsdomains
 administration#:#apache_auth_domains_description#:#Tragen Sie hier pro Zeile eine erlaubte Domain ein, zu der umgeleitet werden darf.<br/>Ist ILIAS unter einen eindeutigen Domain erreichbar muss hierfür kein eigener Eintrag vorgenommen werden. Andernfalls tragen Sie bitte alle Domains ein. <br />Beispiel: example.com gestattet die Umleitung zu http://example.com und http://www.example.com sowie allen Seiten unterhalb der Domains.
 administration#:#apache_auth_enable_override_login#:#Standard-Login-Seite überschreiben
@@ -440,7 +440,7 @@ administration#:#apache_auth_indicator_name#:#Indikator-Feld für erfolgreiche A
 administration#:#apache_auth_indicator_value#:#Indikator-Wert für erfolgreiche Apache-Authentifizierung
 administration#:#apache_auth_security#:#Sicherheitseinstellungen
 administration#:#apache_auth_settings#:#Apache
-administration#:#apache_auth_target_override_login#:#Ziel URL für Login-Seite
+administration#:#apache_auth_target_override_login#:#Ziel-URL für Login-Seite
 administration#:#apache_auth_username_by_function#:#Zuweisung durch eigene Funktion
 administration#:#apache_auth_username_config#:#Benutzernamenkonfiguration
 administration#:#apache_auth_username_config_type#:#Typ
@@ -910,7 +910,7 @@ assessment#:#kprim_instruction_text#:#Für jede Aussage muss entschieden werden:
 assessment#:#kprim_answers_info#:#Der Multiple Choice-Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#tst_feedback#:#Rückmeldung
 assessment#:#ass_process_lock#:#Verwende Locking-Mechanismus während der Testdurchläufe
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkonsistenten Testergebnissen führen.
 assessment#:#ass_process_lock_mode#:#Locking-Modus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_process_lock_mode_file#:#Verwende Dateisystem-Locks
 assessment#:#ass_process_lock_mode_file_desc#:#Dieser Locking-Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und den selben Test / die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
@@ -2803,7 +2803,7 @@ common#:#decrease_attempts#:#Versuche - 1
 common#:#def_repository_view#:#Standard-Magazinansicht
 common#:#default#:#Standard
 common#:#default_auth_mode#:#Default Authentifizierungsmethode
-common#:#default_auth_mode_info#:#Sie können hier festlegen, welche Authentifizierungsmethode auf der Loginseite vorausgewählt ist.
+common#:#default_auth_mode_info#:#Sie können hier festlegen, welche Authentifizierungsmethode auf der Login-Seite vorausgewählt ist.
 common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
 common#:#default_role#:#Standardrolle
@@ -2923,7 +2923,7 @@ common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. B
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_in_line#:#Fehler in Zeile
 common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
-common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Loginversuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
+common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_no_cookies#:#Bitte aktivieren Sie Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
@@ -3433,6 +3433,7 @@ common#:#local_languages_already_installed#:#Ausgewählte Custom-Sprachdateien s
 common#:#location#:#Eigener Standort
 common#:#locator#:#Position:
 common#:#log_in#:#Anmelden
+common#:#log_out#:#Abmelden
 common#:#logic_or#:#oder
 common#:#login#:#Benutzername
 common#:#login_as#:#Angemeldet als
@@ -4044,7 +4045,7 @@ common#:#refuse#:#Antrag ablehnen
 common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Loginseite.
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Login-Seite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
@@ -4611,7 +4612,7 @@ common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine W
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
 common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
-common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Führen Sie einen Rechtklick auf "Dieser PC" aus und wählen Sie "Netzlaufwerk verbinden..." aus.</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/WINDOWS]	[MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/MAC][LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Führen Sie einen Rechtklick auf "Dieser PC" aus und wählen Sie "Netzlaufwerk verbinden..." aus.</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS-Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/WINDOWS]	[MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS-Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/MAC][LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS-Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
 common#:#webfolder_instructions_titletext#:#Als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#webr#:#Weblink
@@ -4852,7 +4853,7 @@ content#:#cont_ed_insert_filelist#:#Dateiliste einfügen
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
-content#:#cont_ed_insert_login_page_element#:#Loginseitenelement einfügen
+content#:#cont_ed_insert_login_page_element#:#Login-Seitenelement einfügen
 content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_media#:#Bild/Audio/Video einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
@@ -4976,7 +4977,7 @@ content#:#cont_insert_chapter_from_clip#:#Kapitel aus Zwischenablage einfügen
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Erweiterte Liste einfügen
-content#:#cont_insert_login_page#:#Loginseitenelement anlegen
+content#:#cont_insert_login_page#:#Login-Seitenelement anlegen
 content#:#cont_insert_map#:#Karte einfügen
 content#:#cont_insert_mob#:#Medienobjekt
 content#:#cont_insert_page#:#Seite einfügen
@@ -5371,7 +5372,7 @@ content#:#cont_tries_remaining#:#Verbleibende Versuche
 content#:#cont_trigger_area#:#Bereich für Auslöser
 content#:#cont_type#:#Typ
 content#:#cont_update_blog#:#Blog-Eintrag bearbeiten
-content#:#cont_update_login_page#:#Loginseitenelemente aktualisieren
+content#:#cont_update_login_page#:#Login-Seitenelemente aktualisieren
 content#:#cont_update_map#:#Karte bearbeiten
 content#:#cont_update_profile#:#Veröffentlichte Daten bearbeiten
 content#:#cont_update_resources#:#Materialienliste aktualisieren
@@ -7485,7 +7486,7 @@ meta#:#meta_l_el#:#Griechisch
 meta#:#meta_l_en#:#Englisch
 meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Spanisch
-meta#:#meta_l_et#:#Estisch
+meta#:#meta_l_et#:#Estnisch
 meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
@@ -12025,7 +12026,7 @@ content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
 content#:#info_stop_offline_mode_sure#:#Achtung: Der im Offline-Modus erzielte Lernfortschritt geht verloren. Sind Sie sicher?
 init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
-init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
+init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
 obj#:#obj_master_lang#:#Standardsprache
@@ -12522,7 +12523,7 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Vermindert Darstellungsprobleme älterer SCORM-Lernmodule, die für den Internet Explorer optimiert wurden. Wenn bei neueren Versionen des Internet Explorers der Kompatibilitätsmodus deaktiviert ist, greift diese Einstellung nicht. <br />
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Korrekte Anzeige der Inhalte des SCORM-Lernmoduls mit vielen Frames oder iFrames wird durch erneutes Rendern des Inhaltes erreicht.
-maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_latitude#:#Breitengrad
@@ -13167,9 +13168,9 @@ obj#:#obj_target_location#:#Zielordner
 obj#:#obj_copy_progress#:#Fortschritt des Kopierens
 cntr#:#cntr_copy_repo_tree#:#Auswahl Magazinbaum
 cntr#:#cntr_copy_crs_grp#:#Auswahl Mitgliedschaften
-crs#:#crs_mail_context_tutor_title#:#Mail an Mitglieder
-crs#:#crs_mail_context_member_title#:#Info-Seite Kurs
-sahs#:#sahs_mail_context_lp#:#SCORM-Lernfortschritt
+crs#:#crs_mail_context_tutor_title#:#Kurs: Mail an Mitglieder
+crs#:#crs_mail_context_member_title#:#Kurs: Info-Seite
+sahs#:#sahs_mail_context_lp#:#Lernmodul SCORM: Lernfortschritt
 mail#:#mail_templates#:#Textvorlagen
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_template_set_as_default#:#Als Standard setzen
@@ -13297,7 +13298,7 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
-buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
+buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_allow_to_contact_me#:#Kontaktanfragen erlauben
 buddysystem#:#buddy_allow_to_contact_me_info#:#Wenn aktiviert, können andere Benutzer mir Kontaktanfragen senden.
@@ -13429,7 +13430,7 @@ prg#:#prg_mark_relevant_multi_success#:#Ausgewählte Benutzer als relevant marki
 prg#:#prg_mark_not_relevant_multi_success#:#Ausgewählte Benutzer als nicht relevant markiert.
 prg#:#prg_remove_users_success#:#Ausgewählte Benutzer wurden entfernt.
 prg#:#prg_remove_users_partitial_success#:#Ausgewählte Benutzer wurden teilweise entfernt.
-prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzerkönnen nicht entfernt werden.
+prg#:#prg_remove_users_not_possible#:#Ausgewählte Benutzer können nicht entfernt werden.
 prg#:#prg_update_from_current_plan_not_possible#:#Aus dem aktuellen Plan aktualisieren ist nicht möglich.
 prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan aktualisieren teilweise abgeschlossen.
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
@@ -13670,7 +13671,7 @@ chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Ad
 chatroom#:#client_chatserver_connection#:#Verbindung Client zum Server
 chatroom#:#client_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen Client und Server zu definieren.
 chatroom#:#connection_url_info#:#Tragen Sie hier einen URL ein, über welchen der Server zu erreichen ist.
-chatroom#:#log#:#Chatserver Log-File
+chatroom#:#chatroom_log#:#Chatserver Log-File
 chatroom#:#error_log#:#Chatserver Error-Log-File
 chatroom#:#delete_private_room_question#:#Separée wirklich löschen?
 crs#:#event_tbl_tutors#:#Tutoren
@@ -13853,7 +13854,7 @@ glo#:#glo_reference#:#Link
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
 prg#:#prg_assign_date#:#Hinzugefügt am
 prg#:#prg_assigned_by#:#Hinzugefügt von
-survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
 survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
 survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
@@ -14102,7 +14103,7 @@ iass#:#iass_event_time_place_required#:#Pflichtangabe Datum und Ort
 iass#:#iass_event_time_place_required_info#:#Ort und Datum der Prüfung müssen eingetragen werden.
 iass#:#iass_file_required#:#Pflichtangabe Prüfungsblatt
 iass#:#iass_file_required_info#:#Ein Prüfungsblatt muss hochgeladen werden
-iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden.
+iass#:#iass_may_not_finalize#:#Prüfung kann noch nicht abschließend bewertet werden. Bitte geben Sie eine Bewertung ab.
 iass#:#iass_subj_notification_completed#:#%s: Individuelle Bewertung erfolgreich abgeschlossen.
 iass#:#iass_subj_notification_failed#:#%s: Individuelle Bewertung nicht erfolgreich.
 trac#:#trac_mode_individual_assessment#:#Individuelle Bewertung durch Tutor/Trainer
@@ -14157,6 +14158,7 @@ chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum pr
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat.log), in die der Chat-Server allgemeine Ereignisse protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
 chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad zu jener Datei an (bspw. /var/www/ilias/data/chat_errors.log), in die der Chat-Server Fehler protokolliert. Wird kein Pfad eingetragen, wird die eine Protokolldatei im selben Verzeichnis erstellt, in dem der Chat-Server liegt.
+chatroom#:#chat_log_level#:#Log-Level
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
@@ -14318,7 +14320,7 @@ pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
 pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt. Nutzen Sie bitte den Button "Bereinigen", um das Problem zu lösen.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert.
+auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Login-Versuche deaktiviert.
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
 rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
@@ -14709,12 +14711,12 @@ poll#:#poll_voting_period_full_info#:#Abstimmung von %s bis %s
 crs#:#crs_subscription_min_members_err#:#Die minimale Anzahl darf nicht größer als die maximale Anzahl sein.
 background_tasks#:#abort#:#Abbrechen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
-content#:#cont_lpe_cas_login_form#:#CAS-Loginmaske
+content#:#cont_lpe_cas_login_form#:#CAS-Login-Maske
 content#:#cont_lpe_language_selection#:#Sprachauswahl
-content#:#cont_lpe_login_form#:#Loginmaske
-content#:#cont_lpe_openid_login_form#:#OpenID-Loginmaske
+content#:#cont_lpe_login_form#:#Login-Maske
+content#:#cont_lpe_openid_login_form#:#OpenID-Login-Maske
 content#:#cont_lpe_registration_link#:#Link zur Neuanmeldung
-content#:#cont_lpe_shib_login_form#:#Shibboleth-Loginmaske
+content#:#cont_lpe_shib_login_form#:#Shibboleth-Login-Maske
 content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#obj_fold_duplicate#:#Ordner kopieren
@@ -14766,20 +14768,20 @@ exc#:#feedback_received#:#Feedback received
 exc#:#feedback_from#:#Feedback from
 exc#:#text_assignment#:#Text Assignment
 exc#:#not_yet#:#not yet
-exc#:#grade_evaluate#:#Grade and Evaluate
+exc#:#grade_evaluate#:#Bewerten/Benoten
 exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
 exc#:#fiter_no_results#:#The current filter did not match any submission.
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
-exc#:#exc_mail_context_grade_reminder_title#:#Erinnerung an Bewertung
+exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
 exc#:#exc_mail_context_peer_reminder_info#:#Die Nutzer werden an die Abgabe des Peer-Feedbacks erinnert.
-exc#:#exc_mail_context_peer_reminder_title#:#Erinnerung an Peer-Feedback
+exc#:#exc_mail_context_peer_reminder_title#:#Übung: Erinnerung an Peer-Feedback
 exc#:#exc_mail_context_reminder_assignment_title#:#Titel der Übungseinheit
 exc#:#exc_mail_context_reminder_exercise_title#:#Übungstitel
 exc#:#exc_mail_context_submit_reminder_info#:#Die Nutzer werden an die Abgabe ihrer Einreichungen erinnert.
-exc#:#exc_mail_context_submit_reminder_title#:#Erinnerung an Abgabe
+exc#:#exc_mail_context_submit_reminder_title#:#Übung: Erinnerung an Abgabe
 cond#:#cond_under_parent_control#:#Die Vorbedingungen werden vom übergeordneten Objekt verwaltet.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ von $3$ wurde zugewiesen in $1$.
 badge#:#badge_lhist_badge_completed#:#Badge $3$ wurde erworben.
@@ -15092,7 +15094,7 @@ lso#:#abstract#:#Einleitung
 lso#:#abstract_img#:#Bild für die Einleitungsseite
 lso#:#extro#:#Abschlussseite
 lso#:#extro_img#:#Bild für die Abschlussseite
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#%s öffnen
 lso#:#lso_player_start#:#Lernsequenz starten
 lso#:#lso_player_review#:#Lernsequenz überarbeiten
 lso#:#lso_player_resume#:#Lernsequenz wieder aufnehmen
@@ -15219,7 +15221,7 @@ cont#:#cont_list_presentation#:#Präsentationsansicht für Inhalte
 cont#:#cont_item_list#:#Liste
 cont#:#cont_tile_view#:#Kacheln
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container die Kachelansicht gewählt wurde.
 fold#:#fold_presentation#:#Darstellung
 validation#:#not_an_int#:#Wert vom Typ '%s' ist kein Integer.
 validation#:#not_a_string#:#Wert vom Typ '%s' ist kein String.
@@ -15604,7 +15606,7 @@ lti#:#conf_user_ident#:#Benutzeridentifikation
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
@@ -15786,7 +15788,7 @@ cmix#:#conf_user_ident#:#Benutzeridentifikation
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
@@ -15933,7 +15935,7 @@ common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
 prg#:#prgr_new#:#Neuer Link zum Studienprogramm
 prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
-prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
+prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
@@ -15953,10 +15955,10 @@ prg#:#prg_autoassignment#:#(automatisch)
 orgu#:#org_op_view_members#:#Mitgliedschaften sichtbar
 orgu#:#org_op_view_individual_plan#:#Individuellen Plan einsehen
 orgu#:#org_op_edit_individual_plan#:#Individuellen Plan bearbeiten
-prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
-prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
-prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
-prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#prg_some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
 prg#:#prg_formatted_period#:#%d Tage
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
 prg#:#dealine_period_info#:#Bearbeitungszeitraum
@@ -15972,21 +15974,21 @@ prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_title#:#Titel
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigekeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
 prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
 prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
-prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet ist nicht zu bestehen.
+prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet, ist nicht zu bestehen.
 prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
-prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Sudienprogramm.
+prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Studienprogramm.
 prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
-prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
 prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
-prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail wenn eine Qualifikation an einem Studienprogramm ausläuft und sie das Programm noch nicht neu gestartet haben.
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
 prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
-prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail um den Benutzer daran zu erinnern das Studienprogramm neu zu starten.
+prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail, um den Benutzer daran zu erinnern, das Studienprogramm neu zu starten.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
 prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
 search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
@@ -16044,16 +16046,16 @@ prg#:#prg_quali_still_valid#:#Qualifikation gültig
 prg#:#prg_quali_not_valid#:#Qualifikation ungültig
 rep#:#rep_configure#:#Configure
 cont#:#cont_found_objects#:#Gefundene Objekte
-dash#:#dash_activation#:#activation###07 02 2020 new variable
-survey#:#svy_chart_download#:#Download Chart###07 02 2020 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###07 02 2020 new variable
-survey#:#invited_users#:#Selected Users###07 02 2020 new variable
-acc#:#acc_dashboard#:#Dashboard###07 02 2020 new variable
-forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.###07 02 2020 new variable
+dash#:#dash_activation#:#Aktivierung
+survey#:#svy_chart_download#:#Grafik herunterladen
+crs#:#crs_timing_err_start_end#:#Das Startdatum muss kleiner gleich dem Enddatum sein.
+ps#:#participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
+survey#:#invited_users#:#Ausgewählte Benutzer
+acc#:#acc_dashboard#:#Dashboard
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
 pd#:#pd_unsubscribe_memberships#:#Mitgliedschaften beenden
-common#:#lso_wizard_page#:#Copy Learning Sequence (Step 2/2)###07 02 2020 new variable
-rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###07 02 2020 new variable
+common#:#lso_wizard_page#:#Lernsequenz kopieren (Schritt 2/2)
+rbac#:#dshs_change_presentation#:#Darstellung des Dashboards ändern
 exp#:#exp_error_too_many_objects#:#Der Export überschreitet die max. erlaubte Zahl an Objekten (%1). Bitte wählen Sie eine kleine Anzahl an Objekten.
 exp#:#exp_error_disabled#:#Der Export von Container-Objekten ist deaktiviert. Bei Fragen wenden Sie sich bitte an die technische Betreuung.
 prg#:#update_expire_date#:#Ablauf Qualifikation wurde erfolgreich aktualisiert.
@@ -16064,10 +16066,10 @@ prg#:#prg_points_byline#:#Benutzer erhalten eine bestimmte Anzahl von Punkten, w
 prg#:#prg_status_byline#:#Verwenden Sie den Status, um zu steuern, ob dieses Programm für Benutzer zugänglich ist.
 prg#:#prg_description#:#Beschreibung
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Mail an Mitglieder
+prg#:#prg_mail_context_title#:#Studienprogramm: Mail an Mitglieder
 prg#:#prg_mail_context_info#:#Für die Teilnehmer-E-Mails auf den Mitglieds- und Lernfortschrittsansichten eines Studienprogramms
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
-copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdige Benutzern verwendet werden. Die Möglichkeit HTML in dieser Art einzubinden wird evtl. in einer zukünftigen Version komplett entfallen.
+copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 dcl#:#dcl_page_type_dclf#:#Detailansicht
 crs#:#crs_page_type_lobj#:#Lernzieleinleitung
 copa#:#copa_page_type_copa#:#Inhaltsseite
@@ -16086,7 +16088,7 @@ sc13#:#sc13_page_type_sahs#:#SCORM-Editor-Seite
 copg#:#copg_page_type_stys#:#Seitenlayout
 cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
 cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
-auth#:#auth_page_type_auth#:#Loginseite
+auth#:#auth_page_type_auth#:#Login-Seite
 impr#:#impr_page_type_impr#:#Impressum
 prg#:#prg_additional_settings#:#Zusätzliche Funktionen
 prg#:#prg_access_by_orgu#:#Zugriffsregelungen nach Organisationseinheiten
@@ -16100,3 +16102,36 @@ iass#:#iass_confirm_finalize#:#Finalisieren
 iass#:#iass_cancel#:#Abbrechen
 iass#:#iass_finalize_info#:#Die Individuellen Bewertung wird abgeschlossen.
 iass#:#download_assessment_paper#:#Prüfungsblatt herunterladen
+iass#:#iass_user_removed#:#Benutzer wurde erfolgreich entfernt.
+prg#:#prg_profile_not_public#:#Das Profil des Benutzers ist nicht öffentlich.
+prg#:#prg_delete_nothing_selected#:#Es wurden keine Einträge ausgewählt.
+prg#:#prg_delete_confirmation#:#Möchten Sie die ausgewählten Einträge wirklich löschen?
+prg#:#prg_confirm_delete#:#Löschen
+prg#:#prg_cancel#:#Abbrechen
+prg#:#prg_delete_failure#:#Löschen fehlgeschlagen.
+prg#:#prg_delete_success#:#Einträge wurden erfolgreich gelöscht.
+prg#:#prg_delete_single_confirmation#:#Möchten Sie den ausgewählten Eintrag wirklich löschen?
+prg#:#prg_delete_single_success#:#Eintrag wurde erfolgreich gelöscht.
+common#:#obj_lsos#:#Lernsequenzen
+common#:#obj_lsos_desc#:#Allgemeine Einstellungen für Lernsequenzen
+mail#:#mail_enable_lso_member_notification#:#Mitglieder benachrichtigen
+mail#:#mail_enable_lso_member_notification_info#:#Mitglieder erhalten automatisch eine E-Mail, wenn sich ihr Mitgliedsstatus ändert. Diese Einstellung betrifft alle Lernsequenzen der Plattform.
+mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz benachrichtigen
+mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
+prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
+prg#:#prg_update_progress_title#:#Setzt Status nach Stichtag auf 'nicht bestanden'
+prg#:#prg_update_progress_description#:#Setzt den Status von 'In Bearbeitung' auf 'nicht bestanden' wenn der Stichtag überschritten ist.
+common#:#collapse_content#:#Inhalt einklappen
+common#:#expand_content#:#Inhalt ausklappen
+common#:#briefcase#:#Hintergrundprozesse
+common#:#sort_ascending#:#Aufsteigend sortieren
+common#:#sort_descending#:#Absteigend sortieren
+common#:#show_who_is_online#:#Zeig wer online ist
+common#:#tags#:#Tags
+common#:#comments#:#Kommentare
+common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
+common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
+common#:#show_more#:#Mehr zeigen
+common#:#disclose#:#Aufdecken
+common#:#switch_language#:#Sprache wechseln

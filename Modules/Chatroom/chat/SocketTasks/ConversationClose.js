@@ -12,7 +12,7 @@ module.exports = function(conversationId, userId) {
 		var namespace = Container.getNamespace(this.nsp.name);
 		var conversation = namespace.getConversations().getById(conversationId);
 
-		if(conversation.isParticipant(this.participant))
+		if(conversation !== null && conversation.isParticipant(this.participant))
 		{
 			namespace.getDatabase().closeConversation(conversationId, userId);
 			Container.getLogger().info('Close Conversation %s for participant %s', conversationId, userId);

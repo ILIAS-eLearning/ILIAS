@@ -551,13 +551,15 @@ class ilAdvancedMDSettingsGUI
     {
         // sort positions and renumber
         $positions = $_POST['pos'];
-        asort($positions);
+        asort($positions, SORT_NUMERIC);
 
         $sorted_positions = [];
         $i = 1;
         foreach ($positions as $record_id => $pos) {
             $sorted_positions[$record_id] = $i++;
         }
+
+        $this->logger->dump($sorted_positions);
 
         $selected_global = array();
         foreach ($this->getParsedRecordObjects() as $item) {

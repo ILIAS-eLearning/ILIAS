@@ -1389,11 +1389,6 @@ abstract class ilPageObject
                 $par->setNode($cont_node);
                 $text = $par->getText();
 
-                if (!$this->getPageConfig()->getPreventHTMLUnmasking()) {
-                    $text = str_replace("<", "&lt;", $text);
-                    $text = str_replace(">", "&gt;", $text);
-                }
-
                 return $text;
             }
         }
@@ -5139,4 +5134,14 @@ abstract class ilPageObject
         include_once("./Services/COPage/classes/class.ilPCResources.php");
         ilPCResources::resolveResources($this, $ref_mapping);
     }
+
+    /**
+     * Get object id of repository object that contains this page, return 0 if page does not belong to a repo object
+     * @return int
+     */
+    public function getRepoObjId()
+    {
+        return $this->getParentId();
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace OrgUnit\User;
 
+use ilOrgUnitPosition;
 use ilOrgUnitUserAssignment;
 
 /**
@@ -186,7 +187,7 @@ class ilOrgUnitUserRepository
     public function loadPositions(array $user_ids) : array
     {
         /**
-         * @var $assignment ilOrgUnitUserAssignment
+         * @var ilOrgUnitUserAssignment $assignment
          */
         $positions = [];
 

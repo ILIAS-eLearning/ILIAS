@@ -50,11 +50,7 @@ class ilForumPost
     private $rgt = 0;
     
     private $depth = 0;
-    
-    private $fullname = '';
-    
-    private $loginname = '';
-    
+
     /**
      * @var ilForumTopic
      */
@@ -210,7 +206,6 @@ class ilForumPost
                 $this->pos_author_id = $row->pos_author_id;
                 $this->is_author_moderator = $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
-                $this->getUserData();
                 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
                 
@@ -243,60 +238,9 @@ class ilForumPost
         return false;
     }
     
-    protected function buildUserRelatedData($row)
-    {
-        if ($row['pos_display_user_id'] && $row['pos_pk']) {
-            $tmp_user = new ilObjUser();
-            $tmp_user->setFirstname($row['firstname']);
-            $tmp_user->setLastname($row['lastname']);
-            $tmp_user->setUTitle($row['title']);
-            $tmp_user->setLogin($row['login']);
-            
-            $this->fullname = $tmp_user->getFullname();
-            $this->loginname = $tmp_user->getLogin();
-        
-            $this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
-        }
-    }
-    
-    private function getUserData()
-    {
-        if ($this->id && $this->display_user_id) {
-            require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
-            if (($tmp_user = ilObjForumAccess::getCachedUserInstance($this->display_user_id))) {
-                $this->fullname = $tmp_user->getFullname();
-                $this->loginname = $tmp_user->getLogin();
-                unset($tmp_user);
-            }
-        
-            $this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
-            
-            return true;
-        }
-        
-        return false;
-    }
-    
     public function reload()
     {
         return $this->read();
-    }
-    
-    public function setFullname($a_fullname)
-    {
-        $this->fullname = $a_fullname;
-    }
-    public function getFullname()
-    {
-        return $this->fullname;
-    }
-    public function setLoginName($a_loginname)
-    {
-        $this->loginname = $a_loginname;
-    }
-    public function getLoginName()
-    {
-        return $this->loginname;
     }
 
     public function activatePost()
@@ -702,22 +646,27 @@ class ilForumPost
         $this->setDisplayUserId($row['pos_display_user_id']);
         $this->setPosAuthorId($row['pos_author_id']);
         $this->setIsAuthorModerator($row['is_author_moderator']);
-        $this->buildUserRelatedData($row);
     }
-    
+
     /**
-     * @param $source_thread_id
-     * @param $target_thread_id
+     * @param int $sourceThreadId
+     * @param int $targetThreadId
+     * @param int[] $excludedPostIds
      */
-    public static function mergePosts($source_thread_id, $target_thread_id)
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = [])
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
-        $ilDB->update(
-            'frm_posts',
-            array('pos_thr_fk' => array('integer', $target_thread_id)),
-            array('pos_thr_fk' => array('integer', $source_thread_id))
+
+        $conditions = ['pos_thr_fk = ' . $ilDB->quote($sourceThreadId, 'integer')];
+        if ($excludedPostIds !== []) {
+            $conditions[] = $ilDB->in('pos_pk', $excludedPostIds, true, 'integer');
+        }
+
+        $ilDB->manipulateF(
+            'UPDATE frm_posts SET pos_thr_fk = %s WHERE ' . implode(' AND ', $conditions),
+            ['integer',],
+            [$targetThreadId,]
         );
     }
 }

@@ -18,7 +18,7 @@ interface Factory
      *     The Picture Avatar is used to represent a specific user whenever an
      *     user-uploaded picture is available or a deputy-picture is used.
      *   rivals:
-     *     1: Letter Avatar
+     *      Letter Avatar: The Letter Avatar represents the user with two letters.
      * rules:
      *   usage:
      *     1: >
@@ -39,7 +39,7 @@ interface Factory
      *     The Letter Avatar is used to represent a specific user whenever no
      *     picture is available.
      *   rivals:
-     *     1: Picture Avatar
+     *      Picture Avatar: The Picture Avatar represents the user with a picture.
      *   composition: >
      *     The abbreviation is displayed with two letters in white color.
      *     the background is colored in one of

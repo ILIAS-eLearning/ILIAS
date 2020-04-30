@@ -428,11 +428,20 @@ class ilWkhtmlToPdfConfigFormGUI
             $config->setFooterHtmlSpacing((int) $_POST['footer_html_spacing']);
             $config->setFooterHtml(ilUtil::stripSlashes($_POST['footer_html']));
             $config->setOverwriteDefaultFont(ilUtil::stripSlashes($_POST['overwrite_font']));
+            $this->saveNewDefaultBinaryPath($config->getPath());
         }
 
         return $everything_ok;
     }
 
+    /**
+     * @param $path
+     */
+    protected function saveNewDefaultBinaryPath($path){
+        $settings = new ilSetting('wkhtmltopdfrenderer');
+        $settings->set('path', $path);
+    }
+    
     /**
      * @param ilPropertyFormGUI $form
      * @return array

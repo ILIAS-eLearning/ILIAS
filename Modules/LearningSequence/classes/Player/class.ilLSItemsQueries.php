@@ -21,7 +21,7 @@ class ilLSLearnerItemsQueries
     }
 
     /**
-     * @return LSLearnerItems[]
+     * @return LSLearnerItem[]
      */
     public function getItems() : array
     {

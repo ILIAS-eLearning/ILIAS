@@ -1179,6 +1179,10 @@ class ilForumTopic
             array('thr_subject' => array('text',$this->getSubject())),
             array('thr_pk' => array('integer', $this->getId()))
         );
+        
+        $first_node = $this->getFirstPostNode();
+        $first_node->setSubject($this->getSubject());
+        $first_node->update();
     }
 
     /**

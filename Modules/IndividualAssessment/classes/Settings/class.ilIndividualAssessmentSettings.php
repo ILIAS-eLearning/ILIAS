@@ -1,4 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
+use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Refinery\Factory as Refinery;
+
 /**
  * An object carrying settings of an Individual Assessment obj
  * beyond the standart information
@@ -8,8 +14,20 @@
  */
 class ilIndividualAssessmentSettings
 {
-    const DEF_CONTENT = "";
-    const DEF_RECORD_TEMPLATE = "";
+    /**
+     * @var int
+     */
+    protected $obj_id;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $description;
 
     /**
      * @var	string
@@ -32,35 +50,51 @@ class ilIndividualAssessmentSettings
     protected $file_required;
 
     public function __construct(
-        ilObjIndividualAssessment $iass,
-        $content = null,
-        $record_template = null,
-        $event_time_place_required = false,
-        $file_required = false
+        int $obj_id,
+        string $title,
+        string $description,
+        string $content,
+        string $record_template,
+        bool $event_time_place_required,
+        bool $file_required
     ) {
-        $this->id = $iass->getId();
-        $this->content = $content !== null ? $content : self::DEF_CONTENT;
-        $this->record_template = $record_template !== null ? $record_template : self::DEF_RECORD_TEMPLATE;
+        $this->obj_id = $obj_id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->content = $content;
+        $this->record_template = $record_template;
         $this->event_time_place_required = $event_time_place_required;
         $this->file_required = $file_required;
     }
 
     /**
-     * Get the id of corrwsponding iass-object
-     *
-     * @return	int|string
+     * Get the id of corresponding iass-object
      */
-    public function getId()
+    public function getObjId() : int
     {
-        return $this->id;
+        return $this->obj_id;
     }
 
     /**
      * Get the content of this assessment, e.g. corresponding topics...
-     *
-     * @return	string
      */
-    public function content()
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Get the content of this assessment, e.g. corresponding topics...
+     */
+    public function getDescription() : string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Get the content of this assessment, e.g. corresponding topics...
+     */
+    public function getContent() : string
     {
         return $this->content;
     }
@@ -68,85 +102,57 @@ class ilIndividualAssessmentSettings
     /**
      * Get the record template to be used as default record with
      * corresponding object
-     *
-     * @return	string
      */
-    public function recordTemplate()
+    public function getRecordTemplate() : string
     {
         return $this->record_template;
     }
 
     /**
      * Get the value of the checkbox event_time_place_require
-     *
-     * @return	integer
      */
-    public function eventTimePlaceRequired()
+    public function isEventTimePlaceRequired() : bool
     {
         return $this->event_time_place_required;
     }
 
     /**
      * Get the value of the checkbox file_required
-     *
-     * @return	integer
      */
-    public function fileRequired()
+    public function isFileRequired() : bool
     {
         return $this->file_required;
     }
 
-
-    /**
-     * Set the content of this assessment, e.g. corresponding topics...
-     *
-     * @param	string	$content
-     * @return	ilIndividualAssessment	$this
-     */
-    public function setContent($content)
-    {
-        assert(is_string($content));
-        $this->content = $content;
-        return $this;
-    }
-
-    /**
-     * Get the record template to be used as default record with
-     * corresponding object
-     *
-     * @param	string	$record_template
-     * @return	ilIndividualAssessment	$this
-     */
-    public function setRecordTemplate($record_template)
-    {
-        assert(is_string($record_template));
-        $this->record_template = $record_template;
-        return $this;
-    }
-
-    /**
-     * Set the value of the checkbox event_time_place_require
-     *
-     * @param	bool	$event_time_place_require
-     * @return	ilManualAssessment	$this
-     */
-    public function setEventTimePlaceRequired($event_time_place_required)
-    {
-        assert(is_bool($event_time_place_required));
-        $this->event_time_place_required = $event_time_place_required;
-        return $this;
-    }
-
-    /**
-     * Set the value of the checkbox file_required
-     *
-     * @param	bool	$file_require
-     * @return	ilManualAssessment	$this
-     */
-    public function setFileRequired($file_required)
-    {
-        assert(is_bool($file_required));
-        $this->file_required = $file_required;
-        return $this;
+    public function toFormInput(
+        Field\Factory $input,
+        \ilLanguage $lng,
+        Refinery $refinery
+    ) : Field\Input {
+        return $input->section(
+            [
+                $input->text($lng->txt("title"))
+                    ->withValue($this->getTitle())
+                    ->withRequired(true),
+                $input->textarea($lng->txt("description"))
+                    ->withValue($this->getDescription()),
+                $input->textarea($lng->txt("iass_content"), $lng->txt("iass_content_explanation"))
+                    ->withValue($this->getContent()),
+                $input->textarea($lng->txt("iass_record_template"), $lng->txt("iass_record_template_explanation"))
+                    ->withValue($this->getRecordTemplate()),
+                $input->checkbox($lng->txt("iass_event_time_place_required"), $lng->txt("iass_event_time_place_required_info"))
+                    ->withValue($this->isEventTimePlaceRequired()),
+                $input->checkbox($lng->txt("iass_file_required"), $lng->txt("iass_file_required_info"))
+                    ->withValue($this->isFileRequired())
+            ],
+            $lng->txt("settings")
+        )->withAdditionalTransformation(
+            $refinery->custom()->transformation(function ($value) {
+                return new \ilIndividualAssessmentSettings(
+                    $this->getObjId(),
+                    ...$value
+                );
+            })
+        );
     }
 }

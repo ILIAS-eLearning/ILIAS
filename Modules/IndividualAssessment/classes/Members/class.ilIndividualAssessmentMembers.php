@@ -184,7 +184,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     {
         return array(
               self::FIELD_USR_ID => $usr->getId()
-            , self::FIELD_RECORD => $this->iass->getSettings()->recordTemplate()
+            , self::FIELD_RECORD => $this->iass->getSettings()->getRecordTemplate()
             , self::FIELD_NOTIFY => 0
             , self::FIELD_FIRSTNAME => $usr->getFirstname()
             , self::FIELD_LASTNAME => $usr->getLastname()

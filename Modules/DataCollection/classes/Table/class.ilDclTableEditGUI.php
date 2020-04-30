@@ -70,7 +70,9 @@ class ilDclTableEditGUI
         $this->table = ilDclCache::getTableCache($this->table_id);
 
         $this->ctrl->saveParameter($this, 'table_id');
-        $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTarget($this, 'edit'));
+        if ($this->table->getTitle()) {
+            $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTarget($this, 'edit'));
+        }
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {

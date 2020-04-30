@@ -5,50 +5,86 @@ declare(strict_types=1);
 use ILIAS\Data;
 use Pimple\Container;
 
-class ilIndividualAssessmentDIC
+trait ilIndividualAssessmentDIC
 {
-    public static $dic;
+    public function getObjectDIC(
+        ilObjIndividualAssessment $object,
+        ArrayAccess $dic
+    ) : Container {
+        $container = new Container();
 
-    public static function dic() : Container
-    {
-        if (!self::$dic) {
-            self::$dic = self::buildDIC();
-        }
-
-        return self::$dic;
-    }
-
-    protected static function buildDIC() : Container
-    {
-        global $DIC;
-        $dic = new Container();
-
-        $dic['DataFactory'] = function () {
+        $container['DataFactory'] = function () {
             return new Data\Factory();
         };
 
-        $dic['ilIndividualAssessmentPrimitiveInternalNotificator'] = function () {
+        $container['ilIndividualAssessmentPrimitiveInternalNotificator'] = function () {
             return new ilIndividualAssessmentPrimitiveInternalNotificator();
         };
 
-        $dic['ilIndividualAssessmentMemberGUI'] = function ($dic) use ($DIC) {
-            return new ilIndividualAssessmentMemberGUI(
-                $DIC['ilCtrl'],
-                $DIC['lng'],
-                $DIC['tpl'],
-                $DIC['ilUser'],
-                $DIC->ui()->factory()->input(),
-                $DIC->ui()->factory()->messageBox(),
-                $DIC->ui()->factory()->button(),
-                $DIC->refinery(),
-                $dic['DataFactory'],
-                $DIC->ui()->renderer(),
-                $DIC->http()->request(),
-                $dic['ilIndividualAssessmentPrimitiveInternalNotificator'],
-				$DIC["ilToolbar"]
+        $container['ilIndividualAssessmentSettingsGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentSettingsGUI(
+                $object,
+                $dic['ilCtrl'],
+                $dic['tpl'],
+                $dic['lng'],
+                $dic['ilTabs'],
+                $dic['ui.factory']->input(),
+                $dic['refinery'],
+                $dic['ui.renderer'],
+                $dic['http']->request(),
+                $dic['ilErr'],
+                $c['ilIndividualAssessmentCommonSettingsGUI']
             );
         };
 
-        return $dic;
+        $container['ilIndividualAssessmentMembersGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentMembersGUI(
+                $object,
+                $dic['ilCtrl'],
+                $dic['tpl'],
+                $dic['lng'],
+                $dic["ilToolbar"],
+                $dic['ilUser'],
+                $dic['ilTabs'],
+                $object->accessHandler(),
+                $dic['ui.factory'],
+                $dic['ui.renderer'],
+                $dic['ilErr'],
+                $c['ilIndividualAssessmentMemberGUI']
+            );
+        };
+
+        $container['ilIndividualAssessmentMemberGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentMemberGUI(
+                $dic['ilCtrl'],
+                $dic['lng'],
+                $dic['tpl'],
+                $dic['ilUser'],
+                $dic['ui.factory']->input(),
+                $dic['ui.factory']->messageBox(),
+                $dic['ui.factory']->button(),
+                $dic['refinery'],
+                $c['DataFactory'],
+                $dic['ui.renderer'],
+                $dic['http']->request(),
+                $c['ilIndividualAssessmentPrimitiveInternalNotificator'],
+                $dic["ilToolbar"],
+                $object,
+                $dic['ilErr']
+            );
+        };
+
+        $container['ilIndividualAssessmentCommonSettingsGUI'] = function ($c) use ($object, $dic) {
+            return new ilIndividualAssessmentCommonSettingsGUI(
+                $object,
+                $dic['ilCtrl'],
+                $dic['tpl'],
+                $dic['lng'],
+                $dic->object()
+            );
+        };
+
+
+        return $container;
     }
 }

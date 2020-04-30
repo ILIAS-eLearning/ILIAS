@@ -1035,22 +1035,6 @@ class ilInitialisation
     public static function initILIAS()
     {
         if (self::$already_initialized) {
-            // workaround for bug #17990
-            // big mess. we prevent double initialisations with ILIAS 5.1, which is good, but...
-            // the style service uses $_GET["ref_id"] to determine
-            // the context styles. $_GET["ref_id"] is "corrected" by the "goto" procedure and which calls
-            // initILIAS again.
-            // we need a mechanism that detemines our repository context and stores that in an information object
-            // usable by the style component afterwars. This needs new concepts and a refactoring.
-            if (ilContext::initClient()) {
-                global $tpl;
-                if (is_object($tpl)) {
-                    // load style sheet depending on user's settings
-                    $location_stylesheet = ilUtil::getStyleSheetLocation();
-                    $tpl->setVariable("LOCATION_STYLESHEET", $location_stylesheet);
-                }
-            }
-
             return;
         }
 
@@ -1353,7 +1337,10 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+        if (
+            $GLOBALS['DIC']['ilAuthSession']->isExpired() &&
+            !\ilObjUser::_isAnonymous($GLOBALS['DIC']['ilAuthSession']->getUserId())
+        ) {
             ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
             return self::goToLogin();
         }
@@ -1684,11 +1671,6 @@ class ilInitialisation
             );
             $request_adjuster->adjust();
         }
-
-
-        // load style sheet depending on user's settings
-        $location_stylesheet = ilUtil::getStyleSheetLocation();
-        $tpl->addCss($location_stylesheet);
 
         require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 

@@ -1183,6 +1183,7 @@ class ilConditionHandler
 
         $ilUser = $DIC['ilUser'];
         $tree = $DIC['tree'];
+        $logger = $DIC->logger()->ac();
         
         $a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 
@@ -1210,15 +1211,17 @@ class ilConditionHandler
 
             if ($check) {
                 ++$passed;
-                if ($passed >= $num_required) {
-                    return true;
-                }
             } else {
-                if (!count($optional)) {
+                // #0027223 if condition is obligatory => return false
+                if ($condition['obligatory']) {
                     return false;
                 }
             }
         }
+        if ($passed >= $num_required) {
+            return true;
+        }
+
         // not all optional conditions passed
         return false;
     }

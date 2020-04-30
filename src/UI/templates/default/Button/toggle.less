@@ -4,10 +4,8 @@
   height: @il-btn-toggle-height;
   padding-left: @il-btn-toggle-padding;
   padding-right: @il-btn-toggle-padding;
-  border: @il-btn-toggle-border @il-btn-toggle-border-color;
   border-radius: @il-btn-toggle-border-radius;
-  background: @il-disabled-btn-toggle-bg;
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .il-toggle-button .il-toggle-switch {
@@ -16,19 +14,35 @@
   left: @il-disabled-btn-toggle-switch-position-left;
   width: @il-btn-toggle-switch-size;
   height: @il-btn-toggle-switch-size;
-  border: @il-btn-toggle-border @il-btn-toggle-switch-border-color;
   border-radius: @il-btn-toggle-border-radius;
-  background: @il-disabled-btn-toggle-switch-color;
-
   -webkit-transition: @il-btn-toggle-switch-transition; /* Safari */
   transition: @il-btn-toggle-switch-transition;
 }
 
-.il-toggle-button.on {
-  background: @il-enabled-btn-toggle-bg;
-}
-
-.il-toggle-button.on .il-toggle-switch {
-  left: @il-enabled-btn-toggle-switch-position-left;
-  background: @il-enabled-btn-toggle-switch-color;
+.il-toggle-button {
+  &.on {
+    background: @il-btn-toggle-bg-color-on;
+    border: @il-btn-toggle-border @il-btn-toggle-border-color-on;
+    .il-toggle-switch {
+      left: @il-enabled-btn-toggle-switch-position-left;
+      background: @il-btn-toggle-switch-bg-color-on;
+      border: @il-btn-toggle-border @il-btn-toggle-switch-border-color-on;
+    }
+  }
+  &.off {
+    background: @il-btn-toggle-bg-color-off;
+    border: @il-btn-toggle-border @il-btn-toggle-border-color-off;
+    .il-toggle-switch {
+      background: @il-btn-toggle-switch-bg-color-off;
+      border: @il-btn-toggle-border @il-btn-toggle-switch-border-color-off;
+    }
+  }
+  &.unavailable {
+    background: @il-btn-toggle-bg-color-unavailable;
+    border: @il-btn-toggle-border @il-btn-toggle-border-color-unavailable;
+    .il-toggle-switch {
+      background: @il-btn-toggle-switch-bg-color-unavailable;
+      border: @il-btn-toggle-border @il-btn-toggle-switch-border-color-unavailable;
+    }
+  }
 }

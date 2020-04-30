@@ -1674,11 +1674,13 @@ class ilQTIParser extends ilSaxParser
     {
         $matches = null;
         
-        if (preg_match('/^(\d+\.\d+\.\d+) .*$/', $versionDateString, $matches)) {
-            return $matches[1];
+        preg_match('/^(\d+\.\d+\.\d+) .*$/', $versionDateString, $matches);
+
+        if($matches[1] == null) {
+            preg_match('/^(\d+\.\d+) .*$/', $versionDateString, $matches);
         }
-        
-        return null;
+
+        return $matches[1];
     }
     
     protected function fetchSourceNicFromItemIdent($itemIdent)

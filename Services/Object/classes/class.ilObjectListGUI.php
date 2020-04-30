@@ -3769,15 +3769,6 @@ class ilObjectListGUI
 
         $def_command = $this->getDefaultCommand();
 
-        if ($type == 'sess' && $title == '') {
-            $app_info = ilSessionAppointment::_lookupAppointment($obj_id);
-            $title = ilSessionAppointment::_appointmentToString(
-                $app_info['start'],
-                $app_info['end'],
-                $app_info['fullday']
-            );
-        }
-
         $icon = $this->ui->factory()
             ->symbol()
             ->icon()
@@ -3786,9 +3777,9 @@ class ilObjectListGUI
 
 
         if ($def_command['link']) {
-            $list_item = $ui->factory()->item()->standard($this->ui->factory()->link()->standard($title, $def_command['link']));
+            $list_item = $ui->factory()->item()->standard($this->ui->factory()->link()->standard($this->getTitle(), $def_command['link']));
         } else {
-            $list_item = $ui->factory()->item()->standard($title);
+            $list_item = $ui->factory()->item()->standard($this->getTitle());
         }
 
         $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);

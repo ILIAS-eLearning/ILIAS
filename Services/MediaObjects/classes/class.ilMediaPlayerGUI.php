@@ -23,8 +23,8 @@ class ilMediaPlayerGUI
     protected $lng;
 
     protected $file;
-    protected $displayHeight = "480";
-    protected $displayWidth = "640";
+    protected $displayHeight = "";
+    protected $displayWidth = "";
     protected $mimeType;
     protected static $nr = 1;
     protected static $lightbox_initialized = false;
@@ -407,7 +407,10 @@ class ilMediaPlayerGUI
             $mp_tpl->setCurrentBlock("mejs_video");
             
             if ($a_preview) {
-                $mp_tpl->setVariable("CLASS", "ilNoDisplay");
+                $mp_tpl->setVariable("WRAP_CLASS", "ilNoDisplay");
+                $mp_tpl->setVariable("CLASS", "mejs__player ilNoDisplay");
+            } else {
+                //$mp_tpl->setVariable("CLASS", "mejs__player");
             }
             
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
@@ -416,11 +419,20 @@ class ilMediaPlayerGUI
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
             if (is_int(strpos($mimeType, "audio/mpeg"))) {
-                $height = "30";
+                $height = "30px";
             }
 
-            $mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
-            $mp_tpl->setVariable("DISPLAY_WIDTH", $width);
+            if ($height != "") {
+                $style = "height: ".$height."; ";
+            }
+            if ($width != "") {
+                $style.= "width: ".$width."; ";
+            }
+            if ($style != "") {
+                $mp_tpl->setVariable("STYLE", "style='$style'");
+            }
+            //$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
+            //$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
             $mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
             $mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
             $mp_tpl->setVariable("FFILE", $this->getFile());
@@ -434,7 +446,7 @@ class ilMediaPlayerGUI
             $r = $mp_tpl->get();
 
             if (!$a_preview) {
-                $tpl->addOnLoadCode("new MediaElementPlayer('#player_" . $this->id . "_" . $this->current_nr . "');");
+                $tpl->addOnLoadCode("new MediaElementPlayer('player_" . $this->id . "_" . $this->current_nr . "');");
             }
 
             //echo htmlentities($r); exit;

@@ -438,7 +438,7 @@ class ilGlobalCache
     public function flush($complete = false)
     {
         if ($this->global_cache->isActive()) {
-            return $this->global_cache->flush();
+            return $this->global_cache->flush($complete);
         }
 
         return false;

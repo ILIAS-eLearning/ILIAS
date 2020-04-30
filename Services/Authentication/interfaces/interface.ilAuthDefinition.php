@@ -15,7 +15,7 @@ interface ilAuthDefinition
      * @param string $a_auth_id
      * @return ilAuthProviderInterface
      */
-    public function getProvider($credentials, $a_auth_id);
+    public function getProvider(ilAuthCredentials $credentials, $a_auth_id);
     
     
     /**

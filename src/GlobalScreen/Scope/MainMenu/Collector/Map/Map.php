@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
-use ArrayIterator;
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -26,13 +25,18 @@ class Map implements Filterable, Walkable
      * @var Closure[]
      */
     protected $filters = [];
+    /**
+     * @var ArrayObject
+     */
+    private $filtered;
 
     /**
      * Tree constructor.
      */
     public function __construct()
     {
-        $this->raw = new ArrayObject();
+        $this->raw      = new ArrayObject();
+        $this->filtered = new ArrayObject();
     }
 
     /**
@@ -63,7 +67,8 @@ class Map implements Filterable, Walkable
      */
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
-        $item = $this->raw->offsetGet($identification->serialize());
+        $this->applyFilters();
+        $item = $this->filtered->offsetGet($identification->serialize());
 
         if ($item === null) {
             return $this->getLostItem($identification);
@@ -86,7 +91,11 @@ class Map implements Filterable, Walkable
      */
     public function existsInFilter(IdentificationInterface $identification) : bool
     {
-        return $this->raw->offsetExists($identification->serialize());
+        $this->applyFilters();
+
+        $filtered = $this->filtered->getArrayCopy();
+
+        return $this->filtered->offsetExists($identification->serialize());
     }
 
     /**
@@ -97,20 +106,28 @@ class Map implements Filterable, Walkable
         return $this->raw->count() > 0;
     }
 
+    private function applyFilters() : void
+    {
+        if (count($this->filters) > 0) {
+            if (count($this->filtered) === 0) {
+                $this->filtered = $this->raw->getArrayCopy();
+            }
+            foreach ($this->filters as $filter) {
+                $this->filtered = array_filter($this->filtered, $filter);
+            }
+            $this->filtered = new ArrayObject($this->filtered);
+            $this->filters  = [];
+        }
+    }
+
     /**
      * @return \Generator|isItem[]
      */
     public function getAllFromFilter() : \Generator
     {
-        static $filtered;
-        if (!isset($filtered)) {
-            $filtered = new ArrayIterator($this->raw);
-            foreach ($this->filters as $filter) {
-                $filtered = new \CallbackFilterIterator($filtered, $filter);
-            }
-        }
+        $this->applyFilters();
 
-        yield from $filtered;
+        yield from $this->filtered;
     }
 
     /**
@@ -136,14 +153,14 @@ class Map implements Filterable, Walkable
              * @var $parent isParent
              */
             if ($item_one instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_one->getParent());
+                $parent            = $this->getSingleItemFromFilter($item_one->getParent());
                 $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
             } else {
                 $position_item_one = $item_one->getPosition();
             }
 
             if ($item_two instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_two->getParent());
+                $parent            = $this->getSingleItemFromFilter($item_two->getParent());
                 $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
             } else {
                 $position_item_two = $item_two->getPosition();
@@ -171,7 +188,7 @@ class Map implements Filterable, Walkable
     {
         global $DIC;
 
-        $lost_item = $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
+        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
                          ->withAlwaysAvailable(true)
                          ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
                          ->withVisibilityCallable(
@@ -179,9 +196,5 @@ class Map implements Filterable, Walkable
                                  return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
                              }
                          )->withTitle($DIC->language()->txt("mme_lost_item_title"));
-
-        $this->add($lost_item);
-
-        return $lost_item;
     }
 }

@@ -1644,7 +1644,7 @@ class SurveyQuestion
         } elseif ($gui == 2) {
             $type .= "Evaluation";
         }
-        if (file_exists("./Modules/SurveyQuestionPool/classes/class." . $type . ".php")) {
+        if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type . ".php")) {
             return true;
         } else {
             global $DIC;

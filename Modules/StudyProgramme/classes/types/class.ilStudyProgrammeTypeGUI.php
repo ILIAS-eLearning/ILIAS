@@ -216,7 +216,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        $form->fillObject($this->type_repository->readType((int) $_GET['type_id']));
+        $form->fillForm($this->type_repository->readType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -228,7 +228,7 @@ class ilStudyProgrammeTypeGUI
         );
         if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirect($this, 'editCustomIcons');
         } else {
             $this->tpl->setContent($form->getHTML());
         }

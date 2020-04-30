@@ -996,16 +996,22 @@ class ilMembershipGUI
         return 'mailMembersBtn';
     }
 
-    
     /**
      * add member tab
      * @param ilTabsGUI $tabs
+     * @param bool      $a_is_participant
      */
     public function addMemberTab(ilTabsGUI $tabs, $a_is_participant = false)
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
+
+        // no read no tab
+        if (!$ilAccess->checkAccess('read', '', $this->getParentObject()->getRefId())) {
+            return false;
+        }
+
         
         include_once './Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
@@ -1624,6 +1630,15 @@ class ilMembershipGUI
      */
     protected function printMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'participants')
+        );
+
         $list = $this->initAttendanceList();
         $list->initFromForm();
         $list->setCallback(array($this, 'getAttendanceListUserData'));
@@ -1634,9 +1649,7 @@ class ilMembershipGUI
         );
         
         $list->getNonMemberUserData($this->member_data);
-        
         $list->getFullscreenHTML();
-        exit();
     }
     
     /**
@@ -1644,6 +1657,15 @@ class ilMembershipGUI
      */
     protected function printForMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'jump2UsersGallery')
+        );
+
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
         $list->setId(0);
@@ -1654,7 +1676,6 @@ class ilMembershipGUI
         $list->getNonMemberUserData($this->member_data);
         
         $list->getFullscreenHTML();
-        exit();
     }
 
     /**

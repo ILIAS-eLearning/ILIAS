@@ -211,7 +211,8 @@ class ilMediaPoolPage extends ilPageObject
             if (!$skip) {
                 $ret[] = array("type" => $us_rec["usage_type"],
                     "id" => $us_rec["usage_id"],
-                    "hist_nr" => $us_rec["usage_hist_nr"]);
+                    "hist_nr" => $us_rec["usage_hist_nr"],
+                    "lang" => $us_rec["usage_lang"]);
             }
         }
 

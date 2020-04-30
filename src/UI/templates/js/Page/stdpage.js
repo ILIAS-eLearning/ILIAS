@@ -2,7 +2,8 @@ il = il || {};
 il.UI = il.UI || {};
 (function($, ui) {
 	ui.page = (function($) {
-		var _cls_page_content = 'il-layout-page-content';
+		var _cls_page_content = '.il-layout-page-content',
+			_id_right_col = '#il_right_col';
 
 		var breakpoint_max_width = 768, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
 			resized_poppers_margin = 25, //dropdown, date-picker
@@ -25,7 +26,8 @@ il.UI = il.UI || {};
 		};
 
 		var fitContainerToPageContent = function(target_container) {
-			var content_container = $('.' + _cls_page_content);
+			var content_container = $(_cls_page_content)
+				right_column = $(_id_right_col);
 
 			if(!content_container.length || 
 				!isContainerInPageContent(target_container)){
@@ -35,6 +37,10 @@ il.UI = il.UI || {};
 			var	margin = resized_poppers_margin,
 				max_width = content_container.width() - 2 * margin,
 				target_left = content_container.offset().left - target_container.parent().offset().left + margin;
+
+			if(right_column.length > 0) {
+				max_width = max_width - right_column.width();
+			}
 
 			if( target_container.width() < max_width &&
 				target_container.offset().left > content_container.offset().left
@@ -50,7 +56,7 @@ il.UI = il.UI || {};
 		};
 
 		var isContainerInPageContent = function(container){
-			return container.parents('.' + _cls_page_content).length
+			return container.parents(_cls_page_content).length
 		};
 
 		return {
@@ -64,5 +70,5 @@ il.UI = il.UI || {};
 	})($);
 })($, il.UI);
 il.Util.addOnLoad(function() {
-    $("main").focus();
+    $("main").attr("tabindex", -1).focus();
 });

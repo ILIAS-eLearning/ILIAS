@@ -11,11 +11,11 @@
 	<!-- END preview -->
 	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
 	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
-	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
-		<div style="background-color:black; padding: 10px;">
-			<video id="player_{PLAYER_NR}" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}">
+	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
+		<div>
+			<video id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}">
 				<!-- BEGIN source --><source src="{FILE}" type="{MIME}" /><!-- END source -->
-				<object width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" type="application/x-shockwave-flash" data="{SWF_FILE}">
+				<object type="application/x-shockwave-flash" data="{SWF_FILE}">
 					<param name="movie" value="{SWF_FILE}" />
 					<param name="flashvars" value="controls=true&amp;file={FFILE}" />
 				</object>

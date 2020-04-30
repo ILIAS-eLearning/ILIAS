@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Modules/IndividualAssessment/interfaces/Settings/interface.ilIndividualAssessmentSettingsStorage.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentInfoSettings.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php';
-
 /**
  * A settings storage handler to write iass settings to db.
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
@@ -26,23 +21,23 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
      */
     public function createSettings(ilIndividualAssessmentSettings $settings)
     {
-        $values = array( "obj_id" => array("integer", $settings->getId())
-                , "content" => array("text", $settings->content())
-                , "record_template" => array("text", $settings->recordTemplate())
-                , "event_time_place_required" => array("integer", $settings->eventTimePlaceRequired())
-                , "file_required" => array("integer", $settings->fileRequired())
+        $values = array( "obj_id" => array("integer", $settings->getObjId())
+                , "content" => array("text", $settings->getContent())
+                , "record_template" => array("text", $settings->getRecordTemplate())
+                , "event_time_place_required" => array("integer", $settings->isEventTimePlaceRequired())
+                , "file_required" => array("integer", $settings->isFileRequired())
                 );
 
         $this->db->insert(self::IASS_SETTINGS_TABLE, $values);
 
-        $values = array("obj_id" => array("integer", $settings->getId()));
+        $values = array("obj_id" => array("integer", $settings->getObjId()));
         $this->db->insert(self::IASS_SETTINGS_INFO_TABLE, $values);
     }
 
     /**
      * @inheritdoc
      */
-    public function loadSettings(ilObjIndividualAssessment $obj)
+    public function loadSettings(ilObjIndividualAssessment $obj) : \ilIndividualAssessmentSettings
     {
         if (ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             $obj_id = $obj->getId();
@@ -53,7 +48,9 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
             if ($res = $this->db->fetchAssoc($this->db->query($sql))) {
                 return new ilIndividualAssessmentSettings(
-                    $obj,
+                    $obj->getId(),
+                    $obj->getTitle(),
+                    $obj->getDescription(),
                     $res["content"],
                     $res["record_template"],
                     (bool) $res["event_time_place_required"],
@@ -62,7 +59,15 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
             }
             throw new ilIndividualAssessmentException("$obj_id not in database");
         } else {
-            return new ilIndividualAssessmentSettings($obj);
+            return new ilIndividualAssessmentSettings(
+                (int) $obj->getId(),
+                '',
+                '',
+                '',
+                '',
+                false,
+                false
+            );
         }
     }
 
@@ -71,12 +76,12 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
      */
     public function updateSettings(ilIndividualAssessmentSettings $settings)
     {
-        $where = array( "obj_id" => array("integer", $settings->getId()));
+        $where = array( "obj_id" => array("integer", $settings->getObjId()));
 
-        $values = array( "content" => array("text", $settings->content())
-                , "record_template" => array("text", $settings->recordTemplate())
-                , "event_time_place_required" => array("integer", $settings->eventTimePlaceRequired())
-                , "file_required" => array("integer", $settings->fileRequired())
+        $values = array( "content" => array("text", $settings->getContent())
+                , "record_template" => array("text", $settings->getRecordTemplate())
+                , "event_time_place_required" => array("integer", $settings->isEventTimePlaceRequired())
+                , "file_required" => array("integer", $settings->isFileRequired())
                 );
 
         $this->db->update(self::IASS_SETTINGS_TABLE, $values, $where);
@@ -84,11 +89,8 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
     /**
      * Load info-screen settings corresponding to obj
-     *
-     * @param	ilObjIndividualAssessment	$obj
-     * @return	ilIndividualAssessmentSettings	$settings
      */
-    public function loadInfoSettings(ilObjIndividualAssessment $obj)
+    public function loadInfoSettings(ilObjIndividualAssessment $obj) : \ilIndividualAssessmentInfoSettings
     {
         if (ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             $obj_id = $obj->getId();
@@ -98,7 +100,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
 
             if ($res = $this->db->fetchAssoc($this->db->query($sql))) {
                 return new ilIndividualAssessmentInfoSettings(
-                    $obj,
+                    (int) $obj->getId(),
                     $res["contact"],
                     $res["responsibility"],
                     $res['phone'],
@@ -108,7 +110,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
             }
             throw new ilIndividualAssessmentException("$obj_id not in database");
         } else {
-            return new ilIndividualAssessmentInfoSettings($obj);
+            return new ilIndividualAssessmentInfoSettings((int) $obj->getId());
         }
     }
 
@@ -119,13 +121,13 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
      */
     public function updateInfoSettings(ilIndividualAssessmentInfoSettings $settings)
     {
-        $where = array("obj_id" => array("integer", $settings->id()));
+        $where = array("obj_id" => array("integer", $settings->getObjId()));
 
-        $values = array( "contact" => array("text", $settings->contact())
-                , "responsibility" => array("text", $settings->responsibility())
-                , "phone" => array("text", $settings->phone())
-                , "mails" => array("text", $settings->mails())
-                , "consultation_hours" => array("text", $settings->consultationHours())
+        $values = array( "contact" => array("text", $settings->getContact())
+                , "responsibility" => array("text", $settings->getResponsibility())
+                , "phone" => array("text", $settings->getPhone())
+                , "mails" => array("text", $settings->getMails())
+                , "consultation_hours" => array("text", $settings->getConsultationHours())
                 );
 
         $this->db->update(self::IASS_SETTINGS_INFO_TABLE, $values, $where);

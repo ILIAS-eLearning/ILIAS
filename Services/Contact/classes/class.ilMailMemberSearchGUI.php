@@ -154,7 +154,7 @@ class ilMailMemberSearchGUI
         $form = $this->initMailToMembersForm();
         if ($form->checkInput()) {
             if ($form->getInput('mail_member_type') == 'mail_member_roles') {
-                if (count($form->getInput('roles')) > 0) {
+                if (is_array($form->getInput('roles')) && count($form->getInput('roles')) > 0) {
                     $role_mail_boxes = array();
                     $roles = $form->getInput('roles');
                     foreach ($roles as $role_id) {

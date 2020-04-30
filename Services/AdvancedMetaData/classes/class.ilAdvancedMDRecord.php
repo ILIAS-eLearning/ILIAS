@@ -884,7 +884,7 @@ class ilAdvancedMDRecord
             $this->setTitle($row->title);
             $this->setDescription($row->description);
             $this->setParentObject($row->parent_obj);
-            $this->setGlobalPosition((int) $row->rpos);
+            $this->setGlobalPosition((int) $row->gpos);
         }
         $query = "SELECT * FROM adv_md_record_objs " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
