@@ -16065,8 +16065,8 @@ prg#:#prg_points_byline#:#A tanulók a meghatározott pontot kapják meg amikor 
 prg#:#prg_status_byline#:#Az állapot segítségével ellenőrizheti, hogy ez a program tanulókhoz van-e rendelve.
 prg#:#prg_description#:#Leírás
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Tanulmányi program: levél a tagoknak
-prg#:#prg_mail_context_info#:#Tanulási program tagsága, illetve tanulási haladási állapotai alapján levél küldés a résztvevőknek
+prg#:#prg_mail_context_title#:#Képzési program: levél a tagoknak
+prg#:#prg_mail_context_info#:#Képzési program tagsága, illetve tanulási haladási állapotai alapján levél küldés a résztvevőknek
 copg#:#copg_allow_html#:#HTML/Javascript bekapcsolása
 copg#:#copg_allow_html_info#:#HTML, illetve Javascript oldaltartalmakat használhat. Ez biztonsági rést okozhat, ezért ne kapcsolja be, ha lehet ártó szándékú felhasználója. Az ilyen módú HTML-tartalom hozzáadása várhatóan már nem lesz támogatott a későbbi verziókban.
 dcl#:#dcl_page_type_dclf#:#Részletes nézet
@@ -16075,8 +16075,8 @@ copa#:#copa_page_type_copa#:#Tartalomoldal
 mep#:#mep_page_type_mep#:#Tartalom-építőelem
 wiki#:#wiki_page_type_wpg#:#Wikioldal
 blog#:#blog_page_type_blp#:#Blogbejegyzés
-prtf#:#prtf_page_type_prtf#:#Portfólióoldal
 prtf#:#prtf_page_type_prtt#:#Portfólió-sablonoldal
+prtf#:#prtf_page_type_prtf#:#Portfólióoldal
 glo#:#glo_page_type_gdf#:#Fogalommeghatározás
 lm#:#lm_page_type_lm#:#Tananyagoldal
 qpl#:#qpl_page_type_qht#:#Tipp
@@ -16093,44 +16093,44 @@ prg#:#prg_additional_settings#:#További tulajdonságok
 prg#:#prg_access_by_orgu#:#Hozzáférés-vezérlés a szervezeti egység pozíciói alapján
 prg#:#prg_access_by_orgu_byline#:#Ha be van kapcsolva, további hozzáférés-vezérlési szabályok adhatóak meg a szervezeti egységekben elfoglalt pozíciók alapján.
 ui#:#ui_numeric_only#:#Egész számot adjon meg.
-mmbr#:#mmbr_memberships#:#Memberships###XXX
-notes#:#note_without_object#:#Without reference
-prg#:#msg_fill_required#:#Please fill all required fields.
-iass#:#iass_file_dropzone#:#you can drop your files here
-iass#:#iass_confirm_finalize#:#Finalize
-iass#:#iass_cancel#:#Cancel
-iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
-iass#:#download_assessment_paper#:#Download Record file
-iass#:#iass_user_removed#:#User successfully removed.
-prg#:#prg_profile_not_public#:#Profile of the user is not public.
-prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.
-prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
-prg#:#prg_confirm_delete#:#Delete
-prg#:#prg_cancel#:#Cancel
-prg#:#prg_delete_failure#:#Delete failed.
-prg#:#prg_delete_success#:#Successfuly delete entries.
-prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
-prg#:#prg_delete_single_success#:#Successfuly delete entry.
-common#:#obj_lsos#:#Learning Sequences
-common#:#obj_lsos_desc#:#General settings for Learning Sequences
-mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
-mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
-mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
-mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
-prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
-prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
-prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
-prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
-common#:#collapse_content#:#Collapse Content
-common#:#expand_content#:#Expand Content
-common#:#briefcase#:#Background Tasks
-common#:#sort_ascending#:#Sort Ascending
-common#:#sort_descending#:#Sort Descending
-common#:#show_who_is_online#:#Show who is online
-common#:#tags#:#Tags
-common#:#comments#:#Comments
-common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
-common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
-common#:#show_more#:#Show More
-common#:#disclose#:#Disclose
-common#:#switch_language#:#Switch Language
+mmbr#:#mmbr_memberships#:#Tagság
+notes#:#note_without_object#:#Hivatkozás nélkü
+prg#:#msg_fill_required#:#Az összes kötelező mezőt töltse ki.
+iass#:#iass_file_dropzone#:#ide dobhat fájlokat
+iass#:#iass_confirm_finalize#:#Véglegesítés
+iass#:#iass_cancel#:#Mégsem
+iass#:#iass_finalize_info#:#Az egyéni értékelés véglegessé válik.
+iass#:#download_assessment_paper#:#Felvétel-fájl letöltése
+iass#:#iass_user_removed#:#A felhasználót sikeresen eltávolította.
+prg#:#prg_profile_not_public#:#A felhasználó profilja nem nyilvános.
+prg#:#prg_delete_nothing_selected#:#Legalább egy sort válasszon ki.
+prg#:#prg_delete_confirmation#:#Biztos, hogy törli a kiválasztott bejegyzéseket?
+prg#:#prg_confirm_delete#:#Törlése
+prg#:#prg_cancel#:#Mégsem
+prg#:#prg_delete_failure#:#A törlés nem sikerült.
+prg#:#prg_delete_success#:#A bejegyzéseket sikeresen törölte.
+prg#:#prg_delete_single_confirmation#:##Biztos, hogy törli a kiválasztott bejegyzést?
+prg#:#prg_delete_single_success#:#A bejegyzést sikeresen törölte.
+common#:#obj_lsos#:#Tanulási sorok
+common#:#obj_lsos_desc#:#Tanulási sorok általános beállításai
+mail#:#mail_enable_lso_member_notification#:#Tanulási sor tagjainak értesítése
+mail#:#mail_enable_lso_member_notification_info#:#Az ILIAS automatikus értesítéset küld a résztvevőnek, amikor a tagsági állapota módosul. Ez az összes Tanulás sorra hat.
+mail#:#mail_enable_lso_admin_notification#:#Tanulási sor vezetőinek értesítése
+mail#:#mail_enable_lso_admin_notification_info#:#Az új Tanulási sor létrehozásakor az 'Új tagokról értesítés' alapértelmezetten aktív lesz. Ez a beállítás a Tanulás sor 'Tagok' fülén található. A vezetők levélben értesítést kapnak, amikor valaki csatlakozik a Tanulási sorhoz vagy elhagyja azt.
+prg#:#risky_to_fail_mail_subject#:#Emlékeztető, hogy a képzési program teljesítésének határideje hamarosan lejár
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' a képzési program teljesítésének határideje hamarosan lejár.
+prg#:#prg_update_progress_title#:#Határidő után a 'Folyamatban' leygen 'Nem teljesítette'
+prg#:#prg_update_progress_description#:#A 'Folyamatban' állapotok módosítása 'Nem teljesítette' állapotra a határidő után.
+common#:#collapse_content#:#Tartalom összecsukása
+common#:#expand_content#:#Tartalom kitejesztése
+common#:#briefcase#:#Háttérfolyamatok
+common#:#sort_ascending#:#Rendezés növekvő sorrendben
+common#:#sort_descending#:#Rendezés csökkenő sorrendben
+common#:#show_who_is_online#:#Online felhasználók megjelenítése
+common#:#tags#:#Címkék
+common#:#comments#:#Hozzászólások
+common#:#eyeclosed#:#Szem bezárása - Kattintson a bemenet tartalmának elrejtéséhez
+common#:#eyeopened#:#Szem megnyitása - Kattintson a bemenet tartalmának megjelenítéséhez
+common#:#show_more#:#Több...
+common#:#disclose#:#Felfedés
+common#:#switch_language#:#Nyelv módosítása
