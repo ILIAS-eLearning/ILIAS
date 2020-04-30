@@ -543,7 +543,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $ilDB = $DIC['ilDB'];
 
-        if ($this->getTree()->getTreeTable() == 'tree' && $this->getTree()->getTreeId() == 1) {
+        if ($this->getTree()->__isMainTree() && $this->getTree()->getTreeId() == 1) {
             $treeClause1 = '';
             $treeClause2 = '';
         } else {
