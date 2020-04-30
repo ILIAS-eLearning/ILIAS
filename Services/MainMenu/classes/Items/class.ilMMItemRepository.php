@@ -81,11 +81,10 @@ class ilMMItemRepository
      * @param IdentificationInterface $identification
      *
      * @return isItem
-     * @throws Throwable
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
-        return $this->main_collector->getSingleItem($identification);
+        return $this->main_collector->getSingleItemFromRaw($identification);
     }
 
 
@@ -164,7 +163,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     public function getPossibleParentsForFormAndTable() : array
     {
         static $parents;
-        if (is_null($parents)) {
+        if ($parents === null) {
             $parents = [];
             foreach ($this->getTopItems() as $top_item_identification => $data) {
                 $identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);

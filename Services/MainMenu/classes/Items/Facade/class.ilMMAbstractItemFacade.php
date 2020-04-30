@@ -52,7 +52,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
     {
         $this->identification   = $identification;
-        $this->gs_item          = $collector->getSingleItem($identification);
+        $this->gs_item          = $collector->getSingleItemFromRaw($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
         $this->mm_item          = ilMMItemStorage::register($this->gs_item);
     }

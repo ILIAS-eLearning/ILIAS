@@ -24,7 +24,7 @@ class ContentRenderer
 
         $unhash         = $this->unhash($_GET['item']);
         $identification = $GS->identification()->fromSerializedIdentification($unhash);
-        $item           = $GS->collector()->mainmenu()->getSingleItem($identification);
+        $item           = $GS->collector()->mainmenu()->getSingleItemFromFilter($identification);
 
         if ($item instanceof Lost) {
             $f         = $DIC->ui()->factory();
