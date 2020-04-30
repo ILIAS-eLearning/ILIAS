@@ -80,6 +80,33 @@ class ilLDAPSettingsGUI
         }
         return true;
     }
+
+    /**
+     * @param string $a_permission
+     */
+    protected function checkAccess($a_permission)
+    {
+        global $DIC;
+
+        $ilErr = $DIC['ilErr'];
+
+        if (!$this->checkAccessBool($a_permission)) {
+            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        }
+    }
+
+    /**
+     * @param string $a_permission
+     * @return bool
+     */
+    protected function checkAccessBool($a_permission)
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+
+        return $access->checkAccess($a_permission, '', $this->ref_id);
+    }
     
     /**
      * Get server settings
@@ -237,6 +264,8 @@ class ilLDAPSettingsGUI
      */
     public function confirmDeleteRules()
     {
+        $this->checkAccess("write");
+
         if (!is_array($_POST['rule_ids'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->roleAssignments();
@@ -1537,6 +1566,8 @@ class ilLDAPSettingsGUI
 
     public function addServerSettings()
     {
+        $this->checkAccess("write");
+
         $this->ctrl->clearParameters($this);
 
         $this->initForm();
@@ -1545,6 +1576,8 @@ class ilLDAPSettingsGUI
     
     public function editServerSettings()
     {
+        $this->checkAccess("write");
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
         
@@ -1563,6 +1596,8 @@ class ilLDAPSettingsGUI
      */
     public function confirmDeleteServerSettings()
     {
+        $this->checkAccess("write");
+
         if (!isset($_GET["ldap_server_id"])) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->serverList();
@@ -1627,6 +1662,8 @@ class ilLDAPSettingsGUI
     
     public function activateServer()
     {
+        $this->checkAccess("write");
+
         $this->server->toggleActive(1);
         $this->server->update();
         $this->serverList();
@@ -1634,6 +1671,8 @@ class ilLDAPSettingsGUI
     
     public function deactivateServer()
     {
+        $this->checkAccess("write");
+
         $this->server->toggleActive(0);
         $this->server->update();
         $this->serverList();
