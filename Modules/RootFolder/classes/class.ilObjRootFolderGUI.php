@@ -181,12 +181,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
 
             default:
-                
-                // fix bug http://www.ilias.de/mantis/view.php?id=10305
                 if ($cmd == "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
-                    $this->checkPermission("read");
+                    try{
+                        $this->checkPermission("read");
+                    }catch (ilObjectException $exception){
+                        $this->ctrl->redirectToURL("login.php?client_id=" . CLIENT_ID . "&cmd=force_login");
+                    }
                 }
                 $this->prepareOutput();
                 include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
