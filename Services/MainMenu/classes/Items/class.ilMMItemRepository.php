@@ -11,7 +11,6 @@ use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 
 /**
  * Class ilMMItemRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemRepository
@@ -34,17 +33,15 @@ class ilMMItemRepository
      */
     private $main_collector;
 
-
     /**
      * ilMMItemRepository constructor.
-     *
      * @throws Throwable
      */
     public function __construct()
     {
         global $DIC;
-        $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
-        $this->db = $DIC->database();
+        $this->cache          = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        $this->db             = $DIC->database();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
         $this->main_collector->collectOnce();
         $this->services = $DIC->globalScreen();
@@ -59,34 +56,19 @@ class ilMMItemRepository
         }
     }
 
-
-    /**
-     * @param string $class_name
-     *
-     * @return isItem
-     */
-    public function getEmptyItemForTypeString(string $class_name) : isItem
-    {
-        return $this->services->mainBar()->custom($class_name, new  NullIdentification());
-    }
-
-
-    public function clearCache()
+    public function clearCache() : void
     {
         $this->cache->flush();
     }
 
-
     /**
      * @param IdentificationInterface $identification
-     *
      * @return isItem
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
         return $this->main_collector->getSingleItemFromRaw($identification);
     }
-
 
     /**
      * @return ilMMItemRepository
@@ -95,7 +77,6 @@ class ilMMItemRepository
     {
         return $this;
     }
-
 
     /**
      * @return array
@@ -106,13 +87,12 @@ class ilMMItemRepository
         return ilMMItemStorage::where(" parent_identification = '' OR parent_identification IS NULL ")->orderBy('position')->getArray();
     }
 
-
     /**
      * @return array
      */
     public function getSubItemsForTable() : array
     {
-        $r = $this->db->query(
+        $r      = $this->db->query(
             "SELECT sub_items.*, top_items.position AS parent_position 
 FROM il_mm_items AS sub_items 
 LEFT JOIN il_mm_items AS top_items ON top_items.identification = sub_items.parent_identification
@@ -126,10 +106,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $return;
     }
 
-
     /**
      * @param IdentificationInterface|null $identification
-     *
      * @return ilMMItemFacadeInterface
      * @throws Throwable
      */
@@ -145,10 +123,8 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return new ilMMItemFacade($identification, $this->main_collector);
     }
 
-
     /**
      * @param string $identification
-     *
      * @return ilMMItemFacadeInterface
      * @throws Throwable
      */
@@ -159,7 +135,6 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $this->getItemFacade($id);
     }
 
-
     public function getPossibleParentsForFormAndTable() : array
     {
         static $parents;
@@ -167,39 +142,16 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
             $parents = [];
             foreach ($this->getTopItems() as $top_item_identification => $data) {
                 $identification = $this->services->identification()->fromSerializedIdentification($top_item_identification);
-                $item = $this->getSingleItem($identification);
+                $item           = $this->getSingleItem($identification);
                 if ($item instanceof TopParentItem) {
                     $parents[$top_item_identification] = $this->getItemFacade($identification)
-                        ->getDefaultTitle();
+                                                              ->getDefaultTitle();
                 }
             }
         }
 
         return $parents;
     }
-
-
-    /**
-     * @return array
-     * @see getPossibleSubItemTypesWithInformation
-     *
-     * @deprecated
-     */
-    public function getPossibleSubItemTypesForForm() : array
-    {
-        $types = [];
-        foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
-            if ($information->isCreationPrevented()) {
-                continue;
-            }
-            if ($information->isChild()) {
-                $types[$information->getType()] = $information->getTypeNameForPresentation();
-            }
-        }
-
-        return $types;
-    }
-
 
     /**
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
@@ -219,25 +171,6 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $types;
     }
 
-
-    /**
-     * @return array
-     * @see getPossibleTopItemTypesWithInformation
-     * @deprecated
-     */
-    public function getPossibleTopItemTypesForForm() : array
-    {
-        $types = [];
-        foreach ($this->main_collector->getTypeInformationCollection()->getAll() as $information) {
-            if ($information->isTop()) {
-                $types[$information->getType()] = $information->getTypeNameForPresentation();
-            }
-        }
-
-        return $types;
-    }
-
-
     /**
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation[]
      */
@@ -253,13 +186,10 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $types;
     }
 
-
     /**
      * @param string $type
-     *
      * @return TypeHandler
      * @deprecated
-     *
      */
     public function getTypeHandlerForType(string $type) : TypeHandler
     {
@@ -268,37 +198,34 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
         return $this->main_collector->getTypeHandlerForItem($item);
     }
 
-
     /**
      * @param ilMMItemFacadeInterface $item_facade
      */
-    public function updateItem(ilMMItemFacadeInterface $item_facade)
+    public function updateItem(ilMMItemFacadeInterface $item_facade) : void
     {
         if ($item_facade->isEditable()) {
             $item_facade->update();
-            $this->cache->flush();
+            $this->clearCache();
         }
     }
 
-
     /**
      * @param ilMMItemFacadeInterface $item_facade
      */
-    public function createItem(ilMMItemFacadeInterface $item_facade)
+    public function createItem(ilMMItemFacadeInterface $item_facade) : void
     {
         $item_facade->create();
-        $this->cache->flush();
+        $this->clearCache();
     }
-
 
     /**
      * @param ilMMItemFacadeInterface $item_facade
      */
-    public function deleteItem(ilMMItemFacadeInterface $item_facade)
+    public function deleteItem(ilMMItemFacadeInterface $item_facade) : void
     {
         if ($item_facade->isDeletable()) {
             $item_facade->delete();
-            $this->cache->flush();
+            $this->clearCache();
         }
     }
 }
