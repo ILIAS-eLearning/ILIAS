@@ -20,7 +20,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 {
     const AUTH_MODE_PREFIX = 'lti';
     private $dataConnector = null;
-    
+    private $lti_context_id = "";
+
     /**
      * Do authentication
      * @param \ilAuthStatus $status
@@ -31,16 +32,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         if (isset($_POST['launch_presentation_document_target']) && $_POST['launch_presentation_document_target'] == 'blank') {
             $_POST['launch_presentation_document_target'] = 'window';
         }
-
-        if (isset($_POST['launch_presentation_css_url'])) {
-            $_SESSION['lti_launch_css_url'] = $_POST['launch_presentation_css_url'];
-            //Bsp.: 'http://192.168.0.74/lti_custom.css';
-        }
-        if (isset($_POST['launch_presentation_return_url']) && (strlen(trim($_POST['launch_presentation_return_url'])) > 0)) {
-            $_SESSION['lti_launch_presentation_return_url'] = $_POST['launch_presentation_return_url'];
-            // Bsp.: 'http://192.168.0.74/ilias51/ilias.php?ref_id=128&cmd=viewEmbed&cmdClass=ilobjexternalcontentgui&cmdNode=hx:gc&baseClass=ilObjPluginDispatchGUI';
-        }
-
+        
         $this->dataConnector = new ilLTIDataConnector();
 
         $lti_provider = new ilLTIToolProvider($this->dataConnector);
@@ -48,7 +40,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $ok = $lti_provider->handleRequest();
 
         if (!$ok) {
-            $this->getLogger()->warning('LTI authentication failed with message: ' . $lti_provider->reason);
+            $this->getLogger()->info('LTI authentication failed with message: ' . $lti_provider->reason);
             $status->setReason($lti_provider->reason);
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
@@ -68,10 +60,32 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $this->dataConnector
         );
 
-        $_SESSION['lti_context_id'] = $consumer->getRefId();
-        $_GET['target'] = ilObject::_lookupType($consumer->getRefId(), true) . '_' . $consumer->getRefId();
-        
-        
+        $this->ref_id = $consumer->getRefId();
+        // stores ref_ids of all lti consumer within active LTI User Session
+        $lti_context_ids = $_SESSION['lti_context_ids'];
+        // if session object exists only add ref_id if not already exists
+        if (isset($lti_context_ids) && is_array($lti_context_ids)) {
+            if (!in_array($this->ref_id, $lti_context_ids)) {
+                $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
+                array_push($lti_context_ids,$this->ref_id);
+                $_SESSION['lti_context_ids'] = $lti_context_ids;
+                 $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+            }
+        }
+        else {
+            $this->getLogger()->debug("lti_context_ids is not set. Create new array...");
+            $_SESSION['lti_context_ids'] = array($this->ref_id);
+            $this->getLogger()->debug(var_export(TRUE),$_SESSION['lti_context_ids']);
+        }
+
+        // for testing external css
+        // $_POST['launch_presentation_css_url'] = "https://ltiprovider6.example.com/Services/LTI/templates/default/lti_extern.css";
+
+        // store POST into Consumer Session
+        $_SESSION['lti_' . $this->ref_id . '_post_data'] = $_POST;
+
+        $_GET['target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;
+
         // lti service activation
         if (!$consumer->enabled) {
             $this->getLogger()->warning('Consumer is not enabled');
@@ -86,7 +100,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-        
 
         $lti_id = $consumer->getExtConsumerId();
         if (!$lti_id) {
@@ -94,43 +107,26 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-        
+
         $this->getLogger()->debug('Using prefix:' . $consumer->getPrefix());
-        
+
         $internal_account = $this->findUserId($this->getCredentials()->getUsername(), $lti_id, $consumer->getPrefix());
-    
+
         if ($internal_account) {
             $this->updateUser($internal_account, $consumer);
         } else {
             $internal_account = $this->createUser($consumer);
         }
-        
+
         $this->handleLocalRoleAssignments($internal_account, $consumer);
-        
+
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($internal_account);
-        
-        $lti_lis_person_name_full = "";
-        if (isset($_POST['lis_person_name_given'])) {
-            $_SESSION['lti_lis_person_name_given'] = $_POST['lis_person_name_given'];
-            $lti_lis_person_name_full = $_POST['lis_person_name_given'] . ' ';
-        }
-        if (isset($_POST['lis_person_name_family'])) {
-            $_SESSION['lti_lis_person_name_family'] = $_POST['lis_person_name_family'];
-            $lti_lis_person_name_full .= $_POST['lis_person_name_family'];
-        }
-        if (isset($_POST['lis_person_name_full']) && (strlen(trim($_POST['lis_person_name_full'])) > 0)) {
-            $_SESSION['lti_lis_person_name_full'] = $_POST['lis_person_name_full'];
-        } else {
-            $_SESSION['lti_lis_person_name_full'] = $lti_lis_person_name_full;
-        }
-
-
 
         return true;
     }
 
-    
+
     /**
      * find consumer key id
      * @global type $ilDB
@@ -140,12 +136,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function findAuthKeyId($a_oauth_consumer_key)
     {
         global $ilDB;
-        
+
         $query = 'SELECT consumer_pk from lti2_consumer where consumer_key256 = ' . $ilDB->quote($a_oauth_consumer_key, 'text');
         // $query = 'SELECT id from lti_ext_consumer where consumer_key = '.$ilDB->quote($a_oauth_consumer_key,'text');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
-        
+
         $lti_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $lti_id = $row->consumer_pk;
@@ -154,7 +150,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $this->getLogger()->debug('External consumer key is: ' . (int) $lti_id);
         return $lti_id;
     }
-    
+
     /**
      * find lti id
      * @param type $a_lti_id
@@ -162,11 +158,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function findAuthPrefix($a_lti_id)
     {
         global $ilDB;
-        
+
         $query = 'SELECT prefix from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
-        
+
         // $prefix = 'lti'.$a_lti_id.'_';
         $prefix = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -175,18 +171,18 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $this->getLogger()->debug('LTI prefix: ' . $prefix);
         return $prefix;
     }
-    
+
     /**
      * find global role of consumer
      */
     protected function findGlobalRole($a_lti_id)
     {
         global $ilDB;
-        
+
         $query = 'SELECT role from lti_ext_consumer where id = ' . $ilDB->quote($a_lti_id, 'integer');
         $this->getLogger()->debug($query);
         $res = $ilDB->query($query);
-        
+
         $role = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $role = $row->role;
@@ -194,7 +190,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $this->getLogger()->debug('LTI role: ' . $role);
         return $role;
     }
-    
+
     /**
      * Find user by auth mode and lti id
      * @param type $a_oauth_user
@@ -213,7 +209,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $this->getLogger()->debug('Found user with auth mode lti_' . $a_oauth_id . ' with user_id: ' . $user_id);
         return $user_id;
     }
-    
+
     /**
      * create new user
      *
@@ -232,7 +228,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $newUser["firstname"] = $_POST['lis_person_name_given'];
         $newUser["lastname"] = $_POST['lis_person_name_family'];
         $newUser['email'] = $_POST['lis_person_contact_email_primary'];
-        
+
 
         // set "plain md5" password (= no valid password)
         $newUser["passwd"] = "";
@@ -266,11 +262,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $userObj->writePrefs();
 
         $GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $userObj->getId());
-        
+
         $this->getLogger()->info('Created new lti user with uid: ' . $userObj->getId() . ' and login: ' . $userObj->getLogin());
         return $userObj->getId();
     }
-    
+
     /**
      * update existing user
      *
@@ -279,13 +275,13 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     protected function updateUser($a_local_user_id, ilLTIToolConsumer $consumer)
     {
         global $ilClientIniFile,$ilLog,$rbacadmin;
-        
+
         $user_obj = new ilObjUser($a_local_user_id);
         $user_obj->setFirstname($_POST['lis_person_name_given']);
         $user_obj->setLastname($_POST['lis_person_name_family']);
         $user_obj->setEmail($_POST['lis_person_contact_email_primary']);
         $user_obj->setActive(true);
-        
+
         $until = $user_obj->getTimeLimitUntil();
 
         if ($until < (time() + $ilClientIniFile->readVariable('session', 'expire'))) {
@@ -294,37 +290,38 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         $user_obj->update();
         $user_obj->refreshLogin();
-        
+
         $GLOBALS['DIC']->rbac()->admin()->assignUser($consumer->getRole(), $user_obj->getId());
         $this->getLogger()->debug('Assigned user to: ' . $consumer->getRole());
-        
+
         $this->getLogger()->info('Update of lti user with uid: ' . $user_obj->getId() . ' and login: ' . $user_obj->getLogin());
         return $user_obj->getId();
     }
-    
+
     protected function handleLocalRoleAssignments($user_id, ilLTIToolConsumer $consumer)
     {
-        $target_ref_id = $_SESSION['lti_context_id'];
+        //$target_ref_id = $_SESSION['lti_current_context_id'];
+        $target_ref_id = $this->ref_id;
+        $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);
         if (!$target_ref_id) {
-            $this->getLogger()->debug('No target id given');
+            $this->getLogger()->warning('No target id given');
             return false;
         }
-        $obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
         
+        $obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
+
         // @todo read from lti data
         $roles = $_POST['roles'];
         if (!strlen($roles)) {
-            $this->getLogger()->debug('No role information given');
+            $this->getLogger()->warning('No role information given');
             return false;
         }
         $role_arr = explode(',', $roles);
-        
         foreach ($role_arr as $role_name) {
             $role_name = trim($role_name);
             switch ($role_name) {
                 case 'Administrator':
-                    
-                    $this->getLogger()->debug('Administrator role handling');
+                    $this->getLogger()->info('Administrator role handling');
                     if ($obj_settings->getAdminRole()) {
                         $GLOBALS['DIC']->rbac()->admin()->assignUser(
                             $obj_settings->getAdminRole(),
@@ -334,8 +331,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                     break;
 
                 case 'Instructor':
-                    $this->getLogger()->debug('Instructor role handling');
-                    $this->getLogger()->debug('Tutor role for request: ' . $obj_settings->getTutorRole());
+                    $this->getLogger()->info('Instructor role handling');
+                    $this->getLogger()->info('Tutor role for request: ' . $obj_settings->getTutorRole());
                     if ($obj_settings->getTutorRole()) {
                         $GLOBALS['DIC']->rbac()->admin()->assignUser(
                             $obj_settings->getTutorRole(),
@@ -346,7 +343,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
                 case 'Member':
                 case 'Learner':
-                    $this->getLogger()->debug('Member role handling');
+                    $this->getLogger()->info('Member role handling');
                     if ($obj_settings->getMemberRole()) {
                         $GLOBALS['DIC']->rbac()->admin()->assignUser(
                             $obj_settings->getMemberRole(),
@@ -357,7 +354,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
             }
         }
     }
-    
+
     /**
      * Get auth mode by key
      * @param string $a_auth_mode
@@ -371,7 +368,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         return 'lti';
     }
-    
+
     /**
      * Get auth id by auth mode
      * @param string $a_auth_mode
@@ -385,41 +382,41 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         return AUTH_PROVIDER_LTI;
     }
-    
-    
+
+
     /**
      * get all active authmode server ids
      */
     public static function getActiveAuthModes()
     {
         global $ilDB;
-        
+
         // move to connector
         $query = 'SELECT consumer_pk from lti2_consumer where enabled = ' . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
-        
+
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $sids[] = $row->consumer_pk;
         }
         return $sids;
     }
-    
+
     public static function getAuthModes()
     {
         global $ilDB;
-        
+
         // move to connector
         $query = 'SELECT distinct(consumer_pk) consumer_pk from lti2_consumer';
         $res = $ilDB->query($query);
-        
+
         $sids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $sids[] = $row->consumer_pk;
         }
         return $sids;
     }
-    
+
     /**
      * Lookup consumer title
      * @param type $a_sid
@@ -447,9 +444,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         return null;
     }
-    
+
     /**
-     * Check if user auth mode is LDAP
+     * Check if user auth mode is LTI
      * @param type $a_auth_mode
      */
     public static function isAuthModeLTI($a_auth_mode)
