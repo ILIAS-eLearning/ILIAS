@@ -201,6 +201,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->initSettingsForm($form);
     }
     */
+	
+	// create global role LTI-User
+	protected function createLtiUserRole()
+	{
+		ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
+		$this->listConsumers();
+	}
+	
 
     // consumers
 
@@ -418,6 +426,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->lng->txt('lti_create_consumer'),
                 $this->ctrl->getLinkTarget($this, 'createconsumer')
             );
+			//if not exist global role lti_user
+			// $ilToolbar->addSeparator();
+			$ilToolbar->addButton(
+                $this->lng->txt('lti_create_lti_user_role'),
+                $this->ctrl->getLinkTarget($this, 'createLtiUserRole')
+            );
+			$ilToolbar->addText("In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt.");
+			
         }
 
         $this->tabs_gui->activateSubTab("consumers");
