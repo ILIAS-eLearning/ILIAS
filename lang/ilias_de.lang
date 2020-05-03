@@ -16137,3 +16137,6 @@ common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds auf
 common#:#show_more#:#Mehr zeigen
 common#:#disclose#:#Aufdecken
 common#:#switch_language#:#Sprache wechseln
+lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
+lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
+lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
