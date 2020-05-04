@@ -3001,7 +3001,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // see searchResultHandler()
         if ($a_search_form) {
 
-            if($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+            if($this->checkAccessBool('write')) {
                 $cmds = array(
                     'activate' => $this->lng->txt('activate'),
                     'deactivate' => $this->lng->txt('deactivate'),
@@ -3010,13 +3010,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     );
             }
 
-            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
+            if ($this->checkAccessBool('delete')) {
                 $cmds["delete"] = $this->lng->txt("delete");
             }
         }
         // show confirmation
         else {
-            if($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+            if($this->checkAccessBool('write')) {
                 $cmds = array(
                     'activateUsers'   => $this->lng->txt('activate'),
                     'deactivateUsers' => $this->lng->txt('deactivate'),
@@ -3025,13 +3025,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
             }
             
-            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
+            if ($this->checkAccessBool('delete')) {
                 $cmds["deleteUsers"] = $this->lng->txt("delete");
             }
         }
-                
-        // no confirmation needed
-        if($rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        
+        if($this->checkAccessBool('write')) {
             $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
             foreach ($export_types as $type) {
                 $cmd                               = explode("_", $type);
