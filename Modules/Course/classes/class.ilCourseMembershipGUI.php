@@ -397,6 +397,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         include_once('Modules/Course/classes/Export/class.ilCourseUserData.php');
         $cdfs = ilCourseUserData::_getValuesByObjId($this->getParentObject()->getId());
 
+        $print_member = [];
         foreach ($a_members as $member_id) {
             // GET USER OBJ
             if ($tmp_obj = ilObjectFactory::getInstanceByObjId($member_id, false)) {
