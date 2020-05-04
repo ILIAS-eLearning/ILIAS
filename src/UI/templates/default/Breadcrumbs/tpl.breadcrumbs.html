@@ -1,35 +1,9 @@
-
-<style type="text/css">
-.bc_wrap {
-	width: 100%;
-
-}
-.breadcrumb{
-
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    direction: rtl;
-    text-align: left;
-
-    padding-left: 100px;
-}
-
-		span.crumb:before {
-			content: " \e606";
-			padding: 8px 10px;
-			font-family: "il-icons";
-		}
-
-</style>
-
-
-<nav role="navigation" aria-label="breadcrumbs" class="bc_wrap">
-	<p class="breadcrumb">
+<nav role="navigation" aria-label="breadcrumbs" class="breadcrumb_wrapper">
+	<div class="breadcrumb">
 		<!-- BEGIN crumbs -->
 		<span class="crumb">
 			{CRUMB}
 		</span>
 		<!-- END crumbs -->
-	</p>
+	</div>
 </nav>
