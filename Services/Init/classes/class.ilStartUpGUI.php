@@ -1967,7 +1967,7 @@ class ilStartUpGUI
             }
 
             return $this->substituteLoginPageElements(
-                $DIC->ui()->mainTemplate(),
+                $GLOBALS['tpl'],
                 $page_editor_html,
                 $tpl->get(),
                 '[list-openid-connect-login]',
