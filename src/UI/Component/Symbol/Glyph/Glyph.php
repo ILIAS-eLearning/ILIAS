@@ -118,4 +118,12 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
      * @return Glyph
      */
     public function withUnavailableAction();
+
+    /**
+    * Get a Glyph like this with an action.
+    *
+    * @param string $action
+    * @return mixed
+    */
+    public function withAction($action);
 }
