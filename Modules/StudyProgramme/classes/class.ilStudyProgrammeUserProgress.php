@@ -307,13 +307,12 @@ class ilStudyProgrammeUserProgress
             throw new ilException("Can't mark as failed since program is passed.");
         }
 
-        $this->progress_repository->update(
-            $this->progress
-                ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
-                ->setLastChangeBy($a_user_id)
-                ->setCompletionDate(null)
-        );
+        $this->progress
+            ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
+            ->setLastChangeBy($a_user_id)
+            ->setCompletionDate(null);
 
+        $this->progress_repository->update($this->progress);
         $this->refreshLPStatus();
 
         return $this;
@@ -577,7 +576,10 @@ class ilStudyProgrammeUserProgress
         $deadline = $this->getDeadline();
         $today = date(ilStudyProgrammeProgress::DATE_FORMAT);
 
-        if ($deadline && $deadline->format(ilStudyProgrammeProgress::DATE_FORMAT) < $today) {
+        if ($deadline
+            && $deadline->format(ilStudyProgrammeProgress::DATE_FORMAT) < $today
+            && $this->progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
+        ) {
             $this->progress_repository->update(
                 $this->progress
                     ->setStatus(ilStudyProgrammeProgress::STATUS_FAILED)
