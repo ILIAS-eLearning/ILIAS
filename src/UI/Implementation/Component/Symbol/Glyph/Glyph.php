@@ -202,4 +202,14 @@ class Glyph implements C\Symbol\Glyph\Glyph
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
+
+    /**
+    * @inheritdoc
+    */
+    public function withAction($action)
+    {
+        $clone = clone $this;
+        $clone->action = $action;
+        return $clone;
+    }
 }
