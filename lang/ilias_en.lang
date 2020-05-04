@@ -288,11 +288,11 @@ crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this us
 crs#:#crs_timings_optional_on#:#Optional mode is active.
 crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.
 crs#:#crs_timings_optional_off#:#Optional mode is not active.
-lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
-lti#:#lti_provider#:#LTI-Freigaben
+lti#:#lti_object_release_settings_form#:#Edit LTI Releases
+lti#:#lti_provider#:#LTI Releases
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_consumer#:#Freigabe für
+lti#:#lti_released_objects#:#Object Releases
+lti#:#lti_consumer#:#Release for
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
@@ -16136,3 +16136,6 @@ common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
 common#:#show_more#:#Show More
 common#:#disclose#:#Disclose
 common#:#switch_language#:#Switch Language
+lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
+lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
+lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.

@@ -121,45 +121,6 @@ survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
-auth#:#auth_oidconnect#:#OpenID Connect
-auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
-auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
-auth#:#auth_oidc_settings_provider#:#Provider-Url
-auth#:#auth_oidc_settings_client_id#:#Client-ID
-auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
-auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
-auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenI-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenID-Connect-Anmeldeskript.
-auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
-auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenID-Connect-Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenID-Connect-Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
-auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenID-Connect-Sitzung als auch die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
-auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
-auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer automatisch ein neues Benutzerkonto erzeugt, wenn sie sich erfolgreich gegen OpenID-Connect authentifiziert haben, aber kein ILIAS-Benutzerkonto besitzen.
-auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
-auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
-auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
-auth#:#auth_oidc_settings_session_duration#:#Dauer
-auth#:#auth_oidc#:#OpenID-Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenID-Connect-Attributen
-auth#:#auth_oidc_settings#:#Server-Einstellungen
-auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
-auth#:#auth_oidc_roles#:#Rollenzuordnung
-auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
-auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
-auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
@@ -16176,3 +16137,6 @@ common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds auf
 common#:#show_more#:#Mehr zeigen
 common#:#disclose#:#Aufdecken
 common#:#switch_language#:#Sprache wechseln
+lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
+lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
+lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
