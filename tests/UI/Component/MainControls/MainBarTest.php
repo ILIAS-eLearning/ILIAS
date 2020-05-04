@@ -233,7 +233,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<button class="btn btn-bulky" data-action="#" id="id_1" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" data-action="#" id="id_2" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" id="id_3" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button>
-							<button class="btn btn-bulky" id="id_9" ><span class="glyph" aria-label="more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">more</span></button>
+							<button class="btn btn-bulky" id="id_9" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">more</span></button>
 						</div>
 					</div>
 				</div>
