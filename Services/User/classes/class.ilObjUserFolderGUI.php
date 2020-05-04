@@ -40,10 +40,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-
         // TODO: move this to class.ilias.php
         define('USER_FOLDER_ID', 7);
-        
         $this->type = "usrf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         
@@ -159,6 +157,29 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 break;
         }
         return true;
+    }
+
+    /**
+     * @param string $a_permission
+     */
+    protected function checkAccess($a_permission)
+    {
+        global $DIC;
+
+        $ilErr = $DIC['ilErr'];
+
+        if (!$this->checkAccessBool($a_permission)) {
+            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        }
+    }
+
+    /**
+     * @param string $a_permission
+     * @return bool
+     */
+    protected function checkAccessBool($a_permission)
+    {
+        return $this->access->checkAccess($a_permission, '', $this->ref_id);
     }
 
     public function learningProgressObject()
@@ -2975,41 +2996,48 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $rbacsystem = $DIC['rbacsystem'];
         $ilUser = $DIC['ilUser'];
-        
+
+        $cmds = array();
         // see searchResultHandler()
         if ($a_search_form) {
-            $cmds = array(
-                'activate' => $this->lng->txt('activate'),
-                'deactivate' => $this->lng->txt('deactivate'),
-                'accessRestrict' => $this->lng->txt('accessRestrict'),
-                'accessFree' => $this->lng->txt('accessFree')
-                );
-        
-            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
+
+            if($this->checkAccessBool('write')) {
+                $cmds = array(
+                    'activate' => $this->lng->txt('activate'),
+                    'deactivate' => $this->lng->txt('deactivate'),
+                    'accessRestrict' => $this->lng->txt('accessRestrict'),
+                    'accessFree' => $this->lng->txt('accessFree')
+                    );
+            }
+
+            if ($this->checkAccessBool('delete')) {
                 $cmds["delete"] = $this->lng->txt("delete");
             }
         }
         // show confirmation
         else {
-            $cmds = array(
-                'activateUsers' => $this->lng->txt('activate'),
-                'deactivateUsers' => $this->lng->txt('deactivate'),
-                'restrictAccess' => $this->lng->txt('accessRestrict'),
-                'freeAccess' => $this->lng->txt('accessFree')
+            if($this->checkAccessBool('write')) {
+                $cmds = array(
+                    'activateUsers'   => $this->lng->txt('activate'),
+                    'deactivateUsers' => $this->lng->txt('deactivate'),
+                    'restrictAccess'  => $this->lng->txt('accessRestrict'),
+                    'freeAccess'      => $this->lng->txt('accessFree')
                 );
+            }
             
-            if ($rbacsystem->checkAccess('delete', $this->object->getRefId())) {
+            if ($this->checkAccessBool('delete')) {
                 $cmds["deleteUsers"] = $this->lng->txt("delete");
             }
         }
-                
-        // no confirmation needed
-        $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
-        foreach ($export_types as $type) {
-            $cmd = explode("_", $type);
-            $cmd = array_pop($cmd);
-            $cmds['usrExport' . ucfirst($cmd)] = $this->lng->txt('export') . ' - ' .
-                $this->lng->txt($type);
+        
+        if($this->checkAccessBool('write')) {
+            $export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
+            foreach ($export_types as $type) {
+                $cmd                               = explode("_", $type);
+                $cmd                               = array_pop($cmd);
+                $cmds['usrExport' . ucfirst($cmd)] = $this->lng->txt('export') . ' - ' .
+                    $this->lng->txt($type);
+            }
         }
         
         // check if current user may send mails

@@ -75,6 +75,33 @@ class ilRegistrationSettingsGUI
         }
         return true;
     }
+
+    /**
+     * @param string $a_permission
+     */
+    protected function checkAccess($a_permission)
+    {
+        global $DIC;
+
+        $ilErr = $DIC['ilErr'];
+
+        if (!$this->checkAccessBool($a_permission)) {
+            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        }
+    }
+
+    /**
+     * @param string $a_permission
+     * @return bool
+     */
+    protected function checkAccessBool($a_permission)
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+
+        return $access->checkAccess($a_permission, '', $this->ref_id);
+    }
     
     /**
     * set sub tabs
@@ -1030,6 +1057,8 @@ class ilRegistrationSettingsGUI
     
     public function deleteCodes()
     {
+        $this->checkAccess("write");
+
         include_once './Services/Registration/classes/class.ilRegistrationCode.php';
         ilRegistrationCode::deleteCodes($_POST["id"]);
         
@@ -1039,6 +1068,8 @@ class ilRegistrationSettingsGUI
 
     public function deleteConfirmation()
     {
+        $this->checkAccess("write");
+
         global $DIC;
 
         $ilErr = $DIC['ilErr'];
