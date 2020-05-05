@@ -1215,7 +1215,7 @@ class ilObjSAHSLearningModule extends ilObject
 					DELETE FROM aicc_units WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
-                );
+                    );
             }
             
             $res = $ilDB->queryF(
@@ -1234,7 +1234,7 @@ class ilObjSAHSLearningModule extends ilObject
 					DELETE FROM aicc_course WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
-                );
+                    );
             }
 
             $ilDB->manipulateF(
@@ -1502,21 +1502,21 @@ class ilObjSAHSLearningModule extends ilObject
             case 3:
                 switch ($ilias->account->getGender()) {
                     case 'f':
-                        $studentName = $lng->txt('salutation_f');
+                        $studentName = $lng->txt('salutation_f') . ' ';
                         break;
 
                     case 'm':
-                        $studentName = $lng->txt('salutation_m');
+                        $studentName = $lng->txt('salutation_m') . ' ';
                         break;
 
                     case 'n':
-                        $studentName = $lng->txt('salutation_n');
+                        $studentName = '';//$lng->txt('salutation_n');
                         break;
 
                     default:
-                        $studentName = $lng->txt('salutation');
+                        $studentName = $lng->txt('salutation') . ' ';
                 }
-                $studentName .= ' ' . $ilias->account->getLastname();
+                $studentName .= $ilias->account->getLastname();
                 break;
             case 4:
                 $studentName = $ilias->account->getFirstname();
