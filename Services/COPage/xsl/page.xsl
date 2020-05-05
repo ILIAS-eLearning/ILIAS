@@ -93,7 +93,7 @@
 	</xsl:if>
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
-		<h1 class="ilc_page_title_PageTitle">
+		<h2 class="ilc_page_title_PageTitle">
 		<xsl:if test="$pg_title_class = ''">
 			<xsl:attribute name="class">ilc_page_title_PageTitle</xsl:attribute>
 		</xsl:if>
@@ -101,7 +101,7 @@
 			<xsl:attribute name="class"><xsl:value-of select="$pg_title_class" /></xsl:attribute>
 		</xsl:if>
 		<xsl:value-of select="$pg_title"/>
-		</h1>
+		</h2>
 	</xsl:if>
 	<xsl:if test="$page_toc = 'y' and $mode != 'edit'">{{{{{PageTOC}}}}}</xsl:if>
 	<xsl:comment>COPage-PageTop</xsl:comment>
