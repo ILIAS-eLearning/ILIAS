@@ -1502,21 +1502,21 @@ class ilObjSAHSLearningModule extends ilObject
             case 3:
                 switch ($ilias->account->getGender()) {
                     case 'f':
-                        $studentName = $lng->txt('salutation_f');
+                        $studentName = $lng->txt('salutation_f') . ' ';
                         break;
 
                     case 'm':
-                        $studentName = $lng->txt('salutation_m');
+                        $studentName = $lng->txt('salutation_m') . ' ';
                         break;
 
                     case 'n':
-                        $studentName = $lng->txt('salutation_n');
+                        $studentName = '';//$lng->txt('salutation_n');
                         break;
 
                     default:
-                        $studentName = $lng->txt('salutation');
+                        $studentName = $lng->txt('salutation') . ' ';
                 }
-                $studentName .= ' ' . $ilias->account->getLastname();
+                $studentName .= $ilias->account->getLastname();
                 break;
             case 4:
                 $studentName = $ilias->account->getFirstname();
