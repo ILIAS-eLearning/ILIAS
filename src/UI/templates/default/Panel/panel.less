@@ -13,7 +13,11 @@
 
 		border: none;
 		.box-shadow(none);
-
+		h2, h2.ilHeader {
+			margin: 0;
+			color: @panel-heading-color;
+			font-size: @font-size-h2;
+		}
 
 		h3, h3.ilHeader {
 			margin: 0;
@@ -99,6 +103,9 @@
 .panel-secondary{
 	.panel-heading.ilHeader{
 		padding: @padding-large-vertical @padding-large-horizontal;
+		h2.ilHeader {
+			font-size: @font-size-h4;
+		}
 
 		h3.ilHeader {
 			font-size: @font-size-h4;
@@ -110,7 +117,9 @@
 
 		.il-item-group{
 			margin: 0 -@padding-large-horizontal;
-
+			h3{
+				padding: @padding-large-vertical @padding-large-horizontal;
+			}
 			h4{
 				padding: @padding-large-vertical @padding-large-horizontal;
 			}
@@ -129,7 +138,7 @@
 		}
 	}
 
-	.il-panel-listing-std-container > h3, .panel-body h4{
+	.il-panel-listing-std-container > h2, .panel-body h4{
 		display: block;
 		padding: @padding-large-vertical 0;
 		font-size: @font-size-base;
@@ -176,7 +185,7 @@
 	background-color: @il-secondary-container-bg;
 	margin-bottom: @il-standard-page-content-padding;
 
-	> h3 {
+	> h2 {
 		color: @panel-heading-color;
 		font-size: @font-size-h3;
 		font-weight: 600;

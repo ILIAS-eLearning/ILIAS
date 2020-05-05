@@ -219,9 +219,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     /**
      * @inheritDoc
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title, $hidden = false)
     {
-        $this->legacy_content_template->setTitle((string) $a_title);
+        $this->legacy_content_template->setTitle((string) $a_title, $hidden);
 
         $short_title = (string) $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {

@@ -148,7 +148,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
-		<h5 class="card-title">Card Title</h5>
+		<div class="card-title">Card Title</div>
 	</div>
 	
 </div>
@@ -188,7 +188,7 @@ EOT;
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
-		<h5 class="card-title">Card Title</h5>
+		<div class="card-title">Card Title</div>
 	</div>
 	
 </div>
@@ -234,7 +234,7 @@ EOT;
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
-		<h5 class="card-title">Card Title</h5>
+		<div class="card-title">Card Title</div>
 	</div>
 	
 </div>
@@ -278,7 +278,7 @@ EOT;
 <img src="src" class="img-standard" alt="alt" />
 	<div class="card-no-highlight"></div>
 	<div class="caption">
-		<h5 class="card-title">Card Title</h5>
+		<div class="card-title">Card Title</div>
 	</div>
 	
 </div>

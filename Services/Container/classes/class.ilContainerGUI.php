@@ -527,7 +527,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function setTitleAndDescription()
     {
-        if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+        if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+            $this->tpl->setTitle($this->object->getTitle(), true);
+        } else {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
     

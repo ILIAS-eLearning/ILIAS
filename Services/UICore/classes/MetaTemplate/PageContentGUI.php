@@ -15,6 +15,10 @@ class PageContentGUI
      */
     private $template_file;
 
+    /**
+     * @var bool 
+     */
+    private $hiddenTitle = false;
 
     /**
      * @inheritDoc
@@ -231,10 +235,12 @@ class PageContentGUI
 
     /**
      * @param mixed $title
+     * @param bool $hidden
      */
-    public function setTitle($title)
+    public function setTitle($title, bool $hidden = false)
     {
         $this->title = $title;
+        $this->hiddenTitle = $hidden;
     }
 
 
@@ -595,11 +601,14 @@ class PageContentGUI
         if ($this->title != "") {
             $title = \ilUtil::stripScriptHTML($this->title);
             $this->template_file->setVariable("HEADER", $title);
+            if ($this->hiddenTitle) {
+                $this->template_file->touchBlock("hidden_title");
+            }
 
             $header = true;
         }
 
-        if ($header) {
+        if ($header && !$this->hiddenTitle) {
             $this->template_file->setCurrentBlock("header_image");
             $this->template_file->parseCurrentBlock();
         }
