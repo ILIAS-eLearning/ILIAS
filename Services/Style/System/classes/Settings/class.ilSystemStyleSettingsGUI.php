@@ -277,10 +277,6 @@ class ilSystemStyleSettingsGUI
         $skin = $container->getSkin();
         $old_substyle = clone $skin->getStyle($_GET["style_id"]);
 
-        if (array_key_exists($_POST['style_id'], $skin->getSubstylesOfStyle($old_substyle->getSubstyleOf()))) {
-            throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS, $_POST['style_id']);
-        }
-
         $new_substyle = $skin->getStyle($_GET["style_id"]);
         $new_substyle->setId($_POST["style_id"]);
         $new_substyle->setName($_POST["style_name"]);
