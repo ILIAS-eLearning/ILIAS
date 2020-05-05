@@ -6867,6 +6867,14 @@ button.close {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.panel .panel-heading.ilHeader h2,
+.panel .panel-heading.ilBlockHeader h2,
+.panel .panel-heading.ilHeader h2.ilHeader,
+.panel .panel-heading.ilBlockHeader h2.ilHeader {
+  margin: 0;
+  color: #707070;
+  font-size: 19px;
+}
 .panel .panel-heading.ilHeader h3,
 .panel .panel-heading.ilBlockHeader h3,
 .panel .panel-heading.ilHeader h3.ilHeader,
@@ -6943,6 +6951,9 @@ button.close {
 .panel-secondary .panel-heading.ilHeader {
   padding: 6px 12px;
 }
+.panel-secondary .panel-heading.ilHeader h2.ilHeader {
+  font-size: 17px;
+}
 .panel-secondary .panel-heading.ilHeader h3.ilHeader {
   font-size: 17px;
 }
@@ -6951,6 +6962,9 @@ button.close {
 }
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
+}
+.panel-secondary .panel-body .il-item-group h3 {
+  padding: 6px 12px;
 }
 .panel-secondary .panel-body .il-item-group h4 {
   padding: 6px 12px;
@@ -6964,7 +6978,7 @@ button.close {
 .panel-secondary .panel-body .il-item-group .il-item .media-right {
   vertical-align: middle;
 }
-.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .il-panel-listing-std-container > h2,
 .panel-secondary .panel-body h4 {
   display: block;
   padding: 6px 0;
@@ -6997,7 +7011,7 @@ button.close {
   background-color: #f9f9f9;
   margin-bottom: 20px;
 }
-.il-panel-listing-std-container > h3 {
+.il-panel-listing-std-container > h2 {
   color: #707070;
   font-size: 19px;
   font-weight: 600;
@@ -7526,7 +7540,7 @@ a fieldset[disabled] .active {
   background: #909090;
   border: 1px solid #bfbfbf;
 }
-h6.il-divider {
+h4.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
   display: block;
@@ -7548,7 +7562,7 @@ hr.il-divider-with-label {
 .dropdown hr {
   margin: 6px 0;
 }
-.dropdown h6 {
+.dropdown h4 {
   margin: 3px 0;
 }
 ul.dropdown-menu {
@@ -7655,7 +7669,7 @@ ul.dropdown-menu > li > .btn:focus {
   clear: both;
   background-color: #f9f9f9;
 }
-.il-item-group > h4 {
+.il-item-group > h3 {
   float: left;
   color: #707070;
   font-size: 17px;
@@ -12775,8 +12789,8 @@ h1.ilHeader {
     padding-top: 5px;
   }
 }
-h3.ilHeader {
-  font-weight: normal;
+h2.ilHeader {
+  font-weight: 600;
   padding: 0;
   margin: 0;
   display: inline;
@@ -17283,6 +17297,13 @@ div.ilBlockHeaderBig,
 td.ilBlockHeaderBig {
   font-size: 100%;
 }
+h2.ilBlockHeader {
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  display: inline;
+}
 h3.ilBlockHeader {
   font-weight: 600;
   margin: 0;
@@ -17363,7 +17384,7 @@ div.ilInfoScreenSec {
   padding: 0;
   margin-bottom: 20px;
 }
-div.ilInfoScreenSec h3.ilHeader {
+div.ilInfoScreenSec h2.ilHeader {
   margin-bottom: 5px;
   display: block;
   /* margin: 10px 0;
