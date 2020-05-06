@@ -12352,6 +12352,10 @@ body#tinymce {
   margin: 5px auto 0;
   width: 700px;
 }
+div#mainspacekeeper {
+  overflow: auto;
+  max-width: 100%;
+}
 .fullwidth {
   width: 100%;
 }
