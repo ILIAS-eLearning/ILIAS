@@ -1601,7 +1601,10 @@ class ilStartUpGUI
 
     public static function _checkGoto($a_target)
     {
+        global $DIC;
         global $objDefinition, $ilPluginAdmin, $ilUser;
+
+        $access = $DIC->access();
 
 
         if (is_object($ilPluginAdmin)) {
@@ -1684,14 +1687,14 @@ class ilStartUpGUI
                 $pobj_id = ilObject::_lookupObjId($path_ref_id);
 
                 // core checks: timings/object-specific
-                if (!$ilAccess->checkAccess(
-                    'read',
-                    '',
-                    $path_ref_id
-                )) {
+                if (
+                    !$access->doActivationCheck('read','', $path_ref_id, $ilUser->getId(),$pobj_id,$ptype) ||
+                    !$access->doStatusCheck('read', '' , $path_ref_id, $ilUser->getId(),$pobj_id, $ptype)
+                ) {
                     // object in path is inaccessible - aborting
                     return false;
-                } elseif ($ptype == "crs") {
+                }
+                elseif ($ptype == "crs") {
                     // check if already participant
                     include_once "Modules/Course/classes/class.ilCourseParticipant.php";
                     $participants = new ilCourseParticipant($pobj_id, $ilUser->getId());
