@@ -1,24 +1,26 @@
 <div class="il-table-data">
 
 	<!-- BEGIN header_title -->
-	<h3 class="ilHeader">{TITLE}</h3>
+	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
 	<!-- END header_title -->
 
-	<div class="table-body">
+	<div class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
 
-		<div class="row header">
+		<div class="header row" role="rowgroup">
 			<!-- BEGIN header_cell -->
-			<div class="cell header">
+			<div class="header cell" role="columnheader" aria-colindex="{COL_INDEX}" aria-sort="{COL_SORTATION}">
 				{COL_TITLE}
 			</div>
 			<!-- END header_cell -->
 		</div>
 
-		<!-- BEGIN row -->
-		<div class="row {ALTERNATION}">
-			{CELLS}
+		<div class="body" role="rowgroup">
+			<!-- BEGIN row -->
+			<div class="row {ALTERNATION}" role="row">
+				{CELLS}
+			</div>
+			<!-- END row -->
 		</div>
-		<!-- END row -->
 
 	</div>
 

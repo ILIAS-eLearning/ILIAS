@@ -117,6 +117,7 @@ interface Factory
      *       The ordering among the records in the table, the visibility of columns as well as
      *       the number of simultaneously displayed rows are controlled by the Table's View Controls.
      *       Operating the order-glyphs in the column title will change the records' order.
+     *       This will also reflect in the aria-sort attribute of  the columns' headers.
      *
      *   rivals:
      *     Presentation Table: >
@@ -142,6 +143,23 @@ interface Factory
      *         e.g. a second pagination would be forbidden.
      *   interaction:
      *       1: View Controls used here MUST only affect the table itself.
+     *   accessibility:
+     *       1: >
+     *         The HTML tag enclosing the actual tabular presentation MUST have the
+     *         role-attribute "grid".
+     *       2: >
+     *         The HTML tag enclosing one record MUST have the role-attribute "row".
+     *       3: >
+     *         A single cell MUST be marked with the role-attribute "gridcell".
+     *       4: >
+     *         Every single cell (including headers) MUST have a tabindex-attibute
+     *         initially set to "-1". When focused, this changes to "0".
+     *       5: >
+     *         The row with the columns' headers and the area with the actual data
+     *         MUST each be enclosed by a tag bearing the role-attribute "rowgroup".
+     *       6: >
+     *         All (possible) columns of the Table MUST be counted; the result MUST
+     *         show in an attribute "aria-colcount" of the tag having the 'role="grid"'.
      *
      * ---
      * @param string     $title
@@ -168,11 +186,18 @@ interface Factory
      *   usage:
      *       1: Columns MUST be used in a Table.
      *       2: Columns MUST have a title.
-     *
      *   interaction:
      *       1: Columns optionally MAY be displayed or hidden.
      *       2: Tables MAY be sortable by the data's field associated with the column.
-     *
+     *   accessibility:
+     *       1: >
+     *           The HTML enclosing the Columns's title MUST bear the role-attribute "columnheader"
+     *       2: >
+     *         If the data is sorted by this column, it's header MUST show the direction in the
+     *         "aria-sort" attribute ('ascending'|'descending'|'none', if sortable but not applied).
+     *       3: >
+     *         Every Column MUST have the attribute "aria-colindex" with it's position
+     *         in all available - not visible - columns of the table.
      * ---
      * @param string     $title
      * @return \ILIAS\UI\Component\Table\Column\Factory
