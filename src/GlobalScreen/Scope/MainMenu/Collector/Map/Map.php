@@ -35,8 +35,7 @@ class Map implements Filterable, Walkable
      */
     public function __construct()
     {
-        $this->raw      = new ArrayObject();
-        $this->filtered = new ArrayObject();
+        $this->raw = new ArrayObject();
     }
 
     /**
@@ -62,7 +61,21 @@ class Map implements Filterable, Walkable
 
     /**
      * @param IdentificationInterface $identification
-     * @param bool                    $filtered
+     * @return isItem
+     */
+    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    {
+        $item = $this->raw->offsetGet($identification->serialize());
+
+        if ($item === null) {
+            return $this->getLostItem($identification);
+        }
+
+        return $item;
+    }
+
+    /**
+     * @param IdentificationInterface $identification
      * @return isItem
      */
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
@@ -93,8 +106,6 @@ class Map implements Filterable, Walkable
     {
         $this->applyFilters();
 
-        $filtered = $this->filtered->getArrayCopy();
-
         return $this->filtered->offsetExists($identification->serialize());
     }
 
@@ -108,14 +119,21 @@ class Map implements Filterable, Walkable
 
     private function applyFilters() : void
     {
+        if ($this->filtered === null) {
+            $this->filtered = new ArrayObject($this->raw->getArrayCopy());
+        }
         if (count($this->filters) > 0) {
-            if (count($this->filtered) === 0) {
-                $this->filtered = $this->raw->getArrayCopy();
+            $filter_copy = [];
+            if ($this->filtered === null) {
+                $filter_copy = $this->raw->getArrayCopy();
+            }
+            if ($this->filtered instanceof ArrayObject) {
+                $filter_copy = $this->filtered->getArrayCopy();
             }
             foreach ($this->filters as $filter) {
-                $this->filtered = array_filter($this->filtered, $filter);
+                $filter_copy = array_filter($filter_copy, $filter);
             }
-            $this->filtered = new ArrayObject($this->filtered);
+            $this->filtered = new ArrayObject($filter_copy);
             $this->filters  = [];
         }
     }
@@ -135,7 +153,9 @@ class Map implements Filterable, Walkable
      */
     public function walk(Closure $c) : void
     {
-        array_walk($this->raw, $c);
+        $this->applyFilters();
+
+        array_walk($this->filtered, $c);
     }
 
     /**
@@ -146,7 +166,7 @@ class Map implements Filterable, Walkable
         $this->filters[] = $c;
     }
 
-    public function sort()
+    public function sort() : void
     {
         $sorter = function (isItem $item_one, isItem $item_two) : bool {
             /**
@@ -169,7 +189,8 @@ class Map implements Filterable, Walkable
             return $position_item_one > $position_item_two;
         };
 
-        $this->raw->uasort($sorter);
+        $this->filtered->uasort($sorter);
+//        $this->raw->uasort($sorter);
         $this->walk(static function (isItem &$item) use ($sorter) : isItem {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
@@ -188,17 +209,13 @@ class Map implements Filterable, Walkable
     {
         global $DIC;
 
-        $lost_item = $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
-                         ->withAlwaysAvailable(true)
-                         ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
-                         ->withVisibilityCallable(
-                             function () use ($DIC) {
-                                 return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                             }
-                         )->withTitle($DIC->language()->txt("mme_lost_item_title"));
-
-//        $this->add($lost_item);
-
-        return $lost_item;
+        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
+                   ->withAlwaysAvailable(true)
+                   ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
+                   ->withVisibilityCallable(
+                       function () use ($DIC) {
+                           return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
+                       }
+                   )->withTitle($DIC->language()->txt("mme_lost_item_title"));
     }
 }

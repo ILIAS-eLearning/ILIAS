@@ -159,9 +159,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         // Remove not visible children
         $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isParent) {
-                if ($item->getProviderIdentification()->serialize() === 'ILIAS\MainMenu\Provider\StandardTopItemsProvider|administration') {
-                    $a = 1;
-                }
                 foreach ($item->getChildren() as $child) {
                     if (!$this->map->existsInFilter($child->getProviderIdentification())) {
                         $item->removeChild($child);
@@ -172,13 +169,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         // filter empty slates
-        /* $this->map->filter(static function (isItem $i) : bool {
+        $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
                 return count($i->getChildren()) > 0;
             }
 
             return true;
-        });*/
+        });
 
         $this->map->sort();
     }
@@ -219,12 +216,27 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @param IdentificationInterface $identification
      * @return isItem
-     * @throws \Throwable
      * @deprecated
      */
-    public function getSingleItem(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
-        return $this->map->getSingleItemFromFilter($identification);
+        $item = $this->map->getSingleItemFromFilter($identification);
+        $this->map->add($item);
+
+        return $item;
+    }
+
+    /**
+     * @param IdentificationInterface $identification
+     * @return isItem
+     * @deprecated
+     */
+    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    {
+        $item = $this->map->getSingleItemFromRaw($identification);
+        $this->map->add($item);
+
+        return $item;
     }
 
     /**
