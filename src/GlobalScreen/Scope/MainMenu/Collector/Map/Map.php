@@ -28,7 +28,7 @@ class Map implements Filterable, Walkable
     /**
      * @var ArrayObject
      */
-    private $filtered = null;
+    private $filtered;
 
     /**
      * Tree constructor.
@@ -119,7 +119,11 @@ class Map implements Filterable, Walkable
 
     private function applyFilters() : void
     {
+        if ($this->filtered === null) {
+            $this->filtered = new ArrayObject($this->raw->getArrayCopy());
+        }
         if (count($this->filters) > 0) {
+            $filter_copy = [];
             if ($this->filtered === null) {
                 $filter_copy = $this->raw->getArrayCopy();
             }
