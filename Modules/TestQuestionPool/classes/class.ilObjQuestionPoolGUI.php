@@ -1482,24 +1482,25 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 ? true
                 : false;
         }
-        $this->tabs_gui->addTarget(
-            "assQuestions",
-            $this->ctrl->getLinkTarget($this, "questions"),
-            array("questions", "filter", "resetFilter", "createQuestion",
-                "importQuestions", "deleteQuestions", "filterQuestionBrowser",
-                "view", "preview", "editQuestion", "exec_pg",
-                "addItem", "upload", "save", "cancel", "addSuggestedSolution",
-                "cancelExplorer", "linkChilds", "removeSuggestedSolution",
-                "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
-                "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
-                "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
-                "addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
-                "toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
-            "",
-            "",
-            $force_active
-        );
-
+        if ($ilAccess->checkAccess("write", "", $_GET['ref_id'])) {
+            $this->tabs_gui->addTarget(
+                "assQuestions",
+                $this->ctrl->getLinkTarget($this, "questions"),
+                array("questions", "filter", "resetFilter", "createQuestion",
+                    "importQuestions", "deleteQuestions", "filterQuestionBrowser",
+                    "view", "preview", "editQuestion", "exec_pg",
+                    "addItem", "upload", "save", "cancel", "addSuggestedSolution",
+                    "cancelExplorer", "linkChilds", "removeSuggestedSolution",
+                    "add", "addYesNo", "addTrueFalse", "createGaps", "saveEdit",
+                    "setMediaMode", "uploadingImage", "uploadingImagemap", "addArea",
+                    "deletearea", "saveShape", "back", "addPair", "uploadingJavaapplet",
+                    "addParameter", "assessment", "addGIT", "addST", "addPG", "delete",
+                    "toggleGraphicalAnswers", "deleteAnswer", "deleteImage", "removeJavaapplet"),
+                "",
+                "",
+                $force_active
+            );
+        }
         if ($ilAccess->checkAccess("read", "", $this->ref_id) || $ilAccess->checkAccess("visible", "", $this->ref_id)) {
             $this->tabs_gui->addTarget(
                 "info_short",
@@ -1530,14 +1531,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             }
         }
 
-        // print view
-        $this->tabs_gui->addTarget(
-            "print_view",
-            $this->ctrl->getLinkTarget($this, 'print'),
-            array("print"),
-            "",
-            ""
-        );
+        if ($ilAccess->checkAccess("write", "", $_GET['ref_id'])) {
+            // print view
+            $this->tabs_gui->addTarget(
+                "print_view",
+                $this->ctrl->getLinkTarget($this, 'print'),
+                array("print"),
+                "",
+                ""
+            );
+        }
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             // meta data
