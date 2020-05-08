@@ -58,10 +58,14 @@ class ilForumXMLWriter extends ilXmlWriter
 
         ilUtil::makeDir($this->target_dir_absolute . "/objects");
 
-        $query_frm = 'SELECT * FROM frm_settings fs ' .
-                    'JOIN object_data od ON fs.obj_id = od.obj_id ' .
-                    'JOIN frm_data ON top_frm_fk  = od.obj_id ' .
-                    'WHERE fs.obj_id = ' . $ilDB->quote($this->forum_id, 'integer');
+        $query_frm = '
+            SELECT *
+            FROM object_data od
+            INNER JOIN frm_data
+                ON top_frm_fk  = od.obj_id
+            LEFT JOIN frm_settings fs 
+                ON fs.obj_id = od.obj_id
+            WHERE od.obj_id = ' . $ilDB->quote($this->forum_id, 'integer');
 
         $res = $ilDB->query($query_frm);
 
