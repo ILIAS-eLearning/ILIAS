@@ -60,6 +60,11 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 
         //see mantis 0024601
         if ($ou_id_type == 'external_id') {
+
+            if(strlen($external_id) == 0) {
+                $external_id = $ou_id;
+            }
+
             if ($this->hasMoreThanOneMatch($external_id)) {
                 $this->addError("ou_more_than_one_match_found", $external_id, $action);
 
