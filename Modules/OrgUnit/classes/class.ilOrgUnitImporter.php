@@ -14,7 +14,7 @@ class ilOrgUnitImporter extends ilXmlImporter
     /**
      * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
      */
-    public $errors;
+    public $errors = [];
     /**
      * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
      */
