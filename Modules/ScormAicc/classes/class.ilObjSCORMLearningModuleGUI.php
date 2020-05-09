@@ -367,50 +367,53 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-        // display import form
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
-
-        $this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_lm.svg'));
-        $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
-
-        $this->ctrl->setParameter($this, "new_type", "sahs");
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        $this->tpl->setVariable("BTN_NAME", "newModuleVersionUpload");
-        $this->tpl->setVariable("TARGET", ' target="' .
-        ilFrameTargetInfo::_getFrame("MainContent") . '" ');
-
-        $this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
-
-        if ($type == "scorm2004") {
-            $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm2004"));
-        } else {
-            $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
-        }
-
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $this->form = new ilPropertyFormGUI();
+		//title
+		$this->form->setTitle($this->lng->txt("import_sahs"));
+		
+		// SCORM-type
+        $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
+        $ne->setValue($this->lng->txt("lm_type_" . ilObjSAHSLearningModule::_lookupSubType($this->object->getID())));
+        $this->form->addItem($ne);
+		
+        $options = array();
         include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
         if (ilUploadFiles::_getUploadDirectory()) {
+            $options[""] = $this->lng->txt("cont_select_from_upload_dir");
             $files = ilUploadFiles::_getUploadFiles();
             foreach ($files as $file) {
                 $file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
-                $this->tpl->setCurrentBlock("option_uploaded_file");
-                $this->tpl->setVariable("UPLOADED_FILENAME", $file);
-                $this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
-                $this->tpl->parseCurrentBlock();
+                $options[$file] = $file;
             }
-            $this->tpl->setCurrentBlock("select_uploaded_file");
-            $this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
-            $this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
-            $this->tpl->parseCurrentBlock();
         }
+        if (count($options) > 1) {
+            // choose upload directory
+            $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_choose_file_source"), "file_source");
+            $op0 = new ilRadioOption($this->lng->txt("cont_choose_local"), "local");
+            $radg->addOption($op0);
+            $op1 = new ilRadioOption($this->lng->txt("cont_choose_upload_dir"), "upload_dir");
+            $radg->addOption($op1);
+            $radg->setValue("local");
 
-        $this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
-        $this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+            $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+            $fi->setRequired(true);
+            $op0->addSubItem($fi);
 
-        // gives out the limit as a little notice
-        $this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice") . " " . $this->getMaxFileSize());
+            $si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
+            $si->setOptions($options);
+            $op1->addSubItem($si);
+   
+            $this->form->addItem($radg);
+        } else {
+            $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+            $fi->setRequired(true);
+            $this->form->addItem($fi);
+        }
+        $this->form->addCommandButton("newModuleVersionUpload", $this->lng->txt("upload"));
+        $this->form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$this->form->setFormAction($DIC['ilCtrl']->getFormAction($this, "newModuleVersionUpload"));
+		$DIC['tpl']->setContent($this->form->getHTML());
     }
 
 
