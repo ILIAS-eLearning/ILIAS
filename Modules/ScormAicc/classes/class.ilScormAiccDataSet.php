@@ -262,6 +262,7 @@ class ilScormAiccDataSet extends ilDataSet
             fclose($manifestFile);
         }
 
+        usleep(2000000);
         $zArchive = new zipArchive();
         $fileName = $exportDir . "/" . $baseExportName . ".zip";
 
