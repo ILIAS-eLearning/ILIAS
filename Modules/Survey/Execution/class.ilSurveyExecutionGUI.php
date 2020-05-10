@@ -450,7 +450,8 @@ class ilSurveyExecutionGUI
             }
 
             $required = false;
-            $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
+            //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
+            $stpl = new ilTemplate("tpl.il_svy_svy_content.html", true, true, "Modules/Survey");
             
             if ($this->object->get360Mode()) {
                 $appr_id = $_SESSION["appr_id"][$this->object->getId()];
@@ -461,45 +462,47 @@ class ilSurveyExecutionGUI
             }
 
             if (!($this->object->getAnonymize() && $this->object->isAccessibleWithoutCode() && ($ilUser->getId() == ANONYMOUS_USER_ID))) {
-                $this->tpl->setCurrentBlock("suspend_survey");
+                $stpl->setCurrentBlock("suspend_survey");
 
                 if (!$this->preview) {
-                    $this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
-                    $this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+                    $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
+                    $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
                 } else {
                     $this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $_REQUEST["pgov"]);
-                    $this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
-                    $this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));
+                    $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
+                    $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));
                 }
-                
-                $this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
-                $this->tpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
-                $this->tpl->parseCurrentBlock();
+
+                $stpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
+                $stpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
+                $stpl->parseCurrentBlock();
             }
-            $this->outNavigationButtons("top", $page);
-            
-            
-            $this->tpl->setCurrentBlock("percentage");
+            $this->outNavigationButtons("top", $page, $stpl);
+
+
+            $stpl->setCurrentBlock("percentage");
             
             $percentage = (int) (($page[0]["position"]) * 100);
             
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($percentage);
-            $this->tpl->setVariable("NEW_PBAR", $pbar->render());
-            
-            $this->tpl->parseCurrentBlock();
+            $stpl->setVariable("NEW_PBAR", $pbar->render());
+
+            $stpl->parseCurrentBlock();
             
             
             if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"]) {
-                $this->tpl->setCurrentBlock("questionblock_title");
-                $this->tpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
-                $this->tpl->parseCurrentBlock();
+                $stpl->setCurrentBlock("questionblock_title");
+                $stpl->setVariable("TEXT_QUESTIONBLOCK_TITLE", $page[0]["questionblock_title"]);
+                $stpl->parseCurrentBlock();
             }
             foreach ($page as $data) {
-                $this->tpl->setCurrentBlock("survey_content");
                 if ($data["heading"]) {
-                    $this->tpl->setVariable("QUESTION_HEADING", $data["heading"]);
+                    $stpl->setCurrentBlock("heading");
+                    $stpl->setVariable("QUESTION_HEADING", $data["heading"]);
+                    $stpl->parseCurrentBlock();
                 }
+                $stpl->setCurrentBlock("survey_content");
                 if ($first_question == -1) {
                     $first_question = $data["question_id"];
                 }
@@ -516,23 +519,25 @@ class ilSurveyExecutionGUI
                 }
                 $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
                 $question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId());
-                $this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
+                $stpl->setVariable("QUESTION_OUTPUT", $question_output);
                 $this->ctrl->setParameter($this, "qid", $data["question_id"]);
                 //$this->tpl->parse("survey_content");
                 if ($data["obligatory"]) {
                     $required = true;
                 }
+                $stpl->parseCurrentBlock();
             }
             if ($required) {
-                $this->tpl->setCurrentBlock("required");
-                $this->tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
-                $this->tpl->parseCurrentBlock();
+                $stpl->setCurrentBlock("required");
+                $stpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
+                $stpl->parseCurrentBlock();
             }
 
-            $this->outNavigationButtons("bottom", $page);
+            $this->outNavigationButtons("bottom", $page, $stpl);
 
-            $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
+            $stpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
         }
+        $this->tpl->setContent($stpl->get());
 
         if (!$this->preview) {
             $this->object->setPage($_SESSION["finished_id"][$this->object->getId()], $page[0]['question_id']);
@@ -794,24 +799,24 @@ class ilSurveyExecutionGUI
     *
     * @access public
     */
-    public function outNavigationButtons($navigationblock = "top", $page)
+    public function outNavigationButtons($navigationblock = "top", $page, $stpl)
     {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
-        $this->tpl->setCurrentBlock($navigationblock . "_prev");
+        $stpl->setCurrentBlock($navigationblock . "_prev");
         if ($prevpage === 0) {
-            $this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
+            $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
         } else {
-            $this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+            $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
         }
-        $this->tpl->parseCurrentBlock();
+        $stpl->parseCurrentBlock();
         $nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
-        $this->tpl->setCurrentBlock($navigationblock . "_next");
+        $stpl->setCurrentBlock($navigationblock . "_next");
         if ($nextpage === 1) {
-            $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
+            $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
         } else {
-            $this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
+            $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
         }
-        $this->tpl->parseCurrentBlock();
+        $stpl->parseCurrentBlock();
     }
 
     public function preview()
