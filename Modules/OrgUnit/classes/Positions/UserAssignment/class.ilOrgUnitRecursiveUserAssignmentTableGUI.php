@@ -64,6 +64,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
 
     protected function setTableHeaders()
     {
+        $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
         $this->addColumn($this->lng->txt("lastname"), "last_name");
         $this->addColumn($this->lng->txt("obj_orgu"), "orgus");
@@ -115,6 +116,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                 $usr_id = (int) $usr_id;
                 if (!array_key_exists($usr_id, $data)) {
                     $user = new ilObjUser($usr_id);
+                    $set["login"] = $user->getLogin();
                     $set["first_name"] = $user->getFirstname();
                     $set["last_name"] = $user->getLastname();
                     $set["user_id"] = $user_id;
@@ -174,13 +176,12 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
 
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
+        $this->tpl->setVariable("LOGIN", $set["login"]);
         $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
         $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
         $orgus = $set['orgu_assignments'];
         sort($orgus);
         $this->tpl->setVariable("ORG_UNITS", implode(',', $orgus));
-        //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
-        //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id', $this->ilOrgUnitPosition->getId());
         $selection = new ilAdvancedSelectionListGUI();
