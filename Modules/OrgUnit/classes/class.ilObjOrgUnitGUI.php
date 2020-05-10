@@ -470,13 +470,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 // $this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
                 $this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
             }
-            if ($read_access_ref_id) {
+            if (ilObjOrgUnitAccess::_checkAccessSettings($this->object->getRefId())) {
                 $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS));
+            }
+            if (ilObjOrgUnitAccess::_checkAccessAdministrateUsers($this->object->getRefId())) {
                 $this->tabs_gui->addTab("administrate_users", $this->lng->txt("administrate_users"), $this->ctrl->getLinkTargetByClass("ilLocalUserGUI", "index"));
             }
         }
 
-        if ($read_access_ref_id) {
+        if (ilObjOrgUnitAccess::_checkAccessSettings($this->object->getRefId())) {
             if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
                 $this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
             }
