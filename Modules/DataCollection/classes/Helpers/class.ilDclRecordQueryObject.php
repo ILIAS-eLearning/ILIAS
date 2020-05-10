@@ -29,7 +29,7 @@ class ilDclRecordQueryObject
      */
     public function setSelectStatement($selectStatement)
     {
-        $this->selectStatement = $selectStatement;
+        $this->selectStatement = " ".$selectStatement;
     }
 
 
@@ -47,7 +47,7 @@ class ilDclRecordQueryObject
      */
     public function setJoinStatement($joinStatement)
     {
-        $this->joinStatement = $joinStatement;
+        $this->joinStatement = " ".$joinStatement;
     }
 
 
@@ -65,7 +65,7 @@ class ilDclRecordQueryObject
      */
     public function setWhereStatement($whereStatement)
     {
-        $this->whereStatement = $whereStatement;
+        $this->whereStatement = " ".$whereStatement;
     }
 
 
@@ -83,7 +83,7 @@ class ilDclRecordQueryObject
      */
     public function setGroupStatement($groupStatement)
     {
-        $this->groupStatement = $groupStatement;
+        $this->groupStatement = " ".$groupStatement;
     }
 
 
@@ -101,7 +101,7 @@ class ilDclRecordQueryObject
      */
     public function setOrderStatement($orderStatement)
     {
-        $this->orderStatement = $orderStatement;
+        $this->orderStatement = " ".$orderStatement;
     }
 
 
