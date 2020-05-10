@@ -454,23 +454,23 @@ class ilObjOrgUnit extends ilContainer
         $q = "SELECT * FROM object_translation WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ORDER BY lang_default DESC";
         $r = $this->db->query($q);
 
-        $num = 0;
-        $data = ["Fobject" => []];
+
+        $data = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["Fobject"][$num] = array(
+            $data[$row->lang_code] = array(
                 "title" => $row->title,
                 "desc" => $row->description,
                 "lang" => $row->lang_code,
-                'lang_default' => $row->lang_default,
+                'default' => $row->lang_default,
             );
-            $num++;
+
         }
 
         $translations = $data;
 
-        if (!count($translations["Fobject"])) {
+        if (!count($translations)) {
             $this->addTranslation($this->getTitle(), "", $lng->getDefaultLanguage(), true);
-            $translations["Fobject"][] = array(
+            $translations[$lng->getDefaultLanguage()] = array(
                 "title" => $this->getTitle(),
                 "desc" => "",
                 "lang" => $lng->getDefaultLanguage(),
@@ -622,9 +622,9 @@ class ilObjOrgUnit extends ilContainer
             $query .= ", description = " . $ilDB->quote($a_desc, 'text') . " ";
         }
 
-        if ($a_lang_default) {
-            $query .= ", lang_default = " . $ilDB->quote($a_lang_default, 'integer') . " ";
-        }
+
+        $query .= ", lang_default = " . $ilDB->quote($a_lang_default, 'integer') . " ";
+
 
         $query .= " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = " . $ilDB->quote($a_lang, 'text');
         $ilDB->manipulate($query);
