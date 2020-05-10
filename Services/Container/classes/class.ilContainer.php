@@ -1381,7 +1381,12 @@ class ilContainer extends ilObject
                     $field_form->getADT()->setSelections([$val]);
                 }
                 if ($field instanceof ilAdvancedMDFieldDefinitionSelect) {
-                    $field_form->getADT()->setSelection($val);
+                    $adt = $field_form->getADT();
+                    if ($adt instanceof ilADTMultiEnumText) {
+                        $field_form->getADT()->setSelections([$val]);
+                    } else {
+                        $field_form->getADT()->setSelection($val);
+                    }
                 }
 
                 include_once 'Services/Search/classes/class.ilQueryParser.php';
