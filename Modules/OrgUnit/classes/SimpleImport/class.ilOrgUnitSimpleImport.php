@@ -33,9 +33,9 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $tree = $DIC['tree'];
         $tpl = $DIC['tpl'];
         $ilUser = $DIC['ilUser'];
-        $title = $o->title;
-        $description = $o->description;
-        $external_id = $o->external_id;
+        $title = (string) $o->title;
+        $description = (string) $o->description;
+        $external_id = (string) $o->external_id;
         $create_mode = true;
         $attributes = $o->attributes();
         $action = (string) $attributes->action;
@@ -56,8 +56,13 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 
         //see mantis 0024601
         if ($ou_id_type == 'external_id') {
-            if ($this->hasMoreThanOneMatch($ou_id)) {
-                $this->addError("ou_more_than_one_match_found", $ou_id?$ou_id:$external_id, $action);
+
+            if(strlen($external_id) == 0) {
+                $external_id = $ou_id;
+            }
+
+            if ($this->hasMoreThanOneMatch($external_id)) {
+                $this->addError("ou_more_than_one_match_found", $external_id, $action);
                 return;
             }
         }
