@@ -23,7 +23,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
             ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
             $this->ctrl()->redirectByClass(ilObjOrgUnitGUI::class);
         }
-        
+
         $r = $this->http()->request();
         switch ($this->ctrl()->getNextClass()) {
             case strtolower(ilRepositorySearchGUI::class):
