@@ -14622,6 +14622,7 @@ orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
 orgu#:#user_assignments#:#Benutzerzuweisung
+orgu#:#user_assignments_recursive#:#Benutzerzuweisung Teilbaum
 orgu#:#authority#:#Befugnisse
 orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
 orgu#:#confirm_deletion_button#:#Löschen
