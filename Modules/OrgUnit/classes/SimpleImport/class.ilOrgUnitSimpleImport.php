@@ -109,7 +109,6 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
             $object = new ilObjOrgUnit($ref_id);
             $object->setTitle($title);
 
-            $arrTranslations = $object->getTranslations();
             $object->updateTranslation($title, $description, $ilUser->getLanguage(), "");
 
             $object->setDescription($description);
