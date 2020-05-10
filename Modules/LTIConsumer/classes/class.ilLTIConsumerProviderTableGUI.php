@@ -377,10 +377,10 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
             $this->addColumn($DIC->language()->txt('tbl_lti_prov_outcome'), 'outcome');
         }
         if ($this->isColumnSelected('internal')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_internal'), 'internal');
+            $this->addColumn($DIC->language()->txt('tbl_lti_prov_internal'), 'external');
         }
         if ($this->isColumnSelected('with_key')) {
-            $this->addColumn($DIC->language()->txt('tbl_lti_prov_with_key'), 'with_key');
+            $this->addColumn($DIC->language()->txt('tbl_lti_prov_with_key'), 'provider_key_customizable');
         }
         
         if ($this->isColumnSelected('availability') && $this->isAvailabilityColumnEnabled()) {
