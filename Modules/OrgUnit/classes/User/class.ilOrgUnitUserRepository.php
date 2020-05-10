@@ -217,7 +217,7 @@ class ilOrgUnitUserRepository
         $set = $this->dic->database()->query($q);
 
         while ($row = $this->dic->database()->fetchAssoc($set)) {
-            $users[] = ilOrgUnitUser::getInstance($row['usr_id'], $row['login'], $row['email'], $row['second_email']);
+            $users[] = ilOrgUnitUser::getInstance($row['usr_id'], (string)$row['login'], (string)$row['email'], (string)$row['second_email']);
         }
 
         return $users;
