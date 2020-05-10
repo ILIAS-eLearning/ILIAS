@@ -15,7 +15,11 @@ class ilObjOrgUnitTree
     /**
      * @var null
      */
-    protected static $temporary_table_name = null;
+    protected static $temporary_table_namgetOrgUnitOfUsere = null;
+    /**
+     * @var string
+     */
+    protected static $temporary_table_name;
     /**
      * @var  ilObjOrgUnitTree
      */
@@ -436,29 +440,15 @@ class ilObjOrgUnitTree
      *
      * @return int[]
      */
-    public function getOrgUnitOfUser($user_id, $ref_id = 0)
+    public function getOrgUnitOfUser($user_id)
     {
-        $q = "SELECT object_reference.ref_id FROM rbac_ua
-				JOIN rbac_fa ON rbac_fa.rol_id = rbac_ua.rol_id
-				JOIN object_reference ON rbac_fa.parent = object_reference.ref_id
-				JOIN object_data ON object_data.obj_id = object_reference.obj_id
-			WHERE rbac_ua.usr_id = " . $this->db->quote($user_id, 'integer') . " AND object_data.type = 'orgu'";
+        $orgu_ref_ids = [];
+        $orgu_query = ilOrgUnitUserAssignmentQueries::getInstance();
 
-        $set = $this->db->query($q);
-        $orgu_ref_ids = array();
-        while ($res = $this->db->fetchAssoc($set)) {
-            $orgu_ref_ids[] = $res['ref_id'];
+        $orgus =  $orgu_query->getAssignmentsOfUserId($user_id);
+        foreach($orgus as $orgu) {
+            $orgu_ref_ids[] = $orgu->getOrguId();
         }
-        $orgu_ref_ids = array_unique($orgu_ref_ids);
-        if ($ref_id) {
-            $childernOrgIds = $this->getAllChildren($ref_id);
-            foreach ($orgu_ref_ids as $k => $refId) {
-                if (!in_array($refId, $childernOrgIds)) {
-                    unset($orgu_ref_ids[$k]);
-                }
-            }
-        }
-
         return $orgu_ref_ids;
     }
 
