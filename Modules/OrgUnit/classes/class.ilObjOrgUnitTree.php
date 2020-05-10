@@ -90,10 +90,8 @@ class ilObjOrgUnitTree
                 $arr_usr_ids = $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
                 break;
             case true:
-                foreach ($this->getAllChildren($ref_id) as $ref_id) {
-                    $arr_usr_ids = $arr_usr_ids
-                        + $this->getAssignements($ref_id, ilOrgUnitPosition::getCorePosition(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE));
-                }
+                $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
+                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id),ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
                 break;
         }
 
@@ -348,23 +346,28 @@ class ilObjOrgUnitTree
      */
     public function getEmployeesUnderUser($user_id, $recursive = true)
     {
-        //querry for all orgu where user_id is superior.
-        $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
-                INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
-				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id)
-				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu'";
-        $set = $this->db->query($q);
-        $orgu_ref_ids = array();
-        while ($res = $this->db->fetchAssoc($set)) {
-            $orgu_ref_ids[] = $res['ref_id'];
-        }
-        $employees = array();
-        foreach ($orgu_ref_ids as $orgu_ref_id) {
-            $employees = array_merge($employees, $this->getEmployees($orgu_ref_id, $recursive));
+        $employees = [];
+        $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
+
+        $orgu_ref_ids = $assignment_query->getOrgUnitIdsOfUsersPosition(
+            ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
+            $user_id);
+
+        switch($recursive) {
+            case true:
+                $orgu_ref_id_with_children = [];
+                foreach($orgu_ref_ids as $orgu_ref_id ) {
+                    $orgu_ref_id_with_children = array_merge($orgu_ref_ids, $this->getAllChildren($orgu_ref_id));
+                }
+
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children,ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+            break;
+            default:
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids,ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                break;
         }
 
-        return $employees;
+        return [];
     }
 
 
