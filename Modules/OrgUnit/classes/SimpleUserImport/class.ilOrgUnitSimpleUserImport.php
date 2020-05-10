@@ -21,13 +21,13 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         $a = file_get_contents($file_path, 'r');
         $xml = new SimpleXMLElement($a);
 
-        if (!count($xml->Assignment)) {
+        if (!count($xml->children())) {
             $this->addError('no_assignment', null, null);
 
             return;
         }
 
-        foreach ($xml->Assignment as $a) {
+        foreach ($xml->children() as $a) {
             $this->simpleUserImportElement($a);
         }
     }
@@ -42,8 +42,8 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         $rbacadmin = $DIC['rbacadmin'];
 
         $attributes = $a->attributes();
-        $action = $attributes->action;
-        $user_id_type = $a->User->attributes()->id_type;
+        $action = (string) $attributes->action;
+        $user_id_type = (string) $a->User->attributes()->id_type;
         $user_id = (string) $a->User;
         $org_unit_id_type = $a->OrgUnit->attributes()->id_type;
         $org_unit_id = (string) $a->OrgUnit;
@@ -62,10 +62,10 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
         $org_unit = new ilObjOrgUnit($org_unit_id);
 
-        if ($role == 'employee') {
-            $role_id = $org_unit->getEmployeeRole();
-        } elseif ($role == 'superior') {
-            $role_id = $org_unit->getSuperiorRole();
+        if ($role === 'employee') {
+            $position_id = ilOrgUnitPosition::CORE_POSITION_EMPLOYEE;
+        } elseif ($role === 'superior') {
+            $position_id =  ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
         } else {
             $this->addError('not_a_valid_role', $user_id);
 
@@ -73,10 +73,13 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
 
         if ($action == 'add') {
-            $rbacadmin->assignUser($role_id, $user_id);
+            $assignment = ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_id);
+            $assignment->store();
+
             $this->stats['created']++;
         } elseif ($action == 'remove') {
-            $rbacadmin->deassignUser($role_id, $user_id);
+            $assignment = ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $org_unit_id);
+            $assignment->delete();
             $this->stats['removed']++;
         } else {
             $this->addError('not_a_valid_action', $user_id);
