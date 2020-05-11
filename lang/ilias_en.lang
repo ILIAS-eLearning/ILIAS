@@ -13426,7 +13426,6 @@ prg#:#prg_remove_user_success#:#Removed User successfully.
 prg#:#prg_type_add#:#Study Programme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_adv_settings#:#Advanced Settings
 prg#:#prg_type_custom_icon#:#Custom Icons
 prg#:#prg_type_custom_icon_info#:#Custom icon info
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
