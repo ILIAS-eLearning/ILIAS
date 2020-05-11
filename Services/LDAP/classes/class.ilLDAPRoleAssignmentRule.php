@@ -139,16 +139,25 @@ class ilLDAPRoleAssignmentRule
      */
     private function isGroupMember($a_user_data)
     {
-        if ($this->isMemberAttributeDN()) {
-            $user_cmp = $a_user_data['dn'];
-        } else {
-            $user_cmp = $a_user_data['ilExternalAccount'];
-        }
-        
         include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
         include_once('Services/LDAP/classes/class.ilLDAPServer.php');
                 
         $server = ilLDAPServer::getInstanceByServerId($this->getServerId());
+        
+       if ($this->isMemberAttributeDN()) {
+ 			// start Patch Escape DN
+            if($server->enabledEscapeDN()) 
+            {
+				$user_cmp = ldap_escape($a_user_data['dn'], "",  LDAP_ESCAPE_DN );
+			}
+            else 
+            {
+				$user_cmp = $a_user_data['dn'];
+			}
+			// End Patch Escape DN
+        } else {
+            $user_cmp = $a_user_data['ilExternalAccount'];
+        }
         
         try {
             $query = new ilLDAPQuery($server);

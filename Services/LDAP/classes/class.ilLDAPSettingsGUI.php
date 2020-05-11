@@ -672,8 +672,11 @@ class ilLDAPSettingsGUI
             'global_role' => ilLDAPAttributeMapping::_lookupGlobalRole($this->server->getServerId()),
             'migration' => (int) $this->server->isAccountMigrationEnabled(),
             // start Patch Name Filter
-            "name_filter" => $this->server->getUsernameFilter()
+            "name_filter" => $this->server->getUsernameFilter(),
             // end Patch Name Filter
+			// start Patch Escape DN
+			'escape_dn' => $this->server->enabledEscapeDN()
+			// end Patch Escape DN            
         ));
     }
     
@@ -726,6 +729,13 @@ class ilLDAPSettingsGUI
         $basedsn->setSize(64);
         $basedsn->setMaxLength(255);
         $this->form_gui->addItem($basedsn);
+
+        // Start Patch Escape DN
+		$escapedn = new ilCheckboxInputGUI($this->lng->txt('ldap_escapedn'), 'escape_dn');	// ADD LANG VAR	
+		$escapedn->setValue(1);
+		$escapedn->setInfo($this->lng->txt('ldap_escapedn_info'));
+		$this->form_gui->addItem($escapedn);
+        // End Patch Escape DN
         
         $referrals = new ilCheckboxInputGUI($this->lng->txt('ldap_referrals'), 'referrals');
         $referrals->setValue(1);
@@ -924,6 +934,9 @@ class ilLDAPSettingsGUI
             // start Patch Name Filter
             $this->server->setUsernameFilter($this->form_gui->getInput("name_filter"));
             // end Patch Name Filter
+			// start Patch Escape DN
+			$this->server->enableEscapeDN((int) $this->form_gui->getInput('escape_dn'));
+			// end Patch Escape DN
             if (!$this->server->validate()) {
                 ilUtil::sendFailure($ilErr->getMessage());
                 $this->form_gui->setValuesByPost();

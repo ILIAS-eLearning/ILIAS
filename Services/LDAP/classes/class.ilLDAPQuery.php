@@ -290,7 +290,14 @@ class ilLDAPQuery
         foreach ($group_names as $group) {
             $user = $a_ldap_user_name;
             if ($this->getServer()->enabledGroupMemberIsDN()) {
-                $user = $ldap_user_data['dn'];
+				// Start patch Escape DN
+				if($this->getServer()->enabledEscapeDN()){					
+					$user = ldap_escape($ldap_user_data['dn'], "",  LDAP_ESCAPE_DN);
+				}
+				else{
+					$user = $ldap_user_data['dn'];
+				}
+				// End Patch Escape DN
             }
             
             $filter = sprintf(
