@@ -1397,7 +1397,7 @@ class ilStartUpGUI
         $tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
 
         // load client list template
-        self::initStartUpTemplate("tpl.client_list.html");
+        $tpl = self::initStartUpTemplate("tpl.client_list.html");
 
         // load template for table
         $tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
@@ -1408,10 +1408,8 @@ class ilStartUpGUI
         // load table content data
         require_once("setup/classes/class.ilClientList.php");
         require_once("setup/classes/class.ilClient.php");
-        require_once("setup/classes/class.ilDBConnections.php");
         require_once("./Services/Table/classes/class.ilTableGUI.php");
-        $this->db_connections = new ilDBConnections();
-        $clientlist = new ilClientList($this->db_connections);
+        $clientlist = new \ilClientList();
         $list = $clientlist->getClients();
 
         if (count($list) == 0) {
@@ -1443,7 +1441,7 @@ class ilStartUpGUI
         }
 
         // create table
-        $tbl = new ilTableGUI();
+        $tbl = new ilTableGUI('',false);
 
         // title & header columns
         if ($hasPublicSection) {
@@ -1473,8 +1471,8 @@ class ilStartUpGUI
         $tbl->disable("footer");
 
         // render table
-        $tbl->render();
-        $tpl->printToStdout("DEFAULT", true, true);
+        $html_for_nothing = $tbl->render();
+        self::printToGlobalTemplate($tbl->getTemplateObject());
     }
 
     /**
