@@ -11463,12 +11463,13 @@ orgu#:#remove_user#:#Remove
 orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
+orgu#:#user_assignments_recursive#:#User Assignments Subtree
 orgu#:#authorities#:#Authorities
 orgu#:#authority#:#Authority
 orgu#:#positions#:#Positions
 orgu#:#add_position#:#Add Position
 orgu#:#scope_1#:#Same Organisational Unit
-orgu#:#scope_2#:#Subsequent Organisational Units
+orgu#:#scope_2#:#Same and Subsequent Organisational Units
 orgu#:#scope_3#:#All Organisational Units
 orgu#:#over_-1#:#Everyone
 orgu#:#over#:#Over

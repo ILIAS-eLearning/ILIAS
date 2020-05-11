@@ -383,7 +383,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
         $ids = [];
         foreach ($user_assignments as $user_assignment) {
-            $ids = array_merge($ids, $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id));
+            $ref_ids = $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id);
+            if(count($ref_ids) > 0) {
+                $ids = array_merge($ids, $ref_ids);
+            }
         }
 
         return $ids;
@@ -401,7 +404,10 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         $ids = [];
         foreach (ilOrgUnitOperationContext::$available_contexts as $context) {
-            $ids = array_merge($ids, $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id));
+            $ref_ids = $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id);
+            if(count($ref_ids) > 0) {
+                $ids = array_merge($ids, $ref_ids);
+            }
         }
 
         return $ids;

@@ -11440,7 +11440,7 @@ orgu#:#authorities#:#Befugnisse
 orgu#:#positions#:#Positionen
 orgu#:#add_position#:#Position hinzufügen
 orgu#:#scope_1#:#eigener Organisationseinheit
-orgu#:#scope_2#:#untergeordneten Organisationseinheiten
+orgu#:#scope_2#:#eigener und untergeordneten Organisationseinheiten
 orgu#:#scope_3#:#allen Organisationseinheiten
 orgu#:#over_-1#:#Alle
 orgu#:#over#:#über
@@ -14622,6 +14622,7 @@ orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regel %s erfordert %s Fragen. Es stehen aber nur %s Fragen zur Verfügung.
 orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
 orgu#:#user_assignments#:#Benutzerzuweisung
+orgu#:#user_assignments_recursive#:#Benutzerzuweisung Teilbaum
 orgu#:#authority#:#Befugnisse
 orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
 orgu#:#confirm_deletion_button#:#Löschen

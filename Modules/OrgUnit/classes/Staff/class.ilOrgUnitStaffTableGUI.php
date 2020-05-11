@@ -117,7 +117,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
         if ($this->recursive) {
-            $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id, (int) $_GET['ref_id']);
+            $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
         }
     }
 

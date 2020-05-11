@@ -6,13 +6,24 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  * Class ilOrgUnitUserAssignmentGUI
  *
  * @author       Fabian Schmid <fs@studer-raimann.ch>
- *
+ * @author dkloepfer
+ * @author Martin Studer <ms@studer-raimann.ch>
  * @ilCtrl_Calls ilOrgUnitUserAssignmentGUI: ilRepositorySearchGUI
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
 {
+    const CMD_ASSIGNMENTS_RECURSIVE = 'assignmentsRecursive';
+
+    const SUBTAB_ASSIGNMENTS = 'user_assignments';
+    const SUBTAB_ASSIGNMENTS_RECURSIVE = 'user_assignments_recursive';
+
     public function executeCommand()
     {
+        if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id", FILTER_SANITIZE_NUMBER_INT))) {
+            ilUtil::sendFailure($this->lng()->txt("permission_denied"), true);
+            $this->ctrl()->redirectByClass(ilObjOrgUnitGUI::class);
+        }
+
         $r = $this->http()->request();
         switch ($this->ctrl()->getNextClass()) {
             case strtolower(ilRepositorySearchGUI::class):
@@ -38,6 +49,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
     protected function index()
     {
+        $this->addSubTabs();
+        $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
+
         // Header
         $types = ilOrgUnitPosition::getArray('id', 'title');
         //$types = array();
@@ -53,6 +67,22 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
             $ilOrgUnitUserAssignmentTableGUI = new ilOrgUnitUserAssignmentTableGUI($this, self::CMD_INDEX, $ilOrgUnitPosition);
             $html .= $ilOrgUnitUserAssignmentTableGUI->getHTML();
+        }
+        $this->setContent($html);
+    }
+
+    protected function assignmentsRecursive()
+    {
+        $this->addSubTabs();
+        $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
+        // Tables
+        $html = '';
+        foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
+            $ilOrgUnitRecursiveUserAssignmentTableGUI =
+                new ilOrgUnitRecursiveUserAssignmentTableGUI($this,
+                    self::CMD_ASSIGNMENTS_RECURSIVE,
+                    $ilOrgUnitPosition);
+            $html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
         }
         $this->setContent($html);
     }
@@ -127,5 +157,13 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
         ilUtil::sendSuccess($this->txt("users_successfuly_added"), true);
         $this->ctrl()->redirect($this, self::CMD_INDEX);
+    }
+
+    public function addSubTabs()
+    {
+        $this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl()
+            ->getLinkTarget($this, self::CMD_INDEX));
+        $this->pushSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE, $this->ctrl()
+            ->getLinkTarget($this, self::CMD_ASSIGNMENTS_RECURSIVE));
     }
 }

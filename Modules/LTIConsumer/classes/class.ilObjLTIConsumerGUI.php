@@ -695,7 +695,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $info->addProperty('Current User ID', $DIC->user()->getId());
         }
 
-        if ($this->object->getProvider()->getHasOutcome()) {
+		require_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+        if ($this->object->getProvider()->getHasOutcome() && ilLPObjSettings::_lookupDBMode($this->object->getId()) != 0) {
             $info->addSection($DIC->language()->txt("lti_info_learning_progress_section"));
             $info->addProperty(
                 $DIC->language()->txt("mastery_score"),

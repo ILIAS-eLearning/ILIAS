@@ -40,6 +40,11 @@ class ilOrgUnitGlobalSettingsGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('orgu');
         $this->tpl = $DIC->ui()->mainTemplate();
+
+        if (!ilObjOrgUnitAccess::_checkAccessSettings((int) $_GET['ref_id'])) {
+            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
+        }
     }
 
 
