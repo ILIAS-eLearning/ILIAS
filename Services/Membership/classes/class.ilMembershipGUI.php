@@ -757,6 +757,8 @@ class ilMembershipGUI
             $participants = (array) $_POST['subscribers'];
         } elseif ($_POST['waiting']) {
             $participants = (array) $_POST['waiting'];
+        } else {
+            $participants = array();
         }
 
         if (!count($participants)) {
