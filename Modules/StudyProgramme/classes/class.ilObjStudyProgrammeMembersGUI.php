@@ -949,4 +949,19 @@ class ilObjStudyProgrammeMembersGUI
             $this->object->getRefId()
         );
     }
+
+    public function getLocalMembers(): array
+    {
+        return $this->object->getMembers();
+    }
+
+    public function isOperationAllowedForUser(int $usr_id, string $operation): bool
+    {
+        $ret = $this->position_based_access->isUserAccessibleForOperationAtPrg(
+            $usr_id,
+            $this->object,
+            $operation
+        );
+        return $ret;
+    }
 }
