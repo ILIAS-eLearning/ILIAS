@@ -291,20 +291,23 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $l = new ilAdvancedSelectionListGUI();
 
         $access_by_position = $this->isPermissionControlledByOrguPosition();
+        $parent = $this->getParentObject();
 
         $view_individual_plan =
            $access_by_position == false ||
-            in_array($usr_id, $this->getParentObject()->viewIndividualPlan())
-        ;
-
-        $manage_members =
-            $access_by_position == false ||
-            in_array($usr_id, $this->getParentObject()->manageMembers())
+           $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
         ;
 
         $edit_individual_plan =
             $access_by_position == false ||
-            in_array($usr_id, $this->getParentObject()->editIndividualPlan())
+            $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
+        ;
+
+        $manage_members =
+            (   $access_by_position == false ||
+                $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
+            ) &&
+            in_array($usr_id, $this->getParentObject()->getLocalMembers())
         ;
 
         foreach ($actions as $action) {
@@ -565,7 +568,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $edit_individual_plan = count($this->getParentObject()->editIndividualPlan()) > 0;
             $manage_members = count($this->getParentObject()->manageMembers()) > 0;
         } else {
-            $edit_individual_plan =
+            $edit_individual_plan = true;
             $manage_members = true;
         }
 
