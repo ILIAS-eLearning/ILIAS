@@ -212,15 +212,15 @@ $new_tpl_id = 0;
 $query = 'SELECT obj_id FROM object_data WHERE title = ' . $ilDB->quote('il_lti_user', 'text');
 $res = $ilDB->query($query);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-	$new_tpl_id = $row->obj_id;
+    $new_tpl_id = $row->obj_id;
 }
 if ($new_tpl_id > 0) {
-	$ilDB->manipulateF(
-		"INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-		" VALUES (%s, %s, %s, %s)",
-		array("integer", "text", "integer", "integer"),
-		array($new_tpl_id, 'cat', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
-	);
+    $ilDB->manipulateF(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
+        " VALUES (%s, %s, %s, %s)",
+        array("integer", "text", "integer", "integer"),
+        array($new_tpl_id, 'cat', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
+    );
 }
 
 // local role
@@ -241,33 +241,33 @@ $new_tpl_id = 0;
 $query = 'SELECT obj_id FROM object_data WHERE title = ' . $ilDB->quote('il_lti_learner', 'text');
 $res = $ilDB->query($query);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-	$new_tpl_id = $row->obj_id;
+    $new_tpl_id = $row->obj_id;
 }
 if ($new_tpl_id > 0) {
-	$ilDB->manipulateF(
-		"INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-		" VALUES (%s, %s, %s, %s)",
-		array("integer", "text", "integer", "integer"),
-		array($new_tpl_id, 'tst', ilDBUpdateNewObjectType::getCustomRBACOperationId('visible'), 8)
-	);
-	$ilDB->manipulateF(
-		"INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-		" VALUES (%s, %s, %s, %s)",
-		array("integer", "text", "integer", "integer"),
-		array($new_tpl_id, 'tst', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
-	);
-	$ilDB->manipulateF(
-		"INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-		" VALUES (%s, %s, %s, %s)",
-		array("integer", "text", "integer", "integer"),
-		array($new_tpl_id, 'lm', ilDBUpdateNewObjectType::getCustomRBACOperationId('visible'), 8)
-	);
-	$ilDB->manipulateF(
-		"INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
-		" VALUES (%s, %s, %s, %s)",
-		array("integer", "text", "integer", "integer"),
-		array($new_tpl_id, 'lm', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
-	);
+    $ilDB->manipulateF(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
+        " VALUES (%s, %s, %s, %s)",
+        array("integer", "text", "integer", "integer"),
+        array($new_tpl_id, 'tst', ilDBUpdateNewObjectType::getCustomRBACOperationId('visible'), 8)
+    );
+    $ilDB->manipulateF(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
+        " VALUES (%s, %s, %s, %s)",
+        array("integer", "text", "integer", "integer"),
+        array($new_tpl_id, 'tst', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
+    );
+    $ilDB->manipulateF(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
+        " VALUES (%s, %s, %s, %s)",
+        array("integer", "text", "integer", "integer"),
+        array($new_tpl_id, 'lm', ilDBUpdateNewObjectType::getCustomRBACOperationId('visible'), 8)
+    );
+    $ilDB->manipulateF(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent)" .
+        " VALUES (%s, %s, %s, %s)",
+        array("integer", "text", "integer", "integer"),
+        array($new_tpl_id, 'lm', ilDBUpdateNewObjectType::getCustomRBACOperationId('read'), 8)
+    );
 }
 
 ?>
@@ -279,4 +279,9 @@ if (!$idx) {
     $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
     $setting->set('ilfrmreadidx1', 1);
 }
+?>
+
+<#21>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
