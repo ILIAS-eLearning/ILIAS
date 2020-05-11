@@ -46,12 +46,12 @@ class ilStudyProgrammeCommonSettingsGUI
 
     public function executeCommand()
     {
-        if(is_null($this->object)) {
+        if (is_null($this->object)) {
             throw new ilException('Object of ilObjStudyProgramme is not set');
         }
 
         $cmd = $this->ctrl->getCmd();
-        switch($cmd) {
+        switch ($cmd) {
             case self::CMD_EDIT:
                 return $this->editSettings();
                 break;
@@ -59,7 +59,7 @@ class ilStudyProgrammeCommonSettingsGUI
                 $this->saveSettings();
                 break;
             default:
-                throw new Exception('Unknown command '.$cmd);
+                throw new Exception('Unknown command ' . $cmd);
         }
     }
 
@@ -70,7 +70,7 @@ class ilStudyProgrammeCommonSettingsGUI
 
     protected function editSettings(ilPropertyFormGUI $form = null)
     {
-        if(is_null($form)) {
+        if (is_null($form)) {
             $form = $this->buildForm();
         }
         return $form->getHTML();
@@ -95,8 +95,7 @@ class ilStudyProgrammeCommonSettingsGUI
             $this->object->getId(),
             $form,
             [
-                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
             ]
         );
     }
@@ -105,7 +104,7 @@ class ilStudyProgrammeCommonSettingsGUI
     {
         $form = $this->buildForm();
 
-        if(! $form->checkInput()) {
+        if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->editSettings($form);
             return;
@@ -115,8 +114,7 @@ class ilStudyProgrammeCommonSettingsGUI
             $this->object->getId(),
             $form,
             [
-                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
-                ilObjectServiceSettingsGUI::CUSTOM_METADATA
+                ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
             ]
         );
 
