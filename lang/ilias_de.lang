@@ -13444,8 +13444,8 @@ prg#:#prg_adv_settings#:#Erweiterte Einstellungen
 prg#:#prg_type_custom_icon#:#Individuelles Icon
 prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
 prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
-prg#:#prg_type_assign_amd_sets#:#Erweitertes Metadatenset zuweisen
-prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensets
+prg#:#prg_type_assign_amd_sets#:#Erweiterten Metadatensatz zuweisen
+prg#:#prg_type_available_amd_sets#:#Verfügbare Erweitere Metadatensätze
 prg#:#prg_type_edit#:#Typ editieren
 prg#:#prg_type_msg_deleted#:#Typ gelöscht.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
