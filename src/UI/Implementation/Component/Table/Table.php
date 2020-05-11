@@ -31,6 +31,11 @@ abstract class Table implements T\Table
 
     protected string $title;
 
+    public function __construct(string $title)
+    {
+        $this->title = $title;
+    }
+
     /**
      * @inheritdoc
      */

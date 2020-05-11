@@ -24,7 +24,7 @@ namespace ILIAS\UI\Component\Table\Column;
  * A Column describes the form of presentation for a certain aspect of data,
  * i.e. a field of a record within a table.
  */
-interface Column
+interface Column extends \ILIAS\UI\Component\Component
 {
     public function getTitle(): string;
 
@@ -41,4 +41,8 @@ interface Column
     public function withIsInitiallyVisible(bool $flag): Column;
 
     public function isInitiallyVisible(): bool;
+
+
+    public function withIndex(int $index): Column;
+    public function getIndex(): int;
 }

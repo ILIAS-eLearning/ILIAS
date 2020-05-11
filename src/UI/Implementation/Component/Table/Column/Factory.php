@@ -28,16 +28,16 @@ class Factory implements I\Factory
 {
     public function text(string $title): I\Text
     {
-        throw new NotImplementedException('NYI');
+        return new Text($title);
     }
 
     public function number(string $title): I\Number
     {
-        throw new NotImplementedException('NYI');
+        return new Number($title);
     }
 
-    public function date(string $title, DateFormat $format) //:@Todo: Does not yet exit
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): I\Date
     {
-        throw new NotImplementedException('NYI');
+        return new Date($title, $format);
     }
 }

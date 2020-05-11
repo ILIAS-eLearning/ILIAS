@@ -42,4 +42,15 @@ interface Factory
      * @return \ILIAS\UI\Component\Table\Column\Number
      */
     public function number(string $title): Number;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Date Column is used for single dates.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Column\Date
+     */
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format): Date;
 }

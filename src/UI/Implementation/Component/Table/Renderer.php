@@ -24,7 +24,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use LogicException;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -40,7 +40,12 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\PresentationRow) {
             return $this->renderPresentationRow($component, $default_renderer);
         }
-        throw new LogicException("Cannot render: " . get_class($component));
+        if ($component instanceof Component\Table\Data) {
+            return $this->renderDataTable($component, $default_renderer);
+        }
+        if ($component instanceof Component\Table\Row) {
+            return $this->renderStandardRow($component, $default_renderer);
+        }
     }
 
     protected function renderPresentationTable(
@@ -152,6 +157,194 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+
+    public function renderDataTable(Component\Table\Data $component, RendererInterface $default_renderer)
+    {
+        $f = $this->getUIFactory();
+        $df = new \ILIAS\Data\Factory();
+        //TODO: fix/implement the following (and move it to the component....)
+        $range = $df->range(0, 10);
+        $order = $df->order('f1', \ILIAS\Data\Order::ASC);
+        $visible_col_ids = [];
+        $additional_parameters = [];
+
+        $row_factory = $component->getRowFactory();
+        $data_retrieval = $component->getData();
+        $columns = $component->getFilteredColumns();
+        $overall_column_count = count($component->getColumns());
+
+        $rows = $data_retrieval->getRows(
+            $row_factory,
+            $range,
+            $order,
+            array_keys($columns),
+            $additional_parameters
+        );
+
+        $component = $this->registerActionsJS($component);
+        $id = $this->bindJavaScript($component);
+
+        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
+
+        $tpl->setVariable('ID', $id);
+        $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable('COL_COUNT', (string) $overall_column_count);
+
+        $this->renderTableHeader($tpl, $columns);
+        $this->appendTableRows($tpl, $rows, $default_renderer);
+
+        $multi_actions_dropdown = $this->getMultiActionsDropdown(
+            $component->getMultiActions(),
+            $component->getActionSignal()
+        );
+        if ($multi_actions_dropdown) {
+            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
+        }
+
+        return $tpl->get();
+    }
+
+    protected function registerActionsJS(Component\Table\Data $component): Component\Table\Data
+    {
+        $component = $component->withAdditionalOnLoadCode(
+            $this->getMultiActionHandler($component->getActionSignal())
+        );
+        $actions = $component->getActions();
+        foreach ($actions as $action_id => $action) {
+            $component = $component->withAdditionalOnLoadCode(
+                $this->getActionRegistration($action_id, $action)
+            );
+        }
+        return $component;
+    }
+
+    /**
+     * @param Column\Column[]
+     */
+    protected function renderTableHeader(Template $tpl, array $columns)
+    {
+        foreach ($columns as $col_id => $col) {
+            $sortation = 'none';
+            $tpl->setCurrentBlock('header_cell');
+            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
+            $tpl->setVariable('COL_SORTATION', $sortation);
+            $tpl->setVariable('COL_TITLE', $col->getTitle());
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    /**
+     * @param Row[] $rows
+     */
+    protected function appendTableRows(
+        Template $tpl,
+        \Generator $rows,
+        RendererInterface $default_renderer
+    ) {
+        $alternate = 'even';
+        foreach ($rows as $row) {
+            $row_contents = $default_renderer->render($row);
+            $alternate = ($alternate === 'odd') ? 'even' : 'odd';
+            $tpl->setCurrentBlock('row');
+            $tpl->setVariable('ALTERNATION', $alternate);
+            $tpl->setVariable('CELLS', $row_contents);
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    protected function getMultiActionsDropdown(
+        array $actions,
+        Component\Signal $action_signal
+    ): ?\ILIAS\UI\Component\dropdown\Dropdown {
+        if (count($actions) < 1) {
+            return null;
+        }
+        $f = $this->getUIFactory();
+        $buttons = [];
+
+        foreach ($actions as $action_id => $act) {
+            $signal = clone $action_signal;
+            $signal->addOption('action', $action_id);
+            $buttons[] = $f->button()->shy($act->getLabel(), $signal);
+        }
+        $dropdown = $f->dropdown()->standard($buttons);
+        return $dropdown;
+    }
+
+    protected function getMultiActionHandler(Component\Signal $action_signal): \Closure
+    {
+        return function ($id) use ($action_signal) {
+            return "
+                $(document).on('{$action_signal}', function(event, signal_data) {
+                    il.UI.table.data.doAction('{$id}', signal_data, il.UI.table.data.collectSelectedRowIds('{$id}'));
+                    return false;
+                });";
+        };
+    }
+
+    protected function getActionRegistration(
+        string $action_id,
+        Component\Table\Action\Action $action
+    ): \Closure {
+        $parameter_name = $action->getParameterName();
+        $target = $action->getTarget();
+        $type = 'URL';
+
+        if ($target instanceof Component\Signal) {
+            $type = 'SIGNAL';
+            $target = json_encode([
+                'id' => $target->getId(),
+                'options' => $target->getOptions()
+            ]);
+        }
+
+        return function ($id) use ($action_id, $type, $target, $parameter_name) {
+            return "
+                il.UI.table.data.registerAction('{$id}', '{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
+            ";
+        };
+    }
+
+    public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer)
+    {
+        $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
+        $cols = $component->getColumns();
+
+        foreach ($cols as $col_id => $column) {
+            $cell_tpl->setCurrentBlock('cell');
+            $cell_tpl->setVariable('COL_TYPE', $column->getType());
+            $cell_tpl->setVariable('COL_INDEX', $column->getIndex());
+            $cell_tpl->setVariable('CELL_CONTENT', $component->getCellContent($col_id));
+            $cell_tpl->parseCurrentBlock();
+        }
+
+        $cell_tpl->setVariable('ROW_ID', $component->getId());
+
+        $row_actions_dropdown = $this->getSingleActionsForRow(
+            $component->getId(),
+            $component->getActions()
+        );
+        $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
+
+        return $cell_tpl->get();
+    }
+
+    protected function getSingleActionsForRow(string $row_id, array $actions): ?\ILIAS\UI\Component\Dropdown\Dropdown
+    {
+        $f = $this->getUIFactory();
+        $buttons = [];
+        foreach ($actions as $act_id => $act) {
+            $act = $act->withRowId($row_id);
+            $target = $act->getTarget();
+            if (!$target instanceof Component\Signal) {
+                $target = (string) $target;
+            }
+            $buttons[] = $f->button()->shy($act->getLabel(), $target);
+        }
+        $dropdown = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
+        return $dropdown;
+    }
+
     /**
      * @inheritdoc
      */
@@ -159,6 +352,7 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Table/presentation.js');
+        $registry->register('./src/UI/templates/js/Table/dist/table.js');
     }
 
     protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable
@@ -178,7 +372,9 @@ class Renderer extends AbstractComponentRenderer
     {
         return array(
             Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class
+            Component\Table\Presentation::class,
+            Component\Table\Data::class,
+            Component\Table\Row::class
         );
     }
 }

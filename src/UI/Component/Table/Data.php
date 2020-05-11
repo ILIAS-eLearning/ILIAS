@@ -74,5 +74,15 @@ interface Data extends Table
      * and parameters will already influence e.g. the presentation of
      * column-titles (think of ordering...).
      */
-    public function withRequest(ServerRequestInterface $request);
+    public function withRequest(ServerRequestInterface $request): Data;
+
+    /**
+     * @param array <string, Action>    $actions
+     */
+    public function withActions(array $actions): Data;
+
+    /**
+     * @return Action[]
+     */
+    public function getActions(): array;
 }
