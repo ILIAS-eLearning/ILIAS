@@ -9,26 +9,28 @@ use ILIAS\UI\Component\Table as T;
 class RowFactory implements T\RowFactory
 {
     /**
-     * @var array <id, Tranformation>
+     * @var <string, Column>
      */
-    protected $cell_transformations;
+    protected $columns;
 
-    public function __construct(array $cell_transformations)
+    /**
+     * @var <string, Column>
+     */
+    protected $actions;
+
+    /**
+     * @param <string, Column> $columns
+     * @param <string, Action> $actions
+     */
+    public function __construct(array $columns, array $actions)
     {
-        $this->cell_transformations = $cell_transformations;
+        $this->columns = $columns;
+        $this->actions = $actions;
     }
 
-    public function map(array $record) : array
+    public function standard(string $id, array $record) : T\Row
     {
-        $row = [];
-        foreach (array_keys($this->cell_transformations) as $id) {
-            $row[$id] = '';
-            if (array_key_exists($id, $record)) {
-                foreach ($this->cell_transformations[$id] as $trafo) {
-                    $row[$id] = $trafo($record[$id]);
-                }
-            }
-        }
+        $row = new StandardRow($this->columns, $this->actions, $id, $record);
         return $row;
     }
 }

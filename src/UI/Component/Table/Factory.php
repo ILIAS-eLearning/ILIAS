@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nhaagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -163,6 +163,7 @@ interface Factory
      *
      * ---
      * @param string     $title
+     * @param int     $page_size
      * @return \ILIAS\UI\Component\Table\Data
      */
     public function data(string $title, ?int $page_size = 50) : Data;
@@ -199,8 +200,40 @@ interface Factory
      *         Every Column MUST have the attribute "aria-colindex" with it's position
      *         in all available - not visible - columns of the table.
      * ---
-     * @param string     $title
      * @return \ILIAS\UI\Component\Table\Column\Factory
      */
     public function column() : Column\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       Consumers may attach actions to the table; an action is a Signal or
+     *       URL carrying a parameter that references the targeted record(s).
+     *       While there are actions that make sense for only one record (e.g.
+     *       "edit" or "goto"), there are others that will only be used with
+     *       more than one record (e.g. "export", "compare"), and finally those
+     *       to be valid for both single and multi records (e.g. "delete").
+     *       However, actions share a common concept - they will trigger an URL
+     *       or Signal, relay a parameter derived from the record to identify
+     *       targets and bear a label.
+     *   composition: >
+     *       If applicable, an additional column will be added at the very end
+     *       of the table containing a Button (or Dropdown, for more than one action).
+     *       If there is at least one Multi Action, an unlabled column will be
+     *       added at the very beginning of the table containing a checkbox to
+     *       include the row in the selection.
+     *       There is also a "withDisabledAction"-switch on an Action to opt out
+     *       an Action for a specific row; use it to disable a specific Action by
+     *       introspection of a record or to exit early on multi-Actions
+     *       with invalid selections.
+     *
+     * rules:
+     *   usage:
+     *       1: Actions MUST have a meaningful label describing the purpose of the action.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Table\Action\Factory
+     */
+    public function action() : Action\Factory;
 }

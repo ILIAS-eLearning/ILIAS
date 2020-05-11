@@ -1,5 +1,17 @@
+<td class="cell rowselection" role="gridcell" tabindex="-1">
+	<!-- BEGIN rowselection_cell -->
+	<input type="checkbox" value="{ROW_ID}" class="row-selector">
+	<!-- END rowselection_cell -->
+</td>
+
 <!-- BEGIN cell -->
-<div class="cell {COL_TYPE}" role="gridcell" aria-colindex="{COL_INDEX}" tabindex="-1">
+<td class="cell {COL_TYPE}" role="gridcell" aria-colindex="{COL_INDEX}" tabindex="-1">
 	{CELL_CONTENT}
-</div>
+</td>
 <!-- END cell -->
+
+<td class="cell rowaction" role="gridcell" tabindex="-1">
+	<!-- BEGIN rowaction_cell -->
+		{ACTION_CONTENT}
+	<!-- END rowaction_cell -->
+</td>

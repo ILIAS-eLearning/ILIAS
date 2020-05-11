@@ -23,4 +23,7 @@ interface Column
 
     public function withIsInitiallyVisible(bool $flag) : Column;
     public function isInitiallyVisible() : bool;
+
+    public function withIndex(int $index) : Column;
+    public function getIndex() : int;
 }

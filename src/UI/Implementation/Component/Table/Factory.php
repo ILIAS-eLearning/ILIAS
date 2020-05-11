@@ -39,7 +39,7 @@ class Factory implements T\Factory
      */
     public function data(string $title, ?int $page_size = 50) : T\Data
     {
-        throw new \ILIAS\UI\NotImplementedException('NYI');
+        return new Data($this->signal_generator, $title, $page_size);
     }
 
     /**
@@ -48,5 +48,13 @@ class Factory implements T\Factory
     public function column() : T\Column\Factory
     {
         return new Column\Factory();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function action() : T\Action\Factory
+    {
+        return new Action\Factory();
     }
 }

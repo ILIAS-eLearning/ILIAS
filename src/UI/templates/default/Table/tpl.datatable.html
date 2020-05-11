@@ -1,27 +1,35 @@
-<div class="il-table-data">
+<div class="il-table-data" id="{ID}">
 
 	<!-- BEGIN header_title -->
 	<h3 class="ilHeader" id="{ID}_label">{TITLE}</h3>
 	<!-- END header_title -->
 
-	<div class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
+	<table class="table" role="grid" aria-labelledby="{ID}_label" aria-colcount="{COL_COUNT}">
 
-		<div class="header row" role="rowgroup">
-			<!-- BEGIN header_cell -->
-			<div class="header cell" role="columnheader" aria-colindex="{COL_INDEX}" aria-sort="{COL_SORTATION}">
-				{COL_TITLE}
-			</div>
-			<!-- END header_cell -->
-		</div>
+		<thead>
+			<tr class="header row" role="rowgroup">
+				<th class="header cell rowselection" role="columnheader"></th>
 
-		<div class="body" role="rowgroup">
+				<!-- BEGIN header_cell -->
+				<th class="header cell" role="columnheader" aria-colindex="{COL_INDEX}" aria-sort="{COL_SORTATION}">
+					{COL_TITLE}
+				</th>
+				<!-- END header_cell -->
+
+				<th class="header cell rowaction" role="columnheader"></th>
+			</tr>
+		</thead>
+
+		<tbody class="body" role="rowgroup">
 			<!-- BEGIN row -->
-			<div class="row {ALTERNATION}" role="row">
+			<tr class="row {ALTERNATION}" role="row">
 				{CELLS}
-			</div>
+			</tr>
 			<!-- END row -->
-		</div>
+		</tbody>
 
-	</div>
+	</table>
+
+	<div class="multiaction-triggerer">{MULTI_ACTION_TRIGGERER}</div>
 
 </div>
