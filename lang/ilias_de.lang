@@ -13442,7 +13442,6 @@ prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt.
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
 prg#:#prg_subtypes#:#Typen
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
-prg#:#prg_adv_settings#:#Erweiterte Einstellungen
 prg#:#prg_type_custom_icon#:#Individuelles Icon
 prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
 prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
