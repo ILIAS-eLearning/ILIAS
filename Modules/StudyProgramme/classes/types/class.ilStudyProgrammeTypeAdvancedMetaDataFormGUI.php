@@ -84,6 +84,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         $item->setOptions($options);
         $this->addItem($item);
         $this->addCommandButton('updateAMD', $this->lng->txt('save'));
+        $this->setWidth(320);
     }
 
 
