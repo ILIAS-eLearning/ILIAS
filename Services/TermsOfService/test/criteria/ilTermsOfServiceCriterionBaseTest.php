@@ -18,7 +18,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
         $rbacReview = $this
             ->getMockBuilder(ilRbacReview::class)
             ->disableOriginalConstructor()
-            ->setMethods(['isGlobalRole', 'isAssigned', 'getGlobalRoles'])
+            ->onlyMethods(['isGlobalRole', 'isAssigned', 'getGlobalRoles'])
             ->getMock();
 
         $rbacReview
@@ -52,7 +52,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
         $radioGroup = $this
             ->getMockBuilder(ilRadioGroupInputGUI::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getPostVar'])
+            ->onlyMethods(['getPostVar'])
             ->getMock();
 
         return $radioGroup;
@@ -67,7 +67,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
         $form = $this
             ->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getInput'])
+            ->onlyMethods(['getInput'])
             ->getMock();
 
         return $form;
@@ -82,7 +82,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getLanguage', 'getId', 'getLogin'])
+            ->onlyMethods(['getLanguage', 'getId', 'getLogin'])
             ->getMock();
 
         $user

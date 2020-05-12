@@ -16,7 +16,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment1
@@ -37,7 +38,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment2 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment2
@@ -58,7 +60,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment3 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId', 'store', 'delete'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment3
@@ -336,7 +339,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment1
@@ -357,7 +361,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment2 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment2
@@ -392,7 +397,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment1
@@ -413,7 +419,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment2 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment2
@@ -447,7 +454,8 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getCriterionValue', 'getCriterionId'])
+            ->onlyMethods(['getCriterionValue', 'getCriterionId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $criterionAssignment1
