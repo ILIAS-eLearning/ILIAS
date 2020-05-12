@@ -242,7 +242,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 					<div class="il-mainbar-tools-entries">
 						<div class="il-mainbar-tools-entries-bg"></div>
 					</div>
-					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1">
+					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content">
 							<button class="btn btn-bulky" id="id_4" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1.1</span></button>
 

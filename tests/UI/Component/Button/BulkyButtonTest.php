@@ -72,7 +72,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
     {
         try {
             $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
-                                      ->withAriaRole(C\Button\Bulky::MENUITEM);
+                                      ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
             $this->assertEquals("menuitem", $b->getAriaRole());
         } catch (\InvalidArgumentException $e) {
             $this->assertFalse("This should not happen");
@@ -149,7 +149,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")
-            ->withAriaRole(C\Button\Bulky::MENUITEM);
+            ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
