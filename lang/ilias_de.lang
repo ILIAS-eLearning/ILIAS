@@ -7009,6 +7009,10 @@ mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_firstname_last_name_superior#:#A comma separated list for firstname and lastname of the user's superior(s).
+mail#:#mail_email_usr_subject#:#Test E-Mail Benutzer Mail
+mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von einem Benutzer initiierten E-Mail an externe E-Mail-Adressen zu testen.
+mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
+mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
