@@ -39,57 +39,60 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
                 return $this->index($DIC);
             case self::CMD_ADD:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
                 return $this->add($DIC);
             case self::CMD_CREATE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
                 return $this->create($DIC);
             case self::CMD_EDIT:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
                 return $this->edit($DIC);
             case self::CMD_UPDATE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
 
                 return $this->update($DIC);
             case self::CMD_SAVE_TABLE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->saveTable();
 
                 break;
             case self::CMD_CONFIRM_DELETE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
             case self::CMD_DELETE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->delete();
                 break;
             case self::CMD_CANCEL:
                 $this->cancel();
                 break;
             case self::CMD_CONFIRM_RESTORE:
+                $this->access->checkAccessAndThrowException('write');
                 return $this->confirmRestore();
                 break;
             case self::CMD_RESTORE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
 
                 return $this->restore();
                 break;
             case self::CMD_RENDER_INTERRUPTIVE:
-                $this->access->checkAccessAndThrowException("write");
+                $this->access->checkAccessAndThrowException('write');
                 $this->renderInterruptiveModal();
                 break;
             case self::CMD_UPLOAD:
+                $this->access->checkAccessAndThrowException('write');
                 return $this->upload();
                 break;
             case 'download':
+                $this->access->checkAccessAndThrowException('write');
                 return $this->download();
                 break;
         }
@@ -116,7 +119,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     {
         $next_class = $this->ctrl->getNextClass();
 
-        if ($next_class == '') {
+        if ($next_class === '') {
             $cmd = $this->determineCommand(self::CMD_VIEW_TOP_ITEMS, self::CMD_DELETE);
             $this->tpl->setContent($this->dispatchCommand($cmd));
 
@@ -140,19 +143,20 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
      */
     private function index() : string
     {
-        // ADD NEW
+
         if ($this->access->hasUserPermissionTo('write')) {
+            // ADD NEW
             $b = ilLinkButton::getInstance();
             $b->setCaption($this->lng->txt(self::CMD_ADD), false);
             $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
             $this->toolbar->addButtonInstance($b);
-        }
 
-        // RESTORE
-        $b = ilLinkButton::getInstance();
-        $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
-        $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
-        $this->toolbar->addButtonInstance($b);
+            // RESTORE
+            $b = ilLinkButton::getInstance();
+            $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
+            $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
+            $this->toolbar->addButtonInstance($b);
+        }
 
         // TABLE
         $table = new ilMMTopItemTableGUI($this, new ilMMItemRepository(), $this->access);

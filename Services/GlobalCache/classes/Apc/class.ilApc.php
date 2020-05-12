@@ -68,11 +68,27 @@ class ilApc extends ilGlobalCacheService
 
 
     /**
+     * @param bool $complete
+     *
      * @return bool
      */
-    public function flush()
+    public function flush($complete = false)
     {
-        return apcu_clear_cache();
+        if ($complete) {
+            return apcu_clear_cache();
+        }
+
+        $key_prefix = $this->returnKey('');
+        $apcu_iterator = new APCUIterator();
+        $apcu_iterator->rewind();
+        while ($current_key = $apcu_iterator->key()) {
+            // "begins with"
+            if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
+                $this->delete($current_key);
+            }
+            $apcu_iterator->next();
+        }
+        return true;
     }
 
 

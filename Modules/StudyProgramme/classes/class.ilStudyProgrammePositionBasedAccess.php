@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-class ilStudyProgrammePostionBasedAccess
+class ilStudyProgrammePositionBasedAccess
 {
     public function __construct(ilOrgUnitPositionAccessHandler $pah)
     {
@@ -32,5 +32,10 @@ class ilStudyProgrammePostionBasedAccess
     public function isUserAccessibleForOperationAtPrg(int $usr_id, ilObjStudyProgramme $prg, string $operation) : bool
     {
         return count($this->pah->filterUserIdsByPositionOfCurrentUser($operation, $prg->getRefId(), [$usr_id])) > 0;
+    }
+
+    public function checkPositionAccess($pos_perm, int $ref_id) : bool
+    {
+        return $this->pah->checkPositionAccess($pos_perm, $ref_id);
     }
 }

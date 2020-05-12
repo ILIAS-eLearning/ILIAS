@@ -96,13 +96,10 @@ class ilTranslationGUI
             $table->setData($vals);
         } else {
             $data = $this->ilObjectOrgUnit->getTranslations();
-            foreach ($data["Fobject"] as $k => $v) {
-                $data["Fobject"][$k]["default"] = ($k == $data["default_language"]);
-            }
             if ($a_add) {
-                $data["Fobject"][++$k]["title"] = "";
+                $data[]["title"] = "";
             }
-            $table->setData($data["Fobject"]);
+            $table->setData($data);
         }
         $this->tpl->setContent($table->getHTML());
     }
@@ -137,20 +134,25 @@ class ilTranslationGUI
         // save the stuff
         $this->ilObjectOrgUnit->removeTranslations();
         foreach ($_POST["title"] as $k => $v) {
-            // update object data if default
-            $is_default = ($_POST["default"] == $k);
-            if ($is_default) {
-                $this->ilObjectOrgUnit->setTitle(ilUtil::stripSlashes($v));
-                $this->ilObjectOrgUnit->setDescription(ilUtil::stripSlashes($_POST["desc"][$k]));
-                $this->ilObjectOrgUnit->update();
-            }
 
-            $this->ilObjectOrgUnit->addTranslation(
-                ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($_POST["desc"][$k]),
-                ilUtil::stripSlashes($_POST["lang"][$k]),
-                $is_default
-            );
+
+            $translations = $this->ilObjectOrgUnit->getTranslations();
+
+            if(array_key_exists($_POST["lang"][$k], $translations)) {
+                $this->ilObjectOrgUnit->updateTranslation(
+                    ilUtil::stripSlashes($v),
+                    ilUtil::stripSlashes($_POST["desc"][$k]),
+                    ilUtil::stripSlashes($_POST["lang"][$k]),
+                    ($_POST["default"]==$k)?1:0
+                );
+            } else {
+                $this->ilObjectOrgUnit->addTranslation(
+                    ilUtil::stripSlashes($v),
+                    ilUtil::stripSlashes($_POST["desc"][$k]),
+                    ilUtil::stripSlashes($_POST["lang"][$k]),
+                    ($_POST["default"]==$k)?1:0
+                );
+            }
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

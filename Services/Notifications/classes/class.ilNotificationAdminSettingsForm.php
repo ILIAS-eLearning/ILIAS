@@ -79,13 +79,19 @@ class ilNotificationAdminSettingsForm
         $store_values = array();
         foreach ($channels as $channel) {
             $chb = new ilCheckboxInputGUI($lng->txt('enable_' . $channel['name']), 'enable_' . $channel['name']);
+            if ($lng->txt('enable_' . $channel['name'] . '_info') != '-enable_' . $channel['name'] . '_info-') {
+                $chb->setInfo($lng->txt('enable_' . $channel['name'] . '_info'));
+            }
 
             $store_values[] = 'enable_' . $channel['name'];
 
-            $select = new ilSelectInputGUI($lng->txt('config_type'), 'notifications[' . $channel['name'] . ']');
-            $select->setOptions($options);
-            $select->setValue($channel['config_type']);
-            $chb->addSubItem($select);
+            $mode = new ilRadioGroupInputGUI($lng->txt('config_type'), 'notifications[' . $channel['name'] . ']');
+            foreach ($options as $key => $translation) {
+                $option = new ilRadioOption($translation, $key);
+                $mode->addOption($option);
+            }
+            $mode->setValue($channel['config_type']);
+            $chb->addSubItem($mode);
 
             /**
              * @todo dirty...
@@ -95,7 +101,8 @@ class ilNotificationAdminSettingsForm
             
             // let the channel display their own settings below the "enable channel"
             // checkbox
-            $result = call_user_func(array($channel['handler'], 'showSettings'), $chb);
+            $inst   = new $channel['handler']();
+            $result = $inst->{'showSettings'}($chb);
             if ($result) {
                 $store_values = array_merge($result, $store_values);
             }

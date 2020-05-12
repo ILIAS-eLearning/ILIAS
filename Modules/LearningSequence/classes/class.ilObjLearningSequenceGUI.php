@@ -574,7 +574,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->getLinkTarget(self::CMD_LEARNER_VIEW)
         );
 
-        if ($this->checkAccess("edit_permission")) {
+        if ($this->checkAccess("write")) {
             $this->tabs->addSubTab(
                 self::TAB_MANAGE,
                 $this->lng->txt(self::TAB_MANAGE),

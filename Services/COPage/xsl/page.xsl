@@ -940,7 +940,7 @@
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
 		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
@@ -2960,9 +2960,7 @@
 				</xsl:if>
 				<!-- see #bug22632 -->
 				<xsl:if test="$width = '' and $height = ''">
-					<xsl:attribute name="width">100%</xsl:attribute>
-					<xsl:attribute name="height">100%</xsl:attribute>
-					<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
+					<xsl:attribute name="style">max-width: 100%; width: 100%;</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
@@ -3005,9 +3003,7 @@
 						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$width = '' and $height = ''">
-						<xsl:attribute name="width">100%</xsl:attribute>
-						<xsl:attribute name="height">100%</xsl:attribute>
-						<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
+						<xsl:attribute name="style">width:100%;</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
 					<param name="movie">

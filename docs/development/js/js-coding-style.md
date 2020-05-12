@@ -63,9 +63,7 @@ Note that not all problems are fixable automatically (e.g. using `==` instead of
 
 ### PHPStorm
 
-There is no native support in PHPStorm yet, but community configuration files are available.
-
-Download the .xml [config file](https://gist.github.com/mentos1386/aa18c110dc272514d592ec27e98128be).
+There is no native support in PHPStorm yet. Please import our [PhpStorm Code Style](../code-style-configs/php-storm.xml) config file. The JS part is based on the airbnb [community config file](https://gist.github.com/mentos1386/aa18c110dc272514d592ec27e98128be).
 
 Open Preferences > Editor > Code Style > Javascript and click the little wheel glyph right from the "Scheme" dropdown. Select "Import" and import the file as "Airbnb" style. Now select "Airbnb" in the "Scheme" dropdown.
 

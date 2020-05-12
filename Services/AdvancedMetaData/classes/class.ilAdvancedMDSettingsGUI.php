@@ -551,7 +551,7 @@ class ilAdvancedMDSettingsGUI
     {
         // sort positions and renumber
         $positions = $_POST['pos'];
-        asort($positions);
+        asort($positions, SORT_NUMERIC);
 
         $sorted_positions = [];
         $i = 1;

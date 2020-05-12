@@ -164,7 +164,7 @@ class ilPermission2GUI
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         if (ilRbacLog::isActive()) {
             $ilTabs->addSubTabTarget(
-                "log",
+                "rbac_log",
                 $this->ctrl->getLinkTarget($this, "log"),
                 "",
                 "",

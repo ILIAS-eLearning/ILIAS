@@ -25,7 +25,7 @@ class ilIndividualAssessmentMember
     protected $grading;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $examiner_id;
 
@@ -34,23 +34,23 @@ class ilIndividualAssessmentMember
      */
     protected $notification_ts;
 
-	/**
-	 * @var int|null
-	 */
+    /**
+     * @var int|null
+     */
     protected $changer_id;
 
-	/**
-	 * @var DateTime|null
-	 */
+    /**
+     * @var DateTime|null
+     */
     protected $change_time;
 
     public function __construct(
         ilObjIndividualAssessment $iass,
         ilObjUser $usr,
         ?ilIndividualAssessmentUserGrading $grading,
-        int $examiner_id,
+        ?int $examiner_id,
         int $notification_ts,
-		?int $changer_id,
+        ?int $changer_id,
         ?DateTime $change_time
     ) {
         $this->iass = $iass;
@@ -72,7 +72,7 @@ class ilIndividualAssessmentMember
         return $this->grading->getInternalNote();
     }
 
-    public function examinerId() : int
+    public function examinerId() : ?int
     {
         return $this->examiner_id;
     }
@@ -110,12 +110,12 @@ class ilIndividualAssessmentMember
 
     public function id() : int
     {
-        return (int)$this->usr->getId();
+        return (int) $this->usr->getId();
     }
 
     public function assessmentId() : int
     {
-        return (int)$this->iass->getId();
+        return (int) $this->iass->getId();
     }
 
     public function assessment() : ilObjIndividualAssessment
@@ -130,7 +130,7 @@ class ilIndividualAssessmentMember
 
     public function mayBeFinalized() : bool
     {
-        if ($this->iass->getSettings()->fileRequired() && (string) $this->fileName() === '') {
+        if ($this->iass->getSettings()->isFileRequired() && (string) $this->fileName() === '') {
             return false;
         }
         return in_array(
@@ -140,7 +140,7 @@ class ilIndividualAssessmentMember
                 ilIndividualAssessmentMembers::LP_FAILED
             ]
             ) &&
-            ! $this->finalized();
+            !$this->finalized();
     }
 
     public function withExaminerId(int $examiner_id) : ilIndividualAssessmentMember
@@ -207,7 +207,7 @@ class ilIndividualAssessmentMember
         return $this->grading->getPlace();
     }
 
-    public function eventTime() : DateTimeImmutable
+    public function eventTime() : ?DateTimeImmutable
     {
         return $this->grading->getEventTime();
     }
@@ -222,10 +222,10 @@ class ilIndividualAssessmentMember
         return $this->grading->isFileVisible();
     }
 
-	public function getGrading(): ilIndividualAssessmentUserGrading
-	{
-		return $this->grading;
-	}
+    public function getGrading() : ilIndividualAssessmentUserGrading
+    {
+        return $this->grading;
+    }
 
     public function withGrading($grading) : ilIndividualAssessmentMember
     {

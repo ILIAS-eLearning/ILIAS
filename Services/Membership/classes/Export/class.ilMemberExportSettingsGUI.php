@@ -207,8 +207,6 @@ class ilMemberExportSettingsGUI
         if ($form->checkInput()) {
             $form->setValuesByPost();
             
-            include_once "Services/User/classes/class.ilUserFormSettings.php";
-            
             ilUserFormSettings::deleteAllForPrefix('crs_memlist');
             ilUserFormSettings::deleteAllForPrefix('grp_memlist');
             
@@ -221,7 +219,7 @@ class ilMemberExportSettingsGUI
             $settings->importFromForm($form);
             $settings->store();
             
-            ilUtil::sendSuccess($GLOBALS['DIC']['lng']->txt('settings_saved'));
+            ilUtil::sendSuccess($GLOBALS['DIC']['lng']->txt('settings_saved'),true);
             $GLOBALS['DIC']['ilCtrl']->redirect($this, 'printViewSettings');
         }
     }

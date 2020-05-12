@@ -306,8 +306,8 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setAdminForceNoti((int) $this->forumArray['ForceNotification']);
                     $newObjProp->setUserToggleNoti((int) $this->forumArray['ToggleNotification']);
                     $newObjProp->setFileUploadAllowed((int) $this->forumArray['FileUpload']);
-                    $newObjProp->setThreadSorting($this->forumArray['Sorting']);
-                    $newObjProp->setMarkModeratorPosts($this->forumArray['MarkModeratorPosts']);
+                    $newObjProp->setThreadSorting((int)$this->forumArray['Sorting']);
+                    $newObjProp->setMarkModeratorPosts((int)$this->forumArray['MarkModeratorPosts']);
                     $newObjProp->update();
 
                     $id = $this->getNewForumPk();

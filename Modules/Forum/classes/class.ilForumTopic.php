@@ -359,7 +359,7 @@ class ilForumTopic
 			WHERE parent_pos = %s
 			AND thr_fk = %s',
             array('integer', 'integer'),
-            array('0', $this->id)
+            array(0, $this->id)
         );
             
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -499,44 +499,30 @@ class ilForumTopic
             $query .= " ORDER BY " . $this->orderField . " " . $this->getOrderDirection();
         }
 
-        $res = $this->db->queryf($query, $data_types, $data);
-        
-        $usr_ids = array();
+        $res = $this->db->queryF($query, $data_types, $data);
 
-        $deactivated = array();
+        $usr_ids = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $tmp_object = new ilForumPost($row['pos_pk'], false, true);
-            $tmp_object->assignData($row);
+            $post = new ilForumPost($row['pos_pk'], false, true);
+            $post->assignData($row);
 
             if (!$this->is_moderator) {
-                if (!$tmp_object->isActivated() && $tmp_object->getDisplayUserId() != $this->user->getId()) {
-                    $deactivated[] = $tmp_object;
-                    unset($tmp_object);
+                if (!$post->isActivated() && $post->getPosAuthorId() != $this->user->getId()) {
                     continue;
-                }
-             
-                foreach ($deactivated as $deactivated_node) {
-                    if ($deactivated_node->getLft() < $tmp_object->getLft() && $deactivated_node->getRgt() > $tmp_object->getLft()) {
-                        $deactivated[] = $tmp_object;
-                        unset($tmp_object);
-                        continue 2;
-                    }
                 }
             }
 
             if ((int) $row['pos_display_user_id']) {
-                $usr_ids[] = (int) $row['pos_display_user_id'];
+                $usr_ids[(int) $row['pos_display_user_id']] = (int) $row['pos_display_user_id'];
             }
             if ((int) $row['update_user']) {
-                $usr_ids[] = (int) $row['update_user'];
+                $usr_ids[(int) $row['update_user']] = (int) $row['update_user'];
             }
-             
-            $posts[] = $tmp_object;
-             
-            unset($tmp_object);
+
+            $posts[] = $post;
         }
 
-        ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
+        ilForumAuthorInformationCache::preloadUserObjects(array_values($usr_ids));
 
         return $posts;
     }
@@ -1179,6 +1165,10 @@ class ilForumTopic
             array('thr_subject' => array('text',$this->getSubject())),
             array('thr_pk' => array('integer', $this->getId()))
         );
+        
+        $first_node = $this->getFirstPostNode();
+        $first_node->setSubject($this->getSubject());
+        $first_node->update();
     }
 
     /**

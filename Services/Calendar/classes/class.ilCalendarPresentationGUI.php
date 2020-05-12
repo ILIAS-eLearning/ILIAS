@@ -542,19 +542,6 @@ class ilCalendarPresentationGUI
 
         $this->tpl->setRightContent($tpl->get());
     }
-    
-    
-    /**
-     * Show
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function show()
-    {
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem', 'delos.css', 'Services/Calendar'));
-    }
 
     /**
      * Add tabs for ilCategoryGUI context This cannot be done there since many views (Day Week Agenda)

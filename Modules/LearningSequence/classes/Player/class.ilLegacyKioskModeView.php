@@ -32,11 +32,6 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         return $this->object->getTitle();
     }
 
-    protected function getType() : string
-    {
-        return $this->object->getType();
-    }
-
     /**
      * @inheritDoc
      */
@@ -71,10 +66,13 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             throw new LogicException("The Legacy Mode in the Learning Sequence requires an LSControlBuilder explicitely.", 1);
         }
 
-        $label = $this->lng->txt('lso_start_item') . ' ' . $this->getTitleByType($this->getType());
-
         $ref_id = $this->object->getRefId();
         $type = $this->object->getType();
+
+        $label = sprintf(
+            $this->lng->txt('lso_start_item'),
+            $this->getTitleByType($type)
+        );
 
         $url = \ilLink::_getStaticLink(
             $ref_id,

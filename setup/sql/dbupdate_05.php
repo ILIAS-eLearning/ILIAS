@@ -4238,3 +4238,78 @@ if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#5662>
+<?php
+global $DIC;
+$ilDB = $DIC['ilDB'];
+
+if ($ilDB->tableColumnExists('iass_members', 'record')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'record', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_members', 'internal_note')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'internal_note', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_settings', 'content')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'content', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_settings', 'record_template')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'record_template', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_info_settings', 'mails', $field_infos);
+}
+?>
+
+<#5663>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
+?>
+<#5664>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
+);
+?>
+<#5665>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmreadidx1', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
+    $setting->set('ilfrmreadidx1', 1);
+}
+?> 

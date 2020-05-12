@@ -49,7 +49,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
             }
         }
 
-        return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "");
+        return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
     }
 
     /**

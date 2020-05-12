@@ -91,8 +91,15 @@
 }
 
 .il-notification-item{
+	//To give some extra space in case for vertical scroll bar
+	padding-right: @il-item-padding + 3px;
 	.il-item-additional-content{
 		clear:both;
+	}
+
+	.row {
+		//To prevent horizontal scroll bar.
+		margin-right: 0px;
 	}
 
 	.dropdown{

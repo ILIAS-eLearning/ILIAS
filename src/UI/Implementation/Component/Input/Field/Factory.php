@@ -37,7 +37,6 @@ class Factory implements Field\Factory
      */
     private $refinery;
 
-
     /**
      * Factory constructor.
      *
@@ -174,7 +173,6 @@ class Factory implements Field\Factory
     {
         return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
     }
-
 
     /**
      * @inheritDoc

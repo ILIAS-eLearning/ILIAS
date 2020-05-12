@@ -99,7 +99,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     return;
                 }
                 $this->$cmd();
-                $this->tpl->show(true);
+                $this->tpl->printToStdout();
                 break;
         }
 

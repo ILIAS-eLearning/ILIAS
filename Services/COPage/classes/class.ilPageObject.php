@@ -5,7 +5,6 @@ define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
 define("IL_INSERT_CHILD", 2);
 
-
 /** @defgroup ServicesCOPage Services/COPage
  */
 
@@ -30,16 +29,12 @@ define("IL_INSERT_CHILD", 2);
        main xslt file
 
 */
- 
+
 /**
  * Class ilPageObject
- *
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- *
  * @ingroup ServicesCOPage
  */
 abstract class ilPageObject
@@ -126,9 +121,9 @@ abstract class ilPageObject
     protected $page_config;
 
     /**
-    * Constructor
-    * @access	public
-    */
+     * Constructor
+     * @access    public
+     */
     final public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
     {
         global $DIC;
@@ -152,35 +147,40 @@ abstract class ilPageObject
         $this->old_nr = $a_old_nr;
         $this->encoding = "UTF-8";
         $this->id_elements =
-            array("PageContent", "TableRow", "TableData", "ListItem", "FileItem",
-                "Section", "Tab", "ContentPopup", "GridCell");
+            array("PageContent",
+                  "TableRow",
+                  "TableData",
+                  "ListItem",
+                  "FileItem",
+                  "Section",
+                  "Tab",
+                  "ContentPopup",
+                  "GridCell"
+            );
         $this->setActive(true);
         $this->show_page_act_info = false;
-        
+
         if ($a_id != 0) {
             $this->read();
         }
-        
+
         $this->initPageConfig();
-        
+
         $this->afterConstructor();
     }
-    
+
     /**
      * After constructor
      */
     public function afterConstructor()
     {
     }
-    
-    
+
     /**
      * Get parent type
-     *
      * @return string parent type (page type)
      */
     abstract public function getParentType();
-
 
     /**
      * Init page config
@@ -191,40 +191,36 @@ abstract class ilPageObject
         $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
         $this->setPageConfig($cfg);
     }
-    
+
     /**
      * Set language
-     *
      * @param string $a_val language code or "-" for unknown / not set
      */
     public function setLanguage($a_val)
     {
         $this->language = $a_val;
     }
-    
+
     /**
      * Get language
-     *
      * @return string language code
      */
     public function getLanguage()
     {
         return $this->language;
     }
-    
+
     /**
      * Set page config object
-     *
      * @param object $a_val page config object
      */
     public function setPageConfig($a_val)
     {
         $this->page_config = $a_val;
     }
-    
+
     /**
      * Get page config object
-     *
      * @return object page config object
      */
     public function getPageConfig()
@@ -233,89 +229,80 @@ abstract class ilPageObject
     }
 
     /**
-    * Set Render MD5.
-    *
-    * @param	string	$a_rendermd5	Render MD5
-    */
+     * Set Render MD5.
+     * @param string $a_rendermd5 Render MD5
+     */
     public function setRenderMd5($a_rendermd5)
     {
         $this->rendermd5 = $a_rendermd5;
     }
 
     /**
-    * Get Render MD5.
-    *
-    * @return	string	Render MD5
-    */
+     * Get Render MD5.
+     * @return    string    Render MD5
+     */
     public function getRenderMd5()
     {
         return $this->rendermd5;
     }
 
     /**
-    * Set Rendered Content.
-    *
-    * @param	string	$a_renderedcontent	Rendered Content
-    */
+     * Set Rendered Content.
+     * @param string $a_renderedcontent Rendered Content
+     */
     public function setRenderedContent($a_renderedcontent)
     {
         $this->renderedcontent = $a_renderedcontent;
     }
 
     /**
-    * Get Rendered Content.
-    *
-    * @return	string	Rendered Content
-    */
+     * Get Rendered Content.
+     * @return    string    Rendered Content
+     */
     public function getRenderedContent()
     {
         return $this->renderedcontent;
     }
 
     /**
-    * Set Rendered Time.
-    *
-    * @param	string	$a_renderedtime	Rendered Time
-    */
+     * Set Rendered Time.
+     * @param string $a_renderedtime Rendered Time
+     */
     public function setRenderedTime($a_renderedtime)
     {
         $this->renderedtime = $a_renderedtime;
     }
 
     /**
-    * Get Rendered Time.
-    *
-    * @return	string	Rendered Time
-    */
+     * Get Rendered Time.
+     * @return    string    Rendered Time
+     */
     public function getRenderedTime()
     {
         return $this->renderedtime;
     }
 
     /**
-    * Set Last Change.
-    *
-    * @param	string	$a_lastchange	Last Change
-    */
+     * Set Last Change.
+     * @param string $a_lastchange Last Change
+     */
     public function setLastChange($a_lastchange)
     {
         $this->lastchange = $a_lastchange;
     }
 
     /**
-    * Get Last Change.
-    *
-    * @return	string	Last Change
-    */
+     * Get Last Change.
+     * @return    string    Last Change
+     */
     public function getLastChange()
     {
         return $this->lastchange;
     }
-    
+
     /**
      * Set last change user
-     *
-     * @param	integer	$a_val	last change user
+     * @param integer $a_val last change user
      */
     public function setLastChangeUser($a_val)
     {
@@ -324,27 +311,24 @@ abstract class ilPageObject
 
     /**
      * Get last change user
-     *
-     * @return	integer	last change user
+     * @return    integer    last change user
      */
     public function getLastChangeUser()
     {
         return $this->last_change_user;
     }
-    
+
     /**
      * Set show page activation info
-     *
      * @param bool $a_val show page actication info
      */
     public function setShowActivationInfo($a_val)
     {
         $this->show_page_act_info = $a_val;
     }
-    
+
     /**
      * Get show page activation info
-     *
      * @return bool show page actication info
      */
     public function getShowActivationInfo()
@@ -393,13 +377,12 @@ abstract class ilPageObject
         $this->setRenderedTime($this->page_record["rendered_time"]);
         $this->setLastChange($this->page_record["last_change"]);
     }
-    
+
     /**
      * Checks whether page exists
-     *
      * @param string $a_parent_type parent type
-     * @param int $a_id page id
-     * @param string $a_lang language code, if empty language independent existence is checked
+     * @param int    $a_id          page id
+     * @param string $a_lang        language code, if empty language independent existence is checked
      */
     public static function _exists($a_parent_type, $a_id, $a_lang = "", $a_no_cache = false)
     {
@@ -410,12 +393,12 @@ abstract class ilPageObject
         if (!$a_no_cache && isset(self::$exists[$a_parent_type . ":" . $a_id . ":" . $a_lang])) {
             return self::$exists[$a_parent_type . ":" . $a_id . ":" . $a_lang];
         }
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
         }
-        
+
         $query = "SELECT page_id FROM page_object WHERE page_id = " . $db->quote($a_id, "integer") . " " .
             "AND parent_type = " . $db->quote($a_parent_type, "text") . $and_lang;
         $set = $db->query($query);
@@ -430,10 +413,9 @@ abstract class ilPageObject
 
     /**
      * Checks whether page exists and is not empty (may return true on some empty pages)
-     *
      * @param string $a_parent_type parent type
-     * @param int $a_id page id
-     * @param string $a_lang language code ("-" for unknown / not set)
+     * @param int    $a_id          page id
+     * @param string $a_lang        language code ("-" for unknown / not set)
      */
     public static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
     {
@@ -486,10 +468,9 @@ abstract class ilPageObject
     {
         return $this->dom;
     }
-    
+
     /**
      * Get dom doc (php5 dom document)
-     *
      * @param
      * @return
      */
@@ -498,14 +479,13 @@ abstract class ilPageObject
         if ($this->dom instanceof php4DOMDocument) {
             return $this->dom->myDOMDocument;
         }
-        
+
         return $this->dom;
     }
-    
 
     /**
-    * set id
-    */
+     * set id
+     */
     public function setId($a_id)
     {
         $this->id = $a_id;
@@ -546,20 +526,18 @@ abstract class ilPageObject
     }
 
     /**
-    * set activation
-    *
-    * @param	boolean		$a_active	true/false for active or not
-    */
+     * set activation
+     * @param boolean $a_active true/false for active or not
+     */
     public function setActive($a_active)
     {
         $this->active = $a_active;
     }
 
     /**
-    * get activation
-    *
-    * @return	boolean		true/false for active or not
-    */
+     * get activation
+     * @return    boolean        true/false for active or not
+     */
     public function getActive($a_check_scheduled_activation = false)
     {
         if ($a_check_scheduled_activation && !$this->active) {
@@ -576,7 +554,6 @@ abstract class ilPageObject
 
     /**
      * Preload activation data by Parent Id
-     *
      * @param integer $a_parent_id parent id
      */
     public static function preloadActivationDataByParentId($a_parent_id)
@@ -587,12 +564,11 @@ abstract class ilPageObject
         $set = $db->query(
             "SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info FROM page_object " .
             " WHERE parent_id = " . $db->quote($a_parent_id, "integer")
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             self::$activation_data[$rec["page_id"] . ":" . $rec["parent_type"] . ":" . $rec["lang"]] = $rec;
         }
     }
-
 
     /**
      * lookup activation status
@@ -602,7 +578,7 @@ abstract class ilPageObject
         global $DIC;
 
         $db = $DIC->database();
-        
+
         // language must be set at least to "-"
         if ($a_lang == "") {
             $a_lang = "-";
@@ -620,7 +596,6 @@ abstract class ilPageObject
             $rec = $db->fetchAssoc($set);
         }
 
-
         $rec["n"] = ilUtil::now();
 
         if (!$rec["active"] && $a_check_scheduled_activation) {
@@ -629,19 +604,19 @@ abstract class ilPageObject
                 return true;
             }
         }
-        
+
         return $rec["active"];
     }
 
     /**
-    * Check whether page is activated by time schedule
-    */
+     * Check whether page is activated by time schedule
+     */
     public static function _isScheduledActivation($a_id, $a_parent_type, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         // language must be set at least to "-"
         if ($a_lang == "") {
             $a_lang = "-";
@@ -654,7 +629,7 @@ abstract class ilPageObject
         } else {
             $set = $db->queryF(
                 "SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s" .
-            " AND parent_type = %s AND lang = %s",
+                " AND parent_type = %s AND lang = %s",
                 array("integer", "text", "text"),
                 array($a_id, $a_parent_type, $a_lang)
             );
@@ -664,19 +639,24 @@ abstract class ilPageObject
         if (!$rec["active"] && $rec["activation_start"] != "") {
             return true;
         }
-        
+
         return false;
     }
 
     /**
      * write activation status
      */
-    public static function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true, $a_lang = "-")
-    {
+    public static function _writeActive(
+        $a_id,
+        $a_parent_type,
+        $a_active,
+        $a_reset_scheduled_activation = true,
+        $a_lang = "-"
+    ) {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         // language must be set at least to "-"
         if ($a_lang == "") {
             $a_lang = "-";
@@ -719,32 +699,31 @@ abstract class ilPageObject
         } else {
             $set = $db->queryF(
                 "SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s" .
-            " AND parent_type = %s AND lang = %s",
+                " AND parent_type = %s AND lang = %s",
                 array("integer", "text", "text"),
                 array($a_id, $a_parent_type, $a_lang)
             );
             $rec = $db->fetchAssoc($set);
         }
-        
+
         return $rec;
     }
 
-    
     /**
-    * Lookup parent id
-    */
+     * Lookup parent id
+     */
     public static function lookupParentId($a_id, $a_type)
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $res = $db->query("SELECT parent_id FROM page_object WHERE page_id = " . $db->quote($a_id, "integer") . " " .
-                "AND parent_type=" . $db->quote($a_type, "text"));
+            "AND parent_type=" . $db->quote($a_type, "text"));
         $rec = $db->fetchAssoc($res);
         return $rec["parent_id"];
     }
-    
+
     /**
      * Write parent id
      */
@@ -760,12 +739,11 @@ abstract class ilPageObject
             array($a_par_id, $a_pg_id, $a_parent_type)
         );
     }
-    
+
     /**
-    * Set Activation Start.
-    *
-    * @param	date	$a_activationstart	Activation Start
-    */
+     * Set Activation Start.
+     * @param date $a_activationstart Activation Start
+     */
     public function setActivationStart($a_activationstart)
     {
         if ($a_activationstart == "") {
@@ -775,20 +753,18 @@ abstract class ilPageObject
     }
 
     /**
-    * Get Activation Start.
-    *
-    * @return	date	Activation Start
-    */
+     * Get Activation Start.
+     * @return    date    Activation Start
+     */
     public function getActivationStart()
     {
         return $this->activationstart;
     }
 
     /**
-    * Set Activation End.
-    *
-    * @param	date	$a_activationend	Activation End
-    */
+     * Set Activation End.
+     * @param date $a_activationend Activation End
+     */
     public function setActivationEnd($a_activationend)
     {
         if ($a_activationend == "") {
@@ -798,10 +774,9 @@ abstract class ilPageObject
     }
 
     /**
-    * Get Activation End.
-    *
-    * @return	date	Activation End
-    */
+     * Get Activation End.
+     * @return    date    Activation End
+     */
     public function getActivationEnd()
     {
         return $this->activationend;
@@ -809,10 +784,8 @@ abstract class ilPageObject
 
     /**
      * Get a content object of the page
-     *
      * @param string hier ID
      * @param string PC ID
-     *
      * @return object page content object
      */
     public function getContentObject($a_hier_id, $a_pc_id = "")
@@ -830,7 +803,7 @@ abstract class ilPageObject
             $child_node = $cont_node->first_child();
             $node_name = $child_node->node_name();
         }
-        
+
         // table extra handling (@todo: get rid of it)
         if ($node_name == "Table") {
             if ($child_node->get_attribute("DataTable") == "y") {
@@ -857,12 +830,12 @@ abstract class ilPageObject
 
             //require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
-            
+
             $mal_node = $child_node->first_child();
             //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
             $id_arr = explode("_", $mal_node->get_attribute("OriginId"));
             $mob_id = $id_arr[count($id_arr) - 1];
-            
+
             // allow deletion of non-existing media objects
             if (!ilObject::_exists($mob_id) && in_array("delete", $_POST)) {
                 $mob_id = 0;
@@ -871,7 +844,7 @@ abstract class ilPageObject
             //$mob = new ilObjMediaObject($mob_id);
             $mob = new ilPCMediaObject($this);
             $mob->readMediaObject($mob_id);
-            
+
             //$mob->setDom($this->dom);
             $mob->setNode($cont_node);
             $mob->setHierId($a_hier_id);
@@ -882,9 +855,9 @@ abstract class ilPageObject
         //
         // generic procedure
         //
-        
+
         $pc_def = ilCOPagePCDef::getPCDefinitionByName($node_name);
-        
+
         // check if pc definition has been found
         if (!is_array($pc_def)) {
             include_once("./Services/COPage/exceptions/class.ilCOPageUnknownPCTypeException.php");
@@ -902,9 +875,8 @@ abstract class ilPageObject
 
     /**
      * Get content node from dom
-     *
      * @param string $a_hier_id hierarchical ID
-     * @param string $a_pc_id page content ID
+     * @param string $a_pc_id   page content ID
      */
     public function &getContentNode($a_hier_id, $a_pc_id = "")
     {
@@ -921,7 +893,7 @@ abstract class ilPageObject
                     return $cont_node;
                 }
             }
-            
+
             // fall back to hier id
             $path = "//*[@HierId = '$a_hier_id']";
             $res = xpath_eval($xpc, $path);
@@ -934,9 +906,8 @@ abstract class ilPageObject
 
     /**
      * Get content node from dom
-     *
      * @param string $a_hier_id hierarchical ID
-     * @param string $a_pc_id page content ID
+     * @param string $a_pc_id   page content ID
      */
     public function checkForTag($a_content_tag, $a_hier_id, $a_pc_id = "")
     {
@@ -949,7 +920,7 @@ abstract class ilPageObject
                 return true;
             }
         }
-        
+
         // fall back to hier id
         $path = "//*[@HierId = '$a_hier_id']//" . $a_content_tag;
         $res = xpath_eval($xpc, $path);
@@ -958,7 +929,7 @@ abstract class ilPageObject
         }
         return false;
     }
-    
+
     // only for test purposes
     public function lookforhier($a_hier_id)
     {
@@ -972,21 +943,18 @@ abstract class ilPageObject
         }
     }
 
-
     public function &getNode()
     {
         return $this->node;
     }
 
-
     /**
-    * set xml content of page, start with <PageObject...>,
-    * end with </PageObject>, comply with ILIAS DTD, omit MetaData, use utf-8!
-    *
-    * @param	string		$a_xml			xml content
-    * @param	string		$a_encoding		encoding of the content (here is no conversion done!
-    *										it must be already utf-8 encoded at the time)
-    */
+     * set xml content of page, start with <PageObject...>,
+     * end with </PageObject>, comply with ILIAS DTD, omit MetaData, use utf-8!
+     * @param string $a_xml                   xml content
+     * @param string $a_encoding              encoding of the content (here is no conversion done!
+     *                                        it must be already utf-8 encoded at the time)
+     */
     public function setXMLContent($a_xml, $a_encoding = "UTF-8")
     {
         $this->encoding = $a_encoding;
@@ -994,20 +962,18 @@ abstract class ilPageObject
     }
 
     /**
-    * append xml content to page
-    * setXMLContent must be called before and the same encoding must be used
-    *
-    * @param	string		$a_xml			xml content
-    */
+     * append xml content to page
+     * setXMLContent must be called before and the same encoding must be used
+     * @param string $a_xml xml content
+     */
     public function appendXMLContent($a_xml)
     {
         $this->xml .= $a_xml;
     }
 
-
     /**
-    * get xml content of page
-    */
+     * get xml content of page
+     */
     public function getXMLContent($a_incl_head = false)
     {
         // build full http path for XML DOCTYPE header.
@@ -1024,11 +990,11 @@ abstract class ilPageObject
             return $this->xml;
         }
     }
-    
+
     /**
-    * Copy content of page; replace page components with copies
-    * where necessary (e.g. questions)
-    */
+     * Copy content of page; replace page components with copies
+     * where necessary (e.g. questions)
+     */
     public function copyXmlContent($a_clone_mobs = false)
     {
         $xml = $this->getXmlContent();
@@ -1051,16 +1017,13 @@ abstract class ilPageObject
 
     /**
      * Handle copied content
-     *
      * This function copies items, that must be copied, if page
      * content is duplicated.
-     *
      * Currently called by
      * - copyXmlContent
      * - called by pasteContents
      * - called by ilPageEditorGUI->paste -> pasteContents
-     *
-     * @param $a_dom
+     * @param      $a_dom
      * @param bool $a_self_ass
      * @param bool $a_clone_mobs
      */
@@ -1075,10 +1038,10 @@ abstract class ilPageObject
         } else {
             $this->removeQuestions($a_dom);
         }
-        
+
         // handle interactive images
         $this->newIIMCopies($a_dom);
-        
+
         // handle media objects
         if ($a_clone_mobs) {
             $this->newMobCopies($a_dom);
@@ -1104,8 +1067,7 @@ abstract class ilPageObject
      * Handle content before deletion
      * This currently treats only plugged content
      * If no node is given, then the whole dom will be scanned
-     *
-     * @param php4DOMNode|DOMNode|null	$a_node
+     * @param php4DOMNode|DOMNode|null $a_node
      */
     public function handleDeleteContent($a_node = null)
     {
@@ -1146,7 +1108,7 @@ abstract class ilPageObject
         include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
-            
+
             $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
             $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
 
@@ -1158,13 +1120,13 @@ abstract class ilPageObject
                     // now copy this question and change reference to
                     // new question id
                     $new_mob = $media_object->duplicate();
-                    
+
                     $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $new_mob->getId());
                 }
             }
         }
     }
-    
+
     /**
      * Replaces media objects with copies
      */
@@ -1179,7 +1141,7 @@ abstract class ilPageObject
         include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
-            
+
             $inst_id = ilInternalLink::_extractInstOfTarget($or_id);
             $mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
 
@@ -1191,13 +1153,13 @@ abstract class ilPageObject
                     // now copy this question and change reference to
                     // new question id
                     $new_mob = $media_object->duplicate();
-                    
+
                     $res->nodeset[$i]->set_attribute("OriginId", "il__mob_" . $new_mob->getId());
                 }
             }
         }
     }
-    
+
     /**
      * Replaces existing question content elements with
      * new copies
@@ -1213,7 +1175,7 @@ abstract class ilPageObject
         include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
-            
+
             $inst_id = ilInternalLink::_extractInstOfTarget($qref);
             $q_id = ilInternalLink::_extractObjIdOfTarget($qref);
 
@@ -1238,10 +1200,9 @@ abstract class ilPageObject
             }
         }
     }
-    
+
     /**
      * Remove questions from document
-     *
      * @param
      * @return
      */
@@ -1256,12 +1217,11 @@ abstract class ilPageObject
             $parent_node->unlink_node($parent_node);
         }
     }
-    
+
     // @todo: end
-    
+
     /**
      * Remove questions from document
-     *
      * @param
      * @return
      */
@@ -1274,11 +1234,11 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
         return count($res->nodeset);
     }
-    
+
     /**
-    * get xml content of page from dom
-    * (use this, if any changes are made to the document)
-    */
+     * get xml content of page from dom
+     * (use this, if any changes are made to the document)
+     */
     public function getXMLFromDom(
         $a_incl_head = false,
         $a_append_mobs = false,
@@ -1336,22 +1296,47 @@ abstract class ilPageObject
     {
         $xml = "<LVs>";
         $lang_vars = array(
-            "ed_paste_clip", "ed_edit", "ed_edit_prop", "ed_delete", "ed_moveafter",
-            "ed_movebefore", "ed_go", "ed_class", "ed_width", "ed_align_left",
-            "ed_align_right", "ed_align_center", "ed_align_left_float",
-            "ed_align_right_float", "ed_delete_item", "ed_new_item_before",
-            "ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
-            "ed_item_up", "ed_item_down", "ed_split_page_next","ed_enable",
-            "de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy", "ed_insert_templ",
-            "ed_click_to_add_pg", "download");
-        
+            "ed_paste_clip",
+            "ed_edit",
+            "ed_edit_prop",
+            "ed_delete",
+            "ed_moveafter",
+            "ed_movebefore",
+            "ed_go",
+            "ed_class",
+            "ed_width",
+            "ed_align_left",
+            "ed_align_right",
+            "ed_align_center",
+            "ed_align_left_float",
+            "ed_align_right_float",
+            "ed_delete_item",
+            "ed_new_item_before",
+            "ed_new_item_after",
+            "ed_copy_clip",
+            "please_select",
+            "ed_split_page",
+            "ed_item_up",
+            "ed_item_down",
+            "ed_split_page_next",
+            "ed_enable",
+            "de_activate",
+            "ed_paste",
+            "ed_edit_multiple",
+            "ed_cut",
+            "ed_copy",
+            "ed_insert_templ",
+            "ed_click_to_add_pg",
+            "download"
+        );
+
         // collect lang vars from pc elements
         include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             $lang_vars[] = "pc_" . $def["pc_type"];
             $lang_vars[] = "ed_insert_" . $def["pc_type"];
-            
+
             ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
             $lvs = call_user_func($def["pc_class"] . '::getLangVars');
@@ -1389,11 +1374,6 @@ abstract class ilPageObject
                 $par->setNode($cont_node);
                 $text = $par->getText();
 
-                if (!$this->getPageConfig()->getPreventHTMLUnmasking()) {
-                    $text = str_replace("<", "&lt;", $text);
-                    $text = str_replace(">", "&gt;", $text);
-                }
-
                 return $text;
             }
         }
@@ -1401,11 +1381,10 @@ abstract class ilPageObject
     }
 
     /**
-    * Set content of paragraph
-    *
-    * @param	string	$a_hier_id		Hier ID
-    * @param	string	$a_content		Content
-    */
+     * Set content of paragraph
+     * @param string $a_hier_id Hier ID
+     * @param string $a_content Content
+     */
     public function setParagraphContent($a_hier_id, $a_content)
     {
         $node = $this->getContentNode($a_hier_id);
@@ -1416,15 +1395,12 @@ abstract class ilPageObject
 
     // @todo end
 
-    
     /**
-    * lm parser set this flag to true, if the page contains intern links
-    * (this method should only be called by the import parser)
-    *
-    * todo: move to ilLMPageObject !?
-    *
-    * @param	boolean		$a_contains_link		true, if page contains intern link tag(s)
-    */
+     * lm parser set this flag to true, if the page contains intern links
+     * (this method should only be called by the import parser)
+     * todo: move to ilLMPageObject !?
+     * @param boolean $a_contains_link true, if page contains intern link tag(s)
+     */
     // @todo: can we do this better
     public function setContainsIntLink($a_contains_link)
     {
@@ -1432,28 +1408,26 @@ abstract class ilPageObject
     }
 
     /**
-    * returns true, if page was marked as containing an intern link (via setContainsIntLink)
-    * (this method should only be called by the import parser)
-    */
+     * returns true, if page was marked as containing an intern link (via setContainsIntLink)
+     * (this method should only be called by the import parser)
+     */
     // @todo: can we do this better
     public function containsIntLink()
     {
         return $this->contains_int_link;
     }
-    
+
     /**
      * Set import mode
-     *
      * @param bool $a_val import mode
      */
     public function setImportMode($a_val)
     {
         $this->import_mode = $a_val;
     }
-    
+
     /**
      * Get import mode
-     *
      * @return bool import mode
      */
     public function getImportMode()
@@ -1474,8 +1448,7 @@ abstract class ilPageObject
 
     /**
      * Set contains question
-     *
-     * @param	boolean	$a_val	contains question
+     * @param boolean $a_val contains question
      */
     // @todo: can we do this better
     public function setContainsQuestion($a_val)
@@ -1485,8 +1458,7 @@ abstract class ilPageObject
 
     /**
      * Get contains question
-     *
-     * @return	boolean	contains question
+     * @return    boolean    contains question
      */
     public function getContainsQuestion()
     {
@@ -1495,9 +1467,9 @@ abstract class ilPageObject
 
 
     /**
-    * get all media objects, that are referenced and used within
-    * the page
-    */
+     * get all media objects, that are referenced and used within
+     * the page
+     */
     // @todo: move to media class
     public function collectMediaObjects($a_inline_only = true)
     {
@@ -1548,8 +1520,8 @@ abstract class ilPageObject
 
 
     /**
-    * get all internal links that are used within the page
-    */
+     * get all internal links that are used within the page
+     */
     // @todo: can we do this better?
     public function getInternalLinks($a_cnt_multiple = false)
     {
@@ -1570,15 +1542,18 @@ abstract class ilPageObject
             $targetframe = $res->nodeset[$i]->get_attribute("TargetFrame");
             $anchor = $res->nodeset[$i]->get_attribute("Anchor");
             $links[$target . ":" . $type . ":" . $targetframe . ":" . $anchor . $add] =
-                array("Target" => $target, "Type" => $type,
-                    "TargetFrame" => $targetframe, "Anchor" => $anchor);
-                    
+                array("Target" => $target,
+                      "Type" => $type,
+                      "TargetFrame" => $targetframe,
+                      "Anchor" => $anchor
+                );
+
             // get links (image map areas) for inline media objects
             if ($type == "MediaObject" && $targetframe == "") {
                 if (substr($target, 0, 4) == "il__") {
                     $id_arr = explode("_", $target);
                     $id = $id_arr[count($id_arr) - 1];
-    
+
                     $med_links = ilMediaItem::_getMapAreasIntLinks($id);
                     foreach ($med_links as $key => $med_link) {
                         $links[$key] = $med_link;
@@ -1614,9 +1589,9 @@ abstract class ilPageObject
     }
 
     /**
-    * get a xml string that contains all media object elements, that
-    * are referenced by any media alias in the page
-    */
+     * get a xml string that contains all media object elements, that
+     * are referenced by any media alias in the page
+     */
     // @todo: move to media class
     public function getMultimediaXML()
     {
@@ -1636,8 +1611,8 @@ abstract class ilPageObject
     }
 
     /**
-    * get complete media object (alias) element
-    */
+     * get complete media object (alias) element
+     */
     // @todo: move to media class
     public function getMediaAliasElement($a_mob_id, $a_nr = 1)
     {
@@ -1651,10 +1626,9 @@ abstract class ilPageObject
     }
 
     /**
-    * Validate the page content agains page DTD
-    *
-    * @return	array		Error array.
-    */
+     * Validate the page content agains page DTD
+     * @return    array        Error array.
+     */
     public function validateDom()
     {
         $this->stripHierIDs();
@@ -1668,20 +1642,17 @@ abstract class ilPageObject
     }
 
     /**
-    * Add hierarchical ID (e.g. for editing) attributes "HierId" to current dom tree.
-    * This attribute will be added to the following elements:
-    * PageObject, Paragraph, Table, TableRow, TableData.
-    * Only elements of these types are counted as "childs" here.
-    *
-    * Hierarchical IDs have the format "x_y_z_...", e.g. "1_4_2" means: second
-    * child of fourth child of first child of page.
-    *
-    * The PageObject element gets the special id "pg". The first child of the
-    * page starts with id 1. The next child gets the 2 and so on.
-    *
-    * Another example: The first child of the page is a Paragraph -> id 1.
-    * The second child is a table -> id 2. The first row gets the id 2_1, the
-    */
+     * Add hierarchical ID (e.g. for editing) attributes "HierId" to current dom tree.
+     * This attribute will be added to the following elements:
+     * PageObject, Paragraph, Table, TableRow, TableData.
+     * Only elements of these types are counted as "childs" here.
+     * Hierarchical IDs have the format "x_y_z_...", e.g. "1_4_2" means: second
+     * child of fourth child of first child of page.
+     * The PageObject element gets the special id "pg". The first child of the
+     * page starts with id 1. The next child gets the 2 and so on.
+     * Another example: The first child of the page is a Paragraph -> id 1.
+     * The second child is a table -> id 2. The first row gets the id 2_1, the
+     */
     // @todo: can we do this better? remove dependencies?
     public function addHierIDs()
     {
@@ -1694,7 +1665,7 @@ abstract class ilPageObject
         // set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
         $xpc = xpath_new_context($this->dom);
         //$path = "//Paragraph | //Table | //TableRow | //TableData";
-        
+
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
             $path .= $sep . "//" . $el;
@@ -1717,7 +1688,7 @@ abstract class ilPageObject
                 }
             }
 
-            if ($sib_hier_id != "") {		// set id to sibling id "+ 1"
+            if ($sib_hier_id != "") {        // set id to sibling id "+ 1"
                 require_once("./Services/COPage/classes/class.ilPageContent.php");
                 $node_hier_id = ilPageContent::incEdId($sib_hier_id);
                 $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
@@ -1733,7 +1704,7 @@ abstract class ilPageObject
                 if ($ctag == "FileItem") {
                     $this->file_item_ids[] = $node_hier_id;
                 }
-            } else {						// no sibling -> node is first child
+            } else {                        // no sibling -> node is first child
                 // get hierarchical id of next parent
                 $cnode = $res->nodeset[$i];
                 $par_hier_id = "";
@@ -1746,7 +1717,7 @@ abstract class ilPageObject
                     }
                 }
                 //echo "<br>par:".$par_hier_id." ($ctag)";
-                if (($par_hier_id != "") && ($par_hier_id != "pg")) {		// set id to parent_id."_1"
+                if (($par_hier_id != "") && ($par_hier_id != "pg")) {        // set id to parent_id."_1"
                     $node_hier_id = $par_hier_id . "_1";
                     $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
                     $this->hier_ids[] = $node_hier_id;
@@ -1762,7 +1733,7 @@ abstract class ilPageObject
                     if ($ctag == "FileItem") {
                         $this->file_item_ids[] = $node_hier_id;
                     }
-                } else {		// no sibling, no parent -> first node
+                } else {        // no sibling, no parent -> first node
                     $node_hier_id = "1";
                     $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
                     $this->hier_ids[] = $node_hier_id;
@@ -1774,7 +1745,7 @@ abstract class ilPageObject
         $xpc = xpath_new_context($this->dom);
         $path = "//PageObject";
         $res = xpath_eval($xpc, $path);
-        for ($i = 0; $i < count($res->nodeset); $i++) {	// should only be 1
+        for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
             $res->nodeset[$i]->set_attribute("HierId", "pg");
             $this->hier_ids[] = "pg";
         }
@@ -1782,59 +1753,59 @@ abstract class ilPageObject
     }
 
     /**
-    * get all hierarchical ids
-    */
+     * get all hierarchical ids
+     */
     public function getHierIds()
     {
         return $this->hier_ids;
     }
 
     /**
-    * get ids of all first table rows
-    */
+     * get ids of all first table rows
+     */
     // @todo: move to table classes
     public function getFirstRowIds()
     {
         return $this->first_row_ids;
     }
-    
+
     /**
-    * get ids of all first table columns
-    */
+     * get ids of all first table columns
+     */
     // @todo: move to table classes
     public function getFirstColumnIds()
     {
         return $this->first_col_ids;
     }
-    
+
     /**
-    * get ids of all list items
-    */
+     * get ids of all list items
+     */
     // @todo: move to list class
     public function getListItemIds()
     {
         return $this->list_item_ids;
     }
-    
+
     /**
-    * get ids of all file items
-    */
+     * get ids of all file items
+     */
     // @todo: move to file item class
     public function getFileItemIds()
     {
         return $this->file_item_ids;
     }
-    
+
     /**
-    * strip all hierarchical id attributes out of the dom tree
-    */
+     * strip all hierarchical id attributes out of the dom tree
+     */
     public function stripHierIDs()
     {
         if (is_object($this->dom)) {
             $xpc = xpath_new_context($this->dom);
             $path = "//*[@HierId]";
             $res = xpath_eval($xpc, $path);
-            for ($i = 0; $i < count($res->nodeset); $i++) {	// should only be 1
+            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
                 if ($res->nodeset[$i]->has_attribute("HierId")) {
                     $res->nodeset[$i]->remove_attribute("HierId");
                 }
@@ -1857,7 +1828,7 @@ abstract class ilPageObject
             $xpc = xpath_new_context($this->dom);
             $path = "//*[@PCID]";
             $res = xpath_eval($xpc, $path);
-            for ($i = 0; $i < count($res->nodeset); $i++) {	// should only be 1
+            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
                 $pc_id = $res->nodeset[$i]->get_attribute("PCID");
                 if (in_array($pc_id, $a_pc_ids)) {
                     $ret[$pc_id] = $res->nodeset[$i]->get_attribute("HierId");
@@ -1870,8 +1841,8 @@ abstract class ilPageObject
     }
 
     /**
-    * add file sizes
-    */
+     * add file sizes
+     */
     // @todo: move to file item class
     public function addFileSizes()
     {
@@ -1910,7 +1881,7 @@ abstract class ilPageObject
     public function resolveIntLinks($a_link_map = null)
     {
         $changed = false;
-        
+
         $this->log->debug("start");
 
         // resolve normal internal links
@@ -1924,7 +1895,6 @@ abstract class ilPageObject
             if ($a_link_map == null) {
                 $new_target = ilInternalLink::_getIdForImportId($type, $target);
                 $this->log->debug("no map, type: " . $type . ", target: " . $target . ", new target: " . $new_target);
-            //				echo "-".$new_target."-".$type."-".$target."-"; exit;
             } else {
                 $nt = explode("_", $a_link_map[$target]);
                 $new_target = false;
@@ -1936,7 +1906,7 @@ abstract class ilPageObject
             if ($new_target !== false) {
                 $res->nodeset[$i]->set_attribute("Target", $new_target);
                 $changed = true;
-            } else {		// check wether link target is same installation
+            } else {        // check wether link target is same installation
                 if (ilInternalLink::_extractInstOfTarget($target) == IL_INST_ID &&
                     IL_INST_ID > 0 && $type != "RepositoryItem") {
                     $new_target = ilInternalLink::_removeInstFromTarget($target);
@@ -1967,8 +1937,7 @@ abstract class ilPageObject
     /**
      * Resolve media aliases
      * (after import)
-     *
-     * @param	array		mapping array
+     * @param array        mapping array
      */
     // @todo: move to media classes?
     public function resolveMediaAliases($a_mapping, $a_reuse_existing_by_import = false)
@@ -2003,7 +1972,12 @@ abstract class ilPageObject
                 // if the old_id is also referred by the page content of the default language
                 // we assume that this media object is unchanged
                 include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-                $med_of_def_lang = ilObjMediaObject::_getMobsOfObject($this->getParentType() . ":pg", $this->getId(), 0, "-");
+                $med_of_def_lang = ilObjMediaObject::_getMobsOfObject(
+                    $this->getParentType() . ":pg",
+                    $this->getId(),
+                    0,
+                    "-"
+                );
                 if (in_array($old_id, $med_of_def_lang)) {
                     $new_id = $old_id;
                 }
@@ -2020,8 +1994,7 @@ abstract class ilPageObject
     /**
      * Resolve iim media aliases
      * (in ilContObjParse)
-     *
-     * @param	array		mapping array
+     * @param array        mapping array
      */
     // @todo: move to iim classes?
     public function resolveIIMMediaAliases($a_mapping)
@@ -2046,8 +2019,7 @@ abstract class ilPageObject
     /**
      * Resolve file items
      * (after import)
-     *
-     * @param	array		mapping array
+     * @param array        mapping array
      */
     // @todo: move to file classes?
     public function resolveFileItems($a_mapping)
@@ -2098,18 +2070,17 @@ abstract class ilPageObject
 
 
     /**
-    * Move internal links from one destination to another. This is used
-    * for pages and structure links. Just use IDs in "from" and "to".
-    *
-    * @param	array	keys are the old targets, values are the new targets
-    */
+     * Move internal links from one destination to another. This is used
+     * for pages and structure links. Just use IDs in "from" and "to".
+     * @param array    keys are the old targets, values are the new targets
+     */
     // @todo: generalize, internal links usage info
     public function moveIntLinks($a_from_to)
     {
         $this->buildDom();
-        
+
         $changed = false;
-        
+
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
@@ -2134,13 +2105,13 @@ abstract class ilPageObject
             }
         }
         unset($xpc);
-        
+
         // map areas
         $this->addHierIDs();
         $xpc = xpath_new_context($this->dom);
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
-        
+
         require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
         require_once("Services/COPage/classes/class.ilMediaAliasItem.php");
 
@@ -2178,7 +2149,7 @@ abstract class ilPageObject
                 if (substr($oid, 0, 4) == "il__") {
                     $id_arr = explode("_", $oid);
                     $id = $id_arr[count($id_arr) - 1];
-    
+
                     $mob = new ilObjMediaObject($id);
                     $med_item = $mob->getMediaItem("Standard");
                     $med_areas = $med_item->getMapAreas();
@@ -2187,7 +2158,7 @@ abstract class ilPageObject
                         $link_type = ($area->getLinkType() == "int")
                             ? "IntLink"
                             : "ExtLink";
-                        
+
                         $areas[] = array(
                             "Nr" => $area->getNr(),
                             "Shape" => $area->getShape(),
@@ -2199,8 +2170,8 @@ abstract class ilPageObject
                                 "Target" => $area->getTarget(),
                                 "Type" => $area->getType(),
                                 "TargetFrame" => $area->getTargetFrame()
-                                )
-                            );
+                            )
+                        );
 
                         if ($area->getType() == "PageObject" ||
                             $area->getType() == "StructureObject") {
@@ -2214,7 +2185,7 @@ abstract class ilPageObject
                     }
                 }
             }
-            
+
             // correct map area links
             if ($correction_needed) {
                 $changed = true;
@@ -2233,16 +2204,16 @@ abstract class ilPageObject
                             }
                         }
                     }
-                    
+
                     $std_alias_item->addMapArea(
                         $area["Shape"],
                         $area["Coords"],
                         $area["Link"]["Title"],
-                        array(	"Type" => $area["Link"]["Type"],
-                                "TargetFrame" => $area["Link"]["TargetFrame"],
-                                "Target" => $area["Link"]["Target"],
-                                "Href" => $area["Link"]["Href"],
-                                "LinkType" => $area["Link"]["LinkType"],
+                        array("Type" => $area["Link"]["Type"],
+                              "TargetFrame" => $area["Link"]["TargetFrame"],
+                              "Target" => $area["Link"]["Target"],
+                              "Href" => $area["Link"]["Href"],
+                              "LinkType" => $area["Link"]["LinkType"],
                         )
                     );
                 }
@@ -2254,15 +2225,14 @@ abstract class ilPageObject
     }
 
     /**
-    * Change targest of repository links. Use full targets in "from" and "to"!!!
-    *
-    * @param	array	keys are the old targets, values are the new targets
-    */
+     * Change targest of repository links. Use full targets in "from" and "to"!!!
+     * @param array    keys are the old targets, values are the new targets
+     */
     // @todo: generalize, internal links usage info
     public static function _handleImportRepositoryLinks($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
     {
         include_once("./Services/Link/classes/class.ilInternalLink.php");
-        
+
         //echo "-".$a_rep_import_id."-".$a_rep_ref_id."-";
         $sources = ilInternalLink::_getSourcesOfTarget(
             "obj",
@@ -2290,12 +2260,12 @@ abstract class ilPageObject
             }
         }
     }
-        
+
     // @todo: generalize, internal links usage info
     public function handleImportRepositoryLink($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
     {
         $this->buildDom();
-        
+
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
@@ -2319,7 +2289,7 @@ abstract class ilPageObject
     /**
      * Handle repository links on copy process
      * @param array $a_mapping
-     * @param int $a_source_ref_id
+     * @param int   $a_source_ref_id
      */
     public function handleRepositoryLinksOnCopy($a_mapping, $a_source_ref_id)
     {
@@ -2349,10 +2319,10 @@ abstract class ilPageObject
                 } elseif ($this->tree->isGrandChild($a_source_ref_id, $t[3])) {
                     // we have no mapping, but the linked object is child of the original node -> remove link
                     $this->log->debug("... remove links.");
-                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {	// simply remove map areas
+                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {    // simply remove map areas
                         $parent = $res->nodeset[$i]->parent_node();
                         $parent->unlink_node($parent);
-                    } else {	// replace link by content of the link for other internal links
+                    } else {    // replace link by content of the link for other internal links
                         $source_node = $res->nodeset[$i];
                         $new_node = $source_node->clone_node(true);
                         $new_node->unlink_node($new_node);
@@ -2409,7 +2379,6 @@ abstract class ilPageObject
                 $ref_id = (int) $par["ref_id"];
             }
 
-
             if ($ref_id > 0) {
                 if (isset($a_mapping[$ref_id])) {
                     $new_ref_id = $a_mapping[$ref_id];
@@ -2428,10 +2397,10 @@ abstract class ilPageObject
                 } elseif ($tree->isGrandChild($a_source_ref_id, $ref_id)) {
                     // we have no mapping, but the linked object is child of the original node -> remove link
                     $this->log->debug("... remove ext links.");
-                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {	// simply remove map areas
+                    if ($res->nodeset[$i]->parent_node()->node_name() == "MapArea") {    // simply remove map areas
                         $parent = $res->nodeset[$i]->parent_node();
                         $parent->unlink_node($parent);
-                    } else {	// replace link by content of the link for other internal links
+                    } else {    // replace link by content of the link for other internal links
                         $source_node = $res->nodeset[$i];
                         $new_node = $source_node->clone_node(true);
                         $new_node->unlink_node($new_node);
@@ -2448,7 +2417,6 @@ abstract class ilPageObject
         unset($xpc);
     }
 
-
     /**
      * Create new page object with current xml content
      */
@@ -2459,14 +2427,14 @@ abstract class ilPageObject
             $this->setXMLContent("<PageObject></PageObject>");
             $empty = true;
         }
-        
+
         $content = $this->getXMLContent();
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
-        
+
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
-                
+
         // create object
         $this->db->insert("page_object", array(
             "page_id" => array("integer", $this->getId()),
@@ -2485,16 +2453,14 @@ abstract class ilPageObject
             "created" => array("timestamp", ilUtil::now()),
             "last_change" => array("timestamp", ilUtil::now()),
             "is_empty" => array("integer", $empty)
-            ));
-        
+        ));
+
         // after update event
         $this->__afterUpdate($dom_doc, $content, true, $empty);
     }
 
-
     /**
      * Updates page object with current xml content
-     *
      * This function is currently (4.4.0 alpha) called by:
      * - ilContObjParser (LM and Glossary import parser)
      * - ilSCORM13Package->dbImportSco (SCORM importer)
@@ -2524,11 +2490,11 @@ abstract class ilPageObject
             "activation_end" => array("timestamp", $this->getActivationEnd()),
             "inactive_elements" => array("integer", $iel),
             "int_links" => array("integer", $inl),
-            ), array(
+        ), array(
             "page_id" => array("integer", $this->getId()),
             "parent_type" => array("text", $this->getParentType()),
             "lang" => array("text", $this->getLanguage())
-            ));
+        ));
 
         // after update event
         $this->__afterUpdate($dom_doc, $content);
@@ -2537,11 +2503,10 @@ abstract class ilPageObject
 
         return true;
     }
-    
+
     /**
      * After update event handler (internal). The hooks are e.g. for
      * storing any dependent relations/references in the database.
-     *
      * @param
      */
     final protected function __afterUpdate($a_domdoc, $a_xml, $a_creation = false, $a_empty = false)
@@ -2565,28 +2530,25 @@ abstract class ilPageObject
                 call_user_func($def["pc_class"] . '::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
             }
         }
-                
+
         // call page hook
         $this->afterUpdate($a_domdoc, $a_xml);
-        
+
         // call update listeners
         $this->callUpdateListeners();
     }
-    
+
     /**
      * After update
-     *
      * @param
      * @return
      */
     public function afterUpdate()
     {
     }
-    
 
     /**
      * update complete page content in db (dom xml content is used)
-     *
      */
     public function update($a_validate = true, $a_no_history = false)
     {
@@ -2608,11 +2570,11 @@ abstract class ilPageObject
             include_once("./Services/User/classes/class.ilUserUtil.php");
             $lock = $this->getEditLockInfo();
             $errors[0] = array(0 => 0,
-                1 => "nocontent#" . $this->lng->txt("cont_not_saved_edit_lock_expired") . "<br />" .
-                    $this->lng->txt("obj_usr") . ": " .
-                ilUserUtil::getNamePresentation($lock["edit_lock_user"]) . "<br />" .
-                    $this->lng->txt("content_until") . ": " .
-                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX))
+                               1 => "nocontent#" . $this->lng->txt("cont_not_saved_edit_lock_expired") . "<br />" .
+                                   $this->lng->txt("obj_usr") . ": " .
+                                   ilUserUtil::getNamePresentation($lock["edit_lock_user"]) . "<br />" .
+                                   $this->lng->txt("content_until") . ": " .
+                                   ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX))
             );
         }
 
@@ -2625,11 +2587,11 @@ abstract class ilPageObject
             // @todo 1: is this page type or pc content type
             // related -> plugins should be able to hook in!?
             $this->performAutomaticModifications();
-            
+
             // get xml content
             $content = $this->getXMLFromDom();
             $dom_doc = $this->getDomDoc();
-            
+
             // this needs to be locked
 
             // write history entry
@@ -2652,7 +2614,11 @@ abstract class ilPageObject
                             "DELETE FROM page_history WHERE " .
                             "page_id = %s AND parent_type = %s AND hdate = %s AND lang = %s",
                             array("integer", "text", "timestamp", "text"),
-                            array($old_rec["page_id"], $old_rec["parent_type"], $old_rec["last_change"], $old_rec["lang"])
+                            array($old_rec["page_id"],
+                                  $old_rec["parent_type"],
+                                  $old_rec["last_change"],
+                                  $old_rec["lang"]
+                            )
                         );
 
                         // the following lines are a workaround for
@@ -2672,8 +2638,8 @@ abstract class ilPageObject
                             "user_id" => array("integer", $old_rec["last_change_user"]),
                             "ilias_version" => array("text", ILIAS_VERSION_NUMERIC),
                             "nr" => array("integer", (int) $last_nr["mnr"] + 1)
-                            ));
-                        
+                        ));
+
                         $old_content = $old_rec["content"];
                         $old_domdoc = new DOMDocument();
                         $old_nr = $last_nr["mnr"] + 1;
@@ -2681,10 +2647,10 @@ abstract class ilPageObject
 
                         // after history entry creation event
                         $this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
-                        
-                        $this->history_saved = true;		// only save one time
+
+                        $this->history_saved = true;        // only save one time
                     } else {
-                        $this->history_saved = true;		// do not save on first change
+                        $this->history_saved = true;        // do not save on first change
                     }
                 }
             }
@@ -2692,7 +2658,7 @@ abstract class ilPageObject
             $em = (trim($content) == "<PageObject/>")
                 ? 1
                 : 0;
-            
+
             // @todo: pass dom instead?
             $iel = $this->containsDeactivatedElements($content);
             $inl = $this->containsIntLinks($content);
@@ -2709,16 +2675,22 @@ abstract class ilPageObject
                 "show_activation_info" => array("integer", $this->getShowActivationInfo()),
                 "inactive_elements" => array("integer", $iel),
                 "int_links" => array("integer", $inl),
-                ), array(
+            ), array(
                 "page_id" => array("integer", $this->getId()),
                 "parent_type" => array("text", $this->getParentType()),
                 "lang" => array("text", $this->getLanguage())
-                ));
-                        
+            ));
+
             // after update event
             $this->__afterUpdate($dom_doc, $content);
 
-            $this->log->debug("ilPageObject, update(): updated and returning true, content: " . substr($this->getXMLContent(), 0, 100));
+            $this->log->debug(
+                "ilPageObject, update(): updated and returning true, content: " . substr(
+                    $this->getXMLContent(),
+                    0,
+                    100
+                )
+            );
 
             //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
             return true;
@@ -2726,8 +2698,6 @@ abstract class ilPageObject
             return $errors;
         }
     }
-
-    
 
     /**
      * delete page object
@@ -2744,7 +2714,7 @@ abstract class ilPageObject
 
         $mobs = array();
         $files = array();
-        
+
         if (!$this->page_not_found) {
             $this->buildDom();
             $mobs = $this->collectMediaObjects(false);
@@ -2795,7 +2765,7 @@ abstract class ilPageObject
                 $copg_logger->debug("ilPageObject: ... type mismatch. Ignoring mob " . $mob_id . ".");
                 continue;
             }
-            
+
             if (ilObject::_exists($mob_id)) {
                 $copg_logger->debug("ilPageObject: ... delete mob " . $mob_id . ".");
 
@@ -2809,7 +2779,6 @@ abstract class ilPageObject
 
     /**
      * Before deletion handler (internal).
-     *
      * @param
      */
     final protected function __beforeDelete()
@@ -2823,31 +2792,35 @@ abstract class ilPageObject
             call_user_func($def["pc_class"] . '::beforePageDelete', $this);
         }
     }
-    
+
     /**
      * Before deletion handler (internal).
-     *
      * @param
      */
     final protected function __afterHistoryEntry($a_old_domdoc, $a_old_content, $a_old_nr)
     {
         // save style usage
         $this->saveStyleUsage($a_old_domdoc, $a_old_nr);
-        
+
         // pc classes hook
         include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             ilCOPagePCDef::requirePCClassByName($def["name"]);
             $cl = $def["pc_class"];
-            call_user_func($def["pc_class"] . '::afterPageHistoryEntry', $this, $a_old_domdoc, $a_old_content, $a_old_nr);
+            call_user_func(
+                $def["pc_class"] . '::afterPageHistoryEntry',
+                $this,
+                $a_old_domdoc,
+                $a_old_content,
+                $a_old_nr
+            );
         }
     }
 
     /**
      * Save all style class/template usages
-     *
-     * @param	string		$a_xml		xml data of page
+     * @param string $a_xml xml data of page
      */
     public function saveStyleUsage($a_domdoc, $a_old_nr = 0)
     {
@@ -2913,7 +2886,7 @@ abstract class ilPageObject
                     }
                     $template = 1;
                     break;
-                
+
                 case "List":
                     $sname = $node->getAttribute("Class");
                     if ($node->getAttribute("Type") == "Ordered") {
@@ -2926,13 +2899,14 @@ abstract class ilPageObject
             }
             if ($sname != "" && $stype != "") {
                 $usages[$sname . ":" . $stype . ":" . $template] = array("sname" => $sname,
-                    "stype" => $stype, "template" => $template);
+                                                                         "stype" => $stype,
+                                                                         "template" => $template
+                );
             }
         }
-        
-        
+
         $this->deleteStyleUsages($a_old_nr);
-        
+
         foreach ($usages as $u) {
             $id = $this->db->nextId('page_style_usage');
 
@@ -2949,10 +2923,9 @@ abstract class ilPageObject
                 ")");
         }
     }
-    
+
     /**
      * Delete style usages
-     *
      * @param
      * @return
      */
@@ -2968,14 +2941,14 @@ abstract class ilPageObject
             " AND page_type = " . $this->db->quote($this->getParentType(), "text") .
             " AND page_lang = " . $this->db->quote($this->getLanguage(), "text") .
             $and_old_nr
-            );
+        );
     }
-    
+
 
     /**
-    * Get last update of included elements (media objects and files).
-    * This is needed for cache logic, cache must be reloaded if anything has changed.
-    */
+     * Get last update of included elements (media objects and files).
+     * This is needed for cache logic, cache must be reloaded if anything has changed.
+     */
     // @todo: move to content include class
     public function getLastUpdateOfIncludedElements()
     {
@@ -2995,7 +2968,6 @@ abstract class ilPageObject
 
     /**
      * Delete internal links
-     *
      * @param
      * @return
      */
@@ -3008,12 +2980,11 @@ abstract class ilPageObject
             $this->getLanguage()
         );
     }
-    
-    
+
+
     /**
      * save internal links of page
-     *
-     * @param	string		xml page code
+     * @param string        xml page code
      */
     // @todo: move to specific classes, internal link use info
     public function saveInternalLinks($a_domdoc)
@@ -3071,7 +3042,7 @@ abstract class ilPageObject
             // link to other internal object
             if (is_int(strpos($target, "__"))) {
                 $t_inst = 0;
-            } else {	// link to unresolved object in other installation
+            } else {    // link to unresolved object in other installation
                 $t_inst = $target_arr[1];
             }
 
@@ -3089,20 +3060,19 @@ abstract class ilPageObject
     }
 
     /**
-    * create new page (with current xml data)
-    */
+     * create new page (with current xml data)
+     */
     public function create()
     {
         $this->createFromXML();
     }
 
     /**
-    * delete content object with hierarchical id $a_hid
-    *
-    * @param	string		$a_hid		hierarchical id of content object
-    * @param	boolean		$a_update	update page in db (note: update deletes all
-    *									hierarchical ids in DOM!)
-    */
+     * delete content object with hierarchical id $a_hid
+     * @param string  $a_hid              hierarchical id of content object
+     * @param boolean $a_update           update page in db (note: update deletes all
+     *                                    hierarchical ids in DOM!)
+     */
     public function deleteContent($a_hid, $a_update = true, $a_pcid = "")
     {
         $curr_node = $this->getContentNode($a_hid, $a_pcid);
@@ -3112,14 +3082,12 @@ abstract class ilPageObject
             return $this->update();
         }
     }
-    
 
     /**
      * Delete multiple content objects
-     *
-     * @param	string		$a_hids		array of hierarchical ids of content objects
-     * @param	boolean		$a_update	update page in db (note: update deletes all
-     *									hierarchical ids in DOM!)
+     * @param string  $a_hids             array of hierarchical ids of content objects
+     * @param boolean $a_update           update page in db (note: update deletes all
+     *                                    hierarchical ids in DOM!)
      */
     public function deleteContents($a_hids, $a_update = true, $a_self_ass = false)
     {
@@ -3129,7 +3097,7 @@ abstract class ilPageObject
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
             //echo "-".$a_hid[0]."-".$a_hid[1]."-";
-            
+
             // @todo 1: hook
             // do not delete question nodes in assessment pages
             if (!$this->checkForTag("Question", $a_hid[0], $a_hid[1]) || $a_self_ass) {
@@ -3147,22 +3115,20 @@ abstract class ilPageObject
             return $this->update();
         }
     }
-    
+
     /**
      * Copy contents to clipboard and cut them from the page
-     *
-     * @param	string		$a_hids		array of hierarchical ids of content objects
+     * @param string $a_hids array of hierarchical ids of content objects
      */
     public function cutContents($a_hids)
     {
         $this->copyContents($a_hids);
         return $this->deleteContents($a_hids, true, $this->getPageConfig()->getEnableSelfAssessment());
     }
-    
+
     /**
      * Copy contents to clipboard
-     *
-     * @param	string		$a_hids		array of hierarchical ids of content objects
+     * @param string $a_hids array of hierarchical ids of content objects
      */
     public function copyContents($a_hids)
     {
@@ -3173,7 +3139,7 @@ abstract class ilPageObject
         }
 
         $time = date("Y-m-d H:i:s", time());
-        
+
         $hier_ids = array();
         $skip = array();
         foreach ($a_hids as $a_hid) {
@@ -3181,7 +3147,7 @@ abstract class ilPageObject
                 continue;
             }
             $a_hid = explode(":", $a_hid);
-            
+
             // check, whether new hid is child of existing one or vice versa
             reset($hier_ids);
             foreach ($hier_ids as $h) {
@@ -3211,7 +3177,7 @@ abstract class ilPageObject
                     // remove pc and hier ids
                     $content = preg_replace('/PCID=\"[a-z0-9]*\"/i', "", $content);
                     $content = preg_replace('/HierId=\"[a-z0-9_]*\"/i', "", $content);
-                    
+
                     $user->addToPCClipboard($content, $time, $nr);
                     $nr++;
                 }
@@ -3227,10 +3193,10 @@ abstract class ilPageObject
     public function pasteContents($a_hier_id, $a_self_ass = false)
     {
         $user = $this->user;
-        
+
         $a_hid = explode(":", $a_hier_id);
         $content = $user->getPCClipboardContent();
-        
+
         // we insert from last to first, because we insert all at the
         // same hier_id
         for ($i = count($content) - 1; $i >= 0; $i--) {
@@ -3263,7 +3229,7 @@ abstract class ilPageObject
         $e = $this->update();
         //var_dump($e);
     }
-    
+
     /**
      * (De-)activate elements
      */
@@ -3273,7 +3239,7 @@ abstract class ilPageObject
             return;
         }
         $obj = &$this->content_obj;
-        
+
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
             $curr_node = $this->getContentNode($a_hid[0], $a_hid[1]);
@@ -3291,24 +3257,22 @@ abstract class ilPageObject
                 }
             }
         }
-        
+
         if ($a_update) {
             return $this->update();
         }
     }
 
-
     /**
-    * delete content object with hierarchical id >= $a_hid
-    *
-    * @param	string		$a_hid		hierarchical id of content object
-    * @param	boolean		$a_update	update page in db (note: update deletes all
-    *									hierarchical ids in DOM!)
-    */
+     * delete content object with hierarchical id >= $a_hid
+     * @param string  $a_hid              hierarchical id of content object
+     * @param boolean $a_update           update page in db (note: update deletes all
+     *                                    hierarchical ids in DOM!)
+     */
     public function deleteContentFromHierId($a_hid, $a_update = true)
     {
         $hier_ids = $this->getHierIds();
-        
+
         // iterate all hierarchical ids
         foreach ($hier_ids as $hier_id) {
             // delete top level nodes only
@@ -3326,16 +3290,15 @@ abstract class ilPageObject
     }
 
     /**
-    * delete content object with hierarchical id < $a_hid
-    *
-    * @param	string		$a_hid		hierarchical id of content object
-    * @param	boolean		$a_update	update page in db (note: update deletes all
-    *									hierarchical ids in DOM!)
-    */
+     * delete content object with hierarchical id < $a_hid
+     * @param string  $a_hid              hierarchical id of content object
+     * @param boolean $a_update           update page in db (note: update deletes all
+     *                                    hierarchical ids in DOM!)
+     */
     public function deleteContentBeforeHierId($a_hid, $a_update = true)
     {
         $hier_ids = $this->getHierIds();
-        
+
         // iterate all hierarchical ids
         foreach ($hier_ids as $hier_id) {
             // delete top level nodes only
@@ -3351,15 +3314,13 @@ abstract class ilPageObject
             return $this->update();
         }
     }
-    
-    
+
     /**
-    * move content of hierarchical id >= $a_hid to other page
-    *
-    * @param	string		$a_hid		hierarchical id of content object
-    * @param	boolean		$a_update	update page in db (note: update deletes all
-    *									hierarchical ids in DOM!)
-    */
+     * move content of hierarchical id >= $a_hid to other page
+     * @param string  $a_hid              hierarchical id of content object
+     * @param boolean $a_update           update page in db (note: update deletes all
+     *                                    hierarchical ids in DOM!)
+     */
     public static function _moveContentAfterHierId(&$a_source_page, &$a_target_page, $a_hid)
     {
         $hier_ids = $a_source_page->getHierIds();
@@ -3407,15 +3368,15 @@ abstract class ilPageObject
     }
 
     /**
-    * insert a content node before/after a sibling or as first child of a parent
-    */
+     * insert a content node before/after a sibling or as first child of a parent
+     */
     public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
     {
         //echo "-".$a_pos."-".$a_pcid."-";
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
-        
+
         // @todo: try to generalize this
         if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
             ($curr_name == "ListItem") || ($curr_name == "Section")
@@ -3429,13 +3390,13 @@ abstract class ilPageObject
             //echo "-".$a_pos."-".$hid."-";
             $a_pos = $hid;
         }
-        
-        if ($a_mode != IL_INSERT_CHILD) {			// determine parent hierarchical id
+
+        if ($a_mode != IL_INSERT_CHILD) {            // determine parent hierarchical id
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
             $parent_pos = implode($pos, "_");
-        } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
+        } else {        // if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;
         }
@@ -3488,10 +3449,10 @@ abstract class ilPageObject
 //echo "PP";
                 break;
         }
-                
+
         //check for PlaceHolder to remove in EditMode-keep in Layout Mode
         if (!$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            $sub_nodes = $curr_node->child_nodes() ;
+            $sub_nodes = $curr_node->child_nodes();
             foreach ($sub_nodes as $sub_node) {
                 if ($sub_node->node_name() == "PlaceHolder") {
                     $curr_node->unlink_node();
@@ -3501,14 +3462,14 @@ abstract class ilPageObject
     }
 
     /**
-    * insert a content node before/after a sibling or as first child of a parent
-    */
+     * insert a content node before/after a sibling or as first child of a parent
+     */
     public function insertContentNode(&$a_cont_node, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
     {
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
-        
+
         // @todo: try to generalize
         if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
             ($curr_name == "ListItem") || ($curr_name == "Section")
@@ -3521,13 +3482,13 @@ abstract class ilPageObject
         if ($hid != "") {
             $a_pos = $hid;
         }
-        
-        if ($a_mode != IL_INSERT_CHILD) {			// determine parent hierarchical id
+
+        if ($a_mode != IL_INSERT_CHILD) {            // determine parent hierarchical id
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
             $parent_pos = implode($pos, "_");
-        } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
+        } else {        // if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;
         }
@@ -3576,9 +3537,9 @@ abstract class ilPageObject
     }
 
     /**
-    * move content object from position $a_source before position $a_target
-    * (both hierarchical content ids)
-    */
+     * move content object from position $a_source before position $a_target
+     * (both hierarchical content ids)
+     */
     public function moveContentBefore($a_source, $a_target, $a_spcid = "", $a_tpcid = "")
     {
         if ($a_source == $a_target) {
@@ -3600,9 +3561,9 @@ abstract class ilPageObject
     }
 
     /**
-    * move content object from position $a_source before position $a_target
-    * (both hierarchical content ids)
-    */
+     * move content object from position $a_source before position $a_target
+     * (both hierarchical content ids)
+     */
     public function moveContentAfter($a_source, $a_target, $a_spcid = "", $a_tpcid = "")
     {
         if ($a_source == $a_target) {
@@ -3624,8 +3585,8 @@ abstract class ilPageObject
     }
 
     /**
-    * transforms bbCode to corresponding xml
-    */
+     * transforms bbCode to corresponding xml
+     */
     // @todo: move to paragraph
     public function bbCode2XML(&$a_content)
     {
@@ -3638,9 +3599,9 @@ abstract class ilPageObject
     }
 
     /**
-    * inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
-    * this is needed for xml export of page
-    */
+     * inserts installation id into ids (e.g. il__pg_4 -> il_23_pg_4)
+     * this is needed for xml export of page
+     */
     public function insertInstIntoIDs($a_inst, $a_res_ref_to_obj_id = true)
     {
         // insert inst id into internal links
@@ -3653,16 +3614,16 @@ abstract class ilPageObject
 
             if (substr($target, 0, 4) == "il__") {
                 $id = substr($target, 4, strlen($target) - 4);
-                
+
                 // convert repository links obj_<ref_id> to <type>_<obj_id>
                 // this leads to bug 6685.
                 if ($a_res_ref_to_obj_id && $type == "RepositoryItem") {
                     $id_arr = explode("_", $id);
-                    
+
                     // changed due to bug 6685
                     $ref_id = $id_arr[1];
                     $obj_id = ilObject::_lookupObjId($id_arr[1]);
-                    
+
                     $otype = ilObject::_lookupType($obj_id);
                     if ($obj_id > 0) {
                         // changed due to bug 6685
@@ -3682,7 +3643,7 @@ abstract class ilPageObject
         unset($xpc);
 
         // @todo: move to media/fileitems/questions, ...
-        
+
         // insert inst id into media aliases
         $xpc = xpath_new_context($this->dom);
         $path = "//MediaAlias";
@@ -3708,7 +3669,7 @@ abstract class ilPageObject
             }
         }
         unset($xpc);
-        
+
         // insert inst id into question references
         $xpc = xpath_new_context($this->dom);
         $path = "//Question";
@@ -3738,20 +3699,20 @@ abstract class ilPageObject
     }
 
     /**
-    * Check, whether (all) page content hashes are set
-    */
+     * Check, whether (all) page content hashes are set
+     */
     public function checkPCIds()
     {
         $this->builddom();
         $mydom = $this->dom;
-        
+
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
             $path .= $sep . "//" . $el . "[not(@PCID)]";
             $sep = " | ";
             $path .= $sep . "//" . $el . "[@PCID='']";
         }
-        
+
         $xpc = xpath_new_context($mydom);
         $res = &xpath_eval($xpc, $path);
 
@@ -3763,7 +3724,6 @@ abstract class ilPageObject
 
     /**
      * Get all pc ids
-     *
      * @param
      * @return
      */
@@ -3771,7 +3731,7 @@ abstract class ilPageObject
     {
         $this->builddom();
         $mydom = $this->dom;
-        
+
         $pcids = array();
 
         $sep = $path = "";
@@ -3779,7 +3739,7 @@ abstract class ilPageObject
             $path .= $sep . "//" . $el . "[@PCID]";
             $sep = " | ";
         }
-        
+
         // get existing ids
         $xpc = xpath_new_context($mydom);
         $res = &xpath_eval($xpc, $path);
@@ -3790,10 +3750,9 @@ abstract class ilPageObject
         }
         return $pcids;
     }
-    
+
     /**
      * existsPCId
-     *
      * @param
      * @return
      */
@@ -3801,7 +3760,7 @@ abstract class ilPageObject
     {
         $this->builddom();
         $mydom = $this->dom;
-        
+
         $pcids = array();
 
         $sep = $path = "";
@@ -3809,7 +3768,7 @@ abstract class ilPageObject
             $path .= $sep . "//" . $el . "[@PCID='" . $a_pc_id . "']";
             $sep = " | ";
         }
-        
+
         // get existing ids
         $xpc = xpath_new_context($mydom);
         $res = &xpath_eval($xpc, $path);
@@ -3818,7 +3777,6 @@ abstract class ilPageObject
 
     /**
      * Generate new pc id
-     *
      * @param array $a_pc_ids existing pc ids
      * @return string new pc id
      */
@@ -3830,8 +3788,7 @@ abstract class ilPageObject
         $id = ilUtil::randomHash(10, $a_pc_ids);
         return $id;
     }
-    
-    
+
     /**
      * Insert Page Content IDs
      */
@@ -3839,7 +3796,7 @@ abstract class ilPageObject
     {
         $this->builddom();
         $mydom = $this->dom;
-        
+
         $pcids = $this->getAllPCIds();
 
         // add missing ones
@@ -3861,16 +3818,16 @@ abstract class ilPageObject
             $res->nodeset[$i]->set_attribute("PCID", $id);
         }
     }
-    
+
     /**
-    * Get page contents hashes
-    */
+     * Get page contents hashes
+     */
     public function getPageContentsHashes()
     {
         $this->builddom();
         $this->addHierIds();
         $mydom = $this->dom;
-        
+
         // get existing ids
         $path = "//PageContent";
         $xpc = xpath_new_context($mydom);
@@ -3886,7 +3843,7 @@ abstract class ilPageObject
                 $dump = substr($dump, 0, $hpos) .
                     substr($dump, $hpos + strlen(' HierId="' . $hier_id . '"'));
             }
-            
+
             $childs = $res->nodeset[$i]->child_nodes();
             $content = "";
             if ($childs[0] && $childs[0]->node_name() == "Paragraph") {
@@ -3905,13 +3862,13 @@ abstract class ilPageObject
             $hashes[$pc_id] =
                 array("hier_id" => $hier_id, "hash" => md5($dump), "content" => $content);
         }
-        
+
         return $hashes;
     }
-    
+
     /**
-    * Get question ids
-    */
+     * Get question ids
+     */
     // @todo: move to questions
     public function getQuestionIds()
     {
@@ -3927,7 +3884,7 @@ abstract class ilPageObject
         include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
-            
+
             $inst_id = ilInternalLink::_extractInstOfTarget($qref);
             $obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
 
@@ -3954,7 +3911,7 @@ abstract class ilPageObject
         $path = "/descendant::Paragraph[position() = $par_id]";
 
         $res = &xpath_eval($xpc, $path);
-        
+
         if (count($res->nodeset) != 1) {
             die("Should not happen");
         }
@@ -3984,18 +3941,17 @@ abstract class ilPageObject
     }
 
     /**
-    * get fo page content
-    */
+     * get fo page content
+     */
     // @todo: deprecated?
     public function getFO()
     {
         $xml = $this->getXMLFromDom(false, true, true);
         $xsl = file_get_contents("./Services/COPage/xsl/page_fo.xsl");
-        $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+        $args = array('/_xml' => $xml, '/_xsl' => $xsl);
         $xh = xslt_create();
 
         $params = array();
-
 
         $fo = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         var_dump($fo);
@@ -4011,7 +3967,7 @@ abstract class ilPageObject
         //echo "<br><b>fo:</b><br>".htmlentities($fo); flush();
         return $fo;
     }
-    
+
     public function registerOfflineHandler($handler)
     {
         $this->offline_handler = $handler;
@@ -4019,7 +3975,6 @@ abstract class ilPageObject
 
     /**
      * Get offline handler
-     *
      * @param
      * @return
      */
@@ -4028,16 +3983,15 @@ abstract class ilPageObject
         return $this->offline_handler;
     }
 
-    
     /**
-    * lookup whether page contains deactivated elements
-    */
+     * lookup whether page contains deactivated elements
+     */
     public static function _lookupContainsDeactivatedElements($a_id, $a_parent_type, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         if ($a_lang == "") {
             $a_lang = "-";
         }
@@ -4048,7 +4002,7 @@ abstract class ilPageObject
             " lang = " . $db->quote($a_lang, "text") . " AND " .
             " inactive_elements = " . $db->quote(1, "integer");
         $obj_set = $db->query($query);
-        
+
         if ($obj_rec = $obj_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             return true;
         }
@@ -4058,7 +4012,6 @@ abstract class ilPageObject
 
     /**
      * Check whether content contains deactivated elements
-     *
      * @param
      * @return
      */
@@ -4071,18 +4024,18 @@ abstract class ilPageObject
     }
 
     /**
-    * Get History Entries
-    */
+     * Get History Entries
+     */
     public function getHistoryEntries()
     {
         $db = $this->db;
-        
+
         $h_query = "SELECT * FROM page_history " .
             " WHERE page_id = " . $db->quote($this->getId(), "integer") .
             " AND parent_type = " . $db->quote($this->getParentType(), "text") .
             " AND lang = " . $db->quote($this->getLanguage(), "text") .
             " ORDER BY hdate DESC";
-        
+
         $hset = $db->query($h_query);
         $hentries = array();
 
@@ -4094,14 +4047,14 @@ abstract class ilPageObject
         //var_dump($hentries);
         return $hentries;
     }
-    
+
     /**
-    * Get History Entry
-    */
+     * Get History Entry
+     */
     public function getHistoryEntry($a_old_nr)
     {
         $db = $this->db;
-        
+
         $res = $db->queryF(
             "SELECT * FROM page_history " .
             " WHERE page_id = %s " .
@@ -4114,21 +4067,19 @@ abstract class ilPageObject
         if ($hrec = $db->fetchAssoc($res)) {
             return $hrec;
         }
-        
+
         return false;
     }
 
-    
     /**
-    * Get information about a history entry, its predecessor and
-    * its successor.
-    *
-    * @param	int		$a_nr		Nr of history entry
-    */
+     * Get information about a history entry, its predecessor and
+     * its successor.
+     * @param int $a_nr Nr of history entry
+     */
     public function getHistoryInfo($a_nr)
     {
         $db = $this->db;
-        
+
         // determine previous entry
         $and_nr = ($a_nr > 0)
             ? " AND nr < " . $db->quote((int) $a_nr, "integer")
@@ -4148,7 +4099,7 @@ abstract class ilPageObject
             $row = $db->fetchAssoc($res);
             $ret["previous"] = $row;
         }
-        
+
         // determine next entry
         $res = $db->query("SELECT MIN(nr) mnr FROM page_history " .
             " WHERE page_id = " . $db->quote($this->getId(), "integer") .
@@ -4185,7 +4136,7 @@ abstract class ilPageObject
 
         return $ret;
     }
-    
+
     public function addChangeDivClasses($a_hashes)
     {
         $xpc = xpath_new_context($this->dom);
@@ -4205,12 +4156,11 @@ abstract class ilPageObject
         }
         //echo "<br><br><br><br><br><br>".htmlentities($this->getXMLFromDom());
     }
-    
+
     /**
      * Compares to revisions of the page
-     *
-     * @param	int		$a_left		Nr of first revision
-     * @param	int		$a_right	Nr of second revision
+     * @param int $a_left  Nr of first revision
+     * @param int $a_right Nr of second revision
      */
     public function compareVersion($a_left, $a_right)
     {
@@ -4229,7 +4179,7 @@ abstract class ilPageObject
                 if ($l_hashes[$pc_id]["hash"] != $r_hashes[$pc_id]["hash"]) {
                     $l_hashes[$pc_id]["change"] = "Modified";
                     $r_hashes[$pc_id]["change"] = "Modified";
-                    
+
                     include_once("./Services/COPage/mediawikidiff/class.WordLevelDiff.php");
                     // if modified element is a paragraph, highlight changes
                     if ($l_hashes[$pc_id]["content"] != "" &&
@@ -4248,7 +4198,7 @@ abstract class ilPageObject
                 }
             }
         }
-        
+
         // determine all new paragraphs
         foreach ($r_hashes as $pc_id => $h) {
             if (!isset($l_hashes[$pc_id])) {
@@ -4258,10 +4208,13 @@ abstract class ilPageObject
         $l_page->addChangeDivClasses($l_hashes);
         $r_page->addChangeDivClasses($r_hashes);
 
-        return array("l_page" => $l_page, "r_page" => $r_page,
-            "l_changes" => $l_hashes, "r_changes" => $r_hashes);
+        return array("l_page" => $l_page,
+                     "r_page" => $r_page,
+                     "l_changes" => $l_hashes,
+                     "r_changes" => $r_hashes
+        );
     }
-    
+
     /**
      * Increase view cnt
      */
@@ -4275,25 +4228,24 @@ abstract class ilPageObject
             " AND parent_type = " . $db->quote($this->getParentType(), "text") .
             " AND lang = " . $db->quote($this->getLanguage(), "text"));
     }
-    
+
     /**
-    * Get recent pages changes for parent object.
-    *
-    * @param	string	$a_parent_type	Parent Type
-    * @param	int		$a_parent_id	Parent ID
-    * @param	int		$a_period		Time Period
-    */
+     * Get recent pages changes for parent object.
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     * @param int    $a_period      Time Period
+     */
     public static function getRecentChanges($a_parent_type, $a_parent_id, $a_period = 30, $a_lang = "")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
         }
-        
+
         $page_changes = array();
         $limit_ts = date('Y-m-d H:i:s', time() - ($a_period * 24 * 60 * 60));
         $q = "SELECT * FROM page_object " .
@@ -4308,7 +4260,8 @@ abstract class ilPageObject
                 "id" => $page["page_id"],
                 "lang" => $page["lang"],
                 "type" => "page",
-                "user" => $page["last_change_user"]);
+                "user" => $page["last_change_user"]
+            );
         }
 
         $and_str = "";
@@ -4329,19 +4282,19 @@ abstract class ilPageObject
                 "lang" => $page["lang"],
                 "type" => "hist",
                 "nr" => $page["nr"],
-                "user" => $page["user_id"]);
+                "user" => $page["user_id"]
+            );
         }
-        
+
         $page_changes = ilUtil::sortArray($page_changes, "date", "desc");
-        
+
         return $page_changes;
     }
-    
+
     /**
      * Get all pages for parent object
-     *
      * @param string $a_parent_type
-     * @param int $a_parent_id
+     * @param int    $a_parent_id
      * @param string $a_lang
      * @return array
      */
@@ -4350,7 +4303,7 @@ abstract class ilPageObject
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
@@ -4369,31 +4322,31 @@ abstract class ilPageObject
                 "date" => $page["last_change"],
                 "id" => $page["page_id"],
                 "lang" => $page["lang"],
-                "user" => $page["last_change_user"]);
+                "user" => $page["last_change_user"]
+            );
         }
 
         return $pages;
     }
 
     /**
-    * Get new pages.
-    *
-    * @param	string	$a_parent_type	Parent Type
-    * @param	int		$a_parent_id	Parent ID
-    */
+     * Get new pages.
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     */
     public static function getNewPages($a_parent_type, $a_parent_id, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
         }
 
         $pages = array();
-        
+
         $q = "SELECT * FROM page_object " .
             " WHERE parent_id = " . $db->quote($a_parent_id, "integer") .
             " AND parent_type = " . $db->quote($a_parent_type, "text") . $and_lang .
@@ -4406,7 +4359,7 @@ abstract class ilPageObject
                     "id" => $page["page_id"],
                     "lang" => $page["lang"],
                     "user" => $page["create_user"],
-                    );
+                );
             }
         }
 
@@ -4414,22 +4367,21 @@ abstract class ilPageObject
     }
 
     /**
-    * Get all contributors for parent object
-    *
-    * @param	string	$a_parent_type	Parent Type
-    * @param	int		$a_parent_id	Parent ID
-    */
+     * Get all contributors for parent object
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     */
     public static function getParentObjectContributors($a_parent_type, $a_parent_id, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
         }
-        
+
         $contributors = array();
         $set = $db->queryF(
             "SELECT last_change_user, lang, page_id FROM page_object " .
@@ -4463,31 +4415,33 @@ abstract class ilPageObject
                     $contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
             }
         }
-        
+
         $c = array();
         foreach ($contributors as $k => $co) {
             if (ilObject::_lookupType($k) == "usr") {
                 $name = ilObjUser::_lookupName($k);
-                $c[] = array("user_id" => $k, "pages" => $co,
-                    "lastname" => $name["lastname"], "firstname" => $name["firstname"]);
+                $c[] = array("user_id" => $k,
+                             "pages" => $co,
+                             "lastname" => $name["lastname"],
+                             "firstname" => $name["firstname"]
+                );
             }
         }
-        
+
         return $c;
     }
 
     /**
-    * Get all contributors for parent object
-    *
-    * @param	string	$a_parent_type	Parent Type
-    * @param	int		$a_parent_id	Parent ID
-    */
+     * Get all contributors for parent object
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     */
     public static function getPageContributors($a_parent_type, $a_page_id, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
@@ -4526,15 +4480,18 @@ abstract class ilPageObject
                     $contributors[$hpage["user_id"]] + $hpage["cnt"];
             }
         }
-        
+
         $c = array();
         foreach ($contributors as $k => $co) {
             include_once "Services/User/classes/class.ilObjUser.php";
             $name = ilObjUser::_lookupName($k);
-            $c[] = array("user_id" => $k, "pages" => $co,
-                "lastname" => $name["lastname"], "firstname" => $name["firstname"]);
+            $c[] = array("user_id" => $k,
+                         "pages" => $co,
+                         "lastname" => $name["lastname"],
+                         "firstname" => $name["firstname"]
+            );
         }
-        
+
         return $c;
     }
 
@@ -4551,26 +4508,25 @@ abstract class ilPageObject
             "rendered_content" => array("clob", $a_content),
             "render_md5" => array("text", $a_md5),
             "rendered_time" => array("timestamp", ilUtil::now())
-            ), array(
+        ), array(
             "page_id" => array("integer", $this->getId()),
             "lang" => array("text", $this->getLanguage()),
             "parent_type" => array("text", $this->getParentType())
-            ));
+        ));
     }
 
     /**
-    * Get all pages for parent object that contain internal links
-    *
-    * @param	string	$a_parent_type	Parent Type
-    * @param	int		$a_parent_id	Parent ID
-    * @param	int		$a_period		Time Period
-    */
+     * Get all pages for parent object that contain internal links
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     * @param int    $a_period      Time Period
+     */
     public static function getPagesWithLinks($a_parent_type, $a_parent_id, $a_lang = "-")
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $and_lang = "";
         if ($a_lang != "") {
             $and_lang = " AND lang = " . $db->quote($a_lang, "text");
@@ -4590,7 +4546,8 @@ abstract class ilPageObject
                 "date" => $page["last_change"],
                 "id" => $page["page_id"],
                 "lang" => $page["lang"],
-                "user" => $page["last_change_user"]);
+                "user" => $page["last_change_user"]
+            );
         }
 
         return $pages;
@@ -4598,7 +4555,6 @@ abstract class ilPageObject
 
     /**
      * Check whether content contains internal links
-     *
      * @param
      * @return
      */
@@ -4616,10 +4572,9 @@ abstract class ilPageObject
     public function performAutomaticModifications()
     {
     }
-    
+
     /**
      * Save initial opened content
-     *
      * @param
      */
     // @todo begin: generalize
@@ -4634,12 +4589,12 @@ abstract class ilPageObject
                 $link_type = "MediaObject";
                 $a_id = "il__mob_" . $a_id;
                 break;
-                
+
             case "page":
                 $link_type = "PageObject";
                 $a_id = "il__pg_" . $a_id;
                 break;
-                
+
             case "term":
                 $link_type = "GlossaryItem";
                 $a_id = "il__git_" . $a_id;
@@ -4683,11 +4638,9 @@ abstract class ilPageObject
 
         $this->update();
     }
-    
-    
+
     /**
      * Get initial opened content
-     *
      * @param
      */
     public function getInitialOpenedContent()
@@ -4711,16 +4664,16 @@ abstract class ilPageObject
             $id = $il_node->get_attribute("Target");
             $link_type = $il_node->get_attribute("Type");
             $target = $il_node->get_attribute("TargetFrame");
-            
+
             switch ($link_type) {
                 case "MediaObject":
                     $type = "media";
                     break;
-                    
+
                 case "PageObject":
                     $type = "page";
                     break;
-                    
+
                 case "GlossaryItem":
                     $type = "term";
                     break;
@@ -4729,18 +4682,16 @@ abstract class ilPageObject
             $id = ilInternalLink::_extractObjIdOfTarget($id);
             return array("id" => $id, "type" => $type, "target" => $target);
         }
-        
+
         return array();
     }
     // @todo end
-    
+
     /**
      * Before page content update
-     *
      * Note: This one is "work in progress", currently only text paragraphs call this hook
      * It is called before the page content object invokes the update procedure of
      * ilPageObject
-     *
      * @param
      * @return
      */
@@ -4750,10 +4701,9 @@ abstract class ilPageObject
 
     /**
      * Copy page
-     *
-     * @param int $a_id target page id
+     * @param int    $a_id          target page id
      * @param string $a_parent_type target parent type
-     * @param int $a_parent_id target parent id
+     * @param int    $a_parent_id   target parent id
      */
     public function copy($a_id, $a_parent_type = "", $a_parent_id = 0, $a_clone_mobs = false)
     {
@@ -4791,9 +4741,8 @@ abstract class ilPageObject
 
     /**
      * Lookup translations
-     *
      * @param string $a_parent_type parent type
-     * @param int $a_id page id
+     * @param int    $a_id          page id
      * @return array language codes
      */
     public static function lookupTranslations($a_parent_type, $a_id)
@@ -4801,23 +4750,21 @@ abstract class ilPageObject
         global $DIC;
 
         $db = $DIC->database();
-        
+
         $set = $db->query(
             "SELECT lang FROM page_object " .
             " WHERE page_id = " . $db->quote($a_id, "integer") .
             " AND parent_type = " . $db->quote($a_parent_type, "text")
-            );
+        );
         $langs = array();
         while ($rec = $db->fetchAssoc($set)) {
             $langs[] = $rec["lang"];
         }
         return $langs;
     }
-    
 
     /**
      * Copy page to translation
-     *
      * @param string $a_target_lang target language
      */
     public function copyPageToTranslation($a_target_lang)
@@ -4836,11 +4783,11 @@ abstract class ilPageObject
         $transl_page->setActivationEnd($this->getActivationEnd());
         $transl_page->create();
     }
-    
+
     ////
     //// Page locking
     ////
-    
+
     /**
      * Get page lock
      */
@@ -4848,7 +4795,7 @@ abstract class ilPageObject
     {
         $db = $this->db;
         $user = $this->user;
-        
+
         $min = (int) $this->getEffectiveEditLockTime();
         if ($min > 0) {
             // try to set the lock for the user
@@ -4861,19 +4808,19 @@ abstract class ilPageObject
                 " edit_lock_ts < " . $db->quote(time() - ($min * 60), "integer") . ") " .
                 " AND page_id = " . $db->quote($this->getId(), "integer") .
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
-                );
-            
+            );
+
             $set = $db->query(
                 "SELECT edit_lock_user FROM page_object " .
                 " WHERE page_id = " . $db->quote($this->getId(), "integer") .
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
-                );
+            );
             $rec = $db->fetchAssoc($set);
             if ($rec["edit_lock_user"] != $user->getId()) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -4886,7 +4833,7 @@ abstract class ilPageObject
         $user = $this->user;
         $aset = new ilSetting("adve");
 
-        $min = (int) $aset->get("block_mode_minutes") ;
+        $min = (int) $aset->get("block_mode_minutes");
         if ($min > 0) {
             // try to set the lock for the user
             $ts = time();
@@ -4915,7 +4862,6 @@ abstract class ilPageObject
 
     /**
      * Get edit lock info
-     *
      * @return array info array
      */
     public function getEditLockInfo()
@@ -4924,40 +4870,43 @@ abstract class ilPageObject
 
         $aset = new ilSetting("adve");
         $min = (int) $aset->get("block_mode_minutes");
-        
+
         $set = $db->query(
             "SELECT edit_lock_user, edit_lock_ts FROM page_object " .
             " WHERE page_id = " . $db->quote($this->getId(), "integer") .
             " AND parent_type = " . $db->quote($this->getParentType(), "text")
-            );
+        );
         $rec = $db->fetchAssoc($set);
         $rec["edit_lock_until"] = $rec["edit_lock_ts"] + $min * 60;
-        
+
         return $rec;
     }
-    
+
     /**
      * Truncate (html) string
-     *
      * @see http://dodona.wordpress.com/2009/04/05/how-do-i-truncate-an-html-string-without-breaking-the-html-code/
-     *
      * @param string $a_text
-     * @param int $a_length
+     * @param int    $a_length
      * @param string $a_ending
-     * @param bool $a_exact
-     * @param bool $a_consider_html
+     * @param bool   $a_exact
+     * @param bool   $a_consider_html
      * @return string
      */
-    public static function truncateHTML($a_text, $a_length = 100, $a_ending = '...', $a_exact = false, $a_consider_html = true)
-    {
+    public static function truncateHTML(
+        $a_text,
+        $a_length = 100,
+        $a_ending = '...',
+        $a_exact = false,
+        $a_consider_html = true
+    ) {
         include_once "Services/Utilities/classes/class.ilStr.php";
-                    
+
         if ($a_consider_html) {
             // if the plain text is shorter than the maximum length, return the whole text
             if (strlen(preg_replace('/<.*?>/', '', $a_text)) <= $a_length) {
                 return $a_text;
             }
-            
+
             // splits all html-tags to scanable lines
             $total_length = strlen($a_ending);
             $open_tags = array();
@@ -4967,18 +4916,19 @@ abstract class ilPageObject
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
                     // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+                    if (preg_match(
+                        '/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is',
+                        $line_matchings[1]
+                    )) {
                         // do nothing
-                    }
-                    // if tag is a closing tag
+                    } // if tag is a closing tag
                     elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
                         $pos = array_search($tag_matchings[1], $open_tags);
                         if ($pos !== false) {
                             unset($open_tags[$pos]);
                         }
-                    }
-                    // if tag is an opening tag
+                    } // if tag is an opening tag
                     elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list
                         array_unshift($open_tags, strtolower($tag_matchings[1]));
@@ -4986,15 +4936,24 @@ abstract class ilPageObject
                     // add html-tag to $truncate'd text
                     $truncate .= $line_matchings[1];
                 }
-                
+
                 // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+                $content_length = strlen(preg_replace(
+                    '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i',
+                    ' ',
+                    $line_matchings[2]
+                ));
                 if ($total_length + $content_length > $a_length) {
                     // the number of characters which are left
                     $left = $a_length - $total_length;
                     $entities_length = 0;
                     // search for html entities
-                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+                    if (preg_match_all(
+                        '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i',
+                        $line_matchings[2],
+                        $entities,
+                        PREG_OFFSET_CAPTURE
+                    )) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
                             if ($entity[1] + 1 - $entities_length <= $left) {
@@ -5009,14 +4968,14 @@ abstract class ilPageObject
 
                     // $truncate .= substr($line_matchings[2], 0, $left+$entities_length);
                     $truncate .= ilStr::shortenText($line_matchings[2], 0, $left + $entities_length);
-                    
+
                     // maximum lenght is reached, so get off the loop
                     break;
                 } else {
                     $truncate .= $line_matchings[2];
                     $total_length += $content_length;
                 }
-                
+
                 // if the maximum length is reached, get off the loop
                 if ($total_length >= $a_length) {
                     break;
@@ -5030,7 +4989,7 @@ abstract class ilPageObject
                 $truncate = ilStr::shortenText($a_text, 0, $a_length - strlen($a_ending));
             }
         }
-        
+
         // THIS IS BUGGY AS IT MIGHT BREAK AN OPEN TAG AT THE END
         if (!sizeof($open_tags)) {
             // if the words shouldn't be cut in the middle...
@@ -5044,23 +5003,22 @@ abstract class ilPageObject
                 }
             }
         }
-                
+
         // add the defined ending to the text
         $truncate .= $a_ending;
-        
+
         if ($a_consider_html) {
             // close all unclosed html-tags
             foreach ($open_tags as $tag) {
                 $truncate .= '</' . $tag . '>';
             }
         }
-        
+
         return $truncate;
     }
-    
+
     /**
      * Get content templates
-     *
      * @return array array of arrays with "id" => page id (int), "parent_type" => parent type (string), "title" => title (string)
      */
     public function getContentTemplates()
@@ -5070,10 +5028,9 @@ abstract class ilPageObject
 
     /**
      * Get all pages for parent object
-     *
-     * @param string	$a_parent_type Parent Type
-     * @param int		$a_parent_id Parent ID
-     * @param string	$a_lang language
+     * @param string $a_parent_type Parent Type
+     * @param int    $a_parent_id   Parent ID
+     * @param string $a_lang        language
      */
     public static function getLastChangeByParent($a_parent_type, $a_parent_id, $a_lang = "")
     {
@@ -5103,16 +5060,15 @@ abstract class ilPageObject
         if ($this->getPageConfig()->getEditLockSupport() == false) {
             return 0;
         }
-        
+
         $aset = new ilSetting("adve");
-        $min = (int) $aset->get("block_mode_minutes") ;
+        $min = (int) $aset->get("block_mode_minutes");
 
         return $min;
     }
 
     /**
      * Get all file object ids
-     *
      * @return array
      */
     public function getAllFileObjIds()
@@ -5138,5 +5094,14 @@ abstract class ilPageObject
     {
         include_once("./Services/COPage/classes/class.ilPCResources.php");
         ilPCResources::resolveResources($this, $ref_mapping);
+    }
+
+    /**
+     * Get object id of repository object that contains this page, return 0 if page does not belong to a repo object
+     * @return int
+     */
+    public function getRepoObjId()
+    {
+        return $this->getParentId();
     }
 }

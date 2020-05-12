@@ -116,8 +116,8 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $result = new ilCronJobResult();
         foreach ($this->user_progress_db->getRiskyToFailInstances() as $progress) {
             try {
-                $prg_settings = $progress->getStudyProgramme()->getRawSettings();
-                $remind_days = $prg_settings->getProcessingEndsNotSuccessfulDays();
+                $auto_mail_settings = $progress->getStudyProgramme()->getAutoMailSettings();
+                $remind_days = $auto_mail_settings->getProcessingEndsNotSuccessfulDays();
 
                 if (is_null($remind_days)) {
                     continue;

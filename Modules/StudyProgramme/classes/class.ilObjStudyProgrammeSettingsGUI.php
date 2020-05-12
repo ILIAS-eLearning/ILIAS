@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2020 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input\Factory;
@@ -8,12 +11,14 @@ use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFieldFactory;
 use ILIAS\UI\Renderer;
 
 /**
- * Class ilObjStudyProgrammeSettingsGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeSettingsGUI: ilStudyProgrammeCommonSettingsGUI
  *
- * @author: Richard Klees <richard.klees@concepts-and-training.de>
  */
 class ilObjStudyProgrammeSettingsGUI
 {
+    const TAB_SETTINGS = 'settings';
+    const TAB_COMMON_SETTINGS = 'commonSettings';
+
     const PROP_TITLE = "title";
     const PROP_DESC = "desc";
     const PROP_DEADLINE = "deadline";
@@ -48,11 +53,6 @@ class ilObjStudyProgrammeSettingsGUI
      * @var ilLanguage
      */
     public $lng;
-
-    /**
-     * @var ilObjStudyProgrammeGUI
-     */
-    protected $parent_gui;
 
     /**
      * @var string
@@ -94,6 +94,16 @@ class ilObjStudyProgrammeSettingsGUI
      */
     protected $type_repository;
 
+    /**
+     * @var ilStudyProgrammeCommonSettingsGUI
+     */
+    protected $common_settings_gui;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
+
     public function __construct(
         \ilGlobalTemplateInterface $tpl,
         \ilCtrl $ilCtrl,
@@ -103,7 +113,9 @@ class ilObjStudyProgrammeSettingsGUI
         ServerRequest $request,
         \ILIAS\Refinery\Factory $refinery_factory,
         \ILIAS\Data\Factory $data_factory,
-        ilStudyProgrammeTypeRepository $type_repository
+        ilStudyProgrammeTypeRepository $type_repository,
+        ilStudyProgrammeCommonSettingsGUI $common_settings_gui,
+        ilTabsGUI $tabs
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -115,13 +127,10 @@ class ilObjStudyProgrammeSettingsGUI
         $this->data_factory = $data_factory;
         $this->type_repository = $type_repository;
         $this->object = null;
+        $this->common_settings_gui = $common_settings_gui;
+        $this->tabs = $tabs;
 
         $lng->loadLanguageModule("prg");
-    }
-
-    public function setParentGUI($a_parent_gui)
-    {
-        $this->parent_gui = $a_parent_gui;
     }
 
     public function setRefId($a_ref_id)
@@ -131,22 +140,30 @@ class ilObjStudyProgrammeSettingsGUI
 
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd();
-
-
-        if ($cmd == "") {
-            $cmd = "view";
-        }
-
-        switch ($cmd) {
-            case "view":
-            case "update":
-            case "cancel":
-                $content = $this->$cmd();
+        $next_class = $this->ctrl->getNextClass();
+        switch ($next_class) {
+            case 'ilstudyprogrammecommonsettingsgui':
+                $this->tabs->activateSubTab(self::TAB_COMMON_SETTINGS);
+                $this->common_settings_gui->setObject($this->getObject());
+                $content = $this->ctrl->forwardCommand($this->common_settings_gui);
                 break;
             default:
-                throw new ilException("ilObjStudyProgrammeSettingsGUI: " .
-                    "Command not supported: $cmd");
+                $cmd = $this->ctrl->getCmd();
+                if ($cmd == "") {
+                    $cmd = "view";
+                }
+                switch ($cmd) {
+                    case "view":
+                        $content = $this->view();
+                        break;
+                    case "update":
+                        $content = $this->$cmd();
+                        break;
+                    default:
+                        throw new ilException(
+                            "ilObjStudyProgrammeSettingsGUI: " . "Command not supported: $cmd"
+                        );
+                }
         }
 
         if (!$this->ctrl->isAsynch()) {
@@ -212,13 +229,6 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function cancel()
-    {
-        ilAsyncOutputHandler::handleAsyncOutput(ilAsyncOutputHandler::encodeAsyncResponse());
-
-        $this->ctrl->redirect($this->parent_gui);
-    }
-
     protected function buildModalHeading($label, $current_node)
     {
         if (!$current_node) {
@@ -274,7 +284,6 @@ class ilObjStudyProgrammeSettingsGUI
                     if ($prg->getTypeSettings()->getTypeId() != $type) {
                         $prg->setTypeSettings($type_settings);
                         $prg->updateCustomIcon();
-                        $this->parent_gui->setTitleAndDescription();
                     }
 
                     $prg->setAssessmentSettings($values['prg_assessment']);
@@ -284,12 +293,6 @@ class ilObjStudyProgrammeSettingsGUI
                     );
 
                     $prg->setAutoMailSettings($values["automail_settings"]);
-
-                    if (!is_null($values['prg_additional_settings'])) {
-                        $prg->setAdditionalSettings(
-                            $values['prg_additional_settings']
-                        );
-                    }
 
                     return $prg;
                 }
@@ -330,17 +333,6 @@ class ilObjStudyProgrammeSettingsGUI
                 ->toFormInput($ff, $ilLng, $refinery)
         ];
 
-        if (
-            $prg->getPositionSettingsIsActiveForPrg() &&
-            $prg->getPositionSettingsIsChangeableForPrg()
-        ) {
-            $return['prg_additional_settings'] =
-                $prg
-                    ->getAdditionalSettings()
-                    ->toFormInput($ff, $ilLng, $refinery)
-            ;
-        }
-
         return $return;
     }
 
@@ -357,7 +349,7 @@ class ilObjStudyProgrammeSettingsGUI
                        ->withRequired(true),
                 self::PROP_DESC =>
                     $ff->textarea($this->txt("description"))
-                       ->withValue($trans->getDefaultDescription())
+                       ->withValue($trans->getDefaultDescription() ?? "")
             ],
             $this->txt("prg_edit"),
             $this->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .

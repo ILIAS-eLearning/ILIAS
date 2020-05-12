@@ -360,13 +360,11 @@ class ilDataCollectionDataSet extends ilDataSet
                     // If the field_id does not yet exist (e.g. referenced table not yet created), store temp info and fix before finishing import
                     $value = $a_rec['value'];
                     $refs = array(ilDclBaseFieldModel::PROP_REFERENCE, ilDclBaseFieldModel::PROP_N_REFERENCE);
-                    $fix_refs = false;
 
                     if (in_array($prop->getName(), $refs)) {
                         $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['value']);
                         if ($new_field_id === false) {
                             $value = null;
-                            $fix_refs = true;
                         } else {
                             $value = $new_field_id;
                         }
@@ -374,9 +372,7 @@ class ilDataCollectionDataSet extends ilDataSet
                     $prop->setValue($value);
                     $prop->save();
                     $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_field_prop', $a_rec['id'], $prop->getId());
-                    if ($fix_refs) {
-                        $this->import_temp_refs_props[$prop->getId()] = $a_rec['value'];
-                    }
+                    $this->import_temp_refs_props[$prop->getId()] = $a_rec['value'];
                 }
                 break;
             case 'il_dcl_record_field':
@@ -416,9 +412,7 @@ class ilDataCollectionDataSet extends ilDataSet
                                 // If we are referencing to a record from a table that is not yet created, return value is always false because the record does exist neither
                                 // Solution: Temporary store all references and fix them before finishing the import.
                                 $new_record_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_record', $a_rec['value']);
-                                if ($new_record_id === false) {
-                                    $this->import_temp_refs[$new_record_field_id] = $a_rec['value'];
-                                }
+                                $this->import_temp_refs[$new_record_field_id] = $a_rec['value'];
                                 $value = ($new_record_id) ? (int) $new_record_id : null;
                                 break;
                             case ilDclDatatype::INPUTFORMAT_ILIAS_REF:

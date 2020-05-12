@@ -33,6 +33,7 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\ViewControl\Factory as ViewControlFactory;
 
 $c = build_container_for_setup($executed_in_directory);
 $app = $c["app"];
@@ -218,6 +219,10 @@ function build_container_for_setup(string $executed_in_directory)
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }
             public function file(UploadHandler $handler, string $label, string $byline = null) : File
+            {
+                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+            }
+            public function viewControl() : ViewControlFactory
             {
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }

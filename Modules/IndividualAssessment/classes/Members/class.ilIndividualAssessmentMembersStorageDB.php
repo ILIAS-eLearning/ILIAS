@@ -88,46 +88,49 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ilObjUser $usr,
         array $record
     ) : ilIndividualAssessmentMember {
-		$changer_id = $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
-		if(! is_null($changer_id)) {
-			$changer_id = (int)$changer_id;
-		}
-		$change_time = null;
-		$change_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
-		if(! is_null($change_time_db)) {
-			$change_time = new DateTime();
-			$change_time = $change_time->setTimestamp($change_time_db);
-		}
+        $changer_id = $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
+        if (!is_null($changer_id)) {
+            $changer_id = (int) $changer_id;
+        }
+        $change_time = null;
+        $change_time_db = $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME];
+        if (!is_null($change_time_db)) {
+            $change_time = new DateTime($change_time_db);
+        }
+        $examiner_id = $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
+        if (!is_null($examiner_id)) {
+            $examiner_id = (int)$examiner_id;
+        }
         return new ilIndividualAssessmentMember(
             $obj,
             $usr,
             $this->createGrading($record, $usr->getFullname()),
-            (int)$record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID],
-            (int)$record[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS],
-			$changer_id,
-			$change_time
+            $examiner_id,
+            (int) $record[ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS],
+            $changer_id,
+            $change_time
         );
     }
 
     protected function createGrading(array $record, string $user_fullname) : ilIndividualAssessmentUserGrading
     {
-    	$event_time = null;
-    	$event_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
-    	if(! is_null($event_time_db)) {
-			$event_time = new DateTimeImmutable();
-			$event_time = $event_time->setTimestamp($event_time_db);
-		}
+        $event_time = null;
+        $event_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
+        if (!is_null($event_time_db)) {
+            $event_time = new DateTimeImmutable();
+            $event_time = $event_time->setTimestamp($event_time_db);
+        }
         return new ilIndividualAssessmentUserGrading(
             $user_fullname,
-            (string)$record[ilIndividualAssessmentMembers::FIELD_RECORD],
-            (string)$record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE],
-            (string)$record[ilIndividualAssessmentMembers::FIELD_FILE_NAME],
-            (bool)$record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE],
-            (string)$record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS],
-            (string)$record[ilIndividualAssessmentMembers::FIELD_PLACE],
+            (string) $record[ilIndividualAssessmentMembers::FIELD_RECORD],
+            (string) $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE],
+            (string) $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME],
+            (bool) $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE],
+            (string) $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS],
+            (string) $record[ilIndividualAssessmentMembers::FIELD_PLACE],
             $event_time,
-            (bool)$record[ilIndividualAssessmentMembers::FIELD_NOTIFY],
-            (bool)$record[ilIndividualAssessmentMembers::FIELD_FINALIZED]
+            (bool) $record[ilIndividualAssessmentMembers::FIELD_NOTIFY],
+            (bool) $record[ilIndividualAssessmentMembers::FIELD_FINALIZED]
         );
     }
 
@@ -139,6 +142,10 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         $where = array("obj_id" => array("integer", $member->assessmentId())
              , "usr_id" => array("integer", $member->id())
         );
+        $event_time = $member->eventTime();
+        if (!is_null($event_time)) {
+            $event_time = $event_time->getTimestamp();
+        }
 
         $values = [
             ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => array("text", $member->LPStatus()),
@@ -146,7 +153,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             ilIndividualAssessmentMembers::FIELD_RECORD => array("text", $member->record()),
             ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => array("text", $member->internalNote()),
             ilIndividualAssessmentMembers::FIELD_PLACE => array("text", $member->place()),
-            ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $member->eventTime()->getTimestamp()),
+            ilIndividualAssessmentMembers::FIELD_EVENTTIME => array("integer", $event_time),
             ilIndividualAssessmentMembers::FIELD_NOTIFY => array("integer", $member->notify()),
             ilIndividualAssessmentMembers::FIELD_FINALIZED => array("integer", $member->finalized()),
             ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => array("integer", $member->notificationTS()),

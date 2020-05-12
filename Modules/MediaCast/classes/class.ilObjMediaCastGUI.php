@@ -1601,8 +1601,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 }
                 $mpl->setMimeType($med->getFormat());
                 //$mpl->setDisplayHeight($med->getHeight());
-                $mpl->setDisplayHeight("480");
-                $mpl->setDisplayWidth("640");
+                //$mpl->setDisplayHeight("480");
+                //$mpl->setDisplayWidth("320px");
                 $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
                 $mpl->setTitle($item["title"]);
                 $mpl->setDescription($item["content"]);

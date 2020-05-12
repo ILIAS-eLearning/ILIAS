@@ -285,10 +285,24 @@ class ilChatroomFormFactory
         $dhparam->setRequired(true);
         $https->addSubItem($dhparam);
 
-        $chatLog = new ilTextInputGUI($this->lng->txt('log'), 'log');
+        $chatLog = new ilTextInputGUI($this->lng->txt('chatroom_log'), 'log');
         $chatLog->setInfo($this->lng->txt('chat_log_info'));
         $chatLog->setRequired(false);
         $form->addItem($chatLog);
+
+        $chatLogLevel = new ilSelectInputGUI($this->lng->txt('chat_log_level'), 'log_level');
+        $chatLogLevel->setOptions([
+            'emerg' => 'emerg',
+            'alert' => 'alert',
+            'crit' => 'crit',
+            'error' => 'error',
+            'warning' => 'warning',
+            'notice' => 'notice',
+            'info' => 'info',
+            'debug' => 'debug',
+            'silly' => 'silly',
+        ]);
+        $form->addItem($chatLogLevel);
 
         $chatErrorLog = new ilTextInputGUI($this->lng->txt('error_log'), 'error_log');
         $chatErrorLog->setInfo($this->lng->txt('chat_error_log_info'));

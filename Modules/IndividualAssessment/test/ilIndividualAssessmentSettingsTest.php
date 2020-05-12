@@ -1,97 +1,83 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilObjIndividualAssessment.php';
+use PHPUnit\Framework\TestCase;
+use \ILIAS\UI\Component\Input\Field\Section;
 
 /**
  * @backupGlobals disabled
- * @group needsInstalledILIAS
  */
 class ilIndividualAssessmentSettingsTest extends TestCase
 {
-    public static $iass;
-    public static $iass_id;
-    public static $storage;
-    public static $db;
-
-    public static function setUpBeforeClass() : void
-    {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
-        self::$iass = new ilObjIndividualAssessment;
-        self::$iass ->setTitle("iass_test");
-        self::$iass ->setDescription("iass_test_desc");
-        self::$iass ->create();
-        self::$iass ->createReference();
-        self::$iass ->putInTree(ROOT_FOLDER_ID);
-        self::$iass_id = self::$iass->getId();
-        global $ilDB;
-        self::$storage = new ilIndividualAssessmentSettingsStorageDB($ilDB);
-    }
-
-
     public function test_create_settings()
     {
-        $settings = self::$storage->loadSettings(self::$iass);
-        $content = $settings->content();
-        $record_template = $settings->recordTemplate();
-        $this->assertEquals($content, ilIndividualAssessmentSettings::DEF_CONTENT);
-        $this->assertEquals($record_template, ilIndividualAssessmentSettings::DEF_RECORD_TEMPLATE);
-        return $settings;
+        $obj_id = 10;
+        $title = 'My iass';
+        $description = 'Special iass for members';
+        $content = 'Everything you have learned';
+        $record_remplate = 'You should ask these things';
+        $event_time_place_required = true;
+        $file_required = false;
+
+        $settings = new ilIndividualAssessmentSettings(
+            $obj_id,
+            $title,
+            $description,
+            $content,
+            $record_remplate,
+            $event_time_place_required,
+            $file_required
+        );
+        $this->assertEquals($obj_id, $settings->getObjId());
+        $this->assertEquals($title, $settings->getTitle());
+        $this->assertEquals($description, $settings->getDescription());
+        $this->assertEquals($content, $settings->getContent());
+        $this->assertEquals($record_remplate, $settings->getRecordTemplate());
+        $this->assertTrue($settings->isEventTimePlaceRequired());
+        $this->assertFalse($settings->isFileRequired());
     }
 
-    /**
-     * @depends test_create_settings
-     */
-    public function test_settings_change($settings)
+    public function test_to_form_input()
     {
-        $settings = $settings->setContent('some_content')->setRecordTemplate('some_template');
-        $this->assertEquals($settings->content(), 'some_content');
-        $this->assertEquals($settings->recordTemplate(), 'some_template');
-        self::$storage->updateSettings($settings);
-    }
+        $lng = $this->createMock(ilLanguage::class);
+        $lng->expects($this->atLeastOnce())
+            ->method('txt')
+            ->willReturn("label")
+        ;
 
-    /**
-     * @depends test_settings_change
-     */
-    public function test_settings_load()
-    {
-        $settings = self::$storage->loadSettings(self::$iass);
-        $this->assertEquals($settings->content(), 'some_content');
-        $this->assertEquals($settings->recordTemplate(), 'some_template');
-        return $settings;
-    }
+        $df = new ILIAS\Data\Factory();
+        $refinery = new ILIAS\Refinery\Factory($df, $lng);
+        $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            new ILIAS\UI\Implementation\Component\SignalGenerator(),
+            $df,
+            $refinery
+        );
 
-    /**
-     * @depends test_settings_load
-     */
-    public function test_settings_update()
-    {
-        $iass = new ilObjIndividualAssessment(self::$iass_id, false);
-        $settings = $iass->getSettings();
-        $this->assertEquals($settings->content(), 'some_content');
-        $this->assertEquals($settings->recordTemplate(), 'some_template');
-        $settings = $settings->setContent('some_content2')->setRecordTemplate('some_template2');
-        $iass->update();
-        $iass = new ilObjIndividualAssessment(self::$iass_id, false);
-        $settings = $iass->getSettings();
-        $this->assertEquals($settings->content(), 'some_content2');
-        $this->assertEquals($settings->recordTemplate(), 'some_template2');
-        return $settings;
-    }
+        $obj_id = 10;
+        $title = 'My iass';
+        $description = 'Special iass for members';
+        $content = 'Everything you have learned';
+        $record_remplate = 'You should ask these things';
+        $event_time_place_required = true;
+        $file_required = false;
 
+        $settings = new ilIndividualAssessmentSettings(
+            $obj_id,
+            $title,
+            $description,
+            $content,
+            $record_remplate,
+            $event_time_place_required,
+            $file_required
+        );
 
-    /**
-     * @depends test_settings_update
-     */
-    public function test_settings_delete($settings)
-    {
-        self::$iass->delete();
-        $settings = self::$storage->loadSettings(self::$iass);
-        $this->assertEquals($settings->content(), '');
-        $this->assertEquals($settings->recordTemplate(), '');
+        $input = $settings->toFormInput(
+            $f,
+            $lng,
+            $refinery
+        );
+
+        $this->assertInstanceOf(Section::class, $input);
     }
 }

@@ -139,6 +139,13 @@ class ilIndividualAssessmentUserGrading
         return $clone;
     }
 
+    public function withFile(?string $file) : ilIndividualAssessmentUserGrading
+    {
+        $clone = clone $this;
+        $clone->file = $file;
+        return $clone;
+    }
+
     public function toFormInput(
         Field\Factory $input,
         \ilLanguage $lng,
@@ -199,15 +206,13 @@ class ilIndividualAssessmentUserGrading
             ->withDisabled(!$may_be_edited)
         ;
 
+        if (!is_null($this->getEventTime())) {
+            $event_time = $event_time->withValue($this->getEventTime()->format('d-m-Y'));
+        }
+
         $notify = $input
             ->checkbox($lng->txt('iass_notify'), $lng->txt('iass_notify_explanation'))
             ->withValue($this->isNotify())
-            ->withDisabled(!$may_be_edited)
-        ;
-
-        $finalized = $input
-            ->checkbox($lng->txt('iass_finalize'), $lng->txt('iass_finalize_info'))
-            ->withValue($this->isFinalized())
             ->withDisabled(!$may_be_edited)
         ;
 
@@ -224,6 +229,12 @@ class ilIndividualAssessmentUserGrading
         ];
 
         if (!$amend) {
+            $finalized = $input
+                ->checkbox($lng->txt('iass_finalize'), $lng->txt('iass_finalize_info'))
+                ->withValue($this->isFinalized())
+                ->withDisabled(!$may_be_edited)
+            ;
+
             $fields['finalized'] = $finalized;
         }
 
@@ -232,13 +243,13 @@ class ilIndividualAssessmentUserGrading
             $lng->txt('iass_edit_record')
         )->withAdditionalTransformation(
             $refinery->custom()->transformation(function ($values) use ($amend) {
-                $finalized = false;
+                $finalized = $this->isFinalized();
                 if (!$amend) {
                     $finalized = $values['finalized'];
                 }
 
                 $file = $this->getFile();
-                if(
+                if (
                     isset($values['file'][0]) &&
                     trim($values['file'][0]) != ''
                 ) {
@@ -251,7 +262,7 @@ class ilIndividualAssessmentUserGrading
                     $values['internal_note'],
                     $file,
                     $values['file_visible'],
-                    (int)$values['learning_progress'],
+                    (int) $values['learning_progress'],
                     $values['place'],
                     $values['event_time'],
                     $values['notify'],

@@ -382,6 +382,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/MainControls/mainbar.js');
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
+        $registry->register('./src/UI/templates/js/MainControls/footer.js');
     }
 
     /**

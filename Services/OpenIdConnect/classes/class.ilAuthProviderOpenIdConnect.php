@@ -71,16 +71,9 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
                     'id_token'
                 ]
             );
-            $oidc->addScope(
-                [
-                    'openid',
-                    'profile',
-                    'email',
-                    'roles'
-                ]
-            );
 
 
+            $oidc->addScope($this->settings->getAllScopes());
             $oidc->addAuthParam(['response_mode' => 'form_post']);
             switch ($this->settings->getLoginPromptType()) {
                 case ilOpenIdConnectSettings::LOGIN_ENFORCE:

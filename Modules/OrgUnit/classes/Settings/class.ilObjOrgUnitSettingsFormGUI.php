@@ -140,7 +140,7 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
         $translations = $this->obj_orgu->getTranslations();
         $lang_code_default = '';
         $lang_codes = array();
-        foreach ($translations['Fobject'] as $translation) {
+        foreach ($translations as $translation) {
             if ($translation['lang_default']) {
                 $lang_code_default = $translation['lang'];
             }

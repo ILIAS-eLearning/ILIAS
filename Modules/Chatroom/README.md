@@ -40,9 +40,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 # Requirement
 
-A prerequisite for the chat server is Node.js. The chat server is tested with the following versions of Node.js:
-
-* 8.9.4 (LTS) - 10.15.3 (LTS)
+A prerequisite for the chat server is Node.js. The chat server is tested with the
+versions mentioned in our [installation](/docs/configuration/install.md#server) documentation.
 
 The latest version can be downloaded at the following URL: https://github.com/nodesource/distributions#debinstall
 
@@ -110,6 +109,16 @@ The paths for the chat server log and the error log can be specified OPTIONALLY.
 
 *  Chat server log file: Absolute server path to the log file (eg `/var/www/ilias/data/chat.log`), into which the chat server logs general events.
 *  Chat server error log file: Absolute server path to the error log file (for example, `/var/www/ilias/data/chat_errors.log`), into which the chat server logs errors.
+*  Chat server log level: The log level used for the chat log file
+      * emerg
+      * alert
+      * crit
+      * error
+      * warning
+      * notice
+      * info
+      * debug
+      * silly
 
 If no paths are defined, the chat server creates the log file in the chat server directory.
 
@@ -180,6 +189,7 @@ server.cfg:
     "key": "",
     "dhparam": "",
     "log": "\/var\/www\/ilias\/data\/chat.log",
+    "log_level": "info",
     "error_log": "\/var\/www\/ilias\/data\/chat_errors.log",
     "sub_directory": "",
     "deletion_mode": "1",
