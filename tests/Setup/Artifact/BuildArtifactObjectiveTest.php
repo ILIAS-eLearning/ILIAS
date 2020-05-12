@@ -2,16 +2,33 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
+namespace ILIAS\Tests\Setup\Artifact;
 
 use ILIAS\Setup;
+use ILIAS\Setup\Artifact;
+use PHPUnit\Framework\TestCase;
 
-class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase
+class BuildArtifactObjectiveTest extends TestCase
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $o;
+
+    /**
+     * @var Artifact|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $artifact;
+
+    /**
+     * @var Setup\Environment|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $env;
+
     public function setUp() : void
     {
         $this->o = $this
-            ->getMockBuilder(Setup\BuildArtifactObjective::class)
+            ->getMockBuilder(Artifact\BuildArtifactObjective::class)
             ->setMethods(["build", "buildIn", "getArtifactPath"])
             ->getMock();
 
@@ -19,10 +36,10 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase
         $this->env = $this->createMock(Setup\Environment::class);
     }
 
-    public function testBuildInDefaultsToBuild()
+    public function testBuildInDefaultsToBuild() : void
     {
         $this->o = $this
-            ->getMockBuilder(Setup\BuildArtifactObjective::class)
+            ->getMockBuilder(Artifact\BuildArtifactObjective::class)
             ->setMethods(["build", "getArtifactPath"])
             ->getMock();
 
@@ -35,12 +52,12 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($this->artifact, $this->o->buildIn($this->env));
     }
 
-    public function testGetPreconditions()
+    public function testGetPreconditions() : void
     {
         $this->assertEquals([], $this->o->getPreconditions($this->env));
     }
 
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $path = "path/to/artifact";
 
@@ -53,7 +70,7 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel()
+    public function testGetLabel() : void
     {
         $path = "path/to/artifact";
 
@@ -66,14 +83,14 @@ class BuildArtifactObjectiveTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("Build $path", $this->o->getLabel());
     }
 
-    public function testIsNotable()
+    public function testIsNotable() : void
     {
         $this->assertTrue($this->o->isNotable());
     }
 
     const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
 
-    public function testAchieve()
+    public function testAchieve() : void
     {
         $path = self::TEST_PATH;
         $this->o

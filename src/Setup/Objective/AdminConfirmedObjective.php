@@ -2,14 +2,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Objective;
 
-use ILIAS\UI;
+use ILIAS\Setup;
 
 /**
  * An admin needs to confirm something to achieve this objective.
  */
-class AdminConfirmedObjective implements Objective
+class AdminConfirmedObjective implements Setup\Objective
 {
     /**
      * @var string
@@ -51,7 +51,7 @@ class AdminConfirmedObjective implements Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];
     }
@@ -59,17 +59,17 @@ class AdminConfirmedObjective implements Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $admin_interaction = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
-        $achievement_tracker = $environment->getResource(Environment::RESOURCE_ACHIEVEMENT_TRACKER);
+        $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        $achievement_tracker = $environment->getResource(Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER);
 
         if ($achievement_tracker->isAchieved($this)) {
             return $environment;
         }
 
         if (!$admin_interaction->confirmOrDeny($this->message)) {
-            throw new NoConfirmationException(
+            throw new Setup\NoConfirmationException(
                 $this->message
             );
         }

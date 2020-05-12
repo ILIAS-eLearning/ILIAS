@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Objective;
 
-use ILIAS\UI;
+use ILIAS\Setup;
 
 /**
  * A callable objective wraps a callable into an objective.
@@ -12,7 +12,7 @@ use ILIAS\UI;
  * The callable receives the environment as parameter. It may return an updated
  * version of the environment, other results will be discarded.
  */
-class CallableObjective implements Objective
+class CallableObjective implements Setup\Objective
 {
     /**
      * @var callable
@@ -30,11 +30,11 @@ class CallableObjective implements Objective
     protected $is_notable;
 
     /**
-     * @var	Objective[]
+     * @var	Setup\Objective[]
      */
     protected $preconditions;
 
-    public function __construct(callable $callable, string $label, bool $is_notable, Objective ...$preconditions)
+    public function __construct(callable $callable, string $label, bool $is_notable, Setup\Objective ...$preconditions)
     {
         $this->callable = $callable;
         $this->label = $label;
@@ -72,7 +72,7 @@ class CallableObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return $this->preconditions;
     }
@@ -80,10 +80,10 @@ class CallableObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $res = call_user_func($this->callable, $environment);
-        if ($res instanceof Environment) {
+        if ($res instanceof Setup\Environment) {
             return $res;
         }
         return $environment;

@@ -2,31 +2,49 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
+namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Tests\Setup as Test;
+use PHPUnit\Framework\TestCase;
 
-class ObjectiveWithPreconditionsTest extends \PHPUnit\Framework\TestCase
+class ObjectiveWithPreconditionsTest extends TestCase
 {
-    use Helper;
+    use Test\Helper;
+
+    /**
+     * @var Setup\Objective;
+     */
+    protected $objective;
+
+    /**
+     * @var Setup\Objective;
+     */
+    protected $precondition;
+
+    /**
+     * @var Objective\ObjectiveWithPreconditions
+     */
+    protected $with_precondition;
 
     public function setUp() : void
     {
         $this->objective = $this->newObjective();
         $this->precondition = $this->newObjective();
 
-        $this->with_precondition = new Setup\ObjectiveWithPreconditions(
+        $this->with_precondition = new Objective\ObjectiveWithPreconditions(
             $this->objective,
             $this->precondition
         );
     }
 
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $this->assertEquals($this->objective->getHash(), $this->with_precondition->getHash());
     }
 
-    public function testGetLabel()
+    public function testGetLabel() : void
     {
         $label = "some_label";
 
@@ -38,7 +56,7 @@ class ObjectiveWithPreconditionsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($label, $this->with_precondition->getLabel());
     }
 
-    public function testIsNotable()
+    public function testIsNotable() : void
     {
         $notable = true;
 
@@ -50,7 +68,7 @@ class ObjectiveWithPreconditionsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($notable, $this->with_precondition->isNotable());
     }
 
-    public function testGetPreconditions()
+    public function testGetPreconditions() : void
     {
         $another = $this->newObjective();
 
@@ -67,7 +85,7 @@ class ObjectiveWithPreconditionsTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testAchieve()
+    public function testAchieve() : void
     {
         $env = $this->createMock(Setup\Environment::class);
 

@@ -6,16 +6,16 @@ namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\TestCase;
 
-class AgentCollectionTest extends \PHPUnit\Framework\TestCase
+class AgentCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testHasConfig()
+    public function testHasConfig() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -43,7 +43,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($col5->hasConfig());
     }
 
-    public function testGetConfigInput()
+    public function testGetConfigInput() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -106,7 +106,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($group, $res);
     }
 
-    public function testGetConfigInputUsesSuppliedConfig()
+    public function testGetConfigInputUsesSuppliedConfig() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -157,7 +157,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $col->getConfigInput($conf);
     }
 
-    public function testGetArrayToConfigTransformation()
+    public function testGetArrayToConfigTransformation() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -210,7 +210,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testArrayToConfigTransformationAllowsUnsetFields()
+    public function testArrayToConfigTransformationAllowsUnsetFields() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -264,7 +264,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testGetInstallObjective()
+    public function testGetInstallObjective() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
@@ -306,7 +306,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetUpdateObjective()
+    public function testGetUpdateObjective() : void
     {
         $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));

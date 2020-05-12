@@ -2,7 +2,9 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Condition;
+
+use ILIAS\Setup;
 
 class CanCreateDirectoriesInDirectoryCondition extends ExternalConditionObjective
 {
@@ -12,7 +14,7 @@ class CanCreateDirectoriesInDirectoryCondition extends ExternalConditionObjectiv
     {
         return parent::__construct(
             "Can create directories in '$which'",
-            function (Environment $env) use ($which) : bool {
+            function (Setup\Environment $env) use ($which) : bool {
                 $probe = $which . "/" . self::PROBE_NAME;
                 if (!@mkdir($probe, 0774)) {
                     return false;

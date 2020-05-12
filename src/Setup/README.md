@@ -20,7 +20,7 @@ and finally the objective itself.
 
 There are special kinds of `Objective`s tailored to match certain use cases.
 
-* [**BuildArtifactObjective**](./BuildArtifactObjective.php) allows to create an
+* [**BuildArtifactObjective**](Objective/BuildArtifactObjective.php) allows to create an
 [`Artifact`](./Artifact.php) somewhere. Look into the [according section](#on-artifacts)
 to find out how to use them.
 
@@ -91,7 +91,7 @@ Which GlobalScreen-providers exist to build the screen? Which instances of
 WebAccessChecker are available. Since this information can be derived statically
 for any given state of source code, it would be inefficient to derive it dynamically.
 
-The [`BuildArtifactObjective`](./BuildArtifactObjective.php) allows to create source-code
+The [`BuildArtifactObjective`](Objective/BuildArtifactObjective.php) allows to create source-code
 files based on the current state of the code and store them in the ILIAS-filesystem-
 structure for later use.
 

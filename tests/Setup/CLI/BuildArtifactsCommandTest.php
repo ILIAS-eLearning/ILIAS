@@ -5,16 +5,13 @@
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
 
-class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase
+class BuildArtifactsCommandTest extends TestCase
 {
-    public function testBasicFunctionality()
+    public function testBasicFunctionality() : void
     {
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-
         $agent = $this->createMock(Setup\Agent::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
         $command = new Setup\CLI\BuildArtifactsCommand(function () use ($agent) {
