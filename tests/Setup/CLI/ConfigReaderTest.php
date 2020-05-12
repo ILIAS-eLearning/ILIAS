@@ -5,13 +5,11 @@
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
-use Symfony\Component\Console\Tester\CommandTester;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\TestCase;
 
-class ConfigReaderTest extends \PHPUnit\Framework\TestCase
+class ConfigReaderTest extends TestCase
 {
-    public function testReadConfigFile()
+    public function testReadConfigFile() : void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -28,7 +26,7 @@ class ConfigReaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testBaseDir()
+    public function testBaseDir() : void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -45,7 +43,7 @@ class ConfigReaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testTotalDir()
+    public function testTotalDir() : void
     {
         $filename = tempnam("/tmp", "ILIAS");
         $expected = [
@@ -62,7 +60,7 @@ class ConfigReaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $config);
     }
 
-    public function testApplyOverwrites()
+    public function testApplyOverwrites() : void
     {
         $cr = new class() extends Setup\CLI\ConfigReader {
             public function _applyOverwrites($j, $o)

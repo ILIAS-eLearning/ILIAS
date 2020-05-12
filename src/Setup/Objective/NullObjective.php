@@ -2,14 +2,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Objective;
 
-use ILIAS\UI;
+use ILIAS\Setup;
 
 /**
  * A non-objective, nothing to do to achieve it...
  */
-class NullObjective implements Objective
+class NullObjective implements Setup\Objective
 {
     const LABEL = "Nothing to do.";
 
@@ -31,7 +31,7 @@ class NullObjective implements Objective
     /*
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];
     }
@@ -39,7 +39,7 @@ class NullObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         return $environment;
     }

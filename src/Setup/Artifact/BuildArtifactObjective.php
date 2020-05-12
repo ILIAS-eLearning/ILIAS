@@ -3,12 +3,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Artifact;
+
+use ILIAS\Setup;
 
 /**
  * This is an objective to build some artifact.
  */
-abstract class BuildArtifactObjective implements Objective
+abstract class BuildArtifactObjective implements Setup\Objective
 {
     /**
      * Get the filename where the builder wants to put its artifact.
@@ -21,7 +23,7 @@ abstract class BuildArtifactObjective implements Objective
      * Build the artifact based. If you want to use the environment
      * reimplement `buildIn` instead.
      */
-    abstract public function build() : Artifact;
+    abstract public function build() : Setup\Artifact;
 
     /**
      * Builds an artifact in some given Environment.
@@ -31,7 +33,7 @@ abstract class BuildArtifactObjective implements Objective
      * If you want to reimplement this, you most probably also want to reimplement
      * `getPreconditions` to prepare the environment properly.
      */
-    public function buildIn(Environment $env) : Artifact
+    public function buildIn(Setup\Environment $env) : Setup\Artifact
     {
         return $this->build();
     }
@@ -41,7 +43,7 @@ abstract class BuildArtifactObjective implements Objective
      *
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];
     }
@@ -81,7 +83,7 @@ abstract class BuildArtifactObjective implements Objective
      *
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $artifact = $this->buildIn($environment);
 

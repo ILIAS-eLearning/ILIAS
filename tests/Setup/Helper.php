@@ -5,11 +5,7 @@
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input as Input;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
 
 trait Helper
 {

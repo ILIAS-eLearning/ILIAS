@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Condition;
 
-use ILIAS\UI;
+use ILIAS\Setup;
 
 /**
  * A condition that can't be met by ILIAS itself needs to be met by some external
@@ -13,7 +13,7 @@ use ILIAS\UI;
  * ATTENTION: Two ExternalConditionObjectives are considered to be identical if the
  * label is identical. I.e., getHash does not use the actual condition or the message.
  */
-class ExternalConditionObjective implements Objective
+class ExternalConditionObjective implements Setup\Objective
 {
     /**
      * @var string
@@ -70,7 +70,7 @@ class ExternalConditionObjective implements Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];
     }
@@ -78,18 +78,18 @@ class ExternalConditionObjective implements Objective
     /**
      * @inheritdoc
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         if (($this->condition)($environment)) {
             return $environment;
         }
 
         if ($this->message) {
-            $admin_interaction = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+            $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
             $admin_interaction->inform($this->message);
         }
 
-        throw new UnachievableException(
+        throw new Setup\UnachievableException(
             "An external condition was not met: {$this->label}"
         );
     }

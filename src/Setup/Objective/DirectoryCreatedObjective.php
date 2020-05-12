@@ -3,12 +3,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Objective;
+
+use ILIAS\Setup;
 
 /**
  * Create a directory.
  */
-class DirectoryCreatedObjective implements Objective
+class DirectoryCreatedObjective implements Setup\Objective
 {
     const DEFAULT_DIRECTORY_PERMISSIONS = 0755;
 
@@ -68,26 +70,26 @@ class DirectoryCreatedObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         if (file_exists($this->path)) {
             return [];
         }
         return [
-            new CanCreateDirectoriesInDirectoryCondition(dirname($this->path))
+            new Setup\CanCreateDirectoriesInDirectoryCondition(dirname($this->path))
         ];
     }
 
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         if (!file_exists($this->path)) {
             mkdir($this->path, $this->permissions);
         }
         if (!is_dir($this->path)) {
-            throw new UnachievableException(
+            throw new Setup\UnachievableException(
                 "Could not create directory '{$this->path}'"
             );
         }

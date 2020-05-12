@@ -2,9 +2,9 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Objective;
 
-use ILIAS\UI;
+use ILIAS\Setup;
 
 /**
  * A wrapper around an objective that adds some preconditions.
@@ -12,19 +12,19 @@ use ILIAS\UI;
  * ATTENTION: This will use the same hash then the original objective and will
  * therefore be indistinguishable.
  */
-class ObjectiveWithPreconditions implements Objective
+class ObjectiveWithPreconditions implements Setup\Objective
 {
     /**
-     * @var Objective
+     * @var Setup\Objective
      */
     protected $original;
 
     /**
-     * @var Objective[]
+     * @var Setup\Objective[]
      */
     protected $preconditions;
 
-    public function __construct(Objective $original, Objective ...$preconditions)
+    public function __construct(Setup\Objective $original, Setup\Objective ...$preconditions)
     {
         if (count($preconditions) === 0) {
             throw new \InvalidArgumentException(
@@ -62,7 +62,7 @@ class ObjectiveWithPreconditions implements Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment) : array
     {
         return array_merge($this->preconditions, $this->original->getPreconditions($environment));
     }
@@ -70,7 +70,7 @@ class ObjectiveWithPreconditions implements Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         return $this->original->achieve($environment);
     }

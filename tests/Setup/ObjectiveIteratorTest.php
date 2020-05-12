@@ -2,13 +2,15 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup\CLI;
+namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
+class ObjectiveIteratorTest extends TestCase
 {
-    public function testBasicAlgorithm()
+    public function testBasicAlgorithm() : void
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
@@ -31,7 +33,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testRewind()
+    public function testRewind() : void
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
@@ -53,7 +55,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($hash, $iterator->key());
     }
 
-    public function testAllObjectives()
+    public function testAllObjectives() : void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -94,7 +96,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, iterator_to_array($iterator));
     }
 
-    public function testAllObjectivesOnlyReturnsObjectiveOnce()
+    public function testAllObjectivesOnlyReturnsObjectiveOnce() : void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -120,7 +122,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, iterator_to_array($iterator));
     }
 
-    public function testAllObjectivesDetectsCycle()
+    public function testAllObjectivesDetectsCycle() : void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -143,7 +145,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         iterator_to_array($iterator);
     }
 
-    public function testSetEnvironment()
+    public function testSetEnvironment() : void
     {
         $env1 = new Setup\ArrayEnvironment([]);
         $env2 = new Setup\ArrayEnvironment([]);
@@ -169,7 +171,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $iterator->next();
     }
 
-    public function testMarkFailed()
+    public function testMarkFailed() : void
     {
         $this->expectException(Setup\UnachievableException::class);
 
@@ -204,7 +206,7 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase
         $iterator->next();
     }
 
-    protected function newObjective($hash = null)
+    protected function newObjective($hash = null) : MockObject
     {
         static $no = 0;
 

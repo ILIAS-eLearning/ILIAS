@@ -2,13 +2,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
+namespace ILIAS\Tests\Setup\Artifact;
 
-use ILIAS\Setup;
+use ILIAS\Setup\Artifact;
+use PHPUnit\Framework\TestCase;
 
-class ArrayArtifactTest extends \PHPUnit\Framework\TestCase
+class ArrayArtifactTest extends TestCase
 {
-    public function testSerialize()
+    public function testSerialize() : void
     {
         $data = [
             "one" => 1,
@@ -18,19 +19,19 @@ class ArrayArtifactTest extends \PHPUnit\Framework\TestCase
             ]
         ];
 
-        $a = new Setup\ArrayArtifact($data);
+        $a = new Artifact\ArrayArtifact($data);
 
         $serialized = $a->serialize();
 
         $this->assertEquals($data, eval("?>" . $serialized));
     }
 
-    public function testOnlyPrimitives()
+    public function testOnlyPrimitives() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $data = [ $this ];
 
-        $a = new Setup\ArrayArtifact($data);
+        new Artifact\ArrayArtifact($data);
     }
 }

@@ -2,17 +2,33 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
-
-require_once(__DIR__ . "/Helper.php");
+namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Tests\Setup as Test;
+use PHPUnit\Framework\TestCase;
 
-class CallableObjectiveTest extends \PHPUnit\Framework\TestCase
+class CallableObjectiveTest extends TestCase
 {
-    use Helper;
+    use Test\Helper;
 
-    public function myMethod(Setup\Environment $environment)
+    /**
+     * @var Setup\Environment
+     */
+    protected $env;
+
+    /**
+     * @var Setup\Objective
+     */
+    protected $p;
+
+    /**
+     * @var Objective\CallableObjective
+     */
+    protected $o;
+
+    public function myMethod(Setup\Environment $environment) : Setup\Environment
     {
         $this->env = $environment;
         return $environment;
@@ -24,7 +40,7 @@ class CallableObjectiveTest extends \PHPUnit\Framework\TestCase
     {
         $this->p = $this->newObjective();
 
-        $this->o = new Setup\CallableObjective(
+        $this->o = new Objective\CallableObjective(
             [$this, "myMethod"],
             self::NAME,
             false,
@@ -32,22 +48,22 @@ class CallableObjectiveTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel()
+    public function testGetLabel() : void
     {
         $this->assertEquals(self::NAME, $this->o->getLabel());
     }
 
-    public function testIsNotable()
+    public function testIsNotable() : void
     {
         $this->assertFalse($this->o->isNotable());
     }
 
-    public function testGetPreconditions()
+    public function testGetPreconditions() : void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -56,7 +72,7 @@ class CallableObjectiveTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testAchieve()
+    public function testAchieve() : void
     {
         $this->env = null;
 

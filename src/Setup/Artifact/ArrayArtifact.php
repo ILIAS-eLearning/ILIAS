@@ -2,12 +2,14 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Setup;
+namespace ILIAS\Setup\Artifact;
+
+use ILIAS\Setup;
 
 /**
  * An array as an artifact.
  */
-class ArrayArtifact implements Artifact
+class ArrayArtifact implements Setup\Artifact
 {
     /**
      * @var array

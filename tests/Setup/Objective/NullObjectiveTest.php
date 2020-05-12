@@ -2,33 +2,40 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
+namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use PHPUnit\Framework\TestCase;
 
-class NullObjectiveTest extends \PHPUnit\Framework\TestCase
+class NullObjectiveTest extends TestCase
 {
+    /**
+     * @var Objective\NullObjective
+     */
+    protected $o;
+
     public function setUp() : void
     {
-        $this->o = new Setup\NullObjective();
+        $this->o = new Objective\NullObjective();
     }
 
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel()
+    public function testGetLabel() : void
     {
         $this->assertEquals("Nothing to do.", $this->o->getLabel());
     }
 
-    public function testIsNotable()
+    public function testIsNotable() : void
     {
         $this->assertFalse($this->o->isNotable());
     }
 
-    public function testGetPreconditions()
+    public function testGetPreconditions() : void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -36,8 +43,7 @@ class NullObjectiveTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $pre);
     }
 
-
-    public function testAchieve()
+    public function testAchieve() : void
     {
         $env = $this->createMock(Setup\Environment::class);
 

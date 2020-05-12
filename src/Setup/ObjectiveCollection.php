@@ -4,8 +4,6 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI;
-
 /**
  * A objective collection is a objective that is achieved once all subobjectives are achieved.
  */
