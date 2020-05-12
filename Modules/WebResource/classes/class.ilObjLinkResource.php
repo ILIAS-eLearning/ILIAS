@@ -202,7 +202,7 @@ class ilObjLinkResource extends ilObject
             case ilContainer::SORT_MANUAL:
                 $writer->xmlElement(
                     'Sorting',
-                    array('type'	=> 'Manual')
+                    array('type' => 'Manual')
                 );
                 break;
             
@@ -210,7 +210,7 @@ class ilObjLinkResource extends ilObject
             default:
                 $writer->xmlElement(
                     'Sorting',
-                    array('type'	=> 'Title')
+                    array('type' => 'Title')
                 );
                 break;
         }

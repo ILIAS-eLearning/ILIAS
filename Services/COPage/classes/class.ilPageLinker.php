@@ -71,9 +71,9 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info.="<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
-        $link_info.= "</LinkTargets>";
+        $link_info .= "</LinkTargets>";
         return $link_info;
     }
 
@@ -94,9 +94,9 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                     ? $int_link["TargetFrame"]
                     : "None";
 
-                $ltarget="_top";
+                $ltarget = "_top";
                 if ($targetframe != "None") {
-                    $ltarget="_blank";
+                    $ltarget = "_blank";
                 }
 
                 // anchor
@@ -186,7 +186,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             }
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
-                            $lcontent = str_replace("&", "&amp;" ,htmlentities($lcontent));
+                            $lcontent = str_replace("&", "&amp;", htmlentities($lcontent));
                         }
                         break;
 
@@ -198,8 +198,8 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                 }
             }
         }
-        $link_info.= "</IntLinkInfos>";
-        $link_info.= $this->getLinkTargetsXML();
+        $link_info .= "</IntLinkInfos>";
+        $link_info .= $this->getLinkTargetsXML();
 
         return $link_info;
     }

@@ -213,7 +213,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         }
 
         if ($this->isWithActions()) {
-            if ($a_set["skin_id"]=="other") {
+            if ($a_set["skin_id"] == "other") {
                 $this->tpl->setCurrentBlock("actions");
                 $this->tpl->setVariable("ACTIONS", "");
                 $this->tpl->parseCurrentBlock();

@@ -225,7 +225,7 @@ class ilObjectDataSet extends ilDataSet
                 if ($customIcon->exists()) {
                     $this->data[] = [
                         "ObjId" => $id,
-                        "Filename" =>  pathinfo($customIcon->getFullPath(), PATHINFO_BASENAME),
+                        "Filename" => pathinfo($customIcon->getFullPath(), PATHINFO_BASENAME),
                         "Dir" => dirname($customIcon->getFullPath())
                     ];
                 }

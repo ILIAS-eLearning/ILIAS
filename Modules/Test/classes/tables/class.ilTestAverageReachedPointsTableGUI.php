@@ -28,7 +28,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->lng  = $lng;
+        $this->lng = $lng;
         $this->ctrl = $ilCtrl;
 
         $this->setFormName('average_reached_points');

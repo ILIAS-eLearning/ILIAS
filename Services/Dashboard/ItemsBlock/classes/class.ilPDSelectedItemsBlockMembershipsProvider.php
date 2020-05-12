@@ -27,7 +27,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         global $DIC;
 
         $this->actor = $actor;
-        $this->tree  = $DIC->repositoryTree();
+        $this->tree = $DIC->repositoryTree();
     }
 
     /**
@@ -67,8 +67,8 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
                     $object = ilObjectFactory::getInstanceByRefId($ref_id);
 
                     $parent_ref_id = $this->tree->getParentId($ref_id);
-                    $par_left      = $this->tree->getLeftValue($parent_ref_id);
-                    $par_left      = sprintf("%010d", $par_left);
+                    $par_left = $this->tree->getLeftValue($parent_ref_id);
+                    $par_left = sprintf("%010d", $par_left);
 
                     if ($parent_ref_id != RECOVERY_FOLDER_ID) {
                         $references[$par_left . $object->getTitle() . $ref_id] = array(

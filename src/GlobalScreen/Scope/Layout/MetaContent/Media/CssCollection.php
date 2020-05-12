@@ -13,9 +13,9 @@ class CssCollection extends AbstractCollection
      */
     public function addItem(Css $item)
     {
-        $basename = basename(parse_url($item->getContent(), PHP_URL_PATH));
+        $real_path = realpath(parse_url($item->getContent(), PHP_URL_PATH));
         foreach ($this->getItems() as $css) {
-            if (basename(parse_url($css->getContent(), PHP_URL_PATH)) === $basename) {
+            if (realpath(parse_url($css->getContent(), PHP_URL_PATH)) === $real_path) {
                 return;
             }
         }

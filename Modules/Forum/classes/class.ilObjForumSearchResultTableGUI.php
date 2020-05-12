@@ -21,7 +21,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
                 continue;
             }
 
-            $row          = array();
+            $row = array();
 
             $row['title'] = $valid_threads[$result_set['item_id']];
 
@@ -29,7 +29,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
             $row['link'] = $DIC->ctrl()->getLinkTargetByClass('ilObjForumGUI', 'viewThread');
 
             $row['relevance'] = $result_set['relevance'];
-            $row['content']   = $result_set['content'];
+            $row['content'] = $result_set['content'];
 
             $rows[] = $row;
         }

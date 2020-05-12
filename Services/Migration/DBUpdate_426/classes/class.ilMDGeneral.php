@@ -216,7 +216,7 @@ class ilMDGeneral extends ilMDBase
     public function setCoverageLanguage(&$lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->coverage_language =&$lng_obj;
+            $this->coverage_language = &$lng_obj;
         }
     }
     public function &getCoverageLanguage()
@@ -307,11 +307,11 @@ class ilMDGeneral extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'general_structure'	=> ilUtil::prepareDBString($this->getStructure()),
-                     'title'		=> ilUtil::prepareDBString($this->getTitle()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'general_structure' => ilUtil::prepareDBString($this->getStructure()),
+                     'title' => ilUtil::prepareDBString($this->getTitle()),
                      'title_language' => ilUtil::prepareDBString($this->getTitleLanguageCode()),
                      'coverage' => ilUtil::prepareDBString($this->getCoverage()),
                      'coverage_language' => ilUtil::prepareDBString($this->getCoverageLanguageCode()));
@@ -353,7 +353,7 @@ class ilMDGeneral extends ilMDBase
 
         // Identifier
         foreach ($this->getIdentifierIds() as $id) {
-            $ide =&$this->getIdentifier($id);
+            $ide = &$this->getIdentifier($id);
             $ide->toXML($writer);
         }
         
@@ -362,19 +362,19 @@ class ilMDGeneral extends ilMDBase
 
         // Language
         foreach ($this->getLanguageIds() as $id) {
-            $lan =&$this->getLanguage($id);
+            $lan = &$this->getLanguage($id);
             $lan->toXML($writer);
         }
 
         // Description
         foreach ($this->getDescriptionIds() as $id) {
-            $des =&$this->getDescription($id);
+            $des = &$this->getDescription($id);
             $des->toXML($writer);
         }
 
         // Keyword
         foreach ($this->getKeywordIds() as $id) {
-            $key =&$this->getKeyword($id);
+            $key = &$this->getKeyword($id);
             $key->toXML($writer);
         }
         

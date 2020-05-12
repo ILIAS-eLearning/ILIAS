@@ -38,22 +38,22 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Directory
      */
     public function getHash() : string
     {
-        return hash("sha256", self::class . "::" .$this->component_dir .(string)$this->base_location);
+        return hash("sha256", self::class . "::" . $this->component_dir . (string) $this->base_location);
     }
 
-    protected function buildPath(Setup\Environment $environment): string
+    protected function buildPath(Setup\Environment $environment) : string
     {
         $common_config = $environment->getConfigFor("common");
         $fs_config = $environment->getConfigFor("filesystem");
-        if($this->base_location === self::DATADIR) {
+        if ($this->base_location === self::DATADIR) {
             $data_dir = $fs_config->getDataDir();
         }
-        if($this->base_location === self::WEBDIR) {
+        if ($this->base_location === self::WEBDIR) {
             $data_dir = $fs_config->getWebDir();
         }
 
-        $client_data_dir = $data_dir .'/' .$common_config->getClientId();
-        $new_dir = $client_data_dir .'/' .$this->component_dir;
+        $client_data_dir = $data_dir . '/' . $common_config->getClientId();
+        $new_dir = $client_data_dir . '/' . $this->component_dir;
         return $new_dir;
     }
 

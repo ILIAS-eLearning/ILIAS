@@ -696,7 +696,7 @@ interface Factory
      *          The Eye Closed Glyph MUST only be used with Password-Inputs.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be "eye closed - click to hide the input's contents".
+     *          The aria-label MUST be "Eye Closed - Click to hide the input's contents".
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -723,7 +723,7 @@ interface Factory
      *          The Eye Open Glyph MUST only be used with Password-Inputs.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be "eye open - click to reveal the input's contents".
+     *          The aria-label MUST be "Eye Opened - Click to reveal the input's contents".
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -993,7 +993,7 @@ interface Factory
      *          from the Disclose Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'More'.
+     *          The aria-label MUST be 'Show More'.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1049,7 +1049,7 @@ interface Factory
      *          also have a visual similarity, which can be distinguished from the More Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be „Disclosure“.
+     *          The aria-label MUST be „Disclose“.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph

@@ -58,7 +58,7 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
     protected function buildCloseQuery(isItem $item) : string
     {
         return http_build_query([
-            ClientNotifications::MODE    => ClientNotifications::MODE_CLOSED,
+            ClientNotifications::MODE => ClientNotifications::MODE_CLOSED,
             ClientNotifications::ITEM_ID => $this->hash($item->getProviderIdentification()->serialize()),
         ]);
     }

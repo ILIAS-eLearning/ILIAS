@@ -91,7 +91,7 @@ class ilTrQuery
         include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
         $lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_obj_id, $a_objective_ids);
         
-        $query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title," . $ilDB->quote("lobj", "text") . " AS type" .
+        $query = "SELECT crs_id, crs_objectives.objective_id AS obj_id, title," . $ilDB->quote("lobj", "text") . " AS type" .
             " FROM crs_objectives" .
             " WHERE " . $ilDB->in("crs_objectives.objective_id", $a_objective_ids, false, "integer") .
             " AND active = " . $ilDB->quote(1, "integer") .
@@ -277,7 +277,7 @@ class ilTrQuery
             " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote("language", "text") . ")" .
             self::buildFilters($where, $a_filters);
 
-        $queries = array(array("fields"=>$fields, "query"=>$query));
+        $queries = array(array("fields" => $fields, "query" => $query));
     
         // #9598 - if language is not in fields alias is missing
         if ($a_order_field == "language") {
@@ -446,7 +446,7 @@ class ilTrQuery
             self::buildFilters(array(), $a_filters);
 
         $queries = array();
-        $queries[] = array("fields"=>$fields, "query"=>$query);
+        $queries[] = array("fields" => $fields, "query" => $query);
 
         if (!in_array($a_order_field, $fields)) {
             $a_order_field = "title";
@@ -484,9 +484,9 @@ class ilTrQuery
                         // format: hhhh:mm:ss ?!
                         if ($item["time"]) {
                             $time = explode(":", $item["time"]);
-                            $item["time"] = $time[0]*60*60+$time[1]*60+$time[2];
+                            $item["time"] = $time[0] * 60 * 60 + $time[1] * 60 + $time[2];
                         }
-                        $scos_tracking[$item["sco_id"]] = array("session_time"=>$item["time"]);
+                        $scos_tracking[$item["sco_id"]] = array("session_time" => $item["time"]);
                     }
                 }
             
@@ -678,7 +678,7 @@ class ilTrQuery
             }
         }
         
-        return array("cnt"=>sizeof($result), "set"=>$result);
+        return array("cnt" => sizeof($result), "set" => $result);
     }
 
     /**
@@ -720,7 +720,7 @@ class ilTrQuery
         $fields[] = 'COUNT(usr_data.usr_id) AS user_count';
 
         $queries = array();
-        $queries[] = array("fields"=>$fields, "query"=>$query, "count"=>"*");
+        $queries[] = array("fields" => $fields, "query" => $query, "count" => "*");
 
         $result = self::executeQueries($queries);
         $result = $result["set"][0];
@@ -957,7 +957,7 @@ class ilTrQuery
                     case "country":
                     case "city":
                     case "title":
-                        $where[] =  $ilDB->like("usr_data." . $id, "text", "%" . $value . "%");
+                        $where[] = $ilDB->like("usr_data." . $id, "text", "%" . $value . "%");
                         break;
                     
                     case "gender":
@@ -987,7 +987,7 @@ class ilTrQuery
                     case "percentage":
                         if (!$a_aggregate) {
                             if ($value["from"]) {
-                                $where[] =  "ut_lp_marks." . $id . " >= " . $ilDB->quote($value["from"], "integer");
+                                $where[] = "ut_lp_marks." . $id . " >= " . $ilDB->quote($value["from"], "integer");
                             }
                             if ($value["to"]) {
                                 $where[] = "(ut_lp_marks." . $id . " <= " . $ilDB->quote($value["to"], "integer") .
@@ -1051,7 +1051,7 @@ class ilTrQuery
                     case "read_count":
                         if (!$a_aggregate) {
                             if ($value["from"]) {
-                                $where[] =  "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
+                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
                             }
                             if ($value["to"]) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"], "integer") .
@@ -1059,7 +1059,7 @@ class ilTrQuery
                             }
                         } else {
                             if ($value["from"]) {
-                                $having[] =  "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
+                                $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
                             }
                             if ($value["to"]) {
                                 $having[] = "SUM(read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"], "integer");
@@ -1070,7 +1070,7 @@ class ilTrQuery
                     case "spent_seconds":
                         if (!$a_aggregate) {
                             if ($value["from"]) {
-                                $where[] =  "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
+                                $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote($value["from"], "integer");
                             }
                             if ($value["to"]) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote($value["to"], "integer") .
@@ -1078,7 +1078,7 @@ class ilTrQuery
                             }
                         } else {
                             if ($value["from"]) {
-                                $having[] =  "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote($value["from"], "integer");
+                                $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote($value["from"], "integer");
                             }
                             if ($value["to"]) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote($value["to"], "integer");
@@ -1125,8 +1125,8 @@ class ilTrQuery
                         if ($pos === false) {
                             continue;
                         }
-                        $function = strtoupper(substr($field, $pos+1));
-                        $field =  substr($field, 0, $pos);
+                        $function = strtoupper(substr($field, $pos + 1));
+                        $field = substr($field, 0, $pos);
                         if (!in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT"))) {
                             continue;
                         }
@@ -1361,7 +1361,7 @@ class ilTrQuery
         if ($cnt > 0) {
             if (sizeof($subqueries) > 1) {
                 $base = array_shift($subqueries);
-                $query  = $base . " UNION (" . implode(") UNION (", $subqueries) . ")";
+                $query = $base . " UNION (" . implode(") UNION (", $subqueries) . ")";
             } else {
                 $query = $subqueries[0];
             }
@@ -1370,7 +1370,7 @@ class ilTrQuery
                 $a_order_dir = "asc";
             }
             if ($a_order_field) {
-                $query.= " ORDER BY " . $a_order_field . " " . strtoupper($a_order_dir);
+                $query .= " ORDER BY " . $a_order_field . " " . strtoupper($a_order_dir);
             }
 
             $offset = (int) $a_offset;
@@ -1409,7 +1409,7 @@ class ilTrQuery
 
         $ilDB = $DIC['ilDB'];
 
-        $result = array("cnt"=>0, "set"=>null);
+        $result = array("cnt" => 0, "set" => null);
         if (sizeof($a_obj_ids)) {
             $where = array();
             $where[] = "usr_data.usr_id <> " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
@@ -1446,7 +1446,7 @@ class ilTrQuery
                     " LEFT JOIN usr_pref ON (usr_pref.usr_id = usr_data.usr_id AND keyword = " . $ilDB->quote("language", "text") . ")" .
                     self::buildFilters($where);
                 
-                $raw = self::executeQueries(array(array("fields"=>$fields, "query"=>$query)), "login");
+                $raw = self::executeQueries(array(array("fields" => $fields, "query" => $query)), "login");
                 if ($raw["cnt"]) {
                     // convert to final structure
                     foreach ($raw["set"] as $row) {
@@ -1737,8 +1737,8 @@ class ilTrQuery
             " ORDER BY yyyy DESC, mm DESC");
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[] = array("month"=>$row["yyyy"] . "-" . $row["mm"],
-                "count"=>$row["counter"]);
+            $res[] = array("month" => $row["yyyy"] . "-" . $row["mm"],
+                "count" => $row["counter"]);
         }
         return $res;
     }

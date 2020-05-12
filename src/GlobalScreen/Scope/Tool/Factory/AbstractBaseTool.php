@@ -27,7 +27,7 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
      */
     public function withInitiallyHidden(bool $initially_hidden) : isToolItem
     {
-        $clone                   = clone($this);
+        $clone = clone($this);
         $clone->initially_hidden = $initially_hidden;
 
         return $clone;
@@ -46,7 +46,7 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
      */
     public function withCloseCallback(Closure $close_callback) : isToolItem
     {
-        $clone                 = clone($this);
+        $clone = clone($this);
         $clone->close_callback = $close_callback;
 
         return $clone;

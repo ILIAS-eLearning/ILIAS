@@ -47,7 +47,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
-        $this->lng  = $DIC['lng'];
+        $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
 
         $tableId = $type . '_cml_' . implode('_', (array) $contextObjects);

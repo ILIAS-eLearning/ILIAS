@@ -381,8 +381,8 @@ class ilBenchmark
             && !$this->db_bench_stop_rec) {
             $this->db_bench[] = array(
                 "start" => $this->start,
-                "stop"  => microtime(),
-                "sql"   => $this->sql,
+                "stop" => microtime(),
+                "sql" => $this->sql,
             );
 
             return true;

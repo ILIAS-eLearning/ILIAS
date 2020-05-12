@@ -33,10 +33,10 @@ class XMLStruct
     public function append($a_name, $a_attrs)
     {
         $struct = new XMLStruct($a_name, $a_attrs);
-        $struct->parent =&$GLOBALS["lastObj"];
+        $struct->parent = &$GLOBALS["lastObj"];
 
-        $GLOBALS["lastObj"] =&$struct;
-        $this->childs[] =&$struct;
+        $GLOBALS["lastObj"] = &$struct;
+        $this->childs[] = &$struct;
     }
 
     /**
@@ -44,7 +44,7 @@ class XMLStruct
     */
     public function setParent()
     {
-        $GLOBALS["lastObj"] =&$GLOBALS["lastObj"]->parent;
+        $GLOBALS["lastObj"] = &$GLOBALS["lastObj"]->parent;
     }
 
     /**
@@ -121,7 +121,7 @@ class XML2DOM
         if (!is_object($this->xmlStruct)) {
             #vd($a_attrs);
             $this->xmlStruct = new XMLStruct($a_name, $a_attrs);
-            $GLOBALS["lastObj"] =&$this->xmlStruct;
+            $GLOBALS["lastObj"] = &$this->xmlStruct;
         } else {
             $a_attrs = $this->clean($a_attrs);
             #var_dump("<pre>",++$counter," ",$a_name," -> ",$a_attrs,"<pre>");

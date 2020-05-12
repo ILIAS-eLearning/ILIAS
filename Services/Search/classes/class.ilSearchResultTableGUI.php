@@ -111,8 +111,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         $obj_id = $a_set["obj_id"];
         $ref_id = $a_set["ref_id"];
-        $type 	= $a_set['type'];
-        $title 	= $a_set['title'];
+        $type = $a_set['type'];
+        $title = $a_set['title'];
         $description = $a_set['description'];
         $relevance = $a_set['relevance'];
         

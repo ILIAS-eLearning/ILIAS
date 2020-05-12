@@ -526,7 +526,7 @@ class ilAccordionGUI
             if ($this->getOrientation() == ilAccordionGUI::VERTICAL) {
                 $options["active_head_class"] = "il_HAccordionHeadActive";
             } else {
-                $options["active_head_class"] =  "il_VAccordionHeadActive";
+                $options["active_head_class"] = "il_VAccordionHeadActive";
             }
         }
 

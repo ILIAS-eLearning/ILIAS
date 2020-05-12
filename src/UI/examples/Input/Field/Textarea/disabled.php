@@ -28,7 +28,7 @@ function disabled()
     $form = $ui->input()->container()->form()->standard($form_action, [$textarea_input]);
 
     //Step 4: implement some form data processing.
-    if ($request->getMethod() == "POST" && $request->getQueryParams()['example_name'] =='disabled') {
+    if ($request->getMethod() == "POST" && $request->getQueryParams()['example_name'] == 'disabled') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

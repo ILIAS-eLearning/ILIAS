@@ -65,8 +65,8 @@ define("SEQ_ACTION_EXIT", "exit");
 
 class SeqRule
 {
-    public $mAction=SEQ_ACTION_IGNORE;
-    public $mConditions=null;
+    public $mAction = SEQ_ACTION_IGNORE;
+    public $mConditions = null;
     
     public function __construct()
     {

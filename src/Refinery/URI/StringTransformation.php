@@ -31,7 +31,7 @@ class StringTransformation implements Transformation
         /** @var URI $from */
         $result = $from->getBaseURI();
 
-        $query  = $from->getQuery();
+        $query = $from->getQuery();
         if (null !== $query) {
             $query = '?' . $query;
         }
@@ -41,7 +41,7 @@ class StringTransformation implements Transformation
         if (null !== $fragment) {
             $fragment = '#' . $fragment;
         }
-        $result   .= $fragment;
+        $result .= $fragment;
 
         return $result;
     }

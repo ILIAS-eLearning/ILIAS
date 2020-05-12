@@ -70,8 +70,8 @@ class ilMDXMLCopier extends ilMDSaxParser
                 break;
 
             case 'Identifier':
-                $par =&$this->__getParent();
-                $this->md_ide =&$par->addIdentifier();
+                $par = &$this->__getParent();
+                $this->md_ide = &$par->addIdentifier();
                 $this->md_ide->setCatalog($a_attribs['Catalog']);
                 $this->md_ide->setEntry('il__' . $this->md->getObjType() . '_' . $this->md->getObjId());
                 $this->md_ide->save();
@@ -82,13 +82,13 @@ class ilMDXMLCopier extends ilMDSaxParser
     }
     public function handlerEndTag($a_xml_parser, $a_name)
     {
-        if ($this->in_meta_data  and !$this->__inFilter($a_name)) {
+        if ($this->in_meta_data and !$this->__inFilter($a_name)) {
             parent::handlerEndTag($a_xml_parser, $a_name);
             return true;
         }
         switch ($a_name) {
             case 'Identifier':
-                $par =&$this->__getParent();
+                $par = &$this->__getParent();
                 $par->update();
                 $this->__popParent();
                 break;

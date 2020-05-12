@@ -481,7 +481,7 @@ class ilExSubmission
         $sql = "SELECT * FROM exc_returned" .
             " WHERE ass_id = " . $ilDB->quote($this->getAssignment()->getId(), "integer");
 
-        $sql.= " AND " . $this->getTableUserWhere(true);
+        $sql .= " AND " . $this->getTableUserWhere(true);
 
 
         if ($a_file_ids) {
@@ -748,7 +748,7 @@ class ilExSubmission
             $peer_id = null;
             foreach ($this->peer_review->getPeerReviewsByGiver($ilUser->getId()) as $idx => $item) {
                 if ($item["peer_id"] == $this->getUserId()) {
-                    $peer_id = $idx+1;
+                    $peer_id = $idx + 1;
                     break;
                 }
             }
@@ -941,12 +941,12 @@ class ilExSubmission
                 $newFilename = ilUtil::getASCIIFilename($newFilename);
                 $newFilename = $tmpdir . DIRECTORY_SEPARATOR . $deliverFilename . DIRECTORY_SEPARATOR . $newFilename;
                 // copy to temporal directory
-                $oldFilename =  $pathname . DIRECTORY_SEPARATOR . $filename;
+                $oldFilename = $pathname . DIRECTORY_SEPARATOR . $filename;
                 if (!copy($oldFilename, $newFilename)) {
                     echo 'Could not copy ' . $oldFilename . ' to ' . $newFilename;
                 }
                 touch($newFilename, filectime($oldFilename));
-                $parsed_files[] =  ilUtil::escapeShellArg($deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename));
+                $parsed_files[] = ilUtil::escapeShellArg($deliverFilename . DIRECTORY_SEPARATOR . basename($newFilename));
             }
         }
         
@@ -1027,7 +1027,7 @@ class ilExSubmission
             }
 
             // group by teams
-            $team_dir= "";
+            $team_dir = "";
             if (is_array($team_map) &&
                 array_key_exists($id, $team_map)) {
                 $team_id = $team_map[$id];
@@ -1064,7 +1064,7 @@ class ilExSubmission
                 $targetfile = trim(basename($sourcefile));
                 $pos = strpos($targetfile, "_");
                 if ($pos !== false) {
-                    $targetfile= substr($targetfile, $pos + 1);
+                    $targetfile = substr($targetfile, $pos + 1);
                 }
 
                 if ($a_ass->getAssignmentType()->getSubmissionType() == self::TYPE_REPO_OBJECT) {
@@ -1331,7 +1331,7 @@ class ilExSubmission
     
         // submission:
         // see if files have been resubmmited after solved
-        $last_sub =	$this->getLastSubmission();
+        $last_sub = $this->getLastSubmission();
         if ($last_sub) {
             $last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub, IL_CAL_DATETIME));
         } else {
@@ -1367,12 +1367,12 @@ class ilExSubmission
                 // nr of submitted files
                 $result["files"]["txt"] = $lng->txt("exc_files_returned");
                 if ($late_files) {
-                    $result["files"]["txt"].= ' - <span class="warning">' . $lng->txt("exc_late_submission") . " (" . $late_files . ")</span>";
+                    $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . " (" . $late_files . ")</span>";
                 }
                 $sub_cnt = count($all_files);
                 $new = $this->lookupNewFiles();
                 if (count($new) > 0) {
-                    $sub_cnt.= " " . sprintf($lng->txt("cnt_new"), count($new));
+                    $sub_cnt .= " " . sprintf($lng->txt("cnt_new"), count($new));
                 }
                 
                 $result["files"]["count"] = $sub_cnt;
@@ -1399,13 +1399,13 @@ class ilExSubmission
                 break;
                 
             case ilExAssignment::TYPE_BLOG:
-                $result["files"]["txt"] =$lng->txt("exc_blog_returned");
+                $result["files"]["txt"] = $lng->txt("exc_blog_returned");
                 $blogs = $this->getFiles();
                 if ($blogs) {
                     $blogs = array_pop($blogs);
                     if ($blogs && substr($blogs["filename"], -1) != "/") {
                         if ($blogs["late"]) {
-                            $result["files"]["txt"].= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
+                            $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
                         }
                         
                         $result["files"]["count"] = 1;
@@ -1425,7 +1425,7 @@ class ilExSubmission
                     $portfolios = array_pop($portfolios);
                     if ($portfolios && substr($portfolios["filename"], -1) != "/") {
                         if ($portfolios["late"]) {
-                            $result["files"]["txt"].= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
+                            $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
                         }
                         
                         $result["files"]["count"] = 1;
@@ -1447,7 +1447,7 @@ class ilExSubmission
                     $files = array_shift($files);
                     if (trim($files["atext"])) {
                         if ($files["late"]) {
-                            $result["files"]["txt"].= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
+                            $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
                         }
                         
                         $result["files"]["download_url"] =
@@ -1465,7 +1465,7 @@ class ilExSubmission
                     $objs = array_pop($objs);
                     if ($objs && substr($objs["filename"], -1) != "/") {
                         if ($objs["late"]) {
-                            $result["files"]["txt"].= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
+                            $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
                         }
 
                         $result["files"]["count"] = 1;
@@ -1502,7 +1502,7 @@ class ilExSubmission
             " WHERE r.filetitle = " . $db->quote($a_filename, "string");
 
         if (is_array($a_assignment_types) && count($a_assignment_types) > 0) {
-            $query.= " AND " . $db->in("a.type", $a_assignment_types, false, "integer");
+            $query .= " AND " . $db->in("a.type", $a_assignment_types, false, "integer");
         }
 
         $set = $db->query($query);

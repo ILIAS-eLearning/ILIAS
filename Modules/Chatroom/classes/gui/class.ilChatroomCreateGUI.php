@@ -17,14 +17,14 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
     {
         require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
         $formFactory = new ilChatroomFormFactory();
-        $form        = $formFactory->getCreationForm();
+        $form = $formFactory->getCreationForm();
 
         if ($form->checkInput()) {
             $roomObj = $this->gui->insertObject();
-            $room    = ilChatroom::byObjectId($roomObj->getId());
+            $room = ilChatroom::byObjectId($roomObj->getId());
 
             $connector = $this->gui->getConnector();
-            $response  = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
+            $response = $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $roomObj->getOwner(), $roomObj->getTitle());
 
             $this->ilCtrl->setParameter($this->gui, 'ref_id', $this->gui->getRefId());
             $this->ilCtrl->redirect($this->gui, 'settings-general');

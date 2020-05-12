@@ -180,8 +180,6 @@ class TagInputTest extends ILIAS_UI_TestBase
 
     public function test_empty_array_as_input_lead_to_exception()
     {
-        $this->expectNotToPerformAssertions();
-
         $f = $this->buildFactory();
         $label = "label";
         $name = "name_0";
@@ -189,12 +187,10 @@ class TagInputTest extends ILIAS_UI_TestBase
         /** @var \ILIAS\UI\Implementation\Component\Input\Field\Tag $tag */
         $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
-        try {
-            $tag2 = $tag->withInput(new DefInputData([$name => []]));
-        } catch (\Exception $exception) {
-            return;
-        }
-        $this->fail();
+        $tag2 = $tag->withInput(new DefInputData([$name => []]));
+        $result = $tag2->getContent();
+        $this->assertTrue($result->isOk());
+        $this->assertEquals([], $result->value());
     }
 
     public function test_null_value_leads_to_exception()

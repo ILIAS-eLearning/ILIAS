@@ -18,7 +18,7 @@ class ilCalendarAuthenticationToken
     
     private $user = null;
     
-    private $token  = '';
+    private $token = '';
     private $selection_type = 0;
     private $calendar = 0;
     
@@ -157,12 +157,12 @@ class ilCalendarAuthenticationToken
         $ilDB->update(
             'cal_auth_token',
             array(
-                'ical'		=> array('clob',$this->getIcal()),
-                'c_time'	=> array('integer',time())
+                'ical' => array('clob',$this->getIcal()),
+                'c_time' => array('integer',time())
             ),
             array(
-                'user_id'	=> array('integer',$this->getUserId()),
-                'hash'		=> array('text',$this->getToken())
+                'user_id' => array('integer',$this->getUserId()),
+                'hash' => array('text',$this->getToken())
             )
         );
     }

@@ -152,7 +152,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $ilTabs->clearTargets();
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
                 //$ret =& $style_gui->executeCommand();
@@ -188,7 +188,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
                     $cmd != "frameset") {
-                    $cmd.= "Object";
+                    $cmd .= "Object";
                 }
                 
                 // #9225
@@ -432,7 +432,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $subType = $_POST["sub_type"];
 
         // always import authoring packages as scorm2004, see bug #27801
-        if ($_POST["editable"]=='y') {
+        if ($_POST["editable"] == 'y') {
             $subType = "scorm2004";
         }
 
@@ -441,7 +441,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         case "scorm2004":
             include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
             $newObj = new ilObjSCORM2004LearningModule();
-            $newObj->setEditable($_POST["editable"]=='y');
+            $newObj->setEditable($_POST["editable"] == 'y');
             $newObj->setImportSequencing($_POST["import_sequencing"]);
             $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
             break;
@@ -482,9 +482,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 } else {
                     include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                     $newObj = new ilObjSCORM2004LearningModule();
-					// $newObj->setEditable($_POST["editable"]=='y');
-					// $newObj->setImportSequencing($_POST["import_sequencing"]);
-					// $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    // $newObj->setEditable($_POST["editable"]=='y');
+                    // $newObj->setImportSequencing($_POST["import_sequencing"]);
+                    // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
                 }
             }
             break;
@@ -535,7 +535,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
         
         //auto set learning progress settings
-		$newObj->setLearningProgressSettingsAtUpload();
+        $newObj->setLearningProgressSettingsAtUpload();
         
         if ($importFromXml) {
             $importer->writeData("sahs", "5.1.0", $newObj->getId());

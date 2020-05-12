@@ -70,7 +70,4 @@ abstract class ilPDBaseObjectsRenderer implements ilPDObjectsRenderer
         $this->objectService = $objectService;
         $this->ctrl = $ctrl;
     }
-
-
-
 }

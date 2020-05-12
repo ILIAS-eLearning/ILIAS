@@ -40,10 +40,10 @@ class ilChatroomObjectDefinition
      */
     public function __construct($moduleName, $moduleBasePath, $relativeClassPath = 'classes', $guiScope = '')
     {
-        $this->moduleName        = $moduleName;
-        $this->moduleBasePath    = rtrim($moduleBasePath, '/\\');
+        $this->moduleName = $moduleName;
+        $this->moduleBasePath = rtrim($moduleBasePath, '/\\');
         $this->relativeClassPath = rtrim($relativeClassPath);
-        $this->guiScope          = rtrim($guiScope);
+        $this->guiScope = rtrim($guiScope);
     }
 
     /**
@@ -127,7 +127,7 @@ class ilChatroomObjectDefinition
      */
     public function buildGUI($gui, ilChatroomObjectGUI $chatroomObjectGUI)
     {
-        $className   = $this->getGUIClassName($gui);
+        $className = $this->getGUIClassName($gui);
         $guiInstance = new $className($chatroomObjectGUI);
 
         return $guiInstance;

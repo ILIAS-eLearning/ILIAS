@@ -65,8 +65,8 @@ class assErrorTextTest extends assBaseTestCase
 			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
 
         $expected = array(
-            'passages'  => array( 0 => 'Kündigung',  1=> 'drei gleichlaute', 3 => 'konsequentes'),
-            'words'     => array( 2 => 'Supermarkt')
+            'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
+            'words' => array( 2 => 'Supermarkt')
         );
 
         // Act
@@ -110,8 +110,8 @@ class assErrorTextTest extends assBaseTestCase
 			Kassierband und den Kassiervorgang zustande. Dies nennt man ((konsequentes)) Handeln.';
 
         $expected = array(
-            'passages'  => array( 0 => 'Kündigung',  1=> 'drei gleichlaute', 3 => 'konsequentes'),
-            'words'     => array( 2 => 'Supermarkt')
+            'passages' => array( 0 => 'Kündigung',  1 => 'drei gleichlaute', 3 => 'konsequentes'),
+            'words' => array( 2 => 'Supermarkt')
         );
 
         // Act

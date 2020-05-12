@@ -729,7 +729,7 @@ class ilContainer extends ilObject
      * Is classification filter active?
      * @return bool
      */
-    public function isClassificationFilterActive(): bool
+    public function isClassificationFilterActive() : bool
     {
         // apply container classification filters
         $repo = new ilClassificationSessionRepository($this->getRefId());
@@ -748,7 +748,7 @@ class ilContainer extends ilObject
      * Catetories only their direct childs
      * @return bool
      */
-    public function filteredSubtree(): bool
+    public function filteredSubtree() : bool
     {
         if ($this->isClassificationFilterActive() && in_array($this->getType(), ["grp", "crs"])) {
             return true;
@@ -761,7 +761,7 @@ class ilContainer extends ilObject
      *
      * @return array
      */
-    protected function getInitialSubitems(): array
+    protected function getInitialSubitems() : array
     {
         $tree = $this->tree;
         if ($this->filteredSubtree()) {
@@ -1153,32 +1153,36 @@ class ilContainer extends ilObject
 
         $obj_id = ilObject::_lookupObjId($a_target_id);
         include_once("./Services/Container/classes/class.ilContainerPage.php");
+
+        include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $mapping = $cwo->getMappings();
+
         if (ilContainerPage::_exists("cont", $obj_id)) {
-            include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
-            $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
-            $mapping = $cwo->getMappings();
             $pg = new ilContainerPage($obj_id);
             $pg->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
             $pg->update(true, true);
-            foreach ($mapping as $old_ref_id => $new_ref_id) {
-                if (!is_int($old_ref_id) || !is_int($new_ref_id)) {
-                    continue;
-                }
-                $type = ilObject::_lookupType($new_ref_id, true);
-                $class = "il" . $obj_definition->getClassName($type) . "PageCollector";
-                $loc = $obj_definition->getLocation($type);
-                $file = $loc . "/class." . $class . ".php";
-                if (is_file($file)) {
-                    include_once($file);
-                    /** @var ilCOPageCollectorInterface $coll */
-                    $coll = new $class();
-                    foreach ($coll->getAllPageIds(ilObject::_lookupObjId($new_ref_id)) as $page_id) {
-                        if (ilPageObject::_exists($page_id["parent_type"], $page_id["id"], $page_id["lang"])) {
-                            /** @var ilPageObject $page */
-                            $page = ilPageObjectFactory::getInstance($page_id["parent_type"], $page_id["id"], 0, $page_id["lang"]);
-                            $page->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
-                            $page->update(true, true);
-                        }
+        }
+
+        foreach ($mapping as $old_ref_id => $new_ref_id) {
+            if (!is_numeric($old_ref_id) || !is_numeric($new_ref_id)) {
+                continue;
+            }
+
+            $type = ilObject::_lookupType($new_ref_id, true);
+            $class = 'il' . $obj_definition->getClassName($type) . 'PageCollector';
+            $loc = $obj_definition->getLocation($type);
+            $file = $loc . '/class.' . $class . '.php';
+
+            if (is_file($file)) {
+                /** @var ilCOPageCollectorInterface $coll */
+                $coll = new $class();
+                foreach ($coll->getAllPageIds(ilObject::_lookupObjId($new_ref_id)) as $page_id) {
+                    if (ilPageObject::_exists($page_id['parent_type'], $page_id['id'], $page_id['lang'])) {
+                        /** @var ilPageObject $page */
+                        $page = ilPageObjectFactory::getInstance($page_id['parent_type'], $page_id['id'], 0, $page_id['lang']);
+                        $page->handleRepositoryLinksOnCopy($mapping, $a_source_ref_id);
+                        $page->update(true, true);
                     }
                 }
             }
@@ -1377,7 +1381,12 @@ class ilContainer extends ilObject
                     $field_form->getADT()->setSelections([$val]);
                 }
                 if ($field instanceof ilAdvancedMDFieldDefinitionSelect) {
-                    $field_form->getADT()->setSelection($val);
+                    $adt = $field_form->getADT();
+                    if ($adt instanceof ilADTMultiEnumText) {
+                        $field_form->getADT()->setSelections([$val]);
+                    } else {
+                        $field_form->getADT()->setSelection($val);
+                    }
                 }
 
                 include_once 'Services/Search/classes/class.ilQueryParser.php';

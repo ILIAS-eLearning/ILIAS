@@ -48,7 +48,7 @@ class ilScormAiccExporter extends ilXmlExporter
         {
             $md_ids = array();
             $md_ids[0] = "0:".$mob_id.":mob";
-    
+
             return array (
                 array(
                     "component" => "Modules/ScormAicc",

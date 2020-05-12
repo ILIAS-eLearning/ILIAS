@@ -1,97 +1,115 @@
 <?php
-/**
- * A simple carrier for iass info-settings.
- * Could have used an associative array as well...
- */
+
+declare(strict_types=1);
+
+use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Refinery\Factory as Refinery;
 
 class ilIndividualAssessmentInfoSettings
 {
-    protected $id;
-    protected $contanct;
+    /**
+     * @var int
+     */
+    protected $obj_id;
+
+    /**
+     * @var string|null
+     */
+    protected $contact;
+
+    /**
+     * @var string|null
+     */
     protected $responsibility;
+
+    /**
+     * @var string|null
+     */
     protected $phone;
+
+    /**
+     * @var string|null
+     */
     protected $mails;
+
+    /**
+     * @var string|null
+     */
     protected $consultation_hours;
 
     public function __construct(
-        ilObjIndividualAssessment $iass,
-        $contanct = null,
-        $responsibility = null,
-        $phone = null,
-        $mails = null,
-        $consultation_hours = null
+        int $obj_id,
+        ?string $contact,
+        ?string $responsibility,
+        ?string $phone,
+        ?string $mails,
+        ?string $consultation_hours
     ) {
-        $this->id = $iass->getId();
-        $this->contact = $contanct;
+        $this->obj_id = $obj_id;
+        $this->contact = $contact;
         $this->responsibility = $responsibility;
         $this->phone = $phone;
         $this->mails = $mails;
         $this->consultation_hours = $consultation_hours;
     }
 
-    public function id()
+    public function getObjId() : int
     {
-        return $this->id;
+        return $this->obj_id;
     }
 
-    public function contact()
+    public function getContact() : ?string
     {
         return $this->contact;
     }
 
-    public function responsibility()
+    public function getResponsibility() : ?string
     {
         return $this->responsibility;
     }
 
-    public function phone()
+    public function getPhone() : ?string
     {
         return $this->phone;
     }
 
-    public function mails()
+    public function getMails() : ?string
     {
         return $this->mails;
     }
 
-    public function consultationHours()
+    public function getConsultationHours() : ?string
     {
         return $this->consultation_hours;
     }
 
-
-    public function setContact($contact)
-    {
-        assert(is_string($contact) || $contact === null);
-        $this->contact = $contact;
-        return $this;
-    }
-
-    public function setResponsibility($responsibility)
-    {
-        assert(is_string($responsibility) || $responsibility === null);
-        $this->responsibility = $responsibility;
-        return $this;
-    }
-
-    public function setPhone($phone)
-    {
-        assert(is_string($phone) || $phone === null);
-        $this->phone = $phone;
-        return $this;
-    }
-
-    public function setMails($mails)
-    {
-        assert(is_string($mails) || $mails === null);
-        $this->mails = $mails;
-        return $this;
-    }
-
-    public function setConsultationHours($consultation_hours)
-    {
-        assert(is_string($consultation_hours) || $consultation_hours === null);
-        $this->consultation_hours = $consultation_hours;
-        return $this;
+    public function toFormInput(
+        Field\Factory $input,
+        \ilLanguage $lng,
+        Refinery $refinery
+    ) : Field\Input {
+        return $input->section(
+            [
+                $input->text($lng->txt("iass_contact"))
+                    ->withValue((string) $this->getContact())
+                    ->withRequired(true),
+                $input->text($lng->txt("iass_responsibility"))
+                    ->withValue((string) $this->getResponsibility()),
+                $input->text($lng->txt("iass_phone"))
+                    ->withValue((string) $this->getPhone()),
+                $input->textarea($lng->txt("iass_mails"), $lng->txt("iass_info_emails_expl"))
+                    ->withValue((string) $this->getMails()),
+                $input->textarea($lng->txt("iass_consultation_hours"))
+                    ->withValue((string) $this->getConsultationHours())
+            ],
+            $lng->txt("settings")
+        )->withAdditionalTransformation(
+            $refinery->custom()->transformation(function ($value) {
+                return new ilIndividualAssessmentInfoSettings(
+                    $this->getObjId(),
+                    ...$value
+                );
+            })
+        );
     }
 }

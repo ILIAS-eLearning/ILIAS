@@ -121,5 +121,5 @@ interface Pagination extends C\Component, JavaScriptBindable, Triggerer
     /**
      * Get the current number of entries on this page.
      */
-    public function getRange(): Range;
+    public function getRange() : Range;
 }

@@ -97,7 +97,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
                 break;
             
             case 'Record':
-                $this->local_record = array('id'=>$a_attribs['local_id']);
+                $this->local_record = array('id' => $a_attribs['local_id']);
                 break;
                 
             case 'Value':

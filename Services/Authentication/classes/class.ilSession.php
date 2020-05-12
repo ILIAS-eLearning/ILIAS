@@ -37,18 +37,18 @@ class ilSession
      *
      * @var integer
      */
-    const SESSION_CLOSE_USER   = 1;  // manual logout
+    const SESSION_CLOSE_USER = 1;  // manual logout
     const SESSION_CLOSE_EXPIRE = 2;  // has expired
-    const SESSION_CLOSE_FIRST  = 3;  // kicked by session control (first abidencer)
-    const SESSION_CLOSE_IDLE   = 4;  // kickey by session control (ilde time)
-    const SESSION_CLOSE_LIMIT  = 5;  // kicked by session control (limit reached)
-    const SESSION_CLOSE_LOGIN  = 6;  // anonymous => login
+    const SESSION_CLOSE_FIRST = 3;  // kicked by session control (first abidencer)
+    const SESSION_CLOSE_IDLE = 4;  // kickey by session control (ilde time)
+    const SESSION_CLOSE_LIMIT = 5;  // kicked by session control (limit reached)
+    const SESSION_CLOSE_LOGIN = 6;  // anonymous => login
     const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
-    const SESSION_CLOSE_TIME   = 8;  // account time limit reached
-    const SESSION_CLOSE_IP     = 9;  // wrong ip
-    const SESSION_CLOSE_SIMUL  = 10; // simultaneous login
+    const SESSION_CLOSE_TIME = 8;  // account time limit reached
+    const SESSION_CLOSE_IP = 9;  // wrong ip
+    const SESSION_CLOSE_SIMUL = 10; // simultaneous login
     const SESSION_CLOSE_INACTIVE = 11; // inactive account
-    const SESSION_CLOSE_CAPTCHA  = 12; // invalid captcha
+    const SESSION_CLOSE_CAPTCHA = 12; // invalid captcha
     
     private static $closing_context = null;
 
@@ -312,7 +312,7 @@ class ilSession
         $new_session = $a_session_id;
         do {
             $new_session = md5($new_session);
-            $q ="SELECT * FROM usr_session WHERE " .
+            $q = "SELECT * FROM usr_session WHERE " .
                 "session_id = " . $ilDB->quote($new_session, "text");
             $res = $ilDB->query($q);
         } while ($ilDB->fetchAssoc($res));
@@ -373,10 +373,10 @@ class ilSession
         $ilSetting = $DIC['ilSetting'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
         
-        if ($fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_FIXED) {
+        if ($fixedMode || $ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_FIXED) {
             // fixed session
             return $ilClientIniFile->readVariable('session', 'expire');
-        } elseif ($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) ==  self::SESSION_HANDLING_LOAD_DEPENDENT) {
+        } elseif ($ilSetting->get('session_handling_type', self::SESSION_HANDLING_FIXED) == self::SESSION_HANDLING_LOAD_DEPENDENT) {
             // load dependent session settings
             return (int) ($ilSetting->get('session_max_idle', ilSessionControl::DEFAULT_MAX_IDLE) * 60);
         }

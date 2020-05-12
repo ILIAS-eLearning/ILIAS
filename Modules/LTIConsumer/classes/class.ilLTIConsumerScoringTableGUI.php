@@ -107,7 +107,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
 
         if ($this->_parent->getObject()->getHighscorePercentage()) {
             $this->tpl->setCurrentBlock('percentage');
-            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $data['score'] *100);
+            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $data['score'] * 100);
             $this->tpl->parseCurrentBlock();
         }
 

@@ -83,7 +83,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         parent::__construct();
 
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
 
@@ -258,7 +258,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
-        $cmd        = $this->ctrl->getCmd('getHTML');
+        $cmd = $this->ctrl->getCmd('getHTML');
 
         switch ($next_class) {
             case 'ilcommonactiondispatchergui':
@@ -823,8 +823,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 }
             }
             if (count($cards) > 0) {
-                $subs[] = $factory->panel()->sub($group->getLabel(),
-                    $factory->deck($cards)->withNormalCardsSize());
+                $subs[] = $factory->panel()->sub(
+                    $group->getLabel(),
+                    $factory->deck($cards)->withNormalCardsSize()
+                );
             }
         }
 
@@ -874,11 +876,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     protected function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
-        $txt.= sprintf(
+        $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),
             '<a href="' . ilLink::_getStaticLink(1, 'root', true) . '">' . $this->getRepositoryTitle() . '</a>'
         ) . "<br>";
-        $txt.= $this->lng->txt("rep_fav_intro3");
+        $txt .= $this->lng->txt("rep_fav_intro3");
         return $txt;
     }
 
@@ -887,7 +889,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     protected function getRepositoryTitle()
     {
-        $nd    = $this->tree->getNodeData($this->tree->getRootId());
+        $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
 
         if ($title == 'ILIAS') {

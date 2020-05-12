@@ -19,6 +19,7 @@
 		]
 	},
 	"require": {
+		"php": "^7.3",
 		"cweagans/composer-patches": "~1.0",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
@@ -49,14 +50,14 @@
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^8",
-		"phpunit/php-code-coverage": "^7.0",
+		"phpunit/phpunit": "^9",
+		"phpunit/php-code-coverage": "^8.0",
 		"mockery/mockery": "^1.2",
-		"phpunit/php-token-stream": "^3.1",
+		"phpunit/php-token-stream": "^4.0",
 		"phpdocumentor/reflection-docblock": "^3.3",
 		"friendsofphp/php-cs-fixer": "^2.15",
-		"sebastian/environment": "^4.2",
-		"phpunit/php-timer": "^2.1",
+		"sebastian/environment": "^5.0",
+		"phpunit/php-timer": "^3.0",
 		"phpspec/prophecy": "^1.8",
 		"theseer/tokenizer": "^1.1",
 		"myclabs/deep-copy": "^1.9"
@@ -272,10 +273,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.18.4",
+			"used_version": "v1.18.6",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2020-02-14",
+			"last_update": "2020-04-23",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"

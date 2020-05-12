@@ -94,7 +94,7 @@ class ilChartLegend
      */
     public function getMargin()
     {
-        return array("x"=>$this->margin_x, "y"=>$this->margin_y);
+        return array("x" => $this->margin_x, "y" => $this->margin_y);
     }
 
     /**

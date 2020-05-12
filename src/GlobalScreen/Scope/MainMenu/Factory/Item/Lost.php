@@ -158,7 +158,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     public function removeChild(isChild $child_to_remove) : isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove) : bool {
             return $item->getProviderIdentification()->serialize() !== $child_to_remove->getProviderIdentification()->serialize();
         });
 
@@ -230,5 +230,4 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return false;
     }
-
 }

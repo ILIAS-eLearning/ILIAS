@@ -58,7 +58,7 @@ class ilItemGroupItems
         $tree = $DIC->repositoryTree();
         $objDefinition = $DIC["objDefinition"];
 
-        $this->db  = $ilDB;
+        $this->db = $ilDB;
         $this->lng = $lng;
         $this->tree = $tree;
         $this->obj_def = $objDefinition;

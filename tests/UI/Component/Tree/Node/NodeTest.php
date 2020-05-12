@@ -84,7 +84,7 @@ class NodeTest extends ILIAS_UI_TestBase
      */
     public function testWithOnClick($node)
     {
-        $sig_gen = 	new I\SignalGenerator();
+        $sig_gen = new I\SignalGenerator();
         $sig = $sig_gen->create();
 
         $node = $node->withOnClick($sig);
@@ -98,7 +98,7 @@ class NodeTest extends ILIAS_UI_TestBase
      */
     public function testWithAppendOnClick($node)
     {
-        $sig_gen = 	new I\SignalGenerator();
+        $sig_gen = new I\SignalGenerator();
         $sig = $sig_gen->create();
 
         $node = $node->appendOnClick($sig);

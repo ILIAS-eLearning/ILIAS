@@ -23,14 +23,14 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     {
         $this->setGlobalVariable(
             'ilAppEventHandler',
-            $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods(['raise'])->getMock()
+            $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods(['raise'])->getMock()
         );
         $this->setGlobalVariable('ilDB', $this->getMockBuilder(ilDBInterface::class)->getMock());
         $this->setGlobalVariable(
             'lng',
             $this->getMockBuilder(ilLanguage::class)
                 ->disableOriginalConstructor()
-                ->setMethods(['txt', 'loadLanguageModule'])
+                ->onlyMethods(['txt', 'loadLanguageModule'])
                 ->getMock()
         );
     }
@@ -40,7 +40,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
      */
     public function testInstanceCanBeCreatedByGlobalUserObject() : void
     {
-        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->setMethods(['getId'])->getMock();
+        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(['getId'])->getMock();
         $user->expects($this->once())->method('getId')->will($this->returnValue(self::BUDDY_LIST_OWNER_ID));
         $this->setGlobalVariable('ilUser', $user);
 
@@ -53,7 +53,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testInstanceCannotBeCreatedByAnonymousGlobalUserObject() : void
     {
         $this->expectException(ilBuddySystemException::class);
-        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->setMethods(['getId'])->getMock();
+        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(['getId'])->getMock();
         $user->expects($this->once())->method('getId')->will($this->returnValue(ANONYMOUS_USER_ID));
         $this->setGlobalVariable('ilUser', $user);
 

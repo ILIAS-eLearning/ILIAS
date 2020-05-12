@@ -15,12 +15,20 @@ class ilRoleXmlImporter
     protected $role = null;
     
     protected $xml = '';
+
+    /**
+     * @var \ilLogger|null
+     */
+    private $logger = null;
     
     /**
      * Constructor
      */
     public function __construct($a_role_folder_id = 0)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->otpl();
         $this->role_folder = $a_role_folder_id;
     }
     
@@ -95,7 +103,7 @@ class ilRoleXmlImporter
         $lng = $DIC['lng'];
 
         $import_id = (string) $role['id'];
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' Importing role with import id ' . $import_id);
+        $this->logger->info('Importing role with import_id: ' . $import_id);
 
         if (!$this->initRole($import_id)) {
             return 0;
@@ -103,8 +111,10 @@ class ilRoleXmlImporter
         
         $this->getRole()->setTitle(trim((string) $role->title));
         $this->getRole()->setDescription(trim((string) $role->description));
+
+        $this->logger->info('Current role import id: ' . $this->getRole()->getImportId());
         
-        $type =  ilObject::_lookupType($this->getRoleFolderId(), true);
+        $type = ilObject::_lookupType($this->getRoleFolderId(), true);
         $exp = explode("_", $this->getRole()->getTitle());
 
         if (count($exp) > 0 && $exp[0] === "il") {
@@ -208,15 +218,23 @@ class ilRoleXmlImporter
         if ($this->getRole()) {
             return true;
         }
-        
+
+        $this->logger->debug('Searching already imported role by import_id: ' . $import_id);
         $obj_id = ilObject::_lookupObjIdByImportId($import_id);
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
+        $this->logger->debug('Found already imported obj_id: ' . $obj_id);
+
+
         if ($obj_id) {
             $this->role = ilObjectFactory::getInstanceByObjId($obj_id, false);
+            $this->role->setImportId((string) $import_id);
         }
-        if (!$this->getRole() instanceof ilObjRole or !$this->getRole() instanceof ilObjRoleTemplate) {
-            include_once './Services/AccessControl/classes/class.ilObjRoleTemplate.php';
+        if (
+            (!$this->getRole() instanceof ilObjRole) &&
+            (!$this->getRole() instanceof ilObjRoleTemplate)
+        ){
+            $this->logger->debug('Creating new role template');
             $this->role = new ilObjRoleTemplate();
+            $this->role->setImportId((string) $import_id);
         }
         return true;
     }

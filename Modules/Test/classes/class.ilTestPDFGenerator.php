@@ -53,7 +53,7 @@ class ilTestPDFGenerator
         
         $invalid_elements = array();
 
-        $script_elements     = $dom->getElementsByTagName('script');
+        $script_elements = $dom->getElementsByTagName('script');
         foreach ($script_elements as $elm) {
             $invalid_elements[] = $elm;
         }
@@ -94,7 +94,7 @@ class ilTestPDFGenerator
         return $cleaned_html;
     }
 
-    public static function generatePDF($pdf_output, $output_mode, $filename=null, $purpose = null)
+    public static function generatePDF($pdf_output, $output_mode, $filename = null, $purpose = null)
     {
         $pdf_output = self::preprocessHTML($pdf_output);
 

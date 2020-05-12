@@ -239,7 +239,53 @@ class ilContObjectExport
         // create directories
         $this->cont_obj->createExportDirectory("scorm");
 
+        $target_dir = $this->export_dir."/".$this->subdir;
+
+        ilUtil::delDir($target_dir);
+        ilUtil::makeDir($target_dir);
+
+        // export everything to html
+//        $this->exportHTML($a_target_dir . "/res", $log, false, "scorm");
         // get html content
-        $this->cont_obj->exportSCORM($this->export_dir . "/" . $this->subdir, $expLog);
+        $exp = new \ILIAS\LearningModule\Export\LMHtmlExport(
+            $this->cont_obj,
+            $target_dir,
+            "res",
+            "scorm",
+            $this->lang
+        );
+        $exp->exportHTML(false);
+
+        // build manifest file
+        $man_builder = new ilLMContObjectManifestBuilder($this->cont_obj);
+        $man_builder->buildManifest();
+        $man_builder->dump($target_dir);
+
+        // copy scorm 1.2 schema definitions
+        copy("Modules/LearningModule/scorm_xsd/adlcp_rootv1p2.xsd", $target_dir . "/adlcp_rootv1p2.xsd");
+        copy("Modules/LearningModule/scorm_xsd/imscp_rootv1p1p2.xsd", $target_dir . "/imscp_rootv1p1p2.xsd");
+        copy("Modules/LearningModule/scorm_xsd/imsmd_rootv1p2p1.xsd", $target_dir . "/imsmd_rootv1p2p1.xsd");
+        copy("Modules/LearningModule/scorm_xsd/ims_xml.xsd", $target_dir . "/ims_xml.xsd");
+
+        // zip it all
+        $date = time();
+        $zip_file = $target_dir . "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->cont_obj->getType() . "_" . $this->cont_obj->getId() . ".zip";
+        //echo "zip-".$a_target_dir."-to-".$zip_file;
+        ilUtil::zip(array($target_dir . "/res",
+                          $target_dir . "/imsmanifest.xml",
+                          $target_dir . "/adlcp_rootv1p2.xsd",
+                          $target_dir . "/imscp_rootv1p1p2.xsd",
+                          $target_dir . "/ims_xml.xsd",
+                          $target_dir . "/imsmd_rootv1p2p1.xsd"), $zip_file);
+
+        $dest_file = $this->cont_obj->getExportDirectory("scorm") . "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->cont_obj->getType() . "_" . $this->cont_obj->getId() . ".zip";
+
+        rename($zip_file, $dest_file);
+        ilUtil::delDir($target_dir);
+
+      // get html content
+//        $this->cont_obj->exportSCORM($this->export_dir . "/" . $this->subdir, $expLog);
     }
 }

@@ -28,6 +28,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
       1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
       1. [MySQL Perfomance tuning \(OPTIONAL\)](#mysql-perfomance-tuning-optional)
    1. [E-Mail Configuration \(OPTIONAL\)](#e-mail-configuration-optional)
+   1. [WebDAV Configuration \(OPTIONAL\)](#webdav-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
       1. [Optional Dependencies](#optional-dependencies)
    1. [Installation Wizard](#installation-wizard)
@@ -42,7 +43,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Information on Updates](#information-on-updates)
 1. [Upgrading Dependencies](#upgrading-dependencies)
    1. [PHP](#php)
-   1. [MySQL](#mysql)
+   1. [DBMS](#dbms)
    1. [ImageMagick](#imagemagick)
 1. [Contribute](#contribute)
    1. [Pull Requests](#pull-requests)
@@ -83,7 +84,7 @@ For best results we RECOMMEND:
   * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
   * MySQL 5.6+
   * MariaDB 10.2
-  * PHP 7.3
+  * PHP 7.4
   * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -104,13 +105,13 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2.4 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
-  * PHP: Version 7.2 and 7.3 are supported
+  * PHP: Version 7.3 and 7.4 are supported
   * zip: 3.0+
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+
   * PhantomJS: 2.0.0+
-  * NodeJS: 8.9.4 (TLS) - 10.15.3 (LTS)
-  * Java: Version 7 and 8 are supported
+  * Node.js: 12 (LTS)
+  * Java: Version 7 and 8 are suported
 
 <a name="client"></a>
 ### Client
@@ -402,6 +403,25 @@ hostname=yourserver.example.com
 FromLineOverride=YES
 ```
 
+<a name="webdav-configuration-optional"></a>
+## WebDAV Configuration (OPTIONAL)
+
+The recommended webserver configuration is either **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you use WebDAV.
+
+### WebDAV with Windows Explorer
+Because of a special behaviour in the Windows Explorer, it sometimes fails to add a WebDAV connection with the error code "0x80070043 The Network Name Cannot Be Found".
+
+To prevent this behaviour, add the following rewrite rules to a .htaccess file in your webroot or to the corresponding section of the configuration of your webserver:
+
+```
+RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
+RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
+RewriteRule .* "-" [R=401,L]
+```
+
+### WebDAV with Mac Finder
+To upload files, the WebDAV Client *Finder* on Mac uses chunked transfer encoding. Some webservers can't handle this way of uploading files and are serving ILIAS an empty files, which results in an empty file object on ILIAS. Due to a bug in apache, the configuration of **Apache with PHP-FPM** does not work with the *Mac Finder*. If you use WebDAV on your ILIAS installation, we recommend to either use **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**.
+
 <a name="install-other-depedencies"></a>
 ## Install other Depedencies
 
@@ -575,7 +595,8 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
-| 6.0.x           | 7.2.x, 7.3.x                          |
+| 7.x             | 7.3.x, 7.4.x                          |
+| 6.x             | 7.2.x, 7.3.x                          |
 | 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
@@ -586,18 +607,20 @@ When you upgrade from rather old versions please make sure that the dependencies
 | 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
 | 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
 
-<a name="mysql"></a>
-## MySQL
+<a name="dbms"></a>
+## DBMS
 
-| ILIAS Version   | MySQL Version                         |
-|-----------------|---------------------------------------|
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                   |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
+| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
+|-----------------|-------------------------------------|-------------------------|--------------------------|
+| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
+| 6.0 - 6.x       | 5.6.x, 5.7.x                        | 10.0, 10.1, 10.2        | 9.x                      |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
 
 <a name="imagemagick"></a>
 ## ImageMagick
@@ -627,7 +650,7 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (https://test54.ilias.de) is currently configured as follows:
+The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
@@ -640,6 +663,6 @@ The ILIAS Testserver (https://test54.ilias.de) is currently configured as follow
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
 | JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
-| NodeJS         | 8.9.4 LTS                   |
+| Node.js        | 12 LTS                      |
 
 Please note: Shibboleth won't work with Nginx.

@@ -229,7 +229,7 @@ class ilBookingPreferencesManager
         $user_ids = [];
         foreach ($preferences as $user_id => $obj_ids) {
             foreach ($obj_ids as $obj_id) {
-                if ($obj_id  == $sel_obj_id) {
+                if ($obj_id == $sel_obj_id) {
                     $user_ids[] = $user_id;
                 }
             }

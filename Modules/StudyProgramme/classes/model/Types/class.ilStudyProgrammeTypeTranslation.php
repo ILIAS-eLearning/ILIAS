@@ -29,7 +29,7 @@ class ilStudyProgrammeTypeTranslation
      *
      * @var string
      */
-    protected $member  = '';
+    protected $member = '';
 
     /**
      *

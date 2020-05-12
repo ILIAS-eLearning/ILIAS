@@ -7,7 +7,7 @@ module.exports = function(conversationId, userId, name) {
 		var namespace = Container.getNamespace(this.nsp.name);
 		var conversation = namespace.getConversations().getById(conversationId);
 
-		if (conversation.isParticipant(this.participant)) {
+		if (conversation !== null && conversation.isParticipant(this.participant)) {
 			var newParticipant = namespace.getSubscriberWithOfflines(userId, name);
 			var participants   = conversation.getParticipants();
 

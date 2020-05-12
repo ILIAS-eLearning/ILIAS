@@ -47,7 +47,7 @@ class ilHttpRequest
         $pos = strpos($req, '://');
         $this->_protocol = strtolower(substr($req, 0, $pos));
         
-        $req = substr($req, $pos+3);
+        $req = substr($req, $pos + 3);
         $pos = strpos($req, '/');
         if ($pos === false) {
             $pos = strlen($req);
@@ -105,7 +105,7 @@ class ilHttpRequest
         $lines = explode($crlf, $header);
         foreach ($lines as $line) {
             if (($pos = strpos($line, ':')) !== false) {
-                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos+1));
+                $headers[strtolower(trim(substr($line, 0, $pos)))] = trim(substr($line, $pos + 1));
             }
         }
         

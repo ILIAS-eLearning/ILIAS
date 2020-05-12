@@ -115,7 +115,7 @@ class ilLTIConsumerResultService
 
             $token = ilCmiXapiAuthToken::getInstanceByToken($request->resultRecord->sourcedGUID->sourcedId);
 
-            $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(),$token->getUsrId(),false);
+            $this->result = ilLTIConsumerResult::getByKeys($token->getObjId(), $token->getUsrId(), false);
             if (empty($this->result)) {
                 $this->respondUnauthorized("lti_consumer_results_id not found!");
                 return;

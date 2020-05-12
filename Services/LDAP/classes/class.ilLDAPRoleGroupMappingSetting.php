@@ -33,7 +33,7 @@ class ilLDAPRoleGroupMappingSetting
         $query = "SELECT * FROM ldap_rg_mapping "
                 . "WHERE mapping_id = " . $this->db->quote($this->getMappingId(), 'integer');
         $set = $this->db->query($query);
-        $rec  = $this->db->fetchAssoc($set);
+        $rec = $this->db->fetchAssoc($set);
         
         $this->setMappingId($rec["mapping_id"]);
         $this->setServerId($rec["server_id"]);

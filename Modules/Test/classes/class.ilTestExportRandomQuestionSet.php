@@ -109,7 +109,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             );
 
             // #21330
-            $mappedTaxFilter   = $definition->getMappedTaxonomyFilter();
+            $mappedTaxFilter = $definition->getMappedTaxonomyFilter();
             if (is_array($mappedTaxFilter) && count($mappedTaxFilter) > 0) {
                 $attributes['taxFilter'] = serialize($mappedTaxFilter);
             }

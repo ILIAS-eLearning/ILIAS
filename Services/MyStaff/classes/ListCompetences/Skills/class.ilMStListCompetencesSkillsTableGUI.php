@@ -91,10 +91,10 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit'   => array(),
-            'count'   => true,
-            'sort'    => array(
-                'field'     => $this->getOrderField(),
+            'limit' => array(),
+            'count' => true,
+            'sort' => array(
+                'field' => $this->getOrderField(),
                 'direction' => $this->getOrderDirection(),
             ),
         );
@@ -104,7 +104,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $count = $skills_fetcher->getData($options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
-            'end'   => intval($this->getLimit()),
+            'end' => intval($this->getLimit()),
         );
         $options['count'] = false;
         $data = $skills_fetcher->getData($options);
@@ -164,39 +164,39 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
 
         $cols['skill_title'] = array(
-            'txt'        => $this->dic->language()->txt('skmg_skill'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $this->dic->language()->txt('skmg_skill'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'skill_title',
         );
         $cols['skill_level'] = array(
-            'txt'        => $this->dic->language()->txt('skmg_skill_level'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $this->dic->language()->txt('skmg_skill_level'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'skill_level',
         );
 
         if ($arr_searchable_user_columns['login']) {
             $cols['login'] = array(
-                'txt'        => $this->dic->language()->txt('login'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $this->dic->language()->txt('login'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'login',
             );
         }
         if ($arr_searchable_user_columns['firstname']) {
             $cols['first_name'] = array(
-                'txt'        => $this->dic->language()->txt('firstname'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $this->dic->language()->txt('firstname'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'firstname',
             );
         }
         if ($arr_searchable_user_columns['lastname']) {
             $cols['last_name'] = array(
-                'txt'        => $this->dic->language()->txt('lastname'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $this->dic->language()->txt('lastname'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'lastname',
             );
         }

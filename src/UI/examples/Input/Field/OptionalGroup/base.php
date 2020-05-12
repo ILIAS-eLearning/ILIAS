@@ -15,7 +15,7 @@ function base()
 
     //Step 2: define the checkbox and attach the dependant group
     $checkbox_input = $ui->input()->field()->optionalGroup(
-        ["dependant_field"=>$dependant_field],
+        ["dependant_field" => $dependant_field],
         "Optional Group",
         "Check to display group field."
     );

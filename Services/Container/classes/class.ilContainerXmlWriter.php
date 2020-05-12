@@ -74,13 +74,13 @@ class ilContainerXmlWriter extends ilXmlWriter
         $this->xmlStartTag(
             'Item',
             array(
-                'RefId'		=> $a_ref_id,
-                'Id'		=> $obj_id,
-                'Title'		=> ilObject::_lookupTitle($obj_id),
-                'Type'		=> ilObject::_lookupType($obj_id),
-                'Page'		=> ilContainerPage::_exists('cont', $obj_id),
-                'StartPage'	=> ilContainerStartObjectsPage::_exists('cstr', $obj_id),
-                'Style'     => ilObjStyleSheet::lookupObjectStyle($obj_id)
+                'RefId' => $a_ref_id,
+                'Id' => $obj_id,
+                'Title' => ilObject::_lookupTitle($obj_id),
+                'Type' => ilObject::_lookupType($obj_id),
+                'Page' => ilContainerPage::_exists('cont', $obj_id),
+                'StartPage' => ilContainerStartObjectsPage::_exists('cstr', $obj_id),
+                'Style' => ilObjStyleSheet::lookupObjectStyle($obj_id)
             )
         );
         
@@ -109,9 +109,9 @@ class ilContainerXmlWriter extends ilXmlWriter
         $this->xmlStartTag(
             'Timing',
             array(
-                'Type'		=> $item['timing_type'],
-                'Visible'	=> $item['visible'],
-                'Changeable'=> $item['changeable'],
+                'Type' => $item['timing_type'],
+                'Visible' => $item['visible'],
+                'Changeable' => $item['changeable'],
                 )
         );
         if ($item['timing_start']) {

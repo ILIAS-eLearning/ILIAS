@@ -24,7 +24,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
      */
     public function create()
     {
-        global $ilTabs;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
@@ -37,7 +37,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         
         $this->lng->loadLanguageModule("ltiv");
         
-        $ilTabs->setBackTarget(
+        $DIC->tabs()->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
@@ -110,26 +110,26 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
      */
     public function render($a_return = false, $a_url = false)
     {
-        global $ilUser, $lng;
-        
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         if (!$a_return) {
             $this->deliver();
         } else {
-            $tree = new ilWorkspaceTree($ilUser->getId());
+            $tree = new ilWorkspaceTree($DIC->user()->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
             
-            $caption = $lng->txt("wsp_type_ltiv") . ' "' . $this->object->getTitle() . '"';
+            $caption = $DIC->language()->txt("wsp_type_ltiv") . ' "' . $this->object->getTitle() . '"';
             
             $valid = true;
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
-                $message = $lng->txt("url_not_found");
+                $message = $DIC->language()->txt("url_not_found");
             } elseif (!$a_url) {
                 include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
-                    $message = $lng->txt("permission_denied");
+                    $message = $DIC->language()->txt("permission_denied");
                 }
             }
             
@@ -146,14 +146,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
     {
-        global $ilErr;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         include_once "Services/COPage/classes/class.ilPCVerification.php";
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
         
-        $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
     }
     
     public static function _goto($a_target)

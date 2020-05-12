@@ -256,7 +256,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $expected = ' :: MESSAGE :: TEST';
         $fp = fopen('ilTransitionLog.txt', 'r');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line)-27);
+        $actual = substr($line, 25, strlen($line) - 27);
         @unlink('ilTransitionLog.txt'); // TODO: Use vfsStrream
         $this->assertEquals(
             $expected,

@@ -649,7 +649,7 @@ class ilLMObject
             $lm_id = ilLMObject::_lookupContObjID($obj_rec["obj_id"]);
 
             // link only in learning module, that is not trashed
-            $ref_ids  = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
+            $ref_ids = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
             if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($lm_id) ||
                 ilObjHelpSettings::isHelpLM($lm_id)) {
                 return $obj_rec["obj_id"];

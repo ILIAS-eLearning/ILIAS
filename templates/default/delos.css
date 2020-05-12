@@ -6870,6 +6870,9 @@ button.close {
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 12px;
 }
+.panel-secondary .panel-body .il-item-group .il-item .media-right {
+  vertical-align: middle;
+}
 .panel-secondary .il-panel-listing-std-container > h3,
 .panel-secondary .panel-body h4 {
   display: block;
@@ -7394,9 +7397,7 @@ a fieldset[disabled] .active {
   height: 19px;
   padding-left: 25px;
   padding-right: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 40px;
-  background: #cdcdcd;
   cursor: pointer;
 }
 .il-toggle-button .il-toggle-switch {
@@ -7405,19 +7406,35 @@ a fieldset[disabled] .active {
   left: -6%;
   width: 25px;
   height: 25px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 40px;
-  background: #808080;
   -webkit-transition: all 0.25s ease-in-out;
   /* Safari */
   transition: all 0.25s ease-in-out;
 }
 .il-toggle-button.on {
-  background: #a1b3ca;
+  background: #6ea03c;
+  border: 1px solid #bfbfbf;
 }
 .il-toggle-button.on .il-toggle-switch {
   left: 53%;
-  background: #4c6586;
+  background: white;
+  border: 1px solid #bfbfbf;
+}
+.il-toggle-button.off {
+  background: #f9f9f9;
+  border: 1px solid #bfbfbf;
+}
+.il-toggle-button.off .il-toggle-switch {
+  background: white;
+  border: 1px solid #bfbfbf;
+}
+.il-toggle-button.unavailable {
+  background: #cdcdcd;
+  border: 1px solid #bfbfbf;
+}
+.il-toggle-button.unavailable .il-toggle-switch {
+  background: #909090;
+  border: 1px solid #bfbfbf;
 }
 h6.il-divider {
   padding: 3px 6px;
@@ -7444,14 +7461,17 @@ hr.il-divider-with-label {
 .dropdown h6 {
   margin: 3px 0;
 }
-.dropdown-menu {
+ul.dropdown-menu {
   background-color: white;
   font-weight: normal;
   border: 0 none;
   -webkit-box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
 }
-.dropdown-menu li > .btn {
+ul.dropdown-menu > li {
+  padding: 0;
+}
+ul.dropdown-menu > li > .btn {
   display: block;
   width: 100%;
   clear: both;
@@ -7463,8 +7483,8 @@ hr.il-divider-with-label {
   color: #5d5d5d;
   white-space: nowrap;
 }
-.dropdown-menu li > .btn:hover,
-.dropdown-menu li > .btn:focus {
+ul.dropdown-menu > li > .btn:hover,
+ul.dropdown-menu > li > .btn:focus {
   text-decoration: none;
   color: #262626;
   background-color: #ecf0f4;
@@ -7502,8 +7522,10 @@ hr.il-divider-with-label {
   font-size: 14px;
   float: left;
 }
-.il-item h5 .btn-link {
+.il-item h5 .btn-link,
+.il-item h5 a {
   font-size: inherit;
+  line-height: 1.42857143;
 }
 .il-item .il-item-divider {
   clear: both;
@@ -7560,8 +7582,14 @@ hr.il-divider-with-label {
 .il-item-notification-replacement-container:not(:first-child) .il-notification-item {
   margin-top: 6px;
 }
+.il-notification-item {
+  padding-right: 15px;
+}
 .il-notification-item .il-item-additional-content {
   clear: both;
+}
+.il-notification-item .row {
+  margin-right: 0px;
 }
 .il-notification-item .dropdown {
   margin-top: -20px;
@@ -8211,10 +8239,10 @@ hr.il-divider-with-label {
   align-self: auto;
 }
 .il-table-presentation-viewcontrols {
+  background-color: #e2e8ef;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: #e2e8ef;
 }
 .il-table-presentation-viewcontrols > div {
   padding: 6px;
@@ -8282,16 +8310,21 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-viewcontrols .il-viewcontrol-mode {
   order: 2;
 }
-.il-table-presentation-viewcontrols .il-viewcontrol-sortation {
+.il-table-presentation-viewcontrols .il-viewcontrol-sortatio {
   order: 3;
 }
 .il-table-presentation-row {
-  white-space: nowrap;
-  margin: 0;
+  background-color: white;
   border-top: 1px solid #ddd;
+  margin: 0;
   padding-top: 6px;
   padding-bottom: 6px;
-  background-color: white;
+  position: relative;
+  white-space: nowrap;
+}
+.il-table-presentation-row .il-table-presentation-actions {
+  right: 10px;
+  position: absolute;
 }
 .il-table-presentation-row .il-table-presentation-row-controls,
 .il-table-presentation-row .il-table-presentation-row-contents {
@@ -8313,6 +8346,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-row .il-table-presentation-row-contents {
   white-space: normal;
   width: 95%;
+}
+.il-table-presentation-row .il-table-presentation-actions {
+  margin: 5px 0;
 }
 .il-table-presentation-row .il-table-presentation-row-header h4 {
   font-size: 17px;
@@ -8380,9 +8416,13 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
 }
-.il-workflow-header {
-  margin-bottom: 8px;
-  height: 40px;
+.il-workflow-header .il-workflow-title {
+  background-color: #f2f2f2;
+  color: #4c6586;
+  font-size: 2.6rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+  margin-top: 0;
 }
 .il-workflow-container {
   list-style: none;
@@ -8390,19 +8430,19 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-workflow-container .il-workflow-step:before {
   background-color: white;
-  border: 1px solid #4c6586;
+  border: 1.05px solid #4c6586;
   border-radius: 50%;
   color: white;
   content: "";
   font-family: Glyphicons Halflings;
-  font-size: 10px;
-  height: 20px;
-  line-height: 18px;
+  font-size: 11px;
+  height: 21px;
+  line-height: 19px;
   margin-left: 5px;
   padding-left: 1px;
   position: absolute;
   text-align: center;
-  width: 20px;
+  width: 21px;
 }
 .il-workflow-container .il-workflow-step:last-child .text {
   border-left: none;
@@ -8449,29 +8489,26 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-workflow-container .active:before {
   margin: 0;
-  width: 30px;
-  height: 30px;
-  font-size: 15px;
+  width: 31.5px;
+  height: 31.5px;
+  font-size: 15.75px;
 }
 .il-workflow-container .active.completed-successfully:before,
 .il-workflow-container .active.completed-unsuccessfully:before {
-  line-height: 30px;
+  line-height: 31.5px;
   background-color: #4c6586;
-}
-.il-workflow-container .active .text {
-  padding-left: 30px;
 }
 .il-workflow-container .active .text .il-workflow-step-label,
 .il-workflow-container .active .text .il-workflow-step-label .btn.btn-link {
   color: #4c6586;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 18.9px;
+  font-weight: 400;
 }
 .il-workflow-container .text {
   border-left: 1px dashed #434343;
-  font-size: 14px;
+  font-size: 14.7px;
   margin-left: 15px;
-  padding: 0 0 30px 20px;
+  padding: 0 0 31.5px 21px;
 }
 .il-workflow-container .text .il-workflow-step-label {
   display: block;
@@ -8479,8 +8516,9 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-workflow-container .available .il-workflow-step-label,
 .il-workflow-container .available .il-workflow-step-label .btn.btn-link {
   color: #333;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 14.7px;
+  font-weight: 300;
+  margin-top: -5px;
 }
 /* common css for characteristic value listing */
 .il-listing-characteristic-value-row {
@@ -8594,10 +8632,10 @@ div.alert ul > li:before {
   list-style-type: none;
 }
 .il-tree li.il-tree-node {
-  padding: 0 0px;
+  padding: 0;
 }
 .il-tree li.il-tree-node .node-line {
-  padding-left: 14px;
+  padding: 3px 0 3px 14px;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
@@ -9174,6 +9212,9 @@ footer {
 .il-maincontrols-slate-content li.jstree-node {
   padding: 4px 0;
 }
+.il-maincontrols-slate-content li.il-workflow-step {
+  padding: 0 20px;
+}
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
   background-color: transparent;
@@ -9659,6 +9700,12 @@ footer {
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content > :first-child {
   z-index: 1;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary {
+  margin-bottom: 0;
+}
+.il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
+  padding-bottom: 0;
 }
 /*
 **************************************************************
@@ -12305,6 +12352,10 @@ body#tinymce {
   margin: 5px auto 0;
   width: 700px;
 }
+div#mainspacekeeper {
+  overflow: auto;
+  max-width: 100%;
+}
 .fullwidth {
   width: 100%;
 }
@@ -13859,7 +13910,7 @@ img.il_ExplorerIcon {
 }
 .il-maincontrols-slate-content .jstree-default li.jstree-node {
   margin-left: 14px;
-  padding: 0 0px;
+  padding: 0 3px;
 }
 /* Modules/Forum */
 a.postread,
@@ -13902,14 +13953,12 @@ div.ilForumQuoteHead {
   vertical-align: top;
   margin: 5px 20px 5px 5px;
   border: none;
-}
-.ilFrmPostImage img[src*="data:image/"] {
   max-width: 100%;
 }
 @media only screen and (min-width: 768px) {
-  .ilFrmPostImage img[src*="data:image/"] {
+  .ilFrmPostImage img {
     margin: 0 !important;
-    padding: 5px 20px 5px 5px;
+    padding: 5px 8px 5px 5px;
   }
 }
 .ilFrmPostClear {
@@ -14524,6 +14573,13 @@ div.ilCOPGMediaPrint {
   padding: 0;
   margin: 0;
   border: 0;
+}
+#ilAdvSelListTable_style_selection,
+#ilTinyMenuButtons ul.dropdown-menu {
+  right: auto;
+}
+#iltinymenu .dropdown-menu li {
+  padding: 0;
 }
 /* Services/Calendar */
 td.even {
@@ -17077,6 +17133,7 @@ div.ilBlockPropertyCaption {
   left: 0;
   background-color: #303030;
   overflow: auto;
+  z-index: 1000;
 }
 a.ilMediaLightboxClose {
   display: block;
@@ -17769,6 +17826,10 @@ div.ilChecklist ul li img {
 /* Modules/Portfolio */
 ul.ilPCMyCoursesCourseList > li {
   margin-bottom: 10px;
+}
+ul.ilPCMyCoursesCourseList > li .course-list-tree-icon {
+  width: 20px;
+  height: 20px;
 }
 ul.ilPCMyCoursesObjectiveList > li {
   margin-top: 5px;

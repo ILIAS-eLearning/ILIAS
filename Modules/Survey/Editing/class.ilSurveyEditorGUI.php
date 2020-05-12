@@ -420,7 +420,7 @@ class ilSurveyEditorGUI
                         if ($insert_mode == 0) {
                             $insert_id = $ids[0];
                         } elseif ($insert_mode == 1) {
-                            $insert_id = $ids[count($ids)-1];
+                            $insert_id = $ids[count($ids) - 1];
                         }
                     }
                 }
@@ -461,7 +461,7 @@ class ilSurveyEditorGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
         
         $counter = 0;
-        $surveyquestions =&$this->object->getSurveyQuestions();
+        $surveyquestions = &$this->object->getSurveyQuestions();
         foreach ($surveyquestions as $question_id => $data) {
             if (in_array($data["question_id"], $checked_questions)) {
                 $type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
@@ -557,7 +557,7 @@ class ilSurveyEditorGUI
             $ids->setValue(implode(";", $copy_questions));
             $form->addItem($ids);
 
-            $questionpools =&$this->object->getAvailableQuestionpools(false, false, true, "write");
+            $questionpools = &$this->object->getAvailableQuestionpools(false, false, true, "write");
             $pools = new ilSelectInputGUI($this->lng->txt("survey_copy_select_questionpool"), "sel_spl");
             $pools->setOptions($questionpools);
             $form->addItem($pools);
@@ -631,7 +631,7 @@ class ilSurveyEditorGUI
             $usage->setValue(1);
         }
 
-        $questionpools =&$this->object->getAvailableQuestionpools(false, true, true, "write");
+        $questionpools = &$this->object->getAvailableQuestionpools(false, true, true, "write");
         $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_spl");
         $pools->setOptions($questionpools);
         $existing_pool->addSubItem($pools);
@@ -739,8 +739,8 @@ class ilSurveyEditorGUI
         // type selector
         $types = new ilSelectInputGUI($this->lng->txt("display_all_available"), "datatype");
         $types->setOptions(array(
-            1 =>  $this->lng->txt("questions"),
-            2 =>  $this->lng->txt("questionblocks")
+            1 => $this->lng->txt("questions"),
+            2 => $this->lng->txt("questionblocks")
         ));
         $types->setValue($ilUser->getPref('svy_insert_type'));
         $ilToolbar->addInputItem($types, true);
@@ -1214,7 +1214,7 @@ class ilSurveyEditorGUI
 
         $template = new ilTemplate("tpl.il_svy_svy_printview.html", true, true, "Modules/Survey");
     
-        $pages =&$this->object->getSurveyPages();
+        $pages = &$this->object->getSurveyPages();
         $required = false;
         foreach ($pages as $page) {
             if (count($page) > 0) {

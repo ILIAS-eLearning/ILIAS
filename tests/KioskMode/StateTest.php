@@ -31,7 +31,7 @@ class StateTest extends TestCase
      */
     public function testSerialize(State $state)
     {
-        $expected = json_encode(['key'=>'value']);
+        $expected = json_encode(['key' => 'value']);
         $this->assertEquals($expected, $state->serialize());
     }
 
@@ -42,7 +42,7 @@ class StateTest extends TestCase
     {
         $state = $state->withValueFor('keep', 'this');
         $state = $state->withoutKey('key');
-        $expected = json_encode(['keep'=>'this']);
+        $expected = json_encode(['keep' => 'this']);
         $this->assertEquals($expected, $state->serialize());
     }
 }

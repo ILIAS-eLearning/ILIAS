@@ -28,39 +28,41 @@ class Range
         $this->length = $length;
     }
 
-    protected function checkStart(int $start) {
-        if($start < 0) {
+    protected function checkStart(int $start)
+    {
+        if ($start < 0) {
             throw new \InvalidArgumentException("Start must be a positive number (or 0)", 1);
         }
     }
 
-    protected function checkLength(int $length) {
-        if($length < 1) {
+    protected function checkLength(int $length)
+    {
+        if ($length < 1) {
             throw new \InvalidArgumentException("Length must be larger than 1", 1);
         }
     }
 
-    public function unpack(): array
+    public function unpack() : array
     {
         return [$this->start, $this->length];
     }
 
-    public function getStart(): int
+    public function getStart() : int
     {
         return $this->start;
     }
 
-    public function getLength(): int
+    public function getLength() : int
     {
         return $this->length;
     }
 
-    public function getEnd(): int
+    public function getEnd() : int
     {
         return $this->start + $this->length;
     }
 
-    public function withStart(int $start): Range
+    public function withStart(int $start) : Range
     {
         $this->checkStart($start);
         $clone = clone $this;
@@ -68,12 +70,11 @@ class Range
         return $clone;
     }
 
-    public function withLength(int $length): Range
+    public function withLength(int $length) : Range
     {
         $this->checkLength($length);
         $clone = clone $this;
         $clone->length = $length;
         return $clone;
     }
-
 }

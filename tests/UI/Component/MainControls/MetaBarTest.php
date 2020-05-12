@@ -17,7 +17,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 {
     public function setUp() : void
     {
-        $sig_gen = 	new I\Component\SignalGenerator();
+        $sig_gen = new I\Component\SignalGenerator();
         $this->button_factory = new I\Component\Button\Factory($sig_gen);
         $this->icon_factory = new I\Component\Symbol\Icon\Factory();
         $this->counter_factory = new I\Component\Counter\Factory();
@@ -150,7 +150,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
-			<span class="glyph" aria-label="disclosure">
+			<span class="glyph" aria-label="disclose">
 				<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 				<span class="il-counter">
 					<span class="badge badge-notify il-counter-status" style="display:none">0</span>

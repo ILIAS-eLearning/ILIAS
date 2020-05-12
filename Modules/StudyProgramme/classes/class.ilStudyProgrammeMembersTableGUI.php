@@ -79,7 +79,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         string $parent_cmd = '',
         string $template_context = '',
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammePostionBasedAccess $position_based_access
+        ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->setId("sp_member_list");
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -289,21 +289,25 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $usr_id
     ) : string {
         $l = new ilAdvancedSelectionListGUI();
-        $no_orgu_position_access_ctrl = !$this->prg->getAccessControlByOrguPositionsGlobal();
+
+        $access_by_position = $this->isPermissionControlledByOrguPosition();
+        $parent = $this->getParentObject();
 
         $view_individual_plan =
-            $no_orgu_position_access_ctrl ||
-            in_array($usr_id, $this->getParentObject()->viewIndividualPlan())
-        ;
-
-        $manage_members =
-            $no_orgu_position_access_ctrl ||
-            in_array($usr_id, $this->getParentObject()->manageMembers())
+           $access_by_position == false ||
+           $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
         ;
 
         $edit_individual_plan =
-            $no_orgu_position_access_ctrl ||
-            in_array($usr_id, $this->getParentObject()->editIndividualPlan())
+            $access_by_position == false ||
+            $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
+        ;
+
+        $manage_members =
+            (   $access_by_position == false ||
+                $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
+            ) &&
+            in_array($usr_id, $this->getParentObject()->getLocalMembers())
         ;
 
         foreach ($actions as $action) {
@@ -415,9 +419,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $completion_id = $rec["completion_by_id"];
                     $title = ilContainerReference::_lookupTitle($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    $url = ilLink::_getStaticLink($ref_id, "crs");
-                    $lnk = $this->ui_factory->link()->standard($title, $url);
-                    $rec["completion_by"] = $this->ui_renderer->render($lnk);
+                    if (
+                        ilObject::_exists($ref_id, true) &&
+                        is_null(ilObject::_lookupDeletedDate($ref_id))
+                    ) {
+                        $url = ilLink::_getStaticLink($ref_id, "crs");
+                        $link = $this->ui_factory->link()->standard($title, $url);
+                        $rec["completion_by"] = $this->ui_renderer->render($link);
+                    } else {
+                        $rec["completion_by"] = $title;
+                    }
                 }
 
                 // If the status completed and there is a non-null completion_by field
@@ -507,7 +518,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
 
-        if ($this->prg->getAccessControlByOrguPositionsGlobal()) {
+        if ($this->prg->getAccessControlByOrguPositionsGlobal() && !$this->parent_obj->mayManageMembers()) {
             $visible = $this->getParentObject()->visibleUsers();
             if (count($visible) > 0) {
                 $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
@@ -552,16 +563,36 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getMultiCommands() : array
     {
-        return [
-            'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
-            'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited'),
-            'removeUserMulti' => $this->lng->txt('prg_multi_remove_user'),
-            'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
-            'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
-            'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
-            'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
-            'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date')
-        ];
+        $access_by_position = $this->isPermissionControlledByOrguPosition();
+        if ($access_by_position) {
+            $edit_individual_plan = count($this->getParentObject()->editIndividualPlan()) > 0;
+            $manage_members = count($this->getParentObject()->manageMembers()) > 0;
+        } else {
+            $edit_individual_plan = true;
+            $manage_members = true;
+        }
+
+        $perms = [];
+        if ($edit_individual_plan) {
+            $perms['markAccreditedMulti'] = $this->lng->txt('prg_multi_mark_accredited');
+            $perms['unmarkAccreditedMulti'] = $this->lng->txt('prg_multi_unmark_accredited');
+        }
+
+        if ($manage_members) {
+            $perms['removeUserMulti'] = $this->lng->txt('prg_multi_remove_user');
+        }
+        $perms = array_merge(
+            $perms,
+            [
+                'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
+                'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
+                'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
+                'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
+                'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date')
+            ]
+        );
+
+        return $perms;
     }
 
     /**
@@ -661,12 +692,22 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $exp_to = $filter['prg_expiry_date']['to'];
         if (!is_null($exp_to)) {
-            $dat = $exp_to->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . '\'';
+            $dat = $exp_to->get(IL_CAL_DATE);
+            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . ' 23:59:59\'';
         }
 
         $conditions = implode(PHP_EOL, $buf);
 
         return $conditions;
+    }
+
+
+    protected function isPermissionControlledByOrguPosition()
+    {
+        return (
+            $this->prg->getAccessControlByOrguPositionsGlobal()
+            ||
+            $this->prg->getPositionSettingsIsActiveForPrg()
+        );
     }
 }

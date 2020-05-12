@@ -49,7 +49,7 @@ class ilCourseLMHistory
 
         $ilDB = $DIC['ilDB'];
 
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
 
         $this->course_id = $crs_id;
         $this->user_id = $user_id;

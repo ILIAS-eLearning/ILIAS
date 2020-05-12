@@ -69,7 +69,7 @@ class ilPersonalProfileGUI
         $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
         $this->lng->loadLanguageModule("jsmath");
         $this->lng->loadLanguageModule("pd");
@@ -195,7 +195,7 @@ class ilPersonalProfileGUI
 
                 // take quality 100 to avoid jpeg artefacts when uploading jpeg files
                 // taking only frame [0] to avoid problems with animated gifs
-                $show_file  = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
+                $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
                 $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
                 $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
                 $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
@@ -255,7 +255,7 @@ class ilPersonalProfileGUI
         // if people check on check box it will
         // write some datata to table usr_pref
         // if check on Public Profile
-        if (($_POST["chk_pub"])=="on") {
+        if (($_POST["chk_pub"]) == "on") {
             $ilUser->setPref("public_profile", "y");
         } else {
             $ilUser->setPref("public_profile", "n");
@@ -549,7 +549,7 @@ class ilPersonalProfileGUI
             $def = ilMapUtil::getDefaultSettings();
             $latitude = $def["latitude"];
             $longitude = $def["longitude"];
-            $zoom =  $def["zoom"];
+            $zoom = $def["zoom"];
         }
         
         $street = $a_user->getStreet();
@@ -752,9 +752,9 @@ class ilPersonalProfileGUI
                 ? $ilUser->prefs["public_profile"]
                 : "n";
             if ($pub_prof == "n") {
-
                 $box = $DIC->ui()->factory()->messageBox()->info($it)->withLinks(
-                    [$DIC->ui()->factory()->link()->standard($lng->txt("user_make_profile_public"),
+                    [$DIC->ui()->factory()->link()->standard(
+                        $lng->txt("user_make_profile_public"),
                         $ctrl->getLinkTarget($this, "showPublicProfile")
                         )]
                 );
@@ -775,7 +775,7 @@ class ilPersonalProfileGUI
             }
         }
 
-        $this->tpl->setContent($it.$this->form->getHTML());
+        $this->tpl->setContent($it . $this->form->getHTML());
 
         $this->tpl->printToStdout();
     }
@@ -1152,13 +1152,12 @@ class ilPersonalProfileGUI
         // location
         include_once("./Services/Maps/classes/class.ilMapUtil.php");
         if (ilMapUtil::isActivated()) {
-            $val_array["location"] = ($ilUser->getLatitude() + $ilUser->getLongitude() + $ilUser->getLocationZoom() > 0)
+            $val_array["location"] = ((int) $ilUser->getLatitude() + (int) $ilUser->getLongitude() + (int) $ilUser->getLocationZoom() > 0)
                 ? " "
                 : "";
         }
-        
         foreach ($val_array as $key => $value) {
-            if (in_array($value, ["", "-"])) {
+            if (in_array($value, ["", "-"]) && !$anonymized) {
                 continue;
             }
             if ($anonymized) {
@@ -1231,7 +1230,7 @@ class ilPersonalProfileGUI
                 }
 
                 if (sizeof($badge_options) > 1) {
-                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos".$key_suffix);
+                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
                     $badge_order->setMulti(true, true, false);
@@ -1306,8 +1305,8 @@ class ilPersonalProfileGUI
             $handler = ilBadgeHandler::getInstance();
             if ($handler->isActive()) {
                 $badgePositions = [];
-                if (isset($_POST["bpos".$key_suffix]) && is_array($_POST["bpos".$key_suffix])) {
-                    $badgePositions = $_POST["bpos".$key_suffix];
+                if (isset($_POST["bpos" . $key_suffix]) && is_array($_POST["bpos" . $key_suffix])) {
+                    $badgePositions = $_POST["bpos" . $key_suffix];
                 }
 
                 if (count($badgePositions) > 0) {

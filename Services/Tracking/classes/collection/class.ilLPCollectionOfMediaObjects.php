@@ -25,7 +25,7 @@ class ilLPCollectionOfMediaObjects extends ilLPCollection
             $cast = new ilObjMediaCast($this->obj_id, false);
             
             foreach ($cast->getSortedItemsArray() as $item) {
-                $items[$item["mob_id"]] = array("title"=>$item["title"]);
+                $items[$item["mob_id"]] = array("title" => $item["title"]);
             }
             
             self::$possible_items[$this->obj_id] = $items;

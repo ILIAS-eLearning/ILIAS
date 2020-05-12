@@ -15,14 +15,14 @@ class ComponentEntryRules extends AbstractEntryPart implements \JsonSerializable
      * @var array
      */
     protected $rules = array(
-        "usage"=>array(),
-        "composition"=>array(),
-        "interaction"=>array(),
-        "wording"=>array(),
-        "ordering"=>array(),
-        "style"=>array(),
-        "responsiveness"=>array(),
-        "accessibility"=>array()
+        "usage" => array(),
+        "composition" => array(),
+        "interaction" => array(),
+        "wording" => array(),
+        "ordering" => array(),
+        "style" => array(),
+        "responsiveness" => array(),
+        "accessibility" => array()
     );
 
     /**

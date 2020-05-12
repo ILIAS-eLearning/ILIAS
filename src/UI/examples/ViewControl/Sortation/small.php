@@ -9,8 +9,8 @@ function small()
 
     $options = array(
         'default_option' => 'Default Ordering',
-        'latest'         => 'Most Recent Ordering',
-        'oldest'         => 'Oldest Ordering'
+        'latest' => 'Most Recent Ordering',
+        'oldest' => 'Oldest Ordering'
     );
 
     //Note that no label is attached

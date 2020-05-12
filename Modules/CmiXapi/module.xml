@@ -31,4 +31,7 @@
 	<copage />
 	<web_access_checker />
 	<logging />
+	<mailtemplates>
+		<context id="cmix_context_notification_mail" class="ilCmiXapiNotificationMailTemplateContext" />
+	</mailtemplates>
 </module>

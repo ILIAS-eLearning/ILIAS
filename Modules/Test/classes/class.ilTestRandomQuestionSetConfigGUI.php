@@ -26,21 +26,21 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  */
 class ilTestRandomQuestionSetConfigGUI
 {
-    const CMD_SHOW_GENERAL_CONFIG_FORM              = 'showGeneralConfigForm';
-    const CMD_SAVE_GENERAL_CONFIG_FORM              = 'saveGeneralConfigForm';
-    const CMD_SHOW_SRC_POOL_DEF_LIST                = 'showSourcePoolDefinitionList';
-    const CMD_SAVE_SRC_POOL_DEF_LIST                = 'saveSourcePoolDefinitionList';
-    const CMD_DELETE_SINGLE_SRC_POOL_DEF            = 'deleteSingleSourcePoolDefinition';
-    const CMD_DELETE_MULTI_SRC_POOL_DEFS            = 'deleteMultipleSourcePoolDefinitions';
-    const CMD_SHOW_POOL_SELECTOR_EXPLORER			= 'showPoolSelectorExplorer';
-    const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM         = 'showCreateSourcePoolDefinitionForm';
-    const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM         = 'saveCreateSourcePoolDefinitionForm';
+    const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
+    const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
+    const CMD_SHOW_SRC_POOL_DEF_LIST = 'showSourcePoolDefinitionList';
+    const CMD_SAVE_SRC_POOL_DEF_LIST = 'saveSourcePoolDefinitionList';
+    const CMD_DELETE_SINGLE_SRC_POOL_DEF = 'deleteSingleSourcePoolDefinition';
+    const CMD_DELETE_MULTI_SRC_POOL_DEFS = 'deleteMultipleSourcePoolDefinitions';
+    const CMD_SHOW_POOL_SELECTOR_EXPLORER = 'showPoolSelectorExplorer';
+    const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM = 'showCreateSourcePoolDefinitionForm';
+    const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM = 'saveCreateSourcePoolDefinitionForm';
     const CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM = 'saveCreateAndNewSourcePoolDefinitionForm';
-    const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM           = 'showEditSourcePoolDefinitionForm';
-    const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM           = 'saveEditSourcePoolDefinitionForm';
-    const CMD_BUILD_QUESTION_STAGE					= 'buildQuestionStage';
-    const CMD_SELECT_DERIVATION_TARGET				= 'selectPoolDerivationTarget';
-    const CMD_DERIVE_NEW_POOLS						= 'deriveNewPools';
+    const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM = 'showEditSourcePoolDefinitionForm';
+    const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM = 'saveEditSourcePoolDefinitionForm';
+    const CMD_BUILD_QUESTION_STAGE = 'buildQuestionStage';
+    const CMD_SELECT_DERIVATION_TARGET = 'selectPoolDerivationTarget';
+    const CMD_DERIVE_NEW_POOLS = 'deriveNewPools';
     
     const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
     /**
@@ -106,7 +106,7 @@ class ilTestRandomQuestionSetConfigGUI
     /**
      * @var ilTestRandomQuestionSetSourcePoolDefinitionList
      */
-    protected $sourcePoolDefinitionList= null;
+    protected $sourcePoolDefinitionList = null;
 
     /**
      * @var ilTestRandomQuestionSetStagingPoolBuilder

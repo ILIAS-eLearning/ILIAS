@@ -40,7 +40,7 @@ class ilChatroomServerConnector
         }
 
         require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
-        $connector               = new self(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
+        $connector = new self(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
         self::$connection_status = (bool) $connector->isServerAlive();
 
         return self::$connection_status;
@@ -54,7 +54,7 @@ class ilChatroomServerConnector
         $response = $this->file_get_contents(
             $this->settings->getURL('Heartbeat'),
             array(
-                'http'  => array(
+                'http' => array(
                     'timeout' => 2
                 ),
                 'https' => array(
@@ -90,13 +90,13 @@ class ilChatroomServerConnector
     protected function file_get_contents($url, array $stream_context_params = null)
     {
         $credentials = $this->settings->getAuthKey() . ':' . $this->settings->getAuthSecret();
-        $header      =
+        $header =
             "Connection: close\r\n" .
             "Content-Type: application/json; charset=utf-8\r\n" .
             "Authorization: Basic " . base64_encode($credentials);
 
         $ctx = array(
-            'http'  => array(
+            'http' => array(
                 'method' => 'GET',
                 'header' => $header
             ),
@@ -274,7 +274,7 @@ class ilChatroomServerConnector
      */
     public function sendMessage($scope, $message, $options = array())
     {
-        $query    = http_build_query(array('message' => $message) + $options);
+        $query = http_build_query(array('message' => $message) + $options);
         $response = $this->post($scope, $query);
         return @json_decode($response);
     }

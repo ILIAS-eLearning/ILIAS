@@ -45,7 +45,7 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i=0;$i<count($reports);$i++) {
+        for ($i = 0;$i < count($reports);$i++) {
             $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");

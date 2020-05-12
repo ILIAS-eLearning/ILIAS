@@ -70,11 +70,10 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials i
 
         $logger = $DIC->logger()->auth();
         if (!empty($_GET['target'])) {
-           $this->target = $_GET['target'];
-           \ilSession::set(self::SESSION_TARGET, $this->target);
-        }
-        elseif (ilSession::get(self::SESSION_TARGET)) {
-           $this->target = \ilSession::get(self::SESSION_TARGET);
+            $this->target = $_GET['target'];
+            \ilSession::set(self::SESSION_TARGET, $this->target);
+        } elseif (ilSession::get(self::SESSION_TARGET)) {
+            $this->target = \ilSession::get(self::SESSION_TARGET);
         }
     }
 }

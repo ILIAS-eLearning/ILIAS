@@ -45,7 +45,7 @@ class ilRPCServerSettings
     public $log = null;
     public $db = null;
 
-    public $settings_obj  = null;
+    public $settings_obj = null;
 
 
     /**

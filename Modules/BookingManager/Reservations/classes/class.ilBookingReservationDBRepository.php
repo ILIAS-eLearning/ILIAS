@@ -280,11 +280,11 @@ class ilBookingReservationDBRepository
             } else {
                 $idx = $obj_id . "_" . $user_id;
             }
-            $idx.= "_" . $row["context_obj_id"];
+            $idx .= "_" . $row["context_obj_id"];
 
             if ($a_has_schedule && $filter["slot"]) {
                 $slot_idx = date("w", $row["date_from"]) . "_" . date("H:i", $row["date_from"]) .
-                    "-" . date("H:i", $row["date_to"]+1);
+                    "-" . date("H:i", $row["date_to"] + 1);
                 if ($filter["slot"] != $slot_idx) {
                     continue;
                 }
@@ -307,7 +307,7 @@ class ilBookingReservationDBRepository
                     $res[$idx]["booking_reservation_id"] = $idx;
                     $res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
                     $res[$idx]["slot"] = date("H:i", $row["date_from"]) . " - " .
-                        date("H:i", $row["date_to"]+1);
+                        date("H:i", $row["date_to"] + 1);
                     $res[$idx]["week"] = date("W", $row["date_from"]);
                     $res[$idx]["weekday"] = date("w", $row["date_from"]);
                     $res[$idx]["can_be_cancelled"] = ($row["status"] != ilBookingReservation::STATUS_CANCELLED &&

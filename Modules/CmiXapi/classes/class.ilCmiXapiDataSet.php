@@ -18,7 +18,7 @@ class ilCmiXapiDataSet extends ilDataSet
     private $_main_object_id = null;
     private $_element_db_mapping = [];
     public $_cmixSettingsProperties = [
-         "LrsTypeId"    => ["db_col" => "lrs_type_id", "db_type" => "integer"]
+         "LrsTypeId" => ["db_col" => "lrs_type_id", "db_type" => "integer"]
         ,"ContentType" => ["db_col" => "content_type", "db_type" => "text"]
         ,"SourceType" => ["db_col" => "source_type", "db_type" => "text"]
         ,"ActivityId" => ["db_col" => "activity_id", "db_type" => "text"]
@@ -92,7 +92,7 @@ class ilCmiXapiDataSet extends ilDataSet
         } // EOF if( $a_entity == "cmix" )
 
         foreach ($this->data as $key => $data) {
-            $query  = "SELECT " . implode(",", array_keys($this->_element_db_mapping)) . " ";
+            $query = "SELECT " . implode(",", array_keys($this->_element_db_mapping)) . " ";
             $query .= "FROM `cmix_settings` ";
             $query .= "WHERE " . $DIC->database()->in("obj_id", $a_ids, false, "integer");
             $result = $DIC->database()->query($query);
@@ -225,7 +225,7 @@ class ilCmiXapiDataSet extends ilDataSet
 
         $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
         $zArchive = new ZipArchive();
-        if ($zArchive->open($fileName, ZipArchive::CREATE)!==true) {
+        if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
             exit("cannot open <$fileName>\n");
         }
         $zArchive->addFile(

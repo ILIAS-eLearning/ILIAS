@@ -273,7 +273,7 @@ class ilSearchResult
     {
         $this->results[$a_ref_id]['ref_id'] = $a_ref_id;
         $this->results[$a_ref_id]['obj_id'] = $a_obj_id;
-        $this->results[$a_ref_id]['type']	= $a_type;
+        $this->results[$a_ref_id]['type'] = $a_type;
     }
 
     public function getResults()
@@ -590,7 +590,7 @@ class ilSearchResult
     public function callListeners($a_ref_id, &$a_data)
     {
         foreach ($this->observers as $observer) {
-            $class =&$observer['class'];
+            $class = &$observer['class'];
             $method = $observer['method'];
 
             if (!$class->$method($a_ref_id, $a_data)) {

@@ -25,7 +25,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
      */
     public function withChildren(array $children) : isParent
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->children = $children;
 
         return $clone;
@@ -54,7 +54,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
      */
     public function removeChild(isChild $child_to_remove) : isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove) : bool {
             return $item !== $child_to_remove;
         });
 

@@ -51,7 +51,7 @@ class ilSystemStyleDocumentationGUI
 
         $this->setIsReadOnly($read_only);
 
-        self::$DATA_PATH= self::DATA_DIRECTORY . "/" . self::DATA_FILE;
+        self::$DATA_PATH = self::DATA_DIRECTORY . "/" . self::DATA_FILE;
     }
 
     /**
@@ -82,7 +82,7 @@ class ilSystemStyleDocumentationGUI
             $this
         );
 
-        $content.= $entry_gui->renderEntry();
+        $content .= $entry_gui->renderEntry();
         $this->tpl->setContent($content);
     }
 

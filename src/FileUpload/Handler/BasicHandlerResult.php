@@ -72,9 +72,9 @@ class BasicHandlerResult implements HandlerResult
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 
         return [
-            'status'  => $this->status,
+            'status' => $this->status,
             'message' => $this->message,
-            $str      => $this->file_identifier,
+            $str => $this->file_identifier,
         ];
     }
 

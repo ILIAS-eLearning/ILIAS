@@ -17,11 +17,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected $db;
 
-    /**
-     * @var ilOrgUnitObjectTypePositionSetting
-     */
-    protected $tps;
-
     const TABLE = 'prg_settings';
 
     const FIELD_OBJ_ID = 'obj_id';
@@ -41,12 +36,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
     const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
-    public function __construct(
-        ilDBInterface $db,
-        ilOrgUnitObjectTypePositionSetting $tps
-    ) {
+    public function __construct(ilDBInterface $db)
+    {
         $this->db = $db;
-        $this->tps = $tps;
     }
 
     /**
@@ -68,25 +60,13 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         ;
         $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
 
-        $additional_settings = new \ilStudyProgrammeAdditionalSettings(false);
-        if ($this->tps->isActive() && $this->tps->isChangeableForObject()) {
-            $default = (bool) $this->tps->getActivationDefault();
-            $additional_settings = $additional_settings->withAccessByOrgu(
-                $default
-            );
-            $ps = new \ilOrgUnitObjectPositionSetting($obj_id);
-            $ps->setActive($default);
-            $ps->update();
-        }
-
         $prg = new ilStudyProgrammeSettings(
             $obj_id,
             $type_settings,
             $assessment_settings,
             $deadline_settings,
             $validity_of_achieved_qualification_settings,
-            $automail,
-            $additional_settings
+            $automail
         );
 
         $this->insertDB(
@@ -127,14 +107,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     public function update(ilStudyProgrammeSettings $settings) : void
     {
-        $orgu_object_settings = new ilOrgUnitObjectPositionSetting($settings->getObjId());
-        if (!is_null($orgu_object_settings)) {
-            $orgu_object_settings->setActive(
-                $settings->getAdditionalSettings()->getAccessByOrgu()
-            );
-            $orgu_object_settings->update();
-        }
-
         $deadline_period = $settings->getDeadlineSettings()->getDeadlinePeriod();
         if (is_null($deadline_period)) {
             $deadline_period = 0;
@@ -318,7 +290,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             new \ilStudyProgrammeValidityOfAchievedQualificationSettings(null, null, null)
         ;
         $automail = new \ilStudyProgrammeAutoMailSettings(false, null, null);
-        $additional_settings = new \ilStudyProgrammeAdditionalSettings();
 
         $prg = new ilStudyProgrammeSettings(
             (int) $row[self::FIELD_OBJ_ID],
@@ -326,8 +297,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $assessment_settings,
             $deadline_settings,
             $validity_of_achieved_qualification_settings,
-            $automail,
-            $additional_settings
+            $automail
         );
 
         $return = $prg
@@ -383,21 +353,6 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         }
         $vqs = $vqs->withRestartPeriod($restart_period);
         $return = $return->withValidityOfQualificationSettings($vqs);
-
-        $access_by_orgu = false;
-        $ps = new ilOrgUnitObjectPositionSetting((int) $row[self::FIELD_OBJ_ID]);
-        if (!is_null($ps)) {
-            $access_by_orgu = $ps->isActive();
-
-            if (is_null($access_by_orgu)) {
-                $access_by_orgu = false;
-            }
-        }
-        $return = $return->withAdditionalSettings(
-            $additional_settings->withAccessByOrgu(
-                $access_by_orgu
-            )
-        );
 
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
         if (!is_null($rm_nr_by_usr_days)) {

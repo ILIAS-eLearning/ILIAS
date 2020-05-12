@@ -106,13 +106,13 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
-        $completionDate               = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
+        $completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
 
         if ($completionDate !== false &&
             $completionDate !== null &&
             $completionDate !== ''
         ) {
-            $placeholders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+            $placeholders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeholders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 

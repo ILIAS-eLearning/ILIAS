@@ -28,12 +28,12 @@ class assLongMenuExportQti21 extends assQuestionExport
         );
         $xml->xmlStartTag("assessmentItem", $attrs, false, true, false);
         // add question description
-        $correct_answers 	= $this->object->getCorrectAnswers();
-        $answers 			= $this->object->getAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
+        $answers = $this->object->getAnswers();
         $a = 0;
         $inlineChoice = array();
         foreach ($answers as $key => $values) {
-            $real_id = $key +1;
+            $real_id = $key + 1;
             $inlineChoiceString = '<inlineChoiceInteraction responseIdentifier="LONGMENU_' . $real_id . '" shuffle="false" required="false">';
             $attrs = array(
                 "identifier" => "LONGMENU_" . $real_id,

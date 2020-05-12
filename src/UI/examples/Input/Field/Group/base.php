@@ -22,7 +22,7 @@ function base()
         return $s;
     });
     $equal_ten = $refinery->custom()->constraint(function ($v) {
-        return $v==10;
+        return $v == 10;
     }, "The sum must equal ten.");
 
     //Step 2: Define inputs
@@ -37,7 +37,7 @@ function base()
         ->withAdditionalTransformation($equal_ten);
 
     //Step 4: define form and form actions, attach the group to the form
-    $form = $ui->input()->container()->form()->standard('#', ["custom_group"=>$group]);
+    $form = $ui->input()->container()->form()->standard('#', ["custom_group" => $group]);
 
     //Step 4: Implement some form data processing.
     if ($request->getMethod() == "POST") {

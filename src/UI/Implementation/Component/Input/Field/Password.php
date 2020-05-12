@@ -78,7 +78,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
      * @param bool 	$special
      * @return Password
      */
-    public function withStandardConstraints($min_length=8, $lower=true, $upper=true, $numbers=true, $special=true)
+    public function withStandardConstraints($min_length = 8, $lower = true, $upper = true, $numbers = true, $special = true)
     {
         $this->checkIntArg('min_length', $min_length);
         $this->checkBoolArg('lower', $lower);

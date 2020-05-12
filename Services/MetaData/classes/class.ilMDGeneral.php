@@ -314,11 +314,11 @@ class ilMDGeneral extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
-                     'general_structure'	=> array('text',$this->getStructure()),
-                     'title'		=> array('text',$this->getTitle()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
+                     'general_structure' => array('text',$this->getStructure()),
+                     'title' => array('text',$this->getTitle()),
                      'title_language' => array('text',$this->getTitleLanguageCode()),
                      'coverage' => array('text',$this->getCoverage()),
                      'coverage_language' => array('text',$this->getCoverageLanguageCode()));
@@ -368,7 +368,7 @@ class ilMDGeneral extends ilMDBase
         $identifiers = array();
         $identifiers = $this->getIdentifierIds();
         foreach ($identifiers as $id) {
-            $ide =&$this->getIdentifier($id);
+            $ide = &$this->getIdentifier($id);
             $ide->setExportMode($this->getExportMode());
             $ide->toXML($writer);
             $first = false;
@@ -396,7 +396,7 @@ class ilMDGeneral extends ilMDBase
         // Language
         $languages = $this->getLanguageIds();
         foreach ($languages as $id) {
-            $lan =&$this->getLanguage($id);
+            $lan = &$this->getLanguage($id);
             $lan->toXML($writer);
         }
         if (!count($languages)) {
@@ -409,7 +409,7 @@ class ilMDGeneral extends ilMDBase
         // Description
         $descriptions = $this->getDescriptionIds();
         foreach ($descriptions as $id) {
-            $des =&$this->getDescription($id);
+            $des = &$this->getDescription($id);
             $des->toXML($writer);
         }
         if (!count($descriptions)) {
@@ -423,7 +423,7 @@ class ilMDGeneral extends ilMDBase
         // Keyword
         $keywords = $this->getKeywordIds();
         foreach ($keywords as $id) {
-            $key =&$this->getKeyword($id);
+            $key = &$this->getKeyword($id);
             $key->toXML($writer);
         }
         if (!count($keywords)) {

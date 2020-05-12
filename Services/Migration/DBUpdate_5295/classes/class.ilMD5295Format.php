@@ -96,10 +96,10 @@ class ilMD5295Format extends ilMD5295Base
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
-                     'format'	=> array('text',$this->getFormat()));
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
+                     'format' => array('text',$this->getFormat()));
     }
 
     public function read()

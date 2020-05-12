@@ -48,7 +48,7 @@ class ilAuthProviderShibboleth extends ilAuthProvider implements ilAuthProviderI
         if ($shibServerData->getLogin()) {
             $shibUser = shibUser::buildInstance($shibServerData);
             // for backword compatibility of hook environment variables
-            $userObj =&$shibUser; // For shib_data_conv included Script
+            $userObj = &$shibUser; // For shib_data_conv included Script
             $newUser = $shibUser->isNew(); // For shib_data_conv included Script
             if ($shibUser->isNew()) {
                 $shibUser->createFields();

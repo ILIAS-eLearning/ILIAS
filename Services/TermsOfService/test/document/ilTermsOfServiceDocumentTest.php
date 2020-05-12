@@ -96,7 +96,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
     ) : void {
-        $documentConnector  = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $criterionConnector
@@ -105,21 +105,21 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
             ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
                 return [
                     [
-                        'id'              => $criterionAssignment1->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment1->getCriterionId(),
+                        'id' => $criterionAssignment1->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment1->getCriterionId(),
                         'criterion_value' => $criterionAssignment1->getCriterionValue(),
                     ],
                     [
-                        'id'              => $criterionAssignment2->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment2->getCriterionId(),
+                        'id' => $criterionAssignment2->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment2->getCriterionId(),
                         'criterion_value' => $criterionAssignment2->getCriterionValue(),
                     ],
                     [
-                        'id'              => $criterionAssignment3->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment3->getCriterionId(),
+                        'id' => $criterionAssignment3->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment3->getCriterionId(),
                         'criterion_value' => $criterionAssignment3->getCriterionValue(),
                     ]
                 ];
@@ -131,7 +131,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $document = new ilTermsOfServiceDocument();
 
         $document->buildFromArray([
-            'id'    => 4711,
+            'id' => 4711,
             'title' => 'phpunit',
         ]);
 
@@ -150,7 +150,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
     ) : void {
-        $documentConnector  = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $documentConnector
@@ -159,14 +159,14 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
             ->willReturnCallback(function () {
                 $object = new stdClass();
 
-                $object->id                   = 4711;
-                $object->title                = 'phpunit';
-                $object->creation_ts          = time();
-                $object->modification_ts      = time();
-                $object->owner_usr_id         = 6;
+                $object->id = 4711;
+                $object->title = 'phpunit';
+                $object->creation_ts = time();
+                $object->modification_ts = time();
+                $object->owner_usr_id = 6;
                 $object->last_modified_usr_id = 6;
-                $object->sorting              = 10;
-                $object->text                 = 'HelloWorld';
+                $object->sorting = 10;
+                $object->text = 'HelloWorld';
 
                 return [$object];
             });
@@ -177,21 +177,21 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
             ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
                 return [
                     [
-                        'id'              => $criterionAssignment1->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment1->getCriterionId(),
+                        'id' => $criterionAssignment1->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment1->getCriterionId(),
                         'criterion_value' => $criterionAssignment1->getCriterionValue(),
                     ],
                     [
-                        'id'              => $criterionAssignment2->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment2->getCriterionId(),
+                        'id' => $criterionAssignment2->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment2->getCriterionId(),
                         'criterion_value' => $criterionAssignment2->getCriterionValue(),
                     ],
                     [
-                        'id'              => $criterionAssignment3->getId(),
-                        'doc_id'          => 4711,
-                        'criterion_id'    => $criterionAssignment3->getCriterionId(),
+                        'id' => $criterionAssignment3->getId(),
+                        'doc_id' => 4711,
+                        'criterion_id' => $criterionAssignment3->getCriterionId(),
                         'criterion_value' => $criterionAssignment3->getCriterionValue(),
                     ]
                 ];

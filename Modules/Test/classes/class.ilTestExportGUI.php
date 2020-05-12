@@ -138,7 +138,7 @@ class ilTestExportGUI extends ilExportGUI
             }
 
             $directory_name = realpath($tmpFileName);
-            $file_name      = $directory_name . DIRECTORY_SEPARATOR . 'Best_Solution.pdf';
+            $file_name = $directory_name . DIRECTORY_SEPARATOR . 'Best_Solution.pdf';
 
             require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
             $generator = new ilTestPDFGenerator();
@@ -187,15 +187,17 @@ class ilTestExportGUI extends ilExportGUI
             $archive_files = scandir($archive_dir);
         }
         
-        $export_dir   = $this->obj->getExportDirectory();
+        $export_dir = $this->obj->getExportDirectory();
         $export_files = $this->obj->getExportFiles($export_dir);
-        $data         = array();
+        $data = array();
         if (count($export_files) > 0) {
             foreach ($export_files as $exp_file) {
                 $file_arr = explode("__", $exp_file);
+                if($file_arr[0] == $exp_file) continue;
+
                 array_push($data, array(
-                    'file'      => $exp_file,
-                    'size'      => filesize($export_dir . "/" . $exp_file),
+                    'file' => $exp_file,
+                    'size' => filesize($export_dir . "/" . $exp_file),
                     'timestamp' => $file_arr[0]
                 ));
             }

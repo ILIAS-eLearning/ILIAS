@@ -208,7 +208,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $counter = 0;
         $path_full = $tree->getPathFull($a_ref_id);
         foreach ($path_full as $data) {
-            if (++$counter < (count($path_full)-2)) {
+            if (++$counter < (count($path_full) - 2)) {
                 continue;
             }
             if ($a_ref_id != $data['ref_id']) {

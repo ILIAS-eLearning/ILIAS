@@ -37,7 +37,6 @@ class ilUserSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-
         $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
             'usr_images',
             ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR

@@ -110,7 +110,7 @@ abstract class ilChartData
      */
     public function getFill()
     {
-        return array("fill"=>$this->fill, "color"=>$this->fill_color);
+        return array("fill" => $this->fill, "color" => $this->fill_color);
     }
     
     /**
@@ -139,7 +139,7 @@ abstract class ilChartData
             $series->data[] = array($point[0], $point[1]);
         }
             
-        $options = array("show"=>($this->isHidden() ? false : true));
+        $options = array("show" => ($this->isHidden() ? false : true));
                 
         $fill = $this->getFill();
         if ($fill["fill"]) {

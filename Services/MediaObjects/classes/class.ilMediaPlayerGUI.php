@@ -3,13 +3,11 @@
 /* Copyright (c) 1998-2012 ILIAS open source, GPL, see docs/LICENSE */
 
 /**
-* User interface for media player. Wraps flash mp3 player and similar tools.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMediaObjects
-*/
+ * User interface for media player. Wraps flash mp3 player and similar tools.
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesMediaObjects
+ */
 class ilMediaPlayerGUI
 {
     /**
@@ -23,8 +21,8 @@ class ilMediaPlayerGUI
     protected $lng;
 
     protected $file;
-    protected $displayHeight = "480";
-    protected $displayWidth = "640";
+    protected $displayHeight = "";
+    protected $displayWidth = "";
     protected $mimeType;
     protected static $nr = 1;
     protected static $lightbox_initialized = false;
@@ -47,58 +45,52 @@ class ilMediaPlayerGUI
     }
 
     /**
-    * Set File.
-    *
-    * @param	string	$a_file	File
-    */
+     * Set File.
+     * @param string $a_file File
+     */
     public function setFile($a_file)
     {
         $this->file = $a_file;
     }
 
     /**
-    * Get File.
-    *
-    * @return	string	File
-    */
+     * Get File.
+     * @return    string    File
+     */
     public function getFile()
     {
         return $this->file;
     }
-    
+
     /**
      * Set alternative video file
-     *
      * @param string $a_val alternative video file
      */
     public function setAlternativeVideoFile($a_val)
     {
         $this->alt_video_file = $a_val;
     }
-    
+
     /**
      * Get alternative video file
-     *
      * @return string alternative video file
      */
     public function getAlternativeVideoFile()
     {
         return $this->alt_video_file;
     }
-    
+
     /**
      * Set alternative video mime type
-     *
      * @param string $a_val alternative video mime type
      */
     public function setAlternativeVideoMimeType($a_val)
     {
         $this->alt_video_mime = $a_val;
     }
-    
+
     /**
      * Get alternative video mime type
-     *
      * @return string alternative video mime type
      */
     public function getAlternativeVideoMimeType()
@@ -108,17 +100,15 @@ class ilMediaPlayerGUI
 
     /**
      * set display height
-     *
      * @param int $dHeight
      */
     public function setDisplayHeight($dHeight)
     {
         $this->displayHeight = $dHeight;
     }
-    
+
     /**
      * return display height of player.
-     *
      * @return int
      */
     public function getDisplayHeight()
@@ -128,17 +118,15 @@ class ilMediaPlayerGUI
 
     /**
      * Set display width
-     *
      * @param string $a_val display width
      */
     public function setDisplayWidth($a_val)
     {
         $this->displayWidth = $a_val;
     }
-    
+
     /**
      * Get display width
-     *
      * @return string display width
      */
     public function getDisplayWidth()
@@ -153,7 +141,6 @@ class ilMediaPlayerGUI
 
     /**
      * Set video preview picture
-     *
      * @param string $a_val video preview picture
      */
     public function setVideoPreviewPic($a_val, $a_alt = "")
@@ -161,90 +148,81 @@ class ilMediaPlayerGUI
         $this->video_preview_pic = $a_val;
         $this->video_preview_pic_alt = $a_alt;
     }
-    
+
     /**
      * Get video preview picture
-     *
      * @return string video preview picture
      */
     public function getVideoPreviewPic()
     {
         return $this->video_preview_pic;
     }
-    
+
     /**
      * Set Title
-     *
      * @param string $a_val title
      */
     public function setTitle($a_val)
     {
         $this->title = $a_val;
     }
-    
+
     /**
      * Get Title
-     *
      * @return string title
      */
     public function getTitle()
     {
         return $this->title;
     }
-    
+
     /**
      * Set description
-     *
      * @param string $a_val description
      */
     public function setDescription($a_val)
     {
         $this->description = $a_val;
     }
-    
+
     /**
      * Get description
-     *
      * @return string description
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     /**
      * Set force audio preview
-     *
      * @param boolean $a_val force audio preview picture
      */
     public function setForceAudioPreview($a_val)
     {
         $this->force_audio_preview = $a_val;
     }
-    
+
     /**
      * Get force audio preview
-     *
      * @return boolean force audio preview picture
      */
     public function getForceAudioPreview()
     {
         return $this->force_audio_preview;
     }
-    
+
     /**
      * Set download link
-     *
      * @param string $a_val download link
      */
     public function setDownloadLink($a_val)
     {
         $this->download_link = $a_val;
     }
-    
+
     /**
      * Get download link
-     *
      * @return string download link
      */
     public function getDownloadLink()
@@ -275,10 +253,9 @@ class ilMediaPlayerGUI
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
 
-
     /**
-    * Get Html for MP3 Player
-    */
+     * Get Html for MP3 Player
+     */
     public function getMp3PlayerHtml($a_preview = false)
     {
         $tpl = $this->tpl;
@@ -293,7 +270,7 @@ class ilMediaPlayerGUI
             $lb->addLightbox();
             self::$lightbox_initialized = true;
         }
-        
+
         require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
         include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
 
@@ -361,16 +338,23 @@ class ilMediaPlayerGUI
 
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-        
+
         // video tag
-        if (in_array($mimeType, array("video/mp4", "video/m4v", "video/rtmp",
-            "video/x-flv", "video/webm", "video/youtube", "video/vimeo", "video/ogg"))) {
+        if (in_array($mimeType, array("video/mp4",
+                                      "video/m4v",
+                                      "video/rtmp",
+                                      "video/x-flv",
+                                      "video/webm",
+                                      "video/youtube",
+                                      "video/vimeo",
+                                      "video/ogg"
+        ))) {
             if ($mimeType == "video/quicktime") {
                 $mimeType = "video/mov";
             }
-            
+
             $mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-            
+
             // preview
             if ($a_preview) {
                 if ($this->getDownloadLink() != "") {
@@ -390,7 +374,7 @@ class ilMediaPlayerGUI
                 $mp_tpl->setVariable("PTITLE", $this->getTitle());
                 $mp_tpl->parseCurrentBlock();
             }
-            
+
             // sources
             $mp_tpl->setCurrentBlock("source");
             $mp_tpl->setVariable("FILE", $this->getFile());
@@ -403,24 +387,36 @@ class ilMediaPlayerGUI
                 $mp_tpl->setVariable("MIME", $this->getAlternativeVideoMimeType());
                 $mp_tpl->parseCurrentBlock();
             }
-            
+
             $mp_tpl->setCurrentBlock("mejs_video");
-            
+
             if ($a_preview) {
-                $mp_tpl->setVariable("CLASS", "ilNoDisplay");
+                $mp_tpl->setVariable("WRAP_CLASS", "ilNoDisplay");
+                $mp_tpl->setVariable("CLASS", "mejs__player ilNoDisplay");
+            } else {
+                //$mp_tpl->setVariable("CLASS", "mejs__player");
             }
-            
+
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
             if (is_int(strpos($mimeType, "audio/mpeg"))) {
-                $height = "30";
+                $height = "30px";
             }
 
-            $mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
-            $mp_tpl->setVariable("DISPLAY_WIDTH", $width);
+            if ($height != "") {
+                $style = "height: " . $height . "; ";
+            }
+            if ($width != "") {
+                $style .= "width: " . $width . "; ";
+            }
+            if ($style != "") {
+                $mp_tpl->setVariable("STYLE", "style='$style'");
+            }
+            //$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
+            //$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
             $mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
             $mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
             $mp_tpl->setVariable("FFILE", $this->getFile());
@@ -434,7 +430,7 @@ class ilMediaPlayerGUI
             $r = $mp_tpl->get();
 
             if (!$a_preview) {
-                $tpl->addOnLoadCode("new MediaElementPlayer('#player_" . $this->id . "_" . $this->current_nr . "');");
+                $tpl->addOnLoadCode("new MediaElementPlayer('player_" . $this->id . "_" . $this->current_nr . "');");
             }
 
             //echo htmlentities($r); exit;
@@ -505,39 +501,38 @@ class ilMediaPlayerGUI
             $mp_tpl->setVariable("IDESCRIPTION", $this->getDescription());
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $mp_tpl->setVariable("ICLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
-            
+
             if ($this->event_callback_url) {
                 $mp_tpl->setVariable("IMG_CALLBACK_URL", $this->event_callback_url);
                 $mp_tpl->setVariable("IMG_CALLBACK_PLAYER_NR", $this->id . "_" . $this->current_nr);
             }
-            
+
             $mp_tpl->setVariable("IHEIGHT", $this->getDisplayHeight());
             $mp_tpl->setVariable("IWIDTH", $this->getDisplayWidth());
             $mp_tpl->parseCurrentBlock();
-            
+
             return $mp_tpl->get();
         }
-        
+
         // fallback, no preview mode
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
         if (strpos($mimeType, "flv") === false
-         && strpos($mimeType, "audio/mpeg") === false
-         && strpos($mimeType, "image/png") === false
-         && strpos($mimeType, "image/gif") === false) {
+            && strpos($mimeType, "audio/mpeg") === false
+            && strpos($mimeType, "image/png") === false
+            && strpos($mimeType, "image/gif") === false) {
             $html = '<embed src="' . $this->getFile() . '" ' .
-                    'type="' . $mimeType . '" ' .
-                    'ShowControls="1" ' .
-                    'autoplay="false" autostart="false" ' .
-                    'width="320" height="240" scale="aspect" ></embed>';
+                'type="' . $mimeType . '" ' .
+                'ShowControls="1" ' .
+                'autoplay="false" autostart="false" ' .
+                'width="320" height="240" scale="aspect" ></embed>';
             return $html;
         }
 
         return;
     }
-    
+
     /**
      * Get preview html
-     *
      * @return string html
      */
     public function getPreviewHtml()
@@ -547,7 +542,6 @@ class ilMediaPlayerGUI
 
     /**
      * Get HTML (no preview) for media player integration
-     *
      * @return string html
      */
     public function getMediaPlayerHtml()

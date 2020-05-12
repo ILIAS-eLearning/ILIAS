@@ -49,7 +49,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
             }
 
             $title = "Folders";
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"),$title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"), $title);
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)

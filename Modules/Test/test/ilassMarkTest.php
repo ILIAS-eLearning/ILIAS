@@ -49,9 +49,9 @@ class ilassMarkTest extends TestCase
 
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Get/Set on shortName failed, in/out not matching."
+            $actual,
+            $expected,
+            "Get/Set on shortName failed, in/out not matching."
             );
     }
 
@@ -69,9 +69,9 @@ class ilassMarkTest extends TestCase
 
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Get/Set on passed failed, in/out not matching."
+            $actual,
+            $expected,
+            "Get/Set on passed failed, in/out not matching."
             );
     }
 
@@ -89,9 +89,9 @@ class ilassMarkTest extends TestCase
 
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Get/Set on officialName failed, in/out not matching."
+            $actual,
+            $expected,
+            "Get/Set on officialName failed, in/out not matching."
             );
     }
 
@@ -109,9 +109,9 @@ class ilassMarkTest extends TestCase
 
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Get/Set on minimumLevel failed, in/out not matching."
+            $actual,
+            $expected,
+            "Get/Set on minimumLevel failed, in/out not matching."
             );
     }
 
@@ -138,9 +138,9 @@ class ilassMarkTest extends TestCase
 
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Set low on minimumLevel failed, in/out not matching."
+            $actual,
+            $expected,
+            "Set low on minimumLevel failed, in/out not matching."
             );
     }
 
@@ -161,9 +161,9 @@ class ilassMarkTest extends TestCase
             
         // Assert
         $this->assertEquals(
-                $actual,
-                $expected,
-                "Set low on minimumLevel failed, in/out not matching."
+            $actual,
+            $expected,
+            "Set low on minimumLevel failed, in/out not matching."
             );
     }
 

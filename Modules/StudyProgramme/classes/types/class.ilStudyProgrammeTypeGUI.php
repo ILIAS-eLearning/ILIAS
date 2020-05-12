@@ -216,7 +216,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        $form->fillObject($this->type_repository->readType((int) $_GET['type_id']));
+        $form->fillForm($this->type_repository->readType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -228,7 +228,7 @@ class ilStudyProgrammeTypeGUI
         );
         if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirect($this, 'editCustomIcons');
         } else {
             $this->tpl->setContent($form->getHTML());
         }
@@ -252,7 +252,7 @@ class ilStudyProgrammeTypeGUI
         );
         if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->ctrl->redirect($this);
+            $this->ctrl->redirect($this, 'editAMD');
         } else {
             $this->tpl->setContent($form->getHTML());
         }
@@ -315,19 +315,10 @@ class ilStudyProgrammeTypeGUI
         )->withRequest($this->request);
 
         $result = $form->getData();
-
         if (!is_null($result)) {
             $type = $this->type_repository->createType($this->lng->getDefaultLanguage());
-            foreach ($result->value() as $dat) {
-                if (is_object($dat)) {
-                    $type->setTitle($dat->getTitle(), $dat->getLanguageCode());
-                    $type->setDescription($dat->getDescription(), $dat->getLanguageCode());
-                } else {
-                    $type->setDefaultLang($dat['default_lang']);
-                }
-            }
+            $this->updateTypeFromFormResult($type, $result);
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->type_repository->updateType($type);
             $this->ctrl->redirect($this, 'view');
         } else {
             ilUtil::sendFailure($this->lng->txt("msg_fill_required"), true);
@@ -337,7 +328,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function update() : void
     {
-        $type = $this->type_repository->readType((int) $_GET['type_id']);
+        $type = $this->type_repository->readType((int)$_GET['type_id']);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
                 ilStudyProgrammeTypeGUI::class,
@@ -349,20 +340,29 @@ class ilStudyProgrammeTypeGUI
 
         $result = $form->getData();
         if (!is_null($result)) {
-            $type->setDefaultLang($result['default_lang']['default_lang']);
-
-            foreach ($result['info'] as $info) {
-                $type->setTitle($info->getTitle(), $info->getLanguageCode());
-                $type->setDescription($info->getDescription(), $info->getLanguageCode());
-            }
-
+            $this->updateTypeFromFormResult($type, $result);
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->type_repository->updateType($type);
             $this->ctrl->redirect($this, 'view');
         } else {
             ilUtil::sendFailure($this->lng->txt("msg_fill_required"), true);
             $this->tpl->setContent($this->renderer->render($form));
         }
+    }
+
+    protected function updateTypeFromFormResult(ilStudyProgrammeType $type, array $result)
+    {
+        if(isset($result['default_lang'])) {
+            $type->setDefaultLang($result['default_lang']);
+        }
+
+        if(isset($result['info'])) {
+            /** @var ilStudyProgrammeTypeInfo $info */
+            foreach ($result['info'] as $info) {
+                $type->setTitle($info->getTitle(), $info->getLanguageCode());
+                $type->setDescription($info->getDescription(), $info->getLanguageCode());
+            }
+        }
+        $this->type_repository->updateType($type);
     }
 
     protected function delete() : void
@@ -394,6 +394,15 @@ class ilStudyProgrammeTypeGUI
                 "default_lang" => $this->buildModalHeading($type_action, $default_lng),
                 "info" => $this->buildLanguagesForms($type)
             ]
+        )->withAdditionalTransformation(
+            $this->refinery_factory->custom()->transformation(
+                function ($values) {
+                    return [
+                        'default_lang' => $values['default_lang']['default_lang'],
+                        'info' => $values['info']
+                    ];
+                }
+            )
         );
     }
 

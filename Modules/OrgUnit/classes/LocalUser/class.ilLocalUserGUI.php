@@ -193,7 +193,7 @@ class ilLocalUserGUI
                 $ilLog->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 ilUtil::sendFailure($this->lng->txt('user_not_found_to_delete'));
             }
-            if (!$tmp_obj =&ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -262,7 +262,7 @@ class ilLocalUserGUI
         $ass_roles = $rbacreview->assignedRoles($_GET['obj_id']);
         $counter = 0;
         foreach ($roles as $role) {
-            $role_obj =&ilObjectFactory::getInstanceByObjId($role['obj_id']);
+            $role_obj = &ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
             $f_result[$counter][] = ilUtil::formCheckbox(
                 in_array($role['obj_id'], $ass_roles) ? 1 : 0,
@@ -335,7 +335,7 @@ class ilLocalUserGUI
             $this->ctrl->redirect($this, "");
         }
         // return true if it's not a local user
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         if ($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
             !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
         ) {
@@ -371,7 +371,7 @@ class ilLocalUserGUI
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         // check local user
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         // Admin => all roles
         if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
             $global_roles = $rbacreview->getGlobalRolesArray();
@@ -391,8 +391,8 @@ class ilLocalUserGUI
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $tbl =&$this->parent_gui->__initTableGUI();
-        $tpl =&$tbl->getTemplateObject();
+        $tbl = &$this->parent_gui->__initTableGUI();
+        $tpl = &$tbl->getTemplateObject();
         // SET FORMAACTION
         $tpl->setCurrentBlock("tbl_form_header");
         $this->ctrl->setParameter($this, 'obj_id', $_GET['obj_id']);
@@ -405,7 +405,7 @@ class ilLocalUserGUI
         $tpl->setCurrentBlock("tbl_action_row");
         $tpl->setVariable("TPLPATH", $this->tpl->tplPath);
         $tpl->parseCurrentBlock();
-        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+        $tmp_obj = &ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
         $tbl->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
         $tbl->setHeaderNames(array(
@@ -421,20 +421,20 @@ class ilLocalUserGUI
             "type",
         ), (get_class($this->parent_gui) == 'ilObjOrgUnitGUI')
             ? array(
-                "ref_id"     => $this->object->getRefId(),
-                "cmd"        => "assignRoles",
-                "obj_id"     => $_GET['obj_id'],
-                "cmdNode"    => $_GET["cmdNode"],
-                "baseClass"  => 'ilAdministrationGUI',
+                "ref_id" => $this->object->getRefId(),
+                "cmd" => "assignRoles",
+                "obj_id" => $_GET['obj_id'],
+                "cmdNode" => $_GET["cmdNode"],
+                "baseClass" => 'ilAdministrationGUI',
                 "admin_mode" => "settings",
             )
             : array(
-                "ref_id"    => $this->object->getRefId(),
-                "cmd"       => "assignRoles",
-                "obj_id"    => $_GET['obj_id'],
-                "cmdClass"  => "ilobjcategorygui",
+                "ref_id" => $this->object->getRefId(),
+                "cmd" => "assignRoles",
+                "obj_id" => $_GET['obj_id'],
+                "cmdClass" => "ilobjcategorygui",
                 "baseClass" => 'ilRepositoryGUI',
-                "cmdNode"   => $_GET["cmdNode"],
+                "cmdNode" => $_GET["cmdNode"],
             ));
         $tbl->setColumnWidth(array("4%", "35%", "45%", "16%"));
         $this->set_unlimited = true;

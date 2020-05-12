@@ -87,34 +87,34 @@ class ilLuceneAdvancedSearchFields
         
         $lng->loadLanguageModule('meta');
         
-        $fields['lom_content']				= $lng->txt('content');
+        $fields['lom_content'] = $lng->txt('content');
         
         include_once './Services/Search/classes/class.ilSearchSettings.php';
         if (ilSearchSettings::getInstance()->enabledLucene()) {
-            $fields['general_offline']		= $lng->txt('lucene_offline_filter');
+            $fields['general_offline'] = $lng->txt('lucene_offline_filter');
         }
         //'lom_type'					= $lng->txt('type');
-        $fields['lom_language']				= $lng->txt('language');
-        $fields['lom_keyword']				= $lng->txt('meta_keyword');
-        $fields['lom_coverage']				= $lng->txt('meta_coverage');
-        $fields['lom_structure']			= $lng->txt('meta_structure');
-        $fields['lom_status']				= $lng->txt('meta_status');
-        $fields['lom_version']				= $lng->txt('meta_version');
-        $fields['lom_contribute']			= $lng->txt('meta_contribute');
-        $fields['lom_format']				= $lng->txt('meta_format');
-        $fields['lom_operating_system']		= $lng->txt('meta_operating_system');
-        $fields['lom_browser']				= $lng->txt('meta_browser');
-        $fields['lom_interactivity']		= $lng->txt('meta_interactivity_type');
-        $fields['lom_resource']				= $lng->txt('meta_learning_resource_type');
-        $fields['lom_level']				= $lng->txt('meta_interactivity_level');
-        $fields['lom_density']				= $lng->txt('meta_semantic_density');
-        $fields['lom_user_role']			= $lng->txt('meta_intended_end_user_role');
-        $fields['lom_context']				= $lng->txt('meta_context');
-        $fields['lom_difficulty']			= $lng->txt('meta_difficulty');
-        $fields['lom_costs']				= $lng->txt('meta_cost');
-        $fields['lom_copyright']			= $lng->txt('meta_copyright_and_other_restrictions');
-        $fields['lom_purpose']				= $lng->txt('meta_purpose');
-        $fields['lom_taxon']				= $lng->txt('meta_taxon');
+        $fields['lom_language'] = $lng->txt('language');
+        $fields['lom_keyword'] = $lng->txt('meta_keyword');
+        $fields['lom_coverage'] = $lng->txt('meta_coverage');
+        $fields['lom_structure'] = $lng->txt('meta_structure');
+        $fields['lom_status'] = $lng->txt('meta_status');
+        $fields['lom_version'] = $lng->txt('meta_version');
+        $fields['lom_contribute'] = $lng->txt('meta_contribute');
+        $fields['lom_format'] = $lng->txt('meta_format');
+        $fields['lom_operating_system'] = $lng->txt('meta_operating_system');
+        $fields['lom_browser'] = $lng->txt('meta_browser');
+        $fields['lom_interactivity'] = $lng->txt('meta_interactivity_type');
+        $fields['lom_resource'] = $lng->txt('meta_learning_resource_type');
+        $fields['lom_level'] = $lng->txt('meta_interactivity_level');
+        $fields['lom_density'] = $lng->txt('meta_semantic_density');
+        $fields['lom_user_role'] = $lng->txt('meta_intended_end_user_role');
+        $fields['lom_context'] = $lng->txt('meta_context');
+        $fields['lom_difficulty'] = $lng->txt('meta_difficulty');
+        $fields['lom_costs'] = $lng->txt('meta_cost');
+        $fields['lom_copyright'] = $lng->txt('meta_copyright_and_other_restrictions');
+        $fields['lom_purpose'] = $lng->txt('meta_purpose');
+        $fields['lom_taxon'] = $lng->txt('meta_taxon');
             
         // Append all advanced meta data fields
         include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';

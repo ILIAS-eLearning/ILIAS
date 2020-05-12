@@ -257,7 +257,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
                                 "Overlong triplet $x should be rejected"
                             );
                         } elseif ($first == 0xed &&
-                            (chr($first) . chr($second) . chr($third))  >= UTF8_SURROGATE_FIRST) {
+                            (chr($first) . chr($second) . chr($third)) >= UTF8_SURROGATE_FIRST) {
                             $this->assertEquals(
                                 bin2hex($head . UTF8_REPLACEMENT . $tail),
                                 bin2hex($clean),
@@ -315,7 +315,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     public function testChunkRegression()
     {
         # Check for regression against a chunking bug
-        $text   = "\x46\x55\xb8" .
+        $text = "\x46\x55\xb8" .
                   "\xdc\x96" .
                   "\xee" .
                   "\xe7" .
@@ -339,7 +339,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     /** @todo document */
     public function testInterposeRegression()
     {
-        $text   = "\x4e\x30" .
+        $text = "\x4e\x30" .
                   "\xb1" .		# bad tail
                   "\x3a" .
                   "\x92" .		# bad tail
@@ -376,7 +376,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     /** @todo document */
     public function testOverlongRegression()
     {
-        $text   = "\x67" .
+        $text = "\x67" .
                   "\x1a" . # forbidden ascii
                   "\xea" . # bad head
                   "\xc1\xa6" . # overlong sequence
@@ -403,7 +403,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     /** @todo document */
     public function testSurrogateRegression()
     {
-        $text   = "\xed\xb4\x96" . # surrogate 0xDD16
+        $text = "\xed\xb4\x96" . # surrogate 0xDD16
                   "\x83" . # bad tail
                   "\xb4" . # bad tail
                   "\xac";  # bad head
@@ -420,7 +420,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     /** @todo document */
     public function testBomRegression()
     {
-        $text   = "\xef\xbf\xbe" . # U+FFFE, illegal char
+        $text = "\xef\xbf\xbe" . # U+FFFE, illegal char
                   "\xb2" . # bad tail
                   "\xef" . # bad head
                   "\x59";
@@ -437,7 +437,7 @@ class CleanUpTest extends PHPUnit_Framework_TestCase
     /** @todo document */
     public function testForbiddenRegression()
     {
-        $text   = "\xef\xbf\xbf"; # U+FFFF, illegal char
+        $text = "\xef\xbf\xbf"; # U+FFFF, illegal char
         $expect = "\xef\xbf\xbd";
         $this->assertEquals(
             bin2hex($expect),

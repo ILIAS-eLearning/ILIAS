@@ -143,7 +143,7 @@ class ilUserPrivacySettingsGUI
 
         $pub_profile = new ilPublicUserProfileGUI($user->getId());
         if ($this->profile_mode->isEnabled()) {
-            $html.= $pub_profile->getEmbeddable();
+            $html .= $pub_profile->getEmbeddable();
         } else {
             if (!$this->checklist_status->anyVisibilitySettings()) {
                 $html .= $ui->renderer()->render([$ui->factory()->messageBox()->info($lng->txt("usr_public_profile_disabled"))]);

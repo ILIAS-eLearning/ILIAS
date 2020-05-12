@@ -61,10 +61,10 @@ class ilDataCollectionImporter extends ilXmlImporter
         $char = "";
         $rng = range("A", "Z");
         while ($int > 0) {
-            $diff = $int % 26;
-            $char = $rng[$diff - 1] . $char;
-            $int -= $char;
-            $int /= 26;
+            $diff = ($int-1) % 26;
+            $char = $rng[$diff] . $char;
+            $int -= $diff;
+            $int = (int) ($int / 26);
         }
 
         return $char;

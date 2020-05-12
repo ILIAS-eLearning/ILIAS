@@ -20,9 +20,9 @@ class Renderer extends AbstractComponentRenderer
 
         $size = $component->getCardsSize();
         $small_size = $component->getCardsSizeSmallDisplays();
-        $cards_per_row = 12/$size;
+        $cards_per_row = 12 / $size;
 
-        $i=1;
+        $i = 1;
 
         foreach ($component->getCards() as $card) {
             $tpl_card->setCurrentBlock("card");
@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
             if (($i % $cards_per_row) == 0) {
                 $this->parseRow($tpl_row, $tpl_card->get());
                 $tpl_card = $this->getTemplate("tpl.deck_card.html", true, true);
-                $i=0;
+                $i = 0;
             }
             $i++;
         }

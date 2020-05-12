@@ -289,7 +289,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 if (is_array($this->getSuffixes())) {
                     $suff_str = $delim = "";
                     foreach ($this->getSuffixes() as $suffix) {
-                        $suff_str.= $delim . "." . $suffix;
+                        $suff_str .= $delim . "." . $suffix;
                         $delim = ", ";
                     }
                     $tpl->setCurrentBlock('allowed_image_suffixes');

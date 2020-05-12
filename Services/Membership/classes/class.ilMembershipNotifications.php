@@ -201,7 +201,7 @@ class ilMembershipNotifications
                 $crs_ref_id = $tree->checkForParentType($this->ref_id, "crs");
                 if ($crs_ref_id) {
                     include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-                    $this->participants =  ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_ref_id));
+                    $this->participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_ref_id));
                 }
             }
         }

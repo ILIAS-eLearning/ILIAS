@@ -76,7 +76,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         $files = array();
 
         foreach ($object_wps_ids as $object_wps_id) {
-            $obj_id  = $this->tree->lookupObjectId($object_wps_id);
+            $obj_id = $this->tree->lookupObjectId($object_wps_id);
             $object_type = ilObject::_lookupType($obj_id);
             $object_name = ilObject::_lookupTitle($obj_id);
             $object_temp_dir = ""; // empty as content will be added in recurseFolder and getFileDirs

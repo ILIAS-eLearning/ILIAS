@@ -186,9 +186,9 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
             public function symbol() : C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
-                   new I\Component\Symbol\Icon\Factory(),
-                   new I\Component\Symbol\Glyph\Factory(),
-                   new I\Component\Symbol\Avatar\Factory()
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
             public function legacy($content)

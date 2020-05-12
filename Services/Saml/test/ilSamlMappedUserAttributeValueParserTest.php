@@ -25,7 +25,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
     {
         $expectedValue = 'ILIAS';
 
-        $attributeKey   = 'firstname';
+        $attributeKey = 'firstname';
         $attributeValue = $expectedValue;
 
         $userData = [$attributeKey => $attributeValue];
@@ -38,7 +38,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
     {
         $expectedValue = 'ILIAS';
 
-        $attributeKey   = 'firstname';
+        $attributeKey = 'firstname';
         $attributeValue = [$expectedValue];
 
         $userData = [$attributeKey => $attributeValue];
@@ -49,10 +49,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
 
     public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex()
     {
-        $expectedValue      = 'ILIAS';
+        $expectedValue = 'ILIAS';
         $expectedValueIndex = 5;
 
-        $attributeKey   = 'firstname';
+        $attributeKey = 'firstname';
         $attributeValue = [$expectedValueIndex => $expectedValue];
 
         $userData = [$attributeKey => $attributeValue];
@@ -68,8 +68,8 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
     {
         $this->expectException(ilSamlException::class);
 
-        $attributeKey   = 'firstname';
-        $userData       = [];
+        $attributeKey = 'firstname';
+        $userData = [];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
         $parser->parse();
@@ -79,13 +79,13 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
     {
         $this->expectException(ilSamlException::class);
 
-        $expectedValue      = 'ILIAS';
+        $expectedValue = 'ILIAS';
         $expectedValueIndex = 5;
 
-        $attributeKey   = 'firstname';
+        $attributeKey = 'firstname';
         $attributeValue = [($expectedValueIndex + 1) => $expectedValue];
 
-        $userData       = [$attributeKey => $attributeValue];
+        $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser(
             $this->getMappingRuleMock($attributeKey . '|' . $expectedValueIndex),
@@ -98,10 +98,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
     {
         $this->expectException(ilSamlException::class);
 
-        $expectedValue      = array('ILIAS');
+        $expectedValue = array('ILIAS');
         $expectedValueIndex = 5;
 
-        $attributeKey   = 'firstname';
+        $attributeKey = 'firstname';
         $attributeValue = [$expectedValueIndex => $expectedValue];
 
         $userData = [$attributeKey => $attributeValue];

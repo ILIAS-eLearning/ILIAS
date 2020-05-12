@@ -16,6 +16,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
@@ -76,10 +77,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         }
     }
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         // apply filter
-        $this->map->filter(function (isItem $item) : bool {
+        $this->map->filter(function (isItem $item) use ($async_only) : bool {
+            if ($async_only && !$item instanceof supportsAsynchronousLoading) {
+                return false;
+            }
             // make parent available if one child is always available
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
@@ -89,27 +93,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 }
             }
 
-            $is_available        = $item->isAvailable();
-            $is_always_available = $item->isAlwaysAvailable();
-            if (!$is_available) {
-                return $is_always_available;
+            // Always avaiable must be delivered when visible
+            if ($item->isAlwaysAvailable()) {
+                return $item->isVisible();
             }
-
-            $is_visible = $item->isVisible();
-            if (!$is_visible) {
-                return $is_always_available;
-            }
-
-            $active = $this->information->isItemActive($item);
-            if (!$active) {
-                return $is_always_available;
-            }
-            return $active;
+            // All other cases
+            return $item->isAvailable() && $item->isVisible() && $this->information->isItemActive($item);
         });
-
-        // apply special filters such as double dividers etc.
-
-        // TODO!!
     }
 
     public function prepareItemsForUIRepresentation() : void
@@ -154,15 +144,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item;
         });
 
-        $this->map->walk(function (isItem &$item) : isItem {
+        // Override parent from configuration
+        $this->map->walk(function (isItem &$item) {
             if ($item instanceof isChild && $item->hasParent()) {
-                if (!$this->map->existsInFilter($item->getProviderIdentification())) {
-                    $parent = $this->map->getSingleItemFromFilter($item->getParent(), true);
-                    if ($parent instanceof isParent) {
-                        $parent->removeChild($item);
-                    }
-                    return $item;
-                }
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
@@ -171,6 +155,19 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
+
+        // Remove not visible children
+        $this->map->walk(function (isItem &$item) : isItem {
+            if ($item instanceof isParent) {
+                foreach ($item->getChildren() as $child) {
+                    if (!$this->map->existsInFilter($child->getProviderIdentification())) {
+                        $item->removeChild($child);
+                    }
+                }
+            }
+            return $item;
+        });
+
         // filter empty slates
         $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
@@ -219,12 +216,27 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @param IdentificationInterface $identification
      * @return isItem
-     * @throws \Throwable
      * @deprecated
      */
-    public function getSingleItem(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
-        return $this->map->getSingleItemFromFilter($identification);
+        $item = $this->map->getSingleItemFromFilter($identification);
+        $this->map->add($item);
+
+        return $item;
+    }
+
+    /**
+     * @param IdentificationInterface $identification
+     * @return isItem
+     * @deprecated
+     */
+    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    {
+        $item = $this->map->getSingleItemFromRaw($identification);
+        $this->map->add($item);
+
+        return $item;
     }
 
     /**

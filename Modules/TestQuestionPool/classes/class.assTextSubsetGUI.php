@@ -106,7 +106,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addanswers']);
-        $this->object->addAnswer("", 0, $position+1);
+        $this->object->addAnswer("", 0, $position + 1);
         $this->editQuestion();
     }
 
@@ -148,7 +148,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         // get the solution of the user for the active pass or from the last pass if allowed
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
         } else {
             $rank = array();
             foreach ($this->object->answers as $answer) {
@@ -169,7 +169,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_textsubset_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
-        $available_answers =&$this->object->getAvailableAnswers();
+        $available_answers = &$this->object->getAvailableAnswers();
         for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++) {
             if ((!$test_id) && (strcmp($solutions[$i]["value1"], "") == 0)) {
             } else {
@@ -197,7 +197,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 }
                 $template->setCurrentBlock("textsubset_row");
                 $template->setVariable("SOLUTION", $solutions[$i]["value1"]);
-                $template->setVariable("COUNTER", $i+1);
+                $template->setVariable("COUNTER", $i + 1);
                 if ($result_output) {
                     $points = $solutions[$i]["points"];
                     $resulttext = ($points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")";
@@ -207,7 +207,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             }
         }
         $questiontext = $this->object->getQuestion();
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
@@ -245,8 +245,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                     $template->setVariable("TEXTFIELD_VALUE", " value=\"" . $solution_value . "\"");
                 }
             }
-            $template->setVariable("COUNTER", $i+1);
-            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i+1));
+            $template->setVariable("COUNTER", $i + 1);
+            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i + 1));
             $template->setVariable("TEXTFIELD_SIZE", $width);
             $template->parseCurrentBlock();
         }
@@ -287,8 +287,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                     $template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilUtil::prepareFormOutput($solution_value["value1"]) . "\"");
                 }
             }
-            $template->setVariable("COUNTER", $i+1);
-            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i+1));
+            $template->setVariable("COUNTER", $i + 1);
+            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i + 1));
             $template->setVariable("TEXTFIELD_SIZE", $width);
             $template->parseCurrentBlock();
         }
@@ -425,7 +425,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $form->addItem($points);
 
         // text rating
-        $textrating   = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
+        $textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
         $text_options = array(
             "ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
             "cs" => $this->lng->txt("cloze_textgap_case_sensitive")

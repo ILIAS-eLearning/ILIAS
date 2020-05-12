@@ -25,7 +25,7 @@
     "jquery-outside-events": "*",
     "yui2": "https://github.com/yui/yui2.git#067c9f82ecc90e4b392b7cb06a4a4f7fe3f6136e",
     "jstree": "3.3.6",
-    "mediaelement": "2.14.2",
+    "mediaelement": "4.2.16",
     "moment": "2.14.1",
     "eonasdan-bootstrap-datetimepicker": "4.17.42",
     "jquery-mousewheel": "3.1.3",

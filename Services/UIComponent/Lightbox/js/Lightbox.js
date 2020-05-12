@@ -36,6 +36,7 @@ il.Lightbox = {
 
 	// load content from a wrapper container into the lighbox
 	loadWrapperToLightbox: function(wrapper_id, lightbox_id) {
+		console.log("load " + wrapper_id);
 		this.current_wrapper[lightbox_id] = wrapper_id;
 		
 		$("#" + wrapper_id).children().appendTo('#' + lightbox_id + ' .ilLightboxContent');

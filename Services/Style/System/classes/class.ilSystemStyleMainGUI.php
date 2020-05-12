@@ -190,7 +190,7 @@ class ilSystemStyleMainGUI
         $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'node_id', $node_id);
         $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'ref_id', $ref_id);
 
-        $_GET['baseClass']= 'ilAdministrationGUI';
+        $_GET['baseClass'] = 'ilAdministrationGUI';
 
         $cmd = "entries";
         $cmd_classes = [
@@ -221,7 +221,7 @@ class ilSystemStyleMainGUI
 
         $config = new ilSystemStyleConfig();
         if ($a_perm == "sty_management") {
-            $has_perm = $DIC->iliasIni()->readVariable("tools", "enable_system_styles_management")== "1" ? true:false;
+            $has_perm = $DIC->iliasIni()->readVariable("tools", "enable_system_styles_management") == "1" ? true:false;
             $a_perm = "sty_write_system";
             if ($has_perm && !is_writable($config->getCustomizingSkinPath())) {
                 ilUtil::sendFailure($this->lng->txt("enable_system_styles_management_no_write_perm"));

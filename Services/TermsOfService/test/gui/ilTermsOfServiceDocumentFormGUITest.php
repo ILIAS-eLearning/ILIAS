@@ -229,7 +229,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
         $this->setGlobalVariable('upload', $fu);
 
-        $documentConnector  = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $expectedSortingValueExistingDocuments = 10;
@@ -240,8 +240,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturnCallback(function () use ($expectedSortingValueExistingDocuments) {
                 return [
                     [
-                        'id'      => 666,
-                        'title'   => 'another',
+                        'id' => 666,
+                        'title' => 'another',
                         'sorting' => $expectedSortingValueExistingDocuments - 1,
                     ]
                 ];
@@ -277,10 +277,10 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $_FILES['document'] = [];
-        $_POST              = [
-            'title'    => 'phpunit',
+        $_POST = [
+            'title' => 'phpunit',
             'document' => '',
-            ''         => ''
+            '' => ''
         ];
         $form->setCheckInputCalled(true);
 
@@ -471,9 +471,9 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $_POST = [
-            'title'    => 'phpunit',
+            'title' => 'phpunit',
             'document' => '',
-            ''         => ''
+            '' => ''
         ];
         $form->setCheckInputCalled(true);
 
@@ -610,9 +610,9 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
 
         $_POST = [
-            'title'    => '',
+            'title' => '',
             'document' => '',
-            ''         => ''
+            '' => ''
         ];
         $form->setCheckInputCalled(true);
 

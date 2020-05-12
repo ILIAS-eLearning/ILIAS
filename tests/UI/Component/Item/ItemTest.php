@@ -302,4 +302,19 @@ EOT;
 
         $this->assertHTMLEquals($expected, $html);
     }
+
+    public function test_link_title()
+    {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+
+        $c = $f->standard(new I\Component\Link\Standard("ILIAS", "https://www.ilias.de"));
+        $html = $r->render($c);
+
+        $expected = <<<EOT
+<div class="il-item il-std-item "><h5><a href="https://www.ilias.de">ILIAS</a></h5></div>
+EOT;
+
+        $this->assertHTMLEquals($expected, $html);
+    }
 }

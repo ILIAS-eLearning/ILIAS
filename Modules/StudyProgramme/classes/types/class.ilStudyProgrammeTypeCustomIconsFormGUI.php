@@ -69,7 +69,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         }
         try {
             $this->type_repo->updateType($type);
-            $this->type->updateAssignedStudyProgrammesIcons();
+            $type->updateAssignedStudyProgrammesIcons();
             return true;
         } catch (ilException $e) {
             ilUtil::sendFailure($e->getMessage());
@@ -95,7 +95,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
     public function fillForm(ilStudyProgrammeType $type)
     {
         $item = $this->getItemByPostVar('icon');
-        if ($this->webdir->has($type->getIconPath(true))) {
+        if ($type->getIcon() != '' && $this->webdir->has($type->getIconPath(true))) {
             // TODO: that´s horrible, try to avoid ilUtil in future
             $item->setImage(ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true));
         }

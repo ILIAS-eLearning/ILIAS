@@ -10,7 +10,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $templateMock = $this->getMockBuilder('ilTemplate')
@@ -41,7 +41,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt', 'loadLanguageModule'))
+            ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
         $languageMock->expects($this->exactly(16))
@@ -64,22 +64,22 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $this->assertEquals(
             array(
-                'USER_LOGIN'         => 'Something translated',
-                'USER_FULLNAME'      => 'Something translated',
-                'USER_FIRSTNAME'     => 'Something translated',
-                'USER_LASTNAME'      => 'Something translated',
-                'USER_TITLE'         => 'Something translated',
-                'USER_SALUTATION'    => 'Something translated',
-                'USER_BIRTHDAY'      => 'Something translated',
-                'USER_INSTITUTION'   => 'Something translated',
-                'USER_DEPARTMENT'    => 'Something translated',
-                'USER_STREET'        => 'Something translated',
-                'USER_CITY'          => 'Something translated',
-                'USER_ZIPCODE'       => 'Something translated',
-                'USER_COUNTRY'       => 'Something translated',
+                'USER_LOGIN' => 'Something translated',
+                'USER_FULLNAME' => 'Something translated',
+                'USER_FIRSTNAME' => 'Something translated',
+                'USER_LASTNAME' => 'Something translated',
+                'USER_TITLE' => 'Something translated',
+                'USER_SALUTATION' => 'Something translated',
+                'USER_BIRTHDAY' => 'Something translated',
+                'USER_INSTITUTION' => 'Something translated',
+                'USER_DEPARTMENT' => 'Something translated',
+                'USER_STREET' => 'Something translated',
+                'USER_CITY' => 'Something translated',
+                'USER_ZIPCODE' => 'Something translated',
+                'USER_COUNTRY' => 'Something translated',
                 'USER_MATRICULATION' => 'Something translated',
-                'DATE'               => 'Something translated',
-                'DATETIME'           => 'Something translated'
+                'DATE' => 'Something translated',
+                'DATETIME' => 'Something translated'
             ),
             $placeHolders
         );

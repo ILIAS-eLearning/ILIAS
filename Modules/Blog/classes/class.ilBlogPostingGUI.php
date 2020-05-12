@@ -895,8 +895,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $shrink_ratio = min($ratio_width, $ratio_height);
                         
         return array(
-            (int) round($src_width*$shrink_ratio),
-            (int) round($src_height*$shrink_ratio)
+            (int) round($src_width * $shrink_ratio),
+            (int) round($src_height * $shrink_ratio)
         );
     }
 

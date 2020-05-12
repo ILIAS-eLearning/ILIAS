@@ -12,7 +12,6 @@
  */
 class ilBiblEntryTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var \ilBiblFieldFilterInterface[]
@@ -87,7 +86,8 @@ class ilBiblEntryTableGUI extends ilTable2GUI
         $this->addFilterItem($field);
         $field->readFromSession();
         if ($field instanceof ilCheckboxInputGUI) {
-            $this->applied_filter[$field->getPostVar()] = $field->getChecked();;
+            $this->applied_filter[$field->getPostVar()] = $field->getChecked();
+            ;
         } else {
             $this->applied_filter[$field->getPostVar()] = $field->getValue();
         }

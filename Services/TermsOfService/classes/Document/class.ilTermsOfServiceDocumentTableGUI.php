@@ -52,9 +52,9 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         bool $isEditable = false
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory            = $uiFactory;
-        $this->uiRenderer           = $uiRenderer;
-        $this->isEditable           = $isEditable;
+        $this->uiFactory = $uiFactory;
+        $this->uiRenderer = $uiRenderer;
+        $this->isEditable = $isEditable;
 
         $this->setId('tos_documents');
         $this->setFormName('tos_documents');
@@ -90,66 +90,66 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 
         if ($this->isEditable) {
             $columns[++$i] = [
-                'field'       => 'chb',
-                'txt'         => '',
-                'default'     => true,
-                'optional'    => false,
-                'sortable'    => false,
+                'field' => 'chb',
+                'txt' => '',
+                'default' => true,
+                'optional' => false,
+                'sortable' => false,
                 'is_checkbox' => true,
-                'width'       => '1%'
+                'width' => '1%'
             ];
         }
 
         $columns[++$i] = [
-            'field'    => 'sorting',
-            'txt'      => $this->lng->txt('tos_tbl_docs_head_sorting'),
-            'default'  => true,
+            'field' => 'sorting',
+            'txt' => $this->lng->txt('tos_tbl_docs_head_sorting'),
+            'default' => true,
             'optional' => false,
             'sortable' => false,
-            'width'    => '5%'
+            'width' => '5%'
         ];
 
         $columns[++$i] = [
-            'field'    => 'title',
-            'txt'      => $this->lng->txt('tos_tbl_docs_head_title'),
-            'default'  => true,
+            'field' => 'title',
+            'txt' => $this->lng->txt('tos_tbl_docs_head_title'),
+            'default' => true,
             'optional' => false,
             'sortable' => false,
-            'width'    => '25%'
+            'width' => '25%'
         ];
 
         $columns[++$i] = [
-            'field'    => 'creation_ts',
-            'txt'      => $this->lng->txt('tos_tbl_docs_head_created'),
-            'default'  => true,
+            'field' => 'creation_ts',
+            'txt' => $this->lng->txt('tos_tbl_docs_head_created'),
+            'default' => true,
             'optional' => true,
             'sortable' => false
         ];
 
         $columns[++$i] = [
-            'field'    => 'modification_ts',
-            'txt'      => $this->lng->txt('tos_tbl_docs_head_last_change'),
-            'default'  => true,
+            'field' => 'modification_ts',
+            'txt' => $this->lng->txt('tos_tbl_docs_head_last_change'),
+            'default' => true,
             'optional' => true,
             'sortable' => false
         ];
 
         $columns[++$i] = [
-            'field'    => 'criteria',
-            'txt'      => $this->lng->txt('tos_tbl_docs_head_criteria'),
-            'default'  => true,
+            'field' => 'criteria',
+            'txt' => $this->lng->txt('tos_tbl_docs_head_criteria'),
+            'default' => true,
             'optional' => false,
             'sortable' => false
         ];
 
         if ($this->isEditable) {
             $columns[++$i] = [
-                'field'    => 'actions',
-                'txt'      => $this->lng->txt('actions'),
-                'default'  => true,
+                'field' => 'actions',
+                'txt' => $this->lng->txt('actions'),
+                'default' => true,
                 'optional' => false,
                 'sortable' => false,
-                'width'    => '10%'
+                'width' => '10%'
             ];
         };
 
@@ -166,12 +166,12 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
             /** @var ilTermsOfServiceDocument $document */
 
             $data['items'][$key] = [
-                'id'                  => $document->getId(),
-                'title'               => $document->getTitle(),
-                'creation_ts'         => $document->getCreationTs(),
-                'modification_ts'     => $document->getModificationTs(),
-                'text'                => $document->getText(),
-                'criteria'            => '',
+                'id' => $document->getId(),
+                'title' => $document->getTitle(),
+                'creation_ts' => $document->getCreationTs(),
+                'modification_ts' => $document->getModificationTs(),
+                'text' => $document->getText(),
+                'criteria' => '',
                 'criteriaAssignments' => $document->criteria()
             ];
         }
@@ -298,7 +298,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 ->standard([$editBtn, $deleteBtn]);
 
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion->getCriterionId(), true);
-            $typeGui       = $criterionType->ui($this->lng);
+            $typeGui = $criterionType->ui($this->lng);
 
             $items[implode(' ', [
                 $typeGui->getIdentPresentation(),

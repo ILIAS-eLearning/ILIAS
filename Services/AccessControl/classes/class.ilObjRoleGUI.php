@@ -103,7 +103,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 // Set tabs
                 $this->tabs_gui->setTabActive('user_assignment');
                 $this->ctrl->setReturn($this, 'userassignment');
-                $ret =&$this->ctrl->forwardCommand($rep_search);
+                $ret = &$this->ctrl->forwardCommand($rep_search);
                 break;
             
             case 'ilexportgui':
@@ -876,7 +876,7 @@ class ilObjRoleGUI extends ilObjectGUI
             $this->object->update();
 
             // send info
-            $obj_data =&$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+            $obj_data = &$this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
             ilUtil::sendSuccess($this->lng->txt("msg_perm_adopted_from1") . " '" . $obj_data->getTitle() . "'.<br/>" .
                      $this->lng->txt("msg_perm_adopted_from2"), true);
         }
@@ -965,7 +965,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
         $selected_users = ($_POST["user_id"]) ? $_POST["user_id"] : array($_GET["user_id"]);
 
-        if ($selected_users[0]=== null) {
+        if ($selected_users[0] === null) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -1053,8 +1053,8 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this,
                 $tb,
                 array(
-                    'auto_complete_name'	=> $lng->txt('user'),
-                    'submit_name'			=> $lng->txt('add')
+                    'auto_complete_name' => $lng->txt('user'),
+                    'submit_name' => $lng->txt('add')
                 )
             );
 
@@ -1294,7 +1294,7 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         }
 
-        if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit  && $this->object->getId() != ANONYMOUS_ROLE_ID) {
+        if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit && $this->object->getId() != ANONYMOUS_ROLE_ID) {
             $this->lng->loadLanguageModule("rep");
             $this->tabs_gui->addTarget(
                 "rep_recommended_content",
@@ -1410,13 +1410,13 @@ class ilObjRoleGUI extends ilObjectGUI
         $rad->addOption($keep);
         
         if ($protected) {
-            $del =  new ilRadioOption(
+            $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
                 ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_delete_local_policies_info')
             );
         } else {
-            $del =  new ilRadioOption(
+            $del = new ilRadioOption(
                 $this->lng->txt('rbac_delete_local_policies'),
                 ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
                 $this->lng->txt('rbac_unprotected_delete_local_policies_info')

@@ -31,19 +31,19 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         );
 
         if ($this->db->numRows($res)) {
-            $row       = $this->db->fetchAssoc($res);
+            $row = $this->db->fetchAssoc($res);
             $versionId = $row['id'];
         } else {
             $versionId = $this->db->nextId('tos_versions');
             $this->db->insert(
                 'tos_versions',
                 [
-                    'id'     => ['integer', $versionId],
-                    'text'   => ['clob', $entity->getText()],
-                    'hash'   => ['text', $entity->getHash()],
+                    'id' => ['integer', $versionId],
+                    'text' => ['clob', $entity->getText()],
+                    'hash' => ['text', $entity->getHash()],
                     'doc_id' => ['integer', $entity->getDocumentId()],
-                    'title'  => ['text', $entity->getTitle()],
-                    'ts'     => ['integer', $entity->getTimestamp()]
+                    'title' => ['text', $entity->getTitle()],
+                    'ts' => ['integer', $entity->getTimestamp()]
                 ]
             );
         }
@@ -51,10 +51,10 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         $this->db->insert(
             'tos_acceptance_track',
             [
-                'tosv_id'  => ['integer', $versionId],
-                'usr_id'   => ['integer', $entity->getUserId()],
+                'tosv_id' => ['integer', $versionId],
+                'usr_id' => ['integer', $entity->getUserId()],
                 'criteria' => ['clob', $entity->getSerializedCriteria()],
-                'ts'       => ['integer', $entity->getTimestamp()]
+                'ts' => ['integer', $entity->getTimestamp()]
             ]
         );
     }

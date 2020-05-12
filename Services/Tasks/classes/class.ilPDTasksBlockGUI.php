@@ -255,7 +255,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
                 $url = $data['url'];
             }
             $link = $url;
-            $title = $factory->button()->shy($data["title"], $link);
+            $title = $factory->link()->standard($data["title"], $link);
             $props[$lng->txt("obj_" . $obj_type)] = ilObject::_lookupTitle($obj_id);
         }
 
@@ -269,7 +269,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
                 $url = $data['url'];
             }
             $link = $url;
-            $title = $factory->button()->shy($data["title"], $link);
+            $title = $factory->link()->standard($data["title"], $link);
             $props[$lng->txt("obj_" . $obj_type)] = ilObject::_lookupTitle($obj_id);
         }
 

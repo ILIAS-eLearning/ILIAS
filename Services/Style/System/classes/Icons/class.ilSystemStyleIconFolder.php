@@ -82,7 +82,7 @@ class ilSystemStyleIconFolder
      * @throws ilSystemStyleException
      * @throws ilSystemStyleIconException
      */
-    protected function xRead($src = "", $rel_path="")
+    protected function xRead($src = "", $rel_path = "")
     {
         if (!is_dir($src)) {
             throw new ilSystemStyleIconException(ilSystemStyleIconException::IMAGES_FOLDER_DOES_NOT_EXIST, $src);

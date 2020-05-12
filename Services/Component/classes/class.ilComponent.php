@@ -341,5 +341,4 @@ abstract class ilComponent
         }
         return $comps;
     }
-
 }

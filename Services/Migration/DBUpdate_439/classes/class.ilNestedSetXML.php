@@ -99,9 +99,9 @@ class ilNestedSetXML
     {
         global $ilias,$ilDB;
 
-        $this->ilias =&$ilias;
+        $this->ilias = &$ilias;
         
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
         $this->LEFT = 0;
         $this->RIGHT = 0;
         $this->DEPTH = 0;
@@ -147,7 +147,7 @@ class ilNestedSetXML
         $this->db->query($Q);
         
         $this->clean($attrs);
-        if (is_array($attrs) && count($attrs)>0) {
+        if (is_array($attrs) && count($attrs) > 0) {
             reset($attrs);
             while (list($key, $val) = each($attrs)) {
                 $this->db->query("INSERT INTO xmlparam ( tag_fk,param_name,param_value ) VALUES (" . $ilDB->quote($pk) . "," . $ilDB->quote($key) . "," . $ilDB->quote($val) . ") ");
@@ -179,7 +179,7 @@ class ilNestedSetXML
         static $value_pk;
         
         // we don't need this trim since expression like ' ABC < > ' will be parsed to ' ABC <>'
-        if (1 or trim($data)!="") {
+        if (1 or trim($data) != "") {
             if ($this->lastTag == "TAGVALUE") {
                 $Q = "UPDATE xmlvalue SET tag_value = concat(tag_value," . $ilDB->quote($data) . ") WHERE tag_value_pk = " . $ilDB->quote($value_pk) . " ";
                 $this->db->query($Q);
@@ -289,7 +289,7 @@ class ilNestedSetXML
     */
     public function setParameterModifier(&$a_object, $a_method)
     {
-        $this->param_modifier =&$a_object;
+        $this->param_modifier = &$a_object;
         $this->param_modifier_method = $a_method;
     }
 
@@ -327,7 +327,7 @@ class ilNestedSetXML
             while (is_array($row_param = $result_param->fetchRow(ilDBConstants::FETCHMODE_ASSOC))) {
                 $param_value = $row_param[param_value];
                 if (is_object($this->param_modifier)) {
-                    $obj =&$this->param_modifier;
+                    $obj = &$this->param_modifier;
                     $method = $this->param_modifier_method;
                     $param_value = $obj->$method($row[tag_name], $row_param[param_name], $param_value);
                 }
@@ -339,7 +339,7 @@ class ilNestedSetXML
             // }}}
 
             // {{{ TagValue
-            if ($row[tag_name]=="TAGVALUE") {
+            if ($row[tag_name] == "TAGVALUE") {
                 $query = "SELECT * FROM xmlvalue WHERE tag_fk = " . $ilDB->quote($row[tag_pk]) . " ";
                 $result_value = $this->db->query($query);
                 $row_value = $result_value->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -353,15 +353,15 @@ class ilNestedSetXML
 
             $D = $row[tag_depth];
 
-            if ($D==$lastDepth) {
+            if ($D == $lastDepth) {
                 $xml .= $xmlE[$D];
                 $xml .= $Anfang;
                 $xmlE[$D] = $Ende;
-            } elseif ($D>$lastDepth) {
+            } elseif ($D > $lastDepth) {
                 $xml .= $Anfang;
                 $xmlE[$D] = $Ende;
             } else {
-                for ($i=$lastDepth;$i>=$D;$i--) {
+                for ($i = $lastDepth;$i >= $D;$i--) {
                     $xml .= $xmlE[$i];
                 }
                 $xml .= $Anfang;
@@ -371,7 +371,7 @@ class ilNestedSetXML
             $lastDepth = $D;
         }
 
-        for ($i=$lastDepth;$i>0;$i--) {
+        for ($i = $lastDepth;$i > 0;$i--) {
             $xml .= $xmlE[$i];
         }
 
@@ -461,10 +461,10 @@ class ilNestedSetXML
         
         $V = array();
         
-        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk = tag_pk AND ns_book_fk = " . $ilDB->quote($this->obj_id) . " AND ns_type = " . $ilDB->quote($this->obj_type) . " AND ns_l >= " . $ilDB->quote($this->LEFT) . " AND ns_r <= " . $ilDB->quote($this->RIGHT) . " AND tag_depth = " . $ilDB->quote(($this->DEPTH+1)) . " ORDER BY ns_l";
+        $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_tag_fk = tag_pk AND ns_book_fk = " . $ilDB->quote($this->obj_id) . " AND ns_type = " . $ilDB->quote($this->obj_type) . " AND ns_l >= " . $ilDB->quote($this->LEFT) . " AND ns_r <= " . $ilDB->quote($this->RIGHT) . " AND tag_depth = " . $ilDB->quote(($this->DEPTH + 1)) . " ORDER BY ns_l";
         $result = $this->db->query($query);
         while (is_array($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))) {
-            if ($row[tag_name]=="TAGVALUE") {
+            if ($row[tag_name] == "TAGVALUE") {
                 $query = "SELECT * FROM xmlvalue WHERE tag_fk = " . $ilDB->quote($row[tag_pk]) . " ";
                 $result2 = $this->db->query($query);
                 $row2 = $result2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -504,7 +504,7 @@ class ilNestedSetXML
 							ns_type = " . $ilDB->quote($this->obj_type) . " AND
 							ns_l >= " . $ilDB->quote($this->LEFT) . " AND
 							ns_r <= " . $ilDB->quote($this->RIGHT) . " AND
-							tag_depth = " . $ilDB->quote(($this->DEPTH+1)) . " AND
+							tag_depth = " . $ilDB->quote(($this->DEPTH + 1)) . " AND
 							tag_name = 'TAGVALUE'
 							ORDER BY ns_l";
         $result = $this->db->query($query);
@@ -564,11 +564,11 @@ class ilNestedSetXML
                     </General>
                 </MetaData>
                 ';
-        
+
                 $xml = $xml_test;
         */
 
-        if ($xml=="") {
+        if ($xml == "") {
             return(false);
         } else {
             $this->dom = domxml_open_mem($xml);
@@ -732,7 +732,7 @@ class ilNestedSetXML
         $this->clean($meta);
         $update = false;
         if ($xPath == "//Bibliography") {
-            $nodes = $this->getXpathNodes($this->dom, $xPath . "/BibItem[" . ($no+1) . "]");
+            $nodes = $this->getXpathNodes($this->dom, $xPath . "/BibItem[" . ($no + 1) . "]");
         } else {
             $nodes = $this->getXpathNodes($this->dom, $xPath);
         }
@@ -1140,13 +1140,13 @@ class ilNestedSetXML
      */
     public function replace_content(&$node, &$new_content)
     {
-        $newnode =&$this->dom->create_element($node->tagname());
+        $newnode = &$this->dom->create_element($node->tagname());
         $newnode->set_content($new_content);
-        $atts =&$node->attributes();
+        $atts = &$node->attributes();
         foreach ($atts as $att) {
             $newnode->set_attribute($att->name(), $att->value());
         }
-        $kids =&$node->child_nodes();
+        $kids = &$node->child_nodes();
         foreach ($kids as $kid) {
             if ($kid->node_type() != XML_TEXT_NODE) {
                 $newnode->append_child($kid);

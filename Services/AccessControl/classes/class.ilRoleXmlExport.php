@@ -117,8 +117,8 @@ class ilRoleXmlExport extends ilXmlWriter
         $rbacreview = $DIC['rbacreview'];
         
         $attributes = array(
-            'type'	=> ilObject::_lookupType($a_role_id),
-            'id'	=> 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($a_role_id) . '_' . $a_role_id,
+            'type' => ilObject::_lookupType($a_role_id),
+            'id' => 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($a_role_id) . '_' . $a_role_id,
             'protected' => ($GLOBALS['DIC']['rbacreview']->isProtected($a_rolf, $a_role_id) ? 1 : 0)
         );
 

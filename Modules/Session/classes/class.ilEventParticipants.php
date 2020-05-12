@@ -60,7 +60,7 @@ class ilEventParticipants
         $tree = $DIC->repositoryTree();
 
         $this->ilErr = $ilErr;
-        $this->db  = $ilDB;
+        $this->db = $ilDB;
         $this->lng = $lng;
 
         $this->event_id = $a_event_id;
@@ -547,8 +547,7 @@ class ilEventParticipants
             if (true === $session->isRegistrationNotificationEnabled()) {
                 if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $session->getRegistrationNotificationOption()) {
                     $this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
-                }
-                else {
+                } else {
                     foreach ($parentRecipients as $parentRecipientUserId) {
                         if ($parentRecipientUserId == $row->usr_id) {
                             $this->participants[$row->usr_id]['notification_enabled'] = true;

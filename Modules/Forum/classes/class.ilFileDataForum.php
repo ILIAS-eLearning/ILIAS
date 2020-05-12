@@ -93,10 +93,10 @@ class ilFileDataForum extends ilFileData
             list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
             if ($obj_id == $this->obj_id) {
                 $files[] = array(
-                    'path'  => $file->getPathname(),
-                    'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
-                    'name'  => $rest,
-                    'size'  => $file->getSize(),
+                    'path' => $file->getPathname(),
+                    'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+                    'name' => $rest,
+                    'size' => $file->getSize(),
                     'ctime' => date('Y-m-d H:i:s', $file->getCTime())
                 );
             }
@@ -126,10 +126,10 @@ class ilFileDataForum extends ilFileData
                 list($pos_id, $rest) = explode('_', $rest, 2);
                 if ($pos_id == $this->getPosId()) {
                     $files[$rest] = array(
-                        'path'  => $file->getPathname(),
-                        'md5'   => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
-                        'name'  => $rest,
-                        'size'  => $file->getSize(),
+                        'path' => $file->getPathname(),
+                        'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
+                        'name' => $rest,
+                        'size' => $file->getSize(),
                         'ctime' => date('Y-m-d H:i:s', $file->getCTime())
                     );
                 }

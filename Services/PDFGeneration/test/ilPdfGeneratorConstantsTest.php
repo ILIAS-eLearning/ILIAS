@@ -17,7 +17,7 @@ class ilPdfGeneratorConstantsTest extends TestCase
     public function testGetOrientations()
     {
         $this->assertCount(2, ilPDFGenerationConstants::getOrientations());
-        $orientations =  ilPDFGenerationConstants::getOrientations();
+        $orientations = ilPDFGenerationConstants::getOrientations();
         $this->assertSame('Portrait', $orientations['Portrait']);
         $this->assertSame('Landscape', $orientations['Landscape']);
     }

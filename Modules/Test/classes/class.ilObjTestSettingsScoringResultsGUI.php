@@ -19,9 +19,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM					= 'showForm';
-    const CMD_SAVE_FORM					= 'saveForm';
-    const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
+    const CMD_SHOW_FORM = 'showForm';
+    const CMD_SAVE_FORM = 'saveForm';
+    const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
 
     /** @var ilCtrl $ctrl */
     protected $ctrl = null;

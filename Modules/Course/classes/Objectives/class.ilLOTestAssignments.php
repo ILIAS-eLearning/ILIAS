@@ -288,7 +288,7 @@ class ilLOTestAssignments
                 'WHERE tst_ref_id = ' . $ilDB->quote($a_test_ref_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $objectives[] =  $row->objective_id;
+            $objectives[] = $row->objective_id;
         }
         return $objectives;
     }

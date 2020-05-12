@@ -43,7 +43,7 @@ class ilPdfGenerator
         global $DIC;
 
         $this->certificateRepository = $userCertificateRepository;
-        $this->logger                = $logger;
+        $this->logger = $logger;
 
         if (null === $rpcHelper) {
             $rpcHelper = new ilCertificateRpcClientFactoryHelper();

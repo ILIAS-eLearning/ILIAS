@@ -96,7 +96,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     */
     public function setQuestionObject($a_value)
     {
-        $this->qstObject =&$a_value;
+        $this->qstObject = &$a_value;
     }
 
     /**
@@ -294,7 +294,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
         if (is_array($this->getSuffixes())) {
             $suff_str = $delim = "";
             foreach ($this->getSuffixes() as $suffix) {
-                $suff_str.= $delim . "." . $suffix;
+                $suff_str .= $delim . "." . $suffix;
                 $delim = ", ";
             }
             $tpl->setCurrentBlock('allowed_image_suffixes');

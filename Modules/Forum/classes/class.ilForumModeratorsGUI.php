@@ -53,7 +53,7 @@ class ilForumModeratorsGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case 'ilrepositorysearchgui':
@@ -152,8 +152,8 @@ class ilForumModeratorsGUI
             $this->toolbar,
             array(
                 'auto_complete_name' => $this->lng->txt('user'),
-                'submit_name'        => $this->lng->txt('add'),
-                'add_search'         => true,
+                'submit_name' => $this->lng->txt('add'),
+                'add_search' => true,
                 'add_from_container' => $this->oForumModerators->getRefId()
             )
         );
@@ -161,9 +161,9 @@ class ilForumModeratorsGUI
         $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int) $_GET['ref_id']);
 
         $entries = $this->oForumModerators->getCurrentModerators();
-        $num     = count($entries);
-        $result  = array();
-        $i       = 0;
+        $num = count($entries);
+        $result = array();
+        $i = 0;
         foreach ($entries as $usr_id) {
             /**
              * @var $user ilObjUser
@@ -180,9 +180,9 @@ class ilForumModeratorsGUI
             } else {
                 $result[$i]['check'] = '';
             }
-            $result[$i]['login']     = $user->getLogin();
+            $result[$i]['login'] = $user->getLogin();
             $result[$i]['firstname'] = $user->getFirstname();
-            $result[$i]['lastname']  = $user->getLastname();
+            $result[$i]['lastname'] = $user->getLastname();
             ++$i;
         }
 

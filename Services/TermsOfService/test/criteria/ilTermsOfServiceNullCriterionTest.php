@@ -136,7 +136,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     public function testValuePresentationMatchesExpectation() : void
     {
         $criterion = $this->getInstance();
-        $gui       = $criterion->ui($this->lng);
+        $gui = $criterion->ui($this->lng);
 
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
@@ -154,7 +154,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
      */
     public function testEvaluationAlwaysSucceeds() : void
     {
-        $user      = $this->getUserMock();
+        $user = $this->getUserMock();
         $criterion = $this->getInstance();
 
         $this->assertTrue($criterion->evaluate($user, $this->getCriterionConfig()));

@@ -19,7 +19,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      * presentation mode for embedded presentation, e.g. in a kiosk mode
      */
-    const PRESENTATION_MODE_EMBEDDED_PRESENTATION =  'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
+    const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     /**
      * @var string
@@ -66,9 +66,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
         \ilLanguage $lng,
         \ilObjContentPage $parentObject
     ) {
-        $this->ctrl         = $ctrl;
-        $this->tabs         = $tabs;
-        $this->lng          = $lng;
+        $this->ctrl = $ctrl;
+        $this->tabs = $tabs;
+        $this->lng = $lng;
         $this->parentObject = $parentObject;
 
         $this->lng->loadLanguageModule('content');

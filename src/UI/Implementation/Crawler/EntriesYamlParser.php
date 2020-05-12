@@ -285,10 +285,10 @@ class EntriesYamlParser implements YamlParser
     {
         $entry_data['title'] = self::fromCamelCaseToWords($entry_data['function_name']);
 
-        if (!array_key_exists("title", $entry_data) || !$entry_data['title'] || $entry_data['title'] =="") {
+        if (!array_key_exists("title", $entry_data) || !$entry_data['title'] || $entry_data['title'] == "") {
             throw $this->ef->exception(Exception\CrawlerException::ENTRY_TITLE_MISSING, " File: " . $this->file_path);
         }
-        if (!array_key_exists("namespace", $entry_data) || !$entry_data['namespace'] || $entry_data['namespace'] =="") {
+        if (!array_key_exists("namespace", $entry_data) || !$entry_data['namespace'] || $entry_data['namespace'] == "") {
             throw $this->ef->exception(Exception\CrawlerException::ENTRY_WITH_NO_VALID_RETURN_STATEMENT, " File: " . $this->file_path);
         }
 

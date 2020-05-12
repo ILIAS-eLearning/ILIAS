@@ -33,8 +33,7 @@ class ilStudyProgrammeDIC
         };
         $dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeSettingsDBRepository(
-                $DIC['ilDB'],
-                $dic['ilOrgUnitObjectTypePositionSetting']
+                $DIC['ilDB']
             );
         };
         $dic['model.Progress.ilStudyProgrammeProgressRepository'] = function ($dic) use ($DIC) {
@@ -79,7 +78,9 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC->refinery(),
                 $dic['DataFactory'],
-                $dic['model.Type.ilStudyProgrammeTypeRepository']
+                $dic['model.Type.ilStudyProgrammeTypeRepository'],
+                $dic['ilStudyProgrammeCommonSettingsGUI'],
+                $DIC['ilTabs']
             );
         };
         $dic['ilObjStudyProgrammeMembersGUI'] = function ($dic) use ($DIC) {
@@ -87,6 +88,7 @@ class ilStudyProgrammeDIC
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
                 $DIC['ilToolbar'],
+                $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['ilUser'],
                 $DIC['ilTabs'],
@@ -94,7 +96,7 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeUserAssignmentDB'],
                 $dic['ilStudyProgrammeRepositorySearchGUI'],
                 $dic['ilObjStudyProgrammeIndividualPlanGUI'],
-                $dic['ilStudyProgrammePostionBasedAccess']
+                $dic['ilStudyProgrammePositionBasedAccess']
             );
         };
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function ($dic) use ($DIC) {
@@ -104,6 +106,8 @@ class ilStudyProgrammeDIC
                 $DIC['ilToolbar'],
                 $DIC['lng'],
                 $DIC->ui()->factory(),
+                $DIC['ui.factory']->messageBox(),
+                $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC['tree']
@@ -158,6 +162,8 @@ class ilStudyProgrammeDIC
                 $DIC['ilToolbar'],
                 $DIC['lng'],
                 $DIC->ui()->factory(),
+                $DIC['ui.factory']->messageBox(),
+                $DIC['ui.factory']->button(),
                 $DIC->ui()->renderer(),
                 $DIC->http()->request(),
                 $DIC['tree']
@@ -169,7 +175,7 @@ class ilStudyProgrammeDIC
         $dic['ilStudyProgrammeUserProgressDB'] = function ($dic) use ($DIC) {
             $lng = $DIC['lng'];
             if (strpos(get_class($lng), 'class@anonymous') === 0) {
-                $lng =  new \ilSetupLanguage("en");
+                $lng = new \ilSetupLanguage("en");
             }
 
             return new ilStudyProgrammeUserProgressDB(
@@ -200,11 +206,8 @@ class ilStudyProgrammeDIC
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };
-        $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
-            return new ilOrgUnitObjectTypePositionSetting('prg');
-        };
-        $dic['ilStudyProgrammePostionBasedAccess'] = function ($dic) {
-            return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
+        $dic['ilStudyProgrammePositionBasedAccess'] = function ($dic) {
+            return new ilStudyProgrammePositionBasedAccess(new ilOrgUnitPositionAccess());
         };
         $dic['ilStudyProgrammeMailMemberSearchGUI'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeMailMemberSearchGUI(
@@ -254,6 +257,15 @@ class ilStudyProgrammeDIC
                 $DIC['ui.renderer'],
                 $DIC['ilCtrl'],
                 $dic['Log']
+            );
+        };
+
+        $dic['ilStudyProgrammeCommonSettingsGUI'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeCommonSettingsGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC->object()
             );
         };
 

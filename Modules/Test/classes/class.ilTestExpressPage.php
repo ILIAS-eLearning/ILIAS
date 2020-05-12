@@ -9,7 +9,7 @@ class ilTestExpressPage
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $q_id  = $q_id ? $q_id : $_REQUEST['q_id'];
+        $q_id = $q_id ? $q_id : $_REQUEST['q_id'];
         $refId = self::fetchTargetRefIdParameter();
 
         if ($_REQUEST['q_id']) {

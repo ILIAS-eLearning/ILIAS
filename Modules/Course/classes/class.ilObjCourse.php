@@ -702,7 +702,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     }
     public function getArchiveEnd()
     {
-        return $this->archive_end ? $this->archive_end : mktime(0, 0, 0, 12, 12, date("Y", time())+2);
+        return $this->archive_end ? $this->archive_end : mktime(0, 0, 0, 12, 12, date("Y", time()) + 2);
     }
     public function setArchiveEnd($a_value)
     {
@@ -1593,9 +1593,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setShowMembers($row->show_members);
 
             if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
-            $this->setShowMembersExport($row->show_members_export);
-            }
-            else {
+                $this->setShowMembersExport($row->show_members_export);
+            } else {
                 $this->setShowMembersExport(false);
             }
             $this->setLatitude($row->latitude);
@@ -1822,7 +1821,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
         if (empty($this->local_roles)) {
             $this->local_roles = array();
-            $role_arr  = $rbacreview->getRolesOfRoleFolder($this->getRefId());
+            $role_arr = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
             foreach ($role_arr as $role_id) {
                 if ($rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
@@ -1865,14 +1864,14 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $crs_id = $this->getRefId();
         }
 
-        $role_arr  = $rbacreview->getRolesOfRoleFolder($crs_id);
+        $role_arr = $rbacreview->getRolesOfRoleFolder($crs_id);
 
         foreach ($role_arr as $role_id) {
-            $role_Obj =&$this->ilias->obj_factory->getInstanceByObjId($role_id);
+            $role_Obj = &$this->ilias->obj_factory->getInstanceByObjId($role_id);
 
-            $crs_Member ="il_crs_member_" . $crs_id;
-            $crs_Admin  ="il_crs_admin_" . $crs_id;
-            $crs_Tutor  ="il_crs_tutor_" . $crs_id;
+            $crs_Member = "il_crs_member_" . $crs_id;
+            $crs_Admin = "il_crs_admin_" . $crs_id;
+            $crs_Tutor = "il_crs_tutor_" . $crs_id;
 
             if (strcmp($role_Obj->getTitle(), $crs_Member) == 0) {
                 $arr_crsDefaultRoles["crs_member_role"] = $role_Obj->getId();
@@ -1932,7 +1931,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role =&ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_tutor_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -1945,7 +1944,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role =&ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_admin_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -2428,7 +2427,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $part = new ilCourseParticipants($row["obj_id"]);
             $reci = $part->getNotificationRecipients();
             if (sizeof($reci)) {
-                $missing = (int) $row["min_members"]-$part->getCountMembers();
+                $missing = (int) $row["min_members"] - $part->getCountMembers();
                 if ($missing > 0) {
                     $res[$row["obj_id"]] = array($missing, $reci);
                 }

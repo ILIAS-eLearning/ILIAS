@@ -142,7 +142,7 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
-survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_title#:#Survey: Survey-Reminder
 survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
 survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
 survey#:#svy_reminder_mail_template#:#Mail Template
@@ -169,6 +169,8 @@ auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
 auth#:#auth_oidc_settings_provider#:#Provider-Url
 auth#:#auth_oidc_settings_client_id#:#Client-ID
 auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
+auth#:#auth_oidc_settings_additional_scopes#:#Additional Scopes
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s
 auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
 auth#:#auth_oidc_settings_txt#:#Text
 auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
@@ -286,11 +288,11 @@ crs#:#crs_timings_optional_unchecked#:#Optional mode was deactivated for this us
 crs#:#crs_timings_optional_on#:#Optional mode is active.
 crs#:#crs_timings_optional_on_and_passed#:#Optional mode is active and cannot be changed because user is passed.
 crs#:#crs_timings_optional_off#:#Optional mode is not active.
-lti#:#lti_object_release_settings_form#:#LTI Freigaben bearbeiten
-lti#:#lti_provider#:#LTI-Freigaben
+lti#:#lti_object_release_settings_form#:#Edit LTI Releases
+lti#:#lti_provider#:#LTI Releases
 lti#:#lti_launch_url#:#Url
-lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_consumer#:#Freigabe für
+lti#:#lti_released_objects#:#Object Releases
+lti#:#lti_consumer#:#Release for
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
 orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
@@ -2970,6 +2972,7 @@ common#:#local#:#Local
 common#:#location#:#Location
 common#:#locator#:#Location:
 common#:#log_in#:#Login
+common#:#log_out#:#Logout
 common#:#logic_or#:#or
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
@@ -3589,6 +3592,8 @@ common#:#role_add_user#:#Add User(s) to role
 common#:#role_added#:#Role added
 common#:#role_assignment_updated#:#Role assignment has been updated.
 common#:#role_assignment#:#Role Assignment
+common#:#global_role_assignment#:#Globale Rollenzuweisung
+common#:#local_role_assignment#:#Lokale Rollenzuweisung
 common#:#role_edit#:#Edit Role
 common#:#role_mailto#:#Mail to all assigned Users
 common#:#role_new_search#:#New search
@@ -4015,10 +4020,12 @@ rbac#:#usrf_write#:#Edit settings in User administration
 common#:#usrf#:#User accounts
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
+common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.
+common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.)\nWhen ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.)\nWhen ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action and the other way around, if a user with the same login exists in the database).
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
@@ -5993,6 +6000,10 @@ mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.
+mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
+mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -6754,6 +6765,7 @@ pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and 
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.
 ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
@@ -8145,7 +8157,6 @@ dateplaner#:#cal_ch_form_header#:#Consultation Hours
 dateplaner#:#cal_ch_form_info#:#This option enables the management of personal consultation hours in the calendar.
 dateplaner#:#cal_ch_form#:#Enable Consultation Hours
 dateplaner#:#app_consultation_hours#:#Consultation Hours
-rbac#:#log#:#Log
 rbac#:#rbac_log#:#Log
 rbac#:#rbac_changes#:#Changes
 rbac#:#rbac_log_operation_add#:#Added Operation for "%s"
@@ -9023,8 +9034,8 @@ exc#:#exc_portfolio_created#:#Portfolio was created.
 mail#:#mail_member_notification#:#Participant Notification
 mail#:#mail_enable_crs_member_notification#:#Notify Course Members
 mail#:#mail_enable_grp_member_notification#:#Notify Group Members
-mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the plattform.
-mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the plattform.
+mail#:#mail_enable_crs_member_notification_info#:#ILIAS will automatically send an e-mail to every course member if his or her membership status is changed. This setting applies to all courses on the platform.
+mail#:#mail_enable_grp_member_notification_info#:#ILIAS will automatically send an e-mail to every group member if his or her membership status is changed. This setting applies to all groups on the platform.
 common#:#usr_account_inactive#:#Inactive Account
 common#:#portfolio#:#Portfolio
 prtf#:#prtf_default_portfolio#:#My Profile
@@ -10760,7 +10771,6 @@ rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
-forum#:#sticky_threads_always_on_top#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ you are able to sort the threads manually, if you have chosen this option.
 forum#:#frm_sticky_threads_latest_at_top#:#‘Sticky Threads’ at Top
 forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Threads’ are always listed at the top of the list of threads. Within the ‘Sticky Threads’ the thread with the latest posting iss listed at top.
 forum#:#frm_sticky_threads_manual_sorting#:#Manual Sorting of ‘Sticky Threads’
@@ -11459,12 +11469,13 @@ orgu#:#remove_user#:#Remove
 orgu#:#msg_confirm_remove_user#:#Would you really like to remove the following User from the Position %s?
 orgu#:#msg_confirm_d_ua#:#Would you like to assign these person to the position Employee of their respective Organisational Units?
 orgu#:#user_assignments#:#User Assignments
+orgu#:#user_assignments_recursive#:#User Assignments Subtree
 orgu#:#authorities#:#Authorities
 orgu#:#authority#:#Authority
 orgu#:#positions#:#Positions
 orgu#:#add_position#:#Add Position
 orgu#:#scope_1#:#Same Organisational Unit
-orgu#:#scope_2#:#Subsequent Organisational Units
+orgu#:#scope_2#:#Same and Subsequent Organisational Units
 orgu#:#scope_3#:#All Organisational Units
 orgu#:#over_-1#:#Everyone
 orgu#:#over#:#Over
@@ -13158,9 +13169,9 @@ obj#:#obj_target_location#:#Target Location
 obj#:#obj_copy_progress#:#Copy Progress
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
-crs#:#crs_mail_context_tutor_title#:#Mail to Course Member
-crs#:#crs_mail_context_member_title#:#Info Page Course
-sahs#:#sahs_mail_context_lp#:#SCORM Learning Progress
+crs#:#crs_mail_context_tutor_title#:#Course: Mail to Member
+crs#:#crs_mail_context_member_title#:#Course: Info Page
+sahs#:#sahs_mail_context_lp#:#Learning Module SCORM: Learning Progress
 mail#:#mail_templates#:#Text Templates
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_template_set_as_default#:#Set as Default
@@ -13421,7 +13432,6 @@ prg#:#prg_remove_user_success#:#Removed User successfully.
 prg#:#prg_type_add#:#Study Programme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_adv_settings#:#Advanced Settings
 prg#:#prg_type_custom_icon#:#Custom Icons
 prg#:#prg_type_custom_icon_info#:#Custom icon info
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
@@ -13650,7 +13660,7 @@ chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default I
 chatroom#:#client_chatserver_connection#:#Client to Server Connection
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.
-chatroom#:#log#:#Chatserver Log
+chatroom#:#chatroom_log#:#Chatserver Log
 chatroom#:#error_log#:#Chatserver Error-Log
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 crs#:#event_tbl_admins#:#Administrators
@@ -14099,7 +14109,7 @@ iass#:#iass_notify#:#Notify participant after finalization
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
-iass#:#iass_may_not_finalize#:#Examinee may not be finalised.
+iass#:#iass_may_not_finalize#:#Examinee may not be finalised. Please grade the user first.
 iass#:#iass_subj_notification_completed#:#%s: Individual Assessment completed.
 iass#:#iass_subj_notification_failed#:#%s: Individual Assessment failed.
 iass#:#iass_usr_download_attachment#:#Download Attachment
@@ -14163,6 +14173,7 @@ chatroom#:#chat_https_key_info#:#Please define an absolute server path to the pr
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_log_info#:#Please define an absolute server path to the chat server's log file (e.g.: /var/www/ilias/data/chat.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
+chatroom#:#chat_log_level#:#Log Level
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
@@ -14771,11 +14782,11 @@ exc#:#exc_reminders_cron_info#:#If enabled, 3 reminders will be active: Users to
 exc#:#exc_reminder_end#:#Reminder ends
 exc#:#exc_reminder_mail_template#:#Mail Template
 exc#:#exc_reminder_mail_no_tpl#:#Do not use mail template
-exc#:#exc_mail_context_submit_reminder_title#:#Exercise Submit Reminder
+exc#:#exc_mail_context_submit_reminder_title#:#Exercise: Submit Reminder
 exc#:#exc_mail_context_submit_reminder_info#:#Reminder Users to Submit an Assignment
-exc#:#exc_mail_context_grade_reminder_title#:#Exercise Grade Reminder
+exc#:#exc_mail_context_grade_reminder_title#:#Exercise: Grade Reminder
 exc#:#exc_mail_context_grade_reminder_info#:#Reminder Tutors/Teachers to Grade an Assignment
-exc#:#exc_mail_context_peer_reminder_title#:#Exercise Feedback/Peer Reminder
+exc#:#exc_mail_context_peer_reminder_title#:#Exercise: Feedback/Peer Reminder
 exc#:#exc_mail_context_peer_reminder_info#:#Reminder Users to provide Feedback in an Assignment
 exc#:#exc_mail_context_reminder_assignment_title#:#Assignment Title
 exc#:#exc_mail_context_reminder_exercise_title#:#Exercise Title
@@ -15005,7 +15016,7 @@ iass#:#iass_further_field_headline#:#Detailed Information
 iass#:#iass_no_entries#:#No entries found.
 iass#:#iass_filter_all#:#All
 iass#:#iass_filter_not_started#:#Not started only
-iass#:#iass_filter_not_finalized#:#Not completed only
+iass#:#iass_filter_not_finalized#:#Drafts only
 iass#:#iass_filter_finalized#:#Completed only
 iass#:#iass_filter_failed#:#Failed only
 iass#:#iass_file#:#File
@@ -15068,7 +15079,7 @@ sess#:#sess_show_members#:#Show Participants
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
 sess#:#sess_member_administration#:#Edit Participants
 sess#:#sess_members_gallery#:#Session Gallery
-sess#:#sess_mail_context_participant_title#:#Sitzung: Mail to Participants
+sess#:#sess_mail_context_participant_title#:#Session: Mail to Participants
 sess#:#sess_mail_context_participant_info#:#For the participant e-mails on the participants and learning progress screens of a session
 sess#:#mail_sess_roles#:#Send Mail to Session Roles
 sess#:#send_mail_participants#:#All Participants of Session
@@ -15109,11 +15120,11 @@ lso#:#table_online#:#Online
 lso#:#table_may_proceed#:#User may proceed
 lso#:#table_actions#:#Actions
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
-lso#:#entries_deleted#:#Successfuly delete entries
+lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#no_entries_selected_for_delete#:#There has to be at least one entry selected.
 lso#:#lso_member_administration#:#Edit Participants
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
-lso#:#lso_start_item#:#Start
+lso#:#lso_start_item#:#Open %s
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_print_list#:#Generate list
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
@@ -15958,10 +15969,10 @@ prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
 prg#:#modal_automembership_title#:#Automatismus hinzufügen
 prg#:#membership_source_type#:#Source
 prg#:#prg_autoassignment#:#(auto)
-prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
-prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
-prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
-prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
+prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
 orgu#:#org_op_view_members#:#View Members
 orgu#:#org_op_view_individual_plan#:#View Individual Plan
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
@@ -15980,9 +15991,9 @@ prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
 prg#:#prg_title#:#Title
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
-prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
 prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
 prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
 prg#:#prg_processing_ends_no_success#:#Reminder mail failing
@@ -16014,8 +16025,8 @@ prg#:#prg_status_4#:#Not Relevant
 prg#:#prg_status_5#:#failed
 prg#:#prg_multi_change_deadline#:#Change deadline
 prg#:#prg_multi_change_expire_date#:#Change expire date
-prg#:#update_expire_date#:#Successfuly update expire date.
-prg#:#update_deadline#:#Successfuly update deadline.
+prg#:#update_expire_date#:#Successfully update expire date.
+prg#:#update_deadline#:#Successfully update deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#error_updating_deadline#:#Error during updating deadline.
 prg#:#select_crs#:#Search for Courses
@@ -16025,28 +16036,28 @@ prg#:#select_org#:#Search for Organisational Unit
 prg#:#label_crs#:#Course Name
 prg#:#label_grp#:#Group Name
 prg#:#label_role#:#Role Name
-prg#:#modal_member_auto_select_title#:#Select Source for auto assignment
+prg#:#modal_member_auto_select_title#:#Select source for auto assignment
 prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 badge#:#badge_new_badges#:#You have %1 new badge(s).
 content#:#cont_no_read#:#No read permission
-content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout
-content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout
-content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock
-content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
-content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
-content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
-content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
-content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
-dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
-rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
-rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
-rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
-rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
-task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
+content#:#cont_grid_t_two_column#:#Two-column-layout
+content#:#cont_grid_t_two_column_info#:#Creates two equally wide columns next to each other. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_three_column#:#Three-column-Layout
+content#:#cont_grid_t_three_column_info#:#Creates three columns of equal width next to each other. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_main_side#:#Main and side block
+content#:#cont_grid_t_main_side_info#:#Creates a wide column on the left and a narrower column on the right. Switches to a one-column layout in Mobile View (small).
+content#:#cont_grid_t_two_by_two#:#Two-time-two-box
+content#:#cont_grid_t_two_by_two_info#:#Creates two rows with two columns of equal width. Switches to a one-column layout in mobile view (small) and to a four-column layout on extra-wide screens (extra large).
+content#:#cont_grid_t_manual#:#Manually created page layout
+content#:#cont_grid_t_manual_info#:#Enables the free design of the number and width of columns.
+dateplaner#:#cal_no_events_block#:#There are no dates available for you.
+rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
+rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
+rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.
+task#:#task_no_task_items#:#There are no tasks for you.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
 prg#:#prg_quali_still_valid#:#Qualification still valid
@@ -16060,7 +16071,7 @@ prg#:#prg_points_byline#:#Students get a certain amount of points when they succ
 prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.
 prg#:#prg_description#:#Description
 prg#:#prg_link#:#Link
-prg#:#prg_mail_context_title#:#Mail to Members
+prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme
 copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
@@ -16091,3 +16102,44 @@ ui#:#ui_numeric_only#:#Please insert a whole number.
 mmbr#:#mmbr_memberships#:#Memberships
 notes#:#note_without_object#:#Without reference
 prg#:#msg_fill_required#:#Please fill all required fields.
+iass#:#iass_file_dropzone#:#you can drop your files here
+iass#:#iass_confirm_finalize#:#Finalize
+iass#:#iass_cancel#:#Cancel
+iass#:#iass_finalize_info#:#Individual Assessment will be finalized.
+iass#:#download_assessment_paper#:#Download Record file
+iass#:#iass_user_removed#:#User successfully removed.
+prg#:#prg_profile_not_public#:#Profile of the user is not public.
+prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.
+prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?
+prg#:#prg_confirm_delete#:#Delete
+prg#:#prg_cancel#:#Cancel
+prg#:#prg_delete_failure#:#Delete failed.
+prg#:#prg_delete_success#:#Successfuly delete entries.
+prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?
+prg#:#prg_delete_single_success#:#Successfuly delete entry.
+common#:#obj_lsos#:#Learning Sequences
+common#:#obj_lsos_desc#:#General settings for Learning Sequences
+mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.
+mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators
+mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
+prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
+common#:#collapse_content#:#Collapse Content
+common#:#expand_content#:#Expand Content
+common#:#briefcase#:#Background Tasks
+common#:#sort_ascending#:#Sort Ascending
+common#:#sort_descending#:#Sort Descending
+common#:#show_who_is_online#:#Show who is online
+common#:#tags#:#Tags
+common#:#comments#:#Comments
+common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
+common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
+common#:#show_more#:#Show More
+common#:#disclose#:#Disclose
+common#:#switch_language#:#Switch Language
+lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
+lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
+lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.

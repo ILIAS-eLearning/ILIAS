@@ -70,8 +70,8 @@ class ilRegistrationRoleAssignments
         return $this->getDefaultRole();
     }
 
-    public function getDomainsByRole(int $role_id) {
-
+    public function getDomainsByRole(int $role_id)
+    {
         $ilDB = $this->db;
 
         $query = $ilDB->query("SELECT * FROM reg_er_assignments " .
@@ -90,7 +90,7 @@ class ilRegistrationRoleAssignments
         return $this->assignments ? $this->assignments : array();
     }
 
-    public function setDomain(int $id ,string $a_domain)
+    public function setDomain(int $id, string $a_domain)
     {
         $this->assignments[$id]['domain'] = $a_domain;
     }
@@ -110,7 +110,6 @@ class ilRegistrationRoleAssignments
 
     public function deleteAll()
     {
-
         $ilDB = $this->db;
 
         $query = "DELETE FROM reg_er_assignments ";
@@ -130,7 +129,7 @@ class ilRegistrationRoleAssignments
         $ilias->setSetting('reg_default_role', $this->getDefaultRole());
 
         foreach ($this->assignments as $assignment) {
-            if(empty($assignment['id'])) {
+            if (empty($assignment['id'])) {
                 $next_id = $ilDB->nextId('reg_er_assignments');
                 $query = "INSERT INTO reg_er_assignments (assignment_id,domain,role) " .
                     "VALUES( " .
@@ -159,7 +158,7 @@ class ilRegistrationRoleAssignments
 
         $this->assignments = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->assignments[$row->assignment_id]['id'] =  $row->assignment_id;
+            $this->assignments[$row->assignment_id]['id'] = $row->assignment_id;
             $this->assignments[$row->assignment_id]['role'] = $row->role;
             $this->assignments[$row->assignment_id]['domain'] = $row->domain;
         }

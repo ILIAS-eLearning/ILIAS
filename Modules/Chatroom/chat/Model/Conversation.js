@@ -34,11 +34,14 @@ var Conversation = function Conversation(id, participants)
 		return _id;
 	};
 
+	/**
+	 * 
+	 * @param participants
+	 * @returns {boolean}
+	 */
 	this.matchesParticipants = function(participants) {
-		for(var index in _participants)
-		{
-			if(_participants.hasOwnProperty(index) && !hasParticipant(_participants[index], participants))
-			{
+		for (let index in _participants) {
+			if (_participants.hasOwnProperty(index) && !hasParticipant(_participants[index], participants)) {
 				return false;
 			}
 		}
@@ -108,8 +111,8 @@ var Conversation = function Conversation(id, participants)
 	};
 
 	this.removeParticipant = function(participant) {
-		var participantIndex = getParticipantIndex(participant, _participants);
-		if (participantIndex !== false) {
+		let participantIndex = getParticipantIndex(participant, _participants);
+		if (participantIndex !== -1) {
 			_participants.splice(participantIndex, 1);
 			participant.removeConversation(this);
 		}
@@ -159,39 +162,41 @@ var Conversation = function Conversation(id, participants)
 		}
 	}
 
+	/**
+	 * 
+	 * @param participant
+	 * @param participants
+	 * @returns {number}
+	 */
 	function getParticipantIndex(participant, participants) {
-		for (var key in participants) {
-			if (participants.hasOwnProperty(key)) {
-				var id = participants[key].id;
-
-				if (typeof participants[key].getId === 'function'){
-					id = participants[key].getId();
-				}
-
-				if (id == participant.getId()) {
-					return key;
-				}
+		const index = participants.findIndex(function(val) {
+			if (null === val) {
+				return false;
 			}
-		}
-		return false;
+
+			let id = val.id;
+			if (typeof val.getId === 'function') {
+				id = val.getId();
+			}
+
+			if (id.toString() === participant.getId().toString()) {
+				return true;
+			}
+
+			return false;
+		});
+
+		return index;
 	}
 
+	/**
+	 * 
+	 * @param participant
+	 * @param participants
+	 * @returns {boolean}
+	 */
 	function hasParticipant(participant, participants) {
-		for(var key in participants) {
-			if(participants.hasOwnProperty(key)) {
-				var id = participants[key].id;
-
-				if(typeof participants[key].getId === 'function'){
-					id = participants[key].getId();
-				}
-
-				if(id > 0 && id == participant.getId()) {
-					return true;
-				}
-			}
-
-		}
-		return false;
+		return getParticipantIndex(participant, participants) !== -1;
 	}
 };
 

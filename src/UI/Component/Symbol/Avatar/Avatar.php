@@ -7,7 +7,5 @@ namespace ILIAS\UI\Component\Symbol\Avatar;
  */
 interface Avatar extends \ILIAS\UI\Component\Symbol\Symbol
 {
-
     public function getUsername() : string;
-
 }

@@ -39,14 +39,14 @@ class ilCalendarFileHandler
 
             /*
                         global $DIC;
-            
+
                         $factory = $DIC->backgroundTasks()->taskFactory();
                         $taskManager = $DIC->backgroundTasks()->taskManager();
-            
+
                         // We create a bucket that will be scheduled and set the user that should observe the bucket.
                         $bucket = new BasicBucket();
                         $bucket->setUserId($DIC->user()->getId());
-            
+
                         // Combine the tasks. This will create a task that looks like this: (1 + 1) + (1 + 2).
                         include_once("./Services/Calendar/FileHandler/classes/class.ilCalFileZipJob.php");
                         $a = $factory->createTask(ilCalFileZipJob::class, [$last_file]);
@@ -55,18 +55,18 @@ class ilCalendarFileHandler
                         // $a = $factory->createTask(PlusJob::class, [new IntegerValue(1), new IntegerValue(1)]);
                         //$b = $factory->createTask(PlusJob::class, [1, 2]);
                         //$c = $factory->createTask(PlusJob::class, [$a, $b]);
-            
+
                         // The last task is a user interaction that allows the user to download the result calculated above.
                         $userInteraction = $factory->createTask(DownloadInteger::class, [$c]);
-            
+
                         // We put the combined task into the bucket and add some description
                         $bucket->setTask($userInteraction);
                         $bucket->setTitle("Some calculation.");
                         $bucket->setDescription("We calculate 5!");
-            
+
             // We schedule the task.
                         $taskManager->run($bucket);
-            
+
             // We redirect somewhere.
                         $this->ctrl->redirect($this, "showContent");
             */

@@ -177,17 +177,17 @@ class ilSCORMItem extends ilSCORMObject
         $str_visible = ($this->getVisible()) ? 'true' : 'false';
         
         $ilDB->insert('sc_item', array(
-            'obj_id'			=> array('integer', $this->getId()),
-            'import_id'			=> array('text', $this->getImportId()),
-            'identifierref'		=> array('text', $this->getIdentifierRef()),
-            'isvisible'			=> array('text', $str_visible),
-            'parameters'		=> array('text', $this->getParameters()),
-            'prereq_type'		=> array('text', $this->getPrereqType()),
-            'prerequisites'		=> array('text', $this->getPrerequisites()),
-            'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
-            'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
-            'datafromlms'		=> array('clob', $this->getDataFromLms()),
-            'masteryscore'		=> array('text', $this->getMasteryScore())
+            'obj_id' => array('integer', $this->getId()),
+            'import_id' => array('text', $this->getImportId()),
+            'identifierref' => array('text', $this->getIdentifierRef()),
+            'isvisible' => array('text', $str_visible),
+            'parameters' => array('text', $this->getParameters()),
+            'prereq_type' => array('text', $this->getPrereqType()),
+            'prerequisites' => array('text', $this->getPrerequisites()),
+            'maxtimeallowed' => array('text', $this->getMaxTimeAllowed()),
+            'timelimitaction' => array('text', $this->getTimeLimitAction()),
+            'datafromlms' => array('clob', $this->getDataFromLms()),
+            'masteryscore' => array('text', $this->getMasteryScore())
         ));
     }
 
@@ -203,19 +203,19 @@ class ilSCORMItem extends ilSCORMObject
         $ilDB->update(
             'sc_item',
             array(
-                'import_id'			=> array('text', $this->getImportId()),
-                'identifierref'		=> array('text', $this->getIdentifierRef()),
-                'isvisible'			=> array('text', $str_visible),
-                'parameters'		=> array('text', $this->getParameters()),
-                'prereq_type'		=> array('text', $this->getPrereqType()),
-                'prerequisites'		=> array('text', $this->getPrerequisites()),
-                'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
-                'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
-                'datafromlms'		=> array('clob', $this->getDataFromLms()),
-                'masteryscore'		=> array('text', $this->getMasteryScore())
+                'import_id' => array('text', $this->getImportId()),
+                'identifierref' => array('text', $this->getIdentifierRef()),
+                'isvisible' => array('text', $str_visible),
+                'parameters' => array('text', $this->getParameters()),
+                'prereq_type' => array('text', $this->getPrereqType()),
+                'prerequisites' => array('text', $this->getPrerequisites()),
+                'maxtimeallowed' => array('text', $this->getMaxTimeAllowed()),
+                'timelimitaction' => array('text', $this->getTimeLimitAction()),
+                'datafromlms' => array('clob', $this->getDataFromLms()),
+                'masteryscore' => array('text', $this->getMasteryScore())
             ),
             array(
-                'obj_id'			=> array('integer', $this->getId())
+                'obj_id' => array('integer', $this->getId())
             )
         );
     }

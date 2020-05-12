@@ -36,31 +36,34 @@ il.MediaObjects = {
 		// video ?
 		video_el = $(t).find('video');
 		if (video_el.length > 0) {
+			const video_el_id = video_el.parent().attr('id');
 			$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
-			video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
+			video_el_wrap = $('#' + video_el_id + "_vtwrap");
 			
 			il.Lightbox.activateView('media_lightbox');
 			location.hash = "detail";
 			il.MediaObjects.lb_opened = true;
 			
 			//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
-			il.Lightbox.loadWrapperToLightbox(video_el.attr('id') + "_wrapper", "media_lightbox");
+			il.Lightbox.loadWrapperToLightbox(video_el_id + "_wrapper", "media_lightbox");
 	
-			video_el.removeClass('ilNoDisplay');
+			//video_el.removeClass('ilNoDisplay');
 			video_el_wrap.removeClass('ilNoDisplay');
+			video_el_wrap.find(".ilNoDisplay").removeClass('ilNoDisplay');
 			video_el.attr('autoplay', 'true');
-			player = new MediaElementPlayer('#' + video_el.attr('id'), {
+			player = new MediaElementPlayer(video_el.attr('id'), {
 				success: function (mediaElement, domObject) {
 					// add event listener
 					mediaElement.addEventListener('play', function(e) {
+						console.log("player started");
 						il.MediaObjects.playerStarted(video_el.attr('id'));
 					}, false);		
 				}
 
 				});
 			// this fails in safari if a flv file has been called before
-			//player.play();
-			il.MediaObjects.current_player_id = video_el.attr('id');
+			player.play();
+			il.MediaObjects.current_player_id = video_el_id;
 			il.MediaObjects.current_player = player;
 		} else {
 			// audio ?
@@ -177,7 +180,7 @@ il.MediaObjects = {
 		$("video, audio").each(function () {
 			var id = $(this).attr("id");
 			if ($(this).attr("id") != "") {
-				new MediaElementPlayer('#' + id);
+				new MediaElementPlayer(id);
 			}
 
 		});

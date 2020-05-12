@@ -137,10 +137,10 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
         }
 
         $criterionIdCurrent = $this->getCriterionId();
-        $criterionIdNew     = $other->getCriterionId();
+        $criterionIdNew = $other->getCriterionId();
 
         $valueCurrent = $this->getCriterionValue();
-        $valueNew     = $other->getCriterionValue();
+        $valueNew = $other->getCriterionValue();
 
         $equals = (
             $criterionIdCurrent == $criterionIdNew &&

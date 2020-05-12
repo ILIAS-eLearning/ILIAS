@@ -2,16 +2,16 @@
 function async()
 {
     global $DIC;
-    $f        = $DIC->ui()->factory();
+    $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $async_close              = $_SERVER['REQUEST_URI'] . '&close_item=true';
-    $async_replace_url               = $_SERVER['REQUEST_URI'] . '&async_load_replace=true';
-    $async_replace_content_load_url               = $_SERVER['REQUEST_URI'] . '&async_load_replace_content=true';
+    $async_close = $_SERVER['REQUEST_URI'] . '&close_item=true';
+    $async_replace_url = $_SERVER['REQUEST_URI'] . '&async_load_replace=true';
+    $async_replace_content_load_url = $_SERVER['REQUEST_URI'] . '&async_load_replace_content=true';
 
     //Creating a Mail Notification Item
-    $icon              = $f->symbol()->icon()->standard("chtr", "chtr");
-    $title             = $f->link()->standard("Some Title", "#");
+    $icon = $f->symbol()->icon()->standard("chtr", "chtr");
+    $title = $f->link()->standard("Some Title", "#");
     $item = $f->item()->notification($title, $icon)->withCloseAction($async_close);
 
     $async_item = $item->withAggregateNotifications([$item->withDescription("Original Item")]);

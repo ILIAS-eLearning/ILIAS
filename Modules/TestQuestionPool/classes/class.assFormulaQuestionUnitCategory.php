@@ -39,8 +39,8 @@ class assFormulaQuestionUnitCategory
      */
     public function initFormArray(array $data)
     {
-        $this->id          = $data['category_id'];
-        $this->category    = $data['category'];
+        $this->id = $data['category_id'];
+        $this->category = $data['category'];
         $this->question_fi = $data['question_fi'];
     }
 

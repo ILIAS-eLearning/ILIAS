@@ -34,11 +34,11 @@ function buildMainbar($f, $r)
     $entries['organisation'] = getDemoEntryOrganisation($f);
     $entries['administration'] = getDemoEntryAdministration($f);
 
-    foreach ($entries as $id=>$entry) {
+    foreach ($entries as $id => $entry) {
         $mainbar = $mainbar->withAdditionalEntry($id, $entry);
     }
     $tools = getDemoEntryTools($f);
-    foreach ($tools as $id=>$entry) {
+    foreach ($tools as $id => $entry) {
         $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
     }
 

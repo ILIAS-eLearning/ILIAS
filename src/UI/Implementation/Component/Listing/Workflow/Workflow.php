@@ -58,7 +58,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     public function withActive($active)
     {
         $this->checkIntArg("int", $active);
-        if ($active < 0 || $active > $this->getAmountOfSteps() -1) {
+        if ($active < 0 || $active > $this->getAmountOfSteps() - 1) {
             throw new \InvalidArgumentException("active must be be within the amount of steps", 1);
         }
         $clone = clone $this;

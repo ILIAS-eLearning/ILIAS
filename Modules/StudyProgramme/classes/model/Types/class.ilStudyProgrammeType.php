@@ -202,7 +202,7 @@ class ilStudyProgrammeType
     {
         $assigned_amd_records = $this->type_repo->readAssignedAMDRecordIdsByType($this->getId());
         if (!in_array($record_id, $assigned_amd_records)) {
-            if (!in_array($record_id, $this->type_repo->readAllAMDRecords())) {
+            if (!in_array($record_id, $this->type_repo->readAllAMDRecordIds())) {
                 throw new ilStudyProgrammeTypeException("AdvancedMDRecord with ID {$record_id} cannot be assigned to StudyProgramme types");
             }
             /** @var ilStudyProgrammeTypeHookPlugin $plugin */

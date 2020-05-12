@@ -76,7 +76,7 @@ class ilObjOrgUnit extends ilContainer
         parent::create();
         $ilDB->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
-            'orgu_id'      => array('integer', $this->getId()),
+            'orgu_id' => array('integer', $this->getId()),
         ));
     }
 
@@ -97,7 +97,7 @@ class ilObjOrgUnit extends ilContainer
         } else {
             $ilDB->insert(self::TABLE_NAME, array(
                 'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
-                'orgu_id'      => array('integer', $this->getId()),
+                'orgu_id' => array('integer', $this->getId()),
             ));
         }
         // Update selection for advanced meta data of the type
@@ -259,11 +259,11 @@ class ilObjOrgUnit extends ilContainer
             ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
 
             $ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToEmployeeRole', array(
-                'object'      => $this,
-                'obj_id'      => $this->getId(),
-                'ref_id'      => $this->getRefId(),
+                'object' => $this,
+                'obj_id' => $this->getId(),
+                'ref_id' => $this->getRefId(),
                 'position_id' => $position_id,
-                'user_id'     => $user_id,
+                'user_id' => $user_id,
             ));
         }
     }
@@ -284,11 +284,11 @@ class ilObjOrgUnit extends ilContainer
             ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId());
 
             $ilAppEventHandler->raise('Modules/OrgUnit', 'assignUsersToSuperiorRole', array(
-                'object'      => $this,
-                'obj_id'      => $this->getId(),
-                'ref_id'      => $this->getRefId(),
+                'object' => $this,
+                'obj_id' => $this->getId(),
+                'ref_id' => $this->getRefId(),
                 'position_id' => $position_id,
-                'user_id'     => $user_id,
+                'user_id' => $user_id,
             ));
         }
     }
@@ -303,11 +303,11 @@ class ilObjOrgUnit extends ilContainer
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
         $ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromEmployeeRole', array(
-            'object'      => $this,
-            'obj_id'      => $this->getId(),
-            'ref_id'      => $this->getRefId(),
+            'object' => $this,
+            'obj_id' => $this->getId(),
+            'ref_id' => $this->getRefId(),
             'position_id' => $position_id,
-            'user_id'     => $user_id,
+            'user_id' => $user_id,
         ));
     }
 
@@ -321,11 +321,11 @@ class ilObjOrgUnit extends ilContainer
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
 
         $ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromSuperiorRole', array(
-            'object'      => $this,
-            'obj_id'      => $this->getId(),
-            'ref_id'      => $this->getRefId(),
+            'object' => $this,
+            'obj_id' => $this->getId(),
+            'ref_id' => $this->getRefId(),
             'position_id' => $position_id,
-            'user_id'     => $user_id,
+            'user_id' => $user_id,
         ));
     }
 
@@ -353,9 +353,9 @@ class ilObjOrgUnit extends ilContainer
         $return = $rbacadmin->assignUser($role_id, $user_id);
 
         $ilAppEventHandler->raise('Modules/OrgUnit', 'assignUserToLocalRole', array(
-            'object'  => $this,
-            'obj_id'  => $this->getId(),
-            'ref_id'  => $this->getRefId(),
+            'object' => $this,
+            'obj_id' => $this->getId(),
+            'ref_id' => $this->getRefId(),
             'role_id' => $role_id,
             'user_id' => $user_id,
         ));
@@ -387,9 +387,9 @@ class ilObjOrgUnit extends ilContainer
         $return = $rbacadmin->deassignUser($role_id, $user_id);
 
         $ilAppEventHandler->raise('Modules/OrgUnit', 'deassignUserFromLocalRole', array(
-            'object'  => $this,
-            'obj_id'  => $this->getId(),
-            'ref_id'  => $this->getRefId(),
+            'object' => $this,
+            'obj_id' => $this->getId(),
+            'ref_id' => $this->getRefId(),
             'role_id' => $role_id,
             'user_id' => $user_id,
         ));
@@ -454,26 +454,26 @@ class ilObjOrgUnit extends ilContainer
         $q = "SELECT * FROM object_translation WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ORDER BY lang_default DESC";
         $r = $this->db->query($q);
 
-        $num = 0;
-        $data = ["Fobject" => []];
+
+        $data = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["Fobject"][$num] = array(
-                "title"        => $row->title,
-                "desc"         => $row->description,
-                "lang"         => $row->lang_code,
-                'lang_default' => $row->lang_default,
+            $data[$row->lang_code] = array(
+                "title" => $row->title,
+                "desc" => $row->description,
+                "lang" => $row->lang_code,
+                'default' => $row->lang_default,
             );
-            $num++;
+
         }
 
         $translations = $data;
 
-        if (!count($translations["Fobject"])) {
+        if (!count($translations)) {
             $this->addTranslation($this->getTitle(), "", $lng->getDefaultLanguage(), true);
-            $translations["Fobject"][] = array(
+            $translations[$lng->getDefaultLanguage()] = array(
                 "title" => $this->getTitle(),
-                "desc"  => "",
-                "lang"  => $lng->getDefaultLanguage(),
+                "desc" => "",
+                "lang" => $lng->getDefaultLanguage(),
             );
         }
 
@@ -622,9 +622,9 @@ class ilObjOrgUnit extends ilContainer
             $query .= ", description = " . $ilDB->quote($a_desc, 'text') . " ";
         }
 
-        if ($a_lang_default) {
-            $query .= ", lang_default = " . $ilDB->quote($a_lang_default, 'integer') . " ";
-        }
+
+        $query .= ", lang_default = " . $ilDB->quote($a_lang_default, 'integer') . " ";
+
 
         $query .= " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " AND lang_code = " . $ilDB->quote($a_lang, 'text');
         $ilDB->manipulate($query);

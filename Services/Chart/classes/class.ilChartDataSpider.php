@@ -23,7 +23,7 @@ class ilChartDataSpider extends ilChartData
         
         $fill = $this->getFill();
         if ($fill["color"] != "") {
-            $a_data[count($a_data)-1]->color = ilChart::renderColor($fill["color"], "0.5");
+            $a_data[count($a_data) - 1]->color = ilChart::renderColor($fill["color"], "0.5");
         }
     }
     
@@ -55,7 +55,7 @@ class ilChartDataSpider extends ilChartData
         foreach ($a_chart->getLegLabels() as $l) {
             $l = ilUtil::shortenText($l, 80, true);
             
-            $label =  new stdClass();
+            $label = new stdClass();
             $label->label = $l;
             $spider->legs->data[] = $label;
 

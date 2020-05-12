@@ -296,7 +296,7 @@ class ilSurveySkill
                         $cnt += sizeof($scale_values); // nr of answers (always one in the case of single choice)
                     }
                     if ($cnt > 0) {
-                        $qmean = $sum/$cnt;
+                        $qmean = $sum / $cnt;
                     }
                     $this->log->debug("MEAN: " . $qmean);
                 }
@@ -337,7 +337,7 @@ class ilSurveySkill
             }
             $cats = $q->getCategories();
             $max_scale = 0;
-            for ($i = 0; $i<= $cats->getCategoryCount(); $i++) {
+            for ($i = 0; $i <= $cats->getCategoryCount(); $i++) {
                 $c = $cats->getCategory($i);
                 $n = $c->neutral;
                 $s = $c->scale;
@@ -347,7 +347,7 @@ class ilSurveySkill
                     }
                 }
             }
-            $scale_sum+= $max_scale;
+            $scale_sum += $max_scale;
         }
         
         return $scale_sum;

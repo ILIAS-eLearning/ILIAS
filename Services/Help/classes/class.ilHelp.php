@@ -55,7 +55,7 @@ class ilHelp
         if ($rec["tt_text"] != "") {
             $t = $rec["tt_text"];
             if ($module_id == 0) {
-                $t.="<br/><i class='small'>" . $a_tt_id . "</i>";
+                $t .= "<br/><i class='small'>" . $a_tt_id . "</i>";
             }
             return $t;
         } else { // try to get general version
@@ -70,7 +70,7 @@ class ilHelp
             if ($rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
                 if ($module_id == 0) {
-                    $t.="<br/><i class='small'>" . $a_tt_id . "</i>";
+                    $t .= "<br/><i class='small'>" . $a_tt_id . "</i>";
                 }
                 return $t;
             }
@@ -117,13 +117,13 @@ class ilHelp
         $ilDB = $DIC->database();
         
         $q = "SELECT * FROM help_tooltip";
-        $q.= " WHERE module_id = " . $ilDB->quote($a_module_id, "integer");
+        $q .= " WHERE module_id = " . $ilDB->quote($a_module_id, "integer");
         if ($a_comp != "") {
-            $q.= " AND comp = " . $ilDB->quote($a_comp, "text");
+            $q .= " AND comp = " . $ilDB->quote($a_comp, "text");
         }
         $set = $ilDB->query($q);
         $tts = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $tts[$rec["id"]] = array("id" => $rec["id"], "text" => $rec["tt_text"],
                 "tt_id" => $rec["tt_id"]);
         }
