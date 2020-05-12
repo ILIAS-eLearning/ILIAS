@@ -240,7 +240,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
                 $options = json_encode($signal->getOptions());
                 //Note this switch is necessary since $(#...).on('load', ...) could be fired before the binding of the event.
                 //Same seems true fro ready, see: #27456
-                if ($event == 'load' || $event =='ready') {
+                if ($event == 'load' || $event == 'ready') {
                     $code .=
                             "$(document).trigger('{$signal}',
 							{

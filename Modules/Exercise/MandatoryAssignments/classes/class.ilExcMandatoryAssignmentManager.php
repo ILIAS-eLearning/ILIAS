@@ -61,7 +61,7 @@ class ilExcMandatoryAssignmentManager
         if ($this->rand_ass_manager->isActivated()) {
             return $this->rand_ass_manager->getMandatoryAssignmentsOfUser($user_id);
         }
-        $r =  array_map(function ($i) {
+        $r = array_map(function ($i) {
             /** @var ilExAssignment $i */
             return $i->getId();
         }, $this->set_to_mandatory_assignments);

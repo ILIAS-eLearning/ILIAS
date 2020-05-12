@@ -74,15 +74,15 @@ class ilMailSearchCoursesGUI
     {
         global $DIC;
 
-        $this->tpl        = $DIC['tpl'];
-        $this->ctrl       = $DIC['ilCtrl'];
-        $this->lng        = $DIC['lng'];
-        $this->user       = $DIC['ilUser'];
-        $this->error      = $DIC['ilErr'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->user = $DIC['ilUser'];
+        $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->rbacreview = $DIC['rbacreview'];
-        $this->tree       = $DIC['tree'];
-        $this->cache      = $DIC['ilObjDataCache'];
+        $this->tree = $DIC['tree'];
+        $this->cache = $DIC['ilObjDataCache'];
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -322,7 +322,7 @@ class ilMailSearchCoursesGUI
 
                     foreach ($crs_members as $key => $member) {
                         $tmp_usr = new ilObjUser($member);
-                        if ($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false) {
+                        if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
                             unset($crs_members[$key]);
                         }
                     }
@@ -460,7 +460,7 @@ class ilMailSearchCoursesGUI
 
                 foreach ($course_members as $member) {
                     $tmp_usr = new ilObjUser($member);
-                    if ($tmp_usr->checkTimeLimit()== false || $tmp_usr->getActive() == false) {
+                    if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
                         unset($tmp_usr);
                         continue;
                     }
@@ -475,11 +475,11 @@ class ilMailSearchCoursesGUI
                     }
 
                     $rowData = array(
-                        'members_id'      => $member,
-                        'members_login'   => $login,
-                        'members_name'    => $fullname,
+                        'members_id' => $member,
+                        'members_login' => $login,
+                        'members_name' => $fullname,
                         'members_crs_grp' => $this->cache->lookupTitle($crs_id),
-                        'search_crs'      => $crs_id
+                        'search_crs' => $crs_id
                     );
 
                     if ('mail' == $context && ilBuddySystem::getInstance()->isEnabled()) {

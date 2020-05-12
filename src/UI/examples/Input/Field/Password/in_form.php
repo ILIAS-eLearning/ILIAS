@@ -16,7 +16,7 @@ function in_form()
         ->withRevelation(true);
 
     //Step 2: Define the form and attach the field.
-    $form = $ui->input()->container()->form()->standard('#', ['password'=>$pwd_input]);
+    $form = $ui->input()->container()->form()->standard('#', ['password' => $pwd_input]);
 
     //Step 3: Define some data processing.
     $result = '';

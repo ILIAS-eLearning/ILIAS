@@ -896,7 +896,7 @@ class ilSurveyParticipantsGUI
     }
     
     // see ilBookmarkImportExport
-    protected function _convertCharset($a_string, $a_from_charset="", $a_to_charset="UTF-8")
+    protected function _convertCharset($a_string, $a_from_charset = "", $a_to_charset = "UTF-8")
     {
         if (extension_loaded("mbstring")) {
             if (!$a_from_charset) {
@@ -1072,10 +1072,10 @@ class ilSurveyParticipantsGUI
             $this,
             $ilToolbar,
             array(
-                'auto_complete_name'	=> $this->lng->txt('user'),
-                'submit_name'			=> $this->lng->txt('add'),
-                'add_search'			=> true,
-                'add_from_container'    => $this->ref_id
+                'auto_complete_name' => $this->lng->txt('user'),
+                'submit_name' => $this->lng->txt('add'),
+                'add_search' => true,
+                'add_from_container' => $this->ref_id
             )
         );
         
@@ -1218,10 +1218,10 @@ class ilSurveyParticipantsGUI
             $this,
             $ilToolbar,
             array(
-                'auto_complete_name'	=> $this->lng->txt('user'),
-                'submit_name'			=> $this->lng->txt('add'),
-                'add_search'			=> true,
-                'add_from_container'	=> $this->ref_id
+                'auto_complete_name' => $this->lng->txt('user'),
+                'submit_name' => $this->lng->txt('add'),
+                'add_search' => true,
+                'add_from_container' => $this->ref_id
             )
         );
         

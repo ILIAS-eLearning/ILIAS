@@ -14,7 +14,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
             ->disableOriginalConstructor()
-            ->setMethods(array('generateCurrentActiveCertificate'))
+            ->onlyMethods(['generateCurrentActiveCertificate'])
             ->getMock();
 
         $pdfGenerator->method('generateCurrentActiveCertificate')
@@ -48,7 +48,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
             ->disableOriginalConstructor()
-            ->setMethods(array('generateCurrentActiveCertificate', 'generateFileName'))
+            ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
             ->getMock();
 
         $pdfGenerator->method('generateCurrentActiveCertificate')
@@ -91,7 +91,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
             ->disableOriginalConstructor()
-            ->setMethods(array('generateCurrentActiveCertificate', 'generateFileName'))
+            ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
             ->getMock();
 
         $pdfGenerator->method('generateCurrentActiveCertificate')
@@ -114,7 +114,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $errorHandler = $this->getMockBuilder('ilErrorHandling')
             ->disableOriginalConstructor()
-            ->setMethods(['raiseError'])
+            ->onlyMethods(['raiseError'])
             ->getMock();
 
         $errorHandler

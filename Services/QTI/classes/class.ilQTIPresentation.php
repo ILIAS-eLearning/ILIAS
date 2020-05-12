@@ -112,12 +112,12 @@ class ilQTIPresentation
     public function addMaterial($a_material)
     {
         $count = array_push($this->material, $a_material);
-        array_push($this->order, array("type" =>"material", "index" => $count-1));
+        array_push($this->order, array("type" => "material", "index" => $count - 1));
     }
     
     public function addResponse($a_response)
     {
         $count = array_push($this->response, $a_response);
-        array_push($this->order, array("type" =>"response", "index" => $count-1));
+        array_push($this->order, array("type" => "response", "index" => $count - 1));
     }
 }

@@ -21,7 +21,7 @@ class ilBPMN2ParserUtils
      */
     public function load_string($xml_string)
     {
-        $node=@simplexml_load_string($xml_string);
+        $node = @simplexml_load_string($xml_string);
         return $this->add_node($node);
     }
 
@@ -33,42 +33,42 @@ class ilBPMN2ParserUtils
      *
      * @return mixed
      */
-    private function add_node($node, &$parent=null, $namespace='', $recursive=false)
+    private function add_node($node, &$parent = null, $namespace = '', $recursive = false)
     {
         $namespaces = $node->getNameSpaces(true);
-        $content="$node";
+        $content = "$node";
 
-        $r['name']=$node->getName();
+        $r['name'] = $node->getName();
         if (!$recursive) {
-            $tmp=array_keys($node->getNameSpaces(false));
-            $r['namespace']=$tmp[0];
-            $r['namespaces']=$namespaces;
+            $tmp = array_keys($node->getNameSpaces(false));
+            $r['namespace'] = $tmp[0];
+            $r['namespaces'] = $namespaces;
         }
         if ($namespace) {
-            $r['namespace']=$namespace;
+            $r['namespace'] = $namespace;
         }
         if ($content) {
-            $r['content']=$content;
+            $r['content'] = $content;
         }
 
-        foreach ($namespaces as $pre=>$ns) {
-            foreach ($node->children($ns) as $k=>$v) {
+        foreach ($namespaces as $pre => $ns) {
+            foreach ($node->children($ns) as $k => $v) {
                 $this->add_node($v, $r['children'], $pre, true);
             }
-            foreach ($node->attributes($ns) as $k=>$v) {
-                $r['attributes'][$k]="$pre:$v";
+            foreach ($node->attributes($ns) as $k => $v) {
+                $r['attributes'][$k] = "$pre:$v";
             }
         }
 
-        foreach ($node->children() as $k=>$v) {
+        foreach ($node->children() as $k => $v) {
             $this->add_node($v, $r['children'], '', true);
         }
 
-        foreach ($node->attributes() as $k=>$v) {
-            $r['attributes'][$k]="$v";
+        foreach ($node->attributes() as $k => $v) {
+            $r['attributes'][$k] = "$v";
         }
 
-        $parent[]=&$r;
+        $parent[] = &$r;
 
         return $parent[0];
     }
@@ -112,14 +112,14 @@ class ilBPMN2ParserUtils
     public static function extractILIASEventDefinitionFromProcess($start_event_ref, $type, $bpmn2_array)
     {
         $descriptor_extension = array();
-        $subject_extension    = array();
-        $context_extension    = array();
-        $timeframe_extension  = array();
+        $subject_extension = array();
+        $context_extension = array();
+        $timeframe_extension = array();
 
         foreach ($bpmn2_array['children'] as $element) {
             if ($element['name'] == $type && $element['attributes']['id'] == $start_event_ref) {
                 $bpmn_extension_elements = $element['children'][0];
-                $extension_elements      = $bpmn_extension_elements['children'][0]['children'];
+                $extension_elements = $bpmn_extension_elements['children'][0]['children'];
 
                 foreach ($extension_elements as $child) {
                     $prefix = 'ilias:';
@@ -145,14 +145,14 @@ class ilBPMN2ParserUtils
         }
 
         $event_definition = array(
-            'type'            => $descriptor_extension['attributes']['type'],
-            'content'         => $descriptor_extension['attributes']['name'],
-            'subject_type'    => $subject_extension['attributes']['type'],
-            'subject_id'      => $subject_extension['attributes']['id'],
-            'context_type'    => $context_extension['attributes']['type'],
-            'context_id'      => $context_extension['attributes']['id'],
+            'type' => $descriptor_extension['attributes']['type'],
+            'content' => $descriptor_extension['attributes']['name'],
+            'subject_type' => $subject_extension['attributes']['type'],
+            'subject_id' => $subject_extension['attributes']['id'],
+            'context_type' => $context_extension['attributes']['type'],
+            'context_id' => $context_extension['attributes']['id'],
             'listening_start' => $timeframe_extension['attributes']['start'],
-            'listening_end'   => $timeframe_extension['attributes']['end']
+            'listening_end' => $timeframe_extension['attributes']['end']
         );
         
         return $event_definition;
@@ -179,14 +179,14 @@ class ilBPMN2ParserUtils
                                 $end = 0;
 
                                 return array(
-                                    'type' 				=> 'time_passed',
-                                    'content'			=> 'time_passed',
-                                    'subject_type'		=> 'none',
-                                    'subject_id'		=> 0,
-                                    'context_type'		=> 'none',
-                                    'context_id'		=> 0,
-                                    'listening_start'	=> $start,
-                                    'listening_end'		=> $end
+                                    'type' => 'time_passed',
+                                    'content' => 'time_passed',
+                                    'subject_type' => 'none',
+                                    'subject_id' => 0,
+                                    'context_type' => 'none',
+                                    'context_id' => 0,
+                                    'listening_start' => $start,
+                                    'listening_end' => $end
                                 );
                             }
 
@@ -197,14 +197,14 @@ class ilBPMN2ParserUtils
                                             ($interval->i * 60) + $interval->s;
 
                                 return array(
-                                    'type' 				=> 'time_passed',
-                                    'content'			=> 'time_passed',
-                                    'subject_type'		=> 'none',
-                                    'subject_id'		=> 0,
-                                    'context_type'		=> 'none',
-                                    'context_id'		=> 0,
-                                    'listening_relative'=> 1,
-                                    'listening_interval'=> $duration
+                                    'type' => 'time_passed',
+                                    'content' => 'time_passed',
+                                    'subject_type' => 'none',
+                                    'subject_id' => 0,
+                                    'context_type' => 'none',
+                                    'context_id' => 0,
+                                    'listening_relative' => 1,
+                                    'listening_interval' => $duration
                                 );
                             }
                         }
@@ -242,8 +242,8 @@ class ilBPMN2ParserUtils
         // TODO: This must consult Service Disco for details!
 
         return array(
-            'include_filename'	=> $library_call['location'],
-            'class_and_method'		=> $library_call['api'] . '::' . $library_call['method']
+            'include_filename' => $library_call['location'],
+            'class_and_method' => $library_call['api'] . '::' . $library_call['method']
         );
     }
 

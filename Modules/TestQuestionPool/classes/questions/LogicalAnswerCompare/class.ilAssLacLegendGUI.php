@@ -54,7 +54,7 @@ class ilAssLacLegendGUI
     /**
      * @return iQuestionCondition|null
      */
-    public function getQuestionOBJ() :? iQuestionCondition
+    public function getQuestionOBJ() : ? iQuestionCondition
     {
         return $this->questionOBJ;
     }
@@ -165,7 +165,7 @@ class ilAssLacLegendGUI
      * @param string $exampleCode
      * @return string[]
      */
-    private function buildLangVarsByExampleCode(string $questionType, string $exampleCode) : array 
+    private function buildLangVarsByExampleCode(string $questionType, string $exampleCode) : array
     {
         $langVar = 'lacex_' . $questionType . '_' . $exampleCode;
 

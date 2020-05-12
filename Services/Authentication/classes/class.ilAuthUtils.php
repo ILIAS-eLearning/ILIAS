@@ -125,10 +125,10 @@ class ilAuthUtils
         $ilDB = $DIC['ilDB'];
         $ilSetting = $DIC['ilSetting'];
 
-        $db =&$ilDB;
+        $db = &$ilDB;
         
         if ($a_db_handler != '') {
-            $db =&$a_db_handler;
+            $db = &$a_db_handler;
         }
 
         // begin-patch ldap_multiple
@@ -263,8 +263,8 @@ class ilAuthUtils
         $ilSetting = $DIC['ilSetting'];
         
         $modes = array(
-                        'default'	=> $ilSetting->get("auth_mode"),
-                        'local'		=> AUTH_LOCAL
+                        'default' => $ilSetting->get("auth_mode"),
+                        'local' => AUTH_LOCAL
                         );
         include_once('Services/LDAP/classes/class.ilLDAPServer.php');
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
@@ -362,7 +362,7 @@ class ilAuthUtils
                 }
                 continue;
             }
-            $ret[$mode] =  ilAuthUtils::_getAuthModeName($mode);
+            $ret[$mode] = ilAuthUtils::_getAuthModeName($mode);
         }
         return $ret;
     }
@@ -765,10 +765,10 @@ class ilAuthUtils
     // end-patch auth_plugins
     
     /**
-     *
      * @param string $a_auth_key
+     * @param string $auth_name
      */
-    public static function getAuthModeTranslation($a_auth_key)
+    public static function getAuthModeTranslation($a_auth_key, $auth_name = '')
     {
         global $DIC;
 
@@ -795,7 +795,11 @@ class ilAuthUtils
 
             default:
                 $lng->loadLanguageModule('auth');
+                if (!empty($auth_name)) {
+                    return $lng->txt('auth_' . $auth_name);
+                } else {
                 return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
         }
     }
+}
 }

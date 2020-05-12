@@ -156,7 +156,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         if ($this->getRepositoryObject()->getType() == 'sess') {
             self::$all_columns['login'] = [
                 'txt' => $this->lng->txt('login'),
-                'width'=> '15%',
+                'width' => '15%',
                 'default' => 1
             ];
             return self::$all_columns;
@@ -451,7 +451,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
     public function setShowSubject($a_value)
     {
-        $this->show_subject  = (bool) $a_value;
+        $this->show_subject = (bool) $a_value;
     }
 
     public function getShowSubject()

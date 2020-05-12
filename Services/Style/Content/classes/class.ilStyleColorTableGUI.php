@@ -109,7 +109,7 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $ilAccess = $this->access;
         $rbacsystem = $this->rbacsystem;
         
-        for ($i = -80; $i<=80; $i+=20) {
+        for ($i = -80; $i <= 80; $i += 20) {
             $this->tpl->setCurrentBlock("flavor");
             $this->tpl->setVariable("FLAVOR_NAME", "(" . $i . ")");
             $this->tpl->setVariable(

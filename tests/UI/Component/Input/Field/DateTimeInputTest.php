@@ -33,7 +33,7 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
             new \ILIAS\Refinery\Factory($df, $language)
         );
     }
-
+ 
     public function test_withFormat()
     {
         $format = $this->data_factory->dateFormat()->germanShort();

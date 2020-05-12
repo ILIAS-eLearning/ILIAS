@@ -74,9 +74,9 @@ class ilPCTable extends ilPageContent
     */
     public function addRows($a_nr_rows, $a_nr_cols)
     {
-        for ($i=1; $i<=$a_nr_rows; $i++) {
+        for ($i = 1; $i <= $a_nr_rows; $i++) {
             $aRow = $this->addRow();
-            for ($j=1; $j<=$a_nr_cols; $j++) {
+            for ($j = 1; $j <= $a_nr_cols; $j++) {
                 $this->addCell($aRow);
             }
         }
@@ -105,7 +105,7 @@ class ilPCTable extends ilPageContent
         // iterate target row arrays and insert data
         foreach ($target_rows as $row) {
             $aRow = $this->addRow();
-            for ($j=0; $j<$max_cols; $j++) {
+            for ($j = 0; $j < $max_cols; $j++) {
                 // mask html
                 $data = str_replace("&", "&amp;", $row[$j]);
                 $data = str_replace("<", "&lt;", $data);
@@ -374,7 +374,7 @@ class ilPCTable extends ilPageContent
     {
         // delete children of paragraph node
         $children = $td_node->child_nodes();
-        for ($i=0; $i<count($children); $i++) {
+        for ($i = 0; $i < count($children); $i++) {
             $td_node->remove_child($children[$i]);
         }
     }
@@ -384,8 +384,8 @@ class ilPCTable extends ilPageContent
     */
     public function checkCellHidden($colspans, $rowspans, $x, $y)
     {
-        for ($i = 0; $i<=$x; $i++) {
-            for ($j = 0; $j<=$y; $j++) {
+        for ($i = 0; $i <= $x; $i++) {
+            for ($j = 0; $j <= $y; $j++) {
                 if ($i != $x || $j != $y) {
                     if ((($i + $colspans[$i][$j] > $x) &&
                         ($j + $rowspans[$i][$j] > $y))) {
@@ -732,7 +732,7 @@ class ilPCTable extends ilPageContent
         if (is_array($error)) {
             $errmsg = "";
             foreach ($error as $errorline) {    # Loop through all errors
-                $errmsg .=  "[" . $errorline['line'] . ", " . $errorline['col'] . "]: " . $errorline['errormessage'] . " at Node '" . $errorline['nodename'] . "'<br />";
+                $errmsg .= "[" . $errorline['line'] . ", " . $errorline['col'] . "]: " . $errorline['errormessage'] . " at Node '" . $errorline['nodename'] . "'<br />";
             }
         } else {
             $errmsg = $error;

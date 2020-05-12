@@ -71,7 +71,6 @@ class ilExcCronReminders extends ilCronJob
 
     public function run()
     {
-
         $log = ilLoggerFactory::getLogger("exc");
         $log->debug("--- Start Exercise Reminders Cron");
 

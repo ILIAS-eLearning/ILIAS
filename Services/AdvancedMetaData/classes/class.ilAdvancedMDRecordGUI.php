@@ -245,7 +245,7 @@ class ilAdvancedMDRecordGUI
             
             $adt_group_form->addToForm();
             
-            $this->editor_form[$record_id] = array("values"=>$values, "form"=>$adt_group_form);
+            $this->editor_form[$record_id] = array("values" => $values, "form" => $adt_group_form);
         }
     }
     
@@ -354,7 +354,7 @@ class ilAdvancedMDRecordGUI
                 
                 $field_form->addToForm();
                 
-                $this->search_form[$field->getFieldId()] = array("def"=>$field, "value"=>$field_form);
+                $this->search_form[$field->getFieldId()] = array("def" => $field, "value" => $field_form);
             }
         }
     }
@@ -824,7 +824,7 @@ class ilAdvancedMDRecordGUI
                     continue;
                 }
                 
-                $html.= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
+                $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
             }
         }
         return $html;

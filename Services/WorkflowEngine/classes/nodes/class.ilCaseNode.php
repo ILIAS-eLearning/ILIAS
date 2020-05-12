@@ -163,8 +163,8 @@ class ilCaseNode extends ilBaseNode
     public function addEmitter(ilEmitter $emitter, $expression = 'return true;')
     {
         $this->condition_emitter_pairs[] = array(
-            'emitter'	=> $emitter,
-            'expression'	=> $expression
+            'emitter' => $emitter,
+            'expression' => $expression
         );
     }
 

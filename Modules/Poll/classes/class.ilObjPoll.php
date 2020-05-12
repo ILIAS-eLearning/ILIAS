@@ -309,7 +309,7 @@ class ilObjPoll extends ilObject2
             $ilDB->update(
                 "il_poll",
                 $fields,
-                array("id"=>array("integer", $this->getId()))
+                array("id" => array("integer", $this->getId()))
             );
             
             // #14661
@@ -360,8 +360,8 @@ class ilObjPoll extends ilObject2
         $new_obj->setQuestion($this->getQuestion());
         $image = $this->getImageFullPath();
         if ($image) {
-            $image = array("tmp_name"=>$image,
-                "name"=>$this->getImage());
+            $image = array("tmp_name" => $image,
+                "name" => $this->getImage());
             $new_obj->uploadImage($image, true);
         }
 
@@ -551,7 +551,7 @@ class ilObjPoll extends ilObject2
                 " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer");
             $set = $ilDB->query($sql);
             $a_pos = $ilDB->fetchAssoc($set);
-            $a_pos = (int) $a_pos["pos"]+10;
+            $a_pos = (int) $a_pos["pos"] + 10;
         }
         
         $fields = array(
@@ -751,14 +751,14 @@ class ilObjPoll extends ilObject2
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $cnt += $row["cnt"];
-            $res[$row["answer_id"]] = array("abs"=>$row["cnt"], "perc"=>0);
+            $res[$row["answer_id"]] = array("abs" => $row["cnt"], "perc" => 0);
         }
         
         foreach ($res as $id => $item) {
-            $res[$id]["perc"] = $item["abs"]/$cnt*100;
+            $res[$id]["perc"] = $item["abs"] / $cnt * 100;
         }
         
-        return array("perc"=>$res, "total"=>$this->countVotes());
+        return array("perc" => $res, "total" => $this->countVotes());
     }
     
     public function getVotesByUsers()

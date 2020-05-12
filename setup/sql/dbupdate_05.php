@@ -229,7 +229,7 @@ $tpl_perms = [
     ]
 ];
 
-foreach ($tpl_perms as $template=>$perms) {
+foreach ($tpl_perms as $template => $perms) {
     $query = "SELECT obj_id FROM object_data"
         . " WHERE object_data.type = " . $ilDB->quote('rolt', 'text')
         . " AND title = " . $ilDB->quote($template, 'text');
@@ -285,8 +285,8 @@ if (!$ilDB->tableColumnExists('cal_entries', 'context_info')) {
 if (!$ilDB->tableExists('frm_thread_tree_mig')) {
     $fields = [
         'thread_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ]
@@ -361,20 +361,20 @@ while ($row = $ilDB->fetchAssoc($res)) {
     // Create a posting as new root
     $postId = $ilDB->nextId('frm_posts');
     $ilDB->insert('frm_posts', array(
-        'pos_pk'		=> array('integer', $postId),
-        'pos_top_fk'	=> array('integer', $row['pos_top_fk']),
-        'pos_thr_fk'	=> array('integer', $row['pos_thr_fk']),
-        'pos_display_user_id'	=> array('integer', $row['pos_display_user_id']),
-        'pos_usr_alias'	=> array('text', $row['pos_usr_alias']),
-        'pos_subject'	=> array('text', $row['pos_subject']),
-        'pos_message'	=> array('clob', $row['pos_message']),
-        'pos_date'		=> array('timestamp', $row['pos_date']),
-        'pos_update'	=> array('timestamp', null),
-        'update_user'	=> array('integer', 0),
-        'pos_cens'		=> array('integer', 0),
-        'notify'		=> array('integer', 0),
-        'import_name'	=> array('text', (string) $row['import_name']),
-        'pos_status'	=> array('integer', 1),
+        'pos_pk' => array('integer', $postId),
+        'pos_top_fk' => array('integer', $row['pos_top_fk']),
+        'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
+        'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
+        'pos_usr_alias' => array('text', $row['pos_usr_alias']),
+        'pos_subject' => array('text', $row['pos_subject']),
+        'pos_message' => array('clob', $row['pos_message']),
+        'pos_date' => array('timestamp', $row['pos_date']),
+        'pos_update' => array('timestamp', null),
+        'update_user' => array('integer', 0),
+        'pos_cens' => array('integer', 0),
+        'notify' => array('integer', 0),
+        'import_name' => array('text', (string) $row['import_name']),
+        'pos_status' => array('integer', 1),
         'pos_author_id' => array('integer', (int) $row['pos_author_id']),
         'is_author_moderator' => array('integer', $row['is_author_moderator']),
         'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
@@ -458,8 +458,8 @@ if (!$ilDB->indexExistsByFields('frm_posts_tree', ['parent_pos'])) {
 if (!$ilDB->tableExists('lso_activation')) {
     $ilDB->createTable('lso_activation', array(
         'ref_id' => array(
-            "type"    => "integer",
-            "length"  => 4,
+            "type" => "integer",
+            "length" => 4,
             'notnull' => true
         ),
         'online' => array(
@@ -493,9 +493,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'effective_online')) {
         'lso_activation',
         'effective_online',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => true,
-            "length"  => 1,
+            "length" => 1,
             "default" => 0
         )
     );
@@ -534,7 +534,7 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'lifecycle_filter')) {
     $ilDB->addTableColumn(
         'tst_rnd_quest_set_qpls',
         'lifecycle_filter',
-        array('type' => 'text', 'length' => 250, 'notnull'	=> false, 'default'	=> null)
+        array('type' => 'text', 'length' => 250, 'notnull' => false, 'default' => null)
     );
 }
 ?>
@@ -683,9 +683,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
         'lso_activation',
         'activation_start_ts',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => false,
-            "length"  => 4
+            "length" => 4
         )
     );
 }
@@ -697,9 +697,9 @@ if (!$ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
         'lso_activation',
         'activation_end_ts',
         array(
-            "type"    => "integer",
+            "type" => "integer",
             "notnull" => false,
-            "length"  => 4
+            "length" => 4
         )
     );
 }
@@ -825,8 +825,8 @@ ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 <?php
 if (!$ilDB->tableColumnExists('qpl_qst_essay', 'word_cnt_enabled')) {
     $ilDB->addTableColumn('qpl_qst_essay', 'word_cnt_enabled', array(
-        'type'    => 'integer',
-        'length'  => 1,
+        'type' => 'integer',
+        'length' => 1,
         'notnull' => false,
         'default' => 0
     ));
@@ -886,9 +886,9 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if ($ilDB->tableColumnExists("map_area", "href")) {
     $field = array(
-        'type' 		=> 'text',
-        'length' 	=> 800,
-        'notnull' 	=> false
+        'type' => 'text',
+        'length' => 800,
+        'notnull' => false
     );
 
     $ilDB->modifyTableColumn("map_area", "href", $field);
@@ -1209,13 +1209,13 @@ if ($ilDB->tableExists('il_gs_providers')) {
 <?php
 if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_tstamp')) {
     $ilDB->addTableColumn('tst_manual_fb', 'finalized_tstamp', array(
-        "type"   => "integer",
+        "type" => "integer",
         "length" => 8,
     ));
 }
 if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation')) {
     $ilDB->addTableColumn('tst_manual_fb', 'finalized_evaluation', array(
-        "type"   => "integer",
+        "type" => "integer",
         "length" => 1,
     ));
     $ilDB->manipulateF(
@@ -1226,7 +1226,7 @@ if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_evaluation')) {
 }
 if (!$ilDB->tableColumnExists('tst_manual_fb', 'finalized_by_usr_id')) {
     $ilDB->addTableColumn('tst_manual_fb', 'finalized_by_usr_id', array(
-        "type"   => "integer",
+        "type" => "integer",
         "length" => 8,
     ));
 }
@@ -1349,8 +1349,8 @@ $ilCtrlStructureReader->getStructure();
 <#5518>
 <?php
 $ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1358,8 +1358,8 @@ $ilDB->modifyTableColumn('frm_notification', 'frm_id', array(
 <#5519>
 <?php
 $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1367,8 +1367,8 @@ $ilDB->modifyTableColumn('frm_notification', 'thread_id', array(
 <#5520>
 <?php
 $ilDB->modifyTableColumn('il_cert_template', 'version', array(
-    'type'    => 'integer',
-    'length'  => 8,
+    'type' => 'integer',
+    'length' => 8,
     'notnull' => true,
     'default' => 0
 ));
@@ -1502,8 +1502,8 @@ if (!$ilDB->tableColumnExists('skl_tree_node', 'description')) {
         'skl_tree_node',
         'description',
         array(
-            'type' 		=> 'clob',
-            'notnull'	=> false
+            'type' => 'clob',
+            'notnull' => false
         )
     );
 }
@@ -1929,43 +1929,43 @@ if (!$ilDB->tableExists('cmix_settings')) {
         ),
         'highscore_enabled' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_achieved_ts' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_percentage' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_wtime' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_own_table' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_top_table' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_top_num' => array(
             'type' => 'integer',
-            'length'  => 4,
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
@@ -2357,43 +2357,43 @@ if (!$ilDB->tableExists('lti_consumer_settings')) {
         ),
         'highscore_enabled' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_achieved_ts' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_percentage' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_wtime' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_own_table' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_top_table' => array(
             'type' => 'integer',
-            'length'  => 1,
+            'length' => 1,
             'notnull' => true,
             'default' => 0
         ),
         'highscore_top_num' => array(
             'type' => 'integer',
-            'length'  => 4,
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ),
@@ -2540,8 +2540,8 @@ $ilCtrlStructureReader->getStructure();
 <?php
 if ($ilDB->tableColumnExists("lng_data", "identifier")) {
     $field = array(
-        'type'    => 'text',
-        'length'  => 200,
+        'type' => 'text',
+        'length' => 200,
         'notnull' => true,
         'default' => ' '
     );
@@ -2552,8 +2552,8 @@ if ($ilDB->tableColumnExists("lng_data", "identifier")) {
 <?php
 if ($ilDB->tableColumnExists("lng_log", "identifier")) {
     $field = array(
-        'type'    => 'text',
-        'length'  => 200,
+        'type' => 'text',
+        'length' => 200,
         'notnull' => true,
         'default' => ' '
     );
@@ -3135,33 +3135,33 @@ $ilCtrlStructureReader->getStructure();
 <#5600>
 <?php
 $fields = array(
-    'internal'       => array(
-        'type'   => 'text',
+    'internal' => array(
+        'type' => 'text',
         'length' => '250',
 
     ),
     'identification' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '250',
 
     ),
-    'title'          => array(
-        'type'   => 'text',
+    'title' => array(
+        'type' => 'text',
         'length' => '250',
 
     ),
-    'suffix'         => array(
-        'type'   => 'text',
+    'suffix' => array(
+        'type' => 'text',
         'length' => '64',
 
     ),
-    'mime_type'      => array(
-        'type'   => 'text',
+    'mime_type' => array(
+        'type' => 'text',
         'length' => '250',
 
     ),
-    'size'           => array(
-        'type'   => 'integer',
+    'size' => array(
+        'type' => 'integer',
         'length' => '8',
 
     ),
@@ -3176,12 +3176,12 @@ if (!$ilDB->tableExists('il_resource_info')) {
 <?php
 $fields = array(
     'identification' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '250',
 
     ),
-    'storage_id'     => array(
-        'type'   => 'text',
+    'storage_id' => array(
+        'type' => 'text',
         'length' => '8',
 
     ),
@@ -3195,23 +3195,23 @@ if (!$ilDB->tableExists('il_resource')) {
 <#5602>
 <?php
 $fields = array(
-    'internal'       => array(
-        'type'   => 'text',
+    'internal' => array(
+        'type' => 'text',
         'length' => '250',
 
     ),
     'identification' => array(
-        'type'   => 'text',
+        'type' => 'text',
         'length' => '250',
 
     ),
-    'available'      => array(
-        'type'   => 'integer',
+    'available' => array(
+        'type' => 'integer',
         'length' => '1',
 
     ),
     'version_number' => array(
-        'type'   => 'integer',
+        'type' => 'integer',
         'length' => '8',
 
     ),
@@ -3229,7 +3229,7 @@ if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
         'il_mm_items',
         'icon_id',
         array(
-            'type'   => 'text',
+            'type' => 'text',
             'length' => 250,
         )
     );
@@ -3240,7 +3240,7 @@ if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
 <?php
 require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
 $renderer = 'WkhtmlToPdf';
-$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+$path = 'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
 ilPDFCompInstaller::registerRenderer($renderer, $path);
 $service = 'Test';
 $purpose = 'UserResult'; // According to name given. Call multiple times.
@@ -3256,7 +3256,7 @@ if ($ilDB->tableExists('event')) {
         'event',
         'reg_notification',
         array(
-            'type'    => 'integer',
+            'type' => 'integer',
             'notnull' => true,
             'default' => 0
         )
@@ -3266,8 +3266,8 @@ if ($ilDB->tableExists('event')) {
         'event',
         'notification_opt',
         array(
-            'type'    => 'text',
-            'length'  => '50',
+            'type' => 'text',
+            'length' => '50',
             'notnull' => false,
             'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
         )
@@ -3281,7 +3281,7 @@ if ($ilDB->tableExists('event_participants')) {
         'event_participants',
         'notification_enabled',
         array(
-            'type'    => 'integer',
+            'type' => 'integer',
             'notnull' => true,
             'default' => 0
         )
@@ -3299,8 +3299,8 @@ if (!$ilDB->tableColumnExists('page_layout', 'mod_lm')) {
         'page_layout',
         'mod_lm',
         array(
-            'type'	=> 'integer',
-            'length'=> 1,
+            'type' => 'integer',
+            'length' => 1,
             'notnull' => false
         )
     );
@@ -3339,9 +3339,9 @@ if (!$ilDB->tableColumnExists('il_blog_posting', 'last_withdrawn')) {
         'il_blog_posting',
         'last_withdrawn',
         array(
-            'type' 		=> 'timestamp',
-            'notnull'	=> false,
-            'default'	=> null
+            'type' => 'timestamp',
+            'notnull' => false,
+            'default' => null
         )
     );
 }
@@ -3577,7 +3577,7 @@ if (!$ilDB->tableExists('prg_auto_content')) {
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
-$type_id  = ilDBUpdateNewObjectType::addNewType('prgr', 'Study Programme Reference');
+$type_id = ilDBUpdateNewObjectType::addNewType('prgr', 'Study Programme Reference');
 
 ilDBUpdateNewObjectType::addRBACOperations($type_id, [
     ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
@@ -3845,49 +3845,49 @@ if (!$ilDB->tableColumnExists('tst_tests', 'info_screen')) {
 if (!$ilDB->tableExists('acc_documents')) {
     $fields = [
         'id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'title' => [
-            'type'     => 'text',
-            'length'   => 255,
-            'notnull'  => false,
-            'default'  => null
+            'type' => 'text',
+            'length' => 255,
+            'notnull' => false,
+            'default' => null
         ],
         'creation_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'modification_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'sorting' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'owner_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'last_modified_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'text' => [
-            'type'    => 'clob',
+            'type' => 'clob',
             'notnull' => false,
             'default' => null
         ]
@@ -3902,49 +3902,49 @@ if (!$ilDB->tableExists('acc_documents')) {
 if (!$ilDB->tableExists('acc_criterion_to_doc')) {
     $fields = [
         'id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'doc_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'criterion_id' => [
-            'type'     => 'text',
-            'length'   => 50,
-            'notnull'  => true
+            'type' => 'text',
+            'length' => 50,
+            'notnull' => true
         ],
         'criterion_value' => [
-            'type'     => 'text',
-            'length'   => 255,
-            'notnull'  => false,
-            'default'  => null,
+            'type' => 'text',
+            'length' => 255,
+            'notnull' => false,
+            'default' => null,
         ],
         'assigned_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'modification_ts' => [
-            'type'     => 'integer',
-            'length'   => 4,
-            'notnull'  => true,
-            'default'  => 0
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
         ],
         'owner_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ],
         'last_modified_usr_id' => [
-            'type'    => 'integer',
-            'length'  => 4,
+            'type' => 'integer',
+            'length' => 4,
             'notnull' => true,
             'default' => 0
         ]
@@ -3984,7 +3984,7 @@ $ilCtrlStructureReader->getStructure();
         if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_reci')) {
             $ilDB->addTableColumn('svy_svy', 'tutor_res_reci', array(
                         'type' => 'text',
-                        'length'  => 2000,
+                        'length' => 2000,
                         'notnull' => false,
                         'fixed' => false
                 ));
@@ -4020,7 +4020,7 @@ if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification')) {
         'grp_settings',
         'auto_notification',
         [
-                        'type'    => 'integer',
+                        'type' => 'integer',
                         'notnull' => true,
                         'default' => 1
                 ]
@@ -4034,7 +4034,7 @@ if (!$ilDB->tableColumnExists('event_participants', 'excused')) {
         'event_participants',
         'excused',
         [
-                        'type'    => 'integer',
+                        'type' => 'integer',
                         'length' => 1,
                         'notnull' => true,
                         'default' => 0
@@ -4114,7 +4114,7 @@ ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOper
 <?php
 if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $field = array(
-        'type'    => 'date',
+        'type' => 'date',
         'notnull' => false,
     );
     $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
@@ -4170,7 +4170,7 @@ $ilDB->manipulateF(
 <?php
 require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
 $renderer = 'WkhtmlToPdf';
-$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+$path = 'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
 ilPDFCompInstaller::registerRenderer($renderer, $path);
 $service = 'Test';
 $purpose = 'UserResult'; // According to name given. Call multiple times.
@@ -4228,7 +4228,7 @@ while ($rec = $ilDB->fetchAssoc($set)) {
 <?php
 if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $field = array(
-        'type'    => 'date',
+        'type' => 'date',
         'notnull' => false,
     );
     $ilDB->addTableColumn("exc_ass_reminders", "last_send_day", $field);
@@ -4238,3 +4238,78 @@ if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#5662>
+<?php
+global $DIC;
+$ilDB = $DIC['ilDB'];
+
+if ($ilDB->tableColumnExists('iass_members', 'record')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'record', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_members', 'internal_note')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_members', 'internal_note', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_settings', 'content')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'content', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_settings', 'record_template')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_settings', 'record_template', $field_infos);
+}
+
+if ($ilDB->tableColumnExists('iass_info_settings', 'mails')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => ''
+    ];
+    $ilDB->modifyTableColumn('iass_info_settings', 'mails', $field_infos);
+}
+?>
+
+<#5663>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
+?>
+<#5664>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
+);
+?>
+<#5665>
+<?php
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmreadidx1', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
+    $setting->set('ilfrmreadidx1', 1);
+}
+?> 

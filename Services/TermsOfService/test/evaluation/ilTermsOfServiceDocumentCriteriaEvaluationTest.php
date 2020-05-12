@@ -12,9 +12,9 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
      */
     public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll() : void
     {
-        $user                 = $this->getUserMock();
+        $user = $this->getUserMock();
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
-        $log                  = $this->getLogMock();
+        $log = $this->getLogMock();
 
         $doc = $this
             ->getMockBuilder(ilTermsOfServiceSignableDocument::class)
@@ -36,17 +36,17 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
     public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch() : void
     {
         $user = $this->getUserMock();
-        $log  = $this->getLogMock();
+        $log = $this->getLogMock();
 
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
-        $criterionType1       = $this->getCriterionTypeMock('dummy1');
+        $criterionType1 = $this->getCriterionTypeMock('dummy1');
         $criterionAssignment1 = $this->getCriterionAssignmentMock($criterionType1);
 
-        $criterionType2       = $this->getCriterionTypeMock('dummy2');
+        $criterionType2 = $this->getCriterionTypeMock('dummy2');
         $criterionAssignment2 = $this->getCriterionAssignmentMock($criterionType2);
 
-        $criterionType3       = $this->getCriterionTypeMock('dummy3');
+        $criterionType3 = $this->getCriterionTypeMock('dummy3');
         $criterionAssignment3 = $this->getCriterionAssignmentMock($criterionType3);
 
         $criterionType1
@@ -100,17 +100,17 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
     public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch() : void
     {
         $user = $this->getUserMock();
-        $log  = $this->getLogMock();
+        $log = $this->getLogMock();
 
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
-        $criterionType1       = $this->getCriterionTypeMock('dummy1');
+        $criterionType1 = $this->getCriterionTypeMock('dummy1');
         $criterionAssignment1 = $this->getCriterionAssignmentMock($criterionType1);
 
-        $criterionType2       = $this->getCriterionTypeMock('dummy2');
+        $criterionType2 = $this->getCriterionTypeMock('dummy2');
         $criterionAssignment2 = $this->getCriterionAssignmentMock($criterionType2);
 
-        $criterionType3       = $this->getCriterionTypeMock('dummy3');
+        $criterionType3 = $this->getCriterionTypeMock('dummy3');
         $criterionAssignment3 = $this->getCriterionAssignmentMock($criterionType3);
 
         $criterionType1

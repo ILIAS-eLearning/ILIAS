@@ -49,5 +49,4 @@ interface CAS_ProxyChain_Interface
      * @return bool
      */
     public function matches(array $list);
-
 }

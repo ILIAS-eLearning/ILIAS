@@ -126,7 +126,7 @@ class ilMDClassification extends ilMDBase
     public function setDescriptionLanguage(&$lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->description_language =&$lng_obj;
+            $this->description_language = &$lng_obj;
         }
     }
     public function &getDescriptionLanguage()
@@ -181,11 +181,11 @@ class ilMDClassification extends ilMDBase
             $this->db->query($query);
 
             foreach ($this->getTaxonPathIds() as $id) {
-                $tax =&$this->getTaxonPath($id);
+                $tax = &$this->getTaxonPath($id);
                 $tax->delete();
             }
             foreach ($this->getKeywordIds() as $id) {
-                $key =&$this->getKeyword($id);
+                $key = &$this->getKeyword($id);
                 $key->delete();
             }
             
@@ -197,10 +197,10 @@ class ilMDClassification extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'purpose'	=> ilUtil::prepareDBString($this->getPurpose()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'purpose' => ilUtil::prepareDBString($this->getPurpose()),
                      'description' => ilUtil::prepareDBString($this->getDescription()),
                      'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
     }
@@ -239,7 +239,7 @@ class ilMDClassification extends ilMDBase
 
         // Taxon Path
         foreach ($this->getTaxonPathIds() as $id) {
-            $tax =&$this->getTaxonPath($id);
+            $tax = &$this->getTaxonPath($id);
             $tax->toXML($writer);
         }
         // Description
@@ -247,7 +247,7 @@ class ilMDClassification extends ilMDBase
         
         // Keyword
         foreach ($this->getKeywordIds() as $id) {
-            $key =&$this->getKeyword($id);
+            $key = &$this->getKeyword($id);
             $key->toXML($writer);
         }
         $writer->xmlEndTag('Classification');

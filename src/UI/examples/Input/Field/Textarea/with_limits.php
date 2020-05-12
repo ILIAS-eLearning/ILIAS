@@ -30,7 +30,7 @@ function with_limits()
     $form = $ui->input()->container()->form()->standard($form_action, [$textarea_input]);
 
     //Step 4: implement some form data processing.
-    if ($request->getMethod() == "POST"  && $request->getQueryParams()['example_name'] =='with_limits') {
+    if ($request->getMethod() == "POST" && $request->getQueryParams()['example_name'] == 'with_limits') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

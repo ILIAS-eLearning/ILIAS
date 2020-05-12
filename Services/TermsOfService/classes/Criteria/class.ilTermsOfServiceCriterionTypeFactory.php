@@ -17,11 +17,11 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
     {
-        $usrLanguageCriterion   = new ilTermsOfServiceUserHasLanguageCriterion();
+        $usrLanguageCriterion = new ilTermsOfServiceUserHasLanguageCriterion();
         $usrGlobalRoleCriterion = new ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectCache);
 
         $this->types = [
-            $usrLanguageCriterion->getTypeIdent()   => $usrLanguageCriterion,
+            $usrLanguageCriterion->getTypeIdent() => $usrLanguageCriterion,
             $usrGlobalRoleCriterion->getTypeIdent() => $usrGlobalRoleCriterion,
         ];
     }

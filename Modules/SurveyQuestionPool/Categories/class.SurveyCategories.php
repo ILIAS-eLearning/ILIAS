@@ -73,7 +73,7 @@ class SurveyCategories
     public function moveCategoryUp($index)
     {
         if ($index > 0) {
-            $temp = $this->categories[$index-1];
+            $temp = $this->categories[$index - 1];
             $this->categories[$index - 1] = $this->categories[$index];
             $this->categories[$index] = $temp;
         }
@@ -81,8 +81,8 @@ class SurveyCategories
     
     public function moveCategoryDown($index)
     {
-        if ($index < (count($this->categories)-1)) {
-            $temp = $this->categories[$index+1];
+        if ($index < (count($this->categories) - 1)) {
+            $temp = $this->categories[$index + 1];
             $this->categories[$index + 1] = $this->categories[$index];
             $this->categories[$index] = $temp;
         }
@@ -246,7 +246,7 @@ class SurveyCategories
                 }
             }
         }
-        return $max+1;
+        return $max + 1;
     }
     
     public function getScale($index)

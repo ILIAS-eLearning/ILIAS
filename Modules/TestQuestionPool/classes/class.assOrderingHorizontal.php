@@ -446,10 +446,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
         $solutionvalue = "";
-        $solutions =&$this->getSolutionValues($active_id, $pass);
+        $solutions = &$this->getSolutionValues($active_id, $pass);
         $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
         $i = 1;
-        $worksheet->setCell($startrow+$i, 0, $solutionvalue);
+        $worksheet->setCell($startrow + $i, 0, $solutionvalue);
         $i++;
 
         return $startrow + $i + 1;
@@ -644,7 +644,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) true;
         $result['points'] = (bool) $this->getPoints();
@@ -660,7 +660,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         foreach ($this->getOrderingElements() as $order => $answer) {
             array_push($arr, array(
                 "answertext" => (string) $answer,
-                "order" => (int) $order+1
+                "order" => (int) $order + 1
             ));
         }
         $result['answers'] = $arr;
@@ -738,7 +738,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         foreach ($answer_elements as $answer) {
             foreach ($elements as $key => $element) {
                 if ($element == $answer) {
-                    $result->addKeyValue($key+1, $answer);
+                    $result->addKeyValue($key + 1, $answer);
                 }
             }
         }
@@ -752,7 +752,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

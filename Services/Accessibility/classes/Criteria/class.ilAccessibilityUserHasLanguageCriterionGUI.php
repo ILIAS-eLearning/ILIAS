@@ -25,7 +25,7 @@ class ilAccessibilityUserHasLanguageCriterionGUI implements ilAccessibilityCrite
         ilLanguage $lng
     ) {
         $this->type = $type;
-        $this->lng  = $lng;
+        $this->lng = $lng;
     }
 
     /**

@@ -14,11 +14,11 @@ class ilOrgUnitImporter extends ilXmlImporter
     /**
      * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
      */
-    public $errors;
+    public $errors = [];
     /**
      * @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type
      */
-    public $warnings;
+    public $warnings = [];
     /**
      * @var array keys in {updated, edited, deleted}
      */
@@ -41,6 +41,10 @@ class ilOrgUnitImporter extends ilXmlImporter
             return $id;
         } elseif ($type == 'external_id') {
             $obj_id = ilObject::_lookupObjIdByImportId($id);
+
+            if(ilObject::_lookupType($obj_id) !== 'orgu') {
+                return false;
+            }
 
             if (!ilObject::_hasUntrashedReference($obj_id)) {
                 return false;
@@ -77,8 +81,10 @@ class ilOrgUnitImporter extends ilXmlImporter
         $ilDB = $DIC->database();
 
         $query = "SELECT * FROM object_data " .
-            "WHERE import_id = " . $ilDB->quote($external_id, "text") . " " .
+            "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null ".
+            'WHERE object_data.type = "orgu" and import_id = ' . $ilDB->quote($external_id, "text") . " " .
             "ORDER BY create_date DESC";
+
         $res = $ilDB->query($query);
 
         if ($ilDB->numRows($res) > 1) {

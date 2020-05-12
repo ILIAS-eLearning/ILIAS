@@ -18,8 +18,7 @@ class ilServicesContactSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once 'Services/Contact/BuddySystem/test/ilBuddySystemTestSuite.php';
-        $suite->addTestSuite('ilBuddySystemTestSuite');
+        $suite->addTestSuite(ilBuddySystemTestSuite::class);
 
         return $suite;
     }

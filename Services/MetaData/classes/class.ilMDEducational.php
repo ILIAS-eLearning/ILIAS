@@ -374,9 +374,9 @@ class ilMDEducational extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'interactivity_type' => array('text',$this->getInteractivityType()),
                      'learning_resource_type' => array('text',$this->getLearningResourceType()),
                      'interactivity_level' => array('text',$this->getInteractivityLevel()),
@@ -452,7 +452,7 @@ class ilMDEducational extends ilMDBase
         // TypicalAgeRange
         $typ_ages = $this->getTypicalAgeRangeIds();
         foreach ($typ_ages as $id) {
-            $key =&$this->getTypicalAgeRange($id);
+            $key = &$this->getTypicalAgeRange($id);
             
             // extra test due to bug 5316 (may be due to eLaix import)
             if (is_object($key)) {
@@ -470,12 +470,12 @@ class ilMDEducational extends ilMDBase
 
         // Description
         foreach ($this->getDescriptionIds() as $id) {
-            $key =&$this->getDescription($id);
+            $key = &$this->getDescription($id);
             $key->toXML($writer);
         }
         // Language
         foreach ($this->getLanguageIds() as $id) {
-            $lang =&$this->getLanguage($id);
+            $lang = &$this->getLanguage($id);
             $lang->toXML($writer);
         }
         $writer->xmlEndTag('Educational');

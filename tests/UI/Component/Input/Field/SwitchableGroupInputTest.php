@@ -313,16 +313,16 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $byline = "byline";
 
         $group1 = $f->group([
-            "field_1"=>$f->text("f", "some field")
+            "field_1" => $f->text("f", "some field")
         ]);
         $group2 = $f->group([
-            "field_2"=>$f->text("f2", "some other field")
+            "field_2" => $f->text("f2", "some other field")
         ]);
 
-        $sg =$f->switchableGroup(
+        $sg = $f->switchableGroup(
             [
-                "g1"=>$group1,
-                "g2"=>$group2
+                "g1" => $group1,
+                "g2" => $group2
             ],
             $label,
             $byline
@@ -417,14 +417,14 @@ EOT;
         $byline = "byline";
 
         $group1 = $f->group([
-            "field_1"=>$f->text("f", "some field")
+            "field_1" => $f->text("f", "some field")
         ]);
         $group2 = $f->group([
-            "field_2"=>$f->text("f2", "some other field")
+            "field_2" => $f->text("f2", "some other field")
         ]);
 
         //construct without string-key:
-        $sg =$f->switchableGroup([$group1,$group2], $label, $byline);
+        $sg = $f->switchableGroup([$group1,$group2], $label, $byline);
 
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg->withValue(1));

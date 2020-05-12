@@ -113,7 +113,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
     ) : ilTermsOfServiceUserHasGlobalRoleCriterion {
         $httpCriterionSelectionBodyParameter = 'criterion';
-        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_role_id';
+        $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
         $gui = $criterion->ui($this->lng);
 
@@ -137,7 +137,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
     ) : void {
         $httpCriterionSelectionBodyParameter = 'criterion';
-        $httpCriterionConfigBodyParameter    = $criterion->getTypeIdent() . '_role_id';
+        $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_role_id';
 
         $gui = $criterion->ui($this->lng);
 
@@ -193,7 +193,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      */
     public function testValuePresentationMatchesExpectation(int $roleId, string $roleTitle) : void
     {
-        $rbacReview      = $this->getRbacReviewMock();
+        $rbacReview = $this->getRbacReviewMock();
         $objectDataCache = $this->getObjectDataCacheMock();
 
         $objectDataCache
@@ -203,7 +203,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
             ->willReturn($roleTitle);
 
         $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectDataCache);
-        $gui       = $criterion->ui($this->lng);
+        $gui = $criterion->ui($this->lng);
 
         /** @var Legacy $actual */
         $actual = $gui->getValuePresentation(
@@ -257,7 +257,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      */
     public function testEvaluationFailsIfConfiguredRoleIsNotAGlobalRole() : void
     {
-        $user      = $this->getUserMock();
+        $user = $this->getUserMock();
         $criterion = $this->getInstance();
 
         $this->rbacReview
@@ -275,7 +275,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      */
     public function testEvaluationFailsIfUserIsNotAssignedToConfiguredGlobalRole() : void
     {
-        $user      = $this->getUserMock();
+        $user = $this->getUserMock();
         $criterion = $this->getInstance();
 
         $this->rbacReview
@@ -298,7 +298,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      */
     public function testEvaluationSucceedsIfUserIsAssignedToDefinedGlobalRole() : void
     {
-        $user      = $this->getUserMock();
+        $user = $this->getUserMock();
         $criterion = $this->getInstance();
 
         $this->rbacReview

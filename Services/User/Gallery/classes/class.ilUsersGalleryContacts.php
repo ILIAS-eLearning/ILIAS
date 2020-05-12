@@ -14,10 +14,10 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
     protected function getRelationSequence()
     {
         $requested_for_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
-        $linked           = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
-        $requested_by_me  = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsByOwner()->toArray();
-        $me_ignored       = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsByOwner()->toArray();
-        $ignored          = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
+        $linked = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
+        $requested_by_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsByOwner()->toArray();
+        $me_ignored = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsByOwner()->toArray();
+        $ignored = ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
 
         return [$requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored];
     }
@@ -30,7 +30,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         global $DIC;
 
         $relations = $this->getRelationSequence();
-        $groups    = [];
+        $groups = [];
 
         foreach ($relations as $sorted_relation) {
             $user_data = [];

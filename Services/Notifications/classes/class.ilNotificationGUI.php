@@ -131,15 +131,15 @@ class ilNotificationGUI
         require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
         require_once 'Services/Notifications/classes/class.ilNotificationOSDHandler.php';
 
-        $notifications         = ilNotificationOSDHandler::getNotificationsForUser(
+        $notifications = ilNotificationOSDHandler::getNotificationsForUser(
             $this->user->getId(),
             true,
             (int) $_REQUEST['max_age']
         );
 
-        $result                = new stdClass();
+        $result = new stdClass();
         $result->notifications = $notifications;
-        $result->server_time   = time();
+        $result->server_time = time();
         echo json_encode($result);
         exit;
     }
@@ -187,7 +187,7 @@ class ilNotificationGUI
 
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-        $chk  = new ilCheckboxInputGUI($this->language->txt('enable_custom_notification_configuration'), 'enable_custom_notification_configuration');
+        $chk = new ilCheckboxInputGUI($this->language->txt('enable_custom_notification_configuration'), 'enable_custom_notification_configuration');
         $chk->setValue('1');
         $chk->setChecked($this->user->getPref('use_custom_notification_setting') == 1);
         $form->addItem($chk);

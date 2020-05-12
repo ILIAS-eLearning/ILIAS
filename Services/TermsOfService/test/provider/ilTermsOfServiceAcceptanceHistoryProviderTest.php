@@ -30,7 +30,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
     public function testListCanBeRetrieved() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $result   = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($database);
@@ -65,14 +65,14 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
 
         $data = $provider->getList(
             [
-                'limit'       => 5,
+                'limit' => 5,
                 'order_field' => 'ts'
             ],
             [
-                'query'  => 'phpunit',
+                'query' => 'phpunit',
                 'period' => [
                     'start' => time(),
-                    'end'   => time()
+                    'end' => time()
                 ]
             ]
         );

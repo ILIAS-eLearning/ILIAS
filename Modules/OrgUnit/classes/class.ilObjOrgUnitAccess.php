@@ -28,9 +28,9 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         $commands = [
             [
                 'permission' => 'read',
-                'cmd'        => 'view',
-                'lang_var'   => 'show',
-                'default'    => true,
+                'cmd' => 'view',
+                'lang_var' => 'show',
+                'default' => true,
             ],
         ];
 
@@ -50,6 +50,54 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return ($DIC->access()->checkAccess('write', '', $ref_id)
                 || $DIC->access()->checkAccess('view_learning_progress', '', $ref_id))
             && $DIC->access()->checkAccess('read', '', $ref_id);
+    }
+
+    /**
+     * @param int $ref_id
+     *
+     * @return bool
+     */
+    public static function _checkAccessSettings(int $ref_id) : bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkAccess('write', '', $ref_id);
+    }
+
+    /**
+     * @param int $ref_id
+     *
+     * @return bool
+     */
+    public static function _checkAccessExport(int $ref_id) : bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkAccess('write', '', $ref_id);
+    }
+
+    /**
+     * @param int $ref_id
+     *
+     * @return bool
+     */
+    public static function _checkAccessTypes(int $ref_id) : bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkAccess('write', '', $ref_id);
+    }
+
+    /**
+     * @param int $ref_id
+     *
+     * @return bool
+     */
+    public static function _checkAccessPositions(int $ref_id) : bool
+    {
+        global $DIC;
+
+        return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
 
@@ -79,23 +127,6 @@ class ilObjOrgUnitAccess extends ilObjectAccess
 
         return ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled()
             && $DIC->access()->checkAccess('cat_administrate_users', '', $ref_id);
-    }
-
-
-    /**
-     * @param integer $ref_id
-     *
-     * @return bool
-     */
-    public static function _checkAccessExport($ref_id) : bool
-    {
-        global $DIC;
-
-        if ($DIC->access()->checkAccess('write', '', $ref_id)) {
-            return true;
-        }
-
-        return false;
     }
 
 

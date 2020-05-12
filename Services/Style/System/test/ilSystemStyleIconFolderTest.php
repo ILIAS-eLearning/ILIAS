@@ -150,7 +150,7 @@ class ilSystemStyleIconFolderTest extends TestCase
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
-        $path1 =  $style_path . "/test_image_1.svg";
+        $path1 = $style_path . "/test_image_1.svg";
         $icon1 = new ilSystemStyleIcon("test_image_1.svg", $path1, "svg");
 
         $path2 = $style_path . "/image_subfolder/sub_test_image_1.svg";
@@ -196,7 +196,7 @@ class ilSystemStyleIconFolderTest extends TestCase
     public function testExtractChangeColors()
     {
         $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
-        $folder1->changeIconColors(["505050"=>"555555"]);
+        $folder1->changeIconColors(["505050" => "555555"]);
 
         $folder2 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
@@ -246,7 +246,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
         $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
-        $folder1->changeIconColors(["6B6B6B"=>"7B6B6B"]);
+        $folder1->changeIconColors(["6B6B6B" => "7B6B6B"]);
 
         $folder2 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 

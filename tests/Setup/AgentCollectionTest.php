@@ -78,7 +78,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->method("getConfigInput")
             ->willReturn($inp3);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
 
         $ff
             ->expects($this->once())
@@ -142,7 +142,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->with($conf3)
             ->willReturn($inp);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
 
         $ff
             ->method("group")
@@ -200,7 +200,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
                 return $conf3;
             }));
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
         $trafo = $col->getArrayToConfigTransformation();
         $conf = $trafo($arr);
 
@@ -253,7 +253,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
                 return $conf3;
             }));
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
         $trafo = $col->getArrayToConfigTransformation();
         $conf = $trafo($arr);
 
@@ -297,7 +297,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->with()
             ->willReturn($g2);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2]);
         $conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
         $g = $col->getInstallObjective($conf);
@@ -339,7 +339,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->with()
             ->willReturn($g2);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2]);
+        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2]);
         $conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
         $g = $col->getUpdateObjective($conf);

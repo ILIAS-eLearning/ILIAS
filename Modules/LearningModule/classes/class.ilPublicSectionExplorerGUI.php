@@ -108,7 +108,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
             if ($node["public_access"] == "y" && $node["type"] == "pg") {
                 $this->setNodeSelected($node["obj_id"]);
             }
-            if ($node["public_access"] == "y" && $node["type"]== "st") {
+            if ($node["public_access"] == "y" && $node["type"] == "st") {
                 $this->setNodeOpen($node["obj_id"]);
             }
         }

@@ -278,7 +278,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         if ($parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($parent_obj_id);
         } else {
-            $parent_type  = "dummy";
+            $parent_type = "dummy";
             $this->type_grps["dummy"] = array("root" => "dummy");
         }
 
@@ -359,7 +359,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if (is_array($this->getClickableTypes()) && count($this->getClickableTypes())>0) {
+        if (is_array($this->getClickableTypes()) && count($this->getClickableTypes()) > 0) {
             return in_array($a_node["type"], $this->getClickableTypes());
         }
 

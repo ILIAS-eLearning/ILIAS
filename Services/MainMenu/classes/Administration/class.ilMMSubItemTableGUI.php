@@ -61,8 +61,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $table_entry_status = new ilSelectInputGUI($this->lng->txt(self::F_TABLE_ENTRY_STATUS), self::F_TABLE_ENTRY_STATUS);
         $table_entry_status->setOptions(
             array(
-                self::F_TABLE_ALL_VALUE           => $this->lng->txt("all"),
-                self::F_TABLE_ONLY_ACTIVE_VALUE   => $this->lng->txt("only_active"),
+                self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
+                self::F_TABLE_ONLY_ACTIVE_VALUE => $this->lng->txt("only_active"),
                 self::F_TABLE_ONLY_INACTIVE_VALUE => $this->lng->txt("only_inactive"),
             )
         );

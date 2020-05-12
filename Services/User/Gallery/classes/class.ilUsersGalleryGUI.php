@@ -66,13 +66,13 @@ class ilUsersGalleryGUI
          */
         global $DIC;
 
-        $this->ctrl                = $DIC->ctrl();
-        $this->tpl                 = $DIC->ui()->mainTemplate();
-        $this->lng                 = $DIC->language();
-        $this->user                = $DIC->user();
-        $this->rbacsystem          = $DIC->rbac()->system();
-        $this->factory             = $DIC->ui()->factory();
-        $this->renderer            = $DIC->ui()->renderer();
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->collection_provider = $collection_provider;
     }
@@ -83,7 +83,7 @@ class ilUsersGalleryGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
-        $cmd        = $this->ctrl->getCmd('view');
+        $cmd = $this->ctrl->getCmd('view');
 
         switch ($next_class) {
             case 'ilpublicuserprofilegui':
@@ -146,7 +146,7 @@ class ilUsersGalleryGUI
     protected function populateTemplate(array $gallery_groups)
     {
         $buddylist = ilBuddyList::getInstanceByGlobalUser();
-        $tpl       = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
+        $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
 
         require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
@@ -179,7 +179,7 @@ class ilUsersGalleryGUI
             $group = new ilUsersGallerySortedUserGroup($group, new ilUsersGalleryUserCollectionPublicNameSorter());
 
             foreach ($group as $user) {
-                $card   = $this->factory->card()->standard($user->getPublicName());
+                $card = $this->factory->card()->standard($user->getPublicName());
                 $avatar = $this->factory->image()->standard($user->getAggregatedUser()->getPersonalPicturePath('big'), $user->getPublicName());
 
                 $sections = [];
@@ -190,7 +190,7 @@ class ilUsersGalleryGUI
 
                 $sections[] = $this->factory->listing()->descriptive(
                     [
-                        $this->lng->txt("username")                   => $user->getAggregatedUser()->getLogin(),
+                        $this->lng->txt("username") => $user->getAggregatedUser()->getLogin(),
                         $this->lng->txt("crs_contact_responsibility") => $group->getLabel()
                     ]
                 );
@@ -202,7 +202,7 @@ class ilUsersGalleryGUI
                     $public_profile_url = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
 
                     $avatar = $avatar->withAction($public_profile_url);
-                    $card   = $card->withTitleAction($public_profile_url);
+                    $card = $card->withTitleAction($public_profile_url);
                 }
 
                 $card = $card->withImage($avatar)->withSections($sections);

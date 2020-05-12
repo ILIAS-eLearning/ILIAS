@@ -271,7 +271,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
             $this->criteriaFetched = true;
 
             $this->initialPersistedCriteria = [];
-            $this->criteria                 = [];
+            $this->criteria = [];
 
             $criteria = ilTermsOfServiceDocumentCriterionAssignment::where(['doc_id' => $this->getId()])->get();
             foreach ($criteria as $criterionAssignment) {

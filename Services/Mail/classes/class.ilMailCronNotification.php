@@ -35,7 +35,7 @@ class ilMailCronNotification extends ilCronJob
 
         if (!$this->initDone) {
             $this->settings = $DIC->settings();
-            $this->lng      = $DIC->language();
+            $this->lng = $DIC->language();
 
             $this->initDone = true;
         }

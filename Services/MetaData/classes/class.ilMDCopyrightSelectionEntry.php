@@ -435,14 +435,14 @@ class ilMDCopyrightSelectionEntry
         $next_id = $ilDB->nextId('il_md_cpr_selections');
         
         $ilDB->insert('il_md_cpr_selections', array(
-            'entry_id'			=> array('integer',$next_id),
-            'title'				=> array('text',$this->getTitle()),
-            'description'		=> array('clob',$this->getDescription()),
-            'copyright'			=> array('clob',$this->getCopyright()),
-            'language'			=> array('text',$this->getLanguage()),
-            'costs'				=> array('integer',$this->getCosts()),
-            'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
-            'position'			=> array('integer', $this->getNextOrderPosition())
+            'entry_id' => array('integer',$next_id),
+            'title' => array('text',$this->getTitle()),
+            'description' => array('clob',$this->getDescription()),
+            'copyright' => array('clob',$this->getCopyright()),
+            'language' => array('text',$this->getLanguage()),
+            'costs' => array('integer',$this->getCosts()),
+            'cpr_restrictions' => array('integer',$this->getCopyrightAndOtherRestrictions()),
+            'position' => array('integer', $this->getNextOrderPosition())
         ));
         $this->entry_id = $next_id;
         return true;
@@ -461,16 +461,16 @@ class ilMDCopyrightSelectionEntry
         $ilDB = $DIC['ilDB'];
 
         $ilDB->update('il_md_cpr_selections', array(
-            'title'				=> array('text',$this->getTitle()),
-            'description'		=> array('clob',$this->getDescription()),
-            'copyright'			=> array('clob',$this->getCopyright()),
-            'language'			=> array('text',$this->getLanguage()),
-            'costs'				=> array('integer',$this->getCosts()),
-            'cpr_restrictions'	=> array('integer',$this->getCopyrightAndOtherRestrictions()),
-            'outdated'			=> array('integer',$this->getOutdated()),
-            'position'			=> array('integer',$this->getOrderPosition())
+            'title' => array('text',$this->getTitle()),
+            'description' => array('clob',$this->getDescription()),
+            'copyright' => array('clob',$this->getCopyright()),
+            'language' => array('text',$this->getLanguage()),
+            'costs' => array('integer',$this->getCosts()),
+            'cpr_restrictions' => array('integer',$this->getCopyrightAndOtherRestrictions()),
+            'outdated' => array('integer',$this->getOutdated()),
+            'position' => array('integer',$this->getOrderPosition())
             ), array(
-                'entry_id'			=> array('integer',$this->getEntryId())
+                'entry_id' => array('integer',$this->getEntryId())
         ));
         return true;
     }

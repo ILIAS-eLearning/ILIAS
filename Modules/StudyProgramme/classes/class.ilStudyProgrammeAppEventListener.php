@@ -298,7 +298,7 @@ class ilStudyProgrammeAppEventListener
     private static function sendReAssignedMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $ref_id = $params['ref_id'];
+        $ref_id = $params['root_prg_ref_id'];
 
         ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
     }
@@ -309,7 +309,7 @@ class ilStudyProgrammeAppEventListener
     private static function sendInformToReAssignMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $assignment_id = $params['ref_id'];
+        $assignment_id = $params['ass_id'];
 
         ilStudyProgrammeUserAssignment::sendInformToReAssignMail($assignment_id, $usr_id);
     }

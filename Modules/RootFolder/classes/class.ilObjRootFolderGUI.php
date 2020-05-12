@@ -122,7 +122,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case 'ilcontainerlinklistgui':
                 include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
                 $link_list_gui = new ilContainerLinkListGUI();
-                $ret =&$this->ctrl->forwardCommand($link_list_gui);
+                $ret = &$this->ctrl->forwardCommand($link_list_gui);
                 break;
 
                 // container page editing
@@ -181,12 +181,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
 
             default:
-                
-                // fix bug http://www.ilias.de/mantis/view.php?id=10305
                 if ($cmd == "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
-                    $this->checkPermission("read");
+                    try{
+                        $this->checkPermission("read");
+                    }catch (ilObjectException $exception){
+                        $this->ctrl->redirectToURL("login.php?client_id=" . CLIENT_ID . "&cmd=force_login");
+                    }
                 }
                 $this->prepareOutput();
                 include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -222,7 +224,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         );
         
         $ilTabs->activateTab("view_content");
-        $ret =  parent::renderObject();
+        $ret = parent::renderObject();
         return $ret;
     }
 
@@ -507,7 +509,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
     public function addTranslationObject()
     {
         if (sizeof($_POST["title"])) {
-            $k = max(array_keys($_POST["title"]))+1;
+            $k = max(array_keys($_POST["title"])) + 1;
         } else {
             $k = 0;
         }

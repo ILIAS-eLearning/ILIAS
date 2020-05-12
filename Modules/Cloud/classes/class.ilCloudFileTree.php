@@ -152,7 +152,7 @@ class ilCloudFileTree
      */
     protected function createNode($path = "/", $id, $is_dir = false)
     {
-        $node                              = new ilCloudFileNode(ilCloudUtil::normalizePath($path), $id);
+        $node = new ilCloudFileNode(ilCloudUtil::normalizePath($path), $id);
         $this->item_list[$node->getPath()] = $node;
         $this->id_to_path_map[$node->getId()] = $node->getPath();
         $node->setIsDir($is_dir);
@@ -181,7 +181,7 @@ class ilCloudFileTree
             if (!$node_parent) {
                 throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION, "Parent: " . $path_of_parent);
             }
-            $node        = $this->createNode($path, $id, $is_Dir);
+            $node = $this->createNode($path, $id, $is_Dir);
             $node->setParentId($node_parent->getId());
             $node_parent->addChild($node->getPath());
         }
@@ -224,7 +224,7 @@ class ilCloudFileTree
             if (!$node_parent) {
                 throw new ilCloudException(ilCloudException::PATH_DOES_NOT_EXIST_IN_FILE_TREE_IN_SESSION, "Parent: " . $parent_id);
             }
-            $node        = $this->createNode($path, $id, $is_Dir);
+            $node = $this->createNode($path, $id, $is_Dir);
             $node->setParentId($node_parent->getId());
             $node_parent->addChild($node->getPath());
         }
@@ -241,7 +241,7 @@ class ilCloudFileTree
      */
     public function removeNode($path)
     {
-        $node   = $this->getNodeFromPath($path);
+        $node = $this->getNodeFromPath($path);
         $parent = $this->getNodeFromId($node->getParentId());
         $parent->removeChild($path);
         unset($this->item_list[$node->getPath()]);
@@ -403,7 +403,7 @@ class ilCloudFileTree
         $plugin = ilCloudConnector::getPluginClass($this->getServiceName(), $this->getId());
         $max_file_size = $plugin->getMaxFileSize();
 
-        if ($max_file_size >= filesize($tmp_name)/(1024 * 1024)) {
+        if ($max_file_size >= filesize($tmp_name) / (1024 * 1024)) {
             $current_node = $this->getNodeFromId($current_id);
 
             $current_node->setLoadingComplete(false);

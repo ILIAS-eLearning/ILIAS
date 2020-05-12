@@ -34,7 +34,7 @@ class ilSystemStyleLessFile
      *
      * @var array
      */
-    protected $variables_ids= array();
+    protected $variables_ids = array();
 
     /**
      * Separated array with all category ids (performance reasons)
@@ -174,14 +174,14 @@ class ilSystemStyleLessFile
      */
     public function addItem(ilSystemStyleLessItem $item)
     {
-        $id = array_push($this->items, $item)-1;
+        $id = array_push($this->items, $item) - 1;
 
 
-        if (get_class($item)=="ilSystemStyleLessComment") {
+        if (get_class($item) == "ilSystemStyleLessComment") {
             $this->comments_ids[] = $id;
-        } elseif (get_class($item)=="ilSystemStyleLessCategory") {
+        } elseif (get_class($item) == "ilSystemStyleLessCategory") {
             $this->categories_ids[] = $id;
-        } elseif (get_class($item)=="ilSystemStyleLessVariable") {
+        } elseif (get_class($item) == "ilSystemStyleLessVariable") {
             $this->variables_ids[] = $id;
         }
 

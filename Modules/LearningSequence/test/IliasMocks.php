@@ -32,7 +32,7 @@ trait IliasMocks
             ->willReturn(new CImpl\ViewControl\Factory($signal_generator));
         $ui_factory->method('breadcrumbs')
             ->will(
-                $this->returnCallback(function($crumbs) {
+                $this->returnCallback(function ($crumbs) {
                     return new CImpl\Breadcrumbs\Breadcrumbs($crumbs);
                 })
             );

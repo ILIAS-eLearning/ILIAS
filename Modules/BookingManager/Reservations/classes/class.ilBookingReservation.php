@@ -325,7 +325,7 @@ class ilBookingReservation
             if ($row['cnt'] >= $nr_map[$row['object_id']]) {
                 $blocked[] = $row['object_id'];
             } elseif ($a_return_counter) {
-                $counter[$row['object_id']] = (int) $nr_map[$row['object_id']]-(int) $row['cnt'];
+                $counter[$row['object_id']] = (int) $nr_map[$row['object_id']] - (int) $row['cnt'];
             }
         }
         
@@ -431,7 +431,7 @@ class ilBookingReservation
                 }
             }
             
-            $a_from += (60*60*24);
+            $a_from += (60 * 60 * 24);
         }
 
         if ($available_in_period - $booked_in_period > 0) {
@@ -514,7 +514,7 @@ class ilBookingReservation
         $cnt = $ilDB->fetchAssoc($set);
         $cnt = (int) $cnt['cnt'];
 
-        return (int) $all-$cnt; // #11864
+        return (int) $all - $cnt; // #11864
     }
 
     /**
@@ -620,7 +620,7 @@ class ilBookingReservation
             $res[] = $row;
         }
 
-        return array('data'=>$res, 'counter'=>$counter);
+        return array('data' => $res, 'counter' => $counter);
     }
     
 

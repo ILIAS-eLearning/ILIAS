@@ -60,7 +60,7 @@ class ilCourseFile
         $lng = $DIC['lng'];
 
         $this->ilErr = $ilErr;
-        $this->db  = $ilDB;
+        $this->db = $ilDB;
         $this->lng = $lng;
 
         $this->file_id = $a_file_id;

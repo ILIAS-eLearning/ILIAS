@@ -746,7 +746,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
             $this->settings->get('fixed_content_style_id') <= 0 &&
             (
                 \ilObjStyleSheet::_lookupStandard(
-                $this->object->getStyleSheetId()
+                    $this->object->getStyleSheetId()
             ) ||
                 $this->object->getStyleSheetId() == 0
             )

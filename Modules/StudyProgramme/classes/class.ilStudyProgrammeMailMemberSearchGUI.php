@@ -156,7 +156,7 @@ class ilStudyProgrammeMailMemberSearchGUI
             array(),
             array(
                 'type' => 'new',
-                'sig'  =>  $this->createMailSignature()
+                'sig' => $this->createMailSignature()
             ),
             $this->generateContextArray()
         ));

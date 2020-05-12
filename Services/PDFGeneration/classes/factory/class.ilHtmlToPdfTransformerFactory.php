@@ -9,9 +9,9 @@ require_once './Services/PDFGeneration/classes/class.ilPDFGenerationJob.php';
  */
 class ilHtmlToPdfTransformerFactory
 {
-    const PDF_OUTPUT_DOWNLOAD	= 'D';
-    const PDF_OUTPUT_INLINE		= 'I';
-    const PDF_OUTPUT_FILE		= 'F';
+    const PDF_OUTPUT_DOWNLOAD = 'D';
+    const PDF_OUTPUT_INLINE = 'I';
+    const PDF_OUTPUT_FILE = 'F';
 
 
     /**
@@ -26,7 +26,7 @@ class ilHtmlToPdfTransformerFactory
     public function __construct($component = '')
     {
         global $lng;
-        $this->lng	= $lng;
+        $this->lng = $lng;
     }
 
     /**
@@ -100,7 +100,7 @@ class ilHtmlToPdfTransformerFactory
     protected function createOneFileFromArray(array $src)
     {
         $tmp_file = dirname(reset($src)) . '/complete_pages_overview.html';
-        $html_content	= '';
+        $html_content = '';
         foreach ($src as $filename) {
             if (file_exists($filename)) {
                 $html_content .= file_get_contents($filename);

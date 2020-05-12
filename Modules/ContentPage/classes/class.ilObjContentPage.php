@@ -54,9 +54,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
      */
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
     {
-        /**
-         * @var $new_obj self
-         */
+        /** @var $new_obj self */
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
         if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
@@ -79,6 +77,19 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
                 $new_obj->update();
             }
         }
+
+        \ilContainer::_writeContainerSetting(
+            $new_obj->getId(),
+            \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+            \ilContainer::_lookupContainerSetting(
+                $this->getId(),
+                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                true
+            )
+        );
+
+        $lpSettings = new ilLPObjSettings($this->getId());
+        $lpSettings->cloneSettings($new_obj->getId());
     }
 
     /**

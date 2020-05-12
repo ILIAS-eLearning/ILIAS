@@ -43,7 +43,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('#il_ml_4711', self::DEFAULT_HOST),
                 ]
             ],
-            'Role Address' =>  [
+            'Role Address' => [
                 '#il_role_1000',
                 [
                     new ilMailAddress('#il_role_1000', self::DEFAULT_HOST),

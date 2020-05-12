@@ -71,14 +71,14 @@ abstract class ilAccessibilityTableDatabaseDataProvider implements ilAccessibili
     {
         $data = [
             'items' => [],
-            'cnt'   => 0
+            'cnt' => 0
         ];
 
         $select = $this->getSelectPart($params, $filter);
-        $where  = $this->getWherePart($params, $filter);
-        $from   = $this->getFromPart($params, $filter);
-        $order  = $this->getOrderByPart($params, $filter);
-        $group  = $this->getGroupByPart($params, $filter);
+        $where = $this->getWherePart($params, $filter);
+        $from = $this->getFromPart($params, $filter);
+        $order = $this->getOrderByPart($params, $filter);
+        $group = $this->getGroupByPart($params, $filter);
         $having = $this->getHavingPart($params, $filter);
 
         if (isset($params['limit'])) {
@@ -118,8 +118,8 @@ abstract class ilAccessibilityTableDatabaseDataProvider implements ilAccessibili
         }
 
         if (isset($params['limit'])) {
-            $cnt_sql     = "SELECT COUNT(*) cnt FROM ({$query}) subquery";
-            $row_cnt     = $this->db->fetchAssoc($this->db->query($cnt_sql));
+            $cnt_sql = "SELECT COUNT(*) cnt FROM ({$query}) subquery";
+            $row_cnt = $this->db->fetchAssoc($this->db->query($cnt_sql));
             $data['cnt'] = $row_cnt['cnt'];
         }
 

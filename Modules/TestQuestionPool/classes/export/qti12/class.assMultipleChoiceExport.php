@@ -118,7 +118,7 @@ class assMultipleChoiceExport extends assQuestionExport
             $attrs['maxnumber'] = (string) $this->object->getSelectionLimit();
         }
         $a_xml_writer->xmlStartTag("render_choice", $attrs);
-        $answers =&$this->object->getAnswers();
+        $answers = &$this->object->getAnswers();
         $akeys = array_keys($answers);
         if ($this->object->getShuffle() && $a_shuffle) {
             $akeys = $this->object->pcArrayShuffle($akeys);

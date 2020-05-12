@@ -77,7 +77,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     private function getTreeWhiteList() : array
     {
         $whiteList = array('orgu');
-        $pls       = ilOrgUnitExtension::getActivePluginIdsForTree();
+        $pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 
         return array_merge($whiteList, $pls);
     }

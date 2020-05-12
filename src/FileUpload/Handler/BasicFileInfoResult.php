@@ -85,10 +85,10 @@ class BasicFileInfoResult implements FileInfoResult
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 
         return [
-            'name'      => $this->name,
-            'size'      => $this->size,
+            'name' => $this->name,
+            'size' => $this->size,
             'mime_type' => $this->mime_type,
-            $str        => $this->file_identifier,
+            $str => $this->file_identifier,
         ];
     }
 }

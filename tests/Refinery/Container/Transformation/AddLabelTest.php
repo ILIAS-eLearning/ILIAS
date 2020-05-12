@@ -14,7 +14,7 @@ class AddLabelTest extends TestCase
 {
     protected static $labels = array("A", "B", "C");
     protected static $test_array = array(1, 2, 3);
-    protected static $result_array = array("A"=>1, "B"=>2, "C"=>3);
+    protected static $result_array = array("A" => 1, "B" => 2, "C" => 3);
     /**
      * @var ILIAS\Refinery\Factory
      */
@@ -46,7 +46,7 @@ class AddLabelTest extends TestCase
         $raised = false;
         try {
             $with = null;
-            $next_with  = $this->add_label->transform($with);
+            $next_with = $this->add_label->transform($with);
         } catch (InvalidArgumentException $e) {
             $raised = true;
         }
@@ -94,7 +94,7 @@ class AddLabelTest extends TestCase
         $raised = false;
         try {
             $with = null;
-            $next_with  = $add_label($with);
+            $next_with = $add_label($with);
         } catch (InvalidArgumentException $e) {
             $raised = true;
         }

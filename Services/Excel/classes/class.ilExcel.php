@@ -119,7 +119,7 @@ class ilExcel
         
         $sheet = new Worksheet($this->workbook, $a_name);
         $this->workbook->addSheet($sheet);
-        $new_index = $this->workbook->getSheetCount()-1;
+        $new_index = $this->workbook->getSheetCount() - 1;
         
         if ((bool) $a_activate) {
             $this->setActiveSheet($new_index);

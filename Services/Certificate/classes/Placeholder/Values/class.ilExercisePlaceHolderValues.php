@@ -137,17 +137,17 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 
         $placeHolders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-        $placeHolders['RESULT_PASSED']      = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
-        $placeHolders['RESULT_MARK']        = $this->utilHelper->prepareFormOutput($mark);
-        $placeHolders['EXERCISE_TITLE']     = $this->utilHelper->prepareFormOutput($exerciseObject->getTitle());
-        $placeHolders['DATE_COMPLETED']     = '';
+        $placeHolders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
+        $placeHolders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput($mark);
+        $placeHolders['EXERCISE_TITLE'] = $this->utilHelper->prepareFormOutput($exerciseObject->getTitle());
+        $placeHolders['DATE_COMPLETED'] = '';
         $placeHolders['DATETIME_COMPLETED'] = '';
 
         if ($completionDate !== false &&
             $completionDate !== null &&
             $completionDate !== ''
         ) {
-            $placeHolders['DATE_COMPLETED']     = $this->dateHelper->formatDate($completionDate);
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
             $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
         }
 

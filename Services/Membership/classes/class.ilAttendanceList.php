@@ -339,7 +339,6 @@ class ilAttendanceList
         include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this->parent_gui, $a_cmd));
-        $form->setTarget('_blank');
         $form->setPreventDoubleSubmission(false);
         $form->setTitle($lng->txt('sess_gen_attendance_list'));
         
@@ -524,8 +523,9 @@ class ilAttendanceList
 
 
         $tpl = $DIC->ui()->mainTemplate();
-        $tpl->setVariable("CONTENT", $this->getHTML());
         $tpl->setContent($this->getHTML());
+        //$tpl->setVariable("CONTENT", $this->getHTML());
+        //$tpl->setContent($this->getHTML());
     }
     
     /**

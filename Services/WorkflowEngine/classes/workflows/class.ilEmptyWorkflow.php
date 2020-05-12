@@ -22,13 +22,13 @@ class ilEmptyWorkflow extends ilBaseWorkflow
      */
     public function __construct()
     {
-        $this->workflow_type				= 'Empty';
-        $this->workflow_content				= 'nothing';
-        $this->workflow_subject_type		= 'none';
-        $this->workflow_subject_identifier	= '0';
-        $this->workflow_context_type		= 'none';
-        $this->workflow_context_id			= '0';
-        $this->workflow_class				= 'class.ilEmptyWorkflow.php';
-        $this->workflow_location			= 'Services/WorkflowEngine/classes/workflows';
+        $this->workflow_type = 'Empty';
+        $this->workflow_content = 'nothing';
+        $this->workflow_subject_type = 'none';
+        $this->workflow_subject_identifier = '0';
+        $this->workflow_context_type = 'none';
+        $this->workflow_context_id = '0';
+        $this->workflow_class = 'class.ilEmptyWorkflow.php';
+        $this->workflow_location = 'Services/WorkflowEngine/classes/workflows';
     }
 }

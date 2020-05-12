@@ -1,5 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
 
+declare(strict_types=1);
 
 class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 {
@@ -274,13 +275,12 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
      */
     public function deleteType(ilStudyProgrammeType $type)
     {
-        $prgs = $this->readStudyProgrammeIdsByTypeId($type->getId());
+        $prg_ids = $this->readStudyProgrammeIdsByTypeId($type->getId());
 
-        if (count($prgs)) {
+        if (count($prg_ids)) {
             $titles = array();
-            /** @var $prg ilStudyProgramme */
-            foreach ($prgs as $key => $prg) {
-                $container = new ilObjStudyProgramme($prg->getObjId(), false);
+            foreach ($prg_ids as $prg_id) {
+                $container = new ilObjStudyProgramme($prg_id, false);
                 $titles[] = $container->getTitle();
             }
 
@@ -567,7 +567,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     {
         return  array_map(
             function ($settings) {
-                return $settings->getPrgId();
+                return $settings->getObjId();
             },
             $this->settings_repo->loadByType($type_id)
         );

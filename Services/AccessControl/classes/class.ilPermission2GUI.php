@@ -38,15 +38,15 @@ class ilPermission2GUI
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
         } else {
-            $this->ilErr =&$ilErr;
+            $this->ilErr = &$ilErr;
         }
 
-        $this->objDefinition =&$objDefinition;
-        $this->tpl =&$tpl;
-        $this->lng =&$lng;
+        $this->objDefinition = &$objDefinition;
+        $this->tpl = &$tpl;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule("rbac");
 
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
 
         $this->gui_obj = $a_gui_obj;
         
@@ -164,7 +164,7 @@ class ilPermission2GUI
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         if (ilRbacLog::isActive()) {
             $ilTabs->addSubTabTarget(
-                "log",
+                "rbac_log",
                 $this->ctrl->getLinkTarget($this, "log"),
                 "",
                 "",

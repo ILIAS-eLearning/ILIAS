@@ -166,9 +166,9 @@ class ilObjChatroom extends ilObject
      */
     public function getPersonalInformation(ilChatroomUser $user)
     {
-        $userInfo           = new stdClass();
+        $userInfo = new stdClass();
         $userInfo->username = $user->getUsername();
-        $userInfo->id       = $user->getUserId();
+        $userInfo->id = $user->getUserId();
 
         return $userInfo;
     }
@@ -213,7 +213,7 @@ class ilObjChatroom extends ilObject
         $objId = $newObj->getId();
 
         $original_settings = $original_room->getSettings();
-        $room              = new ilChatroom();
+        $room = new ilChatroom();
 
         $original_settings['object_id'] = $objId;
 
@@ -221,14 +221,14 @@ class ilObjChatroom extends ilObject
 
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_roles = $DIC->rbac()->review()->getParentRoleIds($newObj->getRefId(), false);
-        $rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
+        $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
         require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
-        $settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+        $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
         $connector = new ilChatroomServerConnector($settings);
 
         $connector->sendCreatePrivateRoom($room->getRoomId(), 0, $newObj->getOwner(), $newObj->getTitle());

@@ -65,7 +65,9 @@ class ilLPStatusStudyProgramme extends ilLPStatus
             if ($progress->isRelevant()) {
                 $relevant = true;
             }
-            $progress->recalculateFailedToDeadline();
+            
+            //Careful, there is a writing function involved in the getter!
+            //see $progress->recalculateFailedToDeadline();
             if ($progress->isFailed()) {
                 $failed = true;
             }

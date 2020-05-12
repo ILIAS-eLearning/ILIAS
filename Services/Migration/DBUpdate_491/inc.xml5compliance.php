@@ -50,7 +50,7 @@ class php4DOMAttr extends php4DOMNode
 
     public function php4DOMAttr($aDOMAttr)
     {
-        $this->myDOMAttr=$aDOMAttr;
+        $this->myDOMAttr = $aDOMAttr;
     }
 
     public function Name()
@@ -76,7 +76,7 @@ class php4DOMCDATASection extends php4DOMNode
     public function php4DOMCDATASection($aDOMCDATASection)
     {
         parent::php4DOMNode($aDOMCDATASection);						// #added
-        $this->myDOMCDATASection=$aDOMCDATASection;
+        $this->myDOMCDATASection = $aDOMCDATASection;
     }
 }
 
@@ -87,7 +87,7 @@ class php4DOMDocument
     // ##altered
     public function php4DOMDocument($source, $file = true)
     {
-        $this->myDOMDocument=new DOMDocument();
+        $this->myDOMDocument = new DOMDocument();
         if ($file) {
             $this->myDOMDocument->load($source);
         } else {
@@ -130,8 +130,8 @@ class php4DOMDocument
 
     public function create_attribute($name, $value)
     {
-        $myAttr=$this->myDOMDocument->createAttribute($name);
-        $myAttr->value=$value;
+        $myAttr = $this->myDOMDocument->createAttribute($name);
+        $myAttr->value = $value;
 
         return new php4DOMAttr($myAttr);
     }
@@ -161,23 +161,23 @@ class php4DOMDocument
         return new php4DOMElement($this->myDOMDocument->documentElement);
     }
 
-    public function dump_file($filename, $compressionmode=false, $format=false)
+    public function dump_file($filename, $compressionmode = false, $format = false)
     {
         return $this->myDOMDocument->save($filename);
     }
 
-    public function dump_mem($format=false, $encoding=false)
+    public function dump_mem($format = false, $encoding = false)
     {
         return $this->myDOMDocument->saveXML();
     }
 
     public function get_elements_by_tagname($name)
     {
-        $myDOMNodeList=$this->myDOMDocument->getElementsByTagName($name);
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMDocument->getElementsByTagName($name);
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
 
@@ -202,11 +202,11 @@ class php4DOMElement extends php4DOMNode
 
     public function get_elements_by_tagname($name)
     {
-        $myDOMNodeList=$this->myDOMNode->getElementsByTagName($name);
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMNode->getElementsByTagName($name);
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
 
@@ -255,7 +255,7 @@ class php4DOMElement extends php4DOMNode
     // ##added
     public function get_content()
     {
-        $text_node =&$this->myDOMNode->firstChild;
+        $text_node = &$this->myDOMNode->firstChild;
 
         if (is_object($text_node)) {
             return $text_node->textContent;
@@ -280,7 +280,7 @@ class php4DOMNode
 
     public function php4DOMNode($aDomNode)
     {
-        $this->myDOMNode=$aDomNode;
+        $this->myDOMNode = $aDomNode;
     }
 
     public function append_child($newnode)
@@ -288,9 +288,9 @@ class php4DOMNode
         //echo "BH";
         //if (strtolower(get_class($newnode)) != "php4domcdatasection")
         //{
-        $doc =&$this->myDOMNode->ownerDocument;
+        $doc = &$this->myDOMNode->ownerDocument;
         //echo "<br>BH1:".get_class($newnode).":";
-        $newnode->myDOMNode =&$doc->importNode($newnode->myDOMNode, true);
+        $newnode->myDOMNode = &$doc->importNode($newnode->myDOMNode, true);
         //echo "BH2";
         return new php4DOMElement($this->myDOMNode->appendChild($newnode->myDOMNode));
         //}
@@ -312,12 +312,12 @@ class php4DOMNode
     public function attributes()
     {
         //echo "<br>node:".$this->myDOMNode->nodeName.":";
-        $myDOMNodeList=$this->myDOMNode->attributes;
-        $nodeSet=array();
-        $i=0;
+        $myDOMNodeList = $this->myDOMNode->attributes;
+        $nodeSet = array();
+        $i = 0;
         if (is_object($myDOMNodeList)) {
-            while ($node=$myDOMNodeList->item($i)) {
-                $nodeSet[]=new php4DOMAttr($node);
+            while ($node = $myDOMNodeList->item($i)) {
+                $nodeSet[] = new php4DOMAttr($node);
                 $i++;
             }
         }
@@ -327,11 +327,11 @@ class php4DOMNode
 
     public function child_nodes()
     {
-        $myDOMNodeList=$this->myDOMNode->childNodes;
-        $nodeSet=array();
-        $i=0;
-        while ($node=$myDOMNodeList->item($i)) {
-            $nodeSet[]=new php4DOMElement($node);
+        $myDOMNodeList = $this->myDOMNode->childNodes;
+        $nodeSet = array();
+        $i = 0;
+        while ($node = $myDOMNodeList->item($i)) {
+            $nodeSet[] = new php4DOMElement($node);
             $i++;
         }
         return $nodeSet;
@@ -349,16 +349,16 @@ class php4DOMNode
     {
         // sometimes the node to unlink is passed
         if (!is_object($aDomNode)) {
-            $aDomNode =&$this;
+            $aDomNode = &$this;
         }
 
-        $parent =&$aDomNode->myDOMNode->parentNode;
+        $parent = &$aDomNode->myDOMNode->parentNode;
         if (is_object($parent)) {
             $parent->removeChild($aDomNode->myDOMNode);
         }
     }
 
-    public function clone_node($deep=false)
+    public function clone_node($deep = false)
     {
         return new php4DOMElement($this->myDOMNode->cloneNode($deep));
     }
@@ -387,18 +387,18 @@ class php4DOMNode
     public function insert_before($newnode, $refnode)
     {
         //echo "BH";
-        $doc =&$this->myDOMNode->ownerDocument;
-        $newnode->myDOMNode =&$doc->importNode($newnode->myDOMNode, true);
+        $doc = &$this->myDOMNode->ownerDocument;
+        $newnode->myDOMNode = &$doc->importNode($newnode->myDOMNode, true);
         
-        $mydomnode =&$this->myDOMNode;
-        $mynewnode =&$newnode->myDOMNode;
-        $myrefnode =&$refnode->myDOMNode;
+        $mydomnode = &$this->myDOMNode;
+        $mynewnode = &$newnode->myDOMNode;
+        $myrefnode = &$refnode->myDOMNode;
         try {
-            $domel =&$mydomnode->insertBefore($mynewnode, $myrefnode);
+            $domel = &$mydomnode->insertBefore($mynewnode, $myrefnode);
         } catch (DOMException $exception) {
             // php 4 accepted $this == $refnode -> switch to parent of $this
-            $mydomnode =&$this->myDOMNode->parentNode;
-            $domel =&$mydomnode->insertBefore($mynewnode, $myrefnode);
+            $mydomnode = &$this->myDOMNode->parentNode;
+            $domel = &$mydomnode->insertBefore($mynewnode, $myrefnode);
         }
         $el = new php4DOMElement($domel);
         return $el;
@@ -407,7 +407,7 @@ class php4DOMNode
     // ## changed
     public function last_child()
     {
-        $last =&$this->myDOMNode->lastChild;
+        $last = &$this->myDOMNode->lastChild;
 
         if (is_object($last)) {
             return new php4DOMElement($last);
@@ -419,7 +419,7 @@ class php4DOMNode
     // ## changed
     public function next_sibling()
     {
-        $next =&$this->myDOMNode->nextSibling;
+        $next = &$this->myDOMNode->nextSibling;
 
         if (is_object($next)) {
             return new php4DOMElement($next);
@@ -446,7 +446,7 @@ class php4DOMNode
     // ## changed
     public function parent_node()
     {
-        $parent =&$this->myDOMNode->parentNode;
+        $parent = &$this->myDOMNode->parentNode;
 
         if (is_object($parent)) {
             return new php4DOMElement($parent);
@@ -458,7 +458,7 @@ class php4DOMNode
     // ## changed
     public function previous_sibling()
     {
-        $prev =&$this->myDOMNode->previousSibling;
+        $prev = &$this->myDOMNode->previousSibling;
 
         if (is_object($prev)) {
             return new php4DOMElement($prev);
@@ -491,11 +491,11 @@ class php4DOMNodelist
 
     public function php4DOMNodelist($aDOMNodelist)
     {
-        $this->myDOMNodelist=$aDOMNodelist;
-        $this->nodeset=array();
-        $i=0;
-        while ($node=$this->myDOMNodelist->item($i)) {
-            $this->nodeset[]=new php4DOMElement($node);
+        $this->myDOMNodelist = $aDOMNodelist;
+        $this->nodeset = array();
+        $i = 0;
+        while ($node = $this->myDOMNodelist->item($i)) {
+            $this->nodeset[] = new php4DOMElement($node);
             $i++;
         }
     }
@@ -513,7 +513,7 @@ class php4DOMXPath
 
     public function php4DOMXPath($dom_document)
     {
-        $this->myDOMXPath=new DOMXPath($dom_document->myDOMDocument);
+        $this->myDOMXPath = new DOMXPath($dom_document->myDOMDocument);
     }
 
     public function query($eval_str)

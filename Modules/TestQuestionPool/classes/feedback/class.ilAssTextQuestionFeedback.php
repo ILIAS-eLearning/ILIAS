@@ -24,7 +24,7 @@ class ilAssTextQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      */
     protected function buildAnswerOptionLabel($index, $answer)
     {
-        $caption = $ordinal = $index+1;
+        $caption = $ordinal = $index + 1;
         $caption .= '. ' . $answer->getAnswertext();
         
         return $caption;

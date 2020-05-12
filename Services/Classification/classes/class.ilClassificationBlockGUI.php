@@ -185,7 +185,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                 $btpl->parseCurrentBlock();
             }
 
-            $overall_html.= $btpl->get();
+            $overall_html .= $btpl->get();
             //$this->tpl->setVariable("DATA", $btpl->get());
         }
         return $overall_html;
@@ -266,7 +266,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                         if ($block_ref_id > 0) {
                             if (!is_array($valid_objects[$block_ref_id])) {
                                 $valid_objects[$block_ref_id] = array(
-                                    "title" => 	$block_title,
+                                    "title" => $block_title,
                                     "items" => array()
                                 );
                             }

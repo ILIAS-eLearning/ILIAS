@@ -1441,7 +1441,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             case 'application/json':
                 $string = json_encode([
                     self::MESSAGE_TYPE_SUCCESS => is_null($this->message[self::MESSAGE_TYPE_FAILURE]),
-                    'message'                  => '',
+                    'message' => '',
                 ]);
                 $stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
                 $http->saveResponse($http->response()->withBody($stream));
@@ -1796,11 +1796,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
         $this->permanent_link = array(
-            "type"   => $a_type,
-            "id"     => $a_id,
+            "type" => $a_type,
+            "id" => $a_id,
             "append" => $a_append,
             "target" => $a_target,
-            "title"  => $a_title,
+            "title" => $a_title,
         );
     }
 

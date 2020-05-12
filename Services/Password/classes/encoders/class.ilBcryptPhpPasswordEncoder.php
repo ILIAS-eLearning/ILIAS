@@ -58,7 +58,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
         do {
             $cost++;
-            $start   = microtime(true);
+            $start = microtime(true);
             $encoder = new self(['cost' => (string) $cost]);
             $encoder->encodePassword('test', '');
             $end = microtime(true);

@@ -86,7 +86,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         $options = array();
 
         if ($this->isNoSkillProfileOptionEnabled()) {
-            $options[0] =  $this->lng->txt('tst_all_test_competences');
+            $options[0] = $this->lng->txt('tst_all_test_competences');
             ;
         }
 

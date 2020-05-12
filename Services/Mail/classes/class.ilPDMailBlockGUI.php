@@ -56,10 +56,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
     {
         global $DIC;
 
-        $this->lng        = $DIC->language();
-        $this->user       = $DIC->user();
-        $this->ctrl       = $DIC->ctrl();
-        $this->setting    = $DIC->settings();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
+        $this->setting = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
 
         include_once 'Services/User/classes/class.ilObjUser.php';
@@ -135,14 +135,14 @@ class ilPDMailBlockGUI extends ilBlockGUI
     {
         require_once 'Services/Mail/classes/class.ilObjMail.php';
 
-        $umail       = new ilMail($this->user->getId());
-        $mbox        = new ilMailbox($this->user->getId());
+        $umail = new ilMail($this->user->getId());
+        $mbox = new ilMailbox($this->user->getId());
         $this->inbox = $mbox->getInboxFolder();
 
         $this->mails = $umail->getMailsOfFolder(
             $this->inbox,
             array(
-                 'status'  => 'unread'
+                 'status' => 'unread'
             )
         );
     }
@@ -245,7 +245,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->lng->loadLanguageModule('mail');
 
         $umail = new ilMail($this->user->getId());
-        $mbox  = new ilMailbox($this->user->getId());
+        $mbox = new ilMailbox($this->user->getId());
 
         if (!$_GET['mobj_id']) {
             $_GET['mobj_id'] = $mbox->getInboxFolder();

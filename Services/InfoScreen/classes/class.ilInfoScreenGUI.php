@@ -546,7 +546,7 @@ class ilInfoScreenGUI
                         foreach ($refs as $r) {
                             $cont_loc = new ilLocatorGUI();
                             $cont_loc->addContextItems($r, true);
-                            $links.= $sep . $cont_loc->getHTML();
+                            $links .= $sep . $cont_loc->getHTML();
                             $sep = "<br />";
                         }
 

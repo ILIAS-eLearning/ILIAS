@@ -22,7 +22,7 @@ class assAnswerMatchingTerm
     public function __construct($text = "", $picture = "", $identifier = "")
     {
         if (strlen($identifier) == 0) {
-            mt_srand((double) microtime()*1000000);
+            mt_srand((double) microtime() * 1000000);
             $identifier = mt_rand(1, 100000);
         }
         $this->arrData = array(

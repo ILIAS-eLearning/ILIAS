@@ -47,7 +47,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
             $this->appendBody($this->getLanguage()->txt('orphaned_mail_body'));
             $this->appendBody("\n\n");
             
-            $body =  $this->getOrphandMailsBody();
+            $body = $this->getOrphandMailsBody();
             $this->appendBody($body);
             $this->appendBody(ilMail::_getInstallationSignature());
             $this->sendMimeMail($this->getCurrentRecipient());

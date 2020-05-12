@@ -159,7 +159,7 @@ class ilObjGroupReferenceListGUI extends ilObjGroupListGUI
      * @param
      * @return
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id="")
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
     {
         // Check edit reference against reference edit permission
         switch ($a_cmd) {

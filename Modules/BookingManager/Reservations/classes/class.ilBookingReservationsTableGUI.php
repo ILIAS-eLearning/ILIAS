@@ -297,7 +297,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->objects[$item["booking_object_id"]] = $item["title"];
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+        $item->setOptions(array("" => $this->lng->txt('book_all')) + $this->objects);
         $this->filter["object"] = $item->getValue();
         
         $title = $this->addFilterItemByMetaType(
@@ -338,7 +338,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 // see ilObjBookingPoolGUI::buildDatesBySchedule()
                 $map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
                 
-                $options = array(""=>$this->lng->txt('book_all'));
+                $options = array("" => $this->lng->txt('book_all'));
                 
                 // schedule to slot
                 foreach (ilBookingSchedule::getList($this->pool_id) as $def) {
@@ -378,7 +378,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
             ilBookingReservation::STATUS_CANCELLED);
         if (!$this->has_schedule) {
-            $options = array(""=>$this->lng->txt('book_all'));
+            $options = array("" => $this->lng->txt('book_all'));
         } else {
             $options = array();
         }
@@ -395,7 +395,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                             
         // only needed for full log
         if ($this->show_all) {
-            $options = array(""=>$this->lng->txt('book_all'))+
+            $options = array("" => $this->lng->txt('book_all')) +
                 ilBookingReservation::getUserFilter(array_keys($this->objects));
             $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
             $item->setOptions($options);
@@ -720,7 +720,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
         $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
-        
     }
 
     protected function fillHeaderCSV($a_csv)

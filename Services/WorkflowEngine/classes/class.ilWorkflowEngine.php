@@ -129,9 +129,9 @@ class ilWorkflowEngine
                 }
 
                 $mapper_class = $mapper['class'];
-                $extracted_params 	= $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
-                $component 			= $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
-                $event 				= $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);
+                $extracted_params = $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
+                $component = $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
+                $event = $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);
             }
 
             $this->processEvent(

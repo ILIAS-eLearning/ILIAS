@@ -16,13 +16,12 @@ class GlobalPageHandler
      */
     public function __construct()
     {
-
     }
 
     /**
      * @param \ilGlobalTemplateInterface $page
      */
-    static public function initPage(\ilGlobalTemplateInterface $page)
+    public static function initPage(\ilGlobalTemplateInterface $page)
     {
         global $DIC;
 
@@ -32,6 +31,4 @@ class GlobalPageHandler
             $page->addOnLoadCode("il.Util.setStdScreenReaderFocus();");
         }
     }
-
 }
-

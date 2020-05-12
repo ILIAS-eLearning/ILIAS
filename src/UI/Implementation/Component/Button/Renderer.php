@@ -173,6 +173,11 @@ class Renderer extends AbstractComponentRenderer
 
         $signals = json_encode($signals);
 
+        $button_status = 'off';
+        if ($component->isEngaged()) {
+            $button_status = 'on';
+        };
+
         if ($component->isActive()) {
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($on_url, $off_url, $signals) {
                 $code = "$('#$id').on('click', function(event) {
@@ -184,12 +189,11 @@ class Renderer extends AbstractComponentRenderer
             });
         } else {
             $tpl->touchBlock("disabled");
+            $button_status = 'unavailable';
         }
 
-        $is_on = $component->isEngaged();
-        if ($is_on) {
-            $tpl->touchBlock("on");
-        }
+        $tpl->touchBlock($button_status);
+
         $label = $component->getLabel();
         if (!empty($label)) {
             $tpl->setCurrentBlock("with_label");
@@ -220,7 +224,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $def = $component->getDefault();
 
-        for ($i = 1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $this->toJS(array("month_" . str_pad($i, 2, "0", STR_PAD_LEFT) . "_short"));
         }
 

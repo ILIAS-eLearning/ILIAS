@@ -64,8 +64,8 @@ class FlySystemDirectoryAccessTest extends TestCase
     {
         $path = '/path/to/dir';
         $metadata = [
-            'type'      => 'dir',
-            'path'      => $path,
+            'type' => 'dir',
+            'path' => $path,
             'timestamp' => 10000000
         ];
 
@@ -90,8 +90,8 @@ class FlySystemDirectoryAccessTest extends TestCase
     {
         $path = '/path/to/file';
         $metadata = [
-            'type'      => 'file',
-            'path'      => $path,
+            'type' => 'file',
+            'path' => $path,
             'timestamp' => 10000000
         ];
 
@@ -116,7 +116,7 @@ class FlySystemDirectoryAccessTest extends TestCase
     {
         $path = '/path/to/file';
         $metadata = [
-            'path'      => $path,
+            'path' => $path,
             'timestamp' => 10000000
         ];
 

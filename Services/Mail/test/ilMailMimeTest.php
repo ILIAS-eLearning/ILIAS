@@ -40,7 +40,7 @@ class ilMailMimeTest extends ilMailBaseTest
         $transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
-        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -62,7 +62,7 @@ class ilMailMimeTest extends ilMailBaseTest
         $transportFactory->expects($this->any())->method('getTransport')->will($this->returnValue($defaultTransport));
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
-        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -77,7 +77,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testTransportFactoryWillReturnNullTransportIfExternalEmailDeliveryIsDisabled() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -90,7 +90,7 @@ class ilMailMimeTest extends ilMailBaseTest
         }));
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
@@ -103,7 +103,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testTransportFactoryWillReturnSmtpTransportIfEnabled() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -121,7 +121,7 @@ class ilMailMimeTest extends ilMailBaseTest
         }));
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
@@ -134,7 +134,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testTransportFactoryWillReturnSendmailTransportIfSmtpTransportIsDisabled() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -153,7 +153,7 @@ class ilMailMimeTest extends ilMailBaseTest
         }));
         $this->setGlobalVariable('ilSetting', $settings);
 
-        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->setMethods([
+        $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->onlyMethods([
             'raise',
         ])->getMock();
 
@@ -166,7 +166,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testFactoryWillReturnSystemSenderForAnonymousUserId() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -180,7 +180,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testFactoryWillReturnSystemSenderWhenExplicitlyRequested() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -198,7 +198,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods([])
+            ->onlyMethods(['getId'])
             ->getMock();
         $user->expects($this->any())->method('getId')->will($this->returnValue($usrId));
 
@@ -210,7 +210,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testFactoryWillReturnUserSenderForExistingUserId() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();
@@ -224,7 +224,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testFactoryWillReturnUserSenderWhenExplicitlyRequested() : void
     {
-        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->setMethods([
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
             'get'
         ])->getMock();

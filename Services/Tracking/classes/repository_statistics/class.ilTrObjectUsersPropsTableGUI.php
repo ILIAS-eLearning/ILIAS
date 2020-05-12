@@ -282,7 +282,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                         $options[$c] = $lng->txt("meta_c_" . $c);
                     }
                     asort($options);
-                    $item->setOptions(array("" => $lng->txt("trac_all"))+$options);
+                    $item->setOptions(array("" => $lng->txt("trac_all")) + $options);
 
                     $this->filter["sel_country"] = $item->getValue();
                     break;
@@ -291,10 +291,10 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     include_once "Services/Tracking/classes/class.ilLPStatus.php";
                     $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
                     $item->setOptions(array("" => $lng->txt("trac_all"),
-                        ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-                        ilLPStatus::LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-                        ilLPStatus::LP_STATUS_COMPLETED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
-                        ilLPStatus::LP_STATUS_FAILED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
+                        ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+                        ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+                        ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+                        ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
                     $this->filter["status"] = $item->getValue();
                     if ($this->filter["status"]) {
                         $this->filter["status"]--;
@@ -403,7 +403,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $a_excel->setCell($a_row, $cnt++, $labels[$c]["txt"]);
         }
         
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt-1) . $a_row);
+        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt - 1) . $a_row);
     }
 
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)

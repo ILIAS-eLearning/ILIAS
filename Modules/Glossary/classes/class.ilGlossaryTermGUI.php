@@ -65,7 +65,7 @@ class ilGlossaryTermGUI
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("term_id"));
-        $this->tabs_gui	= $ilTabs;
+        $this->tabs_gui = $ilTabs;
 
         $this->log = ilLoggerFactory::getLogger('glo');
 
@@ -345,7 +345,7 @@ class ilGlossaryTermGUI
 
         $tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
-        for ($j=0; $j<count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
@@ -374,7 +374,7 @@ class ilGlossaryTermGUI
                 $tpl->setCurrentBlock("definition_header");
                 $tpl->setVariable(
                     "TXT_DEFINITION",
-                    $this->lng->txt("cont_definition") . " " . ($j+1)
+                    $this->lng->txt("cont_definition") . " " . ($j + 1)
                         );
                 $tpl->parseCurrentBlock();
             }
@@ -395,7 +395,7 @@ class ilGlossaryTermGUI
         $defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
         $term_links = array();
-        for ($j=0; $j<count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page = new ilGlossaryDefPage($def["id"]);
             $page->buildDom();
@@ -448,7 +448,7 @@ class ilGlossaryTermGUI
 
         $tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
-        for ($j=0; $j<count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
             $page_gui = new ilGlossaryDefPageGUI($def["id"]);
             $page_gui->setStyleId($this->term_glossary->getStyleSheetId());
@@ -460,7 +460,7 @@ class ilGlossaryTermGUI
                 $tpl->setCurrentBlock("definition_header");
                 $tpl->setVariable(
                     "TXT_DEFINITION",
-                    $this->lng->txt("cont_definition") . " " . ($j+1)
+                    $this->lng->txt("cont_definition") . " " . ($j + 1)
                         );
                 $tpl->parseCurrentBlock();
             }
@@ -476,7 +476,7 @@ class ilGlossaryTermGUI
                 $tpl->parseCurrentBlock();
             }
 
-            if ($j+1 < count($defs)) {
+            if ($j + 1 < count($defs)) {
                 $tpl->setCurrentBlock("down");
                 $tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
                 $this->ctrl->setParameter($this, "def", $def["id"]);

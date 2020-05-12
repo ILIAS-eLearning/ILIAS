@@ -18,11 +18,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     private $minAutoComplete;
     private $identical_scoring;
 
-    const ANSWER_TYPE_SELECT_VAL	= 0;
-    const ANSWER_TYPE_TEXT_VAL		= 1;
-    const GAP_PLACEHOLDER			= 'Longmenu';
-    const MIN_LENGTH_AUTOCOMPLETE 	= 3;
-    const MAX_INPUT_FIELDS 			= 500;
+    const ANSWER_TYPE_SELECT_VAL = 0;
+    const ANSWER_TYPE_TEXT_VAL = 1;
+    const GAP_PLACEHOLDER = 'Longmenu';
+    const MIN_LENGTH_AUTOCOMPLETE = 3;
+    const MAX_INPUT_FIELDS = 500;
 
     /** @var array */
     private $correct_answers = [];
@@ -31,11 +31,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     private $answers = [];
 
     public function __construct(
-        $title 		= "",
-        $comment 	= "",
-        $author 	= "",
-        $owner 		= -1,
-        $question 	= ""
+        $title = "",
+        $comment = "",
+        $author = "",
+        $owner = -1,
+        $question = ""
     ) {
         global $DIC;
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
@@ -179,9 +179,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function checkQuestionCustomPart($form = null)
     {
-        $hidden_text_files 	= $this->getAnswers();
-        $correct_answers	= $this->getCorrectAnswers();
-        $points 			= array();
+        $hidden_text_files = $this->getAnswers();
+        $correct_answers = $this->getCorrectAnswers();
+        $points = array();
         if (sizeof($correct_answers) == 0 || sizeof($hidden_text_files) == 0) {
             return false;
         }
@@ -235,7 +235,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      */
     public function getMaximumPoints()
     {
-        $sum 		= 0;
+        $sum = 0;
         $points = $this->getCorrectAnswers();
         if ($points) {
             foreach ($points as $add) {
@@ -285,13 +285,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                     $this->getAnswerTableName(),
                     array(
                                 'question_fi' => array('integer', (int) $this->getId()),
-                                'gap_number'  => array('integer', (int) $gap_number),
-                                'position'    => array('integer', (int) $position)
+                                'gap_number' => array('integer', (int) $gap_number),
+                                'position' => array('integer', (int) $position)
                         ),
                     array(
                                 'answer_text' => array('text', $answer),
-                                'points'      => array('float', $gap[1]),
-                                'type'        => array('integer', (int) $type)
+                                'points' => array('float', $gap[1]),
+                                'type' => array('integer', (int) $type)
                         )
                 );
             }
@@ -329,8 +329,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $answers = array();
 
         foreach ($files as $file) {
-            $gap					= str_replace('.txt', '', basename($file));
-            $answers[(int) $gap] 	= explode("\n", file_get_contents($file));
+            $gap = str_replace('.txt', '', basename($file));
+            $answers[(int) $gap] = explode("\n", file_get_contents($file));
         }
         $this->setAnswers($answers);
         return $answers;
@@ -411,11 +411,11 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             array($question_id)
         );
         
-        $correct_answers	= array();
+        $correct_answers = array();
         while ($data = $this->ilDB->fetchAssoc($res)) {
-            $correct_answers[$data['gap_number']][0][$data['position']]	= rtrim($data['answer_text']);
-            $correct_answers[$data['gap_number']][1]					= $data['points'];
-            $correct_answers[$data['gap_number']][2]					= $data['type'];
+            $correct_answers[$data['gap_number']][0][$data['position']] = rtrim($data['answer_text']);
+            $correct_answers[$data['gap_number']][1] = $data['points'];
+            $correct_answers[$data['gap_number']][2] = $data['type'];
         }
         $this->setJsonStructure(json_encode($correct_answers));
         $this->setCorrectAnswers($correct_answers);
@@ -604,7 +604,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $pass = $this->getSolutionMaxPass($active_id);
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        while ($data =  $this->ilDB->fetchAssoc($result)) {
+        while ($data = $this->ilDB->fetchAssoc($result)) {
             $found_values[(int) $data['value1']] = $data['value2'];
         }
 
@@ -827,7 +827,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }
@@ -883,9 +883,9 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $replaced_quesiton_text =  $this->getLongMenuTextValue();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
-        $result['lmtext'] =  $this->formatSAQuestion($replaced_quesiton_text);
+        $replaced_quesiton_text = $this->getLongMenuTextValue();
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
+        $result['lmtext'] = $this->formatSAQuestion($replaced_quesiton_text);
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['feedback'] = array(

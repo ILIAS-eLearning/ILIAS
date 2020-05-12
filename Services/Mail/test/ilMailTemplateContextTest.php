@@ -68,7 +68,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         for ($i = 1; $i <= $amount; $i++) {
             $user = $this->getMockBuilder(ilOrgUnitUser::class)
                 ->disableOriginalConstructor()
-                ->setMethods(['getUserId',])
+                ->onlyMethods(['getUserId',])
                 ->getMock();
             $user->expects($this->atLeastOnce())->method('getUserId')->willReturn($i);
 
@@ -94,7 +94,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
                  ] as $definition) {
             $user = $this->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
-                ->setMethods([
+                ->onlyMethods([
                     'getLanguage',
                     'getUTitle',
                     'getLogin',
@@ -115,7 +115,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
 
             $ouUser = $this->getMockBuilder(ilOrgUnitUser::class)
                 ->disableOriginalConstructor()
-                ->setMethods(['getSuperiors',])
+                ->onlyMethods(['getSuperiors',])
                 ->getMock();
 
             $superiors = $this->generateOrgUnitUsers($definition['num_superiors']);
@@ -145,27 +145,27 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     ) : void {
         $ouService = $this->getMockBuilder(OrgUnitUserService::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getUsers',])
+            ->onlyMethods(['getUsers',])
             ->getMock();
 
         $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt', 'loadLanguageModule',])
+            ->onlyMethods(['txt', 'loadLanguageModule',])
             ->getMock();
 
         $envHelper = $this->getMockBuilder(ilMailEnvironmentHelper::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getClientId', 'getHttpPath',])
+            ->onlyMethods(['getClientId', 'getHttpPath',])
             ->getMock();
 
         $lngHelper = $this->getMockBuilder(ilMailLanguageHelper::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getLanguageByIsoCode', 'getCurrentLanguage',])
+            ->onlyMethods(['getLanguageByIsoCode', 'getCurrentLanguage',])
             ->getMock();
 
         $userHelper = $this->getMockBuilder(ilMailUserHelper::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getUsernameMapForIds',])
+            ->onlyMethods(['getUsernameMapForIds',])
             ->getMock();
 
         $ouService->expects($this->atLeastOnce())->method('getUsers')->willReturn([$ouUser,]);

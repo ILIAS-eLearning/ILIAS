@@ -241,9 +241,9 @@ class ilOrgUnitTypeTranslation
     {
         $this->db->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrguTypeId()),
-            'lang'         => array('text', $this->getLang()),
-            'member'       => array('text', $member),
-            'value'        => array('text', $value),
+            'lang' => array('text', $this->getLang()),
+            'member' => array('text', $member),
+            'value' => array('text', $value),
         ));
     }
 
@@ -260,8 +260,8 @@ class ilOrgUnitTypeTranslation
             'value' => array('text', $value),
         ), array(
             'orgu_type_id' => array('integer', $this->getOrguTypeId()),
-            'lang'         => array('text', $this->getLang()),
-            'member'       => array('text', $member),
+            'lang' => array('text', $this->getLang()),
+            'member' => array('text', $member),
         ));
     }
 

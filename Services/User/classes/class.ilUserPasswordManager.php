@@ -84,16 +84,16 @@ class ilUserPasswordManager
 
         $password_manager = new ilUserPasswordManager(
             [
-                'encoder_factory'  => new ilUserPasswordEncoderFactory(
+                'encoder_factory' => new ilUserPasswordEncoderFactory(
                     [
                         'default_password_encoder' => 'bcryptphp',
-                        'ignore_security_flaw'     => true,
-                        'data_directory'           => ilUtil::getDataDir()
+                        'ignore_security_flaw' => true,
+                        'data_directory' => ilUtil::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',
-                'settings'         => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
-                'db'               => $DIC->database(),
+                'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
+                'db' => $DIC->database(),
             ]
         );
 
@@ -207,7 +207,7 @@ class ilUserPasswordManager
      */
     public function resetLastPasswordChangeForLocalUsers() : void
     {
-        $defaultAuthMode          = $this->settings->get('auth_mode');
+        $defaultAuthMode = $this->settings->get('auth_mode');
         $defaultAuthModeCondition = '';
         if ((int) $defaultAuthMode === (int) AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');

@@ -93,10 +93,10 @@ class ilFileDataForumDrafts extends ilFileData
             }
 
             $files[] = array(
-                'path'  => $file->getPathname(),
-                'md5'   => md5($file->getFilename()),
-                'name'  => $file->getFilename(),
-                'size'  => $file->getSize(),
+                'path' => $file->getPathname(),
+                'md5' => md5($file->getFilename()),
+                'name' => $file->getFilename(),
+                'size' => $file->getSize(),
                 'ctime' => date('Y-m-d H:i:s', $file->getCTime())
             );
         }
@@ -121,10 +121,10 @@ class ilFileDataForumDrafts extends ilFileData
             }
 
             $files[$file->getFilename()] = array(
-                'path'  => $file->getPathname(),
-                'md5'   => md5($file->getFilename()),
-                'name'  => $file->getFilename(),
-                'size'  => $file->getSize(),
+                'path' => $file->getPathname(),
+                'md5' => md5($file->getFilename()),
+                'name' => $file->getFilename(),
+                'size' => $file->getSize(),
                 'ctime' => date('Y-m-d H:i:s', $file->getCTime())
             );
         }

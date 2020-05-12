@@ -99,7 +99,7 @@ class ilADTTest extends ilADTBasedObject
     protected function initDBBridge(ilADTGroupDBBridge $a_adt_db)
     {
         $a_adt_db->setTable("adt_test");
-        $a_adt_db->setPrimary(array("id"=>array("integer", $this->id)));
+        $a_adt_db->setPrimary(array("id" => array("integer", $this->id)));
     }
     
     protected function parsePrimary(array $a_args)

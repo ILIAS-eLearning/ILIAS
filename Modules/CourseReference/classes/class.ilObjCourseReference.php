@@ -115,7 +115,7 @@ class ilObjCourseReference extends ilContainerReference
 
         $query = 'SELECT * FROM crs_reference_settings ' .
             'WHERE obj_id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
-        $res  = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->enableMemberUpdate($row->member_update);
         }

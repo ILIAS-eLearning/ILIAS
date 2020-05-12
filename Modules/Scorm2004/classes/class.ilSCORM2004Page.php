@@ -299,7 +299,7 @@ class ilSCORM2004Page extends ilPageObject
             $xpc = xpath_new_context($this->dom);
             $path = "//IntLink[@Type='GlossaryItem']";
             $res = xpath_eval($xpc, $path);
-            for ($i=0; $i < count($res->nodeset); $i++) {
+            for ($i = 0; $i < count($res->nodeset); $i++) {
                 $target = $res->nodeset[$i]->get_attribute("Target");
                 //echo "<br>".$target;
                 $tarr = explode("_", $target);

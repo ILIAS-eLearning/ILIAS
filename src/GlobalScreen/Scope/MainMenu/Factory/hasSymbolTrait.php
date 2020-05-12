@@ -24,7 +24,7 @@ trait hasSymbolTrait
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->symbol = $symbol;
 
         return $clone;

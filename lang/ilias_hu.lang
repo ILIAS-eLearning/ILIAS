@@ -15018,7 +15018,7 @@ lso#:#entries_deleted#:#Az objektumokat sikeresen törölte.
 lso#:#no_entries_selected_for_delete#:#Legalább egy bejegyzést ki kell választania.
 lso#:#lso_member_administration#:#Résztvevők módosítása
 lso#:#lso_members_gallery#:#Tanulási sor tagképgalériája
-lso#:#lso_start_item#:#Indítás
+lso#:#lso_start_item#:#Indítás %s
 lso#:#lso_search_users#:#Felhasználók keresése
 lso#:#lso_print_list#:#Lista nyomtatása
 lso#:#lso_mem_tbl_header#:#Tanulási sor tagja
@@ -15960,10 +15960,10 @@ prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###0
 prg#:#modal_automembership_title#:#Automatismus hinzufügen###07 02 2020 new variable
 prg#:#membership_source_type#:#Source###07 02 2020 new variable
 prg#:#prg_autoassignment#:#(auto)###07 02 2020 new variable
-prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
-prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Partially marked relevant.###07 02 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###07 02 2020 new variable
 orgu#:#org_op_view_members#:#View Members###07 02 2020 new variable
 orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new variable
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable

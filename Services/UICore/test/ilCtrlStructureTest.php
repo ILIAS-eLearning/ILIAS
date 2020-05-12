@@ -12,7 +12,7 @@ class ilCtrlStructureTest extends TestCase
 
     public function testAddClassScript()
     {
-        $this->ctrl_structure =$this->ctrl_structure
+        $this->ctrl_structure = $this->ctrl_structure
             ->withClassScript("class1", "file1")
             ->withClassScript("class2", "file2")
             ->withClassScript("class3", "file3")

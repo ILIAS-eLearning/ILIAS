@@ -4,15 +4,12 @@
 require_once("Services/MediaObjects/classes/class.ilMapArea.php");
 
 /**
-* Class ilMediaItem
-*
-* Media Item, component of a media object (file or reference)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMediaObjects
-*/
+ * Class ilMediaItem
+ * Media Item, component of a media object (file or reference)
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesMediaObjects
+ */
 class ilMediaItem
 {
     /**
@@ -39,9 +36,9 @@ class ilMediaItem
     public $nr;
     public $mapareas;
     public $map_cnt;
-    public $map_image;			// image map work copy image
-    public $color1;			// map area line color 1
-    public $color2;			// map area line color 2
+    public $map_image;            // image map work copy image
+    public $color1;            // map area line color 1
+    public $color2;            // map area line color 2
 
     /**
      * @var string
@@ -65,48 +62,44 @@ class ilMediaItem
     }
 
     /**
-    * set media item id
-    *
-    * @param	int		$a_id		media item id
-    */
+     * set media item id
+     * @param int $a_id media item id
+     */
     public function setId($a_id)
     {
         $this->id = $a_id;
     }
 
     /**
-    * get media item id
-    *
-    * @return	int		media item id
-    */
+     * get media item id
+     * @return    int        media item id
+     */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-    * set id of parent media object
-    *
-    * @param	int		$a_mob_id		media object id
-    */
+     * set id of parent media object
+     * @param int $a_mob_id media object id
+     */
     public function setMobId($a_mob_id)
     {
         $this->mob_id = $a_mob_id;
     }
 
     /**
-    * get id of parent media object
-    *
-    * @return	int		media object id
-    */
+     * get id of parent media object
+     * @return    int        media object id
+     */
     public function getMobId()
     {
         return $this->mob_id;
     }
 
     /**
-    * set number of media item within media object
-    */
+     * set number of media item within media object
+     */
     public function setNr($a_nr)
     {
         $this->nr = $a_nr;
@@ -119,27 +112,24 @@ class ilMediaItem
 
     /**
      * Set text representation
-     *
-     * @param	string	text representation
+     * @param string    text representation
      */
     public function setTextRepresentation($a_val)
     {
         $this->text_representation = $a_val;
     }
-    
+
     /**
      * Get text representation
-     *
-     * @return	string	text representation
+     * @return    string    text representation
      */
     public function getTextRepresentation()
     {
         return $this->text_representation;
     }
-    
+
     /**
      * Set upload hash
-     *
      * @param string $a_val upload hash
      */
     public function setUploadHash($a_val)
@@ -149,7 +139,6 @@ class ilMediaItem
 
     /**
      * Get upload hash
-     *
      * @return string upload hash
      */
     public function getUploadHash()
@@ -157,10 +146,9 @@ class ilMediaItem
         return $this->upload_hash;
     }
 
-
     /**
-    * create persistent media item
-    */
+     * create persistent media item
+     */
     public function create()
     {
         $ilDB = $this->db;
@@ -185,7 +173,7 @@ class ilMediaItem
             $ilDB->quote($this->getUploadHash(), "text") .
             ")";
         $ilDB->manipulate($query);
-        
+
         $this->setId($item_id);
 
         // create mob parameters
@@ -199,7 +187,7 @@ class ilMediaItem
         }
 
         // create map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
+        for ($i = 0; $i < count($this->mapareas); $i++) {
             if (is_object($this->mapareas[$i])) {
                 $this->mapareas[$i]->setItemId($this->getId());
                 $this->mapareas[$i]->setNr($i + 1);
@@ -209,8 +197,8 @@ class ilMediaItem
     }
 
     /**
-    * update media item data (without map areas!)
-    */
+     * update media item data (without map areas!)
+     */
     public function update()
     {
         $ilDB = $this->db;
@@ -248,7 +236,6 @@ class ilMediaItem
 
     /**
      * Write parameter
-     *
      * @param
      * @return
      */
@@ -264,8 +251,8 @@ class ilMediaItem
     }
 
     /**
-    * read media item data (item id or (mob_id and nr) must be set)
-    */
+     * read media item data (item id or (mob_id and nr) must be set)
+     */
     public function read()
     {
         $ilDB = $this->db;
@@ -317,33 +304,32 @@ class ilMediaItem
             }
         }
     }
-    
+
     /**
-    * write thumbnail creation try data ("y"/"n")
-    */
+     * write thumbnail creation try data ("y"/"n")
+     */
     public function writeThumbTried($a_tried)
     {
         $ilDB = $this->db;
-        
+
         $q = "UPDATE media_item SET tried_thumb = " .
             $ilDB->quote($a_tried, "text") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
-            
+
         $ilDB->manipulate($q);
     }
 
     /**
-    * Lookup location for mob id
-    *
-    * @param	int		$a_mob_id	media object id
-    * @param	string	$a_purpose	purpose
-    */
+     * Lookup location for mob id
+     * @param int    $a_mob_id  media object id
+     * @param string $a_purpose purpose
+     */
     public static function _lookupLocationForMobId($a_mob_id, $a_purpose)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer") . " " .
@@ -357,16 +343,15 @@ class ilMediaItem
     }
 
     /**
-    * Lookup Mob ID
-    *
-    * @param	int		$a_med_id	media item id
-    */
+     * Lookup Mob ID
+     * @param int $a_med_id media item id
+     */
     public static function _lookupMobId($a_med_id)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE id = " .
             $ilDB->quote($a_med_id, "integer");
@@ -389,30 +374,29 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mobId, "integer") . " " .
             "AND purpose=" . $ilDB->quote($a_purpose, "text") . " ORDER BY nr";
         $item_set = $ilDB->query($query);
-        
+
         while ($item_rec = $ilDB->fetchAssoc($item_set)) {
             return $item_rec;
         }
         return false;
     }
-    
+
     /**
-    * read media items into media objects (static)
-    *
-    * @param	object		$a_mob	 	media object
-    */
+     * read media items into media objects (static)
+     * @param object $a_mob media object
+     */
     public static function _getMediaItemsOfMOb(&$a_mob)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob->getId(), "integer") . " " .
@@ -457,7 +441,6 @@ class ilMediaItem
 
     /**
      * Delete all items of a mob
-     *
      * @param int $a_mob_id media object id
      */
     public static function deleteAllItemsOfMob($a_mob_id)
@@ -465,7 +448,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // iterate all media items ob mob
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer");
@@ -545,14 +528,14 @@ class ilMediaItem
     }
 
     /**
-    * delete map area
-    */
+     * delete map area
+     */
     public function deleteMapArea($nr)
     {
-        for ($i=1; $i<=$this->map_cnt; $i++) {
+        for ($i = 1; $i <= $this->map_cnt; $i++) {
             if ($i > $nr) {
-                $this->mapareas[$i-2] = $this->mapareas[$i-1];
-                $this->mapareas[$i-2]->setNr($i-1);
+                $this->mapareas[$i - 2] = $this->mapareas[$i - 1];
+                $this->mapareas[$i - 2]->setNr($i - 1);
             }
         }
         if ($nr <= $this->map_cnt) {
@@ -562,56 +545,56 @@ class ilMediaItem
     }
 
     /**
-    * get map area
-    */
+     * get map area
+     */
     public function &getMapArea($nr)
     {
-        return $this->mapareas[$nr-1];
+        return $this->mapareas[$nr - 1];
     }
 
     /**
-    * get map areas
-    */
+     * get map areas
+     */
     public function getMapAreas()
     {
         return $this->mapareas;
     }
 
     /**
-    * get width
-    */
+     * get width
+     */
     public function getWidth()
     {
         return $this->width;
     }
 
     /**
-    * set width
-    */
+     * set width
+     */
     public function setWidth($a_width)
     {
         $this->width = $a_width;
     }
 
     /**
-    * get height
-    */
+     * get height
+     */
     public function getHeight()
     {
         return $this->height;
     }
 
     /**
-    * set height
-    */
+     * set height
+     */
     public function setHeight($a_height)
     {
         $this->height = $a_height;
     }
 
     /**
-    * get original size
-    */
+     * get original size
+     */
     public function getOriginalSize()
     {
         $mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
@@ -634,44 +617,42 @@ class ilMediaItem
     }
 
     /**
-    * set caption
-    */
+     * set caption
+     */
     public function setCaption($a_caption)
     {
         $this->caption = $a_caption;
     }
 
     /**
-    * get caption
-    */
+     * get caption
+     */
     public function getCaption()
     {
         return $this->caption;
     }
 
     /**
-    * set horizontal align
-    */
+     * set horizontal align
+     */
     public function setHAlign($a_halign)
     {
         $this->halign = $a_halign;
     }
 
     /**
-    * get horizontal align
-    */
+     * get horizontal align
+     */
     public function getHAlign()
     {
         return $this->halign;
     }
 
-
     /**
-    * set parameter
-    *
-    * @param	string	$a_name		parameter name
-    * @param	string	$a_value	parameter value
-    */
+     * set parameter
+     * @param string $a_name  parameter name
+     * @param string $a_value parameter value
+     */
     public function setParameter($a_name, $a_value)
     {
         if (self::checkParameter($a_name, $a_value)) {
@@ -680,18 +661,17 @@ class ilMediaItem
     }
 
     /**
-    * reset parameters
-    */
+     * reset parameters
+     */
     public function resetParameters()
     {
         $this->parameters = array();
     }
 
     /**
-    * set alle parameters via parameter string (format: par1="value1", par2="value2", ...)
-    *
-    * @param	string		$a_par		parameter string
-    */
+     * set alle parameters via parameter string (format: par1="value1", par2="value2", ...)
+     * @param string $a_par parameter string
+     */
     public function setParameters($a_par)
     {
         $this->resetParameters();
@@ -705,7 +685,6 @@ class ilMediaItem
 
     /**
      * Check parameter (filter javascript related and other unsafe parameters/values)
-     *
      * @param string $a_par parameter
      * @param string $a_val value
      * @return bool
@@ -728,44 +707,41 @@ class ilMediaItem
         return true;
     }
 
-
     /**
-    * get all parameters (in array)
-    */
+     * get all parameters (in array)
+     */
     public function getParameters()
     {
         return $this->parameters;
     }
 
-
     /**
-    * get all parameters (as string)
-    */
+     * get all parameters (as string)
+     */
     public function getParameterString()
     {
         return ilUtil::assembleParameterString($this->parameters);
     }
 
-
     /**
-    * get a single parameter
-    */
+     * get a single parameter
+     */
     public function getParameter($a_name)
     {
         return $this->parameters[$a_name];
     }
 
     /**
-    * get work directory for image map editing
-    */
+     * get work directory for image map editing
+     */
     public function getWorkDirectory()
     {
         return ilUtil::getDataDir() . "/map_workfiles/item_" . $this->getId();
     }
 
     /**
-    * create work directory for image map editing
-    */
+     * create work directory for image map editing
+     */
     public function createWorkDirectory()
     {
         if (!@is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
@@ -778,8 +754,8 @@ class ilMediaItem
     }
 
     /**
-    * get location suffix
-    */
+     * get location suffix
+     */
     public function getSuffix()
     {
         $loc_arr = explode(".", $this->getLocation());
@@ -788,18 +764,17 @@ class ilMediaItem
     }
 
     /**
-    * get image type of image map work copy
-    */
+     * get image type of image map work copy
+     */
     public function getMapWorkCopyType()
     {
         return ilUtil::getGDSupportedImageType($this->getSuffix());
     }
 
     /**
-    * Get name of image map work copy file
-    *
-    * @param	string		Get name, for copy of external referenced image
-    */
+     * Get name of image map work copy file
+     * @param string        Get name, for copy of external referenced image
+     */
     public function getMapWorkCopyName($a_reference_copy = false)
     {
         $file_arr = explode("/", $this->getLocation());
@@ -816,33 +791,39 @@ class ilMediaItem
     }
 
     /**
-    * get media file directory
-    */
+     * get media file directory
+     */
     public function getDirectory()
     {
         return ilObjMediaObject::_getDirectory($this->getMobId());
     }
 
     /**
-    * get media file directory
-    */
+     * get media file directory
+     */
     public function getThumbnailDirectory($a_mode = "filesystem")
     {
         return ilObjMediaObject::_getThumbnailDirectory($this->getMobId(), $a_mode);
     }
 
     /**
-    * get thumbnail target
-    */
+     * get thumbnail target
+     */
     public function getThumbnailTarget($a_size = "")
     {
+        $jpeg_file = $this->getThumbnailDirectory() . "/" .
+            $this->getPurpose() . ".jpeg";
+        $format = "png";
+        if (is_file($jpeg_file)) {
+            $format = "jpeg";
+        }
+
         if (is_int(strpos($this->getFormat(), "image"))) {
             $thumb_file = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . ".jpeg";
+                $this->getPurpose() . "." . $format;
 
             $thumb_file_small = $this->getThumbnailDirectory() . "/" .
-                $this->getPurpose() . "_small.jpeg";
-
+                $this->getPurpose() . "_small." . $format;
             // generate thumbnail (if not tried before)
             if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile") {
                 if (is_file($thumb_file)) {
@@ -856,20 +837,19 @@ class ilMediaItem
                 $med_file = $this->getDirectory() . "/" . $this->getLocation();
 
                 if (is_file($med_file)) {
-                    ilUtil::convertImage($med_file, $thumb_file, "jpeg", "80");
-                    ilUtil::convertImage($med_file, $thumb_file_small, "jpeg", "40");
+                    ilUtil::convertImage($med_file, $thumb_file, $format, "80");
+                    ilUtil::convertImage($med_file, $thumb_file_small, $format, "40");
                 }
             }
-
             if ($a_size == "small") {
                 if (is_file($thumb_file_small)) {
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small.jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . "_small." . $format . "?dummy=" . rand(1, 999999);
                 }
             } else {
                 if (is_file($thumb_file)) {
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . ".jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . "." . $format . "?dummy=" . rand(1, 999999);
                 }
             }
         }
@@ -877,10 +857,9 @@ class ilMediaItem
         return "";
     }
 
-
     /**
-    * Copy the orginal file
-    */
+     * Copy the orginal file
+     */
     public function copyOriginal()
     {
         $lng = $this->lng;
@@ -911,7 +890,7 @@ class ilMediaItem
                 @fclose($lcopy);
                 @fclose($handle);
             }
-            
+
             // now, create working copy
             ilUtil::convertImage(
                 $this->getMapWorkCopyName(true),
@@ -927,22 +906,21 @@ class ilMediaItem
         }
         return true;
     }
-    
+
     /**
-    * make map work copy of image
-    *
-    * @param	int			$a_area_nr		draw area $a_area_nr only
-    * @param	boolean		$a_exclude		true: draw all areas but area $a_area_nr
-    */
+     * make map work copy of image
+     * @param int     $a_area_nr draw area $a_area_nr only
+     * @param boolean $a_exclude true: draw all areas but area $a_area_nr
+     */
     public function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
     {
         $lng = $this->lng;
-        
+
         if (!$this->copyOriginal()) {
             return false;
         }
         $this->buildMapWorkImage();
-        
+
         // determine ratios
         $size = @getimagesize($this->getMapWorkCopyName());
         $x_ratio = 1;
@@ -955,11 +933,11 @@ class ilMediaItem
         }
 
         // draw map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
-            if (((($i+1) == $a_area_nr) && !$a_exclude) ||
-                    ((($i+1) != $a_area_nr) && $a_exclude) ||
-                    ($a_area_nr == 0)
-                ) {
+        for ($i = 0; $i < count($this->mapareas); $i++) {
+            if (((($i + 1) == $a_area_nr) && !$a_exclude) ||
+                ((($i + 1) != $a_area_nr) && $a_exclude) ||
+                ($a_area_nr == 0)
+            ) {
                 $area = $this->mapareas[$i];
                 $area->draw(
                     $this->getMapWorkImage(),
@@ -973,17 +951,15 @@ class ilMediaItem
         }
 
         $this->saveMapWorkImage();
-        
+
         return true;
     }
 
-
     /**
-    * draw a new area in work image
-    *
-    * @param	string		$a_shape		shape
-    * @param	string		$a_coords		coordinates string
-    */
+     * draw a new area in work image
+     * @param string $a_shape  shape
+     * @param string $a_coords coordinates string
+     */
     public function addAreaToMapWorkCopy($a_shape, $a_coords)
     {
         $this->buildMapWorkImage();
@@ -1016,8 +992,8 @@ class ilMediaItem
     }
 
     /**
-    * output raw map work copy file
-    */
+     * output raw map work copy file
+     */
     public function outputMapWorkCopy()
     {
         if ($this->getMapWorkCopyType() != "") {
@@ -1030,8 +1006,8 @@ class ilMediaItem
     }
 
     /**
-    * build image map work image
-    */
+     * build image map work image
+     */
     public function buildMapWorkImage()
     {
         $im_type = strtolower($this->getMapWorkCopyType());
@@ -1062,8 +1038,8 @@ class ilMediaItem
     }
 
     /**
-    * save image map work image
-    */
+     * save image map work image
+     */
     public function saveMapWorkImage()
     {
         $im_type = strtolower($this->getMapWorkCopyType());
@@ -1088,25 +1064,24 @@ class ilMediaItem
     }
 
     /**
-    * get image map work image
-    */
+     * get image map work image
+     */
     public function &getMapWorkImage()
     {
         return $this->map_image;
     }
 
-
     /**
-    * get xml code of media items' areas
-    */
+     * get xml code of media items' areas
+     */
     public function getMapAreasXML($a_insert_inst = false, $a_inst = 0)
     {
         $xml = "";
 
         // build xml of map areas
-        for ($i=0; $i < count($this->mapareas); $i++) {
+        for ($i = 0; $i < count($this->mapareas); $i++) {
             $area = $this->mapareas[$i];
-            
+
             // highlight mode
             $hm = "";
             if ($area->getHighlightMode() != "") {
@@ -1114,9 +1089,9 @@ class ilMediaItem
                 $hcl = ($area->getHighlightClass() != "")
                     ? $area->getHighlightClass()
                     : "Accented";
-                $hm.= 'HighlightClass="' . $hcl . '" ';
+                $hm .= 'HighlightClass="' . $hcl . '" ';
             }
-            
+
             $xml .= "<MapArea Shape=\"" . $area->getShape() . "\" Coords=\"" . $area->getCoords() . "\" " . $hm . ">";
             if ($area->getLinkType() == IL_INT_LINK) {
                 $target_frame = $area->getTargetFrame();
@@ -1128,35 +1103,33 @@ class ilMediaItem
                 $tf_str = ($target_frame == "")
                     ? ""
                     : "TargetFrame=\"" . $target_frame . "\"";
-                
+
                 $xml .= "<IntLink Target=\"" . $area->getTarget($a_insert_inst, $a_inst) . "\" Type=\"" .
                     $area->getType() . "\" $tf_str>";
                 // see bug 17893 and http://stackoverflow.com/questions/4026502/xml-error-at-ampersand
                 $xml .= htmlspecialchars($area->getTitle(), ENT_QUOTES);
-                $xml .="</IntLink>";
+                $xml .= "</IntLink>";
             } else {
                 $xml .= "<ExtLink Href=\"" . str_replace("&", "&amp;", $area->getHref()) . "\" Title=\"" .
                     str_replace("&", "&amp;", $area->getExtTitle()) . "\">";
                 $xml .= str_replace("&", "&amp;", $area->getTitle());
-                $xml .="</ExtLink>";
+                $xml .= "</ExtLink>";
             }
             $xml .= "</MapArea>";
         }
         return $xml;
     }
 
-
     /**
-    * resolve internal links of all media items of a media object
-    *
-    * @param	int		$a_mob_id		media object id
-    */
+     * resolve internal links of all media items of a media object
+     * @param int $a_mob_id media object id
+     */
     public static function _resolveMapAreaLinks($a_mob_id)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         //echo "mediaItems::resolve<br>";
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
@@ -1169,16 +1142,15 @@ class ilMediaItem
     }
 
     /**
-    * get all internal links of map areas of a mob
-    *
-    * @param	int		$a_mob_id		media object id
-    */
+     * get all internal links of map areas of a mob
+     * @param int $a_mob_id media object id
+     */
     public static function _getMapAreasIntLinks($a_mob_id)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_items records
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer") . " ORDER BY nr";
@@ -1195,8 +1167,8 @@ class ilMediaItem
     }
 
     /**
-    * Extract parameters of special external references to parameter array
-    */
+     * Extract parameters of special external references to parameter array
+     */
     public function extractUrlParameters()
     {
         include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
@@ -1211,7 +1183,6 @@ class ilMediaItem
 
     /**
      * Get media items for upload hash
-     *
      * @param string $a_hash upload hash
      * @return array
      */
@@ -1226,7 +1197,7 @@ class ilMediaItem
             " WHERE upload_hash = %s ",
             array("text"),
             array($a_hash)
-            );
+        );
         $media_items = array();
         while ($rec = $db->fetchAssoc($set)) {
             $media_items[] = $rec;

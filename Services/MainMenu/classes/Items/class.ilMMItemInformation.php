@@ -40,9 +40,9 @@ class ilMMItemInformation implements ItemInformation
      */
     public function __construct()
     {
-        $this->items        = ilMMItemStorage::getArray('identification');
+        $this->items = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage      = new Services();
+        $this->storage = new Services();
     }
 
     /**
@@ -99,7 +99,7 @@ class ilMMItemInformation implements ItemInformation
         if (isset($this->items[$serialize]['active'])) {
             return $this->items[$serialize]['active'] === '1';
         }
-        return $item->isAlwaysAvailable() || ($item->isAvailable() && $item->isVisible());
+        return true;
     }
 
     /**
@@ -129,8 +129,8 @@ class ilMMItemInformation implements ItemInformation
             if (!$ri) {
                 return $item;
             }
-            $stream     = $this->storage->stream($ri)->getStream();
-            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $stream = $this->storage->stream($ri)->getStream();
+            $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();

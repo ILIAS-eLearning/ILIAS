@@ -194,7 +194,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
 
@@ -1172,7 +1172,7 @@ class ilObjWikiGUI extends ilObjectGUI
         
         $i = strpos($a_target, "_");
         if ($i > 0) {
-            $a_page = substr($a_target, $i+1);
+            $a_page = substr($a_target, $i + 1);
             $a_target = substr($a_target, 0, $i);
         }
         
@@ -1503,7 +1503,7 @@ class ilObjWikiGUI extends ilObjectGUI
         // quick navigation
         if ($a_wpg_id > 0) {
             // rating
-            $wiki_id =ilObject::_lookupObjId($a_wiki_ref_id);
+            $wiki_id = ilObject::_lookupObjId($a_wiki_ref_id);
             if (ilObjWiki::_lookupRating($wiki_id) &&
                 // ilObjWiki::_lookupRatingAsBlock($wiki_id) &&
                 $a_wp->getRating()) {
@@ -1538,7 +1538,7 @@ class ilObjWikiGUI extends ilObjectGUI
         // important pages
         include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
         $imp_pages_block = new ilWikiImportantPagesBlockGUI();
-        $rcontent.= $imp_pages_block->getHTML();
+        $rcontent .= $imp_pages_block->getHTML();
 
         // wiki functions block
         if ($a_wpg_id > 0) {
@@ -1592,13 +1592,16 @@ class ilObjWikiGUI extends ilObjectGUI
     
     public function printViewObject($a_pdf_export = false)
     {
+        global $tpl;
         $tpl = $this->tpl;
 
         $tabs = $this->tabs_gui;
 
         $tabs->clearTargets();
-        $tabs->setBackTarget($this->lng->txt("back"),
-            $this->ctrl->getLinkTargetByClass("ilwikipagegui", "printViewSelection"));
+        $tabs->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTargetByClass("ilwikipagegui", "printViewSelection")
+        );
         
         $page_ids = $this->getPrintPageIds();
         if (!$page_ids) {
@@ -1612,7 +1615,7 @@ class ilObjWikiGUI extends ilObjectGUI
             $page_gui = new ilWikiPageGUI($p_id);
             $page_gui->setWiki($this->object);
             $page_gui->setOutputMode("print");
-            $page_content.= $page_gui->showPage();
+            $page_content .= $page_gui->showPage();
             
             if ($a_pdf_export) {
                 $page_content .= '<p style="page-break-after:always;"></p>';
@@ -2234,7 +2237,7 @@ class ilObjWikiGUI extends ilObjectGUI
     {
         $this->log->debug("get progress");
         $this->checkPermission("wiki_html_export");
-        $p =  $this->object->getUserHTMLExportProgress();
+        $p = $this->object->getUserHTMLExportProgress();
 
         include_once("./Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php");
         $pb = ilProgressBar::getInstance();

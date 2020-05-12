@@ -235,7 +235,7 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        return (double) ($sum/$count);
+        return (double) ($sum / $count);
     }
 
     /**
@@ -259,7 +259,7 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        return pow((double) $prod, (double) (1/$count));
+        return pow((double) $prod, (double) (1 / $count));
     }
 
     /**
@@ -281,9 +281,9 @@ class ilStatistics
         }
         $sum = 0;
         foreach ($this->stat_data as $value) {
-            $sum += 1/$value;
+            $sum += 1 / $value;
         }
-        return $count/$sum;
+        return $count / $sum;
     }
 
     /**
@@ -363,19 +363,19 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        $nprod = ($n/100)*$count;
+        $nprod = ($n / 100) * $count;
         if (intval($nprod) == $nprod) {
             $k = $nprod;
             if ($k == 0) {
                 return $this->stat_data[$k];
             } elseif ($k == $count) {
-                return $this->stat_data[$k-1];
+                return $this->stat_data[$k - 1];
             } else {
-                return ($this->stat_data[$k-1] + $this->stat_data[$k])/2;
+                return ($this->stat_data[$k - 1] + $this->stat_data[$k]) / 2;
             }
         } else {
             $k = ceil($nprod);
-            return $this->stat_data[$k-1];
+            return $this->stat_data[$k - 1];
         }
     }
     

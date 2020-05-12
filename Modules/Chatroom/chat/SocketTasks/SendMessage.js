@@ -7,7 +7,6 @@ var HTMLEscape = require('../Helper/HTMLEscape');
 module.exports = function (data, roomId, subRoomId) {
 	var serverRoomId = Container.createServerRoomId(roomId, subRoomId);
 	var namespace = Container.getNamespace(this.nsp.name);
-	var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
 
 	function messageCallbackFactory(message) {
 		return function messageCallback(socketId) {
@@ -16,6 +15,12 @@ module.exports = function (data, roomId, subRoomId) {
 	}
 
 	Container.getLogger().info('Message send to room %s of namespace %s', serverRoomId, namespace.getName());
+	if (typeof this.subscriber === "undefined") {
+		Container.getLogger().error("Missing subscriber, don't process message");
+		return;
+	}
+
+	var subscriber = {id: this.subscriber.getId(), username: this.subscriber.getName()};
 
 	data.content = HTMLEscape.escape(data.content);
 

@@ -49,6 +49,8 @@ interface Factory
      *     1: >
      *        Scrollable areas of the Standard Page MUST be scrollable by only using
      *        the keyboard.
+     *     2: >
+     *        The content area of the Standard Page MUST be focused on page load.
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content

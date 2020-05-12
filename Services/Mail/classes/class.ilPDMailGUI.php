@@ -38,10 +38,10 @@ class ilPDMailGUI
     {
         global $DIC;
 
-        $this->lng        = $DIC->language();
+        $this->lng = $DIC->language();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->ilias      = $DIC['ilias'];
-        $this->user       = $DIC->user();
+        $this->ilias = $DIC['ilias'];
+        $this->user = $DIC->user();
     }
 
     /**

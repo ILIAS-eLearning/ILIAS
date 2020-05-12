@@ -35,7 +35,7 @@ class ilUserAvatarLetter extends ilUserAvatarBase
         }
         // general idea, see https://gist.github.com/vctrfrnndz/fab6f839aaed0de566b0
         $color = self::$colors[crc32($this->name) % $amount_of_colors];
-        $tpl   = new \ilTemplate('tpl.letter_avatar.svg', true, true, 'Services/User');
+        $tpl = new \ilTemplate('tpl.letter_avatar.svg', true, true, 'Services/User');
         $tpl->setVariable('COLOR', $color);
         $tpl->setVariable('SHORT', $this->name);
 

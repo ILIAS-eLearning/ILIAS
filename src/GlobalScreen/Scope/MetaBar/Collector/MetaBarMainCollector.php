@@ -46,7 +46,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     }
 
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         $this->items = array_filter($this->items, $this->getVisibleFilter());
     }

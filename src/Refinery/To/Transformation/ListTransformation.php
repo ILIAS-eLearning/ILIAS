@@ -39,20 +39,12 @@ class ListTransformation implements Transformation
                 'must_be_array'
             );
         }
-        if (array() === $from) {
-            throw new ConstraintViolationException(
-                'Value array is empty',
-                'value_array_is_empty'
-            );
-        }
 
-        $result = array();
+        $result = [];
         foreach ($from as $value) {
             $transformedValue = $this->transformation->transform($value);
             $result[] = $transformedValue;
         }
-
-
 
         return $result;
     }

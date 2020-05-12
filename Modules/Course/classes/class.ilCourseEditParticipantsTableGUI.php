@@ -107,7 +107,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         // only once, instead of reading them for each row in method fillRow().
         $this->localCourseRoles = array();
         foreach ($this->rep_object->getLocalCourseRoles(false) as $title => $role_id) {
-            $this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id'=>$role_id, 'title'=>$title);
+            $this->localCourseRoles[ilObjRole::_getTranslation($title)] = array('role_id' => $role_id, 'title' => $title);
         }
     }
     

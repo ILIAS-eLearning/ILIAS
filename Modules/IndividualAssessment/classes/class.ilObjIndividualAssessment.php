@@ -7,16 +7,44 @@
  * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  */
 
-
-require_once 'Services/Object/classes/class.ilObject.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettings.php';
-require_once 'Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentSettingsStorageDB.php';
-require_once 'Modules/IndividualAssessment/classes/Members/class.ilIndividualAssessmentMembersStorageDB.php';
-require_once 'Modules/IndividualAssessment/classes/AccessControl/class.ilIndividualAssessmentAccessHandler.php';
-require_once 'Modules/IndividualAssessment/classes/FileStorage/class.ilIndividualAssessmentFileStorage.php';
 class ilObjIndividualAssessment extends ilObject
 {
+    use ilIndividualAssessmentDIC;
+
+    /**
+     * @var bool|null
+     */
     protected $lp_active = null;
+
+    /**
+     * @var ilIndividualAssessmentSettings
+     */
+    protected $settings;
+
+    /**
+     * @var ilIndividualAssessmentSettingsStorageDB
+     */
+    protected $settings_storage;
+
+    /**
+     * @var ilIndividualAssessmentMembersStorageDB
+     */
+    protected $members_storage;
+
+    /**
+     * @var ilIndividualAssessmentAccessHandler
+     */
+    protected $access_handler;
+
+    /**
+     * @var ilAccessHandler
+     */
+    protected $il_access_handler;
+
+    /**
+     * @var Pimple\Container
+     */
+    protected $dic;
 
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
@@ -25,7 +53,7 @@ class ilObjIndividualAssessment extends ilObject
         $this->il_access_handler = $DIC["ilAccess"];
         parent::__construct($a_id, $a_call_by_reference);
         $this->settings_storage = new ilIndividualAssessmentSettingsStorageDB($DIC['ilDB']);
-        $this->members_storage =  new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
+        $this->members_storage = new ilIndividualAssessmentMembersStorageDB($DIC['ilDB']);
         $this->access_handler = new ilIndividualAssessmentAccessHandler(
             $this,
             $DIC['ilAccess'],
@@ -41,7 +69,15 @@ class ilObjIndividualAssessment extends ilObject
     public function create()
     {
         parent::create();
-        $this->settings = new ilIndividualAssessmentSettings($this);
+        $this->settings = new ilIndividualAssessmentSettings(
+            (int) $this->getId(),
+            '',
+            '',
+            '',
+            '',
+            false,
+            false
+        );
         $this->settings_storage->createSettings($this->settings);
     }
 
@@ -57,10 +93,7 @@ class ilObjIndividualAssessment extends ilObject
         $this->info_settings = $settings_storage->loadInfoSettings($this);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSettings()
+    public function getSettings() : ilIndividualAssessmentSettings
     {
         if (!$this->settings) {
             $this->settings = $this->settings_storage->loadSettings($this);
@@ -74,9 +107,11 @@ class ilObjIndividualAssessment extends ilObject
     public function setSettings(ilIndividualAssessmentSettings $settings)
     {
         $this->settings = $settings;
+        $this->setTitle($settings->getTitle());
+        $this->setDescription($settings->getDescription());
     }
 
-    public function getInfoSettings()
+    public function getInfoSettings() : ilIndividualAssessmentInfoSettings
     {
         if (!$this->info_settings) {
             $this->info_settings = $this->settings_storage->loadInfoSettings($this);
@@ -194,19 +229,23 @@ class ilObjIndividualAssessment extends ilObject
         $settings = $this->getSettings();
         $info_settings = $this->getInfoSettings();
         $new_settings = new ilIndividualAssessmentSettings(
-            $new_obj,
-            $settings->content(),
-            $settings->recordTemplate()
+            (int) $new_obj->getId(),
+            (int) $new_obj->getTitle(),
+            (int) $new_obj->getDescription(),
+            $settings->getContent(),
+            $settings->getRecordTemplate(),
+            $settings->isEventTimePlaceRequired(),
+            $settings->isFileRequired()
         );
         $new_obj->settings = $new_settings;
 
         $new_info_settings = new ilIndividualAssessmentInfoSettings(
-            $new_obj,
-            $info_settings->contact(),
-            $info_settings->responsibility(),
-            $info_settings->phone(),
-            $info_settings->mails(),
-            $info_settings->consultationHours()
+            (int) $new_obj->getId(),
+            $info_settings->getContact(),
+            $info_settings->getResponsibility(),
+            $info_settings->getPhone(),
+            $info_settings->getMails(),
+            $info_settings->getConsultationHours()
         );
         $new_obj->settings = $new_settings;
         $new_obj->info_settings = $new_info_settings;
@@ -225,7 +264,7 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * Get the file storage system
      *
-     * @return ilManualAssessmentFileStorage
+     * @return ilIndividualAssessmentFileStorage
      */
     public function getFileStorage()
     {
@@ -274,5 +313,27 @@ class ilObjIndividualAssessment extends ilObject
             $node = $tree->getParentNodeData($node['ref_id']);
         }
         return 0;
+    }
+
+    protected function getDic() : Pimple\Container
+    {
+        if (is_null($this->dic)) {
+            global $DIC;
+            $this->dic = $this->getObjectDIC(
+                $this,
+                $DIC
+            );
+        }
+        return $this->dic;
+    }
+
+    public function getMembersGUI() : ilIndividualAssessmentMembersGUI
+    {
+        return $this->getDic()['ilIndividualAssessmentMembersGUI'];
+    }
+
+    public function getSettingsGUI() : ilIndividualAssessmentSettingsGUI
+    {
+        return $this->getDic()['ilIndividualAssessmentSettingsGUI'];
     }
 }

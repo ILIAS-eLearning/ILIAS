@@ -50,11 +50,7 @@ class ilForumPost
     private $rgt = 0;
     
     private $depth = 0;
-    
-    private $fullname = '';
-    
-    private $loginname = '';
-    
+
     /**
      * @var ilForumTopic
      */
@@ -112,20 +108,20 @@ class ilForumPost
             $this->id = $this->db->nextId('frm_posts');
             
             $this->db->insert('frm_posts', array(
-                'pos_pk'		=> array('integer', $this->id),
-                'pos_top_fk'	=> array('integer', $this->forum_id),
-                'pos_thr_fk'	=> array('integer', $this->thread_id),
-                'pos_display_user_id'	=> array('integer', $this->display_user_id),
-                'pos_usr_alias'	=> array('text', $this->user_alias),
-                'pos_subject'	=> array('text', $this->subject),
-                'pos_message'	=> array('clob', $this->message),
-                'pos_date'		=> array('timestamp', $this->createdate),
-                'pos_update'	=> array('timestamp', $this->createdate),
-                'update_user'	=> array('integer', $this->user_id_update),
-                'pos_cens'		=> array('integer', $this->censored),
-                'notify'		=> array('integer', (int) $this->notification),
-                'import_name'	=> array('text', (string) $this->import_name),
-                'pos_status'	=> array('integer', (int) $this->status),
+                'pos_pk' => array('integer', $this->id),
+                'pos_top_fk' => array('integer', $this->forum_id),
+                'pos_thr_fk' => array('integer', $this->thread_id),
+                'pos_display_user_id' => array('integer', $this->display_user_id),
+                'pos_usr_alias' => array('text', $this->user_alias),
+                'pos_subject' => array('text', $this->subject),
+                'pos_message' => array('clob', $this->message),
+                'pos_date' => array('timestamp', $this->createdate),
+                'pos_update' => array('timestamp', $this->createdate),
+                'update_user' => array('integer', $this->user_id_update),
+                'pos_cens' => array('integer', $this->censored),
+                'notify' => array('integer', (int) $this->notification),
+                'import_name' => array('text', (string) $this->import_name),
+                'pos_status' => array('integer', (int) $this->status),
                 'pos_author_id' => array('integer', (int) $this->pos_author_id),
                 'is_author_moderator' => array('integer', $this->is_author_moderator),
                 'pos_activation_date' => array('timestamp', $this->createdate)
@@ -143,20 +139,20 @@ class ilForumPost
             $this->db->update(
                 'frm_posts',
                 array(
-                    'pos_top_fk'	=> array('integer', $this->forum_id),
-                    'pos_thr_fk'	=> array('integer', $this->thread_id),
-                    'pos_subject'	=> array('text', $this->subject),
-                    'pos_message'	=> array('clob', $this->message),
-                    'pos_update'	=> array('timestamp', $this->changedate),
-                    'update_user'	=> array('integer', $this->user_id_update),
-                    'pos_cens'		=> array('integer', $this->censored),
+                    'pos_top_fk' => array('integer', $this->forum_id),
+                    'pos_thr_fk' => array('integer', $this->thread_id),
+                    'pos_subject' => array('text', $this->subject),
+                    'pos_message' => array('clob', $this->message),
+                    'pos_update' => array('timestamp', $this->changedate),
+                    'update_user' => array('integer', $this->user_id_update),
+                    'pos_cens' => array('integer', $this->censored),
                     'pos_cens_date' => array('timestamp', $this->censored_date),
-                    'pos_cens_com'	=> array('text', $this->censorship_comment),
-                    'notify'		=> array('integer', (int) $this->notification),
-                    'pos_status'	=> array('integer', (int) $this->status)
+                    'pos_cens_com' => array('text', $this->censorship_comment),
+                    'notify' => array('integer', (int) $this->notification),
+                    'pos_status' => array('integer', (int) $this->status)
                 ),
                 array(
-                    'pos_pk'		=> array('integer', (int) $this->id)
+                    'pos_pk' => array('integer', (int) $this->id)
                 )
             );
             
@@ -186,31 +182,30 @@ class ilForumPost
             $row = $this->db->fetchObject($res);
             
             if (is_object($row)) {
-                $this->id                 = $row->pos_pk;
-                $this->forum_id           = $row->pos_top_fk;
-                $this->thread_id          = $row->pos_thr_fk;
-                $this->display_user_id    = $row->pos_display_user_id;
-                $this->user_alias         = $row->pos_usr_alias;
-                $this->subject            = $row->pos_subject;
-                $this->message            = $row->pos_message;
-                $this->createdate         = $row->pos_date;
-                $this->changedate         = $row->pos_update;
-                $this->user_id_update     = $row->update_user;
-                $this->censored           = $row->pos_cens;
-                $this->censored_date      = $row->pos_cens_date;
+                $this->id = $row->pos_pk;
+                $this->forum_id = $row->pos_top_fk;
+                $this->thread_id = $row->pos_thr_fk;
+                $this->display_user_id = $row->pos_display_user_id;
+                $this->user_alias = $row->pos_usr_alias;
+                $this->subject = $row->pos_subject;
+                $this->message = $row->pos_message;
+                $this->createdate = $row->pos_date;
+                $this->changedate = $row->pos_update;
+                $this->user_id_update = $row->update_user;
+                $this->censored = $row->pos_cens;
+                $this->censored_date = $row->pos_cens_date;
                 $this->censorship_comment = $row->pos_cens_com;
-                $this->notification       = $row->notify;
-                $this->import_name        = $row->import_name;
-                $this->status             = $row->pos_status;
-                $this->tree_id            = $row->fpt_pk;
-                $this->parent_id          = $row->parent_pos;
-                $this->lft                = $row->lft;
-                $this->rgt                = $row->rgt;
-                $this->depth              = $row->depth;
-                $this->pos_author_id      = $row->pos_author_id;
+                $this->notification = $row->notify;
+                $this->import_name = $row->import_name;
+                $this->status = $row->pos_status;
+                $this->tree_id = $row->fpt_pk;
+                $this->parent_id = $row->parent_pos;
+                $this->lft = $row->lft;
+                $this->rgt = $row->rgt;
+                $this->depth = $row->depth;
+                $this->pos_author_id = $row->pos_author_id;
                 $this->is_author_moderator = $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
-                $this->getUserData();
                 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
                 
@@ -243,60 +238,9 @@ class ilForumPost
         return false;
     }
     
-    protected function buildUserRelatedData($row)
-    {
-        if ($row['pos_display_user_id'] && $row['pos_pk']) {
-            $tmp_user = new ilObjUser();
-            $tmp_user->setFirstname($row['firstname']);
-            $tmp_user->setLastname($row['lastname']);
-            $tmp_user->setUTitle($row['title']);
-            $tmp_user->setLogin($row['login']);
-            
-            $this->fullname = $tmp_user->getFullname();
-            $this->loginname = $tmp_user->getLogin();
-        
-            $this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
-        }
-    }
-    
-    private function getUserData()
-    {
-        if ($this->id && $this->display_user_id) {
-            require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
-            if (($tmp_user = ilObjForumAccess::getCachedUserInstance($this->display_user_id))) {
-                $this->fullname = $tmp_user->getFullname();
-                $this->loginname = $tmp_user->getLogin();
-                unset($tmp_user);
-            }
-        
-            $this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $this->lng->txt('unknown'));
-            
-            return true;
-        }
-        
-        return false;
-    }
-    
     public function reload()
     {
         return $this->read();
-    }
-    
-    public function setFullname($a_fullname)
-    {
-        $this->fullname = $a_fullname;
-    }
-    public function getFullname()
-    {
-        return $this->fullname;
-    }
-    public function setLoginName($a_loginname)
-    {
-        $this->loginname = $a_loginname;
-    }
-    public function getLoginName()
-    {
-        return $this->loginname;
     }
 
     public function activatePost()
@@ -305,9 +249,9 @@ class ilForumPost
             $now = date("Y-m-d H:i:s");
             $this->db->update(
                 'frm_posts',
-                array('pos_status'	=>	array('integer', 1),
+                array('pos_status' => array('integer', 1),
                       'pos_activation_date' => array('timestamp', $now)),
-                array('pos_pk'		=>	array('integer', $this->id))
+                array('pos_pk' => array('integer', $this->id))
             );
 
             $this->activateParentPosts();
@@ -337,9 +281,9 @@ class ilForumPost
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
+                    array('pos_status' => array('integer', 1),
                           'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    array('pos_pk' => array('integer', $row['pos_pk']))
                 );
             }
             
@@ -367,9 +311,9 @@ class ilForumPost
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
+                    array('pos_status' => array('integer', 1),
                           'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    array('pos_pk' => array('integer', $row['pos_pk']))
                 );
             }
             
@@ -702,22 +646,27 @@ class ilForumPost
         $this->setDisplayUserId($row['pos_display_user_id']);
         $this->setPosAuthorId($row['pos_author_id']);
         $this->setIsAuthorModerator($row['is_author_moderator']);
-        $this->buildUserRelatedData($row);
     }
-    
+
     /**
-     * @param $source_thread_id
-     * @param $target_thread_id
+     * @param int $sourceThreadId
+     * @param int $targetThreadId
+     * @param int[] $excludedPostIds
      */
-    public static function mergePosts($source_thread_id, $target_thread_id)
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = [])
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
-        $ilDB->update(
-            'frm_posts',
-            array('pos_thr_fk' => array('integer', $target_thread_id)),
-            array('pos_thr_fk' => array('integer', $source_thread_id))
+
+        $conditions = ['pos_thr_fk = ' . $ilDB->quote($sourceThreadId, 'integer')];
+        if ($excludedPostIds !== []) {
+            $conditions[] = $ilDB->in('pos_pk', $excludedPostIds, true, 'integer');
+        }
+
+        $ilDB->manipulateF(
+            'UPDATE frm_posts SET pos_thr_fk = %s WHERE ' . implode(' AND ', $conditions),
+            ['integer',],
+            [$targetThreadId,]
         );
     }
 }

@@ -180,7 +180,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $desc = "";
         foreach ($path as $p) {
             if (in_array($p["type"], array("scat", "skll"))) {
-                $desc.= $sep . $p["title"];
+                $desc .= $sep . $p["title"];
                 $sep = " > ";
             }
         }
@@ -351,7 +351,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $html = "";
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html.= $tab->getHTML() . "<br/><br/>";
+            $html .= $tab->getHTML() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

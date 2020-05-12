@@ -163,11 +163,11 @@ class ilLPStatusTestPassed extends ilLPStatus
             if ($rec['sequences'] > 0) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
 
-                $test_obj	= new ilObjTest($a_obj_id, false);
-                $is_passed	= ilObjTestAccess::_isPassed($a_user_id, $a_obj_id);
+                $test_obj = new ilObjTest($a_obj_id, false);
+                $is_passed = ilObjTestAccess::_isPassed($a_user_id, $a_obj_id);
 
                 if ($test_obj->getPassScoring() == SCORE_LAST_PASS) {
-                    $is_finished	= false;
+                    $is_finished = false;
                     if ($rec['last_finished_pass'] != null && $rec['sequences'] - 1 == $rec['last_finished_pass']) {
                         $is_finished = true;
                     }

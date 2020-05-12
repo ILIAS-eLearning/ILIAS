@@ -102,7 +102,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             60 => sprintf($lng->txt("news_period_x_months"), 2),
             120 => sprintf($lng->txt("news_period_x_months"), 4),
             180 => sprintf($lng->txt("news_period_x_months"), 6),
-            366 =>  $lng->txt("news_period_1_year"));
+            366 => $lng->txt("news_period_1_year"));
             
         $unset = array();
         foreach ($options as $k => $opt) {

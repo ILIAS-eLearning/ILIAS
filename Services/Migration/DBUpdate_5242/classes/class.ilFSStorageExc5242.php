@@ -98,7 +98,7 @@ class ilFSStorageExc5242
 
         $this->path .= self::_createPathFromId($this->container_id, $this->getPathPostfix());
 
-        $this->path.= "/ass_" . $this->ass_id;
+        $this->path .= "/ass_" . $this->ass_id;
 
         return true;
     }
@@ -138,9 +138,9 @@ class ilFSStorageExc5242
         while ($file = readdir($dp)) {
             if (!is_dir($this->path . '/' . $file)) {
                 $files[] = array(
-                    'name'     => $file,
-                    'size'     => filesize($this->path . '/' . $file),
-                    'ctime'    => filectime($this->path . '/' . $file),
+                    'name' => $file,
+                    'size' => filesize($this->path . '/' . $file),
+                    'ctime' => filectime($this->path . '/' . $file),
                     'fullpath' => $this->path . '/' . $file);
             }
         }

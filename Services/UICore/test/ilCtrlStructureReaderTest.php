@@ -80,7 +80,7 @@ class ilCtrlStructureReaderTest extends TestCase
         $dir = __DIR__ . "/test_dir/";
         $result = $this->reader->_readDirTo($dir);
 
-        $expected_class_childs= [
+        $expected_class_childs = [
            "ilmytestinggui" => [
                 "ilmyothertestinggui"
             ],

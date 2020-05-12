@@ -42,7 +42,6 @@
 
 class CAS_ProxyChain_AllowedList
 {
-
     private $_chains = array();
 
     /**
@@ -105,7 +104,7 @@ class CAS_ProxyChain_AllowedList
         phpCAS::traceBegin();
         $count = 0;
         foreach ($this->_chains as $chain) {
-            phpCAS::trace("Checking chain ". $count++);
+            phpCAS::trace("Checking chain " . $count++);
             if ($chain->matches($list)) {
                 phpCAS::traceEnd(true);
                 return true;
@@ -116,4 +115,3 @@ class CAS_ProxyChain_AllowedList
         return false;
     }
 }
-?>

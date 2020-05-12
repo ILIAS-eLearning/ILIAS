@@ -227,7 +227,7 @@ class ilLOEditorStatus
     public function getHTML() : string
     {
         global $DIC;
-        $steps  = [];
+        $steps = [];
         $workflow = $DIC->ui()->factory()->listing()->workflow();
         // Step 1
         // course settings

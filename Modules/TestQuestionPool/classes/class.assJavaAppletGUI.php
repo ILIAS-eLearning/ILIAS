@@ -161,7 +161,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         // java applet
         $javaapplet = $this->object->getJavaAppletFilename();
-        $applet     = new ilFileInputGUI($this->lng->txt('javaapplet'), 'javaappletName');
+        $applet = new ilFileInputGUI($this->lng->txt('javaapplet'), 'javaappletName');
         $applet->setSuffixes(array( 'jar', 'class' ));
         $applet->setRequired(false);
 
@@ -222,7 +222,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $form->addItem($header);
 
         include_once "./Modules/TestQuestionPool/classes/class.ilKVPWizardInputGUI.php";
-        $kvp    = new ilKVPWizardInputGUI($this->lng->txt("applet_parameters"), "kvp");
+        $kvp = new ilKVPWizardInputGUI($this->lng->txt("applet_parameters"), "kvp");
         $values = array();
         for ($i = 0; $i < $this->object->getParameterCount(); $i++) {
             $param = $this->object->getParameter($i);
@@ -244,7 +244,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addkvp']);
-        $this->object->addParameterAtIndex($position+1, "", "");
+        $this->object->addParameterAtIndex($position + 1, "", "");
         $this->editQuestion();
     }
 
@@ -363,7 +363,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
         
         $questiontext = $this->object->getQuestion();
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         $template->setVariable("APPLET_WIDTH", $this->object->getJavaWidth());

@@ -52,5 +52,4 @@ class ResourcesInjector
             $tpl->addOnLoadCode($code);
         }
     }
-
 }

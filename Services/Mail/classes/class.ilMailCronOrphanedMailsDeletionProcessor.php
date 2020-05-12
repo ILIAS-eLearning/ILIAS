@@ -33,8 +33,8 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
         $this->collector = $collector;
 
-        $this->settings  = $DIC->settings();
-        $this->db        = $DIC->database();
+        $this->settings = $DIC->settings();
+        $this->db = $DIC->database();
     }
     
     /**

@@ -107,7 +107,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         $this->filter["title"] = $title->getValue();
 
         //user
-        $options = array(""=>$this->lng->txt('book_all'))+
+        $options = array("" => $this->lng->txt('book_all')) +
             ilBookingParticipant::getUserFilter($this->pool_id);
         $item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
         $item->setOptions($options);

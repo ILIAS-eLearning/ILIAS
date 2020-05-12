@@ -44,24 +44,24 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $hidden = !$help_gui->isHelpPageActive();
 
         $title = $lng->txt("help");
-        $icon  = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
+        $icon = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
 
         if ($this->showHelpTool()) {
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id, true);
             };
-            $l   = function (string $content) {
+            $l = function (string $content) {
                 return $this->dic->ui()->factory()->legacy($content);
             };
 
             $identification = $iff("help");
             $hashed = $this->hash($identification->serialize());
-            $tools[]        = $this->factory->tool($identification)
-                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden): ILIAS\UI\Component\Component {
-                                         if ($c instanceof LegacySlate) {
-                                             $signal_id = $c->getToggleSignal()->getId();
-                                             return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $hidden){
-                                                 return "
+            $tools[] = $this->factory->tool($identification)
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden) : ILIAS\UI\Component\Component {
+                                                if ($c instanceof LegacySlate) {
+                                                    $signal_id = $c->getToggleSignal()->getId();
+                                                    return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $hidden) {
+                                                        return "
                                                  $('body').on('il-help-toggle-slate', function(){
                                                     if (!$('#$id').hasClass('disengaged')) {
                                                         il.Help.resetCurrentPage();
@@ -70,10 +70,10 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                                         il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                     }
                                                  });";
-                                             });
-                                         }
-                                         return $c;
-                                     })
+                                                    });
+                                                }
+                                                return $c;
+                                            })
                                      ->withInitiallyHidden($hidden)
                                      ->withTitle($title)
                                      ->withSymbol($icon)
@@ -95,7 +95,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
 
-        $ctrl     = $DIC->ctrl();
+        $ctrl = $DIC->ctrl();
         $main_tpl = $DIC->ui()->mainTemplate();
 
         /** @var ilHelpGUI $help_gui */

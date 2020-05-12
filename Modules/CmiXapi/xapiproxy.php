@@ -195,7 +195,7 @@ function modifyBody($body)
     }
     
     if (is_array($obj)) {
-        for ($i=0; $i<count($obj); $i++) {
+        for ($i = 0; $i < count($obj); $i++) {
             handleStatementEvaluation($obj[$i]);
         }
     }

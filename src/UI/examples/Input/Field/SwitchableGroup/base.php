@@ -20,7 +20,7 @@ function base()
     );
     $group2 = $ui->input()->field()->group(
         [
-            "field_2_1"=>$ui->input()->field()->text("Item 2", "Just another field")
+            "field_2_1" => $ui->input()->field()->text("Item 2", "Just another field")
                 ->withValue('some val')
         ],
         "Switchable Group number two"
@@ -30,9 +30,9 @@ function base()
     //Step 2: Switchable Group - one or the other:
     $sg = $ui->input()->field()->switchableGroup(
         [
-            "g1"=>$group1,
-            "g2"=>$group2,
-            "g3"=>$group3
+            "g1" => $group1,
+            "g2" => $group2,
+            "g3" => $group3
         ],
         "Pick One",
         "...or the other"

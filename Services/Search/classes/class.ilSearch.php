@@ -49,10 +49,10 @@ class ilSearch
         $lng = $DIC['lng'];
         
         // Initiate variables
-        $this->ilias =&$ilias;
-        $this->lng =&$lng;
+        $this->ilias = &$ilias;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule("search");
-        $this->rbacsystem =&$rbacsystem;
+        $this->rbacsystem = &$rbacsystem;
         $this->user_id = $a_user_id;
 
         $this->setPerformUpdate(true);
@@ -196,9 +196,9 @@ class ilSearch
 
         $result = array("usr" => array(),
                         "grp" => array(),
-                        "lm"  => array(),
+                        "lm" => array(),
                         "dbk" => array(),
-                        "role"=> array());
+                        "role" => array());
 
         foreach ($this->getSearchFor() as $obj_type) {
             switch ($obj_type) {
@@ -288,14 +288,14 @@ class ilSearch
                 "AND search_type = 0 ");
 
             $ilDB->insert('usr_search', array(
-                'usr_id'		=> array('integer',$this->getUserId()),
-                'search_result'	=> array('clob',serialize($this->getResults())),
-                'checked'		=> array('clob',serialize(array())),
-                'failed'		=> array('clob',serialize(array())),
-                'page'			=> array('integer',0),
-                'search_type'	=> array('integer',0),
-                'query'			=> array('text',''),
-                'root'			=> array('integer',ROOT_FOLDER_ID)));
+                'usr_id' => array('integer',$this->getUserId()),
+                'search_result' => array('clob',serialize($this->getResults())),
+                'checked' => array('clob',serialize(array())),
+                'failed' => array('clob',serialize(array())),
+                'page' => array('integer',0),
+                'search_type' => array('integer',0),
+                'query' => array('text',''),
+                'root' => array('integer',ROOT_FOLDER_ID)));
 
             return true;
         }
@@ -321,13 +321,13 @@ class ilSearch
             } else {
                 $this->setResult(array("usr" => array(),
                                        "grp" => array(),
-                                       "lm"  => array(),
+                                       "lm" => array(),
                                        "dbk" => array()));
             }
         } else {
             $this->setResult(array("usr" => array(),
                                    "grp" => array(),
-                                   "lm"  => array(),
+                                   "lm" => array(),
                                    "dbk" => array()));
         }
 
@@ -408,14 +408,14 @@ class ilSearch
         }
         if (is_array($this->result['usr'])) {
             foreach ($this->result['usr'] as $user) {
-                if ($tmp_obj =&ilObjectFactory::getInstanceByObjId($user['id'], false)) {
+                if ($tmp_obj = &ilObjectFactory::getInstanceByObjId($user['id'], false)) {
                     $new_result['usr'][] = $user;
                 }
             }
         }
         if (is_array($this->result['role'])) {
             foreach ($this->result['role'] as $user) {
-                if ($tmp_obj =&ilObjectFactory::getInstanceByObjId($user['id'], false)) {
+                if ($tmp_obj = &ilObjectFactory::getInstanceByObjId($user['id'], false)) {
                     $new_result['role'][] = $user;
                 }
             }

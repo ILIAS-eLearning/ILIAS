@@ -65,7 +65,7 @@ class ilMDLanguage extends ilMDBase
     public function setLanguage(&$lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->language =&$lng_obj;
+            $this->language = &$lng_obj;
         }
     }
     public function &getLanguage()
@@ -130,9 +130,9 @@ class ilMDLanguage extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
                      'language' => array('text',$this->getLanguageCode()));

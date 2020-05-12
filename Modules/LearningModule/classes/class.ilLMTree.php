@@ -96,5 +96,4 @@ class ilLMTree extends ilTree
         }
         return $this->complete_tree;
     }
-
 }

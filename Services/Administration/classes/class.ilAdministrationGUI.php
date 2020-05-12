@@ -38,6 +38,7 @@
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI, ilPropertyFormGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI
 */
 class ilAdministrationGUI
 {
@@ -154,8 +155,21 @@ class ilAdministrationGUI
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
             $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
         }
-        
-    
+
+        // check creation mode
+        // determined by "new_type" parameter
+        $new_type = empty($_REQUEST['new_type']) ? '' : $_REQUEST['new_type'];
+        if ($new_type) {
+            $this->creation_mode = true;
+        }
+        // determine next class
+        if ($this->creation_mode) {
+            $obj_type = $new_type;
+            $class_name = $this->objDefinition->getClassName($obj_type);
+            $next_class = strtolower("ilObj" . $class_name . "GUI");
+            $this->ctrl->setCmdClass($next_class);
+        }
+
         // set next_class directly for page translations
         // (no cmdNode is given in translation link)
         if ($this->ctrl->getCmdClass() == "ilobjlanguageextgui") {

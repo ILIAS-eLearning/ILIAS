@@ -50,7 +50,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $ilTabs->activateTab("perm_settings");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilsettingstemplategui':

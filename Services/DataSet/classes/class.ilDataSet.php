@@ -179,7 +179,7 @@ abstract class ilDataSet
         $set = $ilDB->query($a_query);
         $this->data = array();
         $ret = [];
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_convert_to_leading_upper) {
                 $tmp = array();
                 foreach ($rec as $k => $v) {
@@ -208,8 +208,8 @@ abstract class ilDataSet
         $a_str = strtoupper(substr($a_str, 0, 1)) . substr($a_str, 1);
         while (is_int($pos = strpos($a_str, "_"))) {
             $a_str = substr($a_str, 0, $pos) .
-                strtoupper(substr($a_str, $pos+1, 1)) .
-                substr($a_str, $pos+2);
+                strtoupper(substr($a_str, $pos + 1, 1)) .
+                substr($a_str, $pos + 2);
         }
         return $a_str;
     }
@@ -597,18 +597,18 @@ abstract class ilDataSet
             
             // missing installation ids?
             if (($inst_id == 0 || IL_INST_ID == 0) && !DEVMODE) {
-                return array("type"=>self::EXPORT_NO_INST_ID, "id"=>$a_fallback_id);
+                return array("type" => self::EXPORT_NO_INST_ID, "id" => $a_fallback_id);
             }
                             
             // same installation?
             if ($inst_id == IL_INST_ID) {
                 // still existing?
                 if (ilObject::_lookupType($id) == $type) {
-                    return array("type"=>self::EXPORT_ID_ILIAS_LOCAL, "id"=>$id);
+                    return array("type" => self::EXPORT_ID_ILIAS_LOCAL, "id" => $id);
                 }
                 // not found
                 else {
-                    return array("type"=>self::EXPORT_ID_ILIAS_LOCAL_INVALID, "id"=>$a_fallback_id);
+                    return array("type" => self::EXPORT_ID_ILIAS_LOCAL_INVALID, "id" => $a_fallback_id);
                 }
             }
             // different installation
@@ -616,11 +616,11 @@ abstract class ilDataSet
                 $id = ilObject::_getIdForImportId($a_id);
                 // matching type?
                 if ($id && ilObject::_lookupType($id) == $type) {
-                    return array("type"=>self::EXPORT_ID_ILIAS_REMOTE, "id"=>$id);
+                    return array("type" => self::EXPORT_ID_ILIAS_REMOTE, "id" => $id);
                 }
                 // not found
                 else {
-                    return array("type"=>self::EXPORT_ID_ILIAS_REMOTE_INVALID, "id"=>$a_fallback_id);
+                    return array("type" => self::EXPORT_ID_ILIAS_REMOTE_INVALID, "id" => $a_fallback_id);
                 }
             }
         }
@@ -628,9 +628,9 @@ abstract class ilDataSet
         // external id
         $id = ilObject::_getIdForImportId($a_id);
         if ($id) {
-            return array("type"=>self::EXPORT_ID, "id"=>$id);
+            return array("type" => self::EXPORT_ID, "id" => $id);
         } else {
-            return array("type"=>self::EXPORT_ID_INVALID, "id"=>$a_fallback_id);
+            return array("type" => self::EXPORT_ID_INVALID, "id" => $a_fallback_id);
         }
     }
 }

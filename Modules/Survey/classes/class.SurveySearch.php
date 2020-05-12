@@ -183,6 +183,6 @@ class SurveySearch
                 }
             }
         }
-        $this->search_results =&$result_array;
+        $this->search_results = &$result_array;
     }
 }

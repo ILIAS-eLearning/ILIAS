@@ -80,8 +80,8 @@ class ilTimelineGUI
         $keys = array_keys($this->items);
         foreach ($this->items as $k => $i) {
             $next = null;
-            if (isset($this->items[$keys[$k+1]])) {
-                $next = $this->items[$keys[$k+1]];
+            if (isset($this->items[$keys[$k + 1]])) {
+                $next = $this->items[$keys[$k + 1]];
             }
 
             $dt = $i->getDateTime();

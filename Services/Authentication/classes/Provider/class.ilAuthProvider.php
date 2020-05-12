@@ -8,7 +8,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-abstract class ilAuthProvider
+abstract class ilAuthProvider implements ilAuthProviderInterface
 {
     const STATUS_UNDEFINED = 0;
     const STATUS_AUTHENTICATION_SUCCESS = 1;

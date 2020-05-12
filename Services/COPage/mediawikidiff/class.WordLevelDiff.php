@@ -86,10 +86,10 @@ class DifferenceEngine
             global $wgInputEncoding,$wgServer,$wgScript,$wgLang;
             $wgOut->disable();
             header("Content-type: application/x-external-editor; charset=" . $wgInputEncoding);
-            $url1=$this->mTitle->getFullURL("action=raw&oldid=" . $this->mOldid);
-            $url2=$this->mTitle->getFullURL("action=raw&oldid=" . $this->mNewid);
-            $special=$wgLang->getNsText(NS_SPECIAL);
-            $control=<<<CONTROL
+            $url1 = $this->mTitle->getFullURL("action=raw&oldid=" . $this->mOldid);
+            $url2 = $this->mTitle->getFullURL("action=raw&oldid=" . $this->mNewid);
+            $special = $wgLang->getNsText(NS_SPECIAL);
+            $control = <<<CONTROL
 [Process]
 Type=Diff text
 Engine=MediaWiki
@@ -384,7 +384,7 @@ CONTROL;
         // Save to cache for 7 days
         if ($key !== false && $difftext !== false) {
             wfIncrStats('diff_cache_miss');
-            $wgMemc->set($key, $difftext, 7*86400);
+            $wgMemc->set($key, $difftext, 7 * 86400);
         } else {
             wfIncrStats('diff_uncacheable');
         }
@@ -843,7 +843,7 @@ class _DiffOp_Change extends _DiffOp
  */
 class _DiffEngine
 {
-    const MAX_XREF_LENGTH =  10000;
+    const MAX_XREF_LENGTH = 10000;
 
     public function diff($from_lines, $to_lines)
     {
@@ -1002,7 +1002,7 @@ class _DiffEngine
         }
 
         $this->lcs = 0;
-        $this->seq[0]= $yoff - 1;
+        $this->seq[0] = $yoff - 1;
         $this->in_seq = array();
         $ymids[0] = array();
 
@@ -1012,11 +1012,11 @@ class _DiffEngine
             //wfProfileIn( "$fname-chunk" );
             if ($chunk > 0) {
                 for ($i = 0; $i <= $this->lcs; $i++) {
-                    $ymids[$i][$chunk-1] = $this->seq[$i];
+                    $ymids[$i][$chunk - 1] = $this->seq[$i];
                 }
             }
 
-            $x1 = $xoff + (int) (($numer + ($xlim-$xoff)*$chunk) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $chunk) / $nchunks);
             for (; $x < $x1; $x++) {
                 $line = $flip ? $this->yv[$x] : $this->xv[$x];
                 if (empty($ymatches[$line])) {
@@ -1028,12 +1028,12 @@ class _DiffEngine
                     if (empty($this->in_seq[$y])) {
                         $k = $this->_lcs_pos($y);
                         USE_ASSERTS && assert($k > 0);
-                        $ymids[$k] = $ymids[$k-1];
+                        $ymids[$k] = $ymids[$k - 1];
                         break;
                     }
                 }
                 while (list( /* $junk */, $y) = each($matches)) {
-                    if ($y > $this->seq[$k-1]) {
+                    if ($y > $this->seq[$k - 1]) {
                         USE_ASSERTS && assert($y < $this->seq[$k]);
                         // Optimization: this is a common case:
                         //	next match is just replacing previous match.
@@ -1043,7 +1043,7 @@ class _DiffEngine
                     } elseif (empty($this->in_seq[$y])) {
                         $k = $this->_lcs_pos($y);
                         USE_ASSERTS && assert($k > 0);
-                        $ymids[$k] = $ymids[$k-1];
+                        $ymids[$k] = $ymids[$k - 1];
                     }
                 }
             }
@@ -1907,7 +1907,7 @@ class TableDiffFormatter extends DiffFormatter
     {
     }
 
-    public function _lines($lines, $prefix=' ', $color='white')
+    public function _lines($lines, $prefix = ' ', $color = 'white')
     {
     }
 

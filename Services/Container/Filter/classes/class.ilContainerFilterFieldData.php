@@ -38,9 +38,9 @@ class ilContainerFilterFieldData
             array($ref_id)
             );
         while ($rec = $db->fetchAssoc($set)) {
-            $filter[] =  [
+            $filter[] = [
                 "field" => new ilContainerFilterField($rec["record_set_id"], $rec["field_id"]),
-                "sort" => ($rec["record_set_id"]*100000) + $rec["field_id"]];
+                "sort" => ($rec["record_set_id"] * 100000) + $rec["field_id"]];
         }
         $filter = ilUtil::sortArray($filter, "sort", "asc", true);
 

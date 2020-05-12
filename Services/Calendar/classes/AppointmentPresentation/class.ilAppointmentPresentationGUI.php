@@ -268,7 +268,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 $properties[$lp["txt"]] = $lp["val"];
             }
 
-            $new_dd =  $ui->factory()->dropdown()->standard($actions)
+            $new_dd = $ui->factory()->dropdown()->standard($actions)
                 ->withLabel($label);
             $this->list_item = $list_item->withActions($new_dd)->withProperties($properties);
         }
@@ -403,7 +403,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
             $link_title = $title;
             if (count($refs) > 1) {
                 $par_ref = $this->tree->getParentId($ref_id);
-                $link_title.= " (" . ilObject::_lookupTitle(ilObject::_lookupObjId($par_ref)) . ")";
+                $link_title .= " (" . ilObject::_lookupTitle(ilObject::_lookupObjId($par_ref)) . ")";
             }
 
             $link = $this->buildDirectLinkForAppointment($ref_id, $a_appointment);
@@ -619,7 +619,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 $appointment = array(
                     "event" => $entry,
                     "dstart" => $entry->getStart(),
-                    "dend"	=> $entry->getEnd(),
+                    "dend" => $entry->getEnd(),
                     "fullday" => $entry->isFullday()
                 );
             } else {

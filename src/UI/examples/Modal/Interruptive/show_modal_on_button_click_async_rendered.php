@@ -4,8 +4,10 @@ function show_modal_on_button_click_async_rendered()
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $ctrl = $DIC->ctrl();
     $message = 'Are you sure you want to delete the following item?';
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
+    $ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'modal_nr', 2);
+    $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
     $items = ['First Item', 'Second Item', 'Third Item'];
 
     // Check if this is the ajax request to deliver the new modal showing the affected item
@@ -19,15 +21,25 @@ function show_modal_on_button_click_async_rendered()
     }
 
     // Create a button per item
-    $out = '';
+    $out = [];
     foreach ($items as $i => $item) {
         $ajax_url = $_SERVER['REQUEST_URI'] . '&item=' . $i;
         $modal = $factory->modal()->interruptive('', '', '')
             ->withAsyncRenderUrl($ajax_url);
         $button = $factory->button()->standard('Delete ' . $item, '#')
             ->withOnClick($modal->getShowSignal());
-        $out .= ' ' . $renderer->render([$button, $modal]);
+        $out[] = $button;
+        $out[] = $modal;
     }
 
-    return $out;
+    // Display POST data of affected items in a panel
+    if (isset($_POST['interruptive_items']) && @$_GET['modal_nr'] === '2') {
+        $panel = $factory->panel()->standard(
+            'Affected Items',
+            $factory->legacy(print_r($_POST['interruptive_items'], true))
+        );
+        $out[] = $panel;
+    }
+
+    return $renderer->render($out);
 }

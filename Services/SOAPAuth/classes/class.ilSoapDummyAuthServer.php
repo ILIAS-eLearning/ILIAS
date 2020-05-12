@@ -113,7 +113,7 @@ class ilSoapDummyAuthServer
             '',
             'SOAP-ENC:Array',
             array(),
-            array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
+            array(array('ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:int[]')),
             'xsd:int'
         );
 
@@ -125,7 +125,7 @@ class ilSoapDummyAuthServer
             '',
             'SOAP-ENC:Array',
             array(),
-            array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
+            array(array('ref' => 'SOAP-ENC:arrayType','wsdl:arrayType' => 'xsd:string[]')),
             'xsd:string'
         );
 

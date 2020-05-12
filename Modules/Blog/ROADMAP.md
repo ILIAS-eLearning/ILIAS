@@ -1,7 +1,5 @@
 # Roadmap
 
-Note: Some of the rules listed in this roadmap may be superseded by general ILIAS rules in the future.
-
 ## Short Term
 
 ## Mid Term

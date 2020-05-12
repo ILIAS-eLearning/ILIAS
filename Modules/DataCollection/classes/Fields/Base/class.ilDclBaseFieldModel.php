@@ -503,7 +503,7 @@ class ilDclBaseFieldModel
         $ilDB->update(
             "il_dcl_field",
             array(
-            "table_id"    => array(
+            "table_id" => array(
                 "integer",
                 $this->getTableId(),
             ),
@@ -511,7 +511,7 @@ class ilDclBaseFieldModel
                 "text",
                 $this->getDatatypeId(),
             ),
-            "title"       => array(
+            "title" => array(
                 "text",
                 $this->getTitle(),
             ),
@@ -519,15 +519,15 @@ class ilDclBaseFieldModel
                 "text",
                 $this->getDescription(),
             ),
-            "required"    => array(
+            "required" => array(
                 "integer",
                 $this->getRequired(),
             ),
-            "is_unique"   => array(
+            "is_unique" => array(
                 "integer",
                 $this->isUnique(),
             ),
-            "is_locked"   => array(
+            "is_locked" => array(
                 "integer",
                 $this->getLocked() ? 1 : 0,
             ),
@@ -1027,13 +1027,13 @@ class ilDclBaseFieldModel
     public function fillPropertiesForm(ilPropertyFormGUI &$form)
     {
         $values = array(
-            'table_id'    => $this->getTableId(),
-            'field_id'    => $this->getId(),
-            'title'       => $this->getTitle(),
-            'datatype'    => $this->getDatatypeId(),
+            'table_id' => $this->getTableId(),
+            'field_id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
-            'required'    => $this->getRequired(),
-            'unique'      => $this->isUnique(),
+            'required' => $this->getRequired(),
+            'unique' => $this->isUnique(),
         );
 
         $properties = $this->getValidFieldProperties();

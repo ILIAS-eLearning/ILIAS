@@ -34,9 +34,9 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
         ilLogger $log,
         array $possibleDocuments
     ) {
-        $this->evaluation        = $evaluation;
-        $this->user              = $user;
-        $this->log               = $log;
+        $this->evaluation = $evaluation;
+        $this->user = $user;
+        $this->log = $log;
         $this->possibleDocuments = $possibleDocuments;
     }
 

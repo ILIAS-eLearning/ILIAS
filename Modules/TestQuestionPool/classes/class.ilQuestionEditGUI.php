@@ -110,7 +110,7 @@ class ilQuestionEditGUI
     public function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
     {
         $cnt = $this->new_id_listener_cnt;
-        $this->new_id_listeners[$cnt]["object"] =&$a_object;
+        $this->new_id_listeners[$cnt]["object"] = &$a_object;
         $this->new_id_listeners[$cnt]["method"] = $a_method;
         $this->new_id_listeners[$cnt]["parameters"] = $a_parameters;
         $this->new_id_listener_cnt++;
@@ -149,8 +149,8 @@ class ilQuestionEditGUI
                 }
                 $q_gui->object->setObjId((int) $this->getPoolObjId());
                 
-                for ($i=0; $i<$this->new_id_listener_cnt; $i++) {
-                    $object =&$this->new_id_listeners[$i]["object"];
+                for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
+                    $object = &$this->new_id_listeners[$i]["object"];
                     $method = $this->new_id_listeners[$i]["method"];
                     $parameters = $this->new_id_listeners[$i]["parameters"];
                     $q_gui->addNewIdListener(

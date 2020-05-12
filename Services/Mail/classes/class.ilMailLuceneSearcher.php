@@ -33,7 +33,7 @@ class ilMailLuceneSearcher
         $this->settings = $DIC->settings();
 
         $this->query_parser = $query_parser;
-        $this->result       = $result;
+        $this->result = $result;
     }
 
     /**

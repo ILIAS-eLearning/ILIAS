@@ -76,8 +76,8 @@ class AppraiseeDBRepository
         $closed_appraisees = [];
         while ($rec = $db->fetchAssoc($set)) {
             $closed_appraisees[] = [
-                "survey_id" =>  $rec["obj_id"],
-                "appr_id" =>  $rec["user_id"]
+                "survey_id" => $rec["obj_id"],
+                "appr_id" => $rec["user_id"]
             ];
         }
         return $closed_appraisees;

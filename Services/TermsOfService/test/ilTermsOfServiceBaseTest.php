@@ -20,7 +20,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
      */
     protected function setUp() : void
     {
-        $this->dic      = new Container();
+        $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
 
         $this->setGlobalVariable('lng', $this->getLanguageMock());

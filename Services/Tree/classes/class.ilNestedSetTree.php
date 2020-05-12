@@ -735,7 +735,7 @@ class ilNestedSetTree implements ilTreeImplementation
             if ($takeId) {
                 $pathIds[] = $this->getTree()->getRootId();
             }
-            for ($i = $nodeDepth - 4; $i >=0; $i--) {
+            for ($i = $nodeDepth - 4; $i >= 0; $i--) {
                 $takeId = $takeId || $row['c' . $i] == $a_startnode_id;
                 if ($takeId) {
                     $pathIds[] = $row['c' . $i];
@@ -990,10 +990,10 @@ class ilNestedSetTree implements ilTreeImplementation
         $res = $ilDB->query($query);
         $nodes = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $nodes[$row->child]['lft']	= $row->lft;
-            $nodes[$row->child]['rgt']	= $row->rgt;
-            $nodes[$row->child]['child']= $row->child;
-            $nodes[$row->child]['type']	= $row->type;
+            $nodes[$row->child]['lft'] = $row->lft;
+            $nodes[$row->child]['rgt'] = $row->rgt;
+            $nodes[$row->child]['child'] = $row->child;
+            $nodes[$row->child]['type'] = $row->type;
         }
         return (array) $nodes;
     }

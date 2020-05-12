@@ -351,6 +351,24 @@
 @il-disabled-btn-toggle-switch-color: #808080;
 @il-disabled-btn-toggle-switch-position-left: -6%;
 
+//** on
+@il-btn-toggle-bg-color-on: @brand-secondary;
+@il-btn-toggle-border-color-on: #bfbfbf;
+@il-btn-toggle-switch-bg-color-on: @il-primary-container-bg;
+@il-btn-toggle-switch-border-color-on: #bfbfbf;
+
+//** off
+@il-btn-toggle-bg-color-off: @il-secondary-container-bg;
+@il-btn-toggle-border-color-off: #bfbfbf;
+@il-btn-toggle-switch-bg-color-off: @il-primary-container-bg;
+@il-btn-toggle-switch-border-color-off: #bfbfbf;
+
+//** unavailable
+@il-btn-toggle-bg-color-unavailable: #cdcdcd;
+@il-btn-toggle-border-color-unavailable: #bfbfbf;
+@il-btn-toggle-switch-bg-color-unavailable: lighten(@mid-gray, 30%);
+@il-btn-toggle-switch-border-color-unavailable: #bfbfbf;
+
 
 //== Breadcrumbs
 //
@@ -810,34 +828,7 @@
 //** change the abbreviations font transform
 @avatar-letter-abbreviation-font-transform: inherit;
 //** all variants of letter avatar background colors (MUST be 26)
-@avatar-letter-color-variants:
-	#1abc9c,
-	#16a085,
-	#f1c40f,
-	#f39c12,
-	#2ecc71,
-	#27ae60,
-	#e67e22,
-	#d35400,
-	#3498db,
-	#2980b9,
-	#e74c3c,
-	#c0392b,
-	#9b59b6,
-	#8e44ad,
-	#bdc3c7,
-	#34495e,
-	#2c3e50,
-	#95a5a6,
-	#7f8c8d,
-	#ec87bf,
-	#d870ad,
-	#f69785,
-	#9ba37e,
-	#b49255,
-	#b49255,
-	#a94136
-;
+@avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
 
 
 //== View Control
@@ -868,7 +859,7 @@
 //== Workflow
 //
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
-@workflow-icon-size: 20px;
+@workflow-icon-size: 21px;
 @workflow-icon-font-color: white;
 @workflow-available-text-color: #333;
 @workflow-unavailable-text-color: #ddd;
@@ -939,7 +930,7 @@
 @il-slate-bulky-bg-color: #f2f2f2;
 @il-slate-bulky-level2-bg-color: #f9f9f9;
 @il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
-@il-slate-content-padding: 10px 20px;
+@il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
 @il-slate-bulky-padding: 10px 40px 15px 10px;
 @il-slate-bulky-link-padding: 10px 10px 15px 10px;
@@ -973,7 +964,7 @@
 //## Basic adjustments for the tree
 @il-tree-node-indentation: @font-size-base;
 //** Vertical Space between nodes
-@il-tree-node-vertical-spacing: 0px;
+@il-tree-node-vertical-spacing: 3px;
 
 //== Characteristic Value Listing
 //** item rows layout

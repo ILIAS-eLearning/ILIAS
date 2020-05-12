@@ -106,7 +106,7 @@ class Legacy implements C\Legacy\Legacy
     private function registerSignalAndCustomCode(string $signal_name, string $js_code)
     {
         $this->signal_list[$signal_name] = array(
-            'signal'   => $this->signal_generator->create(),
+            'signal' => $this->signal_generator->create(),
             'js_code' => $js_code
         );
     }

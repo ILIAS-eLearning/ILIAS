@@ -386,7 +386,7 @@ abstract class ilParticipant
         $this->participants_status = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->participants_status[$this->getUserId()]['blocked'] = $row->blocked;
-            $this->participants_status[$this->getUserId()]['notification']  = $row->notification;
+            $this->participants_status[$this->getUserId()]['notification'] = $row->notification;
             $this->participants_status[$this->getUserId()]['passed'] = $row->passed;
             // cognos-blu-patch: begin
             $this->participants_status[$this->getUserId()]['contact'] = $row->contact;

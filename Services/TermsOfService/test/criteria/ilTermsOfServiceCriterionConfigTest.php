@@ -12,7 +12,7 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
      */
     public function testConfigCanBePassedAsArray() : void
     {
-        $actualKey   = 'phpunit';
+        $actualKey = 'phpunit';
         $actualValue = 'rulz';
 
         $data = [$actualKey => $actualValue];
@@ -31,7 +31,7 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
      */
     public function testConfigCanBePassedAsJson() : void
     {
-        $actualKey   = 'phpunit';
+        $actualKey = 'phpunit';
         $actualValue = 'rulz';
 
         $data = json_encode([$actualKey => $actualValue]);
@@ -48,7 +48,7 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
      */
     public function testConfigCanBeImportedAsJson() : void
     {
-        $actualKey   = 'phpunit';
+        $actualKey = 'phpunit';
         $actualValue = 'rulz';
 
         $data = json_encode([$actualKey => $actualValue]);

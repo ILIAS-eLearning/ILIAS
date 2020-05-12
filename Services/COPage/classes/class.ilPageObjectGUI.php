@@ -979,7 +979,7 @@ class ilPageObjectGUI
                     $pl_name
                 );
                 if ($plugin->isValidParentType($this->getPageObject()->getParentType())) {
-                    $xml.= '<ComponentPlugin Name="' . $plugin->getPluginName() .
+                    $xml .= '<ComponentPlugin Name="' . $plugin->getPluginName() .
                         '" InsertText="' . $plugin->txt(ilPageComponentPlugin::TXT_CMD_INSERT) . '" />';
                 }
             }
@@ -1552,8 +1552,8 @@ class ilPageObjectGUI
                     "SA_FROM",
                     ilDatePresentation::formatDate(
                         new ilDateTime(
-                                $this->getPageObject()->getActivationStart(),
-                                IL_CAL_DATETIME
+                            $this->getPageObject()->getActivationStart(),
+                            IL_CAL_DATETIME
                         )
                         )
                     );
@@ -1561,8 +1561,8 @@ class ilPageObjectGUI
                     "SA_TO",
                     ilDatePresentation::formatDate(
                         new ilDateTime(
-                                $this->getPageObject()->getActivationEnd(),
-                                IL_CAL_DATETIME
+                            $this->getPageObject()->getActivationEnd(),
+                            IL_CAL_DATETIME
                         )
                         )
                     );
@@ -1797,17 +1797,17 @@ class ilPageObjectGUI
                          'paragraph_plugins' => $paragraph_plugin_string,
                          'disable_auto_margins' => $disable_auto_margins,
                          'page_toc' => $cfg->getEnablePageToc() ? "y" : "n",
-                         'enable_profile' =>  $cfg->getEnablePCType("Profile") ? "y" : "n",
-                         'enable_verification' =>  $cfg->getEnablePCType("Verification") ? "y" : "n",
-                         'enable_blog' =>  $cfg->getEnablePCType("Blog") ? "y" : "n",
-                         'enable_skills' =>  $cfg->getEnablePCType("Skills") ? "y" : "n",
-                         'enable_learning_history' =>  $cfg->getEnablePCType("LearningHistory") ? "y" : "n",
-                         'enable_qover' =>  $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
-                         'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
-                         'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
-                         'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
+                         'enable_profile' => $cfg->getEnablePCType("Profile") ? "y" : "n",
+                         'enable_verification' => $cfg->getEnablePCType("Verification") ? "y" : "n",
+                         'enable_blog' => $cfg->getEnablePCType("Blog") ? "y" : "n",
+                         'enable_skills' => $cfg->getEnablePCType("Skills") ? "y" : "n",
+                         'enable_learning_history' => $cfg->getEnablePCType("LearningHistory") ? "y" : "n",
+                         'enable_qover' => $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
+                         'enable_consultation_hours' => $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
+                         'enable_my_courses' => $cfg->getEnablePCType("MyCourses") ? "y" : "n",
+                         'enable_amd_page_list' => $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
                          'current_ts' => $current_ts,
-                         'enable_html_mob' =>  ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
+                         'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'flv_video_player' => $flv_video_player,
                          'page_perma_link' => $this->getPagePermaLink()
                         );
@@ -2448,7 +2448,6 @@ class ilPageObjectGUI
             $item->setCaption('save_new');
             $item->setOnClick("ilCOPage.cmdSaveReturn(true); return false;");
             $split_button_items[] = $item;
-
         }
 
         $sdd->addItem($lng->txt("save"), "", "#", "", "", "", "", "", "ilCOPage.cmdSave(null); return false;");
@@ -2571,7 +2570,7 @@ class ilPageObjectGUI
             $download_ok = true;
         }
 
-        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType().":pg", 0, false);
+        $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType() . ":pg", 0, false);
         foreach ($pcs as $pc) {
             $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
             $file = explode("_", $_GET["file_id"]);
@@ -2620,16 +2619,16 @@ class ilPageObjectGUI
 
         if (!empty($_GET["pg_id"])) {
             $xml = "<dummy>";
-            $xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         } else {
             $xml = "<dummy>";
-            $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         }
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
@@ -2942,7 +2941,7 @@ class ilPageObjectGUI
         $html = $this->showPage();
         
         if ($this->isEnabledNotes()) {
-            $html.= "<br /><br />" . $this->getNotesHTML();
+            $html .= "<br /><br />" . $this->getNotesHTML();
         }
     
         return $mess . $html;
@@ -2988,7 +2987,7 @@ class ilPageObjectGUI
         
         //		  'pl_hier_id' => string '2_1_1_1' (length=7)
         //  'pl_pc_id' => string '1f77eb1d8a478497d69b99d938fda8f' (length=31)
-        $html =  $this->edit();
+        $html = $this->edit();
 
         $tpl->addOnLoadCode("ilCOPage.insertJSAtPlaceholder('" .
             $_GET["pl_hier_id"] . ":" . $_GET["pl_pc_id"] .
@@ -3058,14 +3057,14 @@ class ilPageObjectGUI
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.="</dummy>";
+            $xml .= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= "</dummy>";
         } else {
             $xml = "<dummy>";
-            $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.="</dummy>";
+            $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= "</dummy>";
         }
 
         //echo htmlentities($xml); exit;

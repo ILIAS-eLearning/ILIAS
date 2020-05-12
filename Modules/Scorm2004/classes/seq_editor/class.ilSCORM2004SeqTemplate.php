@@ -47,7 +47,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
         parent::__construct();
         $this->setNodeName("seqtemplate");
         
-        if ($a_identifier==null) {
+        if ($a_identifier == null) {
             return;
         }
         $t_file = self::getFileNameForIdentifier($a_identifier);
@@ -101,7 +101,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
         $query = "SELECT * FROM sahs_sc13_seq_templts ORDER BY identifier";
         $result = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($row['identifier']!="pretestpost") { //temporarily deactivated
+            if ($row['identifier'] != "pretestpost") { //temporarily deactivated
                 array_push($arr_templates, new ilScorm2004SeqTemplate($row['identifier']));
             }
         }
@@ -143,7 +143,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
                 
         switch ($node->getAttribute('type')) {
             case "lesson":
-                if ($this->parentchapter==true) {
+                if ($this->parentchapter == true) {
                     $chap = new ilSCORM2004SeqChapter($a_object);
                 } else {
                     $chap = new ilSCORM2004Chapter($a_object);
@@ -154,7 +154,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
                 $this->sahs_sc13_treeId = $chap->getId();
                 ilSCORM2004Node::putInTree($chap, $a_parent, $a_target);
                 $a_parent = $this->sahs_sc13_treeId;
-                if ($this->parentchapter==true) {
+                if ($this->parentchapter == true) {
                     $ilDB->manipulate("INSERT INTO sahs_sc13_seq_assign (identifier, sahs_sc13_tree_node_id) VALUES " .
                         "(" . $ilDB->quote($this->getIdentifier(), "text") . "," .
                         $ilDB->quote($this->sahs_sc13_treeId, "integer") . ")");
@@ -204,7 +204,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
         $xpath_obj = new DOMXPath($seq_doc);
         
         $found_nodes = $xpath_obj->query('//@objectiveID | //@referencedObjective | //@targetObjectiveID');
-        for ($i=0; $i<$found_nodes->length; $i++) {
+        for ($i = 0; $i < $found_nodes->length; $i++) {
             $element = null;
             $val = $found_nodes->item($i)->value;
             $uid = $this->sahs_sc13_treeId;
@@ -241,7 +241,7 @@ class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
     
     public function insert($a_insert_node = false)
     {
-        if ($a_insert_node==true) {
+        if ($a_insert_node == true) {
             $this->setSeqNodeId(parent::insert());
         }
         $sql = "INSERT INTO sahs_sc13_seq_templ (seqnodeid,id)" .

@@ -558,8 +558,8 @@ class ilECSMappingSettingsGUI
         $attributes->setMulti(true);
         $attributes->setValue(
             ilECSCourseAttributes::getInstance(
-                    $this->getServer()->getServerId(),
-                    $this->getMid()
+                $this->getServer()->getServerId(),
+                $this->getMid()
                 )->getAttributeValues()
         );
         $attributes->setRequired(true);
@@ -701,8 +701,8 @@ class ilECSMappingSettingsGUI
         $table->init();
         $table->parse(
             ilECSCourseAttributes::getInstance(
-                    $this->getServer()->getServerId(),
-                    $this->getMid()
+                $this->getServer()->getServerId(),
+                $this->getMid()
                 )->getAttributes()
         );
         
@@ -847,9 +847,9 @@ class ilECSMappingSettingsGUI
             $this->getServer()->getServerId(),
             $this->getMid(),
             ilECSCmsData::lookupCmsIdsOfTree(
-                    $this->getServer()->getServerId(),
-                    $this->getMid(),
-                    (int) $_REQUEST['tid']
+                $this->getServer()->getServerId(),
+                $this->getMid(),
+                (int) $_REQUEST['tid']
                 )
         );
                 

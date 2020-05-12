@@ -101,7 +101,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
             $name = ilObjUser::_lookupName($id);
             
             $tmp_data['id'] = $id;
-            $tmp_data['lastname']  = $name['lastname'];
+            $tmp_data['lastname'] = $name['lastname'];
             $tmp_data['firstname'] = $name['firstname'];
             $tmp_data['login'] = ilObjUser::_lookupLogin($id);
             $tmp_data['last_firstname'] = $tmp_data['lastname'] . $tmp_data['firstname'] . $tmp_data['login'];

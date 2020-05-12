@@ -25,15 +25,16 @@ var ConversationCollection = function ConversationCollection() {
 	};
 
 	this.getForParticipants = function(participants) {
-		for (var id in _collection) {
+		for (let id in _collection) {
 			if (_collection.hasOwnProperty(id)) {
-				var conversation = _collection[id];
+				let conversation = _collection[id];
 
 				if (conversation.matchesParticipants(participants)) {
 					return conversation;
 				}
 			}
 		}
+
 		return null;
 	};
 };

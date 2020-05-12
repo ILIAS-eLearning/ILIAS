@@ -46,6 +46,10 @@ echo "Found $AMOUNT_OF_FILES files."
 COUNTER=0
 for PHPFILE in $(find . -path ./libs -prune -o -type f -name '*.'"$EXTENSION");
 do
+    if [[ $PHPFILE == "./libs" ]]; then
+      continue
+    fi
+
     COUNTER=$((COUNTER + 1))
     echo -ne "Scanning $COUNTER of $AMOUNT_OF_FILES"'\r';
 

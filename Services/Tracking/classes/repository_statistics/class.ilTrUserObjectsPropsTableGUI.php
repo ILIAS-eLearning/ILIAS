@@ -419,7 +419,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $a_excel->setCell($a_row, $cnt++, $labels[$c]["txt"]);
         }
         
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt-1) . $a_row);
+        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt - 1) . $a_row);
     }
 
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)

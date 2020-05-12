@@ -88,7 +88,7 @@ class ilLPStatusEvent extends ilLPStatus
     {
         $tree = $GLOBALS['DIC']->repositoryTree();
 
-        $references	= ilObject::_getAllReferences($a_obj_id);
+        $references = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($references);
         
         $member_ref_id = null;
@@ -165,7 +165,7 @@ class ilLPStatusEvent extends ilLPStatus
     {
         if (!$a_is_crs_id) {
             $tree = $GLOBALS['DIC']->repositoryTree();
-            $references	= ilObject::_getAllReferences($a_obj_id);
+            $references = ilObject::_getAllReferences($a_obj_id);
             $ref_id = end($references);
             
             $member_ref_id = null;

@@ -320,11 +320,11 @@ class ilLTIConsumerAdministrationGUI
         $doc->loadXML($providerXml);
         $xPath = new DOMXPath($doc);
         $this->_importedXmlData = [
-            'title'         => $xPath->query("//*[local-name() = 'title']")->item(0)->nodeValue,
-            'description'=> null !== ($desc = $xPath->query("//*[local-name() = 'description']")->item(0)->nodeValue)?$desc:'',
-            'provider_url'=> $xPath->query("//*[local-name() = 'launch_url']")->item(0)->nodeValue,
-            'provider_icon'=> $xPath->query("//*[local-name() = 'icon']")->item(0)->nodeValue,
-            'launch_method'=> 'newWin',
+            'title' => $xPath->query("//*[local-name() = 'title']")->item(0)->nodeValue,
+            'description' => null !== ($desc = $xPath->query("//*[local-name() = 'description']")->item(0)->nodeValue)?$desc:'',
+            'provider_url' => $xPath->query("//*[local-name() = 'launch_url']")->item(0)->nodeValue,
+            'provider_icon' => $xPath->query("//*[local-name() = 'icon']")->item(0)->nodeValue,
+            'launch_method' => 'newWin',
         ];
 
         // DONE ?
@@ -391,7 +391,7 @@ class ilLTIConsumerAdministrationGUI
         preg_match_all($regex, $url, $urlPart, PREG_SET_ORDER);
         $urlPart = $urlPart[0];
         //var_dump([$url, $urlPart]); exit;
-        $fileExt = strtolower(substr($urlPart[3], strrpos($urlPart[3], '.')+1));
+        $fileExt = strtolower(substr($urlPart[3], strrpos($urlPart[3], '.') + 1));
         //var_dump($fileExt); exit;
         if (true !== $this->checkIconFileExtension($fileExt)) {
             return null;

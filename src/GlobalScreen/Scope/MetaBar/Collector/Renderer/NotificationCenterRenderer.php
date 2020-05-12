@@ -85,7 +85,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     protected function buildShowQuery() : string
     {
         return http_build_query([
-            ClientNotifications::MODE                     => ClientNotifications::MODE_OPENED,
+            ClientNotifications::MODE => ClientNotifications::MODE_OPENED,
             ClientNotifications::NOTIFICATION_IDENTIFIERS => $this->gs->collector()->notifications()->getNotificationsIdentifiersAsArray(true),
         ]);
     }

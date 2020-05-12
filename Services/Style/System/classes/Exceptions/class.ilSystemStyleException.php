@@ -15,16 +15,16 @@ class ilSystemStyleException extends ilSystemStyleExceptionBase
 {
     const PARSING_JSON_FAILED = 1;
 
-    const EMPTY_ENTRY   = 1001;
-    const INVALID_MANDATORY_ENTRY_ATTRIBUTE   = 1002;
-    const DUPLICATE_ENTRY  = 1003;
-    const DUPLICATE_ROOT_ENTRY   = 1004;
-    const INVALID_ID   = 1005;
+    const EMPTY_ENTRY = 1001;
+    const INVALID_MANDATORY_ENTRY_ATTRIBUTE = 1002;
+    const DUPLICATE_ENTRY = 1003;
+    const DUPLICATE_ROOT_ENTRY = 1004;
+    const INVALID_ID = 1005;
     const INVALID_FILE_PATH = 1006;
     const INVALID_RULES_ENTRY = 1007;
     const INVALID_CHARACTERS_IN_ID = 1008;
 
-    const FILE_CREATION_FAILED   = 2001;
+    const FILE_CREATION_FAILED = 2001;
     const FOLDER_CREATION_FAILED = 2002;
     const FILE_OPENING_FAILED = 2003;
     const LESS_COMPILE_FAILED = 2004;

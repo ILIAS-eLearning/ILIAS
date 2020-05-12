@@ -40,8 +40,8 @@ class ilFileExporter extends ilXmlExporter
         return array(
             array(
                 "component" => "Services/MetaData",
-                "entity"    => "md",
-                "ids"       => $md_ids,
+                "entity" => "md",
+                "ids" => $md_ids,
             ),
         );
     }
@@ -91,9 +91,9 @@ class ilFileExporter extends ilXmlExporter
         return array(
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Modules/File/file/4_1",
-                "xsd_file"  => "ilias_file_4_1.xsd",
-                "min"       => "4.1.0",
-                "max"       => "",
+                "xsd_file" => "ilias_file_4_1.xsd",
+                "min" => "4.1.0",
+                "max" => "",
             ),
         );
     }

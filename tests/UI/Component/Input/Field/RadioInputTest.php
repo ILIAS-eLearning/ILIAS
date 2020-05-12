@@ -66,7 +66,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<div id=\"id_1\" class=\"il-input-radio\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                         . "<div class=\"form-control form-control-sm il-input-radiooption\">"
                             . "<input type=\"radio\" id=\"id_1_" . $opt_value . "_opt\" name=\"$name\" value=\"$opt_value\" />"
@@ -100,7 +100,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<div id=\"id_1\" class=\"il-input-radio\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= "<div class=\"form-control form-control-sm il-input-radiooption\">";
             if ($opt_value === $value) {
                 $expected .= "<input type=\"radio\" id=\"id_1_" . $opt_value . "_opt\" name=\"$name\" value=\"$opt_value\" checked=\"checked\"/>";
@@ -138,7 +138,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
             . "<div class=\"col-sm-9\">"
             . "<div id=\"id_1\" class=\"il-input-radio\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                 . "<div class=\"form-control form-control-sm il-input-radiooption\">"
                 . "<input type=\"radio\" id=\"id_1_" . $opt_value . "_opt\" name=\"$name\" value=\"$opt_value\" disabled=\"disabled\"/>"

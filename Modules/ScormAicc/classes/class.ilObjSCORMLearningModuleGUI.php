@@ -137,7 +137,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cb->setValue("y");
         $cb->setChecked($this->object->getOfflineMode());
         include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode()== true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
+        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
             $cb->setDisabled(true);
             $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
         } else {
@@ -367,82 +367,85 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-        // display import form
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
-
-        $this->tpl->setVariable("TYPE_IMG", ilUtil::getImagePath('icon_lm.svg'));
-        $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
-
-        $this->ctrl->setParameter($this, "new_type", "sahs");
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        $this->tpl->setVariable("BTN_NAME", "newModuleVersionUpload");
-        $this->tpl->setVariable("TARGET", ' target="' .
-        ilFrameTargetInfo::_getFrame("MainContent") . '" ');
-
-        $this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
-
-        if ($type == "scorm2004") {
-            $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm2004"));
-        } else {
-            $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
-        }
-
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $this->form = new ilPropertyFormGUI();
+		//title
+		$this->form->setTitle($this->lng->txt("import_sahs"));
+		
+		// SCORM-type
+        $ne = new ilNonEditableValueGUI($this->lng->txt("type"), "");
+        $ne->setValue($this->lng->txt("lm_type_" . ilObjSAHSLearningModule::_lookupSubType($this->object->getID())));
+        $this->form->addItem($ne);
+		
+        $options = array();
         include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
         if (ilUploadFiles::_getUploadDirectory()) {
+            $options[""] = $this->lng->txt("cont_select_from_upload_dir");
             $files = ilUploadFiles::_getUploadFiles();
             foreach ($files as $file) {
                 $file = htmlspecialchars($file, ENT_QUOTES, "utf-8");
-                $this->tpl->setCurrentBlock("option_uploaded_file");
-                $this->tpl->setVariable("UPLOADED_FILENAME", $file);
-                $this->tpl->setVariable("TXT_UPLOADED_FILENAME", $file);
-                $this->tpl->parseCurrentBlock();
+                $options[$file] = $file;
             }
-            $this->tpl->setCurrentBlock("select_uploaded_file");
-            $this->tpl->setVariable("TXT_SELECT_FROM_UPLOAD_DIR", $this->lng->txt("cont_select_from_upload_dir"));
-            $this->tpl->setVariable("TXT_UPLOADED_FILE", $this->lng->txt("cont_uploaded_file"));
-            $this->tpl->parseCurrentBlock();
         }
+        if (count($options) > 1) {
+            // choose upload directory
+            $radg = new ilRadioGroupInputGUI($this->lng->txt("cont_choose_file_source"), "file_source");
+            $op0 = new ilRadioOption($this->lng->txt("cont_choose_local"), "local");
+            $radg->addOption($op0);
+            $op1 = new ilRadioOption($this->lng->txt("cont_choose_upload_dir"), "upload_dir");
+            $radg->addOption($op1);
+            $radg->setValue("local");
 
-        $this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
-        $this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+            $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+            $fi->setRequired(true);
+            $op0->addSubItem($fi);
 
-        // gives out the limit as a little notice
-        $this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice") . " " . $this->getMaxFileSize());
+            $si = new ilSelectInputGUI($this->lng->txt("cont_uploaded_file"), "uploaded_file");
+            $si->setOptions($options);
+            $op1->addSubItem($si);
+   
+            $this->form->addItem($radg);
+        } else {
+            $fi = new ilFileInputGUI($this->lng->txt("select_file"), "scormfile");
+            $fi->setRequired(true);
+            $this->form->addItem($fi);
+        }
+        $this->form->addCommandButton("newModuleVersionUpload", $this->lng->txt("upload"));
+        $this->form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$this->form->setFormAction($DIC['ilCtrl']->getFormAction($this, "newModuleVersionUpload"));
+		$DIC['tpl']->setContent($this->form->getHTML());
     }
 
 
     public function getMaxFileSize()
     {
         // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf=get_cfg_var("upload_max_filesize");
+        $umf = get_cfg_var("upload_max_filesize");
         // get the value for the maximal post data from the php.ini (if available)
-        $pms=get_cfg_var("post_max_size");
+        $pms = get_cfg_var("post_max_size");
      
         //convert from short-string representation to "real" bytes
-        $multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+        $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
 
-        $umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
         if (count($umf_parts) == 2) {
-            $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]];
+            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) == 2) {
-            $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]];
+            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
      
         // use the smaller one as limit
-        $max_filesize=min($umf, $pms);
+        $max_filesize = min($umf, $pms);
 
         if (!$max_filesize) {
-            $max_filesize=max($umf, $pms);
+            $max_filesize = max($umf, $pms);
         }
 
         //format for display in mega-bytes
-        return $max_filesize=sprintf("%.1f MB", $max_filesize/1024/1024);
+        return $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
     }
     
     
@@ -507,8 +510,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $old_manifest = file_get_contents($this->object->getDataDirectory() . "/" . $tocheck);
 
         //reload fixed version of file
-        $check ='/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
-        $replace="xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
+        $check = '/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
+        $replace = "xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
         $reload_manifest = preg_replace($check, $replace, $new_manifest);
 
         //do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
@@ -516,7 +519,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             strcmp($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest), $old_manifest) == 0) {
 
             //get exisiting module version
-            $module_version = $this->object->getModuleVersion()+1;
+            $module_version = $this->object->getModuleVersion() + 1;
 
             if ($_FILES["scormfile"]["name"]) {
                 //build targetdir in lm_data
@@ -563,7 +566,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->object->setDescription($_POST["Fobject_description"]);
 
         //check if OfflineMode-Zip has to be created
-        $tmpOfflineMode= ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+        $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
         if ($tmpOfflineMode == true) {
             if ($this->object->getOfflineMode() == false) {
                 $this->object->zipLmForOfflineMode();
@@ -655,14 +658,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             if ($scoSelected != "all") {
                 $scosSelected[] = $scoSelected;
             } else {
-                $scos=$this->object->getTrackedItems();
+                $scos = $this->object->getTrackedItems();
                 foreach ($scos as $row) {
-                    $scosSelected[]=(int) $row->getId();
+                    $scosSelected[] = (int) $row->getId();
                 }
             }
             //with check for course ...
             include_once "Services/Tracking/classes/class.ilTrQuery.php";
-            $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+            $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
             //			var_dump($this->object->getTrackedUsers(""));
             include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
             $tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
@@ -720,17 +723,17 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                     $usersSelected[] = $userSelected;
                 } else {
                     include_once "Services/Tracking/classes/class.ilTrQuery.php";
-                    $users=ilTrQuery::getParticipantsForObject($this->ref_id);
+                    $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
                             $usersSelected[] = $user;
                         }
                     }
                 }
                 $scosSelected = array();
-                $scos=$this->object->getTrackedItems();
+                $scos = $this->object->getTrackedItems();
                 foreach ($scos as $row) {
-                    $scosSelected[]=(int) $row->getId();
+                    $scosSelected[] = (int) $row->getId();
                 }
 
                 //with check for course ...
@@ -825,7 +828,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
 
         foreach ($_POST["user"] as $id) {
-            if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr") {
+            if (ilObject::_exists($id) && ilObject::_lookUpType($id) == "usr") {
                 $user = new ilObjUser($id);
 
                 $caption = ilUtil::getImageTagByType("sahs", $this->tpl->tplPath) .
@@ -1105,7 +1108,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setCancel($this->lng->txt("cancel"), "cancelStopUserOfflineMode");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedStopUserOfflineMode");
         foreach ($_POST["user"] as $id) {
-            if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr") {
+            if (ilObject::_exists($id) && ilObject::_lookUpType($id) == "usr") {
                 $user = new ilObjUser($id);
                 $caption = ilUtil::getImageTagByType("sahs_offline", $this->tpl->tplPath) .
                     " " . $this->lng->txt("stop_user_offline_mode_for_user") .

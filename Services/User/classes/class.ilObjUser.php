@@ -194,8 +194,8 @@ class ilObjUser extends ilObject
         $ilDB = $DIC['ilDB'];
 
         // init variables
-        $this->ilias =&$ilias;
-        $this->db =&$ilDB;
+        $this->ilias = &$ilias;
+        $this->db = &$ilDB;
 
         $this->type = "usr";
         parent::__construct($a_user_id, $a_call_by_reference);
@@ -400,7 +400,7 @@ class ilObjUser extends ilObject
         $this->setFirstLogin($a_data["first_login"]);
         $this->setLastProfilePrompt($a_data["last_profile_prompt"]);
         $this->setLastUpdate($a_data["last_update"]);
-        $this->create_date	= $a_data["create_date"];
+        $this->create_date = $a_data["create_date"];
         $this->setComment($a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
@@ -478,7 +478,7 @@ class ilObjUser extends ilObject
             "login" => array("text", $this->login),
             "passwd" => array("text", $pw_value),
             'passwd_enc_type' => array("text", $this->getPasswordEncodingType()),
-            'passwd_salt'     => array("text", $this->getPasswordSalt()),
+            'passwd_salt' => array("text", $this->getPasswordSalt()),
             "firstname" => array("text", $this->firstname),
             "lastname" => array("text", $this->lastname),
             "title" => array("text", $this->utitle),
@@ -640,7 +640,7 @@ class ilObjUser extends ilObject
         }
 
         $update_array['passwd_enc_type'] = array('text', $this->getPasswordEncodingType());
-        $update_array['passwd_salt']     = array('text', $this->getPasswordSalt());
+        $update_array['passwd_salt'] = array('text', $this->getPasswordSalt());
 
         $ilDB->update("usr_data", $update_array, array("usr_id" => array("integer", $this->id)));
 
@@ -2322,14 +2322,14 @@ class ilObjUser extends ilObject
     */
     public function syncActive()
     {
-        $storedActive   = 0;
+        $storedActive = 0;
         if ($this->getStoredActive($this->id)) {
-            $storedActive   = 1;
+            $storedActive = 1;
         }
 
-        $currentActive  = 0;
+        $currentActive = 0;
         if ($this->active) {
-            $currentActive  = 1;
+            $currentActive = 1;
         }
 
         if ((!empty($storedActive) && empty($currentActive)) ||
@@ -2479,8 +2479,8 @@ class ilObjUser extends ilObject
             $max_pass_age = $security->getPasswordMaxAge();
             if ($max_pass_age > 0) {
                 $max_pass_age_ts = ($max_pass_age * 86400);
-                $pass_change_ts  = $this->getLastPasswordChangeTS();
-                $current_ts      = time();
+                $pass_change_ts = $this->getLastPasswordChangeTS();
+                $current_ts = time();
 
                 if (($current_ts - $pass_change_ts) > $max_pass_age_ts) {
                     if (!ilAuthUtils::_needsExternalAccountByAuthMode($this->getAuthMode(true))) {
@@ -2867,7 +2867,7 @@ class ilObjUser extends ilObject
                 "AND usr_data.usr_id = rbac_ua.usr_id " .
                 "AND rbac_ua.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
         } else {
-            $query.= $join_filter .
+            $query .= $join_filter .
                 "(" . $ilDB->like("usr_data.login", "text", "%" . $a_search_str . "%") . " " .
                 "OR " . $ilDB->like("usr_data.firstname", "text", "%" . $a_search_str . "%") . " " .
                 "OR " . $ilDB->like("usr_data.lastname", "text", "%" . $a_search_str . "%") . " " .
@@ -2876,39 +2876,39 @@ class ilObjUser extends ilObject
             if ($filter_settings !== false && strlen($filter_settings)) {
                 switch ($filter_settings) {
                     case 0:
-                        $query.= " AND usr_data.active = " . $ilDB->quote(0, "integer") . " ";
+                        $query .= " AND usr_data.active = " . $ilDB->quote(0, "integer") . " ";
                         break;
                     case 1:
-                        $query.= " AND usr_data.active = " . $ilDB->quote(1, "integer") . " ";
+                        $query .= " AND usr_data.active = " . $ilDB->quote(1, "integer") . " ";
                         break;
                     case 2:
-                        $query.= " AND usr_data.time_limit_unlimited = " . $ilDB->quote(0, "integer") . " ";
+                        $query .= " AND usr_data.time_limit_unlimited = " . $ilDB->quote(0, "integer") . " ";
                         break;
                     case 4:
                         $date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-                        $query.= " AND last_login < " . $ilDB->quote($date, "timestamp") . " ";
+                        $query .= " AND last_login < " . $ilDB->quote($date, "timestamp") . " ";
                         break;
                 }
             }
                 
             if ($without_anonymous_users) {
-                $query.= "AND usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
+                $query .= "AND usr_data.usr_id != " . $ilDB->quote(ANONYMOUS_USER_ID, "integer");
             }
 
             if (is_numeric($active) && $active > -1 && $filter_settings === false) {
-                $query.= " AND active = " . $ilDB->quote($active, "integer") . " ";
+                $query .= " AND active = " . $ilDB->quote($active, "integer") . " ";
             }
         }
         $ilLog->write($query);
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
             $users[] = array(
-                "usr_id"    => $row->usr_id,
-                "login"     => $row->login,
+                "usr_id" => $row->usr_id,
+                "login" => $row->login,
                 "firstname" => $row->firstname,
-                "lastname"  => $row->lastname,
-                "email"     => $row->email,
-                "active"    => $row->active);
+                "lastname" => $row->lastname,
+                "email" => $row->email,
+                "active" => $row->active);
             $ids[] = $row->usr_id;
         }
         if ($a_return_ids_only) {
@@ -2971,7 +2971,7 @@ class ilObjUser extends ilObject
      * @return	array of user data
      * @access	public
      */
-    public static function _getAllUserData($a_fields = null, $active =-1)
+    public static function _getAllUserData($a_fields = null, $active = -1)
     {
         global $DIC;
 
@@ -3028,7 +3028,7 @@ class ilObjUser extends ilObject
                     break;
                 case 4:
                     $date = strftime("%Y-%m-%d %H:%I:%S", mktime(0, 0, 0, $_SESSION["user_filter_data"]["m"], $_SESSION["user_filter_data"]["d"], $_SESSION["user_filter_data"]["y"]));
-                    $q.= " AND last_login < " . $ilDB->quote($date, "timestamp");
+                    $q .= " AND last_login < " . $ilDB->quote($date, "timestamp");
                     break;
                 case 5:
                     $ref_id = $_SESSION["user_filter_data"];
@@ -3046,7 +3046,7 @@ class ilObjUser extends ilObject
                     if ($ref_id) {
                         $local_roles = $rbacreview->getRolesOfRoleFolder($ref_id, false);
                         if (is_array($local_roles) && count($local_roles)) {
-                            $q.= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE " .
+                            $q .= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE " .
                                 $ilDB->in("rbac_ua.rol_id", $local_roles, false, "integer") . " ";
                         }
                     }
@@ -3514,7 +3514,7 @@ class ilObjUser extends ilObject
         $types[] = "text";
         $values[] = $a_auth_mode;
         if ($a_read_auth_default and ilAuthUtils::_getAuthModeName($ilSetting->get('auth_mode', AUTH_LOCAL)) == $a_auth_mode) {
-            $q.= " OR auth_mode = %s ";
+            $q .= " OR auth_mode = %s ";
             $types[] = "text";
             $values[] = 'default';
         }
@@ -3592,7 +3592,7 @@ class ilObjUser extends ilObject
     */
     public static function _checkExternalAuthAccount($a_auth, $a_account, $tryFallback = true)
     {
-        $db       = $GLOBALS['DIC']->database();
+        $db = $GLOBALS['DIC']->database();
         $settings = $GLOBALS['DIC']->settings();
 
         // Check directly with auth_mode
@@ -3685,12 +3685,12 @@ class ilObjUser extends ilObject
         $values = array($a_email, "local");
 
         if ($ilSetting->get("auth_mode") == 1) {
-            $q.=" OR auth_mode = %s";
+            $q .= " OR auth_mode = %s";
             $types[] = "text";
             $values[] = "default";
         }
         
-        $q.= ")";
+        $q .= ")";
 
         $users = array();
         $usr_set = $ilDB->queryF($q, $types, $values);
@@ -3720,7 +3720,7 @@ class ilObjUser extends ilObject
 
         // take quality 100 to avoid jpeg artefacts when uploading jpeg files
         // taking only frame [0] to avoid problems with animated gifs
-        $show_file  = "$image_dir/usr_" . $obj_id . ".jpg";
+        $show_file = "$image_dir/usr_" . $obj_id . ".jpg";
         $thumb_file = "$image_dir/usr_" . $obj_id . "_small.jpg";
         $xthumb_file = "$image_dir/usr_" . $obj_id . "_xsmall.jpg";
         $xxthumb_file = "$image_dir/usr_" . $obj_id . "_xxsmall.jpg";
@@ -3994,7 +3994,7 @@ class ilObjUser extends ilObject
         $lng = $DIC['lng'];
         $rbacreview = $DIC['rbacreview'];
 
-        $language =&$a_language;
+        $language = &$a_language;
         $language->loadLanguageModule('registration');
         $language->loadLanguageModule('crs');
 
@@ -4109,7 +4109,7 @@ class ilObjUser extends ilObject
         foreach ($user_defined_fields->getDefinitions() as $field_id => $definition) {
             $data = $user_defined_data["f_" . $field_id];
             if (strlen($data)) {
-                if ($definition['field_type'] ==  UDF_TYPE_WYSIWYG) {
+                if ($definition['field_type'] == UDF_TYPE_WYSIWYG) {
                     $data = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $data);
                     $data = strip_tags($data);
                 }
@@ -4186,7 +4186,7 @@ class ilObjUser extends ilObject
         self::_writePref(
             $a_user_id,
             "priv_feed_pass",
-            ($a_password=="") ? "" : md5($a_password)
+            ($a_password == "") ? "" : md5($a_password)
         );
     }
 
@@ -4211,7 +4211,7 @@ class ilObjUser extends ilObject
         $values[] = $a_login;
              
         if ($a_user_id != 0) {
-            $q.= " AND usr_id != %s ";
+            $q .= " AND usr_id != %s ";
             $types[] = "integer";
             $values[] = $a_user_id;
         }
@@ -4317,12 +4317,12 @@ class ilObjUser extends ilObject
         }
 
         if ($ref_id != USER_FOLDER_ID) {
-            $query.= " AND usr_data.time_limit_owner = %s";
+            $query .= " AND usr_data.time_limit_owner = %s";
             $values[] = $ref_id;
             $types[] = "integer";
         }
 
-        $query .=	" AND usr_data.usr_id != %s ";
+        $query .= " AND usr_data.usr_id != %s ";
         $values[] = ANONYMOUS_USER_ID;
         $types[] = "integer";
 
@@ -4379,7 +4379,7 @@ class ilObjUser extends ilObject
         }
 
         if ($timelimitowner != USER_FOLDER_ID && $timelimitowner != -1) {
-            $query.= " AND usr_data.time_limit_owner = %s";
+            $query .= " AND usr_data.time_limit_owner = %s";
             $values[] = $timelimitowner;
             $types[] = "integer";
         }
@@ -4626,14 +4626,14 @@ class ilObjUser extends ilObject
          */
         global $DIC;
 
-        $ilDB       = $DIC->database();
+        $ilDB = $DIC->database();
         $rbacreview = $DIC->rbac()->review();
 
         $log = ilLoggerFactory::getLogger("user");
 
         $pd_set = new ilSetting('pd');
-        $atime  = $pd_set->get('user_activity_time') * 60;
-        $ctime  = time();
+        $atime = $pd_set->get('user_activity_time') * 60;
+        $ctime = time();
         
         $where = array();
 
@@ -4652,7 +4652,7 @@ class ilObjUser extends ilObject
         include_once 'Services/User/classes/class.ilUserAccountSettings.php';
         if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
             include_once 'Services/User/classes/class.ilUserFilter.php';
-            $where[] =  $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
+            $where[] = $ilDB->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
         }
 
         $where[] = 'expires > ' . $ilDB->quote($ctime, 'integer');
@@ -4995,7 +4995,7 @@ class ilObjUser extends ilObject
                 'JOIN usr_data ud ON obj_id = usr_id ' .
                 'WHERE ' . $ilDB->in('obj_id', $a_usr_ids, false, 'integer') . ' ';
         $res = $ilDB->query($query);
-        $num_rows =$res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num;
+        $num_rows = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num;
         return $num_rows == count((array) $a_usr_ids);
     }
     // end-patch deleteProgress
@@ -5547,7 +5547,7 @@ class ilObjUser extends ilObject
             $sql .= " AND field_id = " . $ilDB->quote($a_field_id, "text");
         }
         if ($a_user_id) {
-            $sql .=  " AND usr_id <> " . $ilDB->quote($a_user_id, "integer");
+            $sql .= " AND usr_id <> " . $ilDB->quote($a_user_id, "integer");
         }
         $sql .= " ORDER BY value";
         $set = $ilDB->query($sql);

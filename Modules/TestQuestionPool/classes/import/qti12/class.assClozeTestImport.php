@@ -320,7 +320,7 @@ class assClozeTestImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 $clozetext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $clozetext);
                 foreach ($feedbacks as $ident => $material) {

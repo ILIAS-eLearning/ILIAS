@@ -51,15 +51,15 @@ class ilChatroomServerHandler
         require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
         foreach ($usersByScope as $scope => $users) {
-            $users    = explode(',', $users);
+            $users = explode(',', $users);
             $chatroom = ilChatroom::byRoomId($scope);
 
             if ($chatroom instanceof ilChatroom && is_array($users)) {
-                $users       = array_filter($users);
+                $users = array_filter($users);
                 $userDetails = ilChatroomUser::getUserInformation($users);
-                $message     = json_encode(array(
-                    'type'      => 'disconnected',
-                    'users'     => $userDetails,
+                $message = json_encode(array(
+                    'type' => 'disconnected',
+                    'users' => $userDetails,
                     'timestamp' => date('c')
                 ));
 
@@ -71,8 +71,8 @@ class ilChatroomServerHandler
 
                 if (true || $chatroom->getSetting('enable_history')) {
                     $messageObject = array(
-                        'type'      => 'disconnected',
-                        'users'     => $userDetails,
+                        'type' => 'disconnected',
+                        'users' => $userDetails,
                         'timestamp' => date('c')
                     );
 
@@ -93,7 +93,7 @@ class ilChatroomServerHandler
         require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
         require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
-        $settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+        $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
         $connector = new ilChatroomServerConnector($settings);
 
         return $connector;
@@ -113,15 +113,15 @@ class ilChatroomServerHandler
             $query = http_build_query($params);
 
             $message = json_encode(array(
-                'type'      => 'private_room_deleted',
+                'type' => 'private_room_deleted',
                 'timestamp' => date('c'),
-                'public'    => 1,
-                'id'        => $deletableRoom['proom_id'],
-                'proom_id'  => $deletableRoom['proom_id'],
-                'message'   => array(
+                'public' => 1,
+                'id' => $deletableRoom['proom_id'],
+                'proom_id' => $deletableRoom['proom_id'],
+                'message' => array(
                     'message' => 'room deleted',
-                    'public'  => '1',
-                    'user'    => 'system'
+                    'public' => '1',
+                    'user' => 'system'
                 )
             ));
 

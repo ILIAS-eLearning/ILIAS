@@ -484,7 +484,7 @@ class ilParticipantsTestResultsGUI
         require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
         $testSessionFactory = new ilTestSessionFactory($this->getTestObj());
         
-        $count      = 0;
+        $count = 0;
         foreach ($show_user_results as $key => $active_id) {
             if ($this->getTestObj()->getFixedParticipants()) {
                 $active_id = $this->getTestObj()->getActiveIdOfUser($active_id);

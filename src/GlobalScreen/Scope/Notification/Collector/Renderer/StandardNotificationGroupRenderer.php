@@ -25,7 +25,7 @@ class StandardNotificationGroupRenderer extends AbstractBaseNotificationRenderer
             throw new \LogicException("item is not a StandardNotificationGroup");
         }
 
-        $slate =  $this->ui_factory->mainControls()->slate()->notification($item->getTitle(), []);
+        $slate = $this->ui_factory->mainControls()->slate()->notification($item->getTitle(), []);
         foreach ($item->getNotifications() as $standard_notification) {
             $slate = $slate->withAdditionalEntry($standard_notification->getRenderer($this->ui_factory)
                                                                        ->getNotificationComponentForItem($standard_notification));

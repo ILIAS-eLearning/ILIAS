@@ -71,8 +71,8 @@ class ilBadgeRenderer
         $modal_content[] = $image;
 
         $badge_information = [
-            $lng->txt("description")=>$this->badge->getDescription(),
-            $lng->txt("badge_criteria")=>$this->badge->getCriteria(),
+            $lng->txt("description") => $this->badge->getDescription(),
+            $lng->txt("badge_criteria") => $this->badge->getCriteria(),
         ];
 
         if ($this->assignment) {

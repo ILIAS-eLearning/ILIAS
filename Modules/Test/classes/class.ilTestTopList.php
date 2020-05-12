@@ -59,7 +59,7 @@ class ilTestTopList
         $better_participants = $row['cnt'];
         $own_placement = $better_participants + 1;
 
-        $result       = $this->db->query(
+        $result = $this->db->query(
             '
 			SELECT COUNT(tst_pass_result.workingtime) cnt
 			FROM object_reference
@@ -438,7 +438,7 @@ class ilTestTopList
     private function formatTime(int $seconds) : string
     {
         $retval = '';
-        $hours  = intval(intval($seconds) / 3600);
+        $hours = intval(intval($seconds) / 3600);
         $retval .= str_pad($hours, 2, "0", STR_PAD_LEFT) . ":";
         $minutes = intval(($seconds / 60) % 60);
         $retval .= str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":";

@@ -35,7 +35,7 @@ class ilObjLTIAdministration extends ilObject
 
         require_once("Services/AccessControl/classes/class.ilObjRole.php");
 
-        $global_roles =  $rbacreview->getGlobalRoles();
+        $global_roles = $rbacreview->getGlobalRoles();
 
         $filtered_roles = array_diff($global_roles, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID));
 
@@ -166,7 +166,7 @@ class ilObjLTIAdministration extends ilObject
         ilLoggerFactory::getLogger('lti')->debug($query);
         
         $rows = [];
-        while ($row =  $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $item['ref_id'] = $row->ref_id;
             $item['title'] = $row->title;
             

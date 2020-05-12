@@ -116,5 +116,4 @@ class ResourcesCollector
     {
         return $this->onload_code;
     }
-
 }

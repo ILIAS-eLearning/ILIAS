@@ -23,6 +23,8 @@ il.LearningModule = {
 
 	showContentFrame: function (e, target) {
 		var href = e.target.href;
+		$('body').trigger('il-lm-show-' + target + '-slate');
+		console.log('il-lm-show-' + target + '-slate');
 		if (!href) {
 			href = $(e.target).parents("[href]").attr("href");
 		}

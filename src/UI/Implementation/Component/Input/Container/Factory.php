@@ -18,13 +18,19 @@ class Factory implements I\Container\Factory
      * @var Filter\Factory
      */
     protected $filter_factory;
+    /**
+     * @var ViewControl\Factory
+     */
+    protected $viewcontrol_factory;
 
     public function __construct(
         Form\Factory $form_factory,
-        Filter\Factory $filter_factory
+        Filter\Factory $filter_factory,
+        ViewControl\Factory $viewcontrol_factory
     ) {
         $this->form_factory = $form_factory;
         $this->filter_factory = $filter_factory;
+        $this->viewcontrol_factory = $viewcontrol_factory;
     }
 
     /**
@@ -41,5 +47,13 @@ class Factory implements I\Container\Factory
     public function filter()
     {
         return $this->filter_factory;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function viewControl(): I\Container\ViewControl\Factory
+    {
+        return $this->viewcontrol_factory;
     }
 }

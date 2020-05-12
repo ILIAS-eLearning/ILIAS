@@ -30,8 +30,6 @@ il.UI.Input = il.UI.Input || {};
             settings.upload_url = settings.upload_url.replace(replacer, '');
             settings.removal_url = settings.removal_url.replace(replacer, '');
 
-            console.log(settings);
-
             var container = '#' + container_id;
             var dropzone = container + ' .il-input-file-dropzone';
             var input_template = $(container + ' .input-template').clone();
@@ -95,6 +93,7 @@ il.UI.Input = il.UI.Input || {};
             });
 
             myDropzone.on("removedfile", function (file) {
+
                 myDropzone.setupEventListeners();
                 myDropzone._updateMaxFilesReachedClass();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", false);
@@ -103,7 +102,7 @@ il.UI.Input = il.UI.Input || {};
                 $(container + ' *[data-file-id="' + file_id + '"]').remove();
 
                 // Call removal-URL
-                if (!file.hasOwnProperty('is_existing') && file.is_existing !== true) {
+                if (file.hasOwnProperty('is_existing') && file.is_existing === true) {
                     disableForm();
                     var data = {};
                     data[settings.file_identifier_key] = file_id;

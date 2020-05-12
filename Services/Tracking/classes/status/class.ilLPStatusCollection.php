@@ -120,7 +120,7 @@ class ilLPStatusCollection extends ilLPStatus
             foreach ($grouped_items as $grouping_id => $grouping) {
                 $isGrouping = $grouping_id ? true : false;
                 $grouping_completed = array();
-                $grouping_completed_users_num =  array();
+                $grouping_completed_users_num = array();
                 foreach ((array) $grouping['items'] as $item) {
                     $item_id = $ilObjDataCache->lookupObjId($item);
                     $tmp_users = ilLPStatusWrapper::_getCompleted($item_id);
@@ -274,6 +274,7 @@ class ilLPStatusCollection extends ilLPStatus
             case "crs":
             case "fold":
             case "grp":
+            case "lso":
                 include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
                 if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
                     $status['in_progress'] = true;

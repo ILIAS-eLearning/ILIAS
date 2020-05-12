@@ -1144,7 +1144,6 @@ abstract class ilBlockGUI
                 );
             }
         }
-
     }
 
     /**
@@ -1155,8 +1154,15 @@ abstract class ilBlockGUI
         global $DIC;
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
+        $access = $this->access;
 
         $ctrl = $this->ctrl;
+
+        if ($this->isRepositoryObject()) {
+            if (!$access->checkAccess("read", "", $this->getRefId())) {
+                return "";
+            }
+        }
 
         $this->addRepoCommands();
 

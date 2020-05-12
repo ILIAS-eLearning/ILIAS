@@ -79,7 +79,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $http_path = $http_config->getHttpPath();
         $host_name = parse_url($http_path)["host"];
 
-        $url = 	self::ILIAS_NIC_SERVER .
+        $url = self::ILIAS_NIC_SERVER .
                 "?cmd=getid" .
                 "&inst_id=" . rawurlencode($inst_id) .
                 "&hostname=" . rawurlencode($host_name) .

@@ -52,7 +52,7 @@ class ilStopWorkflowActivityTest extends TestCase
     public function tearDown() : void
     {
         global $ilSetting;
-        if ($ilSetting !=  null) {
+        if ($ilSetting != null) {
             //$ilSetting->delete('IL_PHPUNIT_TEST_TIME');
             //$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
@@ -89,8 +89,8 @@ class ilStopWorkflowActivityTest extends TestCase
 
     public function testExecute()
     {
-        $workflowMock = $this->getMockBuilder('ilEmptyWorkflow')
-                               ->setMethods(array('stopWorkflow'))
+        $workflowMock = $this->getMockBuilder(ilEmptyWorkflow::class)
+                               ->onlyMethods(array('stopWorkflow'))
                                ->getMock();
 
         $workflowMock->expects($this->once())

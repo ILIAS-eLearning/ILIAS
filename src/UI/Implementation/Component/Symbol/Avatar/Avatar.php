@@ -9,7 +9,6 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 abstract class Avatar implements C\Symbol\Avatar\Avatar
 {
-
     use ComponentHelper;
     use JavaScriptBindable;
     /**
@@ -29,5 +28,4 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
     {
         return $this->username;
     }
-
 }

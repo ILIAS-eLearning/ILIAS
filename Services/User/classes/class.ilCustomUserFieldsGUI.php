@@ -147,7 +147,7 @@ class ilCustomUserFieldsGUI
         return array("visible" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
             "changeable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
             "searchable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE,
-            "required"  => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED,
+            "required" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED,
             "export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT,
             "course_export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES,
             'group_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS,
@@ -661,7 +661,7 @@ class ilCustomUserFieldsGUI
         $user_field_definitions = ilUserDefinedFields::_getInstance();
         $a_fields = $user_field_definitions->getDefinitions();
         
-        $perm_map =	self::getAccessPermissions();
+        $perm_map = self::getAccessPermissions();
         
         foreach ($a_fields as $field_id => $definition) {
             $perms = $this->permissions->hasPermissions(

@@ -1000,9 +1000,9 @@ class ilLDAPServer
     public function toPearAuthArray()
     {
         $options = array(
-            'url'		=> $this->getUrl(),
-            'version'	=> (int) $this->getVersion(),
-            'referrals'	=> (bool) $this->isActiveReferrer());
+            'url' => $this->getUrl(),
+            'version' => (int) $this->getVersion(),
+            'referrals' => (bool) $this->isActiveReferrer());
         
         if ($this->getBindingType() == IL_LDAP_BIND_USER) {
             $options['binddn'] = $this->getBindUser();

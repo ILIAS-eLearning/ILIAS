@@ -38,11 +38,11 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
     {
         return array(
             '5.4.0' => array(
-                'namespace'    => 'http://www.ilias.de/Modules/ContentPage/' . self::OBJ_TYPE . '/5_4',
-                'xsd_file'     => 'ilias_' . self::OBJ_TYPE . '_5_4.xsd',
+                'namespace' => 'http://www.ilias.de/Modules/ContentPage/' . self::OBJ_TYPE . '/5_4',
+                'xsd_file' => 'ilias_' . self::OBJ_TYPE . '_5_4.xsd',
                 'uses_dataset' => true,
-                'min'          => '5.4.0',
-                'max'          => '',
+                'min' => '5.4.0',
+                'max' => '',
             ),
         );
     }
@@ -53,7 +53,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
         $pageObjectIds = [];
-        $styleIds      = [];
+        $styleIds = [];
 
         foreach ($a_ids as $copaObjId) {
             $copa = \ilObjectFactory::getInstanceByObjId($copaObjId, false);
@@ -76,8 +76,8 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
         if (count($pageObjectIds) > 0) {
             $deps[] = [
                 'component' => 'Services/COPage',
-                'entity'    => 'pg',
-                'ids'       => $pageObjectIds,
+                'entity' => 'pg',
+                'ids' => $pageObjectIds,
             ];
         }
 

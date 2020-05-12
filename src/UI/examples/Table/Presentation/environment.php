@@ -24,7 +24,7 @@ function environment()
     $chart = function ($answers) {
         $ret = '<table style="width:100%">';
         foreach ($answers as $answer) {
-            $ret .='<tr style="border-bottom: 1px solid black;">'
+            $ret .= '<tr style="border-bottom: 1px solid black;">'
                 . '<td style="width: 200px;">'
                 . $answer['title']
                 . '</td><td>'

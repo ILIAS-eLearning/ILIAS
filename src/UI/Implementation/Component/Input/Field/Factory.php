@@ -37,7 +37,6 @@ class Factory implements Field\Factory
      */
     private $refinery;
 
-
     /**
      * Factory constructor.
      *
@@ -74,7 +73,7 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function group(array $inputs, string $label='')
+    public function group(array $inputs, string $label = '')
     {
         return new Group($this->data_factory, $this->refinery, $inputs, $label, null);
     }
@@ -174,7 +173,6 @@ class Factory implements Field\Factory
     {
         return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
     }
-
 
     /**
      * @inheritDoc

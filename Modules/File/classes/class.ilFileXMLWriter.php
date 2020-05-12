@@ -124,12 +124,12 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->__buildHeader();
 
         $attribs = array(
-            "obj_id"      => "il_" . IL_INST_ID . "_file_" . $this->file->getId(),
-            "version"     => $this->file->getVersion(),
+            "obj_id" => "il_" . IL_INST_ID . "_file_" . $this->file->getId(),
+            "version" => $this->file->getVersion(),
             "max_version" => $this->file->getMaxVersion(),
-            "size"        => $this->file->getFileSize(),
-            "type"        => $this->file->getFileType(),
-            "action"      => $this->file->getAction(),
+            "size" => $this->file->getFileSize(),
+            "type" => $this->file->getFileType(),
+            "action" => $this->file->getAction(),
         );
 
         $this->xmlStartTag("File", $attribs);
@@ -148,11 +148,11 @@ class ilFileXMLWriter extends ilXmlWriter
 
             foreach ($versions as $version) {
                 $attribs = array(
-                    "version"          => $version["version"],
-                    "max_version"      => $version["max_version"],
-                    "date"             => ilUtil::date_mysql2time($version["date"]),
-                    "usr_id"           => "il_" . IL_INST_ID . "_usr_" . $version["user_id"],
-                    "action"           => $version["action"],
+                    "version" => $version["version"],
+                    "max_version" => $version["max_version"],
+                    "date" => ilUtil::date_mysql2time($version["date"]),
+                    "usr_id" => "il_" . IL_INST_ID . "_usr_" . $version["user_id"],
+                    "action" => $version["action"],
                     "rollback_version" => $version["rollback_version"],
                     "rollback_user_id" => $version["rollback_user_id"],
                 );

@@ -29,25 +29,17 @@ class ListTransformationTest extends TestCase
         $this->assertEquals(array('hello', 'world'), $result);
     }
 
-    public function testTransformOnEmptyArrayFails()
+    public function testTransformOnEmptyArrayReturnsEmptyList()
     {
-        $this->expectNotToPerformAssertions();
-
         $listTransformation = new ListTransformation(new StringTransformation());
-        try {
-            $result = $listTransformation->transform(array());
-        } catch (ConstraintViolationException $exception) {
-            return;
-        }
-
-        $this->fail();
+        $this->assertSame([], $listTransformation->transform([]));
     }
 
-    public function testApplyToOnEmptyArrayFails()
+    public function testApplyToOnEmptyArrayDoesNotFail()
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $result = $listTransformation->applyTo(new Ok(array()));
-        $this->assertTrue($result->isError());
+        $this->assertFalse($result->isError());
     }
 
     public function testTransformOnNullFails()

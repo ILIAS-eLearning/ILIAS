@@ -75,6 +75,33 @@ class ilRegistrationSettingsGUI
         }
         return true;
     }
+
+    /**
+     * @param string $a_permission
+     */
+    protected function checkAccess($a_permission)
+    {
+        global $DIC;
+
+        $ilErr = $DIC['ilErr'];
+
+        if (!$this->checkAccessBool($a_permission)) {
+            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        }
+    }
+
+    /**
+     * @param string $a_permission
+     * @return bool
+     */
+    protected function checkAccessBool($a_permission)
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+
+        return $access->checkAccess($a_permission, '', $this->ref_id);
+    }
     
     /**
     * set sub tabs
@@ -104,7 +131,6 @@ class ilRegistrationSettingsGUI
     
     public function initForm()
     {
-
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));
         $this->form_gui->setTitle($this->lng->txt('reg_settings_header'));
@@ -332,7 +358,7 @@ class ilRegistrationSettingsGUI
         $role_form->setFormAction($this->ctrl->getFormAction($this, 'save'));
         $role_form->setTitle($this->lng->txt('reg_selectable_roles'));
 
-        $roles = new \ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'),'roles');
+        $roles = new \ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'), 'roles');
         $allowed_roles = array();
         foreach ($rbacreview->getGlobalRoles() as $role) {
             if ($role == SYSTEM_ROLE_ID or $role == ANONYMOUS_ROLE_ID) {
@@ -343,7 +369,6 @@ class ilRegistrationSettingsGUI
             $roles->addOption($role_option);
 
             $allowed_roles[$role] = ilObjRole::_lookupAllowRegister($role);
-
         }
 
         $roles->setUseValuesAsKeys(true);
@@ -358,7 +383,6 @@ class ilRegistrationSettingsGUI
 
 
         $this->tpl->setContent($role_form->getHTML());
-
     }
 
     public function updateRoles()
@@ -420,7 +444,6 @@ class ilRegistrationSettingsGUI
 
     public function initEmailAssignmentForm() : ilPropertyFormGUI
     {
-
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -443,7 +466,7 @@ class ilRegistrationSettingsGUI
             $domain = new ilTextInputGUI($this->lng->txt('reg_domain'), "domain_$role_id");
             $domain->setMulti(true);
             $domain->setValidationRegexp("/^@.*\.[a-zA-Z]{1,4}$/");
-            if(!empty($domains)) {
+            if (!empty($domains)) {
                 $domain->setValue($domains[0]);
                 $domain->setMultiValues($domains);
                 $role_assignments->setChecked(true);
@@ -534,7 +557,7 @@ class ilRegistrationSettingsGUI
         $this->__initRoleAssignments();
 
         $form = $this->initEmailAssignmentForm();
-        if(!$form->checkInput()) {
+        if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->editEmailAssignments($form);
             return false;
@@ -548,13 +571,13 @@ class ilRegistrationSettingsGUI
                 continue;
             }
 
-            $domain_input        = $form->getInput("domain_$role_id");
+            $domain_input = $form->getInput("domain_$role_id");
             $role_assigned_input = $form->getInput("role_assigned_$role_id");
 
 
-            if(!empty($role_assigned_input)) {
+            if (!empty($role_assigned_input)) {
                 foreach ($domain_input as $domain) {
-                    if(!empty($domain)) {
+                    if (!empty($domain)) {
                         $this->assignments_obj->setDomain($counter, ilUtil::stripSlashes($domain));
                         $this->assignments_obj->setRole($counter, ilUtil::stripSlashes($role_id));
                         $counter++;
@@ -563,7 +586,7 @@ class ilRegistrationSettingsGUI
             }
         }
 
-        $default_role        = $form->getInput("default_role");
+        $default_role = $form->getInput("default_role");
         $this->assignments_obj->setDefaultRole((int) $default_role);
 
         $this->assignments_obj->save();
@@ -761,10 +784,10 @@ class ilRegistrationSettingsGUI
         $lng = $DIC['lng'];
 
         $options = array(
-                        'null'		=> $lng->txt('please_choose'),
+                        'null' => $lng->txt('please_choose'),
                         'unlimited' => $lng->txt('reg_access_limitation_mode_unlimited'),
-                        'absolute'	=> $lng->txt('reg_access_limitation_mode_absolute'),
-                        'relative'	=> $lng->txt('reg_access_limitation_mode_relative')
+                        'absolute' => $lng->txt('reg_access_limitation_mode_absolute'),
+                        'relative' => $lng->txt('reg_access_limitation_mode_relative')
                         );
         
         $attribs = array('onchange' => 'displayAccessLimitationSelectionForm(document.cmd.access_limitation_mode_' . $a_role_id . ',' . $a_role_id . ')');
@@ -834,16 +857,16 @@ class ilRegistrationSettingsGUI
         
         $code_type->addOption(
             new ilCheckboxOption(
-                    $this->lng->txt('registration_codes_type_reg'),
-                    self::CODE_TYPE_REGISTRATION,
-                    $this->lng->txt('registration_codes_type_reg_info')
+                $this->lng->txt('registration_codes_type_reg'),
+                self::CODE_TYPE_REGISTRATION,
+                $this->lng->txt('registration_codes_type_reg_info')
                 )
         );
         $code_type->addOption(
             new ilCheckboxOption(
-                    $this->lng->txt('registration_codes_type_ext'),
-                    self::CODE_TYPE_EXTENSION,
-                    $this->lng->txt('registration_codes_type_ext_info')
+                $this->lng->txt('registration_codes_type_ext'),
+                self::CODE_TYPE_EXTENSION,
+                $this->lng->txt('registration_codes_type_ext_info')
                 )
         );
         $this->form_gui->addItem($code_type);
@@ -994,8 +1017,8 @@ class ilRegistrationSettingsGUI
                     } else {
                         $date = array(
                             "d" => $date["dd"],
-                            "m" => $date["MM"]%12,
-                            "y" => floor($date["MM"]/12)
+                            "m" => $date["MM"] % 12,
+                            "y" => floor($date["MM"] / 12)
                         );
                     }
                     break;
@@ -1034,6 +1057,8 @@ class ilRegistrationSettingsGUI
     
     public function deleteCodes()
     {
+        $this->checkAccess("write");
+
         include_once './Services/Registration/classes/class.ilRegistrationCode.php';
         ilRegistrationCode::deleteCodes($_POST["id"]);
         
@@ -1043,6 +1068,8 @@ class ilRegistrationSettingsGUI
 
     public function deleteConfirmation()
     {
+        $this->checkAccess("write");
+
         global $DIC;
 
         $ilErr = $DIC['ilErr'];

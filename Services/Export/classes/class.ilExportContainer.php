@@ -158,8 +158,8 @@ class ilExportContainer extends ilExport
             $this->cont_manifest_writer->xmlElement(
                 'ExportSet',
                 array(
-                    'Path' 	=> $new_path_rel,
-                    'Type'	=> ilObject::_lookupType($obj_id)
+                    'Path' => $new_path_rel,
+                    'Type' => ilObject::_lookupType($obj_id)
                 )
             );
             

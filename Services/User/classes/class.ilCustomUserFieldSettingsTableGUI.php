@@ -76,7 +76,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
         $props = array("visible" => "user_visible_in_profile",
             "changeable" => "changeable",
             "searchable" => "header_searchable",
-            "required"  => "required_field",
+            "required" => "required_field",
             "export" => "export",
             "course_export" => "course_export",
             'group_export' => 'group_export',

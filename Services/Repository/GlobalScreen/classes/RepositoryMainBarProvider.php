@@ -155,7 +155,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
                 $items[] = $f->item()->standard(
-                    $f->button()->shy($ititle, $nav_item["link"])
+                    $f->link()->standard($ititle, $nav_item["link"])
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj_id), $ititle));
             }
             $first = false;
