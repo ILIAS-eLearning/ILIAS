@@ -767,14 +767,18 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     /**
      * @param ilTemplate $tpl
      * @param string $action
-     * @param            $render_drafts
+     * @param bool $render_drafts
      * @param            $node
      * @param null $edit_draft_id
      * @return bool
      * @throws ilSplitButtonException
      */
-    protected function renderDraftContent(ilTemplate $tpl, string $action, $render_drafts, $node, $edit_draft_id = null)
+    protected function renderDraftContent(ilTemplate $tpl, string $action, bool $render_drafts, $node, $edit_draft_id = null)
     {
+        if (!$render_drafts) {
+            return false;
+        }
+
         $frm = $this->object->Forum;
 
         $draftsObjects = ilForumPostDraft::getInstancesByUserIdAndThreadId(
@@ -783,7 +787,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         );
         $drafts = $draftsObjects[$node->getId()];
 
-        if ($render_drafts && is_array($drafts)) {
+        if (is_array($drafts)) {
             foreach ($drafts as $draft) {
                 if (!$draft instanceof ilForumPostDraft) {
                     continue 1;
