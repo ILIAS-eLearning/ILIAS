@@ -63,4 +63,26 @@ class ilHttpConfigStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings = $factory->settingsFor("common");
+
+        $detect_enabled = $this->config->isAutodetectionEnabled() ? "1" : "0";
+
+        return
+            $ini->readVariable("server", "http_path") !== $this->config->getHttpPath() ||
+            $ini->readVariable("https", "auto_https_detect_enabled") !== $detect_enabled ||
+            $ini->readVariable("https", "auto_https_detect_header_name") !== $this->config->getHeaderName() ||
+            $ini->readVariable("https", "auto_https_detect_header_value") !== $this->config->getHeaderValue() ||
+            $settings->get("proxy_status") !== (int) $this->config->isProxyEnabled() ||
+            $settings->get("proxy_host") !== $this->config->getProxyHost() ||
+            $settings->get("proxy_port") !== $this->config->getProxyPort()
+        ;
+    }
 }

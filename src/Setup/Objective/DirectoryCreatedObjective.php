@@ -76,7 +76,7 @@ class DirectoryCreatedObjective implements Setup\Objective
             return [];
         }
         return [
-            new Setup\CanCreateDirectoriesInDirectoryCondition(dirname($this->path))
+            new Setup\Condition\CanCreateDirectoriesInDirectoryCondition(dirname($this->path))
         ];
     }
 
@@ -85,14 +85,21 @@ class DirectoryCreatedObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        if (!file_exists($this->path)) {
-            mkdir($this->path, $this->permissions);
-        }
+        mkdir($this->path, $this->permissions);
+
         if (!is_dir($this->path)) {
             throw new Setup\UnachievableException(
                 "Could not create directory '{$this->path}'"
             );
         }
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return !file_exists($this->path);
     }
 }

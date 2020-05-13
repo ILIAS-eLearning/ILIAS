@@ -54,4 +54,18 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return
+            $ini->readVariable("tools", "vscantype") !== $this->config->getVirusScanner() ||
+            $ini->readVariable("tools", "scancommand") !== $this->config->getPathToScan() ||
+            $ini->readVariable("tools", "cleancommand") !== $this->config->getPathToClean()
+        ;
+    }
 }

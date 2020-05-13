@@ -70,17 +70,19 @@ provides an agent for the setup: [`ilDatabaseSetupAgent`](Services/Database/clas
 ### On Objective
 
 Objectives are the core of the whole matter. An `Objective` describes a state of
-the system that an agent wants to achieve. Any `Objective` may have preconditions,
-which are other objectives. Once the preconditions are achieved, the objective
-itself may be achieved. This might use stuff from the environment but also add
-stuff to the environment. The [agent from the database service](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
+the system that an agent wants to achieve. An objective might or might not be
+applicable for the current state of the system, which means that it might not
+be required to be achieved. Any `Objective` may have preconditions, which are
+other objectives. Once the preconditions are achieved, the objective itself may
+be achieved. This might use stuff from the environment but also add stuff to
+the environment. The [agent from the database service](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
 for example, has the [objective to create a populated database](Services/Database/classes/Setup/class.ilDatabasePopulatedObjective.php).
 This has the precondition [that the database exists](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php),
 which in turn requires [that the database server is connectable](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php).
 
 This yields a directed graph of objectives, where (hopefully) some objectives do
 not have any preconditions. These can be achieved, which prepares the environment
-for other objectives to be achieable, until all objectives are achieved and the
+for other objectives to be achievable, until all objectives are achieved and the
 setup is completed.
 
 ### On Artifact

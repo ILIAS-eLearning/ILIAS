@@ -39,12 +39,6 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
         $db->initFromIniFile($c->toMockIniFile());
 
-        $connect = $db->connect(true);
-        if ($connect) {
-            // Database seems to exist already.
-            return $environment;
-        }
-
         if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
             throw new Setup\UnachievableException(
                 "Database cannot be created."
@@ -52,5 +46,23 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $c = $this->config;
+        $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
+        $db->initFromIniFile($c->toMockIniFile());
+
+        $connect = $db->connect(true);
+
+        if ($connect) {
+            return false;
+        }
+
+        return true;
     }
 }

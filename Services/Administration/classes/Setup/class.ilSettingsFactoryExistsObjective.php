@@ -39,4 +39,14 @@ class ilSettingsFactoryExistsObjective implements Setup\Objective
                 new \ilSettingsFactory($db)
             );
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $resource = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+
+        return !($resource instanceof ilSettingsFactory);
+    }
 }

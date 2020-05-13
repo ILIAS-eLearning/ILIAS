@@ -68,6 +68,14 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
         return $environment;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
+
     public function iniExists()
     {
         return file_exists(dirname(__DIR__, 2) . "/ilias.ini.php");

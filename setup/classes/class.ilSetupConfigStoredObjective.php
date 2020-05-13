@@ -69,4 +69,21 @@ class ilSetupConfigStoredObjective extends ilSetupObjective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return
+            $ini->readVariable("setup", "pass") !== $this->password_manager->encodePassword(
+                $this->config->getMasterPassword()->toString()
+            ) ||
+            $ini->readVariable("server", "absolute_path") !== dirname(__DIR__, 2) ||
+            $ini->readVariable("server", "timezone") !== $this->config->getServerTimeZone()->getName() ||
+            $ini->readVariable("clients", "default") !== $this->config->getClientId()
+        ;
+    }
 }

@@ -50,10 +50,6 @@ class ilUseRootConfirmed implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        if (function_exists("posix_geteuid") && posix_geteuid() != 0) {
-            return $environment;
-        }
-
         $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
 
         $message =
@@ -66,5 +62,17 @@ class ilUseRootConfirmed implements Setup\Objective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        if (function_exists("posix_geteuid") && posix_geteuid() != 0) {
+            return false;
+        }
+
+        return true;
     }
 }

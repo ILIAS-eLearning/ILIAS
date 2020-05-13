@@ -89,4 +89,12 @@ class ObjectiveCollection implements Objective
     {
         return $environment;
     }
+
+    /**
+     * @inheritdocs
+     */
+    public function isApplicable(Environment $environment) : bool
+    {
+        return false;
+    }
 }

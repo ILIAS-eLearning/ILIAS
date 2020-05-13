@@ -12,7 +12,7 @@ use ILIAS\Setup;
  *
  * @package ILIAS\GlobalScreen\BootLoader
  */
-class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjective
+class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifactObjective
 {
     public function getArtifactPath() : string
     {
@@ -36,6 +36,6 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjecti
             $class_names[$interface] = iterator_to_array($i->getMatchingClassNames());
         }
 
-        return new Setup\ArrayArtifact($class_names);
+        return new Setup\Artifact\ArrayArtifact($class_names);
     }
 }

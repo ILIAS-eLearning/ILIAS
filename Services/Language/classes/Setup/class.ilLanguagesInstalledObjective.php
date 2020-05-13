@@ -73,4 +73,29 @@ class ilLanguagesInstalledObjective extends ilLanguageObjective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+
+        // TODO: Remove this once ilSetupLanguage (or a successor) supports proper
+        // DI for all methods.
+        $GLOBALS["ilDB"] = $db;
+
+        $this->il_setup_language->setDbHandler($db);
+
+        $not_installed_languages = array_diff(
+            $this->config->getInstallLanguages(),
+            $this->il_setup_language->getInstalledLanguages()
+        );
+        $not_installed_local_languages = array_diff(
+            $this->config->getInstallLocalLanguages(),
+            $this->il_setup_language->getInstalledLocalLanguages()
+        );
+
+        return count($not_installed_languages) !== 0 || count($not_installed_local_languages) !== 0;
+    }
 }

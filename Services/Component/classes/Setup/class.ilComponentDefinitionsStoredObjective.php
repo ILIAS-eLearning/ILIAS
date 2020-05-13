@@ -143,4 +143,12 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
 }

@@ -56,4 +56,20 @@ class ilLoggingConfigStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $enabled = $this->config->isEnabled() ? "1" : "0";
+
+        return
+            $ini->readVariable("log", "path") !== dirname($this->config->getPathToLogfile()) ||
+            $ini->readVariable("log", "file") !== basename($this->config->getPathToLogfile()) ||
+            $ini->readVariable("log", "error_path") !== $this->config->getErrorlogDir() ||
+            $ini->readVariable("log", "enabled") !== $enabled
+        ;
+    }
 }

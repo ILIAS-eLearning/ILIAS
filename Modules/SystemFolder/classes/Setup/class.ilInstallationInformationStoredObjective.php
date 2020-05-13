@@ -75,4 +75,36 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $common_config = $environment->getConfigFor("common");
+
+        $settings = $factory->settingsFor("common");
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+
+        $client_name = $this->config->getClientName() ?? $common_config->getClientId();
+
+        return
+            $settings->get("inst_name") !== $this->config->getClientName() ||
+            $ini->readVariable("client", "name") !== $client_name ||
+            $ini->readVariable("client", "description") !== $this->config->getClientDescription() ||
+            $settings->get("inst_institution") !== $this->config->getClientInstitution() ||
+            $settings->get("admin_firstname") !== $this->config->getContactFirstname() ||
+            $settings->get("admin_lastname") !== $this->config->getContactLastname() ||
+            $settings->get("admin_title") !== $this->config->getContactTitle() ||
+            $settings->get("admin_position") !== $this->config->getContactPosition() ||
+            $settings->get("admin_institution") !== $this->config->getContactInstitution() ||
+            $settings->get("admin_street") !== $this->config->getContactStreet() ||
+            $settings->get("admin_zipcode") !== $this->config->getContactZipcode() ||
+            $settings->get("admin_city") !== $this->config->getContactCity() ||
+            $settings->get("admin_country") !== $this->config->getContactCountry() ||
+            $settings->get("admin_phone") !== $this->config->getContactPhone() ||
+            $settings->get("admin_email") !== $this->config->getContactEMail()
+        ;
+    }
 }

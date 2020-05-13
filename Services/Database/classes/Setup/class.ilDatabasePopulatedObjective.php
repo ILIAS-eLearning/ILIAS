@@ -42,10 +42,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
-        if ($this->isDatabasePopulated($db)) {
-            return $environment;
-        }
-
         $path_to_db_dump = $this->config->getPathToDBDump();
         if (!is_file(realpath($path_to_db_dump)) ||
             !is_readable(realpath($path_to_db_dump))) {
@@ -59,6 +55,16 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         $db->execute($statement);
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+
+        return !$this->isDatabasePopulated($db);
     }
 
     protected function isDatabasePopulated(\ilDBInterface $db)

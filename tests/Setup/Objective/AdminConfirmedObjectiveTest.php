@@ -55,48 +55,15 @@ class AdminConfirmedObjectiveTest extends TestCase
         $this->assertEquals([], $pre);
     }
 
-    public function testAlreadyAchieved() : void
-    {
-        $env = $this->createMock(Setup\Environment::class);
-        $admin_interaction = $this->createMock(Setup\AdminInteraction::class);
-        $achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
-
-        $env
-            ->method("getResource")
-            ->will($this->returnValueMap([
-                [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
-                [Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
-            ]));
-
-        $admin_interaction
-            ->expects($this->never())
-            ->method("confirmOrDeny");
-
-        $achievement_tracker
-            ->expects($this->once())
-            ->method("isAchieved")
-            ->with($this->o)
-            ->willReturn(true);
-
-        $achievement_tracker
-            ->expects($this->never())
-            ->method("trackAchievementOf");
-
-        $res = $this->o->achieve($env);
-        $this->assertSame($env, $res);
-    }
-
     public function testAchieveWithConfirmation() : void
     {
         $env = $this->createMock(Setup\Environment::class);
         $admin_interaction = $this->createMock(Setup\AdminInteraction::class);
-        $achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
         $env
             ->method("getResource")
             ->will($this->returnValueMap([
-                [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
-                [Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
+                [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction]
             ]));
 
         $admin_interaction
@@ -104,17 +71,6 @@ class AdminConfirmedObjectiveTest extends TestCase
             ->method("confirmOrDeny")
             ->with($this->message)
             ->willReturn(true);
-
-        $achievement_tracker
-            ->expects($this->once())
-            ->method("isAchieved")
-            ->with($this->o)
-            ->willReturn(false);
-
-        $achievement_tracker
-            ->expects($this->once())
-            ->method("trackAchievementOf")
-            ->with($this->o);
 
         $res = $this->o->achieve($env);
         $this->assertSame($env, $res);
@@ -126,13 +82,11 @@ class AdminConfirmedObjectiveTest extends TestCase
 
         $env = $this->createMock(Setup\Environment::class);
         $admin_interaction = $this->createMock(Setup\AdminInteraction::class);
-        $achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
         $env
             ->method("getResource")
             ->will($this->returnValueMap([
-                [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
-                [Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
+                [Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction]
             ]));
 
         $admin_interaction
@@ -140,16 +94,6 @@ class AdminConfirmedObjectiveTest extends TestCase
             ->method("confirmOrDeny")
             ->with($this->message)
             ->willReturn(false);
-
-        $achievement_tracker
-            ->expects($this->once())
-            ->method("isAchieved")
-            ->with($this->o)
-            ->willReturn(false);
-
-        $achievement_tracker
-            ->expects($this->never())
-            ->method("trackAchievementOf");
 
         $this->o->achieve($env);
     }

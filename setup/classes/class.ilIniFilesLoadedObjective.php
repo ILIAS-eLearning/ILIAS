@@ -39,6 +39,17 @@ class ilIniFilesLoadedObjective extends ilSetupObjective
             ->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+
+        return is_null($ini) || is_null($client_ini);
+    }
+
     protected function getClientDir() : string
     {
         return dirname(__DIR__, 2) . "/data/" . $this->config->getClientId();

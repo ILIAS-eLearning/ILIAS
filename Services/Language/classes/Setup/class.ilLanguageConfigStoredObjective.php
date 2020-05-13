@@ -41,4 +41,16 @@ class ilLanguageConfigStoredObjective extends ilLanguageObjective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+
+        return
+            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage()
+        ;
+    }
 }
