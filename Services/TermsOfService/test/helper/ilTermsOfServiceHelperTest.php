@@ -37,7 +37,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getLanguage', 'getId', 'getLogin', 'writeAccepted', 'hasToAcceptTermsOfServiceInSession'])
+            ->onlyMethods(['getLanguage', 'getId', 'getLogin', 'writeAccepted', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
 
         $user
@@ -62,7 +62,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['content', 'id', 'criteria', 'title'])
+            ->onlyMethods(['content', 'id', 'criteria', 'title'])
             ->getMock();
 
         $document
@@ -117,7 +117,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getLogin'])
+            ->onlyMethods(['getId', 'getLogin'])
             ->getMock();
 
         $user
@@ -166,7 +166,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getLogin'])
+            ->onlyMethods(['getId', 'getLogin'])
             ->getMock();
 
         $user
@@ -215,7 +215,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'getLogin'])
+            ->onlyMethods(['getId', 'getLogin'])
             ->getMock();
 
         $user
