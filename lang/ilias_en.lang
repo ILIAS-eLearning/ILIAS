@@ -6000,6 +6000,10 @@ mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 mail#:#mail_tbl_head_attachments#:#Attachment
 mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.
+mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
+mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".

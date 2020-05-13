@@ -89,8 +89,8 @@ class ilStopWorkflowActivityTest extends TestCase
 
     public function testExecute()
     {
-        $workflowMock = $this->getMockBuilder('ilEmptyWorkflow')
-                               ->setMethods(array('stopWorkflow'))
+        $workflowMock = $this->getMockBuilder(ilEmptyWorkflow::class)
+                               ->onlyMethods(array('stopWorkflow'))
                                ->getMock();
 
         $workflowMock->expects($this->once())

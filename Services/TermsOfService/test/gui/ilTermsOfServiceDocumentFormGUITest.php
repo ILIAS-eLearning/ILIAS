@@ -22,7 +22,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $purifier = $this
@@ -122,7 +122,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'fetchAllCriterionAssignments'])
+            ->onlyMethods(['fetchAllCriterionAssignments'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $document
@@ -145,7 +146,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $user
@@ -182,7 +183,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
         $fu = $this
             ->getMockBuilder(FileUpload::class)
-            ->setMethods([
+            ->onlyMethods([
                 'moveFilesTo',
                 'uploadSizeLimit',
                 'register',
@@ -267,7 +268,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -315,7 +316,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -343,7 +344,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $document
@@ -358,7 +359,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $fs = $this
@@ -397,7 +398,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['fetchAllCriterionAssignments'])
+            ->onlyMethods(['fetchAllCriterionAssignments'])
             ->getMock();
 
         $document->setId(4711);
@@ -411,7 +412,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId'])
+            ->onlyMethods(['getId'])
             ->getMock();
 
         $user
@@ -425,7 +426,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 
         $fu = $this
             ->getMockBuilder(FileUpload::class)
-            ->setMethods([
+            ->onlyMethods([
                 'moveFilesTo',
                 'uploadSizeLimit',
                 'register',
@@ -461,7 +462,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -503,7 +504,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId', 'fetchAllCriterionAssignments'])
+            ->onlyMethods(['fetchAllCriterionAssignments'])
+            ->addMethods(['getId'])
             ->getMock();
 
         $purifier = $this
@@ -513,12 +515,11 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $user = $this
             ->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
-            ->setMethods()
             ->getMock();
 
         $fu = $this
             ->getMockBuilder(FileUpload::class)
-            ->setMethods([
+            ->onlyMethods([
                 'moveFilesTo',
                 'uploadSizeLimit',
                 'register',
@@ -600,7 +601,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -631,7 +632,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form
@@ -657,7 +658,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                          'cancel',
                          true
                      ])
-                     ->setMethods(['checkInput'])
+                     ->onlyMethods(['checkInput'])
                      ->getMock();
 
         $form

@@ -41,7 +41,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
+            ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
 
         return $lng;
