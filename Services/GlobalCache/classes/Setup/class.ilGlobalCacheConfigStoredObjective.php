@@ -52,4 +52,13 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        // The effort to check the hole ini file is here to big.
+        return true;
+    }
 }

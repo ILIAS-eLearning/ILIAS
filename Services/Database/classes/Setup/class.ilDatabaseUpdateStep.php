@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup\CallableObjective;
+use ILIAS\Setup\Objective\CallableObjective;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 

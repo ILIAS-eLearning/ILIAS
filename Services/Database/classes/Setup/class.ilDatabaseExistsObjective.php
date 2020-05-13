@@ -49,4 +49,12 @@ class ilDatabaseExistsObjective extends \ilDatabaseObjective
         }
         return $environment->withResource(Setup\Environment::RESOURCE_DATABASE, $db);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
 }

@@ -79,16 +79,16 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveWithPreconditions(
+        return new Setup\Objective\ObjectiveWithPreconditions(
             new \ilMakeInstallationAccessibleObjective($config),
             new \ilOverwritesExistingInstallationConfirmed($config),
             new Setup\ObjectiveCollection(
                 "Complete common ILIAS objectives.",
                 false,
-                new Setup\PHPVersionCondition("7.2.0"),
-                new Setup\PHPExtensionLoadedCondition("dom"),
-                new Setup\PHPExtensionLoadedCondition("xsl"),
-                new Setup\PHPExtensionLoadedCondition("gd"),
+                new Setup\Condition\PHPVersionCondition("7.2.0"),
+                new Setup\Condition\PHPExtensionLoadedCondition("dom"),
+                new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
+                new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
                 new ilSetupConfigStoredObjective($config, $this->password_manager),
                 $config->getRegisterNIC()
@@ -100,7 +100,7 @@ class ilSetupAgent implements Setup\Agent
 
     protected function getPHPMemoryLimitCondition() : Setup\Objective
     {
-        return new Setup\ExternalConditionObjective(
+        return new Setup\Condition\ExternalConditionObjective(
             "PHP memory limit >= " . self::PHP_MEMORY_LIMIT,
             function (Setup\Environment $env) : bool {
                 $limit = ini_get("memory_limit");
@@ -120,7 +120,7 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -128,6 +128,6 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
     }
 }

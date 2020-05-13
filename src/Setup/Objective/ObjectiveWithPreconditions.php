@@ -74,4 +74,12 @@ class ObjectiveWithPreconditions implements Setup\Objective
     {
         return $this->original->achieve($environment);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return $this->original->isApplicable($environment);
+    }
 }

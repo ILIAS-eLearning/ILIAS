@@ -52,4 +52,14 @@ class ilPDFGenerationConfigStoredObjective implements Setup\Objective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return $ini->readVariable("tools", "phantomjs") !== $this->config->getPathToPhantomJS();
+    }
 }

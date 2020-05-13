@@ -93,4 +93,12 @@ class ExternalConditionObjective implements Setup\Objective
             "An external condition was not met: {$this->label}"
         );
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
 }

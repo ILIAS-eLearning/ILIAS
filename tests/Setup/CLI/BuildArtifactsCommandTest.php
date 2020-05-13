@@ -39,6 +39,11 @@ class BuildArtifactsCommandTest extends TestCase
             ->method("achieve")
             ->willReturn($env);
 
+        $objective
+            ->expects($this->once())
+            ->method("isApplicable")
+            ->willReturn(true);
+
         $tester->execute([
         ]);
     }

@@ -10,7 +10,6 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Setup\AchievementTracker;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,17 +42,7 @@ class UpdateCommand extends BaseCommand
     protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io) : Environment
     {
         $environment = new ArrayEnvironment([
-            Environment::RESOURCE_ADMIN_INTERACTION => $io,
-            // TODO: This needs to be implemented correctly...
-            Environment::RESOURCE_ACHIEVEMENT_TRACKER => new class implements AchievementTracker {
-                public function trackAchievementOf(Objective $objective) : void
-                {
-                }
-                public function isAchieved(Objective $objective) : bool
-                {
-                    return false;
-                }
-            }
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
 
         if ($agent instanceof AgentCollection && $config) {

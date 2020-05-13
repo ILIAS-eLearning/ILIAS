@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\DirectoryCreatedObjective implements Setup\Objective
+class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective\DirectoryCreatedObjective implements Setup\Objective
 {
     const DATADIR = 1;
     const WEBDIR = 2;

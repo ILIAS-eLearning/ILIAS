@@ -212,7 +212,7 @@ class ObjectiveIteratorTest extends TestCase
 
         $objective = $this
             ->getMockBuilder(Setup\Objective::class)
-            ->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve"])
+            ->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve", "isApplicable"])
             ->setMockClassName("Mock_ObjectiveNo" . ($no++))
             ->getMock();
 

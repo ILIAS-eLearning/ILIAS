@@ -65,7 +65,7 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         if (!$db) {
-            throw new \UnachievableException("Need DB to store control-structure");
+            throw new Setup\UnachievableException("Need DB to store control-structure");
         }
 
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
@@ -76,5 +76,24 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
         $reader->executed = false;
         $reader->readStructure(true, ".");
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        if (!$db) {
+            throw new Setup\UnachievableException("Need DB to read control-structure");
+        }
+
+        if (!defined("ILIAS_ABSOLUTE_PATH")) {
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+        }
+
+        $reader = $this->ctrl_reader->withDB($db);
+
+        return !$reader->executed;
     }
 }

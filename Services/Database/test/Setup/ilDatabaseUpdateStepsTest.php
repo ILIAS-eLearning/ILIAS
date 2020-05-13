@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\NullObjective;
 
 class Test_ilDatabaseUpdateSteps extends ilDatabaseUpdateSteps
 {
@@ -104,7 +103,7 @@ class ilDatabaseUpdateStepsTest extends TestCase
     {
         $env = $this->createMock(Environment::class);
 
-        $this->test1->step_2_precondition = new NullObjective;
+        $this->test1->step_2_precondition = new ILIAS\Setup\Objective\NullObjective;
 
         $step1 = $this->test1->getStep(1);
         $step2 = $this->test1->getStep(2);

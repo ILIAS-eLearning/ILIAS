@@ -62,11 +62,6 @@ class AdminConfirmedObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
-        $achievement_tracker = $environment->getResource(Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER);
-
-        if ($achievement_tracker->isAchieved($this)) {
-            return $environment;
-        }
 
         if (!$admin_interaction->confirmOrDeny($this->message)) {
             throw new Setup\NoConfirmationException(
@@ -74,8 +69,14 @@ class AdminConfirmedObjective implements Setup\Objective
             );
         }
 
-        $achievement_tracker->trackAchievementOf($this);
-
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
     }
 }

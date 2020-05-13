@@ -98,6 +98,11 @@ abstract class BuildArtifactObjective implements Setup\Objective
         return $environment;
     }
 
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
+
     protected function makeDirectoryFor(string $path) : void
     {
         $dir = pathinfo($path)["dirname"];

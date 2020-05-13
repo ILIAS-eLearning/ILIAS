@@ -73,6 +73,14 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return $environment;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
+
     protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config) : string
     {
         $inst_id = $settings->get("inst_id", 0);

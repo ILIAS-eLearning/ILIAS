@@ -54,4 +54,12 @@ interface Objective
      * @throw \RuntimeException if there are missing resources.
      */
     public function achieve(Environment $environment) : Environment;
+
+    /**
+     * Get to know whether the objective is applicable.
+     *
+     * Don't change the environment or act on services in the environment.
+     * In case of doubt whether the objective is applicable or not return true.
+     */
+    public function isApplicable(Environment $environment) : bool;
 }

@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilOwnRiskConfirmedObjective extends Setup\AdminConfirmedObjective
+class ilOwnRiskConfirmedObjective extends Setup\Objective\AdminConfirmedObjective
 {
     public function __construct()
     {

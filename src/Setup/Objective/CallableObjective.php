@@ -88,4 +88,12 @@ class CallableObjective implements Setup\Objective
         }
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
+    }
 }

@@ -10,7 +10,7 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\ObjectiveIterator;
-use ILIAS\Setup\ObjectiveWithPreconditions;
+use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -96,6 +96,10 @@ abstract class BaseCommand extends Command
         try {
             while ($goals->valid()) {
                 $current = $goals->current();
+                if (!$current->isApplicable($environment)) {
+                    $goals->next();
+                    continue;
+                }
                 $io->startObjective($current->getLabel(), $current->isNotable());
                 try {
                     $environment = $current->achieve($environment);

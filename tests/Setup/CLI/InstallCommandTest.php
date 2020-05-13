@@ -12,7 +12,17 @@ use ILIAS\Data\Factory as DataFactory;
 
 class InstallCommandTest extends TestCase
 {
-    public function testBasicFunctionality() : void
+    public function testBasicFunctionality()
+    {
+        $this->basicFunctionality(false);
+    }
+
+    public function testBasicFunctionalityAlreadyAchieved()
+    {
+        $this->basicFunctionality(true);
+    }
+
+    public function basicFunctionality(bool $is_applicable) : void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -79,10 +89,23 @@ class InstallCommandTest extends TestCase
             ->method("getPreconditions")
             ->willReturn([]);
 
+        $expects = $this->never();
+        $return = false;
+
+        if ($is_applicable) {
+            $expects = $this->once();
+            $return = true;
+        }
+
         $objective
-            ->expects($this->once())
+            ->expects($expects)
             ->method("achieve")
             ->willReturn($env);
+
+        $objective
+            ->expects($this->once())
+            ->method("isApplicable")
+            ->willReturn($return);
         
         $tester->execute([
             "config" => $config_file,
