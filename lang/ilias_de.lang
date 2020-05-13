@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
