@@ -19,7 +19,16 @@ class ilObjRole extends ilObject
     const MODE_PROTECTED_KEEP_LOCAL_POLICIES = 2;
     const MODE_UNPROTECTED_DELETE_LOCAL_POLICIES = 3;
     const MODE_UNPROTECTED_KEEP_LOCAL_POLICIES = 4;
-    
+
+    public const MODE_ADD_OPERATIONS = 1;
+    public const MODE_READ_OPERATIONS = 2;
+    public const MODE_REMOVE_OPERATIONS = 3;
+
+    /**
+     * @var null | \ilLogger
+     */
+    private $logger = null;
+
     /**
     * reference id of parent object
     * this is _only_ neccessary for non RBAC protected objects
@@ -43,6 +52,9 @@ class ilObjRole extends ilObject
     */
     public function __construct($a_id = 0, $a_call_by_reference = false)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->ac();
         $this->type = "role";
         $this->disk_quota = 0;
         $this->wsp_disk_quota = 0;
@@ -688,12 +700,12 @@ class ilObjRole extends ilObject
      * @param array filter Filter of object types (array('all') => change all objects
      * @return
      */
-    public function changeExistingObjects($a_start_node, $a_mode, $a_filter, $a_exclusion_filter = array())
+    public function changeExistingObjects($a_start_node, $a_mode, $a_filter, $a_exclusion_filter = array(),$a_operation_mode = self::MODE_READ_OPERATIONS, $a_operation_stack = [])
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $rbacreview = $DIC['rbacreview'];
+        $tree = $DIC->repositoryTree();
+        $rbacreview = $DIC->rbac()->review();
         
         // Get node info of subtree
         $nodes = $tree->getRbacSubtreeInfo($a_start_node);
@@ -717,8 +729,9 @@ class ilObjRole extends ilObject
                 #$local_policies = array($a_start_node == ROOT_FOLDER_ID ? SYSTEM_FOLDER_ID : $a_start_node);
                 break;
         }
-        $this->adjustPermissions($a_mode, $nodes, $local_policies, $a_filter, $a_exclusion_filter);
-        
+        $this->adjustPermissions($a_mode, $nodes, $local_policies, $a_filter, $a_exclusion_filter, $a_operation_mode, $a_operation_stack);
+
+
         #var_dump(memory_get_peak_usage());
         #var_dump(memory_get_usage());
     }
@@ -758,7 +771,7 @@ class ilObjRole extends ilObject
      * @param array $a_exclusion_filter of object types.
      * @return
      */
-    protected function adjustPermissions($a_mode, $a_nodes, $a_policies, $a_filter, $a_exclusion_filter = array())
+    protected function adjustPermissions($a_mode, $a_nodes, $a_policies, $a_filter, $a_exclusion_filter = array(), $a_operation_mode = self::MODE_READ_OPERATIONS, $a_operation_stack = [])
     {
         global $DIC;
 
@@ -773,8 +786,17 @@ class ilObjRole extends ilObject
         $start_node = current($a_nodes);
         array_push($node_stack, $start_node);
         $this->updatePolicyStack($policy_stack, $start_node['child']);
-        $this->updateOperationStack($operation_stack, $start_node['child'], true);
-        
+
+        if ($a_operation_mode == self::MODE_READ_OPERATIONS) {
+            $this->updateOperationStack($operation_stack, $start_node['child'], true);
+        }
+        else {
+            $operation_stack = $a_operation_stack;
+        }
+
+        $this->logger->debug('adjust permissions operation stack');
+        $this->logger->dump($operation_stack);
+
         include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_active = ilRbacLog::isActive();
         
@@ -816,10 +838,11 @@ class ilObjRole extends ilObject
 
                     // Set permissions
                     $perms = end($operation_stack);
-                    $rbacadmin->grantPermission(
+                    $this->changeExistingObjectsGrantPermissions(
                         $this->getId(),
                         (array) $perms[$node['type']],
-                        $node['child']
+                        $node['child'],
+                        $a_operation_mode
                     );
 
                     if ($rbac_log_active) {
@@ -876,12 +899,13 @@ class ilObjRole extends ilObject
 
             // Set permission
             $perms = end($operation_stack);
-            $rbacadmin->grantPermission(
+
+            $this->changeExistingObjectsGrantPermissions(
                 $this->getId(),
                 (array) $perms[$node['type']],
-                $node['child']
+                $node['child'],
+                $a_operation_mode
             );
-
             if ($rbac_log_active) {
                 $rbac_log_new = ilRbacLog::gatherFaPa($node['child'], array_keys($rbac_log_roles));
                 $rbac_log = ilRbacLog::diffFaPa($rbac_log_old, $rbac_log_new);
@@ -889,6 +913,62 @@ class ilObjRole extends ilObject
             }
         }
     }
+
+    /**
+     * @param $a_role_id
+     * @param $a_permissions
+     * @param $a_ref_id
+     * @param $a_operation_mode
+     */
+    protected function changeExistingObjectsGrantPermissions($a_role_id, $a_permissions, $a_ref_id, $a_operation_mode)
+    {
+        global $DIC;
+
+        $admin = $DIC->rbac()->admin();
+        $review = $DIC->rbac()->review();
+        if ($a_operation_mode == self::MODE_READ_OPERATIONS) {
+            $admin->grantPermission(
+                $a_role_id,
+                $a_permissions,
+                $a_ref_id
+            );
+        }
+        elseif ($a_operation_mode == self::MODE_ADD_OPERATIONS) {
+            $current_operations = $review->getRoleOperationsOnObject(
+                $a_role_id,
+                $a_ref_id
+            );
+            $this->logger->debug('Current operations');
+            $this->logger->dump($current_operations);
+
+            $new_ops = array_unique(array_merge($a_permissions, $current_operations));
+            $this->logger->debug('New operations');
+            $this->logger->dump($new_ops);
+
+            $admin->grantPermission(
+                $a_role_id,
+                $new_ops,
+                $a_ref_id
+            );
+        }
+        elseif ($a_operation_mode == self::MODE_REMOVE_OPERATIONS) {
+            $current_operations = $review->getRoleOperationsOnObject(
+                $a_role_id,
+                $a_ref_id
+            );
+            $this->logger->debug('Current operations');
+            $this->logger->dump($current_operations);
+
+            $new_ops = array_diff($current_operations, $a_permissions);
+
+            $admin->grantPermission(
+                $a_role_id,
+                $new_ops,
+                $a_ref_id
+            );
+        }
+    }
+
     
     /**
      * Check if type is filterer
