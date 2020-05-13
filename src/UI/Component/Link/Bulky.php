@@ -7,11 +7,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Component\Link;
 
 use ILIAS\UI\Component\Symbol;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Bulky Link - a visually enriched link that looks like a button but behaves like a link.
  */
-interface Bulky extends Link
+interface Bulky extends Link, JavaScriptBindable
 {
     /**
      * Get the label of the link
