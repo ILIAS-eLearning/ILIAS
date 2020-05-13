@@ -32,10 +32,6 @@ class BasicScreenContext implements ScreenContext
      */
     public function __construct(string $context_identifier)
     {
-        static $initialised;
-        if ($initialised !== null) {
-            throw new \LogicException("only one instance of a view can exist");
-        }
         $this->context_identifier = $context_identifier;
         $this->additional_data = new Collection();
         $this->reference_id = new ReferenceId(0);

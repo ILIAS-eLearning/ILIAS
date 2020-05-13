@@ -1393,8 +1393,9 @@ class ilInitialisation
         $c['global_screen'] = function () use ($c) {
             return new Services(new ilGSProviderFactory($c));
         };
-        $c->globalScreen()->tool()->context()->stack()->main();
-        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
+        $c->globalScreen()->tool()->context()->stack()->clear();
+        $c->globalScreen()->tool()->context()->claim()->main();
+//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**

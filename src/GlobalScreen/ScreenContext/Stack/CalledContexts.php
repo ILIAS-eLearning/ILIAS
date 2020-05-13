@@ -5,7 +5,6 @@ use LogicException;
 
 /**
  * Class CalledContexts
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 final class CalledContexts extends ContextCollection
@@ -16,7 +15,6 @@ final class CalledContexts extends ContextCollection
      */
     private $call_locations = [];
 
-
     /**
      * @return ScreenContext
      */
@@ -24,7 +22,6 @@ final class CalledContexts extends ContextCollection
     {
         return $this->getLast();
     }
-
 
     /**
      * @param ScreenContext $context
@@ -34,6 +31,11 @@ final class CalledContexts extends ContextCollection
         $this->claim($context);
     }
 
+    public function clear() : void
+    {
+        $this->call_locations = [];
+        $this->stack = [];
+    }
 
     /**
      * @param ScreenContext $context
@@ -46,13 +48,11 @@ final class CalledContexts extends ContextCollection
             throw new LogicException("A context can only be claimed once");
         }
         if (end($this->stack) instanceof ScreenContext) {
-            // $context->replaceLayoutDefinition($this->getLast()->getLayoutDefinition());
             $context = $context->withAdditionalData($this->getLast()->getAdditionalData());
         }
 
         parent::push($context);
     }
-
 
     /**
      * @param ScreenContext $context
@@ -79,7 +79,5 @@ final class CalledContexts extends ContextCollection
             throw new LogicException("context '{$context->getUniqueContextIdentifier()}' already claimed in $first_location, second try in $call_location");
         }
         $this->call_locations[$context->getUniqueContextIdentifier()] = $call_location;
-
-        $context->addAdditionalData('called_in', $call_location);
     }
 }

@@ -16,7 +16,7 @@ class ContextRepository
     /**
      * @var array
      */
-    private static $contexts = [];
+    private  $contexts = [];
     const C_MAIN = 'main';
     const C_DESKTOP = 'desktop';
     const C_REPO = 'repo';
@@ -98,10 +98,10 @@ class ContextRepository
      */
     private function get(string $class_name, string $identifier)
     {
-        if (!isset(self::$contexts[$identifier])) {
-            self::$contexts[$identifier] = new $class_name($identifier);
+        if (!isset($this->contexts[$identifier])) {
+            $this->contexts[$identifier] = new $class_name($identifier);
         }
 
-        return self::$contexts[$identifier];
+        return $this->contexts[$identifier];
     }
 }
