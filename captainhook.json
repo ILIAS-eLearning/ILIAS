@@ -1,6 +1,7 @@
 {
   "config": {
-    "vendor-directory": "libs/composer/vendor"
+    "vendor-directory": "libs/composer/vendor",
+    "bootstrap": "libs/composer/vendor/autoload.php"
   },
   "commit-msg": {
     "enabled": false,
