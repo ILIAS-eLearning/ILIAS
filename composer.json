@@ -60,7 +60,8 @@
 		"phpunit/php-timer": "^3.0",
 		"phpspec/prophecy": "^1.8",
 		"theseer/tokenizer": "^1.1",
-		"myclabs/deep-copy": "^1.9"
+		"myclabs/deep-copy": "^1.9",
+		"captainhook/captainhook": "^5.3"
 	},
 	"autoload": {
 		"psr-4" : {
