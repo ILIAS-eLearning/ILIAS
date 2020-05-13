@@ -60,6 +60,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->setStandardVars($tpl_name, $component);
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
+
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable("ID", $id);
         return $tpl->get();
     }
 
