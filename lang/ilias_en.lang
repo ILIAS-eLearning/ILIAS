@@ -5495,7 +5495,7 @@ ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configu
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389".  You may add multiple servers with commas separated.
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldaps://ldap.ilias.de:636".
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_settings#:#Server Settings
 ldap#:#ldap_sync_cron#:#Per Cron-Job
