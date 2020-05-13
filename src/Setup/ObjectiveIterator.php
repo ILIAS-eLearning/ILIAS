@@ -110,7 +110,7 @@ class ObjectiveIterator implements \Iterator
         $cur = array_pop($this->stack);
         $hash = $cur->getHash();
 
-        if (isset($this->returned[$hash]) || isset($this->filed[$hash])) {
+        if (isset($this->returned[$hash]) || isset($this->failed[$hash])) {
             $this->next();
             return;
         }
