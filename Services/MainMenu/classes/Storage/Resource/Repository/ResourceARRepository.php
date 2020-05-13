@@ -20,7 +20,7 @@ class ResourceARRepository implements ResourceRepository
      */
     public function __construct()
     {
-        ARResource::installDB();
+//        ARResource::installDB();
     }
 
 
