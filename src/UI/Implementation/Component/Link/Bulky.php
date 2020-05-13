@@ -7,9 +7,12 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Bulky extends Link implements C\Link\Bulky
 {
+
+    use JavaScriptBindable;
 
     /**
      * @var string
