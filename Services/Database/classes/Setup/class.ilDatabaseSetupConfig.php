@@ -167,7 +167,7 @@ class ilDatabaseSetupConfig implements Setup\Config
                         return $this->config->getType();
                     default:
                         throw new \LogicException(
-                            "Cannot provide variable '$a_varname'"
+                            "Cannot provide variable '$a_var_name'"
                         );
                 }
             }
