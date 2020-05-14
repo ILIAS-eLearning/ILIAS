@@ -109,6 +109,9 @@ for each hook you choose to install while running the command.
 
 Every time Git triggers a hook, *CaptainHook* will be executed.
 
+If one the enabled actions (scripts) returns an exit code unequal `0`
+(successful program termination), your files will **not** be committed.
+
 ##### Troubleshooting
 
 * If you have issues with *CaptainHook* you can remove the created hooks in the
