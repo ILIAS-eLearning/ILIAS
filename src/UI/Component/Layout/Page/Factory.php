@@ -50,9 +50,12 @@ interface Factory
      *        the keyboard.
      *     2: The content area of the Standard Page MUST be focused on page load.
      *     3: >
+     *        For the content area of the Standard Page, the HTML tag < main > MUST be used
+     *        to be identified as the ARIA Landmark Role "Main".
+     *     4: >
      *        For the Header of the Standard Page, where Logo and Title are placed, the HTML tag
      *        < header > MUST be used to be identified as the ARIA Landmark Role "Banner".
-     *     4: >
+     *     5: >
      *        For the Footer of the Standard Page, the HTML tag < footer > MUST be used
      *        to be identified as the ARIA Landmark Role "Contentinfo". As long as
      *        the Footer is nested in the HTML element "main", the HTML element of the
