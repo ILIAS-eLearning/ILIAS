@@ -11311,8 +11311,8 @@ wsp#:#wsp_shared_user_filter#:#Benutzername/Name
 wsp#:#wsp_shared_date_filter#:#Freigabe ab dem
 wsp#:#wsp_shared_mandatory_filter_info#:#Bitte setzen Sie mindestens ein Filter-Attribut. Text-Filter müssen mindestens 4 Buchstaben lang sein.
 wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
-common#:#scorm_without_session#:#SCORM-Speicherung ohne Session aktivieren
-common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM-Lernstandsdaten auch bei abgelaufener ILIAS-Session
+common#:#scorm_without_session#:#SCORM 2004-Speicherung ohne Session aktivieren
+common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM 2004-Lernstandsdaten auch bei abgelaufener ILIAS-Session. Bei SCORM 1.2 ist die Speicherung ohne Session immer aktiviert.
 common#:#msg_obj_no_download#:#können nicht heruntergeladen werden.
 common#:#download_selected_items#:#Herunterladen
 common#:#download_multiple_objects#:#Mehrere Objekte herunterladen

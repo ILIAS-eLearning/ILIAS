@@ -11327,8 +11327,8 @@ wsp#:#wsp_shared_date_filter#:#Shared From
 wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
 wsp#:#wsp_shared_member_filter#:#Members of Course / Group
 blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.
-common#:#scorm_without_session#:#SCORM: enable storing data without session
-common#:#scorm_without_session_info#:#This ensures the storage of SCORM learning data even if ILIAS session expired
+common#:#scorm_without_session#:#SCORM 2004: enable storing data without session
+common#:#scorm_without_session_info#:#This ensures the storage of SCORM 2004 learning data even if ILIAS session expired. For SCORM 1.2, storage without session is always enabled.
 common#:#msg_obj_no_download#:#cannot be downloaded.
 common#:#download_selected_items#:#Download
 common#:#download_multiple_objects#:#Download Multiple Objects
