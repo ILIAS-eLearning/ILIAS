@@ -9,6 +9,9 @@ experience for a contributor of the ILIAS project.
   * [Install Development Dependencies](#install-development-dependencies)
   * [Creating Git Hooks](#creating-git-hooks)
     * [Code Style Hooks](#code-style-hooks)
+  * [CaptainHook - Git Hook Library](#captainhook---git-hook-library)
+    * [Installation](#installation)
+    * [Troubleshooting](#troubleshooting)
 
 ### General
 
@@ -73,3 +76,43 @@ to create specific git hook adapted to the needs of the development process.
 
 The official [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
 uses a dry-run to check your code style and returns the line that needs to change according to the defined code style.
+
+#### CaptainHook - Git Hook Library
+
+ILIAS provides a [shared Git hook configuration](../../captainhook.json) for
+[CaptainHook](https://github.com/CaptainHookPhp/captainhook), a Git hook
+management library written in PHP.
+
+It enables you to define a shared (amongst developers) Git hook configuration
+for actions being executed locally on you machine.
+
+Currently the following actions will be executed:
+
+* pre-commit:
+  * PHP Linting
+  * php-cs-fixer (dryrun only)
+
+If you'd like to make sure all your committed files pass a PHP syntax (lint) check,
+and the [ILIAS Coding Style](./coding-style.md) was applied to all committed files,
+you are welcome to install *CaptainHook* and our shared actions.
+
+##### Installation
+
+Once you installed the composer development dependencies, move to the ILIAS
+main directory and execute:
+
+```bash
+libs/composer/vendor/bin/captainhook install
+```
+Executing this will create the hook script located in your `.git/hooks` directory,
+for each hook you choose to install while running the command.
+
+Every time Git triggers a hook, *CaptainHook* will be executed.
+
+##### Troubleshooting
+
+* If you have issues with *CaptainHook* you can remove the created hooks in the
+`./git/hooks` directory permanently. If you only want to temporarily deactivate
+a certain hook or action, disable the hook section by setting `enabled` to `false` or
+remove the action from the respective array in the `captainhook.json` configuration file.
+Please make sure you do **not commit** a changed `captainhook.json` file be accident. 
