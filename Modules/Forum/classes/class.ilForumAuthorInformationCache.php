@@ -87,7 +87,7 @@ class ilForumAuthorInformationCache
             return null;
         }
 
-        if (!array_key_exists($usr_id, self::$requested_usr_ids_key_map)) {
+        if (!isset(self::$requested_usr_ids_key_map[$usr_id])) {
             self::preloadUserObjects(array($usr_id));
         }
 
