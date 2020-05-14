@@ -61,11 +61,13 @@ class FSLoader implements Loader
      */
     public function getRendererFactoryFor(Component $component)
     {
-        if ($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
-            return $this->glyph_renderer_factory;
-        }
-        if ($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
-            return $this->field_renderer_factory;
+        if (strpos(get_class($component) ,"ILIAS\\") === 0) { // Do not break plugin renderers
+            if ($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
+                return $this->glyph_renderer_factory;
+            }
+            if ($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
+                return $this->field_renderer_factory;
+            }
         }
         return $this->default_renderer_factory;
     }
