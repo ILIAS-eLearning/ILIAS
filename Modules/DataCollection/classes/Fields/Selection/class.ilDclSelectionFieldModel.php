@@ -244,6 +244,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
+        if ($this->isMulti()) {
+            return null;
+        }
+
         $sql_obj = new ilDclRecordQueryObject();
 
         $select_str = "sel_opts_{$this->getId()}.value AS field_{$this->getId()}";
