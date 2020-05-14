@@ -25,12 +25,13 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $ref_field = ilDclCache::getFieldCache($this->getProperty(self::PROP_REFERENCE));
         if ($this->hasProperty(self::PROP_N_REFERENCE)) {
-            $n_ref = true;
+            return null;
         }
 
-        $select_str = ($n_ref) ? " " . $ilDB->groupConcat("stloc_{$this->getId()}_joined.value") . " AS field_{$this->getId()}" : "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
+        $ref_field = ilDclCache::getFieldCache($this->getProperty(self::PROP_REFERENCE));
+
+        $select_str = "stloc_{$this->getId()}_joined.value AS field_{$this->getId()},";
         $join_str = "LEFT JOIN il_dcl_record_field AS record_field_{$this->getId()} ON (record_field_{$this->getId()}.record_id = record.id AND record_field_{$this->getId()}.field_id = "
             . $ilDB->quote($this->getId(), 'integer') . ") ";
         $join_str .= "LEFT JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS stloc_{$this->getId()} ON (stloc_{$this->getId()}.record_field_id = record_field_{$this->getId()}.id) ";
@@ -43,9 +44,6 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         $sql_obj->setJoinStatement($join_str);
         $sql_obj->setOrderStatement("field_{$this->getId()} " . $direction);
 
-        if ($n_ref) {
-            $sql_obj->setGroupStatement("record.id, record.owner");
-        }
 
         return $sql_obj;
     }
