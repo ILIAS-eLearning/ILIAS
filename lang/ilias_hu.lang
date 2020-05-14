@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.0.x 2020-04-30
+* @version	6.0.x 2020-05-14
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#A jogosultságok típusának beállítása
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Jogosultságok hozzáadása
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Másolási jogosultságok
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Jogosultságok eltávolítása
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Hozzáadja a kiválasztott globális szerepminta MARKED jogait a helyi jogosultságokhoz.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#A kiválasztott globális szerepminta minden jogosultsága felülírja a helyi jogosultságokat.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Eltávolítja a kiválasztott globális szerepminta MARKED jogosultságát a helyi jogosultságokból.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Jogosultság beállítása
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Csak a kiválasztott jogosultságokat adja hozzá a meglévő objektumokhoz
+rbac#:#rbac_form_copy_roles_ce_add_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően kiegészülnek.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#A meglévő helyi engedélyek ennek megfelelően hozzáadódnak, a meglévő objektumok jogosultságai nem módosulnak.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Meglévő objektumok módosítása
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Ennek megfelelően felülírja a meglévő helyi jogosultságokat, és MINDEN kiválasztott és nem kiválasztott előbeállítással alkalmazza a meglévő objektumokon.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#A meglévő helyi jogosultságok felülírjuk, a meglévő objektumok jogosultságai nem módosulnak.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Csak a kiválasztott jogosultságokkal csökkentse a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően csökkennek.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#A kiválasztott jogosultságokat eltávolítja a meglévő helyi jogosultságok közül, a meglévő objektumok jogosultságai nem módosulnak.
 dash#:#dash_remove_from_list#:#Eltávolítás a listáról
 dash#:#dash_make_favourite#:#Hozzáadás a Kedvenceimhez
 dash#:#dash_item_removed#:#Az ajánlást sikeresen törölték a listáról.
@@ -5872,7 +5892,7 @@ ldap#:#ldap_server_name_info#:#Adjon nevet ennek az LDAP-konfigurációnak
 ldap#:#ldap_server_name#:#LDAP-konfiguráció neve
 ldap#:#ldap_server_security_settings#:#Biztonsági beállítások
 ldap#:#ldap_server_short#:#LDAP-kiszolgáló URL-je
-ldap#:#ldap_server_url_info#:#Teljes URL az LDAP-kiszolgáló eléréséhez (url és port). Például <i>ldap://ldap.pelda.hu:389</i> vagy <i>ldap://192.168.1.1:389</i>. Vesszővel elválasztva több szervert is megadhat.
+ldap#:#ldap_server_url_info#:#Teljes URL az LDAP-kiszolgáló eléréséhez (url és port). Például <i>ldaps://ldap.pelda.hu:636</i> vagy <i>ldaps://192.168.1.1:636</i>.
 ldap#:#ldap_server_version_info#:#Az LDAP-verziószáma, általában 3
 ldap#:#ldap_settings#:#Kiszolgáló beállításai
 ldap#:#ldap_sync_cron#:#Ütemezett feladattal
@@ -5998,6 +6018,10 @@ mail#:#search_recipients#:#Címzettek keresése
 mail#:#send_mail_to#:#Címzettek közé
 mail#:#mail_tbl_head_attachments#:#Csatolmány
 mail#:#mail_firstname_last_name_superior#:#Az összes felettes kereszt- és vezetékneve vesszővel elválasztott listája
+mail#:#mail_email_usr_subject#:#Felhasználói teszt e-mail
+mail#:#mail_email_usr_body#:#Ez a felhasználói e-mailek külső e-mail címre küldésének tesztelése.
+mail#:#mail_email_sys_subject#:#Rendszer teszt e-mail
+mail#:#mail_email_sys_body#:#Ez a rendszer e-mailek külső e-mail címre küldésének tesztelése.
 maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
 maps#:#maps_enable_maps#:#Térképek engedélyezése
 maps#:#maps_custom_tile_server_info#:#Szerver URL csempeadatok meghatározásához. Több URL-t szóközzel válasszon el. Alapértelmezett értéke '%s'.
@@ -11303,8 +11327,8 @@ wsp#:#wsp_shared_date_filter#:#Megosztva ez után
 wsp#:#wsp_shared_mandatory_filter_info#:#Legalább egy szűrőattribútumot célszerű használni. A szövegszűrőknek legalább 4 karakter hosszúnak kell lenniük.
 wsp#:#wsp_shared_member_filter#:#Kurzusok/Csoportok tagjai
 blog#:#blog_allow_html_info#:#Engedélyezi, hogy a felhasználók HTML és JavaScript kódokat használhassanak a blogbejegyzéseikben. Ez biztonsági problémákhoz vezethet.
-common#:#scorm_without_session#:#SCORM: munkamenet nélkül lehetséges az adattárolás
-common#:#scorm_without_session_info#:#Az ILIAS munkamenet lejárta után is biztosítva van az SCORM tanulási adatok tárolása.
+common#:#scorm_without_session#:#SCORM 2004: munkamenet nélkül lehetséges az adattárolás
+common#:#scorm_without_session_info#:#Az ILIAS munkamenet lejárta után is biztosítva van az SCORM 2004 tanulási adatok tárolása. SCORM 1.2 esetén a munkamenet nélküli tárolás mindig biztosított.
 common#:#msg_obj_no_download#:#nem letölthető.
 common#:#download_selected_items#:#Letöltés
 common#:#download_multiple_objects#:#Több objektum letöltése
@@ -11463,12 +11487,13 @@ orgu#:#remove_user#:#Eltávolítás
 orgu#:#msg_confirm_remove_user#:#Biztos, hogy eltávolítja az alábbi felhasználót a(z) '%s' pozíciójából?
 orgu#:#msg_confirm_d_ua#:#Biztos, hogy hozzárendeli ezeket a személyeket szervezeti egységeik 'Beosztott' pozíciójához?
 orgu#:#user_assignments#:#Felhasználó hozzárendelései
+orgu#:#user_assignments_recursive#:#Felhasználó hozzárendelési részfája
 orgu#:#authorities#:#Utasítási jogkörök
 orgu#:#authority#:#Utasítási jogkör
 orgu#:#positions#:#Pozíciók
 orgu#:#add_position#:#Pozíció hozzáadása
 orgu#:#scope_1#:#Ugyanazon szervezeti egység
-orgu#:#scope_2#:#Alárendelt szervezeti egységek
+orgu#:#scope_2#:#Ugyanazon és alárendelt szervezeti egységek
 orgu#:#scope_3#:#Összes szervezeti egység
 orgu#:#over_-1#:#Mindenki
 orgu#:#over#:#Felette
@@ -11576,7 +11601,7 @@ orgu#:#orgu_adv_settings#:#További beállítások
 orgu#:#orgu_type_msg_error_custom_icon#:#Egyéni ikon beállítása sikertelen
 orgu#:#orgu_type_available_amd_sets#:#Elérhető bővített metaadat készletek
 orgu#:#orgu_type_assign_amd_sets#:#Bővített metaadata készletek hozzárendelése
-orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját fájába, mert az hurkot hozna létre.
+orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját részfájába, mert az hurkot hozna létre.
 cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
 exc#:#exc_peer_review_deadline#:#Visszajelzés határideje
 exc#:#exc_peer_review_deadline_info#:#Visszajelzés eddig az időpontig adható, és a kapott visszajelzés is csak ekkortól elérhető el.
@@ -13425,7 +13450,6 @@ prg#:#prg_remove_user_success#:#A felhasználót sikeresen törölte.
 prg#:#prg_type_add#:#Képzésiprogram-típus
 prg#:#prg_subtypes#:#Képzésiprogram-típusok
 prg#:#prg_subtype_add#:#Új típus hozzáadása
-prg#:#prg_adv_settings#:#Speciális beállítások
 prg#:#prg_type_custom_icon#:#Egyéni ikonok
 prg#:#prg_type_custom_icon_info#:#Egyéni ikoninformáció
 prg#:#prg_type_msg_error_custom_icon#:#Hiba az ion mentésekor
@@ -16134,3 +16158,6 @@ common#:#eyeopened#:#Szem megnyitása - Kattintson a bemenet tartalmának megjel
 common#:#show_more#:#Több...
 common#:#disclose#:#Felfedés
 common#:#switch_language#:#Nyelv módosítása
+lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepet sikeresen létrehozta.
+lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep létrehozása
+lti#:#lti_user_role_info#:#Ajánlott globális szerep még nem létezik az LTI-felhasználónak. Ez a speciális szerep csak a Tartalomtár és kategóriák 'látható' jogosultáságát tartalmazza.
