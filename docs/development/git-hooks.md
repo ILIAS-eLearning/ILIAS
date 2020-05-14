@@ -118,4 +118,7 @@ If one the enabled actions (scripts) returns an exit code unequal `0`
 `./git/hooks` directory permanently. If you only want to temporarily deactivate
 a certain hook or action, disable the hook section by setting `enabled` to `false` or
 remove the action from the respective array in the `captainhook.json` configuration file.
-Please make sure you do **not commit** a changed `captainhook.json` file be accident. 
+Please make sure you do **not commit** a changed `captainhook.json` file be accident.
+* If the Git hooks have been installed once, changing branches could be an issue **if**
+*CaptainHook* is **not** installed or the `captainhook.json` file is missing in the branch
+just checked out.
