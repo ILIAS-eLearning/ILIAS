@@ -641,7 +641,10 @@ class ilMainMenuGUI
      */
     private function renderOnScreenNotifications(\ilObjUser $user, \ilTemplate $mainTpl, \ilLanguage $lng)
     {
-        if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
+        $chatSettings = new ilSetting('chatroom');
+        $chat_enabled = $chatSettings->get("chat_enabled", false);
+
+        if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous() && $chat_enabled) {
             $this->tpl->touchBlock('osd_container');
 
             $osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
