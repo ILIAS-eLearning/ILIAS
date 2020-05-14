@@ -212,6 +212,9 @@ class ilStartUpGUI
         // Instantiate login template
         $tpl = self::initStartUpTemplate("tpl.login.html");
 
+        $this->mainTemplate->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
         $page_editor_html = $this->getLoginPageEditorHTML();
         $page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
         $page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
@@ -1441,7 +1444,7 @@ class ilStartUpGUI
         }
 
         // create table
-        $tbl = new ilTableGUI('',false);
+        $tbl = new ilTableGUI('', false);
 
         // title & header columns
         if ($hasPublicSection) {
@@ -1686,13 +1689,12 @@ class ilStartUpGUI
 
                 // core checks: timings/object-specific
                 if (
-                    !$access->doActivationCheck('read','', $path_ref_id, $ilUser->getId(),$pobj_id,$ptype) ||
-                    !$access->doStatusCheck('read', '' , $path_ref_id, $ilUser->getId(),$pobj_id, $ptype)
+                    !$access->doActivationCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
+                    !$access->doStatusCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype)
                 ) {
                     // object in path is inaccessible - aborting
                     return false;
-                }
-                elseif ($ptype == "crs") {
+                } elseif ($ptype == "crs") {
                     // check if already participant
                     include_once "Modules/Course/classes/class.ilCourseParticipant.php";
                     $participants = new ilCourseParticipant($pobj_id, $ilUser->getId());
