@@ -297,10 +297,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
      */
     protected function initCopyBehaviourForm(int $copy_source)
     {
-        $full_featured = \ilObject::_lookupType($copy_source) == 'rolt';
-
-        $this->logger->debug('Full featured = ' . ($full_featured ? 'yes' : 'no'));
-        $this->logger->debug('Source type is: ' . \ilObject::_lookupType($copy_source));
+        // not only for role templates; add/remove permissions is also applicable for roles
+        $full_featured = true;
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('rbac_copy_behaviour'));
@@ -490,12 +488,13 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-        
+        $rbacadmin = $DIC->rbac()->admin();
+        $rbacreview = $DIC->rbac()->review();
+
+        $source_definition = $rbacreview->getRoleFolderOfRole($source);
         $rbacadmin->copyRolePermissionUnion(
             $source,
-            $this->object->getRefId(),
+            $source_definition,
             $target,
             $rbacreview->getRoleFolderOfRole($target),
             $target,
@@ -536,15 +535,16 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
+        $rbacadmin = $DIC->rbac()->admin();
+        $rbacreview = $DIC->rbac()->review();
         
         ilLoggerFactory::getLogger('ac')->debug('Remove permission source: ' . $source);
         ilLoggerFactory::getLogger('ac')->debug('Remove permission target: ' . $target);
 
+        $source_obj = $rbacreview->getRoleFolderOfRole($source);
         $rbacadmin->copyRolePermissionSubtract(
             $source,
-            $this->object->getRefId(),
+            $source_obj,
             $target,
             $rbacreview->getRoleFolderOfRole($target)
         );
@@ -560,16 +560,15 @@ class ilObjRoleFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
+        $rbacadmin = $DIC->rbac()->admin();
+        $rbacreview = $DIC->rbac()->review();
 
         $target_obj = $rbacreview->getRoleFolderOfRole($target);
-        
+        $source_obj = $rbacreview->getRoleFolderOfRole($source);
         // Copy role template permissions
         $rbacadmin->copyRoleTemplatePermissions(
             $source,
-            $this->object->getRefId(),
+            $source_obj,
             $target_obj,
             $target
         );
@@ -585,7 +584,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $review = $DIC->rbac()->review();
 
         if (!$a_start_obj) {
-            // todo error handling
+            $this->logger->warning('Missing parameter start object.');
+            $this->logger->logStack(\ilLogLevel::WARNING);
+            throw new InvalidArgumentException('Missing parameter: start object');
         }
         // the mode is unchanged and read out from the target object
         $target_ref_id = $review->getRoleFolderOfRole($a_target_role);
