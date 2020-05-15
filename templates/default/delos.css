@@ -12352,10 +12352,6 @@ body#tinymce {
   margin: 5px auto 0;
   width: 700px;
 }
-div#mainspacekeeper {
-  overflow: auto;
-  max-width: 100%;
-}
 .fullwidth {
   width: 100%;
 }
@@ -15712,9 +15708,10 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .table-responsive {
-    overflow: visible;
+    overflow-x: auto;
+    max-width: 94vw;
   }
 }
 /* Services/Notes */
