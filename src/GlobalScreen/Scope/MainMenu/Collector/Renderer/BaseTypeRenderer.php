@@ -107,11 +107,16 @@ class BaseTypeRenderer implements TypeRenderer
     protected function getURI(string $uri_string) : URI
     {
         $uri_string = trim($uri_string, " ");
-        $checker    = self::getURIChecker();
-        if ($checker($uri_string)) {
-            return new URI($uri_string);
+
+        if (strpos($uri_string, 'http') === 0) {
+            $checker = self::getURIChecker();
+            if ($checker($uri_string)) {
+                return new URI($uri_string);
+            }
+            return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($_SERVER['REQUEST_URI'], "./"));
         }
-        return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($_SERVER['REQUEST_URI'], "./"));
+
+        return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
 
     /**
