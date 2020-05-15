@@ -129,8 +129,8 @@ class MapTest extends TestCase
     {
         $map = new Map();
 
-        for ($x = 0; $x < 10; $x++) {
-            $map->add($this->factory->topParentItem($this->getId('parent_' . $x))->withPosition(10 - $x));
+        for ($x = 1; $x <= 10; $x++) {
+            $map->add($this->factory->topParentItem($this->getId((string) $x))->withPosition(11 - $x));
         }
 
         $x = 10;
@@ -141,11 +141,54 @@ class MapTest extends TestCase
 
         $map->sort();
 
-        $x = 1;
-        foreach ($map->getAllFromFilter() as $i) {
-            $this->assertSame($i->getPosition(), $x);
-            $x++;
-        }
+        $generator = $map->getAllFromFilter();
+
+        $one = static function () use ($generator): isItem {
+            $i = $generator->current();
+            $generator->next();
+            return $i;
+        };
+
+        $i = $one();
+        $this->assertSame('10', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(1, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('9', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(2, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('8', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(3, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('7', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(4, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('6', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(5, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('5', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(6, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('4', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(7, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('3', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(8, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('2', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(9, $i->getPosition());
+
+        $i = $one();
+        $this->assertSame('1', $i->getProviderIdentification()->getInternalIdentifier());
+        $this->assertSame(10, $i->getPosition());
+
     }
 
     private function getDummyProvider()
