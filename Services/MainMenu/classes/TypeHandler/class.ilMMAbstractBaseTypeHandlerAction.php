@@ -1,11 +1,11 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 
 /**
  * Class ilMMAbstractBaseTypeHandlerAction
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
@@ -24,21 +24,17 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
      */
     const F_EXTERNAL = 'external';
 
-
     public function __construct()
     {
         $this->links = ilMMTypeActionStorage::getArray('identification', [self::F_ACTION, self::F_EXTERNAL]);
     }
 
-
     abstract public function matchesForType() : string;
-
 
     /**
      * @inheritdoc
      */
     abstract public function enrichItem(isItem $item) : isItem;
-
 
     /**
      * @inheritdoc
@@ -50,14 +46,17 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
         return true;
     }
 
-
     /**
      * @inheritdoc
      */
     public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
     {
         global $DIC;
-        $url = $DIC->ui()->factory()->input()->field()->text($this->getFieldTranslation())->withRequired(true)->withByline($this->getFieldInfoTranslation());
+
+        $url = $DIC->ui()->factory()->input()->field()->text($this->getFieldTranslation())
+                   ->withAdditionalTransformation($DIC->refinery()->custom()->constraint(BaseTypeRenderer::getURIChecker(), $DIC->language()->txt('err_uri_not_valid')))
+                   ->withRequired(true)
+                   ->withByline($this->getFieldInfoTranslation());
         if (isset($this->links[$identification->serialize()][self::F_ACTION])) {
             $url = $url->withValue($this->links[$identification->serialize()][self::F_ACTION]);
         }
@@ -69,12 +68,10 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
         return [self::F_ACTION => $url, self::F_EXTERNAL => $external];
     }
 
-
     /**
      * @return string
      */
     abstract protected function getFieldTranslation() : string;
-
 
     abstract protected function getFieldInfoTranslation() : string;
 }

@@ -14284,7 +14284,7 @@ pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
 pdfgen#:#low_quality#:#Niedrige Qualität
 pdfgen#:#greyscale#:#Graustufen
 pdfgen#:#overwrite_font#:#Schritart überschreiben
-pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw. 
+pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
 pdfgen#:#output_options#:#Ausgabe Optionen
 pdfgen#:#header_text_left#:#Text Links
 pdfgen#:#header_text_center#:#Text Mitte
@@ -14868,6 +14868,7 @@ mme#:#msg_languages_added#:#Sprachen hinzugefügt
 mme#:#msg_translations_saved#:#Übersetzungen gespeichert
 mme#:#msg_translations_deleted#:#Übersetzungen gelöscht.
 mme#:#topitem_css_id#:#CSS-ID
+mme#:#err_uri_not_valid#:#Bitte geben Sie eine gültige URL an.
 common#:#mme_lost_item_title#:#Keine Zuordnung
 common#:#mme_lost_item_reason#:#Eintrag wird nicht mehr angeboten.
 mme#:#type_lost#:#Lost
