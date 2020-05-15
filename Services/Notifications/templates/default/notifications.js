@@ -21,12 +21,7 @@ var OSDNotifier, OSDNotifications = function (settings) {
 			});
 
 			function closeNotification(notificationElement) {
-				$(notificationElement).animate({
-					height: 0,
-					opacity:0
-				}, 1000, "linear", function () {
-					notificationElement.remove();
-				});
+				notificationElement.remove();
 			}
 
 			this.removeNotification = function (id, callback) {
