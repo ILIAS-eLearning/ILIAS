@@ -4,15 +4,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ilMMTopItemGUI
- *
  * @ilCtrl_IsCalledBy ilMMTopItemGUI: ilObjMainMenuGUI
  * @ilCtrl_Calls      ilMMTopItemGUI: ilMMItemTranslationGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTopItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
+
     const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
     const CMD_ADD = 'topitem_add';
     const CMD_RESTORE = 'restore';
@@ -27,7 +26,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CONFIRM_RESTORE = 'confirmRestore';
     const CMD_UPLOAD = 'upload';
-
 
     private function dispatchCommand($cmd)
     {
@@ -100,8 +98,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-
-    private function saveTable()
+    private function saveTable() : void
     {
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
@@ -114,8 +111,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -136,7 +132,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 break;
         }
     }
-
 
     /**
      * @return string
@@ -165,22 +160,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-
     private function cancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
-
 
     private function doubleCancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -191,14 +182,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param \ILIAS\DI\Container $DIC
-     *
      * @return string
      * @throws Throwable
      */
-    private function create(\ILIAS\DI\Container $DIC)
+    private function create(\ILIAS\DI\Container $DIC) : string
     {
         $f = new ilMMTopItemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $DIC->http(), $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -208,10 +197,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -222,14 +209,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param \ILIAS\DI\Container $DIC
-     *
      * @return string
      * @throws Throwable
      */
-    private function update(\ILIAS\DI\Container $DIC)
+    private function update(\ILIAS\DI\Container $DIC) : string
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isEditable()) {
@@ -244,8 +229,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-
-    private function delete()
+    private function delete() : void
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isDeletable()) {
@@ -254,7 +238,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);
         $this->cancel();
     }
-
 
     /**
      * @return string
@@ -274,7 +257,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
-
     private function confirmRestore() : string
     {
         $c = new ilConfirmationGUI();
@@ -286,8 +268,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
-
-    private function restore()
+    private function restore() : void
     {
         ilMMItemStorage::flushDB();
         ilMMCustomItemStorage::flushDB();

@@ -8,8 +8,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\MainMenu\Storage\Services;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Class ilMMItemInformation
@@ -40,9 +40,9 @@ class ilMMItemInformation implements ItemInformation
      */
     public function __construct()
     {
-        $this->items = ilMMItemStorage::getArray('identification');
+        $this->items        = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage = new Services();
+        $this->storage      = new Services();
     }
 
     /**
@@ -69,6 +69,8 @@ class ilMMItemInformation implements ItemInformation
         ) {
             $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
         }
+
+        // $item = $item->withTitle($item->getTitle() . "({$item->getProviderIdentification()->serialize()})"); // Activate for debugging in UI
 
         return $item;
     }
@@ -129,8 +131,8 @@ class ilMMItemInformation implements ItemInformation
             if (!$ri) {
                 return $item;
             }
-            $stream = $this->storage->stream($ri)->getStream();
-            $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $stream     = $this->storage->stream($ri)->getStream();
+            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();
