@@ -20,7 +20,7 @@ il.UI.Input = il.UI.Input || {};
             accepted_files: '',
             existing_file_ids: [],
             existing_files: [],
-            get_file_info_async: false
+            get_file_info_async: true
         };
 
 
@@ -132,13 +132,16 @@ il.UI.Input = il.UI.Input || {};
                 myDropzone.emit("addedfile", mockFile);
                 myDropzone._updateMaxFilesReachedClass();
             };
+
             if (settings.get_file_info_async) {
                 var data = {};
                 for (var i in settings.existing_file_ids) {
                     data[settings.file_identifier_key] = settings.existing_file_ids[i];
                     $.get(settings.info_url, data, function (response) {
                         var mockFile = JSON.parse(response);
-                        addExisting(mockFile, response);
+                        if(mockFile.size > 0) {
+                            addExisting(mockFile, response);
+                        }
                     });
                 }
             } else {
