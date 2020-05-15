@@ -61,7 +61,7 @@ class FSLoader implements Loader
      */
     public function getRendererFactoryFor(Component $component)
     {
-        if (strpos(get_class($component) ,"ILIAS\\") === 0) { // Do not break plugin renderers
+        if (strpos(get_class($component), "ILIAS\\") === 0) { // Do not break plugin renderers
             if ($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
                 return $this->glyph_renderer_factory;
             }
