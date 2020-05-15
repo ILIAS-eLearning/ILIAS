@@ -1884,19 +1884,28 @@ img[src$="icon_checked.svg"] {
 }
 
 div.ilNewObjectSelector {
-	display: inline-block;
-    margin-bottom: 8px;
+	display: block;
+	text-align: right;
+	margin-bottom: 8px;
     padding: 0;
     width: 100%;
-    > .btn-group {
-        display: block;
+	> .btn-group.open {
+		display: inline-block;
         width: 100%;
         #ilAdvSelListAnchorText_asl {
             float: right;
         }
-        .dropdown-menu.pull-right {
+		#ilAdvSelListAnchorText_asl + .dropdown-menu {
             top: 30px;
-        }
+			right: 0;
+			left: auto;
+			.dropdown-header{
+				margin-right:1px;
+			}
+
+
+
+		}
     }
 }
 
@@ -1996,7 +2005,14 @@ table.mceToolbar {
 #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
-    width: 750px;
+	@media only screen and (min-width: @screen-lg-min) {
+		.row{
+			width: auto;
+		}
+		ul{
+			min-width: 250px;
+		}
+	}
     @media only screen and (max-width: @grid-float-breakpoint-max) {
         width: 100% !important;
         margin: 0;
