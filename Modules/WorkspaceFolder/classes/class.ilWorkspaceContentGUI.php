@@ -176,6 +176,10 @@ class ilWorkspaceContentGUI
     {
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;
+        //bug ilCertificateVerificationClassMap in 6 beta was cmiv instead of cmxv
+        if ($node["type"] == "cmiv") {
+            return "";
+        }
 
         $class = $objDefinition->getClassName($node["type"]);
         $location = $objDefinition->getLocation($node["type"]);
