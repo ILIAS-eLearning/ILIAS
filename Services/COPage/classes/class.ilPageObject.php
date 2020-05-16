@@ -1365,13 +1365,14 @@ abstract class ilPageObject
         }
 
         $xml .= "</LVs>";
-
         return $xml;
     }
 
     public function appendLangVarXML(&$xml, $var)
     {
-        $xml .= "<LV name=\"$var\" value=\"" . $this->lng->txt("cont_" . $var) . "\"/>";
+        $val = $this->lng->txt("cont_" . $var);
+        $val = str_replace('"', "&quot;", $val);
+        $xml .= "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
 
     // @todo begin: move this to paragraph class
