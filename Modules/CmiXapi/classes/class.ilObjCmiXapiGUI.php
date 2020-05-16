@@ -790,8 +790,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $evaluation = new ilXapiStatementEvaluation($logger, $this->object);
             $evaluation->evaluateReport($report);
             
-            $logger->debug('update lp for object (' . $this->object->getId() . ')');
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            //$logger->debug('update lp for object (' . $this->object->getId() . ')');
+            //ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
         
         $cmixUser->setFetchUntil($now);
