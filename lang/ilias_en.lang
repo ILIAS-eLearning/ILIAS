@@ -16164,3 +16164,7 @@ common#:#switch_language#:#Switch Language
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.
+awrn#:#user_awrn_default#:#Default
+awrn#:#user_awrn_hide#:#Hide my status
+awrn#:#user_awrn_show#:#Show my status
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"

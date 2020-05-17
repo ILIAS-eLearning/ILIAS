@@ -16165,3 +16165,7 @@ common#:#switch_language#:#Sprache wechseln
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
+awrn#:#user_awrn_default#:#Standard
+awrn#:#user_awrn_hide#:#Nicht anzeigen
+awrn#:#user_awrn_show#:#Anzeigen
+awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen

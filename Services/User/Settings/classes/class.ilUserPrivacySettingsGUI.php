@@ -4,7 +4,6 @@
 
 /**
  * User privacy settings (currently located under "Profile and Privacy")
- *
  * @author killing@leifos.de
  */
 class ilUserPrivacySettingsGUI
@@ -146,7 +145,9 @@ class ilUserPrivacySettingsGUI
             $html .= $pub_profile->getEmbeddable();
         } else {
             if (!$this->checklist_status->anyVisibilitySettings()) {
-                $html .= $ui->renderer()->render([$ui->factory()->messageBox()->info($lng->txt("usr_public_profile_disabled"))]);
+                $html .= $ui->renderer()->render(
+                    [$ui->factory()->messageBox()->info($lng->txt("usr_public_profile_disabled"))]
+                );
             }
         }
 
@@ -155,7 +156,6 @@ class ilUserPrivacySettingsGUI
 
     /**
      * Is awareness tool setting visible
-     *
      * @return bool
      */
     protected function isAwarnessSettingVisible() : bool
@@ -169,7 +169,6 @@ class ilUserPrivacySettingsGUI
 
     /**
      * Is contact setting visible
-     *
      * @return bool
      */
     protected function isContactSettingVisible() : bool
@@ -179,7 +178,6 @@ class ilUserPrivacySettingsGUI
         }
         return false;
     }
-
 
     /**
      * Init  form.
@@ -200,12 +198,29 @@ class ilUserPrivacySettingsGUI
         if ($this->isAwarnessSettingVisible()) {
             $lng->loadLanguageModule("awrn");
 
-            $fields["hide_own_online_status"] = $f->input()->field()->checkbox(
-                $lng->txt("awrn_hide_from_awareness"),
+            $default = ($this->settings->get('hide_own_online_status') == "n")
+                ? $this->lng->txt("user_awrn_show")
+                : $this->lng->txt("user_awrn_hide");
+
+            $options = array(
+                "x" => $this->lng->txt("user_awrn_default") . " (" . $default . ")",
+                "n" => $this->lng->txt("user_awrn_show"),
+                "y" => $this->lng->txt("user_awrn_hide")
+            );
+            $val = $user->prefs["hide_own_online_status"];
+            if ($val == "") {
+                $val = "x";
+            }
+            $fields["hide_own_online_status"] = $f->input()->field()->select(
+                $lng->txt("awrn_user_show"),
+                $options,
                 $lng->txt("awrn_hide_from_awareness_info")
             )
-                ->withValue($user->prefs["hide_own_online_status"] == "y")
-                ->withDisabled($settings->get("usr_settings_disable_hide_own_online_status"));
+                                                  ->withValue($val)
+                                                  ->withRequired(true)
+                                                  ->withDisabled(
+                                                      $settings->get("usr_settings_disable_hide_own_online_status")
+                                                  );
         }
 
         // allow to contact me
@@ -215,8 +230,10 @@ class ilUserPrivacySettingsGUI
                 $lng->txt("buddy_allow_to_contact_me"),
                 $lng->txt("buddy_allow_to_contact_me_info")
             )
-                ->withValue($user->prefs['bs_allow_to_contact_me'] == 'y')
-                ->withDisabled($settings->get('usr_settings_disable_bs_allow_to_contact_me'));
+                                                  ->withValue($user->prefs['bs_allow_to_contact_me'] == 'y')
+                                                  ->withDisabled(
+                                                      $settings->get('usr_settings_disable_bs_allow_to_contact_me')
+                                                  );
         }
 
         // section
@@ -242,11 +259,14 @@ class ilUserPrivacySettingsGUI
             $data = $form->getData();
             if (is_array($data["sec"])) {
                 if ($this->isAwarnessSettingVisible() && $this->workWithUserSetting("hide_own_online_status")) {
-                    if ($data["sec"]["hide_own_online_status"]) {
-                        $user->setPref("hide_own_online_status", "y");
-                    } else {
-                        $user->setPref("hide_own_online_status", "n");
+                    $val = $data["sec"]["hide_own_online_status"];
+                    if ($val == "x") {
+                        $val = "";
                     }
+                    $user->setPref(
+                        "hide_own_online_status",
+                        $val
+                    );
                 }
                 if ($this->isContactSettingVisible() && $this->workWithUserSetting("bs_allow_to_contact_me")) {
                     if ($data["sec"]["bs_allow_to_contact_me"]) {
