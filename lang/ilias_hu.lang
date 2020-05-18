@@ -15994,7 +15994,6 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
-prg#:#prg_formatted_peri nbod#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16161,3 +16160,17 @@ common#:#switch_language#:#Nyelv módosítása
 lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepet sikeresen létrehozta.
 lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep létrehozása
 lti#:#lti_user_role_info#:#Ajánlott globális szerep még nem létezik az LTI-felhasználónak. Ez a speciális szerep csak a Tartalomtár és kategóriák 'látható' jogosultáságát tartalmazza.
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###18 05 2020 new variable
+mme#:#err_uri_not_valid#:#Please provide a valid URL###18 05 2020 new variable
+prg#:#prg_formatted_period#:#%d days###18 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###18 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
+common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
+rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
+rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
+rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
+rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
+rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
+rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
