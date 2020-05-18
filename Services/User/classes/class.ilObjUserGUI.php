@@ -286,7 +286,7 @@ class ilObjUserGUI extends ilObjectGUI
                     'udf[' . $definition['field_id'] . ']',
                     $this->user_defined_fields->fieldValuesToSelectArray(
                         $definition['field_values']
-                                                                        ),
+                    ),
                     false,
                     true
                 ));
@@ -480,7 +480,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $userObj->setPref("show_users_online", $_POST["show_users_online"]);
             }*/
             if ($this->isSettingChangeable('hide_own_online_status')) {
-                $userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+                $userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
                 $userObj->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
@@ -573,7 +573,7 @@ class ilObjUserGUI extends ilObjectGUI
                         \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                         USER_FOLDER_ID,
                         [$this->object->getId()]
-                )
+                    )
                 )
             )
         ) {
@@ -788,7 +788,7 @@ class ilObjUserGUI extends ilObjectGUI
                         \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                         USER_FOLDER_ID,
                         [$this->object->getId()]
-                )
+                    )
                 )
             )
         ) {
@@ -884,7 +884,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->object->setPref("show_users_online", $_POST["show_users_online"]);
             }*/
             if ($this->isSettingChangeable('hide_own_online_status')) {
-                $this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+                $this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
                 $this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
@@ -1062,7 +1062,7 @@ class ilObjUserGUI extends ilObjectGUI
         $data["skin_style"] = $this->object->skin . ":" . $this->object->prefs["style"];
         $data["hits_per_page"] = $this->object->prefs["hits_per_page"];
         //$data["show_users_online"] = $this->object->prefs["show_users_online"];
-        $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
+        $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
         $data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
         $data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
         $data["session_reminder_enabled"] = (int) $this->object->prefs["session_reminder_enabled"];
@@ -1681,8 +1681,24 @@ class ilObjUserGUI extends ilObjectGUI
         // hide online status
         if ($this->isSettingChangeable('hide_own_online_status')) {
             $lng->loadLanguageModule("awrn");
-            $os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+
+            $default = ($ilSetting->get('hide_own_online_status') == "n")
+                ? $this->lng->txt("user_awrn_show")
+                : $this->lng->txt("user_awrn_hide");
+
+            $options = array(
+                "" => $this->lng->txt("user_awrn_default") . " (" . $default . ")",
+                "n" => $this->lng->txt("user_awrn_show"),
+                "y" => $this->lng->txt("user_awrn_hide"));
+            $os = new ilSelectInputGUI($lng->txt("awrn_user_show"), "hide_own_online_status");
+            $os->setOptions($options);
+            $os->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
+            $os->setInfo($lng->txt("awrn_hide_from_awareness_info"));
             $this->form_gui->addItem($os);
+
+
+            //$os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+            //$this->form_gui->addItem($os);
         }
 
         // allow to contact me
@@ -2248,14 +2264,14 @@ class ilObjUserGUI extends ilObjectGUI
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
                         ilObject::_lookupObjId($_GET["ref_id"])
-                )),
+                    )),
                     $this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view")
                 );
             } elseif ($_GET['ref_id'] == ROLE_FOLDER_ID) {
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
                         ilObject::_lookupObjId($_GET["ref_id"])
-                )),
+                    )),
                     $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
                 );
             }
