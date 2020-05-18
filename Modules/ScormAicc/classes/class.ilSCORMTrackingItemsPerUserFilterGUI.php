@@ -40,17 +40,21 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $privacy = ilPrivacySettings::_getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
-        //$users = $this->parent_obj->object->getTrackedUsers("");
-        foreach ($users as $user) {
-            if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
-                if ($allowExportPrivacy == true) {
-                    $e_user = new ilObjUser($user);
-                    $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
-                } else {
-                    $options[$user] = 'User Id: ' . $user;
-                }
-            }
+        if ($users && count($users) > 0) {
+			foreach ($users as $user) {
+				if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+					if ($allowExportPrivacy == true) {
+						$e_user = new ilObjUser($user);
+						$options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
+					} else {
+						$options[$user] = 'User Id: ' . $user;
+					}
+				}
+			}
+        } else {
+            $options = array("-1" => $lng->txt("no_items"));
         }
+
         $si = new ilSelectInputGUI($lng->txt("user"), "userSelected");
         $si->setOptions($options);
         $si->setValue($userSelected);

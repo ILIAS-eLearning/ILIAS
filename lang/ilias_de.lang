@@ -15094,3 +15094,7 @@ cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
 auth#:#auth_page_type_auth#:#Loginseite
 impr#:#impr_page_type_impr#:#Impressum
 crs#:#crs_timing_err_start_end#:#Das Startdatum muss kleiner gleich dem Enddatum sein.
+awrn#:#user_awrn_default#:#Standard
+awrn#:#user_awrn_hide#:#Nicht anzeigen
+awrn#:#user_awrn_show#:#Anzeigen
+awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
