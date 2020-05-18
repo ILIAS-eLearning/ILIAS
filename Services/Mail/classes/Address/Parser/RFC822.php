@@ -891,6 +891,12 @@ class Mail_RFC822 {
 
         // Validate each word.
         foreach ($words as $word) {
+            // mjansen patch 16 Sep 2015 start
+            // word cannot be empty (#17317)
+            //if ($word === '') {
+            //    return false;
+            //}
+            // mjansen patch 16 Sep 2015 start
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"')
             {
