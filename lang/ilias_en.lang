@@ -18,7 +18,7 @@ rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unselected permissions are ignored.
 rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.
 rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.
 rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions
