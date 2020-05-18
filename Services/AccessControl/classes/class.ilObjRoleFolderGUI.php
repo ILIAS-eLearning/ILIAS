@@ -425,6 +425,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 if ($role_id != $source) {
 
                     $start_obj = $review->getRoleFolderOfRole($role_id);
+                    $this->logger->debug('Start object: ' . $start_obj);
 
                     switch ($adjustment_type) {
                         case self::COPY_ADD_PERMISSIONS:
@@ -600,7 +601,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
             $operation_stack = [];
             if ($a_operation_mode !== \ilObjRole::MODE_READ_OPERATIONS) {
-                $operation_stack[] = $review->getAllOperationsOfRole($a_source_role);
+                $operation_stack[] = $review->getAllOperationsOfRole($a_source_role, $a_start_obj);
             }
 
             $this->logger->debug('Current operation stack');
