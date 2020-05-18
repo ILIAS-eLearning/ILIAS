@@ -342,18 +342,18 @@ class ilForumTopic
             
         return $rec['cnt'];
     }
-    
+
     /**
-    * Fetches and returns an object of the first post in the current topic.
-    *
-    * @return	ilForumPost		object of a post
-    * @access	public
-    */
-    public function getFirstPostNode()
+     * Fetches and returns an object of the first post in the current topic
+     * @param bool $isModerator
+     * @param bool $preventImplicitRead
+     * @return ilForumPost object of a post
+     */
+    public function getFirstPostNode($isModerator = false, $preventImplicitRead = false)
     {
-        $res = $this->db->queryf(
+        $res = $this->db->queryF(
             '
-			SELECT pos_pk
+			SELECT *
 			FROM frm_posts 
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 			WHERE parent_pos = %s
@@ -361,10 +361,13 @@ class ilForumTopic
             array('integer', 'integer'),
             array(0, $this->id)
         );
-            
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
-        return new ilForumPost($row->pos_pk);
+
+        $row = $this->db->fetchAssoc($res);
+
+        $post = new ilForumPost($row['pos_pk'], $isModerator, $preventImplicitRead);
+        $post->assignData($row);
+
+        return $post;
     }
     
     /**

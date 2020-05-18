@@ -2530,15 +2530,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
         }
 
-        if ($this->isHierarchicalView()) {
+        $firstNodeInThread = $this->objCurrentTopic->getFirstPostNode($this->is_moderator, true);
+
+        if ($this->isHierarchicalView() && $firstNodeInThread) {
             $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
-            $exp->setThread($this->objCurrentTopic);
+            $exp->setThread($this->objCurrentTopic, $firstNodeInThread);
             if (!$exp->handleCommand()) {
                 $this->tpl->setLeftNavContent($exp->getHTML());
             }
         }
-
-        $this->lng->loadLanguageModule('forum');
 
         if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->ilNavigationHistory->addItem(
@@ -2576,8 +2576,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         // get forum- and thread-data
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-        if (is_array($topicData = $frm->getOneTopic())) {
-            // Visit-Counter for topic
+        if ($firstNodeInThread) {
             $this->objCurrentTopic->updateVisits();
             
             $this->tpl->setTitle($this->lng->txt('forums_thread') . " \"" . $this->objCurrentTopic->getSubject() . "\"");
@@ -2631,12 +2630,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             // get complete tree of thread
-            $first_node = $this->objCurrentTopic->getFirstPostNode();
             $this->objCurrentTopic->setOrderField($orderField);
-            $subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
+            $subtree_nodes = $this->objCurrentTopic->getPostTree($firstNodeInThread);
 
             if (!$this->isTopLevelReplyCommand() &&
-                $first_node instanceof ilForumPost &&
+                $firstNodeInThread instanceof ilForumPost &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])
             ) {
@@ -2644,7 +2642,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $reply_button->setPrimary(true);
                 $reply_button->setCaption('add_new_answer');
                 $this->ctrl->setParameter($this, 'action', 'showreply');
-                $this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
+                $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
                 $this->ctrl->setParameter($this, 'offset', (int) $_GET['offset']);
                 $this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
@@ -2755,42 +2753,42 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $z++;
             }
 
-            if ($first_node instanceof \ilForumPost) {
+            if ($firstNodeInThread instanceof \ilForumPost) {
                 if (!$this->objCurrentTopic->isClosed() && in_array($this->requestAction, ['showdraft', 'editdraft'])) {
-                    $this->renderPostingForm($frm, $first_node, $this->requestAction);
+                    $this->renderPostingForm($frm, $firstNodeInThread, $this->requestAction);
                 }
-                $this->renderDraftContent($this->requestAction, $render_drafts, $first_node, $selected_draft_id);
+                $this->renderDraftContent($this->requestAction, $render_drafts, $firstNodeInThread, $selected_draft_id);
             }
 
             if (
-                $first_node instanceof ilForumPost &&
+                $firstNodeInThread instanceof ilForumPost &&
                 in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                 // Important: Don't separate the following two lines (very fragile code ...)
-                $this->objCurrentPost->setId($first_node->getId());
+                $this->objCurrentPost->setId($firstNodeInThread->getId());
                 $form = $this->getReplyEditForm();
 
                 if ($this->ctrl->getCmd() == 'saveTopLevelPost') {
                     $form->setValuesByPost();
                 } elseif ($this->ctrl->getCmd() == 'quoteTopLevelPost') {
                     $authorinfo = new ilForumAuthorInformation(
-                        $first_node->getPosAuthorId(),
-                        $first_node->getDisplayUserId(),
-                        $first_node->getUserAlias(),
-                        $first_node->getImportName()
+                        $firstNodeInThread->getPosAuthorId(),
+                        $firstNodeInThread->getDisplayUserId(),
+                        $firstNodeInThread->getUserAlias(),
+                        $firstNodeInThread->getImportName()
                     );
 
                     $form->setValuesByPost();
                     $form->getItemByPostVar('message')->setValue(
                         ilRTE::_replaceMediaObjectImageSrc(
-                            $frm->prepareText($first_node->getMessage(), 1, $authorinfo->getAuthorName()) . "\n" . $form->getInput('message'),
+                            $frm->prepareText($firstNodeInThread->getMessage(), 1, $authorinfo->getAuthorName()) . "\n" . $form->getInput('message'),
                             1
                         )
                     );
                 }
-                $this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
-                $this->ctrl->setParameter($this, 'thr_pk', $first_node->getThreadId());
+                $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
+                $this->ctrl->setParameter($this, 'thr_pk', $firstNodeInThread->getThreadId());
                 $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
                 $jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC', $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
                 $this->ctrl->clearParameters($this);
@@ -2906,9 +2904,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (!$this->access->checkAccess('read', '', $a_forum_ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-        
-        $this->lng->loadLanguageModule('forum');
-        
+
         /**
          * @var $ref_obj ilObjForum
          */
