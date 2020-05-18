@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten Rolle oder Rollenvorlage zu den Rechtevorgaben der Ziel-Rolle hinzu. Nicht markierte Rechte werden ignoriert.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten Rolle oder Rollenvorlage überschreiben alle Rechtevorgaben der Ziel-Rolle. Dies gilt für markierte und nicht markierte Rechte in der Vorlage.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten Rolle oder Rollenvorlage aus den Rechtevorgaben der Ziel-Rolle.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Nur Rechtevorgaben anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Sowohl die vorhandenen Rechtevorgaben der Ziel-Rolle als auch die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Ergänzt werden nur die vorhandenen Rechtevorgaben der Ziel-Rolle. Die Rechte bereits existierender Objekte bleiben dagegen unberührt.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben werden entsprechend überschrieben und IN GÄNZE mit allen markierten und nicht markierten Rechten auf alle vorhandenen Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene Rechtevorgaben der Ziel-Rolle werden überschrieben. Die Rechteeinstellungen der bereits vorhandenen Objekte werden dagegen nicht geändert.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte um ausgewählte Rechte reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Nur Rechtevorgaben reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die markierten Rechte werden aus den Rechtevorgaben der Ziel-Rolle und aus den Rechteeinstellungen vorhandener Objekte entfernt.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden nur aus den Rechtevorgaben der Ziel-Rolle entfernt. Die Rechteeinstellungen bereits vorhandener Objekte werden dagegen nicht angepasst.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -8530,7 +8550,8 @@ feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
 feed#:#feed_nr_pd_feeds_info#:#Bestimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
 feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
-feed#:#feed_settings#:#Externe Webfeeds
+feed#:#feed_settings#:#Externe Webfeeds^
+file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#file_copy#:#Datei kopieren
