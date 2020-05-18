@@ -10969,6 +10969,7 @@ crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?
 pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace
 file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace

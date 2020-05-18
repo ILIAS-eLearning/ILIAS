@@ -8530,7 +8530,8 @@ feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
 feed#:#feed_nr_pd_feeds_info#:#Bestimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
 feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
-feed#:#feed_settings#:#Externe Webfeeds
+feed#:#feed_settings#:#Externe Webfeeds^
+file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#file_copy#:#Datei kopieren
