@@ -14733,6 +14733,7 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
 file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
 file#:#file_suffix_default_white#:#Default Suffix Whitelist

@@ -84,6 +84,12 @@ class ilBTPopOverGUI
             }
             $item = $f->item()->notification($title, $icon);
 
+//            $item = $item->withProperties([
+//                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
+//                    new \ilDateTime(time(), IL_CAL_UNIX)
+//                )
+//            ]);
+
             $item = $item->withActions($f->dropdown()->standard($actions));
             $input = $current_task->getInput();
             $message = $current_task->getMessage($input);
