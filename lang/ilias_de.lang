@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten Rolle oder Rollenvorlage zu den Rechtevorgaben der Ziel-Rolle hinzu. Nicht markierte Rechte werden ignoriert.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten Rolle oder Rollenvorlage überschreiben alle Rechtevorgaben der Ziel-Rolle. Dies gilt für markierte und nicht markierte Rechte in der Vorlage.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten Rolle oder Rollenvorlage aus den Rechtevorgaben der Ziel-Rolle.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Nur Rechtevorgaben anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Sowohl die vorhandenen Rechtevorgaben der Ziel-Rolle als auch die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Ergänzt werden nur die vorhandenen Rechtevorgaben der Ziel-Rolle. Die Rechte bereits existierender Objekte bleiben dagegen unberührt.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben werden entsprechend überschrieben und IN GÄNZE mit allen markierten und nicht markierten Rechten auf alle vorhandenen Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene Rechtevorgaben der Ziel-Rolle werden überschrieben. Die Rechteeinstellungen der bereits vorhandenen Objekte werden dagegen nicht geändert.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte um ausgewählte Rechte reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Nur Rechtevorgaben reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die markierten Rechte werden aus den Rechtevorgaben der Ziel-Rolle und aus den Rechteeinstellungen vorhandener Objekte entfernt.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden nur aus den Rechtevorgaben der Ziel-Rolle entfernt. Die Rechteeinstellungen bereits vorhandener Objekte werden dagegen nicht angepasst.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten

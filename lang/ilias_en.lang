@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.
 crs#:#timings_cron_reminder_freshly_start#:#The processing period has started at:
 crs#:#timings_cron_reminder_started_subject#:#The processing period has started
 crs#:#timings_cron_reminder_exceeded_subject#:#You exceeded the processing period
