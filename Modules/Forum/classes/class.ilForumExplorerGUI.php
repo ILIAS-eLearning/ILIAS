@@ -37,8 +37,9 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
      * @param $a_parent_obj
      * @param $a_parent_cmd
      * @param ilForumTopic $thread
+     * @param ilForumPost $root
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, ilForumTopic $thread)
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, ilForumTopic $thread, ilForumPost $root)
     {
         global $DIC;
 
@@ -49,7 +50,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->setPreloadChilds(true);
 
         $this->thread = $thread;
-        $this->root_node = $thread->getFirstPostNode();
+        $this->root_node = $root;
 
         $this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
 
@@ -83,6 +84,8 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
             if (isset($this->preloaded_children[$parentNodeId])) {
                 return $this->preloaded_children[$parentNodeId];
             }
+
+            return [];
         }
 
         return $this->thread->getNestedSetPostChildren($parentNodeId, 1);
