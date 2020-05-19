@@ -724,6 +724,7 @@ abstract class ilContainerContentGUI
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
         $user = $DIC->user();
+        $access = $DIC->access();
 
         $item_list_gui = $this->getItemGUI($a_item_data);
         $item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -831,12 +832,21 @@ abstract class ilContainerContentGUI
 
         if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
             $card = $card->withTitleAction($modified_link);
+        } else if ($item_list_gui->getInfoScreenStatus() &&
+            $access->checkAccessOfUser(
+                $user->getId(),
+                "visible",
+                "",
+                $a_item_data["ref_id"]
+            )) {
+            $link = ilLink::_getLink($a_item_data["ref_id"]);
+            $card = $card->withTitleAction($link);
         }
 
         // properties
         $l = [];
         foreach ($item_list_gui->determineProperties() as $p) {
-            if ($p["property"] != $this->lng->txt("learning_progress")) {
+            if ($p["alert"] && $p["property"] != $this->lng->txt("learning_progress")) {
                 $l[(string) $p["property"]] = (string) $p["value"];
             }
         }
