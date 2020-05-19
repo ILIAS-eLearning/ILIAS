@@ -821,6 +821,26 @@ abstract class ilContainerContentGUI
 
         $icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_" . $a_item_data["type"]))
             ->withIsOutlined(true);
+
+        // card title action
+        $card_title_action = "";
+        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
+            $card_title_action = $modified_link;
+        } else if ($def_command['link'] == "" &&
+            $item_list_gui->getInfoScreenStatus() &&
+            $access->checkAccessOfUser(
+                $user->getId(),
+                "visible",
+                "",
+                $a_item_data["ref_id"]
+            )) {
+            $card_title_action = ilLink::_getLink($a_item_data["ref_id"]);
+            if ($image->getAction() == "") {
+                $image = $image->withAction($card_title_action);
+            }
+        }
+
+
         $card = $f->card()->repositoryObject(
             $title . "<span data-list-item-id='" . $item_list_gui->getUniqueItemId(true) . "'></span>",
             $image
@@ -830,17 +850,8 @@ abstract class ilContainerContentGUI
             $dropdown
         );
 
-        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
-            $card = $card->withTitleAction($modified_link);
-        } else if ($item_list_gui->getInfoScreenStatus() &&
-            $access->checkAccessOfUser(
-                $user->getId(),
-                "visible",
-                "",
-                $a_item_data["ref_id"]
-            )) {
-            $link = ilLink::_getLink($a_item_data["ref_id"]);
-            $card = $card->withTitleAction($link);
+        if ($card_title_action != "") {
+            $card = $card->withTitleAction($card_title_action);
         }
 
         // properties

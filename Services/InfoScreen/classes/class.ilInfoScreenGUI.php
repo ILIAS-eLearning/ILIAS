@@ -1262,6 +1262,9 @@ class ilInfoScreenGUI
      */
     protected function addPreconditions()
     {
+        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+            return;
+        }
         $obj = $this->gui_object->object;
 
         $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($obj->getRefId(), $obj->getId());
