@@ -78,11 +78,12 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-        iljQueryUtil::initjQuery();
+        iljQueryUtil::initjQuery($tpl);
+        ilMathJax::getInstance()->includeMathJax($tpl);
 
         $this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int) $_GET['thr_top_fk']));
         if (is_array($frmData = $this->frm->getOneTopic())) {
@@ -107,7 +108,7 @@ class ilForumExportGUI
                 $this->renderPostHtml($tpl, $post, $z++, self::MODE_EXPORT_WEB);
             }
         }
-        $tpl->show();
+        $tpl->printToStdout();
     }
 
     /**
@@ -138,7 +139,7 @@ class ilForumExportGUI
      * @param int $counter
      * @param int $mode
      */
-    protected function renderPostHtml(\ilTemplate $tpl, ilForumPost $post, $counter, $mode)
+    protected function renderPostHtml(\ilGlobalTemplate $tpl, ilForumPost $post, $counter, $mode)
     {
         $tpl->setCurrentBlock('posts_row');
 
@@ -298,11 +299,12 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_print.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 
-        iljQueryUtil::initjQuery();
+        iljQueryUtil::initjQuery($tpl);
+        ilMathJax::getInstance()->includeMathJax($tpl);
 
         $this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int) $_GET['top_pk']));
         if (is_array($frmData = $this->frm->getOneTopic())) {
@@ -317,7 +319,7 @@ class ilForumExportGUI
 
             $this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
         }
-        $tpl->show();
+        $tpl->printToStdout();
     }
 
     /**

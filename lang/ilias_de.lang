@@ -14747,6 +14747,7 @@ content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
+file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
 file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
 file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
