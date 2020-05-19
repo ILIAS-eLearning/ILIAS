@@ -517,7 +517,7 @@ class ilInfoScreenGUI
                     $this->addProperty(
                         $lng->txt("object_id"),
                         $a_obj->getId()
-                        );
+                    );
                 }
 
                 include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
@@ -528,7 +528,7 @@ class ilInfoScreenGUI
                     $lng->txt("perma_link"),
                     $pm->getHTML(),
                     ""
-                    );
+                );
             
                 // links to resource
                 if ($ilAccess->checkAccess("write", "", $ref_id) ||
@@ -553,7 +553,7 @@ class ilInfoScreenGUI
                         $this->addProperty(
                             $lng->txt("res_links"),
                             '<div class="small">' . $links . '</div>'
-                            );
+                        );
                     }
                 }
             }
@@ -832,7 +832,8 @@ class ilInfoScreenGUI
             }
         }
 
-        
+        $this->addPreconditions();
+
         // learning progress
         if ($this->learning_progress_enabled and $html = $this->showLearningProgress($tpl)) {
             $tpl->setCurrentBlock("learning_progress");
@@ -1005,7 +1006,7 @@ class ilInfoScreenGUI
             (int) ilLPMarks::_hasCompleted(
                 $ilUser->getId(),
                 $this->getContextObjId()
-        ),
+            ),
             'lp_edit',
             array(0 => $this->lng->txt('trac_not_completed'),
                       1 => $this->lng->txt('trac_completed')),
@@ -1272,5 +1273,105 @@ class ilInfoScreenGUI
         $lng = $this->lng;
         
         return "<a onClick=\"toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "'); return false;\" href=\"#\">" . $lng->txt("show_hidden_sections") . "</a>";
+    }
+
+    /**
+     * Add preconditions
+     */
+    protected function addPreconditions()
+    {
+        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+            return;
+        }
+
+        $obj = $this->gui_object->object;
+
+        $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($obj->getRefId(), $obj->getId());
+
+        if (sizeof($conditions)) {
+            for ($i = 0; $i < count($conditions); $i++) {
+                $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
+            }
+            $conditions = ilUtil::sortArray($conditions, 'title', 'DESC');
+
+            // Show obligatory and optional preconditions seperated
+            $this->addPreconditionSection($obj, $conditions, true);
+            $this->addPreconditionSection($obj, $conditions, false);
+        }
+    }
+
+    protected function addPreconditionSection($obj, $conditions, $obligatory = true)
+    {
+        $lng = $this->lng;
+        $tree = $this->tree;
+
+        $num_required = ilConditionHandler::calculateEffectiveRequiredTriggers($obj->getRefId(), $obj->getId());
+        $num_optional_required =
+            $num_required - count($conditions) + count(ilConditionHandler::getEffectiveOptionalConditionsOfTarget($obj->getRefId(), $obj->getId()));
+
+        // Check if all conditions are fullfilled
+        $visible_conditions = array();
+        $passed_optional = 0;
+        foreach ($conditions as $condition) {
+            if ($obligatory and !$condition['obligatory']) {
+                continue;
+            }
+            if (!$obligatory and $condition['obligatory']) {
+                continue;
+            }
+
+            if ($tree->isDeleted($condition['trigger_ref_id'])) {
+                continue;
+            }
+
+            $ok = ilConditionHandler::_checkCondition($condition) and
+            !ilMemberViewSettings::getInstance()->isActive();
+
+            if (!$ok) {
+                $visible_conditions[] = $condition['id'];
+            }
+
+            if (!$obligatory and $ok) {
+                ++$passed_optional;
+                // optional passed
+                if ($passed_optional >= $num_optional_required) {
+                    return true;
+                }
+            }
+        }
+
+        $properties = [];
+
+        foreach ($conditions as $condition) {
+            if (!in_array($condition['id'], $visible_conditions)) {
+                continue;
+            }
+
+            $missing_cond_exist = true;
+
+            $properties[] = [
+                "condition" => ilConditionHandlerGUI::translateOperator(
+                    $condition['trigger_obj_id'],
+                    $condition['operator']
+                ) . ' ' . $condition['value'],
+                "title" => ilObject::_lookupTitle($condition['trigger_obj_id']),
+                "link" => ilLink::_getLink($condition['trigger_ref_id'])
+            ];
+        }
+
+        if (count($properties) > 0) {
+            if ($obligatory) {
+                $this->addSection($lng->txt("preconditions_obligatory_hint"));
+            } else {
+                $this->addSection(sprintf($lng->txt("preconditions_optional_hint"), $num_optional_required));
+            }
+
+            foreach ($properties as $p) {
+                $this->addProperty(
+                    $p["condition"],
+                    "<a href='" . $p["link"] . "'>" . $p["title"] . "</a>"
+                );
+            }
+        }
     }
 }
