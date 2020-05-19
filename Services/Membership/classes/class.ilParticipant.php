@@ -50,7 +50,7 @@ abstract class ilParticipant
     private $tutors = false;
     private $members = false;
     
-    private $numMembers;
+    private $numMembers = null;
 
     private $member_roles = [];
 
@@ -293,7 +293,7 @@ abstract class ilParticipant
 
         $rbacreview = $DIC['rbacreview'];
 
-        if (!$this->numMembers) {
+        if ($this->numMembers === null) {
             $this->numMembers = $rbacreview->getNumberOfAssignedUsers($this->member_roles);
         }
         return $this->numMembers;
