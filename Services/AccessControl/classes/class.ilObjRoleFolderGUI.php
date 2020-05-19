@@ -37,10 +37,10 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjRoleFolderGUI extends ilObjectGUI
 {
-    private const COPY_ADD_PERMISSIONS = 1;
-    private const COPY_CLONE_PERMISSIONS = 2;
-    private const COPY_REMOVE_PERMISSIONS = 3;
-    private const COPY_CHANGE_EXISTING_OBJECTS = 1;
+    const COPY_ADD_PERMISSIONS = 1;
+    const COPY_CLONE_PERMISSIONS = 2;
+    const COPY_REMOVE_PERMISSIONS = 3;
+    const COPY_CHANGE_EXISTING_OBJECTS = 1;
 
     /**
      * @var null | \ilLogger

@@ -20,9 +20,9 @@ class ilObjRole extends ilObject
     const MODE_UNPROTECTED_DELETE_LOCAL_POLICIES = 3;
     const MODE_UNPROTECTED_KEEP_LOCAL_POLICIES = 4;
     
-    public const MODE_ADD_OPERATIONS = 1;
-    public const MODE_READ_OPERATIONS = 2;
-    public const MODE_REMOVE_OPERATIONS = 3;
+    const MODE_ADD_OPERATIONS = 1;
+    const MODE_READ_OPERATIONS = 2;
+    const MODE_REMOVE_OPERATIONS = 3;
 
     /**
      * @var null | \ilLogger
