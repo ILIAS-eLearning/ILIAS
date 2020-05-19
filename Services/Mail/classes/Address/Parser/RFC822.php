@@ -896,7 +896,7 @@ class Mail_RFC822 {
             //if ($word === '') {
             //    return false;
             //}
-            // iszmais patch 19 May 2020 start
+            // iszmais patch 19 May 2020 end
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"')
             {
