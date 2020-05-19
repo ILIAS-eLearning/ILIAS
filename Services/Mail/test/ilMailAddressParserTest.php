@@ -30,6 +30,11 @@ class ilMailAddressParserTest extends \ilMailBaseTest
             ['phpunit@ilias.de', [
                 new \ilMailAddress('phpunit', 'ilias.de')
             ]],
+            ['phpunit.@ilias.de',
+                [
+                    new ilMailAddress('phpunit.', 'ilias.de')
+                ]
+            ],
             ['#il_ml_4711', [
                 new \ilMailAddress('#il_ml_4711', self::DEFAULT_HOST)
             ]],
@@ -48,6 +53,17 @@ class ilMailAddressParserTest extends \ilMailBaseTest
             ['Course Administrator <#il_crs_admin_2581>', [
                 new \ilMailAddress('#il_crs_admin_2581', self::DEFAULT_HOST)
             ]],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function emailInvalidAddressesProvider() : array
+    {
+        return [
+            ['phpunit"@'],
+            ['phpunit"@ilias.de'],
         ];
     }
 
@@ -81,6 +97,18 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 
         $this->assertCount(count($expected), $parsedAddresses);
         $this->assertEquals($expected, $parsedAddresses);
+    }
+
+    /**
+     * @dataProvider emailInvalidAddressesProvider
+     * @param string $addresses
+     */
+    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void
+    {
+        $this->expectException(ilMailException::class);
+
+        $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
+        $parser->parse();
     }
 
     /**
