@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine on
+
+	RewriteRule ^/?vote(/\w*)? /Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting/pin.php?xlvo_pin=$1 [L]
+	RewriteRule ^/?presenter(/\w*)(/\w*)(/\w*)?(/\w*)? /Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting/presenter.php?xlvo_pin=$1&xlvo_puk=$2&xlvo_voting=$3&xlvo_ppt=$4 [L]
+
 	RewriteCond %{QUERY_STRING}  ^lang=([^=]*)$
 	RewriteRule ^goto_(.*)_(wiki_([0-9]+|wpage)(.*)).html$ goto.php?client_id=$1&target=$2&lang=%1 [L]
 	RewriteRule ^goto_(.*)_(wiki_([0-9]+|wpage)(.*)).html$ goto.php?client_id=$1&target=$2 [L]
