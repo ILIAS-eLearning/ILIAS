@@ -173,7 +173,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'frm_exp_' . $this->objCurrentTopic->getId(),
             $this,
             'viewThread',
-            $this->objCurrentTopic
+            $this->objCurrentTopic,
+            $this->objCurrentTopic->getFirstPostNode($this->is_moderator)
         );
         $exp->toggleExplorerNodeState();
     }
