@@ -293,7 +293,7 @@ abstract class ilParticipant
 
         $rbacreview = $DIC['rbacreview'];
 
-        if(!$this->numMembers){
+        if (!$this->numMembers) {
             $this->numMembers = $rbacreview->getNumberOfAssignedUsers($this->member_roles);
         }
         return $this->numMembers;
@@ -316,6 +316,7 @@ abstract class ilParticipant
         $users = array();
         $this->participants = array();
         $this->members = $this->admins = $this->tutors = array();
+        $this->member_roles = [];
 
         foreach ($this->roles as $role_id) {
             $title = $ilObjDataCache->lookupTitle($role_id);
