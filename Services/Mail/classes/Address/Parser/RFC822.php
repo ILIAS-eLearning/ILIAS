@@ -891,20 +891,20 @@ class Mail_RFC822 {
 
         // Validate each word.
         foreach ($words as $word) {
-            // mjansen patch 16 Sep 2015 start
+            // iszmais patch 19 May 2020 start
             // word cannot be empty (#17317)
             //if ($word === '') {
             //    return false;
             //}
-            // mjansen patch 16 Sep 2015 start
+            // iszmais patch 19 May 2020 start
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"')
             {
-                // iszmais patch 19 May 2020 start
+                // mjansen patch 24 Feb 2016 start
                 // Mantis issue #18018
                 // # http://haacked.com/archive/2007/08/21/i-knew-how-to-validate-an-email-address-until-i.aspx/
                 //return false;
-                // iszmais patch 19 May 2020 end
+                // mjansen patch 24 Feb 2016 end
             }
 
             if ($this->_validatePhrase(trim($word)) === false) return false;
