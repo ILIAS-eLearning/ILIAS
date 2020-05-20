@@ -16174,3 +16174,4 @@ rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
 rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###18 05 2020 new variable
 rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
+ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.

@@ -66,6 +66,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
+        \ilLanguage $lng,
         Factory $field_factory,
         $label,
         $byline
@@ -75,7 +76,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale
             $field_factory->dateTime('end')
         ];
 
-        parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
+        parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
 
         $this->addTransformation();
         $this->addValidation();

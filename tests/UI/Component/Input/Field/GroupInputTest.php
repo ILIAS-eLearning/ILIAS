@@ -30,11 +30,13 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->child1 = $this->createMock(Input1::class);
         $this->child2 = $this->createMock(Input2::class);
         $this->data_factory = new Data\Factory;
-        $this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $this->createMock(\ilLanguage::class));
+        $this->language = $this->createMock(\ilLanguage::class);
+        $this->refinery = new \ILIAS\Refinery\Factory($this->data_factory, $this->language);
 
         $this->group = new Group(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             [$this->child1, $this->child2],
             "LABEL",
             "BYLINE"
@@ -92,6 +94,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->group = new Group(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             ["foo", "bar"],
             "LABEL",
             "BYLINE"
@@ -137,6 +140,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->group = new Group(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
             "BYLINE"
@@ -261,6 +265,13 @@ class GroupInputTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($this->data_factory->ok("two"));
 
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->language
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
+
         $new_group = $this->group
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
                 $this->assertFalse(true, "This should not happen.");
@@ -273,11 +284,44 @@ class GroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
     }
 
+    public function testErrorIsI18NOnError()
+    {
+        $this->assertNotSame($this->child1, $this->child2);
+
+        $input_data = $this->createMock(InputData::class);
+
+        $this->child1
+            ->method("withInput")
+            ->willReturn($this->child2);
+        $this->child1
+            ->method("getContent")
+            ->willReturn($this->data_factory->error(""));
+        $this->child2
+            ->method("withInput")
+            ->willReturn($this->child1);
+        $this->child2
+            ->method("getContent")
+            ->willReturn($this->data_factory->ok("two"));
+
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->language
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
+
+        $new_group = $this->group
+            ->withInput($input_data);
+
+        $this->assertTrue($new_group->getContent()->isError());
+        $this->assertEquals($i18n, $new_group->getContent()->error());
+    }
     public function testWithoutChildren()
     {
         $group = new Group(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             [],
             "LABEL",
             "BYLINE"

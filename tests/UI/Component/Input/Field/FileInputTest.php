@@ -50,7 +50,8 @@ class FileInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new ILIAS\Refinery\Factory($df, $language)
+            new ILIAS\Refinery\Factory($df, $language),
+            $language
         );
     }
 
@@ -240,21 +241,21 @@ class FileInputTest extends ILIAS_UI_TestBase
                 new LoaderResourceRegistryWrapper(
                     $resource_registry,
                     new FSLoader(
-                    new DefaultRendererFactory(
+                        new DefaultRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,
                         $js_binding,
                         $refinery
                     ),
-                    new GlyphRendererFactory(
+                        new GlyphRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,
                         $js_binding,
                         $refinery
                     ),
-                    new FieldRendererFactory(
+                        new FieldRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,
