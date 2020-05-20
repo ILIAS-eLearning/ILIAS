@@ -14,6 +14,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
     const FORUM_THEAD = 'frm_thread';
     const FORUM_THREAD_ROOT = 'frm_thread_root';
     const FORUM_BASE_CONTROLLER = 'frm_base_controller';
+    const PAGE = 'frm_thread_page';
 
     /**
      * @inheritDoc
@@ -52,7 +53,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root) {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -60,6 +61,9 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
+                        
+                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
+
                         return $l($exp->getHTML(true));
                     });
             }
