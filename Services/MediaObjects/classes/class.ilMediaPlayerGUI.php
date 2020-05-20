@@ -352,8 +352,7 @@ class ilMediaPlayerGUI
         // vimeo
         if (ilExternalMediaAnalyzer::isVimeo($this->getFile())) {
             $p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
-
-            $html = '<iframe src="http://player.vimeo.com/video/' . $p["id"] . '" width="320" height="240" ' .
+            $html = '<iframe src="//player.vimeo.com/video/' . $p["id"] . '" width="320" height="240" ' .
                 'frameborder="0"></iframe>';
 
             return $html;
