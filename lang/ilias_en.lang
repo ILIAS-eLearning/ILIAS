@@ -16174,3 +16174,4 @@ rbac#:#prgr_edit_permission#:#User can change permission settings
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used
 rbac#:#prgr_write#:#User can edit settings of links to study programmes
 rbac#:#rbac_create_prgr#:#Create link to study programme
+ui#:#ui_error_in_group#:#There is some error in this part.
