@@ -30,6 +30,9 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
     /** @var int */
     protected $currentPostingId = 0;
+    
+    /** @var int  */
+    private $currentPage = 0;
 
     /**
      * ilForumExplorerGUI constructor.
@@ -39,7 +42,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
      * @param ilForumTopic $thread
      * @param ilForumPost $root
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, ilForumTopic $thread, ilForumPost $root)
+    public function __construct(string $a_expl_id, object $a_parent_obj, string $a_parent_cmd, ilForumTopic $thread, ilForumPost $root)
     {
         global $DIC;
 
@@ -89,6 +92,14 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         return $this->thread->getNestedSetPostChildren($parentNodeId, 1);
+    }
+
+    /**
+     * @param int $currentPage
+     */
+    public function setCurrentPage(int $currentPage) : void
+    {
+        $this->currentPage = $currentPage;
     }
 
     /**
@@ -238,21 +249,24 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'backurl', null);
-        $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $node['pos_pk']);
 
         if (isset($node['counter']) && $node['counter'] > 0) {
-            $this->ctrl->setParameter(
-                $this->parent_obj,
-                'page',
-                floor(($node['counter'] - 1) / $this->max_entries)
-            );
+            $page = (int) floor(($node['counter'] - 1) / $this->max_entries);
+            $this->ctrl->setParameter($this->parent_obj, 'page', $page);
         }
 
         if (isset($node['post_read']) && $node['post_read']) {
-            return $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $node['pos_pk'], false, false);
+            $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $node['pos_pk'], false, false);
+        } else {
+            $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $node['pos_pk']);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $node['pos_pk'], false, false);
+            $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
         }
 
-        return $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $node['pos_pk'], false, false);
+        $this->ctrl->setParameter($this->parent_obj, 'page', null);
+        
+        return $url;
     }
 
     /**

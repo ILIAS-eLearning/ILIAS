@@ -136,15 +136,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->initSessionStorage();
 
         $this->objProperties = \ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($_GET['ref_id']));
-
-        // Stored due to performance issues
         $this->is_moderator = $this->access->checkAccess('moderate_frm', '', $_GET['ref_id']);
 
-        // Model of current topic/thread
-        $this->objCurrentTopic = new ilForumTopic((int) $_GET['thr_pk'], $this->is_moderator);
-
-        // Model of current post
-        $this->objCurrentPost = new ilForumPost((int) $_GET['pos_pk'], $this->is_moderator);
+        $this->objCurrentTopic = new ilForumTopic((int) $this->httpRequest->getQueryParams()['thr_pk'] ?? 0, $this->is_moderator);
+        $this->objCurrentPost = new ilForumPost((int) $this->httpRequest->getQueryParams()['pos_pk'] ?? 0, $this->is_moderator);
 
         $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
     }
@@ -2795,6 +2790,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        $pageIndex = 0;
+        if (isset($this->httpRequest->getQueryParams()['page'])) {
+            $pageIndex = max((int) $this->httpRequest->getQueryParams()['page'], $pageIndex);
+        }
+
         $firstNodeInThread = $this->objCurrentTopic->getFirstPostNode();
 
         $toolContext = $this->globalScreen
@@ -2809,7 +2809,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::REF_ID, (int) $this->ref_id)
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::FORUM_THEAD, $this->objCurrentTopic)
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::FORUM_THREAD_ROOT, $firstNodeInThread)
-                ->addAdditionalData(ForumGlobalScreenToolsProvider::FORUM_BASE_CONTROLLER, $this);
+                ->addAdditionalData(ForumGlobalScreenToolsProvider::FORUM_BASE_CONTROLLER, $this)
+                ->addAdditionalData(ForumGlobalScreenToolsProvider::PAGE, $pageIndex);
         }
 
         $oForumObjects = $this->getForumObjects();
@@ -2991,12 +2992,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             $pageSize = $frm->getPageHits();
             $postIndex = 0;
-            $pageIndex = 0;
             if ($numberOfPostings > $pageSize) {
-                if (isset($this->httpRequest->getQueryParams()['page'])) {
-                    $pageIndex = max((int) $this->httpRequest->getQueryParams()['page'], $pageIndex);
-                }
-
                 $this->ctrl->setParameter($this, 'ref_id', (int) $this->object->getRefId());
                 $this->ctrl->setParameter($this, 'thr_pk', (int) $this->objCurrentTopic->getId());
                 $this->ctrl->setParameter(
