@@ -23,7 +23,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * Inputs that are contained by this group
      *
-     * @var    FormInput[]
+     * @var    Input[]
      */
     protected $inputs = [];
 
@@ -35,22 +35,25 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * Group constructor.
      *
-     * @param DataFactory           $data_factory
+     * @param DataFactory             $data_factory
      * @param \ILIAS\Refinery\Factory $refinery
-     * @param FormInputInternal[]   $inputs
-     * @param                       $label
-     * @param                       $byline
+     * @param \ilLanguage             $lng
+     * @param InputInternal[]         $inputs
+     * @param                         $label
+     * @param                         $byline
      */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
+        \ilLanguage $lng,
         array $inputs,
         string $label,
         string $byline = null
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->checkArgListElements("inputs", $inputs, FormInputInternal::class);
+        $this->checkArgListElements("inputs", $inputs, InputInternal::class);
         $this->inputs = $inputs;
+        $this->lng = $lng;
     }
 
     public function withDisabled($is_disabled)
@@ -168,8 +171,7 @@ class Group extends Input implements C\Input\Field\Group
 
         $clone->inputs = $inputs;
         if ($error) {
-            // TODO: use lng here
-            $clone->content = $clone->data_factory->error("error_in_group");
+            $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
             $clone->content = $clone->applyOperationsTo($contents);
         }
@@ -201,7 +203,7 @@ class Group extends Input implements C\Input\Field\Group
     }
 
     /**
-     * @return FormInput[]
+     * @return Input[]
      */
     public function getInputs()
     {
