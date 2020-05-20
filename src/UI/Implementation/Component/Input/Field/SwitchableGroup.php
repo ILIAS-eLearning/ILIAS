@@ -25,21 +25,23 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * Only adds a check to the original group-constructor.
      *
-     * @param DataFactory           $data_factory
+     * @param DataFactory             $data_factory
      * @param \ILIAS\Refinery\Factory $refinery
-     * @param InputInternal[]       $inputs
-     * @param                       $label
-     * @param                       $byline
+     * @param \ilLanguage             $lng
+     * @param InputInternal[]         $inputs
+     * @param                         $label
+     * @param                         $byline
      */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
+        \ilLanguage $lng,
         array $inputs,
         string $label,
         string $byline = null
     ) {
         $this->checkArgListElements("inputs", $inputs, Group::class);
-        parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
+        parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
     }
 
     /**
@@ -116,8 +118,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         }
 
         if ($clone->inputs[$key]->getContent()->isError()) {
-            // TODO: use lng here
-            $clone->content = $clone->data_factory->error("error_in_group");
+            $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
             $clone->content = $this->applyOperationsTo($clone->getValue());
             if ($clone->content->isError()) {

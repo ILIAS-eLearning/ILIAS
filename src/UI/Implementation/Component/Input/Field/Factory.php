@@ -19,24 +19,30 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Factory implements Field\Factory
 {
-
     /**
      * @var    Data\Factory
      */
     protected $data_factory;
+
     /**
      * @var Validation\Factory
      */
     protected $validation_factory;
+
     /**
      * @var SignalGeneratorInterface
      */
     protected $signal_generator;
+
     /**
      * @var \ILIAS\Refinery\Factory
      */
     private $refinery;
 
+    /**
+     * @var	\ilLanguage
+     */
+    protected $lng;
 
     /**
      * Factory constructor.
@@ -48,11 +54,13 @@ class Factory implements Field\Factory
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         Data\Factory $data_factory,
-        \ILIAS\Refinery\Factory $refinery
+        \ILIAS\Refinery\Factory $refinery,
+        \ilLanguage $lng
     ) {
         $this->signal_generator = $signal_generator;
         $this->data_factory = $data_factory;
         $this->refinery = $refinery;
+        $this->lng = $lng;
     }
 
     /**
@@ -76,7 +84,7 @@ class Factory implements Field\Factory
      */
     public function group(array $inputs, string $label = '')
     {
-        return new Group($this->data_factory, $this->refinery, $inputs, $label, null);
+        return new Group($this->data_factory, $this->refinery, $this->lng, $inputs, $label, null);
     }
 
     /**
@@ -84,7 +92,7 @@ class Factory implements Field\Factory
      */
     public function optionalGroup(array $inputs, string $label, string $byline = null) : Field\OptionalGroup
     {
-        return new OptionalGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
+        return new OptionalGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
@@ -92,7 +100,7 @@ class Factory implements Field\Factory
      */
     public function switchableGroup(array $inputs, string $label, string $byline = null) : Field\SwitchableGroup
     {
-        return new SwitchableGroup($this->data_factory, $this->refinery, $inputs, $label, $byline);
+        return new SwitchableGroup($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
@@ -100,7 +108,7 @@ class Factory implements Field\Factory
      */
     public function section(array $inputs, $label, $byline = null)
     {
-        return new Section($this->data_factory, $this->refinery, $inputs, $label, $byline);
+        return new Section($this->data_factory, $this->refinery, $this->lng, $inputs, $label, $byline);
     }
 
     /**
@@ -172,7 +180,7 @@ class Factory implements Field\Factory
      */
     public function duration($label, $byline = null)
     {
-        return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
+        return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
 
 
