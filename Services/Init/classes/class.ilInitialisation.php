@@ -1545,7 +1545,8 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
                 $c["ui.signal_generator"],
                 $data_factory,
-                $refinery
+                $refinery,
+                $c["lng"]
             );
         };
         $c["ui.factory.input.container"] = function ($c) {
