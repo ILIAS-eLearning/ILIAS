@@ -256,24 +256,39 @@ class ilCronManager implements \ilCronManagerInterface
             $parts = explode("__", $a_job_id);
             $pl_name = $parts[1];
             $job_id = $parts[2];
-            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "Cron", "crnhk", $pl_name)) {
-                $plugin_obj = $ilPluginAdmin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Cron",
-                    "crnhk",
-                    $pl_name
+
+            foreach ($ilPluginAdmin->getActivePlugins() as $pluginData) {
+                if ($pluginData['name'] !== $pl_name) {
+                    continue;
+                }
+                
+                $plugin = $ilPluginAdmin->getPluginObject(
+                    $pluginData['component_type'],
+                    $pluginData['component_name'],
+                    $pluginData['slot_id'],
+                    $pluginData['name']
                 );
-                $job = $plugin_obj->getCronJobInstance($job_id);
-                if ($job instanceof ilCronJob) {
+
+                if (!$plugin instanceof ilCronJobProvider) {
+                    continue;
+                }
+
+                try {
+                    $job = $plugin->getCronJobInstance($job_id);
+
                     // should never happen but who knows...
                     if (!sizeof(ilCronManager::getCronJobData($job_id))) {
                         // as job is not "imported" from xml
-                        ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
+                        ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, '');
                     }
+
                     return $job;
+                } catch (OutOfBoundsException $e) {
+                    // Maybe a job was removed from plugin, renamed etc.
                 }
+
+                break;
             }
-            
             return null;
         }
         // system
@@ -509,20 +524,29 @@ class ilCronManager implements \ilCronManagerInterface
     public static function getPluginJobs($a_only_active = false)
     {
         global $DIC;
-
+        /** @var ilPluginAdmin $ilPluginAdmin */
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         $res = array();
         
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Cron", "crnhk") as $pl_name) {
-            $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "Cron", "crnhk", $pl_name);
-                                
-            foreach ((array) $plugin_obj->getCronJobInstances() as $job) {
+        foreach ($ilPluginAdmin->getActivePlugins() as $pluginData) {
+            $plugin = $ilPluginAdmin->getPluginObject(
+                $pluginData['component_type'],
+                $pluginData['component_name'],
+                $pluginData['slot_id'],
+                $pluginData['name']
+            );
+
+            if (!$plugin instanceof ilCronJobProvider) {
+                continue;
+            }
+ 
+            foreach ($plugin->getCronJobInstances() as $job) {
                 $jobData = ilCronManager::getCronJobData($job->getId());
                 $item = array_pop($jobData);
                 if (!is_array($item) || 0 === count($item)) {
                     // as job is not "imported" from xml
-                    ilCronManager::createDefaultEntry($job, $pl_name, IL_COMP_PLUGIN, "");
+                    ilCronManager::createDefaultEntry($job, $pluginData['name'], IL_COMP_PLUGIN, "");
                 }
 
                 $jobData = ilCronManager::getCronJobData($job->getId());
@@ -563,7 +587,7 @@ class ilCronManager implements \ilCronManagerInterface
         if ($a_id) {
             $where[] = $ilDB->in("job_id", $a_id, "", "text");
         } else {
-            $where[] = "class <> " . $ilDB->quote(IL_COMP_PLUGIN, "text");
+            $where[] = "class != " . $ilDB->quote(IL_COMP_PLUGIN, "text");
         }
         if (!$a_include_inactive) {
             $where[] = "job_status = " . $ilDB->quote(1, "integer");
