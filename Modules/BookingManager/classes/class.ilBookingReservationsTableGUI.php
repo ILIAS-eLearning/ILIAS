@@ -170,16 +170,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     public function getSelectableColumns($a_only_advmd = false, $a_include_user = true)
     {
         $cols = array();
-        
+
         if ($this->has_schedule &&
             !(bool) $a_only_advmd) {
             $this->lng->loadLanguageModule("dateplaner");
-            
+
             $cols["week"] = array(
                 "txt" => $this->lng->txt("wk_short"),
                 "default" => true
             );
-            
+
             $cols["weekday"] = array(
                 "txt" => $this->lng->txt("cal_weekday"),
                 "default" => true
@@ -686,7 +686,44 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
         */
     }
-    
+
+    /**
+     * Get additional export columns
+     * @param
+     * @return
+     */
+    protected function getAdditionalExportCols()
+    {
+        $add_cols = [];
+        $cols = $this->getSelectableColumns();
+
+        unset($cols["week"]);
+        unset($cols["weekday"]);
+
+        // non-user columns
+        $user_cols = $this->getSelectableUserColumns();
+        foreach ($this->getSelectedColumns() as $col) {
+            if (array_key_exists($col, $cols)) {
+                if (!isset($user_cols[$col])) {
+                    $add_cols[$col] = $cols[$col]["txt"];
+                }
+            }
+        }
+
+        $add_cols["user_name"] = $this->lng->txt("user");
+
+        // user columns
+        foreach ($this->getSelectedColumns() as $col) {
+            if (array_key_exists($col, $cols)) {
+                if (isset($user_cols[$col])) {
+                    $add_cols[$col] = $cols[$col]["txt"];
+                }
+            }
+        }
+
+        return $add_cols;
+    }
+
     protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("title"));
@@ -701,13 +738,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $a_excel->setCell($a_row, ++$col, $this->lng->txt("status"));
         }
         
-        foreach ($this->getSelectableColumns(true) as $advmd_col) {
-            $a_excel->setCell($a_row, ++$col, $advmd_col["txt"]);
+        foreach ($this->getAdditionalExportCols() as $txt) {
+            $a_excel->setCell($a_row, ++$col, $txt);
         }
-        
-        $a_excel->setCell($a_row, ++$col, $this->lng->txt("user"));
-        
-        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col - 1) . $a_row);
+
+        $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($col) . $a_row);
     }
 
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
@@ -727,11 +762,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_excel->setCell($a_row, ++$col, $status);
         }
-        $a_excel->setCell($a_row, ++$col, $a_set['user_name']);
-        
-        if ($this->advmd) {
-            foreach ($this->advmd as $item) {
-                $advmd_id = (int) $item["id"];
+
+
+        foreach ($this->getAdditionalExportCols() as $colid => $txt) {
+            if (substr($colid, 0, 5) == "advmd") {
+                $advmd_id = (int) substr($colid, 5);
                 $val = " ";
                 if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
                     $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
@@ -740,6 +775,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     }
                 }
                 $a_excel->setCell($a_row, ++$col, $val);
+            } else {
+                $a_excel->setCell($a_row, ++$col, $a_set[$colid]);
             }
         }
     }
@@ -757,11 +794,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $a_csv->addColumn($this->lng->txt("status"));
         }
                 
-        foreach ($this->getSelectableColumns(true) as $advmd_col) {
-            $a_csv->addColumn($advmd_col["txt"]);
+        foreach ($this->getAdditionalExportCols() as $txt) {
+            $a_csv->addColumn($txt);
         }
-        
-        $a_csv->addColumn($this->lng->txt("user"));
+
         $a_csv->addRow();
     }
 
@@ -781,10 +817,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $a_csv->addColumn($status);
         }
-        
-        if ($this->advmd) {
-            foreach ($this->advmd as $item) {
-                $advmd_id = (int) $item["id"];
+
+        foreach ($this->getAdditionalExportCols() as $colid => $txt) {
+            if (substr($colid, 0, 5) == "advmd") {
+                $advmd_id = (int) substr($colid, 5);
                 $val = " ";
                 if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
                     $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
@@ -793,10 +829,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                     }
                 }
                 $a_csv->addColumn($val);
+            } else {
+                $a_csv->addColumn($a_set[$colid]);
             }
         }
-        
-        $a_csv->addColumn($a_set['user_name']);
+
         $a_csv->addRow();
     }
 }
