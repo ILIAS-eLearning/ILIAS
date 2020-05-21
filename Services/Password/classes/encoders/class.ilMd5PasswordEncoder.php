@@ -12,7 +12,7 @@
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     public function __construct(array $config = [])
     {

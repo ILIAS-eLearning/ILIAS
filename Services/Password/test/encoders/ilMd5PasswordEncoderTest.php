@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 /**
  * Class ilMd5PasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>

@@ -12,7 +12,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     protected $costs = '08';
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])
@@ -28,7 +28,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         }
 
         if (!isset($config['cost']) && static::class == self::class) {
-            // Determine the costs only if they are not passed in constructor
             $this->setCosts((string) $this->benchmarkCost(0.05));
         }
 

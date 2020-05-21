@@ -11,13 +11,11 @@ class ilUserPasswordEncoderFactory
     /** @var string */
     protected $defaultEncoder;
 
-    /**
-     * @var ilPasswordEncoder[] Array of supported encoders
-     */
-    protected $encoders = array();
+    /** @var ilPasswordEncoder[] */
+    protected $supportedEncoders = [];
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])
@@ -36,11 +34,11 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @return ilPasswordEncoder[]
      * @throws ilPasswordException
      */
-    protected function getValidEncoders($config) : array
+    protected function getValidEncoders(array $config) : array
     {
         return [
             new ilArgon2idPasswordEncoder($config),
@@ -51,18 +49,18 @@ class ilUserPasswordEncoderFactory
     }
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilPasswordException
      */
     protected function initEncoders(array $config)
     {
-        $this->encoders = [];
+        $this->supportedEncoders = [];
 
         $encoders = $this->getValidEncoders($config);
 
         foreach ($encoders as $encoder) {
             if ($encoder->isSupportedByRuntime()) {
-                $this->encoders[$encoder->getName()] = $encoder;
+                $this->supportedEncoders[$encoder->getName()] = $encoder;
             }
         }
     }
@@ -70,7 +68,7 @@ class ilUserPasswordEncoderFactory
     /**
      * @return string
      */
-    public function getDefaultEncoder() : ?string
+    public function getDefaultEncoder() : string
     {
         return $this->defaultEncoder;
     }
@@ -86,26 +84,27 @@ class ilUserPasswordEncoderFactory
     /**
      * @return ilPasswordEncoder[]
      */
-    public function getEncoders() : array
+    public function getSupportedEncoders() : array
     {
-        return $this->encoders;
+        return $this->supportedEncoders;
     }
 
     /**
-     * @param ilPasswordEncoder[] $encoders
+     * @param ilPasswordEncoder[] $supportedEncoders
      * @throws ilUserException
      */
-    public function setEncoders(array $encoders) : void
+    public function setSupportedEncoders(array $supportedEncoders) : void
     {
-        $this->encoders = array();
-        foreach ($encoders as $encoder) {
+        $this->supportedEncoders = [];
+
+        foreach ($supportedEncoders as $encoder) {
             if (!($encoder instanceof ilPasswordEncoder)) {
                 throw new ilUserException(sprintf(
                     'One of the passed encoders is not valid: %s.',
-                    json_encode($encoder)
+                    print_r($encoder, true)
                 ));
             }
-            $this->encoders[$encoder->getName()] = $encoder;
+            $this->supportedEncoders[$encoder->getName()] = $encoder;
         }
     }
 
@@ -114,30 +113,30 @@ class ilUserPasswordEncoderFactory
      */
     public function getSupportedEncoderNames() : array
     {
-        return array_keys($this->getEncoders());
+        return array_keys($this->getSupportedEncoders());
     }
 
     /**
      * @param string $name
-     * @param bool   $get_default_on_mismatch
+     * @param bool   $fallbackToDefault
      * @return ilPasswordEncoder
      * @throws ilUserException
      */
-    public function getEncoderByName($name, $get_default_on_mismatch = false) : ilPasswordEncoder
+    public function getEncoderByName($name, $fallbackToDefault = false) : ilPasswordEncoder
     {
-        if (!isset($this->encoders[$name])) {
-            if (!$get_default_on_mismatch) {
+        if (!isset($this->supportedEncoders[$name])) {
+            if (!$fallbackToDefault) {
                 throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
             } elseif (!$this->getDefaultEncoder()) {
                 throw new ilUserException('No default encoder specified, fallback not possible.');
-            } elseif (!isset($this->encoders[$this->getDefaultEncoder()])) {
+            } elseif (!isset($this->supportedEncoders[$this->getDefaultEncoder()])) {
                 throw new ilUserException("No default encoder found for name: '{$this->getDefaultEncoder()}'.");
             }
 
-            return $this->encoders[$this->getDefaultEncoder()];
+            return $this->supportedEncoders[$this->getDefaultEncoder()];
         }
 
-        return $this->encoders[$name];
+        return $this->supportedEncoders[$name];
     }
 
     /**
@@ -148,7 +147,7 @@ class ilUserPasswordEncoderFactory
      */
     public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers) : ilPasswordEncoder
     {
-        foreach ($this->getEncoders() as $encoder) {
+        foreach ($this->getSupportedEncoders() as $encoder) {
             foreach ($matchers as $encoderName => $callback) {
                 if (
                     $encoder->getName() === $encoderName &&

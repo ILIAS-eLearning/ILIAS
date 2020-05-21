@@ -12,6 +12,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     private const MIN_SALT_SIZE = 16;
     /** @var string */
     public const SALT_STORAGE_FILENAME = 'pwsalt.txt';
+
     /** @var string|null */
     private $client_salt = null;
     /** @var bool */
@@ -22,7 +23,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     private $data_directory = '';
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])

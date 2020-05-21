@@ -9,30 +9,27 @@
 class ilUserPasswordManager
 {
     /** @var int */
-    const MIN_SALT_SIZE = 16;
+    private const MIN_SALT_SIZE = 16;
 
     /** @var self */
     private static $instance;
 
     /** @var ilUserPasswordEncoderFactory */
-    protected $encoderFactory;
+    private $encoderFactory;
 
     /** @var string */
-    protected $encoderName;
-
-    /** @var array */
-    protected $config = [];
+    private $encoderName;
 
     /** @var ilSetting|null */
-    protected $settings;
+    private $settings;
 
     /** @var ilDBInterface */
-    protected $db;
+    private $db;
 
     /**
      * Please use the singleton method for instance creation
      * The constructor is still public because of the unit tests
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilUserException
      */
     public function __construct(array $config = [])
@@ -43,12 +40,15 @@ class ilUserPasswordManager
                     case 'settings':
                         $this->setSettings($value);
                         break;
+
                     case 'db':
                         $this->setDb($value);
                         break;
+
                     case 'password_encoder':
                         $this->setEncoderName($value);
                         break;
+
                     case 'encoder_factory':
                         $this->setEncoderFactory($value);
                         break;
@@ -57,19 +57,19 @@ class ilUserPasswordManager
         }
 
         if (!$this->getEncoderName()) {
-            throw new ilUserException(sprintf('"password_encoder" must be set in %s.', json_encode($config)));
+            throw new ilUserException(sprintf('"password_encoder" must be set in %s.', print_r($config, true)));
         }
 
         if (!($this->getEncoderFactory() instanceof ilUserPasswordEncoderFactory)) {
             throw new ilUserException(sprintf(
                 '"encoder_factory" must be instance of ilUserPasswordEncoderFactory and set in %s.',
-                json_encode($config)
+                print_r($config, true)
             ));
         }
     }
 
     /**
-     * Single method to reduce footprint (included files, created instances)
+     * Singleton method to reduce footprint (included files, created instances)
      * @return self
      * @throws ilUserException
      * @throws ilPasswordException
@@ -84,20 +84,21 @@ class ilUserPasswordManager
 
         $password_manager = new ilUserPasswordManager(
             [
-                'encoder_factory' => new ilUserPasswordEncoderFactory(
+                'encoder_factory'  => new ilUserPasswordEncoderFactory(
                     [
                         'default_password_encoder' => 'argon2id',
-                        'ignore_security_flaw' => true,
-                        'data_directory' => ilUtil::getDataDir()
+                        'ignore_security_flaw'     => true,
+                        'data_directory'           => ilUtil::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'argon2id',
-                'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
-                'db' => $DIC->database(),
+                'settings'         => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
+                'db'               => $DIC->database(),
             ]
         );
 
         self::$instance = $password_manager;
+
         return self::$instance;
     }
 
@@ -189,6 +190,7 @@ class ilUserPasswordManager
         if ($this->getEncoderName() != $encoder->getName()) {
             if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
+
                 return true;
             }
         } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
@@ -208,6 +210,7 @@ class ilUserPasswordManager
     public function resetLastPasswordChangeForLocalUsers() : void
     {
         $defaultAuthMode = $this->settings->get('auth_mode');
+
         $defaultAuthModeCondition = '';
         if ((int) $defaultAuthMode === (int) AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');

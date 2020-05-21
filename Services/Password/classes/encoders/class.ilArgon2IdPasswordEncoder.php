@@ -16,7 +16,7 @@ class ilArgon2idPasswordEncoder extends ilBasePasswordEncoder
     private $threads;
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      */
     public function __construct(array $config = [])
     {

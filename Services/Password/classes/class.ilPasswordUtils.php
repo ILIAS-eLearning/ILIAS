@@ -23,7 +23,6 @@ class ilPasswordUtils
             }
         }
 
-        // Default random string generation
         $rand = '';
         for ($i = 0; $i < $length; $i++) {
             $rand .= chr(mt_rand(0, 255));

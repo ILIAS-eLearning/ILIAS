@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 use org\bovigo\vfs;
 
 /**
@@ -13,15 +11,15 @@ use org\bovigo\vfs;
 class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
-    const VALID_COSTS = '08';
+    private const VALID_COSTS = '08';
     /** @var string */
-    const PASSWORD = 'password';
+    private const PASSWORD = 'password';
     /** @var string */
-    const WRONG_PASSWORD = 'wrong_password';
+    private const WRONG_PASSWORD = 'wrong_password';
     /** @var string */
-    const CLIENT_SALT = 'homer!12345_/';
+    private const CLIENT_SALT = 'homer!12345_/';
     /** @var string */
-    const PASSWORD_SALT = 'salt';
+    private const PASSWORD_SALT = 'salt';
 
     /** @var vfs\vfsStreamDirectory */
     protected $testDirectory;

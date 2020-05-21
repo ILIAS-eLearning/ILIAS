@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 /**
  * Class ilArgon2IdPasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
@@ -11,10 +9,9 @@ require_once 'Services/Password/test/ilPasswordBaseTest.php';
 class ilArgon2IdPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
-    const PASSWORD = 'password';
-
+    private const PASSWORD = 'password';
     /** @var string */
-    const WRONG_PASSWORD = 'wrong_password';
+    private const WRONG_PASSWORD = 'wrong_password';
 
     /**
      *

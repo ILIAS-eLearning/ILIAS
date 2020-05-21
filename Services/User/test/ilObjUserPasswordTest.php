@@ -394,8 +394,8 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $second_mockencoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $second_mockencoder->expects($this->atLeastOnce())->method('getName')->will($this->returnValue('second_mockencoder'));
 
-        $factory->setEncoders([$encoder, $second_mockencoder]);
-        $this->assertCount(2, $factory->getEncoders());
+        $factory->setSupportedEncoders([$encoder, $second_mockencoder]);
+        $this->assertCount(2, $factory->getSupportedEncoders());
         $this->assertCount(2, $factory->getSupportedEncoderNames());
         $this->assertCount(
             0,
@@ -417,7 +417,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $factory = new ilUserPasswordEncoderFactory([
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $factory->setEncoders(['phpunit']);
+        $factory->setSupportedEncoders(['phpunit']);
     }
 
     /**
@@ -475,7 +475,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
             'default_password_encoder' => $encoder->getName(),
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $factory->setEncoders([$encoder]);
+        $factory->setSupportedEncoders([$encoder]);
         $this->assertEquals($encoder, $factory->getEncoderByName('phpunit', true));
     }
 
@@ -493,7 +493,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
             'default_password_encoder' => $encoder->getName(),
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $factory->setEncoders([$encoder]);
+        $factory->setSupportedEncoders([$encoder]);
         $this->assertEquals($encoder, $factory->getEncoderByName('mockencoder', true));
     }
 }

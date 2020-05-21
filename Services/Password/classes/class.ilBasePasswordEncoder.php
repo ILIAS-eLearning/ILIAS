@@ -34,7 +34,6 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
             $result |= (ord($knownString[$i % $known_string_length]) ^ ord($userString[$i]));
         }
 
-        // They are only identical strings if $result is exactly 0...
         return 0 === $result;
     }
 
