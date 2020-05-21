@@ -58,7 +58,6 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::NEXT
         , self::SORT_ASCENDING
         , self::SORT_DESCENDING
-        , self::SORT
         , self::USER
         , self::MAIL
         , self::NOTIFICATION
@@ -202,5 +201,15 @@ class Glyph implements C\Symbol\Glyph\Glyph
     public function appendOnClick(Signal $signal)
     {
         return $this->appendTriggeredSignal($signal, 'click');
+    }
+
+    /**
+    * @inheritdoc
+    */
+    public function withAction($action)
+    {
+        $clone = clone $this;
+        $clone->action = $action;
+        return $clone;
     }
 }

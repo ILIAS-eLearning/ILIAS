@@ -218,10 +218,14 @@ il.UI.item = il.UI.item || {};
 				var $close_button = this.getCloseButtonOfItem();
 				if($close_button.length && url !== '#'){
 					$close_button.click(function(){
-						var $counter = self.getCounterObjectIfAny();
-						if($counter){
-							$counter.decrementNoveltyCount(amount);
+						//Do not decrement if we deal with an aggregate that still has sibblings.
+						if(!isAggregate() || ! hasSibblings()){
+                            var $counter = self.getCounterObjectIfAny();
+                            if($counter){
+                                $counter.decrementNoveltyCount(amount);
+                            }
 						}
+
 						performAsyncCall(url,{},function(data) {
 							$item.append(data);
 						});
@@ -419,10 +423,10 @@ il.UI.item = il.UI.item || {};
 			 * @param $close_button
 			 */
 			var removeNotificationItem = function () {
-				if(!$item.siblings().children(".il-notification-item").length){
+				if(!hasSibblings()){
 					getParentSlateOfItem().hide();
-					if($item.parents(".il-aggregate-notifications").length) {
-						getParentSlateOfItem().show().siblings().show();
+					if(isAggregate()) {
+                        getParentSlateOfItem().show().siblings().show();
 					}
 				}
 				$item.children().remove();
@@ -438,7 +442,23 @@ il.UI.item = il.UI.item || {};
 					$parent = $('body');
 				}
 				return $parent.find(".il-aggregate-notifications[data-aggregatedby="+getId()+"]");
-			}
+			};
+
+            /**
+			 * Checks if an item has any siblings
+             * @returns {boolean}
+             */
+			var hasSibblings = function () {
+                return $item.siblings().children(".il-notification-item").length > 0;
+            }
+
+            /**
+			 * Checks if an item is an aggregate, aggregated by some other item
+             * @returns {boolean}
+             */
+			var isAggregate = function(){
+				return $item.parents(".il-aggregate-notifications").length > 0;
+			};
 
 			/**
 			 * Get the slate, that contains the item given

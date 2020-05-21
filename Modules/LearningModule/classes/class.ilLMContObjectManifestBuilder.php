@@ -68,7 +68,7 @@ class ilLMContObjectManifestBuilder
 
         // organization start tag
         $attrs = array();
-        $attrs["identifier"] =  "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() .
+        $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() .
             "_" . $this->cont_obj->getId();
         $attrs["structure"] = "hierarchical";
         $this->writer->xmlStartTag("organization", $attrs);

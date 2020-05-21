@@ -872,10 +872,27 @@ class ilNewsItem
     ) {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
-        
+
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
+            if (!ilContainer::_lookupContainerSetting(
+                $obj_id,
+                'cont_use_news',
+                true
+            ) || (
+                !ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'cont_show_news',
+                    true
+                ) && !ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'news_timeline'
+                )
+            )) {
+                return [];
+            }
+
             include_once("./Services/Block/classes/class.ilBlockSetting.php");
             $hide_news_per_date = ilBlockSetting::_lookup(
                 "news",
@@ -1293,16 +1310,16 @@ class ilNewsItem
         }
         
         if ($a_starting_date != "") {
-            $and.= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
+            $and .= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
         }
 
         if ($a_no_auto_generated) {
-            $and.= " AND priority = 1 AND content_type = " . $ilDB->quote("text", "text") . " ";
+            $and .= " AND priority = 1 AND content_type = " . $ilDB->quote("text", "text") . " ";
         }
 
         // this is changed with 4.1 (news table for lm pages)
         if ($this->getContextSubObjId() > 0) {
-            $and.= " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
+            $and .= " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
                 " AND context_sub_obj_type = " . $ilDB->quote($this->getContextSubObjType(), "text");
         }
 
@@ -1348,7 +1365,7 @@ class ilNewsItem
             if ($a_limit > 0 && count($result) >= $a_limit) {
                 continue;
             }
-            if (!$a_for_rss_use || 	(ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
+            if (!$a_for_rss_use || (ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
                 ($rec["priority"] == 0 &&
                 ilBlockSetting::_lookup(
                     "news",
@@ -1471,11 +1488,11 @@ class ilNewsItem
         }
             
         if ($a_starting_date != "") {
-            $and.= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
+            $and .= " AND creation_date > " . $ilDB->quote($a_starting_date, "timestamp") . " ";
         }
 
         if ($a_no_auto_generated) {
-            $and.= " AND priority = 1 AND content_type = " . $ilDB->quote("text", "text") . " ";
+            $and .= " AND priority = 1 AND content_type = " . $ilDB->quote("text", "text") . " ";
         }
 
         if ($a_limit > 0) {
@@ -1483,7 +1500,7 @@ class ilNewsItem
         }
 
         if (is_array($a_exclude) && count($a_exclude) > 0) {
-            $and.= " AND " . $ilDB->in("id", $a_exclude, true, "integer") . " ";
+            $and .= " AND " . $ilDB->in("id", $a_exclude, true, "integer") . " ";
         }
 
         $ids = array();
@@ -1822,7 +1839,7 @@ class ilNewsItem
         }
 
         if ($a_starting_date != "") {
-            $and.= " AND creation_date >= " . $ilDB->quote($a_starting_date, "timestamp");
+            $and .= " AND creation_date >= " . $ilDB->quote($a_starting_date, "timestamp");
         }
 
         $query = "SELECT DISTINCT(context_obj_id) AS obj_id FROM il_news_item" .

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,14 +7,9 @@
  */
 class ilSamlSettings
 {
-    /**
-     * @var self
-     */
+    /** @var self */
     protected static $instance = null;
-
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting */
     protected $settings;
 
     /**
@@ -28,7 +23,7 @@ class ilSamlSettings
     /**
      * @return self
      */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -38,17 +33,17 @@ class ilSamlSettings
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isDisplayedOnLoginPage()
+    public function isDisplayedOnLoginPage() : bool
     {
         return (bool) $this->settings->get('login_form', 0);
     }
 
     /**
-     * @param $displayed_on_login_page boolean
+     * @param bool $displayed_on_login_page
      */
-    public function setLoginFormStatus($displayed_on_login_page)
+    public function setLoginFormStatus(bool $displayed_on_login_page) : void
     {
         $this->settings->set('login_form', (int) $displayed_on_login_page);
     }

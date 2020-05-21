@@ -37,8 +37,11 @@ class State
     /**
      * Get the value for the given key.
      */
-    public function getValueFor(string $key) : string
+    public function getValueFor(string $key) : ?string
     {
+        if (!$this->store) {
+            return null;
+        }
         return $this->store[$key];
     }
 

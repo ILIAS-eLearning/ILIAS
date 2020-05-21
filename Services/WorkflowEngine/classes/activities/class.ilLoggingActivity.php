@@ -61,7 +61,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     public function setLogFile($a_log_file)
     {
-        $extension = substr($a_log_file, strlen($a_log_file)-4, 4);
+        $extension = substr($a_log_file, strlen($a_log_file) - 4, 4);
         $this->checkExtensionValidity($extension);
         $this->checkFileWriteability($a_log_file);
         $this->log_file = $a_log_file;

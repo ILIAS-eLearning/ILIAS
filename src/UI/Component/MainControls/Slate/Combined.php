@@ -4,13 +4,15 @@
 
 namespace ILIAS\UI\Component\MainControls\Slate;
 
+use ILIAS\UI\Component\Divider\Horizontal;
+
 /**
  * This describes the Combined Slate
  */
 interface Combined extends Slate
 {
     /**
-     * @param Slate|Bulky $entry
+     * @param Slate|Bulky|Horizontal $entry
      */
     public function withAdditionalEntry($entry) : Combined;
 }

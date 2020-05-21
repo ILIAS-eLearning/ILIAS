@@ -67,6 +67,9 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 
                     if ($refId === 0) {
                         $wspId = $this->getWspId($blog_id, $user_id);
+                        if ($wspId === 0) {
+                            continue;
+                        }
                         $url = ilLink::_getStaticLink($wspId, 'blog', true, "_" . $post_id . "_edit_wsp");
                     }
 

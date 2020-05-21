@@ -1,59 +1,43 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
-require_once 'Modules/TestQuestionPool/classes/class.ilLogicalAnswerComparisonExpressionInputGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionComparisonExpressionList.php';
-
-require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
-require_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
-
 /**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package     Modules/Test
+ * @author  Björn Heyser <bheyser@databay.de>
+ * @package Modules/Test
  */
 class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var ilAssQuestionSkillAssignmentsGUI
-     */
-    protected $parentGUI;
-    
-    /**
-     * @var assQuestion
-     */
+    /** @var ilGlobalTemplateInterface */
+    private $pageTemplate;
+    /** @var ilAssQuestionSkillAssignmentsGUI */
+    private $parentGUI;
+    /** @var assQuestion */
     private $question = null;
-
-    /**
-     * @var ilAssQuestionSkillAssignment
-     */
+    /** @var ilAssQuestionSkillAssignment */
     private $assignment = null;
-    
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $manipulationEnabled = false;
+    /** @var \ILIAS\UI\Factory */
+    private $uiFactory;
+    /** @var \ILIAS\UI\Renderer */
+    private $uiRenderer;
 
-    
-    public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilAssQuestionSkillAssignmentsGUI $parentGUI)
-    {
+    public function __construct(
+        ilGlobalTemplateInterface $pageTemplate,
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilAssQuestionSkillAssignmentsGUI
+        $parentGUI
+    ) {
+        global $DIC;
+
+        $this->pageTemplate = $pageTemplate;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->parentGUI = $parentGUI;
-        
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
+
         parent::__construct();
     }
     
@@ -143,17 +127,6 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function buildLacLegendToggleButton()
-    {
-        if ($this->assignment->hasEvalModeBySolution()) {
-            $langVar = 'ass_lac_hide_legend_btn';
-        } else {
-            $langVar = 'ass_lac_show_legend_btn';
-        }
-
-        return '<a id="lac_legend_toggle_btn" href="#">' . $this->lng->txt($langVar) . '</a>';
-    }
-    
     private function populateFullProperties()
     {
         $evaluationMode = new ilRadioGroupInputGUI($this->lng->txt('condition'), 'eval_mode');
@@ -184,12 +157,27 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         $questSolutionCompareExpressions->setQuestionObject($this->question);
         $questSolutionCompareExpressions->setValues($this->assignment->getSolutionComparisonExpressionList()->get());
         $questSolutionCompareExpressions->setMinvalueShouldBeGreater(false);
+
         $questSolutionCompareExpressions->setMinValue(1);
-        if (!$this->isManipulationEnabled()) {
-            $questSolutionCompareExpressions->setDisabled(true);
+        if ($this->isManipulationEnabled()) {
+            if ($this->getQuestion() instanceof iQuestionCondition) {
+                // #19192
+                $legendGUI = new ilAssLacLegendGUI($this->pageTemplate, $this->lng, $this->uiFactory);
+                $legendGUI->setQuestionOBJ($this->getQuestion());
+                $legenModal = $legendGUI->get();
+
+                $legendToggleButton = $this->uiFactory
+                    ->button()
+                    ->shy($this->lng->txt('ass_lac_show_legend_btn'), '#')
+                    ->withOnClick($legenModal->getShowSignal());
+
+                $questSolutionCompareExpressions->setInfo($this->uiRenderer->render([
+                    $legendToggleButton,
+                    $legenModal
+                ]));
+            }
         } else {
-            // #19192
-            $questSolutionCompareExpressions->setInfo($this->buildLacLegendToggleButton());
+            $questSolutionCompareExpressions->setDisabled(true);
         }
         $evalOptionLogicalAnswerCompare->addSubItem($questSolutionCompareExpressions);
 

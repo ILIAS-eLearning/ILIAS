@@ -38,16 +38,16 @@ class ilQuestionpoolExport
         $ilias = $DIC['ilias'];
         $lng = $DIC['lng'];
 
-        $this->qpl_obj =&$a_qpl_obj;
+        $this->qpl_obj = &$a_qpl_obj;
         if (!is_array($array_questions)) {
-            $array_questions =&$a_qpl_obj->getAllQuestionIds();
+            $array_questions = &$a_qpl_obj->getAllQuestionIds();
         }
         
-        $this->err =&$ilErr;
-        $this->ilias =&$ilias;
-        $this->db =&$ilDB;
+        $this->err = &$ilErr;
+        $this->ilias = &$ilias;
+        $this->db = &$ilDB;
         $this->mode = $a_mode;
-        $this->lng =&$lng;
+        $this->lng = &$lng;
         
         $settings = $this->ilias->getAllSettings();
         $this->inst_id = IL_INST_ID;

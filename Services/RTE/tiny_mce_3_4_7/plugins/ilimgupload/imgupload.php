@@ -29,13 +29,13 @@ if (defined('ILIAS_HTTP_PATH')) {
 $installpath = $htdocs;
 
 // directory where tinymce files are located
-$iliasMobPath      = 'data/' . CLIENT_ID . '/mobs/';
+$iliasMobPath = 'data/' . CLIENT_ID . '/mobs/';
 $iliasAbsolutePath = $htdocs;
-$iliasHttpPath     = $weburl;
+$iliasHttpPath = $weburl;
 
 // base url for images
 $tinyMCE_base_url = $weburl;
-$tinyMCE_DOC_url  = $installpath;
+$tinyMCE_DOC_url = $installpath;
 
 // allowed extentions for uploaded image files
 $tinyMCE_valid_imgs = array('gif', 'jpg', 'jpeg', 'png');
@@ -51,11 +51,11 @@ $errors->general = array();
 $errors->fields = array();
 
 include_once 'webservice/soap/include/inc.soap_functions.php';
-$mobs        = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
-$preview     = '';
+$mobs = ilSoapFunctions::getMobsOfObject(session_id() . '::' . CLIENT_ID, $_GET['obj_type'] . ':html', (int) $_GET['obj_id']);
+$preview = '';
 $mob_details = array();
-$img         = isset($_POST['imglist']) ? $_POST['imglist'] : '';
-$_root       = $installpath;
+$img = isset($_POST['imglist']) ? $_POST['imglist'] : '';
+$_root = $installpath;
 
 // upload images
 $uploadedFile = false;
@@ -131,7 +131,7 @@ if (isset($_FILES['img_file']) && is_array($_FILES['img_file'])) {
             // Append file to array of existings mobs of this context (obj_type and obj_id)
             $mobs[$media_object->getId()] = $media_object->getId();
     
-            $uploadedFile   = $media_object->getId();
+            $uploadedFile = $media_object->getId();
             $_GET['update'] = 1;
         }
     }
@@ -177,15 +177,15 @@ if ($_GET["update"] == 1) {
 $mob_details = array();
 foreach ($mobs as $mob) {
     $mobdir = $iliasAbsolutePath . $iliasMobPath . 'mm_' . $mob . '/';
-    $d      = @dir($mobdir);
+    $d = @dir($mobdir);
     if ($d) {
         $i = 0;
         while (false !== ($entry = $d->read())) {
             $ext = strtolower(substr(strrchr($entry, '.'), 1));
             if (is_file($mobdir . $entry) && in_array($ext, $tinyMCE_valid_imgs)) {
                 $mob_details[$uploadedFile]['file_name'] = $entry;
-                $mob_details[$uploadedFile]['file_dir']  = $mobdir;
-                $mob_details[$uploadedFile]['http_dir']  = $iliasHttpPath . $iliasMobPath . 'mm_' . $mob . '/';
+                $mob_details[$uploadedFile]['file_dir'] = $mobdir;
+                $mob_details[$uploadedFile]['http_dir'] = $iliasHttpPath . $iliasMobPath . 'mm_' . $mob . '/';
             }
         }
         $d->close();

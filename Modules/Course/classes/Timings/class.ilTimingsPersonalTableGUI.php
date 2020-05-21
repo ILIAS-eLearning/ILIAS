@@ -133,7 +133,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $set['ref_id'] . '][active]');
-        $this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type']  == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+        $this->tpl->setVariable('CHECKED_ACTIVE', ($set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
         
         // start
         include_once './Services/Form/classes/class.ilDateTimeInputGUI.php';

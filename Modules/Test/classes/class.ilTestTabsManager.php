@@ -626,7 +626,7 @@ class ilTestTabsManager
             );
         }
         
-        if ($this->checkScoreParticipantsTabAccess()  && !$this->isHiddenTab(self::TAB_ID_MANUAL_SCORING)) {
+        if ($this->checkScoreParticipantsTabAccess() && !$this->isHiddenTab(self::TAB_ID_MANUAL_SCORING)) {
             include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
             $scoring = ilObjAssessmentFolder::_getManualScoring();
             if (count($scoring)) {
@@ -655,7 +655,7 @@ class ilTestTabsManager
             );
         }
         
-        if ($this->checkStatisticsTabAccess()  && !$this->isHiddenTab(self::TAB_ID_STATISTICS)) {
+        if ($this->checkStatisticsTabAccess() && !$this->isHiddenTab(self::TAB_ID_STATISTICS)) {
             // statistics tab
             $this->tabs->addTarget(
                 self::TAB_ID_STATISTICS,

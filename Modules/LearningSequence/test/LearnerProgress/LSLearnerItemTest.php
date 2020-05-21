@@ -30,19 +30,6 @@ class LSLearnerItemTest extends TestCase
 
     public function testCreate() : LSLearnerItem
     {
-        $ui_reflection = new ReflectionClass(State::class);
-        $methods = array_map(
-            function ($m) {
-                return $m->getName();
-            },
-            $ui_reflection->getMethods()
-        );
-
-        $kiosk_state = $this->getMockBuilder(State::class)
-            ->setMethods($methods)
-            ->getMock()
-        ;
-
         $ls_item = new LSItem(
             self::TYPE,
             self::TITLE,
@@ -58,14 +45,12 @@ class LSLearnerItemTest extends TestCase
             self::USER_ID,
             self::LP_STATUS,
             self::AVAILABILITY_STATUS,
-            $kiosk_state,
             $ls_item
         );
 
         $this->assertEquals($object->getUserId(), self::USER_ID);
         $this->assertEquals($object->getLearningProgressStatus(), self::LP_STATUS);
         $this->assertEquals($object->getAvailability(), self::AVAILABILITY_STATUS);
-        $this->assertEquals($object->getState(), $kiosk_state);
 
         return $object;
     }

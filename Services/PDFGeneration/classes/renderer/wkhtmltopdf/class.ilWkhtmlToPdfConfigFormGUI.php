@@ -29,8 +29,6 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     public function addConfigForm($form)
     {
-        $form->setTitle($this->translate('config'));
-
         $path = new ilTextInputGUI($this->translate('path'), 'path');
         $form->addItem($path);
 
@@ -387,7 +385,7 @@ class ilWkhtmlToPdfConfigFormGUI
     public function validateForm()
     {
         $everything_ok = true;
-        $config        = new ilWkhtmlToPdfConfig();
+        $config = new ilWkhtmlToPdfConfig();
         $config->setPath(ilUtil::stripSlashes($_POST['path']));
         if (mb_stripos($config->getPath(), 'wkhtmlto') === false) {
             ilUtil::sendFailure($this->lng->txt("file_not_found"), true);
@@ -430,11 +428,20 @@ class ilWkhtmlToPdfConfigFormGUI
             $config->setFooterHtmlSpacing((int) $_POST['footer_html_spacing']);
             $config->setFooterHtml(ilUtil::stripSlashes($_POST['footer_html']));
             $config->setOverwriteDefaultFont(ilUtil::stripSlashes($_POST['overwrite_font']));
+            $this->saveNewDefaultBinaryPath($config->getPath());
         }
 
         return $everything_ok;
     }
 
+    /**
+     * @param $path
+     */
+    protected function saveNewDefaultBinaryPath($path){
+        $settings = new ilSetting('wkhtmltopdfrenderer');
+        $settings->set('path', $path);
+    }
+    
     /**
      * @param ilPropertyFormGUI $form
      * @return array
@@ -442,43 +449,43 @@ class ilWkhtmlToPdfConfigFormGUI
     public function getConfigFromForm(ilPropertyFormGUI $form)
     {
         return array(
-            'path'                     => $form->getItemByPostVar('path')->getValue(),
-            'zoom'                     => $form->getItemByPostVar('zoom')->getValue(),
-            'external_links'           => $form->getItemByPostVar('external_links')->getChecked(),
-            'enable_forms'             => $form->getItemByPostVar('enable_forms')->getChecked(),
-            'user_stylesheet'          => $form->getItemByPostVar('user_stylesheet')->getValue(),
-            'low_quality'              => $form->getItemByPostVar('low_quality')->getChecked(),
-            'greyscale'                => $form->getItemByPostVar('greyscale')->getChecked(),
-            'orientation'              => $form->getItemByPostVar('orientation')->getValue(),
-            'page_size'                => $form->getItemByPostVar('page_size')->getValue(),
-            'margin_left'              => $form->getItemByPostVar('margin_left')->getValue(),
-            'margin_right'             => $form->getItemByPostVar('margin_right')->getValue(),
-            'margin_top'               => $form->getItemByPostVar('margin_top')->getValue(),
-            'margin_bottom'            => $form->getItemByPostVar('margin_bottom')->getValue(),
-            'print_media_type'         => $form->getItemByPostVar('print_media_type')->getChecked(),
-            'javascript_delay'         => $form->getItemByPostVar('javascript_delay')->getValue(),
-            'checkbox_svg'             => $form->getItemByPostVar('checkbox_svg')->getValue(),
-            'checkbox_checked_svg'     => $form->getItemByPostVar('checkbox_checked_svg')->getValue(),
-            'radio_button_svg'         => $form->getItemByPostVar('radio_button_svg')->getValue(),
+            'path' => $form->getItemByPostVar('path')->getValue(),
+            'zoom' => $form->getItemByPostVar('zoom')->getValue(),
+            'external_links' => $form->getItemByPostVar('external_links')->getChecked(),
+            'enable_forms' => $form->getItemByPostVar('enable_forms')->getChecked(),
+            'user_stylesheet' => $form->getItemByPostVar('user_stylesheet')->getValue(),
+            'low_quality' => $form->getItemByPostVar('low_quality')->getChecked(),
+            'greyscale' => $form->getItemByPostVar('greyscale')->getChecked(),
+            'orientation' => $form->getItemByPostVar('orientation')->getValue(),
+            'page_size' => $form->getItemByPostVar('page_size')->getValue(),
+            'margin_left' => $form->getItemByPostVar('margin_left')->getValue(),
+            'margin_right' => $form->getItemByPostVar('margin_right')->getValue(),
+            'margin_top' => $form->getItemByPostVar('margin_top')->getValue(),
+            'margin_bottom' => $form->getItemByPostVar('margin_bottom')->getValue(),
+            'print_media_type' => $form->getItemByPostVar('print_media_type')->getChecked(),
+            'javascript_delay' => $form->getItemByPostVar('javascript_delay')->getValue(),
+            'checkbox_svg' => $form->getItemByPostVar('checkbox_svg')->getValue(),
+            'checkbox_checked_svg' => $form->getItemByPostVar('checkbox_checked_svg')->getValue(),
+            'radio_button_svg' => $form->getItemByPostVar('radio_button_svg')->getValue(),
             'radio_button_checked_svg' => $form->getItemByPostVar('radio_button_checked_svg')->getValue(),
-            'header_select'            => $form->getItemByPostVar('header_select')->getValue(),
-            'head_text_left'           => $form->getItemByPostVar('head_text_left')->getValue(),
-            'head_text_center'         => $form->getItemByPostVar('head_text_center')->getValue(),
-            'head_text_right'          => $form->getItemByPostVar('head_text_right')->getValue(),
-            'head_text_spacing'        => $form->getItemByPostVar('head_text_spacing')->getValue(),
-            'head_text_line'           => $form->getItemByPostVar('head_text_line')->getValue(),
-            'head_html_line'           => $form->getItemByPostVar('head_html_line')->getValue(),
-            'head_html_spacing'        => $form->getItemByPostVar('head_html_spacing')->getValue(),
-            'head_html'                => $form->getItemByPostVar('head_html')->getValue(),
-            'footer_select'            => $form->getItemByPostVar('footer_select')->getValue(),
-            'footer_text_left'         => $form->getItemByPostVar('footer_text_left')->getValue(),
-            'footer_text_right'        => $form->getItemByPostVar('footer_text_right')->getValue(),
-            'footer_text_spacing'      => $form->getItemByPostVar('footer_text_spacing')->getValue(),
-            'footer_text_center'       => $form->getItemByPostVar('footer_text_center')->getValue(),
-            'footer_text_line'         => $form->getItemByPostVar('footer_text_line')->getValue(),
-            'footer_html'              => $form->getItemByPostVar('footer_html')->getValue(),
-            'footer_html_spacing'      => $form->getItemByPostVar('footer_html_spacing')->getValue(),
-            'overwrite_font'           => $form->getItemByPostVar('overwrite_font')->getValue()
+            'header_select' => $form->getItemByPostVar('header_select')->getValue(),
+            'head_text_left' => $form->getItemByPostVar('head_text_left')->getValue(),
+            'head_text_center' => $form->getItemByPostVar('head_text_center')->getValue(),
+            'head_text_right' => $form->getItemByPostVar('head_text_right')->getValue(),
+            'head_text_spacing' => $form->getItemByPostVar('head_text_spacing')->getValue(),
+            'head_text_line' => $form->getItemByPostVar('head_text_line')->getValue(),
+            'head_html_line' => $form->getItemByPostVar('head_html_line')->getValue(),
+            'head_html_spacing' => $form->getItemByPostVar('head_html_spacing')->getValue(),
+            'head_html' => $form->getItemByPostVar('head_html')->getValue(),
+            'footer_select' => $form->getItemByPostVar('footer_select')->getValue(),
+            'footer_text_left' => $form->getItemByPostVar('footer_text_left')->getValue(),
+            'footer_text_right' => $form->getItemByPostVar('footer_text_right')->getValue(),
+            'footer_text_spacing' => $form->getItemByPostVar('footer_text_spacing')->getValue(),
+            'footer_text_center' => $form->getItemByPostVar('footer_text_center')->getValue(),
+            'footer_text_line' => $form->getItemByPostVar('footer_text_line')->getValue(),
+            'footer_html' => $form->getItemByPostVar('footer_html')->getValue(),
+            'footer_html_spacing' => $form->getItemByPostVar('footer_html_spacing')->getValue(),
+            'overwrite_font' => $form->getItemByPostVar('overwrite_font')->getValue()
         );
     }
 

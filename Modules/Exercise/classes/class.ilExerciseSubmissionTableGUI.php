@@ -77,7 +77,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $this->ass_types = ilExAssignmentTypes::getInstance();
 
-        $this->ass_type = 	$this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
+        $this->ass_type = $this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
 
         $this->initMode($a_item_id);
         

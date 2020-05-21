@@ -79,7 +79,7 @@ class ilAuthFrontend
     {
         $this->getStatus()->setStatus(ilAuthStatus::STATUS_UNDEFINED);
         $this->getStatus()->setReason('');
-        $this->getStatus()->setAuthenticatedUserId(0);
+        $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
     }
     
     /**
@@ -229,7 +229,7 @@ class ilAuthFrontend
         if (!$user instanceof ilObjUser) {
             $this->getLogger()->error('Cannot instantiate user account with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $this->getStatus()->setAuthenticatedUserId(0);
+            $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('auth_err_invalid_user_account');
             return false;
         }
@@ -237,7 +237,7 @@ class ilAuthFrontend
         if (!$this->checkExceededLoginAttempts($user)) {
             $this->getLogger()->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $this->getStatus()->setAuthenticatedUserId(0);
+            $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('err_inactive_login_attempts');
             return false;
         }
@@ -245,7 +245,7 @@ class ilAuthFrontend
         if (!$this->checkActivation($user)) {
             $this->getLogger()->info('Authentication failed for inactive user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $this->getStatus()->setAuthenticatedUserId(0);
+            $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('err_inactive');
             return false;
         }
@@ -260,7 +260,7 @@ class ilAuthFrontend
             } else {
                 $this->getLogger()->debug('Accout reactivation codes are inactive');
                 $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-                $this->getStatus()->setAuthenticatedUserId(0);
+                $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             }
             $this->getStatus()->setReason('time_limit_reached');
             return false;
@@ -270,7 +270,7 @@ class ilAuthFrontend
         if (!$this->checkIp($user)) {
             $this->getLogger()->info('Authentication failed (wrong ip) for user with id: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $this->getStatus()->setAuthenticatedUserId(0);
+            $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             
             $this->getStatus()->setTranslatedReason(
                 sprintf(
@@ -286,7 +286,7 @@ class ilAuthFrontend
         if (!$this->checkSimultaneousLogins($user)) {
             $this->getLogger()->info('Authentication failed: simultaneous logins forbidden for user: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
-            $this->getStatus()->setAuthenticatedUserId(0);
+            $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
             $this->getStatus()->setReason('simultaneous_login_detected');
             return false;
         }

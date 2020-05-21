@@ -31,8 +31,8 @@ class ilUsersGalleryUserImpl implements ilUsersGalleryUser
      */
     public function __construct(ilObjUser $aggregated_user, $public_name, $sortable_public_name)
     {
-        $this->aggregated_user      = $aggregated_user;
-        $this->public_name          = $public_name;
+        $this->aggregated_user = $aggregated_user;
+        $this->public_name = $public_name;
         $this->sortable_public_name = $sortable_public_name;
     }
 

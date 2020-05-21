@@ -40,7 +40,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
         }
 
         $contents = file_get_contents($tmp_file_name);
-        $matches  = null;
+        $matches = null;
         if (
             !preg_match_all('/<area(.+)>/siU', $contents, $matches) ||
             !is_array($matches) ||
@@ -51,7 +51,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
             return false;
         }
 
-        for ($i = 0; $i< count($matches[1]); $i++) {
+        for ($i = 0; $i < count($matches[1]); $i++) {
             preg_match("/alt\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $alt);
             preg_match("/coords\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $coords);
             preg_match("/shape\s*=\s*\"(.+)\"\s*/siU", $matches[1][$i], $shape);

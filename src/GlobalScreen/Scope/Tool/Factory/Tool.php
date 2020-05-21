@@ -14,10 +14,9 @@ use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Tool
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol, supportsTerminating, isToolItem
+class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
 {
 
     /**
@@ -45,10 +44,8 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
      */
     protected $close_callback;
 
-
     /**
      * @param string $title
-     *
      * @return Tool
      */
     public function withTitle(string $title) : hasTitle
@@ -59,7 +56,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $clone;
     }
 
-
     /**
      * @return string
      */
@@ -67,7 +63,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
     {
         return $this->title;
     }
-
 
     /**
      * @inheritDoc
@@ -80,7 +75,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -91,7 +85,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -106,7 +99,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
 
         return $this->content;
     }
-
 
     /**
      * @inheritDoc
@@ -126,7 +118,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -135,7 +126,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $this->symbol;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -143,7 +133,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
     {
         return ($this->symbol instanceof Symbol);
     }
-
 
     /**
      * @inheritDoc
@@ -156,7 +145,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $clone;
     }
 
-
     /**
      * @return Closure|null
      */
@@ -164,7 +152,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
     {
         return $this->terminated_callback;
     }
-
 
     /**
      * @return bool

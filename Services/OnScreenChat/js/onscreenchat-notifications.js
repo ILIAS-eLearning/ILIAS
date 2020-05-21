@@ -294,9 +294,10 @@
 			 */
 			gc() {
 				root.setInterval(function() {
-					let items = {...ls};
+					// https://caniuse.com/#feat=mdn-javascript_operators_destructuring_rest_in_objects
+					//let items = {...ls};
 
-					for (let key in items) {
+					for (let [key, value] of Object.entries(ls)) {
 						if (key.indexOf(lsScope) !== -1) {
 							let notification;
 

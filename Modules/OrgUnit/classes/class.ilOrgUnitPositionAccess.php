@@ -127,11 +127,11 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                         switch ($authority->getScope()) {
                             case ilOrgUnitAuthority::SCOPE_SAME_ORGU:
                                 $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id);
-                                $allowed_user_ids = $allowed_user_ids + $allowed;
+                                $allowed_user_ids = array_merge($allowed_user_ids,$allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
                                 $allowed = $this->ua->getUserIdsOfOrgUnitsOfUsersPosition($position->getId(), $user_id, true);
-                                $allowed_user_ids = $allowed_user_ids + $allowed;
+                                $allowed_user_ids = array_merge($allowed_user_ids,$allowed);
                                 break;
                         }
                         break;
@@ -139,11 +139,11 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
                         switch ($authority->getScope()) {
                             case ilOrgUnitAuthority::SCOPE_SAME_ORGU:
                                 $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver());
-                                $allowed_user_ids = $allowed_user_ids + $allowed;
+                                $allowed_user_ids = array_merge($allowed_user_ids,$allowed);
                                 break;
                             case ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS:
                                 $allowed = $this->ua->getUserIdsOfUsersOrgUnitsInPosition($user_id, $position->getId(), $authority->getOver(), true);
-                                $allowed_user_ids = $allowed_user_ids + $allowed;
+                                $allowed_user_ids = array_merge($allowed_user_ids,$allowed);
                                 break;
                         }
                         break;

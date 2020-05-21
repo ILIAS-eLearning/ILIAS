@@ -73,7 +73,7 @@ class ilObjectOwnershipManagementGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $next_class =$ilCtrl->getNextClass($this);
+        $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
         switch ($next_class) {

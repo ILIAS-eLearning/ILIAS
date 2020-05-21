@@ -38,7 +38,7 @@ class ilObjSCORMTracking
         }
     }
 
-    public function store($obj_id=0, $sahs_id=0, $extractData=1)
+    public function store($obj_id = 0, $sahs_id = 0, $extractData = 1)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -59,7 +59,7 @@ class ilObjSCORMTracking
             $sahs_id = ($_GET["sahs_id"] != "")	? $_GET["sahs_id"] : $_POST["sahs_id"];
         }
             
-        if ($extractData==1) {
+        if ($extractData == 1) {
             $this->extractData();
         }
 
@@ -88,12 +88,12 @@ class ilObjSCORMTracking
                         $insert["right"] . ",sahs_id:" . $sahs_id . ",user_id:" . $user_id . "\n");
                 } else {
                     $ilDB->insert('scorm_tracking', array(
-                        'obj_id'		=> array('integer', $obj_id),
-                        'user_id'		=> array('integer', $user_id),
-                        'sco_id'		=> array('integer', $sahs_id),
-                        'lvalue'		=> array('text', $insert["left"]),
-                        'rvalue'		=> array('clob', $insert["right"]),
-                        'c_timestamp'	=> array('timestamp', ilUtil::now())
+                        'obj_id' => array('integer', $obj_id),
+                        'user_id' => array('integer', $user_id),
+                        'sco_id' => array('integer', $sahs_id),
+                        'lvalue' => array('text', $insert["left"]),
+                        'rvalue' => array('clob', $insert["right"]),
+                        'c_timestamp' => array('timestamp', ilUtil::now())
                     ));
                                         
                     fwrite($f, "Insert - L:" . $insert["left"] . ",R:" .
@@ -116,14 +116,14 @@ class ilObjSCORMTracking
                     $ilDB->update(
                         'scorm_tracking',
                         array(
-                            'rvalue'		=> array('clob', $update["right"]),
-                            'c_timestamp'	=> array('timestamp', ilUtil::now())
+                            'rvalue' => array('clob', $update["right"]),
+                            'c_timestamp' => array('timestamp', ilUtil::now())
                         ),
                         array(
-                            'user_id'		=> array('integer', $user_id),
-                            'sco_id'		=> array('integer', $sahs_id),
-                            'lvalue'		=> array('text', $update["left"]),
-                            'obj_id'		=> array('integer', $obj_id)
+                            'user_id' => array('integer', $user_id),
+                            'sco_id' => array('integer', $sahs_id),
+                            'lvalue' => array('text', $update["left"]),
+                            'obj_id' => array('integer', $obj_id)
                         )
                     );
                 } else {
@@ -143,7 +143,7 @@ class ilObjSCORMTracking
         ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
     }
     
-    public static function storeJsApi($obj_id=0)
+    public static function storeJsApi($obj_id = 0)
     {
         // global $DIC;
         // $ilLog = $DIC['ilLog'];
@@ -161,16 +161,16 @@ class ilObjSCORMTracking
 
         header('Content-Type: text/plain; charset=UTF-8');
 
-        $rval=self::storeJsApiCmi($user_id, $obj_id, $data);
-        if ($rval!=true) {
+        $rval = self::storeJsApiCmi($user_id, $obj_id, $data);
+        if ($rval != true) {
             print("storeJsApiCmi failed");
         } else {
-            $rval=self::syncGlobalStatus($user_id, $obj_id, $data, $data->now_global_status);
-            if ($rval!=true) {
+            $rval = self::syncGlobalStatus($user_id, $obj_id, $data, $data->now_global_status);
+            if ($rval != true) {
                 print("syncGlobalStatus failed");
             }
         }
-        if ($rval==true) {
+        if ($rval == true) {
             print("ok");
         }
     }
@@ -181,11 +181,11 @@ class ilObjSCORMTracking
         $ilLog = $DIC['ilLog'];
         $ilDB = $DIC['ilDB'];
         
-        $b_updateStatus=false;
+        $b_updateStatus = false;
         
-        $b_messageLog=false;
+        $b_messageLog = false;
         if ($ilLog->current_log_level == 30) {
-            $b_messageLog=true;
+            $b_messageLog = true;
         }
 
         if ($b_messageLog) {
@@ -199,7 +199,7 @@ class ilObjSCORMTracking
         // $aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
         // }
         // }
-        for ($i=0;$i<count($data->cmi);$i++) {
+        for ($i = 0;$i < count($data->cmi);$i++) {
             $aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => $data->cmi[$i][2]);
             //			$aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => rawurldecode($data->cmi[$i][2]));
         }
@@ -225,14 +225,14 @@ class ilObjSCORMTracking
                     $ilDB->update(
                         'scorm_tracking',
                         array(
-                            'rvalue'		=> array('clob', $a_data["right"]),
-                            'c_timestamp'	=> array('timestamp', ilUtil::now())
+                            'rvalue' => array('clob', $a_data["right"]),
+                            'c_timestamp' => array('timestamp', ilUtil::now())
                         ),
                         array(
-                            'user_id'		=> array('integer', $user_id),
-                            'sco_id'		=> array('integer', $a_data["sco_id"]),
-                            'lvalue'		=> array('text', $a_data["left"]),
-                            'obj_id'		=> array('integer', $obj_id)
+                            'user_id' => array('integer', $user_id),
+                            'sco_id' => array('integer', $a_data["sco_id"]),
+                            'lvalue' => array('text', $a_data["left"]),
+                            'obj_id' => array('integer', $obj_id)
                         )
                     );
                     if ($b_messageLog) {
@@ -244,12 +244,12 @@ class ilObjSCORMTracking
                         $b_updateStatus = true;
                     }
                     $ilDB->insert('scorm_tracking', array(
-                        'obj_id'		=> array('integer', $obj_id),
-                        'user_id'		=> array('integer', $user_id),
-                        'sco_id'		=> array('integer', $a_data["sco_id"]),
-                        'lvalue'		=> array('text', $a_data["left"]),
-                        'rvalue'		=> array('clob', $a_data["right"]),
-                        'c_timestamp'	=> array('timestamp', ilUtil::now())
+                        'obj_id' => array('integer', $obj_id),
+                        'user_id' => array('integer', $user_id),
+                        'sco_id' => array('integer', $a_data["sco_id"]),
+                        'lvalue' => array('text', $a_data["left"]),
+                        'rvalue' => array('clob', $a_data["right"]),
+                        'c_timestamp' => array('timestamp', ilUtil::now())
                     ));
                     if ($b_messageLog) {
                         $ilLog->write("ScormAicc: storeJsApi Inserted - L:" . $a_data["left"] . ",R:" .
@@ -274,7 +274,7 @@ class ilObjSCORMTracking
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        $saved_global_status=$data->saved_global_status;
+        $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
         //last_visited!
@@ -289,15 +289,15 @@ class ilObjSCORMTracking
             $val_rec = $ilDB->fetchAssoc($val_set);
             $attempts = $val_rec["package_attempts"];
         } else {
-            $attempts=$data->packageAttempts;
+            $attempts = $data->packageAttempts;
         }
         if ($attempts == null) {
             $attempts = 1;
         }
 
         //update percentage_completed, sco_total_time_sec,status in sahs_user
-        $totalTime=(int) $data->totalTimeCentisec;
-        $totalTime=round($totalTime/100);
+        $totalTime = (int) $data->totalTimeCentisec;
+        $totalTime = round($totalTime / 100);
         $ilDB->queryF(
             'UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
             array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
@@ -345,7 +345,7 @@ class ilObjSCORMTracking
         $val_rec = $ilDB->fetchAssoc($val_set);
         
         if ($val_rec["package_attempts"] == null) {
-            $val_rec["package_attempts"]="";
+            $val_rec["package_attempts"] = "";
         }
         $attempts = $val_rec["package_attempts"];
         
@@ -388,12 +388,12 @@ class ilObjSCORMTracking
         $ilUser = $DIC['ilUser'];
 
         $ilDB->insert('scorm_tracking', array(
-            'obj_id'		=> array('integer', $a_obj_id),
-            'user_id'		=> array('integer', $ilUser->getId()),
-            'sco_id'		=> array('integer', $a_sahs_id),
-            'lvalue'		=> array('text', $a_lval),
-            'rvalue'		=> array('clob', $a_rval),
-            'c_timestamp'	=> array('timestamp', ilUtil::now())
+            'obj_id' => array('integer', $a_obj_id),
+            'user_id' => array('integer', $ilUser->getId()),
+            'sco_id' => array('integer', $a_sahs_id),
+            'lvalue' => array('text', $a_lval),
+            'rvalue' => array('clob', $a_rval),
+            'c_timestamp' => array('timestamp', ilUtil::now())
         ));
         
         if ($a_lval == "cmi.core.lesson_status") {
@@ -750,8 +750,8 @@ class ilObjSCORMTracking
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited=$_POST['last_visited'];
-            $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i')+5, date('s'), date('m'), date('d'), date('Y')));
+            $last_visited = $_POST['last_visited'];
+            $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
             $ilDB->manipulateF(
                 'UPDATE sahs_user 
 				SET last_visited = %s, hash_end =%s, last_access = %s
@@ -776,8 +776,8 @@ class ilObjSCORMTracking
             array('integer','integer','timestamp'),
             array($packageId,$userId,date('Y-m-d H:i:s'))
         );
-        $rowtmp=$ilDB->fetchAssoc($res);
-        if ($rowtmp['hash']==$hash) {
+        $rowtmp = $ilDB->fetchAssoc($res);
+        if ($rowtmp['hash'] == $hash) {
             return;
         } else {
             die("not allowed");

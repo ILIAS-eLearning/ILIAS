@@ -1,12 +1,17 @@
 /* Services/Accordion */
 
 .il_VAccordionHead, .il_HAccordionHead {
-	padding: 5px 5px 5px 30px;
+	padding: @padding-base-horizontal @padding-base-horizontal @padding-base-horizontal (@padding-base-horizontal+30px);
 	text-align: left;
 	cursor: pointer;
 	color: @link-color;
 	font-size: 110%;
-	background: url("@{background-images-path}tree_col.svg") no-repeat 9px 10px @il-primary-container-bg;
+
+	background-image: url("@{background-images-path}tree_col.svg");
+	background-repeat: no-repeat;
+	background-color: @il-primary-container-bg;
+	background-position: 15px 8px;
+	background-size: 20px 20px;
 }
 
 .il_VAccordionInnerContainer {

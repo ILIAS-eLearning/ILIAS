@@ -79,11 +79,12 @@ class FormTest extends ILIAS_UI_TestBase
     protected function buildInputFactory()
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $this->language = $this->createMock(\ilLanguage::class);
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new \ILIAS\Refinery\Factory($df, $language)
+            new \ILIAS\Refinery\Factory($df, $this->language),
+            $this->language
         );
     }
 
@@ -344,6 +345,13 @@ class FormTest extends ILIAS_UI_TestBase
         $form = new ConcreteForm($this->buildInputFactory(), []);
         $form->setInputs(["foo" => $input_1, "bar" => $input_2]);
 
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->language
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
+
         //Todo: This is not good, this should throw an error or similar.
         $form = $form->withRequest($request);
         $this->assertEquals(null, null);
@@ -397,9 +405,9 @@ class FormTest extends ILIAS_UI_TestBase
     {
         $if = $this->buildInputFactory();
         $inputs = [
-            2     => $if->text(""),
+            2 => $if->text(""),
             "foo" => $if->text(""),
-            1     => $if->text(""),
+            1 => $if->text(""),
             $if->text(""),
         ];
         $form = new ConcreteForm($this->buildInputFactory(), []);

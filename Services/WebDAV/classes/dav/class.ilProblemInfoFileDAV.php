@@ -124,7 +124,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
         $problem_infos = array(
             self::PROBLEM_DUPLICATE_OBJECTNAME => array(),
             self::PROBLEM_FORBIDDEN_CHARACTERS => array(),
-            self::PROBLEM_INFO_NAME_DUPLICATE  => false // if a file is already named #!_WEBDAV_INFORMATION.txt (should not be the case)
+            self::PROBLEM_INFO_NAME_DUPLICATE => false // if a file is already named #!_WEBDAV_INFORMATION.txt (should not be the case)
         );
 
         // Loop to check every child of the container

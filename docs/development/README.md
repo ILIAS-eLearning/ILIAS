@@ -20,6 +20,7 @@ A general overview on our processes can be found in the [development guide](http
 - [GIT introduction](https://docu.ilias.de/goto_docu_pg_15604_42.html)
 - [Git Hooks](git-hooks.md)
 - [Unit Tests](../../tests/README.md): How to write unit tests
+- [Dependency Management](../../libs/README.md): Managing dependencies to third party PHP and JS libs.
 - [Accessibility Guidelines](accessibility.md): Foster an accessible user interface
 - [Input Processing](input-processing.md): Securely process user input
 - [API overview](api-overview.md): Overview on APIs and services

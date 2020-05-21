@@ -194,7 +194,7 @@ class ilMediaPoolDataSet extends ilDataSet
 
                     $set = $ilDB->query($q);
                     $this->data = array();
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         if ($this->getMasterLanguageOnly()) {
                             $rec["for_translation"] = 1;
                         }
@@ -240,7 +240,7 @@ class ilMediaPoolDataSet extends ilDataSet
 
                     $set = $ilDB->query($q);
                     $this->data = array();
-                    while ($rec  = $ilDB->fetchAssoc($set)) {
+                    while ($rec = $ilDB->fetchAssoc($set)) {
                         $set2 = $ilDB->query("SELECT for_translation FROM mep_data WHERE id = " . $ilDB->quote($rec["mep_id"], true));
                         $rec2 = $ilDB->fetchAssoc($set2);
                         if (!$rec2["for_translation"]) {

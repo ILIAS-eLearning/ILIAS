@@ -1,27 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
-require_once 'Services/Authentication/interfaces/interface.ilAuthCredentials.php';
 
 /**
  * Class ilAuthFrontendCredentialsSaml
  */
 class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    /**
-     * @var array
-     */
-    protected $attributes = array();
-
-    /**
-     * @var string
-     */
+    /** @var array */
+    protected $attributes = [];
+    /** @var string */
     protected $return_to = '';
-
-    /**
-     * @var ilSamlAuth
-     */
+    /** @var ilSamlAuth */
     protected $auth;
 
     /**
@@ -40,7 +29,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
     /**
      * Init credentials from request
      */
-    public function initFromRequest()
+    public function initFromRequest() : void
     {
         $this->setReturnTo(isset($_GET['target']) ? $_GET['target'] : '');
     }
@@ -48,7 +37,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
     /**
      * @param array $attributes
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes) : void
     {
         $this->attributes = $attributes;
     }
@@ -56,7 +45,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes() : array
     {
         return $this->attributes;
     }
@@ -64,7 +53,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
     /**
      * @return string
      */
-    public function getReturnTo()
+    public function getReturnTo() : string
     {
         return $this->return_to;
     }
@@ -72,7 +61,7 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
     /**
      * @param string $return_to
      */
-    public function setReturnTo($return_to)
+    public function setReturnTo(string $return_to) : void
     {
         $this->return_to = $return_to;
     }

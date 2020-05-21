@@ -114,7 +114,7 @@ class ilBPMN2Parser
     {
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2ParserUtils.php';
         $xml_to_array_parser = new ilBPMN2ParserUtils();
-        $bpmn2               = $xml_to_array_parser->load_string($xml);
+        $bpmn2 = $xml_to_array_parser->load_string($xml);
         return $bpmn2;
     }
 

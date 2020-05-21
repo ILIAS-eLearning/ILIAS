@@ -100,6 +100,10 @@ class Renderer extends AbstractComponentRenderer
 
         $action = $component->getAction();
         $tpl->setVariable($uptype . "_ACTION", $action);
+        $label = ($type == "next")
+            ? $this->txt("next")
+            : $this->txt("previous");
+        $tpl->setVariable($uptype . "_LABEL", $label);
         if ($component->isActive()) {
             $tpl->setCurrentBlock($type . "_with_href");
             $tpl->setVariable($uptype . "_HREF", $action);
@@ -262,12 +266,12 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return \ILIAS\UI\Component\Button\Shy
      */
-    protected function getPaginationShyButton($val, Component\ViewControl\Pagination $component, $label='')
+    protected function getPaginationShyButton($val, Component\ViewControl\Pagination $component, $label = '')
     {
         $f = $this->getUIFactory();
 
         if ($label === '') {
-            $label = (string) ($val+1);
+            $label = (string) ($val + 1);
         }
 
         if ($component->getTriggeredSignals()) {
@@ -330,7 +334,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getCurrentPage() === 0) {
             $back = $back->withUnavailableAction();
         }
-        if ($component->getCurrentPage() >= $component->getNumberOfPages()-1) {
+        if ($component->getCurrentPage() >= $component->getNumberOfPages() - 1) {
             $forward = $forward->withUnavailableAction();
         }
 

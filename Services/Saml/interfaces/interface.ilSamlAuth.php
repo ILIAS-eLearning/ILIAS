@@ -7,14 +7,14 @@
 interface ilSamlAuth
 {
     /**
-     * @return mixed
+     * @return string
      */
-    public function getAuthId();
+    public function getAuthId() : string;
 
     /**
      * Protect a script resource with a SAML auth.
      */
-    public function protectResource();
+    public function protectResource() : void;
 
     /**
      * @param string $key
@@ -25,32 +25,32 @@ interface ilSamlAuth
     /**
      * @return bool
      */
-    public function isAuthenticated();
+    public function isAuthenticated() : bool;
 
     /**
      * @param string $key
      * @return mixed
      */
-    public function popParam($key);
+    public function popParam(string $key);
 
     /**
      * @param string $key
      * @return mixed
      */
-    public function getParam($key);
+    public function getParam(string $key);
 
     /**
      * @return array
      */
-    public function getAttributes();
+    public function getAttributes() : array;
 
     /**
      * @param string $returnUrl
      */
-    public function logout($returnUrl = '');
+    public function logout(string $returnUrl = '') : void;
 
     /**
      * @return ilSamlIdpDiscovery
      */
-    public function getIdpDiscovery();
+    public function getIdpDiscovery() : ilSamlIdpDiscovery;
 }

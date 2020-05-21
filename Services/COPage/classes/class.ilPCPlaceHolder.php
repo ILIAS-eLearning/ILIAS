@@ -139,12 +139,9 @@ class ilPCPlaceHolder extends ilPageContent
 
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_html
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

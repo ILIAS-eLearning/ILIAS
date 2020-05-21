@@ -94,7 +94,7 @@ class ilPageLayoutAdministrationGUI
                 );
 
                 $this->ctrl->setReturn($this, "listLayouts");
-                if ($this->pg_id!=null) {
+                if ($this->pg_id != null) {
                     $layout_gui = new ilPageLayoutGUI("stys", $this->pg_id);
                 } else {
                     $layout_gui = new ilPageLayoutGUI("stys", $_GET["obj_id"]);
@@ -166,7 +166,7 @@ class ilPageLayoutAdministrationGUI
      *
      * @param bool $a_activate
      */
-    public function activate($a_activate=true)
+    public function activate($a_activate = true)
     {
         if (!isset($_POST["pglayout"])) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);

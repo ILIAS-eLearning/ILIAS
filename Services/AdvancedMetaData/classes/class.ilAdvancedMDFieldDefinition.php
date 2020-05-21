@@ -79,6 +79,26 @@ abstract class ilAdvancedMDFieldDefinition
     }
     
     /**
+     * Check if field exists
+     * @param int $a_field_id
+     * @return bool
+     */
+    public static function exists($a_field_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $set = $ilDB->query("SELECT field_type" .
+            " FROM adv_mdf_definition" .
+            " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
+        if ($ilDB->fetchAssoc($set)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get instance by type string (used by import)
      *
      * @param string $a_type
@@ -860,7 +880,7 @@ abstract class ilAdvancedMDFieldDefinition
             $this->import($row);
         }
     }
-    
+
     /**
      * Create new field entry
      */
@@ -878,7 +898,7 @@ abstract class ilAdvancedMDFieldDefinition
         
         // append
         if (!$a_keep_pos) {
-            $this->setPosition($this->getLastPosition()+1);
+            $this->setPosition($this->getLastPosition() + 1);
         }
         
         // needs unique import id
@@ -910,7 +930,7 @@ abstract class ilAdvancedMDFieldDefinition
         $ilDB->update(
             "adv_mdf_definition",
             $this->getDBProperties(),
-            array("field_id"=>array("integer", $this->getFieldId()))
+            array("field_id" => array("integer", $this->getFieldId()))
         );
     }
     
@@ -953,7 +973,7 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('Field', array(
             'id' => $this->generateImportId($this->getFieldId()),
             'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
-            'fieldType'	 => self::getTypeString($this->getType())));
+            'fieldType' => self::getTypeString($this->getType())));
         
         $a_writer->xmlElement('FieldTitle', null, $this->getTitle());
         $a_writer->xmlElement('FieldDescription', null, $this->getDescription());

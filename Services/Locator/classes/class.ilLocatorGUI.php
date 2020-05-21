@@ -308,11 +308,6 @@ class ilLocatorGUI
     */
     public function getHTML()
     {
-        global $DIC;
-        $ltiview = $DIC["lti"];
-        if ($ltiview->isActive() && !$ltiview->show_locator) {
-            return "";
-        }
         $lng = $this->lng;
         $ilSetting = $this->settings;
         
@@ -391,10 +386,10 @@ class ilLocatorGUI
         if (is_array($items)) {
             foreach ($items as $item) {
                 if (!$first) {
-                    $str.= " > ";
+                    $str .= " > ";
                 }
                 
-                $str.= $item["title"];
+                $str .= $item["title"];
                 
                 $first = false;
             }

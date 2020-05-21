@@ -172,7 +172,7 @@ class ilNewsTimelineGUI
      * @param
      * @return
      */
-    public function show()
+    public function show($form = null)
     {
         // toolbar
         if ($this->access->checkAccess("news_add_news", "", $this->ref_id)) {
@@ -239,7 +239,7 @@ class ilNewsTimelineGUI
         if (count($news_data) > 0) {
             $ttpl = new ilTemplate("tpl.news_timeline.html", true, true, "Services/News");
             $ttpl->setVariable("NEWS", $timeline->render());
-            $ttpl->setVariable("EDIT_MODAL", $this->getEditModal());
+            $ttpl->setVariable("EDIT_MODAL", $this->getEditModal($form));
             $ttpl->setVariable("DELETE_MODAL", $this->getDeleteModal());
             $ttpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
             $this->tpl->setContent($ttpl->get());
@@ -337,11 +337,9 @@ class ilNewsTimelineGUI
     {
         if ($_POST["news_action"] == "save") {
             $this->save();
-            $this->ctrl->redirect($this, "show");
         }
         if ($_POST["news_action"] == "update") {
             $this->update();
-            $this->ctrl->redirect($this, "show");
         }
     }
     
@@ -352,7 +350,7 @@ class ilNewsTimelineGUI
     public function save()
     {
         include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-        $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_CREATE, $this->ref_id);
+        $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         if ($form->checkInput()) {
             $news_item = new ilNewsItem();
             $news_item->setTitle($form->getInput("news_title"));
@@ -381,8 +379,12 @@ class ilNewsTimelineGUI
             if (!$news_set->get("enable_rss_for_internal")) {
                 $news_item->setVisibility("users");
             }
-
             $news_item->create();
+            $this->ctrl->redirect($this, "show");
+        } else {
+            $form->setValuesByPost();
+            $this->show($form);
+            $this->tpl->addOnLoadCode("il.News.create(true);");
         }
     }
 
@@ -435,6 +437,11 @@ class ilNewsTimelineGUI
                     $old_mob->delete();
                 }
             }
+            $this->ctrl->redirect($this, "show");
+        } else {
+            $form->setValuesByPost();
+            $this->show($form);
+            $this->tpl->addOnLoadCode("il.News.edit(" . (int) $_POST["id"] . ", true);");
         }
     }
 
@@ -456,7 +463,7 @@ class ilNewsTimelineGUI
      *
      * @return string modal html
      */
-    protected function getEditModal()
+    protected function getEditModal($form = null)
     {
         include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
@@ -465,7 +472,9 @@ class ilNewsTimelineGUI
         $modal->setType(ilModalGUI::TYPE_LARGE);
 
         include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-        $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
+        if (is_null($form)) {
+            $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
+        }
         $form->setShowTopButtons(false);
         $form->setFormAction($this->ctrl->getFormAction($this));
 

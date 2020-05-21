@@ -18,7 +18,7 @@ abstract class ilAbstractUsersGalleryCollectionProvider implements ilUsersGaller
     protected function getPopulatedGroup(array $users)
     {
         $sortable_names = ilUserUtil::getNamePresentation(array_keys($users));
-        $names          = ilUserUtil::getNamePresentation(
+        $names = ilUserUtil::getNamePresentation(
             array_keys($users),
             false,
             false,

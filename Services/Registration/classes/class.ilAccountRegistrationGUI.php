@@ -15,8 +15,6 @@
 * @ingroup ServicesRegistration
 */
 
-require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
-require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
 /**
  *
@@ -41,16 +39,16 @@ class ilAccountRegistrationGUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
         $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
-        $this->tpl =&$tpl;
+        $this->tpl = &$tpl;
 
-        $this->ctrl =&$ilCtrl;
+        $this->ctrl = &$ilCtrl;
         $this->ctrl->saveParameter($this, 'lang');
 
-        $this->lng =&$lng;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule('registration');
 
         $this->registration_settings = new ilRegistrationSettings();
@@ -66,9 +64,8 @@ class ilAccountRegistrationGUI
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
-
         if ($this->registration_settings->getRegistrationType() == IL_REG_DISABLED) {
+            $ilErr = $DIC['ilErr'];
             $ilErr->raiseError($this->lng->txt('reg_disabled'), $ilErr->FATAL);
         }
 
@@ -81,7 +78,8 @@ class ilAccountRegistrationGUI
                 $tpl = $this->displayForm();
         }
 
-        //$tpl->setPermanentLink('usr', null, 'registration');
+        $gtpl = $this->tpl;
+        $gtpl->setPermanentLink('usr', null, 'registration');
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
@@ -90,12 +88,6 @@ class ilAccountRegistrationGUI
      */
     public function displayForm()
     {
-        /**
-         * @var $lng ilLanguage
-         */
-        global $DIC;
-
-        $lng = $DIC['lng'];
 
         $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -111,17 +103,14 @@ class ilAccountRegistrationGUI
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
-        $ilUser->setLanguage($lng->getLangKey());
+        $ilUser->setLanguage($this->lng->getLangKey());
         $ilUser->setId(ANONYMOUS_USER_ID);
 
         // needed for multi-text-fields (interests)
-        include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         
@@ -129,15 +118,14 @@ class ilAccountRegistrationGUI
         // code handling
         
         if ($this->code_enabled) {
-            include_once 'Services/Registration/classes/class.ilRegistrationCode.php';
-            $code = new ilTextInputGUI($lng->txt("registration_code"), "usr_registration_code");
+            $code = new ilTextInputGUI($this->lng->txt("registration_code"), "usr_registration_code");
             $code->setSize(40);
             $code->setMaxLength(ilRegistrationCode::CODE_LENGTH);
             if ((bool) $this->registration_settings->registrationCodeRequired()) {
                 $code->setRequired(true);
-                $code->setInfo($lng->txt("registration_code_required_info"));
+                $code->setInfo($this->lng->txt("registration_code_required_info"));
             } else {
-                $code->setInfo($lng->txt("registration_code_optional_info"));
+                $code->setInfo($this->lng->txt("registration_code_optional_info"));
             }
             $this->form->addItem($code);
         }
@@ -146,12 +134,10 @@ class ilAccountRegistrationGUI
         // user defined fields
         $user_defined_data = $ilUser->getUserDefinedData();
 
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         $custom_fields = array();
         
         foreach ($user_defined_fields->getRegistrationDefinitions() as $field_id => $definition) {
-            include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
                 true,
@@ -163,7 +149,6 @@ class ilAccountRegistrationGUI
         }
         
         // standard fields
-        include_once("./Services/User/classes/class.ilUserProfile.php");
         $up = new ilUserProfile();
         $up->setMode(ilUserProfile::MODE_REGISTRATION);
         $up->skipGroup("preferences");
@@ -172,7 +157,7 @@ class ilAccountRegistrationGUI
             $this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
         );
 
-        $lng->loadLanguageModule("user");
+        $this->lng->loadLanguageModule("user");
 
         // add fields to form
         $up->addStandardFieldsToForm($this->form, null, $custom_fields);
@@ -182,14 +167,14 @@ class ilAccountRegistrationGUI
         // set language selection to current display language
         $flang = $this->form->getItemByPostVar("usr_language");
         if ($flang) {
-            $flang->setValue($lng->getLangKey());
+            $flang->setValue($this->lng->getLangKey());
         }
         
         // add information to role selection (if not hidden)
         if ($this->code_enabled) {
             $role = $this->form->getItemByPostVar("usr_roles");
             if ($role && $role->getType() == "select") {
-                $role->setInfo($lng->txt("registration_code_role_info"));
+                $role->setInfo($this->lng->txt("registration_code_role_info"));
             }
         }
         
@@ -203,10 +188,10 @@ class ilAccountRegistrationGUI
         if (sizeof($domains)) {
             $mail_obj = $this->form->getItemByPostVar('usr_email');
             $mail_obj->setInfo(sprintf(
-                $lng->txt("reg_email_domains"),
+                $this->lng->txt("reg_email_domains"),
                 implode(", ", $domains)
             ) . "<br />" .
-                ($this->code_enabled ? $lng->txt("reg_email_domains_code") : ""));
+                ($this->code_enabled ? $this->lng->txt("reg_email_domains_code") : ""));
         }
         
         // #14272
@@ -221,43 +206,38 @@ class ilAccountRegistrationGUI
             $document = $this->termsOfServiceEvaluation->document();
 
             $field = new ilFormSectionHeaderGUI();
-            $field->setTitle($lng->txt('usr_agreement'));
+            $field->setTitle($this->lng->txt('usr_agreement'));
             $this->form->addItem($field);
 
             $field = new ilCustomInputGUI();
             $field->setHTML('<div id="agreement">' . $document->content() . '</div>');
             $this->form->addItem($field);
 
-            $field = new ilCheckboxInputGUI($lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
+            $field = new ilCheckboxInputGUI($this->lng->txt('accept_usr_agreement'), 'accept_terms_of_service');
             $field->setRequired(true);
             $field->setValue(1);
             $this->form->addItem($field);
         }
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
+
         if (ilCaptchaUtil::isActiveForRegistration()) {
-            require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
-            $captcha = new ilCaptchaInputGUI($lng->txt("captcha_code"), 'captcha_code');
+            $captcha = new ilCaptchaInputGUI($this->lng->txt("captcha_code"), 'captcha_code');
             $captcha->setRequired(true);
             $this->form->addItem($captcha);
         }
 
-        $this->form->addCommandButton("saveForm", $lng->txt("register"));
+        $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
     
     public function saveForm()
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilSetting = $DIC['ilSetting'];
-        $rbacreview = $DIC['rbacreview'];
+        $ilSetting = $DIC->settings();
+        $rbacreview = $DIC->rbac()->review();
 
         $this->__initForm();
         $form_valid = $this->form->checkInput();
-        
-        require_once 'Services/User/classes/class.ilObjUser.php';
-
         
         // custom validation
         $valid_code = $valid_role = false;
@@ -271,10 +251,9 @@ class ilAccountRegistrationGUI
                 strlen($code)
             ) {
                 // code validation
-                include_once './Services/Registration/classes/class.ilRegistrationCode.php';
                 if (!ilRegistrationCode::isValidRegistrationCode($code)) {
                     $code_obj = $this->form->getItemByPostVar('usr_registration_code');
-                    $code_obj->setAlert($lng->txt('registration_code_not_valid'));
+                    $code_obj->setAlert($this->lng->txt('registration_code_not_valid'));
                     $form_valid = false;
                 } else {
                     $valid_code = true;
@@ -314,7 +293,7 @@ class ilAccountRegistrationGUI
                     if (!$mail_valid) {
                         $mail_obj = $this->form->getItemByPostVar('usr_email');
                         $mail_obj->setAlert(sprintf(
-                            $lng->txt("reg_email_domains"),
+                            $this->lng->txt("reg_email_domains"),
                             implode(", ", $domains)
                         ));
                         $form_valid = false;
@@ -329,15 +308,15 @@ class ilAccountRegistrationGUI
             !ilUtil::isPasswordValidForUserContext($this->form->getInput('usr_password'), $this->form->getInput('username'), $error_lng_var)
         ) {
             $passwd_obj = $this->form->getItemByPostVar('usr_password');
-            $passwd_obj->setAlert($lng->txt($error_lng_var));
+            $passwd_obj->setAlert($this->lng->txt($error_lng_var));
             $form_valid = false;
         }
 
-        $showGlobalTermsOfServieFailure  = false;
+        $showGlobalTermsOfServieFailure = false;
         if (\ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service')) {
             $agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
             if ($agr_obj) {
-                $agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+                $agr_obj->setAlert($this->lng->txt('force_accept_usr_agreement'));
                 $form_valid = false;
             } else {
                 $showGlobalTermsOfServieFailure = true;
@@ -348,7 +327,6 @@ class ilAccountRegistrationGUI
         if (!$valid_role) {
             // manual selection
             if ($this->registration_settings->roleSelectionEnabled()) {
-                include_once "./Services/AccessControl/classes/class.ilObjRole.php";
                 $selected_role = $this->form->getInput("usr_roles");
                 if ($selected_role && ilObjRole::_lookupAllowRegister($selected_role)) {
                     $valid_role = (int) $selected_role;
@@ -356,7 +334,6 @@ class ilAccountRegistrationGUI
             }
             // assign by email
             else {
-                include_once 'Services/Registration/classes/class.ilRegistrationEmailRoleAssignments.php';
                 $registration_role_assignments = new ilRegistrationRoleAssignments();
                 $valid_role = (int) $registration_role_assignments->getRoleByEmail($this->form->getInput("usr_email"));
             }
@@ -364,28 +341,33 @@ class ilAccountRegistrationGUI
 
         // no valid role could be determined
         if (!$valid_role) {
-            ilUtil::sendInfo($lng->txt("registration_no_valid_role"));
+            ilUtil::sendInfo($this->lng->txt("registration_no_valid_role"));
             $form_valid = false;
         }
 
         // validate username
         $login_obj = $this->form->getItemByPostVar('username');
         $login = $this->form->getInput("username");
+        $captcha = $this->form->getItemByPostVar("captcha_code");
         if (!ilUtil::isLogin($login)) {
-            $login_obj->setAlert($lng->txt("login_invalid"));
+            $login_obj->setAlert($this->lng->txt("login_invalid"));
             $form_valid = false;
         } elseif (ilObjUser::_loginExists($login)) {
-            $login_obj->setAlert($lng->txt("login_exists"));
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+            }
             $form_valid = false;
         } elseif ((int) $ilSetting->get('allow_change_loginname') &&
             (int) $ilSetting->get('reuse_of_loginnames') == 0 &&
             ilObjUser::_doesLoginnameExistInHistory($login)) {
-            $login_obj->setAlert($lng->txt('login_exists'));
+            if(!empty($captcha) && empty($captcha->getAlert()) || empty($captcha)) {
+                $login_obj->setAlert($this->lng->txt("login_exists"));
+            }
             $form_valid = false;
         }
 
         if (!$form_valid) {
-            ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
         } elseif ($showGlobalTermsOfServieFailure) {
             $this->lng->loadLanguageModule('tos');
             \ilUtil::sendFailure(sprintf(
@@ -406,13 +388,11 @@ class ilAccountRegistrationGUI
         /**
          * @var $ilSetting ilSetting
          * @var $rbacadmin ilRbacAdmin
-         * @var $lng       ilLanguage
          */
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $lng = $DIC['lng'];
+        $ilSetting = $DIC->settings();
+        $rbacadmin = $DIC->rbac()->admin();
         
         
         // something went wrong with the form validation
@@ -426,8 +406,7 @@ class ilAccountRegistrationGUI
         
 
         $this->userObj = new ilObjUser();
-        
-        include_once("./Services/User/classes/class.ilUserProfile.php");
+
         $up = new ilUserProfile();
         $up->setMode(ilUserProfile::MODE_REGISTRATION);
 
@@ -473,8 +452,7 @@ class ilAccountRegistrationGUI
         
         
         // Set user defined data
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $user_defined_fields = &ilUserDefinedFields::_getInstance();
         $defs = $user_defined_fields->getRegistrationDefinitions();
         $udf = array();
         foreach ($_POST as $k => $v) {
@@ -497,7 +475,6 @@ class ilAccountRegistrationGUI
             // #10853 - could be optional
             $code = $this->form->getInput('usr_registration_code');
             if ($code) {
-                include_once './Services/Registration/classes/class.ilRegistrationCode.php';
                 
                 // set code to used
                 ilRegistrationCode::useCode($code);
@@ -532,7 +509,6 @@ class ilAccountRegistrationGUI
         // code access limitation will override any other access limitation setting
         if (!($this->code_was_used && $code_has_access_limit) &&
             $this->registration_settings->getAccessLimitation()) {
-            include_once 'Services/Registration/classes/class.ilRegistrationRoleAccessLimitations.php';
             $access_limitations_obj = new ilRegistrationRoleAccessLimitations();
             switch ($access_limitations_obj->getMode($a_role)) {
                 case 'absolute':
@@ -558,7 +534,6 @@ class ilAccountRegistrationGUI
 
         $this->userObj->setTimeLimitFrom(time());
 
-        include_once './Services/User/classes/class.ilUserCreationContext.php';
         ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_REGISTRATION);
 
         $this->userObj->create();
@@ -644,14 +619,6 @@ class ilAccountRegistrationGUI
 
     protected function __distributeMails($password)
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-
-        include_once './Services/Language/classes/class.ilLanguage.php';
-        include_once './Services/User/classes/class.ilObjUser.php';
-        include_once "Services/Mail/classes/class.ilFormatMail.php";
-        include_once './Services/Registration/classes/class.ilRegistrationMailNotification.php';
 
         // Always send mail to approvers
         if ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE && !$this->code_was_used) {
@@ -671,14 +638,13 @@ class ilAccountRegistrationGUI
         // Send mail to new user
         // Registration with confirmation link ist enabled
         if ($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION && !$this->code_was_used) {
-            include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
             $mail = new ilRegistrationMimeMailNotification();
             $mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
             $mail->setRecipients(array($this->userObj));
             $mail->setAdditionalInformation(
                 array(
-                     'usr'           => $this->userObj,
+                     'usr' => $this->userObj,
                      'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
                 )
             );
@@ -698,17 +664,11 @@ class ilAccountRegistrationGUI
      */
     public function login($password)
     {
-        /**
-         * @var $lng ilLanguage
-         */
-        global $DIC;
-
-        $lng = $DIC['lng'];
 
         $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-        $tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+        $tpl->setVariable("TXT_WELCOME", $this->lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
         if (
             (
                 $this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
@@ -721,21 +681,21 @@ class ilAccountRegistrationGUI
             ilSession::set('registered_user', $this->userObj->getId());
 
             $tpl->setCurrentBlock('activation');
-            $tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
+            $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered'));
 
             $action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login') . '&target=' . ilUtil::stripSlashes($_GET['target']);
             $tpl->setVariable('FORMACTION', $action);
 
-            $tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
+            $tpl->setVariable('TXT_LOGIN', $this->lng->txt('login_to_ilias'));
             $tpl->parseCurrentBlock();
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE) {
-            $tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
+            $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_submitted'));
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION) {
             $login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
-            $tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
+            $tpl->setVariable('TXT_REGISTERED', sprintf($this->lng->txt('reg_confirmation_link_successful'), $login_url));
             $tpl->setVariable('REDIRECT_URL', $login_url);
         } else {
-            $tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
+            $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered_passw_gen'));
         }
         return $tpl;
     }
@@ -763,11 +723,9 @@ class ilAccountRegistrationGUI
     {
         $field_id = (string) $_REQUEST["f"];
         $term = (string) $_REQUEST["term"];
-                
-        include_once "Services/User/classes/class.ilPublicUserProfileGUI.php";
+
         $result = ilPublicUserProfileGUI::getAutocompleteResult($field_id, $term);
         if (sizeof($result)) {
-            include_once 'Services/JSON/classes/class.ilJsonUtil.php';
             echo ilJsonUtil::encode($result);
         }
         

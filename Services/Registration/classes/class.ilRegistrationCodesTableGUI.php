@@ -146,7 +146,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                         break;
                     
                     case "absolute":
-                        $result[$k]["alimit"] =  $this->lng->txt("reg_access_limitation_mode_absolute_target") .
+                        $result[$k]["alimit"] = $this->lng->txt("reg_access_limitation_mode_absolute_target") .
                             ": " . ilDatePresentation::formatDate(new ilDate($code["alimitdt"], IL_CAL_DATE));
                         break;
                     
@@ -211,7 +211,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
-        $options = array("" => $this->lng->txt("registration_roles_all"))+
+        $options = array("" => $this->lng->txt("registration_roles_all")) +
             $this->role_map;
         $si = new ilSelectInputGUI($this->lng->txt("role"), "role");
         $si->setOptions($options);

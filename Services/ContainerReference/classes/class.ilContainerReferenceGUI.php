@@ -397,6 +397,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
             );
         }
 
+        $this->object->setTargetId(
+            \ilObject::_lookupObjId((int) $form->getInput('target_id'))
+        );
+
         return $ok;
     }
 

@@ -43,6 +43,17 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("LABEL", "");
         }
 
+        // ensure that a) a separate aria label may be provided and
+        // b) that an empty label and empty aria-label will use the "actions" fallback
+        if ($component->getLabel() == "" || $component->getAriaLabel() != "") {
+            $aria_label = ($component->getAriaLabel() != "")
+                ? $component->getAriaLabel()
+                : $this->txt("actions");
+            $tpl->setCurrentBlock("aria_label");
+            $tpl->setVariable("ARIA_LABEL", $aria_label);
+            $tpl->parseCurrentBlock();
+        }
+
         $this->maybeRenderId($component, $tpl, "with_id", "ID");
 
         return $tpl->get();

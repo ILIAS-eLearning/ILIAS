@@ -42,10 +42,10 @@ class ilCronManagerGUI
     {
         global $DIC;
 
-        $this->lng      = $DIC->language();
-        $this->ctrl     = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
-        $this->tpl      = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->lng->loadLanguageModule('cron');
     }
@@ -445,7 +445,7 @@ class ilCronManagerGUI
         }
         
         if (sizeof($fields)) {
-            return array("cron_jobs"=>array("jumpToCronJobs", $fields));
+            return array("cron_jobs" => array("jumpToCronJobs", $fields));
         }
     }
 }

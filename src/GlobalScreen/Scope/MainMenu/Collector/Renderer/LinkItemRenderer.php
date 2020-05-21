@@ -18,6 +18,6 @@ class LinkItemRenderer extends BaseTypeRenderer
      */
     public function getComponentWithContent(isItem $item) : Component
     {
-        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()));
+        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
     }
 }

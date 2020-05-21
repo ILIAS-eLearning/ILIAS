@@ -51,7 +51,13 @@ class ilBadgeAssignment
         $noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository($user);
 
         $last = $noti_repo->getLastCheckedTimestamp();
-        //$last = 1;
+
+
+        // if no last check exists, we use last 24 hours
+        if ($last == 0) {
+            $last = time() - (24 * 60 * 60);
+        }
+
         if ($last > 0) {
             $set = $db->queryF(
                 "SELECT count(*) cnt FROM badge_user_badge " .
@@ -65,6 +71,27 @@ class ilBadgeAssignment
         return 0;
     }
 
+    /**
+     * Get latest badge
+     *
+     * @param int $a_user_id
+     * @return int
+     */
+    public static function getLatestTimestamp(int $a_user_id) : int
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $set = $db->queryF(
+            "SELECT max(tstamp) maxts FROM badge_user_badge " .
+            " WHERE user_id = %s",
+            ["integer"],
+            [$a_user_id]
+        );
+        $rec = $db->fetchAssoc($set);
+        return (int) $rec["maxts"];
+    }
 
     public static function getInstancesByUserId($a_user_id)
     {
@@ -397,7 +424,7 @@ class ilBadgeAssignment
         }
         
         $json->issuedOn = $this->getTimestamp();
-        $json->badge =  $badge_url;
+        $json->badge = $badge_url;
         $json->verify = $verify;
         
         return $json;

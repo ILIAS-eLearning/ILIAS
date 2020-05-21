@@ -296,11 +296,11 @@ class ilAssQuestionHintTracking
         $trackId = $ilDB->nextId('qpl_hint_tracking');
         
         $ilDB->insert('qpl_hint_tracking', array(
-            'qhtr_track_id'		=> array('integer', $trackId),
-            'qhtr_active_fi'	=> array('integer', $this->getActiveId()),
-            'qhtr_pass'			=> array('integer', $this->getPass()),
-            'qhtr_question_fi'	=> array('integer', $this->getQuestionId()),
-            'qhtr_hint_fi'		=> array('integer', $questionHint->getId()),
+            'qhtr_track_id' => array('integer', $trackId),
+            'qhtr_active_fi' => array('integer', $this->getActiveId()),
+            'qhtr_pass' => array('integer', $this->getPass()),
+            'qhtr_question_fi' => array('integer', $this->getQuestionId()),
+            'qhtr_hint_fi' => array('integer', $questionHint->getId()),
         ));
     }
     

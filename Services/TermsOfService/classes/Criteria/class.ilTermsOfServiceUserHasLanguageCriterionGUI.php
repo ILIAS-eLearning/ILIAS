@@ -26,7 +26,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         ilLanguage $lng
     ) {
         $this->type = $type;
-        $this->lng  = $lng;
+        $this->lng = $lng;
     }
 
     /**

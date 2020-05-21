@@ -6,7 +6,8 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-//use ILIAS\UI\Implementation\Component\Input\PostData;
+use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Data;
 use ILIAS\Refinery;
@@ -25,7 +26,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new \ILIAS\Refinery\Factory($df, $language)
+            new \ILIAS\Refinery\Factory($df, $language),
+            $language
         );
     }
 
@@ -55,6 +57,34 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
     }
 
 
+    public function test_only_accepts_actual_options_from_client_side()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $f = $this->buildFactory();
+        $options = array(
+            "1" => "Pick 1",
+            "2" => "Pick 2"
+        );
+        $ms = $f->multiSelect("label", $options, "byline")
+            ->withNameFrom(new class() implements NameSource {
+                public function getNewName()
+                {
+                    return "name";
+                }
+            });
+        $ms = $ms->withInput(new class() implements InputData {
+            public function getOr($_, $__)
+            {
+                return ["3"];
+            }
+            public function get($_)
+            {
+            }
+        });
+        $content = $ms->getContent();
+    }
+
+
     public function test_render()
     {
         $r = $this->getDefaultRenderer();
@@ -75,7 +105,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                         . "<li>"
                             . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
@@ -114,7 +144,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             if ($opt_value === $value) {
                 $expected .= ""
                         . "<li>"
@@ -158,7 +188,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             . "<div class=\"col-sm-9\">"
             . "<ul class=\"il-input-multiselect\">";
 
-        foreach ($options as $opt_value=>$opt_label) {
+        foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                 . "<li>"
                 . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" disabled=\"disabled\" />"

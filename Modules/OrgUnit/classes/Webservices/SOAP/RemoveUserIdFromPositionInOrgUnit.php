@@ -38,9 +38,9 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         } else {
             $inst = \ilOrgUnitUserAssignment::where(
                 array(
-                    'user_id'     => $user_id,
+                    'user_id' => $user_id,
                     'position_id' => $position_id,
-                    'orgu_id'     => $orgu_ref_id,
+                    'orgu_id' => $orgu_ref_id,
                 )
             )->first();
             if ($inst instanceof \ilOrgUnitUserAssignment) {

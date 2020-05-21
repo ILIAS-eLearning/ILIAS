@@ -7,7 +7,7 @@
 class ilWorkflowDefinitionRepository
 {
     const FILE_EXTENSTION_BPMN2 = 'bpmn2';
-    const FILE_EXTENSTION_PHP   = 'php';
+    const FILE_EXTENSTION_PHP = 'php';
 
     const FILE_PREFIX = 'wsd.il';
 
@@ -44,8 +44,8 @@ class ilWorkflowDefinitionRepository
      */
     public function __construct(\ilDBInterface $db, \ILIAS\Filesystem\Filesystems $fs, $path)
     {
-        $this->db   = $db;
-        $this->fs   = $fs;
+        $this->db = $db;
+        $this->fs = $fs;
         $this->path = $path;
     }
 
@@ -59,12 +59,12 @@ class ilWorkflowDefinitionRepository
         }
         $this->definitionsLoaded = true;
 
-        $query  = 'SELECT workflow_class, COUNT(workflow_id) total, SUM(active) active
+        $query = 'SELECT workflow_class, COUNT(workflow_id) total, SUM(active) active
 				  FROM wfe_workflows
 				  GROUP BY workflow_class';
         $result = $this->db->query($query);
 
-        $stats  = array();
+        $stats = array();
         while ($row = $this->db->fetchAssoc($result)) {
             $stats[$row['workflow_class']] = array('total' => $row['total'], 'active' => $row['active']);
         }
@@ -89,13 +89,13 @@ class ilWorkflowDefinitionRepository
 
         $definitions = [];
         foreach ($contents as $file) {
-            $fileParts       = pathinfo($file->getPath());
+            $fileParts = pathinfo($file->getPath());
             $extensionLength = strlen($fileParts['extension']) + 1;
 
             $definition = [];
 
             $definition['file'] = $fileParts['basename'];
-            $definition['id']   = $fileParts['filename'];
+            $definition['id'] = $fileParts['filename'];
 
             $parts = explode('_', substr($fileParts['basename'], $prefixLength, $extensionLength * -1));
 
@@ -103,8 +103,8 @@ class ilWorkflowDefinitionRepository
             if (!$this->fs->storage()->has($this->path . '/' . $definition['id'] . '.php')) {
                 $definition['status'] = 0;
             }
-            $definition['version']   = substr(array_pop($parts), 1);
-            $definition['title']     = implode(' ', $parts);
+            $definition['version'] = substr(array_pop($parts), 1);
+            $definition['title'] = implode(' ', $parts);
             $definition['instances'] = $stats[$definition['id'] . '.php'];
 
             $definitions[$definition['id']] = $definition;

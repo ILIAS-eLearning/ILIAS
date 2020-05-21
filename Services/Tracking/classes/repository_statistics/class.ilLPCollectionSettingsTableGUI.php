@@ -94,9 +94,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'TYPE_IMG',
             ilObject::_getIcon(
-            $a_set['obj_id'],
-            'tiny',
-            $a_set['type']
+                $a_set['obj_id'],
+                'tiny',
+                $a_set['type']
         )
         );
 
@@ -124,7 +124,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 }
                 include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
                 if (ilLearningProgressAccess::checkPermission('edit_learning_progress', $a_set['ref_id'])) {
-                    $lp_settings_link = ilLink::_getLink($a_set['ref_id'], $a_set['type'], array('gotolp'=>1));
+                    $lp_settings_link = ilLink::_getLink($a_set['ref_id'], $a_set['type'], array('gotolp' => 1));
                     $a_set["mode"] = '<a href="' . $lp_settings_link . '">' . $a_set['mode'] . '</a>'; // :TODO: il_ItemAlertProperty?
                 }
 
@@ -155,13 +155,13 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("TLT_HINT", '(hh:mm)');
 
                 // seconds to units
-                $mon = floor($a_set["tlt"]/(60*60*24*30));
-                $tlt = $a_set["tlt"]%(60*60*24*30);
-                $day = floor($tlt/(60*60*24));
-                $tlt = $tlt%(60*60*24);
-                $hr = floor($tlt/(60*60));
-                $tlt = $tlt%(60*60);
-                $min = floor($tlt/60);
+                $mon = floor($a_set["tlt"] / (60 * 60 * 24 * 30));
+                $tlt = $a_set["tlt"] % (60 * 60 * 24 * 30);
+                $day = floor($tlt / (60 * 60 * 24));
+                $tlt = $tlt % (60 * 60 * 24);
+                $hr = floor($tlt / (60 * 60));
+                $tlt = $tlt % (60 * 60);
+                $min = floor($tlt / 60);
 
                 $options = array();
                 for ($i = 0;$i <= 24;$i++) {

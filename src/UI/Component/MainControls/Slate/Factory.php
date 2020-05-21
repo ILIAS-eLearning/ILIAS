@@ -45,22 +45,18 @@ interface Factory
      *     The Combined Slate bundles related controls; these can also be further
      *     Slates. Combined Slates are used when a specific purpose is being
      *     subdivided into further aspects.
-     *
      *   composition: >
-     *     The Combined Slate consists of more Slates and/or Bulky Buttons.
+     *     The Combined Slate consists of more Slates and/or Bulky Buttons
+     *     and/or Horizontal Deviders.
      *     The symbol and name of contained Slates are turned into a Bulky Button
      *     to control opening and closing the contained Slate.
-     *
      *   effect: >
      *     Opening a Combined Slate will display its contained Slates with an
      *     operating Bulky Button for closing/expanding.
      *     Clicking on a Button not connected to a Slate will carry out its action.
-     *
      * context:
      *   - The Combined Slate is used in the Main Bar.
-     *
      * ----
-     *
      * @param string $name
      * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
      * @return \ILIAS\UI\Component\MainControls\Slate\Combined

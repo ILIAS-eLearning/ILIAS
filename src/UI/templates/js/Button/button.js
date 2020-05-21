@@ -89,7 +89,7 @@ $(document).ready(function() {
 	$('.il-toggle-button.on').attr("aria-pressed", "true");
 
     $('.il-toggle-button').click(function() {
-        $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button');
+        $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button off');
 
         if ($(this).attr("aria-pressed") == "false") {
             $(this).attr("aria-pressed", "true");

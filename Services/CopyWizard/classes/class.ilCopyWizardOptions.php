@@ -32,10 +32,12 @@
 class ilCopyWizardOptions
 {
     private static $instances = null;
-    
+
+    const COPY_WIZARD_UNDEFINED = 0;
     const COPY_WIZARD_OMIT = 1;
     const COPY_WIZARD_COPY = 2;
     const COPY_WIZARD_LINK = 3;
+    const COPY_WIZARD_LINK_TO_TARGET = 4;
     
     const OWNER_KEY = -3;
     const DISABLE_SOAP = -4;
@@ -161,9 +163,9 @@ class ilCopyWizardOptions
         $ilDB = $DIC['ilDB'];
 
         $ilDB->insert("copy_wizard_options", array(
-            "copy_id" 	=> array("integer", $this->getCopyId()),
+            "copy_id" => array("integer", $this->getCopyId()),
             "source_id" => array("integer", self::OWNER_KEY),
-            "options"	=> array('clob',serialize(array($a_user_id)))
+            "options" => array('clob',serialize(array($a_user_id)))
             ));
 
         return true;
@@ -183,9 +185,9 @@ class ilCopyWizardOptions
         $ilDB = $DIC['ilDB'];
 
         $ilDB->insert("copy_wizard_options", array(
-            "copy_id" 	=> array("integer", $this->getCopyId()),
+            "copy_id" => array("integer", $this->getCopyId()),
             "source_id" => array("integer", self::ROOT_NODE),
-            "options"	=> array('clob',serialize(array($a_root)))
+            "options" => array('clob',serialize(array($a_root)))
             ));
 
         return true;
@@ -201,6 +203,18 @@ class ilCopyWizardOptions
     public function isRootNode($a_root)
     {
         return in_array($a_root, $this->getOptions(self::ROOT_NODE));
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getRootNode()
+    {
+        $options = $this->getOptions(self::ROOT_NODE);
+        if (!is_array($options) || !array_key_exists(0, $options)) {
+            return null;
+        }
+        return (int) $options[0];
     }
     
     /**
@@ -219,9 +233,9 @@ class ilCopyWizardOptions
         $this->options[self::DISABLE_SOAP] = 1;
         
         $ilDB->insert("copy_wizard_options", array(
-            "copy_id" 	=> array("integer", $this->getCopyId()),
+            "copy_id" => array("integer", $this->getCopyId()),
             "source_id" => array("integer", self::DISABLE_SOAP),
-            "options"	=> array('clob',serialize(array(1)))
+            "options" => array('clob',serialize(array(1)))
             ));
     }
     
@@ -239,9 +253,9 @@ class ilCopyWizardOptions
         $this->options[self::DISABLE_TREE_COPY] = 1;
         
         $ilDB->insert("copy_wizard_options", array(
-            "copy_id" 	=> array("integer", $this->getCopyId()),
+            "copy_id" => array("integer", $this->getCopyId()),
             "source_id" => array("integer", self::DISABLE_TREE_COPY),
-            "options"	=> array('clob',serialize(array(1)))
+            "options" => array('clob',serialize(array(1)))
             ));
     }
 
@@ -337,16 +351,16 @@ class ilCopyWizardOptions
         $a_tree_structure = $this->tmp_tree;
         
         $ilDB->update("copy_wizard_options", array(
-            "options"	=> array('clob',serialize($a_tree_structure))
+            "options" => array('clob',serialize($a_tree_structure))
             ), array(
-            "copy_id"	=> array('integer',$this->getCopyId()),
-            "source_id"	=> array('integer',0
+            "copy_id" => array('integer',$this->getCopyId()),
+            "source_id" => array('integer',0
         )));
 
         $ilDB->insert('copy_wizard_options', array(
-            'copy_id'	=> array('integer',$this->getCopyId()),
-            'source_id'	=> array('integer',-1),
-            'options'	=> array('clob',serialize($a_tree_structure))
+            'copy_id' => array('integer',$this->getCopyId()),
+            'source_id' => array('integer',-1),
+            'options' => array('clob',serialize($a_tree_structure))
             ));
 
         return true;
@@ -409,10 +423,10 @@ class ilCopyWizardOptions
         $this->options[$a_id] = array_slice($this->options[$a_id], 1);
         
         $ilDB->update('copy_wizard_options', array(
-            'options'	=> array('clob',serialize($this->options[$a_id]))
+            'options' => array('clob',serialize($this->options[$a_id]))
             ), array(
-            'copy_id'	=> array('integer',$this->getCopyId()),
-            'source_id'	=> array('integer',$a_id)));
+            'copy_id' => array('integer',$this->getCopyId()),
+            'source_id' => array('integer',$a_id)));
         
         $this->read();
         // check for role_folder
@@ -486,9 +500,9 @@ class ilCopyWizardOptions
         $res = $ilDB->manipulate($query);
 
         $ilDB->insert('copy_wizard_options', array(
-            'copy_id'	=> array('integer',$this->copy_id),
-            'source_id'	=> array('integer',$a_source_id),
-            'options'	=> array('clob',serialize($a_options))
+            'copy_id' => array('integer',$this->copy_id),
+            'source_id' => array('integer',$a_source_id),
+            'options' => array('clob',serialize($a_options))
         ));
         return true;
     }
@@ -524,9 +538,9 @@ class ilCopyWizardOptions
         
         
         $ilDB->insert('copy_wizard_options', array(
-            'copy_id'	=> array('integer',$this->getCopyId()),
-            'source_id'	=> array('integer',-2),
-            'options'	=> array('clob',serialize($mappings))
+            'copy_id' => array('integer',$this->getCopyId()),
+            'source_id' => array('integer',-2),
+            'options' => array('clob',serialize($mappings))
         ));
         
         return true;

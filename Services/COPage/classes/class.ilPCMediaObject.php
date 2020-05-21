@@ -259,7 +259,7 @@ class ilPCMediaObject extends ilPageContent
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
             if (is_object($mal_node)) {
-                $class =  $mal_node->get_attribute("Class");
+                $class = $mal_node->get_attribute("Class");
                 return $class;
             }
         }
@@ -422,12 +422,9 @@ class ilPCMediaObject extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $ilUser = $this->user;
 
@@ -452,6 +449,10 @@ class ilPCMediaObject extends ilPageContent
             }
         }
 
+        if ($a_abstract_only) {
+            return $a_html;
+        }
+
         // add fullscreen modals
         $modal = $this->ui->factory()->modal()->roundtrip(
             "Fullscreen",
@@ -460,5 +461,25 @@ class ilPCMediaObject extends ilPageContent
         $show_signal = $modal->getShowSignal();
         return $a_html . $this->ui->renderer()->render($modal) . "<script>$(function () { il.COPagePres.setFullscreenModalShowSignal('" .
             $show_signal . "'); });</script>";
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJavascriptFiles($a_mode)
+    {
+        $js_files = ilPlayerUtil::getJsFilePaths();
+        $js_files[] = iljQueryUtil::getLocalMaphilightPath();
+        return $js_files;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCssFiles($a_mode)
+    {
+        $js_files = ilPlayerUtil::getCssFilePaths();
+
+        return $js_files;
     }
 }

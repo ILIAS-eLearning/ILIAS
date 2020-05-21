@@ -232,14 +232,14 @@ class ilWorkflowScaffold
         $end = 0;
 
         return array(
-            'type' 				=> 'time_passed',
-            'content'			=> 'time_passed',
-            'subject_type'		=> 'none',
-            'subject_id'		=> 0,
-            'context_type'		=> 'none',
-            'context_id'		=> 0,
-            'listening_start'	=> $start,
-            'listening_end'		=> $end
+            'type' => 'time_passed',
+            'content' => 'time_passed',
+            'subject_type' => 'none',
+            'subject_id' => 0,
+            'context_type' => 'none',
+            'context_id' => 0,
+            'listening_start' => $start,
+            'listening_end' => $end
         );
     }
 }

@@ -48,7 +48,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
      * @param C\Dropdown\Standard $actions
      * @return Secondary
      */
-    public function withActions(C\Dropdown\Standard $actions) : Secondary
+    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary
     {
         $clone = clone $this;
         $clone->actions = $actions;

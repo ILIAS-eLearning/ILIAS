@@ -89,7 +89,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            null
+            []
         );
 
         $mailValueObjects = [
@@ -161,7 +161,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            null
+            []
         );
 
         $mailValueObjects[] = new ilMailValueObject(
@@ -171,7 +171,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            null
+            []
         );
 
         $userId = 100;
@@ -239,7 +239,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            null
+            []
         );
 
         $mailValueObjects[] = new ilMailValueObject(
@@ -249,7 +249,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            null
+            []
         );
 
         $mailValueObjects[] = new ilMailValueObject(
@@ -259,7 +259,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'That is awesome!',
             'Hey Alan! Alan! Alan!',
-            null
+            []
         );
 
         $userId = 100;
@@ -330,7 +330,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'That is awesome!',
             'Dear Steve, great!',
-            null
+            []
         );
 
         $mailValueObjects[] = new ilMailValueObject(
@@ -340,7 +340,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             '',
             'Greate',
             'Steve, Steve, Steve. Wait that is not Steve',
-            null
+            []
         );
 
         $mailValueObjects[] = 'This should fail';

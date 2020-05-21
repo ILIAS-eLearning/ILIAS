@@ -420,7 +420,7 @@ class ilECSConnector
             }
             $ilLog->write(__METHOD__ . ': ... got HTTP 201 (created)');
 
-            $eid =  self::_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
+            $eid = self::_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
             return $eid;
         } catch (ilCurlConnectionException $exc) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $exc->getMessage());

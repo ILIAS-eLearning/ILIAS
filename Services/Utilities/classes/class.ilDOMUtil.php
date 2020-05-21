@@ -66,8 +66,8 @@ class ilDOMUtil
         }
         // didn't find element
         if (!$found) {
-            $new_node =&$doc->create_element($a_node_name);
-            $new_node =&$parent_node->append_child($new_node);
+            $new_node = &$doc->create_element($a_node_name);
+            $new_node = &$parent_node->append_child($new_node);
             if ($a_content != "") {
                 $new_node->set_content($a_content);
             }
@@ -76,7 +76,7 @@ class ilDOMUtil
             if ($child_name == $a_node_name) {
                 if ($a_remove_childs) {
                     $childs2 = $child->child_nodes();
-                    for ($i=0; $i<count($childs2); $i++) {
+                    for ($i = 0; $i < count($childs2); $i++) {
                         $child->remove_child($childs2[$i]);
                     }
                 }
@@ -85,8 +85,8 @@ class ilDOMUtil
                 }
                 ilDOMUtil::set_attributes($child, $a_attributes);
             } else {
-                $new_node =&$doc->create_element($a_node_name);
-                $new_node =&$child->insert_before($new_node, $child);
+                $new_node = &$doc->create_element($a_node_name);
+                $new_node = &$child->insert_before($new_node, $child);
                 if ($a_content != "") {
                     $new_node->set_content($a_content);
                 }

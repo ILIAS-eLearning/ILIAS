@@ -117,7 +117,8 @@ class ilAwarenessGUI
         include_once("./Services/Awareness/classes/class.ilAwarenessAct.php");
         $act = ilAwarenessAct::getInstance($ilUser->getId());
         $act->setRefId($this->ref_id);
-
+        var_dump("1");
+        exit;
         if ($last_update == "" || ($now - $last_update) >= $cache_period) {
             $cnt = explode(":", $act->getAwarenessUserCounter());
             $hcnt = $cnt[1];
@@ -157,7 +158,7 @@ class ilAwarenessGUI
                 $glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
             }
             if ($hcnt > 0) {
-                $glyph =$glyph->withCounter($f->counter()->novelty((int) $hcnt));
+                $glyph = $glyph->withCounter($f->counter()->novelty((int) $hcnt));
             }
             $glyph_html = $renderer->render($glyph);
             $tpl->setVariable("GLYPH", $glyph_html);
@@ -265,12 +266,12 @@ class ilAwarenessGUI
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
-        $tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
         $tpl->parseCurrentBlock();
 
 
         $result = ["html" => $tpl->get(),
-            "cnt" => $ad["cnt"]];
+                   "filter_val" => ilUtil::prepareFormOutput($filter),
+                    "cnt" => $ad["cnt"]];
 
         if ($return) {
             $this->initJS();

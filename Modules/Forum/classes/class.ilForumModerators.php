@@ -76,7 +76,7 @@ class ilForumModerators
         }
         
         if ((int) $a_rol_id) {
-            $user =  $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
+            $user = $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
             return true;
         }
     

@@ -40,8 +40,8 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ilGlobalPageTemplate $globalTemplate
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory            = $uiFactory;
-        $this->uiRenderer           = $uiRenderer;
+        $this->uiFactory = $uiFactory;
+        $this->uiRenderer = $uiRenderer;
 
         $this->setId('tos_acceptance_history');
         $this->setFormName('tos_acceptance_history');
@@ -79,44 +79,44 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 
         return [
             ++$i => [
-                'field'    => 'ts',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_acceptance_date'),
-                'default'  => true,
+                'field' => 'ts',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_acceptance_date'),
+                'default' => true,
                 'optional' => false,
                 'sortable' => true
             ],
             ++$i => [
-                'field'    => 'login',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_login'),
-                'default'  => true,
+                'field' => 'login',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_login'),
+                'default' => true,
                 'optional' => false,
                 'sortable' => true
             ],
             ++$i => [
-                'field'    => 'firstname',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_firstname'),
-                'default'  => false,
+                'field' => 'firstname',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_firstname'),
+                'default' => false,
                 'optional' => true,
                 'sortable' => true
             ],
             ++$i => [
-                'field'    => 'lastname',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_lastname'),
-                'default'  => false,
+                'field' => 'lastname',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_lastname'),
+                'default' => false,
                 'optional' => true,
                 'sortable' => true
             ],
             ++$i => [
-                'field'    => 'title',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_document'),
-                'default'  => true,
+                'field' => 'title',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_document'),
+                'default' => true,
                 'optional' => false,
                 'sortable' => true
             ],
             ++$i => [
-                'field'    => 'criteria',
-                'txt'      => $this->lng->txt('tos_tbl_hist_head_criteria'),
-                'default'  => false,
+                'field' => 'criteria',
+                'txt' => $this->lng->txt('tos_tbl_hist_head_criteria'),
+                'default' => false,
                 'optional' => true,
                 'sortable' => false
             ],
@@ -169,7 +169,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 
         foreach ($criteria as $criterion) {
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($criterion['id'], true);
-            $typeGui       = $criterionType->ui($this->lng);
+            $typeGui = $criterionType->ui($this->lng);
 
             $items[$typeGui->getIdentPresentation() .
             $this->getUniqueCriterionListingAttribute()] = $typeGui->getValuePresentation(
@@ -235,12 +235,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->filter['query'] = $ul->getValue();
 
         $duration = new ilDateDurationInputGUI($this->lng->txt('tos_period'), 'period');
-        $duration->setRequired(true);
+        $duration->setAllowOpenIntervals(true);
+        $duration->setShowTime(true);
         $duration->setStartText($this->lng->txt('tos_period_from'));
         $duration->setEndText($this->lng->txt('tos_period_until'));
-        $duration->setStart(new ilDateTime(strtotime('-1 year', time()), IL_CAL_UNIX));
-        $duration->setEnd(new ilDateTime(time(), IL_CAL_UNIX));
-        $duration->setShowTime(true);
+        $duration->setStart(new \ilDateTime(null, IL_CAL_UNIX));
+        $duration->setEnd(new \ilDateTime(null, IL_CAL_UNIX));
         $this->addFilterItem($duration, true);
         $duration->readFromSession();
         $this->optional_filter['period'] = $duration->getValue();

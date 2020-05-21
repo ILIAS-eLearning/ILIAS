@@ -156,9 +156,9 @@ class ilLDAPRoleAssignmentRule
             $res = $query->query(
                 $this->getDN(),
                 sprintf(
-                                    '(%s=%s)',
-                                    $this->getMemberAttribute(),
-                                    $user_cmp
+                    '(%s=%s)',
+                    $this->getMemberAttribute(),
+                    $user_cmp
                                 ),
                 IL_LDAP_SCOPE_BASE,
                 array('dn')

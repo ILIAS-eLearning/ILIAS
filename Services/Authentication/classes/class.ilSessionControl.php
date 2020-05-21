@@ -20,11 +20,11 @@ class ilSessionControl
      * default value for settings that have not
      * been defined in setup or administration yet
      */
-    const DEFAULT_MAX_COUNT						= 0;
-    const DEFAULT_MIN_IDLE						= 15;
-    const DEFAULT_MAX_IDLE						= 30;
-    const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST	= 1;
-    const DEFAULT_ALLOW_CLIENT_MAINTENANCE		= 1;
+    const DEFAULT_MAX_COUNT = 0;
+    const DEFAULT_MIN_IDLE = 15;
+    const DEFAULT_MAX_IDLE = 30;
+    const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST = 1;
+    const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
 
     /**
      * all fieldnames that are saved in settings table
@@ -44,11 +44,11 @@ class ilSessionControl
      * session types from which one is
      * assigned to each session
      */
-    const SESSION_TYPE_UNKNOWN	= 0;
-    const SESSION_TYPE_SYSTEM	= 1;
-    const SESSION_TYPE_ADMIN	= 2;
-    const SESSION_TYPE_USER		= 3;
-    const SESSION_TYPE_ANONYM	= 4;
+    const SESSION_TYPE_UNKNOWN = 0;
+    const SESSION_TYPE_SYSTEM = 1;
+    const SESSION_TYPE_ADMIN = 2;
+    const SESSION_TYPE_USER = 3;
+    const SESSION_TYPE_ANONYM = 4;
 
     /**
      * all session types that will be involved when count of sessions

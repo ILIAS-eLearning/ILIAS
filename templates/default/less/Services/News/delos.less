@@ -1,5 +1,31 @@
 /* Services/News */
 
+td.il-news {
+	white-space:normal;
+	.il-news-locator {
+		margin: 2px 0px 4px 0px;
+	}
+	.ilIcon {
+		vertical-align:middle
+	}
+	.il-news-content {
+		clear:both;
+	}
+	.il-news-player {
+		margin-top: 15px;
+		max-width: 600px;
+	}
+	.il_BlockInfo {
+		text-align:right;
+	}
+}
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	td.il-news {
+		white-space: normal !important;
+	}
+}
+
 span.ilNewsRssIcon {
 	background-color: @badge-bg;
 	color: @badge-color;
@@ -144,6 +170,9 @@ span.ilNewsRssIcon {
 	.media-heading {
 		clear: right;
 		margin-top: 8px;
+	}
+	div.ilNotesHeader {
+		background-color: @il-primary-container-bg;
 	}
 }
 

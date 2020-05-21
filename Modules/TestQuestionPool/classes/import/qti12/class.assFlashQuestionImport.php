@@ -59,12 +59,12 @@ class assFlashQuestionImport extends assQuestionImport
         );
         $this->object->saveToDb();
 
-        $flashapplet =&base64_decode($item->getMetadataEntry("swf"));
+        $flashapplet = &base64_decode($item->getMetadataEntry("swf"));
         if (!file_exists($this->object->getFlashPath())) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             ilUtil::makeDirParents($this->object->getFlashPath());
         }
-        $filename =  $this->object->getFlashPath() . $this->object->getApplet();
+        $filename = $this->object->getFlashPath() . $this->object->getApplet();
         $fh = fopen($filename, "wb");
         if ($fh == false) {
             //									global $DIC;
@@ -93,7 +93,7 @@ class assFlashQuestionImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($feedbacksgeneric as $correctness => $material) {

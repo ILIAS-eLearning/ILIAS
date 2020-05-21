@@ -246,8 +246,7 @@ class ilSoapUtils extends ilSoapAdministration
 
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         
         include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($copy_identifier);
@@ -267,9 +266,11 @@ class ilSoapUtils extends ilSoapAdministration
     
         // Check options of this node
         $options = $cp_options->getOptions($node['child']);
-        
+
+        $action = $this->rewriteActionForNode($cp_options, $node, $options);
+
         $new_ref_id = 0;
-        switch ($options['type']) {
+        switch ($action) {
             case ilCopyWizardOptions::COPY_WIZARD_OMIT:
                 ilLoggerFactory::getLogger('obj')->debug(': Omitting node: ' . $node['obj_id'] . ', ' . $node['title'] . ', ' . $node['type']);
                 // set mapping to zero
@@ -290,6 +291,12 @@ class ilSoapUtils extends ilSoapAdministration
                 $this->callNextNode($sid, $cp_options);
                 break;
 
+            case \ilCopyWizardOptions::COPY_WIZARD_LINK_TO_TARGET:
+                ilLoggerFactory::getLogger('obj')->debug('Start creating internal link for: ' . $node['obj_id'] . ', ' . $node['title'] . ', ' . $node['type']);
+                $new_ref_id = $this->internalLinkNode($node, $cp_options);
+                $this->callNextNode($sid, $cp_options);
+                break;
+
             default:
                 ilLoggerFactory::getLogger('obj')->warning('No valid action type given for: ' . $node['obj_id'] . ', ' . $node['title'] . ', ' . $node['type']);
                 $this->callNextNode($sid, $cp_options);
@@ -298,6 +305,69 @@ class ilSoapUtils extends ilSoapAdministration
         }
         return $new_ref_id;
     }
+
+    /**
+     * @param array $options
+     * @return int
+     */
+    protected function rewriteActionForNode(ilCopyWizardOptions $cpo, array $node, array $options)
+    {
+        $default_mode = \ilCopyWizardOptions::COPY_WIZARD_UNDEFINED;
+        if (array_key_exists('type', $options)) {
+            $default_mode = $options['type'];
+        }
+        if (
+            array_key_exists('child', $node) &&
+            $cpo->isRootNode($node)
+        ) {
+            return $default_mode;
+        }
+
+        if ($this->findMappedReferenceForNode($cpo, $node)) {
+
+            if ($default_mode == \ilCopyWizardOptions::COPY_WIZARD_COPY) {
+                return \ilCopyWizardOptions::COPY_WIZARD_LINK_TO_TARGET;
+            }
+        }
+        return $default_mode;
+    }
+
+    /**
+     * @param ilCopyWizardOptions $cpo
+     * @param array               $node
+     * @return int | null
+     */
+    protected function findMappedReferenceForNode(\ilCopyWizardOptions $cpo, array $node)
+    {
+        global $DIC;
+
+        $logger = $DIC->logger()->obj();
+        $tree = $DIC->repositoryTree();
+        $root = $cpo->getRootNode();
+        $obj_id = $node['obj_id'];
+
+        $mappings = $cpo->getMappings();
+        foreach (\ilObject::_getAllReferences($obj_id) as $ref_id => $also_ref_id) {
+
+            $logger->debug('Validating node: ' . $ref_id . ' and root ' . $root );
+            $logger->dump($DIC->repositoryTree()->getRelation($ref_id , $root));
+
+            if($DIC->repositoryTree()->getRelation($ref_id , $root) != \ilTree::RELATION_CHILD) {
+                $logger->debug('Ignoring non child relation');
+                continue;
+            }
+            // check if mapping is already available
+            $logger->dump($mappings);
+            if (array_key_exists($ref_id, $mappings)) {
+                $logger->debug('Found existing mapping for linked node.');
+                return $mappings[$ref_id];
+            }
+        }
+        $logger->info('Nothing found');
+        return null;
+    }
+
+
     
     /**
      * Call next node using soap
@@ -438,7 +508,70 @@ class ilSoapUtils extends ilSoapAdministration
         $orig->cloneDependencies($target_id, $cp_options->getCopyId());
         return true;
     }
-    
+
+    /**
+     * Link node
+     * @access private
+     * @param $node
+     * @param $cp_options
+     * @return bool|int
+     * @throws ilDatabaseException
+     */
+    private function internalLinkNode($node, $cp_options)
+    {
+        global $DIC;
+
+        $ilAccess = $DIC->access();
+        $logger = $DIC->logger()->obj();
+        $rbacreview = $DIC->rbac()->review();
+        $tree = $DIC->repositoryTree();
+        $mappings = $cp_options->getMappings();
+
+        $source_id = $this->findMappedReferenceForNode($cp_options, $node);
+        try {
+            $orig = ilObjectFactory::getInstanceByRefId((int) $source_id);
+            if(!$orig instanceof \ilObject) {
+                $logger->error('Cannot create object instance.');
+                return false;
+            }
+        }
+        catch (\ilObjectNotFoundException $e) {
+            $logger->error('Cannot create object instance for ref_id: ' . $source_id);
+            $logger->error($e->getMessage());
+            return false;
+        }
+
+        // target (parent id) is the mapped parent id of the current node
+        $node_parent = $node['parent'];
+        if (!array_key_exists($node_parent, $mappings)) {
+            $logger->error('Cannot new parent id for node: ' . $node['parent']);
+            return false;
+        }
+        $parent_id = $mappings[$node_parent];
+
+        $new_ref_id = $orig->createReference();
+        $orig->putInTree($parent_id);
+        $orig->setPermissions($parent_id);
+
+        if (!($new_ref_id)) {
+            $logger->warning('Creating internal link failed.');
+            return false;
+        }
+
+        // rbac log
+        $rbac_log_roles = $rbacreview->getParentRoleIds($new_ref_id, false);
+        $rbac_log = ilRbacLog::gatherFaPa($new_ref_id, array_keys($rbac_log_roles), true);
+        ilRbacLog::add(ilRbacLog::LINK_OBJECT, $new_ref_id, $rbac_log, (int) $source_id);
+
+        // Finally add new mapping entry
+        $cp_options->appendMapping($node['child'], $new_ref_id);
+
+        $logger->notice('Added mapping for ' . $node['child'] . ' ' . $new_ref_id);
+
+
+        return $new_ref_id;
+    }
+
     /**
      * Link node
      *

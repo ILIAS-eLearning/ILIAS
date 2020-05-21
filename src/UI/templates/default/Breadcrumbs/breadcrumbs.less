@@ -16,20 +16,31 @@
 	grid-row: 2;
 	z-index: @il-standard-page-zindex-breadcrumbs;
 	.shadow-bottom();
-	ul.breadcrumb {
+
+	.breadcrumb_wrapper {
+		width: 100%;
+		display: inline-grid;
+	}
+
+	.breadcrumb {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		direction: rtl;
+		text-align: left;
 		margin: 0;
 		font-weight: @breadcrumb-font-weight;
 		font-size: @font-size-small;
 		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
 
-		li {
+		span.crumb {
 			color: @breadcrumb-color;
 			&:hover {
 				color: @breadcrumb-active-color;
 			}
 		}
 
-		&>li+li:before {
+		&>span+span:before {
 			content: " \e606";
 			color: @il-standard-page-breadcrumbs-divider-color;
 			padding: 8px 10px;

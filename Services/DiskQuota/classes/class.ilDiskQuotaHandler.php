@@ -272,7 +272,7 @@ class ilDiskQuotaHandler
             $lng->txt("personal_resources_quota_status_legend"),
             ilUtil::formatSize($usage),
             ilUtil::formatSize($quota),
-            $quota ? round($usage/$quota*100) : 0
+            $quota ? round($usage / $quota * 100) : 0
         );
     }
 }

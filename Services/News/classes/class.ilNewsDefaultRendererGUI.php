@@ -113,7 +113,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         if (!$this->news_item->getContentHtml()) {
             $content = "<p>" . nl2br($content) . "</p>";
         }
-        $content.= $this->news_item->getContentLong();
+        $content .= $this->news_item->getContentLong();
 
         return $content;
     }

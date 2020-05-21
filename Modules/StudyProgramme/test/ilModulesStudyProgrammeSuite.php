@@ -53,6 +53,12 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         require_once("./Modules/StudyProgramme/test/model/Types/ilStudyProgrammeTypeRepositoryTest.php");
         require_once("./Modules/StudyProgramme/test/ilPrgInvalidateExpiredProgressesCronJobTest.php");
         require_once("./Modules/StudyProgramme/test/ilPrgRestartAssignmentsCronJobTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeAssessmentSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeAutoMailSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeValidityOfAchievedQualificationSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeDeadlineSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/ilStudyProgrammeTypeSettingsTest.php");
+        require_once("./Modules/StudyProgramme/test/types/ilStudyProgrammeTypeInfoTest.php");
         $suite->addTestSuite("ilObjStudyProgrammeTest");
         $suite->addTestSuite("ilStudyProgrammeEventsTest");
         $suite->addTestSuite("ilStudyProgrammeLPTest");
@@ -71,6 +77,12 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilStudyProgrammeTypeRepositoryTest");
         $suite->addTestSuite("ilPrgInvalidateExpiredProgressesCronJobTest");
         $suite->addTestSuite("ilPrgRestartAssignmentsCronJobTest");
+        $suite->addTestSuite("ilStudyProgrammeAssessmentSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeAutoMailSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeValidityOfAchievedQualificationSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeDeadlineSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeTypeSettingsTest");
+        $suite->addTestSuite("ilStudyProgrammeTypeInfoTest");
         return $suite;
     }
 }

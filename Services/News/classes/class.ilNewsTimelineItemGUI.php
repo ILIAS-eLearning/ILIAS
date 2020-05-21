@@ -289,8 +289,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
             $mp = new ilMediaPlayerGUI();
             $mp->setFile($media_path);
-            $mp->setDisplayHeight(200);
             $html = $mp->getMediaPlayerHtml();
+
         } else {
             // download?
             $html = "";
@@ -364,7 +364,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $note_gui->setDefaultCommand("getWidget");
 
         //ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
-        $html.= $this->ctrl->getHTML($note_gui);
+        $html .= $this->ctrl->getHTML($note_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $_GET["news_id"]);
 

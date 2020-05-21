@@ -33,12 +33,12 @@ class ilObjBlog extends ilObject2
     protected $abstract_shorten_length = self::ABSTRACT_DEFAULT_SHORTEN_LENGTH; // [int]
     protected $abstract_image = false; // [bool]
     protected $abstract_image_width = self::ABSTRACT_DEFAULT_IMAGE_WIDTH; // [int]
-    protected $abstract_image_height= self::ABSTRACT_DEFAULT_IMAGE_HEIGHT; // [int]
+    protected $abstract_image_height = self::ABSTRACT_DEFAULT_IMAGE_HEIGHT; // [int]
     protected $keywords = true; // [bool]
     protected $nav_mode = self::NAV_MODE_LIST; // [int]
     protected $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS; // [int]
     protected $nav_mode_list_months; // [int]
-    protected $overview_postings; // [int]
+    protected $overview_postings = 5; // [int]
     protected $authors = true; // [bool]
     protected $order;
     
@@ -95,7 +95,7 @@ class ilObjBlog extends ilObject2
         
         $ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval" .
             ",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height" .
-            ",keywords,authors,nav_mode,nav_list_mon_with_post) VALUES (" .
+            ",keywords,authors,nav_mode,nav_list_mon_with_post,ov_post) VALUES (" .
             $ilDB->quote($this->id, "integer") . "," .
             $ilDB->quote(true, "integer") . "," .
             $ilDB->quote(true, "integer") . "," .
@@ -108,7 +108,8 @@ class ilObjBlog extends ilObject2
             $ilDB->quote($this->hasKeywords(), "integer") . "," .
             $ilDB->quote($this->hasAuthors(), "integer") . "," .
             $ilDB->quote($this->getNavMode(), "integer") . "," .
-            $ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer") .
+            $ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer") . "," .
+            $ilDB->quote($this->getOverviewPostings(), "integer") .
             ")");
         
         // #14661
@@ -798,7 +799,7 @@ class ilObjBlog extends ilObject2
         $rbacreview = $this->rbacreview;
         
         foreach ($rbacreview->getLocalRoles($a_node_id) as $role_id) {
-            if (substr(ilObject::_lookupTitle($role_id), 0, 19)  == "il_blog_contributor") {
+            if (substr(ilObject::_lookupTitle($role_id), 0, 19) == "il_blog_contributor") {
                 return $role_id;
             }
         }
@@ -809,7 +810,7 @@ class ilObjBlog extends ilObject2
         $rbacreview = $this->rbacreview;
         
         foreach ($rbacreview->getLocalRoles($a_node_id) as $role_id) {
-            if (substr(ilObject::_lookupTitle($role_id), 0, 14)  == "il_blog_editor") {
+            if (substr(ilObject::_lookupTitle($role_id), 0, 14) == "il_blog_editor") {
                 return $role_id;
             }
         }

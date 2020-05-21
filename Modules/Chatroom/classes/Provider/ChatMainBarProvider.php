@@ -30,15 +30,14 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $publicChatRefId = (int) \ilObjChatroom::_getPublicRefId();
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
-        $title = $dic['ilObjDataCache']->lookupTitle($publicChatObjId);
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard(Standard::CHTA,$title)->withIsOutlined(true);
+            ->standard(Standard::CHTA, $this->dic->language()->txt('public_room'))->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))
-                ->withTitle($title)
+                ->withTitle($this->dic->language()->txt('public_room'))
                 ->withAction('ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id=' . $publicChatRefId)
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)

@@ -260,7 +260,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->setReturn($this, "editStyleProperties");
         $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
         $style_gui->omitLocator();
-        if ($cmd == "create" || $_GET["new_type"]=="sty") {
+        if ($cmd == "create" || $_GET["new_type"] == "sty") {
             $style_gui->setCreationMode(true);
         }
 
@@ -419,7 +419,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilSetting = $this->settings;
         $ilUser = $this->user;
         
-        if (!$ilSetting->get("enable_cat_page_edit")) {
+        if (!$ilSetting->get("enable_cat_page_edit") || $this->object->filteredSubtree()) {
             return;
         }
         
@@ -560,7 +560,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function getContentGUI()
     {
-        switch ($this->object->getViewMode()) {
+        $view_mode = $this->object->getViewMode();
+        if ($this->object->filteredSubtree()) {
+            $view_mode = ilContainer::VIEW_SIMPLE;
+        }
+        switch ($view_mode) {
             // all items in one block
             case ilContainer::VIEW_SIMPLE:
                 include_once("./Services/Container/classes/class.ilContainerSimpleContentGUI.php");
@@ -735,8 +739,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $toolbar->addButton(
                     $this->lng->txt('cntr_adopt_content'),
                     $this->ctrl->getLinkTargetByClass(
-                            'ilObjectCopyGUI',
-                            'adoptContent'
+                        'ilObjectCopyGUI',
+                        'adoptContent'
                         )
                     );
             }
@@ -1077,7 +1081,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++)%2)+1));
+            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable("TYPE", $lng->txt("objs_" . $type) .
                     " (" . ((int) $cnt[$type]) . ")");
@@ -2097,7 +2101,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
-        $output.= "<br />" . $t->getHTML();
+        $output .= "<br />" . $t->getHTML();
 
         $this->tpl->setContent($output);
     }
@@ -2747,7 +2751,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     * @param	string the new name of the copy (optional).
     * @return	The ref_id pointing to the cloned object.
     */
-    public function cloneNodes($srcRef, $dstRef, &$mapping, $newName=null)
+    public function cloneNodes($srcRef, $dstRef, &$mapping, $newName = null)
     {
         $tree = $this->tree;
 
@@ -3063,6 +3067,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function showPasswordInstructionObject($a_init = true)
     {
+        global $DIC;
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         
@@ -3070,17 +3075,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ilUtil::sendInfo($this->lng->txt('webdav_pwd_instruction'));
             $this->initFormPasswordInstruction();
         }
-        
-        include_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-        $dav_util = ilWebDAVUtil::getInstance();
-        $ilToolbar->addButton(
-            $this->lng->txt('mount_webfolder'),
-            $dav_util->getMountURI($this->object->getRefId()),
-            '_blank',
-            '',
-            $dav_util->getFolderURI($this->object->getRefId())
-        );
 
+        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
+
+        $btn = ilButton::getInstance();
+        $btn->setCaption('mount_webfolder');
+        $btn->setOnClick("triggerWebDAVModal('$href')");
+        $ilToolbar->addButtonInstance($btn);
 
         $tpl->setContent($this->form->getHTML());
     }

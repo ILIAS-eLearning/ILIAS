@@ -21,8 +21,6 @@ class ilAppointmentBookingPoolFileHandler extends ilAppointmentBaseFileHandler i
     {
         // context id is reservation id (see ilObjBookingPoolGUI->processBooking)
         $res_id = $this->appointment['event']->getContextId();
-        include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
-        include_once("./Modules/BookingManager/classes/class.ilBookingObject.php");
         $res = new ilBookingReservation($res_id);
         $b_obj = new ilBookingObject($res->getObjectId());
 

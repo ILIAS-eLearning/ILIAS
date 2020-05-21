@@ -28,7 +28,7 @@ class ilResourceRegistry implements ResourceRegistry
         $path_parts = pathinfo($name);
         switch ($path_parts["extension"]) {
             case "js":
-                $this->il_template->addJavaScript($name);
+                $this->il_template->addJavaScript($name, true, 1);
                 break;
             case "css":
                 $this->il_template->addCss($name);

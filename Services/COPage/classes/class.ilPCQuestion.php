@@ -289,12 +289,9 @@ class ilPCQuestion extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_output, $a_mode)
+    public function modifyPageContentPostXsl($a_output, $a_mode, $a_abstract_only = false)
     {
         $lng = $this->lng;
 
@@ -370,7 +367,8 @@ class ilPCQuestion extends ilPageContent
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             $js_files[] = "./Modules/Scorm2004/scripts/questions/pure.js";
             $js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
-            //$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
+            $js_files[] = 'Modules/TestQuestionPool/js/ilAssMultipleChoice.js';
+            $js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
             
             foreach ($this->getPage()->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
@@ -394,7 +392,7 @@ class ilPCQuestion extends ilPageContent
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             return array("./Modules/Scorm2004/templates/default/question_handling.css",
                 "Modules/TestQuestionPool/templates/default/test_javascript.css",
-                'Modules/TestQuestionPool/templates/default/ta.css');
+                'Modules/Test/templates/default/ta.css');
         }
         return array();
     }

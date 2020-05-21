@@ -177,7 +177,7 @@ class ilExAssignmentMemberStatus
             " WHERE ass_id = " . $ilDB->quote($this->ass_id, "integer") .
             " AND usr_id = " . $ilDB->quote($this->user_id, "integer"));
         if ($ilDB->numRows($set)) {
-            $row  = $ilDB->fetchAssoc($set);
+            $row = $ilDB->fetchAssoc($set);
             
             // not using setters to circumvent any datetime-logic/-magic
             $this->notice = $row["notice"];
@@ -205,7 +205,7 @@ class ilExAssignmentMemberStatus
             ,"sent" => array("integer", $this->getSent())
             ,"sent_time" => array("timestamp", $this->getSentTime())
             ,"feedback_time" => array("timestamp", $this->getFeedbackTime())
-            ,"feedback" => array("integer", $this->getFeedback())
+            ,"feedback" => array("integer", (int) $this->getFeedback())
             ,"status" => array("text", $this->getStatus())
             ,"mark" => array("text", $this->getMark())
             ,"u_comment" => array("text", $this->getComment())

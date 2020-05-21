@@ -59,8 +59,8 @@ class ilCertificateCloneAction
         ilCertificateObjectHelper $objectHelper = null,
         string $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->database           = $database;
-        $this->pathFactory        = $pathFactory;
+        $this->database = $database;
+        $this->pathFactory = $pathFactory;
         $this->templateRepository = $templateRepository;
 
         if (null === $logger) {
@@ -139,7 +139,9 @@ class ilCertificateCloneAction
                 );
             }
 
-            if ($this->fileSystem->has($backgroundImageThumbnail) &&
+            if (
+                strlen($newBackgroundImageThumbnail) > 0 &&
+                $this->fileSystem->has($backgroundImageThumbnail) &&
                 !$this->fileSystem->hasDir($backgroundImageThumbnail)
             ) {
                 if ($this->fileSystem->has($newBackgroundImageThumbnail) &&
@@ -170,7 +172,7 @@ class ilCertificateCloneAction
 
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
-                $this->objectHelper->lookupObjId((int) $newObject->getId()),
+                $this->objectHelper->lookupType((int) $newObject->getId()),
                 $template->getCertificateContent(),
                 $template->getCertificateHash(),
                 $template->getTemplateValues(),

@@ -94,20 +94,20 @@ class ilCmiXapiLrsTypeList
     public static function getTypesStruct()
     {
         $a_s = array(
-            'type_name' 		=> array('type'=>'text', 'maxlength'=>32)
-        , 'title'			=> array('type'=>'text', 'maxlength'=>255)
-        , 'description'		=> array('type'=>'text', 'maxlength'=>4000)
-        , 'availability'	=> array('type'=>'a_integer', 'maxlength'=>1,'options'=>array(2,1,0)) //AVAILABILITY_CREATE,AVAILABILITY_EXISTING,AVAILABILITY_NONE
+            'type_name' => array('type' => 'text', 'maxlength' => 32)
+        , 'title' => array('type' => 'text', 'maxlength' => 255)
+        , 'description' => array('type' => 'text', 'maxlength' => 4000)
+        , 'availability' => array('type' => 'a_integer', 'maxlength' => 1,'options' => array(2,1,0)) //AVAILABILITY_CREATE,AVAILABILITY_EXISTING,AVAILABILITY_NONE
             // , 'lrs'				=> array('type'=>'headline')
-        , 'lrs_type_id'		=> array('type'=>'a_integer', 'maxlength'=>1, 'options'=>array(0))
-        , 'lrs_endpoint'	=> array('type'=>'text', 'maxlength'=>64, 'required'=>true)
-        , 'lrs_key'			=> array('type'=>'text', 'maxlength'=>64, 'required'=>true)
-        , 'lrs_secret'		=> array('type'=>'text', 'maxlength'=>64, 'required'=>true)
-        , 'external_lrs'	=> array('type'=>'bool')
-        , 'privacy_ident'	=> array('type'=>'a_integer', 'maxlength'=>1, 'options'=>array(0,1,2,3))
-        , 'privacy_name'	=> array('type'=>'a_integer', 'maxlength'=>1, 'options'=>array(0,1,2,3))
-        , 'privacy_comment_default' => array('type'=>'text', 'maxlength'=>2000)
-        , 'remarks'			=> array('type'=>'text', 'maxlength'=>4000)
+        , 'lrs_type_id' => array('type' => 'a_integer', 'maxlength' => 1, 'options' => array(0))
+        , 'lrs_endpoint' => array('type' => 'text', 'maxlength' => 64, 'required' => true)
+        , 'lrs_key' => array('type' => 'text', 'maxlength' => 64, 'required' => true)
+        , 'lrs_secret' => array('type' => 'text', 'maxlength' => 64, 'required' => true)
+        , 'external_lrs' => array('type' => 'bool')
+        , 'privacy_ident' => array('type' => 'a_integer', 'maxlength' => 1, 'options' => array(0,1,2,3))
+        , 'privacy_name' => array('type' => 'a_integer', 'maxlength' => 1, 'options' => array(0,1,2,3))
+        , 'privacy_comment_default' => array('type' => 'text', 'maxlength' => 2000)
+        , 'remarks' => array('type' => 'text', 'maxlength' => 4000)
         );
         return $a_s;
     }

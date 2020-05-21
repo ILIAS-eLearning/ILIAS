@@ -168,10 +168,10 @@ class ilObjFile extends ilObject2
         //add metadata to database
         $metadata = [
             'meta_lifecycle_id' => ['integer', $DIC->database()->nextId('il_meta_lifecycle')],
-            'rbac_id'           => ['integer', $this->getId()],
-            'obj_id'            => ['integer', $this->getId()],
-            'obj_type'          => ['text', "file"],
-            'meta_version'      => ['integer', (int) $this->getVersion()],
+            'rbac_id' => ['integer', $this->getId()],
+            'obj_id' => ['integer', $this->getId()],
+            'obj_type' => ['text', "file"],
+            'meta_version' => ['integer', (int) $this->getVersion()],
         ];
         $DIC->database()->insert('il_meta_lifecycle', $metadata);
 
@@ -1098,11 +1098,11 @@ class ilObjFile extends ilObject2
         }
         // #15143
         $ilDB->replace("file_usage", array(
-            "id"            => array("integer", (int) $a_file_id),
-            "usage_type"    => array("text", (string) $a_type),
-            "usage_id"      => array("integer", (int) $a_id),
+            "id" => array("integer", (int) $a_file_id),
+            "usage_type" => array("text", (string) $a_type),
+            "usage_id" => array("integer", (int) $a_id),
             "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr),
-            "usage_lang"    => array("text", $a_usage_lang),
+            "usage_lang" => array("text", $a_usage_lang),
         ), array());
 
         self::handleQuotaUpdate(new self($a_file_id, false));
@@ -1123,9 +1123,9 @@ class ilObjFile extends ilObject2
         $ret = array();
         while ($us_rec = $ilDB->fetchAssoc($us_set)) {
             $ret[] = array(
-                "type"    => $us_rec["usage_type"],
-                "id"      => $us_rec["usage_id"],
-                "lang"    => $us_rec["usage_lang"],
+                "type" => $us_rec["usage_type"],
+                "id" => $us_rec["usage_id"],
+                "lang" => $us_rec["usage_lang"],
                 "hist_nr" => $us_rec["usage_hist_nr"],
             );
         }
@@ -1497,9 +1497,9 @@ class ilObjFile extends ilObject2
         }
 
         $result = array(
-            "filename"         => $data[0],
-            "version"          => $data[1],
-            "max_version"      => $data[2],
+            "filename" => $data[0],
+            "version" => $data[1],
+            "max_version" => $data[2],
             "rollback_version" => "",
             "rollback_user_id" => "",
         );
@@ -1618,15 +1618,15 @@ class ilObjFile extends ilObject2
     private function getArrayForDatabase()
     {
         return [
-            'file_id'     => ['integer', $this->getId()],
-            'file_name'   => ['text', $this->getFileName()],
-            'file_type'   => ['text', $this->getFileType()],
-            'file_size'   => ['integer', (int) $this->getFileSize()],
-            'version'     => ['integer', (int) $this->getVersion()],
+            'file_id' => ['integer', $this->getId()],
+            'file_name' => ['text', $this->getFileName()],
+            'file_type' => ['text', $this->getFileType()],
+            'file_size' => ['integer', (int) $this->getFileSize()],
+            'version' => ['integer', (int) $this->getVersion()],
             'max_version' => ['integer', (int) $this->getMaxVersion()],
-            'f_mode'      => ['text', $this->getMode()],
-            'page_count'  => ['text', $this->getPageCount()],
-            'rating'      => ['integer', $this->hasRating()],
+            'f_mode' => ['text', $this->getMode()],
+            'page_count' => ['text', $this->getPageCount()],
+            'rating' => ['integer', $this->hasRating()],
         ];
     }
 }

@@ -115,6 +115,9 @@ class ilObjCloudGUI extends ilObject2GUI
             case "render":
                 $this->addHeaderAction();
                 break;
+            case 'infoScreen':
+                $this->ctrl->redirectByClass(ilInfoScreenGUI::class);
+                break;
         }
 
         switch ($next_class) {
@@ -205,7 +208,6 @@ class ilObjCloudGUI extends ilObject2GUI
      */
     public static function _goto($a_target)
     {
-
         $content = explode("_", $a_target);
 
         $_GET["ref_id"] = $content[0];
@@ -332,6 +334,7 @@ class ilObjCloudGUI extends ilObject2GUI
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
+        $this->ctrl->setParameter($this, 'new_type', 'cld');
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
         $form->setTitle($this->lng->txt($a_new_type . "_new"));
 
@@ -387,7 +390,9 @@ class ilObjCloudGUI extends ilObject2GUI
          * @var $a_new_object ilObjCloud
          */
         try {
+            $this->ctrl->setParameter($this, 'ref_id', $this->tree->getParentId($a_new_object->getRefId()));
             $form = $this->initCreateForm("cld");
+            $this->ctrl->setParameter($this, 'ref_id', $a_new_object->getRefId());
 
             if ($form->checkInput()) {
                 $a_new_object->setServiceName($form->getInput("service"));
@@ -400,11 +405,13 @@ class ilObjCloudGUI extends ilObject2GUI
                     $init_gui->afterSavePluginCreation($a_new_object, $form);
                 }
                 $a_new_object->update();
+                $this->ctrl->setParameter($this, 'new_type', '');
                 $this->serviceAuth($a_new_object);
             }
         } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage(), true);
-            ilObjectGUI::redirectToRefId($this->parent_id);
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
         }
     }
 

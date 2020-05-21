@@ -113,7 +113,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                 }
             }
 
-            if ($a_anchor !=  "") {
+            if ($a_anchor != "") {
                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "anchor", rawurlencode($a_anchor));
             }
             if ($a_srcstring != "") {
@@ -140,7 +140,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
                             default:
                                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $a_obj_id);
-                                $link.= "&amp;obj_id=" . $a_obj_id;
+                                $link .= "&amp;obj_id=" . $a_obj_id;
                                 break;
                         }
                     }
@@ -250,9 +250,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info.="<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
-        $link_info.= "</LinkTargets>";
+        $link_info .= "</LinkTargets>";
         return $link_info;
     }
 
@@ -302,9 +302,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 : $ltarget;
                             if ($ltarget == "") {
                                 if ($showViewInFrameset) {
-                                    $ltarget="_parent";
+                                    $ltarget = "_parent";
                                 } else {
-                                    $ltarget="_top";
+                                    $ltarget = "_top";
                                 }
                             }
                             // scorm always in 1window view and link target
@@ -457,9 +457,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                 }
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
 
-        $link_info.= $this->getLinkTargetsXML();
+        $link_info .= $this->getLinkTargetsXML();
 
         return $link_info;
     }

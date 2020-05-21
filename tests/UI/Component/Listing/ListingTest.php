@@ -37,7 +37,7 @@ class ListingTest extends ILIAS_UI_TestBase
         );
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Listing\\Descriptive",
-            $f->descriptive(array("k1"=>"c1"))
+            $f->descriptive(array("k1" => "c1"))
         );
 
         $this->assertInstanceOf(
@@ -68,9 +68,9 @@ class ListingTest extends ILIAS_UI_TestBase
     public function test_descriptive_get_items()
     {
         $f = $this->getListingFactory();
-        $l = $f->descriptive(array("k1"=>"c1","k2"=>"c2"));
+        $l = $f->descriptive(array("k1" => "c1","k2" => "c2"));
 
-        $items = array("k1"=>"c1","k2"=>"c2");
+        $items = array("k1" => "c1","k2" => "c2");
         $this->assertEquals($l->getItems(), $items);
     }
 
@@ -95,9 +95,9 @@ class ListingTest extends ILIAS_UI_TestBase
     public function test_descriptive_with_items()
     {
         $f = $this->getListingFactory();
-        $l = $f->descriptive(array())->withItems(array("k1"=>"c1","k2"=>"c2"));
+        $l = $f->descriptive(array())->withItems(array("k1" => "c1","k2" => "c2"));
 
-        $items = array("k1"=>"c1","k2"=>"c2");
+        $items = array("k1" => "c1","k2" => "c2");
         $this->assertEquals($l->getItems(), $items);
     }
 
@@ -161,7 +161,7 @@ class ListingTest extends ILIAS_UI_TestBase
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();
-        $l = $f->descriptive(array("k1"=>"c1","k2"=>"c2"));
+        $l = $f->descriptive(array("k1" => "c1","k2" => "c2"));
 
         $html = $this->normalizeHTML($r->render($l));
 

@@ -70,10 +70,10 @@ class ilMailSearchGUI
     {
         global $DIC;
 
-        $this->tpl               = $DIC['tpl'];
-        $this->ctrl              = $DIC['ilCtrl'];
-        $this->lng               = $DIC['lng'];
-        $this->rbacreview        = $DIC['rbacreview'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->rbacreview = $DIC['rbacreview'];
         $this->object_data_cache = $DIC['ilObjDataCache'];
 
         // personal workspace
@@ -151,7 +151,7 @@ class ilMailSearchGUI
     
     public function search()
     {
-        $_SESSION["mail_search_search"] = $_POST["search"];
+        $_SESSION["mail_search_search"] = (string) $_POST["search"];
 
         if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
@@ -186,8 +186,12 @@ class ilMailSearchGUI
         $inp->setSize(30);
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
         $inp->setDataSource($dsDataLink);
-        
-        if (strlen(trim($_SESSION["mail_search_search"])) > 0) {
+
+        if (
+            isset($_SESSION["mail_search_search"]) &&
+            is_string($_SESSION["mail_search_search"]) &&
+            strlen(trim($_SESSION["mail_search_search"])) > 0
+        ) {
             $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
         }
         $form->addItem($inp);
@@ -228,7 +232,7 @@ class ilMailSearchGUI
         $search_recipients = ($_GET["ref"] != "wsp");
 
         $mailFormObj = new ilMailForm;
-        $result      = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search), $search_recipients);
+        $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search), $search_recipients);
 
         echo json_encode($result);
         exit;
@@ -245,7 +249,11 @@ class ilMailSearchGUI
         $this->tpl->setVariable('SEARCHFORM', $form->getHtml());
         
         // #14109
-        if (strlen($_SESSION['mail_search_search']) < 3) {
+        if (
+            !isset($_SESSION["mail_search_search"]) ||
+            !is_string($_SESSION["mail_search_search"]) ||
+            strlen(trim($_SESSION["mail_search_search"])) < 3
+        ) {
             if ($_GET["ref"] != "wsp") {
                 $this->tpl->printToStdout();
             }
@@ -290,8 +298,8 @@ class ilMailSearchGUI
             $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
             $has_mail_addr = false;
-            $result        = array();
-            $counter       = 0;
+            $result = array();
+            $counter = 0;
             foreach ($users as $user) {
                 $login = ilObjUser::_lookupLogin($user);
 
@@ -306,17 +314,17 @@ class ilMailSearchGUI
 
                 $result[$counter]['login'] = $login;
                 if (ilObjUser::_lookupPref($user, 'public_email') == 'y') {
-                    $has_mail_addr             = true;
+                    $has_mail_addr = true;
                     $result[$counter]['email'] = ilObjUser::_lookupEmail($user, 'email');
                 }
 
                 if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y', "g"))) {
-                    $name                          = ilObjUser::_lookupName($user);
+                    $name = ilObjUser::_lookupName($user);
                     $result[$counter]['firstname'] = $name['firstname'];
-                    $result[$counter]['lastname']  = $name['lastname'];
+                    $result[$counter]['lastname'] = $name['lastname'];
                 } else {
                     $result[$counter]['firstname'] = '';
-                    $result[$counter]['lastname']  = '';
+                    $result[$counter]['lastname'] = '';
                 }
 
                 ++$counter;
@@ -357,7 +365,7 @@ class ilMailSearchGUI
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 
-        $user_search =&ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+        $user_search = &ilObjectSearchFactory::_getUserSearchInstance($query_parser);
         $user_search->enableActiveCheck(true);
         $user_search->setFields(array('login'));
         $result_obj = $user_search->performSearch();
@@ -383,7 +391,7 @@ class ilMailSearchGUI
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
-            $result  = array();
+            $result = array();
             $counter = 0;
             foreach ($users as $user) {
                 $login = ilObjUser::_lookupLogin($user);
@@ -398,16 +406,16 @@ class ilMailSearchGUI
                 $result[$counter]['login'] = $login;
 
                 if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y', "g"))) {
-                    $name                          = ilObjUser::_lookupName($user);
+                    $name = ilObjUser::_lookupName($user);
                     $result[$counter]['firstname'] = $name['firstname'];
-                    $result[$counter]['lastname']  = $name['lastname'];
+                    $result[$counter]['lastname'] = $name['lastname'];
                 } else {
                     $result[$counter]['firstname'] = '';
-                    $result[$counter]['lastname']  = '';
+                    $result[$counter]['lastname'] = '';
                 }
 
                 if (ilObjUser::_lookupPref($user, 'public_email') == 'y') {
-                    $has_mail_usr              = true;
+                    $has_mail_usr = true;
                     $result[$counter]['email'] = ilObjUser::_lookupEmail($user);
                 }
 
@@ -469,7 +477,7 @@ class ilMailSearchGUI
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
             $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
-            $result  = array();
+            $result = array();
             $counter = 0;
 
             $this->object_data_cache->preloadReferenceCache(array_keys($group_results->getResults()));
@@ -482,7 +490,7 @@ class ilMailSearchGUI
 
                 if ($_GET["ref"] != "wsp") {
                     $members = array();
-                    $roles   = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
+                    $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
                         if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
                             substr($role['title'], 0, 13) == 'il_grp_admin_'
@@ -500,7 +508,7 @@ class ilMailSearchGUI
                 } else {
                     $result[$counter]['check'] = ilUtil::formCheckbox(0, 'search_name_to_grp[]', $grp['obj_id']);
                 }
-                $result[$counter]['title']       = $this->object_data_cache->lookupTitle($grp['obj_id']);
+                $result[$counter]['title'] = $this->object_data_cache->lookupTitle($grp['obj_id']);
                 $result[$counter]['description'] = $this->object_data_cache->lookupDescription($grp['obj_id']);
 
                 ++$counter;

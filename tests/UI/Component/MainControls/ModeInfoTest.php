@@ -82,7 +82,8 @@ EOT;
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
-                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory()
+                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory(),
+                    new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory()
                 );
             }
 

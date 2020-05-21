@@ -10,7 +10,7 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @author            : Martin Studer <ms@studer-raimann.ch>
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI
+ * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
@@ -33,6 +33,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     const TAB_STAFF = 'orgu_staff';
     const TAB_GLOBAL_SETTINGS = 'global_settings';
     const TAB_EXPORT = 'export';
+    const TAB_VIEW_CONTENT = 'view_content';
     /**
      * @var ilCtrl
      */
@@ -253,6 +254,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($ilOrgUnitUserAssignmentGUI);
                 break;
             default:
+                $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
                 switch ($cmd) {
                     case '':
                     case 'view':
@@ -357,7 +359,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         }
 
         parent::renderObject();
-        $this->tabs_gui->activateTab("view_content");
+        $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
     }
@@ -376,7 +378,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     protected function initCreationForms($a_new_type)
     {
         $forms = array(
-            self::CFORM_NEW    => $this->initCreateForm($a_new_type),
+            self::CFORM_NEW => $this->initCreateForm($a_new_type),
             self::CFORM_IMPORT => $this->initImportForm($a_new_type),
         );
 
@@ -458,7 +460,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
-            $this->tabs_gui->addTab("view_content", $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
+            $this->tabs_gui->addTab(self::TAB_VIEW_CONTENT, $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ""));
             $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
         }
 
@@ -468,13 +470,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 // $this->tabs_gui->addTab('legacy_staff', 'legacy_staff', $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "showStaff"));
                 $this->tabs_gui->addTab(self::TAB_STAFF, $this->lng->txt(self::TAB_STAFF), $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_INDEX));
             }
-            if ($read_access_ref_id) {
+            if (ilObjOrgUnitAccess::_checkAccessSettings($this->object->getRefId())) {
                 $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS));
+            }
+            if (ilObjOrgUnitAccess::_checkAccessAdministrateUsers($this->object->getRefId())) {
                 $this->tabs_gui->addTab("administrate_users", $this->lng->txt("administrate_users"), $this->ctrl->getLinkTargetByClass("ilLocalUserGUI", "index"));
             }
         }
 
-        if ($read_access_ref_id) {
+        if (ilObjOrgUnitAccess::_checkAccessSettings($this->object->getRefId())) {
             if ($this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
                 $this->tabs_gui->addTab(self::TAB_GLOBAL_SETTINGS, $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass(ilOrgUnitGlobalSettingsGUI::class));
             }
@@ -750,7 +754,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
-        if (count($_POST['id']) > 0) {
+        if (is_array($_POST['id']) && count($_POST['id']) > 0) {
             $arr_ref_ids = $_POST['id'];
         } elseif ($_GET['item_ref_id'] > 0) {
             $arr_ref_ids = [$_GET['item_ref_id']];

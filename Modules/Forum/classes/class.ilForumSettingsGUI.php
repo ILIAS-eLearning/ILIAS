@@ -139,9 +139,11 @@ class ilForumSettingsGUI
         $stickyThreadSorting->addOption($manualSorting);
         $a_form->addItem($stickyThreadSorting);
 
-        $privacyHeader = new \ilFormSectionHeaderGUI();
-        $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
-        $a_form->addItem($privacyHeader);
+        if ($this->settings->get('enable_anonymous_fora') || $this->settings->get('enable_fora_statistics', false)) {
+            $privacyHeader = new \ilFormSectionHeaderGUI();
+            $privacyHeader->setTitle($this->lng->txt('frm_settings_privacy_header'));
+            $a_form->addItem($privacyHeader);
+        }
 
         if ($this->settings->get('enable_fora_statistics', false)) {
             $cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
@@ -210,7 +212,6 @@ class ilForumSettingsGUI
      */
     public function getCustomValues(array &$a_values)
     {
-        $a_values['default_view'] = $this->parent_obj->objProperties->getDefaultView();
         $a_values['anonymized'] = $this->parent_obj->objProperties->isAnonymized();
         $a_values['statistics_enabled'] = $this->parent_obj->objProperties->isStatisticEnabled();
         $a_values['post_activation'] = $this->parent_obj->objProperties->isPostActivationEnabled();
@@ -219,16 +220,17 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        $default_view = (int) $this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_TREE
-            ? ilForumProperties::VIEW_DATE
-            : ilForumProperties::VIEW_TREE;
-
-        $default_view_sort_dir = (int) $this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_DATE_ASC
-            ? ilForumProperties::VIEW_DATE_DESC
-            : ilForumProperties::VIEW_DATE_ASC;
+        if (in_array((int)$this->parent_obj->objProperties->getDefaultView(), array(
+            ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE_ASC,
+            ilForumProperties::VIEW_DATE_DESC
+        ))) {
+            $default_view = (int)$this->parent_obj->objProperties->getDefaultView();
+        } else {
+            $default_view = ilForumProperties::VIEW_TREE;
+        }
 
         $a_values['default_view'] = $default_view;
-        $a_values['default_view_sort_dir'] = $default_view_sort_dir;
         $a_values['file_upload_allowed'] = (bool) $this->parent_obj->objProperties->getFileUploadAllowed();
     }
 

@@ -60,7 +60,7 @@ class ilDBUpdate4963
         $childs = self::getChildIds($node_id);
 
         foreach ($childs as $child) {
-            $i = self::__renumber($child, $i+1);
+            $i = self::__renumber($child, $i + 1);
         }
         $i++;
 

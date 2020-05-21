@@ -46,7 +46,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     }
 
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         $this->items = array_filter($this->items, $this->getVisibleFilter());
     }
@@ -117,10 +117,8 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
      */
     protected function getVisibleFilter() : Closure
     {
-        return function (isItem $item) {
-            $b = ($item->isAvailable() && $item->isVisible());
-
-            return $b;
+        return static function (isItem $item) {
+            return ($item->isAvailable() && $item->isVisible());
         };
     }
 }

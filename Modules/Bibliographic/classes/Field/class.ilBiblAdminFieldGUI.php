@@ -2,14 +2,13 @@
 
 /**
  * Class ilBiblAdminFieldGUI
- *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilBiblAdminFieldGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    const CMD_INIT_OVERVIEW_MODELS = 'initOverviewModels';
+
     const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
     const SUBTAB_RIS = 'subtab_ris';
     const SUBTAB_BIBTEX = 'subtab_bibtex';
@@ -27,17 +26,14 @@ abstract class ilBiblAdminFieldGUI
      */
     protected $facade;
 
-
     /**
      * ilBiblAdminFieldGUI constructor.
-     *
      * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
     {
         $this->facade = $facade;
     }
-
 
     public function executeCommand()
     {
@@ -65,142 +61,47 @@ abstract class ilBiblAdminFieldGUI
         }
     }
 
-
-    private function initDefaultFieldsAndSorting()
-    {
-        $this->checkPermissionAndFail('write');
-        $tf = new ilBiblTypeFactory();
-        $bib_default_sorting = [
-            'title',
-            'author',
-        ];
-        $bib = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_BIBTEX);
-        $ff_bib = new ilBiblFieldFactory($bib);
-        foreach ($bib->getStandardFieldIdentifiers() as $i => $identifier) {
-            $field = $ff_bib->findOrCreateFieldByTypeAndIdentifier($bib->getId(), $identifier);
-            $field->setPosition($i + 1);
-            $field->store();
-            $array_search = array_search($identifier, $bib_default_sorting);
-            if ($array_search !== false) {
-                $field->setPosition((int) $array_search + 1);
-                $ff_bib->forcePosition($field);
-            }
-        }
-        $ris_default_sorting = [
-            'T1',
-            'AU',
-        ];
-        $ris = $tf->getInstanceForType(ilBiblTypeFactory::DATA_TYPE_RIS);
-        $ff_ris = new ilBiblFieldFactory($ris);
-        foreach ($ris->getStandardFieldIdentifiers() as $i => $identifier) {
-            $field = $ff_ris->findOrCreateFieldByTypeAndIdentifier($ris->getId(), $identifier);
-            $field->setPosition($i + 1);
-            $field->store();
-            $array_search = array_search($identifier, $ris_default_sorting);
-            if ($array_search !== false) {
-                $field->setPosition((int) $array_search + 1);
-                $ff_bib->forcePosition($field);
-            }
-        }
-        $this->ctrl()->redirect($this, self::CMD_STANDARD);
-    }
-
-
-    private function initOverviewModels()
-    {
-        $this->checkPermissionAndFail('write');
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        // TODO fill filetype_id with the correct values
-        if ($ilDB->tableExists('il_bibl_overview_model')) {
-            $type = function ($filetype_string) {
-                if (strtolower($filetype_string) == "bib"
-                    || strtolower($filetype_string) == "bibtex"
-                ) {
-                    return 2;
-                }
-
-                return 1;
-            };
-
-            if (!$ilDB->tableColumnExists('il_bibl_overview_model', 'file_type_id')) {
-                $ilDB->addTableColumn('il_bibl_overview_model', 'file_type_id', array("type" => "integer", 'length' => 4));
-            }
-
-            $res = $ilDB->query("SELECT * FROM il_bibl_overview_model");
-            while ($d = $ilDB->fetchObject($res)) {
-                $type_id = (int) $type($d->filetype);
-                $ilDB->update(
-                    "il_bibl_overview_model",
-                    [
-                    "file_type_id" => ["integer", $type_id],
-                ],
-                    ["ovm_id" => ["integer", $d->ovm_id]]
-                );
-            }
-            //			$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
-        }
-
-        $this->ctrl()->redirect($this, self::CMD_STANDARD);
-    }
-
-
-    protected function performCommand()
+    protected function performCommand() : void
     {
         $cmd = $this->ctrl()->getCmd(self::CMD_STANDARD);
         switch ($cmd) {
             case self::CMD_STANDARD:
+                if ($this->checkPermissionBoolAndReturn('read')) {
+                    $this->{$cmd}();
+                }
+                break;
             case self::CMD_EDIT:
             case self::CMD_UPDATE:
             case self::CMD_SAVE:
             case self::CMD_APPLY_FILTER:
             case self::CMD_RESET_FILTER:
-            case self::CMD_INIT_OVERVIEW_MODELS:
-            case self::CMD_INIT_DEFAULT_FIELDS_AND_SORTING:
-                if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
+                if ($this->checkPermissionBoolAndReturn('write')) {
                     $this->{$cmd}();
-                    break;
-                } else {
-                    ilUtil::sendFailure($this->lng()->txt("no_permission"), true);
-                    break;
                 }
+                break;
         }
     }
 
-
-    protected function index()
+    protected function index() : void
     {
         $this->setSubTabs();
-        // Buttons for restoring emthods
-        /*$default_sorting = ilLinkButton::getInstance();
-        $default_sorting->setCaption('init_default_fields');
-        $default_sorting->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_INIT_DEFAULT_FIELDS_AND_SORTING));
-        $this->toolbar()->addButtonInstance($default_sorting);*/
 
-        // Buttons for restoring emthods
-        /*$overview_models = ilLinkButton::getInstance();
-        $overview_models->setCaption('init_overview_models');
-        $overview_models->setUrl($this->ctrl()->getLinkTarget($this, self::CMD_INIT_OVERVIEW_MODELS));
-        $this->toolbar()->addButtonInstance($overview_models);*/
-
-        $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
-        $this->tpl()->setContent($ilBiblAdminFieldTableGUI->getHTML());
+        $table = new ilBiblAdminFieldTableGUI($this, $this->facade);
+        $this->tpl()->setContent($table->getHTML());
     }
 
-
-    protected function setSubTabs()
+    protected function setSubTabs() : void
     {
         $this->tabs()->addSubTab(
             self::SUBTAB_RIS,
             $this->lng()->txt('ris'),
             $this->ctrl()->getLinkTargetByClass(
                 array(
-                ilObjBibliographicAdminGUI::class,
-                ilBiblAdminRisFieldGUI::class,
-            ),
+                    ilObjBibliographicAdminGUI::class,
+                    ilBiblAdminRisFieldGUI::class,
+                ),
                 ilBiblAdminRisFieldGUI::CMD_STANDARD
-        )
+            )
 
         );
         $this->tabs()->activateSubTab(self::SUBTAB_RIS);
@@ -210,11 +111,11 @@ abstract class ilBiblAdminFieldGUI
             $this->lng()->txt('bibtex'),
             $this->ctrl()->getLinkTargetByClass(
                 array(
-                ilObjBibliographicAdminGUI::class,
-                ilBiblAdminBibtexFieldGUI::class,
-            ),
+                    ilObjBibliographicAdminGUI::class,
+                    ilBiblAdminBibtexFieldGUI::class,
+                ),
                 ilBiblAdminBibtexFieldGUI::CMD_STANDARD
-        )
+            )
         );
         switch ($this->facade->type()->getId()) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
@@ -226,32 +127,29 @@ abstract class ilBiblAdminFieldGUI
         }
     }
 
-
-    protected function save()
+    protected function save() : void
     {
         foreach ($_POST['position'] as $set) {
             $field_id = (int) key($set);
             $position = (int) current($set);
 
-            $ilBiblField = $this->facade->fieldFactory()->findById((int) $field_id);
-            $ilBiblField->setPosition((int) $position);
+            $ilBiblField = $this->facade->fieldFactory()->findById($field_id);
+            $ilBiblField->setPosition($position);
             $ilBiblField->store();
         }
 
-        ilUtil::sendSuccess($this->lng()->txt("changes_successfully_saved"));
+        ilUtil::sendSuccess($this->lng()->txt('changes_successfully_saved'));
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
-
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->writeFilterToSession();
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
-
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->resetFilter();

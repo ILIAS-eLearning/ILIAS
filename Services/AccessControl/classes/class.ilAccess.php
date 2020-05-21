@@ -189,9 +189,9 @@ class ilAccess implements ilAccessHandler
         $res = $ilDB->manipulate($query);
 
         $ilDB->insert('acc_cache', array(
-            'user_id'	=>	array('integer',$ilUser->getId()),
-            'time'		=>	array('integer',time()),
-            'result'	=>	array('clob',serialize($this->results))
+            'user_id' => array('integer',$ilUser->getId()),
+            'time' => array('integer',time()),
+            'result' => array('clob',serialize($this->results))
             ));
     }
     /**
@@ -243,7 +243,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
+    public function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id = "")
     {
         global $DIC;
 
@@ -255,7 +255,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id="")
+    public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = "", $a_tree_id = "")
     {
         global $DIC;
 
@@ -496,9 +496,9 @@ class ilAccess implements ilAccessHandler
 
         if ($a_permission == "") {
             $message = sprintf(
-                    '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
-                    get_class($this),
-                    $a_ref_id
+                '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
+                get_class($this),
+                $a_ref_id
                 );
             $ilLog->write($message, $ilLog->FATAL);
             $ilErr->raiseError($message, $ilErr->MESSAGE);
@@ -637,8 +637,8 @@ class ilAccess implements ilAccessHandler
         }
 
         // if within activation time
-        if ((time() >= $item_data['timing_start']) and
-           (time() <= $item_data['timing_end'])) {
+        if (($item_data['timing_start'] == 0 || time() >= $item_data['timing_start']) and
+           ($item_data['timing_end'] == 0 || time() <= $item_data['timing_end'])) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }

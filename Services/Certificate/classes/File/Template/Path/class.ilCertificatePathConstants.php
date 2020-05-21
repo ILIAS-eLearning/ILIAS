@@ -8,11 +8,11 @@
  */
 class ilCertificatePathConstants
 {
-    const COURSE_PATH    = '/course/certificates/';
-    const TEST_PATH      = '/assessment/certificates/';
-    const EXERCISE_PATH  = '/exercise/certificates/';
-    const SCORM_PATH     = '/scorm/certificates/';
-    const LTICON_PATH     = '/lticon/certificates/';
-    const CMIX_PATH     = '/cmix/certificates/';
+    const COURSE_PATH = '/course/certificates/';
+    const TEST_PATH = '/assessment/certificates/';
+    const EXERCISE_PATH = '/exercise/certificates/';
+    const SCORM_PATH = '/scorm/certificates/';
+    const LTICON_PATH = '/lticon/certificates/';
+    const CMIX_PATH = '/cmix/certificates/';
     const STUDY_PROGRAMME_PATH = '/prg/certificates/';
 }

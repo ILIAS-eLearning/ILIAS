@@ -12,8 +12,8 @@ class assLongMenuExport extends assQuestionExport
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        $correct_answers 	= $this->object->getCorrectAnswers();
-        $answers 			= $this->object->getAnswers();
+        $correct_answers = $this->object->getCorrectAnswers();
+        $answers = $this->object->getAnswers();
 
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
         $xml = new ilXmlWriter;
@@ -88,7 +88,7 @@ class assLongMenuExport extends assQuestionExport
         $this->object->addQTIMaterial($xml, $this->object->getLongMenuTextValue());
     
         foreach ($answers as $key => $values) {
-            $real_id = $key +1;
+            $real_id = $key + 1;
             $attrs = array(
                     "ident" => "LongMenu_" . $real_id,
                     "rcardinality" => "Single"

@@ -7,8 +7,6 @@ function data_processing()
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
-    $lng = $DIC->language();
-    $data = new \ILIAS\Data\Factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $refinery = $DIC->refinery();
@@ -67,7 +65,7 @@ function data_processing()
 
     //Step 6: Define some data processing.
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] =='data_processing') {
+            && $request->getQueryParams()['example_name'] == 'data_processing') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

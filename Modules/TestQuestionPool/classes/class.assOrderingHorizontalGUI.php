@@ -135,7 +135,8 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
         //$solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $elements = [];
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             if (strlen($solutions[0]["value1"])) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
@@ -196,7 +197,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $resulttext = ($reached_points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")";
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         //		$template->setVariable("SOLUTION_TEXT", ilUtil::prepareFormOutput($solutionvalue));
@@ -217,7 +218,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -293,11 +294,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
-            if (count($solutions) == 1) {
+            if (is_array($solutions) && count($solutions) == 1) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }
         }
-        if (count($solutions) == 0) {
+        if (!is_array($solutions) || count($solutions) == 0) {
             $_SESSION['qst_ordering_horizontal_elements'] = $elements;
         } else {
             unset($_SESSION['qst_ordering_horizontal_elements']);
@@ -557,7 +558,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         foreach ($relevant_answers_chosen as $answer) {
             $answer = str_replace($this->object->getAnswerSeparator(), '&nbsp;&nbsp;-&nbsp;&nbsp;', $answer);
             if (in_array($answer['value1'], $aggregate)) {
-                $aggregate[$answer['value1']] = $aggregate[$answer['value1']]+1;
+                $aggregate[$answer['value1']] = $aggregate[$answer['value1']] + 1;
             } else {
                 $aggregate[$answer['value1']] = 1;
             }

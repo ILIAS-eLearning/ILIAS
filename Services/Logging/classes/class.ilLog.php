@@ -66,11 +66,11 @@ class ilLog
         // init vars
         include_once './Services/Logging/classes/public/class.ilLogLevel.php';
         
-        $this->FATAL	 = ilLogLevel::CRITICAL;
-        $this->WARNING	 = ilLogLevel::WARNING;
-        $this->MESSAGE	 = ilLogLevel::INFO;
+        $this->FATAL = ilLogLevel::CRITICAL;
+        $this->WARNING = ilLogLevel::WARNING;
+        $this->MESSAGE = ilLogLevel::INFO;
   
-        $this->default_log_level= $this->WARNING;
+        $this->default_log_level = $this->WARNING;
         $this->current_log_level = $this->setLogLevel($a_log_level);
 
         $this->path = ($a_log_path) ? $a_log_path : ILIAS_ABSOLUTE_PATH;

@@ -34,7 +34,7 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
 
         require_once './Modules/Chatroom/classes/class.ilChatroomUser.php';
         //require_once 'Services/User/classes/class.ilObjUser.php';
-        $this->ilUserMock     = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(
+        $this->ilUserMock = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(
             array('getId', 'isAnonymous', 'getLogin', 'getPublicName', 'getFirstname', 'getLastname')
         )->getMock();
         $this->ilChatroomMock = $this->getMockBuilder('ilChatroom')->disableOriginalConstructor()->setMethods(
@@ -101,8 +101,8 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
 
     public function testGetUsernameFromSession()
     {
-        $username                              = 'username';
-        $roomId                                = 99;
+        $username = 'username';
+        $roomId = 99;
         $_SESSION['chat'][$roomId]['username'] = $username;
 
         $this->ilChatroomMock->expects($this->any())->method('getRoomId')->will($this->returnValue(99));
@@ -116,8 +116,8 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
      */
     public function testGetUsernameFromIlObjUser()
     {
-        $username                              = 'login';
-        $roomId                                = 99;
+        $username = 'login';
+        $roomId = 99;
         $_SESSION['chat'][$roomId]['username'] = ''; // Fix missing key warning
 
         $this->ilUserMock->expects($this->once())->method('getLogin')->will($this->returnValue($username));
@@ -130,7 +130,7 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
     {
         $this->ilChatroomMock->expects($this->any())->method('getSetting')->will($this->returnValue('#_anonymous'));
 
-        $firstName  = $this->user->buildAnonymousName();
+        $firstName = $this->user->buildAnonymousName();
         $secondName = $this->user->buildAnonymousName();
 
         $this->assertNotEquals($firstName, $secondName);
@@ -155,7 +155,7 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
     public function testBuildShortname()
     {
         $firstname = 'John';
-        $lastname  = 'Doe';
+        $lastname = 'Doe';
         $this->ilUserMock->expects($this->once())->method('getFirstname')->will($this->returnValue($firstname));
         $this->ilUserMock->expects($this->once())->method('getLastname')->will($this->returnValue($lastname));
 
@@ -167,7 +167,7 @@ class ilChatroomUserTest extends PHPUnit_Framework_TestCase
         $this->ilUserMock->expects($this->any())->method('isAnonymous')->will($this->returnValue(true));
         $this->ilChatroomMock->expects($this->any())->method('getSetting')->will($this->returnValue('#_anonymous'));
 
-        $first  = $this->user->getChatNameSuggestions();
+        $first = $this->user->getChatNameSuggestions();
         $second = $this->user->getChatNameSuggestions();
 
         $this->assertNotEquals($first, $second);

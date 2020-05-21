@@ -76,7 +76,8 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new ILIAS\Refinery\Factory($df, $language)
+            new ILIAS\Refinery\Factory($df, $language),
+            $language
         );
     }
 
@@ -89,7 +90,8 @@ class StandardFilterTest extends ILIAS_UI_TestBase
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Factory(
             new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory,
-            new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
+            new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory,
+            new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory
         );
     }
 
@@ -263,7 +265,7 @@ EOT;
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
 				<span class="bulky-label">reset</span>
 			</button>
-			<button class="il-toggle-button" id="id_4" aria-pressed="false">
+			<button class="il-toggle-button off" id="id_4" aria-pressed="false">
 				<div class="il-toggle-switch"></div>
 			</button>
 		</span>
@@ -447,7 +449,7 @@ EOT;
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
 				<span class="bulky-label">reset</span>
 			</button>
-			<button class="il-toggle-button" id="id_4" aria-pressed="false">
+			<button class="il-toggle-button off" id="id_4" aria-pressed="false">
 				<div class="il-toggle-switch"></div>
 			</button>
 		</span>

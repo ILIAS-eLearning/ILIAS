@@ -8,7 +8,7 @@
  */
 class ilLanguageDetectorFactory
 {
-    const DEFAULT_DETECTOR      = 1;
+    const DEFAULT_DETECTOR = 1;
     const HTTP_REQUEST_DETECTOR = 2;
 
     /**
@@ -33,9 +33,9 @@ class ilLanguageDetectorFactory
     {
         global $DIC;
 
-        $this->client_ini          = $DIC->clientIni();
+        $this->client_ini = $DIC->clientIni();
         $this->request_information = $_SERVER;
-        $this->settings            = $DIC->settings();
+        $this->settings = $DIC->settings();
     }
 
     /**

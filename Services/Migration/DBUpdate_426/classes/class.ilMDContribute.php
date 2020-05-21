@@ -146,7 +146,7 @@ class ilMDContribute extends ilMDBase
             $this->db->query($query);
             
             foreach ($this->getEntityIds() as $id) {
-                $ent =&$this->getEntity($id);
+                $ent = &$this->getEntity($id);
                 $ent->delete();
             }
             return true;
@@ -157,12 +157,12 @@ class ilMDContribute extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'role'	=> ilUtil::prepareDBString($this->getRole()),
+                     'role' => ilUtil::prepareDBString($this->getRole()),
                      'date' => ilUtil::prepareDBString($this->getDate()));
     }
 
@@ -201,7 +201,7 @@ class ilMDContribute extends ilMDBase
 
         // Entities
         foreach ($this->getEntityIds() as $id) {
-            $ent =&$this->getEntity($id);
+            $ent = &$this->getEntity($id);
             $ent->toXML($writer);
         }
         $writer->xmlElement('Date', null, $this->getDate());

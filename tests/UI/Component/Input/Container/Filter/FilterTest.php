@@ -88,7 +88,8 @@ class FilterTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new ILIAS\Refinery\Factory($df, $language)
+            new ILIAS\Refinery\Factory($df, $language),
+            $language
         );
     }
 

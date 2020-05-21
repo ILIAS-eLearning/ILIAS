@@ -179,10 +179,10 @@ class ilMDMetaMetadata extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'meta_data_scheme'	=> ilUtil::prepareDBString($this->getMetaDataScheme()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'meta_data_scheme' => ilUtil::prepareDBString($this->getMetaDataScheme()),
                      'language' => ilUtil::prepareDBString($this->getLanguageCode()));
     }
 
@@ -218,8 +218,8 @@ class ilMDMetaMetadata extends ilMDBase
      */
     public function toXML(&$writer)
     {
-        if ($this->getMigration/DBUpdate_426Scheme()) {
-            $attr['Metadata-Scheme'] = $this->getMigration/DBUpdate_426Scheme();
+        if ($this->getMigration / DBUpdate_426Scheme()) {
+            $attr['Metadata-Scheme'] = $this->getMigration / DBUpdate_426Scheme();
         }
         if ($this->getLanguageCode()) {
             $attr['Language'] = $this->getLanguageCode();
@@ -228,13 +228,13 @@ class ilMDMetaMetadata extends ilMDBase
 
         // ELEMENT IDENTIFIER
         foreach ($this->getIdentifierIds() as $id) {
-            $ide =&$this->getIdentifier($id);
+            $ide = &$this->getIdentifier($id);
             $ide->toXML($writer);
         }
         
         // ELEMETN Contribute
         foreach ($this->getContributeIds() as $id) {
-            $con =&$this->getContribute($id);
+            $con = &$this->getContribute($id);
             $con->toXML($writer);
         }
 

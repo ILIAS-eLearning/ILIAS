@@ -41,7 +41,8 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
             public function mainControls() : ILIAS\UI\Component\MainControls\Factory
@@ -214,7 +215,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
@@ -229,16 +230,16 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<div class="il-item-additional-content">someContent</div>
 				<hr class="il-item-divider">
 					<div class="row il-item-properties">
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="row">
-								<div class="col-sm-5 il-item-property-name">prop1</div>
-								<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val1</div>
+								<div class="col-sm-3 il-item-property-name">prop1</div>
+								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val1</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="row">
-								<div class="col-sm-5 il-item-property-name">prop2</div>
-								<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val2</div>
+								<div class="col-sm-3 il-item-property-name">prop2</div>
+								<div class="col-sm-9 il-item-property-value il-multi-line-cap-3">val2</div>
 							</div>
 						</div>
 					</div>

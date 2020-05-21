@@ -28,7 +28,7 @@ function with_contraints()
         );
 
     //Step 2: Define the form and attach the field.
-    $form = $ui->input()->container()->form()->standard('#', ['pwd'=>$pwd_input]);
+    $form = $ui->input()->container()->form()->standard('#', ['pwd' => $pwd_input]);
 
     //Step 3: Define some data processing.
     $result = '';

@@ -8,14 +8,15 @@ function small()
     $renderer = $DIC->ui()->renderer();
 
     $options = array(
-        'internal_rating' => 'Best',
-        'date_desc' => 'Most Recent',
-        'date_asc' => 'Oldest',
+        'default_option' => 'Default Ordering',
+        'latest' => 'Most Recent Ordering',
+        'oldest' => 'Oldest Ordering'
     );
 
     //Note that no label is attached
     $s = $f->viewControl()->sortation($options)
         ->withTargetURL($DIC->http()->request()->getRequestTarget(), 'sortation');
-    
+
+
     return $renderer->render($s);
 }

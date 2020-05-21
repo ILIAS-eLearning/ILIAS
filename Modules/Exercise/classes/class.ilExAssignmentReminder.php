@@ -269,11 +269,11 @@ class ilExAssignmentReminder
             $next_send = "";
             if ($rec["last_send_day"] != "") {
                 $date = new DateTime($rec["last_send_day"]);
-                $date->add(new DateInterval('P'.$rec["freq"].'D'));
+                $date->add(new DateInterval('P' . $rec["freq"] . 'D'));
                 $next_send = $date->format('Y-m-d');
             }
-            $this->log->debug("ass: ".$rec["ass_id"].", last send: ".$rec["last_send_day"].
-                ", freq: ".$rec["freq"].", end_day: $end_day, today: ".$today.", next send: $next_send");
+            $this->log->debug("ass: " . $rec["ass_id"] . ", last send: " . $rec["last_send_day"] .
+                ", freq: " . $rec["freq"] . ", end_day: $end_day, today: " . $today . ", next send: $next_send");
             if ($rec["last_send_day"] == "" || $next_send <= $today) {
                 if ($end_day >= $today) {
                     $this->log->debug("included");
@@ -336,7 +336,7 @@ class ilExAssignmentReminder
                         $deadline_day = date("Y-m-d", $state->getOfficialDeadline());
                         $today = date("Y-m-d");
                         $date = new DateTime($deadline_day);
-                        $date->sub(new DateInterval('P'.$rem["start"].'D'));
+                        $date->sub(new DateInterval('P' . $rem["start"] . 'D'));
                         $send_from = $date->format('Y-m-d');
                         $this->log->debug("today: $today, send from: $send_from, start: " . $rem["start"] . ", submission allowed: " . $state->isSubmissionAllowed());
 
@@ -430,17 +430,16 @@ class ilExAssignmentReminder
         $reminders = $a_reminders;
         $users_to_remind = array();
 
-        $this->log->debug("Peer Reminders: ".count($a_reminders));
+        $this->log->debug("Peer Reminders: " . count($a_reminders));
 
         foreach ($reminders as $reminder) {
-
-            $this->log->debug("Init peer review: ".$reminder["ass_id"]);
+            $this->log->debug("Init peer review: " . $reminder["ass_id"]);
             $pr = new ilExPeerReview(new ilExAssignment($reminder["ass_id"]));
             $pr->initPeerReviews();
             $giver_ids = array_unique(ilExPeerReview::lookupGiversWithPendingFeedback($reminder["ass_id"]));
             foreach ($giver_ids as $giver_id) {
                 $state = ilExcAssMemberState::getInstanceByIds($reminder["ass_id"], $giver_id);
-                $days_diff = (($state->getPeerReviewDeadline() - time()) / (60*60*24));
+                $days_diff = (($state->getPeerReviewDeadline() - time()) / (60 * 60 * 24));
 
                 if ($state->isPeerReviewAllowed() && $days_diff < $reminder["start"]) {
                     $exc_refs = ilObject::_getAllReferences($reminder["exc_id"]);

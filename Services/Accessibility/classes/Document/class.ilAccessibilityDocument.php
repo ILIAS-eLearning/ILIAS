@@ -270,7 +270,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
             $this->criteriaFetched = true;
 
             $this->initialPersistedCriteria = [];
-            $this->criteria                 = [];
+            $this->criteria = [];
 
             $criteria = ilAccessibilityDocumentCriterionAssignment::where(['doc_id' => $this->getId()])->get();
             foreach ($criteria as $criterionAssignment) {

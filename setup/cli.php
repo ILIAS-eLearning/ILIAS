@@ -62,7 +62,7 @@ function build_container_for_setup(string $executed_in_directory)
 {
     $c = new \Pimple\Container;
 
-    $c["app"] =  function ($c) {
+    $c["app"] = function ($c) {
         return new \ILIAS\Setup\CLI\App(
             $c["command.install"],
             $c["command.update"],
@@ -161,7 +161,7 @@ function build_container_for_setup(string $executed_in_directory)
             {
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }
-            public function group(array $inputs, string $label='')
+            public function group(array $inputs, string $label = '')
             {
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }
@@ -248,7 +248,7 @@ function build_container_for_setup(string $executed_in_directory)
     $c["password_manager"] = function ($c) {
         return new \ilSetupPasswordManager([
             'password_encoder' => 'bcryptphp',
-            'encoder_factory'  => new \ilSetupPasswordEncoderFactory([
+            'encoder_factory' => new \ilSetupPasswordEncoderFactory([
                 'default_password_encoder' => 'bcryptphp'
             ])
         ]);

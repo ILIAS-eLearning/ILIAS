@@ -120,11 +120,11 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilinfoscreengui":
-                $ret =&$this->infoScreen();
+                $ret = &$this->infoScreen();
                 break;
 
             case "illearningprogressgui":
@@ -294,6 +294,13 @@ class ilObjGroupGUI extends ilContainerGUI
                 $t->setUserEditAll($ilAccess->checkAccess('write', '', $this->object->getRefId(), 'grp'));
                 $this->showPermanentLink($tpl);
                 $this->ctrl->forwardCommand($t);
+                include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+                ilLearningProgress::_tracProgress(
+                    $ilUser->getId(),
+                    $this->object->getId(),
+                    $this->object->getRefId(),
+                    'grp'
+                );
                 break;
 
             case "ilcontainerskillgui":
@@ -420,7 +427,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $ilTabs = $DIC['ilTabs'];
         
         $ilTabs->activateTab("view_content");
-        $ret =  parent::renderObject();
+        $ret = parent::renderObject();
         return $ret;
     }
 
@@ -756,7 +763,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $def = ilMapUtil::getDefaultSettings();
             $latitude = $def["latitude"];
             $longitude = $def["longitude"];
-            $zoom =  $def["zoom"];
+            $zoom = $def["zoom"];
         }
 
 
@@ -1083,8 +1090,8 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->tabs_gui->addTarget(
                 "info_short",
                 $this->ctrl->getLinkTargetByClass(
-                                     array("ilobjgroupgui", "ilinfoscreengui"),
-                                     "showSummary"
+                    array("ilobjgroupgui", "ilinfoscreengui"),
+                    "showSummary"
                                  ),
                 "infoScreen",
                 "",
@@ -1347,8 +1354,8 @@ class ilObjGroupGUI extends ilContainerGUI
                     $reg_info = ilObjGroupAccess::lookupRegistrationInfo($this->object->getId());
 
                     $info->addProperty(
-                         $this->lng->txt('mem_free_places'),
-                         $reg_info['reg_info_free_places']
+                        $this->lng->txt('mem_free_places'),
+                        $reg_info['reg_info_free_places']
                      );
                 }
             }

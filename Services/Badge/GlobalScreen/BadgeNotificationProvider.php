@@ -31,7 +31,6 @@ class BadgeNotificationProvider extends AbstractNotificationProvider implements 
         };
 
         $new_badges = \ilBadgeAssignment::getNewCounter($user->getId());
-
         if ($new_badges == 0) {
             return [];
         }
@@ -42,9 +41,10 @@ class BadgeNotificationProvider extends AbstractNotificationProvider implements 
             $lng->txt("mm_badges"),
             $ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
         );
+        $latest = new \ilDateTime(\ilBadgeAssignment::getLatestTimestamp($user->getId()), IL_CAL_UNIX);
         $badge_notification_item = $ui->factory()->item()->notification($badge_title, $badge_icon)
-            ->withDescription(str_replace("%1", $new_badges, $lng->txt("badge_new_badges")));
-        //->withProperties(["Time" => "3 days ago"]);
+            ->withDescription(str_replace("%1", $new_badges, $lng->txt("badge_new_badges")))
+            ->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
         $group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
             ->addNotification(

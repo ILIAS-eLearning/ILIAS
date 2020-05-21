@@ -58,8 +58,8 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
 
         foreach ($certificateArray as $certificate) {
             $data[] = array(
-                'id'     => $certificate->getUserCertificate()->getObjId(),
-                'title'  => $certificate->getObjectTitle(),
+                'id' => $certificate->getUserCertificate()->getObjId(),
+                'title' => $certificate->getObjectTitle(),
                 'passed' => true
             );
         }

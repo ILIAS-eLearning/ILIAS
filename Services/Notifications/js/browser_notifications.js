@@ -23,15 +23,42 @@
 				throw new Error('Second argument (options) must be an object.');
 			}
 
-			const {
-				onShow = null,
+			// https://caniuse.com/#feat=mdn-javascript_operators_destructuring_rest_in_objects
+			/* const {
+					onShow = null,
+					onClose = null,
+					onClick = null,
+					onError = null,
+					closeOnClick = false,
+					timeout = null,
+					...rest
+				} = options;
+			 */
+			let onShow = null,
 				onClose = null,
 				onClick = null,
 				onError = null,
 				closeOnClick = false,
 				timeout = null,
-				...rest
-			} = options;
+				rest = {};
+
+			for (let [key, value] of Object.entries(options)) {
+				if ('onShow' === key) {
+					onShow = value;
+				} else if ('onClose' === key) {
+					onClose = value;
+				} else if ('onClick' === key) {
+					onClick = value;
+				} else if ('onError' === key) {
+					onError = value;
+				} else if ('closeOnClick' === key) {
+					closeOnClick = value;
+				} else if ('timeout' === key) {
+					timeout = value;
+				} else {
+					rest[key] = value;
+				}
+			}
 
 			this.title = title;
 			this.options = rest;

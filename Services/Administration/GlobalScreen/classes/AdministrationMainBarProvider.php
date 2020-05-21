@@ -1,6 +1,7 @@
 <?php namespace ILIAS\Administration;
 
 use ILIAS\DI\Exceptions\Exception;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
@@ -27,8 +28,9 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
-        $dic = $this->dic;
+
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
 
@@ -71,19 +73,15 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withSupportsAsynchronousLoading(true)
                     ->withLinks($links)
                     ->withTitle($title)
-                    ->withSymbol($this->getIconForGroup($group,$title))
+                    ->withSymbol($this->getIconForGroup($group, $title))
                     ->withParent($top)
                     ->withPosition($position)
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
-                        function () use ($dic) {
-                            return (bool) ($dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                        }
+                        $access_helper->hasAdministrationAccess()
                     )->withAvailableCallable(
-                        function () use ($dic) {
-                            return ($dic->user()->getId() != ANONYMOUS_USER_ID);
-                        }
+                        $access_helper->isUserLoggedIn()
                     );
                 $position++;
             }
@@ -92,21 +90,21 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         return $entries;
     }
 
-    protected function getIconForGroup(string $group,string $title) : Icon
+    protected function getIconForGroup(string $group, string $title) : Icon
     {
         $icon_map = array(
-            "maintenance" =>"icon_sysa",
+            "maintenance" => "icon_sysa",
             "layout_and_navigation" => "icon_laya",
-            "user_administration" =>"icon_usra",
-            "personal_workspace" =>"icon_pwsa",
-            "achievements" =>"icon_achva",
-            "communication" =>"icon_coma",
-            "search_and_find" =>"icon_safa",
+            "user_administration" => "icon_usra",
+            "personal_workspace" => "icon_pwsa",
+            "achievements" => "icon_achva",
+            "communication" => "icon_coma",
+            "search_and_find" => "icon_safa",
             "extending_ilias" => "icon_exta",
-            "repository_and_objects" =>"icon_repa"
+            "repository_and_objects" => "icon_repa"
         );
-        $icon_path = \ilUtil::getImagePath("outlined/".$icon_map[$group].".svg");
-        return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path,$title);
+        $icon_path = \ilUtil::getImagePath("outlined/" . $icon_map[$group] . ".svg");
+        return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 
 
@@ -137,24 +135,24 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         // note: please see showChilds methods which prevents infinite look
         $new_objects[$lng->txt("repository_admin") . ":" . ROOT_FOLDER_ID]
             = array(
-            "tree"        => 1,
-            "child"       => ROOT_FOLDER_ID,
-            "ref_id"      => ROOT_FOLDER_ID,
-            "depth"       => 3,
-            "type"        => "root",
-            "title"       => $lng->txt("repository_admin"),
+            "tree" => 1,
+            "child" => ROOT_FOLDER_ID,
+            "ref_id" => ROOT_FOLDER_ID,
+            "depth" => 3,
+            "type" => "root",
+            "title" => $lng->txt("repository_admin"),
             "description" => $lng->txt("repository_admin_desc"),
-            "desc"        => $lng->txt("repository_admin_desc"),
+            "desc" => $lng->txt("repository_admin_desc"),
         );
 
         $new_objects[$lng->txt("general_settings") . ":" . SYSTEM_FOLDER_ID]
             = array(
-            "tree"   => 1,
-            "child"  => SYSTEM_FOLDER_ID,
+            "tree" => 1,
+            "child" => SYSTEM_FOLDER_ID,
             "ref_id" => SYSTEM_FOLDER_ID,
-            "depth"  => 2,
-            "type"   => "adm",
-            "title"  => $lng->txt("general_settings"),
+            "depth" => 2,
+            "type" => "adm",
+            "title" => $lng->txt("general_settings"),
         );
         ksort($new_objects);
 

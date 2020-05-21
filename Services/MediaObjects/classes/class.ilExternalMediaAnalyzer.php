@@ -56,7 +56,7 @@ class ilExternalMediaAnalyzer
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["v"] = substr($a_location, $pos1+2, $len - ($pos1+2));
+            $par["v"] = substr($a_location, $pos1 + 2, $len - ($pos1 + 2));
         } elseif (strpos($a_location, "youtu.be") > 0) {
             $par["v"] = substr($a_location, strrpos($a_location, "/") + 1);
         }
@@ -82,32 +82,32 @@ class ilExternalMediaAnalyzer
     {
         $par = array();
         $pos1 = strpos($a_location, "flickr.com/photos/");
-        $pos2 = strpos($a_location, "/", $pos1+18);
+        $pos2 = strpos($a_location, "/", $pos1 + 18);
         if ($pos1 > 0) {
             $len = ($pos2 > 0)
                 ? $pos2
                 : $a_location;
-            $par["user_id"] = substr($a_location, $pos1+18, $len - ($pos1+18));
+            $par["user_id"] = substr($a_location, $pos1 + 18, $len - ($pos1 + 18));
         }
         
         // tags
         $pos1 = strpos($a_location, "/tags/");
-        $pos2 = strpos($a_location, "/", $pos1+6);
+        $pos2 = strpos($a_location, "/", $pos1 + 6);
         if ($pos1 > 0) {
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["tags"] = substr($a_location, $pos1+6, $len - ($pos1+6));
+            $par["tags"] = substr($a_location, $pos1 + 6, $len - ($pos1 + 6));
         }
 
         // sets
         $pos1 = strpos($a_location, "/sets/");
-        $pos2 = strpos($a_location, "/", $pos1+6);
+        $pos2 = strpos($a_location, "/", $pos1 + 6);
         if ($pos1 > 0) {
             $len = ($pos2 > 0)
                 ? $pos2
                 : $a_location;
-            $par["sets"] = substr($a_location, $pos1+6, $len - ($pos1+6));
+            $par["sets"] = substr($a_location, $pos1 + 6, $len - ($pos1 + 6));
         }
 
         return $par;
@@ -136,7 +136,7 @@ class ilExternalMediaAnalyzer
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["docid"] = substr($a_location, $pos1+6, $len - ($pos1+6));
+            $par["docid"] = substr($a_location, $pos1 + 6, $len - ($pos1 + 6));
         }
 
         return $par;
@@ -165,7 +165,7 @@ class ilExternalMediaAnalyzer
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["id"] = substr($a_location, $pos1+10, $len - ($pos1+10));
+            $par["id"] = substr($a_location, $pos1 + 10, $len - ($pos1 + 10));
         }
 
         return $par;
@@ -194,7 +194,7 @@ class ilExternalMediaAnalyzer
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["docid"] = substr($a_location, $pos1+3, $len - ($pos1+3));
+            $par["docid"] = substr($a_location, $pos1 + 3, $len - ($pos1 + 3));
         }
         $pos1 = strpos($a_location, "docID=");
         $pos2 = strpos($a_location, "&", $pos1 + 6);
@@ -202,7 +202,7 @@ class ilExternalMediaAnalyzer
             $len = ($pos2 > 0)
                 ? $pos2
                 : strlen($a_location);
-            $par["docid"] = substr($a_location, $pos1+6, $len - ($pos1+6));
+            $par["docid"] = substr($a_location, $pos1 + 6, $len - ($pos1 + 6));
         }
         if (strpos($a_location, "Presentation?") > 0) {
             $par["type"] = "Presentation";

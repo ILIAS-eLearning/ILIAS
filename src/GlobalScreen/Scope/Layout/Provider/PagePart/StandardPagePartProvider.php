@@ -11,6 +11,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUtil;
+use ilUserUtil;
 
 /**
  * Class StandardPagePartProvider
@@ -98,7 +99,7 @@ class StandardPagePartProvider implements PagePartProvider
              * @var $component Combined
              */
             $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
-            $identifier = $item->getProviderIdentification()->getInternalIdentifier();
+            $identifier = $this->hash($item->getProviderIdentification()->serialize());
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
@@ -110,7 +111,7 @@ class StandardPagePartProvider implements PagePartProvider
         );
 
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"),"More");
+        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), "More");
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
@@ -169,7 +170,15 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getLogo() : ?Image
     {
-        return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
+        $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+        $std_logo_link = ilUserUtil::getStartingPointAsUrl();
+        if (!$std_logo_link) {
+            $std_logo_link = "./goto.php?target=root_1";
+        }
+
+        return $this->ui->factory()->image()
+            ->standard($std_logo, "ILIAS")
+            ->withAction($std_logo_link);
     }
 
 

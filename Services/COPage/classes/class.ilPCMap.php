@@ -264,12 +264,9 @@ class ilPCMap extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $c_pos = 0;
         $start = strpos($a_html, "[[[[[Map;");

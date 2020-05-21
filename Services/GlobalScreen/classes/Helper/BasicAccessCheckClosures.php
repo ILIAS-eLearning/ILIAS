@@ -6,8 +6,7 @@ use Closure;
 use ReflectionFunction;
 
 /**
- * Class BasicAccessCheckTrait
- *
+ * Class BasicAccessCheckClosures
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class BasicAccessCheckClosures
@@ -19,10 +18,8 @@ class BasicAccessCheckClosures
     protected static $instance;
     private $dic;
 
-
     /**
      * BasicAccessCheckClosures constructor.
-     *
      * @param $dic
      */
     protected function __construct()
@@ -30,7 +27,6 @@ class BasicAccessCheckClosures
         global $DIC;
         $this->dic = $DIC;
     }
-
 
     /**
      * @return self
@@ -44,19 +40,22 @@ class BasicAccessCheckClosures
         return self::$instance;
     }
 
-
     public function isRepositoryReadable(?Closure $additional = null) : Closure
     {
         static $repo_read;
         if (!isset($repo_read)) {
-            $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            $is_user_logged_in = $this->isUserLoggedIn()();
+            if (!$is_user_logged_in) {
+                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            } else {
+                $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            }
         }
 
         return $this->getClosureWithOptinalClosure(static function () use ($repo_read) : bool {
             return $repo_read;
         }, $additional);
     }
-
 
     public function isUserLoggedIn(?Closure $additional = null) : Closure
     {
@@ -67,6 +66,17 @@ class BasicAccessCheckClosures
 
         return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous) : bool {
             return !$is_anonymous;
+        }, $additional);
+    }
+
+    public function hasAdministrationAccess(?Closure $additional = null) : Closure
+    {
+        static $has_admin_access;
+        if (!isset($has_admin_access)) {
+            $has_admin_access = (bool) ($this->dic->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID));
+        }
+        return $this->getClosureWithOptinalClosure(static function () use ($has_admin_access) : bool {
+            return $has_admin_access;
         }, $additional);
     }
 
@@ -85,7 +95,6 @@ class BasicAccessCheckClosures
 
         return $r->hasReturnType() && $r->getReturnType()->isBuiltin();
     }
-
 
     private function getClosureWithOptinalClosure(Closure $closure, ?Closure $additional = null) : Closure
     {

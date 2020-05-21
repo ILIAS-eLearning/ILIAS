@@ -354,7 +354,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         global $DIC;
         $ilDB = $DIC['ilDB'];
         foreach ($gap->getItems($this->getShuffler()) as $item) {
-            $query   = "";
+            $query = "";
             $next_id = $ilDB->nextId('qpl_a_cloze');
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -844,7 +844,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = 0;
         $gaps_used_in_combination = array();
         if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
-            $points =  $assClozeGapCombinationObj->getMaxPointsForCombination($this->getId());
+            $points = $assClozeGapCombinationObj->getMaxPointsForCombination($this->getId());
             $gaps_used_in_combination = $assClozeGapCombinationObj->getGapsWhichAreUsedInCombination($this->getId());
         }
         foreach ($this->gaps as $gap_index => $gap) {
@@ -1483,7 +1483,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = 0;
         $gap_max_points = 0;
         if (array_key_exists($gap_index, $this->gaps)) {
-            $gap =&$this->gaps[$gap_index];
+            $gap = &$this->gaps[$gap_index];
             foreach ($gap->getItems($this->getShuffler()) as $answer) {
                 if ($answer->getPoints() > $gap_max_points) {
                     $gap_max_points = $answer->getPoints();
@@ -1582,8 +1582,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
-        $result['clozetext'] =  $this->formatSAQuestion($this->getClozeText());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
+        $result['clozetext'] = $this->formatSAQuestion($this->getClozeText());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['feedback'] = array(
@@ -1706,7 +1706,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }
@@ -1735,9 +1735,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $assClozeGapCombinationObj = new assClozeGapCombination();
         
         if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
-            $combinations_for_question 	= $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
-            $gap_answers               	= array();
-            $gap_used_in_combination	= array();
+            $combinations_for_question = $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
+            $gap_answers = array();
+            $gap_used_in_combination = array();
             foreach ($user_result as $user_result_build_list) {
                 if (is_array($user_result_build_list)) {
                     $gap_answers[$user_result_build_list['gap_id']] = $user_result_build_list['value'];
@@ -1750,7 +1750,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                     $points_for_combination = $row_answers['points'];
                     foreach ($row_answers as $gap_key => $combination_gap_answer) {
                         if ($gap_key !== 'points') {
-                            $gap_used_in_combination[$gap_key]= $gap_key;
+                            $gap_used_in_combination[$gap_key] = $gap_key;
                         }
                         if ($combination_fulfilled && array_key_exists($gap_key, $gap_answers)) {
                             switch ($combination_gap_answer['type']) {
@@ -1761,7 +1761,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                     }
                                     break;
                                 case CLOZE_SELECT:
-                                    $answer     = $this->gaps[$gap_key]->getItem($gap_answers[$gap_key]);
+                                    $answer = $this->gaps[$gap_key]->getItem($gap_answers[$gap_key]);
                                     $answertext = $answer->getAnswertext();
                                     if ($answertext != $combination_gap_answer['answer']) {
                                         $combination_fulfilled = false;
@@ -1813,7 +1813,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $combinations = $this->calculateCombinationResult($user_result);
             $points = $combinations[0];
         }
-        $counter 	  = 0;
+        $counter = 0;
         $solution_values_text = array(); // for identical scoring checks
         $solution_values_select = array(); // for identical scoring checks
         $solution_values_numeric = array(); // for identical scoring checks

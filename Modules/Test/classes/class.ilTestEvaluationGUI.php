@@ -94,7 +94,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 break;
 
             default:
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -238,7 +238,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $counter = 1;
         if (count($participantData->getActiveIds()) > 0) {
             if ($this->object->getECTSOutput()) {
-                $passed_array =&$this->object->getTotalPointsPassedArray();
+                $passed_array = &$this->object->getTotalPointsPassedArray();
             }
             foreach ($participantData->getActiveIds() as $active_id) {
                 if (!isset($foundParticipants[$active_id]) || !($foundParticipants[$active_id] instanceof ilTestEvaluationUserData)) {
@@ -285,11 +285,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     }
                     $evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
                     $evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
-                    $evaluationrow['number_of_questions']      = $userdata->getNumberOfQuestions();
+                    $evaluationrow['number_of_questions'] = $userdata->getNumberOfQuestions();
                     $time_seconds = $userdata->getTimeOfWork();
-                    $time_hours    = floor($time_seconds/3600);
-                    $time_seconds -= $time_hours   * 3600;
-                    $time_minutes  = floor($time_seconds/60);
+                    $time_hours = floor($time_seconds / 3600);
+                    $time_seconds -= $time_hours * 3600;
+                    $time_minutes = floor($time_seconds / 60);
                     $time_seconds -= $time_minutes * 60;
                     $evaluationrow['working_time'] = sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds);
                     $this->ctrl->setParameter($this, "active_id", $active_id);
@@ -321,14 +321,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             $options = array(
                 'excel' => $this->lng->txt('exp_type_excel'),
-                'csv'   => $this->lng->txt('exp_type_spss')
+                'csv' => $this->lng->txt('exp_type_spss')
             );
             
             if (!$this->object->getAnonymity()) {
-                $userCertificateRepository = new ilUserCertificateRepository($DIC->database(), $DIC->logger()->cert());
                 try {
-                    $userCertificateRepository->fetchActiveCertificate($DIC->user()->getId(), $this->object->getId());
-                    $options['certificate'] = $this->lng->txt('exp_type_certificate');
+                    $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+                    if ($globalCertificatePrerequisites->validate()) {
+                        $options['certificate'] = $this->lng->txt('exp_type_certificate');
+                    }
                 } catch (ilException $e) {
                 }
             }
@@ -394,7 +395,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->buildStatisticsAccessFilteredParticipantList()
         );
         
-        $data =&$this->object->getCompleteEvaluationData();
+        $data = &$this->object->getCompleteEvaluationData();
 
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -426,18 +427,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $time_seconds = $data->getParticipant($active_id)->getTimeOfWork();
         $atime_seconds = $data->getParticipant($active_id)->getNumberOfQuestions() ? $time_seconds / $data->getParticipant($active_id)->getNumberOfQuestions() : 0;
-        $time_hours    = floor($time_seconds/3600);
-        $time_seconds -= $time_hours   * 3600;
-        $time_minutes  = floor($time_seconds/60);
+        $time_hours = floor($time_seconds / 3600);
+        $time_seconds -= $time_hours * 3600;
+        $time_minutes = floor($time_seconds / 60);
         $time_seconds -= $time_minutes * 60;
         $timeOfWork = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_timeofwork'));
         $timeOfWork->setValue(sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
         $form->addItem($timeOfWork);
 
         $this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt(""));
-        $time_hours    = floor($atime_seconds/3600);
-        $atime_seconds -= $time_hours   * 3600;
-        $time_minutes  = floor($atime_seconds/60);
+        $time_hours = floor($atime_seconds / 3600);
+        $atime_seconds -= $time_hours * 3600;
+        $time_minutes = floor($atime_seconds / 60);
         $atime_seconds -= $time_minutes * 60;
         $avgTimeOfWork = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_atimeofwork'));
         $avgTimeOfWork->setValue(sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $atime_seconds));
@@ -464,8 +465,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $form->addItem($scoredPass);
 
         $median = $data->getStatistics()->getStatistics()->median();
-        $pct    = $data->getParticipant($active_id)->getMaxpoints() ? ($median / $data->getParticipant($active_id)->getMaxpoints()) * 100.0 : 0;
-        $mark   = $this->object->mark_schema->getMatchingMark($pct);
+        $pct = $data->getParticipant($active_id)->getMaxpoints() ? ($median / $data->getParticipant($active_id)->getMaxpoints()) * 100.0 : 0;
+        $mark = $this->object->mark_schema->getMatchingMark($pct);
         if (is_object($mark)) {
             $markMedian = new ilNonEditableValueGUI($this->lng->txt('tst_stat_result_mark_median'));
             $markMedian->setValue($mark->getShortName());
@@ -523,9 +524,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 foreach ((array) $questions as $question) {
                     $userDataData = array(
                         'counter' => ++$counter,
-                        'id'      => $question['id'],
-                        'id_txt'  => $this->lng->txt('question_id_short'),
-                        'title'   => $data->getQuestionTitle($question['id'])
+                        'id' => $question['id'],
+                        'id_txt' => $this->lng->txt('question_id_short'),
+                        'title' => $data->getQuestionTitle($question['id'])
                     );
 
                     $answeredquestion = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
@@ -600,9 +601,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->buildStatisticsAccessFilteredParticipantList()
         );
         
-        $eval =&$this->object->getCompleteEvaluationData();
+        $eval = &$this->object->getCompleteEvaluationData();
         $data = array();
-        $foundParticipants =&$eval->getParticipants();
+        $foundParticipants = &$eval->getParticipants();
         if (count($foundParticipants)) {
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
@@ -610,7 +611,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             $export_type->setOptions(array(
                 'excel' => $this->lng->txt('exp_type_excel'),
-                'csv'   => $this->lng->txt('exp_type_spss')
+                'csv' => $this->lng->txt('exp_type_spss')
             ));
             $ilToolbar->addInputItem($export_type, true);
             require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
@@ -622,24 +623,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_persons"),
-                'value'  => count($foundParticipants)
+                'value' => count($foundParticipants)
             ));
             $total_finished = $eval->getTotalFinishedParticipants();
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_finished"),
-                'value'  => $total_finished
+                'value' => $total_finished
             ));
             $average_time = $this->object->evalTotalStartedAverageTime(
                 $eval->getParticipantIds()
             );
             $diff_seconds = $average_time;
-            $diff_hours    = floor($diff_seconds/3600);
-            $diff_seconds -= $diff_hours   * 3600;
-            $diff_minutes  = floor($diff_seconds/60);
+            $diff_hours = floor($diff_seconds / 3600);
+            $diff_seconds -= $diff_hours * 3600;
+            $diff_minutes = floor($diff_seconds / 60);
             $diff_seconds -= $diff_minutes * 60;
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_finished_average_time"),
-                'value'  => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
+                'value' => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
             ));
             $total_passed = 0;
             $total_passed_reached = 0;
@@ -658,21 +659,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $average_passed_time = $total_passed ? $total_passed_time / $total_passed : 0;
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_passed"),
-                'value'  => $total_passed
+                'value' => $total_passed
             ));
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_passed_average_points"),
-                'value'  => sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max)
+                'value' => sprintf("%2.2f", $average_passed_reached) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%2.2f", $average_passed_max)
             ));
             $average_time = $average_passed_time;
             $diff_seconds = $average_time;
-            $diff_hours    = floor($diff_seconds/3600);
-            $diff_seconds -= $diff_hours   * 3600;
-            $diff_minutes  = floor($diff_seconds/60);
+            $diff_hours = floor($diff_seconds / 3600);
+            $diff_seconds -= $diff_hours * 3600;
+            $diff_minutes = floor($diff_seconds / 60);
             $diff_seconds -= $diff_minutes * 60;
             array_push($data, array(
                 'result' => $this->lng->txt("tst_eval_total_passed_average_time"),
-                'value'  => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
+                'value' => sprintf("%02d:%02d:%02d", $diff_hours, $diff_minutes, $diff_seconds)
             ));
         }
 
@@ -689,7 +690,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question =&$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];
@@ -698,22 +699,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     }
                 }
             }
-            $percent = $max ? $reached/$max * 100.0 : 0;
+            $percent = $max ? $reached / $max * 100.0 : 0;
             $counter++;
             $this->ctrl->setParameter($this, "qid", $question_id);
 
             $points_reached = ($answered ? $reached / $answered : 0);
-            $points_max     = ($answered ? $max / $answered : 0);
+            $points_max = ($answered ? $max / $answered : 0);
             array_push(
                 $rows,
                 array(
-                    'qid'            => $question_id,
-                    'title'          => $question_title,
-                    'points'         => $points_reached,
+                    'qid' => $question_id,
+                    'title' => $question_title,
+                    'points' => $points_reached,
                     'points_reached' => $points_reached,
-                    'points_max'     => $points_max,
-                    'percentage'     => (float) $percent,
-                    'answers'        => $answered
+                    'points_max' => $points_max,
+                    'percentage' => (float) $percent,
+                    'answers' => $answered
                 )
             );
         }
@@ -810,11 +811,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     {
         global $DIC;
 
+        $globalCertificatePrerequisites = new ilCertificateActiveValidator();
+        if (!$globalCertificatePrerequisites->validate()) {
+            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->MESSAGE);
+        }
+
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
 
         $pathFactory = new ilCertificatePathFactory();
-        $objectId    = $this->object->getId();
+        $objectId = $this->object->getId();
         $zipAction = new ilUserCertificateZip(
             $objectId,
             $pathFactory->create($this->object)
@@ -830,7 +836,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
         $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
 
-        $total_users =&$this->object->evalTotalPersonsArray();
+        $total_users = &$this->object->evalTotalPersonsArray();
         if (count($total_users)) {
             $certValidator = new ilCertificateDownloadValidator();
             
@@ -951,12 +957,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
         }
 
-        $result_array = $this->object->getTestResult(
-            $active_id,
-            $pass,
-            false,
-            !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()
-        );
+        $result_array = $this->getFilteredTestResult($active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired());
 
         $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
@@ -1025,7 +1026,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         if ($this->isPdfDeliveryRequest()) {
             //$this->object->deliverPDFfromHTML($template->get());
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setVariable("ADM_CONTENT", $template->get());
@@ -1143,7 +1143,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
             $name = ilObjUser::_lookupName($user_id);
             $filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__' . $this->object->getTitleFilenameCompliant();
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
         //ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
             //$template->setVariable("PDF_FILE_LOCATION", $filename);
@@ -1168,6 +1167,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tableGUI->resetOffset();
         $tableGUI->resetFilter();
         $this->outUserPassDetails();
+    }
+
+    public function outParticipantsPassDetailsSetTableFilter()
+    {
+        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
+        $tableGUI->initFilter();
+        $tableGUI->resetOffset();
+        $tableGUI->writeFilterToSession();
+        $this->outParticipantsPassDetails();
+    }
+
+    public function outParticipantsPassDetailsResetTableFilter()
+    {
+        $tableGUI = $this->buildPassDetailsOverviewTableGUI($this, 'outParticipantsPassDetails');
+        $tableGUI->initFilter();
+        $tableGUI->resetOffset();
+        $tableGUI->resetFilter();
+        $this->outParticipantsPassDetails();
     }
 
     /**
@@ -1320,7 +1337,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $tpl->setVariable("LIST_OF_ANSWERS", $list_of_answers);
         }
         
-        $tpl->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass+1));
+        $tpl->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
         $uname = $this->object->userLookupFullName($user_id, true);
@@ -1342,7 +1359,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
 
         if ($this->isPdfDeliveryRequest()) {
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setContent($tpl->get());
@@ -1468,8 +1484,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 
         if ($this->isPdfDeliveryRequest()) {
-            //$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
-            require_once 'class.ilTestPDFGenerator.php';
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
         } else {
             $this->tpl->setContent($templatehead->get());
@@ -1556,7 +1570,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             $signature = $this->getResultsSignature();
-            $user_id =&$this->object->_getUserIdFromActiveId($active_id);
+            $user_id = &$this->object->_getUserIdFromActiveId($active_id);
             $showAllAnswers = true;
             if ($this->object->isExecutable($testSession, $user_id)) {
                 $showAllAnswers = false;
@@ -1628,11 +1642,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
         
-        $data =&$this->object->getCompleteEvaluationData();
+        $data = &$this->object->getCompleteEvaluationData();
         $color_class = array("tblrow1", "tblrow2");
         $counter = 0;
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "Modules/Test");
-        $foundParticipants =&$data->getParticipants();
+        $foundParticipants = &$data->getParticipants();
         if (count($foundParticipants) == 0) {
             ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
             return;
@@ -1645,7 +1659,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 foreach ($foundParticipants as $userdata) {
                     $pass = $userdata->getScoredPass();
                     if (is_object($userdata->getPass($pass))) {
-                        $question =&$userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = &$userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                         }
@@ -1664,11 +1678,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 array_push(
                     $rows,
                     array(
-                        'qid'               => $question_id,
-                        'question_title'    => $question_title,
+                        'qid' => $question_id,
+                        'question_title' => $question_title,
                         'number_of_answers' => $answered,
-                        'output'            => "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("pdf_export") . "</a>",
-                        'file_uploads'      => $download
+                        'output' => "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("pdf_export") . "</a>",
+                        'file_uploads' => $download
                     )
                 );
             }
@@ -1829,7 +1843,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         
         if ($pass == 0 && (
-                ($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
+            ($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
                     || ($isActivePass == true) // should be equal to || ($lastFinishedPass == -1 && $tries == 0)
                 )) {
             $last_pass = true;
@@ -1841,21 +1855,21 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         // tst_active
         if ($last_pass) {
             $ilDB->manipulate(
-                    'DELETE
+                'DELETE
 					FROM tst_active
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
                 );
         } elseif (!$isActivePass) {
             $ilDB->manipulate(
-                    'UPDATE tst_active
-					SET tries = ' . $ilDB->quote($tries-1, 'integer') . ',
-					last_finished_pass = ' . $ilDB->quote($lastFinishedPass-1, 'integer') . '
+                'UPDATE tst_active
+					SET tries = ' . $ilDB->quote($tries - 1, 'integer') . ',
+					last_finished_pass = ' . $ilDB->quote($lastFinishedPass - 1, 'integer') . '
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
                 );
         }
         // tst_manual_fb
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_manual_fb
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1863,7 +1877,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_manual_fb
+                'UPDATE tst_manual_fb
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
@@ -1874,7 +1888,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         //
         // tst_pass_result
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_pass_result
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1882,7 +1896,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_pass_result
+                'UPDATE tst_pass_result
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
@@ -1896,7 +1910,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         // tst_sequence
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_sequence
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1904,7 +1918,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_sequence
+                'UPDATE tst_sequence
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
@@ -1936,7 +1950,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                         
         // tst_solutions
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_solutions
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1944,7 +1958,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_solutions
+                'UPDATE tst_solutions
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
@@ -1953,7 +1967,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         // tst_test_result
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_test_result
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1961,7 +1975,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_test_result
+                'UPDATE tst_test_result
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
@@ -1972,7 +1986,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         // tst_times
         $ilDB->manipulate(
-                'DELETE
+            'DELETE
 				FROM tst_times
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
@@ -1980,7 +1994,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             
         if ($must_renumber) {
             $ilDB->manipulate(
-                    'UPDATE tst_times
+                'UPDATE tst_times
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')

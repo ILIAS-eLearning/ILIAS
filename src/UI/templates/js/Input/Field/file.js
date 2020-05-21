@@ -20,7 +20,7 @@ il.UI.Input = il.UI.Input || {};
             accepted_files: '',
             existing_file_ids: [],
             existing_files: [],
-            get_file_info_async: false
+            get_file_info_async: true
         };
 
 
@@ -29,8 +29,6 @@ il.UI.Input = il.UI.Input || {};
             settings = Object.assign(_default_settings, JSON.parse(settings));
             settings.upload_url = settings.upload_url.replace(replacer, '');
             settings.removal_url = settings.removal_url.replace(replacer, '');
-
-            console.log(settings);
 
             var container = '#' + container_id;
             var dropzone = container + ' .il-input-file-dropzone';
@@ -95,6 +93,7 @@ il.UI.Input = il.UI.Input || {};
             });
 
             myDropzone.on("removedfile", function (file) {
+
                 myDropzone.setupEventListeners();
                 myDropzone._updateMaxFilesReachedClass();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", false);
@@ -103,7 +102,7 @@ il.UI.Input = il.UI.Input || {};
                 $(container + ' *[data-file-id="' + file_id + '"]').remove();
 
                 // Call removal-URL
-                if (!file.hasOwnProperty('is_existing') && file.is_existing !== true) {
+                if (file.hasOwnProperty('is_existing') && file.is_existing === true) {
                     disableForm();
                     var data = {};
                     data[settings.file_identifier_key] = file_id;
@@ -133,13 +132,16 @@ il.UI.Input = il.UI.Input || {};
                 myDropzone.emit("addedfile", mockFile);
                 myDropzone._updateMaxFilesReachedClass();
             };
+
             if (settings.get_file_info_async) {
                 var data = {};
                 for (var i in settings.existing_file_ids) {
                     data[settings.file_identifier_key] = settings.existing_file_ids[i];
                     $.get(settings.info_url, data, function (response) {
                         var mockFile = JSON.parse(response);
-                        addExisting(mockFile, response);
+                        if(mockFile.size > 0) {
+                            addExisting(mockFile, response);
+                        }
                     });
                 }
             } else {

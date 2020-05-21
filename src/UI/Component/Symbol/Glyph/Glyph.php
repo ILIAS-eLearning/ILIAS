@@ -24,7 +24,6 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
     const NEXT = "next";
     const SORT_ASCENDING = "sortAscending";
     const SORT_DESCENDING = "sortDescending";
-    const SORT = "sort";
     const USER = "user";
     const MAIL = "mail";
     const NOTIFICATION = "notification";
@@ -119,4 +118,12 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
      * @return Glyph
      */
     public function withUnavailableAction();
+
+    /**
+    * Get a Glyph like this with an action.
+    *
+    * @param string $action
+    * @return mixed
+    */
+    public function withAction($action);
 }

@@ -68,7 +68,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                     $offline_main_bar = new \ILIAS\UI\Implementation\Component\MainControls\MainBar(
                         new \ILIAS\UI\Implementation\Component\SignalGenerator()
                     );
-                    $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"),$lng->txt("more"));
+                    $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), $lng->txt("more"));
                     $offline_main_bar = $offline_main_bar->withMoreButton(
                         $f->button()->bulky($grid_icon, $lng->txt("more"), "#")
                     );

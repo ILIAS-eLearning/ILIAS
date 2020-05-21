@@ -79,7 +79,7 @@ class ilAuthSession
             $this->validateExpiration();
         } else {
             $this->getLogger()->debug('Started new session.');
-            $this->setUserId(0);
+            $this->setUserId(ANONYMOUS_USER_ID);
             $this->expired = false;
             $this->authenticated = false;
         }
@@ -112,9 +112,11 @@ class ilAuthSession
     public function logout()
     {
         $this->getLogger()->debug('Logout called for: ' . $this->getUserId());
-        $this->setAuthenticated(false, 0);
         session_regenerate_id(true);
         session_destroy();
+
+        $this->init();
+        $this->setAuthenticated(true, ANONYMOUS_USER_ID);
     }
     
     /**

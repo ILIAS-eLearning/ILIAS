@@ -30,7 +30,8 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->child1 = $this->createMock(Input11::class);
         $this->child2 = $this->createMock(Input12::class);
         $this->data_factory = new Data\Factory();
-        $this->refinery = new ILIAS\Refinery\Factory($this->data_factory, $this->createMock(\ilLanguage::class));
+        $this->language = $this->createMock(\ilLanguage::class);
+        $this->refinery = new ILIAS\Refinery\Factory($this->data_factory, $this->language);
 
         $this->child1
             ->method("withNameFrom")
@@ -42,6 +43,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->optional_group = (new OptionalGroup(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             [$this->child1, $this->child2],
             "LABEL",
             "BYLINE"
@@ -100,6 +102,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->group = new OptionalGroup(
             $this->data_factory,
             $this->refinery,
+            $this->language,
             ["foo", "bar"],
             "LABEL",
             "BYLINE"
@@ -276,6 +279,13 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             ->expects($this->once())
             ->method("getContent")
             ->willReturn($this->data_factory->ok("two"));
+
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->language
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
 
         $new_group = $this->optional_group
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {

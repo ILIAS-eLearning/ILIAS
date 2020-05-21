@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,14 +8,9 @@ class ilSamlMappedUserAttributeValueParser
 {
     const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
     
-    /**
-     * @var \ilExternalAuthUserAttributeMappingRule
-     */
+    /** @var \ilExternalAuthUserAttributeMappingRule */
     protected $rule;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $userData = [];
 
     /**
@@ -25,35 +20,35 @@ class ilSamlMappedUserAttributeValueParser
      */
     public function __construct(\ilExternalAuthUserAttributeMappingRule $rule, array $userData)
     {
-        $this->rule     = $rule;
+        $this->rule = $rule;
         $this->userData = $userData;
     }
 
     /**
      * @return int
      */
-    protected function getValueIndex()
+    protected function getValueIndex() : int
     {
         $index = 0;
 
-        $matches = array();
+        $matches = [];
         preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
 
         if (is_array($matches) && isset($matches[3]) && is_numeric($matches[3])) {
             $index = (int) $matches[3];
         }
 
-        return $index  >= 0 ? $index : 0;
+        return $index >= 0 ? $index : 0;
     }
 
     /**
      * @return string
      */
-    public function getAttributeKey()
+    public function getAttributeKey() : string
     {
         $attribute = '';
 
-        $matches = array();
+        $matches = [];
         preg_match(self::ATTR_REGEX, $this->rule->getExternalAttribute(), $matches);
 
         if (is_array($matches) && isset($matches[1]) && is_string($matches[1])) {
@@ -65,9 +60,9 @@ class ilSamlMappedUserAttributeValueParser
 
     /**
      * @throws \ilSamlException
-     * @return mixed
+     * @return string
      */
-    public function parse()
+    public function parse() : string
     {
         $attributeKey = $this->getAttributeKey();
 
@@ -103,6 +98,6 @@ class ilSamlMappedUserAttributeValueParser
             ));
         }
 
-        return $value;
+        return (string) $value;
     }
 }

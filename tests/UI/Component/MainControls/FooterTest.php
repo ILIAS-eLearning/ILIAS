@@ -26,15 +26,16 @@ class FooterTest extends ILIAS_UI_TestBase
 
     protected function getFactory()
     {
-        $sig_gen = 	new I\SignalGenerator();
-        $sig_gen = 	new I\SignalGenerator();
+        $sig_gen = new I\SignalGenerator();
+        $sig_gen = new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
         $slate_factory = new I\MainControls\Slate\Factory(
             $sig_gen,
             $counter_factory,
             new I\Symbol\Factory(
                 new I\Symbol\Icon\Factory(),
-                new I\Symbol\Glyph\Factory()
+                new I\Symbol\Glyph\Factory(),
+                new I\Symbol\Avatar\Factory()
             )
         );
         $factory = new I\MainControls\Factory($sig_gen, $slate_factory);
@@ -176,7 +177,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-maincontrols-footer">
             <div class="il-footer-content">
-                <div class="il-footer-permanent-url">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" onclick="this.select();document.execCommand('copy'); return false;" readonly="readOnly">
+                <div class="il-footer-permanent-url">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" readonly="readOnly">
                 </div>
 
                 <div class="il-footer-text">footer text</div>

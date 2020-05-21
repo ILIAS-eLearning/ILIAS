@@ -75,7 +75,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
                     $this->structure[$counter] = array();
                     array_push($this->structure[$counter], $data["question_id"]);
                 } else {
-                    array_push($this->structure[$counter-1], $data["question_id"]);
+                    array_push($this->structure[$counter - 1], $data["question_id"]);
                     $show = false;
                 }
             } else {

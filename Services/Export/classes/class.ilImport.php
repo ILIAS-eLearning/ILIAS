@@ -24,6 +24,8 @@ class ilImport
     protected $skip_entity = array();
     protected $configs = array();
 
+    protected $skip_importer = [];
+
     /**
      * Constructor
      *
@@ -55,12 +57,6 @@ class ilImport
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
         $a_class = "il" . $comp_arr[1] . "ImportConfig";
-        $import_config_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
-        if (!is_file($import_config_file)) {
-            include_once("./Services/Export/exceptions/class.ilImportException.php");
-            throw new ilImportException('Component "' . $a_comp . '" does not provide ImportConfig class.');
-        }
-        include_once($import_config_file);
         $imp_config = new $a_class();
         $this->configs[$a_comp] = $imp_config;
 
@@ -107,6 +103,17 @@ class ilImport
         $this->skip_entity[$a_component][$a_entity] = $skip;
     }
     
+    /**
+     * Add skip entity
+     *
+     * @param string $a_val component
+     * @param string $a_val entity
+     */
+    public function addSkipImporter($a_component, $skip = true)
+    {
+        $this->skip_importer[$a_component] = $skip;
+    }
+
     /**
      * Set currrent dataset
      *
@@ -288,6 +295,11 @@ class ilImport
         $all_importers = array();
         foreach ($expfiles as $expfile) {
             $comp = $expfile["component"];
+
+            if (isset($this->skip_importer[$comp]) && $this->skip_importer[$comp] === true) {
+                continue;
+            }
+
             $class = ilImportExportFactory::getImporterClass($comp);
 
             // log a warning for inactive page component plugins, but continue import

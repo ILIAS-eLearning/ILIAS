@@ -19,7 +19,7 @@ class DataSizeTest extends TestCase
     public function test_normal($a, $b, $expected)
     {
         $ds = new DataSize($a, $b);
-        $this->assertEquals($a/$b, $ds->getSize());
+        $this->assertEquals($a / $b, $ds->getSize());
         $this->assertEquals($b, $ds->getUnit());
         $this->assertEquals($expected, $ds->__toString());
     }

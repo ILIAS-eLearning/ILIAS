@@ -85,7 +85,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     */
     protected function create()
     {
-        if ($_POST["plach_height"]=="" ||
+        if ($_POST["plach_height"] == "" ||
             !preg_match("/[0-9]+/", $_POST["plach_height"])) {
             return $this->insert();
         }
@@ -190,7 +190,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     */
     protected function saveProperties()
     {
-        if ($_POST["plach_height"]=="" ||
+        if ($_POST["plach_height"] == "" ||
             !preg_match("/[0-9]+/", $_POST["plach_height"])) {
             return $this->edit_object();
         }

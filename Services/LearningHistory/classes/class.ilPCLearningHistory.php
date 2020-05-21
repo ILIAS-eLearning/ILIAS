@@ -103,7 +103,7 @@ class ilPCLearningHistory extends ilPageContent
     {
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i=0; $i<count($children); $i++) {
+        for ($i = 0; $i < count($children); $i++) {
             $this->lhist_node->remove_child($children[$i]);
         }
         // set classes
@@ -124,7 +124,7 @@ class ilPCLearningHistory extends ilPageContent
         $classes = [];
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i=0; $i<count($children); $i++) {
+        for ($i = 0; $i < count($children); $i++) {
             $classes[] = $children[$i]->get_attribute("Name");
         }
         return $classes;
@@ -174,12 +174,9 @@ class ilPCLearningHistory extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $lng = $this->lng;
         $ilPluginAdmin = $this->plugin_admin;

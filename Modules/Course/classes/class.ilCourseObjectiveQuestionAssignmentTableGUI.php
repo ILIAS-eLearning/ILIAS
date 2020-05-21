@@ -92,12 +92,10 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
         switch ($a_mode) {
             case ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT:
                 $this->addCommandButton('updateSelfAssessmentAssignment', $this->lng->txt('crs_wiz_next'));
-                $this->addCommandButton('materialAssignment', $this->lng->txt('crs_wiz_back'));
                 break;
             
             case ilCourseObjectiveQuestion::TYPE_FINAL_TEST:
                 $this->addCommandButton('updateFinalTestAssignment', $this->lng->txt('crs_wiz_next'));
-                $this->addCommandButton('selfAssessmentAssignment', $this->lng->txt('crs_wiz_back'));
                 break;
         }
         

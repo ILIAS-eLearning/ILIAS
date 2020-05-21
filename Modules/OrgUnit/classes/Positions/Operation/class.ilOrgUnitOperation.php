@@ -73,7 +73,7 @@ class ilOrgUnitOperation extends ActiveRecord
     public function create()
     {
         if (self::where(array(
-            'context_id'       => $this->getContextId(),
+            'context_id' => $this->getContextId(),
             'operation_string' => $this->getOperationString(),
         ))->hasSets()
         ) {

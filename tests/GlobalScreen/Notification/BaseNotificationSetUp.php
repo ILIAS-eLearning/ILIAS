@@ -70,7 +70,8 @@ abstract class BaseNotificationSetUp extends TestCase
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
-                    new I\Symbol\Glyph\Factory()
+                    new I\Symbol\Glyph\Factory(),
+                    new I\Symbol\Avatar\Factory()
                 );
             }
             public function mainControls() : C\MainControls\Factory
@@ -82,7 +83,8 @@ abstract class BaseNotificationSetUp extends TestCase
                         new \ILIAS\UI\Implementation\Component\Counter\Factory(),
                         new I\Symbol\Factory(
                             new I\Symbol\Icon\Factory(),
-                            new I\Symbol\Glyph\Factory()
+                            new I\Symbol\Glyph\Factory(),
+                            new I\Symbol\Avatar\Factory()
                         )
                     )
                 );

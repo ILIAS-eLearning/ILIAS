@@ -577,6 +577,7 @@ class ilBookingObjectGUI
         $obj->delete();
 
         ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
+        $ilCtrl->setParameter($this, 'object_id', "");
         $ilCtrl->redirect($this, 'render');
     }
         

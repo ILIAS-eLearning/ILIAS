@@ -366,7 +366,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
     */
     public function checkUserInput($post_data, $survey_id)
     {
-        $entered_value = $post_data[$this->getId() . "_value"];
+        $entered_value = (array) $post_data[$this->getId() . "_value"];
         if (!$this->getObligatory($survey_id) && (!is_array($entered_value) || count($entered_value) == 0)) {
             return "";
         }
@@ -380,7 +380,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         if ($this->use_min_answers && $this->nr_max_answers > 0 && count($entered_value) > $this->nr_max_answers) {
             return sprintf($this->lng->txt("err_no_max_answers"), $this->nr_max_answers);
         }
-        if (!is_array($entered_value)) {
+        if (count($entered_value) == 0) {
             return $this->lng->txt("question_mr_not_checked");
         }
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
@@ -419,13 +419,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                         $fields['question_fi'] = array("integer", $this->getId());
                         $fields['active_fi'] = array("integer", $active_id);
                         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-                        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null);
+                        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
                         $fields['tstamp'] = array("integer", time());
 
                         $affectedRows = $ilDB->insert("svy_answer", $fields);
                     } else {
-                        $return_data[] = array("value"=>$entered_value,
-                                "textanswer"=>$post_data[$this->getId() . "_" . $entered_value . "_other"]);
+                        $return_data[] = array("value" => $entered_value,
+                                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]);
                     }
                 }
             }
@@ -520,7 +520,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $category = $this->categories->getCategory($i);
-            $options[$category->scale-1] = $category->scale . " - " . $category->title;
+            $options[$category->scale - 1] = $category->scale . " - " . $category->title;
         }
         return $options;
     }
@@ -550,7 +550,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
     public function getPreconditionValueOutput($value)
     {
         // #18136
-        $category = $this->categories->getCategoryForScale($value+1);
+        $category = $this->categories->getCategoryForScale($value + 1);
         
         // #17895 - see getPreconditionOptions()
         return $category->scale .

@@ -206,8 +206,8 @@ class ilStudyProgrammeUserAssignment
                     $log->write("Adding progress for: " . $id . " " . $node->getId());
                     $progress_repository->update(
                         $progress_repository->createFor(
-                                $node->getRawSettings(),
-                                $assignment
+                            $node->getRawSettings(),
+                            $assignment
                             )->setStatus(
                                 ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
                             )
@@ -229,7 +229,7 @@ class ilStudyProgrammeUserAssignment
         $lng = $DIC['lng'];
         $log = $DIC['ilLog'];
         $lng->loadLanguageModule("prg");
-        $senderFactory = $DIC["mail.mime.sender.factory"];
+        $lng->loadLanguageModule("mail");
 
         /** @var ilStudyProgrammeUserAssignmentDB $assignment_db */
         $assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -243,27 +243,32 @@ class ilStudyProgrammeUserAssignment
             return;
         }
 
-        $mail = new ilMimeMail();
-        $mail->From($senderFactory->system());
-
-        $mailOptions = new \ilMailOptions($usr_id);
-        $mail->To($mailOptions->getExternalEmailAddresses());
-
         $subject = $lng->txt("info_to_re_assign_mail_subject");
-        $mail->Subject($subject);
-
         $gender = ilObjUser::_lookupGender($usr_id);
         $name = ilObjUser::_lookupFullname($usr_id);
-
         $body = sprintf(
             $lng->txt("info_to_re_assign_mail_body"),
             $lng->txt("mail_salutation_" . $gender),
             $name,
             $prg->getTitle()
         );
-        $mail->Body($body);
 
-        if ($mail->Send()) {
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        if ($send) {
             $assignment_db->reminderSendFor($assignment->getId());
         }
     }

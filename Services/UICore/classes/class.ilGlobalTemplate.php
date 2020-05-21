@@ -207,7 +207,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                         $file = $ilCtrl->lookupClassPath($entry["class"]);
                         $add = $entry["mode"] . " - " . $entry["cmd"];
                         if ($file != "") {
-                            $add.= " - " . $file;
+                            $add .= " - " . $file;
                         }
                         $ftpl->setVariable("C_FILE", $add);
                     }
@@ -372,7 +372,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             $txt = $this->getMessageTextForType($m);
 
             if ($txt != "") {
-                $out.= ilUtil::getSystemMessageHTML($txt, $m);
+                $out .= ilUtil::getSystemMessageHTML($txt, $m);
             }
 
             $request = $DIC->http()->request();
@@ -444,6 +444,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         // ensure jquery files being loaded first
         if (is_int(strpos($a_js_file, "Services/jQuery")) ||
             is_int(strpos($a_js_file, "/jquery.js")) ||
+            is_int(strpos($a_js_file, "/jquery/")) ||
+            is_int(strpos($a_js_file, "/jquery-ui/")) ||
             is_int(strpos($a_js_file, "/jquery-min.js"))) {
             $a_batch = 0;
         }
@@ -523,7 +525,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         }
         if ($this->blockExists("js_file")) {
             // three batches
-            for ($i=0; $i<=3; $i++) {
+            for ($i = 0; $i <= 3; $i++) {
                 reset($this->js_files);
                 foreach ($this->js_files as $file) {
                     if ($this->js_files_batch[$file] == $i) {
@@ -693,7 +695,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
                 // determine default screen id
                 $this->getTabsHTML();
             }
-
             // to get also the js files for the main menu
             if (!$a_skip_main_menu) {
                 $this->getMainMenu();
@@ -1208,7 +1209,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             default: $center_column_class = "col-sm-12"; break;
         }
         if (trim($this->left_content) != "") {
-            $center_column_class.= " col-sm-push-3";
+            $center_column_class .= " col-sm-push-3";
         }
 
         $this->setCurrentBlock("center_col_width");
@@ -1491,7 +1492,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             case 'application/json':
                 $string = json_encode([
                     self::MESSAGE_TYPE_SUCCESS => is_null($this->message[self::MESSAGE_TYPE_FAILURE]),
-                    'message'                  => '',
+                    'message' => '',
                 ]);
                 $stream = \ILIAS\Filesystem\Stream\Streams::ofString($string);
                 $http->saveResponse($http->response()->withBody($stream));
@@ -1672,7 +1673,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         $html = "";
 
         foreach ($this->lightbox as $lb) {
-            $html.= $lb;
+            $html .= $lb;
         }
         $this->setVariable("LIGHTBOX", $html);
     }

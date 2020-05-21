@@ -89,9 +89,9 @@ class ilGroupedListGUI
      */
     public function addEntry(
         $a_content,
-        $a_href="",
-        $a_target="",
-        $a_onclick="",
+        $a_href = "",
+        $a_target = "",
+        $a_onclick = "",
         $a_add_class = "",
         $a_id = "",
         $a_ttip = "",
@@ -165,7 +165,7 @@ class ilGroupedListGUI
                         if ($i["ttip"] != "" && $i["id"] != "") {
                             include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                             if ($ilCtrl->isAsynch()) {
-                                $tt_calls.= " " . ilTooltipGUI::getTooltip(
+                                $tt_calls .= " " . ilTooltipGUI::getTooltip(
                                     $i["id"],
                                     $i["ttip"],
                                     "",

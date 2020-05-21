@@ -227,7 +227,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                 break;
             
             case 'ilsurveyparticipantsgui':
-                if ($this->object->getMode() == ilObjSurvey::MODE_STANDARD  || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
+                if ($this->object->getMode() == ilObjSurvey::MODE_STANDARD || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
                     $ilTabs->activateTab("maintenance");
                 } else {
                     $ilTabs->activateTab("survey_360_appraisees");
@@ -254,7 +254,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
             default:
                 $this->addHeaderAction();
-                $cmd.= "Object";
+                $cmd .= "Object";
 
                 $this->log->debug("Default cmd= $cmd");
 
@@ -540,7 +540,7 @@ class ilObjSurveyGUI extends ilObjectGUI
             if (!$this->object->get360Mode()) {
                 if ($form->getInput("tut")) {
                     // check if given "tutors" have write permission
-                    $tut_ids =array();
+                    $tut_ids = array();
                     $tut_logins = $form->getInput("tut_ids");
                     foreach ($tut_logins as $tut_login) {
                         $tut_id = ilObjUser::_lookupId($tut_login);
@@ -563,7 +563,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                     }
                     
                     // check if given "tutors" have write permission
-                    $tut_res_ids =array();
+                    $tut_res_ids = array();
                     $tut_logins = $form->getInput("tut_res_ids");
                     foreach ($tut_logins as $tut_login) {
                         $tut_id = ilObjUser::_lookupId($tut_login);
@@ -1141,7 +1141,7 @@ class ilObjSurveyGUI extends ilObjectGUI
             $tut_grp_inv->setInfo(sprintf($this->lng->txt("survey_notification_target_group_invited_info"), $num_inv));
             $tut_grp->addOption($tut_grp_inv);
             
-            $tut_res =  new ilCheckboxInputGUI($this->lng->txt("svy_notification_tutor_results"), "tut_res");
+            $tut_res = new ilCheckboxInputGUI($this->lng->txt("svy_notification_tutor_results"), "tut_res");
             $tut_res->setInfo($this->lng->txt("svy_notification_tutor_results_info"));
             $tut_res->setChecked($this->object->getTutorResultsStatus());
             $form->addItem($tut_res);
@@ -1551,7 +1551,7 @@ class ilObjSurveyGUI extends ilObjectGUI
         $questionspools = $svy->getAvailableQuestionpools(true, true, true);
 
         $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool_short"), "spl");
-        $pools->setOptions(array(""=>$this->lng->txt("dont_use_questionpool")) + $questionspools);
+        $pools->setOptions(array("" => $this->lng->txt("dont_use_questionpool")) + $questionspools);
         $pools->setRequired(false);
         $form->addItem($pools);
 

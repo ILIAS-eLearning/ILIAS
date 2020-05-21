@@ -1,15 +1,16 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
  * Class ilMMSubItemTableGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMSubItemTableGUI extends ilTable2GUI
 {
     use Hasher;
+
     const IDENTIFIER = 'identifier';
     const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
     const F_TABLE_ENTRY_STATUS = 'entry_status';
@@ -29,10 +30,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
      */
     private $item_repository;
 
-
     /**
      * ilMMSubItemTableGUI constructor.
-     *
      * @param ilMMSubItemGUI     $a_parent_obj
      * @param ilMMItemRepository $item_repository
      */
@@ -44,7 +43,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
         $this->item_repository = $item_repository;
-        $this->lng = $this->parent_obj->lng;
+        $this->lng             = $this->parent_obj->lng;
         $this->addFilterItems();
         $this->setData($this->resolveData());
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
@@ -54,7 +53,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->initColumns();
         $this->setRowTemplate('tpl.sub_items.html', 'Services/MainMenu');
     }
-
 
     protected function addFilterItems()
     {
@@ -68,7 +66,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         );
         $this->addAndReadFilterItem($table_entry_status);
     }
-
 
     /**
      * @param $field
@@ -84,7 +81,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
     }
 
-
     private function initColumns()
     {
         $this->addColumn($this->lng->txt('sub_parent'));
@@ -97,7 +93,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('sub_actions'));
     }
 
-
     /**
      * @inheritDoc
      */
@@ -109,16 +104,20 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
-        $factory = $DIC->ui()->factory();
+        $factory  = $DIC->ui()->factory();
         /**
          * @var $item_facade ilMMItemFacadeInterface
          */
         $item_facade = $a_set['facade'];
+        if ($item_facade->isChild()) {
+            if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->item()->getParent()) {
+                $current_parent = $this->item_repository->getSingleItem($item_facade->item()->getParent());
+                if ($current_parent instanceof Lost) {
 
-        if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->item()->getParent()) {
-            $current_parent = $this->item_repository->getSingleItem($item_facade->item()->getParent());
-            $this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle());
-            $position = 1;
+                }
+                $this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle()); //  ." ({$current_parent->getProviderIdentification()->getInternalIdentifier()})"
+                $position = 1;
+            }
         }
         $this->tpl->setVariable('IDENTIFIER', self::IDENTIFIER);
         $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
@@ -145,11 +144,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
             $rendered_modal = "";
             if ($item_facade->isCustom()) {
-                $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+                $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
-                $m = $factory->modal()
-                    ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
-                    ->withAffectedItems([$ditem]);
+                $m      = $factory->modal()
+                                  ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
+                                  ->withAffectedItems([$ditem]);
 
                 $items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
                 // $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CONFIRM_DELETE));
@@ -160,10 +159,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
      * @param ilMMItemFacadeInterface $child
-     *
      * @return ilSelectInputGUI
      */
     private function getSelect(ilMMItemFacadeInterface $child) : ilSelectInputGUI
@@ -174,7 +171,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
         return $s;
     }
-
 
     /**
      * @return array
@@ -189,14 +185,13 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         return $parents;
     }
 
-
     private function resolveData() : array
     {
         global $DIC;
         $sub_items_for_table = $this->item_repository->getSubItemsForTable();
 
         foreach ($sub_items_for_table as $k => $item) {
-            $item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']));
+            $item_facade                       = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']));
             $sub_items_for_table[$k]['facade'] = $item_facade;
             if (isset($this->filter[self::F_TABLE_ENTRY_STATUS]) && $this->filter[self::F_TABLE_ENTRY_STATUS] !== self::F_TABLE_ALL_VALUE) {
                 if (($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_ACTIVE_VALUE && !$item_facade->isActivated())

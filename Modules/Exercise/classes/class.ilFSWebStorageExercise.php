@@ -36,7 +36,7 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
                 $this->submissions_path = $this->path . "/subm_" . $this->ass_id;
 
                 $this->log->debug("parent init() with ass_id =" . $this->ass_id);
-                $this->path.= "/ass_" . $this->ass_id;
+                $this->path .= "/ass_" . $this->ass_id;
             }
         } else {
             $this->log->debug("no parent init() without ass_id");
@@ -115,11 +115,11 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
         while ($file = readdir($dp)) {
             if (!is_dir($this->path . '/' . $file)) {
                 $files[] = array(
-                    'name'     => $file,
-                    'size'     => filesize($this->path . '/' . $file),
-                    'ctime'    => filectime($this->path . '/' . $file),
+                    'name' => $file,
+                    'size' => filesize($this->path . '/' . $file),
+                    'ctime' => filectime($this->path . '/' . $file),
                     'fullpath' => $this->path . '/' . $file,
-                    'order'    => $files_order[$file]["order_nr"] ? $files_order[$file]["order_nr"] : 0
+                    'order' => $files_order[$file]["order_nr"] ? $files_order[$file]["order_nr"] : 0
                     );
             }
         }

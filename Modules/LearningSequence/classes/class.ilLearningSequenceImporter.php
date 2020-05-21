@@ -53,7 +53,12 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->buildLSItems($this->data["item_data"], $mapping);
         $this->buildLPSettings($this->data["lp_settings"], $mapping);
 
-        $this->obj->addMember((int) $this->user->getId(), $this->obj->getDefaultAdminRole());
+        $roles = $this->obj->getLSRoles();
+        $roles->addLSMember(
+            (int) $this->user->getId(),
+            $roles->getDefaultAdminRole()
+        );
+        return $new_obj;
     }
 
     protected function updateRefId(ilImportMapping $mapping)
@@ -146,7 +151,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
     protected function getNewImagePath(string $type, string $path) : string
     {
-        $fs = $this->obj->getLSFileSystem();
+        $fs = $this->obj->getDI()['db.filesystem'];
         return $fs->getStoragePathFor(
             $type,
             (int) $this->obj->getId(),

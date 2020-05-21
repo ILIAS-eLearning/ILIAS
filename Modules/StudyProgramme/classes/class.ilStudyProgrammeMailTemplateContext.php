@@ -9,6 +9,9 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     const ID = 'prg_context_manual';
 
     const TITLE = "prg_title";
+    const DESCRIPTION = "prg_description";
+    const TYPE = "prg_type";
+    const LINK = "prg_link";
     const ORG_UNIT = "prg_orgus";
     const STATUS = "prg_status";
     const COMPLETION_DATE = "prg_completion_date";
@@ -64,7 +67,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
      */
     public function getDescription() : string
     {
-        return $this->lng->txt('crs_mail_context_info');
+        return $this->lng->txt('prg_mail_context_info');
     }
 
     /**
@@ -78,6 +81,21 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         $placeholders[self::TITLE] = array(
             'placeholder' => 'STUDY_PROGRAMME_TITLE',
             'label' => $this->lng->txt(self::TITLE)
+        );
+
+        $placeholders[self::DESCRIPTION] = array(
+            'placeholder' => 'STUDY_PROGRAMME_DESCRIPTION',
+            'label' => $this->lng->txt(self::DESCRIPTION)
+        );
+
+        $placeholders[self::TYPE] = array(
+            'placeholder' => 'STUDY_PROGRAMME_TYPE',
+            'label' => $this->lng->txt(self::TYPE)
+        );
+
+        $placeholders[self::LINK] = array(
+            'placeholder' => 'STUDY_PROGRAMME_LINK',
+            'label' => $this->lng->txt(self::LINK)
         );
 
         $placeholders[self::ORG_UNIT] = array(
@@ -143,6 +161,9 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 
         if (!in_array($placeholder_id, [
             self::TITLE,
+            self::DESCRIPTION,
+            self::TYPE,
+            self::LINK,
             self::ORG_UNIT,
             self::STATUS,
             self::COMPLETION_DATE,
@@ -157,14 +178,27 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         }
 
         $obj_id = ilObject::_lookupObjectId($context_parameters['ref_id']);
+
+        /** @var ilObjStudyProgramme $obj */
         $obj = ilObjectFactory::getInstanceByRefId($context_parameters['ref_id']);
 
-        /** @var ilStudyProgrammeUserProgress $progress */
-        $progress = array_shift($obj->getProgressesOf($recipient->getId()));
+        $progress = $this->getNewestProgressForUser($obj, $recipient->getId());
 
         switch ($placeholder_id) {
             case self::TITLE:
                 $string = ilObject::_lookupTitle($obj_id);
+                break;
+            case self::DESCRIPTION:
+                $string = ilObject::_lookupDescription($obj_id);
+                break;
+            case self::TYPE:
+                $string = '';
+                if (!is_null($obj->getSubType())) {
+                    $string = (string) $obj->getSubType()->getTitle();
+                }
+                break;
+            case self::LINK:
+                $string = ilLink::_getLink($context_parameters['ref_id'], 'prg');
                 break;
             case self::ORG_UNIT:
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
@@ -178,8 +212,20 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             case self::COMPLETED_BY:
                 $string = '';
                 $id = $progress->getCompletionBy();
-                if (!is_null($id)) {
-                    $string = ilObjUser::_lookupLogin($id);
+                if (!is_null($id) && ilObject::_exists($id)) {
+                    $obj = ilObjectFactory::getInstanceByObjId($id);
+                    if ($obj->getType() == 'usr') {
+                        $string = (string) ilObjUser::_lookupLogin($id);
+                    } else {
+                        if ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
+                            if (
+                                ilObject::_exists($ref_id, true) &&
+                                is_null(ilObject::_lookupDeletedDate($ref_id))
+                            ) {
+                                $string = ilContainerReference::_lookupTitle($id);
+                            }
+                        }
+                    }
                 }
                 break;
             case self::POINTS_REQUIRED:
@@ -191,16 +237,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             case self::DEADLINE:
                 $string = $this->date2String($progress->getDeadline());
                 break;
-            case self::EXPIRE_DATE:
+            case self::VALIDITY:
+                $string = $this->lng->txt('prg_quali_not_valid');
                 $now = (new DateTime())->format('Y-m-d H:i:s');
-                $vq_date = $progress->getValidityOfQualification()->format('Y-m-d H:i:s');
+                $val_of_qual = $progress->getValidityOfQualification();
 
-                $string = $this->lng->txt('prg_renewal_required');
-                if ($vq_date > $now) {
-                    $string = $this->lng->txt('prg_still_valid');
+                if (!is_null($val_of_qual)) {
+                    $vq_date = $val_of_qual->format('Y-m-d H:i:s');
+                    if ($vq_date > $now) {
+                        $string = $this->lng->txt('prg_quali_still_valid');
+                    }
                 }
                 break;
-            case self::VALIDITY:
+            case self::EXPIRE_DATE:
                 $string = $this->date2String($progress->getValidityOfQualification());
                 break;
             default:
@@ -208,6 +257,31 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         }
 
         return $string;
+    }
+
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeUserProgress
+    {
+        $progress = $obj->getProgressesOf($user_id);
+
+        $successfully_progress = array_filter($progress, function (ilStudyProgrammeUserProgress $a) {
+            return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
+        });
+
+        if (count($successfully_progress) == 0) {
+            return $progress[0];
+        }
+
+        usort($successfully_progress, function (ilStudyProgrammeUserProgress $a, ilStudyProgrammeUserProgress $b) {
+            if ($a->getCompletionDate() > $b->getCompletionDate()) {
+                return -1;
+            } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return array_shift($successfully_progress);
     }
 
     protected function statusToRepr(int $status) : string

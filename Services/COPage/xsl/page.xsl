@@ -922,7 +922,8 @@
 		<xsl:when test="@Characteristic = 'Headline1'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h1>
+		<xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h1><xsl:attribute name="id">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h1>
@@ -930,7 +931,8 @@
 		<xsl:when test="@Characteristic = 'Headline2'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h2>
+		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h2><xsl:attribute name="id">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h2>
@@ -938,7 +940,8 @@
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h3>
+		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h3>
@@ -2957,9 +2960,7 @@
 				</xsl:if>
 				<!-- see #bug22632 -->
 				<xsl:if test="$width = '' and $height = ''">
-					<xsl:attribute name="width">100%</xsl:attribute>
-					<xsl:attribute name="height">100%</xsl:attribute>
-					<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
+					<xsl:attribute name="style">max-width: 100%; width: 100%;</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
@@ -3002,9 +3003,7 @@
 						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					</xsl:if>
 					<xsl:if test="$width = '' and $height = ''">
-						<xsl:attribute name="width">100%</xsl:attribute>
-						<xsl:attribute name="height">100%</xsl:attribute>
-						<xsl:attribute name="style">width:100%;height:100%;</xsl:attribute>
+						<xsl:attribute name="style">width:100%;</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
 					<param name="movie">

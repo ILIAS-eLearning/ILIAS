@@ -345,6 +345,10 @@ class ilInitialisation
         $iliasHttpPath = implode('', [$protocol, $host, $uri]);
         if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
             $iliasHttpPath = dirname($iliasHttpPath);
+        } elseif (ilContext::getType() === ilContext::CONTEXT_SAML) {
+            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
+                $iliasHttpPath = substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'));
+            }
         }
 
         $f = new \ILIAS\Data\Factory();
@@ -1031,22 +1035,6 @@ class ilInitialisation
     public static function initILIAS()
     {
         if (self::$already_initialized) {
-            // workaround for bug #17990
-            // big mess. we prevent double initialisations with ILIAS 5.1, which is good, but...
-            // the style service uses $_GET["ref_id"] to determine
-            // the context styles. $_GET["ref_id"] is "corrected" by the "goto" procedure and which calls
-            // initILIAS again.
-            // we need a mechanism that detemines our repository context and stores that in an information object
-            // usable by the style component afterwars. This needs new concepts and a refactoring.
-            if (ilContext::initClient()) {
-                global $tpl;
-                if (is_object($tpl)) {
-                    // load style sheet depending on user's settings
-                    $location_stylesheet = ilUtil::getStyleSheetLocation();
-                    $tpl->setVariable("LOCATION_STYLESHEET", $location_stylesheet);
-                }
-            }
-
             return;
         }
 
@@ -1349,7 +1337,10 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
-        if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
+        if (
+            $GLOBALS['DIC']['ilAuthSession']->isExpired() &&
+            !\ilObjUser::_isAnonymous($GLOBALS['DIC']['ilAuthSession']->getUserId())
+        ) {
             ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
             return self::goToLogin();
         }
@@ -1402,8 +1393,9 @@ class ilInitialisation
         $c['global_screen'] = function () use ($c) {
             return new Services(new ilGSProviderFactory($c));
         };
-        $c->globalScreen()->tool()->context()->stack()->main();
-        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
+        $c->globalScreen()->tool()->context()->stack()->clear();
+        $c->globalScreen()->tool()->context()->claim()->main();
+//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**
@@ -1412,6 +1404,7 @@ class ilInitialisation
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
         $c["ui.factory"] = function ($c) {
+            $c["lng"]->loadLanguageModule("ui");
             return new ILIAS\UI\Implementation\Factory(
                 $c["ui.factory.counter"],
                 $c["ui.factory.button"],
@@ -1525,10 +1518,14 @@ class ilInitialisation
         $c["ui.factory.symbol.icon"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
         };
+        $c["ui.factory.symbol.avatar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory();
+        };
         $c["ui.factory.symbol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Factory(
                 $c["ui.factory.symbol.icon"],
-                $c["ui.factory.symbol.glyph"]
+                $c["ui.factory.symbol.glyph"],
+                $c["ui.factory.symbol.avatar"]
             );
         };
         $c["ui.factory.progressmeter"] = function ($c) {
@@ -1544,7 +1541,8 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
                 $c["ui.signal_generator"],
                 $data_factory,
-                $refinery
+                $refinery,
+                $c["lng"]
             );
         };
         $c["ui.factory.input.container"] = function ($c) {
@@ -1576,28 +1574,28 @@ class ilInitialisation
         $c["ui.component_renderer_loader"] = function ($c) {
             return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                 new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
-                $c["ui.resource_registry"],
-                new ILIAS\UI\Implementation\Render\FSLoader(
-                        new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
-                        $c["ui.factory"],
-                        $c["ui.template_factory"],
-                        $c["lng"],
-                        $c["ui.javascript_binding"],
-                        $c["refinery"]
+                    $c["ui.resource_registry"],
+                    new ILIAS\UI\Implementation\Render\FSLoader(
+                    new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                             ),
-                        new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
-                              $c["ui.factory"],
-                              $c["ui.template_factory"],
-                              $c["lng"],
-                              $c["ui.javascript_binding"],
-                              $c["refinery"]
+                    new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                           ),
-                        new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
-                              $c["ui.factory"],
-                              $c["ui.template_factory"],
-                              $c["lng"],
-                              $c["ui.javascript_binding"],
-                              $c["refinery"]
+                    new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"]
                           )
                         )
                     )
@@ -1627,7 +1625,7 @@ class ilInitialisation
         foreach ($plugins as $plugin_data) {
             $plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
 
-            $c['ui.renderer'] =  $plugin->exchangeUIRendererAfterInitialization($c);
+            $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
             foreach ($c->keys() as $key) {
                 if (strpos($key, "ui.factory") === 0) {
@@ -1675,11 +1673,6 @@ class ilInitialisation
             );
             $request_adjuster->adjust();
         }
-
-
-        // load style sheet depending on user's settings
-        $location_stylesheet = ilUtil::getStyleSheetLocation();
-        $tpl->addCss($location_stylesheet);
 
         require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 

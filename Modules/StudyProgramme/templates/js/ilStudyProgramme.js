@@ -195,12 +195,8 @@
              * Saves the tree-order async
              */
             $("body").on("study_programme-save_order", function () {
-                var tree_data = $(element).jstree(true).get_json('#', {flat: true});
-                var data = [];
-                $.each(tree_data, function(idx, node){
-                   data.push(node.id);
-                });
-                var json_data = JSON.stringify(data);
+                var tree_data = $(element).jstree(true).get_json('#', {flat: false});
+                var json_data = JSON.stringify(tree_data);
 
                 if (settings.save_tree_url !== "") {
                     $.ajax({

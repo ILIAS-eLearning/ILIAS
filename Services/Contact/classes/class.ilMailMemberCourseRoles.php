@@ -26,7 +26,7 @@ class ilMailMemberCourseRoles extends ilAbstractMailMemberRoles
     {
         global $DIC;
 
-        $this->lng        = $DIC['lng'];
+        $this->lng = $DIC['lng'];
         $this->rbacreview = $DIC['rbacreview'];
     }
 
@@ -48,34 +48,34 @@ class ilMailMemberCourseRoles extends ilAbstractMailMemberRoles
 
         // Sort by relevance
         $sorted_role_ids = array();
-        $counter         = 3;
+        $counter = 3;
 
         foreach ($role_ids as $role_id) {
             $role_title = ilObject::_lookupTitle($role_id);
-            $mailbox    = $this->getMailboxRoleAddress($role_id);
+            $mailbox = $this->getMailboxRoleAddress($role_id);
 
             switch (substr($role_title, 0, 8)) {
                 case 'il_crs_a':
-                    $sorted_role_ids[2]['role_id']           = $role_id;
-                    $sorted_role_ids[2]['mailbox']           = $mailbox;
+                    $sorted_role_ids[2]['role_id'] = $role_id;
+                    $sorted_role_ids[2]['mailbox'] = $mailbox;
                     $sorted_role_ids[2]['form_option_title'] = $this->lng->txt('send_mail_admins');
                     break;
 
                 case 'il_crs_t':
-                    $sorted_role_ids[1]['role_id']           = $role_id;
-                    $sorted_role_ids[1]['mailbox']           = $mailbox;
+                    $sorted_role_ids[1]['role_id'] = $role_id;
+                    $sorted_role_ids[1]['mailbox'] = $mailbox;
                     $sorted_role_ids[1]['form_option_title'] = $this->lng->txt('send_mail_tutors');
                     break;
 
                 case 'il_crs_m':
-                    $sorted_role_ids[0]['role_id']           = $role_id;
-                    $sorted_role_ids[0]['mailbox']           = $mailbox;
+                    $sorted_role_ids[0]['role_id'] = $role_id;
+                    $sorted_role_ids[0]['mailbox'] = $mailbox;
                     $sorted_role_ids[0]['form_option_title'] = $this->lng->txt('send_mail_members');
                     break;
 
                 default:
-                    $sorted_role_ids[$counter]['role_id']           = $role_id;
-                    $sorted_role_ids[$counter]['mailbox']           = $mailbox;
+                    $sorted_role_ids[$counter]['role_id'] = $role_id;
+                    $sorted_role_ids[$counter]['mailbox'] = $mailbox;
                     $sorted_role_ids[$counter]['form_option_title'] = $role_title;
 
                     $counter++;

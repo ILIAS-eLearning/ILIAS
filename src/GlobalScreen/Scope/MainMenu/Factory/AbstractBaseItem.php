@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Class AbstractBaseItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractBaseItem implements isItem
@@ -50,17 +49,14 @@ abstract class AbstractBaseItem implements isItem
      */
     private $is_visible_static;
 
-
     /**
      * AbstractBaseItem constructor.
-     *
      * @param IdentificationInterface $provider_identification
      */
     public function __construct(IdentificationInterface $provider_identification)
     {
         $this->provider_identification = $provider_identification;
     }
-
 
     /**
      * @inheritDoc
@@ -69,7 +65,6 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->provider_identification;
     }
-
 
     /**
      * @inheritDoc
@@ -81,7 +76,6 @@ abstract class AbstractBaseItem implements isItem
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -105,36 +99,6 @@ abstract class AbstractBaseItem implements isItem
         return $this->is_visible_static = true;
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function withActiveCallable(callable $is_active) : isItem
-    {
-        $clone = clone($this);
-        $clone->active_callable = $is_active;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function isActive() : bool
-    {
-        if (is_callable($this->active_callable)) {
-            $callable = $this->active_callable;
-
-            $value = $callable();
-
-            return $value;
-        }
-
-        return true;
-    }
-
-
     /**
      * @inheritDoc
      */
@@ -145,7 +109,6 @@ abstract class AbstractBaseItem implements isItem
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -158,14 +121,11 @@ abstract class AbstractBaseItem implements isItem
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
 
-            $value = $callable();
-
-            return $value;
+            return $callable();
         }
 
         return true;
     }
-
 
     /**
      * @inheritDoc
@@ -178,7 +138,6 @@ abstract class AbstractBaseItem implements isItem
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -189,7 +148,6 @@ abstract class AbstractBaseItem implements isItem
         return $this->non_available_reason instanceof Legacy ? $this->non_available_reason : $DIC->ui()->factory()->legacy("");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -197,7 +155,6 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->is_always_available;
     }
-
 
     /**
      * @inheritDoc
@@ -210,7 +167,6 @@ abstract class AbstractBaseItem implements isItem
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -218,7 +174,6 @@ abstract class AbstractBaseItem implements isItem
     {
         return $this->position;
     }
-
 
     /**
      * @inheritDoc
@@ -231,7 +186,6 @@ abstract class AbstractBaseItem implements isItem
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -241,7 +195,6 @@ abstract class AbstractBaseItem implements isItem
 
         return $this;
     }
-
 
     /**
      * @inheritDoc

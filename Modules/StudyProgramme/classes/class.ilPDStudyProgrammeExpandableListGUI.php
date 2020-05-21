@@ -21,7 +21,7 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
 
     protected function shouldShowThisList()
     {
-        return $_GET["cmd"] == "jumpToSelectedItems" &&  $_GET["expand"];
+        return $_GET["cmd"] == "jumpToSelectedItems" && $_GET["expand"];
     }
 
     protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)

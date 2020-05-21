@@ -72,7 +72,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
                 
                 $data[$idx]["references"][$obj["ref_id"]] =
                     array(
-                        "path"=> $path
+                        "path" => $path
                         ,"url" => ilLink::_getLink($obj["ref_id"])
                     );
             }

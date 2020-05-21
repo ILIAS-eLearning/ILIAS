@@ -35,12 +35,12 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
         if (null === $presentation->getUserCertificate()) {
             $fileNameParts = implode('_', array_filter([
                 $this->lng->txt('certificate_var_user_lastname'),
-                $presentation->getObjId()
+                $this->scormSetting->get('certificate_short_name_' . $presentation->getObjId()),
             ]));
         } else {
             $fileNameParts = implode('_', array_filter([
                 $presentation->getUserName(),
-                $presentation->getObjectTitle()
+                $presentation->getObjectTitle(),
             ]));
         }
 

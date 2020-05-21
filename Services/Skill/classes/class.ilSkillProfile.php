@@ -163,7 +163,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "SELECT * FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
             );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         
@@ -309,7 +309,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "SELECT " . $a_field . " FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
             );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_field];
     }
     
@@ -441,7 +441,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " ORDER BY p.title ASC"
             );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $user_profiles[] = $rec;
         }
 
@@ -460,7 +460,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $temp_profiles = array();
         foreach ($all_profiles as &$v) {
             if (!isset($temp_profiles[$v["id"]])) {
-                $temp_profiles[$v["id"]] =&$v;
+                $temp_profiles[$v["id"]] = &$v;
             }
         }
         $all_profiles = array_values($temp_profiles);
@@ -580,7 +580,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE role_id = " . $ilDB->quote($a_role_id, "integer") .
             " ORDER BY p.title ASC"
         );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[] = $rec;
         }
         return $profiles;

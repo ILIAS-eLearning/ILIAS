@@ -24,6 +24,7 @@ class BaseTypeRenderer implements TypeRenderer
     use isSupportedTrait;
 
     use ComponentDecoratorApplierTrait;
+
     /**
      * @var Factory
      */
@@ -89,7 +90,6 @@ class BaseTypeRenderer implements TypeRenderer
             }
 
             return $item->getSymbol();
-
         }
         if ($item instanceof hasTitle) {
             $abbr = strtoupper(substr($item->getTitle(), 0, 1));
@@ -106,10 +106,31 @@ class BaseTypeRenderer implements TypeRenderer
      */
     protected function getURI(string $uri_string) : URI
     {
+        $uri_string = trim($uri_string, " ");
+
         if (strpos($uri_string, 'http') === 0) {
-            return new URI($uri_string);
+            $checker = self::getURIChecker();
+            if ($checker($uri_string)) {
+                return new URI($uri_string);
+            }
+            return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($_SERVER['REQUEST_URI'], "./"));
         }
 
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
+    }
+
+    /**
+     * @return \Closure
+     */
+    public static function getURIChecker() : \Closure
+    {
+        return static function (string $v) : bool {
+            try {
+                new URI($v);
+            } catch (\Throwable $e) {
+                return false;
+            }
+            return true;
+        };
     }
 }

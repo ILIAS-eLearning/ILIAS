@@ -45,7 +45,7 @@ class ilCertificatePdfAction
         string $translatedErrorText = '',
         ilErrorHandling $errorHandler = null
     ) {
-        $this->logger       = $logger;
+        $this->logger = $logger;
         $this->pdfGenerator = $pdfGenerator;
         if (null == $ilUtilHelper) {
             $ilUtilHelper = new ilCertificateUtilHelper();

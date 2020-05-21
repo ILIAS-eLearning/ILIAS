@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 
 /**
  * Class AbstractBaseItem
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractChildItem extends AbstractBaseItem implements isChild
@@ -15,7 +14,6 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
      * @var IdentificationInterface
      */
     protected $parent;
-
 
     /**
      * @inheritDoc
@@ -28,7 +26,6 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -37,7 +34,6 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
         return ($this->parent instanceof IdentificationInterface);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -45,7 +41,6 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
     {
         return $this->parent instanceof IdentificationInterface ? $this->parent : new NullIdentification();
     }
-
 
     /**
      * @inheritDoc

@@ -46,75 +46,32 @@ class ilMyStaffGUI
 
         switch ($next_class) {
             case strtolower(ilMStListCoursesGUI::class):
-                $this->addTabs(self::TAB_LIST_COURSES);
                 $list_gui = new ilMStListCoursesGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
             case strtolower(ilMStListCertificatesGUI::class):
-                $this->addTabs(self::TAB_LIST_CERTIFICATES);
                 $list_gui = new ilMStListCertificatesGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
             case strtolower(ilMStListCompetencesGUI::class):
-                $this->addTabs(self::TAB_LIST_COMPETENCES);
                 $list_gui = new ilMStListCompetencesGUI($DIC);
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
-            case strtolower(ilMStListStudyProgrammesGUI::class):
-                $list_gui = new ilMStListStudyProgrammesGUI();
-                $DIC->ctrl()->forwardCommand($list_gui);
-                break;
+//            case strtolower(ilMStListStudyProgrammesGUI::class):
+//                $list_gui = new ilMStListStudyProgrammesGUI();
+//                $DIC->ctrl()->forwardCommand($list_gui);
+//                break;
             case strtolower(ilMStShowUserGUI::class):
                 $user_gui = new ilMStShowUserGUI();
                 $DIC->ctrl()->forwardCommand($user_gui);
                 break;
             default:
-                $this->addTabs(self::TAB_LIST_USERS);
                 $list_gui = new ilMStListUsersGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
         }
 
         $DIC->ui()->mainTemplate()->printToStdout();
-    }
-
-
-    /**
-     * @param string $active_tab_id
-     */
-    protected function addTabs($active_tab_id)
-    {
-        global $DIC;
-        $access = ilMyStaffAccess::getInstance();
-
-        if ($access->hasCurrentUserAccessToMyStaff()) {
-            $DIC->tabs()->addTab(self::TAB_LIST_USERS, $DIC->language()->txt('mst_list_users'), $DIC->ctrl()->getLinkTargetByClass(array(
-                self::class,
-                ilMStListUsersGUI::class,
-            ), self::CMD_INDEX));
-            $DIC->tabs()->addTab(self::TAB_LIST_COURSES, $DIC->language()->txt('mst_list_courses'), $DIC->ctrl()->getLinkTargetByClass(array(
-                self::class,
-                ilMStListCoursesGUI::class,
-            ), self::CMD_INDEX));
-        }
-
-        if ($access->hasCurrentUserAccessToCertificates()) {
-            $DIC->tabs()->addTab(self::TAB_LIST_CERTIFICATES, $DIC->language()->txt('mst_list_certificates'), $DIC->ctrl()->getLinkTargetByClass(array(
-                self::class,
-                ilMStListCertificatesGUI::class,
-            ), self::CMD_INDEX));
-        }
-
-        if ($access->hasCurrentUserAccessToCompetences()) {
-            $DIC->tabs()->addTab(self::TAB_LIST_COMPETENCES, $DIC->language()->txt('mst_list_competences'), $DIC->ctrl()->getLinkTargetByClass(array(
-                self::class,
-                ilMStListCompetencesGUI::class,
-            ), self::CMD_INDEX));
-        }
-
-        if ($active_tab_id) {
-            $DIC->tabs()->activateTab($active_tab_id);
-        }
     }
 
 

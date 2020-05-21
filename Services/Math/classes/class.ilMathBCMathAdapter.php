@@ -73,14 +73,14 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
      */
     public function pow($left_operand, $right_operand, $scale = null)
     {
-        $left_operand  = $this->normalize($left_operand);
+        $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);
-        $scale         = $this->normalize($scale);
+        $scale = $this->normalize($scale);
 
         // bcpow() only supports exponents less than or equal to 2^31-1.
         // Also, bcpow() does not support decimal numbers.
         // If you have scale set to 0, then the exponent is converted to an integer; otherwise an error is generated.
-        $left_operand_dec  = $this->exp2dec($left_operand);
+        $left_operand_dec = $this->exp2dec($left_operand);
         $right_operand_dec = $this->exp2dec($right_operand);
 
         // bcpow does NOT support decimal exponents

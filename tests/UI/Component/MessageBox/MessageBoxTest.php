@@ -35,10 +35,10 @@ class MessageBoxTest extends ILIAS_UI_TestBase
         );
     }
 
-    public static $canonical_css_classes = array( C\MessageBox\MessageBox::FAILURE			=> "alert-danger"
-    , C\MessageBox\MessageBox::SUCCESS			=> "alert-success"
-    , C\MessageBox\MessageBox::INFO				=> "alert-info"
-    , C\MessageBox\MessageBox::CONFIRMATION		=> "alert-warning"
+    public static $canonical_css_classes = array( C\MessageBox\MessageBox::FAILURE => "alert-danger"
+    , C\MessageBox\MessageBox::SUCCESS => "alert-success"
+    , C\MessageBox\MessageBox::INFO => "alert-info"
+    , C\MessageBox\MessageBox::CONFIRMATION => "alert-warning"
     );
 
     public function getUIFactory()

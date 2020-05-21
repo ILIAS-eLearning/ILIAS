@@ -285,7 +285,7 @@ class ilContentStyleSettingsGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
 
         foreach ($_POST["id"] as $id) {
-            $caption =  ilUtil::getImageTagByType("sty", $this->tpl->tplPath) .
+            $caption = ilUtil::getImageTagByType("sty", $this->tpl->tplPath) .
                 " " . ilObject::_lookupTitle($id);
 
             $cgui->addItem("id[]", $id, $caption);

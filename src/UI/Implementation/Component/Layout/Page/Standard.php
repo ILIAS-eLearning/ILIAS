@@ -264,7 +264,7 @@ class Standard implements Page\Standard
     /**
      * @return    bool
      */
-    public function withUIDemo(bool $switch=true) : Standard
+    public function withUIDemo(bool $switch = true) : Standard
     {
         $clone = clone $this;
         $clone->ui_demo = $switch;
@@ -313,7 +313,6 @@ class Standard implements Page\Standard
     {
         $clone = clone $this;
         $clone->mode_info = $mode_info;
-
         return $clone;
     }
 
@@ -326,5 +325,12 @@ class Standard implements Page\Standard
     public function hasModeInfo() : bool
     {
         return $this->mode_info instanceof ModeInfo;
+    }
+
+    public function withNoFooter() : Standard
+    {
+        $clone = clone $this;
+        $clone->footer = null;
+        return $clone;
     }
 }

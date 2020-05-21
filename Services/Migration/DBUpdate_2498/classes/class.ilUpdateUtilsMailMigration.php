@@ -101,10 +101,10 @@ class ilUpdateUtilsMailMigration
             // starting with the longest existing path
             if ($dirindex >= $found_index) {
                 if (!file_exists($dir)) {
-                    if (strcmp(substr($dir, strlen($dir)-1, 1), "/") == 0) {
+                    if (strcmp(substr($dir, strlen($dir) - 1, 1), "/") == 0) {
                         // on some systems there is an error when there is a slash
                         // at the end of a directory in mkdir, see Mantis #2554
-                        $dir = substr($dir, 0, strlen($dir)-1);
+                        $dir = substr($dir, 0, strlen($dir) - 1);
                     }
                     if (!mkdir($dir, $umask)) {
                         error_log("Can't make directory: $dir");
@@ -142,7 +142,7 @@ class ilUpdateUtilsMailMigration
         }
 
         foreach ($files as $file) {
-            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file!="..")) {
+            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file != "..")) {
                 self::delDir(${a_dir} . "/" . ${file});
             } elseif ($file != "." and $file != "..") {
                 unlink(${a_dir} . "/" . ${file});

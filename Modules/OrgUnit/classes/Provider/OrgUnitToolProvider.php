@@ -15,13 +15,11 @@ use ilTree;
 
 /**
  * Class OrgUnitToolProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_ORGU_TREE = 'show_orgu_tree';
-
 
     /**
      * @inheritDoc
@@ -30,7 +28,6 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     {
         return $this->context_collection->main()->administration();
     }
-
 
     /**
      * @inheritDoc
@@ -49,31 +46,33 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
             };
 
             $tools[] = $this->factory->treeTool($iff('tree_new'))
-                ->withTitle($t('tree'))
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu', 'Orgu'))
-                ->withTree($this->getTree());
+                                     ->withTitle($t('tree'))
+                                     ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu', 'Orgu'))
+                                     ->withTree($this->getTree());
         }
 
         return $tools;
     }
 
-
     private function getTree() : Tree
     {
+        global $DIC;
         $tree = $this->getTreeRecursion();
 
-        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode(ilObjOrgUnit::getRootOrgRefId()));
-    }
+        $parent_node_id = $DIC->repositoryTree()->getParentId(ilObjOrgUnit::getRootOrgRefId());
 
+        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode($parent_node_id));
+    }
 
     private function getTreeRecursion() : TreeRecursion
     {
         $tree = new ilOrgUnitExplorerGUI("orgu_explorer", ilObjOrgUnitGUI::class, "showTree", new ilTree(1));
         $tree->setTypeWhiteList($this->getTreeWhiteList());
+        $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
+        $tree->setPathOpen($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? '');
 
         return $tree;
     }
-
 
     private function getTreeWhiteList() : array
     {

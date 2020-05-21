@@ -36,10 +36,11 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->permissions = $a_permissions;
-        
+
+        $this->setId('adv_md_records_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', '', 1);
-        $this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'), 'sort');
+        $this->addColumn($this->lng->txt('md_adv_col_presentation_ordering'), 'position');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('md_fields'), 'fields');
         $this->addColumn($this->lng->txt('md_adv_scope'), 'scope');
@@ -52,8 +53,21 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.show_records_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField('position');
         $this->setDefaultOrderDirection('asc');
+        $this->setShowRowsSelector(true);
     }
-    
+
+    /**
+     * @param $a_field
+     * @return bool
+     */
+    public function numericOrdering($a_field)
+    {
+        if ($a_field == 'position') {
+            return true;
+        }
+        return parent::numericOrdering($a_field);
+    }
+
     /**
      * Fill row
      *
@@ -121,7 +135,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     true,
                     0,
                     "",
-                    array("style"=>"min-width:125px"),
+                    array("style" => "min-width:125px"),
                     $disabled
                 );
                 $this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);

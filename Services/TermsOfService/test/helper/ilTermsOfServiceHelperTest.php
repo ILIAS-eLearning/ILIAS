@@ -15,7 +15,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
     public function testDocumentCanBeAccepted() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
-        $dataGateway        = $this
+        $dataGateway = $this
             ->getMockBuilder(ilTermsOfServiceAcceptanceDataGateway::class)
             ->getMock();
 
@@ -95,7 +95,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
     public function testAcceptanceHistoryCanBeDeleted() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
-        $dataGateway        = $this
+        $dataGateway = $this
             ->getMockBuilder(ilTermsOfServiceAcceptanceDataGateway::class)
             ->getMock();
 
@@ -140,7 +140,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
     public function testLatestAcceptanceHistoryEntityCanBeLoadedForUser() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
-        $dataGateway        = $this
+        $dataGateway = $this
             ->getMockBuilder(ilTermsOfServiceAcceptanceDataGateway::class)
             ->getMock();
 
@@ -190,7 +190,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
     public function testAcceptanceHistoryEntityCanBeLoadedById() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
-        $dataGateway        = $this
+        $dataGateway = $this
             ->getMockBuilder(ilTermsOfServiceAcceptanceDataGateway::class)
             ->getMock();
 

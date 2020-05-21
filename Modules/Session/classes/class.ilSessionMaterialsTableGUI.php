@@ -139,7 +139,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $assigned_items = new ilEventItems($this->parent_object_id);
             $assigned_items = $assigned_items->getItems();
 
-            if ($this->filter["status"]== "assigned") {
+            if ($this->filter["status"] == "assigned") {
                 foreach ($data_filtered as $key => $material) {
                     if (!in_array($material["ref_id"], $assigned_items)) {
                         unset($data_filtered[$key]);
@@ -179,7 +179,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("COLL_DESC", $a_set['description']);
         }
         if (in_array($a_set['ref_id'], $this->getMaterialItems())) {
-            $ass_glyph = $this->ui->glyph()->apply();
+            $ass_glyph = $this->ui->symbol()->glyph()->apply();
             $this->tpl->setVariable("ASSIGNED_IMG_OK", $this->renderer->render($ass_glyph));
         }
 

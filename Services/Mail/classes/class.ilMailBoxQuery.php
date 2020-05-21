@@ -35,11 +35,11 @@ class ilMailBoxQuery
         $mails = ['cnt' => 0, 'cnt_unread' => 0, 'set' => []];
 
         $filter = [
-            'mail_filter_sender'     => 'CONCAT(CONCAT(firstname, lastname), login)',
+            'mail_filter_sender' => 'CONCAT(CONCAT(firstname, lastname), login)',
             'mail_filter_recipients' => 'CONCAT(CONCAT(rcp_to, rcp_cc), rcp_bcc)',
-            'mail_filter_subject'    => 'm_subject',
-            'mail_filter_body'       => 'm_message',
-            'mail_filter_attach'     => ''
+            'mail_filter_subject' => 'm_subject',
+            'mail_filter_body' => 'm_message',
+            'mail_filter_attach' => ''
         ];
 
         $filter_parts = [];

@@ -39,7 +39,7 @@ class ilSessionAppointment implements ilDatePeriod
         $tree = $DIC['tree'];
 
         $this->ilErr = $ilErr;
-        $this->db  = $ilDB;
+        $this->db = $ilDB;
         $this->lng = $lng;
 
         $this->appointment_id = $a_appointment_id;
@@ -66,7 +66,7 @@ class ilSessionAppointment implements ilDatePeriod
             $info['fullday'] = $row->fulltime;
             
             $date = new ilDateTime($row->e_start, IL_CAL_DATETIME, 'UTC');
-            $info['start'] =  $date->getUnixTime();
+            $info['start'] = $date->getUnixTime();
             $date = new ilDateTime($row->e_end, IL_CAL_DATETIME, 'UTC');
             $info['end'] = $date->getUnixTime();
             

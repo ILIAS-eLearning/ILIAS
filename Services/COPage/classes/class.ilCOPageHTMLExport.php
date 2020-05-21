@@ -156,38 +156,27 @@ class ilCOPageHTMLExport
     /**
      * Export content style
      *
-     * @param
-     * @return
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function exportStyles()
     {
         $this->log->debug("export styles");
 
-        include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
-        
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            $cont_stylesheet = "./Services/COPage/css/content.css";
-            $css = fread(fopen($cont_stylesheet, 'r'), filesize($cont_stylesheet));
-            preg_match_all("/url\(([^\)]*)\)/", $css, $files);
-            foreach (array_unique($files[1]) as $fileref) {
-                ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
-                //if (is_file(str_replace("..", ".", $fileref)))
-                //{
-                //	copy(str_replace("..", ".", $fileref), $this->content_style_img_dir."/".basename($fileref));
-                //}
-
-                //$css = str_replace($fileref, "images/".basename($fileref),$css);
-            }
-            //fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
+            ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilUtil::makeDirParents($this->exp_dir . "/Services/COPage/css");
+            copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
-            $style->copyImagesToDir($this->exp_dir ."/".$style->getImagesDirectory());
+            $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
         }
         
         // export syntax highlighting style
         $syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
-        copy($syn_stylesheet, $this->exp_dir . "/syntaxhighlight.css");
+        $this->exportResourceFile($this->exp_dir, $syn_stylesheet);
     }
     
     /**
@@ -202,18 +191,21 @@ class ilCOPageHTMLExport
     {
         $this->log->debug("export scripts");
 
-        // basic js
-        copy('./Services/JavaScript/js/Basic.js', $this->js_dir . '/Basic.js');
+        $collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE);
+
+        foreach ($collector->getJavascriptFiles() as $js) {
+            $this->exportResourceFile($this->exp_dir, $js);
+        }
+
+        foreach ($collector->getCssFiles() as $css) {
+            $this->exportResourceFile($this->exp_dir, $css);
+        }
+
+        //copy('./Services/UIComponent/Overlay/js/ilOverlay.js', $this->js_dir . '/ilOverlay.js');
         
-        copy('./Services/UIComponent/Overlay/js/ilOverlay.js', $this->js_dir . '/ilOverlay.js');
-        
-        // jquery
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-        copy(iljQueryUtil::getLocaljQueryPath(), $this->js_dir . '/jquery.js');
-        copy(iljQueryUtil::getLocaljQueryUIPath(), $this->js_dir . '/jquery-ui-min.js');
-        copy(iljQueryUtil::getLocalMaphilightPath(), $this->js_dir . '/maphilight.js');
 
         // yui stuff we use
+        /*
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         copy(
             ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
@@ -238,73 +230,34 @@ class ilCOPageHTMLExport
         copy(
             ilYuiUtil::getLocalPath('container/assets/skins/sam/container.css'),
             $this->css_dir . '/yahoo/container.css'
-        );		// see #23083
+        );*/        // see #23083
 
-        // accordion
-        include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-        foreach (ilAccordionGUI::getLocalJavascriptFiles() as $f) {
-            $tfile = $this->exp_dir . "/" . $f;
-            ilUtil::makeDirParents(dirname($tfile));
-            copy($f, $tfile);
-        }
-        foreach (ilAccordionGUI::getLocalCssFiles() as $f) {
-            $tfile = $this->exp_dir . "/" . $f;
-            ilUtil::makeDirParents(dirname($tfile));
-            copy($f, $tfile);
-        }
 
-        copy(
-            './Services/Accordion/js/accordion.js',
-            $this->js_dir . '/accordion.js'
-        );
-        copy(
-            './Services/Accordion/css/accordion.css',
-            $this->css_dir . '/accordion.css'
-        );
-        
-        // page presentation js
-        copy(
-            './Services/COPage/js/ilCOPagePres.js',
-            $this->js_dir . '/ilCOPagePres.js'
-        );
-        
-        // tooltip
-        copy(
-            './Services/UIComponent/Tooltip/js/ilTooltip.js',
-            $this->js_dir . '/ilTooltip.js'
-        );
-        
         // mediaelement.js
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
+    }
 
-        // matching question
-        copy(
-            './Modules/TestQuestionPool/js/ilMatchingQuestion.js',
-            $this->js_dir . '/ilMatchingQuestion.js'
-        );
-        copy(
-            './Modules/TestQuestionPool/templates/default/test_javascript.css',
-            $this->css_dir . '/test_javascript.css'
-        );
-
-        // auto linking js
-        include_once("./Services/Link/classes/class.ilLinkifyUtil.php");
-        foreach (ilLinkifyUtil::getLocalJsPaths() as $p) {
-            if (is_int(strpos($p, "ExtLink"))) {
-                copy($p, $this->js_dir . '/ilExtLink.js');
-            }
-            if (is_int(strpos($p, "linkify"))) {
-                copy($p, $this->js_dir . '/linkify.js');
+    /**
+     * Export resource file
+     *
+     * @param string $target_dir
+     * @param string $file
+     */
+    protected function exportResourceFile(string $target_dir, string $file)
+    {
+        if (is_int(strpos($file, "?"))) {
+            $file = substr($file, 0, strpos($file, "?"));
+        }
+        if (is_file($file)) {
+            $dir = dirname($file);
+            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            if (!is_file($target_dir . "/" . $file)) {
+                copy($file, $target_dir . "/" . $file);
             }
         }
-
-
-        //		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
-//			$this->css_dir.'/mediaelementplayer.css');
-//		copy(ilPlayerUtil::getLocalMediaElementJsPath(),
-//			$this->js_dir.'/mediaelement-and-player.js');
     }
+
 
     /**
      * Get prepared main template
@@ -316,25 +269,26 @@ class ilCOPageHTMLExport
     {
         global $DIC;
         $this->log->debug("get main template");
-        
+
+
+        $resource_collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE);
+        $resource_injector = new \ILIAS\COPage\ResourcesInjector($resource_collector);
+
+
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         
         if ($a_tpl != "") {
             $tpl = $a_tpl;
         } else {
             // template workaround: reset of template
-            //$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
             $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
         }
-        
         // scripts needed
         /*
         $scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
-            "./js/yahoo/animation-min.js", "./js/yahoo/container-min.js", "./js/jquery.js",
-            "./js/Basic.js", "./js/jquery-ui-min.js",
-            "./js/ilOverlay.js", "./js/ilCOPagePres.js",
-            "./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js",
-            "./js/ilExtLink.js", "./js/linkify.js");*/
+            "./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
+            "./js/ilOverlay.js",
+            "./js/ilTooltip.js",);*/
         $scripts = [];
         $scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
@@ -344,43 +298,11 @@ class ilCOPageHTMLExport
             $scripts[] = $mathJaxSetting->get("path_to_mathjax");
         }
 
-        // accordion
-        include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-        foreach (ilAccordionGUI::getLocalJavascriptFiles() as $f) {
-            $scripts[] = $f;
-        }
-
-        foreach ($scripts as $script) {
-            //			$tpl->addJavaScript($script);
-            //$tpl->setCurrentBlock("js_file");
-            //$tpl->setVariable("JS_FILE", $script);
-            //$tpl->parseCurrentBlock();
-        }
-
-        // css files needed
-        $style_name = $this->user->prefs["style"] . ".css";
-        $css_files = array("./css/container.css",
-            "./content_style/content.css", "./style/" . $style_name, "./css/test_javascript.css");
-        $css_files = array_merge($css_files, ilPlayerUtil::getCssFilePaths());
-
-        // accordion
-        include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-        foreach (ilAccordionGUI::getLocalCssFiles() as $f) {
-            $css_files[] = $f;
-        }
-
-
-        foreach ($css_files as $css) {
-            //			$tpl->addCss($css);
-            //$tpl->setCurrentBlock("css_file");
-            //$tpl->setVariable("CSS_FILE", $css);
-            //$tpl->parseCurrentBlock();
-        }
-
         $tpl->addCss(\ilUtil::getStyleSheetLocation());
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
+        $resource_injector->inject($tpl);
 
         return $tpl;
     }

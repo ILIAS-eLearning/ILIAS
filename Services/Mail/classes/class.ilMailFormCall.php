@@ -113,7 +113,7 @@ class ilMailFormCall
     {
         $session = ilSession::get(self::SESSION_KEY);
         if (isset($request_params[self::REFERER_KEY])) {
-            $session[self::REFERER_KEY]   = base64_decode(rawurldecode($request_params[self::REFERER_KEY]));
+            $session[self::REFERER_KEY] = base64_decode(rawurldecode($request_params[self::REFERER_KEY]));
             $session[self::SIGNATURE_KEY] = base64_decode(rawurldecode($request_params[self::SIGNATURE_KEY]));
 
             $ctx_params = array();

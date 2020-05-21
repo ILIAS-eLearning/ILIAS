@@ -13,6 +13,16 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					var tool_id = mappings[mapping_id];
 					this.model.actions.engageTool(tool_id);
 					this.renderer.render(this.model.getState());
+					this.persistence.store(this.model.getState());
+				},
+				/**
+				 * remove a certain tool
+				 */
+				removeTool: function(mapping_id) {
+					var tool_id = mappings[mapping_id];
+					this.model.actions.removeTool(tool_id);
+					this.renderer.render(this.model.getState());
+					this.persistence.store(this.model.getState());
 				},
 				/**
 				 * Just open the tools, activate last one
@@ -21,6 +31,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					this.model.actions.disengageAll();
 					this.renderer.render(this.model.getState());
 				},
+				/*
+				 * clear all (active) stored states, used in e.g. logout
+				 */
+				clearStates: function() {
+					this.model.actions.disengageAll();
+					this.persistence.store(this.model.getState());
+				}
 			},
 			construction = {
 				/**
@@ -29,8 +46,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 * or may be invisible at first.
 				 * This only adds to the model, the html-parts still need to be registered.
 				 */
-				addToolEntry: function (position_id, removeable = true, hidden = false) {
-					this.model.actions.addTool(position_id, removeable, hidden);
+				addToolEntry: function (position_id, removeable, hidden, gs_id) {
+					this.model.actions.addTool(position_id, removeable, hidden, gs_id);
 				},
 				/**
 				 * An entry consists of several visible parts: the button, the slate and
@@ -39,7 +56,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 * however, when it comes to rendering, the individual parts are needed.
 				 * The function also adds an entry to the model if there is none already.
 				 */
-				addPartIdAndEntry: function (position_id, part, html_id, is_tool = false) {
+				addPartIdAndEntry: function (position_id, part, html_id, is_tool) {
 					this.renderer.addEntry(position_id, part, html_id);
 					if( !is_tool
 						&& (position_id in this.model.getState().tools == false)
@@ -80,6 +97,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 									if(state.entries[id].engaged) {
 										mb.model.actions.disengageEntry(id);
 									} else {
+										if(state.entries[id].isTopLevel()) {
+											mb.model.actions.engageEntry(id);
+										}
 										mb.model.actions.engageEntry(id);
 									}
 								}
@@ -89,6 +109,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 								break;
 							case 'disengage_all':
 								mb.model.actions.disengageAll();
+								var state = mb.model.getState();
+								state.last_active_top = null;
+								mb.model.setState(state);
 								break;
 							case 'toggle_tools':
 								mb.model.actions.toggleTools();
@@ -101,10 +124,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			},
 			helper = {
-				getMappingIdForPosId: function (position_id) {
-					for(var idx in mappings) {
-						if(mappings[idx] === position_id) {
-							return idx;
+				findToolByGSId: function (tools, gs_id) {
+					for(var idx in tools) {
+						if(tools[idx].gs_id === gs_id) {
+							return tools[idx];
 						}
 					}
 					return null;
@@ -141,15 +164,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(Object.keys(cookie_state).length > 0) {
 					//re-apply engaged
 					for(var idx in init_state.tools) {
-						id = init_state.tools[idx].id;
-						gs_id = helper.getMappingIdForPosId(id);
-
+						gs_id = init_state.tools[idx].gs_id;
 						if(cookie_state.known_tools.indexOf(gs_id) === -1) {
 							cookie_state.known_tools.push(gs_id);
 							init_state.tools[idx].engaged = true //new tool is active
 						} else {
-							if(cookie_state.tools[idx]) {
-								init_state.tools[idx].engaged = cookie_state.tools[idx].engaged;
+							stored = helper.findToolByGSId(cookie_state.tools, gs_id);
+							if(stored) {
+								init_state.tools[idx].engaged = stored.engaged;
+								init_state.tools[idx].hidden = stored.hidden;
 							}
 						}
 					}
@@ -159,7 +182,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 
 				init_state = mb.model.getState();
-				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
 				/**
 				 * initially active (from mainbar-component) will override everything (but tools)
 				 */
@@ -176,21 +198,35 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				/**
 				 * Override potentially active entry, if there are is an active tool.
 				 */
+				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
 				if(first_tool_id) {
 					mb.model.actions.engageTool(first_tool_id);
 				} else {
 					//tools engaged, but none active: take the first one:
-					if(mb.model.getState().tools_engaged) {
-						//are there any tools?
-						if(Object.keys(mb.model.getState().tools).length === 0) {
-							mb.model.actions.disengageTools();
+					var any_engaged = mb.model.getState().any_tools_engaged(),
+						any_visible = mb.model.getState().any_tools_visible();
+
+					if(any_engaged && any_visible) {
+						tool_id = Object.keys(init_state.tools).shift();
+						mb.model.actions.engageTool(tool_id);
+					} else {
+						mb.model.actions.disengageTools();
+					}
+
+					if( any_engaged === false &&
+						any_visible === false &&
+						mb.model.getState().any_entry_engaged === false
+					) {
+						mb.model.actions.disengageAll();
+					} else {
+						last_top = mb.model.getState().last_active_top;
+						if(last_top) {
+							mb.model.actions.engageEntry(last_top);
+						}else {
 							mb.model.actions.disengageAll();
-						} else {
-							mb.model.actions.engageTool(Object.keys(init_state.tools).shift());
 						}
 					}
 				}
-
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
 				mb.renderer.render(mb.model.getState());
 			},
@@ -216,7 +252,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				adjustToScreenSize: adjustToScreenSize,
 				init: init,
 				engageTool: external_commands.engageTool,
-				disengageAll: external_commands.disengageAll
+				removeTool: external_commands.removeTool,
+				disengageAll: external_commands.disengageAll,
+				clearStates: external_commands.clearStates
 			};
 
 		return public_interface;
@@ -252,7 +290,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					},
 					any_tools_engaged: function() {
 						for(idx in this.tools) {
-							if(!this.tools[idx].engaged) {
+							if(this.tools[idx].engaged) {
 								return true;
 							}
 						}
@@ -261,13 +299,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 					entries: {},
 					tools: {}, //"moving" parts, current tools
-					known_tools: [] //gs-ids; a tool is "new", if not listed here
+					known_tools: [], //gs-ids; a tool is "new", if not listed here
+					last_active_top: null
 				},
 				entry: {
 					id: null,
 					removeable: false,
 					engaged: false,
 					hidden: false,
+					gs_id: null,
 					isTopLevel: function() {return this.id.split(':').length === 2;}
 				}
 			},
@@ -338,16 +378,26 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						}
 					}
 					return ret;
+				},
+				getEngagedTopLevelEntryId: function() {
+					var entries = helpers.getTopLevelEntries();
+					for(id in entries) {
+						if(entries[id].engaged) {
+							return entries[id].id;
+						}
+					}
+					return null;
 				}
 			},
 			actions = {
 				addEntry: function (entry_id) {
 					state.entries[entry_id] = factories.entry(entry_id);
 				},
-				addTool: function (entry_id, removeable, hidden) {
+				addTool: function (entry_id, removeable, hidden, gs_id) {
 					var tool = factories.entry(entry_id);
 					tool.removeable = removeable ? true : false;
 					tool.hidden = hidden ? true : false;
+					tool.gs_id = gs_id;
 					state.tools[entry_id] = tool;
 				},
 				engageEntry: function (entry_id) {
@@ -356,13 +406,14 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
 					state = reducers.bar.disengageTools(state);
 					state = reducers.bar.anySlates(state);
-
+					state.last_active_top = helpers.getEngagedTopLevelEntryId();
 				},
 				disengageEntry: function (entry_id) {
 					state.entries[entry_id] = reducers.entry.disengage(state.entries[entry_id]);
 					if(state.entries[entry_id].isTopLevel()) {
 						state = reducers.bar.noSlates(state);
 					}
+					state.last_active_top = helpers.getEngagedTopLevelEntryId();
 				},
 				hideEntry: function (entry_id) {
 					state.entries[entry_id] = reducers.entry.mb_hide(state.entries[entry_id]);
@@ -393,7 +444,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						}
 					}
 					if(!state.any_tools_visible()) {
-						actions.disengageAll();
+						actions.disengageTools();
+						last_top = state.last_active_top;
+						if(last_top) {
+							actions.engageEntry(last_top);
+						}else {
+							actions.disengageAll();
+						}
 					}
 				},
 				toggleTools: function() {
@@ -416,6 +473,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					state.tools = reducers.entries.disengageTopLevel(state.tools)
 					state = reducers.bar.noSlates(state);
 					state = reducers.bar.disengageTools(state);
+
 				},
 				initMoreButton: function(max_buttons) {
 					var entry_ids = Object.keys(state.entries),
@@ -485,7 +543,62 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 				return hash;
 			},
+			compressEntries = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[k] = [
+						v.removeable ? 1:0,
+						v.engaged ? 1:0,
+						v.hidden ? 1:0
+					];
+				}
+				return ret;
+			},
+			decompressEntries = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[k] = {
+						"id": k,
+						"removeable": !!v[0],
+						"engaged": !!v[1],
+						"hidden": !!v[2]
+					};
+				}
+				return ret;
+			},
+			compressTools = function(entries) {
+				var k, v, ret = {};
+				for(k in entries) {
+					v = entries[k];
+					ret[v.gs_id] = [
+						v.removeable ? 1:0,
+						v.engaged ? 1:0,
+						v.hidden ? 1:0,
+						k
+					];
+				}
+				return ret;
+			},
+			decompressTools = function(entries) {
+				var k, v, ret = {}, id;
+				for(k in entries) {
+					v = entries[k];
+					id = v[3];
+					ret[id] = {
+						"id": id,
+						"removeable": !!v[0],
+						"engaged": !!v[1],
+						"hidden": !!v[2],
+						"gs_id": k
+					};
+				}
+				return ret;
+			},
 			storeStates = function(state) {
+				state.entries = compressEntries(state.entries);
+				state.tools = compressTools(state.tools);
 				cs = storage();
 				for(idx in state) {
 					cs.add(idx, state[idx]);
@@ -495,6 +608,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			},
 			readStates = function() {
 				cs = storage();
+				if (("entries" in cs.items) && ("tools" in cs.items)) {
+					cs.items.entries = decompressEntries(cs.items.entries);
+					cs.items.tools = decompressTools(cs.items.tools);
+				}
 				return cs.items;
 			},
 			/**
@@ -550,10 +667,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
 						il.UI.maincontrols.metabar.disengageAll();
 					}
+					this.additional_engage();
 				},
 				disengage: function() {
 					this.getElement().addClass(css.disengaged);
 					this.getElement().removeClass(css.engaged);
+					this.additional_disengage();
 				},
 				mb_hide: function(on_parent) {
 					var element = this.getElement();
@@ -568,16 +687,32 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						element = element.parent();
 					}
 					element.removeClass(css.hidden);
-				}
+				},
+				additional_engage: function(){},
+				additional_disengage: function(){}
 			},
 			parts = {
 				triggerer: Object.assign({}, dom_element, {
-					remove: function() {}
+					remove: function() {},
+					additional_engage: function(){
+						this.getElement().attr('aria-pressed', true);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-pressed', false);
+					}
 				}),
 				slate: Object.assign({}, dom_element, {
 					remove: null,
 					mb_hide: null,
-					mb_show: null
+					mb_show: null,
+					additional_engage: function(){
+						this.getElement().attr('aria-expanded', true);
+						this.getElement().attr('aria-hidden', false);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-expanded', false);
+						this.getElement().attr('aria-hidden', true);
+					}
 				}),
 				remover: Object.assign({}, dom_element, {
 					engage: null,
@@ -614,7 +749,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					getElement: function(){
 						return $('.' + css.tools_btn + ' .btn');
 					},
-					remove: null
+					remove: null,
+					additional_engage: function(){
+						this.getElement().attr('aria-pressed', true);
+					},
+					additional_disengage: function(){
+						this.getElement().attr('aria-pressed', false);
+					}
 				}),
 				mainbar: {
 					getElement: function(){

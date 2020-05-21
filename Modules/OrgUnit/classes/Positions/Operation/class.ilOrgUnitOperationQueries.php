@@ -33,7 +33,7 @@ class ilOrgUnitOperationQueries
         $ilOrgUnitOperationContext = $contextList->first();
 
         if (ilOrgUnitOperation::where(array(
-            'context_id'       => $ilOrgUnitOperationContext->getId(),
+            'context_id' => $ilOrgUnitOperationContext->getId(),
             'operation_string' => $operation_name,
         ))->hasSets()
         ) {

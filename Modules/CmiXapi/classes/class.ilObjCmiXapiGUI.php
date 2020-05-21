@@ -40,6 +40,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     const CMD_FETCH_XAPI_STATEMENTS = 'fetchXapiStatements';
     
     const DEFAULT_CMD = self::CMD_INFO_SCREEN;
+
+    const NEW_OBJ_TITLE = "";
     
     /**
      * @var ilObjCmiXapi
@@ -80,7 +82,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $form->setTitle($this->lng->txt($a_new_type . "_new"));
         
         $form = $this->initDidacticTemplate($form);
-        
+
+        $title = new ilHiddenInputGUI('title', 'title');
+        $title->setValue(self::NEW_OBJ_TITLE);
+        $form->addItem($title);
+
         $type = new ilRadioGroupInputGUI('Type', 'content_type');
         $type->setRequired(true);
         
@@ -167,7 +173,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             
             switch ($form->getInput('source_type')) {
                 case 'resource': // remote resource
-                    
+
+                    $newObject->setTitle($form->getInput('title'));
                     $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_REMOTE);
                     break;
                     
@@ -783,8 +790,8 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $evaluation = new ilXapiStatementEvaluation($logger, $this->object);
             $evaluation->evaluateReport($report);
             
-            $logger->debug('update lp for object (' . $this->object->getId() . ')');
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            //$logger->debug('update lp for object (' . $this->object->getId() . ')');
+            //ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
         
         $cmixUser->setFetchUntil($now);

@@ -59,8 +59,7 @@ class ilFileUploadGUI
         $tpl->addJavaScript("./Services/FileUpload/js/jquery.iframe-transport.js");
         $tpl->addJavaScript("./Services/FileUpload/js/jquery.fileupload.js");
         $tpl->addJavaScript("./Services/FileUpload/js/jquery.ba-dotimeout.min.js");
-        $tpl->addJavaScript("./Services/FileUpload/js/ilFileUpload.js");
-        
+        $tpl->addJavaScript("./Services/FileUpload/js/ilFileUpload.js", true, 3);
         // needed styles
         $tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "fileupload.css", "Services/FileUpload"));
     }

@@ -46,7 +46,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
 
     private function getExpectedHtml() : string
     {
-        $html  = '<div class="il-listing-characteristic-value clearfix">';
+        $html = '<div class="il-listing-characteristic-value clearfix">';
         $html .= '	<div class="il-listing-characteristic-value-row clearfix">';
         $html .= '		<div class="il-listing-characteristic-value-label">label1</div>';
         $html .= '		<div class="il-listing-characteristic-value-item">item1</div>';

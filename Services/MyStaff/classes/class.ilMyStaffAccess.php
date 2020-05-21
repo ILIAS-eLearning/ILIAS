@@ -7,8 +7,6 @@ use ilOrgUnitOperation;
 use ilOrgUnitOperationContext;
 use ilOrgUnitOperationContextQueries;
 use ilOrgUnitOperationQueries;
-use ilOrgUnitPosition;
-use ilOrgUnitPositionAccess;
 use ilOrgUnitUserAssignmentQueries;
 
 /**
@@ -18,6 +16,7 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class ilMyStaffAccess extends ilObjectAccess
 {
+
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
@@ -77,11 +76,15 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
+        if ($DIC->rbac()->system()->checkAccess('visible', SYSTEM_FOLDER_ID)) {
+            return true;
+        }
+
         if (!$DIC->settings()->get("enable_my_staff")) {
             return false;
         }
 
-        if (!$this->hasCurrentUserAccessToUser()) {
+        if ($this->hasCurrentUserAccessToUser()) {
             return true;
         }
 
@@ -158,7 +161,8 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        if (in_array($usr_id, $this->getUsersForUser($DIC->user()->getId()))) {
+        $arr_users = $this->getUsersForUser($DIC->user()->getId());
+        if (count($arr_users) > 0 && in_array($usr_id, $arr_users)) {
             return true;
         }
 
@@ -379,7 +383,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
         $ids = [];
         foreach ($user_assignments as $user_assignment) {
-            $ids = array_merge($ids, $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id));
+            $ref_ids = $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id);
+            if(count($ref_ids) > 0) {
+                $ids = array_merge($ids, $ref_ids);
+            }
         }
 
         return $ids;
@@ -397,7 +404,10 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         $ids = [];
         foreach (ilOrgUnitOperationContext::$available_contexts as $context) {
-            $ids = array_merge($ids, $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id));
+            $ref_ids = $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id);
+            if(count($ref_ids) > 0) {
+                $ids = array_merge($ids, $ref_ids);
+            }
         }
 
         return $ids;

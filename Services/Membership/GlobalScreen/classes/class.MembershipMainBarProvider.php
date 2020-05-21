@@ -39,7 +39,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withAction($dic->ctrl()->getLinkTargetByClass(["ilMembershipOverviewGUI"], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getRepositoryIdentification())
-            ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable()));
+            ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable())));
 
         return $entries;
     }

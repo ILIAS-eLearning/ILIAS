@@ -28,7 +28,7 @@ class ilChatroomFormFactory
     {
         global $DIC;
 
-        $this->lng  = $DIC->language();
+        $this->lng = $DIC->language();
         $this->user = $DIC->user();
     }
 
@@ -50,7 +50,7 @@ class ilChatroomFormFactory
      */
     public function getCreationForm()
     {
-        $form  = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $form->addItem($title);
@@ -81,7 +81,7 @@ class ilChatroomFormFactory
     {
         $this->lng->loadLanguageModule('rep');
 
-        $form  = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setRequired(true);
         $form->addItem($title);
@@ -141,7 +141,7 @@ class ilChatroomFormFactory
      */
     public function getFileUploadForm()
     {
-        $form       = new ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
         $file_input = new ilFileInputGUI();
 
         $file_input->setPostVar('file_to_upload');
@@ -222,7 +222,7 @@ class ilChatroomFormFactory
 
         foreach ($sessions as $session) {
             $start = new ilDateTime($session['connected'], IL_CAL_UNIX);
-            $end   = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
+            $end = new ilDateTime($session['disconnected'], IL_CAL_UNIX);
 
             $options[$session['connected'] . ',' .
             $session['disconnected']] = ilDatePresentation::formatPeriod($start, $end);
@@ -285,10 +285,24 @@ class ilChatroomFormFactory
         $dhparam->setRequired(true);
         $https->addSubItem($dhparam);
 
-        $chatLog = new ilTextInputGUI($this->lng->txt('log'), 'log');
+        $chatLog = new ilTextInputGUI($this->lng->txt('chatroom_log'), 'log');
         $chatLog->setInfo($this->lng->txt('chat_log_info'));
         $chatLog->setRequired(false);
         $form->addItem($chatLog);
+
+        $chatLogLevel = new ilSelectInputGUI($this->lng->txt('chat_log_level'), 'log_level');
+        $chatLogLevel->setOptions([
+            'emerg' => 'emerg',
+            'alert' => 'alert',
+            'crit' => 'crit',
+            'error' => 'error',
+            'warning' => 'warning',
+            'notice' => 'notice',
+            'info' => 'info',
+            'debug' => 'debug',
+            'silly' => 'silly',
+        ]);
+        $form->addItem($chatLogLevel);
 
         $chatErrorLog = new ilTextInputGUI($this->lng->txt('error_log'), 'error_log');
         $chatErrorLog->setInfo($this->lng->txt('chat_error_log_info'));
@@ -337,9 +351,9 @@ class ilChatroomFormFactory
         $interval_unit = new ilSelectInputGUI($this->lng->txt('chat_deletion_interval_unit'), 'deletion_unit');
         $interval_unit->setRequired(true);
         $interval_unit->setOptions(array(
-            'days'  => $this->lng->txt('days'),
+            'days' => $this->lng->txt('days'),
             'weeks' => $this->lng->txt('weeks'),
-            'month' => $this->lng->txt('months'),
+            'months' => $this->lng->txt('months'),
             'years' => $this->lng->txt('years'),
         ));
         $chat_deletion_interval->addSubItem($interval_unit);

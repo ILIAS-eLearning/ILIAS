@@ -339,7 +339,7 @@ class ilFileSystemGUI
             ? $this->main_dir . "/" . $cur_subdir
             : $this->main_dir;
         
-        return array("dir"=>$cur_dir, "subdir"=>$cur_subdir);
+        return array("dir" => $cur_dir, "subdir" => $cur_subdir);
     }
     
     protected function getFileList($a_dir, $a_subdir = null)
@@ -763,7 +763,7 @@ class ilFileSystemGUI
             
             $this->setPerformedCommand(
                 "create_file",
-                array("name" => substr($tgt_file, strlen($this->main_dir)+1))
+                array("name" => substr($tgt_file, strlen($this->main_dir) + 1))
             );
         }
 
@@ -909,7 +909,7 @@ class ilFileSystemGUI
                     
                     if (is_array($new_files["path"])) {
                         foreach ($new_files["path"] as $idx => $path) {
-                            $path = substr($path, strlen($this->main_dir)+1);
+                            $path = substr($path, strlen($this->main_dir) + 1);
                             $diff[] = $path . $new_files["file"][$idx];
                         }
                     }
@@ -917,7 +917,7 @@ class ilFileSystemGUI
                 
                 $this->setPerformedCommand(
                     "unzip_file",
-                    array("name" => substr($file, strlen($this->main_dir)+1),
+                    array("name" => substr($file, strlen($this->main_dir) + 1),
                         "added" => $diff)
                 );
             }

@@ -45,7 +45,9 @@ class ilScormAiccDataSet extends ilDataSet
             "SubType" => ["db_col" => "c_type", "db_type" => "text"],
             "Time_from_lms" => ["db_col" => "time_from_lms", "db_type" => "text"],
             "Tries" => ["db_col" => "question_tries", "db_type" => "integer"],
-            "Width" => ["db_col" => "width", "db_type" => "integer"]
+            "Width" => ["db_col" => "width", "db_type" => "integer"],
+            "IdSetting" => ["db_col" => "id_setting", "db_type" => "integer"],
+            "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
         ];
 
         $this->element_db_mapping = [];
@@ -64,7 +66,7 @@ class ilScormAiccDataSet extends ilDataSet
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $obj_id = ilObject::_lookupObjectId($a_id);
+        $obj_id = $a_id;
         $columns = [];
         foreach ($this->properties as $property) {
             array_push($columns, $property["db_col"]);
@@ -101,9 +103,17 @@ class ilScormAiccDataSet extends ilDataSet
         if (count($data) > 0) {
             $columns = [];
             foreach ($this->properties as $key => $value) {
-                if ($key == "Id" || $key == "title"|| $key == "description") {
+                if ($key == "Id" || $key == "title" || $key == "description") {
                     continue;
                 }
+                //fix localization and mastery_score
+                if ($key == "MasteryScore" && $data[$key][0] == 0) {
+                    continue;
+                }
+                if ($key == "Localization" && $data[$key][0] == "") {
+                    continue;
+                }
+                //end fix
                 if (isset($data[$key])) {
                     if (count($data[$key]) > 0) {
                         $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
@@ -151,16 +161,21 @@ class ilScormAiccDataSet extends ilDataSet
         return $this->element_db_mapping[$db_col_name];
     }
 
-    /* own getXmlRepresentation function to embed zipfile in xml
+    /**
+     * own getXmlRepresentation function to embed zipfile in xml
      *
+     * @param $a_entity
+     * @param $a_schema_version
+     * @param $a_ids (obj_id)
+     * @param string $a_field
+     * @param bool $a_omit_header
+     * @param bool $a_omit_types
+     * @return string
      */
     public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
     {
         $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilDB = $DIC['ilDB'];
         $this->dircnt = 1;
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
@@ -191,7 +206,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
         $baseFileName = "sahs_" . $id;
-        $scormBasePath=$exportDir . "/" . $baseFileName;
+        $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
             mkdir($exportDir, 0755, true);
         }
@@ -228,8 +243,8 @@ class ilScormAiccDataSet extends ilDataSet
         $manWriter->appendXML("\n<content>\n");
 
         $files = [
-            "scormFile" => $baseFileName . ".zip",
-            "properties" => $baseFileName . ".xml",
+            "scormFile" => "content.zip",
+            "properties" => "properties.xml",
             "metadata" => "metadata.xml"
         ];
         foreach ($files as $key => $value) {
@@ -247,18 +262,19 @@ class ilScormAiccDataSet extends ilDataSet
             fclose($manifestFile);
         }
 
+        usleep(2000000);
         $zArchive = new zipArchive();
         $fileName = $exportDir . "/" . $baseExportName . ".zip";
 
-        if ($zArchive->open($fileName, ZipArchive::CREATE)!==true) {
+        if ($zArchive->open($fileName, ZipArchive::CREATE) !== true) {
             exit("cannot open <$fileName>\n");
         }
 
         //creating final zip file
-        $zArchive->addFile($xmlFilePath, $baseFileName . ".xml");
-        $zArchive->addFile($scormFilePath, $baseFileName . ".zip");
-        $zArchive->addFile($manifestFilePath, "manifest.xml");
-        $zArchive->addFile($metaDataFilePath, "metadata.xml");
+        $zArchive->addFile($xmlFilePath, $baseExportName . '/properties.xml');
+        $zArchive->addFile($scormFilePath, $baseExportName . '/content.zip');
+        $zArchive->addFile($manifestFilePath, $baseExportName . '/' . "manifest.xml");
+        $zArchive->addFile($metaDataFilePath, $baseExportName . '/' . "metadata.xml");
         $zArchive->close();
         //delete temporary files
         unlink($xmlFilePath);

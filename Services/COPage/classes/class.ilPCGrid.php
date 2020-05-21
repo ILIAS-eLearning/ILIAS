@@ -124,7 +124,7 @@ class ilPCGrid extends ilPageContent
 
         $childs = $this->grid_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "GridCell") {
                 $pc_id = $childs[$i]->get_attribute("PCID");
                 $hier_id = $childs[$i]->get_attribute("HierId");
@@ -167,7 +167,7 @@ class ilPCGrid extends ilPageContent
     public function deleteGridCell($a_hier_id, $a_pc_id)
     {
         $childs = $this->grid_node->child_nodes();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "GridCell") {
                 if ($a_pc_id == $childs[$i]->get_attribute("PCID") &&
                     $a_hier_id == $childs[$i]->get_attribute("HierId")) {

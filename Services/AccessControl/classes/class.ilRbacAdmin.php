@@ -30,13 +30,13 @@ class ilRbacAdmin
         $ilias = $DIC['ilias'];
 
         // set db & error handler
-        (isset($ilDB)) ? $this->ilDB =&$ilDB : $this->ilDB =&$ilias->db;
+        (isset($ilDB)) ? $this->ilDB = &$ilDB : $this->ilDB = &$ilias->db;
         
         if (!isset($ilErr)) {
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
         } else {
-            $this->ilErr =&$ilErr;
+            $this->ilErr = &$ilErr;
         }
     }
     
@@ -349,10 +349,10 @@ class ilRbacAdmin
 
             ilLoggerFactory::getInstance()->getLogger('ac')->debug('Raise event deassign user');
             $GLOBALS['DIC']['ilAppEventHandler']->raise('Services/AccessControl', 'deassignUser', array(
-                    'obj_id'  => $obj_id,
-                    'usr_id'  => $a_usr_id,
+                    'obj_id' => $obj_id,
+                    'usr_id' => $a_usr_id,
                     'role_id' => $a_rol_id,
-                    'type'    => $type,
+                    'type' => $type,
             ));
         }
 
@@ -966,10 +966,10 @@ class ilRbacAdmin
             $ilDB->replace(
                 'rbac_templates',
                 [
-                    'rol_id'	=> ['integer', $a_rol_id],
-                    'type'		=> ['text', $a_type],
-                    'ops_id'	=> ['integer', $op],
-                    'parent'	=> ['integer', $a_ref_id]
+                    'rol_id' => ['integer', $a_rol_id],
+                    'type' => ['text', $a_type],
+                    'ops_id' => ['integer', $op],
+                    'parent' => ['integer', $a_ref_id]
                 ],
                 []
             );

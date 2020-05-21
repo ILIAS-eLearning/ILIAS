@@ -37,7 +37,6 @@ class Renderer extends AbstractComponentRenderer
         'y' => 'YY'
     ];
 
-
     /**
      * @inheritdoc
      */
@@ -65,7 +64,7 @@ class Renderer extends AbstractComponentRenderer
             });
             $dependant_group_html = $this->renderFieldGroups($component, $default_renderer);
             $id = $this->bindJavaScript($component);
-            return $this->renderInputFieldWithContext($input_tpl, $component, $id, $dependant_group_html);
+            return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id, $dependant_group_html);
         } elseif ($component instanceof Component\Input\Field\SwitchableGroup) {
             return $this->renderSwitchableGroupField($component, $default_renderer);
         } elseif ($component instanceof Component\Input\Field\Tag) {
@@ -91,7 +90,7 @@ class Renderer extends AbstractComponentRenderer
             throw new \LogicException("Cannot render '" . get_class($component) . "'");
         }
 
-        return $this->renderInputFieldWithContext($input_tpl, $component, $id);
+        return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id);
     }
 
 
@@ -218,6 +217,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
+     * @param RendererInterface $default_renderer
      * @param Template $input_tpl
      * @param Input    $input
      * @param null     $id
@@ -225,7 +225,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string
      */
-    protected function renderInputFieldWithContext(Template $input_tpl, Input $input, $id = null, $dependant_group_html = null)
+    protected function renderInputFieldWithContext(RendererInterface $default_renderer, Template $input_tpl, Input $input, $id = null, $dependant_group_html = null)
     {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
         /**
@@ -243,7 +243,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("LABEL", $input->getLabel());
-        $tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $id));
+        $tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $id, $default_renderer));
 
         if ($input->getByline() !== null) {
             $tpl->setCurrentBlock("byline");
@@ -274,15 +274,16 @@ class Renderer extends AbstractComponentRenderer
      * @param Template $tpl
      * @param Input    $input
      * @param          $id
+     * @param RendererInterface $default_renderer
      *
      * @return string
      */
-    protected function renderInputField(Template $tpl, Input $input, $id)
+    protected function renderInputField(Template $tpl, Input $input, $id, RendererInterface $default_renderer)
     {
         $input = $this->setSignals($input);
 
         if ($input instanceof Component\Input\Field\Password) {
-            $id = $this->additionalRenderPassword($tpl, $input);
+            $id = $this->additionalRenderPassword($tpl, $input, $default_renderer);
         }
 
         if ($input instanceof Textarea) {
@@ -359,7 +360,7 @@ class Renderer extends AbstractComponentRenderer
                 }
                 break;
             case ($input instanceof DateTime):
-                return $this->renderDateTimeInput($tpl, $input);
+                return $this->renderDateTimeInput($default_renderer, $tpl, $input);
                 break;
             case ($input instanceof Component\Input\Field\File):
                 $input = $this->renderFileInput($input);
@@ -438,13 +439,11 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return string | false
      */
-    protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input)
+    protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, RendererInterface $default_renderer)
     {
         $id = null;
         if ($input->getRevelation()) {
-            global $DIC;
             $f = $this->getUIFactory();
-            $renderer = $DIC->ui()->renderer();
 
             $input = $input->withResetSignals();
             $sig_reveal = $input->getRevealSignal();
@@ -470,8 +469,8 @@ class Renderer extends AbstractComponentRenderer
             $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
                 ->withOnClick($sig_mask);
             $tpl->setCurrentBlock('revelation');
-            $tpl->setVariable('PASSWORD_REVEAL', $renderer->render($glyph_reveal));
-            $tpl->setVariable('PASSWORD_MASK', $renderer->render($glyph_mask));
+            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
+            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
             $tpl->parseCurrentBlock();
         }
         return $id;
@@ -529,7 +528,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue()===$value) {
+            if ($input->getValue() !== null && $input->getValue() === $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
             if ($input->isDisabled()) {
@@ -697,11 +696,10 @@ JS;
      *
      * @return string
      */
-    protected function renderDateTimeInput(Template $tpl, DateTime $input) : string
+    protected function renderDateTimeInput(RendererInterface $default_renderer, Template $tpl, DateTime $input) : string
     {
-        global $DIC;
         $f = $this->getUIFactory();
-        $renderer = $DIC->ui()->renderer()->withAdditionalContext($input);
+
         if ($input->getTimeOnly() === true) {
             $cal_glyph = $f->symbol()->glyph()->time("#");
             $format = $input::TIME_FORMAT;
@@ -718,7 +716,7 @@ JS;
             }
         }
 
-        $tpl->setVariable("CALENDAR_GLYPH", $renderer->render($cal_glyph));
+        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
 
         $config = [
             'showClear' => true,
@@ -735,14 +733,6 @@ JS;
         if (!is_null($max_date)) {
             $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
         }
-        require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-        \ilCalendarUtil::initDateTimePicker();
-        $input = $this->setSignals($input);
-        $input = $input->withAdditionalOnLoadCode(function ($id) use ($config) {
-            return '$("#' . $id . '").datetimepicker(' . json_encode($config) . ')';
-        });
-        $id = $this->bindJavaScript($input);
-        $tpl->setVariable("ID", $id);
 
         $tpl->setVariable("NAME", $input->getName());
         $tpl->setVariable("PLACEHOLDER", $format);
@@ -752,6 +742,22 @@ JS;
             $tpl->setVariable("VALUE", $input->getValue());
             $tpl->parseCurrentBlock();
         }
+
+        require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
+        \ilCalendarUtil::initDateTimePicker();
+        $input = $this->setSignals($input);
+
+        $disabled = $input->isDisabled();
+        $input = $input->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
+            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
+            if ($disabled) {
+                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
+            }
+            return $js;
+        });
+
+        $id = $this->bindJavaScript($input);
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
@@ -852,7 +858,7 @@ JS;
         $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $input->getValue();
-        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue()??[]);
+        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue() ?? []);
 
         $input = $component->withAdditionalOnLoadCode(
             function ($id) use ($settings) {

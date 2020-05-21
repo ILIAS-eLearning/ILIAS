@@ -19,7 +19,6 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
-
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -124,6 +123,9 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 
 // general multi line cap
 @import "less/multi-line-cap.less";
+
+// tab focus ilias mixin
+@import "less/tab-focus-mixin.less";
 
 /* flex grid support start, see http://www.bootply.com/126437 */
 
@@ -779,8 +781,7 @@ div.ilCommandRow.one_side_col {
 }
 
 div.ilAdminRow {
-	margin: 10px 1% 20px;
-	width: 98%;
+	margin: 10px 15px 20px 15px;
 }
 
 table.std {
@@ -1059,11 +1060,10 @@ div.il_info {
 	text-align: right;
 }
 
-
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
-	color: @brand-secondary;
+	color: darken(@brand-secondary, 20%);
 	vertical-align: middle;
 	font-size: 26px;
     cursor: default;
@@ -1443,7 +1443,6 @@ div#agreement {
 	overflow-x: hidden;
 }
 
-
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div#bot_center_area {
 	bottom:	0;
@@ -1492,16 +1491,17 @@ div#bot_center_area_drag:hover {
 	@media (max-width: @screen-lg-min) {margin-left: 0 !important;}
 }
 
+
 [dir="rtl"] .ilLeftNavSpace {
 	margin-left: 0 !important;
 	margin-right: 315px !important;
 	@media (max-width: @screen-lg-min) {margin-right: 0 !important;}
 }
 
-
+/* see #27399 (should be finally tackled in PLR2) */
 div.ilContentFixed {
+	padding-bottom: 20px;
 }
-
 
 /* right panel (e.g. notes, comments) */
 div.ilRightPanel {
@@ -1572,18 +1572,15 @@ div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
 }
 
 .ilFrameFixedWidth #mainscrolldiv {
-	max-width: 1370px;
 	margin: 0 auto;
 }
 
 div.ilFrameFixedWidthHeader {
-	max-width: 1370px;
 	margin: 0 auto;
 	padding: 0;
 }
 
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
-	max-width: 1370px;
 	overflow: hidden;
 	padding: 0 15px;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -1833,7 +1830,6 @@ span.ilIcalIcon {
 @import "less/Services/UIComponent/Toolbar/delos.less";
 @import "less/Services/UIComponent/Tooltip/delos.less";
 @import "less/Services/Rating/delos.less";
-@import "less/Services/UIComponent/Panel/delos.less";
 @import "less/Modules/Excercise/delos.less";
 @import "less/Services/UIComponent/ProgressBar/delos.less";
 @import "less/Services/News/delos.less";
@@ -1887,19 +1883,28 @@ img[src$="icon_checked.svg"] {
 }
 
 div.ilNewObjectSelector {
-	display: inline-block;
-    margin-bottom: 8px;
-    padding: 0 10px;
+	display: block;
+	text-align: right;
+	margin-bottom: 8px;
+    padding: 0;
     width: 100%;
-    > .btn-group {
-        display: block;
+	> .btn-group.open {
+		display: inline-block;
         width: 100%;
         #ilAdvSelListAnchorText_asl {
             float: right;
         }
-        .dropdown-menu.pull-right {
+		#ilAdvSelListAnchorText_asl + .dropdown-menu {
             top: 30px;
-        }
+			right: 0;
+			left: auto;
+			.dropdown-header{
+				margin-right:1px;
+			}
+
+
+
+		}
     }
 }
 
@@ -1999,7 +2004,14 @@ table.mceToolbar {
 #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
-    width: 750px;
+	@media only screen and (min-width: @screen-lg-min) {
+		.row{
+			width: auto;
+		}
+		ul{
+			min-width: 250px;
+		}
+	}
     @media only screen and (max-width: @grid-float-breakpoint-max) {
         width: 100% !important;
         margin: 0;

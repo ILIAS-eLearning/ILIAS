@@ -28,7 +28,7 @@ class StringTransformationTest extends TestCase
 
     public function testSimpleUri()
     {
-        $uri              = new URI('http://ilias.de');
+        $uri = new URI('http://ilias.de');
         $transformedValue = $this->transformation->transform($uri);
 
         $this->assertEquals('http://ilias.de', $transformedValue);
@@ -36,7 +36,7 @@ class StringTransformationTest extends TestCase
 
     public function testUriWithPath()
     {
-        $uri              = new URI('http://ilias.de/with/path');
+        $uri = new URI('http://ilias.de/with/path');
         $transformedValue = $this->transformation->transform($uri);
 
         $this->assertEquals('http://ilias.de/with/path', $transformedValue);
@@ -44,7 +44,7 @@ class StringTransformationTest extends TestCase
 
     public function testUriWithFragment()
     {
-        $uri              = new URI('http://ilias.de/test.php#title');
+        $uri = new URI('http://ilias.de/test.php#title');
         $transformedValue = $this->transformation->transform($uri);
 
         $this->assertEquals('http://ilias.de/test.php#title', $transformedValue);
@@ -52,7 +52,7 @@ class StringTransformationTest extends TestCase
 
     public function testSimpleUriWithQueryParameter()
     {
-        $uri              = new URI('http://ilias.de?test=something&further=1');
+        $uri = new URI('http://ilias.de?test=something&further=1');
         $transformedValue = $this->transformation->transform($uri);
 
         $this->assertEquals('http://ilias.de?test=something&further=1', $transformedValue);
@@ -60,7 +60,7 @@ class StringTransformationTest extends TestCase
 
     public function testUriWithQueryPathAndParameter()
     {
-        $uri              = new URI('http://ilias.de/with/path?test=something&further=1');
+        $uri = new URI('http://ilias.de/with/path?test=something&further=1');
         $transformedValue = $this->transformation->transform($uri);
 
         $this->assertEquals('http://ilias.de/with/path?test=something&further=1', $transformedValue);

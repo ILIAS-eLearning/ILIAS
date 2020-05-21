@@ -56,28 +56,19 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
-        if($slates_cookie && json_decode($slates_cookie,true)['engaged']) {
+        if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());
         $tpl->setVariable("SHORT_TITLE", $component->getShortTitle());
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
+        $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
         if ($component->hasFooter()) {
             $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
         }
-
-        $component = $component->withOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-					il.UI.page.init();
-				});";
-            }
-        );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());

@@ -21,7 +21,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
                 ilTermsOfServiceEvaluableCriterion $criterionAssignment
             ) {
                 return [
-                    'id'    => $criterionAssignment->getCriterionId(),
+                    'id' => $criterionAssignment->getCriterionId(),
                     'value' => $criterionAssignment->getCriterionValue()
                 ];
             }, $data)));

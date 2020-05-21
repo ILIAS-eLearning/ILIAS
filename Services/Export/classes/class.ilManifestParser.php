@@ -185,8 +185,8 @@ class ilManifestParser extends ilSaxParser
                 
             case "ExportSet":
                 $this->expsets[] = array(
-                    'path'		=> $a_attribs['Path'],
-                    'type'		=> $a_attribs['Type']
+                    'path' => $a_attribs['Path'],
+                    'type' => $a_attribs['Type']
                 );
                 break;
         }

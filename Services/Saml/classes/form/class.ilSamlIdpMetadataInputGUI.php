@@ -1,23 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilSamlIdpMetadataInputGUI
  */
-class ilSamlIdpMetadataInputGUI extends \ilTextAreaInputGUI
+class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
-    /**
-     * @var \ilSamlIdpXmlMetadataParser
-     */
+    /** @var ilSamlIdpXmlMetadataParser */
     protected $idpMetadataParser;
 
     /**
      * ilSamlIdpMetadataInputGUI constructor.
-     * @param string                          $a_title
-     * @param string                          $a_postvar
+     * @param string $a_title
+     * @param string $a_postvar
      * @param ilSamlIdpXmlMetadataParser|null $idpMetadataParser
      */
-    public function __construct($a_title = '', $a_postvar = '', \ilSamlIdpXmlMetadataParser $idpMetadataParser = null)
+    public function __construct($a_title = '', $a_postvar = '', ilSamlIdpXmlMetadataParser $idpMetadataParser = null)
     {
         parent::__construct($a_title, $a_postvar);
         $this->idpMetadataParser = $idpMetadataParser;

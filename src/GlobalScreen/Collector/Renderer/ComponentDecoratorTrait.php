@@ -32,7 +32,7 @@ trait ComponentDecoratorTrait
     public function addComponentDecorator(Closure $component_decorator) : isGlobalScreenItem
     {
         if (!$this->checkClosure($component_decorator)) {
-            throw new LogicException('first argument of closure must be type-hinted to \ILIAS\UI\Component\Component');
+            throw new LogicException('first argument and return value of closure must be type-hinted to \ILIAS\UI\Component\Component');
         }
         if ($this->component_decorator instanceof Closure) {
             $existing = $this->component_decorator;

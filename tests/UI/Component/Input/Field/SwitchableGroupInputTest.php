@@ -33,6 +33,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->child2 = $this->createMock(Group2::class);
         $this->data_factory = new Data\Factory();
         $this->refinery = new ILIAS\Refinery\Factory($this->data_factory, $this->createMock(\ilLanguage::class));
+        $this->lng = $this->createMock(\ilLanguage::class);
 
         $this->child1
             ->method("withNameFrom")
@@ -44,6 +45,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->switchable_group = (new SwitchableGroup(
             $this->data_factory,
             $this->refinery,
+            $this->lng,
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
             "BYLINE"
@@ -60,7 +62,8 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $this->data_factory,
-            $this->refinery
+            $this->refinery,
+            $this->lng
         );
     }
 
@@ -111,6 +114,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->group = new SwitchableGroup(
             $this->data_factory,
             $this->refinery,
+            $this->lng,
             [$this->createMock(Input::class)],
             "LABEL",
             "BYLINE"
@@ -262,6 +266,13 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->method("getContent")
             ->willReturn($this->data_factory->error(""));
 
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->lng
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
+
         $new_group = $this->switchable_group
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
                 $this->assertFalse(true, "This should not happen.");
@@ -273,6 +284,40 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
         $this->assertTrue($new_group->getContent()->isError());
     }
+
+    public function testErrorIsI18NOnError()
+    {
+        $this->assertNotSame($this->child1, $this->child2);
+
+        $input_data = $this->createMock(InputData::class);
+
+        $input_data
+            ->expects($this->once())
+            ->method("get")
+            ->with("name0")
+            ->willReturn("child2");
+
+        $this->child2
+            ->method("withInput")
+            ->willReturn($this->child2);
+        $this->child2
+            ->method("getContent")
+            ->willReturn($this->data_factory->error(""));
+
+        $i18n = "THERE IS SOME ERROR IN THIS GROUP";
+        $this->lng
+            ->expects($this->once())
+            ->method("txt")
+            ->with("ui_error_in_group")
+            ->willReturn($i18n);
+
+        $switchable_group = $this->switchable_group
+            ->withInput($input_data);
+
+        $this->assertTrue($switchable_group->getContent()->isError());
+        $this->assertEquals($i18n, $switchable_group->getContent()->error());
+    }
+
 
     public function testWithInputDoesNotAcceptUnknownKeys()
     {
@@ -313,16 +358,16 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $byline = "byline";
 
         $group1 = $f->group([
-            "field_1"=>$f->text("f", "some field")
+            "field_1" => $f->text("f", "some field")
         ]);
         $group2 = $f->group([
-            "field_2"=>$f->text("f2", "some other field")
+            "field_2" => $f->text("f2", "some other field")
         ]);
 
-        $sg =$f->switchableGroup(
+        $sg = $f->switchableGroup(
             [
-                "g1"=>$group1,
-                "g2"=>$group2
+                "g1" => $group1,
+                "g2" => $group2
             ],
             $label,
             $byline
@@ -417,14 +462,14 @@ EOT;
         $byline = "byline";
 
         $group1 = $f->group([
-            "field_1"=>$f->text("f", "some field")
+            "field_1" => $f->text("f", "some field")
         ]);
         $group2 = $f->group([
-            "field_2"=>$f->text("f2", "some other field")
+            "field_2" => $f->text("f2", "some other field")
         ]);
 
         //construct without string-key:
-        $sg =$f->switchableGroup([$group1,$group2], $label, $byline);
+        $sg = $f->switchableGroup([$group1,$group2], $label, $byline);
 
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg->withValue(1));

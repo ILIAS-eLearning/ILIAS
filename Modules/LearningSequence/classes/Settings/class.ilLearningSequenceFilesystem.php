@@ -11,6 +11,8 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
 {
     const IMG_ABSTRACT = 'abstract';
     const IMG_EXTRO = 'extro';
+    const PATH_PRE = 'LSO';
+    const PATH_POST = 'Images';
 
     public function __construct()
     {
@@ -85,7 +87,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
      */
     protected function getPathPrefix()
     {
-        return 'LSO';
+        return self::PATH_PRE;
     }
 
     /**
@@ -93,6 +95,6 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
      */
     protected function getPathPostfix()
     {
-        return 'Images';
+        return self::PATH_POST;
     }
 }

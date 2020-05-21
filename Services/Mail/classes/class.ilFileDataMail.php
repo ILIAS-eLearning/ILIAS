@@ -264,9 +264,9 @@ class ilFileDataMail extends ilFileData
                 list($uid, $rest) = explode('_', $file->getFilename(), 2);
                 if ($uid == $this->user_id) {
                     $files[] = array(
-                        'name'     => $rest,
-                        'size'     => $file->getSize(),
-                        'ctime'    => $file->getCTime()
+                        'name' => $rest,
+                        'size' => $file->getSize(),
+                        'ctime' => $file->getCTime()
                     );
                 }
             }
@@ -601,7 +601,7 @@ class ilFileDataMail extends ilFileData
             }
             $count++;
         }
-        return array('count'=>$count, 'size'=>$size);
+        return array('count' => $count, 'size' => $size);
     }
 
     /**

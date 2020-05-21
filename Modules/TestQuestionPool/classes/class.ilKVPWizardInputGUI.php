@@ -289,7 +289,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
             if ($i == 0) {
                 $class .= " first";
             }
-            if ($i == count($this->values)-1) {
+            if ($i == count($this->values) - 1) {
                 $class .= " last";
             }
             $tpl->setVariable("ROW_CLASS", $class);

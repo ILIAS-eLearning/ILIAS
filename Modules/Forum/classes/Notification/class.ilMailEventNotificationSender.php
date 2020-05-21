@@ -50,7 +50,7 @@ class ilMailEventNotificationSender extends ilMailNotification
     {
         parent::__construct(false);
         $this->provider = $provider;
-        $this->logger   = $logger;
+        $this->logger = $logger;
     }
 
     /**
@@ -96,7 +96,7 @@ class ilMailEventNotificationSender extends ilMailNotification
     {
         global $DIC;
         $ilSetting = $DIC->settings();
-        $lng       = $DIC->language();
+        $lng = $DIC->language();
 
         if (!$ilSetting->get('forum_notification', 0)) {
             $this->logger->debug('Forum notifications are globally disabled');
@@ -189,7 +189,7 @@ class ilMailEventNotificationSender extends ilMailNotification
                         $this->provider->getPostUpdateUserName($this->getLanguage()),
                         $this->provider->getForumTitle()
                     );
-                    $date       = $this->provider->getPostUpdate();
+                    $date = $this->provider->getPostUpdate();
 
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_upt_post',
@@ -209,7 +209,7 @@ class ilMailEventNotificationSender extends ilMailNotification
                         $this->provider->getPostUpdateUserName($this->getLanguage()),
                         $this->provider->getForumTitle()
                     );
-                    $date       = $this->provider->getPostCensoredDate();
+                    $date = $this->provider->getPostCensoredDate();
 
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_cens_post',
@@ -228,7 +228,7 @@ class ilMailEventNotificationSender extends ilMailNotification
                         $this->getLanguageText('post_uncensored_by'),
                         $this->provider->getPostUpdateUserName($this->getLanguage())
                     );
-                    $date       = $this->provider->getPostCensoredDate();
+                    $date = $this->provider->getPostCensoredDate();
 
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_uncens_post',
@@ -319,10 +319,10 @@ class ilMailEventNotificationSender extends ilMailNotification
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
         if ($type == self::PERMANENT_LINK_FORUM) {
-            $language_text    = $this->getLanguageText("forums_notification_show_frm");
+            $language_text = $this->getLanguageText("forums_notification_show_frm");
             $forum_parameters = $this->provider->getRefId();
         } else {
-            $language_text    = $this->getLanguageText("forums_notification_show_post");
+            $language_text = $this->getLanguageText("forums_notification_show_post");
             $forum_parameters = $this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId();
         }
 
@@ -409,10 +409,10 @@ class ilMailEventNotificationSender extends ilMailNotification
         );
 
         $attachmentText = $this->createAttachmentText();
-        $bodyText       .= $attachmentText;
+        $bodyText .= $attachmentText;
 
         $attachmentText = $this->createAttachmentLinkText();
-        $bodyText       .= $attachmentText;
+        $bodyText .= $attachmentText;
 
         $mailObject = new ilMailValueObject(
             '',
@@ -463,7 +463,7 @@ class ilMailEventNotificationSender extends ilMailNotification
             '',
             $subjectText,
             $bodyText,
-            '',
+            [],
             false,
             false
         );

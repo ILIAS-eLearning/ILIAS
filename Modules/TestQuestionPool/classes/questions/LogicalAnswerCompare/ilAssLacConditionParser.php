@@ -192,7 +192,7 @@ class ilAssLacConditionParser
                     $negation = true;
                 }
             } elseif (trim($this->condition[$this->index]) != "") {
-                throw new ilAssLacConditionParserException($this->index-$this->spaces+1);
+                throw new ilAssLacConditionParserException($this->index - $this->spaces + 1);
             } else {
                 $this->spaces++;
             }
@@ -219,7 +219,7 @@ class ilAssLacConditionParser
         $end = false;
 
         if ($start !== false) {
-            $end   = strpos($this->condition, "n", $start + 1);
+            $end = strpos($this->condition, "n", $start + 1);
         }
 
         if ($start !== false && $end !== false) {
@@ -234,8 +234,8 @@ class ilAssLacConditionParser
      */
     protected function isNegationSurroundedByBrackets($index)
     {
-        $next_bracket = strpos($this->condition, "(", $index+1);
-        $next_expression = strpos($this->condition, "n", $index+1);
+        $next_bracket = strpos($this->condition, "(", $index + 1);
+        $next_expression = strpos($this->condition, "n", $index + 1);
 
         return $next_bracket !== false & $next_bracket < $next_expression;
     }

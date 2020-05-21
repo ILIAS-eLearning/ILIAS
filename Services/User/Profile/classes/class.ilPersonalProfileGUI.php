@@ -69,7 +69,7 @@ class ilPersonalProfileGUI
         $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
         $this->lng->loadLanguageModule("jsmath");
         $this->lng->loadLanguageModule("pd");
@@ -195,7 +195,7 @@ class ilPersonalProfileGUI
 
                 // take quality 100 to avoid jpeg artefacts when uploading jpeg files
                 // taking only frame [0] to avoid problems with animated gifs
-                $show_file  = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
+                $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
                 $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
                 $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
                 $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
@@ -255,7 +255,7 @@ class ilPersonalProfileGUI
         // if people check on check box it will
         // write some datata to table usr_pref
         // if check on Public Profile
-        if (($_POST["chk_pub"])=="on") {
+        if (($_POST["chk_pub"]) == "on") {
             $ilUser->setPref("public_profile", "y");
         } else {
             $ilUser->setPref("public_profile", "n");
@@ -549,7 +549,7 @@ class ilPersonalProfileGUI
             $def = ilMapUtil::getDefaultSettings();
             $latitude = $def["latitude"];
             $longitude = $def["longitude"];
-            $zoom =  $def["zoom"];
+            $zoom = $def["zoom"];
         }
         
         $street = $a_user->getStreet();
@@ -752,14 +752,15 @@ class ilPersonalProfileGUI
                 ? $ilUser->prefs["public_profile"]
                 : "n";
             if ($pub_prof == "n") {
-                $button = $DIC->ui()->factory()->button()->shy(
-                    "» " . $lng->txt("user_make_profile_public"),
-                    $ctrl->getLinkTarget($this, "showPublicProfile")
+                $box = $DIC->ui()->factory()->messageBox()->info($it)->withLinks(
+                    [$DIC->ui()->factory()->link()->standard(
+                        $lng->txt("user_make_profile_public"),
+                        $ctrl->getLinkTarget($this, "showPublicProfile")
+                        )]
                 );
-                $it.= "<br><br>" . $DIC->ui()->renderer()->render($button);
+
+                $it = $DIC->ui()->renderer()->render($box);
             }
-            
-            ilUtil::sendInfo(nl2br($it));
         }
 
         $this->setHeader();
@@ -774,7 +775,7 @@ class ilPersonalProfileGUI
             }
         }
 
-        $this->tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($it . $this->form->getHTML());
 
         $this->tpl->printToStdout();
     }
@@ -1151,11 +1152,12 @@ class ilPersonalProfileGUI
         // location
         include_once("./Services/Maps/classes/class.ilMapUtil.php");
         if (ilMapUtil::isActivated()) {
-            $val_array["location"] = "";
+            $val_array["location"] = ((int) $ilUser->getLatitude() + (int) $ilUser->getLongitude() + (int) $ilUser->getLocationZoom() > 0)
+                ? " "
+                : "";
         }
-        
         foreach ($val_array as $key => $value) {
-            if (in_array($value, ["", "-"])) {
+            if (in_array($value, ["", "-"]) && !$anonymized) {
                 continue;
             }
             if ($anonymized) {
@@ -1211,7 +1213,6 @@ class ilPersonalProfileGUI
             }
         }
         
-        // :TODO: badges
         if (!$anonymized) {
             include_once "Services/Badge/classes/class.ilBadgeHandler.php";
             $handler = ilBadgeHandler::getInstance();
@@ -1229,7 +1230,7 @@ class ilPersonalProfileGUI
                 }
 
                 if (sizeof($badge_options) > 1) {
-                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");
+                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
                     $badge_order->setMulti(true, true, false);
@@ -1290,14 +1291,22 @@ class ilPersonalProfileGUI
             }
 
             $ilUser->update();
-            
-            // :TODO: badges
+
+            switch ($_POST["public_profile"]) {
+                case "y":
+                    $key_suffix = "-1";
+                    break;
+                case "g":
+                    $key_suffix = "-2";
+                    break;
+            }
+
             include_once "Services/Badge/classes/class.ilBadgeHandler.php";
             $handler = ilBadgeHandler::getInstance();
             if ($handler->isActive()) {
                 $badgePositions = [];
-                if (isset($_POST["bpos"]) && is_array($_POST["bpos"])) {
-                    $badgePositions = $_POST["bpos"];
+                if (isset($_POST["bpos" . $key_suffix]) && is_array($_POST["bpos" . $key_suffix])) {
+                    $badgePositions = $_POST["bpos" . $key_suffix];
                 }
 
                 if (count($badgePositions) > 0) {
@@ -1477,7 +1486,7 @@ class ilPersonalProfileGUI
         $this->form->addItem($cb);
 
         // personal notes
-        $cb = new ilCheckboxInputGUI($this->lng->txt("pd_notes"), "notes");
+        $cb = new ilCheckboxInputGUI($this->lng->txt("notes"), "notes");
         $this->form->addItem($cb);
         
         // calendar entries

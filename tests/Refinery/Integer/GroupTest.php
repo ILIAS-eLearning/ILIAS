@@ -21,7 +21,7 @@ class GroupTest extends TestCase
     public function setUp() : void
     {
         $dataFactory = new Factory();
-        $language    = $this->getMockBuilder('\ilLanguage')
+        $language = $this->getMockBuilder('\ilLanguage')
             ->disableOriginalConstructor()
             ->getMock();
 

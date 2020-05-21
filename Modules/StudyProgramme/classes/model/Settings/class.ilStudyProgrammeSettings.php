@@ -24,14 +24,16 @@ class ilStudyProgrammeSettings
     // User is successful if he collected enough points in the subnodes of
     // this node.
     const MODE_POINTS = 1;
+
     // User is successful if he has the "completed" learning progress in any
     // subobject.
     const MODE_LP_COMPLETED = 2;
 
-    public static $MODES = array( self::MODE_UNDEFINED
-                         , self::MODE_POINTS
-                         , self::MODE_LP_COMPLETED
-                         );
+    public static $MODES = array(
+        self::MODE_UNDEFINED,
+        self::MODE_POINTS,
+        self::MODE_LP_COMPLETED
+    );
 
 
     // A program tree has a lifecycle during which it has three status.
@@ -39,16 +41,13 @@ class ilStudyProgrammeSettings
     // The program is a draft, that is users won't be assigned to the program
     // already.
     const STATUS_DRAFT = 10;
+
     // The program is active, that is used can be assigned to it.
     const STATUS_ACTIVE = 20;
+
     // The program is outdated, that is user won't be assigned to it but can
     // still complete the program.
     const STATUS_OUTDATED = 30;
-
-    public static $STATUS = array( self::STATUS_DRAFT
-                          , self::STATUS_ACTIVE
-                          , self::STATUS_OUTDATED
-                          );
 
     const NO_RESTART = -1;
     const NO_VALIDITY_OF_QUALIFICATION_PERIOD = -1;
@@ -59,6 +58,7 @@ class ilStudyProgrammeSettings
     
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     const DATE_FORMAT = 'Y-m-d';
+
     /**
      * Id of this study program and the corresponding ILIAS-object as well.
      *
@@ -75,24 +75,6 @@ class ilStudyProgrammeSettings
     protected $last_change;
 
     /**
-     * Id of the subtype of the program object.
-     *
-     * Subtype concepts is also used in Org-Units.
-     *
-     * @var int
-     */
-    protected $subtype_id;
-
-    /**
-     * Amount of points a user needs to achieve to be successful on this program node
-     * and amount of points for the completion of the parent node in the program tree
-     * as well.
-     *
-     * @var int
-     */
-    protected $points;
-
-    /**
      * Mode the calculation of the learning progress on this node is run in.
      *
      * @var int
@@ -100,41 +82,24 @@ class ilStudyProgrammeSettings
     protected $lp_mode;
 
     /**
-     * Lifecycle status the program is in.
-     *
-     * @var int
+     * @var \ilStudyProgrammeTypeSettings
      */
-    protected $status;
+    protected $type_settings;
 
     /**
-     * The period a user has to finish the prg in days, before he/she automaticaly fails.
-     * @var int
+     * @var \ilStudyProgrammeAssessmentSettings
      */
-    protected $deadline_period = 0;
+    protected $assessment_settings;
 
     /**
-     * The date, before which a user has to finish the prg, before he/she automaticaly fails.
-     * @var DateTime | null
+     * @var \ilStudyProgrammeDeadlineSettings
      */
-    protected $deadline_date = null;
+    protected $deadline_settings;
 
     /**
-     * The period after which a qualification will expire after completion.
-     * @var int
+     * @var \ilStudyProgrammeValidityOfAchievedQualificationSettings
      */
-    protected $validity_of_qualification_period = self::NO_VALIDITY_OF_QUALIFICATION_PERIOD;
-
-    /**
-     * The date at which a qualification will expire after completion.
-     * @var DateTime
-     */
-    protected $validity_of_qualification_date = null;
-
-    /**
-     * The bumber of days before qualification expiress, at which a user should be booked anew.
-     * @var int
-     */
-    protected $restart_period = self::NO_RESTART;
+    protected $validity_of_qualification_settings;
 
     /**
      * Is the access control governed by positions?
@@ -144,33 +109,24 @@ class ilStudyProgrammeSettings
     protected $access_ctrl_positions;
 
     /**
-     * @var int | null
+     * @var \ilStudyProgrammeAutoMailSettings
      */
-    protected $reminder_not_restarted_by_user_days;
+    protected $automail_settings;
 
-    /**
-     * @var int | null
-     */
-    protected $processing_ends_not_successful_days;
-
-    /**
-     * @var bool
-     */
-    protected $send_re_assigned_mail;
-
-    /**
-     * @var bool
-     */
-    protected $send_risky_to_fail_mail;
-
-    /**
-     * @var bool
-     */
-    protected $send_info_to_re_assign_mail;
-
-    public function __construct(int $a_id)
-    {
+    public function __construct(
+        int $a_id,
+        \ilStudyProgrammeTypeSettings $type_settings,
+        \ilStudyProgrammeAssessmentSettings $assessment_settings,
+        \ilStudyProgrammeDeadlineSettings $deadline_settings,
+        \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings,
+        \ilStudyProgrammeAutoMailSettings $automail_settings
+    ) {
         $this->obj_id = $a_id;
+        $this->type_settings = $type_settings;
+        $this->assessment_settings = $assessment_settings;
+        $this->deadline_settings = $deadline_settings;
+        $this->validity_of_qualification_settings = $validity_of_qualification_settings;
+        $this->automail_settings = $automail_settings;
     }
     
     /**
@@ -181,28 +137,6 @@ class ilStudyProgrammeSettings
     public function getObjId() : int
     {
         return (int) $this->obj_id;
-    }
-
-    /**
-     * Return the meta-data subtype id
-     *
-     * @return int
-     */
-    public function getSubtypeId() : int
-    {
-        return $this->subtype_id;
-    }
-
-
-    /**
-     * Sets the meta-data type id
-     *
-     * @param int $subtype_id
-     */
-    public function setSubtypeId(int $subtype_id)
-    {
-        $this->subtype_id = $subtype_id;
-        return $this;
     }
 
     /**
@@ -241,59 +175,6 @@ class ilStudyProgrammeSettings
     }
 
     /**
-     * Set the deadline period to a given value.
-     */
-    public function setDeadlinePeriod(int $period) : ilStudyProgrammeSettings
-    {
-        if ($period < 0) {
-            throw new ilException('A deadline period must be > 0');
-        }
-        $this->deadline_period = $period;
-        $this->deadline_date = null;
-        return $this;
-    }
-
-    /**
-     * Set the deadline date to a given value.
-     */
-    public function setDeadlineDate(DateTime $date = null) : ilStudyProgrammeSettings
-    {
-        $this->deadline_date = $date;
-        $this->deadline_period = 0;
-        return $this;
-    }
-
-    /**
-     * Set the amount of points.
-     *
-     * @param integer   $a_points   - larger than zero
-     * @throws ilException
-     * @return $this
-     */
-    public function setPoints(int $a_points) : ilStudyProgrammeSettings
-    {
-        $a_points = (int) $a_points;
-        if ($a_points < 0) {
-            throw new ilException("ilStudyProgramme::setPoints: Points cannot "
-                                 . "be smaller than zero.");
-        }
-
-        $this->points = $a_points;
-        $this->updateLastChange();
-        return $this;
-    }
-
-    /**
-     * Get the amount of points
-     *
-     * @return integer  - larger than zero
-     */
-    public function getPoints() : int
-    {
-        return (int) $this->points;
-    }
-
-    /**
      * Set the lp mode.
      *
      * Throws when program is not in draft status.
@@ -323,194 +204,75 @@ class ilStudyProgrammeSettings
         return (int) $this->lp_mode;
     }
 
-    /**
-     * Set the status of the node.
-     *
-     * TODO: Should this throw, when one wants to go back in lifecycle? Maybe getting
-     * back to draft needs to be forbidden only?
-     *
-     * @param integer $a_status     - one of self::$STATUS
-     * @return $this
-     */
-    public function setStatus(int $a_status) : ilStudyProgrammeSettings
+    public function getTypeSettings() : \ilStudyProgrammeTypeSettings
     {
-        $a_status = (int) $a_status;
-        if (!in_array($a_status, self::$STATUS)) {
-            throw new ilException("ilStudyProgramme::setStatus: No lp mode: "
-                                 . "'$a_status'");
-        }
-        $this->status = $a_status;
-        $this->updateLastChange();
-        return $this;
+        return $this->type_settings;
     }
 
-    /**
-     * Get the status.
-     *
-     * @return integer  - one of self::$STATUS
-     */
-    public function getStatus() : int
-    {
-        return (int) $this->status;
+    public function withTypeSettings(
+        \ilStudyProgrammeTypeSettings $type_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->type_settings = $type_settings;
+        return $clone;
     }
 
-    /**
-     * Returns the set deadline period.
-     */
-    public function getDeadlinePeriod() : int
+    public function getAssessmentSettings() : \ilStudyProgrammeAssessmentSettings
     {
-        return $this->deadline_period;
+        return $this->assessment_settings;
     }
 
-    /**
-     * Returns the set deadline date.
-     */
-    public function getDeadlineDate()
-    {
-        return $this->deadline_date;
+    public function withAssessmentSettings(
+        \ilStudyProgrammeAssessmentSettings $assessment_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->assessment_settings = $assessment_settings;
+        $clone->updateLastChange();
+        return $clone;
     }
 
-    /**
-     * Set the validity of qualification period
-     */
-    public function setValidityOfQualificationPeriod(int $period) : ilStudyProgrammeSettings
+    public function getDeadlineSettings() : \ilStudyProgrammeDeadlineSettings
     {
-        if ($period < -1) {
-            throw new ilException('invalid validity of qualification period: ' . $period);
-        }
-        $this->validity_of_qualification_period = $period;
-        $this->validity_of_qualification_date = null;
-        return $this;
+        return $this->deadline_settings;
     }
 
-    /**
-     * Set the validity of qualification date
-     */
-    public function setValidityOfQualificationDate(DateTime $date = null) : ilStudyProgrammeSettings
-    {
-        $this->validity_of_qualification_period = self::NO_VALIDITY_OF_QUALIFICATION_PERIOD;
-        $this->validity_of_qualification_date = $date;
-        return $this;
+    public function withDeadlineSettings(
+        \ilStudyProgrammeDeadlineSettings $deadline_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->deadline_settings = $deadline_settings;
+        return $clone;
     }
 
-    /**
-     * Set the validity of qualification restart period
-     */
-    public function setRestartPeriod(int $period) : ilStudyProgrammeSettings
+    public function getValidityOfQualificationSettings() : \ilStudyProgrammeValidityOfAchievedQualificationSettings
     {
-        if ($period < -1) {
-            throw new ilException('invalid restart period: ' . $period);
-        }
-        $this->restart_period = $period;
-        return $this;
+        return $this->validity_of_qualification_settings;
     }
 
-    /**
-     * Return restart validity of qualification period
-     */
-    public function getValidityOfQualificationPeriod() : int
-    {
-        return $this->validity_of_qualification_period;
-    }
-
-    /**
-     * Return restart validity of qualification datetime or null, if none set.
-     */
-    public function getValidityOfQualificationDate()
-    {
-        return $this->validity_of_qualification_date;
-    }
-
-    /**
-     * Return restart period
-     */
-    public function getRestartPeriod() : int
-    {
-        return $this->restart_period;
-    }
-
-
-    /**
-     * Choose wether the corresponding prg feature access is governed by positions.
-     */
-    public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
-    {
-        $this->access_ctrl_positions = $access_ctrl_positions;
-    }
-
-    /**
-     * Is the corresponding prg feature access governed by positions?
-     */
-    public function getAccessControlByOrguPositions() : bool
-    {
-        return $this->access_ctrl_positions;
+    public function withValidityOfQualificationSettings(
+        \ilStudyProgrammeValidityOfAchievedQualificationSettings $validity_of_qualification_settings
+    ) : ilStudyProgrammeSettings {
+        $clone = clone $this;
+        $clone->validity_of_qualification_settings = $validity_of_qualification_settings;
+        return $clone;
     }
 
     public function validationExpires() : bool
     {
-        return !is_null($this->getValidityOfQualificationDate()) ||
-                $this->getValidityOfQualificationPeriod() != -1;
+        return !is_null($this->getValidityOfQualificationSettings()->getQualificationDate()) ||
+                $this->getValidityOfQualificationSettings()->getQualificationPeriod() != -1;
     }
 
-    public function setReminderNotRestartedByUserDays(int $days = null) : void
+    public function getAutoMailSettings() : \ilStudyProgrammeAutoMailSettings
     {
-        $this->reminder_not_restarted_by_user_days = $days;
+        return $this->automail_settings;
     }
 
-    /**
-     * @return int | null
-     */
-    public function getReminderNotRestartedByUserDays()
-    {
-        return $this->reminder_not_restarted_by_user_days;
-    }
-
-    public function setProcessingEndsNotSuccessfulDays(int $days = null) : void
-    {
-        $this->processing_ends_not_successful_days = $days;
-    }
-
-    /**
-     * @return int | null
-     */
-    public function getProcessingEndsNotSuccessfulDays()
-    {
-        return $this->processing_ends_not_successful_days;
-    }
-
-    public function sendReAssignedMail() : bool
-    {
-        return $this->send_re_assigned_mail;
-    }
-
-    public function withSendReAssignedMail(bool $send_re_assigned_mail) : ilStudyProgrammeSettings
-    {
+    public function withAutoMailSettings(
+        \ilStudyProgrammeAutoMailSettings $automail_settings
+    ) : ilStudyProgrammeSettings {
         $clone = clone $this;
-        $clone->send_re_assigned_mail = $send_re_assigned_mail;
-        return $clone;
-    }
-
-    public function sendInfoToReAssignMail() : bool
-    {
-        return $this->send_info_to_re_assign_mail;
-    }
-
-    public function withSendInfoToReAssignMail(bool $send_info_to_re_assign_mail) : ilStudyProgrammeSettings
-    {
-        $clone = clone $this;
-        $clone->send_info_to_re_assign_mail = $send_info_to_re_assign_mail;
-        return $clone;
-    }
-
-    public function sendRiskyToFailMail() : bool
-    {
-        return $this->send_risky_to_fail_mail;
-    }
-
-    public function withSendRiskyToFailMail(bool $send_risky_to_fail_mail) : ilStudyProgrammeSettings
-    {
-        $clone = clone $this;
-        $clone->send_risky_to_fail_mail = $send_risky_to_fail_mail;
+        $clone->automail_settings = $automail_settings;
         return $clone;
     }
 }

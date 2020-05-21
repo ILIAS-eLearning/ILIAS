@@ -154,34 +154,34 @@ class ilStr
             }
         } else {
             // copied from http://www.php.net/manual/en/function.mb-detect-encoding.php
-            $c=0;
-            $b=0;
-            $bits=0;
-            $len=strlen($a_str);
-            for ($i=0; $i<$len; $i++) {
-                $c=ord($a_str[$i]);
+            $c = 0;
+            $b = 0;
+            $bits = 0;
+            $len = strlen($a_str);
+            for ($i = 0; $i < $len; $i++) {
+                $c = ord($a_str[$i]);
                 if ($c > 128) {
                     if (($c >= 254)) {
                         return false;
                     } elseif ($c >= 252) {
-                        $bits=6;
+                        $bits = 6;
                     } elseif ($c >= 248) {
-                        $bits=5;
+                        $bits = 5;
                     } elseif ($c >= 240) {
-                        $bits=4;
+                        $bits = 4;
                     } elseif ($c >= 224) {
-                        $bits=3;
+                        $bits = 3;
                     } elseif ($c >= 192) {
-                        $bits=2;
+                        $bits = 2;
                     } else {
                         return false;
                     }
-                    if (($i+$bits) > $len) {
+                    if (($i + $bits) > $len) {
                         return false;
                     }
                     while ($bits > 1) {
                         $i++;
-                        $b=ord($a_str[$i]);
+                        $b = ord($a_str[$i]);
                         if ($b < 128 || $b > 191) {
                             return false;
                         }
@@ -208,7 +208,7 @@ class ilStr
         $cpos = 0;
         while (is_int($pos = strpos($a_haystack, $a_needle, $cpos))) {
             $positions[] = $pos;
-            $cpos = $pos+1;
+            $cpos = $pos + 1;
         }
         return $positions;
     }

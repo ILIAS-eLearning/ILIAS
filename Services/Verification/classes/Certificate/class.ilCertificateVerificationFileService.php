@@ -40,7 +40,7 @@ class ilCertificateVerificationFileService
     ) {
         $this->language = $language;
         $this->database = $database;
-        $this->logger   = $logger;
+        $this->logger = $logger;
         $this->classMap = $classMap;
     }
 

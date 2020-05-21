@@ -450,10 +450,10 @@ class ilChangeEvent
                             $old = $ilDB->fetchAssoc($check);
 
                             // add existing values
-                            $fields = array("read_count" => array("integer", $old["read_count"]+$row["read_count"]),
-                                "childs_read_count" => array("integer", $old["childs_read_count"]+$row["childs_read_count"]),
-                                "spent_seconds" => array("integer", $old["spent_seconds"]+$row["spent_seconds"]),
-                                "childs_spent_seconds" => array("integer", $old["childs_spent_seconds"]+$row["childs_spent_seconds"]));
+                            $fields = array("read_count" => array("integer", $old["read_count"] + $row["read_count"]),
+                                "childs_read_count" => array("integer", $old["childs_read_count"] + $row["childs_read_count"]),
+                                "spent_seconds" => array("integer", $old["spent_seconds"] + $row["spent_seconds"]),
+                                "childs_spent_seconds" => array("integer", $old["childs_spent_seconds"] + $row["childs_spent_seconds"]));
 
                             $ilDB->update("obj_stat", $fields, $where);
                         } else {
@@ -756,12 +756,12 @@ class ilChangeEvent
 
         $counter = 0;
         while ($row = $ilDB->fetchAssoc($res)) {
-            $events[$counter]['obj_id'] 		= $row['obj_id'];
-            $events[$counter]['usr_id'] 		= $row['usr_id'];
-            $events[$counter]['last_access'] 	= $row['last_access'];
-            $events[$counter]['read_count'] 	= $row['read_count'];
-            $events[$counter]['spent_seconds'] 	= $row['spent_seconds'];
-            $events[$counter]['first_access'] 	= $row['first_access'];
+            $events[$counter]['obj_id'] = $row['obj_id'];
+            $events[$counter]['usr_id'] = $row['usr_id'];
+            $events[$counter]['last_access'] = $row['last_access'];
+            $events[$counter]['read_count'] = $row['read_count'];
+            $events[$counter]['spent_seconds'] = $row['spent_seconds'];
+            $events[$counter]['first_access'] = $row['first_access'];
             
             $counter++;
         }

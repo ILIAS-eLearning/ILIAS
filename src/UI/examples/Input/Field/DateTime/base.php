@@ -40,13 +40,17 @@ function base()
 
     //Step 2: define form and form actions
     $form = $ui->input()->container()->form()->standard('#', [
-        'date'=>$date,
-        'formatted'=>$formatted,
-        'time'=>$time,
-        'both'=>$both,
-        'timezoned'=>$timezoned,
-        'timezoned_preset1'=>$timezoned_preset1,
-        'timezoned_preset2'=>$timezoned_preset2
+        'date' => $date,
+        'formatted' => $formatted,
+        'time' => $time,
+        'both' => $both,
+        'timezoned' => $timezoned,
+        'timezoned_preset1' => $timezoned_preset1,
+        'timezoned_preset2' => $timezoned_preset2,
+        'disabled' => $date
+            ->withValue($date_now->format($format))
+            ->withLabel('disabled')
+            ->withDisabled(true)
     ]);
 
     //Step 3: implement some form data processing.

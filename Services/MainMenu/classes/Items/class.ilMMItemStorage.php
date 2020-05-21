@@ -38,6 +38,8 @@ class ilMMItemStorage extends CachedActiveRecord
     }
 
 
+
+
     public function create()
     {
         if (self::find($this->getIdentification())) {

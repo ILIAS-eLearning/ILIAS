@@ -64,8 +64,8 @@ class ilMemcacheServerFormGUI extends ilPropertyFormGUI
     {
         $array = array(
             self::F_STATUS => $this->object->getStatus() == ilMemcacheServer::STATUS_ACTIVE,
-            self::F_HOST   => $this->object->getHost(),
-            self::F_PORT   => $this->object->getPort(),
+            self::F_HOST => $this->object->getHost(),
+            self::F_PORT => $this->object->getPort(),
             self::F_WEIGHT => $this->object->getWeight(),
         );
 

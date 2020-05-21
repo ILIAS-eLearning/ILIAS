@@ -48,7 +48,7 @@ class ilLSItemsDB
 
         $sorting_settings = $this->container_sorting->getSortingSettings();
         $sorting_settings->setSortMode(ilContainer::SORT_MANUAL);
-        $sorted = $this->container_sorting->sortItems(array('lsitems'=>$children));
+        $sorted = $this->container_sorting->sortItems(array('lsitems' => $children));
         $children = $sorted['lsitems'];
 
         $conditions = $this->getConditionsForChildren($children);

@@ -55,12 +55,12 @@ class ilTestService
             }
 
             if (!$short) {
-                $resultData =&$this->object->getTestResult($active_id, $pass);
+                $resultData = &$this->object->getTestResult($active_id, $pass);
 
                 if (!$resultData["pass"]["total_max_points"]) {
                     $passPercentage = 0;
                 } else {
-                    $passPercentage = ($resultData["pass"]["total_reached_points"]/$resultData["pass"]["total_max_points"])*100;
+                    $passPercentage = ($resultData["pass"]["total_reached_points"] / $resultData["pass"]["total_max_points"]) * 100;
                 }
 
                 $passMaxPoints = $resultData["pass"]["total_max_points"];
@@ -75,7 +75,7 @@ class ilTestService
                     if (!$resultData["test"]["total_max_points"]) {
                         $testPercentage = 0;
                     } else {
-                        $testPercentage = ($resultData["test"]["total_reached_points"]/$resultData["test"]["total_max_points"])*100;
+                        $testPercentage = ($resultData["test"]["total_reached_points"] / $resultData["test"]["total_max_points"]) * 100;
                     }
                     
                     $testMaxPoints = $resultData["test"]["total_max_points"];

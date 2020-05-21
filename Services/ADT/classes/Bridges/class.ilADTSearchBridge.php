@@ -252,13 +252,13 @@ abstract class ilADTSearchBridge
         if (!$a_post) {
             $a_post = $_POST;
             if ($multi !== false) {
-                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi+1, -1)];
+                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }
         } else {
             if ($multi !== false) {
-                $post = $a_post[substr($element_id, $multi+1, -1)];
+                $post = $a_post[substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }

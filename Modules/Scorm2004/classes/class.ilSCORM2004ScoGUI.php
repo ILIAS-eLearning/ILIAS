@@ -204,7 +204,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $lng = $this->lng;
         $empty = false;
 
-        foreach ($_POST as $key=>$value) {
+        foreach ($_POST as $key => $value) {
             if (preg_match('/(obj_)(.+)/', $key, $match)) {
                 $objective = new ilScorm2004Objective($this->node_object->getId(), $match[2]);
                 //				if (!$value)
@@ -259,7 +259,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tbl->setTitle("Questions for " . $this->node_object->getTitle());
         $tbl->setHeaderNames(array("Question","Page"));
         $cols = array("question","page");
-        $tbl->setHeaderVars($cols, $header_params);
+        //		$tbl->setHeaderVars($cols, $header_params);
+        $tbl->setHeaderVars($cols, 0);
         $tbl->setColumnWidth(array("50%", "50%"));
         $tbl->disable("sort");
         $tbl->disable("footer");
@@ -267,6 +268,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tree = new ilTree($this->slm_object->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
+        $i = 0;
 
         foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
             // get question ids
@@ -423,7 +425,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $ilCtrl = $this->ctrl;
         
         // init main template
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+        $tpl = new ilGlobalTemplate("tpl.legacy_main.html", true, true, "Modules/Scorm2004");
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $tpl->setBodyClass("");
@@ -436,10 +438,13 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         
         // get javascript
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-        iljQueryUtil::initjQuery();
-        iljQueryUtil::initjQueryUI();
+        iljQueryUtil::initjQuery($tpl);
+        iljQueryUtil::initjQueryUI($tpl);
         $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
         $tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
+        $tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+        $tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
+        $tpl->addCss("./Modules/Test/templates/default/ta.css");
 
         $tpl->addOnLoadCode("pager.Init();");
         
@@ -498,7 +503,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $output = $sco_tpl->get();
                     
         // append glossary entries on the sco level
-        $output.= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
+        $output .= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
         
         //insert questions
         require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -514,7 +519,8 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         ilOverlayGUI::initJavascript();
         
         //inline JS
-        $output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
+        $output .= '<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
+        $tpl->addOnLoadCode("ilias.questions.refresh_lang();");
         $tpl->setVariable("CONTENT", $output);
         $tpl->printToStdout();
         exit;
@@ -582,6 +588,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $data = array();
         foreach ($export_files as $exp_file) {
             $filetype = $exp_file['type'];
+            $public_str = "";
             //	$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($filetype))
             //		? " <b>(".$this->lng->txt("public").")<b>"
             //		: "";
@@ -665,6 +672,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         foreach ($export_files as $exp_file) {
             foreach ($_POST['file'] as $delete_file) {
                 if (strcmp($delete_file, $exp_file['file']) == 0) {
+                    $public_str = "";
                     //		$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
                     //			? " <b>(".$this->lng->txt("public").")<b>"
                     //			: "";
@@ -716,6 +724,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tree = new ilTree($this->slm_object->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
+        $i = 0;
         foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
             $page_obj->buildDom();
@@ -731,16 +740,16 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
                     $export_files[$i]["type"] = $media_obj->getDescription();
                     $export_files[$i]["path"] = $path;
                     $this->ctrl->setParameter(
-                            $this,
-                            "resource",
-                            rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id, false, false))
+                        $this,
+                        "resource",
+                        rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id, false, false))
                         );
                     $export_files[$i]["link"] = $this->ctrl->getLinkTarget($this, "downloadResource");
                     $i++;
                 }
             }
             include_once("./Services/COPage/classes/class.ilPCFileList.php");
-            $file_ids =ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
+            $file_ids = ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
             foreach ($file_ids as $file_id) {
                 $file_obj = new ilObjFile($file_id, false);
                 $export_files[$i]["date"] = $file_obj->getCreateDate();
@@ -817,7 +826,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         
         $tbl->render();
         if (count($export_files) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($export_files as $exp_file) {
                 /* remote files (youtube videos) have no size, so we allow them now
                 if (!$exp_file["size"] > 0)
@@ -927,32 +936,32 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tpl->setVariable("TXT_VALIDATE_FILE", $lng->txt("cont_validate_file"));
 
         // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf=get_cfg_var("upload_max_filesize");
+        $umf = get_cfg_var("upload_max_filesize");
         // get the value for the maximal post data from the php.ini (if available)
-        $pms=get_cfg_var("post_max_size");
+        $pms = get_cfg_var("post_max_size");
         
         //convert from short-string representation to "real" bytes
-        $multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+        $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
         
-        $umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
         if (count($umf_parts) == 2) {
-            $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]];
+            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) == 2) {
-            $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]];
+            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
         
         // use the smaller one as limit
-        $max_filesize=min($umf, $pms);
+        $max_filesize = min($umf, $pms);
 
         if (!$max_filesize) {
-            $max_filesize=max($umf, $pms);
+            $max_filesize = max($umf, $pms);
         }
     
         //format for display in mega-bytes
-        $max_filesize=sprintf("%.1f MB", $max_filesize/1024/1024);
+        $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
 
         // gives out the limit as a little notice
         $tpl->setVariable("TXT_FILE_INFO", $lng->txt("file_notice") . " $max_filesize");

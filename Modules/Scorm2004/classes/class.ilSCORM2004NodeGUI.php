@@ -102,43 +102,6 @@ class ilSCORM2004NodeGUI
         );
     }
     
-    /**
-    * put this object into content object tree
-    *
-    * @todo: move to application class
-    */
-    public function putInTree($a_parent_id, $a_target)
-    {
-        $tree = new ilTree($this->slm_object->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-
-        /*$parent_id = (!empty($_GET["obj_id"]))
-            ? $_GET["obj_id"]
-            : $tree->getRootId();*/
-
-        /*		if (!empty($_GET["target"]))
-                {
-                    $target = $_GET["target"];
-                }
-                else
-                {
-                    // determine last child of current type
-                    $childs =& $tree->getChildsByType($parent_id, $this->obj->getType());
-                    if (count($childs) == 0)
-                    {
-                        $target = IL_FIRST_NODE;
-                    }
-                    else
-                    {
-                        $target = $childs[count($childs) - 1]["obj_id"];
-                    }
-                }*/
-        if (!$tree->isInTree($this->node_obj->getId())) {
-            $tree->insertNode($this->node_obj->getId(), $parent_id, $target);
-        }
-    }
-
 
     /**
     * Confirm deletion screen (delete page or structure objects)
@@ -148,7 +111,7 @@ class ilSCORM2004NodeGUI
     /*	function delete()
         {
             $this->setTabs();
-    
+
             $cont_obj_gui = new ilObjContentObjectGUI("",$this->content_object->getRefId(),
                 true, false);
             $cont_obj_gui->delete($this->obj->getId());
@@ -365,7 +328,7 @@ class ilSCORM2004NodeGUI
             $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
             $tree->setTreeTablePK("slm_id");
             $path = $tree->getPathFull($_GET["obj_id"]);
-            for ($i =  1; $i < count($path); $i++) {
+            for ($i = 1; $i < count($path); $i++) {
                 //var_dump($path[$i]);
                 switch ($path[$i]["type"]) {
                     case "chap":

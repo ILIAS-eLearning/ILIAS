@@ -90,7 +90,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
                 foreach ($values_record->getADTGroup()->getElements() as $element_id => $element) {
                     if (!$element->isNull()) {
                         $def = $defs[$element_id];
-                        $items[$rec_id][] =array(
+                        $items[$rec_id][] = array(
                             'id' => $def->generateImportId($def->getFieldId()),
                             'sub_type' => $sub_type,
                             'sub_id' => $sub_id,

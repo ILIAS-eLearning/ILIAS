@@ -78,7 +78,6 @@ class ilImportExportFactory
          * @var $objDefinition ilObjectDefinition
          */
         global $DIC;
-
         $objDefinition = $DIC['objDefinition'];
         
         $parts = explode('/', $a_component);
@@ -94,7 +93,6 @@ class ilImportExportFactory
             }
         } else {
             $class = "il" . $component . "Importer";
-
             // treat special case of page component plugins
             // they are imported with component type PLUGINS_DIR
             // but are not yet recognized by ilObjDefinition::isPlugin()
@@ -111,9 +109,7 @@ class ilImportExportFactory
             }
 
             if (is_file("./" . $a_component . "/classes/class." . $class . ".php")) {
-                if (include_once "./" . $a_component . "/classes/class." . $class . ".php") {
-                    return $class;
-                }
+                return $class;
             }
         }
             

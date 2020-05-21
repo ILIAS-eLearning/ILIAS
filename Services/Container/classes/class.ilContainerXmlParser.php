@@ -104,6 +104,10 @@ class ilContainerXmlParser
         if (!$new_ref) {
             $new_ref = $this->createObject($ref_id, $obj_id, $type, $title, $a_parent_node);
         }
+        if (!$new_ref) {
+            // e.g inactive plugin
+            return;
+        }
 
         // Course item information
         foreach ($item->Timing as $timing) {
@@ -198,9 +202,9 @@ class ilContainerXmlParser
      * @param object $type
      * @param object $title
      * @param object $parent_node
-     * @return
+     * @return int | null
      */
-    protected function createObject($ref_id, $obj_id, $type, $title, $parent_node)
+    protected function createObject($ref_id, $obj_id, $type, $title, $parent_node) :? int
     {
         $objDefinition = $this->obj_definition;
 
@@ -216,6 +220,11 @@ class ilContainerXmlParser
                 $this->mapping->addMapping('Services/Container', 'refs', $ref_id, $obj->getRefId());
                 return $obj->getRefId();
             }
+        }
+
+        if (!$objDefinition->isAllowedInRepository($type) || $objDefinition->isInactivePlugin($type)) {
+            $this->cont_log->notice('Cannot import object of type: ' . $type);
+            return null;
         }
 
         $class_name = "ilObj" . $objDefinition->getClassName($type);

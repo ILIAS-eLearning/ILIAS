@@ -17,7 +17,7 @@ trait PluginProviderHelper
     /**
      * @var ilPlugin
      */
-    private $plugin;
+    protected $plugin;
     /**
      * @var PluginIdentificationProvider
      */

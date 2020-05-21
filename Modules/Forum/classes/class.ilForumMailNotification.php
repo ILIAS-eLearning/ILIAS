@@ -8,18 +8,18 @@
  */
 class ilForumMailNotification extends ilMailNotification
 {
-    const TYPE_THREAD_DELETED 	= 54;
+    const TYPE_THREAD_DELETED = 54;
 
-    const TYPE_POST_NEW 		= 60;
-    const TYPE_POST_ACTIVATION 	= 61;
-    const TYPE_POST_UPDATED 	= 62;
-    const TYPE_POST_CENSORED 	= 63;
-    const TYPE_POST_DELETED 	= 64;
-    const TYPE_POST_ANSWERED	= 65;
-    const TYPE_POST_UNCENSORED 	= 66;
+    const TYPE_POST_NEW = 60;
+    const TYPE_POST_ACTIVATION = 61;
+    const TYPE_POST_UPDATED = 62;
+    const TYPE_POST_CENSORED = 63;
+    const TYPE_POST_DELETED = 64;
+    const TYPE_POST_ANSWERED = 65;
+    const TYPE_POST_UNCENSORED = 66;
 
-    const PERMANENT_LINK_POST	= 'PL_Post';
-    const PERMANENT_LINK_FORUM	= 'PL_Forum';
+    const PERMANENT_LINK_POST = 'PL_Post';
+    const PERMANENT_LINK_FORUM = 'PL_Forum';
 
     /**
      * @var bool
@@ -45,7 +45,7 @@ class ilForumMailNotification extends ilMailNotification
     {
         parent::__construct(false);
         $this->provider = $provider;
-        $this->logger   = $logger;
+        $this->logger = $logger;
     }
 
     /**
@@ -64,8 +64,8 @@ class ilForumMailNotification extends ilMailNotification
     public function sendMail(array $a_rcp, $a_parse_recipients = true)
     {
         $this->logger->debug(sprintf(
-            'Delegating notification transport to mail service for recipient "%s" ...',
-            $a_rcp
+            'Delegating notification transport to mail service for recipients: %s',
+            print_r($a_rcp, true)
         ));
         parent::sendMail($a_rcp, $a_parse_recipients);
         $this->logger->debug('Notification transport delegated');
@@ -231,10 +231,10 @@ class ilForumMailNotification extends ilMailNotification
 
         if ($type == self::PERMANENT_LINK_FORUM) {
             $language_text = $this->getLanguageText("forums_notification_show_frm");
-            $forum_parameters =  $this->provider->getRefId();
+            $forum_parameters = $this->provider->getRefId();
         } else {
             $language_text = $this->getLanguageText("forums_notification_show_post");
-            $forum_parameters =  $this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId();
+            $forum_parameters = $this->provider->getRefId() . "_" . $this->provider->getThreadId() . "_" . $this->provider->getPostId();
         }
 
         $this->logger->debug(sprintf(

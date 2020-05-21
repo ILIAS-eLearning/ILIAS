@@ -97,14 +97,14 @@ class ilStudyProgrammeDashboardViewGUI
             list($valid, $validation_date) = $this->findValidationValues($assignments);
 
             list($minimum_percents, $current_percents) = $this->calculatePercent(
-                $current_prg_settings->getPoints(),
-                $current_progress->getAmountOfPoints(),
+                $current_prg_settings->getAssessmentSettings()->getPoints(),
+                $current_progress->getCurrentAmountOfPoints(),
                 (int) $current->getStudyProgramme()->getRefId()
             );
 
             $current_status = $current_progress->getStatus();
             $validation_expires = $current_prg_settings->validationExpires();
-            $deadline = $current_prg_settings->getDeadlineDate();
+            $deadline = $current_prg_settings->getDeadlineSettings()->getDeadlineDate();
             $restart_date = $current->getRestartDate();
 
             $properties[] = $this->fillMinimumCompletion($minimum_percents);
@@ -294,7 +294,7 @@ class ilStudyProgrammeDashboardViewGUI
         $max_points = 0;
         /** @var ilObjStudyProgramme $child */
         foreach ($children as $child) {
-            $max_points += $child->getRawSettings()->getPoints();
+            $max_points += $child->getRawSettings()->getAssessmentSettings()->getPoints();
         }
 
         $minimum_percents = 0;

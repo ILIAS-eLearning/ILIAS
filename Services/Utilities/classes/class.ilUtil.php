@@ -4,9 +4,10 @@
 /**
  * @defgroup ServicesUtilities Services/Utilities
  */
+
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\Filesystem\MetadataType;
+use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
 * Util class
@@ -99,7 +100,7 @@ class ilUtil
         require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         $current_skin = ilStyleDefinition::getCurrentSkin();
         $current_style = ilStyleDefinition::getCurrentStyle();
-        
+
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
         }
@@ -176,7 +177,7 @@ class ilUtil
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        
+
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
         require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
@@ -374,7 +375,7 @@ class ilUtil
             $sty = ($style != "")
                 ? ' style="' . $style . '" '
                 : "";
-                
+
             if ($direct_text) {
                 $str .= " <option $sty value=\"" . $key . "\"";
             } else {
@@ -498,14 +499,14 @@ class ilUtil
     * @static
     *
     */
-    public static function formRadioButton($checked, $varname, $value, $onclick=null, $disabled = false)
+    public static function formRadioButton($checked, $varname, $value, $onclick = null, $disabled = false)
     {
         $str = '<input ';
 
         if ($onclick) {
             $str .= ('onclick="' . $onclick . '"');
         }
-        
+
         $str .= (" type=\"radio\" name=\"" . $varname . "\"");
         if ($checked == 1) {
             $str .= " checked=\"checked\"";
@@ -673,7 +674,7 @@ class ilUtil
         if ($AHits > $ALimit || $AOffset > 0) {
             if (!empty($AParams)) {
                 foreach ($AParams as $key => $value) {
-                    $params.= $key . "=" . $value . "&";
+                    $params .= $key . "=" . $value . "&";
                 }
             }
             // if ($params) $params = substr($params,0,-1);
@@ -693,7 +694,7 @@ class ilUtil
             }
 
             // Ben?tigte Seitenzahl kalkulieren
-            $pages=intval($AHits/$ALimit);
+            $pages = intval($AHits / $ALimit);
 
             // Wenn ein Rest bleibt, addiere eine Seite
             if (($AHits % $ALimit)) {
@@ -705,7 +706,7 @@ class ilUtil
 
             // ansonsten zeige Links zu den anderen Seiten an
             for ($i = 1 ;$i <= $pages ; $i++) {
-                $newoffset=$ALimit*($i-1);
+                $newoffset = $ALimit * ($i - 1);
 
                 if ($newoffset == $AOffset) {
                     $LinkBar .= "[" . $i . "] ";
@@ -718,8 +719,8 @@ class ilUtil
 
             // Checken, ob letze Seite erreicht ist
             // Wenn nicht, gebe einen "Weiter"-Link aus
-            if (!(($AOffset/$ALimit)==($pages-1)) && ($pages!=1)) {
-                $newoffset=$AOffset+$ALimit;
+            if (!(($AOffset / $ALimit) == ($pages - 1)) && ($pages != 1)) {
+                $newoffset = $AOffset + $ALimit;
                 $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $newoffset . "\">&nbsp;" . $layout_next . "</a>";
             }
 
@@ -765,7 +766,7 @@ class ilUtil
 
         // mask existing image tags
         $ret = str_replace('src="http://', '"***masked_im_start***', $ret);
-        
+
         include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
         $parser = new ilMWParserAdapter();
         $ret = $parser->replaceFreeExternalLinks($ret);
@@ -880,9 +881,9 @@ class ilUtil
                 $sel_day .= ($name . '="' . $value . '" ');
             }
         }
-        
+
         $sel_day .= $disabled . "name=\"" . $prefix . "[d]\" id=\"" . $prefix . "_d\">\n";
-        
+
         if ($emptyoption) {
             $sel_day .= "<option value=\"0\">--</option>\n";
         }
@@ -1078,7 +1079,7 @@ class ilUtil
         }
 
         try {
-            $parser    = $mailAddressParserFactory->getParser((string) $a_email);
+            $parser = $mailAddressParserFactory->getParser((string) $a_email);
             $addresses = $parser->parse();
             return count($addresses) == 1 && $addresses[0]->getHost() != ilMail::ILIAS_HOST;
         } catch (ilException $e) {
@@ -1099,7 +1100,7 @@ class ilUtil
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
@@ -1108,16 +1109,16 @@ class ilUtil
             $customError = $lng->txt('password_empty');
             return false;
         }
-        
+
         $isPassword = true;
         $errors = array();
-        
+
         // check if password to short
         if ($security->getPasswordMinLength() > 0 && strlen($a_passwd) < $security->getPasswordMinLength()) {
             $errors[] = sprintf($lng->txt('password_to_short'), $security->getPasswordMinLength());
             $isPassword = false;
         }
-        
+
         // check if password not to long
         // Hmmmmm, maybe we should discuss this limitation. In my opinion it is stupid to limit the password length ;-). There should only be a technical limitation (field size in database).
         if ($security->getPasswordMaxLength() > 0 && strlen($a_passwd) > $security->getPasswordMaxLength()) {
@@ -1148,14 +1149,14 @@ class ilUtil
         require_once 'Services/Utilities/classes/class.ilStr.php';
         if ($security->getPasswordNumberOfUppercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[A-Z]/', '', $a_passwd)) < $security->getPasswordNumberOfUppercaseChars()) {
-                $errors[]   = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
+                $errors[] = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
                 $isPassword = false;
             }
         }
 
         if ($security->getPasswordNumberOfLowercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[a-z]/', '', $a_passwd)) < $security->getPasswordNumberOfLowercaseChars()) {
-                $errors[]   = sprintf($lng->txt('password_must_contain_lcase_chars'), $security->getPasswordNumberOfLowercaseChars());
+                $errors[] = sprintf($lng->txt('password_must_contain_lcase_chars'), $security->getPasswordNumberOfLowercaseChars());
                 $isPassword = false;
             }
         }
@@ -1168,13 +1169,13 @@ class ilUtil
                 $isPassword = false;
             }
         }
-        
+
         // ensure password matches the positive list of chars/special-chars
         if (!preg_match(self::getPasswordValidChars(), $a_passwd)) {
             $errors[] = $lng->txt('password_contains_invalid_chars');
             $isPassword = false;
         }
-        
+
         // build custom error message
         if (count($errors) == 1) {
             $customError = $errors[0];
@@ -1203,10 +1204,10 @@ class ilUtil
             $login = $user;
         } elseif (is_array($user)) {
             // Try to get loginname and user_id from array
-            $login  = $user['login'];
+            $login = $user['login'];
             $userId = $user['id'];
         } elseif ($user instanceof ilObjUser) {
-            $login  = $user->getLogin();
+            $login = $user->getLogin();
             $userId = $user->getId();
         }
 
@@ -1257,14 +1258,14 @@ class ilUtil
 
         include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
-        
+
         $infos = array(sprintf($lng->txt('password_allow_chars'), self::getPasswordValidChars(false)));
-                
+
         // check if password to short
         if ($security->getPasswordMinLength() > 0) {
             $infos[] = sprintf($lng->txt('password_to_short'), $security->getPasswordMinLength());
         }
-        
+
         // check if password not to long
         if ($security->getPasswordMaxLength() > 0) {
             $infos[] = sprintf($lng->txt('password_to_long'), $security->getPasswordMaxLength());
@@ -1386,16 +1387,16 @@ class ilUtil
     {
         include_once("./Services/Utilities/classes/class.ilStr.php");
         $str_arr = explode(" ", $a_str);
-        
+
         for ($i = 0; $i < count($str_arr); $i++) {
             if (ilStr::strLen($str_arr[$i]) > $a_len) {
                 $str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
                 if ($a_dots) {
-                    $str_arr[$i].= "...";
+                    $str_arr[$i] .= "...";
                 }
             }
         }
-        
+
         return implode($str_arr, " ");
     }
 
@@ -1597,7 +1598,7 @@ class ilUtil
         if (!is_file($a_file)) {
             return;
         }
-        
+
         // if flat, move file to temp directory first
         if ($a_flat) {
             $tmpdir = ilUtil::ilTempnam();
@@ -1607,7 +1608,7 @@ class ilUtil
             $a_file = $tmpdir . DIRECTORY_SEPARATOR . basename($a_file);
             $origpathinfo = pathinfo($orig_file);
         }
-        
+
         $pathinfo = pathinfo($a_file);
         $dir = $pathinfo["dirname"];
         $file = $pathinfo["basename"];
@@ -1704,11 +1705,11 @@ class ilUtil
         $cdir = getcwd();
 
         if ($compress_content) {
-            $a_dir .="/*";
+            $a_dir .= "/*";
             $pathinfo = pathinfo($a_dir);
             chdir($pathinfo["dirname"]);
         }
-        
+
         $pathinfo = pathinfo($a_file);
         $dir = $pathinfo["dirname"];
         $file = $pathinfo["basename"];
@@ -1718,7 +1719,7 @@ class ilUtil
         }
 
         $zip = PATH_TO_ZIP;
-        
+
         if (!$zip) {
             chdir($cdir);
             return false;
@@ -1728,7 +1729,7 @@ class ilUtil
             $source = "";
             foreach ($a_dir as $dir) {
                 $name = basename($dir);
-                $source.= " " . ilUtil::escapeShellArg($name);
+                $source .= " " . ilUtil::escapeShellArg($name);
             }
         } else {
             $name = basename($a_dir);
@@ -1751,7 +1752,7 @@ class ilUtil
 
         $pathinfo = pathinfo($a_dir);
         chdir($pathinfo["dirname"]);
-        
+
         $pathinfo = pathinfo($a_file);
         $dir = $pathinfo["dirname"];
         $file = $pathinfo["basename"];
@@ -1762,7 +1763,7 @@ class ilUtil
             chdir($cdir);
             return false;
         }
-        
+
         $name = basename($a_dir);
         $source = ilUtil::escapeShellArg($name);
 
@@ -1771,7 +1772,7 @@ class ilUtil
         chdir($cdir);
         return true;
     }
-    
+
     /**
     * get convert command
     *
@@ -1784,7 +1785,7 @@ class ilUtil
     {
         return PATH_TO_CONVERT;
     }
-    
+
     /**
      * execute convert command
      *
@@ -1796,7 +1797,7 @@ class ilUtil
     {
         ilUtil::execQuoted(PATH_TO_CONVERT, $args);
     }
-    
+
     /**
      * Compare convert version numbers
      *
@@ -1813,7 +1814,7 @@ class ilUtil
         }
         return false;
     }
-    
+
     /**
      * Parse convert version string, e.g. 6.3.8-3, into integer
      *
@@ -1858,7 +1859,7 @@ class ilUtil
                 $geometry = " -geometry " . $a_geometry . "x" . $a_geometry . " ";
             }
         }
-        
+
         $bg_color = ($a_background_color != "")
             ? " -background color " . $a_background_color . " "
             : "";
@@ -1888,7 +1889,7 @@ class ilUtil
 
         ilUtil::execConvert($convert_cmd);
     }
-    
+
     /**
     * Build img tag
     *
@@ -1899,21 +1900,21 @@ class ilUtil
     {
         $img = '<img src="' . $a_src . '"';
         if ($a_alt != "") {
-            $img.= ' alt="' . htmlspecialchars($a_alt) . '" title="' . htmlspecialchars($a_alt) . '"';
+            $img .= ' alt="' . htmlspecialchars($a_alt) . '" title="' . htmlspecialchars($a_alt) . '"';
         }
         if ($a_width != "") {
-            $img.= ' width="' . htmlspecialchars($a_width) . '"';
+            $img .= ' width="' . htmlspecialchars($a_width) . '"';
         }
         if ($a_height != "") {
-            $img.= ' height="' . htmlspecialchars($a_height) . '"';
+            $img .= ' height="' . htmlspecialchars($a_height) . '"';
         }
         if ($a_class != "") {
-            $img.= ' class="' . $a_class . '"';
+            $img .= ' class="' . $a_class . '"';
         }
         if ($a_id != "") {
-            $img.= ' id="' . $a_id . '"';
+            $img .= ' id="' . $a_id . '"';
         }
-        $img.= ' border="' . (int) $a_border . '"/>';
+        $img .= ' border="' . (int) $a_border . '"/>';
 
         return $img;
     }
@@ -1930,7 +1931,7 @@ class ilUtil
         //		$mime = "application/octet-stream"; // or whatever the mime type is
 
         include_once './Services/Http/classes/class.ilHTTPS.php';
-        
+
         //if($_SERVER['HTTPS'])
         if (ilHTTPS::getInstance()->isDetected()) {
 
@@ -2023,7 +2024,7 @@ class ilUtil
     */
     public static function readFile($a_file)
     {
-        $chunksize = 1*(1024*1024); // how many bytes per chunk
+        $chunksize = 1 * (1024 * 1024); // how many bytes per chunk
         $buffer = '';
         $handle = fopen($a_file, 'rb');
         if ($handle === false) {
@@ -2062,18 +2063,18 @@ class ilUtil
 
         /// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
         /// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-                
+
         // #15914 - try to fix german umlauts
-        $umlauts = array("Ä"=>"Ae", "Ö"=>"Oe", "Ü"=>"Ue",
-            "ä"=>"ae", "ö"=>"oe", "ü"=>"ue", "ß"=>"ss");
+        $umlauts = array("Ä" => "Ae", "Ö" => "Oe", "Ü" => "Ue",
+            "ä" => "ae", "ö" => "oe", "ü" => "ue", "ß" => "ss");
         foreach ($umlauts as $src => $tgt) {
             $a_filename = str_replace($src, $tgt, $a_filename);
         }
-        
+
         $ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
         $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
         $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
-        
+
         // OS do not allow the following characters in filenames: \/:*?"<>|
         $ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
         return $ascii_filename;
@@ -2094,13 +2095,13 @@ class ilUtil
         $tmp = preg_replace("@(<[^>]*>)@", $sep, $htmlText);
         $tmp = explode($sep, $tmp);
 
-        for ($i=0; $i<count($tmp); $i++) {
+        for ($i = 0; $i < count($tmp); $i++) {
             $tmp[$i] = htmlentities($tmp[$i], ENT_COMPAT, "UTF-8");
         }
 
         $tmp = join($sep, $tmp);
 
-        for ($i=0; $i<count($matches[0]); $i++) {
+        for ($i = 0; $i < count($matches[0]); $i++) {
             $tmp = preg_replace("@$sep@", $matches[0][$i], $tmp, 1);
         }
 
@@ -2133,7 +2134,7 @@ class ilUtil
         $amp = $xml_style
             ? "&amp;"
             : "&";
-        
+
         $url = (is_int(strpos($a_url, "?")))
             ? $a_url . $amp . $a_par
             : $a_url . "?" . $a_par;
@@ -2226,10 +2227,10 @@ class ilUtil
             // starting with the longest existing path
             if ($dirindex >= $found_index) {
                 if (!file_exists($dir)) {
-                    if (strcmp(substr($dir, strlen($dir)-1, 1), "/") == 0) {
+                    if (strcmp(substr($dir, strlen($dir) - 1, 1), "/") == 0) {
                         // on some systems there is an error when there is a slash
                         // at the end of a directory in mkdir, see Mantis #2554
-                        $dir = substr($dir, 0, strlen($dir)-1);
+                        $dir = substr($dir, 0, strlen($dir) - 1);
                     }
                     if (!mkdir($dir, $umask)) {
                         error_log("Can't make directory: $dir");
@@ -2283,7 +2284,7 @@ class ilUtil
         }
 
         foreach ($files as $file) {
-            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file!="..")) {
+            if (is_dir($a_dir . "/" . $file) and ($file != "." and $file != "..")) {
                 ilUtil::delDir($a_dir . "/" . $file);
             } elseif ($file != "." and $file != "..") {
                 unlink($a_dir . "/" . $file);
@@ -2368,7 +2369,7 @@ class ilUtil
 
         return $df->clientId($clientId);
     }
-    
+
     /**
     * Strip slashes from array and sub-arrays
     *
@@ -2408,7 +2409,7 @@ class ilUtil
         //echo "<br>-".htmlentities(ilUtil::secureString($a_str, $a_strip_html, $a_allow));
         return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
     }
-    
+
     /**
     * strip slashes if magic qoutes is enabled
     *
@@ -2825,7 +2826,7 @@ class ilUtil
         $a_str = str_replace("{", "&#123;", $a_str);
         $a_str = str_replace("}", "&#125;", $a_str);
         // needed for LaTeX conversion \\ in LaTeX is a line break
-        // but without this replacement, php changes \\ to \
+        // but without this replacement, php changes \\ to \
         $a_str = str_replace("\\", "&#92;", $a_str);
         return $a_str;
     }
@@ -2883,16 +2884,16 @@ class ilUtil
     {
         // parse parameters in array
         $par = array();
-        $ok=true;
-        while (($spos=strpos($a_parstr, "=")) && $ok) {
+        $ok = true;
+        while (($spos = strpos($a_parstr, "=")) && $ok) {
             // extract parameter
             $cpar = substr($a_parstr, 0, $spos);
-            $a_parstr = substr($a_parstr, $spos, strlen($a_parstr)-$spos);
-            while (substr($cpar, 0, 1)=="," ||substr($cpar, 0, 1)==" " || substr($cpar, 0, 1)==chr(13) || substr($cpar, 0, 1)==chr(10)) {
-                $cpar = substr($cpar, 1, strlen($cpar)-1);
+            $a_parstr = substr($a_parstr, $spos, strlen($a_parstr) - $spos);
+            while (substr($cpar, 0, 1) == "," || substr($cpar, 0, 1) == " " || substr($cpar, 0, 1) == chr(13) || substr($cpar, 0, 1) == chr(10)) {
+                $cpar = substr($cpar, 1, strlen($cpar) - 1);
             }
-            while (substr($cpar, strlen($cpar)-1, 1)==" " || substr($cpar, strlen($cpar)-1, 1)==chr(13) || substr($cpar, strlen($cpar)-1, 1)==chr(10)) {
-                $cpar = substr($cpar, 0, strlen($cpar)-1);
+            while (substr($cpar, strlen($cpar) - 1, 1) == " " || substr($cpar, strlen($cpar) - 1, 1) == chr(13) || substr($cpar, strlen($cpar) - 1, 1) == chr(10)) {
+                $cpar = substr($cpar, 0, strlen($cpar) - 1);
             }
 
             // parameter name should only
@@ -2904,18 +2905,18 @@ class ilUtil
 
             // extract value
             if ($cpar != "") {
-                if ($spos=strpos($a_parstr, "\"")) {
-                    $a_parstr = substr($a_parstr, $spos+1, strlen($a_parstr)-$spos);
-                    $spos=strpos($a_parstr, "\"");
+                if ($spos = strpos($a_parstr, "\"")) {
+                    $a_parstr = substr($a_parstr, $spos + 1, strlen($a_parstr) - $spos);
+                    $spos = strpos($a_parstr, "\"");
                     if (is_int($spos)) {
                         $cval = substr($a_parstr, 0, $spos);
-                        $par[$cpar]=$cval;
-                        $a_parstr = substr($a_parstr, $spos+1, strlen($a_parstr)-$spos-1);
+                        $par[$cpar] = $cval;
+                        $a_parstr = substr($a_parstr, $spos + 1, strlen($a_parstr) - $spos - 1);
                     } else {
-                        $ok=false;
+                        $ok = false;
                     }
                 } else {
-                    $ok=false;
+                    $ok = false;
                 }
             }
         }
@@ -2949,8 +2950,8 @@ class ilUtil
     public static function dumpString($a_str)
     {
         $ret = $a_str . ": ";
-        for ($i=0; $i<strlen($a_str); $i++) {
-            $ret.= ord(substr($a_str, $i, 1)) . " ";
+        for ($i = 0; $i < strlen($a_str); $i++) {
+            $ret .= ord(substr($a_str, $i, 1)) . " ";
         }
         return $ret;
     }
@@ -3004,7 +3005,7 @@ class ilUtil
             // occured in: setup -> new client -> install languages -> sorting of languages
             $array_sortby = 0;
         }
-        
+
         // this comparison should give optimal results if
         // locale is provided and mb string functions are supported
         if ($array_sortorder == "asc") {
@@ -3059,7 +3060,7 @@ class ilUtil
         $a_keep_keys = false
     ) {
         include_once("./Services/Utilities/classes/class.ilStr.php");
-        
+
         // BEGIN WebDAV: Provide a 'stable' sort algorithm
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby, $a_array_sortorder, $a_numeric, $a_keep_keys);
@@ -3190,7 +3191,7 @@ class ilUtil
         $target = array();
         $existing_sub_key_values = array();
 
-        foreach ($array as $key=>$sub_array) {
+        foreach ($array as $key => $sub_array) {
             if (!in_array($sub_array[$sub_key], $existing_sub_key_values)) {
                 $existing_sub_key_values[] = $sub_array[$sub_key];
                 $target[$key] = $sub_array;
@@ -3419,7 +3420,7 @@ class ilUtil
         setlocale(LC_CTYPE, "UTF8", "en_US.UTF-8"); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
         return escapeshellcmd($a_arg);
     }
-    
+
     /**
      * exec command and fix spaces on windows
      *
@@ -3432,7 +3433,7 @@ class ilUtil
     public static function execQuoted($cmd, $args = null)
     {
         global $DIC;
-        
+
         if (ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"') {
             // cmd won't work without quotes
             $cmd = '"' . $cmd . '"';
@@ -3496,7 +3497,7 @@ class ilUtil
         $difference = $target_time - $starting_time;
         $days = (($difference - ($difference % 86400)) / 86400);
         $difference = $difference - ($days * 86400) + 3600;
-        
+
         // #15343 - using a global locale leads to , instead of . for (implicit) floats
         return str_replace(",", ".", ($days + 25570 + ($difference / 86400)));
     }
@@ -3644,12 +3645,12 @@ class ilUtil
     public static function generatePasswords($a_number)
     {
         $ret = array();
-        srand((double) microtime()*1000000);
-        
+        srand((double) microtime() * 1000000);
+
         include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
-        for ($i=1; $i<=$a_number; $i++) {
+        for ($i = 1; $i <= $a_number; $i++) {
             $min = ($security->getPasswordMinLength() > 0)
                 ? $security->getPasswordMinLength()
                 : 6;
@@ -3659,8 +3660,8 @@ class ilUtil
             if ($min > $max) {
                 $max = $max + 1;
             }
-            $length  = rand($min, $max);
-            $next  = rand(1, 2);
+            $length = rand($min, $max);
+            $next = rand(1, 2);
             $vowels = "aeiou";
             $vowels_uc = strtoupper($vowels);
             $consonants = "bcdfghjklmnpqrstvwxyz";
@@ -3668,17 +3669,17 @@ class ilUtil
             $numbers = "1234567890";
             $special = "_.+?#-*@!$%~";
             $pw = "";
-            
+
             if ($security->getPasswordNumberOfUppercaseChars() > 0) {
                 for ($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++) {
                     switch ($next) {
                         case 1:
-                            $pw.= $consonants_uc[rand(0, strlen($consonants_uc) - 1)];
+                            $pw .= $consonants_uc[rand(0, strlen($consonants_uc) - 1)];
                             $next = 2;
                             break;
-                        
+
                         case 2:
-                            $pw.= $vowels_uc[rand(0, strlen($vowels_uc) - 1)];
+                            $pw .= $vowels_uc[rand(0, strlen($vowels_uc) - 1)];
                             $next = 1;
                             break;
                     }
@@ -3686,30 +3687,30 @@ class ilUtil
             }
 
             if ($security->isPasswordCharsAndNumbersEnabled()) {
-                $pw.= $numbers[rand(0, strlen($numbers) - 1)];
+                $pw .= $numbers[rand(0, strlen($numbers) - 1)];
             }
 
             if ($security->isPasswordSpecialCharsEnabled()) {
-                $pw.= $special[rand(0, strlen($special) - 1)];
+                $pw .= $special[rand(0, strlen($special) - 1)];
             }
 
             $num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
             for ($j = 0; $j < $num_lcase_chars; $j++) {
                 switch ($next) {
                     case 1:
-                        $pw.= $consonants[rand(0, strlen($consonants) - 1)];
+                        $pw .= $consonants[rand(0, strlen($consonants) - 1)];
                         $next = 2;
                         break;
-                    
+
                     case 2:
-                        $pw.= $vowels[rand(0, strlen($vowels) - 1)];
+                        $pw .= $vowels[rand(0, strlen($vowels) - 1)];
                         $next = 1;
                         break;
                 }
             }
 
             $pw = str_shuffle($pw);
-        
+
             $ret[] = $pw;
         }
         return $ret;
@@ -3737,7 +3738,7 @@ class ilUtil
             $data = array();
         }
 
-        foreach ($data as $k=>$datum) {
+        foreach ($data as $k => $datum) {
             if (is_null($datum)) {
                 $data[$k] = 'null';
             }
@@ -3771,9 +3772,9 @@ class ilUtil
                 if ($a_clean && (IL_VIRUS_CLEAN_COMMAND != "")) {
                     $clean_txt = $vs->cleanFile($a_file, $a_orig_name);
                     if ($vs->fileCleaned()) {
-                        $vs_txt.= "<br />" . $lng->txt("cleaned_file") .
+                        $vs_txt .= "<br />" . $lng->txt("cleaned_file") .
                             "<br />" . $clean_txt;
-                        $vs_txt.= "<br />" . $lng->txt("repeat_scan");
+                        $vs_txt .= "<br />" . $lng->txt("repeat_scan");
                         if (($vs2_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
                             return array(false, nl2br($vs_txt) . "<br />" . $lng->txt("repeat_scan_failed") .
                                 "<br />" . nl2br($vs2_txt));
@@ -3815,13 +3816,13 @@ class ilUtil
     public static function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true, $a_mode = "move_uploaded")
     {
         global $DIC;
-        $targetFilename = basename($a_target);
+        $target_filename = basename($a_target);
 
         include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-        $targetFilename = ilFileUtils::getValidFilename($targetFilename);
+        $target_filename = ilFileUtils::getValidFilename($target_filename);
 
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
-        list($targetFilesystem, $targetDir) = self::sanitateTargetPath($a_target);
+        list($target_filesystem, $target_dir) = self::sanitateTargetPath($a_target);
 
         $upload = $DIC->upload();
 
@@ -3834,25 +3835,26 @@ class ilUtil
             if (!$upload->hasUploads()) {
                 throw new ilException($DIC->language()->txt("upload_error_file_not_found"));
             }
-            /**
-             * @var \ILIAS\FileUpload\DTO\UploadResult $UploadResult
-             */
-            $UploadResult = $upload->getResults()[$a_file];
-            $ProcessingStatus = $UploadResult->getStatus();
-            if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage());
+            $upload_result = $upload->getResults()[$a_file];
+            if ($upload_result instanceof UploadResult) {
+                $processing_status = $upload_result->getStatus();
+                if ($processing_status->getCode() === ProcessingStatus::REJECTED) {
+                    throw new ilException($processing_status->getMessage());
+                }
+            } else {
+                return false;
             }
         } catch (ilException $e) {
-            if ($a_raise_errors) {
-                throw $e;
-            } else {
+            if (!$a_raise_errors) {
                 ilUtil::sendFailure($e->getMessage(), true);
+            } else {
+                throw $e;
             }
 
             return false;
         }
 
-        $upload->moveOneFileTo($UploadResult, $targetDir, $targetFilesystem, $targetFilename, true);
+        $upload->moveOneFileTo($upload_result, $target_dir, $target_filesystem, $target_filename, true);
 
         return true;
     }
@@ -3871,7 +3873,7 @@ class ilUtil
         list($std, $min, $sec) = explode(":", $uhrzeit);
         return mktime((int) $std, (int) $min, (int) $sec, (int) $monat, (int) $tag, (int) $jahr);
     }
-     
+
     /**
     * Return current timestamp in Y-m-d H:i:s format
     *
@@ -4057,12 +4059,12 @@ class ilUtil
             if ($counter >= $limit) {
                 break;
             }
-            
+
             // Filter objects in recovery folder
             if ($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id)) {
                 continue;
             }
-            
+
             // Check deleted, hierarchical access ...
             if ($ilAccess->checkAccessOfUser($a_usr_id, $a_operation, '', $row->ref_id, $row->type, $row->obj_id)) {
                 $counter++;
@@ -4168,7 +4170,7 @@ class ilUtil
                 }
             }
         }
-        
+
         // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
         // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
@@ -4184,7 +4186,7 @@ class ilUtil
             $result = str_replace("}", "&#125;", $result);
             $result = str_replace("\\", "&#92;", $result);
         }
-        
+
         return $result;
     }
 
@@ -4219,15 +4221,15 @@ class ilUtil
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         if (!$a_to) {
             $a_to = new ilDateTime(time(), IL_CAL_UNIX);
         }
-        
+
         $from = new DateTime($a_from->get(IL_CAL_DATETIME));
         $to = new DateTime($a_to->get(IL_CAL_DATETIME));
         $diff = $to->diff($from);
-        
+
         $periods = array();
         $periods["years"] = $diff->format("%y");
         $periods["months"] = $diff->format("%m");
@@ -4248,10 +4250,10 @@ class ilUtil
                 $array[] = $value . ' ' . $lng->txt($segment_name);
             }
         }
-        
+
         $len = sizeof($array);
         if ($len > 3) {
-            $array = array_slice($array, 0, (3-$len));
+            $array = array_slice($array, 0, (3 - $len));
         }
 
         return implode(', ', $array);
@@ -4262,7 +4264,7 @@ class ilUtil
         $max_filesize = self::formatBytes(
             self::getUploadSizeLimitBytes()
         );
-        
+
         global $DIC;
 
         $lng = $DIC->language();
@@ -4289,17 +4291,17 @@ class ilUtil
 
         return round($size, $decimals) . $unit[$i];
     }
-    
+
     public static function getUploadSizeLimitBytes()
     {
         $uploadSizeLimitBytes = min(
             self::convertPhpIniSizeValueToBytes(ini_get('post_max_size')),
             self::convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'))
         );
-        
+
         return $uploadSizeLimitBytes;
     }
-    
+
     public static function convertPhpIniSizeValueToBytes($phpIniSizeValue)
     {
         if (is_numeric($phpIniSizeValue)) {
@@ -4308,7 +4310,7 @@ class ilUtil
 
         $suffix = substr($phpIniSizeValue, -1);
         $value = substr($phpIniSizeValue, 0, -1);
-        
+
         switch (strtoupper($suffix)) {
             case 'P':
                 $value *= 1024;
@@ -4326,7 +4328,7 @@ class ilUtil
                 $value *= 1024;
                 break;
         }
-        
+
         return $value;
     }
 
@@ -4628,7 +4630,7 @@ class ilUtil
     {
         return md5(rand(1, 9999999) + str_replace(" ", "", (string) microtime()));
     }
-    
+
     public static function setCookie($a_cookie_name, $a_cookie_value = '', $a_also_set_super_global = true, $a_set_cookie_invalid = false)
     {
         /*
@@ -4639,7 +4641,7 @@ class ilUtil
         if (!(bool) $a_set_cookie_invalid) {
             $expire = 0;
         } else {
-            $expire = time() - (365*24*60*60);
+            $expire = time() - (365 * 24 * 60 * 60);
         }
         /* We MUST NOT set the global constant here, because this affects the session_set_cookie_params() call as well
         if(!defined('IL_COOKIE_SECURE'))
@@ -4661,23 +4663,23 @@ class ilUtil
             $secure,
             IL_COOKIE_HTTPONLY
         );
-                    
+
         if ((bool) $a_also_set_super_global) {
             $_COOKIE[$a_cookie_name] = $a_cookie_value;
         }
     }
-    
+
     public static function _sanitizeFilemame($a_filename)
     {
         return strip_tags(self::stripSlashes($a_filename));
     }
-    
+
     public static function _getHttpPath()
     {
         global $DIC;
 
         $ilIliasIniFile = $DIC["ilIliasIniFile"];
-        
+
         if ($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
             // fallback for windows systems, useful in crons
             (class_exists("ilContext") && !ilContext::usesHTTP())) {
@@ -4686,7 +4688,7 @@ class ilUtil
             return ILIAS_HTTP_PATH;
         }
     }
-    
+
     /**
      * printBacktrace
      *
@@ -4779,10 +4781,10 @@ class ilUtil
     {
         $fp = @fopen($file, 'rb');
 
-        $size   = filesize($file); // File size
+        $size = filesize($file); // File size
         $length = $size;           // Content length
-        $start  = 0;               // Start byte
-        $end    = $size - 1;       // End byte
+        $start = 0;               // Start byte
+        $end = $size - 1;       // End byte
         // Now that we've gotten so far without errors we send the accept range header
         /* At the moment we only support single ranges.
          * Multiple ranges requires some more work to ensure it works correctly
@@ -4801,7 +4803,7 @@ class ilUtil
         // http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.2
         if (isset($_SERVER['HTTP_RANGE'])) {
             $c_start = $start;
-            $c_end   = $end;
+            $c_end = $end;
             // Extract the range string
             list(, $range) = explode('=', $_SERVER['HTTP_RANGE'], 2);
             // Make sure the client hasn't sent us a multibyte range
@@ -4823,9 +4825,9 @@ class ilUtil
                 // The n-number of the last bytes is requested
                 $c_start = $size - substr($range, 1);
             } else {
-                $range  = explode('-', $range);
+                $range = explode('-', $range);
                 $c_start = $range[0];
-                $c_end   = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
+                $c_end = (isset($range[1]) && is_numeric($range[1])) ? $range[1] : $size;
             }
             /* Check the range and make sure it's treated according to the specs.
              * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
@@ -4839,8 +4841,8 @@ class ilUtil
                 // (?) Echo some info to the client?
                 exit;
             }
-            $start  = $c_start;
-            $end    = $c_end;
+            $start = $c_start;
+            $end = $c_end;
             $length = $end - $start + 1; // Calculate new content length
             fseek($fp, $start);
             header('HTTP/1.1 206 Partial Content');
@@ -4865,12 +4867,12 @@ class ilUtil
 
         fclose($fp);
     }
-    
-    
+
+
     //
     //  used to be in ilFormat
     //
-    
+
     /**
      * Returns the magnitude used for size units.
      *
@@ -4887,7 +4889,7 @@ class ilUtil
     {
         return 1024;
     }
-    
+
     /**
     * format a float
     *
@@ -4901,7 +4903,7 @@ class ilUtil
     * @param	boolean		whether .0 should be suppressed
     * @return	string		formatted number
     */
-    protected static function fmtFloat($a_float, $a_decimals=0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero=false)
+    protected static function fmtFloat($a_float, $a_decimals = 0, $a_dec_point = null, $a_thousands_sep = null, $a_suppress_dot_zero = false)
     {
         global $DIC;
 
@@ -4937,7 +4939,7 @@ class ilUtil
 
         return $txt;
     }
-    
+
     /**
      * Returns the specified file size value in a human friendly form.
      * <p>
@@ -4993,17 +4995,17 @@ class ilUtil
 
         return $result;
     }
-    
-    
+
+
     //
     // used for disk quotas
     //
-    
+
     public static function MB2Bytes($a_value)
     {
         return  ((int) $a_value) * pow(self::_getSizeMagnitude(), 2);
     }
-    
+
     public static function Bytes2MB($a_value)
     {
         return  ((int) $a_value) / (pow(self::_getSizeMagnitude(), 2));

@@ -59,7 +59,7 @@ class ilObjFolder extends ilContainer
 
     public function setFolderTree($a_tree)
     {
-        $this->folder_tree =&$a_tree;
+        $this->folder_tree = &$a_tree;
     }
     
     /**
@@ -92,7 +92,7 @@ class ilObjFolder extends ilContainer
         $tree = $this->tree;
         
         if (!is_object($this->folder_tree)) {
-            $this->folder_tree =&$tree;
+            $this->folder_tree = &$tree;
         }
 
         if ($this->withReferences()) {

@@ -31,15 +31,15 @@ class ilObjForumAccess extends ilObjectAccess
     {
         $commands = array(
             array(
-                'permission'=> 'read',
-                'cmd'       => 'showThreads',
-                'lang_var'  => 'show',
-                'default'   => true
+                'permission' => 'read',
+                'cmd' => 'showThreads',
+                'lang_var' => 'show',
+                'default' => true
             ),
             array(
-                'permission'=> 'write',
-                'cmd'       => 'edit',
-                'lang_var'  => 'settings'
+                'permission' => 'write',
+                'cmd' => 'edit',
+                'lang_var' => 'settings'
             ),
         );
 
@@ -62,7 +62,10 @@ class ilObjForumAccess extends ilObjectAccess
             return false;
         }
 
-        if ($DIC->access()->checkAccess('read', '', $t_arr[1])) {
+        if (
+            $DIC->access()->checkAccess('read', '', $t_arr[1]) ||
+            $DIC->access()->checkAccess('visible', '', $t_arr[1])
+        ) {
             return true;
         }
 
@@ -113,7 +116,7 @@ class ilObjForumAccess extends ilObjectAccess
         $size = 0;
         while ($row = $ilDB->fetchAssoc($res)) {
             $fileDataForum = new ilFileDataForum($row['top_frm_fk'], $row['pos_pk']);
-            $filesOfPost   = $fileDataForum->getFilesOfPost();
+            $filesOfPost = $fileDataForum->getFilesOfPost();
             foreach ($filesOfPost as $attachment) {
                 $size += $attachment['size'];
             }

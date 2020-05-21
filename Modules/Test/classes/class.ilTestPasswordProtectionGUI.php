@@ -22,7 +22,7 @@ class ilTestPasswordProtectionGUI
     protected $ctrl;
 
     /**
-     * @var ilGlobalTemplate
+     * @var ilGlobalTemplateInterface
      */
     protected $tpl;
 
@@ -51,7 +51,7 @@ class ilTestPasswordProtectionGUI
      */
     private $nextCommandCmd;
     
-    public function __construct(ilCtrl $ctrl, ilGlobalTemplate $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
+    public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
     {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;

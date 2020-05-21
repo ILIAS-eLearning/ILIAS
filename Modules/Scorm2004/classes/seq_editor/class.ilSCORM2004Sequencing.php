@@ -28,7 +28,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
     public $activityExperiencedDurationLimit = 0;
     public $attemptAbsoluteDurationLimit = 0;
     public $attemptExperiencedDurationLimit = 0;
-    public $attemptLimit= 0;
+    public $attemptLimit = 0;
     public $beginTimeLimit = 0 ;
     public $choice = true;
     public $choiceExit = true;
@@ -40,15 +40,15 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
     public $forwardOnly = false;
     public $id = 0;
     public $measureSatisfactionIfActive = true;
-    public $objectiveMeasureWeight =1.0;
+    public $objectiveMeasureWeight = 1.0;
     public $objectiveSetByContent = false;
     public $preventActivation = false;
     public $randomizationTiming = "never";
     public $reorderChildren = false;
     public $requiredForCompleted = "always";
     public $requiredForIncomplete = "always";
-    public $requiredForNotSatisfied ="always";
-    public $requiredForSatisfied ="always";
+    public $requiredForNotSatisfied = "always";
+    public $requiredForSatisfied = "always";
     public $rollupObjectiveSatisfied = true;
     public $rollupProgressCompletion = true;
     public $selectCount = 0;
@@ -68,7 +68,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
     * Constructor
     * @access	public
     */
-    public function __construct($a_treeid = null, $a_rootlevel=false)
+    public function __construct($a_treeid = null, $a_rootlevel = false)
     {
         parent::__construct($a_treeid, $a_rootlevel);
         
@@ -76,11 +76,11 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
             $xpath_obj = new DOMXPath($this->dom);
             $obj_node_list = $xpath_obj->query('//controlMode');
             $this->setNode($obj_node_list->item(0));
-            if ($obj_node_list->length!=1) {
+            if ($obj_node_list->length != 1) {
                 $obj_con = $this->dom->createElement("controlMode");
                 $root = $this->dom->getElementsByTagName("sequencing")->item(0);
                 $root->appendChild($obj_con);
-                $this->node =$this->dom->getElementsByTagName("controlMode")->item(0);
+                $this->node = $this->dom->getElementsByTagName("controlMode")->item(0);
                 $this->setFlow(true);
                 $this->setChoice(true);
                 $this->setForwardOnly(false);
@@ -266,32 +266,32 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
 
     public function setActivityAbsoluteDurationLimit($val)
     {
-        $this->activityAbsoluteDurationLimit =  $val;
+        $this->activityAbsoluteDurationLimit = $val;
     }
 
     public function setActivityExperiencedDurationLimit($val)
     {
-        $this->activityExperiencedDurationLimit =  $val;
+        $this->activityExperiencedDurationLimit = $val;
     }
 
     public function setAttemptAbsoluteDurationLimit($val)
     {
-        $this->attemptAbsoluteDurationLimit =  $val;
+        $this->attemptAbsoluteDurationLimit = $val;
     }
 
     public function setAttemptExperiencedDurationLimit($val)
     {
-        $this->attemptExperiencedDurationLimit =  $val;
+        $this->attemptExperiencedDurationLimit = $val;
     }
 
     public function setAttemptLimit($val)
     {
-        $this->attemptLimit =  $val;
+        $this->attemptLimit = $val;
     }
 
     public function setBeginTimeLimit($val)
     {
-        $this->beginTimeLimit =  $val;
+        $this->beginTimeLimit = $val;
     }
 
     public function setChoice($a_choice)
@@ -306,12 +306,12 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
 
     public function setCompletionSetByContent($val)
     {
-        $this->completionSetByContent =  $val;
+        $this->completionSetByContent = $val;
     }
 
     public function setConstrainChoice($val)
     {
-        $this->constrainChoice =  $val;
+        $this->constrainChoice = $val;
     }
 
     public function setSeqNodeId($a_seqnodeid)
@@ -321,7 +321,7 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
 
     public function setEndTimeLimit($val)
     {
-        $this->endTimeLimit =  $val;
+        $this->endTimeLimit = $val;
     }
 
     public function setFlow($a_flow)
@@ -336,97 +336,97 @@ class ilSCORM2004Sequencing extends ilSCORM2004Item
 
     public function setId($val)
     {
-        $this->id =  $val;
+        $this->id = $val;
     }
 
     public function setMeasureSatisfactionIfActive($val)
     {
-        $this->measureSatisfactionIfActive =  $val;
+        $this->measureSatisfactionIfActive = $val;
     }
 
     public function setObjectiveMeasureWeight($val)
     {
-        $this->objectiveMeasureWeight =  $val;
+        $this->objectiveMeasureWeight = $val;
     }
 
     public function setObjectiveSetByContent($val)
     {
-        $this->objectiveSetByContent =  $val;
+        $this->objectiveSetByContent = $val;
     }
 
     public function setPreventActivation($val)
     {
-        $this->preventActivation =  $val;
+        $this->preventActivation = $val;
     }
 
     public function setRandomizationTiming($val)
     {
-        $this->randomizationTiming =  $val;
+        $this->randomizationTiming = $val;
     }
 
     public function setReorderChildren($val)
     {
-        $this->reorderChildren =  $val;
+        $this->reorderChildren = $val;
     }
 
     public function setRequiredForCompleted($val)
     {
-        $this->requiredForCompleted =  $val;
+        $this->requiredForCompleted = $val;
     }
 
     public function setRequiredForIncomplete($val)
     {
-        $this->requiredForIncomplete =  $val;
+        $this->requiredForIncomplete = $val;
     }
 
     public function setRequiredForNotSatisfied($val)
     {
-        $this->requiredForNotSatisfied =  $val;
+        $this->requiredForNotSatisfied = $val;
     }
 
     public function setRequiredForSatisfied($val)
     {
-        $this->requiredForSatisfied =  $val;
+        $this->requiredForSatisfied = $val;
     }
 
     public function setRollupObjectiveSatisfied($val)
     {
-        $this->rollupObjectiveSatisfied =  $val;
+        $this->rollupObjectiveSatisfied = $val;
     }
 
     public function setRollupProgressCompletion($val)
     {
-        $this->rollupProgressCompletion =  $val;
+        $this->rollupProgressCompletion = $val;
     }
 
     public function setSelectCount($val)
     {
-        $this->selectCount =  $val;
+        $this->selectCount = $val;
     }
 
     public function setSelectionTiming($val)
     {
-        $this->selectionTiming =  $val;
+        $this->selectionTiming = $val;
     }
 
     public function setSequencingId($val)
     {
-        $this->sequencingId =  $val;
+        $this->sequencingId = $val;
     }
 
     public function setTracked($val)
     {
-        $this->tracked =  $val;
+        $this->tracked = $val;
     }
 
     public function setUseCurrentAttemptObjectiveInfo($val)
     {
-        $this->useCurrentAttemptObjectiveInfo =  $val;
+        $this->useCurrentAttemptObjectiveInfo = $val;
     }
 
     public function setUseCurrentAttemptProgressInfo($val)
     {
-        $this->useCurrentAttemptProgressInfo =  $val;
+        $this->useCurrentAttemptProgressInfo = $val;
     }
 
 

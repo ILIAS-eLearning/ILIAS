@@ -102,7 +102,7 @@ class ilDclNReferenceFieldGUI
             } else {
                 $elements[] = array(
                     'value' => $ref_record->getRecordFieldHTML($this->field->getField()->getFieldRef()),
-                    'sort'  => $ref_record->getRecordFieldSortingValue($this->field->getField()->getFieldRef()),
+                    'sort' => $ref_record->getRecordFieldSortingValue($this->field->getField()->getFieldRef()),
                 );
             }
         }

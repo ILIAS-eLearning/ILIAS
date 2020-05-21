@@ -1,0 +1,211 @@
+<?php
+
+/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
+declare(strict_types = 1);
+
+use ILIAS\Data\Factory;
+use \ILIAS\UI\Component\Input\Field;
+use \ILIAS\Refinery\Factory as Refinery;
+
+class ilStudyProgrammeValidityOfAchievedQualificationSettings
+{
+    /**
+     * @var int|null
+     */
+    protected $qualification_period;
+
+    /**
+     * @var DateTime|null
+     */
+    protected $qualification_date;
+
+    /**
+     * @var int|null
+     */
+    protected $restart_period;
+
+    public function __construct(
+        ?int $qualification_period,
+        ?DateTime $qualification_date,
+        ?int $restart_period
+    ) {
+        if (!is_null($qualification_period) && 0 > $qualification_period) {
+            throw new InvalidArgumentException(
+                'Numbers less than 0 are not allowed for qualification_period'
+            );
+        }
+
+        if (!is_null($restart_period) && 0 > $restart_period) {
+            throw new InvalidArgumentException(
+                'Numbers less than 0 are not allowed for restart_period'
+            );
+        }
+
+        $this->qualification_period = $qualification_period;
+        $this->qualification_date = $qualification_date;
+        $this->restart_period = $restart_period;
+    }
+
+    public function getQualificationPeriod() : ?int
+    {
+        return $this->qualification_period;
+    }
+
+    public function withQualificationPeriod(
+        ?int $qualification_period
+    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+        if (!is_null($qualification_period) && 0 > $qualification_period) {
+            throw new InvalidArgumentException(
+                'Numbers less than 0 are not allowed'
+            );
+        }
+        $clone = clone $this;
+        $clone->qualification_period = $qualification_period;
+
+        return $clone;
+    }
+
+    public function getQualificationDate() : ?DateTime
+    {
+        return $this->qualification_date;
+    }
+
+    public function withQualificationDate(
+        ?DateTime $qualification_date
+    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+        $clone = clone $this;
+        $clone->qualification_date = $qualification_date;
+
+        return $clone;
+    }
+
+    public function getRestartPeriod() : ?int
+    {
+        return $this->restart_period;
+    }
+
+    public function withRestartPeriod(
+        ?int $restart_period
+    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+        if (!is_null($restart_period) && 0 > $restart_period) {
+            throw new InvalidArgumentException(
+                'Numbers less than 0 are not allowed'
+            );
+        }
+        $clone = clone $this;
+        $clone->restart_period = $restart_period;
+
+        return $clone;
+    }
+
+    public function toFormInput(
+        Field\Factory $input,
+        \ilLanguage $lng,
+        Refinery $refinery,
+        Factory $data_factory
+    ) : Field\Input {
+        $format = $data_factory->dateFormat()->germanShort();
+        $grp1 = $input->group([], $lng->txt('prg_no_validity_qualification'));
+        $grp2 = $input->group(
+            [
+                'vq_period' => $input->numeric(
+                    '',
+                    $lng->txt('validity_qualification_period_desc')
+                )
+                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
+                ->withValue($this->getQualificationPeriod() !== null ? $this->getQualificationPeriod() : null)
+            ],
+            $lng->txt('validity_qualification_period')
+        );
+        $grp3 = $input->group(
+            [
+                'vq_date' => $input->dateTime(
+                    '',
+                    $lng->txt('validity_qualification_date_desc')
+                )
+                ->withFormat($format)
+                ->withMinValue(new DateTimeImmutable())
+                ->withValue($this->getQualificationDate() !== null ? $this->getQualificationDate()->format('d.m.Y') : '')
+            ],
+            $lng->txt('validity_qualification_date')
+        );
+        $grp4 = $input->group([], $lng->txt('prg_no_restart'));
+        $grp5 = $input->group(
+            [
+                'vq_restart_period' => $input->numeric(
+                    '',
+                    $lng->txt('restart_period_desc')
+                )
+                ->withAdditionalTransformation($refinery->int()->isGreaterThan(0))
+                ->withValue($this->getRestartPeriod() !== null ? $this->getRestartPeriod() : null)
+            ],
+            $lng->txt('restart_period')
+        );
+
+        $sg1 = $input->switchableGroup(
+            [
+                'opt_no_validity_qualification' => $grp1,
+                'opt_validity_qualification_period' => $grp2,
+                'opt_validity_qualification_date' => $grp3
+            ],
+            ''
+        );
+
+        $sg2 = $input->switchableGroup(
+            [
+                'opt_no_restart' => $grp4,
+                'opt_restart_period' => $grp5,
+            ],
+            ''
+        );
+
+        $validity_qualification = "opt_no_validity_qualification";
+        if (!is_null($this->getQualificationPeriod()) && $this->getQualificationPeriod() > 0) {
+            $validity_qualification = 'opt_validity_qualification_period';
+        }
+
+        if (!is_null($this->getQualificationDate())) {
+            $validity_qualification = 'opt_validity_qualification_date';
+        }
+
+        $restart_value = 'opt_no_restart';
+        if (!is_null($this->getRestartPeriod()) && $this->getRestartPeriod() > 0) {
+            $restart_value = 'opt_restart_period';
+        }
+
+        return $input->section(
+            [
+                'validity_qualification' => $sg1->withValue($validity_qualification),
+                'restart' => $sg2->withValue($restart_value)
+            ],
+            $lng->txt('prg_validity_of_qualification')
+        )
+        ->withAdditionalTransformation($refinery->custom()->transformation(function (array $vals) {
+            $vq_period = null;
+            $vq_date = null;
+            $restart = null;
+
+            if (isset($vals['validity_qualification'][1]['vq_period'])) {
+                $vq_period = (int) $vals['validity_qualification'][1]['vq_period'];
+            }
+
+            if (isset($vals['validity_qualification'][1]['vq_date'])) {
+                $vq_date = new DateTime($vals['validity_qualification'][1]['vq_date']);
+            }
+
+            if (
+                count($vals['restart'][1]) > 0 &&
+                !is_null($vals['restart'][1]['vq_restart_period'])
+            ) {
+                $restart = (int) $vals['restart'][1]['vq_restart_period'];
+            }
+
+            return new ilStudyProgrammeValidityOfAchievedQualificationSettings(
+                $vq_period,
+                $vq_date,
+                $restart
+            );
+        }));
+    }
+}

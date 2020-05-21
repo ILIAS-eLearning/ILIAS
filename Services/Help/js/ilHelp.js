@@ -150,11 +150,14 @@ il.Help = {
 			il.Help.panel = false;
 			//il.Help.resetMainContentArea();
 
-			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
-				{cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
-
+      il.Help.resetCurrentPage();
 		}
 	},
+
+  resetCurrentPage: function () {
+    il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+      {cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
+  },
 
 	// (de-)activate tooltips
 	switchTooltips: function (e) {

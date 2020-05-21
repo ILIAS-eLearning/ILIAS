@@ -124,7 +124,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
             );
             $mpool_table->setInsertCommand("create_incl");
 
-            $html.= $mpool_table->getHTML();
+            $html .= $mpool_table->getHTML();
 
             $tpl->setContent($html);
         } else {
@@ -165,7 +165,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         $lng = $this->lng;
         
         if (is_array($_POST["id"])) {
-            for ($i = count($_POST["id"]) - 1; $i>=0; $i--) {
+            for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
                 // similar code in ilpageeditorgui::insertFromClipboard
                 include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
                 include_once("./Services/COPage/classes/class.ilPCMediaObject.php");

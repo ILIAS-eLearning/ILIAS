@@ -134,8 +134,8 @@ class ilXapiResultsCronjob extends ilCronJob
             
             $evaluation->evaluateReport($report);
             
-            $this->log->debug('update lp for object (' . $objId . ')');
-            ilLPStatusWrapper::_refreshStatus($objId);
+            //$this->log->debug('update lp for object (' . $objId . ')');
+            //ilLPStatusWrapper::_refreshStatus($objId);
             
             $objectIds[] = $objId;
         }

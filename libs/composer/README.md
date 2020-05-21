@@ -18,9 +18,27 @@ The dev dependencies are saved in the *require-dev* section of the compser.json 
 These are libraries and tools dedicated to aid the development process. For example
 PHPUnit to run and create unit tests.
 
+### General file structure
+
+- The `composer.json` file is in the ILIAS main directory.
+- Third party libs will be installed to `libs/vendor`.
+- The `composer` command needs to be executed in the ILIAS main directory.
+
+### Quick Command Overview
+
+These are the commands you will need most frequently during ILIAS development.
+
+- `composer install`: Installs third party libs for an installation.
+- `composer require`: Add new lib (see details below).
+- `composer update`: Update lib to new version (see details below).
+- `composer dump-autoload`: Updates autoload class-map and [ILIAS artifacts](../../src/Setup/README.md).
+- `composer test-php`: Runs unit tests (without required ILIAS installation).
+- `composer test-php-all`: Runs unit tests (with required ILIAS installation, currently broken).
+- `composer list`: List all available commands.
+
 ### Dependencies for production
-- Add a new library using composer, e.g. "composer require filp/whoops"
-- Document the usage and your wrapper class in composer.json, e.g.:
+- Add a new library using composer, e.g. `composer require filp/whoops`
+- Document the usage and your wrapper class in `composer.json`, e.g.:
 ```json
 "filp/whoops" : {
   "source" : "github.com/filp/whoops",
@@ -35,17 +53,19 @@ PHPUnit to run and create unit tests.
 ```
 
 - Run "composer install --no-dev"
-- Add all files to ILIAS git-repository and commit
+- Do **not add** any files of `/libs/composer/vendor` to the ILIAS git-repository.
+- Commit changes of `composer.json` and `composer.lock`
 
 ### Dependencies for development
-- Add a new library using composer, e.g. "composer require --dev phpunit/phpunit" 
-- Do not add the installed dependencies in /libs/composer/vendor to the repository. 
-- Commit changes of composer.json and composer.lock 
+- Add a new library using composer, e.g. `composer require --dev phpunit/phpunit` 
+- Do **not add** any files of `/libs/composer/vendor` to the ILIAS git-repository. 
+- Commit changes of `composer.json` and `composer.lock` 
 
 ### Update a single dependency
 - Search the name of dependency you like to update.
-- Update by using "composer update --no-dev <DEPENDENCY_NAME>"
-- Commit all changes in composer.lock, composer.json and the vendor folder
+- Update by using `composer update --no-dev <DEPENDENCY_NAME>`
+- Do **not add** any files of `/libs/composer/vendor` to the ILIAS git-repository.
+- Commit all changes in `composer.lock`, `composer.json`
 
 ### Remove a dependency
 #### Production

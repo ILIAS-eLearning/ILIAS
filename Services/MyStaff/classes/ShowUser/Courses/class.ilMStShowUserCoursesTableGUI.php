@@ -98,10 +98,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $this->filter['usr_id'] = $this->usr_id;
         $options = array(
             'filters' => $this->filter,
-            'limit'   => array(),
-            'count'   => true,
-            'sort'    => array(
-                'field'     => $this->getOrderField(),
+            'limit' => array(),
+            'count' => true,
+            'sort' => array(
+                'field' => $this->getOrderField(),
                 'direction' => $this->getOrderDirection(),
             ),
         );
@@ -110,7 +110,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $count = $user_courses_fetcher->getData($arr_usr_id, $options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
-            'end'   => intval($this->getLimit()),
+            'end' => intval($this->getLimit()),
         );
         $options['count'] = false;
         $data = $user_courses_fetcher->getData($arr_usr_id, $options);
@@ -145,10 +145,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         //membership status
         $item = new ilSelectInputGUI($DIC->language()->txt('member_status'), 'memb_status');
         $item->setOptions(array(
-            ""                                             => $DIC->language()->txt("mst_opt_all"),
-            ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED   => $DIC->language()->txt('mst_memb_status_requested'),
+            "" => $DIC->language()->txt("mst_opt_all"),
+            ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED => $DIC->language()->txt('mst_memb_status_requested'),
             ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST => $DIC->language()->txt('mst_memb_status_waitinglist'),
-            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED  => $DIC->language()->txt('mst_memb_status_registered'),
+            ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED => $DIC->language()->txt('mst_memb_status_registered'),
         ));
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -159,11 +159,11 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
             $item = new ilSelectInputGUI($DIC->language()->txt('learning_progress'), 'lp_status');
             //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
             $item->setOptions(array(
-                ""                                          => $DIC->language()->txt("mst_opt_all"),
+                "" => $DIC->language()->txt("mst_opt_all"),
                 ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1   => $DIC->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-                ilLPStatus::LP_STATUS_COMPLETED_NUM + 1     => $DIC->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
-                ilLPStatus::LP_STATUS_FAILED_NUM + 1        => $DIC->language()->txt(ilLPStatus::LP_STATUS_FAILED),
+                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+                ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
+                ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_FAILED),
             ));
             $this->addFilterItem($item);
             $item->readFromSession();
@@ -185,22 +185,22 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $cols = array();
 
         $cols['crs_title'] = array(
-            'txt'        => $DIC->language()->txt('crs_title'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $DIC->language()->txt('crs_title'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'crs_title',
         );
         $cols['usr_reg_status'] = array(
-            'txt'        => $DIC->language()->txt('member_status'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $DIC->language()->txt('member_status'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'reg_status',
         );
         if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()) {
             $cols['usr_lp_status'] = array(
-                'txt'        => $DIC->language()->txt('learning_progress'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $DIC->language()->txt('learning_progress'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'lp_status',
             );
         }

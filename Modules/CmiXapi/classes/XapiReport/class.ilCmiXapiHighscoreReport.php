@@ -129,11 +129,11 @@ class ilCmiXapiHighscoreReport
         $totalDuration = 0;
         
         foreach ($allDurations as $duration) {
-            $totalDuration += ilObjSCORM2004LearningModule::_ISODurationToCentisec($duration) /100;
+            $totalDuration += ilObjSCORM2004LearningModule::_ISODurationToCentisec($duration) / 100;
         }
 
-        $hours = floor($totalDuration/3600);
-        $hours = strlen($hours) <2 ? "0" . $hours : $hours;
+        $hours = floor($totalDuration / 3600);
+        $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
         $totalDuration = $hours . ":" . date('i:s', $totalDuration);
 
         return $totalDuration;
@@ -141,7 +141,7 @@ class ilCmiXapiHighscoreReport
 
     private function formatRawTimestamp($rawTimestamp)
     {
-        $dateTime =  ilCmiXapiDateTime::fromXapiTimestamp($rawTimestamp);
+        $dateTime = ilCmiXapiDateTime::fromXapiTimestamp($rawTimestamp);
         return ilDatePresentation::formatDate($dateTime);
     }
 

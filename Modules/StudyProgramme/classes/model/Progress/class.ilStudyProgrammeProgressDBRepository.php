@@ -46,7 +46,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             self::FIELD_ASSIGNMENT_ID => $ass->getId(),
             self::FIELD_PRG_ID => $prg->getObjId(),
             self::FIELD_USR_ID => $ass->getUserId(),
-            self::FIELD_POINTS => $prg->getPoints(),
+            self::FIELD_POINTS => $prg->getAssessmentSettings()->getPoints(),
             self::FIELD_POINTS_CUR => 0,
             self::FIELD_STATUS => ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
             self::FIELD_COMPLETION_BY => null,
@@ -172,6 +172,20 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     {
         $return = [];
         foreach ($this->loadExpiredSuccessful() as $row) {
+            $return[] = $this->buildByRow($row);
+        }
+        return $return;
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @throws ilException
+     */
+    public function readPassedDeadline() : array
+    {
+        $return = [];
+        foreach ($this->loadPassedDeadline() as $row) {
             $return[] = $this->buildByRow($row);
         }
         return $return;
@@ -387,6 +401,11 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         if ((int) $row[self::FIELD_INVALIDATED] === 1) {
             $prgrs = $prgrs->invalidate();
         }
+
+        if (!is_null($row[self::FIELD_LAST_CHANGE_BY])) {
+            $prgrs = $prgrs->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY]);
+        }
+
         return $prgrs;
     }
 
@@ -423,6 +442,31 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             )
             . '    AND ' . self::FIELD_INVALIDATED . ' != 1 OR ' . self::FIELD_INVALIDATED . ' IS NULL';
 
+        $res = $this->db->query($q);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            yield $rec;
+        }
+    }
+
+    protected function loadPassedDeadline()
+    {
+        $q =
+             $this->getSQLHeader() . PHP_EOL
+            . 'WHERE ' . $this->db->in(
+                self::FIELD_STATUS,
+                [
+                    ilStudyProgrammeProgress::STATUS_IN_PROGRESS,
+                    ilStudyProgrammeProgress::STATUS_ACCREDITED
+                ],
+                false,
+                'integer'
+             ) . PHP_EOL
+            . 'AND ' . self::FIELD_DEADLINE . ' IS NOT NULL' . PHP_EOL
+            . 'AND DATE(' . self::FIELD_DEADLINE . ') < ' . $this->db->quote(
+                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                'text'
+             ) . PHP_EOL
+        ;
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
             yield $rec;

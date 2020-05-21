@@ -158,16 +158,19 @@ class ilDerivedTasksGUI
 
         // output list panel or info message
         if (count($list_items_with_deadline) > 0 || count($list_items_without_deadline) > 0) {
-
             $panels = [];
 
             if (count($list_items_with_deadline) > 0) {
-                $panels[] = $f->panel()->listing()->standard($lng->txt("task_tasks_with_deadline"),
-                    [$f->item()->group("", $list_items_with_deadline)]);
+                $panels[] = $f->panel()->listing()->standard(
+                    $lng->txt("task_tasks_with_deadline"),
+                    [$f->item()->group("", $list_items_with_deadline)]
+                );
             }
             if (count($list_items_without_deadline) > 0) {
-                $panels[] = $f->panel()->listing()->standard($lng->txt("task_tasks_without_deadline"),
-                    [$f->item()->group("", $list_items_without_deadline)]);
+                $panels[] = $f->panel()->listing()->standard(
+                    $lng->txt("task_tasks_without_deadline"),
+                    [$f->item()->group("", $list_items_without_deadline)]
+                );
             }
 
 

@@ -310,7 +310,7 @@ class ilHelpGUI
 
         $h_tpl->setCurrentBlock("backlink");
         $h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
-        if (($t =ilSession::get("help_search_term")) != "") {
+        if (($t = ilSession::get("help_search_term")) != "") {
             $h_tpl->setVariable(
                 "ONCLICK_BACK",
                 "return il.Help.search('" . ilUtil::prepareFormOutput($t) . "');"
@@ -352,7 +352,7 @@ class ilHelpGUI
         $page_gui->getPageObject()->buildDom();
         $int_links = $page_gui->getPageObject()->getInternalLinks();
         $link_xml = $this->getLinkXML($int_links);
-        $link_xml.= $this->getLinkTargetsXML();
+        $link_xml .= $this->getLinkTargetsXML();
         //echo htmlentities($link_xml);
         $page_gui->setLinkXML($link_xml);
         
@@ -420,6 +420,8 @@ class ilHelpGUI
         ilYuiUtil::initConnection();
         $a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
         $a_tpl->addJavascript("./Services/Accordion/js/accordion.js");
+        iljQueryUtil::initMaphilight();
+        $a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();
         $a_tpl->addOnLoadCode(
@@ -444,7 +446,17 @@ class ilHelpGUI
             }
         }
     }
-    
+
+    /**
+     * Is help page active?
+     * @param
+     * @return
+     */
+    public function isHelpPageActive()
+    {
+        return (ilSession::get("help_pg") > 0);
+    }
+
     /**
      * Deactivate tooltips
      *
@@ -506,11 +518,11 @@ class ilHelpGUI
 
                 }
                 
-                $link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
+                $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
                     "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"\" Anchor=\"\"/>";
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
 
         return $link_info;
     }
@@ -521,8 +533,8 @@ class ilHelpGUI
     public function getLinkTargetsXML()
     {
         $link_info = "<LinkTargets>";
-        $link_info.="<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
-        $link_info.= "</LinkTargets>";
+        $link_info .= "<LinkTarget TargetFrame=\"None\" LinkTarget=\"\" OnClick=\"return il.Help.openLink(event);\" />";
+        $link_info .= "</LinkTargets>";
         return $link_info;
     }
 
@@ -633,7 +645,7 @@ class ilHelpGUI
     protected function replaceItemTag($mmc, string $content, \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item)
     {
         $id = $item->getProviderIdentification()->getInternalIdentifier();
-        $ws= "[ \t\r\f\v\n]*";
+        $ws = "[ \t\r\f\v\n]*";
 
         // menu item path
         while (preg_match("~\[(menu" . $ws . "path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
@@ -642,7 +654,7 @@ class ilHelpGUI
                 $parent = $mmc->getSingleItem($item->getParent());
                 $path = $parent->getTitle() . " > ";
             }
-            $path.= $item->getTitle();
+            $path .= $item->getTitle();
             $content = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
                 "<strong>" . $path . "</strong>",

@@ -115,7 +115,7 @@ class ilObjCourseReference extends ilContainerReference
 
         $query = 'SELECT * FROM crs_reference_settings ' .
             'WHERE obj_id = ' . $this->db->quote($this->getId(), ilDBConstants::T_INTEGER);
-        $res  = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->enableMemberUpdate($row->member_update);
         }
@@ -160,5 +160,6 @@ class ilObjCourseReference extends ilContainerReference
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $new_obj->enableMemberUpdate($this->isMemberUpdateEnabled());
         $new_obj->update();
+        return $new_obj;
     }
 }

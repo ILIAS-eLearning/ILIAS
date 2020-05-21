@@ -22,11 +22,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM					= 'showForm';
-    const CMD_SAVE_FORM					= 'saveForm';
-    const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
-    const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
-    const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
+    const CMD_SHOW_FORM = 'showForm';
+    const CMD_SAVE_FORM = 'saveForm';
+    const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
+    const CMD_SHOW_RESET_TPL_CONFIRM = 'showResetTemplateConfirmation';
+    const CMD_CONFIRMED_RESET_TPL = 'confirmedResetTemplate';
     
     const ANSWER_FIXATION_NONE = 'none';
     const ANSWER_FIXATION_ON_INSTANT_FEEDBACK = 'instant_feedback';
@@ -45,7 +45,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     /** @var ilLanguage $lng */
     protected $lng = null;
 
-    /** @var ilGlobalTemplate $tpl */
+    /** @var ilGlobalTemplateInterface $tpl */
     protected $tpl = null;
 
     /** @var ilTree $tree */
@@ -689,7 +689,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $act_type->setChecked($this->testOBJ->isActivationLimited());
         // $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
 
-        $this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
         include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
         $dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
         $dur->setRequired(true);
@@ -795,7 +794,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $this->testOBJ->setIntroductionEnabled($form->getItemByPostVar('intro_enabled')->getChecked());
 
             if ($form->getItemByPostVar('intro_enabled')->getChecked()) {
-                $this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+                $this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue());
             } else {
                 $this->testOBJ->setIntroduction('');
             }
@@ -1170,7 +1169,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $autosave_output->setInfo($this->lng->txt('autosave_info'));
         $autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
         $autosave_interval->setSize(10);
-        $autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
+        $autosave_interval->setValue($this->testOBJ->getAutosaveIval() / 1000);
         $autosave_interval->setSuffix($this->lng->txt('seconds'));
         $autosave_output->addSubItem($autosave_interval);
         $form->addItem($autosave_output);
@@ -1553,7 +1552,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         }
 
         $this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
-        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+        $this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue());
 
         if ($form->getItemByPostVar('redirection_enabled')->getChecked()) {
             $this->testOBJ->setRedirectionMode($form->getItemByPostVar('redirection_mode')->getValue());

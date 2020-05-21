@@ -203,6 +203,26 @@ class ilStartingPoint
     }
 
     /**
+     * @param ilObjRole $role
+     * @return void
+     */
+    public static function onRoleDeleted(ilObjRole $role)
+    {
+        foreach (self::getRolesWithStartingPoint() as $roleId => $data) {
+            if ((int) $roleId === (int) $role->getId()) {
+                $sp = new self((int) $data['id']);
+                $sp->delete();
+            } elseif (
+                false === ($maybeDeletedRole = ilObjectFactory::getInstanceByObjId((int) $roleId, false)) ||
+                !($maybeDeletedRole instanceof ilObjRole)
+            ) {
+                $sp = new self((int) $data['id']);
+                $sp->delete();
+            }
+        }
+    }
+
+    /**
      * get array with all roles which have starting point defined.
      * @return array
      */
@@ -387,7 +407,7 @@ class ilStartingPoint
                     " position = " . $ilDB->quote($nr, 'integer') .
                     " WHERE id = " . $ilDB->quote($id, 'integer')
                 );
-                $nr+=10;
+                $nr += 10;
             }
         }
     }

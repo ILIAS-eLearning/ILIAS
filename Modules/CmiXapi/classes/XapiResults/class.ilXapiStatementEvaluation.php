@@ -64,6 +64,9 @@ class ilXapiStatementEvaluation
             );
             
             $this->evaluateStatement($xapiStatement, $cmixUser->getUsrId());
+
+            $this->log->debug('update lp for object (' . $this->object->getId() . ')');
+            ilLPStatusWrapper::_updateStatus($this->object->getId(), $cmixUser->getUsrId());
         }
     }
     
@@ -87,12 +90,13 @@ class ilXapiStatementEvaluation
             $newResultStatus = $this->getResultStatusForXapiVerb($xapiVerb);
             
             if ($this->isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)) {
+                $this->log->debug("isResultStatusToBeReplaced: true");
                 $userResult->setStatus($newResultStatus);
             }
             
             if ($this->hasXapiScore($xapiStatement)) {
                 $xapiScore = $this->getXapiScore($xapiStatement);
-                $this->log->info("Score: " . $xapiScore);
+                $this->log->debug("Score: " . $xapiScore);
                 
                 $userResult->setScore((float) $xapiScore);
             }
@@ -193,14 +197,17 @@ class ilXapiStatementEvaluation
     protected function isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)
     {
         if (!$this->isLpModeInterestedInResultStatus($newResultStatus)) {
+            $this->log->debug("isLpModeInterestedInResultStatus: false");
             return false;
         }
         
         if (!$this->doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus)) {
+            $this->log->debug("doesNewResultStatusDominateOldOne: false");
             return false;
         }
         
         if ($this->needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus)) {
+            $this->log->debug("needsAvoidFailedEvaluation: false");
             return false;
         }
         

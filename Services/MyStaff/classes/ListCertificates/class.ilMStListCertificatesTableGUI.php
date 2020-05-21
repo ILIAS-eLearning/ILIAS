@@ -86,10 +86,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit'   => array(),
-            'count'   => true,
-            'sort'    => array(
-                'field'     => $this->getOrderField(),
+            'limit' => array(),
+            'count' => true,
+            'sort' => array(
+                'field' => $this->getOrderField(),
                 'direction' => $this->getOrderDirection(),
             ),
         );
@@ -98,7 +98,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $data = $certificates_fetcher->getData($options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
-            'end'   => intval($this->getLimit()),
+            'end' => intval($this->getLimit()),
         );
         $this->setMaxCount(count($data));
         $this->setData($data);
@@ -149,55 +149,55 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
 
         $cols['objectTitle'] = array(
-            'txt'        => $DIC->language()->txt('title'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $DIC->language()->txt('title'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'objectTitle',
         );
         $cols['issuedOnTimestamp'] = array(
-            'txt'        => $DIC->language()->txt('mst_cert_issued_on'),
-            'default'    => true,
-            'width'      => 'auto',
+            'txt' => $DIC->language()->txt('mst_cert_issued_on'),
+            'default' => true,
+            'width' => 'auto',
             'sort_field' => 'issuedOnTimestamp',
         );
         if ($arr_searchable_user_columns['login']) {
             $cols['userLogin'] = array(
-                'txt'        => $DIC->language()->txt('login'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $DIC->language()->txt('login'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'userLogin',
             );
         }
         if ($arr_searchable_user_columns['firstname']) {
             $cols['userFirstName'] = array(
-                'txt'        => $DIC->language()->txt('firstname'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $DIC->language()->txt('firstname'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'userFirstName',
             );
         }
         if ($arr_searchable_user_columns['lastname']) {
             $cols['userLastName'] = array(
-                'txt'        => $DIC->language()->txt('lastname'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $DIC->language()->txt('lastname'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'userLastName',
             );
         }
 
         if ($arr_searchable_user_columns['email']) {
             $cols['usr_email'] = array(
-                'txt'        => $DIC->language()->txt('email'),
-                'default'    => true,
-                'width'      => 'auto',
+                'txt' => $DIC->language()->txt('email'),
+                'default' => true,
+                'width' => 'auto',
                 'sort_field' => 'usr_email',
             );
         }
         if ($arr_searchable_user_columns['org_units']) {
             $cols['usr_assinged_orgus'] = array(
-                'txt'     => $DIC->language()->txt('objs_orgu'),
+                'txt' => $DIC->language()->txt('objs_orgu'),
                 'default' => true,
-                'width'   => 'auto',
+                'width' => 'auto',
             );
         }
 

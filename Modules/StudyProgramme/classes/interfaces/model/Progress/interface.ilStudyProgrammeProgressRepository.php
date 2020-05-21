@@ -70,6 +70,8 @@ interface ilStudyProgrammeProgressRepository
 
     public function readRiskyToFailInstances() : array;
 
+    public function readPassedDeadline() : array;
+
     /**
      * Update record corresponding to progress.
      * Will throw if the record does not exist yet.

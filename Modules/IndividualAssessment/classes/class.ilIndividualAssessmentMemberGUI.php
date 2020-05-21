@@ -1,657 +1,693 @@
 <?php
+/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilTextAreaInputGUI.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Services/Form/classes/class.ilCheckboxInputGUI.php';
-require_once 'Services/Form/classes/class.ilNonEditableValueGUI.php';
-require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-require_once 'Modules/IndividualAssessment/classes/LearningProgress/class.ilIndividualAssessmentLPInterface.php';
-require_once 'Modules/IndividualAssessment/classes/Notification/class.ilIndividualAssessmentPrimitiveInternalNotificator.php';
-require_once 'Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php';
-require_once 'Modules/IndividualAssessment/classes/FileStorage/class.ilIndividualAssessmentFileStorage.php';
-require_once 'Services/Form/classes/class.ilFileInputGUI.php';
+declare(strict_types=1);
 
-/**
- * For the purpose of streamlining the grading and learning-process status definition
- * outside of tests, SCORM courses e.t.c. the IndividualAssessment is used.
- * It caries a LPStatus, which is set Individually.
- *
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
- */
-class ilIndividualAssessmentMemberGUI
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
+use ILIAS\FileUpload\Handler\BasicFileInfoResult;
+use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\FileInfoResult;
+use ILIAS\FileUpload\Handler\HandlerResult;
+use GuzzleHttp\Psr7\ServerRequest;
+use ILIAS\UI\Component\Input;
+use ILIAS\UI\Component\MessageBox;
+use ILIAS\UI\Component\Button;
+use ILIAS\UI\Renderer;
+use ILIAS\Data;
+use ILIAS\Refinery;
+
+class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 {
-    protected $notificator;
-
-    public function __construct($members_gui, $a_parent_gui, $a_ref_id)
-    {
-        $this->notificator = new ilIndividualAssessmentPrimitiveInternalNotificator();
-        global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->members_gui = $members_gui;
-        $this->parent_gui = $a_parent_gui;
-        $this->object = $a_parent_gui->object;
-        $this->ref_id = $a_ref_id;
-        $this->tpl =  $DIC['tpl'];
-        $this->lng = $DIC['lng'];
-        $this->ctrl->saveParameter($this, 'usr_id');
-        $this->examinee = new ilObjUser($_GET['usr_id']);
-        $this->examiner = $DIC['ilUser'];
-        $this->changer = $DIC['ilUser'];
-        $this->setTabs($DIC['ilTabs']);
-        $this->member = $this->object->membersStorage()
-                                ->loadMember($this->object, $this->examinee);
-        $this->access = $this->object->accessHandler();
-        $this->file_storage = $this->object->getFileStorage();
-    }
-
-    public function executeCommand()
-    {
-        $cmd = $this->ctrl->getCmd();
-        switch ($cmd) {
-            case 'view':
-            case 'edit':
-            case 'save':
-            case 'finalizeConfirmation':
-            case 'finalize':
-            case 'cancelFinalize':
-            case 'amend':
-            case 'saveAmend':
-            case 'downloadAttachment':
-            case 'deliverFile':
-                break;
-            default:
-                $this->parent_gui->handleAccessViolation();
-        }
-        $this->$cmd();
-    }
+    const CMD_VIEW = 'view';
+    const CMD_EDIT = 'edit';
+    const CMD_UPDATE = 'update';
+    const CMD_FINALIZE = 'finalize';
+    const CMD_FINALIZE_CONFIRMATION = 'finalizeConfirmation';
+    const CMD_AMEND = 'amend';
+    const CMD_SAVE_AMEND = "saveAmend";
+    const CMD_DOWNLOAD_FILE = "downloadFile";
 
     /**
-     * View grading informations for user
-     *
-     * @return null
+     * @var ilCtrl
      */
+    protected $ctrl;
+
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var ilGlobalPageTemplate
+     */
+    protected $tpl;
+
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
+
+    /**
+     * @var Input\Factory
+     */
+    protected $input_factory;
+
+    /**
+     * @var MessageBox\Factory
+     */
+    protected $messagebox_factory;
+
+    /**
+     * @var MessageBox\Factory
+     */
+    protected $button_factory;
+
+    /**
+     * @var Refinery\Factory
+     */
+    protected $refinery_factory;
+
+    /**
+     * @var Data\Factory
+     */
+    protected $data_factory;
+
+    /**
+     * @var Renderer
+     */
+    protected $renderer;
+
+    /**
+     * @var ServerRequest
+     */
+    protected $request;
+
+    /**
+     * @var ilObjIndividualAssessment
+     */
+    protected $object;
+
+    /**
+     * @var ilIndividualAssessmentMembersGUI
+     */
+    protected $parent_gui;
+
+    /**
+     * @var ilIndividualAssessmentAccessHandler
+     */
+    protected $iass_access;
+
+    /**
+     * @var ilIndividualAssessmentPrimitiveInternalNotificator
+     */
+    protected $notificator;
+
+    /**
+     * @var ilToolbarGUI
+     */
+    protected $toolbar;
+
+    /**
+     * @var ilErrorHandling
+     */
+    protected $error_object;
+
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalPageTemplate $tpl,
+        ilObjUser $user,
+        Input\Factory $input_factory,
+        MessageBox\Factory $messagebox_factory,
+        Button\Factory $button_factory,
+        Refinery\Factory $refinery_factory,
+        Data\Factory $data_factory,
+        Renderer $renderer,
+        ServerRequest $request,
+        ilIndividualAssessmentPrimitiveInternalNotificator $notificator,
+        ilToolbarGUI $toolbar,
+        ilObjIndividualAssessment $object,
+        ilErrorHandling $error_object
+    ) {
+        parent::__construct();
+
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->user = $user;
+        $this->input_factory = $input_factory;
+        $this->messagebox_factory = $messagebox_factory;
+        $this->button_factory = $button_factory;
+        $this->refinery_factory = $refinery_factory;
+        $this->data_factory = $data_factory;
+        $this->renderer = $renderer;
+        $this->request = $request;
+        $this->notificator = $notificator;
+        $this->toolbar = $toolbar;
+        $this->object = $object;
+        $this->error_object = $error_object;
+    }
+
+    public function executeCommand() : void
+    {
+        $cmd = $this->ctrl->getCmd();
+
+        switch ($cmd) {
+            case self::CMD_VIEW:
+            case self::CMD_UPDATE:
+            case self::CMD_EDIT:
+            case self::CMD_FINALIZE:
+            case self::CMD_FINALIZE_CONFIRMATION:
+            case self::CMD_AMEND:
+            case self::CMD_SAVE_AMEND:
+            case self::CMD_DOWNLOAD_FILE:
+                $this->$cmd();
+                break;
+            case AbstractCtrlAwareUploadHandler::CMD_UPLOAD:
+            case AbstractCtrlAwareUploadHandler::CMD_REMOVE:
+            case AbstractCtrlAwareUploadHandler::CMD_INFO:
+                parent::executeCommand();
+                break;
+            default:
+                throw new LogicException("Unknown command $cmd");
+        }
+    }
+
     protected function view()
     {
         if (!$this->mayBeViewed()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
-        $form = $this->fillForm($this->initGradingForm(false), $this->member);
-        $this->renderForm($form);
+        $form = $this->buildForm('', false);
+        $this->tpl->setContent($this->renderer->render($form));
     }
 
-    /**
-     * Edit grading informations for user
-     *
-     * @param ilPropertyFormGUI | null	$form
-     *
-     * @return null
-     */
-    protected function edit(ilPropertyFormGUI $form = null)
+    protected function edit()
     {
         if (!$this->mayBeEdited()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
-        if ($form === null) {
-            $form = $this->fillForm($this->initGradingForm(), $this->member);
-        }
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
+        $action = $this->ctrl->getFormAction($this, 'update');
+        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
-        $form->addCommandButton('save', $this->lng->txt('save'));
-        $form->addCommandButton('finalizeConfirmation', $this->lng->txt('iass_finalize'));
-        $this->renderForm($form);
+        $this->setToolbar();
+        $form = $this->buildForm($action, true);
+        $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function downloadAttachment()
+    protected function update()
     {
-        if (!$this->mayBeEdited() && !$this->mayBeViewed() && !$this->mayBeAmended()) {
-            $this->parent_gui->handleAccessViolation();
-            return;
-        }
-        $file_storage = $this->object->getFileStorage();
-        $file_storage->setUserId($this->member->id());
-        ilUtil::deliverFile($file_storage->getFilePath(), $this->member->fileName());
-    }
+        $form = $this
+            ->buildForm($this->ctrl->getFormAction($this, self::CMD_UPDATE), true)
+            ->withRequest($this->request)
+        ;
 
-    /**
-     * Save grading informations for user
-     *
-     * @return null
-     */
-    protected function save()
-    {
-        if (!$this->mayBeEdited()) {
-            $this->parent_gui->handleAccessViolation();
-            return;
-        }
-
-        $form = $this->initGradingForm();
-        $item = $form->getItemByPostVar('file');
-        if ($item && $item->checkInput()) {
-            $post = $_POST;
-            $new_file = $this->uploadFile($post["file"]);
-            if ($new_file) {
-                $this->updateFileName($post['file']['name']);
+        /** @var ilIndividualAssessmentUserGrading $grading */
+        $grading = $form->getData();
+        if (!is_null($grading)) {
+            if ($grading->getFile() == '') {
+                $storage = $this->getUserFileStorage();
+                $storage->deleteCurrentFile();
             }
-        }
 
-        $form->setValuesByArray(array('file' => $this->member->fileName()));
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->edit($form);
-            return;
-        }
+            if ($grading->isFinalized()) {
+                $not_finalized_grading = $grading->withFinalized(false);
+                $this->saveMember($not_finalized_grading);
+                $this->finalizeConfirmation();
+                return;
+            }
 
-        $this->saveMember($_POST);
-        if ($this->object->isActiveLP()) {
-            ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+            $this->saveMember($grading);
+
+            if ($this->getObject()->isActiveLP()) {
+                ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
+            }
+
+            ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
+            $this->redirect(self::CMD_EDIT);
         }
-        ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
-        $this->redirect('edit');
     }
 
-    /**
-     * Save grading informations and show confirmation form
-     *
-     * @return null
-     */
-    protected function finalizeConfirmation()
+    protected function amend()
+    {
+        if (!$this->mayBeAmended()) {
+            $this->handleAccessViolation();
+            return;
+        }
+
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
+        $action = $this->ctrl->getFormAction($this, self::CMD_SAVE_AMEND);
+        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
+
+        $this->setToolbar();
+        $form = $this->buildForm($action, true, true);
+        $this->tpl->setContent($this->renderer->render($form));
+    }
+
+    protected function downloadFile()
+    {
+        $path = $this->getUserFileStorage()->getFilePath();
+        $file_name = $this->getMember()->fileName();
+        ilUtil::deliverFile($path, $file_name);
+    }
+
+    protected function saveAmend()
+    {
+        if (!$this->mayBeAmended()) {
+            $this->handleAccessViolation();
+            return;
+        }
+
+        $form = $this
+            ->buildForm($this->ctrl->getFormAction($this, self::CMD_AMEND), true, true)
+            ->withRequest($this->request)
+        ;
+
+        $grading = $form->getData();
+
+        if (!is_null($grading)) {
+            if ($grading->getFile() == '') {
+                $storage = $this->getUserFileStorage();
+                $storage->deleteCurrentFile();
+            }
+
+            $this->saveMember($grading, true, true);
+
+            if ($this->getObject()->isActiveLP()) {
+                ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
+            }
+
+            ilUtil::sendSuccess($this->lng->txt('iass_amend_saved'), true);
+            $this->redirect(self::CMD_AMEND);
+        }
+    }
+
+    protected function buildForm(
+        string $form_action,
+        bool $may_be_edited,
+        bool $amend = false
+    ) : ILIAS\UI\Component\Input\Container\Form\Form {
+        $section = $this->getMember()->getGrading()->toFormInput(
+            $this->input_factory->field(),
+            $this->lng,
+            $this->refinery_factory,
+            $this->getPossibleLPStates(),
+            $may_be_edited,
+            (bool) $this->getObject()->getSettings()->isEventTimePlaceRequired(),
+            $amend,
+            $this
+        );
+
+        $form = $this->input_factory->container()->form()->standard($form_action, [$section]);
+        $form = $form->withAdditionalTransformation(
+            $this->refinery_factory->custom()->transformation(
+                function ($values) use ($amend) {
+                    return array_shift($values);
+                }
+            )
+        );
+        return $form;
+    }
+
+    protected function finalize() : void
     {
         if (!$this->mayBeEdited()) {
-            $this->parent_gui->handleAccessViolation();
+            $this->handleAccessViolation();
             return;
         }
 
-        $new_file = null;
-        $form = $this->initGradingForm();
-        $item = $form->getItemByPostVar('file');
-        if ($item && $item->checkInput()) {
-            $post = $_POST;
-            $new_file = $this->uploadFile($post["file"]);
-            if ($new_file) {
-                $this->updateFileName($post['file']['name']);
-            }
-        }
-
-        $form->setValuesByArray(array('file' => $this->member->fileName()));
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->edit($form);
-            return;
-        }
-
-        $this->saveMember($_POST);
-
-        if (!$this->member->mayBeFinalized()) {
+        $member = $this->getMember();
+        if (!$member->mayBeFinalized()) {
             ilUtil::sendFailure($this->lng->txt('iass_may_not_finalize'), true);
             $this->redirect('edit');
-        }
-
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-        $confirm = new ilConfirmationGUI();
-        $confirm->addHiddenItem('record', $_POST['record']);
-        $confirm->addHiddenItem('internal_note', $_POST['internal_note']);
-        $confirm->addHiddenItem('notify', $_POST['notify']);
-        $confirm->addHiddenItem('learning_progress', $_POST['learning_progress']);
-        $confirm->addHiddenItem('place', $_POST['place']);
-        $confirm->addHiddenItem('event_time', $_POST['event_time']);
-        $confirm->setHeaderText($this->lng->txt('iass_finalize_user_qst'));
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setConfirm($this->lng->txt('iass_finalize'), 'finalize');
-        $confirm->setCancel($this->lng->txt('cancel'), 'save');
-        $this->tpl->setContent($confirm->getHTML());
-    }
-
-    /**
-     * Finalize the grading
-     *
-     * @return null
-     */
-    protected function finalize()
-    {
-        if (!$this->mayBeEdited()) {
-            $this->parent_gui->handleAccessViolation();
             return;
         }
 
-        if (!$this->member->mayBeFinalized()) {
-            ilUtil::sendFailure($this->lng->txt('iass_may_not_finalize'), true);
+        try {
+            $grading = $member->getGrading()->withFinalized(true);
+            $member = $member->withGrading($grading);
+            $this->getObject()->membersStorage()->updateMember($member);
+        } catch (ilIndividualAssessmentException $e) {
+            ilUtil::sendFailure($e->getMessage(), true);
             $this->redirect('edit');
             return;
         }
 
-        $this->member = $this->member->withFinalized();
-        $this->object->membersStorage()->updateMember($this->member);
         if ($this->object->isActiveLP()) {
-            ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+            ilIndividualAssessmentLPInterface::updateLPStatusOfMember($member);
         }
-        $this->member->maybeSendNotification($this->notificator);
+
+        try {
+            $member->maybeSendNotification($this->notificator);
+        } catch (ilIndividualAssessmentException $e) {
+            ilUtil::sendFailure($e->getMessage(), true);
+            $this->redirect('edit');
+            return;
+        }
 
         ilUtil::sendSuccess($this->lng->txt('iass_membership_finalized'), true);
         $this->redirect('view');
     }
 
-    /**
-     * Cancel finalizing and get back to edit form
-     *
-     * @return null
-     */
-    protected function cancelFinalize()
+    protected function finalizeConfirmation()
     {
-        $this->edit();
-    }
-
-    /**
-     * Show grading form to amend the result
-     *
-     * @param ilPropertyFormGUI | null	$form
-     *
-     * @return null
-     */
-    protected function amend($form = null)
-    {
-        if (!$this->mayBeAmended()) {
-            $this->parent_gui->handleAccessViolation();
+        if (!$this->mayBeEdited()) {
+            $this->handleAccessViolation();
             return;
         }
 
-        if ($form === null) {
-            $form = $this->fillForm($this->initGradingForm(true, true), $this->member);
-        }
+        $message = $this->lng->txt('iass_finalize_user_qst');
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
+        $finalize = $this->ctrl->getFormActionByClass(self::class, self::CMD_FINALIZE);
+        $cancel = $this->ctrl->getFormActionByClass(self::class, self::CMD_EDIT);
+        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
-        $form->addCommandButton('saveAmend', $this->lng->txt('iass_save_amend'));
-        $this->renderForm($form, $this->getFileLinkHTML(true));
+        $buttons = [
+            $this->button_factory->standard($this->lng->txt('iass_confirm_finalize'), $finalize),
+            $this->button_factory->standard($this->lng->txt('iass_cancel'), $cancel)
+        ];
+
+        $message_box = $this->messagebox_factory->confirmation($message)->withButtons($buttons);
+
+        $this->tpl->setContent($this->renderer->render($message_box));
     }
 
-    /**
-     * Save changes of grading result
-     *
-     * @return null
-     */
-    protected function saveAmend()
-    {
-        if (!$this->mayBeAmended()) {
-            $this->parent_gui->handleAccessViolation();
-            return;
-        }
-        $new_file = null;
-        $form = $this->initGradingForm(true, true);
-        $item = $form->getItemByPostVar('file');
-        if ($item && $item->checkInput()) {
-            $post = $_POST;
-            $new_file = $this->uploadFile($post["file"]);
-            if ($new_file) {
-                $this->updateFileName($post['file']['name']);
-            }
-        }
-        $form->setValuesByArray(array('file' => $this->member->fileName()));
-        if (!$form->checkInput()) {
-            $form->setValuesByPost();
-            $this->amend($form);
-            return;
+    protected function saveMember(
+        ilIndividualAssessmentUserGrading $grading,
+        bool $keep_examiner = false,
+        bool $amend = false
+    ) : void {
+        $member = $this->getMember()
+            ->withGrading($grading)
+        ;
+
+        if ($amend) {
+            $member = $member->withChangerId($this->user->getId());
         }
 
-        $this->saveMember($_POST, true, true);
-
-        if ($this->object->isActiveLP()) {
-            ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->member);
+        if (!$keep_examiner) {
+            $member = $member->withExaminerId($this->user->getId());
         }
-
-        ilUtil::sendSuccess($this->lng->txt('iass_amend_saved'), true);
-        $this->redirect("amend");
+        $this->getObject()->membersStorage()->updateMember($member);
     }
 
-    /**
-     * Inint form for gradings
-     *
-     * @param bool	$may_be_edite
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function initGradingForm($may_be_edited = true, $amend = false)
+    protected function getPossibleLPStates() : array
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle($this->lng->txt('iass_edit_record'));
+        return [
+            ilIndividualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('iass_status_pending'),
+            ilIndividualAssessmentMembers::LP_COMPLETED => $this->lng->txt('iass_status_completed'),
+            ilIndividualAssessmentMembers::LP_FAILED => $this->lng->txt('iass_status_failed')
+        ];
+    }
 
-        $examinee_name = $this->examinee->getLastname() . ', ' . $this->examinee->getFirstname();
+    protected function getUploadResult() : HandlerResult
+    {
+        $this->upload->process();
+        $array = $this->upload->getResults();
+        $result = end($array);
 
-        $usr_name = new ilNonEditableValueGUI($this->lng->txt('name'), 'name');
-        $form->addItem($usr_name);
-        // record
-        $ti = new ilTextAreaInputGUI($this->lng->txt('iass_record'), 'record');
-        $ti->setInfo($this->lng->txt('iass_record_info'));
-        $ti->setCols(40);
-        $ti->setRows(5);
-        $ti->setDisabled(!$may_be_edited);
-        $form->addItem($ti);
-
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt('iass_internal_note'), 'internal_note');
-        $ta->setInfo($this->lng->txt('iass_internal_note_info'));
-        $ta->setCols(40);
-        $ta->setRows(5);
-        $ta->setDisabled(!$may_be_edited);
-        $form->addItem($ta);
-
-        if ($this->member->finalized() && !$amend) {
-            $link = $this->getFileLinkHTML(true);
-            if ($link !== "") {
-                $filelink = new ilNonEditableValueGUI($this->lng->txt('iass_upload_file'), '', true);
-                $filelink->setValue($link);
-                $form->addItem($filelink);
-            }
+        if ($result instanceof UploadResult && $result->isOK()) {
+            $identifier = $this->uploadFile($result);
+            $status = HandlerResult::STATUS_OK;
+            $message = 'Upload ok';
         } else {
-            $title = $this->lng->txt('iass_upload_file');
-            $link = $this->getFileLinkHTML(true);
-            if ($link !== "") {
-                $filelink = new ilNonEditableValueGUI($title, '', true);
-                $filelink->setValue($link);
-                $form->addItem($filelink);
-                $title = "";
-            }
-            $file = new ilFileInputGUI($title, 'file');
-            $file->setRequired($this->object->getSettings()->fileRequired() && !$this->fileUploaded());
-            $file->setDisabled(!$may_be_edited);
-            $file->setAllowDeletion(false);
-            $form->addItem($file);
+            $status = HandlerResult::STATUS_FAILED;
+            $identifier = '';
+            $message = $result->getStatus()->getMessage();
         }
 
-
-        $file_visible_to_examinee = new ilCheckboxInputGUI($this->lng->txt('iass_file_visible_examinee'), 'file_visible_examinee');
-        $file_visible_to_examinee->setDisabled(!$may_be_edited);
-        $form->addItem($file_visible_to_examinee);
-
-
-        $learning_progress = new ilSelectInputGUI($this->lng->txt('grading'), 'learning_progress');
-        $learning_progress->setOptions(
-            array(ilIndividualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('iass_status_pending')
-                , ilIndividualAssessmentMembers::LP_COMPLETED => $this->lng->txt('iass_status_completed')
-                , ilIndividualAssessmentMembers::LP_FAILED => $this->lng->txt('iass_status_failed'))
-        );
-        $learning_progress->setDisabled(!$may_be_edited);
-        $form->addItem($learning_progress);
-
-        $settings = $this->object->getSettings();
-        $txt = new ilTextInputGUI($this->lng->txt('iass_place'), 'place');
-        $txt->setRequired($settings->eventTimePlaceRequired());
-        $txt->setDisabled(!$may_be_edited);
-        $form->addItem($txt);
-
-        $date = new ilDateTimeInputGUI($this->lng->txt('iass_event_time'), 'event_time');
-        $date->setShowTime(false);
-        $date->setRequired($settings->eventTimePlaceRequired());
-        $date->setDisabled(!$may_be_edited);
-        $form->addItem($date);
-
-        // notify examinee
-        $notify = new ilCheckboxInputGUI($this->lng->txt('iass_notify'), 'notify');
-        $notify->setInfo($this->lng->txt('iass_notify_explanation'));
-        $notify->setDisabled(!$may_be_edited);
-        $form->addItem($notify);
-
-        return $form;
+        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    protected function fileUploaded()
+    protected function getRemoveResult(string $identifier) : HandlerResult
     {
-        return $this->member->fileName() && $this->member->fileName() != "";
-    }
+        $status = HandlerResult::STATUS_FAILED;
+        $message = $this->lng->txt('iass_file_deleted');
 
-    /**
-     * Fill form with current grading informations
-     *
-     * @param ilPropertyFormGUI		$a_form
-     * @param ilIndividualAssessmentMember	$member
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function fillForm(ilPropertyFormGUI $a_form, ilIndividualAssessmentMember $member)
-    {
-        $a_form->setValuesByArray(array(
-              'name' => $member->name()
-            , 'record' => $member->record()
-            , 'internal_note' => $member->internalNote()
-            , 'place' => $member->place()
-            , 'event_time' => $member->eventTime()
-            , 'notify' => $member->notify()
-            , 'learning_progress' => (int) $member->LPStatus()
-            , 'file_visible_examinee' => (int) $member->viewFile()
-            , 'file_name' => $this->getFileLinkHTML()
-            ));
-        return $a_form;
-    }
-
-    /**
-     * Render grading form into template
-     *
-     * @param ilPropertyFormGUI		$form
-     */
-    protected function getFileLinkHTML($amend = false)
-    {
-        $html = '';
-        if ($this->member->fileName() && $this->member->fileName() != "") {
-            $tpl = new ilTemplate("tpl.iass_user_file_download.html", true, true, "Modules/IndividualAssessment");
-            if (!$this->member->finalized() || $amend) {
-                $tpl->setVariable("FILE_NAME", $this->member->fileName());
-            }
-            $tpl->setVariable("HREF", $this->ctrl->getLinkTarget($this, "downloadAttachment"));
-            $html .= $tpl->get();
+        if ($this->getFileName() == $identifier) {
+            $this->deleteFile();
+            $member = $this->getMember();
+            $grading = $member->getGrading()->withFile(null);
+            $member = $member->withGrading($grading);
+            $this->getObject()->membersStorage()->updateMember($member);
+            $status = HandlerResult::STATUS_OK;
+            $message = 'File Deleted';
         }
-        return $html;
+
+        return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
     /**
-     * Render the form and put it into template
-     *
-     * @param ilPropertyFormGUI		$form
+     * @inheritDoc
      */
-    protected function renderForm(ilPropertyFormGUI $form)
+    protected function getInfoResult(string $identifier) : FileInfoResult
     {
-        $this->tpl->setContent($form->getHTML());
-    }
+        $filename = $this->getFileName();
+        if ($filename != $identifier) {
+            throw new LogicException("Wrong filename $identifier");
+        }
 
-    /**
-     * Set tabs
-     *
-     * @return null
-     */
-    protected function setTabs(ilTabsGUI $tabs)
-    {
-        $tabs->clearTargets();
-        $tabs->setBackTarget(
-            $this->lng->txt('back'),
-            $this->getBackLink()
+        $file_size = filesize($this->getFilePath());
+        return new BasicFileInfoResult(
+            $this->getFileIdentifierParameterName(),
+            $identifier,
+            $filename,
+            $file_size,
+            pathinfo($filename, PATHINFO_EXTENSION)
         );
     }
 
     /**
-     * Get link for backlink
-     *
-     * @return string
+     * @inheritDoc
      */
-    protected function getBackLink()
+    public function getInfoForExistingFiles(array $file_ids) : array
     {
-        return $this->ctrl->getLinkTargetByClass(
-            array(get_class($this->parent_gui)
-                    ,get_class($this->members_gui)),
-            'view'
-        );
+        $name = $this->getFileName();
+
+        if (is_null($name)) {
+            return [];
+        }
+
+        if (!in_array($name, $file_ids)) {
+            throw new LogicException("Wrong filename " . $this->getFileName());
+        }
+
+        return [
+            new BasicFileInfoResult(
+                $this->getFileIdentifierParameterName(),
+                "identifier",
+                $name,
+                64,
+                ''
+            )
+        ];
     }
 
     /**
-     * Redirect to this with command
-     *
-     * @param string	$cmd
-     *
-     * @return null
+     * @inheritDoc
      */
-    protected function redirect($cmd)
+    public function getFileIdentifierParameterName() : string
     {
+        return 'iass';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUploadURL() : string
+    {
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_UPLOAD);
+        $this->ctrl->setParameter($this, 'usr_id', null);
+
+        return $link;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getExistingFileInfoURL() : string
+    {
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_INFO);
+        $this->ctrl->setParameter($this, 'usr_id', null);
+
+        return $link;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFileRemovalURL() : string
+    {
+        $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), $this->getFileName());
+        $link = $this->ctrl->getLinkTarget($this, self::CMD_REMOVE);
+        $this->ctrl->setParameter($this, 'usr_id', null);
+        $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), null);
+
+        return $link;
+    }
+
+    protected function uploadFile(UploadResult $result) : string
+    {
+        $storage = $this->getUserFileStorage();
+        $storage->create();
+        $storage->deleteCurrentFile();
+        $storage->uploadFile($result);
+
+        return $result->getName();
+    }
+
+    protected function deleteFile()
+    {
+        $storage = $this->getUserFileStorage();
+        $storage->deleteCurrentFile();
+    }
+
+    protected function getFileName() : ?string
+    {
+        $path = $this->getFilePath();
+        if (is_null($path)) {
+            return null;
+        }
+
+        return end(explode('/', $path));
+    }
+
+    protected function getFilePath() : ?string
+    {
+        $storage = $this->getUserFileStorage();
+        if ($storage->isEmpty()) {
+            return null;
+        }
+
+        return $storage->getFilePath();
+    }
+
+    protected function redirect(string $cmd) : void
+    {
+        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
         $this->ctrl->redirect($this, $cmd);
     }
 
-    /**
-     * Grading may be edited by current user
-     *
-     * @return bool
-     */
-    protected function mayBeEdited()
+    public function setObject(ilObjIndividualAssessment $object) : void
     {
-        return $this->access->isSystemAdmin()
-            || (!$this->isFinalized() && $this->userMayGrade());
+        $this->object = $object;
     }
 
-    /**
-     * Content of grading may be viewes by current user
-     *
-     * @return bool
-     */
-    protected function mayBeViewed()
+    protected function getObject() : ilObjIndividualAssessment
     {
-        return $this->access->isSystemAdmin()
-            || ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView()));
+        return $this->object;
     }
 
-    /**
-     * Grading may be edited by current user after finalization
-     *
-     * @return bool
-     */
-    protected function mayBeAmended()
+    public function setParentGUI(ilIndividualAssessmentMembersGUI $parent_gui) : void
     {
-        return $this->access->isSystemAdmin()
-            || ($this->isFinalized() && $this->userMayAmend());
+        $this->parent_gui = $parent_gui;
     }
 
-    /**
-     * Current user has permission to edit learning progess
-     *
-     * @return bool
-     */
-    protected function userMayGrade()
+    public function getParentGUI() : ilIndividualAssessmentMembersGUI
     {
-        return $this->access->isSystemAdmin()
-            || (!$this->targetWasEditedByOtherUser($this->member) && $this->access->mayGradeUser());
+        return $this->parent_gui;
     }
 
-    /**
-     * Current user has permission to read learning progress
-     *
-     * @return bool
-     */
-    protected function userMayView()
+    protected function getAccessHandler() : ilIndividualAssessmentAccessHandler
     {
-        return $this->access->isSystemAdmin()
-            || $this->access->mayViewUser();
-    }
-
-    /**
-     * Current user has permission to amend grading
-     *
-     * @return bool
-     */
-    protected function userMayAmend()
-    {
-        return $this->access->isSystemAdmin()
-            || $this->access->mayAmendGradeUser();
-    }
-
-    /**
-     * Grading was edited by an other user
-     *
-     * @return bool
-     */
-    protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member)
-    {
-        return (int) $member->examinerId() !== (int) $this->examiner->getId()
-                && 0 !== (int) $member->examinerId();
-    }
-
-    /**
-     * Is grading finalized
-     *
-     * @return bool
-     */
-    protected function isFinalized()
-    {
-        return $this->member->finalized();
-    }
-
-    /**
-     * Save grading informations
-     *
-     * @param string[]	$post
-     * @param bool	$keep_examiner
-     *
-     * @return null
-     */
-    protected function saveMember(array $post, $keep_examiner = false, $amend = false)
-    {
-        $this->member = $this->updateDataInMemberByArray($this->member, $post, $keep_examiner, $amend);
-        $this->object->membersStorage()->updateMember($this->member);
-    }
-
-    /**
-     * Updates member object with new grading informations
-     *
-     * @param ilIndividualAssessmentMember	$member
-     * @param string[]	$data
-     * @param bool	$keep_examiner
-     *
-     * @return ilIndividualAssessmentMember
-     */
-    protected function updateDataInMemberByArray(ilIndividualAssessmentMember $member, $data, $keep_examiner = false, $amend = false)
-    {
-        $member = $member->withRecord($data['record'])
-                    ->withInternalNote($data['internal_note'])
-                    ->withPlace($data['place'])
-                    ->withLPStatus($data['learning_progress'])
-                    ->withViewFile((bool) $data['file_visible_examinee']);
-        if ($data['event_time']) {
-            $member = $member->withEventTime($this->createDate($data['event_time']));
+        if (is_null($this->iass_access)) {
+            $this->iass_access = $this->getObject()->accessHandler();
         }
-        if ($amend) {
-            $member = $member->withChangerId($this->changer->getId());
-        }
-        if (!$keep_examiner) {
-            $member = $member->withExaminerId($this->examiner->getId());
-        }
-
-        if ($data['notify']  == 1) {
-            $member = $member->withNotify(true);
-        } else {
-            $member = $member->withNotify(false);
-        }
-        if ($new_file) {
-            $member = $member->withFileName($data['file']['name']);
-        }
-        return $member;
+        return $this->iass_access;
     }
 
-    private function createDate($datetime)
+    protected function getExaminee()
     {
-        return new ilDate($datetime, IL_CAL_DATE);
+        return new ilObjUser($_GET['usr_id']);
     }
 
-    protected function uploadFile($file)
+    protected function getUserFileStorage() : ilIndividualAssessmentFileStorage
     {
-        $new_file = false;
-        $this->file_storage->setUserId($this->member->id());
-        $this->file_storage->create();
-        if (!$file["name"] == "") {
-            $this->file_storage->deleteCurrentFile();
-            $this->file_storage->uploadFile($file);
-            $new_file = true;
+        $storage = $this->getObject()->getFileStorage();
+        $storage->setUserId($this->getExaminee()->getId());
+        return $storage;
+    }
+
+    protected function getMember() : ilIndividualAssessmentMember
+    {
+        return $this->getObject()->membersStorage()->loadMember(
+            $this->getObject(),
+            $this->getExaminee()
+        );
+    }
+
+    protected function setToolbar()
+    {
+        $member = $this->getMember();
+        if ($member->fileName() != '') {
+            $btn = ilLinkButton::getInstance();
+            $btn->setCaption('download_assessment_paper');
+            $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
+            $btn->setUrl($this->ctrl->getLinkTarget($this, self::CMD_DOWNLOAD_FILE, false, true));
+            $this->ctrl->setParameter($this, 'usr_id', null);
+            $this->toolbar->addButtonInstance($btn);
         }
-        return $new_file;
     }
 
-    protected function updateFileName($file_name)
+    protected function mayBeEdited() : bool
     {
-        $this->member = $this->member->withFileName($file_name);
-        $this->object->membersStorage()->updateMember($this->member);
+        return $this->getAccessHandler()->isSystemAdmin() || (!$this->isFinalized() && $this->userMayGrade());
+    }
+
+    protected function mayBeViewed() : bool
+    {
+        return
+            $this->getAccessHandler()->isSystemAdmin() ||
+            ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView()))
+            ;
+    }
+
+    protected function mayBeAmended() : bool
+    {
+        return $this->getAccessHandler()->isSystemAdmin() || ($this->isFinalized() && $this->userMayAmend());
+    }
+
+    protected function userMayGrade() : bool
+    {
+        return
+            $this->getAccessHandler()->isSystemAdmin() ||
+            (!$this->targetWasEditedByOtherUser($this->getMember()) && $this->getAccessHandler()->mayGradeUser())
+            ;
+    }
+
+    protected function userMayView() : bool
+    {
+        return $this->getAccessHandler()->isSystemAdmin() || $this->getAccessHandler()->mayViewUser();
+    }
+
+    protected function userMayAmend() : bool
+    {
+        return $this->getAccessHandler()->isSystemAdmin() || $this->getAccessHandler()->mayAmendGradeUser();
+    }
+
+    protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member) : bool
+    {
+        return
+            (int) $member->examinerId() !== (int) $this->user->getId() &&
+            0 !== (int) $member->examinerId()
+            ;
+    }
+
+    protected function isFinalized() : bool
+    {
+        return $this->getMember()->finalized();
+    }
+
+    public function handleAccessViolation()
+    {
+        $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 }

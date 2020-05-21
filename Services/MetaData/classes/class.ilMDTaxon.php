@@ -119,14 +119,14 @@ class ilMDTaxon extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'taxon'	=> array('text',$this->getTaxon()),
+                     'taxon' => array('text',$this->getTaxon()),
                      'taxon_language' => array('text',$this->getTaxonLanguageCode()),
-                     'taxon_id'	=> array('text',$this->getTaxonId()));
+                     'taxon_id' => array('text',$this->getTaxonId()));
     }
 
     public function read()
@@ -168,7 +168,7 @@ class ilMDTaxon extends ilMDBase
             array('Language' => $this->getTaxonLanguageCode()
                                           ? $this->getTaxonLanguageCode()
                                           : 'en',
-                                          'Id'		 => $this->getTaxonId() ?
+                                          'Id' => $this->getTaxonId() ?
                                             $this->getTaxonId() : ("ID" . rand())),
             $this->getTaxon()
         );

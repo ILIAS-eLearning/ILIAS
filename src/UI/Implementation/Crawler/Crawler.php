@@ -20,5 +20,5 @@ interface Crawler
      * @param	int $depth
      * @return	Entry\ComponentEntries
      */
-    public function crawlFactory($factoryPath, Entry\ComponentEntry $parent = null, $depth=0);
+    public function crawlFactory($factoryPath, Entry\ComponentEntry $parent = null, $depth = 0);
 }

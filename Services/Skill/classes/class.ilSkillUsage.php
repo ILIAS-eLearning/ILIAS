@@ -147,11 +147,11 @@ class ilSkillUsage implements ilSkillUsageInfo
         $w = "WHERE";
         $q = "SELECT " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field . " FROM " . $a_table . " ";
         foreach ($a_cskill_ids as $sk) {
-            $q.= $w . " (" . $a_skill_field . " = " . $ilDB->quote($sk["skill_id"], "integer") .
+            $q .= $w . " (" . $a_skill_field . " = " . $ilDB->quote($sk["skill_id"], "integer") .
             " AND " . $a_tref_field . " = " . $ilDB->quote($sk["tref_id"], "integer") . ") ";
             $w = "OR";
         }
-        $q.= " GROUP BY " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field;
+        $q .= " GROUP BY " . $a_key_field . ", " . $a_skill_field . ", " . $a_tref_field;
 
         $set = $ilDB->query($q);
         while ($rec = $ilDB->fetchAssoc($set)) {

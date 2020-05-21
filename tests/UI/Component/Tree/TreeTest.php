@@ -61,7 +61,7 @@ class TreeTest extends ILIAS_UI_TestBase
      */
     public function testGetRecursion($tree)
     {
-        $env = ['key1'=>'val1', 'key2'=>2];
+        $env = ['key1' => 'val1', 'key2' => 2];
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Tree\\TreeRecursion",
             $tree->getRecursion()
@@ -73,7 +73,7 @@ class TreeTest extends ILIAS_UI_TestBase
      */
     public function testWithEnvironment($tree)
     {
-        $env = ['key1'=>'val1', 'key2'=>2];
+        $env = ['key1' => 'val1', 'key2' => 2];
         $this->assertEquals(
             $env,
             $tree->withEnvironment($env)->getEnvironment()

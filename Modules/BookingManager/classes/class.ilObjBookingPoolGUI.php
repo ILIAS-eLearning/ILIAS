@@ -179,7 +179,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 $this->checkPermission('read');
                 $ilTabs->clearTargets();
                 $profile = new ilPublicUserProfileGUI($this->user_profile_id);
-                $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
+                $profile->setBackUrl($this->ctrl->getLinkTargetByClass("ilbookingreservationsgui", ''));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $tpl->setContent($ret);
                 break;

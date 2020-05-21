@@ -35,7 +35,7 @@
 @il-primary-container-bg: white;
 @il-secondary-container-bg: #f9f9f9;
 
-@il-highlight-bg: #ffffd0;
+@il-highlight-bg: #dfe3e6;
 /* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
@@ -125,11 +125,7 @@
 @modal-backdrop-bg: black;
 
 @progress-bar-color: white;
-
 @list-group-bg: white;
-
-@panel-bg: white;
-@panel-primary-text: white;
 
 @carousel-control-color: white;
 @carousel-indicator-active-bg: white;
@@ -171,6 +167,15 @@
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 
+//** Unit-less `line-height` for use in components like buttons.
+@line-height-base:        1.428571429; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
+//** For larger font sizes, such as titles in panels.
+@line-height-large:         1.33;
+//** For smaller font sizes
+@line-height-small:         1.5;
+
 @padding-base-vertical:     3px;
 @padding-base-horizontal:   8px;
 
@@ -182,9 +187,6 @@
 
 @padding-xs-vertical:       1px;
 @padding-xs-horizontal:     5px;
-
-@line-height-large:         1.33;
-@line-height-small:         1.5;
 
 @border-radius-base:        0px;
 @border-radius-large:       0px;
@@ -324,6 +326,7 @@
 //** margin of tags
 @btn-tag-margin: 2px 4px 2px 0;
 
+@il-tab-focus-outline: 1px dotted @il-highlight-bg;
 
 //== Toggle Buttons
 //
@@ -347,6 +350,24 @@
 @il-enabled-btn-toggle-switch-position-left: 53%;
 @il-disabled-btn-toggle-switch-color: #808080;
 @il-disabled-btn-toggle-switch-position-left: -6%;
+
+//** on
+@il-btn-toggle-bg-color-on: @brand-secondary;
+@il-btn-toggle-border-color-on: #bfbfbf;
+@il-btn-toggle-switch-bg-color-on: @il-primary-container-bg;
+@il-btn-toggle-switch-border-color-on: #bfbfbf;
+
+//** off
+@il-btn-toggle-bg-color-off: @il-secondary-container-bg;
+@il-btn-toggle-border-color-off: #bfbfbf;
+@il-btn-toggle-switch-bg-color-off: @il-primary-container-bg;
+@il-btn-toggle-switch-border-color-off: #bfbfbf;
+
+//** unavailable
+@il-btn-toggle-bg-color-unavailable: #cdcdcd;
+@il-btn-toggle-border-color-unavailable: #bfbfbf;
+@il-btn-toggle-switch-bg-color-unavailable: lighten(@mid-gray, 30%);
+@il-btn-toggle-switch-border-color-unavailable: #bfbfbf;
 
 
 //== Breadcrumbs
@@ -410,7 +431,7 @@
 //** Textcolor used in the labels (identifiers) of the input fields of a form
 @il-standard-form-label-color:   darken(@il-standard-form-color, 20%);
 //** Background color used in the
-@il-standard-form-bg:    #fdfdfd;
+@il-standard-form-bg: @il-primary-container-bg;
 //** Textsize used in the forms body
 @il-standard-form-font-size: @font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
@@ -486,7 +507,7 @@
 @panel-bg:                    @il-secondary-container-bg;
 @panel-body-padding:          15px;
 @panel-heading-color:		  #707070;
-@panel-heading-padding:       10px 15px;
+@panel-heading-padding:       1.5*@padding-large-vertical @padding-large-horizontal;
 @panel-footer-padding:        @panel-heading-padding;
 @panel-border-radius:         @border-radius-base;
 
@@ -696,16 +717,8 @@
 @il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
-
-
-//== Listing Panel
-//
-//##
-@il-panel-listing-std-container-h3-text-transform: none;
-@il-panel-listing-std-container-h4-text-transform: none;
-@il-panel-listing-std-container-h3-color: @panel-heading-color;
-@il-panel-listing-std-container-h4-color: @panel-heading-color;
-@il-panel-listing-std-item-container-margin: 0 0 1px 0;
+@il-item-border-bottom: 2px solid @body-bg;
+@il-item-border-bottom-small: 1px solid @body-bg;
 
 
 //== Charts
@@ -790,7 +803,33 @@
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
 @il-standard-disabled-icon-filter: grayscale(100%);
 //** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
-@il-standard-outlined-disabled-icon-filter: brightness(0.3);
+@il-standard-outlined-disabled-icon-filter: contrast(0%);
+
+//== Avatar
+//
+//** Size for avatars: used in the header. e.g. standard (and recommended) is @icon-size-large
+@avatar-size: @icon-size-large;
+@avatar-size-small: @avatar-size / 2;
+@avatar-size-large: @avatar-size * 2;
+//** border-radius for image avatar
+@avatar-border-radius: 50%;
+//** border size for letter avatars
+@avatar-border-size: 2px;
+@avatar-small-border-size: 0px;
+//** border style for letter avatars
+@avatar-border-style: solid;
+//** border color for picture avatars
+@avatar-picture-border-color: #dddddd;
+//** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
+@avatar-letter-border-color-contrast-lighten: 40%;
+@avatar-letter-border-color-contrast-darken: 20%;
+//** change the abbreviations font weight
+@avatar-letter-abbreviation-font-weight: lighter;
+//** change the abbreviations font transform
+@avatar-letter-abbreviation-font-transform: inherit;
+//** all variants of letter avatar background colors (MUST be 26)
+@avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
+
 
 //== View Control
 //
@@ -804,6 +843,8 @@
 //== Card
 //
 //##
+@il-card-border: none;
+@il-card-background: @il-secondary-container-bg;
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
@@ -814,10 +855,11 @@
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
 
+
 //== Workflow
 //
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
-@workflow-icon-size: 20px;
+@workflow-icon-size: 21px;
 @workflow-icon-font-color: white;
 @workflow-available-text-color: #333;
 @workflow-unavailable-text-color: #ddd;
@@ -886,9 +928,9 @@
 
 //** slates
 @il-slate-bulky-bg-color: #f2f2f2;
-@il-slate-bulky-level2-bg-color: #e3e3e3;
+@il-slate-bulky-level2-bg-color: #f9f9f9;
 @il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
-@il-slate-content-padding: 10px 20px;
+@il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
 @il-slate-bulky-padding: 10px 40px 15px 10px;
 @il-slate-bulky-link-padding: 10px 10px 15px 10px;
@@ -922,7 +964,7 @@
 //## Basic adjustments for the tree
 @il-tree-node-indentation: @font-size-base;
 //** Vertical Space between nodes
-@il-tree-node-vertical-spacing: 0px;
+@il-tree-node-vertical-spacing: 3px;
 
 //== Characteristic Value Listing
 //** item rows layout

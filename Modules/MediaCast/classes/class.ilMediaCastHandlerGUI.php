@@ -49,7 +49,7 @@ class ilMediaCastHandlerGUI
         $ilCtrl = $DIC->ctrl();
 
         // initialisation stuff
-        $this->ctrl =  $ilCtrl;
+        $this->ctrl = $ilCtrl;
     }
     
     /**

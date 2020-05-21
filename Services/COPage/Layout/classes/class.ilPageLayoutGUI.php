@@ -109,7 +109,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
      *
      * @param string $a_mode edit mode
      */
-    public function properties($a_mode="save", $a_form = null)
+    public function properties($a_mode = "save", $a_form = null)
     {
         $ilTabs = $this->tabs;
     
@@ -237,7 +237,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
      * Get template selection radio
      *
      * @param string $module
-     * @return \ILIAS\UI\Component\Input\Field\Radio
+     * @return ?\ILIAS\UI\Component\Input\Field\Radio
      */
     public static function getTemplateSelection(string $module)
     {
@@ -246,7 +246,9 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
         $f = $ui->factory();
         $lng = $DIC->language();
         $arr_templates = ilPageLayout::activeLayouts(false, $module);
-
+        if (count($arr_templates) == 0) {
+            return null;
+        }
         $radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
         $first = 0;
         /** @var ilPageLayout $templ */

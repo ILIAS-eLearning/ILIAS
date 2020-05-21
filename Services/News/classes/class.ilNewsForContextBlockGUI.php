@@ -320,7 +320,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $obj_def = $DIC["objDefinition"];
             $obj_id = ilObject::_lookupObjectId($ref_id);
             $obj_type = ilObject::_lookupType($ref_id, true);
-            $obj_class= strtolower($obj_def->getClassName($obj_type));
+            $obj_class = strtolower($obj_def->getClassName($obj_type));
             $parent_gui = "ilobj" . $obj_class . "gui";
 
             $ilCtrl->setParameterByClass("ilcontainernewssettingsgui", "ref_id", $ref_id);
@@ -659,23 +659,30 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             }
                         
             // media player
-            if ($item["content_type"] == NEWS_AUDIO &&
-                $item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
-                include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-                include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-                $mob = new ilObjMediaObject($item["mob_id"]);
-                $med = $mob->getMediaItem("Standard");
-                $mpl = new ilMediaPlayerGUI("news_pl_" . $item["mob_id"]);
-                if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                    $mpl->setFile($med->getLocation());
+            $ui_renderer = $this->ui->renderer();
+            $ui_factory = $this->ui->factory();
+            $this->ui->factory();
+            if ($item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
+                $media_path = $this->getMediaPath($item["mob_id"]);
+                $mime = ilObjMediaObject::getMimeType($media_path);
+                if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+                    $title = basename($media_path);
+                    $html = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
+                } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+                    $mp = new ilMediaPlayerGUI();
+                    $mp->setFile($media_path);
+                    $mp->setDisplayHeight(200);
+                    $html = $mp->getMediaPlayerHtml();
                 } else {
-                    $mpl->setFile(ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation());
+                    // download?
+                    $html = "";
                 }
-                $mpl->setDisplayHeight($med->getHeight());
+
+
                 $tpl->setCurrentBlock("player");
                 $tpl->setVariable(
                     "PLAYER",
-                    $mpl->getMp3PlayerHtml()
+                    $html
                 );
                 $tpl->parseCurrentBlock();
             }
@@ -872,6 +879,25 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $content_block->setData($this->getData());
 
         return $content_block->getHTML();
+    }
+
+    /**
+     * @param int $mob_id
+     * @return string
+     */
+    protected function getMediaPath(int $mob_id)
+    {
+        $media_path = "";
+        if ($mob_id > 0) {
+            $mob = new ilObjMediaObject($mob_id);
+            $med = $mob->getMediaItem("Standard");
+            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
+                $media_path = $med->getLocation();
+            } else {
+                $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
+            }
+        }
+        return $media_path;
     }
 
     /**
@@ -1189,7 +1215,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $block_id = $DIC->ctrl()->getContextObjId();
 
-        foreach ($a_values as $key=>$value) {
+        foreach ($a_values as $key => $value) {
             ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
         }
     }
@@ -1461,10 +1487,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // $info["user_read"]
 
         $factory = $this->ui->factory();
-        $item = $factory->item()->standard($factory->button()->shy($info["news_title"], $info["url"]))
+        $item = $factory->item()->standard($factory->link()->standard($info["news_title"], $info["url"]))
             ->withProperties($props);
         if ($info["ref_id"] > 0) {
-            $item = $item->withDescription($info["type_txt"].": ".$info["obj_title"]);
+            $item = $item->withDescription($info["type_txt"] . ": " . $info["obj_title"]);
         }
         return $item;
     }

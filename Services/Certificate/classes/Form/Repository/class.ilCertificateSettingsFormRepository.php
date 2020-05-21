@@ -104,16 +104,16 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     ) {
         global $DIC;
 
-        $this->objectId                     = $objectId;
-        $this->language                     = $language;
-        $this->controller                   = $controller;
-        $this->access                       = $access;
-        $this->toolbar                      = $toolbar;
+        $this->objectId = $objectId;
+        $this->language = $language;
+        $this->controller = $controller;
+        $this->access = $access;
+        $this->toolbar = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
-        $this->certificatePath              = $certificatePath;
-        $this->hasAdditionalElements        = $hasAdditionalElements;
+        $this->certificatePath = $certificatePath;
+        $this->hasAdditionalElements = $hasAdditionalElements;
 
-        $database                           = $DIC->database();
+        $database = $DIC->database();
 
 
         if (null === $logger) {
@@ -209,7 +209,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $formSection->setTitle($this->language->txt("cert_form_sec_layout"));
         $form->addItem($formSection);
 
-        $pageformat  = new ilRadioGroupInputGUI($this->language->txt("certificate_page_format"), "pageformat");
+        $pageformat = new ilRadioGroupInputGUI($this->language->txt("certificate_page_format"), "pageformat");
         $pageformats = $this->pageFormats->fetchPageFormats();
 
         foreach ($pageformats as $format) {

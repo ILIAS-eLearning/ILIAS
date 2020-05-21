@@ -36,8 +36,8 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
         $this->objId = $objId;
 
         $this->webDirectory = $webDirectory;
-        $this->upload       = $uploadService;
-        $this->config       = $config;
+        $this->upload = $uploadService;
+        $this->config = $config;
     }
 
     /**
@@ -182,7 +182,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
      */
     protected function createCustomIconDirectory()
     {
-        $iconDirectory  = $this->getIconDirectory();
+        $iconDirectory = $this->getIconDirectory();
 
         if (!$this->webDirectory->has(dirname($iconDirectory))) {
             $this->webDirectory->createDir(dirname($iconDirectory));

@@ -85,7 +85,7 @@ class ilMStListCompetencesSkillsGUI
         $this->checkAccessOrFail();
 
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
-        $this->table->setTitle($this->dic->language()->txt('mst_list_competences'));
+        $this->dic->ui()->mainTemplate()->setTitle($this->dic->language()->txt('mst_list_competences'));
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 

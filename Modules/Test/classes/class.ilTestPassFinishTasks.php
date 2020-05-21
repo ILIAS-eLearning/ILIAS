@@ -22,8 +22,8 @@ class ilTestPassFinishTasks
     {
         $this->testSession = new ilTestSession();
         $this->testSession->loadFromDb($active_id);
-        $this->obj_id		= $obj_id;
-        $this->active_id	= $active_id;
+        $this->obj_id = $obj_id;
+        $this->active_id = $active_id;
     }
 
     public function performFinishTasks(ilTestProcessLocker $processLocker)

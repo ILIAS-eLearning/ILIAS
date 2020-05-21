@@ -298,7 +298,7 @@ class ilExportGUI
             
             foreach ($_POST["file"] as $i) {
                 if (strpos($i, ':') !== false) {
-                    $iarr     = explode(":", $i);
+                    $iarr = explode(":", $i);
                     $filename = $iarr[1];
                 } else {
                     $filename = $i;

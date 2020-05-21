@@ -138,7 +138,7 @@ class ilTaggingSlateContentGUI
 
         // back button
         $tag_cmd = $ctrl->getLinkTarget($this, "showTagCloud", "", true, false);
-        $back_button = $ui->factory()->button()->shy($lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($tag_cmd) {
+        $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($tag_cmd) {
             return
                 "$(\"#$id\").click(function() { il.Util.ajaxReplaceInner('$tag_cmd', 'il-tag-slate-container'); return false;});";
         });
@@ -165,7 +165,7 @@ class ilTaggingSlateContentGUI
 
                 $title = ilObject::_lookupTitle($obj["obj_id"]);
                 $items[] = $f->item()->standard(
-                    $f->button()->shy($title, ilLink::_getLink($ref_id))
+                    $f->link()->standard($title, ilLink::_getLink($ref_id))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
             }
         }

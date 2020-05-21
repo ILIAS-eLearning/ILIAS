@@ -112,16 +112,16 @@ class ilLDAPRoleGroupMappingSettings
             "AND lss.role_sync_active = 1 ";
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
-            $data['server_id']		= $row->server_id;
-            $data['url']			= $row->url;
-            $data['mapping_id']		= $row->mapping_id;
-            $data['dn']				= $row->dn;
-            $data['member']			= $row->member_attribute;
-            $data['isdn']			= $row->member_isdn;
-            $data['info']			= $row->mapping_info;
-            $data['info_type']		= $row->mapping_info_type;
+            $data['server_id'] = $row->server_id;
+            $data['url'] = $row->url;
+            $data['mapping_id'] = $row->mapping_id;
+            $data['dn'] = $row->dn;
+            $data['member'] = $row->member_attribute;
+            $data['isdn'] = $row->member_isdn;
+            $data['info'] = $row->mapping_info;
+            $data['info_type'] = $row->mapping_info_type;
             // read assigned object
-            $data['object_id'] 		= $rbacreview->getObjectOfRole($row->role);
+            $data['object_id'] = $rbacreview->getObjectOfRole($row->role);
             
             
             $active[$row->role][] = $data;
@@ -309,18 +309,18 @@ class ilLDAPRoleGroupMappingSettings
             
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->mappings[$row->mapping_id]['mapping_id'] 			= $row->mapping_id;
-            $this->mappings[$row->mapping_id]['dn'] 					= $row->dn;
-            $this->mappings[$row->mapping_id]['url']					= $row->url;
-            $this->mappings[$row->mapping_id]['member_attribute'] 		= $row->member_attribute;
-            $this->mappings[$row->mapping_id]['member_isdn'] 			= $row->member_isdn;
-            $this->mappings[$row->mapping_id]['role']					= $row->role;
-            $this->mappings[$row->mapping_id]['info']					= $row->mapping_info;
-            $this->mappings[$row->mapping_id]['info_type']				= $row->mapping_info_type;
+            $this->mappings[$row->mapping_id]['mapping_id'] = $row->mapping_id;
+            $this->mappings[$row->mapping_id]['dn'] = $row->dn;
+            $this->mappings[$row->mapping_id]['url'] = $row->url;
+            $this->mappings[$row->mapping_id]['member_attribute'] = $row->member_attribute;
+            $this->mappings[$row->mapping_id]['member_isdn'] = $row->member_isdn;
+            $this->mappings[$row->mapping_id]['role'] = $row->role;
+            $this->mappings[$row->mapping_id]['info'] = $row->mapping_info;
+            $this->mappings[$row->mapping_id]['info_type'] = $row->mapping_info_type;
             if ($ilObjDataCache->lookupType($row->role) == 'role') {
-                $this->mappings[$row->mapping_id]['role_name']			= $ilObjDataCache->lookupTitle($row->role);
+                $this->mappings[$row->mapping_id]['role_name'] = $ilObjDataCache->lookupTitle($row->role);
             } else {
-                $this->mappings[$row->mapping_id]['role_name']			= $row->role;
+                $this->mappings[$row->mapping_id]['role_name'] = $row->role;
             }
         }
     }

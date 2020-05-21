@@ -349,7 +349,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 }
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
         //echo ":".htmlentities($link_info).":";
         return $link_info;
     }
@@ -598,7 +598,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
         $fields["description"] = $f->input()->field()->textarea($lng->txt("description"));
 
-        $fields["layout_id"] = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        if (!is_null($ts)) {
+            $fields["layout_id"] = $ts;
+        }
 
         // section
         $section1 = $f->input()->field()->section($fields, $lng->txt("cont_insert_pagelayout"));

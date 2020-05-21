@@ -175,7 +175,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
             }
 
             if ($txt != "") {
-                $out.= $this->getMessageHTML($txt, $m);
+                $out .= $this->getMessageHTML($txt, $m);
             }
 
             if ($m == "question") {
@@ -363,7 +363,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
                 $mtpl->setVariable("TEXT", $txt);
                 $mtpl->setVariable("MESSAGE_HEADING", $lng->txt($m . "_message"));
                 $mtpl->parseCurrentBlock();
-                $out.= $mtpl->get();
+                $out .= $mtpl->get();
             }
 
             if ($m == "question") {

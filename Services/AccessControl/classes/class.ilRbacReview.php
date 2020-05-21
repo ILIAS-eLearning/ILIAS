@@ -58,13 +58,13 @@ class ilRbacReview
         $this->log = ilLoggerFactory::getLogger('ac');
 
         // set db & error handler
-        (isset($ilDB)) ? $this->ilDB =&$ilDB : $this->ilDB =&$ilias->db;
+        (isset($ilDB)) ? $this->ilDB = &$ilDB : $this->ilDB = &$ilias->db;
         
         if (!isset($ilErr)) {
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
         } else {
-            $this->ilErr =&$ilErr;
+            $this->ilErr = &$ilErr;
         }
     }
 
@@ -162,7 +162,7 @@ class ilRbacReview
         
         //var_dump($a_endnode_id);exit;
         //$log->write("ilRBACreview::getParentRoleIds(), 0");
-        $pathIds  = $tree->getPathId($a_endnode_id);
+        $pathIds = $tree->getPathId($a_endnode_id);
         
         // add system folder since it may not in the path
         //$pathIds[0] = SYSTEM_FOLDER_ID;
@@ -768,8 +768,8 @@ class ilRbacReview
     public function getGlobalRolesArray()
     {
         foreach ($this->getRolesOfRoleFolder(ROLE_FOLDER_ID, false) as $role_id) {
-            $ga[] = array('obj_id'		=> $role_id,
-                          'role_type'	=> 'global');
+            $ga[] = array('obj_id' => $role_id,
+                          'role_type' => 'global');
         }
         return $ga ? $ga : array();
     }
@@ -1561,11 +1561,11 @@ class ilRbacReview
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $arr[] = array(
-                        "ops_id"	=> $row['ops_id'],
-                        "operation"	=> $row['operation'],
-                        "desc"		=> $row['description'],
-                        "class"		=> $row['class'],
-                        "order"		=> $row['op_order']
+                        "ops_id" => $row['ops_id'],
+                        "operation" => $row['operation'],
+                        "desc" => $row['description'],
+                        "class" => $row['class'],
+                        "order" => $row['op_order']
                         );
         }
         return $arr;
@@ -1582,8 +1582,8 @@ class ilRbacReview
         $arr = array();
 
         foreach ($a_ops_arr as $ops) {
-            $arr[$ops['class']][] = array('ops_id'	=> $ops['ops_id'],
-                                           'name'	=> $ops['operation']
+            $arr[$ops['class']][] = array('ops_id' => $ops['ops_id'],
+                                           'name' => $ops['operation']
                                          );
         }
         return $arr;

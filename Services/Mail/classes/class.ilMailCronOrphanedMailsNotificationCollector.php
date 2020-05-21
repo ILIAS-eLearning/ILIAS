@@ -32,7 +32,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     {
         global $DIC;
 
-        $this->db      = $DIC->database();
+        $this->db = $DIC->database();
         $this->setting = $DIC->settings();
 
         $this->collect();
@@ -44,7 +44,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     public function collect()
     {
         $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned');
-        $mail_threshold       = (int) $this->setting->get('mail_threshold');
+        $mail_threshold = (int) $this->setting->get('mail_threshold');
         
         if ($mail_threshold > $mail_notify_orphaned) {
             $notify_days_before = $mail_threshold - $mail_notify_orphaned;
@@ -52,7 +52,7 @@ class ilMailCronOrphanedMailsNotificationCollector
             $notify_days_before = 1;
         }
 
-        $ts_notify           = strtotime("- " . $notify_days_before . " days");
+        $ts_notify = strtotime("- " . $notify_days_before . " days");
         $ts_for_notification = date('Y-m-d', $ts_notify) . ' 23:59:59';
 
         $res = $this->db->query('SELECT mail_id FROM mail_cron_orphaned');
@@ -62,7 +62,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         }
 
         $types = array('timestamp');
-        $data  = array($ts_for_notification);
+        $data = array($ts_for_notification);
 
         $notification_query = "
 				SELECT 		mail_id, m.user_id, folder_id, send_time, m_subject, mdata.title
@@ -73,14 +73,14 @@ class ilMailCronOrphanedMailsNotificationCollector
         if ((int) $this->setting->get('mail_only_inbox_trash') > 0) {
             $notification_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
             $types = array('timestamp', 'text', 'text');
-            $data  = array($ts_for_notification, 'inbox', 'trash');
+            $data = array($ts_for_notification, 'inbox', 'trash');
         }
 
         $notification_query .= " AND " . $this->db->in('mail_id', array_values($already_notified), true, 'integer')
             . " ORDER BY m.user_id, folder_id, mail_id";
 
         $collection_obj = null;
-        $folder_obj     = null;
+        $folder_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
         while ($row = $this->db->fetchAssoc($res)) {

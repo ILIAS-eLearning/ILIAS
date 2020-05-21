@@ -102,7 +102,7 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "ref_id", (int) $_GET["ref_id"]);
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $a_node["child"]);
-        $ret = ILIAS_HTTP_PATH . '/' . $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "listMedia", "", false, false);
+        $ret = $ilCtrl->getLinkTargetByClass("ilobjmediapoolgui", "listMedia", "", false, false);
         $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $_GET["mepitem_id"]);
         return $ret;
     }

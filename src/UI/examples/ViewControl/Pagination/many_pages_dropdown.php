@@ -8,7 +8,7 @@ function many_pages_dropdown()
     $url = $DIC->http()->request()->getRequestTarget();
     $lng = $DIC['lng'];
 
-    $parameter_name = 'page2';
+    $parameter_name = 'page3';
     $current_page = (int) @$_GET[$parameter_name];
 
     $pagination = $factory->viewControl()->pagination()

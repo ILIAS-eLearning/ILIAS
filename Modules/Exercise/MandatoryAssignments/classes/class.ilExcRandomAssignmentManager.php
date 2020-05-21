@@ -240,8 +240,8 @@ class ilExcRandomAssignmentManager
         }, ilExAssignment::getInstancesByExercise($this->exc_id));
 
         $selected = [];
-        for ($i = 0; $i<$this->getNumberOfMandatoryAssignments(); $i++) {
-            $j = rand(0, count($ass_ids)-1);
+        for ($i = 0; $i < $this->getNumberOfMandatoryAssignments(); $i++) {
+            $j = rand(0, count($ass_ids) - 1);
             $selected[] = current(array_splice($ass_ids, $j, 1));
         }
 

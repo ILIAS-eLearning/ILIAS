@@ -25,9 +25,18 @@
 	padding: 10px;
 }
 
-#awareness-content .media:hover {
-	background-color: #fea;
+#awareness-content {
+	.input-group {
+		display: table;
+	}
+	.media:hover {
+		background-color: #fea;
+	}
+	.glyphicon {
+		font-size: inherit;
+	}
 }
+
 
 #awareness-content .dropdown-menu {
 	position: static;
@@ -46,6 +55,17 @@
 
 .ilAwarenessItem {
 	border-bottom: 1px solid #e9e9e9;
+	background-color:  @il-primary-container-bg;
+
+	ul {
+		margin: 0;
+		padding: 0;
+
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
 }
 
 #awareness-content .media-body {
@@ -74,7 +94,7 @@
 }
 
 #awareness-content .dropdown-menu {
-	background-color: #f0f0f0;
+	background-color: @il-secondary-container-bg;
 	padding: 10px 0;
 	font-size: 12px;
 }
@@ -105,11 +125,11 @@
 	display: table-cell;
 }
 
-.ilAwarenessDropDown h3.popover-title {
+.ilAwarenessItem h3.popover-title {
 	display: none;
 }
 
-.ilAwarenessDropDown .media {
+.ilAwarenessItem .media {
 	display: table;
 	width: 100%;
 }
@@ -119,21 +139,22 @@
 	width: 100%;
 }
 
-.ilAwarenessDropDown .media-left {
+.ilAwarenessItem .media-left {
 	width: 55px;
 }
 
-.ilAwarenessDropDown .media-body {
+.ilAwarenessItemRow .media-body {
 	/* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
 	background-repeat: no-repeat;
 	background-size: 12px 12px;
 	background-position: right 10px top 50%;
 	/* see http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell */
 	/* and bug #18937 */
-	max-width: 0;
+	/* max-width: 0; */
+	width: 100%;
 }
 
-.ilAwarenessDropDown .media-body.ilAwarenessOnline {
+.ilAwarenessItemRow .media-body.ilAwarenessOnline {
 	background-image: url('@{background-images-path}scorm/completed.svg');
 }
 
@@ -145,8 +166,6 @@
 }
 
 #il_awrn_filer_btn {
-	width: 45px;
-	margin-left: 0;
 	.glyphicon{
 		filter: invert(0);
 		margin-right: 0;
@@ -160,7 +179,7 @@
 }
 
 #awareness-content .ilHighlighted {
-	background-color: darken(@il-highlight-bg, 10%);
+	background-color: @il-highlight-bg;
 	color: #606060;
 }
 

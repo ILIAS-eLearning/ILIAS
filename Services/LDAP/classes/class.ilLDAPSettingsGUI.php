@@ -80,6 +80,33 @@ class ilLDAPSettingsGUI
         }
         return true;
     }
+
+    /**
+     * @param string $a_permission
+     */
+    protected function checkAccess($a_permission)
+    {
+        global $DIC;
+
+        $ilErr = $DIC['ilErr'];
+
+        if (!$this->checkAccessBool($a_permission)) {
+            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->WARNING);
+        }
+    }
+
+    /**
+     * @param string $a_permission
+     * @return bool
+     */
+    protected function checkAccessBool($a_permission)
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+
+        return $access->checkAccess($a_permission, '', $this->ref_id);
+    }
     
     /**
      * Get server settings
@@ -237,6 +264,8 @@ class ilLDAPSettingsGUI
      */
     public function confirmDeleteRules()
     {
+        $this->checkAccess("write");
+
         if (!is_array($_POST['rule_ids'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->roleAssignments();
@@ -608,7 +637,7 @@ class ilLDAPSettingsGUI
             $DIC['ilErr']->raiseError($this->lng->txt('msg_no_perm_read'), $DIC['ilErr']->WARNING);
         }
         
-        if (!ilLDAPServer::checkLDAPLib() and  $this->server->isActive()) {
+        if (!ilLDAPServer::checkLDAPLib() and $this->server->isActive()) {
             ilUtil::sendFailure('Missing LDAP libraries. Please ensure that the PHP LDAP module is installed on your server.');
         }
 
@@ -1096,22 +1125,22 @@ class ilLDAPSettingsGUI
         
     private function getMappingFields()
     {
-        return array('gender' 	=> $this->lng->txt('gender'),
-                'firstname'		=> $this->lng->txt('firstname'),
-                'lastname'		=> $this->lng->txt('lastname'),
-                'title'			=> $this->lng->txt('person_title'),
-                'institution' 	=> $this->lng->txt('institution'),
-                'department'	=> $this->lng->txt('department'),
-                'street'		=> $this->lng->txt('street'),
-                'city'			=> $this->lng->txt('city'),
-                'zipcode'		=> $this->lng->txt('zipcode'),
-                'country'		=> $this->lng->txt('country'),
-                'phone_office'	=> $this->lng->txt('phone_office'),
-                'phone_home'	=> $this->lng->txt('phone_home'),
-                'phone_mobile'  => $this->lng->txt('phone_mobile'),
-                'fax'			=> $this->lng->txt('fax'),
-                'email'			=> $this->lng->txt('email'),
-                'hobby'			=> $this->lng->txt('hobby'),
+        return array('gender' => $this->lng->txt('gender'),
+                'firstname' => $this->lng->txt('firstname'),
+                'lastname' => $this->lng->txt('lastname'),
+                'title' => $this->lng->txt('person_title'),
+                'institution' => $this->lng->txt('institution'),
+                'department' => $this->lng->txt('department'),
+                'street' => $this->lng->txt('street'),
+                'city' => $this->lng->txt('city'),
+                'zipcode' => $this->lng->txt('zipcode'),
+                'country' => $this->lng->txt('country'),
+                'phone_office' => $this->lng->txt('phone_office'),
+                'phone_home' => $this->lng->txt('phone_home'),
+                'phone_mobile' => $this->lng->txt('phone_mobile'),
+                'fax' => $this->lng->txt('fax'),
+                'email' => $this->lng->txt('email'),
+                'hobby' => $this->lng->txt('hobby'),
                 'matriculation' => $this->lng->txt('matriculation'));
         #'photo'			=> $this->lng->txt('photo'));
     }
@@ -1190,7 +1219,7 @@ class ilLDAPSettingsGUI
         $role_select->setOptions($this->prepareGlobalRoleSelection());
         $global->addSubItem($role_select);
             
-        $local  = new ilRadioOption($this->lng->txt('ldap_local_role'), 1);
+        $local = new ilRadioOption($this->lng->txt('ldap_local_role'), 1);
         $role->addOption($local);
             
         include_once './Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php';
@@ -1265,7 +1294,7 @@ class ilLDAPSettingsGUI
         $group->addOption($radio_attribute);
         
         // Option by Plugin
-        $pl_active =  (bool) $this->hasActiveRoleAssignmentPlugins();
+        $pl_active = (bool) $this->hasActiveRoleAssignmentPlugins();
         $pl = new ilRadioOption($this->lng->txt('ldap_plugin'), 3);
         $pl->setInfo($this->lng->txt('ldap_plugin_info'));
         $pl->setDisabled(!$pl_active);
@@ -1537,6 +1566,8 @@ class ilLDAPSettingsGUI
 
     public function addServerSettings()
     {
+        $this->checkAccess("write");
+
         $this->ctrl->clearParameters($this);
 
         $this->initForm();
@@ -1545,6 +1576,8 @@ class ilLDAPSettingsGUI
     
     public function editServerSettings()
     {
+        $this->checkAccess("write");
+
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('settings');
         
@@ -1563,6 +1596,8 @@ class ilLDAPSettingsGUI
      */
     public function confirmDeleteServerSettings()
     {
+        $this->checkAccess("write");
+
         if (!isset($_GET["ldap_server_id"])) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->serverList();
@@ -1627,6 +1662,8 @@ class ilLDAPSettingsGUI
     
     public function activateServer()
     {
+        $this->checkAccess("write");
+
         $this->server->toggleActive(1);
         $this->server->update();
         $this->serverList();
@@ -1634,6 +1671,8 @@ class ilLDAPSettingsGUI
     
     public function deactivateServer()
     {
+        $this->checkAccess("write");
+
         $this->server->toggleActive(0);
         $this->server->update();
         $this->serverList();

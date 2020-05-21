@@ -259,8 +259,24 @@ footer {
 
 // Sidepanel in right column under content
 //
+#il_right_col {
+	@media (min-width: @grid-float-breakpoint) {
+		padding-left: 0; //See: #https://mantis.ilias.de/view.php?id=27109
+	}
+}
 @media only screen and (max-width: (@screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
+		#il_right_col {
+			padding-left: 15px;
+		}
+	}
+}
+
+@media only screen and (max-width: (@screen-lg-desktop - 1px)) {
+	.il-layout-page.with-mainbar-slates-engaged {
+		#il_center_col.col-sm-9{
+			padding-right: 15px;
+		}
 		#il_center_col.col-sm-9,
 		#il_right_col.col-sm-3 {
 			float: none !important;
@@ -537,12 +553,18 @@ footer {
 */
 
 @media print {
-	.il-layout-page {
-		display: block;
-		header,
-		nav,
-		footer {
-			display: none;
+	html body {
+		overflow: visible;
+
+		section.il-layout-page {
+			display: block;
+			overflow: visible;
+
+			header,
+			nav,
+			footer {
+				display: none;
+			}
 		}
 	}
 }

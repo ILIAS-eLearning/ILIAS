@@ -44,6 +44,13 @@ interface Factory
      *     7: The Standard Page's short title SHOULD reference the current ILIAS installation.
      *     8: The Standard Page's view title SHOULD give a good hint to the current view.
      *
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        Scrollable areas of the Standard Page MUST be scrollable by only using
+     *        the keyboard.
+     *     2: >
+     *        The content area of the Standard Page MUST be focused on page load.
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content

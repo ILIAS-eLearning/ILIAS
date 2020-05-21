@@ -27,7 +27,6 @@ class ilMembershipOverviewGUI
      */
     protected $main_tpl;
 
-
     /**
      * Constructor
      */
@@ -53,9 +52,9 @@ class ilMembershipOverviewGUI
         switch ($next_class) {
             case "ilpdmembershipblockgui":
                 $ctrl->setReturn($this, "show");
-                $block = new ilPDMembershipBlockGUI();
+                $block = new ilPDMembershipBlockGUI(true);
                 $ret = $this->ctrl->forwardCommand($block);
-                if ($ret!= "") {
+                if ($ret != "") {
                     //$this->displayHeader();
                     $this->main_tpl->setContent($ret);
                     //$this->tpl->printToStdout();
@@ -76,8 +75,11 @@ class ilMembershipOverviewGUI
     protected function show()
     {
         $main_tpl = $this->main_tpl;
+        $lng = $this->lng;
 
-        $block = new ilPDMembershipBlockGUI();
+        $main_tpl->setTitle($lng->txt("my_courses_groups"));
+
+        $block = new ilPDMembershipBlockGUI(true);
         $main_tpl->setContent($block->getHTML());
     }
 }

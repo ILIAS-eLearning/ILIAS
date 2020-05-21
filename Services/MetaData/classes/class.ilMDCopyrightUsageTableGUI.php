@@ -29,7 +29,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
      * @param $a_parent_obj ilMDCopyrightUsageGUI
      * @param $a_parent_cmd string
      */
-    public function __construct($a_parent_obj, $a_parent_cmd='')
+    public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;
 
@@ -94,7 +94,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
             $this->objects[$item] = $this->lng->txt("obj_" . $item);
         }
         $item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-        $item->setOptions(array(""=>"-")+$this->objects);
+        $item->setOptions(array("" => "-") + $this->objects);
         $this->filter["object"] = $item->getValue();
     }
 
@@ -217,7 +217,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         $data = array();
         while ($row = $this->db->fetchAssoc($result)) {
             $data[] = array(
-                "obj_id" =>$row['rbac_id'],
+                "obj_id" => $row['rbac_id'],
                 "obj_type" => $row['obj_type']
             );
         }

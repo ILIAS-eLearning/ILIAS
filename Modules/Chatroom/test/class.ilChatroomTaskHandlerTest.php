@@ -67,7 +67,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
      */
     public function testCanModerate($isOwnerOfPrivateRoomValue, $checkAccessValue, $result)
     {
-        $userId    = 6;
+        $userId = 6;
         $subRoomId = 0;
 
         $this->createIlChatroomMock();
@@ -87,7 +87,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
             json_encode(
                 array(
                     'success' => false,
-                    'reason'  => 'unkown room',
+                    'reason' => 'unkown room',
                 )
             )
         );
@@ -96,7 +96,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
 
     public function testExitIfNoRoomPermissionSuccess()
     {
-        $userId    = 6;
+        $userId = 6;
         $subRoomId = 0;
 
         $this->createIlChatroomMock();
@@ -110,7 +110,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
 
     public function testExitIfNoRoomPermissionFails()
     {
-        $userId    = 6;
+        $userId = 6;
         $subRoomId = 0;
 
         $this->createIlChatroomMock();
@@ -124,7 +124,7 @@ class ilChatroomTaskHandlerTest extends ilChatroomAbstractTaskTest
             json_encode(
                 array(
                     'success' => false,
-                    'reason'  => 'not owner of private room',
+                    'reason' => 'not owner of private room',
                 )
             )
         );

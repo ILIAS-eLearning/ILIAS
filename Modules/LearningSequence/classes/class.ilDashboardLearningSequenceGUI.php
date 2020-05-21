@@ -4,8 +4,6 @@
 
 /**
  * Personal Desktop-Presentation for the Learningsequence
- *
- * @ilCtrl_IsCalledBy ilPDStudyProgrammeSimpleListGUI: ilColumnGUI
  */
 class ilDashboardLearningSequenceGUI
 {

@@ -25,7 +25,7 @@ class ilMailSearchLuceneResultParser
     public function __construct(ilMailSearchResult $result, $xml)
     {
         $this->result = $result;
-        $this->xml    = $xml;
+        $this->xml = $xml;
     }
 
     /**
@@ -64,8 +64,8 @@ class ilMailSearchLuceneResultParser
                     /**
                      * @var $field SimpleXMLElement
                      */
-                    $name     = (string) $field['name'];
-                    $content  = (string) $field;
+                    $name = (string) $field['name'];
+                    $content = (string) $field;
                     $fields[] = array(
                         $name, $content
                     );

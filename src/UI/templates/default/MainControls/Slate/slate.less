@@ -16,6 +16,7 @@
 	.link-bulky {
 		align-items: flex-start;
 		background-color: @il-slate-bulky-bg-color;
+		border: none;
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
 		position: relative;
@@ -36,7 +37,6 @@
 		&:hover,
 		&.engaged {
 			background-color: @il-slate-bulky-bg-color-engaged;
-		    border-color: #e0e0e0;
 		    color: inherit;
 		}
 		.icon {
@@ -94,31 +94,34 @@
 // see Mantis #26107
 .il-maincontrols-slate.engaged {
 	&[data-depth-level="2"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 20%);
+		.btn-bulky:not(:hover),
+		.link-bulky:not(:hover) {
+			background-color: @il-slate-bulky-level2-bg-color;
 		}
 	}
 	&[data-depth-level="3"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 15%);
+		.btn-bulky:not(:hover),
+		.link-bulky:not(:hover) {
+			background-color: fade(@il-slate-bulky-level2-bg-color, 15%);
 		}
 	}
 	&[data-depth-level="4"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 10%);
+		.btn-bulky:not(:hover),
+		.link-bulky:not(:hover) {
+			background-color: fade(@il-slate-bulky-level2-bg-color, 10%);
 		}
 	}
 }
 
 .il-maincontrols-slate-content {
 	p, h1, h2, h3, h4, li {
-		padding: @il-slate-content-padding;
+		padding: @il-slate-content-padding @il-slate-content-padding*2;
 	}
 	li.jstree-node {
 		padding: @il-slate-tree-padding;
+	}
+	li.il-workflow-step {
+		padding: 0 @il-slate-content-padding*2;
 	}
 }
 
@@ -167,8 +170,7 @@
 			background-color: #fff;
 			border: 0;
 		}
-		&:active,
-		&:focus
+		&:active
 		{
 			outline: none;
 		}

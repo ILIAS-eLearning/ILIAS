@@ -157,8 +157,8 @@ class ilColumnGUI
     // @todo: add calendar
     protected $check_global_activation =
         array("news" => true,
-            "cal"	=> true,
-            "pdcal"	=> true,
+            "cal" => true,
+            "pdcal" => true,
             "pdnews" => true,
             "pdtag" => true,
             "pdmail" => true,
@@ -475,7 +475,7 @@ class ilColumnGUI
 
                 if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
                     in_array($cur_block_type, $this->rep_block_types)) {
-                    $block_class = substr($gui_class, 0, strlen($gui_class)-3);
+                    $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
                     include_once("./" . self::$locations[$gui_class] . "classes/" .
                         "class." . $block_class . ".php");
                     $app_block = new $block_class($_GET["block_id"]);
@@ -531,7 +531,7 @@ class ilColumnGUI
                     $block["id"]
                 ) > 0) {
                 $gui_class = $block["class"];
-                $block_class = substr($block["class"], 0, strlen($block["class"])-3);
+                $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
                 
                 // get block gui class
                 include_once("./" . self::$locations[$gui_class] . "classes/" .
@@ -698,7 +698,7 @@ class ilColumnGUI
 
             if ($_GET["block_id"] == "block_" . $block["type"] . "_" . $block["id"]) {
                 $gui_class = $block["class"];
-                $block_class = substr($block["class"], 0, strlen($block["class"])-3);
+                $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
                 
                 $block_gui = new $gui_class();
                 $block_gui->setProperties($this->block_property[$block["type"]]);
@@ -950,7 +950,8 @@ class ilColumnGUI
 
         if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type]) {
             if ($a_type == 'pdnews') {
-                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS);
+                return ($this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS) &&
+                    $ilSetting->get('block_activated_news'));
             } elseif ($a_type == 'pdmail') {
                 return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::MAIL);
             } elseif ($a_type == 'pdtasks') {
@@ -959,6 +960,13 @@ class ilColumnGUI
                 include_once 'Services/Container/classes/class.ilContainer.php';
                 return
                     $ilSetting->get('block_activated_news') &&
+
+                    (!in_array($ilCtrl->getContextObjType(), ["grp", "crs"]) ||
+                        ilContainer::_lookupContainerSetting(
+                            $GLOBALS['ilCtrl']->getContextObjId(),
+                            ilObjectServiceSettingsGUI::USE_NEWS,
+                            true
+                    )) &&
                     ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         'cont_show_news',
@@ -1049,7 +1057,7 @@ class ilColumnGUI
                     ilBlockSetting::_writeNumber($bid[1], $i, $ilUser->getId(), $bid[2]);
                     ilBlockSetting::_writeSide($bid[1], $side, $ilUser->getId(), $bid[2]);
 
-                    $i +=2;
+                    $i += 2;
                 }
             }
         }

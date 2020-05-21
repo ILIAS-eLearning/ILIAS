@@ -16,6 +16,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 class ilHelpViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+    use ilHelpDisplayed;
 
     /**
      * @inheritDoc
@@ -30,6 +31,9 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
      */
     public function getMainBarModification(CalledContexts $called_contexts) : ?MainBarModification
     {
+        if (!$this->showHelpTool()) {
+            return null;
+        }
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
         foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
             $p = $item->getProviderIdentification();
@@ -37,15 +41,17 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
             $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
             $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), '', $tt_text));
 
-            if ($item instanceof hasSymbol && $item->hasSymbol()) {
-                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text) : Symbol {
-                    if ($symbol instanceof JavaScriptBindable) {
-                        return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
-                            return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
-                        });
-                    }
-                    return $symbol;
-                });
+            if ($tt_text != "") {
+                if ($item instanceof hasSymbol && $item->hasSymbol()) {
+                    $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text) : Symbol {
+                        if ($symbol instanceof JavaScriptBindable) {
+                            return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
+                                return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
+                            });
+                        }
+                        return $symbol;
+                    });
+                }
             }
         }
 

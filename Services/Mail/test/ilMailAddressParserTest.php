@@ -37,13 +37,19 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('üphpnit', 'iliäs.de'),
                 ]
             ],
+            'Trailing Dot in Local Part of Email Address' => [
+                'phpunit.@ilias.de',
+                [
+                    new ilMailAddress('phpunit.', 'ilias.de')
+                ]
+            ],
             'Mailing List Address' => [
                 '#il_ml_4711',
                 [
                     new ilMailAddress('#il_ml_4711', self::DEFAULT_HOST),
                 ]
             ],
-            'Role Address' =>  [
+            'Role Address' => [
                 '#il_role_1000',
                 [
                     new ilMailAddress('#il_role_1000', self::DEFAULT_HOST),
@@ -82,11 +88,11 @@ class ilMailAddressParserTest extends ilMailBaseTest
     public function emailInvalidAddressesProvider() : array
     {
         return [
-            'Trailing Dot in Local Part' => [
-                'phpunit.'
+            'Trailing Quote in Local Part' => [
+                'phpunit"@'
             ],
-            'Trailing Dot in Local Part of Email Address' => [
-                'phpunit.@ilias.de'
+            'Trailing Quote in Local Part of Email Address' => [
+                'phpunit"@ilias.de'
             ],
         ];
     }

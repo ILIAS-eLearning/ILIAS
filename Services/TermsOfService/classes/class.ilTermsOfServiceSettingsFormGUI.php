@@ -34,10 +34,10 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         string $saveCommand = 'saveSettings',
         bool $isEditable = false
     ) {
-        $this->tos         = $tos;
-        $this->formAction  = $formAction;
+        $this->tos = $tos;
+        $this->formAction = $formAction;
         $this->saveCommand = $saveCommand;
-        $this->isEditable  = $isEditable;
+        $this->isEditable = $isEditable;
 
         parent::__construct();
 

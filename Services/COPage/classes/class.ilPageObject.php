@@ -537,7 +537,7 @@ abstract class ilPageObject
 
     public function callUpdateListeners()
     {
-        for ($i=0; $i<$this->update_listener_cnt; $i++) {
+        for ($i = 0; $i < $this->update_listener_cnt; $i++) {
             $object = $this->update_listeners[$i]["object"];
             $method = $this->update_listeners[$i]["method"];
             $parameters = $this->update_listeners[$i]["parameters"];
@@ -1001,7 +1001,7 @@ abstract class ilPageObject
     */
     public function appendXMLContent($a_xml)
     {
-        $this->xml.= $a_xml;
+        $this->xml .= $a_xml;
     }
 
 
@@ -1310,7 +1310,7 @@ abstract class ilPageObject
                         $xml = "";
                         $childs = $this->node->child_nodes();
                         for ($i = 0; $i < count($childs); $i++) {
-                            $xml.= $this->dom->dump_node($childs[$i]);
+                            $xml .= $this->dom->dump_node($childs[$i]);
                         }
                         return $xml;
                     } else {
@@ -1364,14 +1364,15 @@ abstract class ilPageObject
             $this->appendLangVarXML($xml, $lang_var);
         }
 
-        $xml.= "</LVs>";
-
+        $xml .= "</LVs>";
         return $xml;
     }
 
     public function appendLangVarXML(&$xml, $var)
     {
-        $xml.= "<LV name=\"$var\" value=\"" . $this->lng->txt("cont_" . $var) . "\"/>";
+        $val = $this->lng->txt("cont_" . $var);
+        $val = str_replace('"', "&quot;", $val);
+        $xml .= "<LV name=\"$var\" value=\"" . $val . "\"/>";
     }
 
     // @todo begin: move this to paragraph class
@@ -1387,7 +1388,9 @@ abstract class ilPageObject
                 $cont_node = $res->nodeset[0]->parent_node();
                 $par = new ilPCParagraph($this);
                 $par->setNode($cont_node);
-                return $par->getText();
+                $text = $par->getText();
+
+                return $text;
             }
         }
         return "";
@@ -1568,7 +1571,7 @@ abstract class ilPageObject
                     
             // get links (image map areas) for inline media objects
             if ($type == "MediaObject" && $targetframe == "") {
-                if (substr($target, 0, 4) =="il__") {
+                if (substr($target, 0, 4) == "il__") {
                     $id_arr = explode("_", $target);
                     $id = $id_arr[count($id_arr) - 1];
     
@@ -1591,7 +1594,7 @@ abstract class ilPageObject
         require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $oid = $res->nodeset[$i]->get_attribute("OriginId");
-            if (substr($oid, 0, 4) =="il__") {
+            if (substr($oid, 0, 4) == "il__") {
                 $id_arr = explode("_", $oid);
                 $id = $id_arr[count($id_arr) - 1];
 
@@ -1690,7 +1693,7 @@ abstract class ilPageObject
         
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
-            $path.= $sep . "//" . $el;
+            $path .= $sep . "//" . $el;
             $sep = " | ";
         }
 
@@ -1716,7 +1719,7 @@ abstract class ilPageObject
                 $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
                 $this->hier_ids[] = $node_hier_id;
                 if ($ctag == "TableData") {
-                    if (substr($par_hier_id, strlen($par_hier_id)-2) == "_1") {
+                    if (substr($par_hier_id, strlen($par_hier_id) - 2) == "_1") {
                         $this->first_row_ids[] = $node_hier_id;
                     }
                 }
@@ -1745,7 +1748,7 @@ abstract class ilPageObject
                     $this->hier_ids[] = $node_hier_id;
                     if ($ctag == "TableData") {
                         $this->first_col_ids[] = $node_hier_id;
-                        if (substr($par_hier_id, strlen($par_hier_id)-2) == "_1") {
+                        if (substr($par_hier_id, strlen($par_hier_id) - 2) == "_1") {
                             $this->first_row_ids[] = $node_hier_id;
                         }
                     }
@@ -2168,7 +2171,7 @@ abstract class ilPageObject
                 // get object map areas and check whether at least one must
                 // be corrected
                 $oid = $res->nodeset[$i]->get_attribute("OriginId");
-                if (substr($oid, 0, 4) =="il__") {
+                if (substr($oid, 0, 4) == "il__") {
                     $id_arr = explode("_", $oid);
                     $id = $id_arr[count($id_arr) - 1];
     
@@ -2656,15 +2659,15 @@ abstract class ilPageObject
                         }
 
                         $this->db->insert("page_history", array(
-                            "page_id" => 		array("integer", $old_rec["page_id"]),
-                            "parent_type" => 	array("text", $old_rec["parent_type"]),
-                            "lang" => 	array("text", $old_rec["lang"]),
-                            "hdate" => 			array("timestamp", $last_c),
-                            "parent_id" => 		array("integer", $old_rec["parent_id"]),
-                            "content" => 		array("clob", $old_rec["content"]),
-                            "user_id" => 		array("integer", $old_rec["last_change_user"]),
-                            "ilias_version" => 	array("text", ILIAS_VERSION_NUMERIC),
-                            "nr" => 			array("integer", (int) $last_nr["mnr"] + 1)
+                            "page_id" => array("integer", $old_rec["page_id"]),
+                            "parent_type" => array("text", $old_rec["parent_type"]),
+                            "lang" => array("text", $old_rec["lang"]),
+                            "hdate" => array("timestamp", $last_c),
+                            "parent_id" => array("integer", $old_rec["parent_id"]),
+                            "content" => array("clob", $old_rec["content"]),
+                            "user_id" => array("integer", $old_rec["last_change_user"]),
+                            "ilias_version" => array("text", ILIAS_VERSION_NUMERIC),
+                            "nr" => array("integer", (int) $last_nr["mnr"] + 1)
                             ));
                         
                         $old_content = $old_rec["content"];
@@ -2917,7 +2920,7 @@ abstract class ilPageObject
                     $template = 0;
                     break;
             }
-            if ($sname != "" &&  $stype != "") {
+            if ($sname != "" && $stype != "") {
                 $usages[$sname . ":" . $stype . ":" . $template] = array("sname" => $sname,
                     "stype" => $stype, "template" => $template);
             }
@@ -3740,9 +3743,9 @@ abstract class ilPageObject
         
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
-            $path.= $sep . "//" . $el . "[not(@PCID)]";
+            $path .= $sep . "//" . $el . "[not(@PCID)]";
             $sep = " | ";
-            $path.= $sep . "//" . $el . "[@PCID='']";
+            $path .= $sep . "//" . $el . "[@PCID='']";
         }
         
         $xpc = xpath_new_context($mydom);
@@ -3769,7 +3772,7 @@ abstract class ilPageObject
 
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
-            $path.= $sep . "//" . $el . "[@PCID]";
+            $path .= $sep . "//" . $el . "[@PCID]";
             $sep = " | ";
         }
         
@@ -3799,7 +3802,7 @@ abstract class ilPageObject
 
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
-            $path.= $sep . "//" . $el . "[@PCID='" . $a_pc_id . "']";
+            $path .= $sep . "//" . $el . "[@PCID='" . $a_pc_id . "']";
             $sep = " | ";
         }
         
@@ -3838,9 +3841,9 @@ abstract class ilPageObject
         // add missing ones
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
-            $path.= $sep . "//" . $el . "[not(@PCID)]";
+            $path .= $sep . "//" . $el . "[not(@PCID)]";
             $sep = " | ";
-            $path.= $sep . "//" . $el . "[@PCID='']";
+            $path .= $sep . "//" . $el . "[@PCID='']";
             $sep = " | ";
         }
         $xpc = xpath_new_context($mydom);
@@ -3958,7 +3961,7 @@ abstract class ilPageObject
 
         $childs = $context_node->child_nodes();
 
-        for ($j=0; $j<count($childs); $j++) {
+        for ($j = 0; $j < count($childs); $j++) {
             $content .= $mydom->dump_node($childs[$j]);
         }
 
@@ -4982,7 +4985,7 @@ abstract class ilPageObject
                 
                 // calculate the length of the plain text part of the line; handle entities as one character
                 $content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
-                if ($total_length+$content_length > $a_length) {
+                if ($total_length + $content_length > $a_length) {
                     // the number of characters which are left
                     $left = $a_length - $total_length;
                     $entities_length = 0;
@@ -4990,7 +4993,7 @@ abstract class ilPageObject
                     if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
                         // calculate the real length of all entities in the legal range
                         foreach ($entities[0] as $entity) {
-                            if ($entity[1]+1-$entities_length <= $left) {
+                            if ($entity[1] + 1 - $entities_length <= $left) {
                                 $left--;
                                 $entities_length += strlen($entity[0]);
                             } else {
@@ -5001,7 +5004,7 @@ abstract class ilPageObject
                     }
 
                     // $truncate .= substr($line_matchings[2], 0, $left+$entities_length);
-                    $truncate .= ilStr::shortenText($line_matchings[2], 0, $left+$entities_length);
+                    $truncate .= ilStr::shortenText($line_matchings[2], 0, $left + $entities_length);
                     
                     // maximum lenght is reached, so get off the loop
                     break;
@@ -5132,4 +5135,14 @@ abstract class ilPageObject
         include_once("./Services/COPage/classes/class.ilPCResources.php");
         ilPCResources::resolveResources($this, $ref_mapping);
     }
+
+    /**
+     * Get object id of repository object that contains this page, return 0 if page does not belong to a repo object
+     * @return int
+     */
+    public function getRepoObjId()
+    {
+        return $this->getParentId();
+    }
+
 }

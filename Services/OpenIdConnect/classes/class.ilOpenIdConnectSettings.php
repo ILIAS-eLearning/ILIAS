@@ -551,7 +551,7 @@ class ilOpenIdConnectSettings
         return [
             'firstname' => 'firstname',
             'lastname' => 'lastname',
-            'email'	=> 'email',
+            'email' => 'email',
             'birthday' => 'birthday'
         ];
     }

@@ -87,7 +87,7 @@ class ilSkillTree extends ilTree
         $sep = "";
         foreach ($path as $p) {
             if ($p["type"] != "skrt" && $p["child"] != $a_base_skill_id) {
-                $str.= $sep . $p["title"];
+                $str .= $sep . $p["title"];
                 $sep = " > ";
             }
         }

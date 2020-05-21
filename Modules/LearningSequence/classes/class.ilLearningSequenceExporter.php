@@ -58,9 +58,9 @@ class ilLearningSequenceExporter extends ilXmlExporter
     {
         return array(
             array(
-                'component'		=> 'Services/Container',
-                'entity'		=> 'struct',
-                'ids'			=> $ids
+                'component' => 'Services/Container',
+                'entity' => 'struct',
+                'ids' => $ids
             )
         );
     }

@@ -30,7 +30,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     public function __construct($id = -1)
     {
         parent::__construct();
-        $this->object    = new assFormulaQuestion();
+        $this->object = new assFormulaQuestion();
         $this->newUnitId = null;
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -177,7 +177,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             );
 
             $this->object->parseQuestionText();
-            $found_vars    = array();
+            $found_vars = array();
             $found_results = array();
 
             
@@ -188,6 +188,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 if (preg_match("/^unit_(\\\$r\d+)$/", $key, $matches)) {
                     array_push($found_results, $matches[1]);
                 }
+            }
+
+            try {
+                $lifecycle = ilAssQuestionLifecycle::getInstance($_POST['lifecycle']);
+                $this->object->setLifecycle($lifecycle);
+            } catch (ilTestQuestionPoolInvalidArgumentException $e) {
             }
 
             //			if(!$this->object->checkForDuplicateVariables())
@@ -217,10 +223,10 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $tmp_form_vars = array_merge($tmp_form_vars, $form_vars[0]);
 
                 $tmp_que_match = preg_match_all("/([$][v][0-9]*)/", $_POST['question'], $quest_vars);
-                $tmp_quest_vars= array_merge($tmp_quest_vars, $quest_vars[0]);
+                $tmp_quest_vars = array_merge($tmp_quest_vars, $quest_vars[0]);
             }
             $result_has_undefined_vars = array_diff($tmp_form_vars, $found_vars);
-            $question_has_unused_vars =  array_diff($tmp_quest_vars, $tmp_form_vars);
+            $question_has_unused_vars = array_diff($tmp_quest_vars, $tmp_form_vars);
 
             if (count($result_has_undefined_vars) > 0 || count($question_has_unused_vars) > 0) {
                 $error_message = '';
@@ -230,7 +236,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 if (count($question_has_unused_vars) > 0) {
                     $error_message .= $this->lng->txt("que_contains_unused_var");
                 }
-                $checked =  false;
+                $checked = false;
                 if ($this->isSaveCommand()) {
                     ilUtil::sendFailure($error_message);
                 }
@@ -280,8 +286,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        $user_id 			= $ilUser->getId();
-        $question_id 		= $this->object->getId();
+        $user_id = $ilUser->getId();
+        $question_id = $this->object->getId();
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewSession.php';
         $ilAssQuestionPreviewSession = new ilAssQuestionPreviewSession($user_id, $question_id);
         $ilAssQuestionPreviewSession->setParticipantsSolution(array());
@@ -320,26 +326,26 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $question = $form->getItemByPostVar('question');
         $question->setInfo($this->lng->txt('fq_question_desc'));
 
-        $variables         = $this->object->getVariables();
+        $variables = $this->object->getVariables();
         $categorized_units = $this->object->getUnitrepository()->getCategorizedUnits();
-        $result_units      = $this->object->__get('resultunits');
+        $result_units = $this->object->__get('resultunits');
         
-        $unit_options  = array();
+        $unit_options = array();
         $category_name = '';
-        $new_category  = false;
+        $new_category = false;
         foreach ((array) $categorized_units as $item) {
             /**
              * @var $item assFormulaQuestionUnitCategory|assFormulaQuestionUnit
              */
             if ($item instanceof assFormulaQuestionUnitCategory) {
                 if ($category_name != $item->getDisplayString()) {
-                    $new_category  = true;
+                    $new_category = true;
                     $category_name = $item->getDisplayString();
                 }
                 continue;
             }
             $unit_options[$item->getId()] = $item->getDisplayString() . ($new_category ? ' (' . $category_name . ')' : '');
-            $new_category                 = false;
+            $new_category = false;
         }
 
         if (count($variables)) {
@@ -603,10 +609,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
         }
-        
-        $result_has_undefined_vars = array();
-        $question_has_unused_vars = array();
-        
+
+        $result_has_undefined_vars = [];
+        $question_has_unused_vars = [];
+        $result_has_undefined_res = [];
+
         if (is_array($quest_vars) && count($quest_vars) > 0) {
             $result_has_undefined_vars = array_diff($defined_result_vars, $quest_vars);
             $question_has_unused_vars = array_diff($quest_vars, $defined_result_vars);
@@ -625,7 +632,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $error_message .= $this->lng->txt("que_contains_unused_var") . '<br>';
             }
     
-            $checked =  false;
+            $checked = false;
             if ($save) {
                 ilUtil::sendFailure($error_message);
             }
@@ -633,7 +640,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         if (is_array($result_has_undefined_res) && count($result_has_undefined_res) > 0) {
             $error_message .= $this->lng->txt("res_contains_undef_res") . '<br>';
-            $checked =  false;
+            $checked = false;
         }
         
         if ($save && !$checked) {
@@ -655,7 +662,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $errors = $checked;
 
         if ($save) {
-            $found_vars    = array();
+            $found_vars = array();
             $found_results = array();
             foreach ((array) $_POST as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
@@ -705,7 +712,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $custom_errors = true;
                     }
                     
-                    $result_unit    = $form->getItemByPostVar('unit_' . $result->getResult());
+                    $result_unit = $form->getItemByPostVar('unit_' . $result->getResult());
                     $rating_advanced = $form->getItemByPostVar('rating_advanced_' . $result->getResult());
                     if (((int) $result_unit->getValue() <= 0) && $rating_advanced->getChecked()) {
                         unset($_POST['rating_advanced_' . $result->getResult()]);
@@ -714,9 +721,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $rating_advanced->setAlert($this->lng->txt('err_rating_advanced_not_allowed'));
                         $custom_errors = true;
                     } elseif ($rating_advanced->getChecked()) {
-                        $rating_sign  = $form->getItemByPostVar('rating_sign_' . $result->getResult());
+                        $rating_sign = $form->getItemByPostVar('rating_sign_' . $result->getResult());
                         $rating_value = $form->getItemByPostVar('rating_value_' . $result->getResult());
-                        $rating_unit  = $form->getItemByPostVar('rating_unit_' . $result->getResult());
+                        $rating_unit = $form->getItemByPostVar('rating_unit_' . $result->getResult());
                         
                         $percentage = $rating_sign->getValue() + $rating_value->getValue() + $rating_unit->getValue();
                         if ($percentage != 100) {
@@ -845,7 +852,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
                 }
             } else {
-                if ($this->object->getId() !=  $old_id) {
+                if ($this->object->getId() != $old_id) {
                     $this->callNewIdListeners($this->object->getId());
                     ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                     $this->ctrl->redirectByClass("ilobjquestionpoolgui", "questions");
@@ -924,8 +931,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
             $user_solution["active_id"] = $active_id;
-            $user_solution["pass"]      = $pass;
-            $solutions                  =&$this->object->getSolutionValues($active_id, $pass);
+            $user_solution["pass"] = $pass;
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
                     $user_solution[$matches[1]] = $solution_value["value2"];
@@ -952,9 +959,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $user_solution = (array) $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
             $solutionValues = array();
-            
-            foreach ($this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2) {
-                $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+
+            $participantsSolution = $this->getPreviewSession()->getParticipantsSolution();
+            if (is_array($participantsSolution)) {
+                foreach ($participantsSolution as $val1 => $val2) {
+                    $solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+                }
             }
             
             $user_solution = (array) $this->object->getBestSolution($solutionValues);
@@ -964,7 +974,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, true, $result_output);
 
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
-        $questionoutput   = $template->get();
+        $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
         if (strlen($feedback)) {
@@ -1101,7 +1111,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
 
         $questionoutput = $template->get();
-        $pageoutput     = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
+        $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 

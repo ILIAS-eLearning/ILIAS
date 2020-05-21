@@ -347,7 +347,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $acts = array("delete" => "delete", "cutChapter" => "cut",
                 "copyChapter" => "copyChapter");
         if ($ilUser->clipboardHasObjectsOfType("st")) {
-            $acts["pasteChapter"] =  "pasteChapter";
+            $acts["pasteChapter"] = "pasteChapter";
         }
         $this->showActions($acts);
         //}
@@ -1058,7 +1058,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $lng = $this->lng;
 
         $fields["title"] = $f->input()->field()->text($lng->txt("title"), "");
-        $fields["layout_id"] = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        $ts = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+        if (!is_null($ts)) {
+            $fields["layout_id"] = $ts;
+        }
 
         // section
         $section1 = $f->input()->field()->section($fields, $lng->txt("cont_insert_pagelayout"));

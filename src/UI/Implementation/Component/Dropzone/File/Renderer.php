@@ -152,7 +152,7 @@ class Renderer extends AbstractComponentRenderer
         $signals = array_map(function ($triggeredSignal) {
             /** @var $triggeredSignal TriggeredSignal */
             return array(
-                'id'      => $triggeredSignal->getSignal()->getId(),
+                'id' => $triggeredSignal->getSignal()->getId(),
                 'options' => $triggeredSignal->getSignal()->getOptions(),
             );
         }, $dropzone->getTriggeredSignals());
@@ -160,15 +160,15 @@ class Renderer extends AbstractComponentRenderer
         return $dropzone->withAdditionalOnLoadCode(function ($id) use ($dropzone, $signals) {
             $options = json_encode(
                 [
-                    'id'                => $id,
+                    'id' => $id,
                     'registeredSignals' => $signals,
-                    'uploadUrl'         => $dropzone->getUploadUrl(),
-                    'allowedFileTypes'  => $dropzone->getAllowedFileTypes(),
-                    'fileSizeLimit'     => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
+                    'uploadUrl' => $dropzone->getUploadUrl(),
+                    'allowedFileTypes' => $dropzone->getAllowedFileTypes(),
+                    'fileSizeLimit' => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
                         * $dropzone->getFileSizeLimit()->getUnit() : 0,
-                    'maxFiles'          => $dropzone->getMaxFiles(),
-                    'identifier'        => $dropzone->getParametername(),
-                    'typeError'         => $this->txt('msg_wrong_filetypes') . " " . implode(", ", $dropzone->getAllowedFileTypes()),
+                    'maxFiles' => $dropzone->getMaxFiles(),
+                    'identifier' => $dropzone->getParametername(),
+                    'typeError' => $this->txt('msg_wrong_filetypes') . " " . implode(", ", $dropzone->getAllowedFileTypes()),
                 ]
             );
             $reflect = new \ReflectionClass($dropzone);

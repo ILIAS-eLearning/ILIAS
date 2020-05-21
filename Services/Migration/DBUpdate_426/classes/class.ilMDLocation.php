@@ -99,12 +99,12 @@ class ilMDLocation extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'location'	=> ilUtil::prepareDBString($this->getLocation()),
+                     'location' => ilUtil::prepareDBString($this->getLocation()),
                      'location_type' => ilUtil::prepareDBString($this->getLocationType()));
     }
 

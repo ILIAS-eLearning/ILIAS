@@ -101,7 +101,7 @@ interface Factory
      *
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
-    public function group(array $inputs, string $label='');
+    public function group(array $inputs, string $label = '');
 
     /**
      * ---

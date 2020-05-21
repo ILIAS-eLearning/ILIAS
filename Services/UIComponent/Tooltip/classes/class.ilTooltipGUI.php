@@ -64,7 +64,7 @@ class ilTooltipGUI
         //		$addstr.= ", position: {viewport: $('#fixed_content')}";
         
         if ($a_container != "") {
-            $addstr.= ", container: '" . $a_container . "'";
+            $addstr .= ", container: '" . $a_container . "'";
         }
 
         if ($a_use_htmlspecialchars) {

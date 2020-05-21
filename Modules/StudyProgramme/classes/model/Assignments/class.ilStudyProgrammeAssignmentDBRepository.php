@@ -130,7 +130,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
 
     protected function loadDueToRestart()
     {
-        $q = $this->getDuoToRestartBaseSQL();
+        $q = $this->getDueToRestartBaseSQL();
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
             yield $rec;
@@ -139,7 +139,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
 
     protected function loadDueToRestartAndMail()
     {
-        $q = $this->getDuoToRestartBaseSQL();
+        $q = $this->getDueToRestartBaseSQL();
         $q .= '    AND ' . self::FIELD_RESTART_MAIL . ' IS NULL';
 
         $res = $this->db->query($q);
@@ -160,7 +160,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             . ' FROM ' . self::TABLE . PHP_EOL;
     }
 
-    protected function getDuoToRestartBaseSQL() : string
+    protected function getDueToRestartBaseSQL() : string
     {
         return $this->getSQLHeader()
             . ' WHERE ' . self::FIELD_RESTARTED_ASSIGNMENT_ID

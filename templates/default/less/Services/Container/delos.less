@@ -19,7 +19,7 @@ div.ilPreconditionItem {
 
 /* Repository */
 div.ilContainerListItemOuter {
-	padding: 15px 10px;
+	padding: @panel-body-padding @padding-large-horizontal;
 	zoom: 1;
 	/* background-color: lighten(@mid-gray, 75%); */
 }
@@ -75,6 +75,10 @@ div.ilContainerListItemCB {
 	display: table-cell;
 	vertical-align: top;
 	padding-right: 10px;
+
+	img{
+		width: 20px;
+	}
 }
 
 [dir="rtl"] div.ilContainerListItemCB {
@@ -147,40 +151,39 @@ div.il_ContainerListItem {
 }
 
 .ilContainerBlockHeader {
+	background-color: @il-secondary-container-bg;
+	padding: @panel-heading-padding;
 	font-weight: 400;
-	padding: 5px 10px;
 	text-align: left;
 	vertical-align: middle;
+	h3{
+		margin: 0;
+		color: @panel-heading-color;
+	}
 }
 
 .ilContainerBlockHeaderExpanded, .ilContainerBlockHeaderCollapsed {
 	background-repeat: no-repeat;
-	background-position: 20px 8px;
-	padding-left: 50px;
+	background-position: 15px 10px;
+	background-size: 20px 20px;
+	padding-left: 45px;
 	/* padding-top: 6px; */
 	background-color: @il-secondary-container-bg;
 	cursor: pointer;
-	margin-bottom: 1px;
 }
 
+
 .ilContainerBlockHeaderExpanded {
-	background-image: url("images/tree_exp.svg");
+	background-image: url("@{background-images-path}tree_exp.svg");
 }
 
 .ilContainerBlockHeaderCollapsed {
-	background-image: url("images/tree_col.svg");
+	background-image: url("@{background-images-path}tree_col.svg");
 	/* background-color: @il-secondary-container-bg; */
-}
-
-.ilContainerBlockHeaderExpanded:hover, .ilContainerBlockHeaderCollapsed:hover {
-	background-color: @il-highlight-bg;
 }
 
 [dir="rtl"] .ilContainerBlockHeader {
 	text-align: right;
-}
-
-h3.ilContainerBlockHeader {
 }
 
 .ilContainerBlock {
@@ -229,6 +232,10 @@ div#ilContRepIntro img {
 
 .ilContainerTileRows {
 	margin: 10px -20px 0 -20px;
+
+	>.il-deck{
+		margin: 0 5px;
+	}
 }
 
 .ilContainerTileRows .card-no-highlight {

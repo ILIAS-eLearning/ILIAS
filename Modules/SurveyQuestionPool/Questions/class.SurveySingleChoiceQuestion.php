@@ -509,8 +509,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $entered_value = $post_data[$this->getId() . "_value"];
         
         if ($a_return) {
-            return array(array("value"=>$entered_value,
-                "textanswer"=>$post_data[$this->getId() . "_" . $entered_value . "_other"]));
+            return array(array("value" => $entered_value,
+                "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"]));
         }
         if (strlen($entered_value) == 0) {
             return;
@@ -523,7 +523,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null);
+        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
+            $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
         
         $affectedRows = $ilDB->insert("svy_answer", $fields);
@@ -590,7 +591,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
             $category = $this->categories->getCategory($i);
-            $options[$category->scale-1] = $category->scale . " - " . $category->title;
+            $options[$category->scale - 1] = $category->scale . " - " . $category->title;
         }
         return $options;
     }
@@ -620,7 +621,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function getPreconditionValueOutput($value)
     {
         // #18136
-        $category = $this->categories->getCategoryForScale($value+1);
+        $category = $this->categories->getCategoryForScale($value + 1);
         
         // #17895 - see getPreconditionOptions()
         return $category->scale .

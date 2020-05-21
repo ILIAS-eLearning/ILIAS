@@ -17,7 +17,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
      */
     public static function _getCommands()
     {
-        $commands   = array();
+        $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "enter", "default" => true);
         $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
         $commands[] = array("permission" => "write", "cmd" => "versions", "lang_var" => "versions");

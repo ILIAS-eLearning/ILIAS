@@ -30,3 +30,7 @@ il.UI.Input = il.UI.Input || {};
 
 	})($);
 })($, il.UI.Input);
+
+$(document).on('dp.show', function(event) {
+	il.UI.page.fit($('.bootstrap-datetimepicker-widget'));
+});

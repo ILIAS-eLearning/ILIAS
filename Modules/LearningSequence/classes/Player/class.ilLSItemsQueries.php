@@ -21,7 +21,7 @@ class ilLSLearnerItemsQueries
     }
 
     /**
-     * @return LSLearnerItems[]
+     * @return LSLearnerItem[]
      */
     public function getItems() : array
     {
@@ -39,7 +39,7 @@ class ilLSLearnerItemsQueries
     {
         $current_position = 0;
         $items = $this->getItems();
-        foreach ($items as $index=>$item) {
+        foreach ($items as $index => $item) {
             if ($item->getRefId() === $this->getCurrentItemRefId()) {
                 $current_position = $index;
             }
@@ -47,13 +47,17 @@ class ilLSLearnerItemsQueries
         return $current_position;
     }
 
-    public function getStateFor(LSItem $ls_item) : ILIAS\KioskMode\State
+    public function getStateFor(LSItem $ls_item, \ILIAS\KioskMode\View $view) : ILIAS\KioskMode\State
     {
         $states = $this->states_db->getStatesFor($this->ls_ref_id, [$this->usr_id]);
+        $states = $states[$this->usr_id];
+
         if (array_key_exists($ls_item->getRefId(), $states)) {
             return $states[$ls_item->getRefId()];
         }
-        return new ILIAS\KioskMode\State();
+        return $view->buildInitialState(
+            new ILIAS\KioskMode\State()
+        );
     }
 
     public function storeState(

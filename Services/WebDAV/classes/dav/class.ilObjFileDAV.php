@@ -1,7 +1,6 @@
 <?php
-
-use ILIAS\UI\NotImplementedException;
 use Sabre\DAV\Exception;
+use Sabre\DAV\Exception\Forbidden;
 
 require_once 'Modules/File/classes/class.ilObjFile.php';
 
@@ -24,6 +23,13 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @var $obj ilObjFile
      */
     protected $obj;
+    
+    /**
+     * We need to keep track of versioning.
+     *
+     * @var $versioning_enabled boolean
+     */
+    protected $versioning_enabled;
 
     /**
      * ilObjFileDAV represents the WebDAV-Interface to an ILIAS-Object
@@ -37,6 +43,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function __construct(ilObjFile $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
+        $settings = new ilSetting('file_access');
+        $this->versioning_enabled = (bool) $settings->get('webdav_versioning_enabled', true);
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
 
@@ -59,16 +67,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @param resource|string $data
      * @return string|null
-     * @throws BadRequest
      * @throws Forbidden
      */
     public function put($data)
     {
         if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
-            $settings = new ilSetting('file_access');
-            if ($settings->get('webdav_versioning_enabled', '1') == '1') {
+            $this->setObjValuesForNewFileVersion();
+            if ($this->versioning_enabled === true) {
                 // Stolen from ilObjFile->addFileVersion
-                $this->setObjValuesForNewFileVersion();
                 $this->handleFileUpload($data, 'new_version');
             } else {
                 $this->handleFileUpload($data, 'replace');
@@ -185,7 +191,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * Given data can be a resource or data (given from the sabreDAV library)
      *
      * @param string | resource $a_data
-     * @throws BadRequest
      * @throws Forbidden
      */
     public function handleFileUpload($a_data, $a_file_action)
@@ -193,6 +198,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         // Set name for uploaded file because due to the versioning, the title can change for different versions. This setter-call here
         // ensures that the uploaded file is saved with the title of the object. This obj->setFileName() has to be called
         // before $this->getPathToFile(). Otherwise, the file could be saved under the wrong filename.
+        if ($a_file_action === 'replace') {
+            $this->obj->deleteVersions();
+            $this->obj->clearDataDirectory();
+        }
         $this->obj->setFileName($this->getName());
         $file_dest_path = $this->getPathToFile();
 
@@ -212,11 +221,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         $this->checkForVirus($file_dest_path);
 
         // Set last meta data
-        include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
-        if ($this->obj->update() && $this->obj->getMaxVersion() >= 1) {
+        if ($this->obj->update()) {
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);
+            ilPreview::createPreview($this->obj, true);
         }
     }
 
@@ -295,10 +304,9 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         // Add history entry and notification for new file version (stolen from ilObjFile->addFileVersion)
         switch ($a_action) {
-            case "create":
             case "new_version":
             case "replace":
-                ilHistory::_createEntry($this->obj->getId(), $action, $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+                ilHistory::_createEntry($this->obj->getId(), $a_action, $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
                 break;
         }
 

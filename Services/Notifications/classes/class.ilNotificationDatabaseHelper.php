@@ -15,7 +15,7 @@ class ilNotificationDatabaseHandler
 
         $ilDB = $DIC->database();
 
-        $where             = array();
+        $where = array();
         $langVarToTypeDict = array();
 
         foreach ($vars as $type => $var) {
@@ -26,7 +26,7 @@ class ilNotificationDatabaseHandler
             if (!$var) {
                 continue;
             }
-            $where[]                            = sprintf('module = %s AND identifier = %s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
+            $where[] = sprintf('module = %s AND identifier = %s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
             $langVarToTypeDict[$var->getName()] = $type;
         }
 
@@ -34,15 +34,15 @@ class ilNotificationDatabaseHandler
             return array();
         }
 
-        $query   = 'SELECT identifier, lang_key, value FROM lng_data WHERE (' . join(') OR (', $where) . ')';
-        $res     = $ilDB->query($query);
+        $query = 'SELECT identifier, lang_key, value FROM lng_data WHERE (' . join(') OR (', $where) . ')';
+        $res = $ilDB->query($query);
         $results = array();
 
         while ($row = $ilDB->fetchAssoc($res)) {
             if (!$results[$row['identifier']]) {
-                $results[$row['identifier']]                 = new stdClass();
+                $results[$row['identifier']] = new stdClass();
                 $results[$row['identifier']]->lang_untouched = array();
-                $results[$row['identifier']]->params         = array();
+                $results[$row['identifier']]->params = array();
             }
             $results[$row['identifier']]->lang_untouched[$row['lang_key']] = $row['value'];
         }
@@ -60,11 +60,11 @@ class ilNotificationDatabaseHandler
     protected static function fillPlaceholders($results, $vars, $langVarToTypeDict)
     {
         $pattern_old = '/##(.+?)##/im';
-        $pattern     = '/\[(.+?)\]/im';
+        $pattern = '/\[(.+?)\]/im';
 
         foreach ($results as $langVar => $res) {
             $placeholdersStack = array();
-            $res->lang         = array();
+            $res->lang = array();
 
             foreach ($res->lang_untouched as $iso2shorthandle => $translation) {
                 $translation = str_replace("\\n", "\n", $translation);
@@ -217,16 +217,16 @@ class ilNotificationDatabaseHandler
         $ilDB = $DIC->database();
 
         $notification_id = ilNotificationDatabaseHandler::storeNotification($notification);
-        $valid_until     = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
+        $valid_until = $notification->getValidForSeconds() ? (time() + $notification->getValidForSeconds()) : 0;
 
         foreach ($userids as $userid) {
             $ilDB->insert(
                 ilNotificationSetupHelper::$tbl_notification_queue,
                 array(
                     'notification_id' => array('integer', $notification_id),
-                    'usr_id'          => array('integer', $userid),
-                    'valid_until'     => array('integer', $valid_until),
-                    'visible_for'     => array('integer', $notification->getVisibleForSeconds())
+                    'usr_id' => array('integer', $userid),
+                    'valid_until' => array('integer', $valid_until),
+                    'visible_for' => array('integer', $notification->getVisibleForSeconds())
                 )
             );
         }

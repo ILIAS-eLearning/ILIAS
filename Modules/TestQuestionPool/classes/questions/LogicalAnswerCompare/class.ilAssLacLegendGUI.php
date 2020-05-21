@@ -1,121 +1,98 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-include_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
-
 /**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package     Modules/Test
+ * @author  Björn Heyser <bheyser@databay.de>
+ * @package Modules/Test
  */
-class ilAssLacLegendGUI extends ilOverlayGUI
+class ilAssLacLegendGUI
 {
+    /** @var ilLanguage */
     protected $lng;
-    
-    protected $tpl;
-    
-    private $initialVisibilityEnabled;
-
-    /**
-     * @var assQuestion
-     */
+    /** @var ilGlobalTemplateInterface */
+    protected $pageTemplate;
+    /** @var iQuestionCondition*/
     private $questionOBJ;
-    
-    private $examplesByQuestionType = array(
-        'assQuestion' => array('PercentageResultExpression', 'EmptyAnswerExpression'),
-        'assSingleChoice' => array('NumberOfResultExpression'),
-        'assMultipleChoice' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
-        'assErrorText' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
-        'assImagemapQuestion' => array('NumberOfResultExpression', 'ExclusiveResultExpression'),
-        'assNumeric' => array('NumericResultExpression'),
-        'assOrderingQuestion' => array('OrderingResultExpression'),
-        'assOrderingHorizontal' => array('OrderingResultExpression'),
-        'assMatchingQuestion' => array('MatchingResultExpression'),
-        'assTextSubset' => array('StringResultExpression'),
-        'assFormulaQuestion' => array('NumericResultExpression'),
-        
-        'assClozeTest' => array(
+    /** @var array<string, string[]> */
+    private $examplesByQuestionType = [
+        'assQuestion' => ['PercentageResultExpression', 'EmptyAnswerExpression'],
+        'assSingleChoice' => ['NumberOfResultExpression'],
+        'assMultipleChoice' => ['NumberOfResultExpression', 'ExclusiveResultExpression'],
+        'assErrorText' => ['NumberOfResultExpression', 'ExclusiveResultExpression'],
+        'assImagemapQuestion' => ['NumberOfResultExpression', 'ExclusiveResultExpression'],
+        'assNumeric' => ['NumericResultExpression'],
+        'assOrderingQuestion' => ['OrderingResultExpression'],
+        'assOrderingHorizontal' => ['OrderingResultExpression'],
+        'assMatchingQuestion' => ['MatchingResultExpression'],
+        'assTextSubset' => ['StringResultExpression'],
+        'assFormulaQuestion' => ['NumericResultExpression'],
+        'assClozeTest' => [
             'StringResultExpression_1', 'StringResultExpression_2',
             'NumberOfResultExpression', 'NumericResultExpression'
-        ),
-    );
-    
-    public function __construct(ilLanguage $lng, ilGlobalTemplate $tpl)
-    {
+        ],
+    ];
+    /** @var \ILIAS\UI\Factory */
+    private $uiFactory;
+
+    /**
+     * ilAssLacLegendGUI constructor.
+     * @param ilGlobalTemplateInterface $pageTemplate
+     * @param ilLanguage $lng
+     * @param \ILIAS\UI\Factory $uiFactory
+     */
+    public function __construct(
+        ilGlobalTemplateInterface $pageTemplate,
+        ilLanguage $lng,
+        \ILIAS\UI\Factory $uiFactory
+    ) {
+        $this->pageTemplate = $pageTemplate;
         $this->lng = $lng;
-        $this->tpl = $tpl;
-        
-        $this->initialVisibilityEnabled = false;
-
+        $this->uiFactory = $uiFactory;
         $this->questionOBJ = null;
-
-        parent::__construct('qpl_lac_legend');
     }
 
-    public function getQuestionOBJ()
+    /**
+     * @return iQuestionCondition|null
+     */
+    public function getQuestionOBJ() : ? iQuestionCondition
     {
         return $this->questionOBJ;
     }
 
-    public function setQuestionOBJ(iQuestionCondition $questionOBJ)
+    /**
+     * @param iQuestionCondition $questionOBJ
+     */
+    public function setQuestionOBJ(iQuestionCondition $questionOBJ) : void
     {
         $this->questionOBJ = $questionOBJ;
     }
 
-    public function isInitialVisibilityEnabled()
+    /**
+     * @return \ILIAS\UI\Component\Modal\Modal
+     */
+    public function get() : \ILIAS\UI\Component\Modal\Modal
     {
-        return $this->initialVisibilityEnabled;
-    }
-
-    public function setInitialVisibilityEnabled($initialVisibilityEnabled)
-    {
-        $this->initialVisibilityEnabled = $initialVisibilityEnabled;
-    }
-    
-    public function getHTML()
-    {
-        $this->initOverlay();
+        $this->pageTemplate->addCss('Modules/TestQuestionPool/templates/default/lac_legend.css');
 
         $tpl = $this->getTemplate();
-        
-        $this->renderCloseIcon($tpl);
+
         $this->renderCommonLegendPart($tpl);
         $this->renderQuestSpecificLegendPart($tpl);
         $this->renderQuestSpecificExamples($tpl);
-        
-        $this->populateVisibilityCss($tpl);
-        $this->populateTriggerDepencies($tpl);
-        
-        return $tpl->get();
-    }
-    
-    protected function renderCloseIcon($tpl)
-    {
-        $tpl->setVariable('CLOSE_ICON', ilGlyphGUI::get(ilGlyphGUI::CLOSE));
-    }
-    
-    protected function initOverlay()
-    {
-        include_once 'Services/YUI/classes/class.ilYuiUtil.php';
-        ilYuiUtil::initOverlay();
 
-        $this->tpl->addCss('Modules/TestQuestionPool/templates/default/lac_legend.css');
-        
-        //$this->setAnchor('fixed_content', 'tr', 'tr');
-        // we use css instead, does not hoppel over screen for initially visible overlays
-
-        //$this->setTrigger('lac_legend_toggle_btn', 'click');
-        // is done by own listener that also changes the toggle label
-        
-        $this->setVisible($this->isInitialVisibilityEnabled());
-        $this->setAutoHide(false);
-
-        $this->add();
+        return $this->uiFactory->modal()->lightbox([
+            $this->uiFactory->modal()->lightboxTextPage(
+                $tpl->get(),
+                $this->lng->txt('qpl_skill_point_eval_by_solution_compare')
+            ),
+        ]);
     }
 
-    protected function getTemplate()
+    /**
+     * @return ilTemplate
+     * @throws ilTemplateException
+     */
+    protected function getTemplate() : ilTemplate
     {
         return new ilTemplate(
             'tpl.qpl_logical_answer_compare_legend.html',
@@ -124,8 +101,11 @@ class ilAssLacLegendGUI extends ilOverlayGUI
             'Modules/TestQuestionPool'
         );
     }
-    
-    protected function renderCommonLegendPart(ilTemplate $tpl)
+
+    /**
+     * @param ilTemplate $tpl
+     */
+    private function renderCommonLegendPart(ilTemplate $tpl) : void
     {
         $tpl->setVariable(
             'COMMON_ELEMENTS_HEADER',
@@ -140,7 +120,10 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         }
     }
 
-    protected function renderQuestSpecificLegendPart(ilTemplate $tpl)
+    /**
+     * @param ilTemplate $tpl
+     */
+    private function renderQuestSpecificLegendPart(ilTemplate $tpl) : void
     {
         $tpl->setVariable(
             'QUEST_SPECIFIC_ELEMENTS_HEADER',
@@ -157,16 +140,19 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         }
     }
 
-    protected function renderQuestSpecificExamples(ilTemplate $tpl)
+    /**
+     * @param ilTemplate $tpl
+     */
+    private function renderQuestSpecificExamples(ilTemplate $tpl) : void
     {
         $tpl->setVariable(
             'QUEST_SPECIFIC_EXAMPLES_HEADER',
             $this->lng->txt('lacex_example_header')
         );
 
-        $questionTypes = array(
+        $questionTypes = [
             'assQuestion', $this->getQuestionOBJ()->getQuestionType()
-        );
+        ];
         
         foreach ($questionTypes as $questionType) {
             $examples = $this->getExpressionTypeExamplesByQuestionType($questionType);
@@ -174,13 +160,24 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         }
     }
 
-    protected function buildLangVarsByExampleCode($questionType, $exampleCode)
+    /**
+     * @param string $questionType
+     * @param string $exampleCode
+     * @return string[]
+     */
+    private function buildLangVarsByExampleCode(string $questionType, string $exampleCode) : array
     {
         $langVar = 'lacex_' . $questionType . '_' . $exampleCode;
-        return array($langVar . '_e', $langVar . '_d');
+
+        return [$langVar . '_e', $langVar . '_d'];
     }
 
-    protected function renderExample(ilTemplate $tpl, $langVarE, $langVarD)
+    /**
+     * @param ilTemplate $tpl
+     * @param string $langVarE
+     * @param string $langVarD
+     */
+    private function renderExample(ilTemplate $tpl, string $langVarE, string $langVarD) : void
     {
         $tpl->setCurrentBlock('quest_specific_examples');
         $tpl->setVariable('QSEX_ELEMENT', $this->lng->txt($langVarE));
@@ -188,48 +185,14 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         $tpl->parseCurrentBlock();
     }
 
-    protected function populateVisibilityCss(ilTemplate $tpl)
-    {
-        if (!$this->isInitialVisibilityEnabled()) {
-            $tpl->setVariable('CSS_DISPLAY_NONE', 'display:none;');
-        }
-    }
-    
-    protected function populateTriggerDepencies(ilTemplate $tpl)
-    {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignment.php';
-
-        $tpl->setVariable(
-            'TOGGLE_BTN_SHOW_LABEL',
-            $this->lng->txt('ass_lac_show_legend_btn')
-        );
-        
-        $tpl->setVariable(
-            'TOGGLE_BTN_HIDE_LABEL',
-            $this->lng->txt('ass_lac_hide_legend_btn')
-        );
-        
-        $tpl->setVariable(
-            'SKILL_POINT_EVAL_MODE_BY_RESULT',
-            ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT
-        );
-        
-        $tpl->setVariable(
-            'SKILL_POINT_EVAL_MODE_BY_SOLUTION',
-            ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION
-        );
-    }
-    
-    public function getTriggerElement()
-    {
-        return "<div id=\"qpl_lac_legend_trigger\"><a href=\"#\">" . $this->lng->txt("qpl_lac_legend_link") . "</a></div>";
-    }
-
-    protected function getQuestionTypeSpecificExpressions()
+    /**
+     * @return array<string, string>
+     */
+    private function getQuestionTypeSpecificExpressions() : array
     {
         $availableExpressionTypes = $this->getAvailableExpressionTypes();
 
-        $expressionTypes = array();
+        $expressionTypes = [];
 
         foreach ($this->getQuestionOBJ()->getExpressionTypes() as $expressionType) {
             $expressionTypes[$expressionType] = $availableExpressionTypes[$expressionType];
@@ -238,9 +201,12 @@ class ilAssLacLegendGUI extends ilOverlayGUI
         return $expressionTypes;
     }
 
-    protected function getCommonElements()
+    /**
+     * @return array<string, string>
+     */
+    private function getCommonElements()
     {
-        return array(
+        return [
             '&' => $this->lng->txt('qpl_lac_desc_logical_and'),
             '|' => $this->lng->txt('qpl_lac_desc_logical_or'),
             '!' => $this->lng->txt('qpl_lac_desc_negation'),
@@ -249,12 +215,15 @@ class ilAssLacLegendGUI extends ilOverlayGUI
             //'Qn[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_quest_n'),
             'R' => $this->lng->txt('qpl_lac_desc_res_of_cur_quest'),
             'R[m]' => $this->lng->txt('qpl_lac_desc_res_of_answ_m_of_cur_quest')
-        );
+        ];
     }
 
-    protected function getAvailableExpressionTypes()
+    /**
+     * @return array<string, string>
+     */
+    private function getAvailableExpressionTypes() : array
     {
-        return array(
+        return [
             iQuestionCondition::PercentageResultExpression => 'qpl_lac_desc_compare_with_quest_res',
             iQuestionCondition::NumericResultExpression => 'qpl_lac_desc_compare_with_number',
             iQuestionCondition::StringResultExpression => 'qpl_lac_desc_compare_with_text',
@@ -263,13 +232,17 @@ class ilAssLacLegendGUI extends ilOverlayGUI
             iQuestionCondition::NumberOfResultExpression => 'qpl_lac_desc_compare_with_answer_n',
             iQuestionCondition::ExclusiveResultExpression => 'qpl_lac_desc_compare_with_exact_sequence',
             iQuestionCondition::EmptyAnswerExpression => 'qpl_lac_desc_compare_answer_exist'
-        );
+        ];
     }
-    
-    public function getExpressionTypeExamplesByQuestionType($questionType)
+
+    /**
+     * @param string$questionType
+     * @return string[]
+     */
+    private function getExpressionTypeExamplesByQuestionType(string $questionType) : array
     {
         if (!isset($this->examplesByQuestionType[$questionType])) {
-            return array();
+            return [];
         }
         
         return $this->examplesByQuestionType[$questionType];
@@ -277,10 +250,10 @@ class ilAssLacLegendGUI extends ilOverlayGUI
 
     /**
      * @param ilTemplate $tpl
-     * @param $examples
-     * @param $questionType
+     * @param string[] $examples
+     * @param string $questionType
      */
-    protected function renderExamples(ilTemplate $tpl, $examples, $questionType)
+    private function renderExamples(ilTemplate $tpl, array $examples, string $questionType) : void
     {
         foreach ($examples as $exampleCode) {
             list($langVarE, $langVarD) = $this->buildLangVarsByExampleCode($questionType, $exampleCode);

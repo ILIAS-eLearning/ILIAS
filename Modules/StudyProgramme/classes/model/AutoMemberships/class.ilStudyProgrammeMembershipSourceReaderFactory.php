@@ -34,7 +34,7 @@ class ilStudyProgrammeMembershipSourceReaderFactory
                 return new ilStudyProgrammeMembershipSourceReaderOrgu(
                     ilObjOrgUnitTree::_getInstance(),
                     new ilOrgUnitUserAssignment(),
-                    ilObjOrgUnit::_lookupObjectId($src_id)
+                    $src_id
                 );
 
             default:

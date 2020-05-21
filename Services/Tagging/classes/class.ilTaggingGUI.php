@@ -29,6 +29,10 @@ class ilTaggingGUI
      */
     protected $lng;
 
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 
     /**
      * Constructor
@@ -40,6 +44,7 @@ class ilTaggingGUI
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
+        $this->ui = $DIC->ui();
     }
 
     
@@ -330,6 +335,7 @@ class ilTaggingGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $ui = $this->ui;
         
         $lng->loadLanguageModule("tagging");
         $tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
@@ -347,8 +353,14 @@ class ilTaggingGUI
             $tpl->setVariable("MESS", "");
         }
 
-        $img = ilUtil::img(ilObject::_getIcon($this->obj_id, "tiny"));
-        $tpl->setVariable("TXT_OBJ_TITLE", $img . " " . ilObject::_lookupTitle($this->obj_id));
+        $title = ilObject::_lookupTitle($this->obj_id);
+        $icon = $ui->factory()->symbol()->icon()->custom(
+            ilObject::_getIcon($this->obj_id),
+            $title,
+            "medium"
+        );
+        $tpl->setVariable("ICON", $ui->renderer()->render($icon));
+        $tpl->setVariable("TXT_OBJ_TITLE", ilObject::_lookupTitle($this->obj_id));
         $tags = ilTagging::getTagsForUserAndObject(
             $this->obj_id,
             $this->obj_type,

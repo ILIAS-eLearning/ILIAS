@@ -20,7 +20,6 @@
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
 	.btn {
-	  &:focus,
 	  &:active {
 		  outline: 0;
 		  outline-offset: 0;
@@ -73,9 +72,6 @@
 		}
 		&:hover {
 			transition: all .15s ease-in;
-		}
-		&:focus {
-			outline: none;
 		}
 		.glyph{
 			color: @il-mainbar-btn-color;
@@ -172,6 +168,10 @@
 		.icon {
 			filter: invert(100%);
 		}
+		.bulky-label {
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
 		&.engaged {
 			background-color: @il-maincontrols-mainbar-bg-color;
 			border: 0;
@@ -213,9 +213,6 @@
 		height: @il-mainbar-btn-height;
 		padding: 0 20px;
 		width: auto;
-		&:focus {
-			outline: none;
-		}
 	}
 }
 
@@ -257,7 +254,18 @@
 	position: relative;
  }
  .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content {
-	height: 0px; // forcing scrollbars in slate content
+	 >:first-child{
+		 z-index: 1;
+	 }
+	 height: 0px; // forcing scrollbars in slate content
+
+	 .panel-secondary {
+		 margin-bottom: 0;
+
+		 .panel-body {
+			 padding-bottom: 0;
+		 }
+	 }
 }
 
 /*
@@ -308,6 +316,23 @@
 					height: @il-mainbar-small-btn-height;
 				}
 			}
+		}
+	}
+}
+
+//Note: There should never be more than 4 Tools open at once.
+//However, in ILIAS 6, we have a context with 5 tools. This
+//Fixes this issue for exactly five tools by making each tab slightly
+//smaller. See: #26566
+@media only screen and (min-width: @grid-float-breakpoint-max) {
+	.il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5),
+	.il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4),
+	.il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3),
+	.il-mainbar-tool-trigger-item:nth-of-type(4):nth-last-of-type(2),
+	.il-mainbar-tool-trigger-item:nth-of-type(5):nth-last-of-type(1)
+	{
+		.btn-bulky{
+			width: 63px;
 		}
 	}
 }

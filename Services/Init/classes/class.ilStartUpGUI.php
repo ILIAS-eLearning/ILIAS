@@ -212,6 +212,9 @@ class ilStartUpGUI
         // Instantiate login template
         $tpl = self::initStartUpTemplate("tpl.login.html");
 
+        $this->mainTemplate->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
         $page_editor_html = $this->getLoginPageEditorHTML();
         $page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
         $page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
@@ -1039,55 +1042,51 @@ class ilStartUpGUI
 
     /**
      * Show account migration screen
-     * @param string $a_message
+     * @param string $message
      */
-    public function showAccountMigration($a_message = '')
+    public function showAccountMigration(string $message = '') : void
     {
-        /**
-         * @var $tpl ilGlobalTemplate
-         * @var $lng ilLanguage
-         */
-        global $tpl, $lng;
+        $tpl = self::initStartUpTemplate('tpl.login_account_migration.html');
 
-        $lng->loadLanguageModule('auth');
-        self::initStartUpTemplate('tpl.login_account_migration.html');
-
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'migrateAccount'));
 
-        $form->setTitle($lng->txt('auth_account_migration'));
-        $form->addCommandButton('migrateAccount', $lng->txt('save'));
-        $form->addCommandButton('showLogin', $lng->txt('cancel'));
+        $form->setTitle($this->lng->txt('auth_account_migration'));
+        $form->addCommandButton('migrateAccount', $this->lng->txt('save'));
+        $form->addCommandButton('showLogin', $this->lng->txt('cancel'));
 
-        $rad = new ilRadioGroupInputGUI($lng->txt('auth_account_migration_name'), 'account_migration');
+        $rad = new ilRadioGroupInputGUI($this->lng->txt('auth_account_migration_name'), 'account_migration');
         $rad->setValue(1);
 
         $keep = new ilRadioOption(
-            $lng->txt('auth_account_migration_keep'),
+            $this->lng->txt('auth_account_migration_keep'),
             static::ACCOUNT_MIGRATION_MIGRATE,
-            $lng->txt('auth_info_migrate')
+            $this->lng->txt('auth_info_migrate')
         );
-        $user = new ilTextInputGUI($lng->txt('login'), 'mig_username');
+        $user = new ilTextInputGUI($this->lng->txt('login'), 'mig_username');
         $user->setRequired(true);
-        $user->setValue(ilUtil::prepareFormOutput($_POST['mig_username']));
+        $user->setValue(ilUtil::prepareFormOutput(
+            (string) ($this->httpRequest->getParsedBody()['mig_username'] ?? '')
+        ));
         $user->setSize(32);
         $user->setMaxLength(128);
         $keep->addSubItem($user);
 
-        $pass = new ilPasswordInputGUI($lng->txt('password'), 'mig_password');
+        $pass = new ilPasswordInputGUI($this->lng->txt('password'), 'mig_password');
         $pass->setRetype(false);
         $pass->setRequired(true);
-        $pass->setValue(ilUtil::prepareFormOutput($_POST['mig_password']));
+        $pass->setValue(ilUtil::prepareFormOutput(
+            (string) ($this->httpRequest->getParsedBody()['mig_password'] ?? '')
+        ));
         $pass->setSize(12);
         $pass->setMaxLength(128);
         $keep->addSubItem($pass);
         $rad->addOption($keep);
 
         $new = new ilRadioOption(
-            $lng->txt('auth_account_migration_new'),
+            $this->lng->txt('auth_account_migration_new'),
             static::ACCOUNT_MIGRATION_NEW,
-            $lng->txt('auth_info_add')
+            $this->lng->txt('auth_info_add')
         );
         $rad->addOption($new);
 
@@ -1095,109 +1094,99 @@ class ilStartUpGUI
 
         $tpl->setVariable('MIG_FORM', $form->getHTML());
 
-        if (strlen($a_message)) {
-            ilUtil::sendFailure($a_message);
+        if (strlen($message)) {
+            ilUtil::sendFailure($message);
         }
 
-        $tpl->printToStdout('DEFAULT');
+        self::printToGlobalTemplate($tpl);
     }
 
     /**
      * Migrate Account
      * @return bool
      */
-    protected function migrateAccount()
+    protected function migrateAccount() : bool
     {
-        if (!isset($_POST['account_migration'])) {
+        if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
-                $GLOBALS['DIC']->language()->txt('err_choose_migration_type')
+                $this->lng->txt('select_one')
             );
             return false;
         }
 
         if (
-            ($_POST['account_migration'] == self::ACCOUNT_MIGRATION_MIGRATE) &&
-            (!strlen($_POST['mig_username']) || !strlen($_POST['mig_password']))
+            ((int) $this->httpRequest->getParsedBody()['account_migration'] === self::ACCOUNT_MIGRATION_MIGRATE) &&
+            (
+                !isset($this->httpRequest->getParsedBody()['mig_username']) ||
+                !is_string($this->httpRequest->getParsedBody()['mig_username']) ||
+                0 === strlen($this->httpRequest->getParsedBody()['mig_username']) ||
+                !isset($this->httpRequest->getParsedBody()['mig_password']) ||
+                !is_string($this->httpRequest->getParsedBody()['mig_password'])
+            )
         ) {
             $this->showAccountMigration(
-                $GLOBALS['DIC']->language()->txt('err_wrong_login')
+                $this->lng->txt('err_wrong_login')
             );
             return false;
         }
 
-        if ((int) $_POST['account_migration'] == self::ACCOUNT_MIGRATION_MIGRATE) {
+        if ((int) $this->httpRequest->getParsedBody()['account_migration'] == self::ACCOUNT_MIGRATION_MIGRATE) {
             return $this->doMigration();
-        }
-        if ((int) $_POST['account_migration'] == static::ACCOUNT_MIGRATION_NEW) {
+        } elseif ((int) $this->httpRequest->getParsedBody()['account_migration'] == static::ACCOUNT_MIGRATION_NEW) {
             return $this->doMigrationNewAccount();
         }
     }
 
     /**
-     * Create new account for migration
+     * @return bool
      */
-    protected function doMigrationNewAccount()
+    protected function doMigrationNewAccount() : bool
     {
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontend.php';
-
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername(ilSession::get(ilAuthFrontend::MIG_EXTERNAL_ACCOUNT));
 
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, ilSession::get(ilAuthFrontend::MIG_TRIGGER_AUTHMODE));
 
         $this->logger->debug('Using provider: ' . get_class($provider) . ' for further processing.');
 
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
             $GLOBALS['DIC']['ilAuthSession'],
             $status,
             $credentials,
-            array($provider)
+            [$provider]
         );
 
         if ($frontend->migrateAccountNew()) {
-            include_once './Services/Init/classes/class.ilInitialisation.php';
             ilInitialisation::redirectToStartingPage();
         }
 
         ilUtil::sendFailure($this->lng->txt('err_wrong_login'));
         $this->ctrl->redirect($this, 'showAccountMigration');
+
+        return true;
     }
 
-
-
-
     /**
-     * Do migration of existing ILIAS database user account
+     * @return bool
      */
-    protected function doMigration()
+    protected function doMigration() : bool
     {
-        include_once './Services/Authentication/classes/class.ilAuthFactory.php';
-
         $this->logger->debug('Starting account migration for user: ' . (string) ilSession::get('mig_ext_account'));
 
-        // try database authentication
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername((string) $_POST['mig_username']);
         $credentials->setPassword((string) $_POST['mig_password']);
 
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, AUTH_LOCAL);
 
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
@@ -1222,12 +1211,11 @@ class ilStartUpGUI
                     $GLOBALS['DIC']['ilAuthSession'],
                     $status,
                     $credentials,
-                    array($provider)
+                    [$provider]
                 );
                 if (
                     $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
                 ) {
-                    include_once './Services/Init/classes/class.ilInitialisation.php';
                     ilInitialisation::redirectToStartingPage();
                 } else {
                     ilUtil::sendFailure($this->lng->txt('err_wrong_login'), true);
@@ -1278,7 +1266,7 @@ class ilStartUpGUI
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
         $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
-        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&lang=" . $lng->getLangKey());
+        $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1410,10 +1398,9 @@ class ilStartUpGUI
         $tpl->hideFooter(); // no client yet
 
         $tpl->setVariable("PAGETITLE", $lng->txt("clientlist_clientlist"));
-        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
         // load client list template
-        self::initStartUpTemplate("tpl.client_list.html");
+        $tpl = self::initStartUpTemplate("tpl.client_list.html");
 
         // load template for table
         $tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
@@ -1424,10 +1411,8 @@ class ilStartUpGUI
         // load table content data
         require_once("setup/classes/class.ilClientList.php");
         require_once("setup/classes/class.ilClient.php");
-        require_once("setup/classes/class.ilDBConnections.php");
         require_once("./Services/Table/classes/class.ilTableGUI.php");
-        $this->db_connections = new ilDBConnections();
-        $clientlist = new ilClientList($this->db_connections);
+        $clientlist = new \ilClientList();
         $list = $clientlist->getClients();
 
         if (count($list) == 0) {
@@ -1459,7 +1444,7 @@ class ilStartUpGUI
         }
 
         // create table
-        $tbl = new ilTableGUI();
+        $tbl = new ilTableGUI('', false);
 
         // title & header columns
         if ($hasPublicSection) {
@@ -1489,8 +1474,8 @@ class ilStartUpGUI
         $tbl->disable("footer");
 
         // render table
-        $tbl->render();
-        $tpl->printToStdout("DEFAULT", true, true);
+        $html_for_nothing = $tbl->render();
+        self::printToGlobalTemplate($tbl->getTemplateObject());
     }
 
     /**
@@ -1617,7 +1602,10 @@ class ilStartUpGUI
 
     public static function _checkGoto($a_target)
     {
+        global $DIC;
         global $objDefinition, $ilPluginAdmin, $ilUser;
+
+        $access = $DIC->access();
 
 
         if (is_object($ilPluginAdmin)) {
@@ -1700,11 +1688,10 @@ class ilStartUpGUI
                 $pobj_id = ilObject::_lookupObjId($path_ref_id);
 
                 // core checks: timings/object-specific
-                if (!$ilAccess->checkAccess(
-                    'read',
-                    '',
-                    $path_ref_id
-                )) {
+                if (
+                    !$access->doActivationCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
+                    !$access->doStatusCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype)
+                ) {
                     // object in path is inaccessible - aborting
                     return false;
                 } elseif ($ptype == "crs") {
@@ -1899,10 +1886,10 @@ class ilStartUpGUI
 
         if (is_array($a_tmpl)) {
             $template_file = $a_tmpl[0];
-            $template_dir  = $a_tmpl[1];
+            $template_dir = $a_tmpl[1];
         } else {
             $template_file = $a_tmpl;
-            $template_dir  = 'Services/Init';
+            $template_dir = 'Services/Init';
         }
 
         $tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
@@ -1913,7 +1900,9 @@ class ilStartUpGUI
             $short_title = 'ILIAS';
         }
         PageContentProvider::setShortTitle($short_title);
-        PageContentProvider::setTitle($short_title);
+
+        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        PageContentProvider::setTitle($header_title);
 
         return $tpl;
     }
@@ -1965,21 +1954,23 @@ class ilStartUpGUI
         if ($oidc_settings->getActive()) {
             $tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
 
+            $target = empty($_GET['target']) ? '' : ('?target=' . (string) $_GET['target']);
             switch ($oidc_settings->getLoginElementType()) {
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_TXT:
 
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php');
+
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_T', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
                     $tpl->setVariable('TXT_OIDC', $oidc_settings->getLoginElemenText());
                     break;
 
                 case ilOpenIdConnectSettings::LOGIN_ELEMENT_TYPE_IMG:
-                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php');
+                    $tpl->setVariable('SCRIPT_OIDCONNECT_I', ILIAS_HTTP_PATH . '/openidconnect.php' . $target);
                     $tpl->setVariable('IMG_SOURCE', $oidc_settings->getImageFilePath());
                     break;
             }
 
             return $this->substituteLoginPageElements(
-                $DIC->ui()->mainTemplate(),
+                $GLOBALS['tpl'],
                 $page_editor_html,
                 $tpl->get(),
                 '[list-openid-connect-login]',
@@ -2047,9 +2038,8 @@ class ilStartUpGUI
         $this->getLogger()->debug('Trying saml authentication');
 
         $request = $DIC->http()->request();
-        $params  = $request->getQueryParams();
+        $params = $request->getQueryParams();
 
-        require_once 'Services/Saml/classes/class.ilSamlAuthFactory.php';
         $factory = new ilSamlAuthFactory();
         $auth = $factory->auth();
 
@@ -2089,18 +2079,14 @@ class ilStartUpGUI
 
         $_POST['auth_mode'] = AUTH_SAML . '_' . ((int) $auth->getParam('idpId'));
 
-        require_once 'Services/Saml/classes/class.ilAuthFrontendCredentialsSaml.php';
         $credentials = new ilAuthFrontendCredentialsSaml($auth);
         $credentials->initFromRequest();
 
-        require_once 'Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes($_POST['auth_mode']));
 
-        require_once 'Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
 
-        require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
         $frontend = $frontend_factory->getFrontend(
@@ -2115,7 +2101,6 @@ class ilStartUpGUI
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                require_once 'Services/Init/classes/class.ilInitialisation.php';
                 return ilInitialisation::redirectToStartingPage();
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
@@ -2143,15 +2128,14 @@ class ilStartUpGUI
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
-        $mainTpl  = $DIC->ui()->mainTemplate();
-        $factory  = $DIC->ui()->factory();
+        $mainTpl = $DIC->ui()->mainTemplate();
+        $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
         $DIC->ctrl()->setTargetScript('saml.php');
 
         $items = [];
 
-        require_once 'Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php';
         $table = new ilSamlIdpSelectionTableGUI($this, 'doSamlAuthentication');
 
         foreach ($idps as $idp) {

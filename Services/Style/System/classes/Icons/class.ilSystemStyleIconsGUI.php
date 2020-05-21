@@ -123,7 +123,7 @@ class ilSystemStyleIconsGUI
 
         if ($active == "preview") {
             $this->tabs->activateSubTab($active);
-        } elseif ($active == "cancelIcon"|| $active == "editIcon") {
+        } elseif ($active == "cancelIcon" || $active == "editIcon") {
             $this->tabs->activateSubTab("editIcon");
         } else {
             $this->tabs->activateSubTab("edit");
@@ -195,7 +195,7 @@ class ilSystemStyleIconsGUI
                 /**
                  * @var ilSystemStyleIconColor $color
                  */
-                $input = new ilColorPickerInputGUI($title . " " . ($id+1), $color->getId());
+                $input = new ilColorPickerInputGUI($title . " " . ($id + 1), $color->getId());
                 $input->setRequired(true);
                 $input->setInfo("Usages: " . $this->getIconFolder()->getUsagesOfColorAsString($color->getId()));
                 $form->addItem($input);
@@ -326,7 +326,7 @@ class ilSystemStyleIconsGUI
 
         $options = array();
         foreach ($this->getIconFolder()->getIcons() as $icon) {
-            if ($icon->getType()=="svg") {
+            if ($icon->getType() == "svg") {
                 $options[$icon->getName()] = $icon->getName();
             }
         }
@@ -371,7 +371,7 @@ class ilSystemStyleIconsGUI
                 /**
                  * @var ilSystemStyleIconColor $color
                  */
-                $input = new ilColorPickerInputGUI($title . " " . ($id+1), $color->getId());
+                $input = new ilColorPickerInputGUI($title . " " . ($id + 1), $color->getId());
                 $input->setRequired(true);
                 $form->addItem($input);
             }
@@ -535,7 +535,7 @@ class ilSystemStyleIconsGUI
                 $colors = $icon->getColorSet()->asString();
                 if ($colors) {
                     $card = $card->withSections(array(
-                        $f->listing()->descriptive(array($this->lng->txt("used_colors")=>$colors))
+                        $f->listing()->descriptive(array($this->lng->txt("used_colors") => $colors))
                     ));
                 }
                 $cards[] = $card;

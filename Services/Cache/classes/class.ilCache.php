@@ -159,7 +159,7 @@ class ilCache
         
         $set = $ilDB->query($query);
 
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             $this->entry = $rec["value"];
             return true;
         }
@@ -200,7 +200,7 @@ class ilCache
         $table = $this->getUseLongContent()
             ? "cache_clob"
             : "cache_text";
-        $type =  $this->getUseLongContent()
+        $type = $this->getUseLongContent()
             ? "clob"
             : "text";
             

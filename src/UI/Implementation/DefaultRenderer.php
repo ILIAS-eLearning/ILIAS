@@ -64,7 +64,7 @@ class DefaultRenderer implements Renderer
                         ->getOnLoadCodeAsync();
             }
         } else {
-            $out =  $this->render($component) .
+            $out = $this->render($component) .
             $this->component_renderer_loader
                     ->getRendererFactoryFor($component)
                     ->getJSBinding()

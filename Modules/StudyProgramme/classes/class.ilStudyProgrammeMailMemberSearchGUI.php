@@ -132,7 +132,7 @@ class ilStudyProgrammeMailMemberSearchGUI
 
     protected function sendMailToSelectedUsers() : bool
     {
-        if (!count($_POST['user_ids'])) {
+        if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
@@ -156,7 +156,7 @@ class ilStudyProgrammeMailMemberSearchGUI
             array(),
             array(
                 'type' => 'new',
-                'sig'  =>  $this->createMailSignature()
+                'sig' => $this->createMailSignature()
             ),
             $this->generateContextArray()
         ));

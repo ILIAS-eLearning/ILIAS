@@ -134,18 +134,18 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
         $security_flaw_ignoring_encoder = new ilBcryptPasswordEncoder([
             'ignore_security_flaw' => true,
-            'data_directory'       => $this->getTestDirectoryUrl()
+            'data_directory' => $this->getTestDirectoryUrl()
         ]);
         $this->assertTrue($security_flaw_ignoring_encoder->isSecurityFlawIgnored());
 
         $security_flaw_respecting_encoder = new ilBcryptPasswordEncoder([
             'ignore_security_flaw' => false,
-            'data_directory'       => $this->getTestDirectoryUrl()
+            'data_directory' => $this->getTestDirectoryUrl()
         ]);
         $this->assertFalse($security_flaw_respecting_encoder->isSecurityFlawIgnored());
 
         $encoder = new ilBcryptPasswordEncoder([
-            'cost'           => self::VALID_COSTS,
+            'cost' => self::VALID_COSTS,
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
         $this->assertInstanceOf('ilBcryptPasswordEncoder', $encoder);

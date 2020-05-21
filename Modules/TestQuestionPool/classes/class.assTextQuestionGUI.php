@@ -228,7 +228,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 }
             }
         }
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
@@ -244,7 +244,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 array($user_solution => '')
             );
             
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
             $cssClass = (
@@ -315,7 +315,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     private function getUserAnswer($active_id, $pass)
     {
         $user_solution = "";
-        $solutions     = $this->object->getSolutionValues($active_id, $pass);
+        $solutions = $this->object->getSolutionValues($active_id, $pass);
         foreach ($solutions as $idx => $solution_value) {
             $user_solution = $solution_value["value1"];
         }
@@ -568,9 +568,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         foreach ($this->object->getAnswers() as $idx => $ans) {
             if ($this->object->isKeywordMatching($user_answer, $ans->getAnswertext())) {
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-                        $this->object->getId(),
-                        0,
-                        $idx
+                    $this->object->getId(),
+                    0,
+                    $idx
                     );
                 $feedback .= '<tr><td><b><i>' . $ans->getAnswertext() . '</i></b></td><td>';
                 $feedback .= $fb . '</td> </tr>';
@@ -657,28 +657,28 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $this->lng->txt('essay_scoring_mode_without_keywords'),
             'non',
             $this->lng->txt(
-                                                   'essay_scoring_mode_without_keywords_desc'
+                'essay_scoring_mode_without_keywords_desc'
             )
         );
         $scoringOptionAnyKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_any'),
             'any',
             $this->lng->txt(
-                                                         'essay_scoring_mode_keyword_relation_any_desc'
+                'essay_scoring_mode_keyword_relation_any_desc'
             )
         );
         $scoringOptionAllKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_all'),
             'all',
             $this->lng->txt(
-                                                         'essay_scoring_mode_keyword_relation_all_desc'
+                'essay_scoring_mode_keyword_relation_all_desc'
             )
         );
         $scoringOptionOneKeyword = new ilRadioOption(
             $this->lng->txt('essay_scoring_mode_keyword_relation_one'),
             'one',
             $this->lng->txt(
-                                                         'essay_scoring_mode_keyword_relation_one_desc'
+                'essay_scoring_mode_keyword_relation_one_desc'
             )
         );
 

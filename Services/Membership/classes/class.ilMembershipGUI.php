@@ -319,7 +319,7 @@ class ilMembershipGUI
                 require_once 'Services/User/Gallery/classes/class.ilUsersGalleryParticipants.php';
 
 
-                $provider    = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
+                $provider = new ilUsersGalleryParticipants($this->getParentObject()->getMembersObject());
                 $gallery_gui = new ilUsersGalleryGUI($provider);
                 $this->ctrl->forwardCommand($gallery_gui);
                 break;
@@ -500,7 +500,7 @@ class ilMembershipGUI
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
                 
-        if (!count($_POST['participants'])) {
+        if (!array_key_exists('participants', $_POST) || !count($_POST['participants'])) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
@@ -564,7 +564,16 @@ class ilMembershipGUI
                 break;
             }
         }
-        
+
+        if (!$has_admin && is_array($_POST['roles'])) {
+            foreach ($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
+                if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
+                    $has_admin = true;
+                    break;
+                }
+            }
+        }
+
         if (!$has_admin) {
             ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType() . '_min_one_admin'), true);
             $this->ctrl->redirect($this, 'participants');
@@ -746,6 +755,7 @@ class ilMembershipGUI
      */
     protected function sendMailToSelectedUsers()
     {
+        $participants = [];
         if ($_POST['participants']) {
             $participants = (array) $_POST['participants'];
         } elseif ($_GET['member_id']) {
@@ -775,7 +785,7 @@ class ilMembershipGUI
                 'participants',
                 array(),
                 array(
-                    'type'   => 'new',
+                    'type' => 'new',
                     'sig' => $this->createMailSignature()
                 ),
                 $context_options
@@ -860,10 +870,10 @@ class ilMembershipGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $this->lng->txt('user'),
-                    'user_type'				=> $this->getParentGUI()->getLocalRoles(),
-                    'user_type_default'		=> $this->getDefaultRole(),
-                    'submit_name'			=> $this->lng->txt('add')
+                    'auto_complete_name' => $this->lng->txt('user'),
+                    'user_type' => $this->getParentGUI()->getLocalRoles(),
+                    'user_type_default' => $this->getDefaultRole(),
+                    'submit_name' => $this->lng->txt('add')
                 )
             );
 
@@ -986,16 +996,22 @@ class ilMembershipGUI
         return 'mailMembersBtn';
     }
 
-    
     /**
      * add member tab
      * @param ilTabsGUI $tabs
+     * @param bool      $a_is_participant
      */
     public function addMemberTab(ilTabsGUI $tabs, $a_is_participant = false)
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
+
+        // no read no tab
+        if (!$ilAccess->checkAccess('read', '', $this->getParentObject()->getRefId())) {
+            return false;
+        }
+
         
         include_once './Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
@@ -1402,7 +1418,7 @@ class ilMembershipGUI
      */
     public function assignFromWaitingList()
     {
-        if (!count($_POST["waiting"])) {
+        if (!array_key_exists('waiting', $_POST) || !count($_POST["waiting"])) {
             ilUtil::sendFailure($this->lng->txt("crs_no_users_selected"), true);
             $this->ctrl->redirect($this, 'participants');
         }
@@ -1499,7 +1515,7 @@ class ilMembershipGUI
      */
     protected function refuseFromList()
     {
-        if (!count($_POST['waiting'])) {
+        if (!array_key_exists('waiting', $_POST) || !count($_POST['waiting'])) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'participants');
         }
@@ -1614,6 +1630,15 @@ class ilMembershipGUI
      */
     protected function printMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'participants')
+        );
+
         $list = $this->initAttendanceList();
         $list->initFromForm();
         $list->setCallback(array($this, 'getAttendanceListUserData'));
@@ -1624,9 +1649,7 @@ class ilMembershipGUI
         );
         
         $list->getNonMemberUserData($this->member_data);
-        
         $list->getFullscreenHTML();
-        exit();
     }
     
     /**
@@ -1634,6 +1657,15 @@ class ilMembershipGUI
      */
     protected function printForMembersOutput()
     {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+        $tabs->clearTargets();
+        $tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, 'jump2UsersGallery')
+        );
+
         $list = $this->initAttendanceList();
         $list->setTitle($this->lng->txt('obj_' . $this->getParentObject()->getType()) . ': ' . $this->getParentObject()->getTitle());
         $list->setId(0);
@@ -1644,7 +1676,6 @@ class ilMembershipGUI
         $list->getNonMemberUserData($this->member_data);
         
         $list->getFullscreenHTML();
-        exit();
     }
 
     /**

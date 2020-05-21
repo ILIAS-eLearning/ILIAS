@@ -1043,7 +1043,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $worksheet->setCell($startrow + $i, 0, $solution["value2"]);
                 }
             }
-            $element = $this->getOrderingElementList()->getElementByPosition($idx);
+            $element = $this->getOrderingElementList()->getElementBySolutionIdentifier($idx);
             $worksheet->setCell($startrow + $i, 1, $element->getContent());
             $i++;
         }
@@ -1145,10 +1145,10 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) true;
-        $result['points'] =  $this->getPoints();
+        $result['points'] = $this->getPoints();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -1447,9 +1447,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         
         $ilDB->update(
             'qpl_a_ordering',
-            array('solution_key'=> array('integer', $a_index),
-              'depth'		=> array('integer', $a_depth)),
-            array('answertext' 	=> array('text', $a_answer_text))
+            array('solution_key' => array('integer', $a_index),
+              'depth' => array('integer', $a_depth)),
+            array('answertext' => array('text', $a_answer_text))
         );
         
         
@@ -1544,7 +1544,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

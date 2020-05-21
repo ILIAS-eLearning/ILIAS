@@ -3,15 +3,9 @@
 <div id="iltinymenu_bd">
 <div id="ilsaving" class="ilHighlighted ilNoDisplay">{TXT_SAVING}</div>
 <div id="ilTinyMenuButtons">
-	<div class="visible-xs-block">{SAVE_DROPDOWN}</div>
-	<div class="hidden-xs">
-	<!-- BEGIN save_return -->
-	<a class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdSaveReturn(false); return false;" >&nbsp;{TXT_SAVE_RETURN}&nbsp;</a>
-	<!-- END save_return -->
-	<!-- BEGIN save_new -->
-	<a class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdSaveReturn(true); return false;" >&nbsp;{TXT_SAVE_NEW}&nbsp;</a>
-	<!-- END save_new -->
-	<a class="btn btn-sm btn-default" href="#" accesskey="s" onClick="ilCOPage.cmdSave(null); return false;" >&nbsp;{TXT_SAVE}&nbsp;</a>
+	<div>
+		{SPLIT_BUTTON}
+		{SAVE_DROPDOWN}
 	<a class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdCancel(); return false;" >&nbsp;{TXT_CANCEL}&nbsp;</a>
 	<!-- BEGIN debug_ghost -->
 	<a onClick="ilCOPage.switchDebugGhost(); return false;" >DebugG</a>

@@ -165,13 +165,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         //convert from short-string representation to "real" bytes
         $multiplier_a = array( "K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024 );
-        $umf_parts    = preg_split(
+        $umf_parts = preg_split(
             "/(\d+)([K|G|M])/",
             $upload_max_filesize,
             -1,
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
-        $pms_parts    = preg_split(
+        $pms_parts = preg_split(
             "/(\d+)([K|G|M])/",
             $post_max_size,
             -1,
@@ -225,14 +225,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         $solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
             include_once "./Modules/Test/classes/class.ilObjTest.php";
             if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
                 if (is_null($pass)) {
                     $pass = ilObjTest::_getPass($active_id);
                 }
             }
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
 
             $files = ($show_manual_scoring) ? $this->object->getUploadedFilesForWeb($active_id, $pass) : $this->object->getUploadedFiles($active_id, $pass);
             include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
@@ -295,7 +295,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $resulttext = ($reached_points == 1) ? "(%s " . $this->lng->txt("point") . ")" : "(%s " . $this->lng->txt("points") . ")";
             $template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
         }
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $questionoutput = $template->get();

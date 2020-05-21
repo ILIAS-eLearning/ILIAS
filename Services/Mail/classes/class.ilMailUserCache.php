@@ -34,12 +34,12 @@ class ilMailUserCache
     {
         global $DIC;
 
-        $usr_ids_to_request              = array_diff($usr_ids, self::$requested_usr_ids);
-        self::$requested_usr_ids         = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
+        $usr_ids_to_request = array_diff($usr_ids, self::$requested_usr_ids);
+        self::$requested_usr_ids = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
         self::$requested_usr_ids_key_map = array_flip(self::$requested_usr_ids);
 
         if ($usr_ids_to_request) {
-            $in    = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
+            $in = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
 				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile,pup.value public_upload, pupgen.value public_gender
 				FROM usr_data ud

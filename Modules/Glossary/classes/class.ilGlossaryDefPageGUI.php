@@ -56,7 +56,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
      */
     public function postOutputProcessing($a_output)
     {
-        if ($this->getOutputMode() == "print"  && $this->glossary instanceof ilObjGlossary) {
+        if ($this->getOutputMode() == "print" && $this->glossary instanceof ilObjGlossary) {
             $term_id = ilGlossaryDefinition::_lookupTermId($this->getId());
             $mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term_id);
             $md = $mdgui->getKeyValueList();

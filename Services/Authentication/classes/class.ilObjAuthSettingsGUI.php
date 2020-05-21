@@ -67,32 +67,27 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('authentication_settings');
         $this->setSubTabs('authSettings');
         $this->tabs_gui->setSubTabActive("auth_settings");
-        
-        $this->tpl->addBlockFile(
-            "ADM_CONTENT",
-            "adm_content",
-            "tpl.auth_general.html",
-            "Services/Authentication"
-        );
-        
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
-        
-        $this->tpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
-        $this->tpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
-        $this->tpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active"));
-        $this->tpl->setVariable("TXT_AUTH_NUM_USERS", $this->lng->txt("num_users"));
 
-        $this->tpl->setVariable("TXT_LOCAL", $this->lng->txt("auth_local"));
-        $this->tpl->setVariable("TXT_LDAP", $this->lng->txt("auth_ldap"));
-        $this->tpl->setVariable("TXT_SHIB", $this->lng->txt("auth_shib"));
-        
-        $this->tpl->setVariable("TXT_CAS", $this->lng->txt("auth_cas"));
+        $generalSettingsTpl = new ilTemplate('tpl.auth_general.html', true, true, 'Services/Authentication');
 
-        $this->tpl->setVariable("TXT_RADIUS", $this->lng->txt("auth_radius"));
-        $this->tpl->setVariable("TXT_SCRIPT", $this->lng->txt("auth_script"));
+        $generalSettingsTpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+        $generalSettingsTpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
 
-        $this->tpl->setVariable("TXT_APACHE", $this->lng->txt("auth_apache"));
+        $generalSettingsTpl->setVariable("TXT_AUTH_MODE", $this->lng->txt("auth_mode"));
+        $generalSettingsTpl->setVariable("TXT_AUTH_DEFAULT", $this->lng->txt("default"));
+        $generalSettingsTpl->setVariable("TXT_AUTH_ACTIVE", $this->lng->txt("active"));
+        $generalSettingsTpl->setVariable("TXT_AUTH_NUM_USERS", $this->lng->txt("num_users"));
+
+        $generalSettingsTpl->setVariable("TXT_LOCAL", $this->lng->txt("auth_local"));
+        $generalSettingsTpl->setVariable("TXT_LDAP", $this->lng->txt("auth_ldap"));
+        $generalSettingsTpl->setVariable("TXT_SHIB", $this->lng->txt("auth_shib"));
+
+        $generalSettingsTpl->setVariable("TXT_CAS", $this->lng->txt("auth_cas"));
+
+        $generalSettingsTpl->setVariable("TXT_RADIUS", $this->lng->txt("auth_radius"));
+        $generalSettingsTpl->setVariable("TXT_SCRIPT", $this->lng->txt("auth_script"));
+
+        $generalSettingsTpl->setVariable("TXT_APACHE", $this->lng->txt("auth_apache"));
 
         $auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
         $auth_modes = ilAuthUtils::_getAllAuthModes();
@@ -108,65 +103,65 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 continue;
             }
 
-            $this->tpl->setCurrentBlock('auth_mode');
+            $generalSettingsTpl->setCurrentBlock('auth_mode');
 
             if (ilLDAPServer::isAuthModeLDAP($mode)) {
                 $server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::getServerIdByAuthMode($mode));
-                $this->tpl->setVariable("AUTH_NAME", $server->getName());
-                $this->tpl->setVariable('AUTH_ACTIVE', $server->isActive() ? $icon_ok : $icon_not_ok);
+                $generalSettingsTpl->setVariable("AUTH_NAME", $server->getName());
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $server->isActive() ? $icon_ok : $icon_not_ok);
             } elseif (ilSamlIdp::isAuthModeSaml($mode)) {
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode($mode));
-                $this->tpl->setVariable('AUTH_NAME', $idp->getEntityId());
-                $this->tpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
+                $generalSettingsTpl->setVariable('AUTH_NAME', $idp->getEntityId());
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
             } else {
-                $this->tpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
-                $this->tpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == AUTH_LOCAL ? $icon_ok : $icon_not_ok);
+                $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == AUTH_LOCAL ? $icon_ok : $icon_not_ok);
             }
 
             if ($ilSetting->get('auth_mode') == $mode) {
-                $this->tpl->setVariable("AUTH_CHECKED", "checked=\"checked\"");
+                $generalSettingsTpl->setVariable("AUTH_CHECKED", "checked=\"checked\"");
 
-                $this->tpl->setVariable(
+                $generalSettingsTpl->setVariable(
                     "AUTH_USER_NUM",
                     ((int) $auth_cnt[$mode_name] + $auth_cnt["default"]) . " (" . $this->lng->txt("auth_per_default") .
                                         ": " . $auth_cnt["default"] . ")"
                 );
             } else {
-                $this->tpl->setVariable(
+                $generalSettingsTpl->setVariable(
                     "AUTH_USER_NUM",
                     (int) $auth_cnt[$mode_name]
                 );
             }
-            $this->tpl->setVariable("AUTH_ID", $mode_name);
-            $this->tpl->setVariable("AUTH_VAL", $mode);
-            $this->tpl->parseCurrentBlock();
+            $generalSettingsTpl->setVariable("AUTH_ID", $mode_name);
+            $generalSettingsTpl->setVariable("AUTH_VAL", $mode);
+            $generalSettingsTpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("auth_configure"));
+        $generalSettingsTpl->setVariable("TXT_CONFIGURE", $this->lng->txt("auth_configure"));
 
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            $this->tpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
-            $this->tpl->setCurrentBlock('auth_mode_submit');
-            $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-            $this->tpl->setVariable("CMD_SUBMIT", "setAuthMode");
-            $this->tpl->parseCurrentBlock();
+            $generalSettingsTpl->setVariable("TXT_AUTH_REMARK", $this->lng->txt("auth_remark_non_local_auth"));
+            $generalSettingsTpl->setCurrentBlock('auth_mode_submit');
+            $generalSettingsTpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+            $generalSettingsTpl->setVariable("CMD_SUBMIT", "setAuthMode");
+            $generalSettingsTpl->parseCurrentBlock();
         }
         
         // auth mode determinitation
         if ($this->initAuthModeDetermination()) {
-            $this->tpl->setVariable('TABLE_AUTH_DETERMINATION', $this->form->getHTML());
+            $generalSettingsTpl->setVariable('TABLE_AUTH_DETERMINATION', $this->form->getHTML());
         }
         
         // roles table
-        $this->tpl->setVariable(
+        $generalSettingsTpl->setVariable(
             "FORMACTION_ROLES",
             $this->ctrl->getFormAction($this)
         );
-        $this->tpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
-        $this->tpl->setVariable("TXT_ROLE", $this->lng->txt("obj_role"));
-        $this->tpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
+        $generalSettingsTpl->setVariable("TXT_AUTH_ROLES", $this->lng->txt("auth_active_roles"));
+        $generalSettingsTpl->setVariable("TXT_ROLE", $this->lng->txt("obj_role"));
+        $generalSettingsTpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            $this->tpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
+            $generalSettingsTpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
         }
         
         include_once("./Services/AccessControl/classes/class.ilObjRole.php");
@@ -188,8 +183,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     || $auth_name == "openid") {
                     continue;
                 }
-                
-                $this->tpl->setCurrentBlock("auth_mode_selection");
+
+                $generalSettingsTpl->setCurrentBlock("auth_mode_selection");
 
                 if ($auth_name == 'default') {
                     $name = $this->lng->txt('auth_' . $auth_name) . " (" . $this->lng->txt('auth_' . ilAuthUtils::_getAuthModeName($auth_key)) . ")";
@@ -203,22 +198,24 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     $name = $this->lng->txt('auth_' . $auth_name);
                 }
 
-                $this->tpl->setVariable("AUTH_MODE_NAME", $name);
+                $generalSettingsTpl->setVariable("AUTH_MODE_NAME", $name);
 
-                $this->tpl->setVariable("AUTH_MODE", $auth_name);
+                $generalSettingsTpl->setVariable("AUTH_MODE", $auth_name);
 
                 if ($role['auth_mode'] == $auth_name) {
-                    $this->tpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
+                    $generalSettingsTpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
                 }
 
-                $this->tpl->parseCurrentBlock();
-            } // END auth_mode selection
-            
-            $this->tpl->setCurrentBlock("roles");
-            $this->tpl->setVariable("ROLE", $role['title']);
-            $this->tpl->setVariable("ROLE_ID", $role['id']);
-            $this->tpl->parseCurrentBlock();
+                $generalSettingsTpl->parseCurrentBlock();
+            }
+
+            $generalSettingsTpl->setCurrentBlock("roles");
+            $generalSettingsTpl->setVariable("ROLE", $role['title']);
+            $generalSettingsTpl->setVariable("ROLE_ID", $role['id']);
+            $generalSettingsTpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($generalSettingsTpl->get());
     }
     
     
@@ -281,7 +278,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $current_auth_mode = $ilSetting->get('auth_mode','');
+        $current_auth_mode = $ilSetting->get('auth_mode', '');
         if ($_POST["auth_mode"] == $current_auth_mode) {
             ilUtil::sendInfo($this->lng->txt("auth_mode") . ": " . $this->getAuthModeTitle() . " " . $this->lng->txt("auth_mode_not_changed"), true);
             $this->ctrl->redirect($this, 'authSettings');
@@ -302,7 +299,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 */
                 break;
                 
-                case AUTH_SHIB:
+				// @fix changed from AUTH_SHIB > is not defined
+                case AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"), true);
                     ilUtil::redirect($this->getReturnLocation("authSettings", $this->ctrl->getLinkTarget($this, "editSHIB", "", false, false)));
@@ -886,7 +884,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'illdapsettingsgui':

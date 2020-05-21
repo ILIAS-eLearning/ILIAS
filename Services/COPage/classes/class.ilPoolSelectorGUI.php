@@ -80,7 +80,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
     {
         if (parent::isNodeVisible($a_node)) {
             //hide empty container
-            if (count($this->getChildsOfNode($a_node["child"]))>0 || $this->isNodeClickable($a_node)) {
+            if (count($this->getChildsOfNode($a_node["child"])) > 0 || $this->isNodeClickable($a_node)) {
                 // #16523
                 if ($a_node["type"] == "qpl") {
                     include_once "Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";

@@ -317,7 +317,7 @@ class ilObjectActivation
             $query .= "parent_id = " . $ilDB->quote($a_parent_id, 'integer') . ", ";
         }
         
-        $query .=  "visible = " . $ilDB->quote($this->enabledVisible(), 'integer') . " " .
+        $query .= "visible = " . $ilDB->quote($this->enabledVisible(), 'integer') . " " .
             "WHERE obj_id = " . $ilDB->quote($a_ref_id, 'integer');
         $ilDB->manipulate($query);
         
@@ -522,13 +522,13 @@ class ilObjectActivation
                 $now_parts = getdate($now);
 
                 $a_item = array();
-                $a_item["timing_type"]		= self::TIMINGS_DEACTIVATED;
-                $a_item["timing_start"]		= $now;
-                $a_item["timing_end"]		= $now;
-                $a_item["suggestion_start"]	= $now;
-                $a_item["suggestion_end"]	= $now;
-                $a_item['visible']			= 0;
-                $a_item['changeable']		= 0;
+                $a_item["timing_type"] = self::TIMINGS_DEACTIVATED;
+                $a_item["timing_start"] = $now;
+                $a_item["timing_end"] = $now;
+                $a_item["suggestion_start"] = $now;
+                $a_item["suggestion_end"] = $now;
+                $a_item['visible'] = 0;
+                $a_item['changeable'] = 0;
                 
                 $query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,timing_end," .
                     "suggestion_start,suggestion_end, " .
@@ -826,23 +826,21 @@ class ilObjectActivation
     public static function getTimingsAdministrationItems($a_parent_id)
     {
         $items = self::getItems($a_parent_id, false);
-        
-        if ($items) {
-            $active = $inactive = array();
-            foreach ($items as $item) {
-                // active should be first in order
-                if ($item['timing_type'] == self::TIMINGS_DEACTIVATED) {
-                    $inactive[] = $item;
-                } else {
-                    $active[] = $item;
-                }
+        $active = $availability  = $inactive = [];
+        foreach ($items as $item) {
+            if ($item['timing_type'] == self::TIMINGS_DEACTIVATED) {
+                $inactive[] = $item;
+            } elseif ($item['timing_type'] == self::TIMINGS_ACTIVATION) {
+                $availability[] = $item;
+            } else {
+                $active[] = $item;
             }
-            
-            $active = ilUtil::sortArray($active, 'start', 'asc');
-            $inactive = ilUtil::sortArray($inactive, 'title', 'asc');
-            $items = array_merge($active, $inactive);
         }
-        
+        $active = \ilUtil::sortArray($active, 'suggestion_start', 'asc');
+        $availability = \ilUtil::sortArray($availability, 'timing_start', 'asc');
+        $inactive = \ilUtil::sortArray($inactive, 'title', 'asc');
+
+        $items = array_merge($active, $availability, $inactive);
         return $items;
     }
     

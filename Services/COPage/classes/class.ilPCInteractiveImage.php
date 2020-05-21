@@ -239,7 +239,7 @@ class ilPCInteractiveImage extends ilPageContent
         if (is_object($this->iim_node)) {
             $mal_node = $this->iim_node->first_child();
             if (is_object($mal_node)) {
-                $class =  $mal_node->get_attribute("Class");
+                $class = $mal_node->get_attribute("Class");
                 return $class;
             }
         }
@@ -317,7 +317,7 @@ class ilPCInteractiveImage extends ilPageContent
         // File Item
         $childs = $this->iim_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "ContentPopup") {
                 if ($a_pc_id == $childs[$i]->get_attribute("PCID") &&
                     $a_hier_id == $childs[$i]->get_attribute("HierId")) {
@@ -520,7 +520,7 @@ class ilPCInteractiveImage extends ilPageContent
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
         $trigger_arr = array();
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             $childs = $tr_node->child_nodes();
             $trigger_arr[] = array(
@@ -551,7 +551,7 @@ class ilPCInteractiveImage extends ilPageContent
         // File Item
         $childs = $this->iim_node->child_nodes();
         $nodes = array();
-        for ($i=0; $i<count($childs); $i++) {
+        for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "Trigger") {
                 if ($a_nr == $childs[$i]->get_attribute("Nr")) {
                     $childs[$i]->unlink($childs[$i]);
@@ -570,7 +570,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerOverlays($a_ovs)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_ovs["" . $tr_node->get_attribute("Nr")])) {
                 $tr_node->set_attribute(
@@ -589,7 +589,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerOverlayPositions($a_pos)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
                 $pos = explode(",", $a_pos["" . $tr_node->get_attribute("Nr")]);
@@ -607,7 +607,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerMarkerPositions($a_pos)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if ($tr_node->get_attribute("Type") == self::MARKER) {
                 if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
@@ -627,7 +627,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerPopupPositions($a_pos)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_pos["" . $tr_node->get_attribute("Nr")])) {
                 $pos = explode(",", $a_pos["" . $tr_node->get_attribute("Nr")]);
@@ -645,7 +645,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerPopupSize($a_size)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_size["" . $tr_node->get_attribute("Nr")])) {
                 $size = explode(",", $a_size["" . $tr_node->get_attribute("Nr")]);
@@ -663,7 +663,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerPopups($a_pops)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_pops["" . $tr_node->get_attribute("Nr")])) {
                 $pop = $a_pops["" . $tr_node->get_attribute("Nr")];
@@ -680,7 +680,7 @@ class ilPCInteractiveImage extends ilPageContent
     public function setTriggerTitles($a_titles)
     {
         $tr_nodes = $this->getTriggerNodes($this->hier_id, $this->getPcId());
-        for ($i=0; $i < count($tr_nodes); $i++) {
+        for ($i = 0; $i < count($tr_nodes); $i++) {
             $tr_node = $tr_nodes[$i];
             if (isset($a_titles["" . $tr_node->get_attribute("Nr")])) {
                 $tr_node->set_attribute(

@@ -224,10 +224,10 @@ var ServiceOpenLayers = {
 	 */
 	forceResize: function() {
 		$('input[onclick*="il.Form.showSubForm"]').each(function() {
-			$(this).attr(
+			$e = $(this);
+			$e.attr(
 				'onclick',
-				$('input[onclick*="il.Form.showSubForm"]')
-				.attr('onclick') + "window.dispatchEvent(new Event('resize'));");
+				$e.attr('onclick') + ";window.dispatchEvent(new Event('resize'));");
 		});
 	},
 

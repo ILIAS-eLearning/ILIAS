@@ -139,8 +139,8 @@ class ilOrgUnitExporter extends ilCategoryExporter
         );
 
         return array(
-            "success"   => true,
-            "file"      => $new_file,
+            "success" => true,
+            "file" => $new_file,
             "directory" => $export_dir,
         );
     }

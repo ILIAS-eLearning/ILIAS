@@ -150,7 +150,7 @@ class ilGroupAddToGroupActionGUI
                 $lng->txt("grp_add_user_to_group"),
                 $content
             )->withOnLoadCode(function ($id) {
-                return "il.UI.modal.showModal('$id', {'ajaxRenderUrl':'','keyboard':true});";
+                return "il.UI.modal.showModal('$id', {'ajaxRenderUrl':'','keyboard':true}, {id: '$id'});";
             });
             echo $this->ui->renderer()->renderAsync($modal);
         }

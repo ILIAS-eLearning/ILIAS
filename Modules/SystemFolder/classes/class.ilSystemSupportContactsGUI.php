@@ -70,7 +70,7 @@ class ilSystemSupportContactsGUI
             $pgui = new ilPublicUserProfileGUI($c);
             //$pgui->setBackUrl($this->ctrl->getLinkTargetByClass("ilinfoscreengui"));
             $pgui->setEmbedded(true);
-            $html.= $pgui->getHTML();
+            $html .= $pgui->getHTML();
         }
 
         $panel->setBody($html);

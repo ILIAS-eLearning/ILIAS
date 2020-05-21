@@ -33,6 +33,10 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         $this->service = $service;
         $this->legacy_form = $legacy_form;
         $this->object = $object;
+
+        $lng = $this->service->language();
+        $lng->loadLanguageModule("obj");
+        $lng->loadLanguageModule("cntr");
     }
 
     /**
@@ -77,7 +81,6 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
     public function addTileImage() : ilPropertyFormGUI
     {
         $lng = $this->service->language();
-        $lng->loadLanguageModule("obj");
         $tile_image_fac = $this->service->commonSettings()->tileImage();
 
         if (!is_null($this->legacy_form)) {

@@ -57,7 +57,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
         foreach ($data as $idx => $item) {
             $data[$idx]["id"] = $item["month"];
             
-            $data[$idx]["month"]= substr($item["month"], 0, 4) .
+            $data[$idx]["month"] = substr($item["month"], 0, 4) .
                 "-" . str_pad(substr($item["month"], 5), 2, "0", STR_PAD_LEFT);
         }
 

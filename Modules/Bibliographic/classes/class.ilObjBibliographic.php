@@ -119,8 +119,8 @@ class ilObjBibliographic extends ilObject2
         $DIC->database()->insert(
             "il_bibl_data",
             [
-                "id"        => ["integer", $this->getId()],
-                "filename"  => ["text", $this->getFilename()],
+                "id" => ["integer", $this->getId()],
+                "filename" => ["text", $this->getFilename()],
                 "is_online" => ["integer", $this->getOnline()],
                 "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
             ]
@@ -161,7 +161,7 @@ class ilObjBibliographic extends ilObject2
         $DIC->database()->update(
             "il_bibl_data",
             [
-            "filename"  => ["text", $this->getFilename()],
+            "filename" => ["text", $this->getFilename()],
             "is_online" => ["integer", $this->getOnline()],
             "file_type" => ["integer", $this->getFileType()],
         ],

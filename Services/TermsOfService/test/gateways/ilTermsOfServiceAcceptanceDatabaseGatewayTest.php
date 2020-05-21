@@ -13,7 +13,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
     public function testInstanceCanBeCreated() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $gateway  = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
+        $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
 
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceDatabaseGateway::class, $gateway);
     }
@@ -35,7 +35,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $expected_id = 4711;
 
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $result   = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $database
             ->expects($this->once())
@@ -59,18 +59,18 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->will($this->returnValue($expected_id));
 
         $expectedVersions = [
-            'id'     => ['integer', $expected_id],
+            'id' => ['integer', $expected_id],
             'doc_id' => ['integer', $entity->getDocumentId()],
-            'title'  => ['text', $entity->getTitle()],
-            'text'   => ['clob', $entity->getText()],
-            'hash'   => ['text', $entity->getHash()],
-            'ts'     => ['integer', $entity->getTimestamp()]
+            'title' => ['text', $entity->getTitle()],
+            'text' => ['clob', $entity->getText()],
+            'hash' => ['text', $entity->getHash()],
+            'ts' => ['integer', $entity->getTimestamp()]
         ];
         $expectedTracking = [
-            'tosv_id'  => ['integer', $expected_id],
-            'usr_id'   => ['integer', $entity->getUserId()],
+            'tosv_id' => ['integer', $expected_id],
+            'usr_id' => ['integer', $entity->getUserId()],
             'criteria' => ['clob', $entity->getSerializedCriteria()],
-            'ts'       => ['integer', $entity->getTimestamp()]
+            'ts' => ['integer', $entity->getTimestamp()]
         ];
 
         $database
@@ -102,7 +102,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $expected_id = 4711;
 
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $result   = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $database
             ->expects($this->once())
@@ -126,10 +126,10 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->will($this->returnValue(['id' => $expected_id]));
 
         $expectedTracking = [
-            'tosv_id'  => ['integer', $expected_id],
-            'usr_id'   => ['integer', $entity->getUserId()],
+            'tosv_id' => ['integer', $expected_id],
+            'usr_id' => ['integer', $entity->getUserId()],
             'criteria' => ['clob', $entity->getSerializedCriteria()],
-            'ts'       => ['integer', $entity->getTimestamp()]
+            'ts' => ['integer', $entity->getTimestamp()]
         ];
         $database
             ->expects($this->once())
@@ -148,13 +148,13 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $entity = new ilTermsOfServiceAcceptanceEntity();
 
         $expected = [
-            'id'          => 4711,
-            'usr_id'      => 6,
-            'title'       => 'Document PHP Unit',
-            'doc_id'      => 4711,
-            'criteria'    => '',
-            'text'        => 'PHP Unit',
-            'hash'        => md5('PHP Unit'),
+            'id' => 4711,
+            'usr_id' => 6,
+            'title' => 'Document PHP Unit',
+            'doc_id' => 4711,
+            'criteria' => '',
+            'text' => 'PHP Unit',
+            'hash' => md5('PHP Unit'),
             'accepted_ts' => time()
         ];
 
@@ -165,7 +165,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->will($this->onConsecutiveCalls($expected));
 
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-        $entity  = $gateway->loadCurrentAcceptanceOfUser($entity);
+        $entity = $gateway->loadCurrentAcceptanceOfUser($entity);
 
         $this->assertEquals($expected['id'], $entity->getId());
         $this->assertEquals($expected['usr_id'], $entity->getUserId());
@@ -210,12 +210,12 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $entity = new ilTermsOfServiceAcceptanceEntity();
 
         $expected = [
-            'id'       => 4711,
-            'title'    => 'Document PHP Unit',
-            'doc_id'   => 4711,
+            'id' => 4711,
+            'title' => 'Document PHP Unit',
+            'doc_id' => 4711,
             'criteria' => '',
-            'text'     => 'PHP Unit',
-            'hash'     => md5('PHP Unit'),
+            'text' => 'PHP Unit',
+            'hash' => md5('PHP Unit'),
         ];
 
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -225,7 +225,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->will($this->onConsecutiveCalls($expected));
 
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
-        $entity  = $gateway->loadById($entity);
+        $entity = $gateway->loadById($entity);
 
         $this->assertEquals($expected['id'], $entity->getId());
         $this->assertEquals($expected['doc_id'], $entity->getDocumentId());

@@ -18,8 +18,8 @@ class ilObjTestDynamicQuestionSetConfigGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM	= 'showForm';
-    const CMD_SAVE_FORM	= 'saveForm';
+    const CMD_SHOW_FORM = 'showForm';
+    const CMD_SAVE_FORM = 'saveForm';
     const CMD_GET_TAXONOMY_OPTIONS_ASYNC = 'getTaxonomyOptionsAsync';
     
     /**

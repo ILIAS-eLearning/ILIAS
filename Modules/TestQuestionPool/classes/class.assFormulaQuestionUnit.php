@@ -30,13 +30,13 @@ class assFormulaQuestionUnit
      */
     public function initFormArray(array $data)
     {
-        $this->id             = $data['unit_id'];
-        $this->unit           = $data['unit'];
-        $this->factor         = $data['factor'];
-        $this->baseunit       = $data['baseunit_fi'];
+        $this->id = $data['unit_id'];
+        $this->unit = $data['unit'];
+        $this->factor = $data['factor'];
+        $this->baseunit = $data['baseunit_fi'];
         $this->baseunit_title = $data['baseunit_title'];
-        $this->category       = $data['category'];
-        $this->sequence       = $data['sequence'];
+        $this->category = $data['category'];
+        $this->sequence = $data['sequence'];
     }
 
     /**

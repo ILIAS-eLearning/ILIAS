@@ -47,13 +47,13 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
      *			'grp' for groups
      * @param string	context
      */
-    public function __construct($a_parent_obj, $type='crs', $context='mail')
+    public function __construct($a_parent_obj, $type = 'crs', $context = 'mail')
     {
         global $DIC;
 
-        $this->lng        = $DIC['lng'];
-        $this->ctrl       = $DIC['ilCtrl'];
-        $this->user       = $DIC['ilUser'];
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->user = $DIC['ilUser'];
         $this->rbacsystem = $DIC['rbacsystem'];
 
         $this->lng->loadLanguageModule('crs');
