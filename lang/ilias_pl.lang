@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2599,7 +2599,7 @@ chatroom#:#chat_https_cert_info#:#Podaj ścieżkę bezwzględną serwera dla cer
 chatroom#:#chat_https_dhparam_info#:#Podaj tutaj ścieżkę bezwzględną serwera dla pliku (np. /etc/ssl/private/dhparam.pem), aby wygenerować protokół Diffiego-Hellmanna (np. za pomocą: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Podaj ścieżkę bezwzględną serwera dla osobistego kodu (np.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Zaproszenie od "[INVITER_NAME]" do pokoju czatu "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nZostałeś zaproszony do pokoju czatu:\nTytuł pokoju czatu: [ROOM_NAME]\nprzez: [INVITER_NAME]\nURL: [LINK]\n\nAby dołączyć do czatu, przejdź pod podany adres URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]  Zostałeś zaproszony do pokoju czatu: Tytuł pokoju czatu: [ROOM_NAME] przez: [INVITER_NAME] URL: [LINK]  Aby dołączyć do czatu, przejdź pod podany adres URL.
 chatroom#:#chat_invitation_short#:#Kliknij na tytuł, aby wejść do po pokoju czatu.
 chatroom#:#chat_invite#:#Zaproś
 chatroom#:#chat_join#:#Wejdź
@@ -4902,7 +4902,7 @@ common#:#session_max_idle_info#:#Jeśli przez ten czas użytkownik jest nieaktyw
 common#:#session_min_idle#:#Minimalny czas nieaktywności sesji (w minutach)
 common#:#session_min_idle_info#:#Jeśli użytkownik jest co najmniej przez ten czas nieaktywny, można usunąć jego sesję, jeśli trzeba utworzyć sesję dla innego użytkownika, a maksymalny limit sesyjny został przekroczony.
 common#:#session_reminder#:#Przypomnienie o sesji
-common#:#session_reminder_alert#:#Twoje sesja wygaśnie za %1$s o %2$s ab!\n\nKliknij na OK, aby przedłużyć sesję!\nJeśli nie chcesz otrzymywać podczas aktualnej sesji przeglądarki przypomnień, wybierz opcję Przerwij.\n\nDana instalacja: %3$s.
+common#:#session_reminder_alert#:#Twoje sesja wygaśnie za %1$s o %2$s ab!  Kliknij na OK, aby przedłużyć sesję! Jeśli nie chcesz otrzymywać podczas aktualnej sesji przeglądarki przypomnień, wybierz opcję Przerwij.  Dana instalacja: %3$s.
 common#:#session_reminder_info#:#Jeśli opcja jest włączona, pojawi się przypomnienie przed wygaśnięciem sesji online przeglądarki.
 common#:#session_reminder_lead_time#:#Okres
 common#:#session_reminder_lead_time_info#:#Tutaj możesz określić, ile sekund przed wygaśnięciem sesji ILIAS ma wyświetlić przypomnienie. Wówczas otrzymasz informację i kliknięciem myszki możesz przedłużyć sesję. Wpisz wartość w minutach. Zalecany czas to 5 minut. <br \>Bieżącą wartość dla sesji użytkownika w ILIAS to %s.
@@ -6549,7 +6549,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#Cofnij wniosek o przyjęcie
 crs#:#crs_cancel_subscription#:#Wyrejestrowanie z kursu
 crs#:#crs_cancel_subscription_body#:#%s zrezygnował z subskrypcji kursu "%s".
-crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników kursu, kliknij link:
+crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie. Powinieneś sprawdzić listę oczekujących. Aby sprawdzić użytkowników kursu, kliknij link:
 crs#:#crs_cancellation_end#:#Moment najpóźniejszego opuszczenia kursu
 crs#:#crs_cancellation_end_info#:#Członkowie mogą tylko do ustalonego dnia samodzielnie wypisać się z kursu.
 crs#:#crs_cancellation_end_rbac_info#:#Koniec anulowania został osiągnięty w dniu %s. Teraz nie można już opuścić kursu.
@@ -6914,7 +6914,7 @@ crs#:#crs_subject_course_group_notification#:#Wiadomość podsumowująca dla %s
 crs#:#crs_subscribe_member#:#Twoja rejestracja do kursu "%s"
 crs#:#crs_subscribe_member_body#:#mamy przyjemność potwierdzić Twoją rejestrację do kursu "%s".
 crs#:#crs_subscribe_wl#:#Twoja rejestracja do kursu "%s"
-crs#:#crs_subscribe_wl_body#:#Zostałeś umieszczony na liście oczekujących dla kursu "%s" i zajmujesz %s pozycję na liście.\n\nZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
+crs#:#crs_subscribe_wl_body#:#Zostałeś umieszczony na liście oczekujących dla kursu "%s" i zajmujesz %s pozycję na liście.  Zostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
 crs#:#crs_subscriber#:#Subskrybent
 crs#:#crs_subscribers_deleted#:#Usunięte subskrypcje
 crs#:#crs_subscription#:#Subskrypcja
@@ -8868,7 +8868,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#W celu potwierdzenia rejestracji kont
 grp#:#grp_mail_notification_reg_req_sub#:#Wniosek o przyjęcie do grupy "%s"
 grp#:#grp_mail_notification_reg_sub#:#Użytkownik został zarejestrowany do grupy "%s"
 grp#:#grp_mail_notification_unsub_bod#:#uczestnik / uczestniczka "%s" zakończyli członkostwo w grupie "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Być może są inni użytkownicy oczekujący na członkostwo w grupie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników grupy, kliknij link:
+grp#:#grp_mail_notification_unsub_bod2#:#Być może są inni użytkownicy oczekujący na członkostwo w grupie. Powinieneś sprawdzić listę oczekujących. Aby sprawdzić użytkowników grupy, kliknij link:
 grp#:#grp_mail_notification_unsub_sub#:#Rezygnacja z grupy "%s"
 grp#:#grp_mail_permanent_link#:#Kliknij na poniższy link, aby znaleźć wszystkie potrzebne informacje dotyczące grupy:
 grp#:#grp_mail_status_bod#:#Twój status w grupie "%s" został zmieniony.
@@ -8882,9 +8882,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Twoja rejestracja do grupy "%s"
 grp#:#grp_mail_tutors_only#:#Tylko dla administratorów
 grp#:#grp_mail_tutors_only_info#:#Tylko administratorzy mogą używać funkcji "E-Mail do członków" w zakładce "Członkowie".
 grp#:#grp_mail_type#:#E-Mail do członków
-grp#:#grp_mail_unsubscribe_member_bod#:#potwierdzamy rezygnację twojego członkostwa w grupie %s.\nMamy nadzieję, że będziesz miał okazję uczestnictwa w innej grupie.
+grp#:#grp_mail_unsubscribe_member_bod#:#potwierdzamy rezygnację twojego członkostwa w grupie %s. Mamy nadzieję, że będziesz miał okazję uczestnictwa w innej grupie.
 grp#:#grp_mail_unsubscribe_member_sub#:#Rezygnacja z członkostwa w grupie "%s"
-grp#:#grp_mail_wl_bod#:#Zostałeś umieszczony na liście oczekujących dla grupy "%s" i zajmujesz %s pozycję na liście.\n\nZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
+grp#:#grp_mail_wl_bod#:#Zostałeś umieszczony na liście oczekujących dla grupy "%s" i zajmujesz %s pozycję na liście.  Zostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
 grp#:#grp_mail_wl_sub#:#Twoja rejestracja do grupy "%s"
 grp#:#grp_map_location#:#Miejsce mapy grupy
 grp#:#grp_map_settings#:#Ustawienia map
@@ -9094,8 +9094,8 @@ itgr#:#itgr_materials#:#Materiały
 itgr#:#itgr_show_title#:#Pokaż tytuł
 itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
 jscalendar#:#about_calendar#:#O kalendarzu
-jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003\nDla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html, aby sprawdzić szczegóły licencji.\n\nWybór daty:\n- Użyj przycisków «, » do wyboru roku\n- Użyj przycisków <, > do wyboru miesiąca\n- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
-jscalendar#:#about_time#:#n\n\Wybór czasu:n\- Kliknij na dowolny element czasu, aby go zwiększyć\n- lub z klawiszem Shift, aby go zmniejszyć\n- lub kliknij i przytrzymaj, aby przyspieszyć wybór.
+jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003 Dla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html, aby sprawdzić szczegóły licencji.  Wybór daty: - Użyj przycisków «, » do wyboru roku - Użyj przycisków <, > do wyboru miesiąca - Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
+jscalendar#:#about_time#:#n \Wybór czasu:n\- Kliknij na dowolny element czasu, aby go zwiększyć - lub z klawiszem Shift, aby go zmniejszyć - lub kliknij i przytrzymaj, aby przyspieszyć wybór.
 jscalendar#:#close#:#Zamknij
 jscalendar#:#day_first#:#Wyświetl najpierw %s
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -9363,7 +9363,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"
 lso#:#lso_mail_notification_reg_sub#:#User registered for learning sequence "%s"
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"
 lso#:#lso_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the learning sequence:
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.
@@ -9374,9 +9374,9 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_dec_sub#:#Registration refused for learning sequence "%s"
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
@@ -11335,17 +11335,17 @@ ps#:#show_privacy#:#Prywatność
 ps#:#show_security#:#Bezpieczeństwo
 pwassist#:#password_assistance#:#Pomoc dla haseł
 pwassist#:#pwassist_disabled_no_access#:#Obsługa haseł nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s
-pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz.\nILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się na ten adres e-mail.\nWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuj się z administratorem kursu lub %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej.\nILIAS wyśle wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło.\nW przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s.
+pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz. ILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się na ten adres e-mail. Wybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuj się z administratorem kursu lub %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej. ILIAS wyśle wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło. W przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#W polach poniżej podaj nazwę użytkownika (login) i ustal nowe hasło.
-pwassist#:#pwassist_login_not_match#:#Podaj inny login.\nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika, dla której prosiłeś o hasło.
-pwassist#:#pwassist_mail_body#:#Rejestracja nowego hasła dla konta użytkownika:\n\t%1$s\n\nTen komunikat został wygenerowany automatycznie przez serwer ILIAS:\n\t%2$s\n\nTy (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: "%4$s".\n\nProszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:\n\n- Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS:\nUsuń ten e-mail.\n\n- Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS:\nSkontaktuj się z %5$s.\n\n- Jeśli poprosiłeś o pomoc w zmianie hasła, postępuj zgodnie z:\n\n1. Otwórz przeglądarkę www.\n\n2. Wpisz poniższy adres w przeglądarce:\n\t%6$s\n\nUwaga: Adres jest pojedynczą linią. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.\n\n3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.\n\nZe względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie.
-pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s .\nSprawdź swoją skrzynkę pocztową.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
+pwassist#:#pwassist_login_not_match#:#Podaj inny login. Podana nazwa użytkownika nie jest zgodna z nazwą użytkownika, dla której prosiłeś o hasło.
+pwassist#:#pwassist_mail_body#:#Rejestracja nowego hasła dla konta użytkownika: \t%1$s  Ten komunikat został wygenerowany automatycznie przez serwer ILIAS: \t%2$s  Ty (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: "%4$s".  Proszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:  - Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS: Usuń ten e-mail.  - Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS: Skontaktuj się z %5$s.  - Jeśli poprosiłeś o pomoc w zmianie hasła, postępuj zgodnie z:  1. Otwórz przeglądarkę www.  2. Wpisz poniższy adres w przeglądarce: \t%6$s  Uwaga: Adres jest pojedynczą linią. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.  3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.  Ze względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie.
+pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s . Sprawdź swoją skrzynkę pocztową.
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Pomoc do haseł ILIAS
 pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone użytkownikowi "%1$s".
-pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
-pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:\n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn. że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
+pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz. Sesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
+pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail: %s  Ta wiadomość została utworzona automatycznie przez serwer ILIAS: \t%s  Ty (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.  Sprawdź dane i wykonaj co jest sugerowane::  -Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.  -Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości: Skontaktuj się z %s.  - Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::  1. Otwórz swoją przeglądarkę www.  2. Wprowadź następujący url: \t%s  Uwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn. że twój klient pocztowy sam podzielił go na wiersze.  3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
 pwassist#:#unassist_disabled_no_access#:#Obsługa nazw użytkownika nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s
 rating#:#rat_not_rated_yet#:#Jeszcze nie oceniono
 rating#:#rat_nr_ratings#:#%s oceny

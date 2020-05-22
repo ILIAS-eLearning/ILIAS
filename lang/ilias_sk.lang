@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3038,7 +3038,7 @@ common#:#usrimport_action_replaced#:#Akce %1$s podle %2$s přemístěna.
 common#:#usrimport_cant_delete#:#Nelze vykonat akci "Smazat". V databázi nenalezen žádný uživatel.
 common#:#usrimport_cant_insert#:#Nelze vykonat akci "Vložit". Uživatel je již v databázi.
 common#:#usrimport_cant_update#:#Nelze vykonat akci "Aktualizovat".  V databázi nenalezen žádný uživatel.
-common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.)\nKdyž je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
+common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.) Když je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
 common#:#usrimport_global_role_for_action_required#:#Nejméně jedna globální role musí být pro akci"%1$s"  specifikována.
 common#:#usrimport_ignore_role#:#Ignorovat roli
 common#:#usrimport_login_is_not_unique#:#Login není unikátní.
@@ -3793,7 +3793,7 @@ crs#:#crs_blocked_member_body#:#Vaše členství v kurzu "%s" bylo zablokováno.
 crs#:#crs_cancel_subscr_request#:#Smazat požadavek členství
 crs#:#crs_cancel_subscription#:#Odstoupil z kurzu "%s"
 crs#:#crs_cancel_subscription_body#:#Příslušník odstoupil z kurzu "%s".
-crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.\nMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.\nKe zobrazení členů Vašeho kurzu klepněte na:
+crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé. Měl(a) by jste nyní tento seznam čekatelů zkontrolovat. Ke zobrazení členů Vašeho kurzu klepněte na:
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Konzultace
 crs#:#crs_contact_email#:#E-mail
@@ -3978,7 +3978,7 @@ crs#:#crs_structure#:#Struktura kurzu
 crs#:#crs_subscribe_member#:#Vyše registrace v kurzu "%s"
 crs#:#crs_subscribe_member_body#:#S potěšením Vám potvrzujeme Vaši registraci do kurzu "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Abonent
 crs#:#crs_subscribers_deleted#:#Žádost byla vymazána
 crs#:#crs_subscription#:#Zápis
@@ -4740,7 +4740,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#K potvrzení Vaší registrace vstupt
 grp#:#grp_mail_notification_reg_req_sub#:#Požadavek připojení ke skupině "%s"
 grp#:#grp_mail_notification_reg_sub#:#Uživatel registrován ve skupině "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s bylo ukončeno jeho/její členství ve skupině "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé.\nMěl(a) by jste nyní zkontrolovat seznam čekatelů.\nK zobrazení členů Vaší skupiny klepněte na:
+grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé. Měl(a) by jste nyní zkontrolovat seznam čekatelů. K zobrazení členů Vaší skupiny klepněte na:
 grp#:#grp_mail_notification_unsub_sub#:#Uživatel opustil skupinu "%s"
 grp#:#grp_mail_permanent_link#:#Klepněte na nasledující odkaz k nalezení všech informací týkající se skupiny, které potřebujete:
 grp#:#grp_mail_status_bod#:#Váš status ve skupině "%s" byl změněn.
@@ -4751,9 +4751,9 @@ grp#:#grp_mail_sub_dec_bod#:#S lítostí Vám oznamujeme, že Vaše registrace v
 grp#:#grp_mail_sub_dec_sub#:#Registrace ve skupině "%s" zamítnuta
 grp#:#grp_mail_subscribe_member_bod#:#S potěšením potvrzujeme Vaši registraci ve skupině "%s".
 grp#:#grp_mail_subscribe_member_sub#:#Vaše registrace ve skupině "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s.\nDoufáme, že najdete příležitost zúčastnit se v jiné skupině.
+grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s. Doufáme, že najdete příležitost zúčastnit se v jiné skupině.
 grp#:#grp_mail_unsubscribe_member_sub#:#Vaše ukončení členství ve skupině "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.   You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Umístění mapy skupiny
 grp#:#grp_map_settings#:#Nastavení mapy
@@ -4808,8 +4808,8 @@ grp#:#grp_wrong_reg_time_limit#:#Zkontrolujte prosím počátek a konec registra
 grp#:#reg_grp_max_members#:#Maximální počet uživatelů
 grp#:#reg_grp_max_members_short#:#Počet členů
 jscalendar#:#about_calendar#:#O tomto kalendáři
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/\nDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.\n\nVýběr data:\n- Použijte tlačítka «, » pro výběr roku\n- Použijte tlačítka <, > pro výběr měsíce\n- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr\n- Mezerník slouží pro skok na dnešní den.
-jscalendar#:#about_time#:#\n\nVýběr času:\n- Klepněte na některé z časových částí k jejímu zvětšení\n- nebo klepnutím se Shiftem ke zmenšení\n- nebo klepnout a táhnout pro rychlý výběr.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 Poslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/ Distribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.  Výběr data: - Použijte tlačítka «, » pro výběr roku - Použijte tlačítka <, > pro výběr měsíce - Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr - Mezerník slouží pro skok na dnešní den.
+jscalendar#:#about_time#:#  Výběr času: - Klepněte na některé z časových částí k jejímu zvětšení - nebo klepnutím se Shiftem ke zmenšení - nebo klepnout a táhnout pro rychlý výběr.
 jscalendar#:#close#:#Zavřít
 jscalendar#:#day_first#:#Zobrazit nejprve %s
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -5919,16 +5919,16 @@ ps#:#rbac_log_info#:#Zapnout záznam všech změn oprávnění objektů
 ps#:#show_privacy#:#Soukromé
 ps#:#show_security#:#Bezpečnost
 pwassist#:#password_assistance#:#Asistence hesla
-pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete.\nILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována.\nVyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže.\nILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet.\nV případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete. ILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována. Vyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže. ILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet. V případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Vložte jméno uživatele a nové heslo do polí níže.
-pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno.\nUživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
-pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet:\n\t%1$s\n\nTato zpráva byla vygenerována automaticky serverem ILIAS\n\t%2$s\n\nVy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".\n\nZkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:\n\n- Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě:\nSmažte tento e-mail.\n\n- Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS:\nKontaktujte prosím %5$s.\n\n- Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte do Vašeho prohlížeče následující adresu:\n t%1$s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.\n\n3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.\n\nPamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
-pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s.\nZkontrolujte prosím svou poštovní schránku.
+pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno. Uživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
+pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet: \t%1$s  Tato zpráva byla vygenerována automaticky serverem ILIAS \t%2$s  Vy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".  Zkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:  - Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě: Smažte tento e-mail.  - Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS: Kontaktujte prosím %5$s.  - Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:  1. Spusťte svůj internetový prohlížeč.  2. Vložte do Vašeho prohlížeče následující adresu:  t%1$s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.  3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.  Pamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
+pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s. Zkontrolujte prosím svou poštovní schránku.
 pwassist#:#pwassist_mail_subject#:#Asistence hesla ILIAS
 pwassist#:#pwassist_password_assigned#:#Heslo bylo úspěšně přiřazeno uživateli "%1$s".
-pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu.\nVaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
-pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu:\n%s\n\nTato zpráva byla vytvořena automaticky serverem ILIAS:\n\t%s\n\nVy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.\n\nZkontrolujte prosím následující a postupujte podle doporučení::\n\n-Vy jste požádal(a) o tento e-mail při závadě:\nSmažte tento e-mail.\n\n-Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a):\nKontaktujte prosím %s.\n\n- Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte následující URL:\n\t%s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.\n\n3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
+pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu. Vaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
+pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu: %s  Tato zpráva byla vytvořena automaticky serverem ILIAS: \t%s  Vy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.  Zkontrolujte prosím následující a postupujte podle doporučení::  -Vy jste požádal(a) o tento e-mail při závadě: Smažte tento e-mail.  -Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a): Kontaktujte prosím %s.  - Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::  1. Spusťte svůj internetový prohlížeč.  2. Vložte následující URL: \t%s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.  3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
 rating#:#rating_your_rating#:#Vaše hodnocení
 rbac#:#add_thread#:#Přidat vlákno
 rbac#:#cals_add_consultation_hours#:#Přidat kalendář konzultačních hodin
@@ -7917,7 +7917,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9238,7 +9238,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14120,7 +14120,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14713,10 +14713,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14727,7 +14727,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable

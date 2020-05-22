@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1244,7 +1244,7 @@ chatroom#:#chat_connection_disconnected#:#
 chatroom#:#chat_connection_established#:#
 chatroom#:#chat_create_private_room_button#:#პირადი ოთახის შექმნა
 chatroom#:#chat_invitation#:#მოწვევა საიდან
-chatroom#:#chat_invitation_long#:# ##room_name##\nInvited by
+chatroom#:#chat_invitation_long#:# ##room_name## Invited by
 chatroom#:#chat_invitation_short#:#გთხოვთ დააკლიკოთ დასახელების ლინკს ჩატის ოთახში შესასვლელად
 chatroom#:#chat_invite#:#მოწვევა
 chatroom#:#chat_join#:#გაწევრიანება
@@ -3139,7 +3139,7 @@ common#:#session_max_idle_info#:#განსაზღვრავს მომ�
 common#:#session_min_idle#:#სესიის მინიმალური უმოქმედობის დრო (წუთებში)
 common#:#session_min_idle_info#:#როდესაც მომხმარებელი უმოქმედოთაა დროის ამ პერიოდში სესია შესაძლოა გაუქმდეს თუ სხვა სესიის გახსნაა საჭირო სხვა მომხმარებლისთვის და არსებული სესიების მაქსიმალური რაოდენობა მიღწეულია
 common#:#session_reminder#:#სესიის შეხსენება
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#თუ გააქტიურებულია, თქვენ მიიღებთ შეხსენებას სანამ თქვენი ბრაუზერის  ონლაინ სესია ამოიწურება
 common#:#session_reminder_lead_time#:#წამყვანი დრო
 common#:#session_reminder_lead_time_info#:#გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s
@@ -5800,7 +5800,7 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#კალენდარის შესახებ
-jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http
+jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http
 jscalendar#:#about_time#:#
 jscalendar#:#close#:#დახურვა
 jscalendar#:#day_first#:#ჩვენება %s პირველ რიგში
@@ -7065,12 +7065,12 @@ pwassist#:#pwassist_enter_email#:#გთხოვთ შეიყვანოთ
 pwassist#:#pwassist_enter_username_and_email#:#შეიყვანეთ ამ ემაილთან დაკავშირებული მომხმარებლის სახელი ქვემოთ მოცემულ ველში. ნილიასი გააგზავნის შეტყობინებას ამ ემაილის მისამართზე. შეტყობინება შეიცავს ვებ გვერდის მისამართს სადაც თქვენ შეძლებთ თქვენი პაროლის აღდგენას. \ნ იმ შემთხვევაში თუ თქვენ ვერ შეძლებთ ამ ფორმიტ პაროლი აღდგენას დაუკავშირდით თქვენი კურსის ადმინისტრატორს ან გააგზავნეთ ემაილი %s1$
 pwassist#:#pwassist_enter_username_and_new_password#:#შეიყვანეთ მომხმარებლის სახელი და ახალი პაროლი ქვემოტ მოცემულ ველში
 pwassist#:#pwassist_login_not_match#:#გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ.
-pwassist#:#pwassist_mail_body#:#\n\n- If you have used the password assistance form on the ILIAS server by accident
+pwassist#:#pwassist_mail_body#:#  - If you have used the password assistance form on the ILIAS server by accident
 pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზავნილია %s1$. \ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი
 pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
 pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
 pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:#\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested
+pwassist#:#pwassist_username_mail_body#:# \t%s  You (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.  Please check the following and act as suggested
 rating#:#rat_not_rated_yet#:#არ არის შეფასებული ჯერ
 rating#:#rat_nr_ratings#:#%s რეიტინგები
 rating#:#rat_one_rating#:#ერთი რეიტინგი
@@ -14120,7 +14120,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14713,10 +14713,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14727,7 +14727,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
