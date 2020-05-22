@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2878,7 +2878,7 @@ common#:#usrimport_action_replaced#:#已由 %2$s 替换行为 %1$s。
 common#:#usrimport_cant_delete#:#不能执行“删除”行为。数据库中没有这样的用户。
 common#:#usrimport_cant_insert#:#不能执行“插入”行为。用户已经存在于数据库中。
 common#:#usrimport_cant_update#:#不能执行“更新”行为。数据库中没有这样的用户。。
-common#:#usrimport_conflict_handling_info#:#当“忽略冲突”被选中时，如果一个行为不能被执行(例如，如果数据库中已经存在一个相同的用户，则一个“插入”行为不能完成)，ILIAS会忽略它。\n当“更新冲突”被选中，如果一个行为不能被执行(例如，如果数据库中存在一个相同的用户登录，则一个“插入”行为被一个“更新”行为所替代)，ILIAS将更新数据库。
+common#:#usrimport_conflict_handling_info#:#当“忽略冲突”被选中时，如果一个行为不能被执行(例如，如果数据库中已经存在一个相同的用户，则一个“插入”行为不能完成)，ILIAS会忽略它。Parent-Style当“更新冲突”被选中，如果一个行为不能被执行(例如，如果数据库中存在一个相同的用户登录，则一个“插入”行为被一个“更新”行为所替代)，ILIAS将更新数据库。
 common#:#usrimport_global_role_for_action_required#:#至少要为“%1$s”动作指定至少一个全局角色。
 common#:#usrimport_ignore_role#:#忽略角色
 common#:#usrimport_login_is_not_unique#:#登录不是唯一的。
@@ -4348,8 +4348,8 @@ grp#:#grp_wrong_reg_time_limit#:#请检查注册开始和结束时间。
 grp#:#reg_grp_max_members#:#最大用户数
 grp#:#reg_grp_max_members_short#:#成员数
 jscalendar#:#about_calendar#:#关于这个日历
-jscalendar#:#about_calendar_long#:#DHTML 日期/时间选择器\n(c) dynarch.com 2002-2003\n 最新版本请访问：http://dynarch.com/mishoo/calendar.epl\n在GNU LGPL协议下发布。详情请看http://gnu.org/licenses/lgpl.html \n\n日期选择：\n- 使用 «、»按钮选择年份\n- 使用<、>按钮选择月份\n-在以上任意一个按钮上保持住鼠标按下状态来实现更快速的选择。
-jscalendar#:#about_time#:#\n\n时间选择：\n- 点击时间的任意部分递增\n- 或按住Shift键再点击递减\n- 或点击并拖动来更快速的选择。
+jscalendar#:#about_calendar_long#:#DHTML 日期/时间选择器Parent-Style(c) dynarch.com 2002-2003Parent-Style 最新版本请访问：http://dynarch.com/mishoo/calendar.eplParent-Style在GNU LGPL协议下发布。详情请看http://gnu.org/licenses/lgpl.html Parent-StyleParent-Style日期选择：Parent-Style- 使用 «、»按钮选择年份Parent-Style- 使用<、>按钮选择月份Parent-Style-在以上任意一个按钮上保持住鼠标按下状态来实现更快速的选择。
+jscalendar#:#about_time#:#Parent-StyleParent-Style时间选择：Parent-Style- 点击时间的任意部分递增Parent-Style- 或按住Shift键再点击递减Parent-Style- 或点击并拖动来更快速的选择。
 jscalendar#:#close#:#关闭
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5448,21 +5448,21 @@ ps#:#ps_warning_modify#:#注意：至少有一个用户接受了这个用户协�
 ps#:#show_privacy#:#隐私
 ps#:#show_security#:#安全性
 pwassist#:#password_assistance#:#密码援助
-pwassist#:#pwassist_enter_email#:#请输入一个电子邮件地址并提交表单。\nILIAS将发送一封电子邮件到这个地址。这封电子邮件包含了所有以这个电子邮件地址注册的用户名。\n选择一个合适的用户名，然后使用密码服务去取回一个新密码。如果您通过这个服务没有取回任何电子邮件，请联系您的课程管理或%1$s.
-pwassist#:#pwassist_enter_username_and_email#:#在下面的字段中输入一个用户名和相关的电子邮件地址。\nILIAS将发送一条消息到这个电子邮件地址。这条消息包含一个网页地址。在这里，您可以为用户账号输入一个新密码。
+pwassist#:#pwassist_enter_email#:#请输入一个电子邮件地址并提交表单。Parent-StyleILIAS将发送一封电子邮件到这个地址。这封电子邮件包含了所有以这个电子邮件地址注册的用户名。Parent-Style选择一个合适的用户名，然后使用密码服务去取回一个新密码。如果您通过这个服务没有取回任何电子邮件，请联系您的课程管理或%1$s.
+pwassist#:#pwassist_enter_username_and_email#:#在下面的字段中输入一个用户名和相关的电子邮件地址。Parent-StyleILIAS将发送一条消息到这个电子邮件地址。这条消息包含一个网页地址。在这里，您可以为用户账号输入一个新密码。
 pwassist#:#pwassist_enter_username_and_new_password#:#在下面的字段中输入用户名和新密码。
 pwassist#:#pwassist_invalid_auth_mode#:#用户不能直接在ILIAS中进行身份验证。因此，不可能发送一个密码。
-pwassist#:#pwassist_invalid_email#:#请更正您的电子邮件地址。\n给定的电子邮件地址在数据库中没找到。
-pwassist#:#pwassist_invalid_username_or_email#:#请更正条目字段中的文本。\n您输入的用户名和电子邮件地址在数据库中没有匹配的条目。
-pwassist#:#pwassist_login_not_match#:#请输入其他用户名。\n您所输入的这个用户名和您要求密码辅助的用户名不匹配。
-pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码：\n\t%1$s\n\n这条信息由ILIAS服务器自动生成\n\t%2$s\n\n您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。\n\n请仔细检查下面列出的条件，并进行相应处理：\n\n- 如果您意外的在ILIAS服务器上使用了密码辅助：\n\n请删除这封邮件。\n\n- 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助：\n请联系 %5$s.\n\n- 如果您要求了密码辅助，请按以下步骤操作：\n\n1、打开您的浏览器。\n\n2、在您的浏览器中输入以下地址：\n\t%1$s\n\n重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。\n\n3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。\n\n请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
-pwassist#:#pwassist_mail_sent#:#一条消息已经发送到%1$s.\n请检查您的邮箱。
+pwassist#:#pwassist_invalid_email#:#请更正您的电子邮件地址。Parent-Style给定的电子邮件地址在数据库中没找到。
+pwassist#:#pwassist_invalid_username_or_email#:#请更正条目字段中的文本。Parent-Style您输入的用户名和电子邮件地址在数据库中没有匹配的条目。
+pwassist#:#pwassist_login_not_match#:#请输入其他用户名。Parent-Style您所输入的这个用户名和您要求密码辅助的用户名不匹配。
+pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码：Parent-Style\t%1$sParent-StyleParent-Style这条信息由ILIAS服务器自动生成Parent-Style\t%2$sParent-StyleParent-Style您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。Parent-StyleParent-Style请仔细检查下面列出的条件，并进行相应处理：Parent-StyleParent-Style- 如果您意外的在ILIAS服务器上使用了密码辅助：Parent-StyleParent-Style请删除这封邮件。Parent-StyleParent-Style- 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助：Parent-Style请联系 %5$s.Parent-StyleParent-Style- 如果您要求了密码辅助，请按以下步骤操作：Parent-StyleParent-Style1、打开您的浏览器。Parent-StyleParent-Style2、在您的浏览器中输入以下地址：Parent-Style\t%1$sParent-StyleParent-Style重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。Parent-StyleParent-Style3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。Parent-StyleParent-Style请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
+pwassist#:#pwassist_mail_sent#:#一条消息已经发送到%1$s.Parent-Style请检查您的邮箱。
 pwassist#:#pwassist_mail_subject#:#ILIAS密码助手
 pwassist#:#pwassist_no_email_found#:#您可以不使用密码助手，因为您输入的用户账号没有电子邮件地址。
-pwassist#:#pwassist_not_permitted#:#请输入其他用户名。\n密码辅助不认可您输入的用户名。
+pwassist#:#pwassist_not_permitted#:#请输入其他用户名。Parent-Style密码辅助不认可您输入的用户名。
 pwassist#:#pwassist_password_assigned#:#密码已成功分配给用户"%1$s"。
-pwassist#:#pwassist_session_expired#:#请再次填写这个表单。\n您的密码辅助会话已过期。这种情况有可能发生，因为您试图使用的链接已经通过电子邮件不止一次的发送给您，或因为这个链接已经发送给您太长时间了。
-pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户：\n%s\n\n这条信息已经由以下ILIAS服务器自动创建：\n\t%s\n\n您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。\n\n请检查以下和做为建议：\n\n- 您意外的请求了这封邮件：\n请删除这封邮件。\n\n- 您确信您从来没有请求过这封邮件：\n请联系 %s。\n\n- 如果您请求了这封邮件，请按照以下步骤处理：\n\n1、启动您的浏览器。\n\n2、输入以下url：\n\t\5s\n\n重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。\n\n3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
+pwassist#:#pwassist_session_expired#:#请再次填写这个表单。Parent-Style您的密码辅助会话已过期。这种情况有可能发生，因为您试图使用的链接已经通过电子邮件不止一次的发送给您，或因为这个链接已经发送给您太长时间了。
+pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户：Parent-Style%sParent-StyleParent-Style这条信息已经由以下ILIAS服务器自动创建：Parent-Style\t%sParent-StyleParent-Style您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。Parent-StyleParent-Style请检查以下和做为建议：Parent-StyleParent-Style- 您意外的请求了这封邮件：Parent-Style请删除这封邮件。Parent-StyleParent-Style- 您确信您从来没有请求过这封邮件：Parent-Style请联系 %s。Parent-StyleParent-Style- 如果您请求了这封邮件，请按照以下步骤处理：Parent-StyleParent-Style1、启动您的浏览器。Parent-StyleParent-Style2、输入以下url：Parent-Style\t\5sParent-StyleParent-Style重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。Parent-StyleParent-Style3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
 rating#:#rating_your_rating#:#您的评分 
 rbac#:#cals_edit_event#:#管理公共日历
 rbac#:#cals_edit_permission#:#改变权限设置
@@ -6536,7 +6536,7 @@ mail#:#mail_salutation_n#:#Hello
 crs#:#crs_notification_explanation_admin#:#您接收到这封邮件是因为您是课程管理员/导师，并且启用了通知。
 crs#:#crs_new_status#:#您的新状态
 crs#:#crs_access#:#访问
-crs#:#crs_cancel_subscription_body2#:#可能有其他成员在您的课程等待清单中。\您应该现在就检查这个等待清单。\n查看您的课程成员请点击这里：
+crs#:#crs_cancel_subscription_body2#:#可能有其他成员在您的课程等待清单中。\您应该现在就检查这个等待清单。Parent-Style查看您的课程成员请点击这里：
 crs#:#crs_unsubscribe_member#:#您在课程 "%s" 中取消加入成员。
 crs#:#crs_unsubscribe_member_body#:#我们确认您在课程 "%s" 中取消加入成员。我们希望您有机会去参与其它课程。
 crs#:#crs_subscribe_member#:#您注册的课程 "%s"
@@ -6547,7 +6547,7 @@ wiki#:#wiki_general_settings#:#常规设置
 style#:#style_current_style#:#当前样式
 style#:#style_edit_style#:#编辑样式
 style#:#style_delete_style#:#删除样式
-crs#:#crs_subscribe_wl_body#:#您已被分配到课程 "%s" 的等待名单上。\n您被分配到名单上的 %s 位置。\n\n当您的请求被批准或被拒绝时，将从课程管理员那里接收到一条消息。
+crs#:#crs_subscribe_wl_body#:#您已被分配到课程 "%s" 的等待名单上。Parent-Style您被分配到名单上的 %s 位置。Parent-StyleParent-Style当您的请求被批准或被拒绝时，将从课程管理员那里接收到一条消息。
 grp#:#grp_mail_permanent_link#:#点击以下链接去寻找所有您需要的有关组的信息：
 grp#:#grp_mail_admission_new_sub#:#您注册的组 "%s"
 grp#:#grp_mail_admission_new_bod#:#我们很高兴的宣布，您注册到组 "%s"。
@@ -6557,10 +6557,10 @@ grp#:#grp_mail_notification_reg_sub#:#用户已注册组 "%s"。
 grp#:#grp_mail_notification_reg_bod#:#%s 已注册组 "%s"。
 grp#:#grp_notification_explanation_admin#:#您接收到这封邮件是因为您是组管理员，且启用了通知。
 grp#:#grp_mail_unsubscribe_member_sub#:#您取消了加入组 "%s"我
-grp#:#grp_mail_unsubscribe_member_bod#:#我们确认您取消加入组 %s.\n我们希望您有机会去参与其它组。
+grp#:#grp_mail_unsubscribe_member_bod#:#我们确认您取消加入组 %s.Parent-Style我们希望您有机会去参与其它组。
 grp#:#grp_mail_notification_unsub_sub#:#用户离开组 "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s 被取消了他/她的组 "%s" 的成员资格。
-grp#:#grp_mail_notification_unsub_bod2#:#可能有其他成员在您的组的等待名单上。\n您需要现在检查这个等待名单。\n查看您的组成员，请点击这里：
+grp#:#grp_mail_notification_unsub_bod2#:#可能有其他成员在您的组的等待名单上。Parent-Style您需要现在检查这个等待名单。Parent-Style查看您的组成员，请点击这里：
 grp#:#grp_mail_subscribe_member_sub#:#您注册的组 "%s"。
 grp#:#grp_mail_subscribe_member_bod#:#我们很高兴确认您注册到组 "%s"。
 grp#:#grp_mail_notification_reg_req_sub#:#请求加入组 "%s"。
@@ -6571,7 +6571,7 @@ grp#:#grp_mail_sub_dec_bod#:#我们很遗憾的告诉您，您注册到组 "%s" 
 grp#:#grp_mail_sub_acc_sub#:#"%s" 的注册已被确认。
 grp#:#grp_mail_sub_acc_bod#:#我们很高兴的确认您已注册到组 "%s"。
 grp#:#grp_mail_wl_sub#:#您的组 "%s" 的注册。
-grp#:#grp_mail_wl_bod#:#您被分配到组 "%s" 的等待名单上。\n您在这个名单上所分配的位置 %s 。\n\n当您的请求被批准或被拒绝时，您将从组管理员那里接收到一条消息。
+grp#:#grp_mail_wl_bod#:#您被分配到组 "%s" 的等待名单上。Parent-Style您在这个名单上所分配的位置 %s 。Parent-StyleParent-Style当您的请求被批准或被拒绝时，您将从组管理员那里接收到一条消息。
 grp#:#grp_mail_status_sub#:#在组 "%s" 中的状态已更改
 grp#:#grp_mail_status_bod#:#您在组 "%s" 中的状态已更改。
 grp#:#grp_new_status#:#您的新状态：
@@ -7999,7 +7999,7 @@ chatroom#:#chat_to_mainroom#:#到主房间
 chatroom#:#chat_create_private_room_button#:#创建私人房间
 chatroom#:#chatroom_smiley_keyword#:#关键字
 chatroom#:#chat_invitation#:#邀请来处 ##inviter_name## 到聊天室 ##room_name
-chatroom#:#chat_invitation_long#:#您已被##inviter_name## 邀请到聊天室 ##room_name##。\n\n点击这个链接##link##直接加入聊天室。
+chatroom#:#chat_invitation_long#:#您已被##inviter_name## 邀请到聊天室 ##room_name##。Parent-StyleParent-Style点击这个链接##link##直接加入聊天室。
 chatroom#:#chat_invitation_short#:#请点击这个标题链接进入聊天室。
 chatroom#:#settings_title#:#设置
 chatroom#:#history_byday_title#:#History by day
@@ -9331,7 +9331,7 @@ forum#:#sort_by_date#:#按日期排序
 forum#:#error_reading_file#:#读文件时出现一个错误
 assessment#:#edit_page#:#编辑页面
 assessment#:#edit_question#:#编辑题目
-common#:#session_reminder_alert#:#您在 %1$s 的会话在 %2$s 过期！\n\n选择OK继续您的会话。\n如果您点击放弃，在当前浏览器会话期间将再也不会提醒您。\n\n安装：%3$s
+common#:#session_reminder_alert#:#您在 %1$s 的会话在 %2$s 过期！Parent-StyleParent-Style选择OK继续您的会话。Parent-Style如果您点击放弃，在当前浏览器会话期间将再也不会提醒您。Parent-StyleParent-Style安装：%3$s
 common#:#obj_dcl_duplicate#:#复制数据集
 dcl#:#dcl_no_search_results_found_for#:#没有模块发现
 dcl#:#dcl_notimage_exception#:#该文件必须是一个图片。

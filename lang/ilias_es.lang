@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -4712,7 +4712,7 @@ common#:#session_max_idle_info#:#Define el periodo máximo de inactividad que un
 common#:#session_min_idle#:#Mínimo tiempo de sesión inactiva (en minutos)
 common#:#session_min_idle_info#:#Cuando un usuario alcanza al menos este tiempo de inactividad la sesión puede ser destruida si otra sesión debe ser abierta para otro usuario cuando se ha alcanzado el número máximo de sesiones existentes.
 common#:#session_reminder#:#Recordatorio de fin de sesión
-common#:#session_reminder_alert#:#Tu sesión finaliza en %1$s en %2$s!\n\nPulsa OK para continuar.\nSi pulsas Cancel no volveremos a avisarte durante la sesión.\n\nInstalación: %3$s.
+common#:#session_reminder_alert#:#Tu sesión finaliza en %1$s en %2$s!Parent-StyleParent-StylePulsa OK para continuar.Parent-StyleSi pulsas Cancel no volveremos a avisarte durante la sesión.Parent-StyleParent-StyleInstalación: %3$s.
 common#:#session_reminder_info#:#Si está habilitado, recibirá un aviso antes de que expire su sesión.
 common#:#session_reminder_lead_time#:#Plazo de entrega
 common#:#session_reminder_lead_time_info#:#Por favor especifique, la cantidad de segundos para mostrar el aviso del recordatorio de sesión antes de que expire el período de sesión. El valor actual de una sesión de usuario es %s.
@@ -5026,7 +5026,7 @@ common#:#usrimport_action_replaced#:#Acción %1$s reemplazada por %2$s
 common#:#usrimport_cant_delete#:#No se puede realizar la acción "Delete". No existe el usuario en la base de datos.
 common#:#usrimport_cant_insert#:#No se puede realizar la acción "Insert". El usuario ya existe en la base de datos.
 common#:#usrimport_cant_update#:#No se puede realizar la acción "Update". No existe el usuario en la base de datos.
-common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora la acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\nCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
+common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora la acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)Parent-StyleCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
 common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción "%1$s".
 common#:#usrimport_ignore_role#:#Ignorar rol
 common#:#usrimport_login_is_not_unique#:#El ID de usuario no es único.
@@ -6334,7 +6334,7 @@ crs#:#crs_blocked_member_body#:#Su pertenencia al curso "%s" ha sido bloqueada
 crs#:#crs_cancel_subscr_request#:#Eliminar Petición de miembro.
 crs#:#crs_cancel_subscription#:#Su pertenencia al curso "%s" ha sido cancelada
 crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso "%s"
-crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.\nDebe revisar la lista de espera.\nPara ver los miembros de tu curso, click aquí:
+crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.Parent-StyleDebe revisar la lista de espera.Parent-StylePara ver los miembros de tu curso, click aquí:
 crs#:#crs_cancellation_end#:#Límite de cancelación
 crs#:#crs_cancellation_end_info#:#A partir de esta fecha no se pueden registrar nuevos miembros.
 crs#:#crs_cancellation_end_rbac_info#:#El límite para cancelar fue el %s, ya no es posible una cancelación.
@@ -6695,7 +6695,7 @@ crs#:#crs_subject_course_group_notification#:#Correo diario para %s
 crs#:#crs_subscribe_member#:#Tu registro del curso "%s"
 crs#:#crs_subscribe_member_body#:#Estamos encantados de confirmar tu registro en el curso "%s".
 crs#:#crs_subscribe_wl#:#Su registro para el curso "%s".
-crs#:#crs_subscribe_wl_body#:#has sido asignado a la lista de espera del curso "%s".\nHas sido asignado a la posición %s de la lista.\n\n Recibirás un mensaje del administrador del curso cuando tu petición de pertenencia sea confirmada o rechazada.
+crs#:#crs_subscribe_wl_body#:#has sido asignado a la lista de espera del curso "%s".Parent-StyleHas sido asignado a la posición %s de la lista.Parent-StyleParent-Style Recibirás un mensaje del administrador del curso cuando tu petición de pertenencia sea confirmada o rechazada.
 crs#:#crs_subscriber#:#Suscriptor
 crs#:#crs_subscribers_deleted#:#Usuario(s) matriculado(s) eliminado(s)
 crs#:#crs_subscription#:#Suscripción
@@ -8518,7 +8518,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Para confirmar este registro, vaya a:
 grp#:#grp_mail_notification_reg_req_sub#:#Petición para el grupo "%s"
 grp#:#grp_mail_notification_reg_sub#:#Usuario registrado en el grupo "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s ha cancelado su pertenencia al grupo "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Podría haber otros miembros en lista de espera para el grupo.\nPara ver los miembros de tu grupo, click aquí:
+grp#:#grp_mail_notification_unsub_bod2#:#Podría haber otros miembros en lista de espera para el grupo.Parent-StylePara ver los miembros de tu grupo, click aquí:
 grp#:#grp_mail_notification_unsub_sub#:#El usuario dejó el grupo "%s"
 grp#:#grp_mail_permanent_link#:#Click en el siguiente enlace para encontrar toda la información que necesitas sobre el grupo:
 grp#:#grp_mail_status_bod#:#tu estado en el grupo "%s" ha cambiado.
@@ -8532,9 +8532,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Tu registro para el grupo "%s"
 grp#:#grp_mail_tutors_only#:#Sólo para administradores
 grp#:#grp_mail_tutors_only_info#:#Sólo los administradores pueden usar la opción "Correo a Miembros" en la pestaña "Miembros".
 grp#:#grp_mail_type#:#Mensaje a los miembros
-grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su cancelación de pertenencia al grupo %s.\nEsperamos que encuentre oportunidad de participar en algún otro grupo.
+grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su cancelación de pertenencia al grupo %s.Parent-StyleEsperamos que encuentre oportunidad de participar en algún otro grupo.
 grp#:#grp_mail_unsubscribe_member_sub#:#Su cancelación de pertenencia en el grupo "%s"
-grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".\nHa sido asignado en la posición %s de la lista.\n\n Usted recibirá un mensaje del administrador del grupo cuando su petición sea aprobada o rechazada.
+grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".Parent-StyleHa sido asignado en la posición %s de la lista.Parent-StyleParent-Style Usted recibirá un mensaje del administrador del grupo cuando su petición sea aprobada o rechazada.
 grp#:#grp_mail_wl_sub#:#Su registro en el grupo "%s".
 grp#:#grp_map_location#:#Mapa de Localización de Grupo
 grp#:#grp_map_settings#:#Configuración del mapa
@@ -8725,8 +8725,8 @@ itgr#:#itgr_materials#:#Materiales
 itgr#:#itgr_show_title#:#Mostrar título
 itgr#:#itgr_show_title_info#:#Muestra el título del grupo de elementos en la presentación para el estudiante.
 jscalendar#:#about_calendar#:#Acerca del calendario
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL. Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones Â«, Â» para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
-jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida
+jscalendar#:#about_calendar_long#:#DHTML Date/Time SelectorParent-Style(c) dynarch.com 2002-2003Parent-StylePara la última versión visite: http://dynarch.com/mishoo/calendar.eplParent-StyleDistribuído bajo GNU LGPL. Visite http://gnu.org/licenses/lgpl.html para detalles.Parent-StyleParent-StyleSelección de fecha:Parent-Style- Use los botones Â«, Â» para seleccionar añoParent-Style- Use los botones <, > para seleccionar mesParent-Style- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleSelección de hora:Parent-Style- Haga click en cualquiera de las partes del tiempo para incrementarlo Parent-Style- o Shift-click para decrementarloParent-Style- o click y arrastrar para una selección más rápida
 jscalendar#:#close#:#Cerrar
 jscalendar#:#day_first#:#Mostrar primero %s
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -10776,21 +10776,21 @@ ps#:#show_privacy#:#Privacidad
 ps#:#show_security#:#Seguridad
 pwassist#:#password_assistance#:#Asistencia para Contraseñas
 pwassist#:#pwassist_disabled_no_access#:#La ayuda para contraseñas no está habilitada. Póngase en contacto con el administrador del sistema para obtener ayuda: %s
-pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.\nILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que se han registrado con esta dirección de e-mail.\nEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
+pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.Parent-StyleILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que se han registrado con esta dirección de e-mail.Parent-StyleEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.Parent-StyleILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.Parent-StyleEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.
 pwassist#:#pwassist_invalid_auth_mode#:#El usuario no será autenticado directamente en ILIAS. Por tanto enviar una contraseña no es posible.
-pwassist#:#pwassist_invalid_email#:#Por favor corrija su dirección de correo electrónico.\nLa dirección de correo introducida no pudo encontrarse en la base de datos
-pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.\nEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.
-pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
-pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
-pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\nPor favor compruebe su bandeja de entrada.
+pwassist#:#pwassist_invalid_email#:#Por favor corrija su dirección de correo electrónico.Parent-StyleLa dirección de correo introducida no pudo encontrarse en la base de datos
+pwassist#:#pwassist_invalid_username_or_email#:#Por favor corrija el texto en los formularios de entrada.Parent-StyleEl nombre de usuario y dirección de correo electrónico que ha introducido no coinciden con las entradas en la base de datos.
+pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.Parent-StyleEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
+pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:Parent-Style\t%1$sParent-StyleParent-StyleEste mensaje ha sido generado automáticamente por el servidor ILIASParent-Style\t%2$sParent-StyleParent-StyleUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".Parent-StyleParent-StylePor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:Parent-StyleParent-Style- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:Parent-StyleElimine este mensaje.Parent-StyleParent-Style- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:Parent-StylePor favor contacte %5$s.Parent-StyleParent-Style- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:Parent-StyleParent-Style1. Abra su navegador.Parent-StyleParent-Style2. Introduzca la siguiente dirección de correo en su navegador:Parent-Style\t%1$sParent-StyleParent-StyleImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.Parent-StyleParent-Style3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.Parent-StyleParent-StylePor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
+pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.Parent-StylePor favor compruebe su bandeja de entrada.
 pwassist#:#pwassist_mail_subject#:#Asistencia de Contraseña ILIAS
 pwassist#:#pwassist_no_email_found#:#No puede usar la asistencia de contraseñas, ya que no hay dirección e-mail para la cuenta de usuario introducida.
-pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. \nLa asistencia de contraseñas no está permitida para el usuario introducido.
+pwassist#:#pwassist_not_permitted#:#Por favor introduzca otro nombre de usuario. Parent-StyleLa asistencia de contraseñas no está permitida para el usuario introducido.
 pwassist#:#pwassist_password_assigned#:#La contraseña ha sido asignada al usuario "%1$s".
-pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fue enviado.
-pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\n%s\n\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\n\t%s\n\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\n\nPor favor compruebe lo siguiente y actue como se sugiere::\n\n-Usted ha solicitado este mail por accidente::\nElimine este correo.\n\n-Está seguro de que nunca solicitó este correo::\nPor favor contacte con %s.\n\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\n\n1. Ejecute su navegador de internet.\n\n2. Introduzca la siguiente URL:\n\t%s\n\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\n\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
+pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.Parent-StyleSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fue enviado.
+pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:Parent-Style%sParent-StyleParent-StyleEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:Parent-Style\t%sParent-StyleParent-StyleUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.Parent-StyleParent-StylePor favor compruebe lo siguiente y actue como se sugiere::Parent-StyleParent-Style-Usted ha solicitado este mail por accidente::Parent-StyleElimine este correo.Parent-StyleParent-Style-Está seguro de que nunca solicitó este correo::Parent-StylePor favor contacte con %s.Parent-StyleParent-Style- Si solicitó este correo electrónico, por favor proceda del siguiente modo::Parent-StyleParent-Style1. Ejecute su navegador de internet.Parent-StyleParent-Style2. Introduzca la siguiente URL:Parent-Style\t%sParent-StyleParent-StyleImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.Parent-StyleParent-Style3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
 pwassist#:#unassist_disabled_no_access#:#La ayuda para nombres de usuario no está habilitada. Póngase en contacto con el administrador del sistema para obtener ayuda: %s
 rating#:#rat_not_rated_yet#:#No se ha puntuado todavía
 rating#:#rat_nr_ratings#:#%s votos

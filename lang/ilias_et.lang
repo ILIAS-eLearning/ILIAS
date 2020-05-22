@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -1862,7 +1862,7 @@ chatroom#:#chat_connection_established#:#Connection established
 chatroom#:#chat_create_private_room_button#:#Create private room
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.Parent-StyleParent-StyleClick on this link ##link## to directly join this chatroom.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Kutsu
 chatroom#:#chat_join#:#Join
@@ -4275,7 +4275,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Kustutamine pole võimalik. Kasutaja andmebaasist puudub
 common#:#usrimport_cant_insert#:#Kuna kasutaja on juba andmebaasis, ei saa lisada.
 common#:#usrimport_cant_update#:#Uuendada ei saa. Andmebaasis pole sellist kasutajat.
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)Parent-StyleWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
@@ -5401,7 +5401,7 @@ crs#:#crs_blocked_member_body#:#Sinu liikmelisus kursusel "%s" on blokeeritud.
 crs#:#crs_cancel_subscr_request#:#Kustuta liikmelisuse taotlus
 crs#:#crs_cancel_subscription#:#Loobumine kursusest "%s"
 crs#:#crs_cancel_subscription_body#:#Liige loobus kursusest "%s".
-crs#:#crs_cancel_subscription_body2#:#Sinu kursuse ootejärjekorras võib olla teisi liikmeid.\nPeaksid ootejärjekorda praegu kontrollima.\nOma kursuse liikmete vaatamiseks klikka siia:
+crs#:#crs_cancel_subscription_body2#:#Sinu kursuse ootejärjekorras võib olla teisi liikmeid.Parent-StylePeaksid ootejärjekorda praegu kontrollima.Parent-StyleOma kursuse liikmete vaatamiseks klikka siia:
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
 crs#:#crs_contact#:#Kontakt
@@ -5698,7 +5698,7 @@ crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
 crs#:#crs_subscribe_member#:#Sinu registreerumine kursusele "%s"
 crs#:#crs_subscribe_member_body#:#meil on hea meel kinnitada teie registreerumine kursusele "%s".
 crs#:#crs_subscribe_wl#:#Sinu registreerumine kursusele "%s".
-crs#:#crs_subscribe_wl_body#:#olete määratud kursuse "%s" ootejärjekorda.\n Olete ootejärjekorras %s -s.\n\nSaate kirja kursuse haldurilt kui taotlus on vastuvõetud või tagasi lükatud.
+crs#:#crs_subscribe_wl_body#:#olete määratud kursuse "%s" ootejärjekorda.Parent-Style Olete ootejärjekorras %s -s.Parent-StyleParent-StyleSaate kirja kursuse haldurilt kui taotlus on vastuvõetud või tagasi lükatud.
 crs#:#crs_subscriber#:#Tellija
 crs#:#crs_subscribers_deleted#:#Kustuta kasutaja(d)
 crs#:#crs_subscription#:#Tellimus
@@ -7096,7 +7096,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Registreerimise kinnituseks mine:
 grp#:#grp_mail_notification_reg_req_sub#:#Soov liituda grupiga "%s"
 grp#:#grp_mail_notification_reg_sub#:#Kasutaja registreerus gruppi "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s on tühistanud oma liikmelisuse grupis "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#Kasutaja lahkus grupist "%s"
 grp#:#grp_mail_permanent_link#:#Klikka järgneval lingil, et näha kogu vajalikku infot, mis puudutab gruppi:
 grp#:#grp_mail_status_bod#:#Teie staatus grupis "%s" on muudetud.
@@ -7110,9 +7110,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Sinu registreerimine gruppi "%s"
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.
 grp#:#grp_mail_type#:#Mail to Members
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.Parent-StyleWe hope that you find an opportunity to participate in another group.
 grp#:#grp_mail_unsubscribe_member_sub#:#Teie liikmelisuse tühistamine grupis "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-StyleYou will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Sinu registreerimine gruppi "%s".
 grp#:#grp_map_location#:#Võimalda grupi kaart
 grp#:#grp_map_settings#:#Kaardi seaded
@@ -7206,8 +7206,8 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#Kalendrist
-jscalendar#:#about_calendar_long#:#DHTML Kuupäeva/aja valmisvahend\n(c) dynarch.com 2002-2003\nViimast versiooni vt: http://dynarch.com/mishoo/calendar.epl\nLevitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.\n\nKuupäeva valik:\n- Kasuta aasta valimiseks nuppe <<, >> \n- Kasuta kuu valimiseks nuppe <, > \n- Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid. \n- Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval.
-jscalendar#:#about_time#:#\n\nAja valik:\n- Kliki suurendamiseks ükskõik millisel osal \n- or Shift-klikk vähendamiseks\n- või lohista kiiremini valiku tegemiseks.
+jscalendar#:#about_calendar_long#:#DHTML Kuupäeva/aja valmisvahendParent-Style(c) dynarch.com 2002-2003Parent-StyleViimast versiooni vt: http://dynarch.com/mishoo/calendar.eplParent-StyleLevitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.Parent-StyleParent-StyleKuupäeva valik:Parent-Style- Kasuta aasta valimiseks nuppe <<, >> Parent-Style- Kasuta kuu valimiseks nuppe <, > Parent-Style- Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid. Parent-Style- Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleAja valik:Parent-Style- Kliki suurendamiseks ükskõik millisel osal Parent-Style- or Shift-klikk vähendamiseksParent-Style- või lohista kiiremini valiku tegemiseks.
 jscalendar#:#close#:#Sule
 jscalendar#:#day_first#:#Kuva %s esimesena
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -8759,21 +8759,21 @@ ps#:#rbac_log_info#:#Võimalda objekti õigustes kõikide muudatuste logi
 ps#:#show_privacy#:#Privaatsus
 ps#:#show_security#:#Turva
 pwassist#:#password_assistance#:#Salasõna abi
-pwassist#:#pwassist_enter_email#:#Palun sisesta e-posti aadress.\nILIAS saadab sellele aadressile e-kirja. E-kiri sisaldab kõiki kasutajanimesid, mis on selle e-posti aadressiga loodud.\nVali sobiv kasutajanimi ja kasuta vajaduse korral ka salasõna abi uue salasõna saamiseks. Kui sa ei saa kinnituseks ühtegi e-kirja, kontakteeru administraatoriga või %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Sisesta oma kasutajanimi ja e-posti aadress allpool olevatele väljadele.\nILIAS saadab sellele e-posti aadressile e-kirja. E-kiri sisaldab veebilehe aadressi, millel saad oma konto jaoks uue salasõna sisestada.\nJuhul, kui uue salasõna loomine ei õnnestu, võta ühendust administraatoriga või saada e-kiri aadressil %1$s.
+pwassist#:#pwassist_enter_email#:#Palun sisesta e-posti aadress.Parent-StyleILIAS saadab sellele aadressile e-kirja. E-kiri sisaldab kõiki kasutajanimesid, mis on selle e-posti aadressiga loodud.Parent-StyleVali sobiv kasutajanimi ja kasuta vajaduse korral ka salasõna abi uue salasõna saamiseks. Kui sa ei saa kinnituseks ühtegi e-kirja, kontakteeru administraatoriga või %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Sisesta oma kasutajanimi ja e-posti aadress allpool olevatele väljadele.Parent-StyleILIAS saadab sellele e-posti aadressile e-kirja. E-kiri sisaldab veebilehe aadressi, millel saad oma konto jaoks uue salasõna sisestada.Parent-StyleJuhul, kui uue salasõna loomine ei õnnestu, võta ühendust administraatoriga või saada e-kiri aadressil %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:# Sisesta kasutajanimi ja uus salasõna alltoodud väljadele.
 pwassist#:#pwassist_invalid_auth_mode#:#Kasutajat ei autendita otse ILIASes. Seetõttu on salasõna saatmine võimatu.
 pwassist#:#pwassist_invalid_email#:#Palun kontrolli oma e-posti aadressi. Antud aadressi ei leita andmebaasist.
-pwassist#:#pwassist_invalid_username_or_email#:#Palun paranda teksti väljadel.\nKas sisestatud kasutajanimi või e-posti aadress ei kattu andmebaasis olevaga.
-pwassist#:#pwassist_login_not_match#:#Palun sisesta teine kasutajanimi.\nSinu sisestatud kasutajanimi ei kattu kasutajanimega, millele salasõna abi palusid.
-pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe server\n\t%2$s\n\nSina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".\n\nPalun loe järgnev tähelepanelikult läbi ja toimi vastavalt:\n\n- Kui palusid salasõna abi kogemata:\nkstuta see e-kiri.\n\n- Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud:\npalun kontakteeru %5$s.\n\n- Kui palusid salasõna abi, toimi järgnevalt:\n\n1. Ava oma brauser..\n\n2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse:\n\t%1$s\n\nTähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.\n\n3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.\n\nPane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
-pwassist#:#pwassist_mail_sent#:#Kiri on saadetud  %1$s.\nPalun kontrolli oma postkasti.
+pwassist#:#pwassist_invalid_username_or_email#:#Palun paranda teksti väljadel.Parent-StyleKas sisestatud kasutajanimi või e-posti aadress ei kattu andmebaasis olevaga.
+pwassist#:#pwassist_login_not_match#:#Palun sisesta teine kasutajanimi.Parent-StyleSinu sisestatud kasutajanimi ei kattu kasutajanimega, millele salasõna abi palusid.
+pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe serverParent-Style\t%2$sParent-StyleParent-StyleSina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".Parent-StyleParent-StylePalun loe järgnev tähelepanelikult läbi ja toimi vastavalt:Parent-StyleParent-Style- Kui palusid salasõna abi kogemata:Parent-Stylekstuta see e-kiri.Parent-StyleParent-Style- Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud:Parent-Stylepalun kontakteeru %5$s.Parent-StyleParent-Style- Kui palusid salasõna abi, toimi järgnevalt:Parent-StyleParent-Style1. Ava oma brauser..Parent-StyleParent-Style2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse:Parent-Style\t%1$sParent-StyleParent-StyleTähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.Parent-StyleParent-Style3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.Parent-StyleParent-StylePane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
+pwassist#:#pwassist_mail_sent#:#Kiri on saadetud  %1$s.Parent-StylePalun kontrolli oma postkasti.
 pwassist#:#pwassist_mail_subject#:#ILIASe abi
 pwassist#:#pwassist_no_email_found#:#Sa ei saa salasõna abi kasutada, sest sisestatud kasutajanimel puudub e-posti aadress.
-pwassist#:#pwassist_not_permitted#:#Palun sisesta teine kasutajanimi.\nSalasõna abi pole sinu sisestatud kasutajanime jaoks võimalik.
+pwassist#:#pwassist_not_permitted#:#Palun sisesta teine kasutajanimi.Parent-StyleSalasõna abi pole sinu sisestatud kasutajanime jaoks võimalik.
 pwassist#:#pwassist_password_assigned#:#Uue salasõna loomine kasutajale "%1$s" õnnestus!
-pwassist#:#pwassist_session_expired#:#Palun täida väljad uuesti.\nSinu salasõna abi sessioon on aegunud. See võib olla tingitud asjaolust, et püüdsid kasutada e-kirjaga saadetud linki rohkem kui ühe korra, või on lingi saatmisest möödunud liiga palju aega.
-pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed:\n%s\n\nSee automaatsõnum on loodud järgmise ILIASe serveri poolt:\n\t%s\n\nSina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'\n seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:\n\n-Sa lasid selle e-kirja enesele kogemata saata:\nkustuta see e-kiri.\n\n-Oled kindel, et pole kunagi seda e-kirja lasknud saata:\npalun kontakteeru %s.\n\n- Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:\n\n1. Käivita oma Interneti brauser.\n\n2. Sisesta järgmine url:\n\t%s\n\nTähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.\n\n3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
+pwassist#:#pwassist_session_expired#:#Palun täida väljad uuesti.Parent-StyleSinu salasõna abi sessioon on aegunud. See võib olla tingitud asjaolust, et püüdsid kasutada e-kirjaga saadetud linki rohkem kui ühe korra, või on lingi saatmisest möödunud liiga palju aega.
+pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed:Parent-Style%sParent-StyleParent-StyleSee automaatsõnum on loodud järgmise ILIASe serveri poolt:Parent-Style\t%sParent-StyleParent-StyleSina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'Parent-Style seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:Parent-StyleParent-Style-Sa lasid selle e-kirja enesele kogemata saata:Parent-Stylekustuta see e-kiri.Parent-StyleParent-Style-Oled kindel, et pole kunagi seda e-kirja lasknud saata:Parent-Stylepalun kontakteeru %s.Parent-StyleParent-Style- Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:Parent-StyleParent-Style1. Käivita oma Interneti brauser.Parent-StyleParent-Style2. Sisesta järgmine url:Parent-Style\t%sParent-StyleParent-StyleTähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.Parent-StyleParent-Style3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
 rating#:#rat_not_rated_yet#:#Pole veel hääletatud
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#Üks hääletus

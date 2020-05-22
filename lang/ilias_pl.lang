@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -2422,7 +2422,7 @@ chatroom#:#chat_https_cert_info#:#Podaj ścieżkę bezwzględną serwera dla cer
 chatroom#:#chat_https_dhparam_info#:#Podaj tutaj ścieżkę bezwzględną serwera dla pliku (np. /etc/ssl/private/dhparam.pem), aby wygenerować protokół Diffiego-Hellmanna (np. za pomocą: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Podaj ścieżkę bezwzględną serwera dla osobistego kodu (np.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Zaproszenie od "[INVITER_NAME]" do pokoju czatu "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nZostałeś zaproszony do pokoju czatu:\nTytuł pokoju czatu: [ROOM_NAME]\nprzez: [INVITER_NAME]\nURL: [LINK]\n\nAby dołączyć do czatu, przejdź pod podany adres URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]Parent-StyleParent-StyleZostałeś zaproszony do pokoju czatu:Parent-StyleTytuł pokoju czatu: [ROOM_NAME]Parent-Styleprzez: [INVITER_NAME]Parent-StyleURL: [LINK]Parent-StyleParent-StyleAby dołączyć do czatu, przejdź pod podany adres URL.
 chatroom#:#chat_invitation_short#:#Kliknij na tytuł, aby wejść do po pokoju czatu.
 chatroom#:#chat_invite#:#Zaproś
 chatroom#:#chat_join#:#Wejdź
@@ -4712,7 +4712,7 @@ common#:#session_max_idle_info#:#Jeśli przez ten czas użytkownik jest nieaktyw
 common#:#session_min_idle#:#Minimalny czas nieaktywności sesji (w minutach)
 common#:#session_min_idle_info#:#Jeśli użytkownik jest co najmniej przez ten czas nieaktywny, można usunąć jego sesję, jeśli trzeba utworzyć sesję dla innego użytkownika, a maksymalny limit sesyjny został przekroczony.
 common#:#session_reminder#:#Przypomnienie o sesji
-common#:#session_reminder_alert#:#Twoje sesja wygaśnie za %1$s o %2$s ab!\n\nKliknij na OK, aby przedłużyć sesję!\nJeśli nie chcesz otrzymywać podczas aktualnej sesji przeglądarki przypomnień, wybierz opcję Przerwij.\n\nDana instalacja: %3$s.
+common#:#session_reminder_alert#:#Twoje sesja wygaśnie za %1$s o %2$s ab!Parent-StyleParent-StyleKliknij na OK, aby przedłużyć sesję!Parent-StyleJeśli nie chcesz otrzymywać podczas aktualnej sesji przeglądarki przypomnień, wybierz opcję Przerwij.Parent-StyleParent-StyleDana instalacja: %3$s.
 common#:#session_reminder_info#:#Jeśli opcja jest włączona, pojawi się przypomnienie przed wygaśnięciem sesji online przeglądarki.
 common#:#session_reminder_lead_time#:#Okres
 common#:#session_reminder_lead_time_info#:#Tutaj możesz określić, ile sekund przed wygaśnięciem sesji ILIAS ma wyświetlić przypomnienie. Wówczas otrzymasz informację i kliknięciem myszki możesz przedłużyć sesję. Wpisz wartość w minutach. Zalecany czas to 5 minut. <br \>Bieżącą wartość dla sesji użytkownika w ILIAS to %s.
@@ -6334,7 +6334,7 @@ crs#:#crs_blocked_member_body#:#Twoje uczestnictwo w kursie "%s" zostało zablok
 crs#:#crs_cancel_subscr_request#:#Cofnij wniosek o przyjęcie
 crs#:#crs_cancel_subscription#:#Wyrejestrowanie z kursu
 crs#:#crs_cancel_subscription_body#:#%s zrezygnował z subskrypcji kursu "%s".
-crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników kursu, kliknij link:
+crs#:#crs_cancel_subscription_body2#:#Być może są inni użytkownicy oczekujący na członkostwo w kursie.Parent-StylePowinieneś sprawdzić listę oczekujących.Parent-StyleAby sprawdzić użytkowników kursu, kliknij link:
 crs#:#crs_cancellation_end#:#Moment najpóźniejszego opuszczenia kursu
 crs#:#crs_cancellation_end_info#:#Członkowie mogą tylko do ustalonego dnia samodzielnie wypisać się z kursu.
 crs#:#crs_cancellation_end_rbac_info#:#Koniec anulowania został osiągnięty w dniu %s. Teraz nie można już opuścić kursu.
@@ -6695,7 +6695,7 @@ crs#:#crs_subject_course_group_notification#:#Wiadomość podsumowująca dla %s
 crs#:#crs_subscribe_member#:#Twoja rejestracja do kursu "%s"
 crs#:#crs_subscribe_member_body#:#mamy przyjemność potwierdzić Twoją rejestrację do kursu "%s".
 crs#:#crs_subscribe_wl#:#Twoja rejestracja do kursu "%s"
-crs#:#crs_subscribe_wl_body#:#Zostałeś umieszczony na liście oczekujących dla kursu "%s" i zajmujesz %s pozycję na liście.\n\nZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
+crs#:#crs_subscribe_wl_body#:#Zostałeś umieszczony na liście oczekujących dla kursu "%s" i zajmujesz %s pozycję na liście.Parent-StyleParent-StyleZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
 crs#:#crs_subscriber#:#Subskrybent
 crs#:#crs_subscribers_deleted#:#Usunięte subskrypcje
 crs#:#crs_subscription#:#Subskrypcja
@@ -8518,7 +8518,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#W celu potwierdzenia rejestracji kont
 grp#:#grp_mail_notification_reg_req_sub#:#Wniosek o przyjęcie do grupy "%s"
 grp#:#grp_mail_notification_reg_sub#:#Użytkownik został zarejestrowany do grupy "%s"
 grp#:#grp_mail_notification_unsub_bod#:#uczestnik / uczestniczka "%s" zakończyli członkostwo w grupie "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Być może są inni użytkownicy oczekujący na członkostwo w grupie.\nPowinieneś sprawdzić listę oczekujących.\nAby sprawdzić użytkowników grupy, kliknij link:
+grp#:#grp_mail_notification_unsub_bod2#:#Być może są inni użytkownicy oczekujący na członkostwo w grupie.Parent-StylePowinieneś sprawdzić listę oczekujących.Parent-StyleAby sprawdzić użytkowników grupy, kliknij link:
 grp#:#grp_mail_notification_unsub_sub#:#Rezygnacja z grupy "%s"
 grp#:#grp_mail_permanent_link#:#Kliknij na poniższy link, aby znaleźć wszystkie potrzebne informacje dotyczące grupy:
 grp#:#grp_mail_status_bod#:#Twój status w grupie "%s" został zmieniony.
@@ -8532,9 +8532,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Twoja rejestracja do grupy "%s"
 grp#:#grp_mail_tutors_only#:#Tylko dla administratorów
 grp#:#grp_mail_tutors_only_info#:#Tylko administratorzy mogą używać funkcji "E-Mail do członków" w zakładce "Członkowie".
 grp#:#grp_mail_type#:#E-Mail do członków
-grp#:#grp_mail_unsubscribe_member_bod#:#potwierdzamy rezygnację twojego członkostwa w grupie %s.\nMamy nadzieję, że będziesz miał okazję uczestnictwa w innej grupie.
+grp#:#grp_mail_unsubscribe_member_bod#:#potwierdzamy rezygnację twojego członkostwa w grupie %s.Parent-StyleMamy nadzieję, że będziesz miał okazję uczestnictwa w innej grupie.
 grp#:#grp_mail_unsubscribe_member_sub#:#Rezygnacja z członkostwa w grupie "%s"
-grp#:#grp_mail_wl_bod#:#Zostałeś umieszczony na liście oczekujących dla grupy "%s" i zajmujesz %s pozycję na liście.\n\nZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
+grp#:#grp_mail_wl_bod#:#Zostałeś umieszczony na liście oczekujących dla grupy "%s" i zajmujesz %s pozycję na liście.Parent-StyleParent-StyleZostaniesz powiadomiony mailowo, gdy Twój wniosek o przyjęcie zostanie przyjęty lub odrzucony.
 grp#:#grp_mail_wl_sub#:#Twoja rejestracja do grupy "%s"
 grp#:#grp_map_location#:#Miejsce mapy grupy
 grp#:#grp_map_settings#:#Ustawienia map
@@ -8725,8 +8725,8 @@ itgr#:#itgr_materials#:#Materiały
 itgr#:#itgr_show_title#:#Pokaż tytuł
 itgr#:#itgr_show_title_info#:#Tytuł sekcji obiektu wyświetlany jest w prezentacji dla uczestników kursu.
 jscalendar#:#about_calendar#:#O kalendarzu
-jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003\nDla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html, aby sprawdzić szczegóły licencji.\n\nWybór daty:\n- Użyj przycisków «, » do wyboru roku\n- Użyj przycisków <, > do wyboru miesiąca\n- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
-jscalendar#:#about_time#:#n\n\Wybór czasu:n\- Kliknij na dowolny element czasu, aby go zwiększyć\n- lub z klawiszem Shift, aby go zmniejszyć\n- lub kliknij i przytrzymaj, aby przyspieszyć wybór.
+jscalendar#:#about_calendar_long#:#Selektor Daty/Czasu DHTMLn(c) dynarch.com 2002-2003Parent-StyleDla uzyskania ostatniej wersji odwiedź: http://dynarch.com/mishoo/calendar.epln udostępniany na licencji GNU LGPL. Zobacz http://gnu.org/licenses/lgpl.html, aby sprawdzić szczegóły licencji.Parent-StyleParent-StyleWybór daty:Parent-Style- Użyj przycisków «, » do wyboru rokuParent-Style- Użyj przycisków <, > do wyboru miesiącaParent-Style- Przytrzymaj klawisz myszy lub każdy z powyższych dla przyspieszenia wyboru.
+jscalendar#:#about_time#:#nParent-Style\Wybór czasu:n\- Kliknij na dowolny element czasu, aby go zwiększyćParent-Style- lub z klawiszem Shift, aby go zmniejszyćParent-Style- lub kliknij i przytrzymaj, aby przyspieszyć wybór.
 jscalendar#:#close#:#Zamknij
 jscalendar#:#day_first#:#Wyświetl najpierw %s
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -10776,21 +10776,21 @@ ps#:#show_privacy#:#Prywatność
 ps#:#show_security#:#Bezpieczeństwo
 pwassist#:#password_assistance#:#Pomoc dla haseł
 pwassist#:#pwassist_disabled_no_access#:#Obsługa haseł nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s
-pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz.\nILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się na ten adres e-mail.\nWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuj się z administratorem kursu lub %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej.\nILIAS wyśle wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło.\nW przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s.
+pwassist#:#pwassist_enter_email#:#Podaj adres e-mail i zatwierdź formularz.Parent-StyleILIAS wyśle e-mail na ten adres. E-mail zawiera nazwy wszystkich użytkowników, którzy zarejestrowali się na ten adres e-mail.Parent-StyleWybierz odpowiednią nazwę użytkownika i użyj serwisu haseł do utworzenia nowego hasła. Jeśli nie otrzymasz poczty e-mail z serwisu, skontaktuj się z administratorem kursu lub %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Wprowadź nazwę użytkownika i powiązane z nim konto e-mail w polach przedstawionych poniżej.Parent-StyleILIAS wyśle wiadomość na wskazany adres e-mail, która zawierać będzie link do strony www, gdzie będziesz mógł ustanowić nowe hasło.Parent-StyleW przypadku problemów ze zmianą hasła skontaktuj się z administratorem kursu lub wyślij e-mail do %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#W polach poniżej podaj nazwę użytkownika (login) i ustal nowe hasło.
 pwassist#:#pwassist_invalid_auth_mode#:#Użytkownik nie może być autoryzowany bezpośrednio przez ILIAS. Stąd wysłanie hasła jest niemożliwe.
-pwassist#:#pwassist_invalid_email#:#Sprawdź swój adres e-mail.\nPodany adres e-mail nie został odnaleziony w bazie danych.
-pwassist#:#pwassist_invalid_username_or_email#:#Popraw tekst w polach wejściowych.\nWprowadzony login i adres poczty elektronicznej nie zgadzają się z danymi w bazie danych.
-pwassist#:#pwassist_login_not_match#:#Podaj inny login.\nPodana nazwa użytkownika nie jest zgodna z nazwą użytkownika, dla której prosiłeś o hasło.
-pwassist#:#pwassist_mail_body#:#Rejestracja nowego hasła dla konta użytkownika:\n\t%1$s\n\nTen komunikat został wygenerowany automatycznie przez serwer ILIAS:\n\t%2$s\n\nTy (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: "%4$s".\n\nProszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:\n\n- Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS:\nUsuń ten e-mail.\n\n- Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS:\nSkontaktuj się z %5$s.\n\n- Jeśli poprosiłeś o pomoc w zmianie hasła, postępuj zgodnie z:\n\n1. Otwórz przeglądarkę www.\n\n2. Wpisz poniższy adres w przeglądarce:\n\t%6$s\n\nUwaga: Adres jest pojedynczą linią. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.\n\n3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.\n\nZe względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie.
-pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s .\nSprawdź swoją skrzynkę pocztową.
+pwassist#:#pwassist_invalid_email#:#Sprawdź swój adres e-mail.Parent-StylePodany adres e-mail nie został odnaleziony w bazie danych.
+pwassist#:#pwassist_invalid_username_or_email#:#Popraw tekst w polach wejściowych.Parent-StyleWprowadzony login i adres poczty elektronicznej nie zgadzają się z danymi w bazie danych.
+pwassist#:#pwassist_login_not_match#:#Podaj inny login.Parent-StylePodana nazwa użytkownika nie jest zgodna z nazwą użytkownika, dla której prosiłeś o hasło.
+pwassist#:#pwassist_mail_body#:#Rejestracja nowego hasła dla konta użytkownika:Parent-Style\t%1$sParent-StyleParent-StyleTen komunikat został wygenerowany automatycznie przez serwer ILIAS:Parent-Style\t%2$sParent-StyleParent-StyleTy (lub osoba korzystająca z komputera o IP: %3$s) poprosiła o ustalenie nowego hasła do konta użytkownika: "%4$s".Parent-StyleParent-StyleProszę dokładnie zapoznać się z warunkami wymienionymi poniżej i postępować zgodnie z:Parent-StyleParent-Style- Jeśli przypadkowo uruchomiłeś procedurę ustalania nowego hasła dla konta na serwerze ILIAS:Parent-StyleUsuń ten e-mail.Parent-StyleParent-Style- Jeżeli jesteś przekonany, iż nigdy nie zażądałeś zmiany hasła na serwerze ILIAS:Parent-StyleSkontaktuj się z %5$s.Parent-StyleParent-Style- Jeśli poprosiłeś o pomoc w zmianie hasła, postępuj zgodnie z:Parent-StyleParent-Style1. Otwórz przeglądarkę www.Parent-StyleParent-Style2. Wpisz poniższy adres w przeglądarce:Parent-Style\t%6$sParent-StyleParent-StyleUwaga: Adres jest pojedynczą linią. Jeśli widzisz adres w kilku liniach, oznacza to, iż twój program e-mailowy wstawił dodatkowe linie podziału.Parent-StyleParent-Style3. Na stronie www prezentowanej przez twoją przeglądarkę, ustal nowe hasło dla twojego konta w ILIAS.Parent-StyleParent-StyleZe względu na bezpieczeństwo przedstawiona procedura zmiany hasła ważna jest tylko raz i w dodatku w ściśle określonym czasie. Następnie adres traci ważność, a całą procedurę należy przeprowadzić ponownie.
+pwassist#:#pwassist_mail_sent#:#Wiadomość została wysłana do %1$s .Parent-StyleSprawdź swoją skrzynkę pocztową.
 pwassist#:#pwassist_mail_subject#:#Pomoc do haseł ILIAS
 pwassist#:#pwassist_no_email_found#:#Nie możesz używać pomocy dla hasła, dopóki brak adresu poczty elektronicznej dla wprowadzonego konta użytkownika.
-pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.\nPomoc do haseł nie jest dozwolona dla tego użytkownika.
+pwassist#:#pwassist_not_permitted#:#Podaj inną nazwę użytkownika.Parent-StylePomoc do haseł nie jest dozwolona dla tego użytkownika.
 pwassist#:#pwassist_password_assigned#:#Hasło zostało przydzielone użytkownikowi "%1$s".
-pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.\nSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
-pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:\n%s\n\nTa wiadomość została utworzona automatycznie przez serwer ILIAS:\n\t%s\n\nTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.\n\nSprawdź dane i wykonaj co jest sugerowane::\n\n-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.\n\n-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:\nSkontaktuj się z %s.\n\n- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::\n\n1. Otwórz swoją przeglądarkę www.\n\n2. Wprowadź następujący url:\n\t%s\n\nUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn. że twój klient pocztowy sam podzielił go na wiersze.\n\n3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
+pwassist#:#pwassist_session_expired#:#Wypełnij ponownie ten formularz.Parent-StyleSesja pomocy do hasła minęła. To mogło nastąpić, ponieważ próbowałeś użyć odnośnika wysłanego do Ciebie więcej razy, lub minęło zbyt dużo czasu od chwili wysłania tego adresu do Ciebie.
+pwassist#:#pwassist_username_mail_body#:#Znaleziono aktywną nazwę użytkownika dla tego adresu e-mail:Parent-Style%sParent-StyleParent-StyleTa wiadomość została utworzona automatycznie przez serwer ILIAS:Parent-Style\t%sParent-StyleParent-StyleTy (lub ktoś z IP %s) żądał pomocy, bo zapomniał nazwy użytkownika dla adresu e-mail '%s'.Parent-StyleParent-StyleSprawdź dane i wykonaj co jest sugerowane::Parent-StyleParent-Style-Jeśli żądałeś tej wiadomości:nNa końcu usuń tę wiadomość.Parent-StyleParent-Style-Jeśli jesteś pewien, że nigdy nie żądałeś tej wiadomości:Parent-StyleSkontaktuj się z %s.Parent-StyleParent-Style- Jeśli żądałeś tej wiadomości, wykonaj następujące czynności::Parent-StyleParent-Style1. Otwórz swoją przeglądarkę www.Parent-StyleParent-Style2. Wprowadź następujący url:Parent-Style\t%sParent-StyleParent-StyleUwaga: Adres jest pojedynczą linią. Jeśli ten adres widnieje w kilku wierszach, tzn. że twój klient pocztowy sam podzielił go na wiersze.Parent-StyleParent-Style3. Twoja przeglądarka pokazuje teraz serwis haseł. Użyj tej strony, wraz z jedną z nazw użytkownika i łącznie z adresem e-mail, uzyskasz nowe hasło.
 pwassist#:#unassist_disabled_no_access#:#Obsługa nazw użytkownika nie jest aktywna. Skontaktuj się z administratorem systemu, aby otrzymać dodatkowe wsparcie: %s
 rating#:#rat_not_rated_yet#:#Jeszcze nie oceniono
 rating#:#rat_nr_ratings#:#%s oceny

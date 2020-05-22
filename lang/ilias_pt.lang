@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -1863,7 +1863,7 @@ auth#:#auth_sync_cas#:#Se estiver selecionado, as mensagens no chat de repositó
 auth#:#auth_sync_cas_info#:#"[INVITER_NAME]" convida-o para a sala de chat "[ROOM_NAME]"
 auth#:#err_auth_saml_failed#:#Autenticação falhou. Entre em contacto com o administrador do seu sistema.
 auth#:#err_auth_saml_no_ilias_user#:#Autenticação falhou. Entre em contacto com o administrador do seu sistema.
-auth#:#login_page_activate#:#[SALUTATION]\n\nFoi convidado para uma sala de chat:\nTítulo da sala de chat: [ROOM_NAME]\nConvidado por: [INVITER_NAME]\nURL: [LINK]\n\nPara se juntar à sala de chat, siga o URL fornecido.
+auth#:#login_page_activate#:#[SALUTATION]Parent-StyleParent-StyleFoi convidado para uma sala de chat:Parent-StyleTítulo da sala de chat: [ROOM_NAME]Parent-StyleConvidado por: [INVITER_NAME]Parent-StyleURL: [LINK]Parent-StyleParent-StylePara se juntar à sala de chat, siga o URL fornecido.
 auth#:#login_page_editor_switched#:#Clique no link do título para entrar na sala de chat.
 auth#:#login_page_switch_ipe#:#Juntar-se
 auth#:#login_page_switch_rte#:#Se o servidor de chat estiver acessível apenas através de um subdiretório com um URL como "http(s)://[IP/Domain]/[SUB_DIRECTORY]" é necessário inserir o [SUB_DIRECTORY] para este servidor de chat. Na maior parte dos cenários pode deixar este campo vazio.
@@ -4604,7 +4604,7 @@ common#:#rolf_added#:#Contas de utilizador
 common#:#rolf_create_role#:#Não pode executar a ação ‘Apagar’. Nenhum utilizador desses na base de dados.
 common#:#rolf_create_rolt#:#Não pode executar a ação ‘Inserir’. O utilizador já está na base de dados.
 common#:#rolf_delete#:#Não pode executar a ação ‘Atualizar’. Nenhum utilizador desses na base de dados.
-common#:#rolf_edit_permission#:#Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.)\nQuando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados).
+common#:#rolf_edit_permission#:#Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.)Parent-StyleQuando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados).
 common#:#rolf_edit_userassignment#:#Não pode executar a ação ‘Inserir’. A conta externa já existe.
 common#:#rolf_read#:#Não pode executar a ação ‘Atualizar’. A conta externa já existe.
 common#:#rolf_visible#:#Adicionar utilizador
@@ -4712,7 +4712,7 @@ common#:#session_max_idle_info#:#Define o período máximo de tempo de inativida
 common#:#session_min_idle#:#Número mín. de sessões inativas (em minutos)
 common#:#session_min_idle_info#:#Quando um utilizador estiver inativo durante pelo menos este período de tempo, a sessão será eliminada se for aberta outra sessão por outro utilizador e se o número máximo de sessões existentes for alcançado.
 common#:#session_reminder#:#Correto!
-common#:#session_reminder_alert#:#A sua sessão expira em %1$s a %2$s!\n\nClique OK para continuar a sua sessão.\nSe clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.\n\nInstalação: %3$s.
+common#:#session_reminder_alert#:#A sua sessão expira em %1$s a %2$s!Parent-StyleParent-StyleClique OK para continuar a sua sessão.Parent-StyleSe clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.Parent-StyleParent-StyleInstalação: %3$s.
 common#:#session_reminder_info#:#Todas as páginas
 common#:#session_reminder_lead_time#:#Alfabético A, B, ...
 common#:#session_reminder_lead_time_info#:#Alfabético a, b, ...
@@ -6084,7 +6084,7 @@ content#:#cont_type_not_allowed#:#Tipo de conteúdo não permitido nesta posiç�
 content#:#cont_unlock_allow_continue#:#Desbloquear/Permitir continuar
 content#:#cont_unlocked#:#Desbloqueado
 content#:#cont_update_amd_page_list#:#Editar lista de páginas
-content#:#cont_update_blog#:#foi atribuído à lista de espera do curso "%s".\nEstá atribuído à posição %s na lista.\n\nVai receber uma mensagem de um administrador do curso assim que o seu pedido for aprovado ou rejeitado.
+content#:#cont_update_blog#:#foi atribuído à lista de espera do curso "%s".Parent-StyleEstá atribuído à posição %s na lista.Parent-StyleParent-StyleVai receber uma mensagem de um administrador do curso assim que o seu pedido for aprovado ou rejeitado.
 content#:#cont_update_consultation_hours#:#Editar horas de consulta
 content#:#cont_update_login_page#:#Editar elemento página de login
 content#:#cont_update_map#:#Editar mapa
@@ -6334,7 +6334,7 @@ crs#:#crs_blocked_member_body#:#Ficheiros do calendário
 crs#:#crs_cancel_subscr_request#:#Apagar pedido de adesão
 crs#:#crs_cancel_subscription#:#‘Apagar reserva’ não notifica os utilizadores por e-mail. Se quiser notificar os utilizadores, escolha a ação ‘Cancelar reserva’.
 crs#:#crs_cancel_subscription_body#:#Duração de cada marcação
-crs#:#crs_cancel_subscription_body2#:#Pode haver outros membros numa lista de espera do seu curso.\nDevia verificar a lista de espera agora.\nPara ver membros do seu curso, clique aqui:
+crs#:#crs_cancel_subscription_body2#:#Pode haver outros membros numa lista de espera do seu curso.Parent-StyleDevia verificar a lista de espera agora.Parent-StylePara ver membros do seu curso, clique aqui:
 crs#:#crs_cancellation_end#:#Reserva recurso
 crs#:#crs_cancellation_end_info#:#‘Cancelar reserva’ envia mails de notificação aos utilizadores. Se não quiser notificar os utilizadores, escolha a opção ‘Apagar reserva’.
 crs#:#crs_cancellation_end_rbac_info#:#O prazo de cancelamento foi a %s, já não é possível cancelar.
@@ -7228,7 +7228,7 @@ dateplaner#:#more#:#Os membros selecionados até esta data podem cancelar a insc
 dateplaner#:#of#:#Definições de ícones
 dateplaner#:#properties#:#Informação importante
 dateplaner#:#r_14#:#Apenas os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’.
-dateplaner#:#r_4_weeks#:#foi atribuído à lista de espera do grupo "%s".\nEstá atribuído à posição %s na lista.\n\nVai receber uma mensagem de um administrador do grupo assim que o seu pedido for aprovado ou rejeitado.
+dateplaner#:#r_4_weeks#:#foi atribuído à lista de espera do grupo "%s".Parent-StyleEstá atribuído à posição %s na lista.Parent-StyleParent-StyleVai receber uma mensagem de um administrador do grupo assim que o seu pedido for aprovado ou rejeitado.
 dateplaner#:#remote_pass_info#:#Os membros e os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’.
 dateplaner#:#Sa_long#:#O seu registo para o grupo "%s"
 dateplaner#:#Sa_short#:#Recebe um mail de ILIAS porque é administrador do grupo com a notificação ativada.
@@ -7319,10 +7319,10 @@ dcl#:#dcl_empty_detailed_view_success#:#Sobre o calendário
 dcl#:#dcl_err_formula_field_not_found#:#Campo com título '%s' não encontrado
 dcl#:#dcl_error_parsing_expression#:#Erro expressão de emparelhamento
 dcl#:#dcl_export_enabled#:#Permitir exportar função para todos os utilizadores
-dcl#:#dcl_export_enabled_desc#:#DHTML Seletor de data/hora\n(c) dynarch.com 2002-2003\nPara a última visita de versão: http://dynarch.com/mishoo/calendar.epl\nDistribuído sob GNU LGPL.  Ver http://gnu.org/licenses/lgpl.html quanto a detalhes.\n\nSeleção da data:\n- Usar os botões Â«, Â» para selecionar ano\n- Usar os botões <, > para selecionar mês\n- Manter o botão do rato premido sobre qualquer um dos botões acima referidos para selecionar mais rapidamente.
+dcl#:#dcl_export_enabled_desc#:#DHTML Seletor de data/horaParent-Style(c) dynarch.com 2002-2003Parent-StylePara a última visita de versão: http://dynarch.com/mishoo/calendar.eplParent-StyleDistribuído sob GNU LGPL.  Ver http://gnu.org/licenses/lgpl.html quanto a detalhes.Parent-StyleParent-StyleSeleção da data:Parent-Style- Usar os botões Â«, Â» para selecionar anoParent-Style- Usar os botões <, > para selecionar mêsParent-Style- Manter o botão do rato premido sobre qualquer um dos botões acima referidos para selecionar mais rapidamente.
 dcl#:#dcl_export_finished#:#Exportação terminada
 dcl#:#dcl_export_started#:#Exportação assíncrona começou
-dcl#:#dcl_field_datatype#:#\n\nSeleção da hora:\n- Clique e qualquer uma das secções da hora para aumentá-la\n- ou clique Shift para reduzi-la\n- ou clique e arraste para selecionar mais rapidamente.
+dcl#:#dcl_field_datatype#:#Parent-StyleParent-StyleSeleção da hora:Parent-Style- Clique e qualquer uma das secções da hora para aumentá-laParent-Style- ou clique Shift para reduzi-laParent-Style- ou clique e arraste para selecionar mais rapidamente.
 dcl#:#dcl_field_description#:#Descrição
 dcl#:#dcl_field_required#:#Exigido
 dcl#:#dcl_field_title_change_warning#:#Mudou o título do campo, uma vez que algumas variáveis na definição da vista podem estar danificadas. Essas têm de ser reparadas manualmente, quando surgir uma oportunidade.
@@ -8518,7 +8518,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Para confirmar este registo, vá a:
 grp#:#grp_mail_notification_reg_req_sub#:#Pedido para entrar no grupo "%s"
 grp#:#grp_mail_notification_reg_sub#:#O utilizador registou-se para o grupo "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s  cancelou a sua adesão a este grupo "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Pode haver outros membros numa lista de espera do seu grupo.\nDevia verificar a lista de espera agora.\nPara ver membros do seu grupo, clique aqui:
+grp#:#grp_mail_notification_unsub_bod2#:#Pode haver outros membros numa lista de espera do seu grupo.Parent-StyleDevia verificar a lista de espera agora.Parent-StylePara ver membros do seu grupo, clique aqui:
 grp#:#grp_mail_notification_unsub_sub#:#Utilizador saiu do grupo "%s"
 grp#:#grp_mail_permanent_link#:#Clique no seguinte link para encontrar toda a informação que precisa relativamente ao grupo:
 grp#:#grp_mail_status_bod#:#o seu estado no grupo "%s" foi alterado.
@@ -8532,7 +8532,7 @@ grp#:#grp_mail_subscribe_member_sub#:#O seu registo para o grupo "%s"
 grp#:#grp_mail_tutors_only#:#Para administradores apenas
 grp#:#grp_mail_tutors_only_info#:#Líbano
 grp#:#grp_mail_type#:#E-mail aos membros
-grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos o seu cancelamento de adesão ao grupo %s.\nEsperamos que tenha oportunidade de participar noutro grupo.
+grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos o seu cancelamento de adesão ao grupo %s.Parent-StyleEsperamos que tenha oportunidade de participar noutro grupo.
 grp#:#grp_mail_unsubscribe_member_sub#:#O cancelamento da sua adesão ao grupo "%s"
 grp#:#grp_mail_wl_bod#:#Santa Lúcia
 grp#:#grp_mail_wl_sub#:#Libéria
@@ -9356,10 +9356,10 @@ mep#:#mep_default_height#:#Altura predefinida
 mep#:#mep_default_width#:#Largura predefinida
 mep#:#mep_default_width_height_info#:#A largura e altura predefinidas são usadas como padrão para a criação de novos objetos de media.
 mep#:#mep_edit_content_snippet#:#Editar fragmento do conteúdo
-mep#:#mep_edit_folder#:#Introduza um nome de utilizador e o endereço de e-mail associado nos campos apresentados em baixo.\nILIAS envia uma mensagem para esse endereço de e-mail. A mensagem contém um endereço para uma página web, onde pode inserir uma nova palavra-passe para a conta de utilizador.\nSe não puder atribuir uma palavra-passe à sua conta de utilizador usando este formulário, entre em contacto com a administração do curso ou envie um e-mail para %1$s.
+mep#:#mep_edit_folder#:#Introduza um nome de utilizador e o endereço de e-mail associado nos campos apresentados em baixo.Parent-StyleILIAS envia uma mensagem para esse endereço de e-mail. A mensagem contém um endereço para uma página web, onde pode inserir uma nova palavra-passe para a conta de utilizador.Parent-StyleSe não puder atribuir uma palavra-passe à sua conta de utilizador usando este formulário, entre em contacto com a administração do curso ou envie um e-mail para %1$s.
 mep#:#mep_file#:#Introduza o nome de utilizador e a nova palavra-passe nos campos abaixo.
-mep#:#mep_folder#:#Insira outro nome de utilizador.\nO nome de utilizador que introduziu não corresponde ao nome de utilizador para o qual pediu ajuda.
-mep#:#mep_format#:#Registe uma nova palavra-passe para a sua conta de utilizador:\n\t%1$s\n\nEsta mensagem foi criada automaticamente pelo servidor ILIAS\n\t%2$s\n\nVocê (ou alguém em %3$s) pediu ajuda para a palavra-passe relativamente à conta utilizador "%4$s".\n\nVerifique cuidadosamente as condições listadas em baixo e proceda de acordo com elas:\n\n- Se usou o formulário de ajuda para a palavra-passe no servidor ILIAS por engano:\nApague este mail.\n\n- Se tiver a certeza que nunca pediu a ajuda para a palavra-passe neste servidor ILIAS:\nEntre em contacto com %5$s.\n\n- Se pediu a ajuda para a palavra-passe, proceda do seguinte modo:\n\n1. Abra o seu navegador.\n\n2. Introduza o seguinte endereço no seu navegador:\n\t%6$s\n\nImportante: O endereço é uma única linha. Se vir este endereço dividido em múltiplas linhas, é porque o seu programa de e-mail inseriu essas quebras de linha.\n\n3. Na página da web apresentada pelo seu navegador, introduza uma nova palavra-passe para a sua conta de utilizador.\n\nNote que, por razões de segurança, pode executar os três passos acima referidos apenas exatamente uma vez e por um tempo limitada. Depois disso, o endereço fica inválido e tem de usar novamente a página de ajuda para a palavra-passe no servidor ILIAS.
+mep#:#mep_folder#:#Insira outro nome de utilizador.Parent-StyleO nome de utilizador que introduziu não corresponde ao nome de utilizador para o qual pediu ajuda.
+mep#:#mep_format#:#Registe uma nova palavra-passe para a sua conta de utilizador:Parent-Style\t%1$sParent-StyleParent-StyleEsta mensagem foi criada automaticamente pelo servidor ILIASParent-Style\t%2$sParent-StyleParent-StyleVocê (ou alguém em %3$s) pediu ajuda para a palavra-passe relativamente à conta utilizador "%4$s".Parent-StyleParent-StyleVerifique cuidadosamente as condições listadas em baixo e proceda de acordo com elas:Parent-StyleParent-Style- Se usou o formulário de ajuda para a palavra-passe no servidor ILIAS por engano:Parent-StyleApague este mail.Parent-StyleParent-Style- Se tiver a certeza que nunca pediu a ajuda para a palavra-passe neste servidor ILIAS:Parent-StyleEntre em contacto com %5$s.Parent-StyleParent-Style- Se pediu a ajuda para a palavra-passe, proceda do seguinte modo:Parent-StyleParent-Style1. Abra o seu navegador.Parent-StyleParent-Style2. Introduza o seguinte endereço no seu navegador:Parent-Style\t%6$sParent-StyleParent-StyleImportante: O endereço é uma única linha. Se vir este endereço dividido em múltiplas linhas, é porque o seu programa de e-mail inseriu essas quebras de linha.Parent-StyleParent-Style3. Na página da web apresentada pelo seu navegador, introduza uma nova palavra-passe para a sua conta de utilizador.Parent-StyleParent-StyleNote que, por razões de segurança, pode executar os três passos acima referidos apenas exatamente uma vez e por um tempo limitada. Depois disso, o endereço fica inválido e tem de usar novamente a página de ajuda para a palavra-passe no servidor ILIAS.
 mep#:#mep_import#:#Ajuda de palavra-passe ILIAS
 mep#:#mep_import_lang#:#Idioma de destino
 mep#:#mep_import_trans#:#Importar tradução
@@ -10780,14 +10780,14 @@ pwassist#:#pwassist_enter_email#:#Comportamento padrão (sim-não)
 pwassist#:#pwassist_enter_username_and_email#:#Comportamento padrão (sim-indeciso-não)
 pwassist#:#pwassist_enter_username_and_new_password#:#O sistema não conseguiu encontrar os dados do seu inquérito para o código de inquérito &quot;%s&quot;. Verifique o código de inquérito que introduziu!
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.Parent-StyleThe given email address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.Parent-StyleThe user name and e-mail address you have entered do not match an entry in the database.
 pwassist#:#pwassist_login_not_match#:#Os dados de importação devem conter pelo menos um campo de ‘e-mail’
 pwassist#:#pwassist_mail_body#:#Os dados de importação devem conter pelo menos uma coluna de ‘e-mail’ com o título ‘e-mail’ na primeira linha e os endereços de e-mail nas linhas seguintes
-pwassist#:#pwassist_mail_sent#:#Foi enviada uma mensagem para %1$s.\nPVerifique a sua caixa de correio.
+pwassist#:#pwassist_mail_sent#:#Foi enviada uma mensagem para %1$s.Parent-StylePVerifique a sua caixa de correio.
 pwassist#:#pwassist_mail_subject#:#Selecione exatamente %s resposta(s).
 pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
+pwassist#:#pwassist_not_permitted#:#Please enter another user name.Parent-StylePassword assistance is not permitted for the user name you have entered.
 pwassist#:#pwassist_password_assigned#:#A palavra-passe foi atribuída com sucesso ao utilizador "%1$s".
 pwassist#:#pwassist_session_expired#:#Selecione pelo menos %s resposta(s).
 pwassist#:#pwassist_username_mail_body#:#Estatística

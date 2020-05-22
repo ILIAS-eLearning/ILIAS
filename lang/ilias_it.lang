@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -6334,7 +6334,7 @@ crs#:#crs_blocked_member_body#:#La tua iscrizione al corso "%s" non è più atti
 crs#:#crs_cancel_subscr_request#:#Cancella richiesta di membership
 crs#:#crs_cancel_subscription#:#Cancellato dal corso "%s"
 crs#:#crs_cancel_subscription_body#:#Un utente si &
-crs#:#crs_cancel_subscription_body2#:#Ci potrebbero essere altri membri in attesa per questo corso.\nDovresti verificare la lista d'attesa.\nPer vedere i membri di questo corso clicca qui:
+crs#:#crs_cancel_subscription_body2#:#Ci potrebbero essere altri membri in attesa per questo corso.Parent-StyleDovresti verificare la lista d'attesa.Parent-StylePer vedere i membri di questo corso clicca qui:
 crs#:#crs_cancellation_end#:#Cancellation Limit
 crs#:#crs_cancellation_end_info#:#From this date on particiants cannot unsubscribe anymore.
 crs#:#crs_cancellation_end_rbac_info#:#La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione.
@@ -6695,7 +6695,7 @@ crs#:#crs_subject_course_group_notification#:#Mail giornaliera per %s
 crs#:#crs_subscribe_member#:#La tua registrazione per il corso "%s"
 crs#:#crs_subscribe_member_body#:#siamo lieti di confermare la tua registrazione al corso "%s".
 crs#:#crs_subscribe_wl#:#La tua registrazione per il corso "%s".
-crs#:#crs_subscribe_wl_body#:#Sei stato assegnato alla lista di attesa per il corso "%s".\nTi e' stata assegnata la posizione %s nella lista.\n\n Riceverai un messaggio dall'amministratore del corso quando la tua richiesta sarà stata approvata o respinta.
+crs#:#crs_subscribe_wl_body#:#Sei stato assegnato alla lista di attesa per il corso "%s".Parent-StyleTi e' stata assegnata la posizione %s nella lista.Parent-StyleParent-Style Riceverai un messaggio dall'amministratore del corso quando la tua richiesta sarà stata approvata o respinta.
 crs#:#crs_subscriber#:#Iscritto
 crs#:#crs_subscribers_deleted#:#Iscritti eliminati
 crs#:#crs_subscription#:#Iscrizione
@@ -8534,7 +8534,7 @@ grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail 
 grp#:#grp_mail_type#:#Mail per i membri
 grp#:#grp_mail_unsubscribe_member_bod#:#confermiamo la tua cancellazione come membro del gruppo %s.\ Ci auguriamo avrai un’altra opportunità di partecipare a un altro gruppo.
 grp#:#grp_mail_unsubscribe_member_sub#:#La tua cancellazione come membro dal gruppo "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Posizione della mappa di gruppo
 grp#:#grp_map_settings#:#Impostazioni della Mappa
@@ -8725,8 +8725,8 @@ itgr#:#itgr_materials#:#Materiali
 itgr#:#itgr_show_title#:#Mostra titolo
 itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
 jscalendar#:#about_calendar#:#A proposito dell&
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\\n(c) dynarch.com 2002-2003\\nPer avere l&
-jscalendar#:#about_time#:#\\n\\nSelezione ora:\\n- Per aumentare clicca sull&
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\Parent-Style(c) dynarch.com 2002-2003\Parent-StylePer avere l&
+jscalendar#:#about_time#:#\Parent-Style\Parent-StyleSelezione ora:\Parent-Style- Per aumentare clicca sull&
 jscalendar#:#close#:#Chiudi
 jscalendar#:#day_first#:#Mostra prima %s
 jscalendar#:#def_date_format#:#%A-%m-%g
@@ -10776,20 +10776,20 @@ ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sicurezza
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
 pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s
-pwassist#:#pwassist_enter_email#:#Per favore, indica un indirizzo di eMail valido e premi Invia.\\nILIAS ti inviera' una eMail all'indirizzo indicato che conterra' tutti i nomi degli utenti registrati con quell&
+pwassist#:#pwassist_enter_email#:#Per favore, indica un indirizzo di eMail valido e premi Invia.\Parent-StyleILIAS ti inviera' una eMail all'indirizzo indicato che conterra' tutti i nomi degli utenti registrati con quell&
 pwassist#:#pwassist_enter_username_and_email#:#Inserisci il nome dell&
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome dell&
 pwassist#:#pwassist_invalid_auth_mode#:#Questo utente non è autentificato in ILIAS. Non è possibile inviare una password.
-pwassist#:#pwassist_invalid_email#:#Per favore correggi il tuo indirizzo di eMail.\\nL&
-pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\\nIL nome dell&
-pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\\nIl nome dell&
+pwassist#:#pwassist_invalid_email#:#Per favore correggi il tuo indirizzo di eMail.\Parent-StyleL&
+pwassist#:#pwassist_invalid_username_or_email#:#Per favore, correggi i valori indicati nei campi.\Parent-StyleIL nome dell&
+pwassist#:#pwassist_login_not_match#:#Per favore, inserisci un altro nome di utente.\Parent-StyleIl nome dell&
 pwassist#:#pwassist_mail_body#:#Registrazione di una nuova password per l&
-pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\\nPer favore controlla la tua casella di posta.
+pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\Parent-StylePer favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
 pwassist#:#pwassist_no_email_found#:#Non puoi usufruire dell'assistenza perche' per questo conto utente non risulta attiva una e-mail.
-pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\\nIL servizio di assistenza per le password non &
+pwassist#:#pwassist_not_permitted#:#Per favore indica un altro utente.\Parent-StyleIL servizio di assistenza per le password non &
 pwassist#:#pwassist_password_assigned#:#La password e' stata assegnata con successo all&
-pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\\nLa tua sessione con il servizio di assistenza per le password e' scaduta. Questo puo' essere stato causato dall&
+pwassist#:#pwassist_session_expired#:#Per favore riempi i campi del form di nuovo.\Parent-StyleLa tua sessione con il servizio di assistenza per le password e' scaduta. Questo puo' essere stato causato dall&
 pwassist#:#pwassist_username_mail_body#:#Questi sono gli utenti attivi che sono stati trovati nel database con l&
 pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s
 rating#:#rat_not_rated_yet#:#Non valutato
