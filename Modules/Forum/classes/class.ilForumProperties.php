@@ -188,7 +188,7 @@ class ilForumProperties
     
     public function insert()
     {
-        if ($this->obj_id) {
+        if ($this->obj_id && !$this->exists) {
             $this->db->insert(
                 'frm_settings',
                 array(
@@ -209,6 +209,7 @@ class ilForumProperties
                 )
             );
 
+            $this->exists = true;
             return true;
         }
         
