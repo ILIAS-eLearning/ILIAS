@@ -2609,7 +2609,7 @@ chatroom#:#chat_https_cert_info#:#Veuillez définir un chemin de serveur absolu 
 chatroom#:#chat_https_dhparam_info#:#Veuillez définir un chemin de serveur absolu pour un fichier (par ex.: /etc/ssl/privé/dhparam.pem) utilisé pour la négociation des paramètres Diffie Hellman (par ex. généré via openssl dhparam -out /etc/ssl/privé/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Veuillez définir un chemin de serveur absolu pour le fichier clé privé (par ex.: /etc/ssl/privé/serveur.clé).
 chatroom#:#chat_invitation#:#Invitation de [INVITER_NAME] à la salle de Chat [ROOM_NAME]
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nVous avez été invité à la salle de Chat :\nTitre de la salle : [ROOM_NAME]\nInvité par : [INVITER_NAME]\nURL: [LINK]\n\nSi vous souhaitez entrer dans cette salle, cliquez sur le lien ci-dessus.
+chatroom#:#chat_invitation_long#:#[SALUTATION]  Vous avez été invité à la salle de Chat : Titre de la salle : [ROOM_NAME] Invité par : [INVITER_NAME] URL: [LINK]  Si vous souhaitez entrer dans cette salle, cliquez sur le lien ci-dessus.
 chatroom#:#chat_invitation_short#:#Veuillez cliquer sur le titre pour entrer dans la salle de Chat.
 chatroom#:#chat_invite#:#Inviter
 chatroom#:#chat_join#:#Rejoindre
@@ -6586,7 +6586,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#Supprimer requête d'adhésion
 crs#:#crs_cancel_subscription#:#Désabonnement du cours "%s"
 crs#:#crs_cancel_subscription_body#:#Un utilisateur ("%s") s'est désabonné du cours.
-crs#:#crs_cancel_subscription_body2#:#Il peut exister d'autres membres sur une liste d'attente de votre cours. \nVous pouvez vérifier la liste d'attente, maintenant. \nPour voir les membres de votre cours, cliquer ici :
+crs#:#crs_cancel_subscription_body2#:#Il peut exister d'autres membres sur une liste d'attente de votre cours.  Vous pouvez vérifier la liste d'attente, maintenant.  Pour voir les membres de votre cours, cliquer ici :
 crs#:#crs_cancellation_end#:#Limite d'Annulation
 crs#:#crs_cancellation_end_info#:#A partir de cette date les participants ne peuvent plus se désinscrire.
 crs#:#crs_cancellation_end_rbac_info#:#Le délai d’annulation a eu lieu le %s, il n’est plus possible d’annuler.
@@ -6954,7 +6954,7 @@ crs#:#crs_subject_course_group_notification#:#Mail Journalier pour %s
 crs#:#crs_subscribe_member#:#Votre inscription au cours "%s"
 crs#:#crs_subscribe_member_body#:#Nous sommes heureux de confirmer votre inscription au cours "%s".
 crs#:#crs_subscribe_wl#:#Votre inscription au cours "%s".
-crs#:#crs_subscribe_wl_body#:#Vous avez été assigné à  la liste d'attente du cours "%s".\nVous êtes assigné à  la position %s sur la liste.\n\nVous revevrez un mail d'un administrateur de cours lorsque votre requête aura été approuvée ou rejetée.
+crs#:#crs_subscribe_wl_body#:#Vous avez été assigné à  la liste d'attente du cours "%s". Vous êtes assigné à  la position %s sur la liste.  Vous revevrez un mail d'un administrateur de cours lorsque votre requête aura été approuvée ou rejetée.
 crs#:#crs_subscriber#:#Postulant
 crs#:#crs_subscribers_deleted#:#Détruire abonné(s)
 crs#:#crs_subscription#:#Inscription
@@ -8920,7 +8920,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Pour confirmer cette inscription, all
 grp#:#grp_mail_notification_reg_req_sub#:#Requête pour s'inscrire au groupe "%s"
 grp#:#grp_mail_notification_reg_sub#:#Utilisateur enregistré pour le groupe "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s a supprimé son appartenance au groupe "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#D'autres membres sont dans la liste d'attente de votre groupe.\nVérifier la liste d'attente, maintenant.\nPour voir les membres de votre groupe, cliquer ici :
+grp#:#grp_mail_notification_unsub_bod2#:#D'autres membres sont dans la liste d'attente de votre groupe. Vérifier la liste d'attente, maintenant. Pour voir les membres de votre groupe, cliquer ici :
 grp#:#grp_mail_notification_unsub_sub#:#Groupe "%s" quitté par l'utilisateur
 grp#:#grp_mail_permanent_link#:#Cliquer sur le lien suivant pour trouver toutes les informations du groupe :
 grp#:#grp_mail_status_bod#:#Votre statut dans le groupe "%s" a été modifié.
@@ -8934,9 +8934,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Votre inscription pour le groupe "%s"
 grp#:#grp_mail_tutors_only#:#Pour les Administreurs
 grp#:#grp_mail_tutors_only_info#:#Seuls les administrateurs peuvent utiliser la fonction "Envoyer un Message aux Membres" dans l'onglet "Membres".
 grp#:#grp_mail_type#:#Envoyer un Messages aux Membres
-grp#:#grp_mail_unsubscribe_member_bod#:#Nous confirmons votre suppression d'adhésion au groupe %s.\nNous espérons que vous trouverez une autre opportunité à  participer à  un groupe.
+grp#:#grp_mail_unsubscribe_member_bod#:#Nous confirmons votre suppression d'adhésion au groupe %s. Nous espérons que vous trouverez une autre opportunité à  participer à  un groupe.
 grp#:#grp_mail_unsubscribe_member_sub#:#Votre annulation d'adhésion au groupe "%s
-grp#:#grp_mail_wl_bod#:#Vous avez été assigné à  une liste d'attente du groupe "%s".\nVous êtes en position %s sur cette liste.\n\n Vous recevrez un mail de l'administrateur du groupe lorsque votre requête sera approuvée ou rejetée.
+grp#:#grp_mail_wl_bod#:#Vous avez été assigné à  une liste d'attente du groupe "%s". Vous êtes en position %s sur cette liste.   Vous recevrez un mail de l'administrateur du groupe lorsque votre requête sera approuvée ou rejetée.
 grp#:#grp_mail_wl_sub#:#Votre inscription pour le groupe "%s".
 grp#:#grp_map_location#:#Carte de Localisation des Membres
 grp#:#grp_map_settings#:#Paramètres de la Carte
@@ -9416,7 +9416,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"
 lso#:#lso_mail_notification_reg_sub#:#User registered for learning sequence "%s"
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"
 lso#:#lso_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the learning sequence:
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.
@@ -9427,9 +9427,9 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_dec_sub#:#Registration refused for learning sequence "%s"
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
@@ -11431,17 +11431,17 @@ ps#:#show_privacy#:#Confidentialité
 ps#:#show_security#:#Sécurité
 pwassist#:#password_assistance#:#Assistance pour les Mots de Passe
 pwassist#:#pwassist_disabled_no_access#:#L’assistance pour les mots de passe n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s
-pwassist#:#pwassist_enter_email#:#Saisir une adresse mail et envoyez le formulaire.n Ilias va envoyer un mail à  cette adresse. Le mail contient tous les noms d'utilisateurs  qui ont déjà  cette adresse mail. \nChoisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun mail par ce moyen, prenez contact avec votre administrateur ou %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Saisir un nom d'utilisateur et l'adresse mail associée dans les champs ci-dessous.\nILIAS enverra un message à  cette adresse. Le mail contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à  obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un mail à  %1$s
+pwassist#:#pwassist_enter_email#:#Saisir une adresse mail et envoyez le formulaire.n Ilias va envoyer un mail à  cette adresse. Le mail contient tous les noms d'utilisateurs  qui ont déjà  cette adresse mail.  Choisissez le nom d'utilisateur correspondant et utilisez le service 'mot de passe' pour obtenir un nouveau mot de passe. Si vous n'obtenez aucun mail par ce moyen, prenez contact avec votre administrateur ou %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Saisir un nom d'utilisateur et l'adresse mail associée dans les champs ci-dessous. ILIAS enverra un message à  cette adresse. Le mail contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à  obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un mail à  %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Saisir le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous.
-pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur.\nLe nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.
-pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur: \t%1$s\n\nCe message a été généré automatiquement par le serveur ILIAS\n\t%2$s\n\nVous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".\n\nVeuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :\n\n- Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :\n détruisez ce message\n\n- Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.\n\n- Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :\n\n1. Ouvrez votre navigateur web.\n\n2. Saisissez l'adresse suivante dans le navigateur :\n\t%1$s\n\nImportant : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de mail qui a ajouté ces retours à  la ligne.\n\n3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.\n\nAttention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à  nouveau.
-pwassist#:#pwassist_mail_sent#:#Un email a été envoyé à  l'adresse %1$s.\nVeuillez regarder votre boîte aux lettres.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
+pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur. Le nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.
+pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur: \t%1$s  Ce message a été généré automatiquement par le serveur ILIAS \t%2$s  Vous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".  Veuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :  - Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :  détruisez ce message  - Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.  - Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :  1. Ouvrez votre navigateur web.  2. Saisissez l'adresse suivante dans le navigateur : \t%1$s  Important : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de mail qui a ajouté ces retours à  la ligne.  3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.  Attention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à  nouveau.
+pwassist#:#pwassist_mail_sent#:#Un email a été envoyé à  l'adresse %1$s. Veuillez regarder votre boîte aux lettres.
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Assistance de Mot de Passe ILIAS
 pwassist#:#pwassist_password_assigned#:#Le mot de passe a été assigné avec succès à l'utilisateur %1$s.
-pwassist#:#pwassist_session_expired#:#Veuillez remplir à nouveau le formulaire.\nVotre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps s'est écoulé depuis que le message vous a été envoyé.
-pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à  l'adresse mail donnée :\n%s\n\n. Ce message a été créé automatiquement par le serveur ILIAS suivant : \n\t%s\n\n Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse mail '%s'.\n\nVérifier les informations contenues dans ce message et suivre les indications ::\n\n-Vous avez fait cette demande par erreur :\nSupprimer ce message.\n\nVous êtes certain de n'avoir jamais fait une telle demande :\nContactez %s.\n\n-Si vous avez fait cette demande, procédez comme suit ::\n\n1. Ouvrer votre navigateur internet.\n\n2. Saisir l'adresse internet (URL) suivante :\n\t%s\n\nImportant : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de mail a ajouté des retours chariot.\n\n3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utiliser cette page avec l'un des nom d'utilisateur et l'adresse mail correspondante pour obtenir un nouveau mot de passe.
+pwassist#:#pwassist_session_expired#:#Veuillez remplir à nouveau le formulaire. Votre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps s'est écoulé depuis que le message vous a été envoyé.
+pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à  l'adresse mail donnée : %s  . Ce message a été créé automatiquement par le serveur ILIAS suivant :  \t%s   Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse mail '%s'.  Vérifier les informations contenues dans ce message et suivre les indications ::  -Vous avez fait cette demande par erreur : Supprimer ce message.  Vous êtes certain de n'avoir jamais fait une telle demande : Contactez %s.  -Si vous avez fait cette demande, procédez comme suit ::  1. Ouvrer votre navigateur internet.  2. Saisir l'adresse internet (URL) suivante : \t%s  Important : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de mail a ajouté des retours chariot.  3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utiliser cette page avec l'un des nom d'utilisateur et l'adresse mail correspondante pour obtenir un nouveau mot de passe.
 pwassist#:#unassist_disabled_no_access#:#L’assistance pour les noms d’utilisateur n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s
 rating#:#rat_not_rated_yet#:#Pas Encore Noté
 rating#:#rat_nr_ratings#:#%s Notations

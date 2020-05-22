@@ -6581,7 +6581,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#Cancella richiesta di membership
 crs#:#crs_cancel_subscription#:#Cancellato dal corso "%s"
 crs#:#crs_cancel_subscription_body#:#% s ha annullato la sua iscrizione al corso "% s".
-crs#:#crs_cancel_subscription_body2#:#Ci potrebbero essere altri membri in attesa per questo corso.\nDovresti verificare la lista d'attesa.\nPer vedere i membri di questo corso clicca qui:
+crs#:#crs_cancel_subscription_body2#:#Ci potrebbero essere altri membri in attesa per questo corso. Dovresti verificare la lista d'attesa. Per vedere i membri di questo corso clicca qui:
 crs#:#crs_cancellation_end#:#Limite di cancellazione
 crs#:#crs_cancellation_end_info#:#Da questa data in poi i partecipanti non potranno più annullare l'iscrizione.
 crs#:#crs_cancellation_end_rbac_info#:#La scadenza della cancellazione è stata soddisfatta su %s, non è più possibile una cancellazione.
@@ -6949,7 +6949,7 @@ crs#:#crs_subject_course_group_notification#:#Mail giornaliera per %s
 crs#:#crs_subscribe_member#:#La tua registrazione per il corso "%s"
 crs#:#crs_subscribe_member_body#:#siamo lieti di confermare la tua registrazione al corso "%s".
 crs#:#crs_subscribe_wl#:#La tua registrazione per il corso "%s".
-crs#:#crs_subscribe_wl_body#:#Sei stato assegnato alla lista di attesa per il corso "%s".\nTi e' stata assegnata la posizione %s nella lista.\n\n Riceverai un messaggio dall'amministratore del corso quando la tua richiesta sarà stata approvata o respinta.
+crs#:#crs_subscribe_wl_body#:#Sei stato assegnato alla lista di attesa per il corso "%s". Ti e' stata assegnata la posizione %s nella lista.   Riceverai un messaggio dall'amministratore del corso quando la tua richiesta sarà stata approvata o respinta.
 crs#:#crs_subscriber#:#Iscritto
 crs#:#crs_subscribers_deleted#:#Iscritti eliminati
 crs#:#crs_subscription#:#Iscrizione
@@ -9140,7 +9140,7 @@ itgr#:#itgr_materials#:#Materiali
 itgr#:#itgr_show_title#:#Mostra titolo
 itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
 jscalendar#:#about_calendar#:#Informazioni sul calendario
-jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML \ n (c) dynarch.com 2002-2003 \ nPer l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl\n Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli. \ N \ nData selezione: \ n- Usa i pulsanti Â «, Â» per selezionare l'anno \ n- Usa i pulsanti <,> per selezionare il mese \ n- Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
+jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML \ n (c) dynarch.com 2002-2003 \ nPer l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli. \ N \ nData selezione: \ n- Usa i pulsanti Â «, Â» per selezionare l'anno \ n- Usa i pulsanti <,> per selezionare il mese \ n- Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
 jscalendar#:#about_time#:#\ n \ nTempo di tempo: \ n- Fai clic su una delle parti del tempo per aumentarlo \ n- o Maiusc + clic per ridurlo \ n- oppure fai clic e trascina per una selezione più rapida.
 jscalendar#:#close#:#Chiudi
 jscalendar#:#day_first#:#Mostra prima %s
@@ -9405,9 +9405,9 @@ lso#:#lso_mail_sub_dec_bod#:#ci dispiace dire che la tua registrazione è stata 
 lso#:#lso_mail_sub_dec_sub#:#Registrazione rifiutata per la sequenza di apprendimento "% s"
 lso#:#lso_mail_subscribe_member_bod#:#Siamo lieti di confermare la registrazione per la sequenza di apprendimento "% s".
 lso#:#lso_mail_subscribe_member_sub#:#La tua registrazione per la sequenza di apprendimento "% s"
-lso#:#lso_mail_unsubscribe_member_bod#:#confermiamo la tua cancellazione dell'iscrizione alla sequenza di apprendimento% s.\n Speriamo che tu abbia l'opportunità di partecipare a un'altra sequenza di apprendimento.
+lso#:#lso_mail_unsubscribe_member_bod#:#confermiamo la tua cancellazione dell'iscrizione alla sequenza di apprendimento% s.  Speriamo che tu abbia l'opportunità di partecipare a un'altra sequenza di apprendimento.
 lso#:#lso_mail_unsubscribe_member_sub#:#Annullamento dell'iscrizione alla sequenza di apprendimento "% s"
-lso#:#lso_mail_wl_bod#:#Sei stato assegnato all'elenco di attesa della sequenza di apprendimento "% s". \n Si è assegnato alla posizione %s nell'elenco. \n\n Si riceverà un messaggio da un amministratore della sequenza di apprendimento quando la richiesta è stata approvata o rifiutata.
+lso#:#lso_mail_wl_bod#:#Sei stato assegnato all'elenco di attesa della sequenza di apprendimento "% s".   Si è assegnato alla posizione %s nell'elenco.    Si riceverà un messaggio da un amministratore della sequenza di apprendimento quando la richiesta è stata approvata o rifiutata.
 lso#:#lso_mail_wl_sub#:#La tua registrazione per la sequenza di apprendimento "% s"
 lso#:#lso_mem_tbl_header#:#Membro della sequenza di apprendimento
 lso#:#lso_member_administration#:#Modifica partecipanti
@@ -11414,8 +11414,8 @@ pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indi
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome utente e la nuova password nei campi sottostanti.
 pwassist#:#pwassist_login_not_match#:#Inserisci un altro nome utente. \ Il nome utente che hai inserito non corrisponde al nome utente per il quale hai richiesto l'assistenza tramite password.
 pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: \ n \ t% 1 $ s \ n \ n Questo messaggio è stato generato automaticamente dal server ILIAS \ n \ t% 2 $ s \ n \ nYou (o qualcuno a% 3 $ s ) ha richiesto l'assistenza per la password per l'account utente "% 4 $ s". \ n \ nControlla attentamente le condizioni elencate di seguito e procedi di conseguenza: \ n \ n- Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: \ nElimina questa mail. \ n \ n- Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: \ nSi prega di contattare% 5 $ s. \ n \ n- Se hai chiesto assistenza per la password, per favore procedere come segue: \ n \ n1. Apri il tuo browser. \ N \ n2. Immettere il seguente indirizzo nel browser: \ n \ t% 6 $ s \ n \ nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \ N \ n3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente. \ N \ nSi prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra esattamente una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e è necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
-pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\\nPer favore controlla la tua casella di posta.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
+pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\ Per favore controlla la tua casella di posta.
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
 pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente "% 1 $ s".
 pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. \ NLa tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
