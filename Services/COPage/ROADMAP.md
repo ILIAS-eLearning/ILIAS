@@ -2,11 +2,20 @@
 
 ## Short Term
 
-...
+### Page Editor Refactoring (ILIAS 7, at least partially)
+
+https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
+
+**Major Goals**
+
+- Increase Client side code quality. (JS coding style, use common patterns, bundling techniques, client-server-communication)
+- Adapt to PLR layout, make use of tool slate.
+- Increase usability, reduce clicks, auto-save.
+
 
 ## Mid Term
 
-### Lower Cyclomatic Complexity
+### Lower Cyclomatic Complexity (should also be done with ILIAS 7)
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
 
@@ -30,7 +39,13 @@ Cyclomatic Complexity
 ...
 ```
 
+### Integration of new question service
+
+The new questions service should be integrated into the page editor. Especially the client side "self-assessment" player part should be implemented (and factored out into a separate component).
+
 ### Refactor page question handling
+
+Note this is an older entry. Should be done with integration of the question service.
 
 Saving of page question answers is quite strange and includes dependencies to the SCORM component. This should be refactored.
 

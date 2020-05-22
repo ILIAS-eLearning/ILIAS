@@ -36,6 +36,6 @@ Currently the top Frontend layer will be reponsible to inject these dependencies
 
 ### UI controller
 
-All process logic should be removed from GUI classes to the action layer. These tasks should be forwarded to the Action Layer instead. Permission checks should only be made for UI decisions here.
+All business logic should be removed from GUI classes to the action layer. These tasks should be forwarded to the Action Layer instead. Permission checks should only be made for UI decisions here.
 
 ## Long Term
