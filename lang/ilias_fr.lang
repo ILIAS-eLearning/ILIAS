@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3439,7 +3439,7 @@ common#:#edit_assignments#:#Editer Activités
 common#:#edit_cat_settings#:#Paramètres Avancés de Catégorie
 common#:#edit_content#:#Editer Contenu
 common#:#edit_grouping#:#Éditer les Limitations d'Accès
-common#:#edit_metadata#:#Éditer mégadonnées
+common#:#edit_metadata#:#Éditer métadonnées
 common#:#edit_operations#:#Éditer les Opérations
 common#:#edit_page#:#Editer la Page
 common#:#edit_page_content#:#Éditer le Contenu de la Page
@@ -10482,7 +10482,7 @@ meta#:#meta_status#:#Statut
 meta#:#meta_structure#:#Structure
 meta#:#meta_subjectmatterexpert#:#Expert de domaine/sujet
 meta#:#meta_tab_advmd#:#Métadonnées Personnalisées
-meta#:#meta_tab_advmd_def#:#Personnaliser la définition de mégadonnées
+meta#:#meta_tab_advmd_def#:#Personnaliser la définition de métadonnées
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_table#:#Tableau
 meta#:#meta_taxon#:#Taxinomie
@@ -10862,8 +10862,8 @@ orgu#:#orgu_staff#:#Equipe
 orgu#:#orgu_staff_deassign#:#Etes-vous sûr de vouloir retirer le rôle de ces utilisateurs ?
 orgu#:#orgu_type#:#Type d’unité organisationnelle
 orgu#:#orgu_type_add#:#Ajouter un type d’unité organisationnelle
-orgu#:#orgu_type_assign_amd_sets#:#Assigner les jeux de mégadonnées avancées
-orgu#:#orgu_type_available_amd_sets#:#Jeux de mégadonnées avancées disponibles
+orgu#:#orgu_type_assign_amd_sets#:#Assigner les jeux de métadonnées avancées
+orgu#:#orgu_type_available_amd_sets#:#Jeux de métadonnées avancées disponibles
 orgu#:#orgu_type_custom_icon#:#Icône personnalisée pour ce type d'unité organisationnelle
 orgu#:#orgu_type_custom_icon_info#:#Toutes les unités organisationnelles avec ce type assigné utiliseront l’icône dans l’arborescence et l’en-tête.
 orgu#:#orgu_type_edit#:#Éditer le type d’unité organisationnelle
@@ -11113,8 +11113,8 @@ prg#:#prg_subtype_add#:#Ajouter un nouveau type
 prg#:#prg_subtypes#:#Types
 prg#:#prg_type#:#Type de Programme d'Etude
 prg#:#prg_type_add#:#Type de Programme d'Etude
-prg#:#prg_type_assign_amd_sets#:#Assigner des jeux de mégadonnées avancées
-prg#:#prg_type_available_amd_sets#:#Jeux de mégadonnées avancées disponibles
+prg#:#prg_type_assign_amd_sets#:#Assigner des jeux de métadonnées avancées
+prg#:#prg_type_available_amd_sets#:#Jeux de métadonnées avancées disponibles
 prg#:#prg_type_custom_icon#:#Icônes Personnalisées
 prg#:#prg_type_custom_icon_info#:#Personnaliser les informations d’icône
 prg#:#prg_type_edit#:#Éditer sous-type
