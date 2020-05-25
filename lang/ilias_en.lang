@@ -6784,7 +6784,7 @@ pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
 crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name

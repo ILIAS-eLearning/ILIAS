@@ -16074,7 +16074,7 @@ cont#:#cont_found_objects#:#Gefundene Objekte
 dash#:#dash_activation#:#Aktivierung
 survey#:#svy_chart_download#:#Grafik herunterladen
 crs#:#crs_timing_err_start_end#:#Das Startdatum muss kleiner gleich dem Enddatum sein.
-ps#:#participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
+ps#:#ps_participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
 survey#:#invited_users#:#Ausgewählte Benutzer
 acc#:#acc_dashboard#:#Dashboard
 pd#:#pd_unsubscribe_multiple_memberships#:#Mehrere Mitgliedschaften beenden
