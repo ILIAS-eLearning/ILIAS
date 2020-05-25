@@ -55,7 +55,7 @@ class ilLanguageSetupAgent implements Setup\Agent
             return new \ilLanguageSetupConfig(
                 $data["default_language"],
                 $data["install_languages"] ?? [$data["default_language"]],
-                $data["install_local_languages"] ?? []
+                $data["install_local_languages"] ?? [$data["default_language"]]
             );
         });
     }
