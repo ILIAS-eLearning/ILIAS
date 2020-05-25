@@ -98,7 +98,7 @@ class ilCtrlStructureReader
     {
         // check wether $a_cdir is a directory
         if (!@is_dir($a_cdir)) {
-            throw new \LogicException("'$c_dir' is not a directory.");
+            throw new \LogicException("'$a_cdir' is not a directory.");
         }
 
         foreach ($this->getFilesIn($a_cdir) as list($file, $full_path)) {
