@@ -81,6 +81,7 @@ class ilMailingListsGUI
 
     public function executeCommand()
     {
+        require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
         if (
             !ilBuddySystem::getInstance()->isEnabled() ||
             0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations())
