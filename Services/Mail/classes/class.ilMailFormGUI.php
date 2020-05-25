@@ -609,13 +609,15 @@ class ilMailFormGUI
             ->setForm('form_' . $form_gui->getName())
             ->setCaption('mail_my_groups');
         $this->toolbar->addButtonInstance($btn);
-        
-        $btn = ilButton::getInstance();
-        $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
-            ->setName('searchMailingListsTo')
-            ->setForm('form_' . $form_gui->getName())
-            ->setCaption('mail_my_mailing_lists');
-        $this->toolbar->addButtonInstance($btn);
+
+        if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
+            $btn = ilButton::getInstance();
+            $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
+                ->setName('searchMailingListsTo')
+                ->setForm('form_' . $form_gui->getName())
+                ->setCaption('mail_my_mailing_lists');
+            $this->toolbar->addButtonInstance($btn);
+        }
 
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
         
