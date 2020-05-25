@@ -647,6 +647,7 @@ class ilMailFormGUI
             ->setCaption('mail_my_groups');
         $this->toolbar->addButtonInstance($btn);
 
+        require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
         if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
             $btn = ilButton::getInstance();
             $btn->setButtonType(ilButton::BUTTON_TYPE_SUBMIT)
