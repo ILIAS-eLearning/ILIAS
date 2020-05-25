@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1250,7 +1250,7 @@ chatroom#:#chat_connection_established#:#
 chatroom#:#chat_create_private_room_button#:#პირადი ოთახის შექმნა
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#მოწვევა საიდან
-chatroom#:#chat_invitation_long#:# ##room_name##\nInvited by
+chatroom#:#chat_invitation_long#:# ##room_name##Parent-StyleInvited by
 chatroom#:#chat_invitation_short#:#გთხოვთ დააკლიკოთ დასახელების ლინკს ჩატის ოთახში შესასვლელად
 chatroom#:#chat_invite#:#მოწვევა
 chatroom#:#chat_join#:#გაწევრიანება
@@ -3165,7 +3165,7 @@ common#:#session_max_idle_info#:#განსაზღვრავს მომ�
 common#:#session_min_idle#:#სესიის მინიმალური უმოქმედობის დრო (წუთებში)
 common#:#session_min_idle_info#:#როდესაც მომხმარებელი უმოქმედოთაა დროის ამ პერიოდში სესია შესაძლოა გაუქმდეს თუ სხვა სესიის გახსნაა საჭირო სხვა მომხმარებლისთვის და არსებული სესიების მაქსიმალური რაოდენობა მიღწეულია
 common#:#session_reminder#:#სესიის შეხსენება
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.
 common#:#session_reminder_info#:#თუ გააქტიურებულია, თქვენ მიიღებთ შეხსენებას სანამ თქვენი ბრაუზერის  ონლაინ სესია ამოიწურება
 common#:#session_reminder_lead_time#:#წამყვანი დრო
 common#:#session_reminder_lead_time_info#:#გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s
@@ -5833,7 +5833,7 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#კალენდარის შესახებ
-jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http
+jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.eplParent-StyleDistributed under GNU LGPL.  See http
 jscalendar#:#about_time#:#
 jscalendar#:#close#:#დახურვა
 jscalendar#:#day_first#:#ჩვენება %s პირველ რიგში
@@ -7140,14 +7140,14 @@ pwassist#:#pwassist_invalid_auth_mode#:#მომხმარებლის პ
 pwassist#:#pwassist_invalid_email#:#გთხოვთ შეასწოროთ თქვენი ემაილის მისამართი. \ნ მოცემული ემაილის მისამართი მოძებნა მონაცემთა ბაზაში ვერ მოხერხდა
 pwassist#:#pwassist_invalid_username_or_email#:#გთხოვთ შეასწოროთ ტექსტი შენატანის ველებში. \ნ ემაილის მისამართი და პაროლი ერთმანეთს არ ემთხვევა მონაცემთა ბაზის შენატანებს
 pwassist#:#pwassist_login_not_match#:#გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ.
-pwassist#:#pwassist_mail_body#:#\n\n- If you have used the password assistance form on the ILIAS server by accident
+pwassist#:#pwassist_mail_body#:#Parent-StyleParent-Style- If you have used the password assistance form on the ILIAS server by accident
 pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზავნილია %s1$. \ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი
 pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
 pwassist#:#pwassist_no_email_found#:#თქვენ არ შეგიძლიათ პაროლის დახმარების გამოყენება, იმის გამო რომ მითითებულ ანგარიშს არ აქვს ემაილის მისამართი
 pwassist#:#pwassist_not_permitted#:#გთხოვთ შეიყვანოთ სხვა მომხმარებლის სახელი. \პაროლის დახმარება არ არის დაშვებული ამ მომხმარებლისთვის
 pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
 pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:#\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested
+pwassist#:#pwassist_username_mail_body#:#Parent-Style\t%sParent-StyleParent-StyleYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.Parent-StyleParent-StylePlease check the following and act as suggested
 rating#:#rat_not_rated_yet#:#არ არის შეფასებული ჯერ
 rating#:#rat_nr_ratings#:#%s რეიტინგები
 rating#:#rat_one_rating#:#ერთი რეიტინგი

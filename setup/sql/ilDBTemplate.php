@@ -5213,13 +5213,13 @@ $pk_fields = array("pc_type");
 $ilDB->addPrimaryKey("copg_pc_def", $pk_fields);
 
 $ilDB->insert("copg_pc_def", array(
-'pc_type' => array('text', 'amdpl'), 'name' => array('text', 'AMDPageList'), 'directory' => array('text', 'classes'), 'int_links' => array('integer', '0'), 'style_classes' => array('integer', '0'), 'xsl' => array('integer', '0'), 'component' => array('text', 'Modules/Wiki'), 'def_enabled' => array('integer', '0')));
-
-$ilDB->insert("copg_pc_def", array(
 'pc_type' => array('text', 'cach'), 'name' => array('text', 'ConsultationHours'), 'directory' => array('text', 'classes'), 'int_links' => array('integer', '0'), 'style_classes' => array('integer', '0'), 'xsl' => array('integer', '0'), 'component' => array('text', 'Modules/Portfolio'), 'def_enabled' => array('integer', '0')));
 
 $ilDB->insert("copg_pc_def", array(
 'pc_type' => array('text', 'mcrs'), 'name' => array('text', 'MyCourses'), 'directory' => array('text', 'classes'), 'int_links' => array('integer', '0'), 'style_classes' => array('integer', '0'), 'xsl' => array('integer', '0'), 'component' => array('text', 'Modules/Portfolio'), 'def_enabled' => array('integer', '0')));
+
+$ilDB->insert("copg_pc_def", array(
+'pc_type' => array('text', 'amdpl'), 'name' => array('text', 'AMDPageList'), 'directory' => array('text', 'classes'), 'int_links' => array('integer', '0'), 'style_classes' => array('integer', '0'), 'xsl' => array('integer', '0'), 'component' => array('text', 'Modules/Wiki'), 'def_enabled' => array('integer', '0')));
 
 $ilDB->insert("copg_pc_def", array(
 'pc_type' => array('text', 'blog'), 'name' => array('text', 'Blog'), 'directory' => array('text', 'classes'), 'int_links' => array('integer', '0'), 'style_classes' => array('integer', '0'), 'xsl' => array('integer', '0'), 'component' => array('text', 'Services/COPage'), 'def_enabled' => array('integer', '0')));
@@ -5346,22 +5346,13 @@ $pk_fields = array("parent_type");
 $ilDB->addPrimaryKey("copg_pobj_def", $pk_fields);
 
 $ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'wpg'), 'class_name' => array('text', 'ilWikiPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Wiki')));
+'parent_type' => array('text', 'blp'), 'class_name' => array('text', 'ilBlogPosting'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Blog')));
 
 $ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'sahs'), 'class_name' => array('text', 'ilSCORM2004Page'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Scorm2004')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'dclf'), 'class_name' => array('text', 'ilDclDetailedViewDefinition'), 'directory' => array('text', 'classes/DetailedView'), 'component' => array('text', 'Modules/DataCollection')));
+'parent_type' => array('text', 'lm'), 'class_name' => array('text', 'ilLMPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/LearningModule')));
 
 $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'gdf'), 'class_name' => array('text', 'ilGlossaryDefPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Glossary')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'prtf'), 'class_name' => array('text', 'ilPortfolioPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Portfolio')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'prtt'), 'class_name' => array('text', 'ilPortfolioTemplatePage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Portfolio')));
 
 $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'qht'), 'class_name' => array('text', 'ilAssHintPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/TestQuestionPool')));
@@ -5376,31 +5367,40 @@ $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'qfbs'), 'class_name' => array('text', 'ilAssSpecFeedbackPage'), 'directory' => array('text', 'classes/feedback'), 'component' => array('text', 'Modules/TestQuestionPool')));
 
 $ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'mep'), 'class_name' => array('text', 'ilMediaPoolPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/MediaPool')));
+'parent_type' => array('text', 'dclf'), 'class_name' => array('text', 'ilDclDetailedViewDefinition'), 'directory' => array('text', 'classes/DetailedView'), 'component' => array('text', 'Modules/DataCollection')));
 
 $ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'blp'), 'class_name' => array('text', 'ilBlogPosting'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Blog')));
+'parent_type' => array('text', 'prtf'), 'class_name' => array('text', 'ilPortfolioPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Portfolio')));
 
 $ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'lm'), 'class_name' => array('text', 'ilLMPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/LearningModule')));
+'parent_type' => array('text', 'prtt'), 'class_name' => array('text', 'ilPortfolioTemplatePage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Portfolio')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'sahs'), 'class_name' => array('text', 'ilSCORM2004Page'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Scorm2004')));
 
 $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'lobj'), 'class_name' => array('text', 'ilLOPage'), 'directory' => array('text', 'classes/Objectives'), 'component' => array('text', 'Modules/Course')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'mep'), 'class_name' => array('text', 'ilMediaPoolPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/MediaPool')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'wpg'), 'class_name' => array('text', 'ilWikiPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Modules/Wiki')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'impr'), 'class_name' => array('text', 'ilImprint'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Imprint')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'auth'), 'class_name' => array('text', 'ilLoginPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Authentication')));
+
+$ilDB->insert("copg_pobj_def", array(
+'parent_type' => array('text', 'stys'), 'class_name' => array('text', 'ilPageLayoutPage'), 'directory' => array('text', 'Layout/classes'), 'component' => array('text', 'Services/COPage')));
 
 $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'cont'), 'class_name' => array('text', 'ilContainerPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Container')));
 
 $ilDB->insert("copg_pobj_def", array(
 'parent_type' => array('text', 'cstr'), 'class_name' => array('text', 'ilContainerStartObjectsPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Container')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'auth'), 'class_name' => array('text', 'ilLoginPage'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Authentication')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'impr'), 'class_name' => array('text', 'ilImprint'), 'directory' => array('text', 'classes'), 'component' => array('text', 'Services/Imprint')));
-
-$ilDB->insert("copg_pobj_def", array(
-'parent_type' => array('text', 'stys'), 'class_name' => array('text', 'ilPageLayoutPage'), 'directory' => array('text', 'Layout/classes'), 'component' => array('text', 'Services/COPage')));
 
 
 //
@@ -22246,25 +22246,142 @@ $pk_fields = array("type","id");
 $ilDB->addPrimaryKey("il_component", $pk_fields);
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Poll'), 'id' => array('text', 'poll')));
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteLearningModule'), 'id' => array('text', 'rlm')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Session'), 'id' => array('text', 'sess')));
+'type' => array('text', 'Modules'), 'name' => array('text', 'IndividualAssessment'), 'id' => array('text', 'iass')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteTest'), 'id' => array('text', 'rtst')));
+'type' => array('text', 'Modules'), 'name' => array('text', 'Blog'), 'id' => array('text', 'blog')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'SystemFolder'), 'id' => array('text', 'adm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'LearningModule'), 'id' => array('text', 'lm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Glossary'), 'id' => array('text', 'glo')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'ScormAicc'), 'id' => array('text', 'sahs')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'CategoryReference'), 'id' => array('text', 'catr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteWiki'), 'id' => array('text', 'rwik')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Exercise'), 'id' => array('text', 'exc')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Folder'), 'id' => array('text', 'fold')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'GroupReference'), 'id' => array('text', 'grpr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Cloud'), 'id' => array('text', 'cld')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Chatroom'), 'id' => array('text', 'chtr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'HTMLLearningModule'), 'id' => array('text', 'htlm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'WorkspaceFolder'), 'id' => array('text', 'wfld')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'TestQuestionPool'), 'id' => array('text', 'qpl')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'CourseReference'), 'id' => array('text', 'crsr')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'WebResource'), 'id' => array('text', 'webr')));
 
 $ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Bibliographic'), 'id' => array('text', 'bibl')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'DataCollection'), 'id' => array('text', 'dcl')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Session'), 'id' => array('text', 'sess')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Forum'), 'id' => array('text', 'frm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteGlossary'), 'id' => array('text', 'rglo')));
+
+$ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'BookingManager'), 'id' => array('text', 'book')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteCourse'), 'id' => array('text', 'rcrs')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'Test'), 'id' => array('text', 'tst')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'CourseReference'), 'id' => array('text', 'crsr')));
+'type' => array('text', 'Modules'), 'name' => array('text', 'Portfolio'), 'id' => array('text', 'prtf')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteTest'), 'id' => array('text', 'rtst')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteCategory'), 'id' => array('text', 'rcat')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Scorm2004'), 'id' => array('text', 'sc13')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Course'), 'id' => array('text', 'crs')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RootFolder'), 'id' => array('text', 'root')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteGroup'), 'id' => array('text', 'rgrp')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteFile'), 'id' => array('text', 'rfil')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'OrgUnit'), 'id' => array('text', 'orgu')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'File'), 'id' => array('text', 'file')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'ItemGroup'), 'id' => array('text', 'itgr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'MediaCast'), 'id' => array('text', 'mcst')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'StudyProgramme'), 'id' => array('text', 'prg')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Group'), 'id' => array('text', 'grp')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'ExternalFeed'), 'id' => array('text', 'feed')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Category'), 'id' => array('text', 'cat')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'MediaPool'), 'id' => array('text', 'mep')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'WorkspaceRootFolder'), 'id' => array('text', 'wsrt')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Modules'), 'name' => array('text', 'Poll'), 'id' => array('text', 'poll')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'Wiki'), 'id' => array('text', 'wiki')));
@@ -22273,322 +22390,205 @@ $ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'SurveyQuestionPool'), 'id' => array('text', 'spl')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'OrgUnit'), 'id' => array('text', 'orgu')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Scorm2004'), 'id' => array('text', 'sc13')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'DataCollection'), 'id' => array('text', 'dcl')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'File'), 'id' => array('text', 'file')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Category'), 'id' => array('text', 'cat')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Folder'), 'id' => array('text', 'fold')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Forum'), 'id' => array('text', 'frm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteFile'), 'id' => array('text', 'rfil')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Glossary'), 'id' => array('text', 'glo')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'IndividualAssessment'), 'id' => array('text', 'iass')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Bibliographic'), 'id' => array('text', 'bibl')));
-
-$ilDB->insert("il_component", array(
 'type' => array('text', 'Modules'), 'name' => array('text', 'Survey'), 'id' => array('text', 'svy')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Cloud'), 'id' => array('text', 'cld')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'SystemFolder'), 'id' => array('text', 'adm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'ItemGroup'), 'id' => array('text', 'itgr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Exercise'), 'id' => array('text', 'exc')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'MediaCast'), 'id' => array('text', 'mcst')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'ExternalFeed'), 'id' => array('text', 'feed')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Group'), 'id' => array('text', 'grp')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Chatroom'), 'id' => array('text', 'chtr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Portfolio'), 'id' => array('text', 'prtf')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'CategoryReference'), 'id' => array('text', 'catr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RootFolder'), 'id' => array('text', 'root')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'TestQuestionPool'), 'id' => array('text', 'qpl')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteLearningModule'), 'id' => array('text', 'rlm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'WorkspaceFolder'), 'id' => array('text', 'wfld')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteGlossary'), 'id' => array('text', 'rglo')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'MediaPool'), 'id' => array('text', 'mep')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteCourse'), 'id' => array('text', 'rcrs')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteWiki'), 'id' => array('text', 'rwik')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'ScormAicc'), 'id' => array('text', 'sahs')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteCategory'), 'id' => array('text', 'rcat')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Blog'), 'id' => array('text', 'blog')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'GroupReference'), 'id' => array('text', 'grpr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'WorkspaceRootFolder'), 'id' => array('text', 'wsrt')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'RemoteGroup'), 'id' => array('text', 'rgrp')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'HTMLLearningModule'), 'id' => array('text', 'htlm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'LearningModule'), 'id' => array('text', 'lm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'StudyProgramme'), 'id' => array('text', 'prg')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Modules'), 'name' => array('text', 'Course'), 'id' => array('text', 'crs')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Tagging'), 'id' => array('text', 'tag')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'OnScreenChat'), 'id' => array('text', 'osch')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'News'), 'id' => array('text', 'news')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Component'), 'id' => array('text', 'comp')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Style'), 'id' => array('text', 'styl')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Certificate'), 'id' => array('text', 'cert')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'ContainerReference'), 'id' => array('text', 'cntr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Tracking'), 'id' => array('text', 'trac')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'AdvancedMetaData'), 'id' => array('text', 'amet')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Database'), 'id' => array('text', 'db')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'EventHandling'), 'id' => array('text', 'evnt')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Tree'), 'id' => array('text', 'tree')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'WebServices'), 'id' => array('text', 'wsrv')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'PersonalDesktop'), 'id' => array('text', 'pdsk')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'Preview'), 'id' => array('text', 'prvw')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Object'), 'id' => array('text', 'obj')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'WebDAV'), 'id' => array('text', 'wbdv')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Table'), 'id' => array('text', 'table')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Membership'), 'id' => array('text', 'mmbr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Calendar'), 'id' => array('text', 'cal')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'AdvancedEditing'), 'id' => array('text', 'adve')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Taxonomy'), 'id' => array('text', 'tax')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Bookmarks'), 'id' => array('text', 'bkm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Container'), 'id' => array('text', 'cont')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'PDFGeneration'), 'id' => array('text', 'pdfg')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Help'), 'id' => array('text', 'help')));
+'type' => array('text', 'Services'), 'name' => array('text', 'News'), 'id' => array('text', 'news')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'DataSet'), 'id' => array('text', 'ds')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'BackgroundTask'), 'id' => array('text', 'btsk')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'LTI'), 'id' => array('text', 'lti')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Authentication'), 'id' => array('text', 'auth')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Accordion'), 'id' => array('text', 'accrdn')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Badge'), 'id' => array('text', 'badge')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Language'), 'id' => array('text', 'lang')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Logging'), 'id' => array('text', 'log')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'MediaObjects'), 'id' => array('text', 'mob')));
+'type' => array('text', 'Services'), 'name' => array('text', 'PersonalWorkspace'), 'id' => array('text', 'pwsp')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'AuthShibboleth'), 'id' => array('text', 'shiba')));
 
 $ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Notification'), 'id' => array('text', 'noti')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'UIComponent'), 'id' => array('text', 'ui')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Export'), 'id' => array('text', 'exp')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'User'), 'id' => array('text', 'user')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Init'), 'id' => array('text', 'init')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Skill'), 'id' => array('text', 'skll')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'TermsOfService'), 'id' => array('text', 'tos')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Imprint'), 'id' => array('text', 'impr')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Contact'), 'id' => array('text', 'contact')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Repository'), 'id' => array('text', 'rep')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Awareness'), 'id' => array('text', 'awrn')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Accessibility'), 'id' => array('text', 'acc')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Search'), 'id' => array('text', 'src')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'WorkflowEngine'), 'id' => array('text', 'wfe')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'LinkChecker'), 'id' => array('text', 'lchk')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'BackgroundTasks'), 'id' => array('text', 'bgtk')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Navigation'), 'id' => array('text', 'navh')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Notifications'), 'id' => array('text', 'nota')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Cron'), 'id' => array('text', 'cron')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'SystemCheck'), 'id' => array('text', 'sysc')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'LDAP'), 'id' => array('text', 'ldap')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'AccessControl'), 'id' => array('text', 'ac')));
-
-$ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'DidacticTemplate'), 'id' => array('text', 'otpl')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Administration'), 'id' => array('text', 'adm')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'Link'), 'id' => array('text', 'link')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'PersonalWorkspace'), 'id' => array('text', 'pwsp')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'COPage'), 'id' => array('text', 'copg')));
-
-$ilDB->insert("il_component", array(
-'type' => array('text', 'Services'), 'name' => array('text', 'MetaData'), 'id' => array('text', 'meta')));
 
 $ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'PrivacySecurity'), 'id' => array('text', 'ps')));
 
 $ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'MetaData'), 'id' => array('text', 'meta')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Imprint'), 'id' => array('text', 'impr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Taxonomy'), 'id' => array('text', 'tax')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Contact'), 'id' => array('text', 'contact')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'LTI'), 'id' => array('text', 'lti')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'AccessControl'), 'id' => array('text', 'ac')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Export'), 'id' => array('text', 'exp')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'TermsOfService'), 'id' => array('text', 'tos')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Membership'), 'id' => array('text', 'mmbr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Cron'), 'id' => array('text', 'cron')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'AdvancedEditing'), 'id' => array('text', 'adve')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Authentication'), 'id' => array('text', 'auth')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Certificate'), 'id' => array('text', 'cert')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Navigation'), 'id' => array('text', 'navh')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'COPage'), 'id' => array('text', 'copg')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'BackgroundTasks'), 'id' => array('text', 'bgtk')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'WorkflowEngine'), 'id' => array('text', 'wfe')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'EventHandling'), 'id' => array('text', 'evnt')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Calendar'), 'id' => array('text', 'cal')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'UIComponent'), 'id' => array('text', 'ui')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Notification'), 'id' => array('text', 'noti')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Container'), 'id' => array('text', 'cont')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Accessibility'), 'id' => array('text', 'acc')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Table'), 'id' => array('text', 'table')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Link'), 'id' => array('text', 'link')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Bookmarks'), 'id' => array('text', 'bkm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Tree'), 'id' => array('text', 'tree')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'LDAP'), 'id' => array('text', 'ldap')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Notifications'), 'id' => array('text', 'nota')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Init'), 'id' => array('text', 'init')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'WebDAV'), 'id' => array('text', 'wbdv')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Search'), 'id' => array('text', 'src')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Language'), 'id' => array('text', 'lang')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'ContainerReference'), 'id' => array('text', 'cntr')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'BackgroundTask'), 'id' => array('text', 'btsk')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Tagging'), 'id' => array('text', 'tag')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'AdvancedMetaData'), 'id' => array('text', 'amet')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Accordion'), 'id' => array('text', 'accrdn')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Skill'), 'id' => array('text', 'skll')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'MediaObjects'), 'id' => array('text', 'mob')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Repository'), 'id' => array('text', 'rep')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Badge'), 'id' => array('text', 'badge')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Style'), 'id' => array('text', 'styl')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'PersonalDesktop'), 'id' => array('text', 'pdsk')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'LinkChecker'), 'id' => array('text', 'lchk')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'User'), 'id' => array('text', 'user')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'SystemCheck'), 'id' => array('text', 'sysc')));
+
+$ilDB->insert("il_component", array(
 'type' => array('text', 'Services'), 'name' => array('text', 'Mail'), 'id' => array('text', 'mail')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Database'), 'id' => array('text', 'db')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'OnScreenChat'), 'id' => array('text', 'osch')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Object'), 'id' => array('text', 'obj')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Logging'), 'id' => array('text', 'log')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'PDFGeneration'), 'id' => array('text', 'pdfg')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Component'), 'id' => array('text', 'comp')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Help'), 'id' => array('text', 'help')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Awareness'), 'id' => array('text', 'awrn')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Administration'), 'id' => array('text', 'adm')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'Tracking'), 'id' => array('text', 'trac')));
+
+$ilDB->insert("il_component", array(
+'type' => array('text', 'Services'), 'name' => array('text', 'WebServices'), 'id' => array('text', 'wsrv')));
 
 
 //
@@ -26165,94 +26165,40 @@ $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_object_def", $pk_fields);
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'poll'), 'class_name' => array('text', 'Poll'), 'component' => array('text', 'Modules/Poll'), 'location' => array('text', 'Modules/Poll/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '1'), 'default_pos' => array('integer', '350'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '350'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'sess'), 'class_name' => array('text', 'Session'), 'component' => array('text', 'Modules/Session'), 'location' => array('text', 'Modules/Session/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '15'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '15'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rtst'), 'class_name' => array('text', 'RemoteTest'), 'component' => array('text', 'Modules/RemoteTest'), 'location' => array('text', 'Modules/RemoteTest/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'tst'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'webr'), 'class_name' => array('text', 'LinkResource'), 'component' => array('text', 'Modules/WebResource'), 'location' => array('text', 'Modules/WebResource/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '100'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '120'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wbrs'), 'class_name' => array('text', 'WebResourceAdministration'), 'component' => array('text', 'Modules/WebResource'), 'location' => array('text', 'Modules/WebResource/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'book'), 'class_name' => array('text', 'BookingPool'), 'component' => array('text', 'Modules/BookingManager'), 'location' => array('text', 'Modules/BookingManager/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '250'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '250'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'tst'), 'class_name' => array('text', 'Test'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '180'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '170'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'assf'), 'class_name' => array('text', 'AssessmentFolder'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'tstv'), 'class_name' => array('text', 'TestVerification'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'crsr'), 'class_name' => array('text', 'CourseReference'), 'component' => array('text', 'Modules/CourseReference'), 'location' => array('text', 'Modules/CourseReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '25'), 'grp' => array('text', 'crs'), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wiki'), 'class_name' => array('text', 'Wiki'), 'component' => array('text', 'Modules/Wiki'), 'location' => array('text', 'Modules/Wiki/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '115'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '140'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wiks'), 'class_name' => array('text', 'WikiSettings'), 'component' => array('text', 'Modules/Wiki'), 'location' => array('text', 'Modules/Wiki/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'spl'), 'class_name' => array('text', 'SurveyQuestionPool'), 'component' => array('text', 'Modules/SurveyQuestionPool'), 'location' => array('text', 'Modules/SurveyQuestionPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '220'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '210'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'orgu'), 'class_name' => array('text', 'OrgUnit'), 'component' => array('text', 'Modules/OrgUnit'), 'location' => array('text', 'Modules/OrgUnit/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '10'), 'grp' => array('text', 'orgu'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'dcl'), 'class_name' => array('text', 'DataCollection'), 'component' => array('text', 'Modules/DataCollection'), 'location' => array('text', 'Modules/DataCollection/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '340'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '340'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'file'), 'class_name' => array('text', 'File'), 'component' => array('text', 'Modules/File'), 'location' => array('text', 'Modules/File/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'cat'), 'class_name' => array('text', 'Category'), 'component' => array('text', 'Modules/Category'), 'location' => array('text', 'Modules/Category/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '10'), 'grp' => array('text', 'cat'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'fold'), 'class_name' => array('text', 'Folder'), 'component' => array('text', 'Modules/Folder'), 'location' => array('text', 'Modules/Folder/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '40'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'frm'), 'class_name' => array('text', 'Forum'), 'component' => array('text', 'Modules/Forum'), 'location' => array('text', 'Modules/Forum/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '70'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '90'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'frma'), 'class_name' => array('text', 'ForumAdministration'), 'component' => array('text', 'Modules/Forum'), 'location' => array('text', 'Modules/Forum/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rfil'), 'class_name' => array('text', 'RemoteFile'), 'component' => array('text', 'Modules/RemoteFile'), 'location' => array('text', 'Modules/RemoteFile/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'file'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'glo'), 'class_name' => array('text', 'Glossary'), 'component' => array('text', 'Modules/Glossary'), 'location' => array('text', 'Modules/Glossary/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '160'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '110'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'rlm'), 'class_name' => array('text', 'RemoteLearningModule'), 'component' => array('text', 'Modules/RemoteLearningModule'), 'location' => array('text', 'Modules/RemoteLearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'iass'), 'class_name' => array('text', 'IndividualAssessment'), 'component' => array('text', 'Modules/IndividualAssessment'), 'location' => array('text', 'Modules/IndividualAssessment/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '190'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '190'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '1'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'bibl'), 'class_name' => array('text', 'Bibliographic'), 'component' => array('text', 'Modules/Bibliographic'), 'location' => array('text', 'Modules/Bibliographic/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '360'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '360'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'blog'), 'class_name' => array('text', 'Blog'), 'component' => array('text', 'Modules/Blog'), 'location' => array('text', 'Modules/Blog/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '330'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '330'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'bibs'), 'class_name' => array('text', 'BibliographicAdmin'), 'component' => array('text', 'Modules/Bibliographic'), 'location' => array('text', 'Modules/Bibliographic/classes/Admin'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'svy'), 'class_name' => array('text', 'Survey'), 'component' => array('text', 'Modules/Survey'), 'location' => array('text', 'Modules/Survey/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '190'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '180'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'svyf'), 'class_name' => array('text', 'SurveyAdministration'), 'component' => array('text', 'Modules/Survey'), 'location' => array('text', 'Modules/Survey/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'cld'), 'class_name' => array('text', 'Cloud'), 'component' => array('text', 'Modules/Cloud'), 'location' => array('text', 'Modules/Cloud/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '440'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '440'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'blga'), 'class_name' => array('text', 'BlogAdministration'), 'component' => array('text', 'Modules/Blog'), 'location' => array('text', 'Modules/Blog/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'adm'), 'class_name' => array('text', 'SystemFolder'), 'component' => array('text', 'Modules/SystemFolder'), 'location' => array('text', 'Modules/SystemFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'itgr'), 'class_name' => array('text', 'ItemGroup'), 'component' => array('text', 'Modules/ItemGroup'), 'location' => array('text', 'Modules/ItemGroup/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '45'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '5'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'lm'), 'class_name' => array('text', 'LearningModule'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '120'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'lrss'), 'class_name' => array('text', 'LearningResourcesSettings'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'glo'), 'class_name' => array('text', 'Glossary'), 'component' => array('text', 'Modules/Glossary'), 'location' => array('text', 'Modules/Glossary/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '160'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '110'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'sahs'), 'class_name' => array('text', 'SAHSLearningModule'), 'component' => array('text', 'Modules/ScormAicc'), 'location' => array('text', 'Modules/ScormAicc/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '140'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'scov'), 'class_name' => array('text', 'SCORMVerification'), 'component' => array('text', 'Modules/ScormAicc'), 'location' => array('text', 'Modules/ScormAicc/classes/Verification'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'catr'), 'class_name' => array('text', 'CategoryReference'), 'component' => array('text', 'Modules/CategoryReference'), 'location' => array('text', 'Modules/CategoryReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '15'), 'grp' => array('text', 'cat'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'rwik'), 'class_name' => array('text', 'RemoteWiki'), 'component' => array('text', 'Modules/RemoteWiki'), 'location' => array('text', 'Modules/RemoteWiki/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'wiki'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'exc'), 'class_name' => array('text', 'Exercise'), 'component' => array('text', 'Modules/Exercise'), 'location' => array('text', 'Modules/Exercise/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '170'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '160'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '1'), 'lti_provider' => array('integer', '0')));
@@ -26264,25 +26210,73 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'excv'), 'class_name' => array('text', 'ExerciseVerification'), 'component' => array('text', 'Modules/Exercise'), 'location' => array('text', 'Modules/Exercise/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '100'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '160'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'mcst'), 'class_name' => array('text', 'MediaCast'), 'component' => array('text', 'Modules/MediaCast'), 'location' => array('text', 'Modules/MediaCast/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '110'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '130'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'fold'), 'class_name' => array('text', 'Folder'), 'component' => array('text', 'Modules/Folder'), 'location' => array('text', 'Modules/Folder/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '40'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'mcts'), 'class_name' => array('text', 'MediaCastSettings'), 'component' => array('text', 'Modules/MediaCast'), 'location' => array('text', 'Modules/MediaCast/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'grpr'), 'class_name' => array('text', 'GroupReference'), 'component' => array('text', 'Modules/GroupReference'), 'location' => array('text', 'Modules/GroupReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '51'), 'grp' => array('text', 'grp'), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'feed'), 'class_name' => array('text', 'ExternalFeed'), 'component' => array('text', 'Modules/ExternalFeed'), 'location' => array('text', 'Modules/ExternalFeed/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '1'), 'default_pos' => array('integer', '80'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'grp'), 'class_name' => array('text', 'Group'), 'component' => array('text', 'Modules/Group'), 'location' => array('text', 'Modules/Group/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '50'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '70'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '1'), 'lti_provider' => array('integer', '1')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'grps'), 'class_name' => array('text', 'GroupAdministration'), 'component' => array('text', 'Modules/Group'), 'location' => array('text', 'Modules/Group/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'cld'), 'class_name' => array('text', 'Cloud'), 'component' => array('text', 'Modules/Cloud'), 'location' => array('text', 'Modules/Cloud/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '440'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '440'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'chtr'), 'class_name' => array('text', 'Chatroom'), 'component' => array('text', 'Modules/Chatroom'), 'location' => array('text', 'Modules/Chatroom/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'chta'), 'class_name' => array('text', 'ChatroomAdmin'), 'component' => array('text', 'Modules/Chatroom'), 'location' => array('text', 'Modules/Chatroom/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'htlm'), 'class_name' => array('text', 'FileBasedLM'), 'component' => array('text', 'Modules/HTMLLearningModule'), 'location' => array('text', 'Modules/HTMLLearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '130'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wfld'), 'class_name' => array('text', 'WorkspaceFolder'), 'component' => array('text', 'Modules/WorkspaceFolder'), 'location' => array('text', 'Modules/WorkspaceFolder/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '300'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '300'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'qpl'), 'class_name' => array('text', 'QuestionPool'), 'component' => array('text', 'Modules/TestQuestionPool'), 'location' => array('text', 'Modules/TestQuestionPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '210'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '200'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'crsr'), 'class_name' => array('text', 'CourseReference'), 'component' => array('text', 'Modules/CourseReference'), 'location' => array('text', 'Modules/CourseReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '25'), 'grp' => array('text', 'crs'), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'webr'), 'class_name' => array('text', 'LinkResource'), 'component' => array('text', 'Modules/WebResource'), 'location' => array('text', 'Modules/WebResource/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '100'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '120'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wbrs'), 'class_name' => array('text', 'WebResourceAdministration'), 'component' => array('text', 'Modules/WebResource'), 'location' => array('text', 'Modules/WebResource/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'bibl'), 'class_name' => array('text', 'Bibliographic'), 'component' => array('text', 'Modules/Bibliographic'), 'location' => array('text', 'Modules/Bibliographic/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '360'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '360'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'bibs'), 'class_name' => array('text', 'BibliographicAdmin'), 'component' => array('text', 'Modules/Bibliographic'), 'location' => array('text', 'Modules/Bibliographic/classes/Admin'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'dcl'), 'class_name' => array('text', 'DataCollection'), 'component' => array('text', 'Modules/DataCollection'), 'location' => array('text', 'Modules/DataCollection/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '340'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '340'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'sess'), 'class_name' => array('text', 'Session'), 'component' => array('text', 'Modules/Session'), 'location' => array('text', 'Modules/Session/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '15'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '15'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'frm'), 'class_name' => array('text', 'Forum'), 'component' => array('text', 'Modules/Forum'), 'location' => array('text', 'Modules/Forum/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '70'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '90'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'frma'), 'class_name' => array('text', 'ForumAdministration'), 'component' => array('text', 'Modules/Forum'), 'location' => array('text', 'Modules/Forum/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'rglo'), 'class_name' => array('text', 'RemoteGlossary'), 'component' => array('text', 'Modules/RemoteGlossary'), 'location' => array('text', 'Modules/RemoteGlossary/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'glo'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'book'), 'class_name' => array('text', 'BookingPool'), 'component' => array('text', 'Modules/BookingManager'), 'location' => array('text', 'Modules/BookingManager/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '250'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '250'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'rcrs'), 'class_name' => array('text', 'RemoteCourse'), 'component' => array('text', 'Modules/RemoteCourse'), 'location' => array('text', 'Modules/RemoteCourse/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'crs'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'tst'), 'class_name' => array('text', 'Test'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '180'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '170'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'assf'), 'class_name' => array('text', 'AssessmentFolder'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'tstv'), 'class_name' => array('text', 'TestVerification'), 'component' => array('text', 'Modules/Test'), 'location' => array('text', 'Modules/Test/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'prtf'), 'class_name' => array('text', 'Portfolio'), 'component' => array('text', 'Modules/Portfolio'), 'location' => array('text', 'Modules/Portfolio/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
@@ -26294,70 +26288,10 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'prfa'), 'class_name' => array('text', 'PortfolioAdministration'), 'component' => array('text', 'Modules/Portfolio'), 'location' => array('text', 'Modules/Portfolio/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'catr'), 'class_name' => array('text', 'CategoryReference'), 'component' => array('text', 'Modules/CategoryReference'), 'location' => array('text', 'Modules/CategoryReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '15'), 'grp' => array('text', 'cat'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'root'), 'class_name' => array('text', 'RootFolder'), 'component' => array('text', 'Modules/RootFolder'), 'location' => array('text', 'Modules/RootFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'qpl'), 'class_name' => array('text', 'QuestionPool'), 'component' => array('text', 'Modules/TestQuestionPool'), 'location' => array('text', 'Modules/TestQuestionPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '210'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '200'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rlm'), 'class_name' => array('text', 'RemoteLearningModule'), 'component' => array('text', 'Modules/RemoteLearningModule'), 'location' => array('text', 'Modules/RemoteLearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wfld'), 'class_name' => array('text', 'WorkspaceFolder'), 'component' => array('text', 'Modules/WorkspaceFolder'), 'location' => array('text', 'Modules/WorkspaceFolder/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '300'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '300'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rglo'), 'class_name' => array('text', 'RemoteGlossary'), 'component' => array('text', 'Modules/RemoteGlossary'), 'location' => array('text', 'Modules/RemoteGlossary/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'glo'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'mep'), 'class_name' => array('text', 'MediaPool'), 'component' => array('text', 'Modules/MediaPool'), 'location' => array('text', 'Modules/MediaPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '200'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '190'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rcrs'), 'class_name' => array('text', 'RemoteCourse'), 'component' => array('text', 'Modules/RemoteCourse'), 'location' => array('text', 'Modules/RemoteCourse/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'crs'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rwik'), 'class_name' => array('text', 'RemoteWiki'), 'component' => array('text', 'Modules/RemoteWiki'), 'location' => array('text', 'Modules/RemoteWiki/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'wiki'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'sahs'), 'class_name' => array('text', 'SAHSLearningModule'), 'component' => array('text', 'Modules/ScormAicc'), 'location' => array('text', 'Modules/ScormAicc/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '140'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'scov'), 'class_name' => array('text', 'SCORMVerification'), 'component' => array('text', 'Modules/ScormAicc'), 'location' => array('text', 'Modules/ScormAicc/classes/Verification'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'rtst'), 'class_name' => array('text', 'RemoteTest'), 'component' => array('text', 'Modules/RemoteTest'), 'location' => array('text', 'Modules/RemoteTest/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'tst'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'rcat'), 'class_name' => array('text', 'RemoteCategory'), 'component' => array('text', 'Modules/RemoteCategory'), 'location' => array('text', 'Modules/RemoteCategory/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'cat'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'blog'), 'class_name' => array('text', 'Blog'), 'component' => array('text', 'Modules/Blog'), 'location' => array('text', 'Modules/Blog/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '330'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '330'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'blga'), 'class_name' => array('text', 'BlogAdministration'), 'component' => array('text', 'Modules/Blog'), 'location' => array('text', 'Modules/Blog/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'grpr'), 'class_name' => array('text', 'GroupReference'), 'component' => array('text', 'Modules/GroupReference'), 'location' => array('text', 'Modules/GroupReference/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '51'), 'grp' => array('text', 'grp'), 'default_pres_pos' => array('integer', '20'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wsrt'), 'class_name' => array('text', 'WorkspaceRootFolder'), 'component' => array('text', 'Modules/WorkspaceRootFolder'), 'location' => array('text', 'Modules/WorkspaceRootFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'rgrp'), 'class_name' => array('text', 'RemoteGroup'), 'component' => array('text', 'Modules/RemoteGroup'), 'location' => array('text', 'Modules/RemoteGroup/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'grp'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'htlm'), 'class_name' => array('text', 'FileBasedLM'), 'component' => array('text', 'Modules/HTMLLearningModule'), 'location' => array('text', 'Modules/HTMLLearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '130'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'lm'), 'class_name' => array('text', 'LearningModule'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '120'), 'grp' => array('text', 'lres'), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'lrss'), 'class_name' => array('text', 'LearningResourcesSettings'), 'component' => array('text', 'Modules/LearningModule'), 'location' => array('text', 'Modules/LearningModule/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'prg'), 'class_name' => array('text', 'StudyProgramme'), 'component' => array('text', 'Modules/StudyProgramme'), 'location' => array('text', 'Modules/StudyProgramme/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '30'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'prgs'), 'class_name' => array('text', 'StudyProgrammeAdmin'), 'component' => array('text', 'Modules/StudyProgramme'), 'location' => array('text', 'Modules/StudyProgramme/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'crs'), 'class_name' => array('text', 'Course'), 'component' => array('text', 'Modules/Course'), 'location' => array('text', 'Modules/Course/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '20'), 'grp' => array('text', 'crs'), 'default_pres_pos' => array('integer', '30'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '1'), 'lti_provider' => array('integer', '1')));
@@ -26369,43 +26303,82 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'crsv'), 'class_name' => array('text', 'CourseVerification'), 'component' => array('text', 'Modules/Course'), 'location' => array('text', 'Modules/Course/classes/Verification'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'tags'), 'class_name' => array('text', 'TaggingSettings'), 'component' => array('text', 'Services/Tagging'), 'location' => array('text', 'Services/Tagging/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'root'), 'class_name' => array('text', 'RootFolder'), 'component' => array('text', 'Modules/RootFolder'), 'location' => array('text', 'Modules/RootFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'rgrp'), 'class_name' => array('text', 'RemoteGroup'), 'component' => array('text', 'Modules/RemoteGroup'), 'location' => array('text', 'Modules/RemoteGroup/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'grp'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'rfil'), 'class_name' => array('text', 'RemoteFile'), 'component' => array('text', 'Modules/RemoteFile'), 'location' => array('text', 'Modules/RemoteFile/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', 'file'), 'default_pres_pos' => array('integer', '40'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'orgu'), 'class_name' => array('text', 'OrgUnit'), 'component' => array('text', 'Modules/OrgUnit'), 'location' => array('text', 'Modules/OrgUnit/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '10'), 'grp' => array('text', 'orgu'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'file'), 'class_name' => array('text', 'File'), 'component' => array('text', 'Modules/File'), 'location' => array('text', 'Modules/File/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '90'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '150'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'itgr'), 'class_name' => array('text', 'ItemGroup'), 'component' => array('text', 'Modules/ItemGroup'), 'location' => array('text', 'Modules/ItemGroup/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '45'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '5'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'mcst'), 'class_name' => array('text', 'MediaCast'), 'component' => array('text', 'Modules/MediaCast'), 'location' => array('text', 'Modules/MediaCast/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '110'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '130'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'mcts'), 'class_name' => array('text', 'MediaCastSettings'), 'component' => array('text', 'Modules/MediaCast'), 'location' => array('text', 'Modules/MediaCast/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'prg'), 'class_name' => array('text', 'StudyProgramme'), 'component' => array('text', 'Modules/StudyProgramme'), 'location' => array('text', 'Modules/StudyProgramme/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '30'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '30'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'prgs'), 'class_name' => array('text', 'StudyProgrammeAdmin'), 'component' => array('text', 'Modules/StudyProgramme'), 'location' => array('text', 'Modules/StudyProgramme/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'grp'), 'class_name' => array('text', 'Group'), 'component' => array('text', 'Modules/Group'), 'location' => array('text', 'Modules/Group/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '50'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '70'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '1'), 'lti_provider' => array('integer', '1')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'grps'), 'class_name' => array('text', 'GroupAdministration'), 'component' => array('text', 'Modules/Group'), 'location' => array('text', 'Modules/Group/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'feed'), 'class_name' => array('text', 'ExternalFeed'), 'component' => array('text', 'Modules/ExternalFeed'), 'location' => array('text', 'Modules/ExternalFeed/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '1'), 'default_pos' => array('integer', '80'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'cat'), 'class_name' => array('text', 'Category'), 'component' => array('text', 'Modules/Category'), 'location' => array('text', 'Modules/Category/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '10'), 'grp' => array('text', 'cat'), 'default_pres_pos' => array('integer', '10'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '1'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'mep'), 'class_name' => array('text', 'MediaPool'), 'component' => array('text', 'Modules/MediaPool'), 'location' => array('text', 'Modules/MediaPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'db'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '200'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '190'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wsrt'), 'class_name' => array('text', 'WorkspaceRootFolder'), 'component' => array('text', 'Modules/WorkspaceRootFolder'), 'location' => array('text', 'Modules/WorkspaceRootFolder/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '0'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'poll'), 'class_name' => array('text', 'Poll'), 'component' => array('text', 'Modules/Poll'), 'location' => array('text', 'Modules/Poll/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '1'), 'default_pos' => array('integer', '350'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '350'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '1'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wiki'), 'class_name' => array('text', 'Wiki'), 'component' => array('text', 'Modules/Wiki'), 'location' => array('text', 'Modules/Wiki/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', ''), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '115'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '140'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wiks'), 'class_name' => array('text', 'WikiSettings'), 'component' => array('text', 'Modules/Wiki'), 'location' => array('text', 'Modules/Wiki/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'spl'), 'class_name' => array('text', 'SurveyQuestionPool'), 'component' => array('text', 'Modules/SurveyQuestionPool'), 'location' => array('text', 'Modules/SurveyQuestionPool/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '220'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '210'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'svy'), 'class_name' => array('text', 'Survey'), 'component' => array('text', 'Modules/Survey'), 'location' => array('text', 'Modules/Survey/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '1'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '1'), 'allow_copy' => array('integer', '1'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '190'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '180'), 'export' => array('integer', '1'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '1')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'svyf'), 'class_name' => array('text', 'SurveyAdministration'), 'component' => array('text', 'Modules/Survey'), 'location' => array('text', 'Modules/Survey/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'nwss'), 'class_name' => array('text', 'NewsSettings'), 'component' => array('text', 'Services/News'), 'location' => array('text', 'Services/News/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'cmps'), 'class_name' => array('text', 'ComponentSettings'), 'component' => array('text', 'Services/Component'), 'location' => array('text', 'Services/Component/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'otpl'), 'class_name' => array('text', 'ObjectTemplateAdministration'), 'component' => array('text', 'Services/DidacticTemplate'), 'location' => array('text', 'Services/DidacticTemplate/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'sty'), 'class_name' => array('text', 'StyleSheet'), 'component' => array('text', 'Services/Style'), 'location' => array('text', 'Services/Style/Content/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'ps'), 'class_name' => array('text', 'PrivacySecurity'), 'component' => array('text', 'Services/PrivacySecurity'), 'location' => array('text', 'Services/PrivacySecurity/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'stys'), 'class_name' => array('text', 'StyleSettings'), 'component' => array('text', 'Services/Style'), 'location' => array('text', 'Services/Style/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'cert'), 'class_name' => array('text', 'CertificateSettings'), 'component' => array('text', 'Services/Certificate'), 'location' => array('text', 'Services/Certificate/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'trac'), 'class_name' => array('text', 'UserTracking'), 'component' => array('text', 'Services/Tracking'), 'location' => array('text', 'Services/Tracking/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'ecss'), 'class_name' => array('text', 'ECSSettings'), 'component' => array('text', 'Services/WebServices'), 'location' => array('text', 'Services/WebServices/ECS/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'pdts'), 'class_name' => array('text', 'PersonalDesktopSettings'), 'component' => array('text', 'Services/PersonalDesktop'), 'location' => array('text', 'Services/PersonalDesktop/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'objf'), 'class_name' => array('text', 'ObjectFolder'), 'component' => array('text', 'Services/Object'), 'location' => array('text', 'Services/Object/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '1'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'facs'), 'class_name' => array('text', 'FileAccessSettings'), 'component' => array('text', 'Services/WebDAV'), 'location' => array('text', 'Services/WebDAV/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'cals'), 'class_name' => array('text', 'CalendarSettings'), 'component' => array('text', 'Services/Calendar'), 'location' => array('text', 'Services/Calendar/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'adve'), 'class_name' => array('text', 'AdvancedEditing'), 'component' => array('text', 'Services/AdvancedEditing'), 'location' => array('text', 'Services/AdvancedEditing/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'mds'), 'class_name' => array('text', 'MDSettings'), 'component' => array('text', 'Services/MetaData'), 'location' => array('text', 'Services/MetaData/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'tax'), 'class_name' => array('text', 'Taxonomy'), 'component' => array('text', 'Services/Taxonomy'), 'location' => array('text', 'Services/Taxonomy/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
@@ -26414,67 +26387,10 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'taxs'), 'class_name' => array('text', 'TaxonomyAdministration'), 'component' => array('text', 'Services/Taxonomy'), 'location' => array('text', 'Services/Taxonomy/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'pdfg'), 'class_name' => array('text', 'PDFGeneration'), 'component' => array('text', 'Services/PDFGeneration'), 'location' => array('text', 'Services/PDFGeneration/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'hlps'), 'class_name' => array('text', 'HelpSettings'), 'component' => array('text', 'Services/Help'), 'location' => array('text', 'Services/Help/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'ltis'), 'class_name' => array('text', 'LTIAdministration'), 'component' => array('text', 'Services/LTI'), 'location' => array('text', 'Services/LTI/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'auth'), 'class_name' => array('text', 'AuthSettings'), 'component' => array('text', 'Services/Authentication'), 'location' => array('text', 'Services/Authentication/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'bdga'), 'class_name' => array('text', 'BadgeAdministration'), 'component' => array('text', 'Services/Badge'), 'location' => array('text', 'Services/Badge/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'lngf'), 'class_name' => array('text', 'LanguageFolder'), 'component' => array('text', 'Services/Language'), 'location' => array('text', 'Services/Language/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'lng'), 'class_name' => array('text', 'Language'), 'component' => array('text', 'Services/Language'), 'location' => array('text', 'Services/Language/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'logs'), 'class_name' => array('text', 'LoggingSettings'), 'component' => array('text', 'Services/Logging'), 'location' => array('text', 'Services/Logging/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'mobs'), 'class_name' => array('text', 'MediaObjectsSettings'), 'component' => array('text', 'Services/MediaObjects'), 'location' => array('text', 'Services/MediaObjects/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'usr'), 'class_name' => array('text', 'User'), 'component' => array('text', 'Services/User'), 'location' => array('text', 'Services/User/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'usrf'), 'class_name' => array('text', 'UserFolder'), 'component' => array('text', 'Services/User'), 'location' => array('text', 'Services/User/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'skmg'), 'class_name' => array('text', 'SkillManagement'), 'component' => array('text', 'Services/Skill'), 'location' => array('text', 'Services/Skill/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'tos'), 'class_name' => array('text', 'TermsOfService'), 'component' => array('text', 'Services/TermsOfService'), 'location' => array('text', 'Services/TermsOfService/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
 'id' => array('text', 'cadm'), 'class_name' => array('text', 'ContactAdministration'), 'component' => array('text', 'Services/Contact'), 'location' => array('text', 'Services/Contact/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'reps'), 'class_name' => array('text', 'RepositorySettings'), 'component' => array('text', 'Services/Repository'), 'location' => array('text', 'Services/Repository/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'awra'), 'class_name' => array('text', 'AwarenessAdministration'), 'component' => array('text', 'Services/Awareness'), 'location' => array('text', 'Services/Awareness/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'accs'), 'class_name' => array('text', 'AccessibilitySettings'), 'component' => array('text', 'Services/Accessibility'), 'location' => array('text', 'Services/Accessibility/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'seas'), 'class_name' => array('text', 'SearchSettings'), 'component' => array('text', 'Services/Search'), 'location' => array('text', 'Services/Search/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'wfe'), 'class_name' => array('text', 'WorkflowEngine'), 'component' => array('text', 'Services/WorkflowEngine'), 'location' => array('text', 'Services/WorkflowEngine/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'nota'), 'class_name' => array('text', 'NotificationAdmin'), 'component' => array('text', 'Services/Notifications'), 'location' => array('text', 'Services/Notifications/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'sysc'), 'class_name' => array('text', 'SystemCheck'), 'component' => array('text', 'Services/SystemCheck'), 'location' => array('text', 'Services/SystemCheck/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'ltis'), 'class_name' => array('text', 'LTIAdministration'), 'component' => array('text', 'Services/LTI'), 'location' => array('text', 'Services/LTI/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'rolf'), 'class_name' => array('text', 'RoleFolder'), 'component' => array('text', 'Services/AccessControl'), 'location' => array('text', 'Services/AccessControl/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
@@ -26486,7 +26402,94 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'rolt'), 'class_name' => array('text', 'RoleTemplate'), 'component' => array('text', 'Services/AccessControl'), 'location' => array('text', 'Services/AccessControl/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'otpl'), 'class_name' => array('text', 'ObjectTemplateAdministration'), 'component' => array('text', 'Services/DidacticTemplate'), 'location' => array('text', 'Services/DidacticTemplate/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'tos'), 'class_name' => array('text', 'TermsOfService'), 'component' => array('text', 'Services/TermsOfService'), 'location' => array('text', 'Services/TermsOfService/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'adve'), 'class_name' => array('text', 'AdvancedEditing'), 'component' => array('text', 'Services/AdvancedEditing'), 'location' => array('text', 'Services/AdvancedEditing/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'auth'), 'class_name' => array('text', 'AuthSettings'), 'component' => array('text', 'Services/Authentication'), 'location' => array('text', 'Services/Authentication/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'cert'), 'class_name' => array('text', 'CertificateSettings'), 'component' => array('text', 'Services/Certificate'), 'location' => array('text', 'Services/Certificate/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'wfe'), 'class_name' => array('text', 'WorkflowEngine'), 'component' => array('text', 'Services/WorkflowEngine'), 'location' => array('text', 'Services/WorkflowEngine/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'cals'), 'class_name' => array('text', 'CalendarSettings'), 'component' => array('text', 'Services/Calendar'), 'location' => array('text', 'Services/Calendar/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'accs'), 'class_name' => array('text', 'AccessibilitySettings'), 'component' => array('text', 'Services/Accessibility'), 'location' => array('text', 'Services/Accessibility/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'nota'), 'class_name' => array('text', 'NotificationAdmin'), 'component' => array('text', 'Services/Notifications'), 'location' => array('text', 'Services/Notifications/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'facs'), 'class_name' => array('text', 'FileAccessSettings'), 'component' => array('text', 'Services/WebDAV'), 'location' => array('text', 'Services/WebDAV/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'seas'), 'class_name' => array('text', 'SearchSettings'), 'component' => array('text', 'Services/Search'), 'location' => array('text', 'Services/Search/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'lngf'), 'class_name' => array('text', 'LanguageFolder'), 'component' => array('text', 'Services/Language'), 'location' => array('text', 'Services/Language/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'lng'), 'class_name' => array('text', 'Language'), 'component' => array('text', 'Services/Language'), 'location' => array('text', 'Services/Language/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'tags'), 'class_name' => array('text', 'TaggingSettings'), 'component' => array('text', 'Services/Tagging'), 'location' => array('text', 'Services/Tagging/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'skmg'), 'class_name' => array('text', 'SkillManagement'), 'component' => array('text', 'Services/Skill'), 'location' => array('text', 'Services/Skill/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'mobs'), 'class_name' => array('text', 'MediaObjectsSettings'), 'component' => array('text', 'Services/MediaObjects'), 'location' => array('text', 'Services/MediaObjects/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'reps'), 'class_name' => array('text', 'RepositorySettings'), 'component' => array('text', 'Services/Repository'), 'location' => array('text', 'Services/Repository/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'bdga'), 'class_name' => array('text', 'BadgeAdministration'), 'component' => array('text', 'Services/Badge'), 'location' => array('text', 'Services/Badge/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'sty'), 'class_name' => array('text', 'StyleSheet'), 'component' => array('text', 'Services/Style'), 'location' => array('text', 'Services/Style/Content/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'stys'), 'class_name' => array('text', 'StyleSettings'), 'component' => array('text', 'Services/Style'), 'location' => array('text', 'Services/Style/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'pdts'), 'class_name' => array('text', 'PersonalDesktopSettings'), 'component' => array('text', 'Services/PersonalDesktop'), 'location' => array('text', 'Services/PersonalDesktop/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'usr'), 'class_name' => array('text', 'User'), 'component' => array('text', 'Services/User'), 'location' => array('text', 'Services/User/classes'), 'checkbox' => array('integer', '1'), 'inherit' => array('integer', '0'), 'translate' => array('text', '0'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '0'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'usrf'), 'class_name' => array('text', 'UserFolder'), 'component' => array('text', 'Services/User'), 'location' => array('text', 'Services/User/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'sysc'), 'class_name' => array('text', 'SystemCheck'), 'component' => array('text', 'Services/SystemCheck'), 'location' => array('text', 'Services/SystemCheck/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'mail'), 'class_name' => array('text', 'Mail'), 'component' => array('text', 'Services/Mail'), 'location' => array('text', 'Services/Mail/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'objf'), 'class_name' => array('text', 'ObjectFolder'), 'component' => array('text', 'Services/Object'), 'location' => array('text', 'Services/Object/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '1'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'logs'), 'class_name' => array('text', 'LoggingSettings'), 'component' => array('text', 'Services/Logging'), 'location' => array('text', 'Services/Logging/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '1'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'pdfg'), 'class_name' => array('text', 'PDFGeneration'), 'component' => array('text', 'Services/PDFGeneration'), 'location' => array('text', 'Services/PDFGeneration/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '0'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'cmps'), 'class_name' => array('text', 'ComponentSettings'), 'component' => array('text', 'Services/Component'), 'location' => array('text', 'Services/Component/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'hlps'), 'class_name' => array('text', 'HelpSettings'), 'component' => array('text', 'Services/Help'), 'location' => array('text', 'Services/Help/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+
+$ilDB->insert("il_object_def", array(
+'id' => array('text', 'awra'), 'class_name' => array('text', 'AwarenessAdministration'), 'component' => array('text', 'Services/Awareness'), 'location' => array('text', 'Services/Awareness/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
 'id' => array('text', 'recf'), 'class_name' => array('text', 'RecoveryFolder'), 'component' => array('text', 'Services/Administration'), 'location' => array('text', 'Services/Administration/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
@@ -26495,13 +26498,10 @@ $ilDB->insert("il_object_def", array(
 'id' => array('text', 'extt'), 'class_name' => array('text', 'ExternalToolsSettings'), 'component' => array('text', 'Services/Administration'), 'location' => array('text', 'Services/Administration/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'mds'), 'class_name' => array('text', 'MDSettings'), 'component' => array('text', 'Services/MetaData'), 'location' => array('text', 'Services/MetaData/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'trac'), 'class_name' => array('text', 'UserTracking'), 'component' => array('text', 'Services/Tracking'), 'location' => array('text', 'Services/Tracking/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 $ilDB->insert("il_object_def", array(
-'id' => array('text', 'ps'), 'class_name' => array('text', 'PrivacySecurity'), 'component' => array('text', 'Services/PrivacySecurity'), 'location' => array('text', 'Services/PrivacySecurity/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
-
-$ilDB->insert("il_object_def", array(
-'id' => array('text', 'mail'), 'class_name' => array('text', 'Mail'), 'component' => array('text', 'Services/Mail'), 'location' => array('text', 'Services/Mail/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '0'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
+'id' => array('text', 'ecss'), 'class_name' => array('text', 'ECSSettings'), 'component' => array('text', 'Services/WebServices'), 'location' => array('text', 'Services/WebServices/ECS/classes'), 'checkbox' => array('integer', '0'), 'inherit' => array('integer', '0'), 'translate' => array('text', 'sys'), 'devmode' => array('integer', '0'), 'allow_link' => array('integer', '0'), 'allow_copy' => array('integer', '0'), 'rbac' => array('integer', '1'), 'system' => array('integer', '1'), 'sideblock' => array('integer', '0'), 'default_pos' => array('integer', '0'), 'grp' => array('text', ''), 'default_pres_pos' => array('integer', '0'), 'export' => array('integer', '0'), 'repository' => array('integer', '1'), 'workspace' => array('integer', '0'), 'administration' => array('integer', '1'), 'amet' => array('integer', '0'), 'orgunit_permissions' => array('integer', '0'), 'lti_provider' => array('integer', '0')));
 
 
 //
@@ -26535,10 +26535,19 @@ $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_object_group", $pk_fields);
 
 $ilDB->insert("il_object_group", array(
+'id' => array('text', 'iass'), 'name' => array('text', 'IndividualAssessment'), 'default_pres_pos' => array('integer', '170')));
+
+$ilDB->insert("il_object_group", array(
+'id' => array('text', 'lres'), 'name' => array('text', 'LearningResources'), 'default_pres_pos' => array('integer', '100')));
+
+$ilDB->insert("il_object_group", array(
+'id' => array('text', 'glo'), 'name' => array('text', 'Glossaries'), 'default_pres_pos' => array('integer', '110')));
+
+$ilDB->insert("il_object_group", array(
 'id' => array('text', 'tst'), 'name' => array('text', 'Tests'), 'default_pres_pos' => array('integer', '170')));
 
 $ilDB->insert("il_object_group", array(
-'id' => array('text', 'wiki'), 'name' => array('text', 'Wikis'), 'default_pres_pos' => array('integer', '140')));
+'id' => array('text', 'crs'), 'name' => array('text', 'Courses'), 'default_pres_pos' => array('integer', '30')));
 
 $ilDB->insert("il_object_group", array(
 'id' => array('text', 'orgu'), 'name' => array('text', 'Organisational Unit'), 'default_pres_pos' => array('integer', '10')));
@@ -26547,25 +26556,16 @@ $ilDB->insert("il_object_group", array(
 'id' => array('text', 'file'), 'name' => array('text', 'Files'), 'default_pres_pos' => array('integer', '150')));
 
 $ilDB->insert("il_object_group", array(
-'id' => array('text', 'cat'), 'name' => array('text', 'Categories'), 'default_pres_pos' => array('integer', '10')));
-
-$ilDB->insert("il_object_group", array(
-'id' => array('text', 'glo'), 'name' => array('text', 'Glossaries'), 'default_pres_pos' => array('integer', '110')));
-
-$ilDB->insert("il_object_group", array(
-'id' => array('text', 'iass'), 'name' => array('text', 'IndividualAssessment'), 'default_pres_pos' => array('integer', '170')));
+'id' => array('text', 'prg'), 'name' => array('text', 'StudyProgramme'), 'default_pres_pos' => array('integer', '30')));
 
 $ilDB->insert("il_object_group", array(
 'id' => array('text', 'grp'), 'name' => array('text', 'Groups'), 'default_pres_pos' => array('integer', '70')));
 
 $ilDB->insert("il_object_group", array(
-'id' => array('text', 'lres'), 'name' => array('text', 'LearningResources'), 'default_pres_pos' => array('integer', '100')));
+'id' => array('text', 'cat'), 'name' => array('text', 'Categories'), 'default_pres_pos' => array('integer', '10')));
 
 $ilDB->insert("il_object_group", array(
-'id' => array('text', 'prg'), 'name' => array('text', 'StudyProgramme'), 'default_pres_pos' => array('integer', '30')));
-
-$ilDB->insert("il_object_group", array(
-'id' => array('text', 'crs'), 'name' => array('text', 'Courses'), 'default_pres_pos' => array('integer', '30')));
+'id' => array('text', 'wiki'), 'name' => array('text', 'Wikis'), 'default_pres_pos' => array('integer', '140')));
 
 
 //
@@ -26600,19 +26600,19 @@ $pk_fields = array("obj_type","sub_type");
 $ilDB->addPrimaryKey("il_object_sub_type", $pk_fields);
 
 $ilDB->insert("il_object_sub_type", array(
-'obj_type' => array('text', 'book'), 'sub_type' => array('text', 'bobj'), 'amet' => array('integer', '1')));
+'obj_type' => array('text', 'glo'), 'sub_type' => array('text', 'term'), 'amet' => array('integer', '1')));
 
 $ilDB->insert("il_object_sub_type", array(
-'obj_type' => array('text', 'wiki'), 'sub_type' => array('text', 'wpg'), 'amet' => array('integer', '1')));
+'obj_type' => array('text', 'book'), 'sub_type' => array('text', 'bobj'), 'amet' => array('integer', '1')));
 
 $ilDB->insert("il_object_sub_type", array(
 'obj_type' => array('text', 'orgu'), 'sub_type' => array('text', 'orgu_type'), 'amet' => array('integer', '1')));
 
 $ilDB->insert("il_object_sub_type", array(
-'obj_type' => array('text', 'glo'), 'sub_type' => array('text', 'term'), 'amet' => array('integer', '1')));
+'obj_type' => array('text', 'prg'), 'sub_type' => array('text', 'prg_type'), 'amet' => array('integer', '1')));
 
 $ilDB->insert("il_object_sub_type", array(
-'obj_type' => array('text', 'prg'), 'sub_type' => array('text', 'prg_type'), 'amet' => array('integer', '1')));
+'obj_type' => array('text', 'wiki'), 'sub_type' => array('text', 'wpg'), 'amet' => array('integer', '1')));
 
 
 //
@@ -26647,40 +26647,286 @@ $pk_fields = array("parent","subobj");
 $ilDB->addPrimaryKey("il_object_subobj", $pk_fields);
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rlm'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rlm'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'root'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rtst'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rtst'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'blga'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'lrss'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'scov'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'scov'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rwik'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rwik'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'excs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'excv'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'excv'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'chta'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'wfld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'wfld'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'cat'), 'subobj' => array('text', 'webr'), 'mmax' => array('integer', '0')));
@@ -26710,6 +26956,84 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'wbrs'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'bibs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'sess'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'frma'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rglo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rglo'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'cat'), 'subobj' => array('text', 'book'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
@@ -26723,6 +27047,18 @@ $ilDB->insert("il_object_subobj", array(
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'fold'), 'subobj' => array('text', 'book'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'cat'), 'subobj' => array('text', 'tst'), 'mmax' => array('integer', '0')));
@@ -26752,19 +27088,250 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'wfld'), 'subobj' => array('text', 'tstv'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'prfa'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rtst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rtst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'crss'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'crsv'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'crsv'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'adm'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'rfil'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'rfil'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'orgu'), 'subobj' => array('text', 'orgu'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'orgu'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'wfld'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'mcts'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'prg'), 'subobj' => array('text', 'rolf'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'prg'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'prg'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'prgs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'grps'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'cat'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'crs'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'fold'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'grp'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'recf'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'root'), 'subobj' => array('text', 'poll'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'cat'), 'subobj' => array('text', 'wiki'), 'mmax' => array('integer', '0')));
@@ -26806,156 +27373,6 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'root'), 'subobj' => array('text', 'spl'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'orgu'), 'subobj' => array('text', 'orgu'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'orgu'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'dcl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'file'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'cat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'fold'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'frm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'frma'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rfil'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rfil'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'glo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'iass'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'bibl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'bibs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'cat'), 'subobj' => array('text', 'svy'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
@@ -26977,526 +27394,25 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'svyf'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'cld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'itgr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'exc'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'excs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'excv'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'excv'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'mcst'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'mcts'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'feed'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'grp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'grps'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'chtr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'chta'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'prtt'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'prfa'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'catr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'adm'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'qpl'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'wfld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'wfld'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rglo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rglo'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'mep'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'rcrs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rwik'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rwik'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'sahs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'scov'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'scov'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'rcat'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'blog'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'blga'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'grpr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'rgrp'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'htlm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'crs'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'fold'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'grp'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'lm'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'lrss'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'prg'), 'subobj' => array('text', 'rolf'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'prg'), 'subobj' => array('text', 'crsr'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'prg'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'prg'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'prgs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'cat'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'recf'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'root'), 'subobj' => array('text', 'crs'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'crss'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wsrt'), 'subobj' => array('text', 'crsv'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'wfld'), 'subobj' => array('text', 'crsv'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'tags'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'nwss'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'cmps'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'otpl'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'stys'), 'subobj' => array('text', 'sty'), 'mmax' => array('integer', '0')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'ps'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'stys'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'cert'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'trac'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'ecss'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'pdts'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'objf'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'facs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'cals'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'adve'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'mds'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'taxs'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'pdfg'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'hlps'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'ltis'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'auth'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'bdga'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'lngf'), 'subobj' => array('text', 'lng'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'lngf'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'logs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'mobs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'usrf'), 'subobj' => array('text', 'usr'), 'mmax' => array('integer', '0')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'usrf'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'skmg'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'tos'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'cadm'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'reps'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'awra'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'accs'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'seas'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'wfe'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'nota'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'sysc'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'ltis'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'rolf'), 'subobj' => array('text', 'rolt'), 'mmax' => array('integer', '0')));
@@ -27508,7 +27424,94 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'rolf'), 'mmax' => array('integer', '0')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'otpl'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'tos'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'adve'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'auth'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'cert'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'wfe'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'cals'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'accs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'nota'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'facs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'seas'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'lngf'), 'subobj' => array('text', 'lng'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'lngf'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'tags'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'skmg'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'mobs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'reps'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'bdga'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'stys'), 'subobj' => array('text', 'sty'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'stys'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'pdts'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'usrf'), 'subobj' => array('text', 'usr'), 'mmax' => array('integer', '0')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'usrf'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'sysc'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'mail'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'objf'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'logs'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'pdfg'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'cmps'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'hlps'), 'mmax' => array('integer', '1')));
+
+$ilDB->insert("il_object_subobj", array(
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'awra'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'recf'), 'mmax' => array('integer', '1')));
@@ -27517,13 +27520,10 @@ $ilDB->insert("il_object_subobj", array(
 'parent' => array('text', 'adm'), 'subobj' => array('text', 'extt'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'mds'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'trac'), 'mmax' => array('integer', '1')));
 
 $ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'ps'), 'mmax' => array('integer', '1')));
-
-$ilDB->insert("il_object_subobj", array(
-'parent' => array('text', 'adm'), 'subobj' => array('text', 'mail'), 'mmax' => array('integer', '1')));
+'parent' => array('text', 'adm'), 'subobj' => array('text', 'ecss'), 'mmax' => array('integer', '1')));
 
 
 //
@@ -27961,13 +27961,19 @@ $pk_fields = array("component","id");
 $ilDB->addPrimaryKey("il_pluginslot", $pk_fields);
 
 $ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Modules/Cloud'), 'id' => array('text', 'cldh'), 'name' => array('text', 'CloudHook')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Modules/TestQuestionPool'), 'id' => array('text', 'qst'), 'name' => array('text', 'Questions')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Modules/DataCollection'), 'id' => array('text', 'dclfth'), 'name' => array('text', 'FieldTypeHook')));
+
+$ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Modules/Test'), 'id' => array('text', 'texp'), 'name' => array('text', 'Export')));
 
 $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Modules/Test'), 'id' => array('text', 'tsig'), 'name' => array('text', 'Signature')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Modules/SurveyQuestionPool'), 'id' => array('text', 'svyq'), 'name' => array('text', 'SurveyQuestions')));
 
 $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Modules/OrgUnit'), 'id' => array('text', 'orgutypehk'), 'name' => array('text', 'OrgUnitTypeHook')));
@@ -27976,28 +27982,28 @@ $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Modules/OrgUnit'), 'id' => array('text', 'orguext'), 'name' => array('text', 'OrgUnitExtension')));
 
 $ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Modules/DataCollection'), 'id' => array('text', 'dclfth'), 'name' => array('text', 'FieldTypeHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Modules/Cloud'), 'id' => array('text', 'cldh'), 'name' => array('text', 'CloudHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Modules/TestQuestionPool'), 'id' => array('text', 'qst'), 'name' => array('text', 'Questions')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/AdvancedMetaData'), 'id' => array('text', 'amdc'), 'name' => array('text', 'AdvancedMDClaiming')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/EventHandling'), 'id' => array('text', 'evhk'), 'name' => array('text', 'EventHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/WebServices'), 'id' => array('text', 'soaphk'), 'name' => array('text', 'SoapHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/PersonalDesktop'), 'id' => array('text', 'pdhk'), 'name' => array('text', 'PersonalDesktopHook')));
+'component' => array('text', 'Modules/SurveyQuestionPool'), 'id' => array('text', 'svyq'), 'name' => array('text', 'SurveyQuestions')));
 
 $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Services/Preview'), 'id' => array('text', 'pvre'), 'name' => array('text', 'PreviewRenderer')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/AuthShibboleth'), 'id' => array('text', 'shibhk'), 'name' => array('text', 'ShibbolethAuthenticationHook')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/Cron'), 'id' => array('text', 'crnhk'), 'name' => array('text', 'CronHook')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/Authentication'), 'id' => array('text', 'authhk'), 'name' => array('text', 'AuthenticationHook')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/COPage'), 'id' => array('text', 'pgcp'), 'name' => array('text', 'PageComponent')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/WorkflowEngine'), 'id' => array('text', 'wfeCG'), 'name' => array('text', 'ComplexGateway')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/EventHandling'), 'id' => array('text', 'evhk'), 'name' => array('text', 'EventHook')));
 
 $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Services/Calendar'), 'id' => array('text', 'capm'), 'name' => array('text', 'AppointmentCustomModal')));
@@ -28006,34 +28012,28 @@ $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Services/Calendar'), 'id' => array('text', 'capg'), 'name' => array('text', 'AppointmentCustomGrid')));
 
 $ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/PDFGeneration'), 'id' => array('text', 'renderer'), 'name' => array('text', 'Renderer')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/Authentication'), 'id' => array('text', 'authhk'), 'name' => array('text', 'AuthenticationHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/AuthShibboleth'), 'id' => array('text', 'shibhk'), 'name' => array('text', 'ShibbolethAuthenticationHook')));
-
-$ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Services/UIComponent'), 'id' => array('text', 'uihk'), 'name' => array('text', 'UserInterfaceHook')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/User'), 'id' => array('text', 'udfc'), 'name' => array('text', 'UDFClaiming')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/Repository'), 'id' => array('text', 'robj'), 'name' => array('text', 'RepositoryObject')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/WorkflowEngine'), 'id' => array('text', 'wfeCG'), 'name' => array('text', 'ComplexGateway')));
-
-$ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/Cron'), 'id' => array('text', 'crnhk'), 'name' => array('text', 'CronHook')));
 
 $ilDB->insert("il_pluginslot", array(
 'component' => array('text', 'Services/LDAP'), 'id' => array('text', 'ldaphk'), 'name' => array('text', 'LDAPHook')));
 
 $ilDB->insert("il_pluginslot", array(
-'component' => array('text', 'Services/COPage'), 'id' => array('text', 'pgcp'), 'name' => array('text', 'PageComponent')));
+'component' => array('text', 'Services/AdvancedMetaData'), 'id' => array('text', 'amdc'), 'name' => array('text', 'AdvancedMDClaiming')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/Repository'), 'id' => array('text', 'robj'), 'name' => array('text', 'RepositoryObject')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/PersonalDesktop'), 'id' => array('text', 'pdhk'), 'name' => array('text', 'PersonalDesktopHook')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/User'), 'id' => array('text', 'udfc'), 'name' => array('text', 'UDFClaiming')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/PDFGeneration'), 'id' => array('text', 'renderer'), 'name' => array('text', 'Renderer')));
+
+$ilDB->insert("il_pluginslot", array(
+'component' => array('text', 'Services/WebServices'), 'id' => array('text', 'soaphk'), 'name' => array('text', 'SoapHook')));
 
 
 //
@@ -28932,46 +28932,46 @@ $pk_fields = array("path");
 $ilDB->addPrimaryKey("il_wac_secure_path", $pk_fields);
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'chatroom'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/Chatroom'), 'checking_class' => array('text', 'ilObjChatroomAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'chatroom'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/Chatroom'), 'checking_class' => array('text', 'ilObjChatroomAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilBadge'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/Badge'), 'checking_class' => array('text', 'ilBadgeWAC'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilBadge'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/Badge'), 'checking_class' => array('text', 'ilBadgeWAC'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilBlog'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/Blog'), 'checking_class' => array('text', 'ilObjBlogAccess'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilBlog'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/Blog'), 'checking_class' => array('text', 'ilObjBlogAccess'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilPoll'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/Poll'), 'checking_class' => array('text', 'ilObjPollAccess'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilPoll'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/Poll'), 'checking_class' => array('text', 'ilObjPollAccess'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilPortfolio'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/Portfolio'), 'checking_class' => array('text', 'ilPortfolioAccessHandler'), 'in_sec_folder' => array('integer', '1')));
+'path' => array('text', 'ilPortfolio'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/Portfolio'), 'checking_class' => array('text', 'ilPortfolioAccessHandler'), 'in_sec_folder' => array('integer', '1')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'lm_data'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/LearningModule'), 'checking_class' => array('text', 'ilObjLearningModuleAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'lm_data'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/LearningModule'), 'checking_class' => array('text', 'ilObjLearningModuleAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'mobs'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'mobs'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'previews'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/File'), 'checking_class' => array('text', 'ilObjFileAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'previews'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/File'), 'checking_class' => array('text', 'ilObjFileAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'thumbs'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'thumbs'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/MediaObjects'), 'checking_class' => array('text', 'ilObjMediaObjectAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'usr_images'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/User'), 'checking_class' => array('text', 'ilObjUserAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'usr_images'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/User'), 'checking_class' => array('text', 'ilObjUserAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilExercise'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/Exercise'), 'checking_class' => array('text', 'ilObjExerciseAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'ilExercise'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/Exercise'), 'checking_class' => array('text', 'ilObjExerciseAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'ilBookingManager'), 'component_directory' => array('text', '/home/fabian/Web/release/Modules/BookingManager'), 'checking_class' => array('text', 'ilObjBookingPoolAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'ilBookingManager'), 'component_directory' => array('text', '/var/www/html/ILIAS/Modules/BookingManager'), 'checking_class' => array('text', 'ilObjBookingPoolAccess'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'css'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/Style'), 'checking_class' => array('text', 'ilContentStyleWAC'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'css'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/Style'), 'checking_class' => array('text', 'ilContentStyleWAC'), 'in_sec_folder' => array('integer', '0')));
 
 $ilDB->insert("il_wac_secure_path", array(
-'path' => array('text', 'container_data'), 'component_directory' => array('text', '/home/fabian/Web/release/Services/Container'), 'checking_class' => array('text', 'ilContainerAccess'), 'in_sec_folder' => array('integer', '0')));
+'path' => array('text', 'container_data'), 'component_directory' => array('text', '/var/www/html/ILIAS/Services/Container'), 'checking_class' => array('text', 'ilContainerAccess'), 'in_sec_folder' => array('integer', '0')));
 
 
 //
@@ -30315,7 +30315,7 @@ $fields = array (
 	)
 	,"identifier" => array (
 		"notnull" => true
-		,"length" => 60
+		,"length" => 200
 		,"default" => " "
 		,"fixed" => false
 		,"type" => "text"
@@ -30372,8 +30372,8 @@ $fields = array (
 	)
 	,"identifier" => array (
 		"notnull" => true
-		,"length" => 60
-		,"default" => ""
+		,"length" => 200
+		,"default" => " "
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -33153,25 +33153,19 @@ $pk_fields = array("class");
 $ilDB->addPrimaryKey("module_class", $pk_fields);
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteTestGUI'), 'module' => array('text', 'RemoteTest'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjRemoteLearningModuleGUI'), 'module' => array('text', 'RemoteLearningModule'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilLinkResourceHandlerGUI'), 'module' => array('text', 'WebResource'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjIndividualAssessmentGUI'), 'module' => array('text', 'IndividualAssessment'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjTestGUI'), 'module' => array('text', 'Test'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilSystemSupportContactsGUI'), 'module' => array('text', 'SystemFolder'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjCourseReferenceGUI'), 'module' => array('text', 'CourseReference'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilLMEditorGUI'), 'module' => array('text', 'LearningModule'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilWikiHandlerGUI'), 'module' => array('text', 'Wiki'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjSurveyQuestionPoolGUI'), 'module' => array('text', 'SurveyQuestionPool'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteFileGUI'), 'module' => array('text', 'RemoteFile'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilLMPresentationGUI'), 'module' => array('text', 'LearningModule'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
 'class' => array('text', 'ilGlossaryEditorGUI'), 'module' => array('text', 'Glossary'), 'dir' => array('text', 'classes')));
@@ -33180,19 +33174,22 @@ $ilDB->insert("module_class", array(
 'class' => array('text', 'ilGlossaryPresentationGUI'), 'module' => array('text', 'Glossary'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjIndividualAssessmentGUI'), 'module' => array('text', 'IndividualAssessment'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilSAHSPresentationGUI'), 'module' => array('text', 'ScormAicc'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjSurveyGUI'), 'module' => array('text', 'Survey'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilSAHSEditGUI'), 'module' => array('text', 'ScormAicc'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilSystemSupportContactsGUI'), 'module' => array('text', 'SystemFolder'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjCategoryReferenceGUI'), 'module' => array('text', 'CategoryReference'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteWikiGUI'), 'module' => array('text', 'RemoteWiki'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
 'class' => array('text', 'ilExerciseHandlerGUI'), 'module' => array('text', 'Exercise'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilMediaCastHandlerGUI'), 'module' => array('text', 'MediaCast'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjGroupReferenceGUI'), 'module' => array('text', 'GroupReference'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
 'class' => array('text', 'ilObjChatroomGUI'), 'module' => array('text', 'Chatroom'), 'dir' => array('text', 'classes')));
@@ -33201,58 +33198,61 @@ $ilDB->insert("module_class", array(
 'class' => array('text', 'ilObjChatroomAdminGUI'), 'module' => array('text', 'Chatroom'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjPortfolioGUI'), 'module' => array('text', 'Portfolio'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilPortfolioRepositoryGUI'), 'module' => array('text', 'Portfolio'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjCategoryReferenceGUI'), 'module' => array('text', 'CategoryReference'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjQuestionPoolGUI'), 'module' => array('text', 'TestQuestionPool'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteLearningModuleGUI'), 'module' => array('text', 'RemoteLearningModule'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteGlossaryGUI'), 'module' => array('text', 'RemoteGlossary'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilMediaPoolPresentationGUI'), 'module' => array('text', 'MediaPool'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteCourseGUI'), 'module' => array('text', 'RemoteCourse'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteWikiGUI'), 'module' => array('text', 'RemoteWiki'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilSAHSPresentationGUI'), 'module' => array('text', 'ScormAicc'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilSAHSEditGUI'), 'module' => array('text', 'ScormAicc'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteCategoryGUI'), 'module' => array('text', 'RemoteCategory'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjGroupReferenceGUI'), 'module' => array('text', 'GroupReference'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
-'class' => array('text', 'ilObjRemoteGroupGUI'), 'module' => array('text', 'RemoteGroup'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("module_class", array(
 'class' => array('text', 'ilHTLMEditorGUI'), 'module' => array('text', 'HTMLLearningModule'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
 'class' => array('text', 'ilHTLMPresentationGUI'), 'module' => array('text', 'HTMLLearningModule'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilLMEditorGUI'), 'module' => array('text', 'LearningModule'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjQuestionPoolGUI'), 'module' => array('text', 'TestQuestionPool'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("module_class", array(
-'class' => array('text', 'ilLMPresentationGUI'), 'module' => array('text', 'LearningModule'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilObjCourseReferenceGUI'), 'module' => array('text', 'CourseReference'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilLinkResourceHandlerGUI'), 'module' => array('text', 'WebResource'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteGlossaryGUI'), 'module' => array('text', 'RemoteGlossary'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteCourseGUI'), 'module' => array('text', 'RemoteCourse'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjTestGUI'), 'module' => array('text', 'Test'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjPortfolioGUI'), 'module' => array('text', 'Portfolio'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilPortfolioRepositoryGUI'), 'module' => array('text', 'Portfolio'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteTestGUI'), 'module' => array('text', 'RemoteTest'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteCategoryGUI'), 'module' => array('text', 'RemoteCategory'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteGroupGUI'), 'module' => array('text', 'RemoteGroup'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjRemoteFileGUI'), 'module' => array('text', 'RemoteFile'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilMediaCastHandlerGUI'), 'module' => array('text', 'MediaCast'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilMediaPoolPresentationGUI'), 'module' => array('text', 'MediaPool'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilWikiHandlerGUI'), 'module' => array('text', 'Wiki'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjSurveyQuestionPoolGUI'), 'module' => array('text', 'SurveyQuestionPool'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("module_class", array(
+'class' => array('text', 'ilObjSurveyGUI'), 'module' => array('text', 'Survey'), 'dir' => array('text', 'classes')));
 
 
 //
@@ -34566,7 +34566,7 @@ $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '37'), 'type' => array('text', 'typ'), 'title' => array('text', 'frm'), 'description' => array('text', 'Forum object'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', '2002-07-15 15:54:22'), 'last_update' => array('timestamp', '2003-08-15 12:36:40'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
-'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2020-03-04 15:57:01'), 'import_id' => array('text', '')));
+'obj_id' => array('integer', '70'), 'type' => array('text', 'lng'), 'title' => array('text', 'en'), 'description' => array('text', 'installed'), 'owner' => array('integer', '-1'), 'create_date' => array('timestamp', ''), 'last_update' => array('timestamp', '2020-04-24 17:11:21'), 'import_id' => array('text', '')));
 
 $ilDB->insert("object_data", array(
 'obj_id' => array('integer', '71'), 'type' => array('text', 'lng'), 'title' => array('text', 'de'), 'description' => array('text', 'not_installed'), 'owner' => array('integer', '6'), 'create_date' => array('timestamp', '2003-08-15 10:25:19'), 'last_update' => array('timestamp', '2015-12-22 16:29:24'), 'import_id' => array('text', '')));
@@ -49952,31 +49952,25 @@ $pk_fields = array("class");
 $ilDB->addPrimaryKey("service_class", $pk_fields);
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilOnScreenChatGUI'), 'service' => array('text', 'OnScreenChat'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilPersonalDesktopGUI'), 'service' => array('text', 'PersonalDesktop'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
 'class' => array('text', 'ilPreviewGUI'), 'service' => array('text', 'Preview'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilTablePropertiesStorage'), 'service' => array('text', 'Table'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilSharedResourceGUI'), 'service' => array('text', 'PersonalWorkspace'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilContainerBlockPropertiesStorage'), 'service' => array('text', 'Container'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilHelpGUI'), 'service' => array('text', 'Help'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilImprintGUI'), 'service' => array('text', 'Imprint'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
 'class' => array('text', 'ilLTIRouterGUI'), 'service' => array('text', 'LTI'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilAccordionPropertiesStorage'), 'service' => array('text', 'Accordion'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilCronManagerGUI'), 'service' => array('text', 'Cron'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilBadgeHandlerGUI'), 'service' => array('text', 'Badge'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilNavigationHistoryGUI'), 'service' => array('text', 'Navigation'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilBTControllerGUI'), 'service' => array('text', 'BackgroundTasks'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
 'class' => array('text', 'ilCharSelectorGUI'), 'service' => array('text', 'UIComponent'), 'dir' => array('text', 'CharSelector/classes')));
@@ -49985,13 +49979,22 @@ $ilDB->insert("service_class", array(
 'class' => array('text', 'ilUIPluginRouterGUI'), 'service' => array('text', 'UIComponent'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilPublicUserProfileGUI'), 'service' => array('text', 'User'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilContainerBlockPropertiesStorage'), 'service' => array('text', 'Container'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilTablePropertiesStorage'), 'service' => array('text', 'Table'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilNotificationGUI'), 'service' => array('text', 'Notifications'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
 'class' => array('text', 'ilStartUpGUI'), 'service' => array('text', 'Init'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilImprintGUI'), 'service' => array('text', 'Imprint'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilSearchController'), 'service' => array('text', 'Search'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilAccordionPropertiesStorage'), 'service' => array('text', 'Accordion'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
 'class' => array('text', 'ilObjPluginDispatchGUI'), 'service' => array('text', 'Repository'), 'dir' => array('text', 'classes')));
@@ -50000,31 +50003,28 @@ $ilDB->insert("service_class", array(
 'class' => array('text', 'ilRepositoryGUI'), 'service' => array('text', 'Repository'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilAwarenessGUI'), 'service' => array('text', 'Awareness'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilBadgeHandlerGUI'), 'service' => array('text', 'Badge'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilSearchController'), 'service' => array('text', 'Search'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilPersonalDesktopGUI'), 'service' => array('text', 'PersonalDesktop'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
-'class' => array('text', 'ilBTControllerGUI'), 'service' => array('text', 'BackgroundTasks'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilNavigationHistoryGUI'), 'service' => array('text', 'Navigation'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilNotificationGUI'), 'service' => array('text', 'Notifications'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilCronManagerGUI'), 'service' => array('text', 'Cron'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilAdministrationGUI'), 'service' => array('text', 'Administration'), 'dir' => array('text', 'classes')));
-
-$ilDB->insert("service_class", array(
-'class' => array('text', 'ilSharedResourceGUI'), 'service' => array('text', 'PersonalWorkspace'), 'dir' => array('text', 'classes')));
+'class' => array('text', 'ilPublicUserProfileGUI'), 'service' => array('text', 'User'), 'dir' => array('text', 'classes')));
 
 $ilDB->insert("service_class", array(
 'class' => array('text', 'ilMailGUI'), 'service' => array('text', 'Mail'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilOnScreenChatGUI'), 'service' => array('text', 'OnScreenChat'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilHelpGUI'), 'service' => array('text', 'Help'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilAwarenessGUI'), 'service' => array('text', 'Awareness'), 'dir' => array('text', 'classes')));
+
+$ilDB->insert("service_class", array(
+'class' => array('text', 'ilAdministrationGUI'), 'service' => array('text', 'Administration'), 'dir' => array('text', 'classes')));
 
 
 //
@@ -51676,7 +51676,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'dbupwarn_tstfixqstseq'), 'value' => array('clob', '1')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '49')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_5_3'), 'value' => array('clob', '51')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'iloscmsgidx1'), 'value' => array('clob', '1')));

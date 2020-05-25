@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3345,7 +3345,7 @@ common#:#server_software#:#Szerverszoftver
 common#:#server#:#Szerver
 rbac#:#sess_copy#:#A felhasználó másolhatja az eseményt
 common#:#sess#:#Esemény
-common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét!\nAmennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt.\n Üdvözlettel: %3$s.
+common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét!Parent-StyleAmennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt.Parent-Style Üdvözlettel: %3$s.
 common#:#session_reminder_info#:#Ha be van kapcsolva, emlékeztető üzenetet fog kapni, mielőtt böngészőjének online munkamenete lejárna.
 common#:#session_reminder_lead_time_info#:#Adja meg percben a munkamenet-emlékeztetőhöz a rendelkezésre álló időt. Az emlékeztető egy figyelmeztetést jelenít meg megadott idővel a munkamenet lejárta előtt. A javasolt érték 5 (perc).<br/>A felhasználói munkamenet jelenlegi hossza %s.
 common#:#session_reminder_lead_time#:#Rendelkezésre álló idő
@@ -3664,7 +3664,7 @@ common#:#usrimport_action_replaced#:#%1$ művelet cserélve erre: %2$.
 common#:#usrimport_cant_delete#:#Nem hajtható végre a 'Törlés'. Nincs ilyen felhasználó az adatbázisban.
 common#:#usrimport_cant_insert#:#Nem hajtható végre a 'Beszúrás'. Már van ilyen felhasználó az adatbázisban.
 common#:#usrimport_cant_update#:#Nem hajtható végre a 'Frissítés'. Nincs ilyen felhasználó az adatbázisban.
-common#:#usrimport_conflict_handling_info#:#Ha az 'Ellentmondás figyelmen kívül hagyása' van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (például a 'Beszúrás' tevékenység nem hajtódik végre, ha már van felhasználó a megadott felhasználónévvel az adatbázisban).\nHa a 'Frissítés konfliktus esetén' van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (például a 'Beszúrás' tevékenységet lecseréli a 'Frissítés'-sel, ha ugyanazon a felhasználónéven létezik már felhasználó a rendszerben).
+common#:#usrimport_conflict_handling_info#:#Ha az 'Ellentmondás figyelmen kívül hagyása' van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (például a 'Beszúrás' tevékenység nem hajtódik végre, ha már van felhasználó a megadott felhasználónévvel az adatbázisban).Parent-StyleHa a 'Frissítés konfliktus esetén' van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (például a 'Beszúrás' tevékenységet lecseréli a 'Frissítés'-sel, ha ugyanazon a felhasználónéven létezik már felhasználó a rendszerben).
 common#:#usrimport_global_role_for_action_required#:#Legalább egy globális szerepet meg kell határozni a '%1$s' tevékenységhez.
 common#:#usrimport_ignore_role#:#Szerep mellőzése
 common#:#usrimport_login_is_not_unique#:#Nem egyedi a felhasználónév.
@@ -4387,7 +4387,7 @@ crs#:#crs_blocked_member#:#'%s' kurzustagság blokkolása
 crs#:#crs_blocked#:#Hozzáférés megtagadva
 crs#:#crs_cancel_subscr_request#:#Tagsági kérelem törlése
 crs#:#crs_cancel_subscription_body#:#'%s' kurzustagságát egy tag lemondta.
-crs#:#crs_cancel_subscription_body2#:#Lehet, hogy vannak még a kurzus várólistáján.\nA várólistát most kell ellenőriznie.\nKurzusának tagjait ide kattintva tekintheti meg:
+crs#:#crs_cancel_subscription_body2#:#Lehet, hogy vannak még a kurzus várólistáján.Parent-StyleA várólistát most kell ellenőriznie.Parent-StyleKurzusának tagjait ide kattintva tekintheti meg:
 crs#:#crs_cancel_subscription#:#'%s' kurzust elhagyta egy tag
 crs#:#crs_contact_consultation#:#Konzultáció
 crs#:#crs_contact_email_info#:#Adjon meg egy vagy több (vesszővel elválasztott) e-mail címet.
@@ -4566,7 +4566,7 @@ crs#:#crs_status#:#Állapot
 crs#:#crs_structure#:#Kurzusszerkezet
 crs#:#crs_subscribe_member_body#:#ezúton értesítjük, hogy '%s' kurzusra sikeresen regisztrált.
 crs#:#crs_subscribe_member#:#'%s' kurzusra regisztráció
-crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült.\nÖn a(z) %s. a listán.\n\n A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
+crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült.Parent-StyleÖn a(z) %s. a listán.Parent-StyleParent-Style A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
 crs#:#crs_subscribe_wl#:#'%s' kurzusra regisztráció
 crs#:#crs_subscriber#:#Csatlakozni kívánó
 crs#:#crs_subscribers_deleted#:#Törölt csatlakozni kívánó(k)
@@ -5024,7 +5024,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.\n
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.Parent-Style
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket és a megjegyzéseket mentettük.
@@ -5243,7 +5243,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#A regisztráció megerősítéséhez 
 grp#:#grp_mail_notification_reg_req_sub#:#'%s' csoportcsatlakozási kérés
 grp#:#grp_mail_notification_reg_sub#:#'%s' csoportba felhasználó regisztrált
 grp#:#grp_mail_notification_unsub_bod#:#%s törölte tagságát a(z) '%s' csoportból.
-grp#:#grp_mail_notification_unsub_bod2#:#Csoportjának várólistáján lehet hogy vannak.\nKérjük, ellenőrizze a várólistát.\nA csoporttagok listáját ide kattintva tekintheti meg:
+grp#:#grp_mail_notification_unsub_bod2#:#Csoportjának várólistáján lehet hogy vannak.Parent-StyleKérjük, ellenőrizze a várólistát.Parent-StyleA csoporttagok listáját ide kattintva tekintheti meg:
 grp#:#grp_mail_notification_unsub_sub#:#'%s' csoportot elhagyta egy felhasználó
 grp#:#grp_mail_permanent_link#:#Az alábbi linken érheti el a csoportot:
 grp#:#grp_mail_status_bod#:#ezúton tájékoztatjuk, hogy '%s' csoportban az állapota megváltozott.
@@ -5256,7 +5256,7 @@ grp#:#grp_mail_subscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' csoport
 grp#:#grp_mail_subscribe_member_sub#:#'%s' csoporthoz csatlakozás
 grp#:#grp_mail_unsubscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' csoportból tagságát sikeresen töröltük.
 grp#:#grp_mail_unsubscribe_member_sub#:#'%s' csoporttagság törlése
-grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült.\nÖn a(z) %s. a listán.\n\n Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
+grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült.Parent-StyleÖn a(z) %s. a listán.Parent-StyleParent-Style Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
 grp#:#grp_mail_wl_sub#:#'%s' csoportba regisztráció
 grp#:#grp_map_location#:#Csoporttérkép helye
 grp#:#grp_map_settings#:#Térképbeállítások
@@ -5303,9 +5303,9 @@ grp#:#grp_wrong_max_members#:#A várólista bekapcsolásához a taglétszám max
 grp#:#grp_wrong_reg_time_limit#:#Ellenőrizze a regisztráció kezdő és záró időpontját!
 grp#:#reg_grp_max_members_short#:#Felhasználószám korlátozása
 grp#:#reg_grp_max_members#:#Tagok maximális száma
-jscalendar#:#about_calendar_long#:#Dátumválasztók:\n- Év léptetése: « »\n- Hónap léptetése: < >\n- Tartsa nyomva a gombot a gyorsabb kiválasztáshoz.\n\nDHTML dátum/időpont választó\n(c) dynarch.com 2002-2003\nLegfrissebb verzió: http://dynarch.com/mishoo/calendar.epl\nTerjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
+jscalendar#:#about_calendar_long#:#Dátumválasztók:Parent-Style- Év léptetése: « »Parent-Style- Hónap léptetése: < >Parent-Style- Tartsa nyomva a gombot a gyorsabb kiválasztáshoz.Parent-StyleParent-StyleDHTML dátum/időpont választóParent-Style(c) dynarch.com 2002-2003Parent-StyleLegfrissebb verzió: http://dynarch.com/mishoo/calendar.eplParent-StyleTerjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
 jscalendar#:#about_calendar#:#Súgó
-jscalendar#:#about_time#:#\n\nIdőválasztó:\n- Kattintson a megfelelő időrészen megnöveléséhez\n- vagy Shift-kattintással csökkentéséhez\n- vagy kattintás-húzás a gyorsabb kiválasztáshoz.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleIdőválasztó:Parent-Style- Kattintson a megfelelő időrészen megnöveléséhezParent-Style- vagy Shift-kattintással csökkentéséhezParent-Style- vagy kattintás-húzás a gyorsabb kiválasztáshoz.
 jscalendar#:#close#:#Bezárás
 jscalendar#:#day_first#:#%s megjelenítése először
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -6483,21 +6483,21 @@ ps#:#ps_warning_modify#:#Figyelmeztetés: Legalább egy felhasználó elfogadta 
 ps#:#show_privacy#:#Adatvédelem
 ps#:#show_security#:#Biztonság
 pwassist#:#password_assistance#:#Jelszósegédlet
-pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához.\n\nHa rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
-pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.\n\nHa ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
+pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához.Parent-StyleParent-StyleHa rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
+pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.Parent-StyleParent-StyleHa ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg a felhasználónevet és az új jelszót!
 pwassist#:#pwassist_invalid_auth_mode#:#jelszó küldése nem lehetséges, mert a felhasználót nem közvetlenül az ILIAS hitelesíti.
 pwassist#:#pwassist_invalid_email#:#Hibás e-mail címét adott meg!<br />Ilyen e-mail cím nem található az adatbázisban.
 pwassist#:#pwassist_invalid_username_or_email#:#Javítsa a megadott adatokat!<br />Ilyen felhasználónév, illetve e-mail cím nem található az adatbázisban.
-pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!\nA megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
-pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához:\n\t%1$s\n\nEzt az üzenetet automatikusan generálta az alábbi ILIAS-szerver\n\t%2$s\n\nÖn (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.\n\nGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:\n\n- Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna:\nTörölje ezt a levelet.\n\n- Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől:\nVegye fel a kapcsolatot: %5$s.\n\n- Ha kért jelszósegédletet, járjon el az alábbiak szerint:\n\n1. Nyissa meg böngészőjét.\n\n2. Adja meg a következő címet böngészőjében:\n\t%6$s\n\nFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.\n\n3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.\n\nVegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
-pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s\n\nEllenőrizze postaládáját!
+pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!Parent-StyleA megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
+pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához:Parent-Style\t%1$sParent-StyleParent-StyleEzt az üzenetet automatikusan generálta az alábbi ILIAS-szerverParent-Style\t%2$sParent-StyleParent-StyleÖn (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.Parent-StyleParent-StyleGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:Parent-StyleParent-Style- Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna:Parent-StyleTörölje ezt a levelet.Parent-StyleParent-Style- Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől:Parent-StyleVegye fel a kapcsolatot: %5$s.Parent-StyleParent-Style- Ha kért jelszósegédletet, járjon el az alábbiak szerint:Parent-StyleParent-Style1. Nyissa meg böngészőjét.Parent-StyleParent-Style2. Adja meg a következő címet böngészőjében:Parent-Style\t%6$sParent-StyleParent-StyleFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.Parent-StyleParent-Style3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.Parent-StyleParent-StyleVegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
+pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$sParent-StyleParent-StyleEllenőrizze postaládáját!
 pwassist#:#pwassist_mail_subject#:#ILIAS-jelszósegédlet
 pwassist#:#pwassist_no_email_found#:#Nem használhatja a jelszósegédletet, mert ehhez a felhasználónévhez nem tartozik e-mail cím.
-pwassist#:#pwassist_not_permitted#:#Adjon meg másik felhasználónevet!\nEhhez a felhasználónévhez nincs engedélyezve jelszósegédlet használata.
+pwassist#:#pwassist_not_permitted#:#Adjon meg másik felhasználónevet!Parent-StyleEhhez a felhasználónévhez nincs engedélyezve jelszósegédlet használata.
 pwassist#:#pwassist_password_assigned#:#'%1$s' felhasználó jelszavát sikeresen cseréltük.
-pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\nJelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
-pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak:\n%s\n\nEzt az üzenetet automatikusan küldte a következő ILIAS-szerver:\n\t%s\n\n%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .\n\nHa véletlenül kérte ezt a levelet, törölje.\n\nHa biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s\n\nHa Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:\n%s
+pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!Parent-StyleJelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
+pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak:Parent-Style%sParent-StyleParent-StyleEzt az üzenetet automatikusan küldte a következő ILIAS-szerver:Parent-Style\t%sParent-StyleParent-Style%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .Parent-StyleParent-StyleHa véletlenül kérte ezt a levelet, törölje.Parent-StyleParent-StyleHa biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %sParent-StyleParent-StyleHa Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:Parent-Style%s
 pwassist#:#pwassist_disabled_no_access#:#A jelszósegédlet nincs bekapcsolva. További információért keresse a üzemeltetőt: %s
 pwassist#:#unassist_disabled_no_access#:#A felhasználónév-segédlet nincs bekapcsolva. További információért keresse az üzemeltetőt: %s
 rating#:#rating_your_rating#:#Az Ön értékelése
@@ -8883,7 +8883,7 @@ chatroom#:#chat_to_mainroom#:#A főszobába
 chatroom#:#chat_create_private_room_button#:#Privát szoba létrehozása
 chatroom#:#chatroom_smiley_keyword#:#Kulcsszó
 chatroom#:#chat_invitation#:#'[INVITER_NAME]' meghívja Ön '[ROOM_NAME]' csevegőszobába
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nMeghívtak ebbe a csevegőszobába:\nCsevegőszoba neve: [ROOM_NAME]\nA meghívó: [INVITER_NAME]\nURL: [LINK]\n\nHa csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
+chatroom#:#chat_invitation_long#:#[SALUTATION]Parent-StyleParent-StyleMeghívtak ebbe a csevegőszobába:Parent-StyleCsevegőszoba neve: [ROOM_NAME]Parent-StyleA meghívó: [INVITER_NAME]Parent-StyleURL: [LINK]Parent-StyleParent-StyleHa csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
 chatroom#:#chat_invitation_short#:#A csevegőszobába belépéshez kattints a linkre.
 chatroom#:#settings_title#:#Beállítások
 chatroom#:#history_byday_title#:#Beszélgetés megjelenítése naponként

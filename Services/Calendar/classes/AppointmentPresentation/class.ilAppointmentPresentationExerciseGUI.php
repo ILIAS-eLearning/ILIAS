@@ -56,7 +56,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
         $files = $assignment->getFiles();
         if (count($files) > 0) {
             $this->has_files = true;
-            $str_files = "";
+            $str_files = array();
             foreach ($files as $file) {
                 $ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
                 $ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
