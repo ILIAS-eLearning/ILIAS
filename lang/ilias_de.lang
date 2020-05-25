@@ -11163,8 +11163,8 @@ dateplaner#:#cal_ch_delete_booking#:#Terminbuchung löschen
 dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
 dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
 dateplaner#:#cal_ch_app_bookings#:#Buchungen
-dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
-dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
+dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
+dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_delete_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen gelöscht werden sollen?
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
 dateplaner#:#cal_ch_assign_participants#:#Teilnehmer zuordnen

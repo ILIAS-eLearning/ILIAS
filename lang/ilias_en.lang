@@ -11170,8 +11170,8 @@ dateplaner#:#cal_ch_delete_booking#:#Delete Booking
 dateplaner#:#cal_ch_reject_booking#:#Cancel Booking
 dateplaner#:#cal_ch_bookings_tbl#:#Booked Appointments
 dateplaner#:#cal_ch_app_bookings#:#Bookings
-dateplaner#:#cal_ch_canceled_bookings#:#The selected bookings have been deleted.
-dateplaner#:#cal_ch_deleted_bookings#:#The selected bookings have been canceled.
+dateplaner#:#cal_ch_deleted_bookings#:#The selected bookings have been deleted.
+dateplaner#:#cal_ch_canceled_bookings#:#The selected bookings have been canceled.
 dateplaner#:#cal_ch_delete_booking_sure#:#Do you really want to delete the following bookings?
 dateplaner#:#cal_ch_cancel_booking_sure#:#Do you really want to cancel the following bookings?
 dateplaner#:#cal_ch_assign_participants#:#Assign Users
