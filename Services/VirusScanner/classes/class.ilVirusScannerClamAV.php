@@ -132,10 +132,19 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $this->scanFilePath = $a_filepath;
         $this->scanFileOrigName = $a_origname;
 
+        // Make group readable for clamdscan
+        $currentPermission = fileperms($a_filepath);
+        $perm = $currentPermission | 0640;
+        chmod($a_filepath, $perm);
+
         // Call of antivir command
         $cmd = $this->buildScanCommand($a_filepath) . " 2>&1";
         exec($cmd, $out, $ret);
         $this->scanResult = implode("\n", $out);
+
+        if ($perm != $currentPermission) {
+            chmod($a_filepath, $currentPermission);
+        }
 
         // sophie could be called
         if ($this->hasDetections($this->scanResult)) {

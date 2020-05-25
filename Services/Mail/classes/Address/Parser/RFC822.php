@@ -928,10 +928,12 @@ class Mail_RFC822
 
         // Validate each word.
         foreach ($words as $word) {
+            // iszmais patch 19 May 2020 start
             // word cannot be empty (#17317)
-            if ($word === '') {
-                return false;
-            }
+            //if ($word === '') {
+            //    return false;
+            //}
+            // iszmais patch 19 May 2020 end
             // If this word contains an unquoted space, it is invalid. (6.2.4)
             if (strpos($word, ' ') && $word[0] !== '"') {
                 // mjansen patch 24 Feb 2016 start

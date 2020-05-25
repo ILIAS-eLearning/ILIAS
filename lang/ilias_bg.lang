@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2000,8 +2000,8 @@ forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 grp#:#grp_registration_unlimited#:#Unlimited registration period###19 Apr 2006 new variable
 jscalendar#:#about_calendar#:#За календара
-jscalendar#:#about_calendar_long#:#DHTML селектор за дата/час\n(c) dynarch.com 2002-2003\nЗа най-новата версия посетете: http://dynarch.com/mishoo/calendar.epl\nРазпространява се съгласно GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробности.\n\nИзбор на дата:\n- Използвайте «, » бутоните, за да изберете година\n- Използвайте <, > бутоните, за да изберете месец\n- Задръжте бутона на мишката над някой от горните бутони за по-бърз избор.
-jscalendar#:#about_time#:#\n\nИзбор на час:\n- Кликнете на някой от елементите за часа, за да го придвижите напред\n- или Shift-кликване за придвижване назад\n- или кликнете и влачете за по-бърз избор.
+jscalendar#:#about_calendar_long#:#DHTML селектор за дата/час (c) dynarch.com 2002-2003 За най-новата версия посетете: http://dynarch.com/mishoo/calendar.epl Разпространява се съгласно GNU LGPL.  Вижте http://gnu.org/licenses/lgpl.html за подробности.  Избор на дата: - Използвайте «, » бутоните, за да изберете година - Използвайте <, > бутоните, за да изберете месец - Задръжте бутона на мишката над някой от горните бутони за по-бърз избор.
+jscalendar#:#about_time#:#  Избор на час: - Кликнете на някой от елементите за часа, за да го придвижите напред - или Shift-кликване за придвижване назад - или кликнете и влачете за по-бърз избор.
 jscalendar#:#close#:#Затваряне
 jscalendar#:#day_first#:#Показване най-напред на %s
 jscalendar#:#def_date_format#:#%Г-%м-%д
@@ -2621,14 +2621,14 @@ meta#:#meta_very_high#:#Много високо
 meta#:#meta_very_low#:#Много ниско
 meta#:#meta_yes#:#Да
 pwassist#:#password_assistance#:#Помощ при забравена парола
-pwassist#:#pwassist_enter_username_and_email#:#Въведете потребителско име и съответния email адрес в показаните по-долу полета.\nILIAS ще изпрати съобщение на този email адрес. Съобщението съдържа адрес на уеб-страница, където можете да въведете нова парола за потребителския акаунт.\nВ случай, че използвайки този формуляр, не можете да зададете нова парола за вашия потребителски акаунт, обърнете се към вашите курсови администратори или изпратете email на %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Въведете потребителско име и съответния email адрес в показаните по-долу полета. ILIAS ще изпрати съобщение на този email адрес. Съобщението съдържа адрес на уеб-страница, където можете да въведете нова парола за потребителския акаунт. В случай, че използвайки този формуляр, не можете да зададете нова парола за вашия потребителски акаунт, обърнете се към вашите курсови администратори или изпратете email на %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Въведете потребителското име и новата парола в полетата по-долу.
-pwassist#:#pwassist_login_not_match#:#Моля, въведете друго потребителско име.\nВъведеното от вас потребителско име не съвпада с потребителското име, за което вие помолихте за помощ с паролата.
-pwassist#:#pwassist_mail_body#:#Регистрирайте нова парола за вашия потребителски акаунт:\n\t%1$s\n\nТова съобщение е генерирано автоматично от ILIAS сървъра\n\t%2$s\n\nВие (или някой на %3$s) помолихте за помощ с паролата на потребителския акаунт "%4$s".\n\nМоля, проверете внимателно посочените по-долу условия и продължете съобразно:\n\n- Ако неволно сте използвали формуляра за помощ с паролата на ILIAS сървъра:\nИзтрийте тази поща.\n\n- Ако сте сигурни, че никога не сте искали помощ с паролата на този ILIAS сървър:\nМоля, свържете се с %5$s.\n\n- Ако сте помолили за помощ с паролата, моля, продължете както следва:\n\n1. Отворете вашия браузър.\n\n2. Въведете следния адрес във вашия браузър:\n\t%1$s\n\nВажно: Адресът е в един ред. Ако видите този адрес да се разделя в няколко реда, тогава вашата email програма е добавила тези прекъсвания на редовете.\n\n3. На показаната от вашия браузър уеб-страница въведете нова парола за вашия потребителски акаунт.\n\nМоля, забележете че по свързани със сигурността причини можете да извършвате горепосочените три стъпки точно само веднъж и само за ограничено време. След това адресът става невалиден и трябва отново да използвате страницата за помощ с паролата на ILIAS сървъра.
-pwassist#:#pwassist_mail_sent#:#Съобщение беше изпратено до %1$s.\nМоля, проверете своята пощенска кутия.
+pwassist#:#pwassist_login_not_match#:#Моля, въведете друго потребителско име. Въведеното от вас потребителско име не съвпада с потребителското име, за което вие помолихте за помощ с паролата.
+pwassist#:#pwassist_mail_body#:#Регистрирайте нова парола за вашия потребителски акаунт: \t%1$s  Това съобщение е генерирано автоматично от ILIAS сървъра \t%2$s  Вие (или някой на %3$s) помолихте за помощ с паролата на потребителския акаунт "%4$s".  Моля, проверете внимателно посочените по-долу условия и продължете съобразно:  - Ако неволно сте използвали формуляра за помощ с паролата на ILIAS сървъра: Изтрийте тази поща.  - Ако сте сигурни, че никога не сте искали помощ с паролата на този ILIAS сървър: Моля, свържете се с %5$s.  - Ако сте помолили за помощ с паролата, моля, продължете както следва:  1. Отворете вашия браузър.  2. Въведете следния адрес във вашия браузър: \t%1$s  Важно: Адресът е в един ред. Ако видите този адрес да се разделя в няколко реда, тогава вашата email програма е добавила тези прекъсвания на редовете.  3. На показаната от вашия браузър уеб-страница въведете нова парола за вашия потребителски акаунт.  Моля, забележете че по свързани със сигурността причини можете да извършвате горепосочените три стъпки точно само веднъж и само за ограничено време. След това адресът става невалиден и трябва отново да използвате страницата за помощ с паролата на ILIAS сървъра.
+pwassist#:#pwassist_mail_sent#:#Съобщение беше изпратено до %1$s. Моля, проверете своята пощенска кутия.
 pwassist#:#pwassist_mail_subject#:#ILIAS помощ за паролата
 pwassist#:#pwassist_password_assigned#:#Паролата беше успешно зададена за потребител "%1$s".
-pwassist#:#pwassist_session_expired#:#Моля, попълнете този формуляр отново.\nСесията по помощта за вашата парола е изтекла. Това може да се е случило, защото сте се опитали да използвате изпратения на вашата поща линк повече от веднъж или защото е изминало твърде много време от изпращането на линка до вас.
+pwassist#:#pwassist_session_expired#:#Моля, попълнете този формуляр отново. Сесията по помощта за вашата парола е изтекла. Това може да се е случило, защото сте се опитали да използвате изпратения на вашата поща линк повече от веднъж или защото е изминало твърде много време от изпращането на линка до вас.
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -3199,7 +3199,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###06 09 2006 
 common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###06 09 2006 new variable
 common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###06 09 2006 new variable
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###06 09 2006 new variable
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###06 09 2006 new variable
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.) When "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###06 09 2006 new variable
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###06 09 2006 new variable
 common#:#usrimport_ignore_role#:#Ignore role###06 09 2006 new variable
 common#:#usrimport_login_is_not_unique#:#Login is not unique.###06 09 2006 new variable
@@ -3320,8 +3320,8 @@ meta#:#meta_technicalvalidator#:#Technical validator###06 09 2006 new variable
 meta#:#meta_terminator#:#Terminator###06 09 2006 new variable
 meta#:#meta_unknown#:#Unknown###06 09 2006 new variable
 meta#:#meta_validator#:#Validator###06 09 2006 new variable
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###06 09 2006 new variable
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###06 09 2006 new variable
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form. ILIAS will send an email to that address. The email contains all usernames which have registered this email address. Choose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.###06 09 2006 new variable
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address: %s  This message has been created automatically by the following ILIAS Server: \t%s  You (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.  Please check the following and act as suggested::  -You have requested this mail by accident: Delete this email.  -You are sure, that you never requested this email: Please contact %s.  - If you requested this email, please proceed as follows::  1. Start your internet browser.  2. Enter the following url: \t%s  Important: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.  3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.###06 09 2006 new variable
 search#:#search_advanced#:#Advanced search###06 09 2006 new variable
 search#:#search_all_words#:#All words###06 09 2006 new variable
 search#:#search_any#:#-- Any --###06 09 2006 new variable
@@ -6515,7 +6515,7 @@ mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
 crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:###21 09 2009 new variable
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
 crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
@@ -6526,7 +6526,7 @@ wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
 style#:#style_current_style#:#Current Style###21 09 2009 new variable
 style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
 style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
@@ -6536,10 +6536,10 @@ grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 200
 grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s. We hope that you find an opportunity to participate in another group.###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
@@ -6550,7 +6550,7 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.   You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -7978,7 +7978,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9309,7 +9309,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14233,7 +14233,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14828,10 +14828,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14842,7 +14842,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable

@@ -93,18 +93,16 @@ class ilObjForumListGUI extends ilObjectListGUI
 
         if (!$this->user->isAnonymous()) {
             if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL) {
-                $alert = ($num_unread_total > 0) ? true : false;
                 $props[] = array(
-                    'alert' => $alert,
+                    'alert' => false,
                     'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
                     'value' => $num_posts_total . ' (' . $num_unread_total . ')'
                 );
                 if ($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
                     if ($num_new_total > 0) {
                         // New
-                        $alert = ($num_new_total > 0) ? true : false;
                         $props[] = array(
-                            'alert' => $alert, 'property' => $this->lng->txt('forums_new_articles'), 'value' => $num_new_total
+                            'alert' => false, 'property' => $this->lng->txt('forums_new_articles'), 'value' => $num_new_total
                         );
                     }
                 }
@@ -112,7 +110,7 @@ class ilObjForumListGUI extends ilObjectListGUI
             
             if (ilForumPostDraft::isSavePostDraftAllowed() && $num_drafts_total > 0) {
                 $props[] = array(
-                    'alert' => ($num_drafts_total > 0) ? true : false,
+                    'alert' => false,
                     'property' => $this->lng->txt('drafts'),
                     'value' => $num_drafts_total
                 );

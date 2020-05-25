@@ -724,6 +724,7 @@ abstract class ilContainerContentGUI
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
         $user = $DIC->user();
+        $access = $DIC->access();
 
         $item_list_gui = $this->getItemGUI($a_item_data);
         $item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -820,6 +821,26 @@ abstract class ilContainerContentGUI
 
         $icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_" . $a_item_data["type"]))
             ->withIsOutlined(true);
+
+        // card title action
+        $card_title_action = "";
+        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
+            $card_title_action = $modified_link;
+        } else if ($def_command['link'] == "" &&
+            $item_list_gui->getInfoScreenStatus() &&
+            $access->checkAccessOfUser(
+                $user->getId(),
+                "visible",
+                "",
+                $a_item_data["ref_id"]
+            )) {
+            $card_title_action = ilLink::_getLink($a_item_data["ref_id"]);
+            if ($image->getAction() == "") {
+                $image = $image->withAction($card_title_action);
+            }
+        }
+
+
         $card = $f->card()->repositoryObject(
             $title . "<span data-list-item-id='" . $item_list_gui->getUniqueItemId(true) . "'></span>",
             $image
@@ -829,14 +850,14 @@ abstract class ilContainerContentGUI
             $dropdown
         );
 
-        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
-            $card = $card->withTitleAction($modified_link);
+        if ($card_title_action != "") {
+            $card = $card->withTitleAction($card_title_action);
         }
 
         // properties
         $l = [];
         foreach ($item_list_gui->determineProperties() as $p) {
-            if ($p["property"] != $this->lng->txt("learning_progress")) {
+            if ($p["alert"] && $p["property"] != $this->lng->txt("learning_progress")) {
                 $l[(string) $p["property"]] = (string) $p["value"];
             }
         }
