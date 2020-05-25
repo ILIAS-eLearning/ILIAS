@@ -37,6 +37,14 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
      */
     public function getReplyToAddress() : string
     {
+        if (
+            true === (bool) $this->settings->get('use_global_reply_to_addr', false) &&
+            is_string($this->settings->get('global_reply_to_addr', '')) &&
+            strlen($this->settings->get('global_reply_to_addr', '')) > 0
+        ) {
+            return (string) $this->settings->get('global_reply_to_addr');
+        }
+
         return (string) $this->user->getEmail();
     }
 
