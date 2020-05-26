@@ -491,6 +491,20 @@ class ilObjMailGUI extends ilObjectGUI
         $user_from_address->setDisabled(!$this->isEditingAllowed());
         $form->addItem($user_from_address);
 
+        $useGlobalReplyToAddress = new ilCheckboxInputGUI($this->lng->txt('mail_use_global_reply_to_addr'), 'use_global_reply_to_addr');
+        $useGlobalReplyToAddress->setInfo($this->lng->txt('mail_use_global_reply_to_addr_info'));
+        $useGlobalReplyToAddress->setValue(1);
+        $useGlobalReplyToAddress->setDisabled(!$this->isEditingAllowed());
+        $form->addItem($useGlobalReplyToAddress);
+        $globalReplyTo = new ilEMailInputGUI(
+            $this->lng->txt('mail_global_reply_to_addr'),
+            'global_reply_to_addr'
+        );
+        $globalReplyTo->setInfo($this->lng->txt('mail_global_reply_to_addr_info'));
+        $globalReplyTo->setRequired(true);
+        $globalReplyTo->setDisabled(!$this->isEditingAllowed());
+        $useGlobalReplyToAddress->addSubItem($globalReplyTo);
+
         $user_from_name = new ilTextInputGUI($this->lng->txt('mail_system_usr_from_name'), 'mail_system_usr_from_name');
         $user_from_name->setInfo($this->lng->txt('mail_system_usr_from_name_info'));
         $user_from_name->setRequired(true);
@@ -591,7 +605,9 @@ class ilObjMailGUI extends ilObjectGUI
             'mail_system_sys_from_name' => $this->settings->get('mail_system_sys_from_name'),
             'mail_system_sys_reply_to_addr' => $this->settings->get('mail_system_sys_reply_to_addr'),
             'mail_system_sys_env_from_addr' => $this->settings->get('mail_system_sys_env_from_addr'),
-            'mail_system_sys_signature' => $this->settings->get('mail_system_sys_signature')
+            'mail_system_sys_signature' => $this->settings->get('mail_system_sys_signature'),
+            'use_global_reply_to_addr' => (bool) $this->settings->get('use_global_reply_to_addr'),
+            'global_reply_to_addr' => $this->settings->get('global_reply_to_addr'),
         ));
     }
 
@@ -640,6 +656,8 @@ class ilObjMailGUI extends ilObjectGUI
         $this->settings->set('mail_system_sys_from_name', $form->getInput('mail_system_sys_from_name'));
         $this->settings->set('mail_system_sys_reply_to_addr', $form->getInput('mail_system_sys_reply_to_addr'));
         $this->settings->set('mail_system_sys_env_from_addr', $form->getInput('mail_system_sys_env_from_addr'));
+        $this->settings->set('use_global_reply_to_addr', (int) $form->getInput('use_global_reply_to_addr'));
+        $this->settings->set('global_reply_to_addr', $form->getInput('global_reply_to_addr'));
         $this->settings->set('mail_system_sys_signature', $form->getInput('mail_system_sys_signature'));
 
         ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
