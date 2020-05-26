@@ -62,7 +62,6 @@ class ilPersonalProfileGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
 
-
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
         }
@@ -676,7 +675,7 @@ class ilPersonalProfileGUI
                     $name,
                     $this->user_defined_fields->fieldValuesToSelectArray(
                         $definition['field_values']
-                                                                        ),
+                    ),
                     false,
                     true,
                     0,
@@ -756,7 +755,7 @@ class ilPersonalProfileGUI
                     [$DIC->ui()->factory()->link()->standard(
                         $lng->txt("user_make_profile_public"),
                         $ctrl->getLinkTarget($this, "showPublicProfile")
-                        )]
+                    )]
                 );
 
                 $it = $DIC->ui()->renderer()->render($box);
@@ -1243,6 +1242,15 @@ class ilPersonalProfileGUI
                 }
             }
         }
+
+        // permalink
+        $ne = new ilNonEditableValueGUI($this->lng->txt("perma_link"), "");
+        $ne->setValue(ilLink::_getLink($this->user->getId(), "usr"));
+        if (!$parent) {
+            $form->addItem($ne);
+        } else {
+            $parent->addSubItem($ne);
+        }
     }
     
     /**
@@ -1524,7 +1532,7 @@ class ilPersonalProfileGUI
                 (int) $_POST["settings"],
                 (int) $_POST["notes"],
                 (int) $_POST["calendar"]
-                );
+            );
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {

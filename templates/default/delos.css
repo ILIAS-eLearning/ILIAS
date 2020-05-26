@@ -13391,6 +13391,13 @@ select.form-control {
   padding-bottom: 4px;
   min-height: 34px;
 }
+@media only screen and (max-width: 768px) {
+  .form-horizontal .control-label {
+    min-height: auto;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
@@ -13472,6 +13479,11 @@ input[type="file"].form-control {
 }
 .ilSubForm .form-group {
   margin: 0;
+}
+@media (max-width: 768px) {
+  .ilSubForm .form-group {
+    margin: 6px 0;
+  }
 }
 .ilSubForm .col-sm-9.il_textarea {
   width: 100%;
@@ -13590,9 +13602,6 @@ div.ilHFormFooter .ilFormCmds {
 input:invalid {
   background-color: #ffebeb;
   border-color: #d08080;
-}
-.il_non_editable_value {
-  padding-top: 4px;
 }
 .bootstrap-datetimepicker-widget {
   z-index: 2000;

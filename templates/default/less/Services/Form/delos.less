@@ -53,6 +53,11 @@ select.form-control {
 		//line-height: 24px;
 		padding-bottom: (@padding-base-vertical + 1);
 		min-height: (@line-height-computed + @font-size-base);
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			min-height: auto;
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
 		&.col-sm-3.il_textarea {
 			text-align: left;
 			width: 100%;
@@ -140,6 +145,9 @@ input[type="file"].form-control {
 	padding: 3px 0;
 	.form-group {
 		margin: 0;
+		@media (max-width: @grid-float-breakpoint-max) {
+			margin: @padding-large-vertical 0;
+		}
 	}
 	.col-sm-9.il_textarea {
 		width: 100%;
@@ -285,10 +293,6 @@ div.ilFormInfo {
 input:invalid {
 	background-color: #ffebeb;
 	border-color: #d08080;
-}
-
-.il_non_editable_value {
-	padding-top: 4px;
 }
 
 .bootstrap-datetimepicker-widget {
