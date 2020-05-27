@@ -25,6 +25,7 @@
 		var second = "{STRING_SECOND}";
 		var seconds = "{STRING_SECONDS}";
 		var timeleft = "{STRING_TIMELEFT}";
+		var redirectUrl = "{REDIRECT_URL}";
 		var and = "{AND}";
 		var now = serverdate;
 		var then = startd.getTime() / 1000;
@@ -58,6 +59,10 @@
             }
 // fau.
 		}
+		if((avail <= 0) && redirectUrl != "") {
+			$("#listofquestions").attr('action', redirectUrl).submit();
+		}
+
 		var avail_m = Math.floor(avail / 60);
 		var avail_s = avail - (avail_m * 60);
 		var output = avail_m + " ";
