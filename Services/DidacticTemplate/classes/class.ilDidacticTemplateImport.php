@@ -184,7 +184,20 @@ class ilDidacticTemplateImport
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-                $act->setFilterType((string) $rfi->attributes()->source);
+
+                switch ((string) $rfi->attributes()->source) {
+                    case 'title':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
+                        break;
+
+                    case 'objId':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_OBJ_ID);
+                        break;
+
+                    case 'parentRoles':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_PARENT_ROLES);
+                        break;
+                }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
                     include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
@@ -218,7 +231,20 @@ class ilDidacticTemplateImport
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-                $act->setFilterType((string) $rfi->attributes()->source);
+
+                switch ((string) $rfi->attributes()->source) {
+                    case 'title':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
+                        break;
+
+                    case 'objId':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_OBJ_ID);
+                        break;
+
+                    case 'parentRoles':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_PARENT_ROLES);
+                        break;
+                }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
                     include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
