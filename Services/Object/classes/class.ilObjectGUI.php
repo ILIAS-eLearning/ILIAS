@@ -883,7 +883,7 @@ class ilObjectGUI
         
         $lng->loadLanguageModule('didactic');
         $existing_exclusive = false;
-        $options = array();
+        $options = [];
         $options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
             sprintf(
                 $this->lng->txt('didactic_default_type_info'),
@@ -939,8 +939,8 @@ class ilObjectGUI
             foreach ($options as $id => $data) {
                 $option = new ilRadioOption($data[0], $id, $data[1]);
 
-                if ($existing_exclusive && $id == "dtpl_0" && $this->getCreationMode()) {
-                    //set default disabled if an exclusive template exists but just in creation screen
+                if ($existing_exclusive && $id == 'dtpl_0') {
+                    //set default disabled if an exclusive template exists
                     $option->setDisabled(true);
                 }
 
