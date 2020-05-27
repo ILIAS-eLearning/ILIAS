@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@andxor/jquery-ui-touch-punch-fix": "^1.0.2",
-    "@geedmo/yamm3": "^1.1.0",
     "bootstrap": "3.3.7",
     "bootstrap-tagsinput": "^0.7.1",
     "dropzone": "^5.5.0",
@@ -75,13 +74,6 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "Bootstrap is ILIAS' Client-Side UI-Framework since 5.0",
-      "last-update-for-ilias": "5.3.0"
-    },
-    "Yamm3": {
-      "introduction-date": null,
-      "approved-by": "Jour Fixe",
-      "developer": null,
-      "purpose": "",
       "last-update-for-ilias": "5.3.0"
     },
     "jquery-ui": {

@@ -31,7 +31,7 @@ class ilUIFramework
      */
     public static function getCssFiles()
     {
-        return array("./libs/bower/bower_components/Yamm3/yamm/yamm.css");
+        return [];
     }
 
 
