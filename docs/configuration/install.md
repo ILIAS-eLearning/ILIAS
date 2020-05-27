@@ -117,7 +117,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
 ### Client
 
   * Desktop: Windows 7+, MacOS X 10.7+, Linux
-  * Web Browser: IE11+, Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
+  * Web Browser: Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
 
 <a name="database-recommendations"></a>
 ## Database Recommendations
@@ -647,19 +647,18 @@ Pull-Request will be assigned to the responsible maintainer(s). See further info
 <a name="reference-system"></a>
 ## Reference System
 
-The ILIAS Testserver (https://test54.ilias.de) is currently configured as follows:
+The ILIAS Testserver (https://test6.ilias.de) is currently configured as follows:
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 16.04.1 LTS          |
-| MySQL          | MySQL 5.5.58                |
-| MariaDB        | 10.1                        |
-| PHP            | 7.1.20                      |
-| Apache         | 2.4.7                       |
-| Nginx          | 1.4.6                       |
+| Distribution   | Ubuntu 16.04.6 LTS          |
+| MariaDB        | 10.0.38                     |
+| mysql          | 5.6                         |
+| PHP            | 7.3.18                      |
+| Apache         | 2.4.18                      |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
-| NodeJS         | 8.9.4 LTS                   |
+| JDK            | 1.8.0_252                   |
+| NodeJS         | v10.20.1                    |
 
 Please note: Shibboleth won't work with Nginx.

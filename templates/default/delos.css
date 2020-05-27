@@ -7731,19 +7731,28 @@ ul.dropdown-menu > li > .btn:focus {
   z-index: 998;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-.breadcrumbs ul.breadcrumb {
+.breadcrumbs .breadcrumb_wrapper {
+  width: 100%;
+  display: inline-grid;
+}
+.breadcrumbs .breadcrumb {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  direction: rtl;
+  text-align: left;
   margin: 0;
   font-weight: 600;
   font-size: 12px;
   padding-left: 100px;
 }
-.breadcrumbs ul.breadcrumb li {
+.breadcrumbs .breadcrumb span.crumb {
   color: #557196;
 }
-.breadcrumbs ul.breadcrumb li:hover {
+.breadcrumbs .breadcrumb span.crumb:hover {
   color: #3a4c65;
 }
-.breadcrumbs ul.breadcrumb > li + li:before {
+.breadcrumbs .breadcrumb > span + span:before {
   content: " \e606";
   color: #bbb;
   padding: 8px 10px;
@@ -12352,10 +12361,6 @@ body#tinymce {
   margin: 5px auto 0;
   width: 700px;
 }
-div#mainspacekeeper {
-  overflow: auto;
-  max-width: 100%;
-}
 .fullwidth {
   width: 100%;
 }
@@ -13386,6 +13391,13 @@ select.form-control {
   padding-bottom: 4px;
   min-height: 34px;
 }
+@media only screen and (max-width: 768px) {
+  .form-horizontal .control-label {
+    min-height: auto;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
 .form-horizontal .control-label.col-sm-3.il_textarea {
   text-align: left;
   width: 100%;
@@ -13467,6 +13479,11 @@ input[type="file"].form-control {
 }
 .ilSubForm .form-group {
   margin: 0;
+}
+@media (max-width: 768px) {
+  .ilSubForm .form-group {
+    margin: 6px 0;
+  }
 }
 .ilSubForm .col-sm-9.il_textarea {
   width: 100%;
@@ -13585,9 +13602,6 @@ div.ilHFormFooter .ilFormCmds {
 input:invalid {
   background-color: #ffebeb;
   border-color: #d08080;
-}
-.il_non_editable_value {
-  padding-top: 4px;
 }
 .bootstrap-datetimepicker-widget {
   z-index: 2000;
@@ -15712,9 +15726,10 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .table-responsive {
-    overflow: visible;
+    overflow-x: auto;
+    max-width: 94vw;
   }
 }
 /* Services/Notes */
@@ -16149,10 +16164,13 @@ a#ilHelpClose {
 }
 #ilHelpPanel .il_VAccordionHead {
   background-position: 3px 3px;
-  padding: 3px 3px 3px 20px;
+  padding: 5px 5px 5px 30px;
   font-size: 90%;
   font-weight: bold;
   border: none;
+}
+#ilHelpPanel li {
+  padding: 0;
 }
 #ilHelpPanel .ilGroupedListLE {
   padding: 5px 10px 5px 20px;
@@ -18938,20 +18956,26 @@ img[src$="icon_checked.svg"] {
   text-align: center;
 }
 div.ilNewObjectSelector {
-  display: inline-block;
+  display: block;
+  text-align: right;
   margin-bottom: 8px;
   padding: 0;
   width: 100%;
 }
-div.ilNewObjectSelector > .btn-group {
-  display: block;
+div.ilNewObjectSelector > .btn-group.open {
+  display: inline-block;
   width: 100%;
 }
-div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
+div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl {
   float: right;
 }
-div.ilNewObjectSelector > .btn-group .dropdown-menu.pull-right {
+div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdown-menu {
   top: 30px;
+  right: 0;
+  left: auto;
+}
+div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdown-menu .dropdown-header {
+  margin-right: 1px;
 }
 [dir="rtl"] div.ilNewObjectSelector > .btn-group #ilAdvSelListAnchorText_asl {
   float: left;
@@ -19022,11 +19046,19 @@ table.mceToolbar td {
 .alert > a.btn {
   text-decoration: none;
 }
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
-#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + ul.dropdown-menu > li > div.row {
-  width: 750px;
+@media only screen and (min-width: 1200px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row .row,
+  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row .row,
+  #mm_adm_tr + span + ul.dropdown-menu > li > div.row .row,
+  #mm_adm_tr + ul.dropdown-menu > li > div.row .row {
+    width: auto;
+  }
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row ul,
+  #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row ul,
+  #mm_adm_tr + span + ul.dropdown-menu > li > div.row ul,
+  #mm_adm_tr + ul.dropdown-menu > li > div.row ul {
+    min-width: 250px;
+  }
 }
 @media only screen and (max-width: 768px) {
   #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
@@ -19197,3 +19229,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */

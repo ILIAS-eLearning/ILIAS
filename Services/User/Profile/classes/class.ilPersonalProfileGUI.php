@@ -62,7 +62,6 @@ class ilPersonalProfileGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
 
-
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
         }
@@ -1243,6 +1242,16 @@ class ilPersonalProfileGUI
                 }
             }
         }
+
+        // permalink
+        $ne = new ilNonEditableValueGUI($this->lng->txt("perma_link"), "");
+        $ne->setValue(ilLink::_getLink($this->user->getId(), "usr"));
+        if (!$parent) {
+            $form->addItem($ne);
+        } else {
+            $parent->addSubItem($ne);
+        }
+
     }
     
     /**

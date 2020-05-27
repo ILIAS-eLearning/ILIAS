@@ -66,7 +66,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				},
 				/**
 				 * Toplevel entries and tools are being given to the mainbar with an
-				 * id; this mapps the id to the position_id calculated during rendering of
+				 * id; this maps the id to the position_id calculated during rendering of
 				 * the mainbar.
 				 */
 				addMapping: function(mapping_id, position_id) {
@@ -145,6 +145,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			adjustToScreenSize = function() {
 				var mb = il.UI.maincontrols.mainbar,
 					amount = mb.renderer.calcAmountOfButtons();
+
 				if(il.UI.page.isSmallScreen()) {
 					mb.model.actions.disengageAll();
 				}
@@ -647,7 +648,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				,toolentries_wrapper: 'il-mainbar-tools-entries'
 				,remover_class: 'il-mainbar-remove-tool'
 				,mainbar: 'il-mainbar'
-				,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky'
+				,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky, .il-mainbar .il-mainbar-entries .link-bulky'
 				,mainbar_entries: 'il-mainbar-entries'
 			},
 
@@ -770,6 +771,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			//more-slate
 			more = {
 				calcAmountOfButtons: function() {
+
 					var window_height = $(window).height(),
 						window_width = $(window).width(),
 						horizontal = il.UI.page.isSmallScreen(),
@@ -783,7 +785,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					if(horizontal) {
 						amount_buttons = Math.floor(window_width / btn_width);
 					}
-					return amount_buttons - 1;
+					return amount_buttons;
 				}
 			},
 
@@ -842,7 +844,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
 						more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
 						//reset
-						more_slate.getElement().find('.btn-bulky').insertBefore(more_button.getElement());
+						more_slate.getElement().find('.btn-bulky, .link-bulky').insertBefore(more_button.getElement());
 
 					if(model_state.more_available) {
 						actions.moveToplevelTriggerersToMore(model_state);

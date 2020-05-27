@@ -120,11 +120,8 @@ class ilAuthLoginPageEditorGUI
             $new_page_object->createFromXML();
         }
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
-        $tpl->parseCurrentBlock();
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
 
         $this->ctrl->setReturnByClass('illoginpagegui', "edit");
@@ -151,7 +148,9 @@ class ilAuthLoginPageEditorGUI
         }
         $html = $this->ctrl->forwardCommand($page_gui);
 
-        $tpl->setContent($html);
+        if ($html != "") {
+            $tpl->setContent($html);
+        }
     }
 
     /**

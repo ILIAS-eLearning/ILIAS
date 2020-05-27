@@ -523,7 +523,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $post_data[$this->getId() . "_" . $entered_value . "_other"] : null);
+        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
+            $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
         
         $affectedRows = $ilDB->insert("svy_answer", $fields);

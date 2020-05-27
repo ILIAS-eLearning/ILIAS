@@ -23,6 +23,11 @@ class ilProfileChecklistStatus
     protected $lng;
 
     /**
+     * @var ilSetting
+     */
+    protected $settings;
+
+    /**
      * Constructor
      */
     public function __construct($lng = null, $user = null)
@@ -36,6 +41,8 @@ class ilProfileChecklistStatus
         $this->user = is_null($user)
             ? $DIC->user()
             : $user;
+
+        $this->settings = $DIC->settings();
 
         $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
     }
@@ -147,7 +154,9 @@ class ilProfileChecklistStatus
                     $awrn_set = new ilSetting("awrn");
                     $status = [];
                     if ($awrn_set->get("awrn_enabled", false)) {
-                        $status[] = ($user->getPref("hide_own_online_status") != "y")
+                        $show = ($user->getPref("hide_own_online_status") == "n" ||
+                            ($user->getPref("hide_own_online_status") == "" && $this->settings->get("hide_own_online_status") == "n"));
+                        $status[] = (!$show)
                             ? $lng->txt("hide_own_online_status")
                             : $lng->txt("show_own_online_status");
                     }

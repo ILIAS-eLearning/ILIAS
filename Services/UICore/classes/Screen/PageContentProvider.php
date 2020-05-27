@@ -161,7 +161,7 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
             }
 
             // output translation link
-            if (\ilObjLanguageAccess::_checkTranslate() || !\ilObjLanguageAccess::_isPageTranslation()) {
+            if (\ilObjLanguageAccess::_checkTranslate() && !\ilObjLanguageAccess::_isPageTranslation()) {
                 $translation_url = \ilObjLanguageAccess::_getTranslationLink();
                 $translation_title = $this->dic->language()->txt('translation');
                 $links[] = $f->link()->standard($translation_title, $translation_url);

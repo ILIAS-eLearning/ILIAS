@@ -1161,14 +1161,13 @@ abstract class ilPlugin
     {
     }
 
-
     /**
      * @param string $a_ctype
      * @param string $a_cname
      * @param string $a_slot_id
      * @param string $a_pname
-     *
      * @return ilPlugin
+     * @throws ilPluginException
      */
     public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : ilPlugin
     {
@@ -1191,8 +1190,8 @@ abstract class ilPlugin
 
             return $plugin;
         }
-
-        return null;
+        throw new ilPluginException("File : ".$file. " . does not Exist for plugin: ".$a_pname. " Check if your 
+            plugin is still marked as active in the DB Table 'il_plugin' but not installed anymore.");
     }
 
 

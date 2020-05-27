@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.0.x 2020-04-30
+* @version	6.0.x 2020-05-14
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#A jogosultságok típusának beállítása
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Jogosultságok hozzáadása
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Másolási jogosultságok
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Jogosultságok eltávolítása
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Hozzáadja a kiválasztott globális szerepminta MARKED jogait a helyi jogosultságokhoz.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#A kiválasztott globális szerepminta minden jogosultsága felülírja a helyi jogosultságokat.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Eltávolítja a kiválasztott globális szerepminta MARKED jogosultságát a helyi jogosultságokból.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Jogosultság beállítása
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Csak a kiválasztott jogosultságokat adja hozzá a meglévő objektumokhoz
+rbac#:#rbac_form_copy_roles_ce_add_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően kiegészülnek.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#A meglévő helyi engedélyek ennek megfelelően hozzáadódnak, a meglévő objektumok jogosultságai nem módosulnak.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Meglévő objektumok módosítása
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Ennek megfelelően felülírja a meglévő helyi jogosultságokat, és MINDEN kiválasztott és nem kiválasztott előbeállítással alkalmazza a meglévő objektumokon.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#A meglévő helyi jogosultságok felülírjuk, a meglévő objektumok jogosultságai nem módosulnak.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Csak a kiválasztott jogosultságokkal csökkentse a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#NE módosítsa a meglévő objektumokat
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#A meglévő helyi jogosultságok és a meglévő objektumok jogosultságainak beállításai ennek megfelelően csökkennek.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#A kiválasztott jogosultságokat eltávolítja a meglévő helyi jogosultságok közül, a meglévő objektumok jogosultságai nem módosulnak.
 dash#:#dash_remove_from_list#:#Eltávolítás a listáról
 dash#:#dash_make_favourite#:#Hozzáadás a Kedvenceimhez
 dash#:#dash_item_removed#:#Az ajánlást sikeresen törölték a listáról.
@@ -3702,7 +3722,7 @@ common#:#server_software#:#Szerverszoftver
 common#:#server#:#Szerver
 rbac#:#sess_copy#:#A felhasználó másolhatja az eseményt
 common#:#sess#:#Esemény
-common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét!\nAmennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt.\n Üdvözlettel: %3$s.
+common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét! Amennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt.  Üdvözlettel: %3$s.
 common#:#session_reminder_info#:#Ha be van kapcsolva, emlékeztető üzenetet fog kapni, mielőtt böngészőjének online munkamenete lejárna.
 common#:#session_reminder_lead_time_info#:#Adja meg percben a munkamenet-emlékeztetőhöz a rendelkezésre álló időt. Az emlékeztető egy figyelmeztetést jelenít meg megadott idővel a munkamenet lejárta előtt. A javasolt érték 5 (perc).<br/>A felhasználói munkamenet jelenlegi hossza %s.
 common#:#session_reminder_lead_time#:#Rendelkezésre álló idő
@@ -4023,7 +4043,7 @@ common#:#usrimport_wrong_file_count#:#Túl sok a fájl az importálandó mappáb
 common#:#usrimport_cant_delete#:#Nem hajtható végre a 'Törlés'. Nincs ilyen felhasználó az adatbázisban.
 common#:#usrimport_cant_insert#:#Nem hajtható végre a 'Beszúrás'. Már van ilyen felhasználó az adatbázisban.
 common#:#usrimport_cant_update#:#Nem hajtható végre a 'Frissítés'. Nincs ilyen felhasználó az adatbázisban.
-common#:#usrimport_conflict_handling_info#:#Ha az 'Ellentmondás figyelmen kívül hagyása' van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (például a 'Beszúrás' tevékenység nem hajtódik végre, ha már van felhasználó a megadott felhasználónévvel az adatbázisban).\nHa a 'Frissítés konfliktus esetén' van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (például a 'Beszúrás' tevékenységet lecseréli a 'Frissítés'-sel és fordítva, ha ugyanazon a felhasználónéven létezik már felhasználó a rendszerben).
+common#:#usrimport_conflict_handling_info#:#Ha az 'Ellentmondás figyelmen kívül hagyása' van kiválasztva, az ILIAS elutasítja a tevékenységet, ha nem hajtható végre (például a 'Beszúrás' tevékenység nem hajtódik végre, ha már van felhasználó a megadott felhasználónévvel az adatbázisban). Ha a 'Frissítés konfliktus esetén' van kiválasztva, az ILIAS frissíti az adatbázist, ha nem hajtható végre egy tevékenység (például a 'Beszúrás' tevékenységet lecseréli a 'Frissítés'-sel és fordítva, ha ugyanazon a felhasználónéven létezik már felhasználó a rendszerben).
 common#:#usrimport_global_role_for_action_required#:#Legalább egy globális szerepet meg kell határozni a '%1$s' tevékenységhez.
 common#:#usrimport_ignore_role#:#Szerep mellőzése
 common#:#usrimport_login_is_not_unique#:#Nem egyedi a felhasználónév.
@@ -4769,7 +4789,7 @@ crs#:#crs_blocked_member#:#'%s' kurzustagság blokkolása
 crs#:#crs_blocked#:#Hozzáférés megtagadva
 crs#:#crs_cancel_subscr_request#:#Tagsági kérelem törlése
 crs#:#crs_cancel_subscription_body#:#'%s' kurzustagságát egy tag lemondta.
-crs#:#crs_cancel_subscription_body2#:#Lehet, hogy vannak még a kurzus várólistáján.\nA várólistát most kell ellenőriznie.\nKurzusának tagjait ide kattintva tekintheti meg:
+crs#:#crs_cancel_subscription_body2#:#Lehet, hogy vannak még a kurzus várólistáján. A várólistát most kell ellenőriznie. Kurzusának tagjait ide kattintva tekintheti meg:
 crs#:#crs_cancel_subscription#:#'%s' kurzust elhagyta egy tag
 crs#:#crs_contact_consultation#:#Konzultáció
 crs#:#crs_contact_email_info#:#Adjon meg egy vagy több (vesszővel elválasztott) e-mail címet.
@@ -4950,7 +4970,7 @@ crs#:#crs_status#:#Állapot
 crs#:#crs_structure#:#Kurzusszerkezet
 crs#:#crs_subscribe_member_body#:#ezúton értesítjük, hogy '%s' kurzusra sikeresen regisztrált.
 crs#:#crs_subscribe_member#:#'%s' kurzusra regisztráció
-crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült.\nÖn a(z) %s. a listán.\n\n A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
+crs#:#crs_subscribe_wl_body#:#ezúton értesítjük, hogy '%s' kurzus várólistájára felkerült. Ön a(z) %s. a listán.   A kurzusvezető üzenetet fog küldeni kérésének elfogadásáról vagy elutasításáról.
 crs#:#crs_subscribe_wl#:#'%s' kurzusra regisztráció
 crs#:#crs_subscriber#:#Csatlakozni kívánó
 crs#:#crs_subscribers_deleted#:#Törölt csatlakozni kívánó(k)
@@ -5408,7 +5428,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.\n
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket és a megjegyzéseket mentettük.
@@ -5630,7 +5650,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#A regisztráció megerősítéséhez 
 grp#:#grp_mail_notification_reg_req_sub#:#'%s' csoportcsatlakozási kérés
 grp#:#grp_mail_notification_reg_sub#:#'%s' csoportba felhasználó regisztrált
 grp#:#grp_mail_notification_unsub_bod#:#%s törölte tagságát a(z) '%s' csoportból.
-grp#:#grp_mail_notification_unsub_bod2#:#Csoportjának várólistáján lehet hogy vannak.\nKérjük, ellenőrizze a várólistát.\nA csoporttagok listáját ide kattintva tekintheti meg:
+grp#:#grp_mail_notification_unsub_bod2#:#Csoportjának várólistáján lehet hogy vannak. Kérjük, ellenőrizze a várólistát. A csoporttagok listáját ide kattintva tekintheti meg:
 grp#:#grp_mail_notification_unsub_sub#:#'%s' csoportot elhagyta egy felhasználó
 grp#:#grp_mail_permanent_link#:#Az alábbi linken érheti el a csoportot:
 grp#:#grp_mail_status_bod#:#ezúton tájékoztatjuk, hogy '%s' csoportban az állapota megváltozott.
@@ -5643,7 +5663,7 @@ grp#:#grp_mail_subscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' csoport
 grp#:#grp_mail_subscribe_member_sub#:#'%s' csoporthoz csatlakozás
 grp#:#grp_mail_unsubscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' csoportból tagságát sikeresen töröltük.
 grp#:#grp_mail_unsubscribe_member_sub#:#'%s' csoporttagság törlése
-grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült.\nÖn a(z) %s. a listán.\n\n Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
+grp#:#grp_mail_wl_bod#:#'%s' csoport várólistájára felkerült. Ön a(z) %s. a listán.   Üzenetben fogja értesíteni Önt a csoportvezető, amikor kérését elfogadják vagy elutasítják.
 grp#:#grp_mail_wl_sub#:#'%s' csoportba regisztráció
 grp#:#grp_map_location#:#Csoporttérkép helye
 grp#:#grp_map_settings#:#Térképbeállítások
@@ -5690,9 +5710,9 @@ grp#:#grp_wrong_max_members#:#A várólista bekapcsolásához a taglétszám max
 grp#:#grp_wrong_reg_time_limit#:#Ellenőrizze a regisztráció kezdő és záró időpontját!
 grp#:#reg_grp_max_members_short#:#Felhasználószám korlátozása
 grp#:#reg_grp_max_members#:#Tagok maximális száma
-jscalendar#:#about_calendar_long#:#Dátumválasztók:\n- Év léptetése: « »\n- Hónap léptetése: < >\n- Tartsa nyomva a gombot a gyorsabb kiválasztáshoz.\n\nDHTML dátum/időpont választó\n(c) dynarch.com 2002-2003\nLegfrissebb verzió: http://dynarch.com/mishoo/calendar.epl\nTerjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
+jscalendar#:#about_calendar_long#:#Dátumválasztók: - Év léptetése: « » - Hónap léptetése: < > - Tartsa nyomva a gombot a gyorsabb kiválasztáshoz.  DHTML dátum/időpont választó (c) dynarch.com 2002-2003 Legfrissebb verzió: http://dynarch.com/mishoo/calendar.epl Terjeszti a GNU LGPL. Lásd http://gnu.org/licenses/lgpl.html a részletekért.
 jscalendar#:#about_calendar#:#Súgó
-jscalendar#:#about_time#:#\n\nIdőválasztó:\n- Kattintson a megfelelő időrészen megnöveléséhez\n- vagy Shift-kattintással csökkentéséhez\n- vagy kattintás-húzás a gyorsabb kiválasztáshoz.
+jscalendar#:#about_time#:#  Időválasztó: - Kattintson a megfelelő időrészen megnöveléséhez - vagy Shift-kattintással csökkentéséhez - vagy kattintás-húzás a gyorsabb kiválasztáshoz.
 jscalendar#:#close#:#Bezárás
 jscalendar#:#day_first#:#%s megjelenítése először
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5872,7 +5892,7 @@ ldap#:#ldap_server_name_info#:#Adjon nevet ennek az LDAP-konfigurációnak
 ldap#:#ldap_server_name#:#LDAP-konfiguráció neve
 ldap#:#ldap_server_security_settings#:#Biztonsági beállítások
 ldap#:#ldap_server_short#:#LDAP-kiszolgáló URL-je
-ldap#:#ldap_server_url_info#:#Teljes URL az LDAP-kiszolgáló eléréséhez (url és port). Például <i>ldap://ldap.pelda.hu:389</i> vagy <i>ldap://192.168.1.1:389</i>. Vesszővel elválasztva több szervert is megadhat.
+ldap#:#ldap_server_url_info#:#Teljes URL az LDAP-kiszolgáló eléréséhez (url és port). Például <i>ldaps://ldap.pelda.hu:636</i> vagy <i>ldaps://192.168.1.1:636</i>.
 ldap#:#ldap_server_version_info#:#Az LDAP-verziószáma, általában 3
 ldap#:#ldap_settings#:#Kiszolgáló beállításai
 ldap#:#ldap_sync_cron#:#Ütemezett feladattal
@@ -5998,6 +6018,10 @@ mail#:#search_recipients#:#Címzettek keresése
 mail#:#send_mail_to#:#Címzettek közé
 mail#:#mail_tbl_head_attachments#:#Csatolmány
 mail#:#mail_firstname_last_name_superior#:#Az összes felettes kereszt- és vezetékneve vesszővel elválasztott listája
+mail#:#mail_email_usr_subject#:#Felhasználói teszt e-mail
+mail#:#mail_email_usr_body#:#Ez a felhasználói e-mailek külső e-mail címre küldésének tesztelése.
+mail#:#mail_email_sys_subject#:#Rendszer teszt e-mail
+mail#:#mail_email_sys_body#:#Ez a rendszer e-mailek külső e-mail címre küldésének tesztelése.
 maps#:#maps_enable_maps_info#:#Térképek engedélyezése felhasználói adatokban, csoportokban és kurzusokban.
 maps#:#maps_enable_maps#:#Térképek engedélyezése
 maps#:#maps_custom_tile_server_info#:#Szerver URL csempeadatok meghatározásához. Több URL-t szóközzel válasszon el. Alapértelmezett értéke '%s'.
@@ -6846,17 +6870,17 @@ ps#:#ps_warning_modify#:#Figyelmeztetés: Legalább egy felhasználó elfogadta 
 ps#:#show_privacy#:#Adatvédelem
 ps#:#show_security#:#Biztonság
 pwassist#:#password_assistance#:#Jelszósegédlet
-pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához.\n\nHa rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
-pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.\n\nHa ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
+pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-mailt küld erre a címre, amely tartalmazza az összes felhasználónevet, amely ezt az e-mail címet adta meg. Válassza ki a kívánt felhasználónevet, és használja a jelszósegédletet új jelszó megadásához.  Ha rövid időn belül nem kapja meg az e-mailt, vegye fel a kapcsolatot egy rendszergazdával vagy küldjön e-mailt a következő címre: %1$s
+pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.  Ha ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg a felhasználónevet és az új jelszót!
-pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg!\nA megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
-pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához:\n\t%1$s\n\nEzt az üzenetet automatikusan generálta az alábbi ILIAS-szerver\n\t%2$s\n\nÖn (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.\n\nGondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:\n\n- Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna:\nTörölje ezt a levelet.\n\n- Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől:\nVegye fel a kapcsolatot: %5$s.\n\n- Ha kért jelszósegédletet, járjon el az alábbiak szerint:\n\n1. Nyissa meg böngészőjét.\n\n2. Adja meg a következő címet böngészőjében:\n\t%6$s\n\nFontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.\n\n3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.\n\nVegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
-pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s\n\nEllenőrizze postaládáját!
-pwassist#:#pwassist_mail_sent_generic#:#Üzenetet küldtünk az ILIAS-ban megadott e-mail címére.\nEllenőrizze postaládáját!
+pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg! A megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
+pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához: \t%1$s  Ezt az üzenetet automatikusan generálta az alábbi ILIAS-szerver \t%2$s  Ön (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.  Gondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:  - Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna: Törölje ezt a levelet.  - Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől: Vegye fel a kapcsolatot: %5$s.  - Ha kért jelszósegédletet, járjon el az alábbiak szerint:  1. Nyissa meg böngészőjét.  2. Adja meg a következő címet böngészőjében: \t%6$s  Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.  3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.  Vegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
+pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s  Ellenőrizze postaládáját!
+pwassist#:#pwassist_mail_sent_generic#:#Üzenetet küldtünk az ILIAS-ban megadott e-mail címére. Ellenőrizze postaládáját!
 pwassist#:#pwassist_mail_subject#:#ILIAS-jelszósegédlet
 pwassist#:#pwassist_password_assigned#:#'%1$s' felhasználó jelszavát sikeresen cseréltük.
-pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot!\nJelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
-pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak:\n%s\n\nEzt az üzenetet automatikusan küldte a következő ILIAS-szerver:\n\t%s\n\n%s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .\n\nHa véletlenül kérte ezt a levelet, törölje.\n\nHa biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s\n\nHa Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint:\n%s
+pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot! Jelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
+pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak: %s  Ezt az üzenetet automatikusan küldte a következő ILIAS-szerver: \t%s  %s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .  Ha véletlenül kérte ezt a levelet, törölje.  Ha biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s  Ha Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint: %s
 pwassist#:#pwassist_disabled_no_access#:#A jelszósegédlet nincs bekapcsolva. További információért keresse a üzemeltetőt: %s
 pwassist#:#unassist_disabled_no_access#:#A felhasználónév-segédlet nincs bekapcsolva. További információért keresse az üzemeltetőt: %s
 rating#:#rating_your_rating#:#Az Ön értékelése
@@ -9241,7 +9265,7 @@ chatroom#:#chat_to_mainroom#:#A főszobába
 chatroom#:#chat_create_private_room_button#:#Privát szoba létrehozása
 chatroom#:#chatroom_smiley_keyword#:#Kulcsszó
 chatroom#:#chat_invitation#:#'[INVITER_NAME]' meghívja Ön '[ROOM_NAME]' csevegőszobába
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nMeghívtak ebbe a csevegőszobába:\nCsevegőszoba neve: [ROOM_NAME]\nA meghívó: [INVITER_NAME]\nURL: [LINK]\n\nHa csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
+chatroom#:#chat_invitation_long#:#[SALUTATION]  Meghívtak ebbe a csevegőszobába: Csevegőszoba neve: [ROOM_NAME] A meghívó: [INVITER_NAME] URL: [LINK]  Ha csatlakozni szeretne a csevegőszobához, kattintson a megadott URL-re!
 chatroom#:#chat_invitation_short#:#A csevegőszobába belépéshez kattints a linkre.
 chatroom#:#settings_title#:#Beállítások
 chatroom#:#history_byday_title#:#Beszélgetés megjelenítése naponként
@@ -11303,8 +11327,8 @@ wsp#:#wsp_shared_date_filter#:#Megosztva ez után
 wsp#:#wsp_shared_mandatory_filter_info#:#Legalább egy szűrőattribútumot célszerű használni. A szövegszűrőknek legalább 4 karakter hosszúnak kell lenniük.
 wsp#:#wsp_shared_member_filter#:#Kurzusok/Csoportok tagjai
 blog#:#blog_allow_html_info#:#Engedélyezi, hogy a felhasználók HTML és JavaScript kódokat használhassanak a blogbejegyzéseikben. Ez biztonsági problémákhoz vezethet.
-common#:#scorm_without_session#:#SCORM: munkamenet nélkül lehetséges az adattárolás
-common#:#scorm_without_session_info#:#Az ILIAS munkamenet lejárta után is biztosítva van az SCORM tanulási adatok tárolása.
+common#:#scorm_without_session#:#SCORM 2004: munkamenet nélkül lehetséges az adattárolás
+common#:#scorm_without_session_info#:#Az ILIAS munkamenet lejárta után is biztosítva van az SCORM 2004 tanulási adatok tárolása. SCORM 1.2 esetén a munkamenet nélküli tárolás mindig biztosított.
 common#:#msg_obj_no_download#:#nem letölthető.
 common#:#download_selected_items#:#Letöltés
 common#:#download_multiple_objects#:#Több objektum letöltése
@@ -11463,12 +11487,13 @@ orgu#:#remove_user#:#Eltávolítás
 orgu#:#msg_confirm_remove_user#:#Biztos, hogy eltávolítja az alábbi felhasználót a(z) '%s' pozíciójából?
 orgu#:#msg_confirm_d_ua#:#Biztos, hogy hozzárendeli ezeket a személyeket szervezeti egységeik 'Beosztott' pozíciójához?
 orgu#:#user_assignments#:#Felhasználó hozzárendelései
+orgu#:#user_assignments_recursive#:#Felhasználó hozzárendelési részfája
 orgu#:#authorities#:#Utasítási jogkörök
 orgu#:#authority#:#Utasítási jogkör
 orgu#:#positions#:#Pozíciók
 orgu#:#add_position#:#Pozíció hozzáadása
 orgu#:#scope_1#:#Ugyanazon szervezeti egység
-orgu#:#scope_2#:#Alárendelt szervezeti egységek
+orgu#:#scope_2#:#Ugyanazon és alárendelt szervezeti egységek
 orgu#:#scope_3#:#Összes szervezeti egység
 orgu#:#over_-1#:#Mindenki
 orgu#:#over#:#Felette
@@ -11576,7 +11601,7 @@ orgu#:#orgu_adv_settings#:#További beállítások
 orgu#:#orgu_type_msg_error_custom_icon#:#Egyéni ikon beállítása sikertelen
 orgu#:#orgu_type_available_amd_sets#:#Elérhető bővített metaadat készletek
 orgu#:#orgu_type_assign_amd_sets#:#Bővített metaadata készletek hozzárendelése
-orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját fájába, mert az hurkot hozna létre.
+orgu#:#not_movable_to_subtree#:#Szervezeti egység nem mozgatható saját részfájába, mert az hurkot hozna létre.
 cld#:#cld_object_added#:#Új felhő-objektum hozzáadva
 exc#:#exc_peer_review_deadline#:#Visszajelzés határideje
 exc#:#exc_peer_review_deadline_info#:#Visszajelzés eddig az időpontig adható, és a kapott visszajelzés is csak ekkortól elérhető el.
@@ -13425,7 +13450,6 @@ prg#:#prg_remove_user_success#:#A felhasználót sikeresen törölte.
 prg#:#prg_type_add#:#Képzésiprogram-típus
 prg#:#prg_subtypes#:#Képzésiprogram-típusok
 prg#:#prg_subtype_add#:#Új típus hozzáadása
-prg#:#prg_adv_settings#:#Speciális beállítások
 prg#:#prg_type_custom_icon#:#Egyéni ikonok
 prg#:#prg_type_custom_icon_info#:#Egyéni ikoninformáció
 prg#:#prg_type_msg_error_custom_icon#:#Hiba az ion mentésekor
@@ -15167,10 +15191,10 @@ lso#:#lso_notify_off#:#Új regisztrációról értesítés kikapcsolása
 lso#:#lso_new_status#:#Az Ön új állapota:
 lso#:#lso_notification_explanation_admin#:#Ezt az e-mail azért küldtük, mert Ön a tanulási sor vezetője és az értesítés be van kapcsolva.
 lso#:#lso_mail_unsubscribe_member_sub#:#'%s' tanulási sorra tagság lemondása
-lso#:#lso_mail_unsubscribe_member_bod#:#ezúton megerősítjük, hogy '%s' tanulási sori tagsága megszűnt.\nReméljük, hogy egy másik tanulási sorban hamarosan viszontlátjuk.
+lso#:#lso_mail_unsubscribe_member_bod#:#ezúton megerősítjük, hogy '%s' tanulási sori tagsága megszűnt. Reméljük, hogy egy másik tanulási sorban hamarosan viszontlátjuk.
 lso#:#lso_mail_notification_unsub_sub#:#'%s' tanulási sort egy felhasználó elhagyta
 lso#:#lso_mail_notification_unsub_bod#:#ezúton értesítjük, hogy %s lemondta tagságát '%s' tanulási sorban.
-lso#:#lso_mail_notification_unsub_bod2#:#Elképzelhető, hogy további tagok vannak a tanulási sor várólistáján.\nKérjük, mihamarabb ellenőrizze a várólistát.\nA tanulási sor tagjainak megtekintéséhez kattintson ide:
+lso#:#lso_mail_notification_unsub_bod2#:#Elképzelhető, hogy további tagok vannak a tanulási sor várólistáján. Kérjük, mihamarabb ellenőrizze a várólistát. A tanulási sor tagjainak megtekintéséhez kattintson ide:
 lso#:#lso_mail_subscribe_member_sub#:#'%s' tanulási sorra regisztrált
 lso#:#lso_mail_subscribe_member_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sorra sikeresen regisztrált.
 lso#:#lso_mail_notification_reg_req_sub#:#'%s' tanulási sorhoz csatlakozás kérése
@@ -15181,7 +15205,7 @@ lso#:#lso_mail_sub_dec_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sorhoz
 lso#:#lso_mail_sub_acc_sub#:#'%s' tanulási sorhoz regisztrációját jóváhagyták
 lso#:#lso_mail_sub_acc_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sorhoz tagságát jóváhagyták.
 lso#:#lso_mail_wl_sub#:#'%s' tanulási sorhoz regisztrációja
-lso#:#lso_mail_wl_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sor várólistájára felkerült.\nJelenleg %s. helyet foglalja el a listán.\n\nLevélben értesítjük, amikor csatlakozási kérését elfogadják vagy elutasítják.
+lso#:#lso_mail_wl_bod#:#ezúton tájékoztatjuk, hogy '%s' tanulási sor várólistájára felkerült. Jelenleg %s. helyet foglalja el a listán.  Levélben értesítjük, amikor csatlakozási kérését elfogadják vagy elutasítják.
 lso#:#lso_mail_status_sub#:#'%s' tanulási sorban állapotváltozás
 lso#:#lso_mail_status_bod#:#ezúton tájékoztatjuk, hogy az Ön állapota módosult '%s' tanulási sorban.
 lso#:#first_access#:#Első hozzáférés
@@ -15970,7 +15994,6 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
-prg#:#prg_formatted_peri nbod#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16134,3 +16157,20 @@ common#:#eyeopened#:#Szem megnyitása - Kattintson a bemenet tartalmának megjel
 common#:#show_more#:#Több...
 common#:#disclose#:#Felfedés
 common#:#switch_language#:#Nyelv módosítása
+lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepet sikeresen létrehozta.
+lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep létrehozása
+lti#:#lti_user_role_info#:#Ajánlott globális szerep még nem létezik az LTI-felhasználónak. Ez a speciális szerep csak a Tartalomtár és kategóriák 'látható' jogosultáságát tartalmazza.
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###18 05 2020 new variable
+mme#:#err_uri_not_valid#:#Please provide a valid URL###18 05 2020 new variable
+prg#:#prg_formatted_period#:#%d days###18 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###18 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
+common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
+rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
+rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
+rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
+rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
+rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
+rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable

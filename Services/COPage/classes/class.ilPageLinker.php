@@ -69,8 +69,14 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
      */
     public function getLinkTargetsXML()
     {
+        $layoutLinkTargets = $this->getLayoutLinkTargets();
+
+        if (0 === count($layoutLinkTargets)) {
+            return '';
+        }
+
         $link_info = "<LinkTargets>";
-        foreach ($this->getLayoutLinkTargets() as $k => $t) {
+        foreach ($layoutLinkTargets as $k => $t) {
             $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
         $link_info .= "</LinkTargets>";

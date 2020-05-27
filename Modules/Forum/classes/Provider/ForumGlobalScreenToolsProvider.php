@@ -10,7 +10,11 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 {
     const SHOW_FORUM_THREADS_TOOL = 'show_forum_threads_tool';
-
+    const REF_ID = 'ref_id';
+    const FORUM_THEAD = 'frm_thread';
+    const FORUM_THREAD_ROOT = 'frm_thread_root';
+    const FORUM_BASE_CONTROLLER = 'frm_base_controller';
+    const PAGE = 'frm_thread_page';
 
     /**
      * @inheritDoc
@@ -35,47 +39,34 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 
         $tools = [];
 
-        $queryParams = $this->dic->http()->request()->getQueryParams();
-        $refId = (int) ($queryParams['ref_id'] ?? 0);
-        $threadId = (int) ($queryParams['thr_pk'] ?? 0);
-        $target = (string) ($queryParams['target'] ?? '');
+        $additionalData = $called_contexts->getLast()->getAdditionalData();
+        if ($additionalData->exists(self::SHOW_FORUM_THREADS_TOOL) && $additionalData->get(self::SHOW_FORUM_THREADS_TOOL) === true) {
+            $thread = $additionalData->get(self::FORUM_THEAD);
+            $controller = $additionalData->get(self::FORUM_BASE_CONTROLLER);
+            $root = $additionalData->get(self::FORUM_THREAD_ROOT);
 
-        if (strlen($target) > 0 && count($targetParts = explode('_', $target)) >= 3) {
-            if (0 === $refId) {
-                $refId = $targetParts[1];
+            if ($root instanceof ilForumPost) {
+                $title = $this->dic->language()->txt('tree');
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
+
+                $tools[] = $this->factory
+                    ->tool($iff('Forum|Tree'))
+                    ->withTitle($title)
+                    ->withSymbol($icon)
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) {
+                        $exp = new ilForumExplorerGUI(
+                            'frm_exp_' . $thread->getId(),
+                            $controller,
+                            'viewThread',
+                            $thread,
+                            $root
+                        );
+                        
+                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
+
+                        return $l($exp->getHTML(true));
+                    });
             }
-
-            if (0 === $threadId) {
-                $threadId = $targetParts[2];
-            }
-        }
-
-        $additional_data = $called_contexts->getLast()->getAdditionalData();
-        if ($additional_data->exists(self::SHOW_FORUM_THREADS_TOOL) && $additional_data->get(self::SHOW_FORUM_THREADS_TOOL) === true) {
-            $isModerator = $this->dic->access()->checkAccess('moderate_frm', '', $refId);
-
-            $title = $this->dic->language()->txt('tree');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
-
-            $tools[] = $this->factory
-                ->tool($iff('Forum|Tree'))
-                ->withTitle($title)
-                ->withSymbol($icon)
-                ->withContentWrapper(static function () use ($l, $threadId, $isModerator, $refId) {
-                    $thread = new ilForumTopic((int) $threadId, $isModerator);
-                    $exp = new ilForumExplorerGUI(
-                        'frm_exp_' . $thread->getId(),
-                        new ilObjForumGUI(
-                            "",
-                            $refId,
-                            true,
-                            false
-                        ),
-                        'viewThread',
-                        $thread
-                    );
-                    return $l($exp->getHTML(true));
-                });
         }
 
         return $tools;

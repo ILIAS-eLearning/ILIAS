@@ -37,7 +37,8 @@ class ilStudyProgrammeTypeSettingsTest extends TestCase
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new ILIAS\UI\Implementation\Component\SignalGenerator(),
             $df,
-            $refinery
+            $refinery,
+            $lng
         );
 
         $obj = new ilStudyProgrammeTypeSettings(self::VALID_TYPE_1);

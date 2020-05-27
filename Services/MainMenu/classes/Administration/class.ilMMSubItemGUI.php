@@ -88,7 +88,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-    private function saveTable()
+    private function saveTable() : void
     {
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
@@ -103,11 +103,11 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
 
-        if ($next_class == '') {
+        if ('' === $next_class) {
             $cmd = $this->determineCommand(self::CMD_VIEW_SUB_ITEMS, self::CMD_DELETE);
             $this->tpl->setContent($this->dispatchCommand($cmd));
 
@@ -142,7 +142,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function create($DIC)
+    private function create($DIC) : string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -169,7 +169,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function update($DIC)
+    private function update($DIC) : string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
         if ($f->save()) {
@@ -179,7 +179,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-    private function applyFilter()
+    private function applyFilter() : void
     {
         $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->writeFilterToSession();
@@ -187,7 +187,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function resetFilter()
+    private function resetFilter() : void
     {
         $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->resetFilter();
@@ -217,7 +217,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function delete()
+    private function delete() : void
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isCustom()) {
@@ -228,7 +228,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function cancel()
+    private function cancel() : void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
     }

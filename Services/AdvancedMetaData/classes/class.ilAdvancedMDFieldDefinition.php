@@ -79,6 +79,26 @@ abstract class ilAdvancedMDFieldDefinition
     }
     
     /**
+     * Check if field exists
+     * @param int $a_field_id
+     * @return bool
+     */
+    public static function exists($a_field_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $set = $ilDB->query("SELECT field_type" .
+            " FROM adv_mdf_definition" .
+            " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
+        if ($ilDB->fetchAssoc($set)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get instance by type string (used by import)
      *
      * @param string $a_type
@@ -860,7 +880,7 @@ abstract class ilAdvancedMDFieldDefinition
             $this->import($row);
         }
     }
-    
+
     /**
      * Create new field entry
      */

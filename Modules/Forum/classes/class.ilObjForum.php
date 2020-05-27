@@ -575,7 +575,9 @@ class ilObjForum extends ilObject
                 $newThread,
                 ilForum::_lookupPostMessage($old_post_id),
                 $old_post['notify'],
-                0
+                0,
+                1,
+                false
             );
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);

@@ -24,13 +24,21 @@ class ilAwarenessUserCollector
     protected $ref_id;
 
     /**
+     * @var ilSetting
+     */
+    protected $settings;
+
+    /**
      * Constructor
      *
      * @param int $a_user_id user id
      */
     protected function __construct($a_user_id)
     {
+        global $DIC;
+
         $this->user_id = $a_user_id;
+        $this->settings = $DIC->settings();
     }
 
     /**
@@ -158,9 +166,17 @@ class ilAwarenessUserCollector
 
         $remove_users = array();
 
-        // remove all users that hide their online status
-        foreach (ilObjUser::getUserSubsetByPreferenceValue($all_users, "hide_own_online_status", "y") as $u) {
-            $remove_users[] = $u;
+        if ($this->settings->get("hide_own_online_status") == "n") {
+            // remove all users with hide_own_online_status "y"
+            foreach (ilObjUser::getUserSubsetByPreferenceValue($all_users, "hide_own_online_status", "y") as $u) {
+                $remove_users[] = $u;
+            }
+        } else {
+            // remove all, except user with hide_own_online_status "n"
+            $show_users = ilObjUser::getUserSubsetByPreferenceValue($all_users, "hide_own_online_status", "n");
+            $remove_users = array_filter($all_users, function ($i) use ($show_users) {
+                return !in_array($i, $show_users);
+            });
         }
 
         // remove all users that have not accepted the terms of service yet

@@ -1058,7 +1058,7 @@ class ilSurveyEvaluationGUI
                 $a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("given_answers"));
                 foreach ($texts[""] as $item) {
                     $a_tpl->setCurrentBlock("text_direct_item_bl");
-                    $a_tpl->setVariable("TEXT_DIRECT", nl2br($item));
+                    $a_tpl->setVariable("TEXT_DIRECT", nl2br(htmlentities($item)));
                     $a_tpl->parseCurrentBlock();
                 }
             } else {
@@ -1074,7 +1074,7 @@ class ilSurveyEvaluationGUI
                 foreach ($texts as $var => $items) {
                     $list = array("<ul class=\"small\">");
                     foreach ($items as $item) {
-                        $list[] = "<li>" . nl2br($item) . "</li>";
+                        $list[] = "<li>" . nl2br(htmlentities($item)) . "</li>";
                     }
                     $list[] = "</ul>";
                     $acc->addItem($var, implode("\n", $list));
