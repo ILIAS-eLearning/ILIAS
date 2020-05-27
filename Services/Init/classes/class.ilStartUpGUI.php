@@ -152,7 +152,13 @@ class ilStartUpGUI
         global $tpl, $ilSetting;
         
         $this->getLogger()->debug('Showing login page');
-    
+
+        require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsSoap.php';
+        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http(), $this->ctrl, $ilSetting);
+        $credentials->setUsername(ilUtil::stripSlashes($_GET['ext_uid'] ?? ''));
+        $credentials->setPassword(ilUtil::stripSlashes($_GET['soap_pw'] ?? ''));
+        $credentials->tryAuthenticationOnLoginPage();
+        
         // try apache auth
         include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
         $frontend = new ilAuthFrontendCredentialsApache();
