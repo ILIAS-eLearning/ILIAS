@@ -513,14 +513,21 @@ class ilForum
 
     /**
      * @param ilForumTopic $thread
-     * @param string       $message
-     * @param int          $notify
-     * @param int          $notify_posts
-     * @param int          $status
+     * @param string $message
+     * @param int $notify
+     * @param int $notify_posts
+     * @param int $status
+     * @param bool $withFirstVisibleEntry
      * @return int The id of the new posting, created implicitly when creating new threads
      */
-    public function generateThread(ilForumTopic $thread, $message, $notify, $notify_posts, $status = 1)
-    {
+    public function generateThread(
+        ilForumTopic $thread,
+        $message,
+        $notify,
+        $notify_posts,
+        $status = 1,
+        bool $withFirstVisibleEntry = true
+    ) {
         if (!$thread->getCreateDate()) {
             $thread->setCreateDate(date('Y-m-d H:i:s'));
         }
@@ -555,6 +562,10 @@ class ilForum
             1,
             0
         );
+
+        if (!$withFirstVisibleEntry) {
+            return $rootNodeId;
+        }
 
         return $this->generatePost(
             $thread->getForumId(),
