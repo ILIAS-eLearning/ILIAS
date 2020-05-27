@@ -16,7 +16,7 @@ class ilPlayerUtil
      */
     public static function getLocalMediaElementJsPath()
     {
-        return "./libs/bower/bower_components/mediaelement/build/mediaelement-and-player.min.js";
+        return "./node_modules/mediaelement/build/mediaelement-and-player.min.js";
     }
 
     /**
@@ -24,7 +24,7 @@ class ilPlayerUtil
      */
     public static function getLocalMediaElementCssPath()
     {
-        return "./libs/bower/bower_components/mediaelement/build/mediaelementplayer.min.css";
+        return "./node_modules/mediaelement/build/mediaelementplayer.min.css";
     }
 
     /**
@@ -78,7 +78,7 @@ class ilPlayerUtil
      */
     public static function getFlashVideoPlayerDirectory()
     {
-        return "libs/bower/bower_components/mediaelement/build";
+        return "node_modules/mediaelement/build";
     }
     
     
@@ -105,7 +105,7 @@ class ilPlayerUtil
     public static function copyPlayerFilesToTargetDirectory($a_target_dir)
     {
         ilUtil::rCopy(
-            "./libs/bower/bower_components/mediaelement/build",
+            "./node_modules/mediaelement/build",
             $a_target_dir
         );
     }

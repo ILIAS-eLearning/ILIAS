@@ -8425,6 +8425,20 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
   color: #909090;
 }
+.il-table-data {
+  display: table;
+}
+.il-table-data .row {
+  display: table-row;
+}
+.il-table-data .row .cell {
+  display: table-cell;
+  border: thin solid black;
+  padding: 5px;
+}
+.il-table-data .header.cell {
+  font-weight: bold;
+}
 .il-workflow-header .il-workflow-title {
   background-color: #f2f2f2;
   color: #4c6586;
@@ -19240,4 +19254,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
