@@ -30,9 +30,8 @@ abstract class ilExplorerBaseGUI
      */
     protected $tpl;
 
-    //protected static $js_tree_path = "./libs/bower/bower_components/jstree/jquery.jstree.js";
-    protected static $js_tree_path = "./libs/bower/bower_components/jstree/dist/jstree.js";
-    protected static $js_tree_path_css = "./libs/bower/bower_components/jstree/dist/themes/default/style.min.css";
+    protected static $js_tree_path = "./node_modules/jstree/dist/jstree.js";
+    protected static $js_tree_path_css = "./node_modules/jstree/dist/themes/default/style.min.css";
 
     protected static $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
     protected $skip_root_node = false;

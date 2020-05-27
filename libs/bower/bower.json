@@ -22,7 +22,6 @@
     "jqueryui-touch-punch": "*",
     "jquery-outside-events": "*",
     "yui2": "https://github.com/yui/yui2.git#067c9f82ecc90e4b392b7cb06a4a4f7fe3f6136e",
-    "jstree": "3.3.6",
     "moment": "2.14.1",
     "eonasdan-bootstrap-datetimepicker": "4.17.42",
     "jquery-mousewheel": "3.1.3",
@@ -97,14 +96,6 @@
       "developer": null,
       "purpose": "",
       "last-update-for-ilias": null
-    },
-    "jstree": {
-      "introduction-date": null,
-      "approved-by": "Jour Fixe",
-      "developer": "akill",
-      "purpose": "",
-      "last-update-for-ilias": "5.4.0",
-      "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
     },
     "moment": {
       "introduction-date": null,
