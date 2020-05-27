@@ -93,6 +93,6 @@ class iljQueryUtil
      */
     public static function getLocalMaphilightPath()
     {
-        return "./libs/bower/bower_components/maphilight/jquery.maphilight.min.js";
+        return "./node_modules/maphilight/jquery.maphilight.min.js";
     }
 }
