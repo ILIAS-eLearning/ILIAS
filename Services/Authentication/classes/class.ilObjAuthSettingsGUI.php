@@ -162,6 +162,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $generalSettingsTpl->setVariable("TXT_ROLE_AUTH_MODE", $this->lng->txt("auth_role_auth_mode"));
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $generalSettingsTpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
+            $generalSettingsTpl->setVariable('BTN_SUBMIT_ROLES', $this->lng->txt('save'));
         }
         
         include_once("./Services/AccessControl/classes/class.ilObjRole.php");
