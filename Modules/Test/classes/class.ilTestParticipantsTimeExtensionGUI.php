@@ -116,7 +116,7 @@ class ilTestParticipantsTimeExtensionGUI
             $time = $this->getTestObj()->getStartingTimeOfUser($participant->getActiveId());
             if ($time) {
                 $started = $DIC->language()->txt('tst_started') . ': ' . ilDatePresentation::formatDate(
-                    new ilDateTime($time, IL_CAL_DATETIME)
+                    new ilDateTime($time, IL_CAL_UNIX)
                 );
                 
                 $tblRow['started'] = $started;
@@ -197,7 +197,7 @@ class ilTestParticipantsTimeExtensionGUI
 
             $time = $this->getTestObj()->getStartingTimeOfUser($participant->getActiveId());
             if ($time) {
-                $started = ", " . $DIC->language()->txt('tst_started') . ': ' . ilDatePresentation::formatDate(new ilDateTime($time, IL_CAL_DATETIME));
+                $started = ", " . $DIC->language()->txt('tst_started') . ': ' . ilDatePresentation::formatDate(new ilDateTime($time, IL_CAL_UNIX));
             }
             
             if ($addons[$participant->getActiveId()] > 0) {
