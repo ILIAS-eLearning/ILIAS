@@ -20,10 +20,12 @@ the "jour fixe"-label.
       "last-update-for-ilias": "5.3.0" // ILIAS Version that last updated this Library
     },
 ```
-- Commit the changes in packages.json and package-lock.json
+- Commit the changes in packages.json and package-lock.json and node_modules.
 
 ## Dependencies for development
 - Install the new library, e.g. "npm install webpack --save-dev"
 - Commit the changes in packages.json and package-lock.json
 
-The node_modules/ directory is currently not committed, this is open for discussion.
+- Commit the changes in packages.json and package-lock.json and node_modules.
+
+Currently commit the node_modes directory, this will most probably be abendoned from the git repo in the future.
