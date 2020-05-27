@@ -16,6 +16,11 @@ class ilDidacticTemplateImport
     private $type = 0;
     private $xmlfile = '';
 
+    /**
+     * @var null | \ilLogger
+     */
+    private $logger = null;
+
 
     /**
      * Constructor
@@ -23,6 +28,9 @@ class ilDidacticTemplateImport
      */
     public function __construct($a_type)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->otpl();
         $this->type = $a_type;
     }
 
@@ -232,6 +240,9 @@ class ilDidacticTemplateImport
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
 
+                $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
+                $this->logger->debug('Current filter source: ' . (string) $rfi->attributes()->source);
+
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':
                         $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
@@ -243,6 +254,10 @@ class ilDidacticTemplateImport
 
                     case 'parentRoles':
                         $act->setFilterType(\ilDidacticTemplateAction::FILTER_PARENT_ROLES);
+                        break;
+
+                    case 'localRoles':
+                        $act->setFilterType(\ilDidacticTemplateAction::FILTER_LOCAL_ROLES);
                         break;
                 }
                 foreach ($rfi->includePattern as $pat) {
@@ -265,7 +280,6 @@ class ilDidacticTemplateImport
 
             // role template assignment
             foreach ($ele->localPolicyTemplate as $lpo) {
-                $act->setFilterType(ilDidacticTemplateLocalPolicyAction::FILTER_SOURCE_TITLE);
                 switch ((string) $lpo->attributes()->type) {
                     case 'overwrite':
                         $act->setRoleTemplateType(ilDidacticTemplateLocalPolicyAction::TPL_ACTION_OVERWRITE);
