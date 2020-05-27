@@ -33,7 +33,7 @@ class iljQueryUtil
         }
 
         $a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 0);
-        $a_tpl->addJavaScript('./libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js', true, 0);
+        $a_tpl->addJavaScript('./node_modules/jquery-migrate/dist/jquery-migrate.min.js', true, 0);
     }
 
 
@@ -59,7 +59,7 @@ class iljQueryUtil
      */
     public static function getLocaljQueryPath()
     {
-        return "./libs/bower/bower_components/jquery/dist/jquery" . self::$min . ".js";
+        return "./node_modules/jquery/dist/jquery" . self::$min . ".js";
     }
 
 
@@ -68,7 +68,7 @@ class iljQueryUtil
      */
     public static function getLocaljQueryUIPath()
     {
-        return "./libs/bower/bower_components/jquery-ui/jquery-ui" . self::$min . ".js";
+        return "./node_modules/jquery-ui-dist/jquery-ui" . self::$min . ".js";
     }
 
     //

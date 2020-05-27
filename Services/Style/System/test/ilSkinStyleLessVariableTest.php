@@ -42,8 +42,8 @@ class ilSkinStyleLessVariableTest extends TestCase
     {
         $variable = new ilSystemStyleLessVariable("icon-font-path", "value", "comment", "category_name", ["references_id"]);
 
-        $variable->setValue("\"../../libs/bower/bower_components/bootstrap/fonts/\"");
-        $this->assertEquals("\"../../../../libs/bower/bower_components/bootstrap/fonts/\"", $variable->getValue());
+        $variable->setValue("\"../../node_modules/bootstrap/fonts/\"");
+        $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
     }
 
     public function testIconFontPathQuotation()

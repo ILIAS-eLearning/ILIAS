@@ -235,6 +235,13 @@ library to the new location for external libraries. The new location is:
 `"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
 imported, the variable `icon-font-path` must be adapted accordingly.
 
+#### ILIAS 7
+
+The `icon-font-path` for glyphs has changed due to a move from the bootstrap
+library to the new location for external libraries. The new location is:
+`"../../../../node_modules/bootstrap/fonts/"`. If a 5.2 style is
+imported, the variable `icon-font-path` must be adapted accordingly.
+
 ## Less Guideline
 
 Less is a CSS pre-processor, meaning that it extends the CSS language, adding

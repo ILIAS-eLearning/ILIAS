@@ -104,8 +104,8 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
                 $value .= "\"";
             }
 
-            if ($value == "\"../../libs/bower/bower_components/bootstrap/fonts/\"") {
-                $value = "\"../../../../libs/bower/bower_components/bootstrap/fonts/\"";
+            if ($value == "\"../../node_modules/bootstrap/fonts/\"") {
+                $value = "\"../../../../node_modules/bootstrap/fonts/\"";
             }
         }
 
