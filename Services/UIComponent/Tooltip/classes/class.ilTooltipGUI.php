@@ -88,8 +88,8 @@ class ilTooltipGUI
         $tpl = $GLOBALS["tpl"];
         
         if (!self::$initialized) {
-            $tpl->addCss("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.css");
-            $tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
+            $tpl->addCss("./node_modules/qtip2/dist/jquery.qtip.min.css");
+            $tpl->addJavascript("./node_modules/qtip2/dist/jquery.qtip.min.js");
             $tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
 
             // use setTimeout as a workaround, since the last parameter is ignored
