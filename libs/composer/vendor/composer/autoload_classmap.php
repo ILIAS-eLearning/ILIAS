@@ -396,6 +396,7 @@ return array(
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\Aggregation\\ConcatenationJob' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/Aggregation/ConcatenationJob.php',
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\BasicTaskFactory' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/BasicTaskFactory.php',
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\DownloadInteger' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/DownloadInteger.php',
+    'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\NotFoundUserInteraction' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/NotFoundUserInteraction.php',
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\PlusJob' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/PlusJob.php',
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\SlowPlusJob' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/SlowPlusJob.php',
     'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\UserInteraction\\UserInteractionOption' => $baseDir . '/../../src/BackgroundTasks/Implementation/Tasks/UserInteraction/UserInteractionOption.php',
