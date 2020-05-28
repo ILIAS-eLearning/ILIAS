@@ -270,7 +270,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
         return $questionoutput;
@@ -326,7 +326,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/orderinghorizontal.js");
         $questionoutput = $template->get();
@@ -356,7 +356,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $files = array();
         
         if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
-            $files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         
         return $files;
