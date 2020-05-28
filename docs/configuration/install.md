@@ -41,7 +41,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [Major Upgrade](#major-upgrade)
    1. [Database Update](#database-update)
    1. [Information on Updates](#information-on-updates)
-1. [Upgrading Dependencies](#upgrading-dependencies)
+1. [DBMS](#dbms)
    1. [PHP](#php)
    1. [MySQL](#mysql)
    1. [ImageMagick](#imagemagick)
@@ -606,18 +606,19 @@ When you upgrade from rather old versions please make sure that the dependencies
 | 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
 | 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
 
-<a name="mysql"></a>
-## MySQL
+<a name="dbms"></a>
+## DBMS
 
-| ILIAS Version   | MySQL Version                         |
-|-----------------|---------------------------------------|
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                   |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x   |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x                 |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                         |
+| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
+|-----------------|-------------------------------------|-------------------------|--------------------------|
+| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
+| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
+| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
+| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
+| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
+| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
+| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
+| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
 
 <a name="imagemagick"></a>
 ## ImageMagick
