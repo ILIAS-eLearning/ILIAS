@@ -613,7 +613,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 | ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
 |-----------------|-------------------------------------|-------------------------|--------------------------|
 | 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
-| 6.0 - 6.x       | 5.6.x, 5.7.x                        | 10.0, 10.1, 10.2        | 9.x                      |
+| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
 | 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
 | 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
