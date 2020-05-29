@@ -152,11 +152,18 @@ class ilLSPlayer
      */
     protected function getCurrentItem(array $items) : LSLearnerItem
     {
+        $current_item = $items[0];
         $current_item_ref_id = $this->ls_items->getCurrentItemRefId();
-        if ($current_item_ref_id === 0) {
-            $current_item = $items[0];
-        } else {
-            list($position, $current_item) = $this->findItemByRefId($items, $current_item_ref_id);
+        if ($current_item_ref_id !== 0) {
+            $valid_ref_ids = array_map(
+                function($item) {
+                    return $item->getRefId();
+                },
+                array_values($this->ls_items->getItems())
+            );
+            if(in_array($current_item_ref_id, $valid_ref_ids)) {
+                list($position, $current_item) = $this->findItemByRefId($items, $current_item_ref_id);
+            }
         }
         return $current_item;
     }
