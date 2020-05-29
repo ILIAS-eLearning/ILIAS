@@ -218,7 +218,7 @@ class ilMembershipNotifications
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $users = $all = array();
         
@@ -235,7 +235,7 @@ class ilMembershipNotifications
             case self::MODE_SELF:
                 $set = $ilDB->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE " . $ilDB->like("keyword", "text", "grpcrs_ntf_" . $this->ref_id) .
+                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
                     " AND value = " . $ilDB->quote(self::VALUE_ON, "text"));
                 while ($row = $ilDB->fetchAssoc($set)) {
                     $users[] = $row["usr_id"];
@@ -248,7 +248,7 @@ class ilMembershipNotifications
                 $inactive = array();
                 $set = $ilDB->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE " . $ilDB->like("keyword", "text", "grpcrs_ntf_" . $this->ref_id) .
+                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
                     " AND value = " . $ilDB->quote(self::VALUE_OFF, "text"));
                 while ($row = $ilDB->fetchAssoc($set)) {
                     $inactive[] = $row["usr_id"];
@@ -630,7 +630,7 @@ class ilMembershipNotifications
             " WHERE ref_id = %s ",
             array("integer"),
             array($this->ref_id)
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $ilDB->insert("member_noti", array(
                 "ref_id" => array("integer", $new_ref_id),
