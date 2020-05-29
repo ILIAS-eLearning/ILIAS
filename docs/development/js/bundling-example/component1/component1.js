@@ -1,4 +1,3 @@
-/* global $, il */
 import sub1 from "./component-submodule1"
 import sub2 from "./component-submodule2"
 
