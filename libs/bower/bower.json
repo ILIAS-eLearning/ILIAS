@@ -34,7 +34,6 @@
     "pouchdb": "^6.3.4",
     "openlayers": "^4.6.4",
     "owl.carousel": "^2.3.3",
-    "nestable2": "^1.6.0",
     "dropzone": "^5.5.0"
   },
   "extra": {
