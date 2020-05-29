@@ -4,15 +4,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ilMMTopItemGUI
- *
  * @ilCtrl_IsCalledBy ilMMSubItemGUI: ilObjMainMenuGUI
  * @ilCtrl_Calls      ilMMSubItemGUI: ilMMItemTranslationGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMSubItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
+
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
     const CMD_CREATE = 'subitem_create';
@@ -26,7 +25,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CANCEL = 'cancel';
-
 
     private function dispatchCommand($cmd)
     {
@@ -95,10 +93,10 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
-            $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
+            $item     = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
             $position = (int) $data['position'];
             $item->setPosition($position);
-            $item->setActiveStatus((bool) $data['active']);
+            $item->setActiveStatus(isset($data['active']) && (bool) $data['active']);
             $item->setParent($this->unhash((string) $data['parent']));
             $this->repository->updateItem($item);
         }
@@ -127,10 +125,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         }
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -141,10 +137,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -158,10 +152,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -172,10 +164,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -205,7 +195,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         $this->cancel();
     }
-
 
     /**
      * @return string
@@ -243,7 +232,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
     }
-
 
     /**
      * @return string
