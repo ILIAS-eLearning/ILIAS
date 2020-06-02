@@ -3582,7 +3582,6 @@ $type_id = ilDBUpdateNewObjectType::addNewType('prgr', 'Study Programme Referenc
 ilDBUpdateNewObjectType::addRBACOperations($type_id, [
     ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
     ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
-    ilDBUpdateNewObjectType::RBAC_OP_READ,
     ilDBUpdateNewObjectType::RBAC_OP_WRITE,
     ilDBUpdateNewObjectType::RBAC_OP_DELETE,
     ilDBUpdateNewObjectType::RBAC_OP_COPY
