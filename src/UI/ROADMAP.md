@@ -193,6 +193,12 @@ entirely.
 * Section View Control Input
 * Sortation View Control Input
 
+### Get rid of < div > under < body > element in Standard Page template (beginner)
+In the template of the Standard Page, one level under the < body > element,
+a < div > element is used. This level seems redundant and not giving any advantages
+over just starting with < body >. We should remove the < div > element, but must
+keep the functionalities, which are coupled to the "class"-attribute of the element.
+
 
 ## Long Term
 

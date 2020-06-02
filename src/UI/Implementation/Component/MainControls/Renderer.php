@@ -122,6 +122,7 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                    ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
 
             } else {
