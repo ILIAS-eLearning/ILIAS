@@ -135,7 +135,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $html = $r->render($mb);
 
         $expected = <<<EOT
-<div class="il-maincontrols-metabar" id="id_5">
+<div class="il-maincontrols-metabar" id="id_5" role="menubar" aria-label="metabar_aria_label">
 	<div class="il-metabar-entries" style="visibility: hidden">
 		<button class="btn btn-bulky" data-action="#" id="id_1" >
 			<div class="icon custom small" aria-label="">
@@ -149,7 +149,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 			</div>
 			<span class="bulky-label">TestEntry</span>
 		</button>
-		<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
+		<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" aria-pressed="false" >
 			<span class="glyph" aria-label="disclose">
 				<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 				<span class="il-counter">
@@ -163,7 +163,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 		</button>
 	</div>
 	<div class="il-metabar-slates">
-		<div class="il-maincontrols-slate disengaged" id="id_4">
+		<div class="il-maincontrols-slate disengaged" id="id_4" role="menu">
 			<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 		</div>
 	</div>

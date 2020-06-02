@@ -68,6 +68,28 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $this->assertTrue($b->isEngaged());
     }
 
+    public function test_with_aria_role()
+    {
+        try {
+            $b = $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
+                                      ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
+            $this->assertEquals("menuitem", $b->getAriaRole());
+        } catch (\InvalidArgumentException $e) {
+            $this->assertFalse("This should not happen");
+        }
+    }
+
+    public function test_with_aria_role_incorrect()
+    {
+        try {
+            $this->button_factory->bulky($this->glyph, "label", "http://www.ilias.de")
+                                      ->withAriaRole("loremipsum");
+            $this->assertFalse("This should not happen");
+        } catch (\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
+
     public function test_render_with_glyph_in_context()
     {
         $r = $this->getDefaultRenderer();
@@ -113,6 +135,24 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
+            . '	<div class="icon someExample small" aria-label="Example"></div>'
+            . '	<span class="bulky-label">label</span>'
+            . '</button>';
+
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
+
+    public function test_render_button_with_aria_role()
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")
+            ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
+
+        $expected = ''
+            . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
             . '	<div class="icon someExample small" aria-label="Example"></div>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';

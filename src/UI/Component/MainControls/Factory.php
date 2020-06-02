@@ -42,10 +42,10 @@ interface Factory
      *
      *   effect: >
      *     Entries in the Meta Bar may open a Slate when clicked. They will be set
-     *     to "engaged" accordingly, and bear the aria-pressed attribute. There
-     *     will be only one engaged Button/Slate at a time. Also, Buttons in the
-     *     Meta Bar may trigger navigation or activate tools in the Main Bar, like
-     *     the Help. In this case, the buttons are not stateful.
+     *     to "engaged" accordingly. There will be only one engaged Button/Slate
+     *     at a time. Also, Buttons in the Meta Bar may trigger navigation or
+     *     activate tools in the Main Bar, like the Help. In this case, the buttons
+     *     are not stateful.
      *
      *   rivals:
      *     Main Bar: >
@@ -70,6 +70,15 @@ interface Factory
      *
      *   style:
      *     1: The bar MUST have a fixed height.
+     *
+     *   accessibility:
+     *     1: The Meta Bar MUST bear the ARIA role "menubar".
+     *     2: >
+     *       Bulky Buttons in the Meta Bar MUST bear the "aria-pressed" attribute to
+     *       inform the user if the entry is engaged or disengaged at the moment.
+     *     3: Bulky Buttons in the Meta Bar MUST bear the "aria-haspopup" attribute.
+     *     4: Bulky Buttons in the Meta Bar MUST bear the ARIA role "menuitem".
+     *     5: Slates in the Meta Bar MUST bear the ARIA role "menu".
      * ----
      *
      * @return  \ILIAS\UI\Component\MainControls\MetaBar
@@ -200,8 +209,22 @@ interface Factory
      *        change the location/content of the current page.
      *     2: Elements in the bar MUST NOT open a modal or new Viewport.
      *
+     *   accessibility:
+     *     1: The HTML tag < nav > MUST be used for the Main Bar to be identified as
+     *        the ARIA Landmark Role "Navigation".
+     *     2: >
+     *        The "aria-label" attribute MUST be set for the Main Bar, which MUST be
+     *        language-dependant.
+     *     3: >
+     *        The area, where the entries of the Main Bar are placed, MUST bear the
+     *        ARIA role "menubar".
+     *     4: >
+     *        Bulky Buttons in the Main Bar MUST bear the "aria-pressed" attribute to
+     *        inform the user if the entry is engaged or disengaged at the moment.
+     *     5: Bulky Buttons in the Main Bar MUST bear the "aria-haspopup" attribute.
+     *     6: Bulky Buttons in the Main Bar MUST bear the ARIA role "menuitem".
+     *     7: Slates in the Main Bar MUST bear the ARIA role "menu".
      * ----
-     *
      * @return  \ILIAS\UI\Component\MainControls\MainBar
      */
     public function mainBar() : MainBar;
@@ -277,7 +300,7 @@ interface Factory
      *     2: >
      *        Actions or navigational elements offered inside a Slate MUST be accessible
      *        by only using the keyboard
-     *     3: A Slate MUST set the aria-hidden attribute.
+     *     3: A Slate MUST set the "aria-expanded" and the "aria-hidden" attributes.
      *
      * ----
      *
