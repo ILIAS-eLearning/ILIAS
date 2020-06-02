@@ -48,8 +48,8 @@ var ServiceOpenLayers = {
 
 			this.geolocationURL = window.location.protocol + "//"+ geo;
 			this.initView(id, pos, zoom);
-			this.initMap(id);
-			this.initUserMarkers(id, pos, replace_marker);
+			this.initMap(id, replace_marker);
+			this.initUserMarkers(id, pos, replace_marker, central_marker);
 		}
 	},
 
@@ -59,14 +59,16 @@ var ServiceOpenLayers = {
 	 * @param 	{string} 	id
 	 * @param 	{number} 	pos
 	 * @param 	{boolean} 	replace_marker
+	 * @param 	{boolean} 	central_marker
 	 * @returns {void}
 	 */
 	initUserMarkers: function(
 		id,
 		pos,
-		replace_marker
+		replace_marker,
+		central_marker
 	) {
-		if(replace_marker) {
+		if(replace_marker || central_marker) {
 			this.deleteAllMarkers();
 			this.setMarker(id, pos);
 			return;
@@ -110,9 +112,10 @@ var ServiceOpenLayers = {
 	 * Initialise a map on the page.
 	 *
 	 * @param 	{string} 	id
+	 * @param 	{boolean} 	replace_marker
 	 * @return 	{void}
 	 */
-	initMap: function (id) {
+	initMap: function (id, replace_marker) {
 		this.map = new this.ol.Map({
 			layers: [
 				new this.ol.layer.Tile({
@@ -132,8 +135,10 @@ var ServiceOpenLayers = {
 			e.preventDefault();
 			var center = e.coordinate;
 			this.jumpTo(id, center);
-			this.deleteAllMarkers();
-			this.setMarker(id, center);
+			if (replace_marker) {
+				this.deleteAllMarkers();
+				this.setMarker(id, center);
+			}
 			this.updateInputFields(id, center);
 		}, this);
 	},
