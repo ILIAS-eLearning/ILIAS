@@ -16,7 +16,9 @@ abstract class BaseCommands
     const CMD_EDIT = "edit";
     const CMD_UPDATE = "update";
     const CMD_CONFIRM = "confirm";
+    const CMD_CONFIRM_RECURSIVE = "confirmRecursive";
     const CMD_DELETE = "delete";
+    const CMD_DELETE_RECURSIVE = "deleteRecursive";
     const CMD_CANCEL = "cancel";
     const AR_ID = "arid";
     /**

@@ -79,9 +79,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $html = '';
         foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
             $ilOrgUnitRecursiveUserAssignmentTableGUI =
-                new ilOrgUnitRecursiveUserAssignmentTableGUI($this,
+                new ilOrgUnitRecursiveUserAssignmentTableGUI(
+                    $this,
                     self::CMD_ASSIGNMENTS_RECURSIVE,
-                    $ilOrgUnitPosition);
+                    $ilOrgUnitPosition
+                );
             $html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
         }
         $this->setContent($html);
@@ -89,6 +91,22 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
 
 
     protected function confirm()
+    {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function confirmRecursive()
+    {
+        $confirmation = $this->getConfirmationGUI();
+        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
+
+        $this->setContent($confirmation->getHTML());
+    }
+
+    protected function getConfirmationGUI() : ilConfirmationGUI
     {
         $this->ctrl()->saveParameter($this, 'position_id');
         $r = $this->http()->request();
@@ -98,14 +116,12 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
          */
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl()->getFormAction($this));
-        $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $confirmation->setConfirm($this->txt('remove_user'), self::CMD_DELETE);
         $confirmation->setHeaderText(sprintf($this->txt('msg_confirm_remove_user'), $ilOrgUnitPosition->getTitle()));
         $confirmation->addItem('usr_id', $r->getQueryParams()['usr_id'], ilObjUser::_lookupLogin($r->getQueryParams()['usr_id']));
+        $confirmation->setCancel($this->txt(self::CMD_CANCEL), self::CMD_CANCEL);
 
-        $this->setContent($confirmation->getHTML());
+        return $confirmation;
     }
-
 
     protected function delete()
     {
@@ -117,6 +133,19 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->cancel();
     }
 
+    protected function deleteRecursive()
+    {
+        $r = $this->http()->request();
+        $assignments = ilOrgUnitUserAssignmentQueries::getInstance()
+            ->getAssignmentsOfUserIdAndPosition((int) $_POST['usr_id'], (int) $r->getQueryParams()['position_id'])
+        ;
+
+        foreach ($assignments as $assignment) {
+            $assignment->delete();
+        }
+        ilUtil::sendSuccess($this->txt('remove_successful'), true);
+        $this->cancel();
+    }
 
     protected function cancel()
     {
