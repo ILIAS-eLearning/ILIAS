@@ -285,3 +285,14 @@ if (!$idx) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#22>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+$type = 'prgr';
+$ops_id = ilDBUpdateNewObjectType::RBAC_OP_READ;
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId($type);
+if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
+    ilDBUpdateNewObjectType::deleteRBACOperation($type, $ops_id);
+}
+?>
