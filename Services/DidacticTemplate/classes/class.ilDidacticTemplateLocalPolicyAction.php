@@ -182,6 +182,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         // Create local policy for filtered roles
         foreach ($roles as $role_id => $role) {
             $this->getLogger()->debug('Apply to role: ' . $role['title']);
+            $this->getLogger()->debug('Role parent: ' . $role['parent']);
+            $this->getLogger()->debug('Source ref_id: ' . $source->getRefId());
 
             // No local policies for protected roles of higher context
             if (
@@ -214,7 +216,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
         // Delete local policy for filtered roles
         foreach ($roles as $role_id => $role) {
-            // Do not delete local policies of auto genrated roles
+            // Do not delete local policies of auto generated roles
             if (!$rbacreview->isGlobalRole($role['obj_id']) and
                 $rbacreview->isAssignable($role['obj_id'], $source->getRefId()) and
                 $rbacreview->isSystemGeneratedRole($role['obj_id'])) {
@@ -263,13 +265,24 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
         switch ($this->getFilterType()) {
             case self::FILTER_SOURCE_TITLE:
-                $writer->xmlStartTag('roleFilter', array('source' => 'title'));
+                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
                 break;
 
             case self::FILTER_SOURCE_OBJ_ID:
-                $writer->xmlStartTag('roleFilter', array('source' => 'objId'));
+                $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
                 break;
 
+            case self::FILTER_PARENT_ROLES:
+                $writer->xmlStartTag('roleFilter', ['source' => 'parentRoles']);
+                break;
+
+            case self::FILTER_LOCAL_ROLES:
+                $writer->xmlStartTag('roleFilter', ['source' => 'localRoles']);
+                break;
+
+            default:
+                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
+                break;
         }
 
         foreach ($this->getFilterPattern() as $pattern) {
@@ -374,8 +387,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
+        $rbacreview = $DIC->rbac()->review();
+        $rbacadmin = $DIC->rbac()->admin();
         
         // fetch role information
         $role_data = array();
@@ -393,12 +406,14 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 'n'
             );
         }
-        
+
+
         // do nothing if role is protected in higher context
         if (
-            $GLOBALS['DIC']->rbac()->review()->isProtected($source->getRefId(), $role['obj_id'])
+            $rbacreview->isProtected($source->getRefId(),$role['obj_id']) &&
+            $role['parent'] != $source->getRefId()
         ) {
-            $GLOBALS['DIC']->logger()->otpl()->info('Ignoring protected role: ' . $role['title']);
+            $this->getLogger()->info('Ignoring protected role: ' . $role['title']);
             return true;
         }
 

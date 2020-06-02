@@ -1,5 +1,7 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+
 /**
  * Class ilDclTextRecordFieldModel
  *
@@ -44,7 +46,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
                 $col += 2;
             }
         } else {
-            $worksheet->setCell($row, $col, $value);
+            $worksheet->setCell($row, $col, $value, DataType::TYPE_STRING);
             $col++;
         }
     }

@@ -762,6 +762,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\Aggregation\\ConcatenationJob' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/Aggregation/ConcatenationJob.php',
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\BasicTaskFactory' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/BasicTaskFactory.php',
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\DownloadInteger' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/DownloadInteger.php',
+        'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\NotFoundUserInteraction' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/NotFoundUserInteraction.php',
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\PlusJob' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/PlusJob.php',
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\SlowPlusJob' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/SlowPlusJob.php',
         'ILIAS\\BackgroundTasks\\Implementation\\Tasks\\UserInteraction\\UserInteractionOption' => __DIR__ . '/../..' . '/../../src/BackgroundTasks/Implementation/Tasks/UserInteraction/UserInteractionOption.php',

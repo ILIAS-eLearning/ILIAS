@@ -553,7 +553,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         $this->testSession->setLastFinishedPass($this->testSession->getPass());
         $this->testSession->increaseTestPass();
-        
+
         $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED);
 
         $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
@@ -562,7 +562,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("CONTENT_BLOCK", "<meta http-equiv=\"refresh\" content=\"5; url=" . $url . "\">");
         $this->tpl->parseCurrentBlock();
     }
-    
+
+    public function redirectAfterDashboardCmd()
+    {
+        $active_id = $this->testSession->getActiveId();
+        $actualpass = ilObjTest::_getPass($active_id);
+
+        $this->performTestPassFinishedTasks($actualpass);
+
+        $this->testSession->setLastFinishedPass($this->testSession->getPass());
+        $this->testSession->increaseTestPass();
+
+        $url = $this->ctrl->getLinkTarget($this, ilTestPlayerCommands::AFTER_TEST_PASS_FINISHED, '', false, false);
+
+        $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_redirect_autosave.html", "Modules/Test");
+        $this->tpl->setVariable("TEXT_REDIRECT", $this->lng->txt("redirectAfterSave"));
+        $this->tpl->setVariable("URL", $url);
+    }
+
     abstract protected function getCurrentQuestionId();
 
     public function autosaveCmd()
@@ -1499,10 +1516,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        
+
         $this->tpl->setCurrentBlock("HeadContent");
         $this->tpl->setVariable("CONTENT_BLOCK", $template->get());
         $this->tpl->parseCurrentBlock();
+        if($this->ctrl->getCmd('outQuestionSummary')) {
+            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
+        } else {
+            $template->setVariable("REDIRECT_URL", "");
+        }
+        $this->tpl->addOnLoadCode($template->get());
     }
 
     protected function showSideList($presentationMode, $currentSequenceElement)
