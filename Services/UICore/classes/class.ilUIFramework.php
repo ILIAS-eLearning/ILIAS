@@ -11,7 +11,7 @@
  */
 class ilUIFramework
 {
-    const BOWER_BOOTSTRAP_JS = "libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js";
+    const BOWER_BOOTSTRAP_JS = "node_modules/bootstrap/dist/js/bootstrap.min.js";
 
 
     /**
@@ -31,7 +31,7 @@ class ilUIFramework
      */
     public static function getCssFiles()
     {
-        return array("./libs/bower/bower_components/Yamm3/yamm/yamm.css");
+        return [];
     }
 
 

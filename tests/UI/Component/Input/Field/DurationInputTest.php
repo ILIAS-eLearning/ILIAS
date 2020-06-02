@@ -22,10 +22,17 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $this->factory = $this->buildFactory();
     }
 
+    protected function buildLanguage()
+    {
+        if (!isset($this->lng)) {
+            $this->lng = $this->createMock(\ilLanguage::class);
+        }
+        return $this->lng;
+    }
+
     protected function buildRefinery()
     {
-        $language = $this->createMock(\ilLanguage::class);
-        return new \ILIAS\Refinery\Factory($this->data_factory, $language);
+        return new \ILIAS\Refinery\Factory($this->data_factory, $this->buildLanguage());
     }
 
     protected function buildFactory()
@@ -33,7 +40,8 @@ class DurationInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $this->data_factory,
-            $this->buildRefinery()
+            $this->buildRefinery(),
+            $this->buildLanguage()
         );
     }
     public function getUIFactory()

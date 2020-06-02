@@ -3838,6 +3838,9 @@ class ilObjectListGUI
             $description
         );
 
+        $user = $this->user;
+        $access = $this->access;
+
         $this->enableCommands(true);
 
         $sections = [];
@@ -3927,6 +3930,25 @@ class ilObjectListGUI
             ->icon()
             ->standard($type, $this->lng->txt('obj_' . $type))
             ->withIsOutlined(true);
+
+        // card title action
+        $card_title_action = "";
+        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
+            $card_title_action = $modified_link;
+        } elseif ($def_command['link'] == "" &&
+            $this->getInfoScreenStatus() &&
+            $access->checkAccessOfUser(
+                $user->getId(),
+                "visible",
+                "",
+                $ref_id
+            )) {
+            $card_title_action = ilLink::_getLink($ref_id);
+            if ($image->getAction() == "") {
+                $image = $image->withAction($card_title_action);
+            }
+        }
+
         $card = $ui->factory()->card()->repositoryObject(
             $title . '<span data-list-item-id="' . $this->getUniqueItemId(true) . '"></span>',
             $image
@@ -3936,14 +3958,13 @@ class ilObjectListGUI
             $dropdown
         );
 
-        // #24256
-        if ($def_command['link'] && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {
-            $card = $card->withTitleAction($modified_link);
+        if ($card_title_action != "") {
+            $card = $card->withTitleAction($card_title_action);
         }
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if ($p['property'] !== $this->lng->txt('learning_progress')) {
+            if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }

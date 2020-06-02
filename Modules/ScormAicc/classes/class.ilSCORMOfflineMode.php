@@ -67,8 +67,8 @@ class ilSCORMOfflineMode
         $this->images_dir = './templates/default/images/scorm/';
         $this->pouchdb_js = './libs/bower/bower_components/pouchdb/dist/pouchdb.min.js';
         $this->jquery_js = './libs/bower/bower_components/jquery/dist/jquery.min.js';
-        $this->bootstrap_js = './libs/bower/bower_components/bootstrap/dist/js/bootstrap.min.js';
-        $this->bootstrap_css = './libs/bower/bower_components/bootstrap/dist/css/bootstrap.min.css';
+        $this->bootstrap_js = './node_modules/bootstrap/dist/js/bootstrap.min.js';
+        $this->bootstrap_css = './node_modules/bootstrap/dist/css/bootstrap.min.css';
         $this->read();
     }
     

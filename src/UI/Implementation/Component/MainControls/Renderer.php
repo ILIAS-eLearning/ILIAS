@@ -109,13 +109,12 @@ class Renderer extends AbstractComponentRenderer
         foreach ($entries as $k => $entry) {
             $button = $entry;
             $slate = null;
+            $js = '';
 
             if ($entry instanceof Slate) {
                 $slate = $entry;
                 $mb_id = $entry->getMainBarTreePosition();
-
                 $is_tool = $block === static::BLOCK_MAINBAR_TOOLS;
-                $js = '';
                 if ($is_tool) {
                     $js = $this->renderToolEntry($entry, $k, $mb_id, $component, $tpl, $default_renderer);
                 }
@@ -123,20 +122,25 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withAriaRole(IBulky::MENUITEM)
-                    ->withOnClick($trigger_signal)
-                    ->withAdditionalOnLoadCode(
-                        function ($id) use ($js, $mb_id, $k, $is_tool) {
-                            $add_as_tool = $is_tool ? 'true':'false';
-                            $js .= "
-                                il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}', {$add_as_tool});
-                                il.UI.maincontrols.mainbar.addMapping('{$k}','{$mb_id}');
-                            ";
-                            return $js;
-                        }
-                    );
+                    ->withOnClick($trigger_signal);
+
+            } else {
+                //add Links/Buttons as toplevel entries
+                $pos = array_search($k, array_keys($entries));
+                $mb_id = '0:' .$pos;
+                $is_tool = false;
             }
 
+            $button = $button->withAdditionalOnLoadCode(
+                function ($id) use ($js, $mb_id, $k, $is_tool) {
+                    $add_as_tool = $is_tool ? 'true':'false';
+                    $js .= "
+                        il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}', {$add_as_tool});
+                        il.UI.maincontrols.mainbar.addMapping('{$k}','{$mb_id}');
+                    ";
+                    return $js;
+                }
+            );
             $tpl->setCurrentBlock($block);
             $tpl->setVariable("BUTTON", $default_renderer->render($button));
             $tpl->parseCurrentBlock();

@@ -301,6 +301,7 @@ class ilHelpGUI
     public function showPage()
     {
         $lng = $this->lng;
+        $ui = $this->ui;
         
         $page_id = (int) $_GET["help_page"];
         
@@ -308,21 +309,19 @@ class ilHelpGUI
         include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 
 
-        $h_tpl->setCurrentBlock("backlink");
-        $h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
         if (($t = ilSession::get("help_search_term")) != "") {
-            $h_tpl->setVariable(
-                "ONCLICK_BACK",
-                "return il.Help.search('" . ilUtil::prepareFormOutput($t) . "');"
-            );
+            $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($t) {
+                return
+                    "$(\"#$id\").click(function() { return il.Help.search('" . ilUtil::prepareFormOutput($t) . "'); return false;});";
+            });
+            $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
         } else {
-            $h_tpl->setVariable(
-                "ONCLICK_BACK",
-                "return il.Help.listHelp(event, true);"
-            );
+            $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
+                return
+                    "$(\"#$id\").click(function() { return il.Help.listHelp(event, true); return false;});";
+            });
+            $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
         }
-        $h_tpl->parseCurrentBlock();
-        
         
         $h_tpl->setVariable(
             "HEAD",
@@ -547,6 +546,7 @@ class ilHelpGUI
     public function search()
     {
         $lng = $this->lng;
+        $ui = $this->ui;
 
         $term = $_GET["term"];
 
@@ -559,14 +559,12 @@ class ilHelpGUI
         $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
         include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 
-        $h_tpl->setCurrentBlock("backlink");
-        $h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
-        $h_tpl->setVariable(
-            "ONCLICK_BACK",
-            "return il.Help.listHelp(event, true);"
-        );
-        $h_tpl->parseCurrentBlock();
 
+        $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
+            return
+                "$(\"#$id\").click(function() { return il.Help.listHelp(event, true); return false;});";
+        });
+        $h_tpl->setVariable("BACKBUTTON", $ui->renderer()->renderAsync($back_button));
 
         $h_tpl->setVariable("HEAD", $lng->txt("help") . " - " .
             $lng->txt("search_result"));

@@ -117,7 +117,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
 ### Client
 
   * Desktop: Windows 7+, MacOS X 10.7+, Linux
-  * Web Browser: IE11+, Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
+  * Web Browser: Microsoft Edge, Firefox 14+, Chrome 18+, Safari 7+
 
 <a name="database-recommendations"></a>
 ## Database Recommendations

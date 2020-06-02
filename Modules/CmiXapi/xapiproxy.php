@@ -210,13 +210,15 @@ function handleStatementEvaluation($xapiStatement)
     /* @var ilObjCmiXapi $object */
     $object = ilObjectFactory::getInstanceByObjId($authToken->getObjId());
 
-    $statementEvaluation = new ilXapiStatementEvaluation($log, $object);
-    $statementEvaluation->evaluateStatement($xapiStatement, $authToken->getUsrId());
-    
-    ilLPStatusWrapper::_updateStatus(
-        $authToken->getObjId(),
-        $authToken->getUsrId()
-    );
+    if( (string)$object->getLaunchMode() === (string)ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
+        $statementEvaluation = new ilXapiStatementEvaluation($log, $object);
+        $statementEvaluation->evaluateStatement($xapiStatement, $authToken->getUsrId());
+
+        ilLPStatusWrapper::_updateStatus(
+            $authToken->getObjId(),
+            $authToken->getUsrId()
+        );
+    }
 }
 
 // use only for debugging states before ILIAS Init

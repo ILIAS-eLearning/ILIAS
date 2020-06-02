@@ -239,6 +239,16 @@ If the constraint is met, show the question.
   * constraint_fi: constraint definition -> svy_constraint
 * problem: it seems that svy_constraint and svy_qst_constraint could be merged into one table
 
+### Current "Business" Rules (weak, needs a better concept)
+
+* The "targets" for constraints are always single questions.
+* If a question is added to a single question page (no block), all constraints are removed (createQuestionBlock) from the single question.
+* If a contraint is defined for a block (as a target), the constraint is assigned to all questions of the block (svy_qst_constraint).
+* If a third question is added to a block svy_qst_constraint holds only entries for the first two questions.
+* Constraint checking in ilSurveyExecutionGUI->outSurveyPage seems only to be done for the constraints of the first question of a block.
+* The constraints table shows only the constraints of the first question of a question block.
+
+
 ## Survey Run
 * **Code**:
 * **DB Tables**: `svy_finished`,`svy_times`

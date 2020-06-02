@@ -120,14 +120,11 @@ We are happy to get contributions that are no commits as well. There are many
 other things you could contribute to ILIAS:
 
 * **Ideas for new Features**: The development of ILIAS is driven by requirements
-  from the community. Contribute your ideas via [feature requests]
-  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
+  from the community. Contribute your ideas via [feature requests](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA119).
 * **Bug Reports**: We do our best, but ILIAS might contain bugs we do not know
-  yet. Check out how the ILIAS Community handles [bug reports]
-  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
+  yet. Check out how the ILIAS Community handles [bug reports](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA115).
 * **Information about Security Issues**: Check out how the ILIAS community
-  handles [security issues]
-  (http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112). 
+  handles [security issues](http://www.ilias.de/docu/goto.php?target=wiki_5307&client_id=docu#ilPageTocA112). 
   Reporter of security issues will also be named in the release notes.
 * **Time for Testing or Testcases**: We always need people that contribute
   testcases and perform them before new releases. Please have a look

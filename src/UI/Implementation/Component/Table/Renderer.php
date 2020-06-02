@@ -26,17 +26,6 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * @inheritdoc
-     */
-    protected function getComponentInterfaceName()
-    {
-        return array(
-            Component\Table\PresentationRow::class,
-            Component\Table\Presentation::class
-        );
-    }
-
-    /**
      * @param Component\Table\Presentation $component
      * @param RendererInterface $default_renderer
      * @return mixed
@@ -165,5 +154,17 @@ class Renderer extends AbstractComponentRenderer
                 "$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });" .
                 "$(document).on('{$toggle}', function() { il.UI.table.presentation.toggleRow('{$id}'); return false; });";
         });
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName()
+    {
+        return array(
+            Component\Table\PresentationRow::class,
+            Component\Table\Presentation::class
+        );
     }
 }

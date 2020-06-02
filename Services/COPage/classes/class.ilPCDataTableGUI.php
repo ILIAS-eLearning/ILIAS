@@ -653,7 +653,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
         ilYuiUtil::initPanel(false);
-        $main_tpl->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
+        $main_tpl->addJavascript("./node_modules/tinymce/tinymce.min.js");
         $main_tpl->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
         $main_tpl->addJavascript("Services/COPage/js/page_editing.js");
 

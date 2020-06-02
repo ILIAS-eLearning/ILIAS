@@ -30,7 +30,8 @@ class DateTimeInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $this->data_factory,
-            new \ILIAS\Refinery\Factory($df, $language)
+            new \ILIAS\Refinery\Factory($df, $language),
+            $language
         );
     }
  
