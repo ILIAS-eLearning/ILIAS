@@ -54,12 +54,35 @@ il.UI.button = il.UI.button || {};
 
 ## Proposal
 
-### Bundle core JS via ES6 modules
+### Use ES6 modules
+
+Modules SHOULD be implemented as ES6 modules. They should export their public API part using ES6 export statements.
+
+```
+export default {
+
+  public1: function() {
+    ...
+    internal();
+  }
+}
+
+function internal() {
+  console.log("internal called");
+}
+```
+
+### Split and bundle files in components
+
+Single components MAY split up their code into multiple files using the ES6 module concept internally. To improve performance they SHOULD create bundles on the component level, see [js-bundling.md](./js-bundling.md).
+
+
+## Outlook: Bundle core JS via ES6 modules
 
 Using ES6 modules could greatly reduce the number of scripts being included in ILIAS page HTML.
 
 ```
-</tml>
+<html>
 <head>
 </head>
 <body>
@@ -79,7 +102,7 @@ window.onload = function () {
 </html>
 ```
 
-All core and service components SHOULD add their imports to one central il.js file.
+All core and service components MUST add their ES6 imports to one central il.js file.
 
 ```
 // this first line imports a non-ES6-module version of jquery
@@ -99,27 +122,11 @@ export default {
 }
 ```
 
-Single components SHOULD export their public API as a single object.
-
-```
-export default {
-
-  public1: function() {
-    ...
-    internal();
-  }
-}
-
-function internal() {
-  console.log("internal called");
-}
-```
-
 Pros
 
 - Availability of all core and service JS code with each request.
 - Elimination of problems caused by the wrong sequence scripts are loaded.
-- Optional bundling and minification based on ES6 modules using tools like webpack.
+- Optional bundling and minification based on ES6 modules.
 - Removing `$tpl->addJavascript()` calls from PHP.
 - Necessary refactoring would be limited and can be done incrementally.
 - Better readability of the code.
@@ -128,13 +135,3 @@ Pros
 Centralizing the imports in one place instead of adding them to single components keeps the path information (location of the js files) in one place. This makes refactoring easier (e.g. when JS files are moved). This approach shares some similarities with the way less files are currently organised in ILIAS.
 
 It may not be appropriate to include Javascript specialised on one component without any reuse for other contexts in this central `il.js` file, e.g. forum.js or learning_module.js. But in general the number of scripts separately included in a page could be reduced to two.
-
-Cons
-
-- The approach does not offer a solution for dependenc handling / management yet. All components access other services through the global `il` object.
-- ...?
-
-## Roadmap
-
-- This PR does not discuss a **bundle strategy** (or any kind of build process). It should be a separate task to investigate the best level of bundling/minification on different levels to optimise performance. The suggested structure however could serve as a starting point for such an investigation.
-- `il` services as some kind of global service locator object. We may introduce a proper **DI container** instead together with guidelines on how to manage dependencies on the client side.
