@@ -4109,3 +4109,7 @@ ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOper
     ilOrgUnitOperationContext::CONTEXT_SVY,
 ]);
 ?>
+<#5650>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
