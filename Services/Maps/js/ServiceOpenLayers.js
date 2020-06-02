@@ -8,7 +8,7 @@ var ServiceOpenLayers = {
 	$: null,
 	map_data: null,
 	user_markers: null,
-	view: null,
+	views: {},
 
 	/**
 	 * Create a ServiceOpenLayers object.
@@ -27,7 +27,6 @@ var ServiceOpenLayers = {
 		obj.map_data = map_data;
 		obj.invalid_address = invalid_address;
 		obj.user_markers = user_markers;
-		obj.view = new ol.View();
 		return obj;
 	},
 
@@ -69,7 +68,7 @@ var ServiceOpenLayers = {
 		central_marker
 	) {
 		if(replace_marker || central_marker) {
-			this.deleteAllMarkers();
+			this.deleteAllMarkers(id);
 			this.setMarker(id, pos);
 			return;
 		}
@@ -95,15 +94,16 @@ var ServiceOpenLayers = {
 	 * @returns {void}
 	 */
 	initView: function(id, pos, zoom) {
-		this.view.setCenter(pos);
-		this.view.setMaxZoom(18);
-		this.view.setMinZoom(0);
-		this.view.setZoom(zoom);
+		this.views[id] = new ol.View();
+		this.views[id].setCenter(pos);
+		this.views[id].setMaxZoom(18);
+		this.views[id].setMinZoom(0);
+		this.views[id].setZoom(zoom);
 
 		// Bind the maps zoom level to the select box zoom.
-		this.view.on("propertychange", function(e) {
+		this.views[id].on("propertychange", function(e) {
 			if(e.key === 'resolution') {
-				$("#" + id + "_zoom").val(Math.floor(this.view.getZoom()));
+				$("#" + id + "_zoom").val(Math.floor(this.views[id].getZoom()));
 			}
 		}, this);
 	},
@@ -128,7 +128,7 @@ var ServiceOpenLayers = {
 				new this.ol.control.FullScreen()
 			]),
 			loadTilesWhileAnimating: true,
-			view: this.view
+			view: this.views[id]
 		});
 
 		this.map.on("click", function(e) {
@@ -136,7 +136,7 @@ var ServiceOpenLayers = {
 			var center = e.coordinate;
 			this.jumpTo(id, center);
 			if (replace_marker) {
-				this.deleteAllMarkers();
+				this.deleteAllMarkers(id);
 				this.setMarker(id, center);
 			}
 			this.updateInputFields(id, center);
@@ -172,7 +172,7 @@ var ServiceOpenLayers = {
 	 * @return 	{void}
 	 */
 	jumpTo: function(id, pos, zoom) {
-		this.view.animate({
+		this.views[id].animate({
 			center: pos,
 			duration: 2000,
 			zoom: zoom
@@ -207,7 +207,7 @@ var ServiceOpenLayers = {
 				var pos = module.posToOSM([lon, lat]);
 
 				module.jumpTo(id, pos, 16);
-				module.deleteAllMarkers();
+				module.deleteAllMarkers(id);
 				module.setMarker(id, pos);
 				module.updateInputFields(id, pos, address);
 			};
@@ -262,10 +262,11 @@ var ServiceOpenLayers = {
 	/**
 	 * Remove all child elements.
 	 *
+	 * @param 	{string} 	id
 	 * @returns 	{void}
 	 */
-	deleteAllMarkers: function() {
-		var marker = document.getElementsByClassName('marker');
+	deleteAllMarkers: function(id) {
+		var marker = document.getElementById(id).querySelectorAll('.marker');
 		for (var i = 0; i < marker.length; i++) {
 			marker[i].remove();
 		}
@@ -344,7 +345,7 @@ var ServiceOpenLayers = {
 		var pos = this.posToOSM([lon, lat]);
 
 		//this.updateMarkers(id);
-		this.view.setZoom(zoom);
+		this.views[id].setZoom(zoom);
 		this.jumpTo(id, pos);
 		this.updateInputFields(id, pos);
 	},
