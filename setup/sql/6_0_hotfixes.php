@@ -296,3 +296,8 @@ if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
     ilDBUpdateNewObjectType::deleteRBACOperation($type, $ops_id);
 }
 ?>
+
+<#23>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
