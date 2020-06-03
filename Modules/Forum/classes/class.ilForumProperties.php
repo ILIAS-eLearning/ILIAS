@@ -118,6 +118,9 @@ class ilForumProperties
      */
     private static $instances = array();
     
+    /** @var bool */
+    private $exists = false;
+
     protected function __construct($a_obj_id = 0)
     {
         global $DIC;
@@ -173,6 +176,7 @@ class ilForumProperties
                 $this->setIsThreadRatingEnabled((bool) $row->thread_rating);
                 $this->file_upload_allowed = $row->file_upload_allowed == 1 ? true : false;
 
+                $this->exists = true;
                 return true;
             }
             
@@ -184,7 +188,7 @@ class ilForumProperties
     
     public function insert()
     {
-        if ($this->obj_id) {
+        if ($this->obj_id && !$this->exists) {
             $this->db->insert(
                 'frm_settings',
                 array(
@@ -205,6 +209,7 @@ class ilForumProperties
                 )
             );
 
+            $this->exists = true;
             return true;
         }
         
@@ -214,6 +219,10 @@ class ilForumProperties
     public function update()
     {
         if ($this->obj_id) {
+            if (!$this->exists) {
+                return $this->insert();
+            }
+
             $this->db->update(
                 'frm_settings',
                 array(

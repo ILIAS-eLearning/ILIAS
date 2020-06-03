@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -2609,7 +2609,7 @@ chatroom#:#chat_https_cert_info#:#SSL認定ファイルへの絶対サーバパ�
 chatroom#:#chat_https_dhparam_info#:#Diffie Hellmanパラメータの(例 生成経路: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )のネゴシエーション用に使用されるファイル (例: /etc/ssl/private/dhparam.pem)への,絶対サーバパスを定義してください。
 chatroom#:#chat_https_key_info#:#プライベートキーへの絶対サーバパスを定義してください。(例: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#[INVITER_NAME] はチャットルーム[ROOM_NAME]"へ相対しています。
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nチャットルーム\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]へ招待されています。\nURL: [LINK]\n\nチャットルームへ参加するには次のURLをフォローしてください。
+chatroom#:#chat_invitation_long#:#[SALUTATION]  チャットルーム Chat Room Title: [ROOM_NAME] Invited by: [INVITER_NAME]へ招待されています。 URL: [LINK]  チャットルームへ参加するには次のURLをフォローしてください。
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
 chatroom#:#chat_invite#:#招待
 chatroom#:#chat_join#:#参加
@@ -4933,7 +4933,7 @@ common#:#session_max_idle_info#:#ユーザがセッション切断前にアイ�
 common#:#session_min_idle#:#最短セッションアイドル(分単位)
 common#:#session_min_idle_info#:#別セッションを他のユーザ用に開く必要があり既存セッションが最大数に達する場合は、少なくともこの時間にユーザがアイドルする時はセッションを破棄する事ができます。
 common#:#session_reminder#:#セッション警告
-common#:#session_reminder_alert#:#セッション%1$sは%2$sに終了します!\n\nセッションを継続するにはOKを選択します。\nキャンセルをクリックすると現在のブラウザセッション中に以降は催促されなくなります。\n\nインストールシステム: %3$s。
+common#:#session_reminder_alert#:#セッション%1$sは%2$sに終了します!  セッションを継続するにはOKを選択します。 キャンセルをクリックすると現在のブラウザセッション中に以降は催促されなくなります。  インストールシステム: %3$s。
 common#:#session_reminder_info#:#オンにするとブラウザオンラインセッション時間が切れる前に通知を受領します。
 common#:#session_reminder_lead_time#:#リードタイム
 common#:#session_reminder_lead_time_info#:#セッション警告通知のリードタイムを秒数で指定してください。セッション終了前に時間が残っている場合にのみ警告通知を表示します。推奨値は300 (= 5 min.)です。<br / >現在のユーザセッションの長さは%sです。
@@ -5248,7 +5248,7 @@ common#:#usrimport_action_replaced#:#アクション %1$s by %2$sを入れ替え
 common#:#usrimport_cant_delete#:#削除アクションを実行できません。データベースにそのようなユーザはいません。
 common#:#usrimport_cant_insert#:#挿入アクションを実行できません。 データベースに既にユーザが存在します。
 common#:#usrimport_cant_update#:# "更新" アクションを実行できません。データベースにそのようなユーザはいません。
-common#:#usrimport_conflict_handling_info#:#競合を無視が選択されている時は、実行できないと(例　データベース内に同じログインユーザが存在すると"挿入"アクションは実行されない）ILIASはアクションを無視します。\n"競合を更新"が選択されている時は、アクションを実行できなくても(例　データベース内に同じログインユーザが存在すると"挿入"アクションは"更新"アクションに置き換えられる）、ILIASはデータベースを更新します。
+common#:#usrimport_conflict_handling_info#:#競合を無視が選択されている時は、実行できないと(例　データベース内に同じログインユーザが存在すると"挿入"アクションは実行されない）ILIASはアクションを無視します。 "競合を更新"が選択されている時は、アクションを実行できなくても(例　データベース内に同じログインユーザが存在すると"挿入"アクションは"更新"アクションに置き換えられる）、ILIASはデータベースを更新します。
 common#:#usrimport_global_role_for_action_required#:#最低一つグローバル 役割が"%1$s"アクションとして指定されていなければなりません。
 common#:#usrimport_ignore_role#:#役割を無視
 common#:#usrimport_login_is_not_unique#:#ログインがユニークではありません。
@@ -6587,7 +6587,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#メンバーシップリクエストを削除
 crs#:#crs_cancel_subscription#:#ユーザはコース "%s"を登録解除
 crs#:#crs_cancel_subscription_body#:#%s はコース "%s"のメンバーシップをキャンセルしました。
-crs#:#crs_cancel_subscription_body2#:#コースの待ちリスト上に他のメンバーがいる可能性があります。\nすぐに待ちリストをチェックしてください。\nコースのメンバーを見るには以下をクリック：
+crs#:#crs_cancel_subscription_body2#:#コースの待ちリスト上に他のメンバーがいる可能性があります。 すぐに待ちリストをチェックしてください。 コースのメンバーを見るには以下をクリック：
 crs#:#crs_cancellation_end#:#`コースから登録取り消し`を制限
 crs#:#crs_cancellation_end_info#:#選択した日付になるまでメンバーはコースから登録を取り消しできます。
 crs#:#crs_cancellation_end_rbac_info#:#キャンセル締め切りは%sでしたのでキャンセルはもうできません。
@@ -6955,7 +6955,7 @@ crs#:#crs_subject_course_group_notification#:#%sの日刊メール
 crs#:#crs_subscribe_member#:#コース "%s" の登録
 crs#:#crs_subscribe_member_body#:#コース "%s"への登録が確認された事をご案内します。
 crs#:#crs_subscribe_wl#:#コース "%s"の登録
-crs#:#crs_subscribe_wl_body#:#コース "%s"の待ちリストへ割当てられました。n\リストの%s番目です。\n\nリクエストが承認または却下されるとコース管理者からのメッセージを受信します。
+crs#:#crs_subscribe_wl_body#:#コース "%s"の待ちリストへ割当てられました。n\リストの%s番目です。  リクエストが承認または却下されるとコース管理者からのメッセージを受信します。
 crs#:#crs_subscriber#:#購読者
 crs#:#crs_subscribers_deleted#:#購読者が削除されました
 crs#:#crs_subscription#:#購読
@@ -8920,7 +8920,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#この登録の確認は次へ:
 grp#:#grp_mail_notification_reg_req_sub#:#グループ "%s"参加のリクエスト
 grp#:#grp_mail_notification_reg_sub#:#グループ "%s"へユーザが登録されました
 grp#:#grp_mail_notification_unsub_bod#:#%sはグループ "%s"用にそのメンバーシップをキャンセルしました。
-grp#:#grp_mail_notification_unsub_bod2#:#グループの待ちリスト上に他のメンバーがいる可能性があります。\nすぐに待ちリストをチェックする必要があります。\nグループのメンバーシップを見るには次をクリック
+grp#:#grp_mail_notification_unsub_bod2#:#グループの待ちリスト上に他のメンバーがいる可能性があります。 すぐに待ちリストをチェックする必要があります。 グループのメンバーシップを見るには次をクリック
 grp#:#grp_mail_notification_unsub_sub#:#ユーザはグループ "%s"から外れました。
 grp#:#grp_mail_permanent_link#:#グループに関する必要なすべての情報を得るには以下のリンクをクリック:
 grp#:#grp_mail_status_bod#:#グループ "%s"のステータスは更新されました。
@@ -8934,9 +8934,9 @@ grp#:#grp_mail_subscribe_member_sub#:#グループ "%s"の登録
 grp#:#grp_mail_tutors_only#:#管理者専用
 grp#:#grp_mail_tutors_only_info#:#管理者のみ"メンバ"タブ内の"メンバへメール"機能を使用できます。
 grp#:#grp_mail_type#:#メンバーへメール
-grp#:#grp_mail_unsubscribe_member_bod#:#グループ %sのメンバーシップのキャンセル確認です。\n別のコースでのご参加をお待ちしています。
+grp#:#grp_mail_unsubscribe_member_bod#:#グループ %sのメンバーシップのキャンセル確認です。 別のコースでのご参加をお待ちしています。
 grp#:#grp_mail_unsubscribe_member_sub#:#グループ "%s"のメンバーシップのキャンセル
-grp#:#grp_mail_wl_bod#:#グループ "%s"の待ちリストへ割当てられました。\nリスト上の%sの位置です。\n\nリクエストが承認または却下されるとグループ管理者からメッセージを受信します。
+grp#:#grp_mail_wl_bod#:#グループ "%s"の待ちリストへ割当てられました。 リスト上の%sの位置です。  リクエストが承認または却下されるとグループ管理者からメッセージを受信します。
 grp#:#grp_mail_wl_sub#:#グループ "%s"の登録
 grp#:#grp_map_location#:#グループMapロケーション
 grp#:#grp_map_settings#:#Map設定
@@ -9147,8 +9147,8 @@ itgr#:#itgr_materials#:#材料
 itgr#:#itgr_show_title#:#タイトルを表示
 itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
 jscalendar#:#about_calendar#:#カレンダーについて
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n。最新版のURL：http://dynarch.com/mishoo/calendar.epl\n GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。\n\n日付選択:\n-年を選択するには^A<と^A>ボタンを使用\n-月を選択するには<
-jscalendar#:#about_time#:#\n\nタイムセッション：\n- 増やすにはどこかをクリック\n- 減らすにはShiftをクリック\n- すばやく選択するにはクリックしてドラッグ
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 。最新版のURL：http://dynarch.com/mishoo/calendar.epl  GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。  日付選択: -年を選択するには^A<と^A>ボタンを使用 -月を選択するには<
+jscalendar#:#about_time#:#  タイムセッション： - 増やすにはどこかをクリック - 減らすにはShiftをクリック - すばやく選択するにはクリックしてドラッグ
 jscalendar#:#close#:#閉じる
 jscalendar#:#day_first#:#%sを先に表示
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -9416,7 +9416,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#この登録を確認するにはこ�
 lso#:#lso_mail_notification_reg_req_sub#:#学習シーケンス"%s"のジョインを要求
 lso#:#lso_mail_notification_reg_sub#:#ユーザは学習シーケンス"%s"を登録しました。
 lso#:#lso_mail_notification_unsub_bod#:#%sは学習シーケンス"%s"のメンバーシップをキャンセルしました。
-lso#:#lso_mail_notification_unsub_bod2#:#学習シーケンスの待ちリストに他のメンバーがいる可能性があります。\nすぐに待ちリストを確認すべきです。\n学習シーケンスのメンバーを表示するにはここをクリック:
+lso#:#lso_mail_notification_unsub_bod2#:#学習シーケンスの待ちリストに他のメンバーがいる可能性があります。 すぐに待ちリストを確認すべきです。 学習シーケンスのメンバーを表示するにはここをクリック:
 lso#:#lso_mail_notification_unsub_sub#:#ユーザは学習シーケンス"%s"を離れました。
 lso#:#lso_mail_permanent_link#:#あなたの学習シーケンスに関する必要なすべての情報見つけるには次のリンクをクリック。
 lso#:#lso_mail_status_bod#:#学習シーケンス"%s"内のステータスは変更されました。
@@ -9427,9 +9427,9 @@ lso#:#lso_mail_sub_dec_bod#:#残念ながら学習シーケンス"%s"の登録�
 lso#:#lso_mail_sub_dec_sub#:#学習シーケンス"%s"の登録を拒否しました。
 lso#:#lso_mail_subscribe_member_bod#:#学習シーケンス"%s"の登録が確認されたことを案内します。
 lso#:#lso_mail_subscribe_member_sub#:#学習シーケンス"%s"の登録
-lso#:#lso_mail_unsubscribe_member_bod#:#学習シーケンス"%s"のメンバーシップキャンセルを確認します。\nもう一つの学習シーケンスへ参加する機会が見つかるように期待します。
+lso#:#lso_mail_unsubscribe_member_bod#:#学習シーケンス"%s"のメンバーシップキャンセルを確認します。 もう一つの学習シーケンスへ参加する機会が見つかるように期待します。
 lso#:#lso_mail_unsubscribe_member_sub#:#学習シーケンス"%s"内のメンバーシップキャンセル
-lso#:#lso_mail_wl_bod#:#学習シーケンス"%s"の待ちリストへ割当てられました。\nリストの%sポジションへ割当てられました。\n\nリクエストが承認または拒否されると学習シーケンス管理者からメッセージを受信します。
+lso#:#lso_mail_wl_bod#:#学習シーケンス"%s"の待ちリストへ割当てられました。 リストの%sポジションへ割当てられました。  リクエストが承認または拒否されると学習シーケンス管理者からメッセージを受信します。
 lso#:#lso_mail_wl_sub#:#学習シーケンス"%s"の登録
 lso#:#lso_mem_tbl_header#:#学習シーケンスメンバー
 lso#:#lso_member_administration#:#参加者を編集
@@ -11430,17 +11430,17 @@ ps#:#show_privacy#:#プライバシー
 ps#:#show_security#:#セキュリティ
 pwassist#:#password_assistance#:#パスワード支援
 pwassist#:#pwassist_disabled_no_access#:#パスワード支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
-pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。\nメールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。\n適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
-pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。\nILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。\nlnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
+pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。 メールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。 適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
+pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。 ILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。 lnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
 pwassist#:#pwassist_enter_username_and_new_password#:#以下の欄へユーザ名と新しいパスワードを入力します。
-pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。\n入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
-pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います:\n\t%1$s\n\nこのメッセージはILIASサーバ\n\t%2$s\n\nが自動生成したものです。\nあなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。\n\n以下に示された条件を十分確認の上で順次進んでください:\n\n- 誤ってILIASサーバのパスワード支援フォームを送った場合:\nこのメールを破棄してください。\n\n- このILIASサーバのパスワード支援利用に心当たりがない場合:\n %5$s\n\nへ連絡してください。 \n-パスワード支援を要求した場合は次の手順で進みます:\n\n1. ブラウザを開きます。\n\n2. ブラウザに次のアドレスを入力します:\n\t%6$s\n\n重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。\n\n3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。\n\nセキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。\n一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
-pwassist#:#pwassist_mail_sent#:#メッセージが %1$sへ送信されました。\nメールボックスをチェックしてください。
-pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定されているemailアドレスへ送信されました。\nメールボックスを確認してください。
+pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。 入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
+pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います: \t%1$s  このメッセージはILIASサーバ \t%2$s  が自動生成したものです。 あなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。  以下に示された条件を十分確認の上で順次進んでください:  - 誤ってILIASサーバのパスワード支援フォームを送った場合: このメールを破棄してください。  - このILIASサーバのパスワード支援利用に心当たりがない場合:  %5$s  へ連絡してください。  -パスワード支援を要求した場合は次の手順で進みます:  1. ブラウザを開きます。  2. ブラウザに次のアドレスを入力します: \t%6$s  重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。  3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。  セキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。 一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
+pwassist#:#pwassist_mail_sent#:#メッセージが %1$sへ送信されました。 メールボックスをチェックしてください。
+pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定されているemailアドレスへ送信されました。 メールボックスを確認してください。
 pwassist#:#pwassist_mail_subject#:#ILIAS パスワード支援
 pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ "%1$s"へ割当てられました。
-pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.\nパスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
-pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-ミスによりこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. インターネットブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
+pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください. パスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
+pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。: %s  このメッセージは自動的に次のILIAS作成したものです: \t%s  あなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。  次をチェックして候補として実行してください。::  -ミスによりこのe-mailを要求しました。: このe-mailを削除.  -このe-mailを要求したことがないのは間違いありません: %sへ連絡してください。  -このe-maiを要求するには、次のように進めてください。::  1. インターネットブラウザを開始。  2。次のURLを入力: \t%s  重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。  3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
 pwassist#:#unassist_disabled_no_access#:#ユーザ名支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
 rating#:#rat_not_rated_yet#:#星評価なし
 rating#:#rat_nr_ratings#:#%s星評価

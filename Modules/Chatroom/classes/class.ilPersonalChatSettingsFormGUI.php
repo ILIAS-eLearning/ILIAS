@@ -197,7 +197,7 @@ class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
             ]
         );
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-        $this->showChatOptions();
+        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this, 'showChatOptions');
     }
 }

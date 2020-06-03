@@ -440,7 +440,7 @@ class ilLOUserResults
                     $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                     break;
                     */
-                    continue;
+                    continue 2;
             }
             
             // if both initial and qualified, qualified will overwrite initial

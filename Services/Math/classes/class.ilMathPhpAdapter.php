@@ -34,9 +34,19 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
      */
     public function mul($left_operand, $right_operand, $scale = null)
     {
-        $res = $this->normalize($left_operand) * $this->normalize($right_operand);
+        try {
+            $res = $this->normalize($left_operand) * $this->normalize($right_operand);
 
-        return $this->applyScale($res, $this->normalize($scale));
+            $multiplication = $this->applyScale($res, $this->normalize($scale));
+        } catch (Throwable $e) {
+            if (strpos($e->getMessage(), 'A non-numeric value encountered') !== false) {
+                $multiplication = 0;
+            } else {
+                throw $e;
+            }
+        }
+
+        return $multiplication;
     }
 
     /**

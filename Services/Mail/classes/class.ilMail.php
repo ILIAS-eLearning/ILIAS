@@ -906,8 +906,45 @@ class ilMail
                 }
             }
 
-            if (count($to) > 0 || count($bcc) > 0) {
+            if (count($to) > 0) {
                 $this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $this->formatLinebreakMessage($a_message), $a_attachments);
+            } elseif (count($bcc) > 0) {
+                $remainingAddresses = '';
+                $maxRecipientCharacterLength = 998;
+                foreach ($bcc as $emailAddress) {
+                    $sep = '';
+                    if (strlen($remainingAddresses) > 0) {
+                        $sep = ',';
+                    }
+    
+                    $recipientsLineLength = ilStr::strLen($remainingAddresses) + ilStr::strLen($sep . $emailAddress);
+                    if ($recipientsLineLength >= $maxRecipientCharacterLength) {
+                        $this->sendMimeMail(
+                            '',
+                            '',
+                            $remainingAddresses,
+                            $a_subject,
+                            $this->formatLinebreakMessage($a_message),
+                            $a_attachments
+                        );
+    
+                        $remainingAddresses = '';
+                        $sep = '';
+                    }
+    
+                    $remainingAddresses .= ($sep . $emailAddress);
+                }
+    
+                if ('' !== $remainingAddresses) {
+                    $this->sendMimeMail(
+                        '',
+                        '',
+                        $remainingAddresses,
+                        $a_subject,
+                        $this->formatLinebreakMessage($a_message),
+                        $a_attachments
+                    );
+                }
             }
         } else {
             $rcp_ids_replace = $this->getUserIds(array($a_rcp_to));

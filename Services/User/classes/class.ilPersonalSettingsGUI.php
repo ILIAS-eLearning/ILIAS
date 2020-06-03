@@ -577,11 +577,27 @@ class ilPersonalSettingsGUI
         $awrn_set = new ilSetting("awrn");
         if ($awrn_set->get("awrn_enabled", false) && $this->userSettingVisible("hide_own_online_status")) {
             $this->lng->loadLanguageModule("awrn");
+
+            $default = ($this->settings['hide_own_online_status'] == "n")
+                ? $this->lng->txt("user_awrn_show")
+                : $this->lng->txt("user_awrn_hide");
+
+            $options = array(
+                "" => $this->lng->txt("user_awrn_default")." (".$default.")",
+                "n" => $this->lng->txt("user_awrn_show"),
+                "y" => $this->lng->txt("user_awrn_hide"));
+            $si = new ilSelectInputGUI($lng->txt("awrn_user_show"), "hide_own_online_status");
+            $si->setOptions($options);
+            $si->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
+            $si->setValue($ilUser->prefs["hide_own_online_status"]);
+            $si->setInfo($lng->txt("awrn_hide_from_awareness_info"));
+            $this->form->addItem($si);
+
             $cb = new ilCheckboxInputGUI($this->lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
             $cb->setInfo($this->lng->txt("awrn_hide_from_awareness_info"));
             $cb->setChecked($ilUser->prefs["hide_own_online_status"] == "y");
             $cb->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
-            $this->form->addItem($cb);
+            //$this->form->addItem($cb);
         }
 
         require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
@@ -788,11 +804,12 @@ class ilPersonalSettingsGUI
 
             // set hide own online_status
             if ($this->workWithUserSetting("hide_own_online_status")) {
-                if ($_POST["hide_own_online_status"] == 1) {
+                /*if ($_POST["hide_own_online_status"] == 1) {
                     $ilUser->setPref("hide_own_online_status", "y");
                 } else {
                     $ilUser->setPref("hide_own_online_status", "n");
-                }
+                }*/
+                $ilUser->setPref("hide_own_online_status", ilUtil::stripSlashes($_POST["hide_own_online_status"]));
             }
 
             require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';

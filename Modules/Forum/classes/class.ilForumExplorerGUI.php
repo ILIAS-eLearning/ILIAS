@@ -75,20 +75,13 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
     }
 
     /**
-     * @return ilForumTopic
-     */
-    public function getThread()
-    {
-        return $this->thread;
-    }
-
-    /**
      * @param ilForumTopic $thread
+     * @param ilForumPost $firstNode
      */
-    public function setThread($thread)
+    public function setThread(ilForumTopic $thread, ilForumPost $firstNode)
     {
         $this->thread = $thread;
-        $this->root_node = $thread->getFirstPostNode();
+        $this->root_node = $firstNode;
         $this->root_node->setIsRead($this->root_node->isRead($this->root_node->getPosAuthorId()));
         $this->setNodeOpen($this->root_node->getId());
 
@@ -148,6 +141,8 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
             if (isset($this->preloaded_children[$a_parent_node_id])) {
                 return $this->preloaded_children[$a_parent_node_id];
             }
+
+            return [];
         }
 
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);

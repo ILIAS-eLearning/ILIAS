@@ -342,29 +342,32 @@ class ilForumTopic
             
         return $rec['cnt'];
     }
-    
+
     /**
-    * Fetches and returns an object of the first post in the current topic.
-    *
-    * @return	ilForumPost		object of a post
-    * @access	public
-    */
-    public function getFirstPostNode()
+     * Fetches and returns an object of the first post in the current topic
+     * @param bool $isModerator
+     * @param bool $preventImplicitRead
+     * @return ilForumPost object of a post
+     */
+    public function getFirstPostNode($isModerator = false, $preventImplicitRead = false)
     {
-        $res = $this->db->queryf(
+        $res = $this->db->queryF(
             '
-			SELECT pos_pk
+			SELECT *
 			FROM frm_posts 
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 			WHERE parent_pos = %s
 			AND thr_fk = %s',
             array('integer', 'integer'),
-            array('0', $this->id)
+            array(0, $this->id)
         );
-            
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
-        return new ilForumPost($row->pos_pk);
+
+        $row = $this->db->fetchAssoc($res);
+
+        $post = new ilForumPost($row['pos_pk'], $isModerator, $preventImplicitRead);
+        $post->assignData($row);
+
+        return $post;
     }
     
     /**
@@ -499,44 +502,30 @@ class ilForumTopic
             $query .= " ORDER BY " . $this->orderField . " " . $this->getOrderDirection();
         }
 
-        $res = $this->db->queryf($query, $data_types, $data);
-        
-        $usr_ids = array();
+        $res = $this->db->queryF($query, $data_types, $data);
 
-        $deactivated = array();
+        $usr_ids = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $tmp_object = new ilForumPost($row['pos_pk'], false, true);
-            $tmp_object->assignData($row);
+            $post = new ilForumPost($row['pos_pk'], false, true);
+            $post->assignData($row);
 
             if (!$this->is_moderator) {
-                if (!$tmp_object->isActivated() && $tmp_object->getDisplayUserId() != $this->user->getId()) {
-                    $deactivated[] = $tmp_object;
-                    unset($tmp_object);
+                if (!$post->isActivated() && $post->getPosAuthorId() != $this->user->getId()) {
                     continue;
-                }
-             
-                foreach ($deactivated as $deactivated_node) {
-                    if ($deactivated_node->getLft() < $tmp_object->getLft() && $deactivated_node->getRgt() > $tmp_object->getLft()) {
-                        $deactivated[] = $tmp_object;
-                        unset($tmp_object);
-                        continue 2;
-                    }
                 }
             }
 
             if ((int) $row['pos_display_user_id']) {
-                $usr_ids[] = (int) $row['pos_display_user_id'];
+                $usr_ids[(int) $row['pos_display_user_id']] = (int) $row['pos_display_user_id'];
             }
             if ((int) $row['update_user']) {
-                $usr_ids[] = (int) $row['update_user'];
+                $usr_ids[(int) $row['update_user']] = (int) $row['update_user'];
             }
-             
-            $posts[] = $tmp_object;
-             
-            unset($tmp_object);
+
+            $posts[] = $post;
         }
 
-        ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
+        ilForumAuthorInformationCache::preloadUserObjects(array_values($usr_ids));
 
         return $posts;
     }

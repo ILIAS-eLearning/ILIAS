@@ -242,13 +242,21 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
         switch ($this->getFilterType()) {
             case self::FILTER_SOURCE_OBJ_ID:
-                $writer->xmlStartTag('roleFilter', array('source' => 'objId'));
+                $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
+                break;
+
+            case self::FILTER_SOURCE_TITLE:
+                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
+                break;
+
+            case self::FILTER_PARENT_ROLES:
+                $writer->xmlStartTag('roleFilter', ['source' => 'parentRoles']);
                 break;
 
             default:
-            case self::FILTER_SOURCE_TITLE:
-                $writer->xmlStartTag('roleFilter', array('source' => 'title'));
+                $writer->xmlStartTag('roleFilter', ['source' => 'title']);
                 break;
+
         }
 
         foreach ($this->getFilterPattern() as $pattern) {

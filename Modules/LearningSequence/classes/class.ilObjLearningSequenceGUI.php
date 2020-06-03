@@ -127,12 +127,30 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->object = $this->getObject();
     }
 
+    protected function getCurrentItemLearningProgress()
+    {
+        $usr_id = (int) $this->user->getId();
+        $items = $this->getLearnerItems($usr_id);
+        $current_item_ref_id = $this->getCurrentItemForLearner($usr_id);
+        foreach ($items as $index => $item) {
+            if ($item->getRefId() === $current_item_ref_id) {
+                return $item->getLearningProgressStatus();
+            }
+        }
+    }
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        $tpl = $this->tpl;
 
+        //exit real early for LP-checking.
+        if($cmd === LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP) {
+            print $this->getCurrentItemLearningProgress();
+            exit;
+        }
+
+        $tpl = $this->tpl;
         parent::prepareOutput();
         $this->addToNavigationHistory();
         //showRepTree is from containerGUI;

@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1945,7 +1945,7 @@ common#:#usrimport_action_replaced#:#Veiksmas %1$s pakeistas į %2$s.
 common#:#usrimport_cant_delete#:#Negalima įvykdyti "Ištrinti" veiksmo. Tokio vartotojo duomenų bazėje nėra.
 common#:#usrimport_cant_insert#:#Negalima įvykdyti "Įterpti" veiksmo. Toks vartotojas jau yra duomenų bazėje.
 common#:#usrimport_cant_update#:#Negalima įvykdyti "Atnaujinti" veiksmo. Tokio vartotojo duomenų bazėje nėra.
-common#:#usrimport_conflict_handling_info#:#Kai pasirinkta "Ignoruoti konflikto atveju", ILIAS ignoruoja veiksmą, jei jis negali būti atliekamas (pvz., "Įterpti" veiksmas nevykdomas, kai duomenų bazėje jau yra vartotojas su tokiu prisijungimo vardu.)\nKai "Atnaujinti konflikto atveju" pasirinkta, ILIAS atnaujina duomenų bazę jei veiksmas negali būti vykdomas  (pvz., "Įterpti" veiksmas pakeičiamas į "Atnaujinti", jei vartotojas su tokiu prisijungimo vardu duomenų bazėje jau yra).
+common#:#usrimport_conflict_handling_info#:#Kai pasirinkta "Ignoruoti konflikto atveju", ILIAS ignoruoja veiksmą, jei jis negali būti atliekamas (pvz., "Įterpti" veiksmas nevykdomas, kai duomenų bazėje jau yra vartotojas su tokiu prisijungimo vardu.) Kai "Atnaujinti konflikto atveju" pasirinkta, ILIAS atnaujina duomenų bazę jei veiksmas negali būti vykdomas  (pvz., "Įterpti" veiksmas pakeičiamas į "Atnaujinti", jei vartotojas su tokiu prisijungimo vardu duomenų bazėje jau yra).
 common#:#usrimport_global_role_for_action_required#:#Šiam "%1$s" veiksmui turi būti nurodyta bent viena globali rolė.
 common#:#usrimport_ignore_role#:#Ignoruoti rolę
 common#:#usrimport_login_is_not_unique#:#Prisijungimo vardas nėra unikalus.
@@ -2667,8 +2667,8 @@ forum#:#new_post#:#Nauja žinutė
 forum#:#thread#:#Tema
 grp#:#grp_registration_unlimited#:#Neribotas registracijos laikas
 jscalendar#:#about_calendar#:#Apie kalendorių
-jscalendar#:#about_calendar_long#:#DHTML Datos/Laiko Parinkėjas\n(c) dynarch.com 2002-2003\nNaujasią versiją rasite: http://dynarch.com/mishoo/calendar.epl\nPlatinama pagal GNU LGPL.  Žiūrėti http://gnu.org/licenses/lgpl.html .\n\nDatos parinkimas:\n- Naudokite «, » mygtukus metų parinkimui\n- Naudokite <, > bygtukus mėnesio parinkimui\n- Laikykyte pelės mygtuką ant aukščiau esančių mygtukų greitesnei parinkčiai.
-jscalendar#:#about_time#:#\n\nLaiko pasirinkimas:\n- Norėdami padidinti laiką, paspauskite ant bet kurios laiko dalies.\n- arba Shift-paspaudimas norint jį sumažinti\n- ar paspauskite ir paleiskite greitesniai parinkčiai.
+jscalendar#:#about_calendar_long#:#DHTML Datos/Laiko Parinkėjas (c) dynarch.com 2002-2003 Naujasią versiją rasite: http://dynarch.com/mishoo/calendar.epl Platinama pagal GNU LGPL.  Žiūrėti http://gnu.org/licenses/lgpl.html .  Datos parinkimas: - Naudokite «, » mygtukus metų parinkimui - Naudokite <, > bygtukus mėnesio parinkimui - Laikykyte pelės mygtuką ant aukščiau esančių mygtukų greitesnei parinkčiai.
+jscalendar#:#about_time#:#  Laiko pasirinkimas: - Norėdami padidinti laiką, paspauskite ant bet kurios laiko dalies. - arba Shift-paspaudimas norint jį sumažinti - ar paspauskite ir paleiskite greitesniai parinkčiai.
 jscalendar#:#close#:#Užverti
 jscalendar#:#day_first#:#Rodyti %s pirma
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -3318,16 +3318,16 @@ meta#:#meta_very_high#:#Labai Aukštai
 meta#:#meta_very_low#:#Labai Žemai
 meta#:#meta_yes#:#Taip
 pwassist#:#password_assistance#:#Slaptažodžio Pagalba
-pwassist#:#pwassist_enter_email#:#Įveskite el.pašto adresą ir nusiųskite formą.\nILIAS nurodytu el.paštu išsiųs laišką. Jame bus nurodyti visi vartotojų vardai susiję su šiuo el. pašto adresu.\nPasirinkite tinkamą vartotojo vardą ir pasinaudokite Slaptažodžio Pagalba norėdami gauti naują slaptažodį. Jei negausite jokio laiško iš šios pagalbinės tarnybos, susisiekite su savo kursų administratoriumi arba %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Įveskite vartotojo vardą ir el.pašto adresą nurodytuose laukuose žemiau..\nILIAS nurodytu el.pašto adresu išiųs laišką. Jame bus nurodytas puslpaio adresas, kuriame galėsite įvesti naują savo paskyros slaptažodį.\nJei nepavyktų priskirti naujo slaptažodžio paskyrai naudojant šią formą, susisiekite su savo kursų administracija aba siųskite laišką %1$s.
+pwassist#:#pwassist_enter_email#:#Įveskite el.pašto adresą ir nusiųskite formą. ILIAS nurodytu el.paštu išsiųs laišką. Jame bus nurodyti visi vartotojų vardai susiję su šiuo el. pašto adresu. Pasirinkite tinkamą vartotojo vardą ir pasinaudokite Slaptažodžio Pagalba norėdami gauti naują slaptažodį. Jei negausite jokio laiško iš šios pagalbinės tarnybos, susisiekite su savo kursų administratoriumi arba %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Įveskite vartotojo vardą ir el.pašto adresą nurodytuose laukuose žemiau.. ILIAS nurodytu el.pašto adresu išiųs laišką. Jame bus nurodytas puslpaio adresas, kuriame galėsite įvesti naują savo paskyros slaptažodį. Jei nepavyktų priskirti naujo slaptažodžio paskyrai naudojant šią formą, susisiekite su savo kursų administracija aba siųskite laišką %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Įveskite vartotojo vardą ir naują slaptažodį laukuose žemiau.
-pwassist#:#pwassist_login_not_match#:#Įveskite kitą vartotojo vardą.\nJūsų įvestas vartotojo vardas neatitinka vardo, nurodyto kurio prašėte Slaptažodžio Pagalboje.
-pwassist#:#pwassist_mail_body#:#Registruoti naują slaptažodį savo vartotojo paskyrai:\n\t%1$s\n\nŠis pranešimas buvo automatiškai sugeneruotas ILIAS serveryje\n\t%2$s\n\nJūs (ar kažkas %3$s) paprašė pagalbos su slaptažodžiu vartotojo paskyrai "%4$s".\n\nPatikrinkite atidžiai žemiau nurodytas sąlygas ir elkitės atitinkamai:\n\n- Jei pasinaudojote Slaptažodžio Pagalbos forma ILIAS serveryje netyčia:\nIštrinkite šį laišką.\n\n- Jei tikrai niekada neprašėte pagalbos su slaptažodžiu šiame ILIAS serveryje:\nSusisiekite su %5$s.\n\n- Jei jums buvo reikalinga pagalba su slaptažodžiu, veikite atitinkamai:\n\n1. Atverkite naršyklę.\n\n2. Įveskite šį adresą naršyklėje:\n\t%1$s\n\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\n\n3. Atsidariusiame naršyklės lange, įveskite naują slaptažodį savo vartotojo paskyrai.\n\nAtminkite, kad saugumo sumetimais, šiuo atveju jūs galite tai daryti tik kartą ir tik ribotą laiko tarpą. Po kurio laiko, šis adresas nebetenka galios, o jūs turite naudotis Slaptažodžio Pagalba ILIAS serveryje iš naujo.
-pwassist#:#pwassist_mail_sent#:#Pranešimas buvo išsiųstas %1$s.\nPasitikrinkite savo pašto dėžutę.
+pwassist#:#pwassist_login_not_match#:#Įveskite kitą vartotojo vardą. Jūsų įvestas vartotojo vardas neatitinka vardo, nurodyto kurio prašėte Slaptažodžio Pagalboje.
+pwassist#:#pwassist_mail_body#:#Registruoti naują slaptažodį savo vartotojo paskyrai: \t%1$s  Šis pranešimas buvo automatiškai sugeneruotas ILIAS serveryje \t%2$s  Jūs (ar kažkas %3$s) paprašė pagalbos su slaptažodžiu vartotojo paskyrai "%4$s".  Patikrinkite atidžiai žemiau nurodytas sąlygas ir elkitės atitinkamai:  - Jei pasinaudojote Slaptažodžio Pagalbos forma ILIAS serveryje netyčia: Ištrinkite šį laišką.  - Jei tikrai niekada neprašėte pagalbos su slaptažodžiu šiame ILIAS serveryje: Susisiekite su %5$s.  - Jei jums buvo reikalinga pagalba su slaptažodžiu, veikite atitinkamai:  1. Atverkite naršyklę.  2. Įveskite šį adresą naršyklėje: \t%1$s  Svarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.  3. Atsidariusiame naršyklės lange, įveskite naują slaptažodį savo vartotojo paskyrai.  Atminkite, kad saugumo sumetimais, šiuo atveju jūs galite tai daryti tik kartą ir tik ribotą laiko tarpą. Po kurio laiko, šis adresas nebetenka galios, o jūs turite naudotis Slaptažodžio Pagalba ILIAS serveryje iš naujo.
+pwassist#:#pwassist_mail_sent#:#Pranešimas buvo išsiųstas %1$s. Pasitikrinkite savo pašto dėžutę.
 pwassist#:#pwassist_mail_subject#:#ILIAS Slaptažodžio Pagalba
 pwassist#:#pwassist_password_assigned#:#Slaptažodis buvo sękmingai priskirtas vartotojui "%1$s".
-pwassist#:#pwassist_session_expired#:#Užpildykite šią formą dar kartą.\nJūsų pagalbos su slaptažodžiu seansas baigėsi. Tai nutiko dėl bandymo pasinaudoti laiške buvusia nuorodą daugiau nei kartą arba todėl, kad prabėgo pernelyg daug laiko po laiško su nuoroda gavimo.
-pwassist#:#pwassist_username_mail_body#:#Nurodyto el.pašto adresu rastas aktyvus vartotojas:\n%s\n\nŠis pranešimas buvo sukurtas automatiškai ILIAS Serveryje:\n\t%s\n\nJūs (ar kažkas su IP  %s) paprašė pagalbos dėl pamirštų vartotojo vardų el.pašto adresu '%s'.\n\nPAtikrinkite tai ir elkitės atitinkamai::\n\n-Prašėte šio laiško atsitiktinai:\nIštrinkite šį laišką.\n\n-Jūs įsitikinę, kad niekad neprašėte šio laiško:\nSusisiekite su %s.\n\n- Jei prašėte šio laiško, elkitės sekančiai::\n\n1. Paleiskite interneto naršyklę.\n\n2. Įveskite šį url:\n\t%s\n\nSvarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.\n\n3. Jūsų Naršyklė dabar rodo Slaptažodžio Pagalbą. Pasinaudokite šiuo puslapiu, kartu su vartotojo vardu ir atitinkamu el.pašto adresu, norėdami gauti naują slaptažodį.
+pwassist#:#pwassist_session_expired#:#Užpildykite šią formą dar kartą. Jūsų pagalbos su slaptažodžiu seansas baigėsi. Tai nutiko dėl bandymo pasinaudoti laiške buvusia nuorodą daugiau nei kartą arba todėl, kad prabėgo pernelyg daug laiko po laiško su nuoroda gavimo.
+pwassist#:#pwassist_username_mail_body#:#Nurodyto el.pašto adresu rastas aktyvus vartotojas: %s  Šis pranešimas buvo sukurtas automatiškai ILIAS Serveryje: \t%s  Jūs (ar kažkas su IP  %s) paprašė pagalbos dėl pamirštų vartotojo vardų el.pašto adresu '%s'.  PAtikrinkite tai ir elkitės atitinkamai::  -Prašėte šio laiško atsitiktinai: Ištrinkite šį laišką.  -Jūs įsitikinę, kad niekad neprašėte šio laiško: Susisiekite su %s.  - Jei prašėte šio laiško, elkitės sekančiai::  1. Paleiskite interneto naršyklę.  2. Įveskite šį url: \t%s  Svarbu: Adresas yra kaip viena eilutė. Jei matote šį adresą išskaidytą į kelias eilutes, tai jūsų el.pašto programa įterpė eilutės perkėlimus.  3. Jūsų Naršyklė dabar rodo Slaptažodžio Pagalbą. Pasinaudokite šiuo puslapiu, kartu su vartotojo vardu ir atitinkamu el.pašto adresu, norėdami gauti naują slaptažodį.
 rbac#:#edit_learning_progress#:#Redaguoti mokymo progresą
 rbac#:#filter_all_roles#:#Rodyti roles šiame kontekste
 rbac#:#filter_global_roles#:#Rodyti tik globalias roles
@@ -6515,7 +6515,7 @@ mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
 crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:###21 09 2009 new variable
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
 crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
@@ -6526,7 +6526,7 @@ wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
 style#:#style_current_style#:#Current Style###21 09 2009 new variable
 style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
 style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
@@ -6536,10 +6536,10 @@ grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 200
 grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s. We hope that you find an opportunity to participate in another group.###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
@@ -6550,7 +6550,7 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.   You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -7978,7 +7978,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9309,7 +9309,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14233,7 +14233,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14828,10 +14828,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14842,7 +14842,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
