@@ -18,7 +18,12 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 class ilPluginSlot
 {
-    
+
+    /**
+     * @var string
+     */
+    private $prefix = '';
+
     /**
     * Constructor
     */
