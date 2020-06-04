@@ -8,7 +8,6 @@ use ILIAS\BackgroundTasks\Exceptions\BucketNotFoundException;
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucketMeta;
-use ILIAS\BackgroundTasks\Implementation\Tasks\NotFoundUserInteraction;
 use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
