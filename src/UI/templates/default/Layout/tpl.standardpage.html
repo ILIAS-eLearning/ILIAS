@@ -26,7 +26,7 @@
 
 <body>
 
-	<section class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
+	<div class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
 
 		<header>
 			<div class="header-inner">
@@ -46,13 +46,13 @@
 			</div>
 		</header>
 
-		<nav class="breadcrumbs">
+		<div class="breadcrumbs">
 			{BREADCRUMBS}
-		</nav>
+		</div>
 
-		<nav class="nav il-maincontrols">
+		<div class="nav il-maincontrols">
 			{MAINBAR}
-		</nav>
+		</div>
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
@@ -65,14 +65,14 @@
 
 
 			<!-- BEGIN pagefooter -->
-			<footer>
+			<footer role="contentinfo">
 				{FOOTER}
 			</footer>
 			<!-- END pagefooter -->
 		</main>
 
 
-	</section>
+	</div>
 
 
 <!-- BEGIN on_load_code -->

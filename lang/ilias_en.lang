@@ -13368,6 +13368,9 @@ common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
 common#:#accessibility_control_concept#:#Accessibility Control Concept
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
+common#:#mainbar_aria_label#:#Mainbar
+common#:#metabar_aria_label#:#Metabar
+common#:#breadcrumbs_aria_label#:#Breadcrumbs
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_username_filter#:#Username Filter

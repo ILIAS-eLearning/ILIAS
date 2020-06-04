@@ -44,13 +44,22 @@ interface Factory
      *     7: The Standard Page's short title SHOULD reference the current ILIAS installation.
      *     8: The Standard Page's view title SHOULD give a good hint to the current view.
      *
-     * rules:
      *   accessibility:
      *     1: >
      *        Scrollable areas of the Standard Page MUST be scrollable by only using
      *        the keyboard.
-     *     2: >
-     *        The content area of the Standard Page MUST be focused on page load.
+     *     2: The content area of the Standard Page MUST be focused on page load.
+     *     3: >
+     *        For the content area of the Standard Page, the HTML tag < main > MUST be used
+     *        to be identified as the ARIA Landmark Role "Main".
+     *     4: >
+     *        For the Header of the Standard Page, where Logo and Title are placed, the HTML tag
+     *        < header > MUST be used to be identified as the ARIA Landmark Role "Banner".
+     *     5: >
+     *        For the Footer of the Standard Page, the HTML tag < footer > MUST be used
+     *        to be identified as the ARIA Landmark Role "Contentinfo". As long as
+     *        the Footer is nested in the HTML element "main", the HTML element of the
+     *        Footer MUST additionally be declared with the ARIA role "Contentinfo".
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content

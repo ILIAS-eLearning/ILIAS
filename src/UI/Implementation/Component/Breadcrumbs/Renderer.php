@@ -18,6 +18,8 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.breadcrumbs.html", true, true);
 
+        $tpl->setVariable("ARIA_LABEL", $this->txt('breadcrumbs_aria_label'));
+
         foreach ($component->getItems() as $crumb) {
             $tpl->setCurrentBlock("crumbs");
             $tpl->setVariable("CRUMB", $default_renderer->render($crumb));

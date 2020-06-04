@@ -29,6 +29,11 @@ interface Factory
      *       Nodes MUST restrict themselves to a minimal presentation, i.e.
      *       they MUST solely display information supportive and relevant for
      *       the intended task.
+     *   accessibility:
+     *     1: Nodes with further subnodes MUST bear the "aria-expanded" attribute.
+     *     2: Nodes with further subnodes MUST bear the ARIA role "treeitem".
+     *     3: Nodes without further subnodes MUST bear the ARIA role "none".
+     *     4: A group of subnodes MUST bear the ARIA role "group".
      *
      * ---
      * @return \ILIAS\UI\Component\Tree\Node\Factory
@@ -63,6 +68,8 @@ interface Factory
      *        Expandable Trees SHOULD NOT be used to display several aspects of one
      *        topic/item, like it would be the case when e.g. listing a repository
      *        object and its properties as individual nodes.
+     *   accessibility:
+     *     1: Expandable Trees MUST bear the ARIA role "tree".
      *
      * ---
      * @param TreeRecursion $recursion

@@ -306,6 +306,13 @@ interface Factory
      * rules:
      *   usage:
      *     1: Crumbs MUST trigger navigation to other resources of the system.
+     *   accessibility:
+     *     1: >
+     *        The HTML tag < nav > MUST be used for the Breadcrumbs to be
+     *        identified as the ARIA Landmark Role "Navigation".
+     *     2: >
+     *        The "aria-label" attribute MUST be set for Breadcrumbs,
+     *        which MUST be language-dependant.
      * ---
      * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
      * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
