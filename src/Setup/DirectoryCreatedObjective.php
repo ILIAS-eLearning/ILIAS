@@ -46,8 +46,6 @@ class DirectoryCreatedObjective implements Objective
     }
 
     /**
-     * Defaults to "Build $this->getArtifactPath()".
-     *
      * @inheritdocs
      */
     public function getLabel() : string
