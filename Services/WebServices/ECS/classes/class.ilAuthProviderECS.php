@@ -197,11 +197,13 @@ class ilAuthProviderECS extends ilAuthProvider implements ilAuthProviderInterfac
                 try {
                     include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
                     $reader = ilECSCommunityReader::getInstanceByServerId($this->getCurrentServer()->getServerId());
-                    $part = $reader->getParticipantByMID($auths->pid);
-                    
-                    if (is_object($part) and is_object($part->getOrganisation())) {
-                        $this->abreviation = $part->getOrganisation()->getAbbreviation();
-                    } else {
+                    foreach ($reader->getParticipantsByPid($auths->pid) as $participant) {
+                        if ($participant->getOrganisation() instanceof \ilECSOrganisation) {
+                            $this->abreviation = $participant->getOrganisation()->getAbbreviation();
+                            break;
+                        }
+                    }
+                    if (!$this->abreviation) {
                         $this->abreviation = $auths->abbr;
                     }
                 } catch (Exception $e) {
