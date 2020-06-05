@@ -78,7 +78,7 @@ class ilECSCommunity
      * get participants
      *
      * @access public
-     *
+     * @return \ilECSParticipant
      */
     public function getParticipants()
     {
