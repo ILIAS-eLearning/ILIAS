@@ -22,10 +22,10 @@ hand the Components need to use the UI-framework for their actual rendering.
 Not all Components have the same priority. Highest on our list are Components that 
 are needed on every screen to render ILIAS with an empty content section (such as Tabs). 
 Next are Components, that are needed in many use cases and therefore have a very high
-grade of re-use (such as the Toolbar). Due to major work done for ILIAS 6, such as the Standard Layout Component, Meta Bar and Main Bar
-Why are now able to promote further Components to our list of short term tasks, see below.
-Note that the names given here, are only the names of the task and must not necessarily reflect the names of the resulting
-Components. 
+grade of re-use (such as the Toolbar). Due to major work done for ILIAS 6, such as the Standard Layout 
+Component, Meta Bar and Main Bar Why are now able to promote further Components to our list of short 
+term tasks, see below. Note that the names given here, are only the names of the task and must not necessarily 
+reflect the names of the resulting Components. 
 
 Further note that we desperately search developers and UX designers willing
 to work creating those missing Components. If you are interested, drop a mail to the
@@ -46,8 +46,9 @@ Note; One important aspect here, will be to clarify at some point the relation t
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
 current context. Note that a major part of the work for this components will be to setup a comprehensive set of rules on 
 when to provide and Icon, restrictions of the Title (lengths, nouns vs verbs etc.), restrictions of the description 
-(lengths, when to use etc.) and nature, amount of the actions etc. Note that there is pre-existing work on those subjects:
- [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). However, this is not decided upon and most certainly up for discussion.
+(lengths, when to use etc.) and nature, amount of the actions etc. Note that there is pre-existing work on those 
+subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
+However, this is not decided upon and most certainly up for discussion.
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
@@ -60,9 +61,10 @@ the Tabs. We will need to decide, whether we will still use this concept in futu
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
 #### Inner Content
-This will most probably mainly contain an array of Components used in the Content Section. An interesting point here will
-be the question, whether this Component should also offer something like withToolbar, to make sure only one or no Toolbar
-can be provided and whether there would be different types of Inner Content Components (such as one with a Sidebar).
+This will most probably mainly contain an array of Components used in the Content Section. An interesting 
+point here will be the question, whether this Component should also offer something like withToolbar, to make sure 
+only one or no Toolbar can be provided and whether there would be different types of Inner Content Components (such as 
+one with a Sidebar).
 
 #### Toolbar
 This Component will probably need to be designed as new Input Container. An important part of the work here will be to 
