@@ -289,6 +289,7 @@ class BasicPersistence implements Persistence
         // $absolute_class_path = $reflection->getFileName();
         // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         // $valueContainer->setClassPath($relative_class_path);
+        $valueContainer->setClassPath($reflection->getFileName());
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
         $valueContainer->setBucketId($bucketId);
@@ -407,7 +408,12 @@ class BasicPersistence implements Persistence
         $factory = $DIC->backgroundTasks()->taskFactory();
         /** @var TaskContainer $taskContainer */
         $taskContainer = TaskContainer::find($taskContainerId);
-        /** @noinspection PhpIncludeInspection */
+
+        if (!empty($taskContainer->getClassPath()) && file_exists($taskContainer->getClassPath())) {
+            /** @noinspection PhpIncludeInspection */
+            require_once $taskContainer->getClassPath();
+        }
+
         /** @var Task $task */
         $task = $factory->createTask($taskContainer->getClassName());
 
@@ -439,7 +445,11 @@ class BasicPersistence implements Persistence
 
         /** @var ValueContainer $valueContainer */
         $valueContainer = ValueContainer::find($valueContainerId);
-        /** @noinspection PhpIncludeInspection */
+
+        if (!empty($valueContainer->getClassPath()) && file_exists($valueContainer->getClassPath())) {
+            /** @noinspection PhpIncludeInspection */
+            require_once $valueContainer->getClassPath();
+        }
         
         /** @var Value $value */
         $value = $factory->createInstance($valueContainer->getClassName());
