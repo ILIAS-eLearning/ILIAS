@@ -12,7 +12,7 @@ use \ILIAS\UI\Implementation\Component\SignalGenerator;
 /**
  * Test secondary listing panels
  */
-class PanelSecodaryListingTest extends ILIAS_UI_TestBase
+class PanelSecondaryListingTest extends ILIAS_UI_TestBase
 {
     public function getUIFactory()
     {
@@ -270,5 +270,72 @@ EOT;
             $this->cleanHTML($expected_html),
             $this->cleanHTML($html)
         );
+    }
+    public function test_render_with_footer()
+    {
+        $footer_shy_button = $this->getUIFactory()->button()->shy("Action", "");
+        $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array())->withFooter($footer_shy_button);
+
+        $html = $this->getDefaultRenderer()->render($secondary_panel);
+
+        $expected_html = <<<EOT
+<div class="panel panel-secondary panel-flex">\n
+<div class="panel-body"></div>\n
+<div class="panel-footer ilBlockInfo"><button class="btn btn-link" data-action="">Action</button></div>\n
+</div>\n
+
+EOT;
+        $this->assertHTMLEquals(
+            $this->cleanHTML($expected_html),
+            $this->cleanHTML($html)
+        );
+    }
+
+    public function test_render_with_no_header_but_content()
+    {
+
+        $group = new I\Component\Item\Group("Subtitle 1", array(
+                new I\Component\Item\Standard("title1"),
+                new I\Component\Item\Standard("title2"))
+        );
+
+        $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array($group));
+
+        $html = $this->getDefaultRenderer()->render($secondary_panel);
+
+        $expected_html = <<<EOT
+<div class="panel panel-secondary panel-flex">
+<div class="panel-body">
+<div class="il-item-group">\n
+    <h4>Subtitle 1</h4>\n
+<div class="il-item-group-items">\n
+<div class="il-std-item-container">
+<div class="il-item il-std-item ">
+<h5>title1</h5>
+</div><
+/div>\n
+<div class="il-std-item-container">
+<div class="il-item il-std-item "><h5>title2</h5>
+</div>
+</div>\n
+</div>\n
+</div>
+</div>
+</div>\n
+EOT;
+        $this->assertHTMLEquals(
+            $this->cleanHTML($expected_html),
+            $this->cleanHTML($html)
+        );
+    }
+
+    public function test_render_with_no_header_no_content_no_footer()
+    {
+
+        $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array());
+
+        $html = $this->getDefaultRenderer()->render($secondary_panel);
+
+        $this->assertEquals("",$html);
     }
 }
