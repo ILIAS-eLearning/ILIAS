@@ -1,31 +1,26 @@
 <?php
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
-class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
+
+class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private $placeholder;
 
     /**
-     * @param ilUserDefinedFields|null $userDefinedFieldsObject
+     * @param int $objectId
      */
-    public function __construct(ilUserDefinedFields $userDefinedFieldsObject = null)
+    public function __construct($objectId)
     {
         $this->placeholder = array();
 
-        if (null === $userDefinedFieldsObject) {
-            $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
-        }
-        $userDefinedFields = $userDefinedFieldsObject->getDefinitions();
+        $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($objectId);
 
-        foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
+        foreach ($courseDefinedFields as $field) {
+            $name = $field->getName();
 
-                $this->placeholder[$placeholderText] = $field['field_name'];
-            }
+            $placeholderText = '+' . str_replace(' ', '_', ilStr::strToUpper($name));
+
+            $this->placeholder[$placeholderText] = $name;
         }
     }
 
