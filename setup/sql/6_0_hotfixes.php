@@ -301,3 +301,9 @@ if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#24>
+<?php
+/** @var $ilDB ilDBInterface */
+$ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_gc']);
+?>
