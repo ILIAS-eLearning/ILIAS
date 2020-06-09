@@ -119,7 +119,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
                     $set["login"] = $user->getLogin();
                     $set["first_name"] = $user->getFirstname();
                     $set["last_name"] = $user->getLastname();
-                    $set["user_id"] = $user_id;
+                    $set["user_id"] = $usr_id;
                     $set["orgu_assignments"] = [];
                     $set['view_lp'] = false;
                     $data[$usr_id] = $set;
