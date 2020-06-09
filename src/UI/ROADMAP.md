@@ -23,7 +23,7 @@ Not all Components have the same priority. Highest on our list are Components th
 are needed on every screen to render ILIAS with an empty content section (such as Tabs). 
 Next are Components, that are needed in many use cases and therefore have a very high
 grade of re-use (such as the Toolbar). Due to major work done for ILIAS 6, such as the Standard Layout 
-Component, Meta Bar and Main Bar Why are now able to promote further Components to our list of short 
+Component, Meta Bar and Main Bar we are now able to promote further Components to our list of short 
 term tasks, see below. Note that the names given here, are only the names of the task and must not necessarily 
 reflect the names of the resulting Components. 
 
