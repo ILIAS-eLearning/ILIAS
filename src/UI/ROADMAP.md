@@ -45,10 +45,10 @@ Note; One important aspect here, will be to clarify at some point the relation t
 #### Title Section (advanced, variable)
 This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
 current context. Note that a major part of the work for this components will be to setup a comprehensive set of rules on 
-when to provide and Icon, restrictions of the Title (lengths, nouns vs verbs etc.), restrictions of the description 
+when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.), restrictions of the description 
 (lengths, when to use etc.) and nature, amount of the actions etc. Note that there is pre-existing work on those 
 subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
-However, this is not decided upon and most certainly up for discussion.
+However, this has not been decided yet and is thus most certainly up for discussion.
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
@@ -56,7 +56,7 @@ Note; One important aspect here, will be to clarify at some point the relation t
 Note that a major part of the work for this Components will be to setup a comprehensive set of rules on the naming of 
 Tabs and Sub Tabs (noun vs verbs, length, amount of words etc.) and rules for the usage of Tabs vs Sub Tabs vs Sections
 in Forms shown in Tabs. Also, one would have to look into the issue that currently "<-- Back" actions are mixed into 
-the Tabs. We will need to decide, whether we will still use this concept in future.
+the Tabs. We will need to decide, whether we will still use this concept in the future.
 
 Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
 
