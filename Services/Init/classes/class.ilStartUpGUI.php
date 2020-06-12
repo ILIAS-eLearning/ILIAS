@@ -2128,7 +2128,6 @@ class ilStartUpGUI
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
-        $mainTpl = $DIC->ui()->mainTemplate();
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
@@ -2148,11 +2147,8 @@ class ilStartUpGUI
         }
 
         $table->setData($items);
-        $mainTpl->setVariable('CONTENT', $table->getHtml());
+        $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
 
-        $mainTpl->fillWindowTitle();
-        $mainTpl->fillCssFiles();
-        $mainTpl->fillJavaScriptFiles();
-        $mainTpl->printToStdout('DEFAULT', false);
+        $this->mainTemplate->printToStdout('DEFAULT', false);
     }
 }
