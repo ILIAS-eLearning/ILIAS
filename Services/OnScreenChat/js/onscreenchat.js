@@ -970,6 +970,19 @@
 						conversation = getModule().storage.get(modalBody.data('onscreenchat-modal-body')),
 						$elm = modal.find('input[type="text"]').first();
 
+					modal.find("form").on("keyup keydown keypress", function(fe) {
+						if (fe.which == 13) {
+							if (
+								$(fe.target).prop("tagName").toLowerCase() != "textarea" &&
+								(
+									$(fe.target).prop("tagName").toLowerCase() != "input" ||
+									$(fe.target).prop("type") != "submit"
+								)) {
+								fe.preventDefault();
+							}
+						}
+					});
+
 					$elm.focus().iloscautocomplete({
 						appendTo: $elm.parent(),
 						requestUrl: getModule().config.userListURL,
