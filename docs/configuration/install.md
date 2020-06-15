@@ -654,15 +654,16 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 16.04.1 LTS          |
-| MySQL          | MySQL 5.5.58                |
-| MariaDB        | 10.1                        |
-| PHP            | 7.1.20                      |
-| Apache         | 2.4.7                       |
-| Nginx          | 1.4.6                       |
+| Distribution   | Ubuntu 20.04 LTS            |
+| MariaDB        | 10.3                        |
+| PHP            | 7.4                         |
+| Nginx          | 1.16                        |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
+| JDK            | OpenJDK 11                  |
 | Node.js        | 12 LTS                      |
+| wkhtmltopdf    | 0.12.5                      |
+| Ghostscript    | 9.51                        |
+| Imagemagick    | 6.9.10-23 Q16               |
 
 Please note: Shibboleth won't work with Nginx.
