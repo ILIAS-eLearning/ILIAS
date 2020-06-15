@@ -177,6 +177,9 @@ the source, run the following in your ILIAS folder:
 composer install --no-dev
 ```
 
+This requires that the php dependency manager [composer](https://getcomposer.org/)
+is available in your $PATH.
+
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or
 ```apache```) the mode SHOULD be 644 for files and 755 for directories.
 
