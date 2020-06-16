@@ -403,6 +403,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $options['lso'] = $lng->txt('objs_lso');
 
         if ($a_allow_undefined_lp) {
+            $options['root'] = $lng->txt('obj_reps');
+            $options['cat'] = $lng->txt('objs_cat');
             $options["webr"] = $lng->txt("objs_webr");
             $options["wiki"] = $lng->txt("objs_wiki");
             $options["blog"] = $lng->txt("objs_blog");
