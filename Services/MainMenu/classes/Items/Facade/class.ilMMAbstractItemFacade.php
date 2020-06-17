@@ -51,10 +51,10 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      */
     public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
     {
-        $this->identification   = $identification;
-        $this->gs_item          = $collector->getSingleItemFromRaw($identification);
+        $this->identification = $identification;
+        $this->gs_item = $collector->getSingleItemFromRaw($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
-        $this->mm_item          = ilMMItemStorage::register($this->gs_item);
+        $this->mm_item = ilMMItemStorage::register($this->gs_item);
     }
 
     public function getId() : string
@@ -190,6 +190,11 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         if ($this->gs_item instanceof isChild) {
             $provider_name_for_presentation = $this->gs_item->getParent()->serialize();
+
+            $storage_parent = $this->mm_item->getParentIdentification();
+            if ($storage_parent !== $provider_name_for_presentation) {
+                return $storage_parent;
+            }
 
             return $provider_name_for_presentation;
         }
@@ -327,7 +332,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         if ($this->isDeletable()) {
             $serialize = $this->identification->serialize();
-            $mm        = ilMMItemStorage::find($serialize);
+            $mm = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
                 $mm->delete();
             }
