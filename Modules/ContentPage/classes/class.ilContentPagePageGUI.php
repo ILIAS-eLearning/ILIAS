@@ -5,22 +5,25 @@
  * Class ilContentPagePageGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPublicUserProfileGUI, ilNoteGUI
- * @ilCtrl_Calls ilContentPagePageGUI: ilPropertyFormGUI, ilInternalLinkGUI
+ * @ilCtrl_Calls ilContentPagePageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
  */
 class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants
 {
     /** @var bool */
     protected $isEmbeddedMode = false;
+    /** @var string */
+    protected $language = '-';
 
     /**
      * ilContentPagePageGUI constructor.
      * @param int $a_id
      * @param int $a_old_nr
      * @param bool $isEmbeddedMode
+     * @param string $language
      */
-    public function __construct($a_id = 0, $a_old_nr = 0, $isEmbeddedMode = false)
+    public function __construct($a_id = 0, $a_old_nr = 0, $isEmbeddedMode = false, $language = '')
     {
-        parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr);
+        parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(false);
         $this->isEmbeddedMode = $isEmbeddedMode;

@@ -14,6 +14,8 @@
  * @ilCtrl_Calls ilObjContentPageGUI: ilContentPagePageGUI
  * @ilCtrl_Calls ilObjContentPageGUI: ilObjectCustomIconConfigurationGUI
  * @ilCtrl_Calls ilObjContentPageGUI: ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjContentPageGUI: ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjContentPageGUI: ilPageMultiLangGUI
  */
 class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectConstants, \ilDesktopItemHandling
 {
@@ -225,6 +227,17 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         }
 
         switch (strtolower($nextClass)) {
+            case 'ilobjecttranslationgui':
+                $this->checkPermission('write');
+
+                $this->prepareOutput();
+                $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
+                $this->setSettingsSubTabs(self::UI_TAB_ID_I18N);
+
+                $transgui = new ilObjectTranslationGUI($this);
+                $this->ctrl->forwardCommand($transgui);
+                break;
+
             case 'ilobjstylesheetgui':
                 $this->checkPermission('write');
 
@@ -280,7 +293,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
-                    $this->object
+                    $this->object,
+                    $this->user
                 );
                 $pageContent = $forwarder->forward();
                 if (strlen($pageContent) > 0) {
@@ -460,6 +474,12 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->ctrl->getLinkTarget($this, 'editStyleProperties')
             );
 
+            $this->tabs_gui->addSubTab(
+                self::UI_TAB_ID_I18N,
+                $this->lng->txt('obj_multilinguality'),
+                $this->ctrl->getLinkTargetByClass(ilObjectTranslationGUI::class)
+            );
+
             $this->tabs->activateSubTab($activeTab);
         }
     }
@@ -551,7 +571,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->ctrl,
                 $this->tabs,
                 $this->lng,
-                $this->object
+                $this->object,
+                $this->user
             );
             $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
@@ -577,6 +598,15 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
      */
     protected function afterSave(\ilObject $a_new_object)
     {
+        $a_new_object->getObjectTranslation()->addLanguage(
+            $this->lng->getDefaultLanguage(),
+            $a_new_object->getTitle(),
+            $a_new_object->getDescription(),
+            true,
+            true
+        );
+        $a_new_object->getObjectTranslation()->save();
+
         \ilUtil::sendSuccess($this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
     }

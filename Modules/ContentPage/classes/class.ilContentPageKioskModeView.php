@@ -181,7 +181,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->ctrl,
             $this->tabs,
             $this->lng,
-            $this->contentPageObject
+            $this->contentPageObject,
+            $this->user
         );
         $forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 

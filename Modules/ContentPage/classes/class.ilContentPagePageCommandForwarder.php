@@ -52,24 +52,32 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     protected $backUrl = '';
 
     /**
+     * @var ilObjUser
+     */
+    protected $actor;
+
+    /**
      * ilContentPagePageCommandForwarder constructor.
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \ilCtrl                                  $ctrl
      * @param \ilTabsGUI                               $tabs
      * @param \ilLanguage                              $lng
      * @param \ilObjContentPage                        $parentObject
+     * @param \ilObjUser                               $actor
      */
     public function __construct(
         \Psr\Http\Message\ServerRequestInterface $request,
         \ilCtrl $ctrl,
         \ilTabsGUI $tabs,
         \ilLanguage $lng,
-        \ilObjContentPage $parentObject
+        \ilObjContentPage $parentObject,
+        \ilObjUser $actor
     ) {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
         $this->parentObject = $parentObject;
+        $this->actor = $actor;
 
         $this->lng->loadLanguageModule('content');
 
@@ -81,12 +89,13 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
+     * @param string $language
      * @param bool $isEmbedded
      * @return \ilContentPagePageGUI
      */
-    protected function getPageObjectGUI($isEmbedded = false) : \ilContentPagePageGUI
+    protected function getPageObjectGUI(string $language, $isEmbedded = false) : \ilContentPagePageGUI
     {
-        $pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded);
+        $pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
             \ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
@@ -100,14 +109,24 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
-     *
+     * @param string $language
+     * @return bool|mixed
      */
-    protected function ensurePageObjectExists()
+    protected function doesPageExistsForLanguage(string $language) : bool
     {
-        if (!\ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId())) {
+        return \ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
+    }
+
+    /**
+     * @param string $language
+     */
+    protected function ensurePageObjectExists(string $language)
+    {
+        if (!$this->doesPageExistsForLanguage($language)) {
             $pageObject = new \ilContentPagePage();
             $pageObject->setParentId($this->parentObject->getId());
             $pageObject->setId($this->parentObject->getId());
+            $pageObject->setLanguage($language);
             $pageObject->createFromXML();
         }
     }
@@ -132,30 +151,32 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
+     * @param string $language
      * @return \ilContentPagePageGUI
      */
-    protected function buildEditingPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildEditingPageObjectGUI(string $language) : \ilContentPagePageGUI
     {
         $this->tabs->clearTargets();
 
         $this->setBackLinkTab();
 
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI();
+        $pageObjectGUI = $this->getPageObjectGUI($language);
         $pageObjectGUI->setEnabledTabs(true);
 
         return $pageObjectGUI;
     }
 
     /**
+     * @param string $language
      * @return \ilContentPagePageGUI
      */
-    protected function buildPresentationPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildPresentationPageObjectGUI(string $language) : \ilContentPagePageGUI
     {
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI();
+        $pageObjectGUI = $this->getPageObjectGUI($language);
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
@@ -169,13 +190,14 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
+     * @param string $language
      * @return \ilContentPagePageGUI
      */
-    protected function buildEmbeddedPresentationPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildEmbeddedPresentationPageObjectGUI(string $language) : \ilContentPagePageGUI
     {
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI(true);
+        $pageObjectGUI = $this->getPageObjectGUI($language, true);
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
@@ -207,11 +229,14 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI();
+                $pageObjectGui = $this->buildEditingPageObjectGUI('');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
-                $pageObjectGUI = $this->buildPresentationPageObjectGUI();
+                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
+                $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
@@ -222,7 +247,10 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
                 return $this->ctrl->getHTML($pageObjectGUI);
 
             case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
-                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI();
+                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
+                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);

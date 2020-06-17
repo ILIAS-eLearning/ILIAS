@@ -11,6 +11,26 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
      */
     protected $styleId = 0;
 
+    /** @var ilObjectTranslation */
+    protected $objTrans;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct($a_id = 0, $a_reference = true)
+    {
+        parent::__construct($a_id, $a_reference);
+        $this->initTranslationService();
+    }
+
+    /**
+     * @return ilObjectTranslation|null
+     */
+    public function getObjectTranslation() :? ilObjectTranslation
+    {
+        return $this->objTrans;
+    }
+
     /**
      * @inheritdoc
      */
@@ -90,6 +110,9 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 
         $lpSettings = new ilLPObjSettings($this->getId());
         $lpSettings->cloneSettings($new_obj->getId());
+
+        $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot->copy($new_obj->getId());
     }
 
     /**
@@ -98,6 +121,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     protected function doRead()
     {
         parent::doRead();
+
+        $this->initTranslationService();
 
         $res = $this->db->queryF(
             'SELECT * FROM content_page_data WHERE content_page_id = %s',
@@ -116,6 +141,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     protected function doCreate()
     {
         parent::doCreate();
+
+        $this->initTranslationService();
 
         $this->db->manipulateF(
             '
@@ -137,6 +164,13 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     protected function doUpdate()
     {
         parent::doUpdate();
+
+        $this->initTranslationService();
+
+        $trans = $this->getObjectTranslation();
+        $trans->setDefaultTitle($this->getTitle());
+        $trans->setDefaultDescription($this->getLongDescription());
+        $trans->save();
 
         $this->db->manipulateF(
             '
@@ -160,6 +194,9 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
             $originalPageObject = new \ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
+
+        $this->initTranslationService();;
+        $this->objTrans->delete();
     }
 
     /**
@@ -199,5 +236,12 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
             $this->getId(),
             $usrId
         );
+    }
+
+    private function initTranslationService() : void
+    {
+        if ($this->getId() > 0 && null === $this->objTrans) {
+            $this->objTrans = ilObjectTranslation::getInstance($this->getId());
+        }
     }
 }
