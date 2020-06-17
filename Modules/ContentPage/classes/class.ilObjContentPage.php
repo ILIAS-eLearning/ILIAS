@@ -206,7 +206,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     {
         $pageObjIds = [];
 
-        $sql = "SELECT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s";
+        $sql = "SELECT DISTINCT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s";
         $res = $this->db->queryF(
             $sql,
             ['integer', 'text'],
