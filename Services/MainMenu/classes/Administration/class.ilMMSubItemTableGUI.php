@@ -43,7 +43,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
         $this->item_repository = $item_repository;
-        $this->lng = $this->parent_obj->lng;
+        $this->lng             = $this->parent_obj->lng;
         $this->addFilterItems();
         $this->setData($this->resolveData());
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
@@ -59,8 +59,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $table_entry_status = new ilSelectInputGUI($this->lng->txt(self::F_TABLE_ENTRY_STATUS), self::F_TABLE_ENTRY_STATUS);
         $table_entry_status->setOptions(
             array(
-                self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
-                self::F_TABLE_ONLY_ACTIVE_VALUE => $this->lng->txt("only_active"),
+                self::F_TABLE_ALL_VALUE           => $this->lng->txt("all"),
+                self::F_TABLE_ONLY_ACTIVE_VALUE   => $this->lng->txt("only_active"),
                 self::F_TABLE_ONLY_INACTIVE_VALUE => $this->lng->txt("only_inactive"),
             )
         );
@@ -104,7 +104,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
-        $factory = $DIC->ui()->factory();
+        $factory  = $DIC->ui()->factory();
         /**
          * @var $item_facade ilMMItemFacadeInterface
          */
@@ -145,9 +145,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
             $rendered_modal = "";
             if ($item_facade->isCustom()) {
-                $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+                $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
-                $m = $factory->modal()
+                $m      = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);
 
@@ -192,9 +192,9 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $sub_items_for_table = $this->item_repository->getSubItemsForTable();
 
         foreach ($sub_items_for_table as $k => $item) {
-            $item_ident = $DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']);
-            $item_facade = $this->item_repository->repository()->getItemFacade($item_ident);
-            $parent_id = $item['parent_identification'];
+            $item_ident           = $DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']);
+            $item_facade          = $this->item_repository->repository()->getItemFacade($item_ident);
+            $parent_id            = $item['parent_identification'];
             $parent_id_calculated = $item_facade->getParentIdentificationString();
 
             $sub_items_for_table[$k]['facade'] = $item_facade;
