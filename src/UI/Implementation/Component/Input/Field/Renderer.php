@@ -283,8 +283,12 @@ class Renderer extends AbstractComponentRenderer
         switch (true) {
             case ($component instanceof Textarea):
                 return htmlentities($value);
-            default:
+            case ($component instanceof Text):
+            case ($component instanceof Password):
+            case ($component instanceof Numeric):
                 return htmlspecialchars($value, ENT_QUOTES);
+            default:
+                return $value;
         }
     }
 
