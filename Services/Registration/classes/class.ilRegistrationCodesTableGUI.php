@@ -22,8 +22,9 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $access = $DIC->access();
         
         $this->setId("registration_code");
         
@@ -51,7 +52,10 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
         $this->setSelectAllCheckbox("id[]");
         $this->setTopCommands(true);
-        $this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
+
+        if($access->checkAccess("write", '', $a_parent_obj->ref_id)) {
+            $this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
+        }
         
         $this->addCommandButton("exportCodes", $lng->txt("registration_codes_export"));
         

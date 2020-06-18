@@ -811,13 +811,11 @@ class ilRegistrationSettingsGUI
     public function listCodes()
     {
         global $DIC;
-        if (!$this->rbacsystem->system()->checkAccess("visible,read", $this->ref_id)) {
-            $DIC['ilErr']->raiseError($this->lng->txt("msg_no_perm_read"), $DIC['ilErr']->MESSAGE);
-        }
+        $this->checkAccess("visible,read");
 
         $this->setSubTabs('registration_codes');
 
-        if ($this->rbacsystem->system()->checkAccess("write", $this->ref_id)) {
+        if ($this->checkAccessBool("write")) {
             $DIC->toolbar()->addButton(
                 $this->lng->txt("registration_codes_add"),
                 $this->ctrl->getLinkTarget($this, "addCodes")
