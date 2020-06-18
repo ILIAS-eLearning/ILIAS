@@ -28,7 +28,7 @@ if ($DIC->http()->request()->getMethod() == "GET" && isset($DIC->http()->request
     $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString($text);
     $DIC->http()->saveResponse($DIC->http()->response()->withBody($responseStream));
     $DIC->http()->sendResponse();
-    exit();
+    $DIC->http()->close();
 }
 
 $tpl = new ilRTEGlobalTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
