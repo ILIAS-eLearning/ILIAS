@@ -52,7 +52,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCell($a_row, $a_col, $a_value)
+    public function setCell($a_row, $a_col, $a_value, $datatype=null)
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
