@@ -107,7 +107,7 @@ var model = function() {
 	},
 	helpers = {
 		getTopLevelEntries: function() {
-			var ret = [];
+			var ret = [], id;
 			for(id in state.entries) {
 				if(state.entries[id].isTopLevel()) {
 					ret.push(state.entries[id]);
