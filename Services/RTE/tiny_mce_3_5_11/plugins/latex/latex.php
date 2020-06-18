@@ -44,7 +44,7 @@ if (strpos($jquery_path, './') === 0) {
 }
 
 $mathJaxSetting = new ilSetting('MathJax');
-if ($mathJaxSetting->get('enable_server')) {
+if ($mathJaxSetting->get('enable_server') && $mathJaxSetting->get('server_for_browser')) {
     $tpl->setCurrentBlock('js_on_change_server_math_jax');
     $tpl->touchBlock('js_on_change_server_math_jax');
     $tpl->parseCurrentBlock();
