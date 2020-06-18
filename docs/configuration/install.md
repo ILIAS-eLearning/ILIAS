@@ -105,7 +105,7 @@ Please note that different configurations SHOULD be possible, but it might be ha
   * Server OS: Linux
   * Web Server: Apache 2.4 (mod_php, php-fpm)
   * Databases: MySQL/MariaDB 5.6 and 5.7 and Galera (experimental), PostgreSQL 9.x
-  * PHP: Version 7.2 and 7.3 are supported
+  * PHP: Version 7.2, 7.3 and 7.4 are supported
   * zip: 3.0+
   * unzip: 6.0+
   * Imagemagick: 6.8.9-9+
@@ -598,7 +598,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
-| 6.0.x           | 7.2.x, 7.3.x                          |
+| 6.0.x           | 7.2.x, 7.3.x, 7.4                     |
 | 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
