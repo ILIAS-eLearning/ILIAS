@@ -340,8 +340,8 @@ class ilOnScreenChatGUI
             iljQueryUtil::initjQueryUI($page);
             ilLinkifyUtil::initLinkify($page);
 
-            $page->addJavaScript('./libs/bower/bower_components/jquery-outside-events/jquery.ba-outside-events.min.js');
-            $page->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+            $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
+            $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
             $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
             $page->addJavascript('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');

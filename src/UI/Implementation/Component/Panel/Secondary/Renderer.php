@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component as C;
+use \ILIAS\UI\Implementation\Render\Template as Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -33,22 +34,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl->setVariable("TITLE", $component->getTitle());
-
-        $actions = $component->getActions();
-        if ($actions) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
-        $view_controls = $component->getViewControls();
-
-        if ($view_controls) {
-            foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
-            }
-        }
+        $tpl = $this->parseHeader($component,$default_renderer,$tpl);
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof C\Item\Group) {
@@ -57,6 +43,8 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
             }
         }
+
+        $tpl = $this->parseFooter($component,$default_renderer,$tpl);
 
         return $tpl->get();
     }
@@ -70,33 +58,57 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl->setVariable("TITLE", $component->getTitle());
+        $tpl = $this->parseHeader($component,$default_renderer,$tpl);
 
+        $tpl->setCurrentBlock("legacy");
+        $tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
+        $tpl->parseCurrentBlock();
+
+        $tpl = $this->parseFooter($component,$default_renderer,$tpl);
+
+        return $tpl->get();
+    }
+
+    protected function parseHeader(
+        C\Panel\Secondary\Secondary $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template{
+        $title = $component->getTitle();
         $actions = $component->getActions();
-        if ($actions) {
-            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-        }
-
         $view_controls = $component->getViewControls();
 
-        if ($view_controls) {
-            foreach ($view_controls as $view_control) {
-                $tpl->setCurrentBlock("view_controls");
-                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-                $tpl->parseCurrentBlock();
+        if($title != "" || $actions || $view_controls){
+            $tpl->setVariable("TITLE", $title);
+            if ($actions) {
+                $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
             }
+            if ($view_controls) {
+                foreach ($view_controls as $view_control) {
+                    $tpl->setCurrentBlock("view_controls");
+                    $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                    $tpl->parseCurrentBlock();
+                }
+            }
+            $tpl->setCurrentBlock("heading");
+            $tpl->parseCurrentBlock();
         }
+        return $tpl;
+    }
 
-        $tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
-
+    protected function parseFooter(
+        C\Panel\Secondary\Secondary $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ): Template{
         $footer = $component->getFooter();
+
         if ($footer) {
             $tpl->setCurrentBlock("footer");
             $tpl->setVariable("FOOTER", $default_renderer->render($footer));
             $tpl->parseCurrentBlock();
         }
-
-        return $tpl->get();
+        return $tpl;
     }
 
     /**

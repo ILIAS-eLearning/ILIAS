@@ -531,7 +531,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $files = array();
         
         if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
-            $files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         
         return $files;

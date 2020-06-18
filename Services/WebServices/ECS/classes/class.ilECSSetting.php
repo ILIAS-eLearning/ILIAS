@@ -732,7 +732,7 @@ class ilECSSetting
         }
 
         // required fields
-        if (!$this->getServer() or !$this->getPort() or !$this->getPollingTime() or !$this->getImportId()
+        if (!$this->getServer() or !$this->getPort() or !$this->getImportId()
             or !$this->getGlobalRole() or !$this->getDuration()) {
             return self::ERROR_REQUIRED;
         }

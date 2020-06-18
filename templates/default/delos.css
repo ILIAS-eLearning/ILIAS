@@ -15848,6 +15848,11 @@ td > img[src$="icon_custom.svg"] {
     max-width: 94vw;
   }
 }
+@media (min-width: 769px) {
+  .table-responsive {
+    overflow: visible;
+  }
+}
 /* Services/Notes */
 div.ilNotes {
   background-color: #f9f9f9;

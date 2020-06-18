@@ -4323,3 +4323,8 @@ if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
     ilDBUpdateNewObjectType::deleteRBACOperation($type, $ops_id);
 }
 ?>
+<#5667>
+<?php
+/** @var $ilDB ilDBInterface */
+$ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_gc']);
+?>
