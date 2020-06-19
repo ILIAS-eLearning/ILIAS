@@ -156,11 +156,8 @@ class BlogHtmlExport
                 copy($banner, $this->target_dir . "/" . basename($banner));
             }
         }
-        $ppic = \ilObjUser::_getPersonalPicturePath($this->blog->getOwner(), "xsmall", true, true);
-        if ($ppic) {
-            $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir . "/" . basename($ppic));
-        }
+        // page element: profile picture
+        \ilObjUser::copyProfilePicturesToDirectory($this->blog->getOwner(), $this->target_dir);
     }
 
     /**
