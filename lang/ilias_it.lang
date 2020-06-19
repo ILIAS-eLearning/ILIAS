@@ -11224,7 +11224,6 @@ ps#:#crs_ps_cdf_info#:#Ulteriori dati relativi al corso. Compila i seguenti camp
 ps#:#crs_ps_required_info#:#Per accedere al corso è necessario riempire questi campi.
 ps#:#grp_ps_cdf_info#:#Per accedere al gruppo è necessario riempire questi campi.
 ps#:#grp_ps_required_info#:#Per l'accesso a questo gruppo è necessario compilari ulteriori campi.
-ps#:#participants_list_courses#:#Consenti l'attivazione degli elenchi dei partecipanti nella Galleria dei corsi dei membri
 ps#:#ps_agreement_accepted#:#Condizioni di accesso accettate
 ps#:#ps_auto_https#:#rilevazione automatica del HTTPS
 ps#:#ps_auto_https_description#:#Se abilitato, ILIAS prova a rilevare la condizione HTTPS analizzando il valore dell'intestazione specificato qui sotto.
@@ -16174,3 +16173,8 @@ rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 n
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
 rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
 rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
+common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
+common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
+common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
+ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable

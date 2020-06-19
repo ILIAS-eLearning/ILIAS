@@ -11248,7 +11248,6 @@ ps#:#crs_ps_cdf_info#:#Datos adicionales específicos del curso
 ps#:#crs_ps_required_info#:#Se requieren campos adicionales referentes al curso para acceder al contenido.
 ps#:#grp_ps_cdf_info#:#Datos adicionales específicos del grupo
 ps#:#grp_ps_required_info#:#Se requieren campos adicionales referentes al grupo para acceder al contenido.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#Acuerdo de Usuario Aceptado
 ps#:#ps_auto_https#:#Autodetectar HTTPS
 ps#:#ps_auto_https_description#:#Si se habilita, ILIAS intenta detectar el Estado HTTPS analizando el valor de cabecera especificado abajo.
@@ -16176,3 +16175,8 @@ rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 n
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
 rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
 rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
+common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
+common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
+common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
+ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable

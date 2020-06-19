@@ -6784,7 +6784,6 @@ pd#:#pd_personal_items_default_view_info#:#Munkaasztal alapértelmezett nézete.
 pd#:#pd_personal_items_default_view#:#Alapértelmezett nézet
 pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a 'Kigyűjtött objektumok' és/vagy a 'Tagságaim' közül.
 crs#:#crs_timing_err_start_end#:#A záró dátum nem lehet korábbi, mint a nyitó dátum.
-ps#:#participants_list_courses#:#Résztvevők felsorolásának bekapcsolása a kurzus tagok képtárában
 ps#:#ps_agreement_accepted#:#Felhasználói megállapodást elfogadta
 ps#:#ps_auto_https_description#:#Ha be van kapcsolva, az ILIAS megpróbálja felismerni a HTTP állapotát az alább megadott fejlécérték elemzésével.
 ps#:#ps_auto_https_header_name#:#Fejlécnév
@@ -16174,3 +16173,8 @@ rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 n
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
 rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
 rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
+common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
+common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
+common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
+ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable

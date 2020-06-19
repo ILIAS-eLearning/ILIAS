@@ -14944,7 +14944,6 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
 common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
@@ -16174,3 +16173,8 @@ rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 n
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
 rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
 rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
+common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
+common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
+common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
+ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
