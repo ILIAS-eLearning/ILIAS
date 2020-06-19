@@ -400,6 +400,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $options['copa'] = $lng->txt('objs_copa');
         $options['cmix'] = $lng->txt('objs_cmix');
         $options['lti'] = $lng->txt('objs_lti');
+        $options['lso'] = $lng->txt('objs_lso');
 
         if ($a_allow_undefined_lp) {
             $options["webr"] = $lng->txt("objs_webr");

@@ -130,6 +130,15 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->data_factory = new \ILIAS\Data\Factory();
     }
 
+    protected function recordLearningSequenceRead() {
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+    }
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -334,9 +343,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
         if ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
+            $this->recordLearningSequenceRead();
             return;
         }
         $this->info(self::CMD_INFO);
+        $this->recordLearningSequenceRead();
     }
 
     protected function manageContent(string $cmd = self::CMD_CONTENT)
