@@ -944,7 +944,7 @@ assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie einen hierfür spezialisierten Browser ein (z.B. den Safe Exam Browser).
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen auf E-Klausuren spezialisierten Browser ein (z.B. den 'Safe Exam Browser').
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -5381,7 +5381,7 @@ content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
-content#:#cont_toc#:#Inhaltsverzeichnis
+content#:#cont_toc#:#Inhalt
 content#:#cont_toc_mode#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
@@ -16079,7 +16079,7 @@ style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" fü
 prg#:#prg_cron_job_configuration#:#Automatische Mails
 prg#:#prg_quali_still_valid#:#Qualifikation gültig
 prg#:#prg_quali_not_valid#:#Qualifikation ungültig
-rep#:#rep_configure#:#Configure
+rep#:#rep_configure#:#Konfigurieren
 cont#:#cont_found_objects#:#Gefundene Objekte
 dash#:#dash_activation#:#Aktivierung
 survey#:#svy_chart_download#:#Grafik herunterladen
