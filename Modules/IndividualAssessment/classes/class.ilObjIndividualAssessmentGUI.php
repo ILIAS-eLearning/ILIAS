@@ -76,6 +76,17 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         }
     }
 
+    protected function recordIndividualAssessmentRead() {
+
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->usr->getId()
+        );
+
+    }
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -156,13 +167,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         $this->ctrl->setCmdClass('ilinfoscreengui');
         $info = $this->buildInfoScreen();
         $this->ctrl->forwardCommand($info);
-
-        ilChangeEvent::_recordReadEvent(
-            $this->object->getType(),
-            $this->object->getRefId(),
-            $this->object->getId(),
-            $this->usr->getId()
-        );
+        $this->recordIndividualAssessmentRead();
     }
 
     public function membersObject()
