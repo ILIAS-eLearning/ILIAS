@@ -29,7 +29,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     {
         parent::__construct($credentials);
 
-        if (null === $a_idp_id) {
+        if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
         } else {
             $this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);
