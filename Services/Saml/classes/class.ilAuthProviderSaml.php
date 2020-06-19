@@ -39,13 +39,13 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * ilAuthProviderSaml constructor.
      * @param \ilAuthFrontendCredentials|\ilAuthFrontendCredentialsSaml $credentials
-     * @param null                          $a_idp_id
+     * @param int|null $a_idp_id
      */
     public function __construct(\ilAuthFrontendCredentials $credentials, $a_idp_id = null)
     {
         parent::__construct($credentials);
 
-        if (null === $a_idp_id) {
+        if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
         } else {
             $this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);

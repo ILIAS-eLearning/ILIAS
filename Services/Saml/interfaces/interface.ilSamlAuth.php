@@ -53,4 +53,9 @@ interface ilSamlAuth
      * @return ilSamlIdpDiscovery
      */
     public function getIdpDiscovery();
+
+    /**
+     * @return array
+     */
+    public function getAuthDataArray();
 }
