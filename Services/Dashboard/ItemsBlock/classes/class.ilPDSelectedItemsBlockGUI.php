@@ -503,8 +503,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $this->ctrl->redirect($this, 'manage');
         }
 
-        $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
-        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+        $this->returnToContext();
     }
 
     public function manageObject()
