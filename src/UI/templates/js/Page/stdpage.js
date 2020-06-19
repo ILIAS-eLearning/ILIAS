@@ -42,11 +42,12 @@ il.UI = il.UI || {};
 				max_width = max_width - right_column.width();
 			}
 
-			if( target_container.width() < max_width &&
-				target_container.offset().left > content_container.offset().left
+			if( (target_container.width() < max_width && target_container.offset().left > content_container.offset().left)
+				|| max_width < 0
 			) {
 				return;
 			}
+
 			window.setTimeout(function(){
 				target_container.css({
 					'left': target_left,
