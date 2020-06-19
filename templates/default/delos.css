@@ -7045,12 +7045,11 @@ button.close {
 }
 .il-card .caption {
   padding-top: 6px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .il-card .caption h5 {
   margin: 6px 0 0 0;
-}
-.il-card .caption .card-title {
-  overflow-wrap: break-word;
 }
 .il-card .caption dl dt {
   font-weight: normal;
