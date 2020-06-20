@@ -38,7 +38,8 @@ class ilLinkifyUtil
     public static function getLocalJsPaths()
     {
         return array(
-            "./Services/Link/lib/linkify/" . self::$ver . "/jquery.linkify" . self::$min . ".js",
+            "./node_modules/linkifyjs/dist/linkify.min.js",
+            "./node_modules/linkifyjs/dist/linkify-jquery.min.js",
             "./Services/Link/js/ilExtLink.js"
         );
     }

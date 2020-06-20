@@ -21,6 +21,7 @@
     "jquery-outside-events": "^1.0.0",
     "jquery-ui-dist": "^1.12.1",
     "jstree": "^3.3.9",
+    "linkifyjs": "^2.1.9",
     "maphilight": "^1.4.0",
     "mediaelement": "4.2.16",
     "moment": "^2.24.0",
@@ -221,6 +222,13 @@
       "developer": "fschmid",
       "purpose": "File Input",
       "last-update-for-ilias": "6.0.0"
+    },
+    "linkifyjs": {
+      "introduction-date": "2015-08-11",
+      "approved-by": "Jour Fixe",
+      "developer": "akill",
+      "purpose": "Services/Link, autolinking of external links",
+      "last-update-for-ilias": "5.4.13"
     }
   }
 }
