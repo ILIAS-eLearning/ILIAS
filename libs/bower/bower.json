@@ -41,7 +41,8 @@
     "openlayers": "^4.6.4",
     "owl.carousel": "^2.3.3",
     "nestable2": "^1.6.0",
-    "dropzone": "^5.5.0"
+    "dropzone": "^5.5.0",
+    "linkifyjs": "^2.1.9"
   },
   "extra": {
     "pouchdb": {
@@ -232,6 +233,13 @@
       "developer": "fschmid",
       "purpose": "File Input",
       "last-update-for-ilias": "6.0.0"
+    },
+    "linkifyjs": {
+      "introduction-date": "2015-08-11",
+      "approved-by": "Jour Fixe",
+      "developer": "akill",
+      "purpose": "Services/Link, autolinking of external links",
+      "last-update-for-ilias": "5.4.13"
     }
   }
 }
