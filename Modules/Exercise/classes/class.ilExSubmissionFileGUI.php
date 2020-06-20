@@ -26,6 +26,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
      */
     protected $user;
 
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 
     /**
      * Constructor
@@ -39,6 +43,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
         $this->user = $DIC->user();
+
+        $this->ui = $DIC->ui();
     }
 
     public function executeCommand()
@@ -134,12 +140,11 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     $dl = '<span class="warning">' . $dl . '</span>';
                     $ilToolbar->addText($dl);
                 }
-                
-                $ilToolbar->addButton(
-                    $this->lng->txt("file_add"),
-                    $this->ctrl->getLinkTarget($this, "uploadForm")
-                );
 
+                $b = $this->ui->factory()->button()->standard($this->lng->txt("file_add"),
+                    $this->ctrl->getLinkTarget($this, "uploadForm"));
+                $ilToolbar->addStickyItem($b);
+                
                 if (!$max_files ||
                     $max_files > 1) {
                     $ilToolbar->addButton(
