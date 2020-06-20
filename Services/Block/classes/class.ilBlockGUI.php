@@ -1088,6 +1088,7 @@ abstract class ilBlockGUI
             ->withTargetURL($href, $this->getNavParameter() . "page")
             ->withTotalEntries($this->max_count)
             ->withPageSize($this->getLimit())
+            ->withMaxPaginationButtons(5)
             ->withCurrentPage((int) $this->getOffset() / $this->getLimit());
     }
 
