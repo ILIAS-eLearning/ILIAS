@@ -4,9 +4,11 @@ We are using [rollup.js](https://rollupjs.org/) to bundle modules to larger comp
 
 ## Install Rollup.js
 
+(not necessary as long as we keep npm modules in out git repo)
+
 ```
-> npm i --saved-dev rollup
-> npm i --saved-dev rollup-plugin-terser        // optional minification
+> npm i --save-dev rollup
+> npm i --save-dev rollup-plugin-terser        // optional minification
 ```
 
 

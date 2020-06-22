@@ -30,14 +30,15 @@
     "owl.carousel": "git+https://github.com/OwlCarousel2/OwlCarousel2.git",
     "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
-    "rollup": "^2.12.0",
     "rollup-plugin-sourcemaps": "^0.6.2",
-    "rollup-plugin-terser": "^6.1.0",
     "tinymce": "^4.6.7",
     "typeahead": "^0.2.2",
     "webui-popover": "^1.2.18"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "rollup": "^2.18.0",
+    "rollup-plugin-terser": "^6.1.0"
+  },
   "scripts": {},
   "repository": {
     "type": "git",
