@@ -972,6 +972,12 @@ class ilSurveyEvaluationGUI
             $question_res = $question_res[0][1];
             $matrix = true;
         }
+
+        // see #28507 (matrix question without a row)
+        if (!is_object($question_res)) {
+            return;
+        }
+
         $question = $question_res->getQuestion();
 
         // question "overview"
@@ -1468,7 +1474,12 @@ class ilSurveyEvaluationGUI
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
             $q_res = $q_eval->getResults();
-                        
+
+            // see #28507 (matrix question without a row)
+            if (is_array($q_res) && !is_object($q_res[0][1])) {
+                continue;
+            }
+
             $question = is_array($q_res)
                 ? $q_res[0][1]->getQuestion()
                 : $q_res->getQuestion();
