@@ -61,6 +61,6 @@ function base()
 
     //Step 4: Render.
     return
-        "<pre>" . print_r($result, true) . "</pre><br/>" .
+        "<pre>" . htmlspecialchars(print_r($result, true), ENT_QUOTES) . "</pre><br/>" .
         $renderer->render($form);
 }
