@@ -4,7 +4,7 @@ We are using [rollup.js](https://rollupjs.org/) to bundle modules to larger comp
 
 ## Install Rollup.js
 
-(not necessary as long as we keep npm modules in out git repo)
+(not necessary as long as we keep npm modules in our git repo)
 
 ```
 > npm i --save-dev rollup

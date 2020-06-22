@@ -4,6 +4,8 @@ ILIAS is using [Mocha](https://mochajs.org/) as test framework for Javascript un
 
 ## Install
 
+(not necessary as long as we keep npm modules in our git repo)
+
 ```
 > npm i --save-dev mocha
 > npm i --save-dev esm
