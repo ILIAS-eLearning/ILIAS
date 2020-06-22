@@ -67,6 +67,13 @@ class ilTestExporter extends ilXmlExporter
                 );
             }
 
+            // service settings
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            );
+
             return $deps;
         }
 
