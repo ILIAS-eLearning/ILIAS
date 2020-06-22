@@ -6,13 +6,12 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\DateFormat as DateFormat;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Input\Field\MultiSelect;
-use ILIAS\UI\Component\Input\Field\Password;
-use ILIAS\UI\Component\Input\Field\Select;
+use ILIAS\UI\Component\Input\Field as F;
+
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
@@ -47,50 +46,575 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
 
-        $input_tpl = null;
-        $id = null;
-        $dependant_group_html = null;
+        $component = $this->setSignals($component);
 
-        if ($component instanceof Component\Input\Field\Text) {
-            $input_tpl = $this->getTemplate("tpl.text.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\Numeric) {
-            $input_tpl = $this->getTemplate("tpl.numeric.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\Checkbox) {
-            $input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\OptionalGroup) {
-            $input_tpl = $this->getTemplate("tpl.checkbox.html", true, true);
-            $component = $component->withAdditionalOnLoadCode(function ($id) {
-                return $this->getOptionalGroupOnLoadCode($id);
-            });
-            $dependant_group_html = $this->renderFieldGroups($component, $default_renderer);
-            $id = $this->bindJavaScript($component);
-            return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id, $dependant_group_html);
-        } elseif ($component instanceof Component\Input\Field\SwitchableGroup) {
-            return $this->renderSwitchableGroupField($component, $default_renderer);
-        } elseif ($component instanceof Component\Input\Field\Tag) {
-            $input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
-        } elseif ($component instanceof Password) {
-            $input_tpl = $this->getTemplate("tpl.password.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\File) {
-            $input_tpl = $this->getTemplate("tpl.file.html", true, true);
-            $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy($this->txt('select_files_from_computer'), "#")));
-        } elseif ($component instanceof Select) {
-            $input_tpl = $this->getTemplate("tpl.select.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\Textarea) {
-            $input_tpl = $this->getTemplate("tpl.textarea.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\Radio) {
-            return $this->renderRadioField($component, $default_renderer);
-        } elseif ($component instanceof MultiSelect) {
-            $input_tpl = $this->getTemplate("tpl.multiselect.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\DateTime) {
-            $input_tpl = $this->getTemplate("tpl.datetime.html", true, true);
-        } elseif ($component instanceof Component\Input\Field\Group) {
-            return $this->renderFieldGroups($component, $default_renderer);
-        } else {
-            throw new \LogicException("Cannot render '" . get_class($component) . "'");
+        switch (true) {
+            case ($component instanceof F\OptionalGroup):
+                return $this->renderOptionalGroup($component, $default_renderer);
+
+            case ($component instanceof F\SwitchableGroup):
+                return $this->renderSwitchableGroup($component, $default_renderer);
+
+            case ($component instanceof F\Group):
+                return $default_renderer->render($component->getInputs());
+
+            case ($component instanceof F\Text):
+                return $this->renderTextField($component);
+
+            case ($component instanceof F\Numeric):
+                return $this->renderNumericField($component);
+
+            case ($component instanceof F\Checkbox):
+                return $this->renderCheckboxField($component);
+
+            case ($component instanceof F\Tag):
+                return $this->renderTagField($component);
+
+            case ($component instanceof F\Password):
+                return $this->renderPasswordField($component, $default_renderer);
+
+            case ($component instanceof F\Select):
+                return $this->renderSelectField($component);
+
+            case ($component instanceof F\Textarea):
+                return $this->renderTextareaField($component);
+
+            case ($component instanceof F\Radio):
+                return $this->renderRadioField($component);
+
+            case ($component instanceof F\MultiSelect):
+                return $this->renderMultiSelectField($component);
+
+            case ($component instanceof F\DateTime):
+                return $this->renderDateTimeField($component, $default_renderer);
+
+            case ($component instanceof F\Duration):
+                return $this->renderDurationField($component, $default_renderer);
+
+            case ($component instanceof F\Section):
+                return $this->renderSection($component, $default_renderer);
+
+            case ($component instanceof F\File):
+                return $this->renderFileField($component, $default_renderer);
+
+            default:
+                throw new \LogicException("Cannot render '" . get_class($component) . "'");
+        }
+    }
+
+
+    protected function wrapInFormContext(
+        F\FormInput $component,
+        string $input_html,
+        $name = '',
+        string $dependant_group_html = ''
+    ) : string {
+        $tpl = $this->getTemplate("tpl.context_form.html", true, true);
+
+        $tpl->setVariable("INPUT", $input_html);
+        $tpl->setVariable("NAME", $name);
+
+        $label = $component->getLabel();
+        $tpl->setVariable("LABEL", $label);
+
+        $byline = $component->getByline();
+        if ($byline) {
+            $tpl->setVariable("BYLINE", $byline);
         }
 
-        return $this->renderInputFieldWithContext($default_renderer, $input_tpl, $component, $id);
+        $required = $component->isRequired();
+        if ($required) {
+            $tpl->touchBlock("required");
+        }
+
+        $error = $component->getError();
+        if ($error) {
+            $tpl->setVariable("ERROR", $error);
+        }
+
+        $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
+        return $tpl->get();
+    }
+
+    protected function maybeDisable(F\FormInput $component, Template $tpl) : void
+    {
+        if ($component->isDisabled()) {
+            $tpl->setVariable("DISABLED", 'disabled="disabled"');
+        }
+    }
+
+    protected function applyName(F\FormInput $component, Template $tpl) : ?string
+    {
+        $name = $component->getName();
+        $tpl->setVariable("NAME", $name);
+        return $name;
+    }
+
+    protected function bindJSandApplyId(F\FormInput $component, Template $tpl) : string
+    {
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+        $tpl->setVariable("ID", $id);
+        return $id;
+    }
+
+    /**
+     * Escape values for rendering with a Callable "$escape"
+     * In order to prevent XSS-attacks, values need to be stripped of
+     * special chars (such as quotes or tags).
+     * Needs vary according to the type of component, i.e.the html generated
+     * for this specific component and the placement of {VALUE} in its template.
+     * Please note: this may not work for customized templates!
+     */
+    protected function applyValue(F\FormInput $component, Template $tpl, callable $escape = null)
+    {
+        $value = $component->getValue();
+        if (!is_null($escape)) {
+            $value = $escape($value);
+        }
+        if ($value) {
+            $tpl->setVariable("VALUE", $value);
+        }
+    }
+
+    protected function escapeSpecialChars() : \Closure
+    {
+        return function ($v) {
+            return htmlspecialchars($v, ENT_QUOTES);
+        };
+    }
+
+    protected function renderTextField(F\Text $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.text.html", true, true);
+        $name = $this->applyName($component, $tpl);
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderNumericField(F\Numeric $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.numeric.html", true, true);
+        $name = $this->applyName($component, $tpl);
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderCheckboxField(F\Checkbox $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        if ($component->getValue()) {
+            $tpl->touchBlock("value");
+        }
+
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderOptionalGroup(F\OptionalGroup $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.checkbox.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        if ($component->getValue()) {
+            $tpl->touchBlock("value");
+        }
+
+        $component = $component->withAdditionalOnLoadCode(function ($id) {
+            return "il.UI.Input.groups.optional.init('{$id}')";
+        });
+        $this->bindJSandApplyId($component, $tpl);
+
+        $dependant_group_html = $default_renderer->render($component->getInputs());
+
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name, $dependant_group_html);
+    }
+
+    protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.radio.html", true, true);
+
+        $component = $component->withAdditionalOnLoadCode(function ($id) {
+            return "il.UI.Input.groups.switchable.init('{$id}')";
+        });
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        foreach ($component->getInputs() as $key => $group) {
+            $opt_id = $id . '_' . $key . '_opt';
+
+            $tpl->setCurrentBlock('optionblock');
+            $tpl->setVariable("NAME", $component->getName());
+            $tpl->setVariable("OPTIONID", $opt_id);
+            $tpl->setVariable("VALUE", $key);
+            $tpl->setVariable("LABEL", $group->getLabel());
+
+            if ($component->getValue() !== null) {
+                list($index, $subvalues) = $component->getValue();
+                if ($index == $key) {
+                    $tpl->setVariable("CHECKED", 'checked="checked"');
+                }
+            }
+
+            $dependant_group_html = $default_renderer->render($group);
+            $tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
+            $tpl->parseCurrentBlock();
+
+            if ($component->isDisabled()) {
+                $tpl->setVariable("DISABLED", 'disabled="disabled"');
+            }
+        }
+
+        return $this->wrapInFormContext($component, $tpl->get(), '');
+    }
+
+    protected function renderTagField(F\Tag $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.tag_input.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        $configuration = $component->getConfiguration();
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($configuration) {
+                $encoded = json_encode($configuration);
+                return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+            }
+        );
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        if ($component->getValue()) {
+            $value = $component->getValue();
+            $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
+            foreach ($value as $tag) {
+                $tpl->setCurrentBlock('existing_tags');
+                $tpl->setVariable("FIELD_ID", $id);
+                $tpl->setVariable("FIELD_NAME", $component->getName());
+                $tpl->setVariable("TAG_NAME", $tag);
+                $tpl->parseCurrentBlock();
+            }
+        }
+
+        if ($component->isDisabled()) {
+            $tpl->setVariable("DISABLED", 'disabled');
+        }
+
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderPasswordField(F\Password $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.password.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        if ($component->getRevelation()) {
+            $component = $component->withResetSignals();
+            $sig_reveal = $component->getRevealSignal();
+            $sig_mask = $component->getMaskSignal();
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($sig_reveal, $sig_mask) {
+                return
+                    "$(document).on('{$sig_reveal}', function() {
+                        $('#{$id}').addClass('revealed');
+                        $('#{$id}')[0].getElementsByTagName('input')[0].type='text';
+                    });" .
+                    "$(document).on('{$sig_mask}', function() {
+                        $('#{$id}').removeClass('revealed');
+                        $('#{$id}')[0].getElementsByTagName('input')[0].type='password';
+                    });"
+                    ;
+            });
+            $this->bindJSandApplyId($component, $tpl);
+
+            $f = $this->getUIFactory();
+            $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
+                ->withOnClick($sig_reveal);
+            $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
+                ->withOnClick($sig_mask);
+
+            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
+            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
+        }
+
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    public function renderSelectField(F\Select $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.select.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        $value = $component->getValue();
+        //disable first option if required.
+        $tpl->setCurrentBlock("options");
+        if (!$value) {
+            $tpl->setVariable("SELECTED", "selected");
+        }
+        if ($component->isRequired()) {
+            $tpl->setVariable("DISABLED_OPTION", "disabled");
+            $tpl->setVariable("HIDDEN", "hidden");
+        }
+        $tpl->setVariable("VALUE", null);
+        $tpl->setVariable("VALUE_STR", "-");
+        $tpl->parseCurrentBlock();
+
+        foreach ($component->getOptions() as $option_key => $option_value) {
+            $tpl->setCurrentBlock("options");
+            if ($value == $option_key) {
+                $tpl->setVariable("SELECTED", "selected");
+            }
+            $tpl->setVariable("VALUE", $option_key);
+            $tpl->setVariable("VALUE_STR", $option_value);
+            $tpl->parseCurrentBlock();
+        }
+
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderTextareaField(F\Textarea $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.textarea.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        if ($component->isLimited()) {
+            $this->toJS("ui_chars_remaining");
+            $this->toJS("ui_chars_min");
+            $this->toJS("ui_chars_max");
+
+            $counter_id_prefix = "textarea_feedback_";
+            $min = $component->getMinLimit();
+            $max = $component->getMaxLimit();
+
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($counter_id_prefix, $min, $max) {
+                return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
+            });
+
+            $id = $this->bindJSandApplyId($component, $tpl);
+
+            $tpl->setVariable("COUNT_ID", $id);
+            $tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
+        }
+
+        $this->applyValue($component, $tpl, 'htmlentities');
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderRadioField(F\Radio $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.radio.html", true, true);
+        $id = $this->bindJSandApplyId($component, $tpl);
+
+        foreach ($component->getOptions() as $value => $label) {
+            $opt_id = $id . '_' . $value . '_opt';
+
+            $tpl->setCurrentBlock('optionblock');
+            $tpl->setVariable("NAME", $component->getName());
+            $tpl->setVariable("OPTIONID", $opt_id);
+            $tpl->setVariable("VALUE", $value);
+            $tpl->setVariable("LABEL", $label);
+
+            if ($component->getValue() !== null && $component->getValue() == $value) {
+                $tpl->setVariable("CHECKED", 'checked="checked"');
+            }
+            if ($component->isDisabled()) {
+                $tpl->setVariable("DISABLED", 'disabled="disabled"');
+            }
+
+            $byline = $component->getBylineFor($value);
+            if (!empty($byline)) {
+                $tpl->setVariable("BYLINE", $byline);
+            }
+
+            $tpl->parseCurrentBlock();
+        }
+
+        return $this->wrapInFormContext($component, $tpl->get(), '');
+    }
+
+    protected function renderMultiSelectField(F\MultiSelect $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
+        $name = $this->applyName($component, $tpl);
+        
+        $value = $component->getValue();
+        $tpl->setVariable("VALUE", $value);
+
+        foreach ($component->getOptions() as $opt_value => $opt_label) {
+            $tpl->setCurrentBlock("option");
+            $tpl->setVariable("NAME", $name);
+            $tpl->setVariable("VALUE", $opt_value);
+            $tpl->setVariable("LABEL", $opt_label);
+
+            if ($value && in_array($opt_value, $value)) {
+                $tpl->setVariable("CHECKED", 'checked="checked"');
+            }
+
+            if ($component->isDisabled()) {
+                $tpl->setVariable("DISABLED", 'disabled="disabled"');
+            }
+
+            $tpl->parseCurrentBlock();
+        }
+
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.datetime.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        $f = $this->getUIFactory();
+
+        if ($component->getTimeOnly() === true) {
+            $cal_glyph = $f->symbol()->glyph()->time("#");
+            $format = $component::TIME_FORMAT;
+        } else {
+            $cal_glyph = $f->symbol()->glyph()->calendar("#");
+
+            $format = $this->getTransformedDateFormat(
+                $component->getFormat(),
+                self::DATEPICKER_FORMAT_MAPPING
+            );
+
+            if ($component->getUseTime() === true) {
+                $format .= ' ' . $component::TIME_FORMAT;
+            }
+        }
+        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
+
+        $config = [
+            'showClear' => true,
+            'sideBySide' => true,
+            'format' => $format,
+        ];
+        $config = array_merge($config, $component->getAdditionalPickerConfig());
+
+        $min_date = $component->getMinValue();
+        if (!is_null($min_date)) {
+            $config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
+        }
+        $max_date = $component->getMaxValue();
+        if (!is_null($max_date)) {
+            $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
+        }
+
+        $tpl->setVariable("PLACEHOLDER", $format);
+
+        if ($component->getValue() !== null) {
+            $tpl->setVariable("VALUE", $component->getValue());
+        }
+
+        \ilCalendarUtil::initDateTimePicker();
+
+        $disabled = $component->isDisabled();
+        $component = $component->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
+            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
+            if ($disabled) {
+                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
+            }
+            return $js;
+        });
+
+        $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderDurationField(Duration $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.duration.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) {
+                return "$(document).ready(function() {
+                    il.UI.Input.duration.init('$id');
+                });";
+            }
+        );
+        $this->bindJSandApplyId($component, $tpl);
+
+        $input_html = '';
+        $inputs = $component->getInputs();
+        $input = array_shift($inputs); //from
+        $input_html .= $default_renderer->render($input);
+        $input = array_shift($inputs)->withAdditionalPickerconfig([ //until
+            'useCurrent' => false
+        ]);
+        $input_html .= $default_renderer->render($input);
+        $tpl->setVariable('DURATION', $input_html);
+
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+    protected function renderFileField(F\File $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.file.html", true, true);
+        $name = $this->applyName($component, $tpl);
+
+        $settings = new \stdClass();
+        $settings->upload_url = $component->getUploadHandler()->getUploadURL();
+        $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->info_url = $component->getUploadHandler()->getExistingFileInfoURL();
+        $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+        $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
+        $settings->existing_file_ids = $component->getValue();
+        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($settings) {
+                $settings = json_encode($settings);
+                return "$(document).ready(function() {
+                    il.UI.Input.file.init('$id', '{$settings}');
+                });";
+            }
+        );
+        $this->bindJSandApplyId($component, $tpl);
+
+        $tpl->setVariable(
+            'BUTTON',
+            $default_renderer->render(
+                $this->getUIFactory()->button()->shy(
+                    $this->txt('select_files_from_computer'),
+                    "#"
+                )
+            )
+        );
+
+        $this->maybeDisable($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $name);
+    }
+
+
+    protected function renderSection(F\Section $section, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.section.html", true, true);
+        $inputs_html = "";
+        foreach ($section->getInputs() as $input) {
+            $inputs_html .= $default_renderer->render($input);
+        }
+
+        $section_tpl->setVariable("INPUTS", $inputs_html);
+        $section_tpl->setVariable("LABEL", $section->getLabel());
+
+        if ($section->getByline() !== null) {
+            $section_tpl->setCurrentBlock("byline");
+            $section_tpl->setVariable("BYLINE", $section->getByline());
+            $section_tpl->parseCurrentBlock();
+        }
+
+        if ($section->getError() !== null) {
+            $section_tpl->setCurrentBlock("error");
+            $section_tpl->setVariable("ERROR", $section->getError());
+            $section_tpl->parseCurrentBlock();
+        }
+
+        return $section_tpl->get();
     }
 
 
@@ -109,6 +633,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
+        $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
 
 
@@ -129,7 +654,6 @@ class Renderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
-
             $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
                 $code = "il.UI.input.setSignalsForId('$id', $signals);";
                 return $code;
@@ -138,559 +662,6 @@ class Renderer extends AbstractComponentRenderer
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
         }
         return $input;
-    }
-
-
-    /**
-     * @param Group             $group
-     * @param RendererInterface $default_renderer
-     *
-     * @return string
-     */
-    protected function renderFieldGroups(Group $group, RendererInterface $default_renderer)
-    {
-        if ($group instanceof Component\Input\Field\Section) {
-            /**
-             * @var $group Section
-             */
-            return $this->renderSection($group, $default_renderer);
-        } elseif ($group instanceof Component\Input\Field\Duration) {
-            /**
-             * @var $group Duration
-             */
-            return $this->renderDurationInput($group, $default_renderer);
-        }
-
-        $inputs = "";
-        foreach ($group->getInputs() as $input) {
-            $inputs .= $default_renderer->render($input);
-        }
-
-        return $inputs;
-    }
-
-    /**
-     * @param Component\JavascriptBindable $component
-     * @param                              $tpl
-     */
-    protected function maybeRenderId(Component\JavascriptBindable $component, Template $tpl)
-    {
-        $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock("id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
-    }
-
-
-    /**
-     * @param Section           $section
-     * @param RendererInterface $default_renderer
-     *
-     * @return string
-     */
-    protected function renderSection(Section $section, RendererInterface $default_renderer)
-    {
-        $section_tpl = $this->getTemplate("tpl.section.html", true, true);
-        $section_tpl->setVariable("LABEL", $section->getLabel());
-
-        if ($section->getByline() !== null) {
-            $section_tpl->setCurrentBlock("byline");
-            $section_tpl->setVariable("BYLINE", $section->getByline());
-            $section_tpl->parseCurrentBlock();
-        }
-
-        if ($section->getError() !== null) {
-            $section_tpl->setCurrentBlock("error");
-            $section_tpl->setVariable("ERROR", $section->getError());
-            $section_tpl->parseCurrentBlock();
-        }
-        $inputs_html = "";
-
-        foreach ($section->getInputs() as $input) {
-            $inputs_html .= $default_renderer->render($input);
-        }
-        $section_tpl->setVariable("INPUTS", $inputs_html);
-
-        return $section_tpl->get();
-    }
-
-    /**
-     * @param RendererInterface $default_renderer
-     * @param Template $input_tpl
-     * @param Input    $input
-     * @param null     $id
-     * @param null     $dependant_group_html
-     *
-     * @return string
-     */
-    protected function renderInputFieldWithContext(RendererInterface $default_renderer, Template $input_tpl, Input $input, $id = null, $dependant_group_html = null)
-    {
-        $tpl = $this->getTemplate("tpl.context_form.html", true, true);
-        /**
-         * TODO: should we throw an error in case for no name or render without name?
-         *
-         * if(!$input->getName()){
-         * throw new \LogicException("Cannot render '".get_class($input)."' no input name given.
-         * Is there a name source attached (is this input packed into a container attaching
-         * a name source)?");
-         * } */
-        if ($input->getName()) {
-            $tpl->setVariable("NAME", $input->getName());
-        } else {
-            $tpl->setVariable("NAME", "");
-        }
-
-        $tpl->setVariable("LABEL", $input->getLabel());
-        $tpl->setVariable("INPUT", $this->renderInputField($input_tpl, $input, $id, $default_renderer));
-
-        if ($input->getByline() !== null) {
-            $tpl->setCurrentBlock("byline");
-            $tpl->setVariable("BYLINE", $input->getByline());
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($input->isRequired()) {
-            $tpl->touchBlock("required");
-        }
-
-        if ($input->getError() !== null) {
-            $tpl->setCurrentBlock("error");
-            $tpl->setVariable("ERROR", $input->getError());
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($dependant_group_html !== null) {
-            $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
-        }
-
-
-        return $tpl->get();
-    }
-
-    /**
-     * Escape values for rendering.
-     * In order to prevent XSS-attacks, values need to be stripped of
-     * special chars (such as quotes or tags).
-     * Needs vary according to the type of component (e.g. the html
-     * generated for this component and the placement of {VALUE} in the
-     * template.)
-     * Please note: this may not work for customized templates!
-     */
-    protected function prepareValue(Input $component, $value)
-    {
-        switch (true) {
-            case ($component instanceof Textarea):
-                return htmlentities($value);
-            case ($component instanceof Text):
-            case ($component instanceof Password):
-            case ($component instanceof Numeric):
-                return htmlspecialchars($value, ENT_QUOTES);
-            default:
-                return $value;
-        }
-    }
-
-    /**
-     * @param Template $tpl
-     * @param Input    $input
-     * @param          $id
-     * @param RendererInterface $default_renderer
-     *
-     * @return string
-     */
-    protected function renderInputField(Template $tpl, Input $input, $id, RendererInterface $default_renderer)
-    {
-        $input = $this->setSignals($input);
-
-        if ($input instanceof Component\Input\Field\Password) {
-            $id = $this->additionalRenderPassword($tpl, $input, $default_renderer);
-        }
-
-        if ($input instanceof Textarea) {
-            $this->renderTextareaField($tpl, $input);
-        }
-
-        $tpl->setVariable("NAME", $input->getName());
-
-        switch (true) {
-            case ($input instanceof Checkbox || $input instanceof OptionalGroup):
-                if ($input->getValue()) {
-                    $tpl->touchBlock("value");
-                }
-                // no break
-            case ($input instanceof Text):
-            case ($input instanceof Numeric):
-            case ($input instanceof Password):
-            case ($input instanceof Textarea):
-                $tpl->setVariable("NAME", $input->getName());
-
-                if ($input->getValue() !== null && !($input instanceof Checkbox)) {
-                    $tpl->setCurrentBlock("value");
-                    /*
-                    ATTENTION! Please see docs of "prepareValue".
-                    */
-                    $tpl->setVariable("VALUE", $this->prepareValue($input, $input->getValue()));
-                    $tpl->parseCurrentBlock();
-                }
-                if ($input->isDisabled()) {
-                    $tpl->setCurrentBlock("disabled");
-                    $tpl->setVariable("DISABLED", 'disabled="disabled"');
-                    $tpl->parseCurrentBlock();
-                }
-                if ($id) {
-                    $tpl->setCurrentBlock("id");
-                    $tpl->setVariable("ID", $id);
-                    $tpl->parseCurrentBlock();
-                }
-                break;
-            case ($input instanceof Select):
-                $tpl = $this->renderSelectInput($tpl, $input);
-                break;
-            case ($input instanceof MultiSelect):
-                $tpl = $this->renderMultiSelectInput($tpl, $input);
-                break;
-
-            case ($input instanceof Tag):
-                $configuration = $input->getConfiguration();
-                $input = $input->withAdditionalOnLoadCode(
-                    function ($id) use ($configuration) {
-                        $encoded = json_encode($configuration);
-
-                        return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
-                    }
-                );
-                $id = $this->bindJavaScript($input);
-                /**
-                 * @var $input \ILIAS\UI\Implementation\Component\Input\Field\Tag
-                 */
-                $tpl->setVariable("ID", $id);
-                $tpl->setVariable("NAME", $input->getName());
-                if ($input->isDisabled()) {
-                    $tpl->setCurrentBlock("disabled");
-                    $tpl->setVariable("DISABLED", "disabled");
-                    $tpl->parseCurrentBlock();
-                }
-                if ($input->getValue()) {
-                    $value = $input->getValue();
-                    $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
-                    foreach ($value as $tag) {
-                        $tpl->setCurrentBlock('existing_tags');
-                        $tpl->setVariable("FIELD_ID", $id);
-                        $tpl->setVariable("FIELD_NAME", $input->getName());
-                        $tpl->setVariable("TAG_NAME", $tag);
-                        $tpl->parseCurrentBlock();
-                    }
-                }
-                break;
-            case ($input instanceof DateTime):
-                return $this->renderDateTimeInput($default_renderer, $tpl, $input);
-                break;
-            case ($input instanceof Component\Input\Field\File):
-                $input = $this->renderFileInput($input);
-                break;
-        }
-
-        if ($id === null) {
-            $this->maybeRenderId($input, $tpl);
-        }
-
-        return $tpl->get();
-    }
-
-    public function renderSelectInput(Template $tpl, Select $input)
-    {
-        if ($input->isDisabled()) {
-            $tpl->setCurrentBlock("disabled");
-            $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            $tpl->parseCurrentBlock();
-        }
-        $value = $input->getValue();
-        //disable first option if required.
-        $tpl->setCurrentBlock("options");
-        if (!$value) {
-            $tpl->setVariable("SELECTED", "selected");
-        }
-        if ($input->isRequired()) {
-            $tpl->setVariable("DISABLED_OPTION", "disabled");
-            $tpl->setVariable("HIDDEN", "hidden");
-        }
-        $tpl->setVariable("VALUE", null);
-        $tpl->setVariable("VALUE_STR", "-");
-        $tpl->parseCurrentBlock();
-        //rest of options.
-        foreach ($input->getOptions() as $option_key => $option_value) {
-            $tpl->setCurrentBlock("options");
-            if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", "selected");
-            }
-            $tpl->setVariable("VALUE", $option_key);
-            $tpl->setVariable("VALUE_STR", $option_value);
-            $tpl->parseCurrentBlock();
-        }
-
-        return $tpl;
-    }
-
-    public function renderMultiSelectInput(Template $tpl, MultiSelect $input) : Template
-    {
-        $value = $input->getValue();
-        $name = $input->getName();
-
-        foreach ($input->getOptions() as $opt_value => $opt_label) {
-            $tpl->setCurrentBlock("option");
-            $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("VALUE", $opt_value);
-            $tpl->setVariable("LABEL", $opt_label);
-
-            if ($value && in_array($opt_value, $value)) {
-                $tpl->setVariable("CHECKED", 'checked="checked"');
-            }
-            if ($input->isDisabled()) {
-                $tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl;
-    }
-
-
-    /**
-     * Render revelation-glyphs for password and register signals/functions
-     * @param Template $tpl
-     * @param Password $input
-     *
-     * @return string | false
-     */
-    protected function additionalRenderPassword(Template $tpl, Component\Input\Field\Password $input, RendererInterface $default_renderer)
-    {
-        $id = null;
-        if ($input->getRevelation()) {
-            $f = $this->getUIFactory();
-
-            $input = $input->withResetSignals();
-            $sig_reveal = $input->getRevealSignal();
-            $sig_mask = $input->getMaskSignal();
-
-            $input = $input->withAdditionalOnLoadCode(function ($id) use ($sig_reveal, $sig_mask) {
-                return
-                    "$(document).on('{$sig_reveal}', function() {
-						$('#{$id}').addClass('revealed');
-						$('#{$id}')[0].getElementsByTagName('input')[0].type='text';
-					});" .
-                    "$(document).on('{$sig_mask}', function() {
-						$('#{$id}').removeClass('revealed');
-						$('#{$id}')[0].getElementsByTagName('input')[0].type='password';
-					});"
-                    ;
-            });
-            $id = $this->bindJavaScript($input);
-            $tpl->setVariable("ID", $id);
-
-            $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                ->withOnClick($sig_reveal);
-            $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                ->withOnClick($sig_mask);
-            $tpl->setCurrentBlock('revelation');
-            $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
-            $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
-            $tpl->parseCurrentBlock();
-        }
-        return $id;
-    }
-
-
-    protected function renderTextareaField(Template $tpl, Textarea $input)
-    {
-        if ($input->isLimited()) {
-            $this->toJS("ui_chars_remaining");
-            $this->toJS("ui_chars_min");
-            $this->toJS("ui_chars_max");
-
-            $counter_id_prefix = "textarea_feedback_";
-            $min = $input->getMinLimit();
-            $max = $input->getMaxLimit();
-
-            $input = $input->withAdditionalOnLoadCode(function ($id) use ($counter_id_prefix, $min, $max) {
-                return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
-            });
-
-            $textarea_id = $this->bindJavaScript($input);
-            $tpl->setCurrentBlock("id");
-            $tpl->setVariable("ID", $textarea_id);
-            $tpl->parseCurrentBlock();
-            $tpl->setCurrentBlock("limit");
-            $tpl->setVariable("COUNT_ID", $textarea_id);
-            $tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
-            $tpl->parseCurrentBlock();
-        }
-    }
-
-
-    /**
-     * @param Radio $input
-     * @param RendererInterface    $default_renderer
-     *
-     * @return string
-     */
-    protected function renderRadioField(Component\Input\Field\Radio $input, RendererInterface $default_renderer)
-    {
-        $input_tpl = $this->getTemplate("tpl.radio.html", true, true);
-
-        //monitor change-events
-        $input = $this->setSignals($input);
-        $id = $this->bindJavaScript($input) ?? $this->createId();
-        $input_tpl->setVariable("ID", $id);
-
-        foreach ($input->getOptions() as $value => $label) {
-            $opt_id = $id . '_' . $value . '_opt';
-
-            $input_tpl->setCurrentBlock('optionblock');
-            $input_tpl->setVariable("NAME", $input->getName());
-            $input_tpl->setVariable("OPTIONID", $opt_id);
-            $input_tpl->setVariable("VALUE", $value);
-            $input_tpl->setVariable("LABEL", $label);
-
-            if ($input->getValue() !== null && $input->getValue() == $value) {
-                $input_tpl->setVariable("CHECKED", 'checked="checked"');
-            }
-            if ($input->isDisabled()) {
-                $input_tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-
-            $byline = $input->getBylineFor($value);
-            if (!empty($byline)) {
-                $input_tpl->setVariable("BYLINE", $byline);
-            }
-
-            $input_tpl->parseCurrentBlock();
-        }
-        $options_html = $input_tpl->get();
-
-        //render with context:
-        $tpl = $this->getTemplate("tpl.context_form.html", true, true);
-        $tpl->setVariable("LABEL", $input->getLabel());
-        $tpl->setVariable("INPUT", $options_html);
-
-        if ($input->getByline() !== null) {
-            $tpl->setCurrentBlock("byline");
-            $tpl->setVariable("BYLINE", $input->getByline());
-            $tpl->parseCurrentBlock();
-        }
-        if ($input->isRequired()) {
-            $tpl->touchBlock("required");
-        }
-        if ($input->getError() !== null) {
-            $tpl->setCurrentBlock("error");
-            $tpl->setVariable("ERROR", $input->getError());
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl->get();
-    }
-
-    /**
-     * @param Radio $input
-     * @param RendererInterface    $default_renderer
-     *
-     * @return string
-     */
-    protected function renderSwitchableGroupField(Component\Input\Field\SwitchableGroup $input, RendererInterface $default_renderer)
-    {
-        $input_tpl = $this->getTemplate("tpl.radio.html", true, true);
-
-        $input = $input->withAdditionalOnLoadCode(function ($id) {
-            return $this->getSwitchableGroupOnLoadCode($id);
-        });
-        $id = $this->bindJavaScript($input);
-        $input_tpl->setVariable("ID", $id);
-
-        foreach ($input->getInputs() as $key => $group) {
-            $opt_id = $id . '_' . $key . '_opt';
-
-            $input_tpl->setCurrentBlock('optionblock');
-            $input_tpl->setVariable("NAME", $input->getName());
-            $input_tpl->setVariable("OPTIONID", $opt_id);
-            $input_tpl->setVariable("VALUE", $key);
-            $input_tpl->setVariable("LABEL", $group->getLabel());
-
-            if ($input->getValue() !== null) {
-                list($index, $subvalues) = $input->getValue();
-                if ($index == $key) {
-                    $input_tpl->setVariable("CHECKED", 'checked="checked"');
-                }
-            }
-            if ($input->isDisabled()) {
-                $input_tpl->setVariable("DISABLED", 'disabled="disabled"');
-            }
-
-            $dependant_group_html = $this->renderFieldGroups($group, $default_renderer);
-            $input_tpl->setVariable("DEPENDANT_FIELDS", $dependant_group_html);
-            $input_tpl->parseCurrentBlock();
-        }
-        $options_html = $input_tpl->get();
-
-        //render with context:
-        $tpl = $this->getTemplate("tpl.context_form.html", true, true);
-        $tpl->setVariable("LABEL", $input->getLabel());
-        $tpl->setVariable("INPUT", $options_html);
-
-        if ($input->getByline() !== null) {
-            $tpl->setCurrentBlock("byline");
-            $tpl->setVariable("BYLINE", $input->getByline());
-            $tpl->parseCurrentBlock();
-        }
-        if ($input->isRequired()) {
-            $tpl->touchBlock("required");
-        }
-        if ($input->getError() !== null) {
-            $tpl->setCurrentBlock("error");
-            $tpl->setVariable("ERROR", $input->getError());
-            $tpl->parseCurrentBlock();
-        }
-        return $tpl->get();
-    }
-
-
-    protected function getOptionalGroupOnLoadCode($id)
-    {
-        return <<<JS
-var $id = $("#$id");
-var {$id}_group = $id.siblings(".form-group").show();
-var {$id}_adjust = function() {
-	if ({$id}[0].checked) {
-		{$id}_group.show();
-	}
-	else {
-		{$id}_group.hide()
-	}
-}
-$id.change({$id}_adjust);
-{$id}_adjust();
-JS;
-    }
-
-    protected function getSwitchableGroupOnLoadCode($id)
-    {
-        return <<<JS
-var radio = $("#$id");
-radio.change(function(event){
-	var r = $(this),
-		options = r.children('.il-input-radiooption').children('input');
-
-	options.each(function(index, opt) {
-		var group = $(opt).siblings('.form-group');
-		if(opt.checked) {
-			group.show();
-		} else {
-			group.hide();
-		}
-	});
-});
-radio.trigger('change');
-
-JS;
     }
 
     /**
@@ -713,135 +684,6 @@ JS;
             }
         }
         return $ret;
-    }
-
-    /**
-     * @param Template $tpl
-     * @param DateTime $input
-     *
-     * @return string
-     */
-    protected function renderDateTimeInput(RendererInterface $default_renderer, Template $tpl, DateTime $input) : string
-    {
-        $f = $this->getUIFactory();
-
-        if ($input->getTimeOnly() === true) {
-            $cal_glyph = $f->symbol()->glyph()->time("#");
-            $format = $input::TIME_FORMAT;
-        } else {
-            $cal_glyph = $f->symbol()->glyph()->calendar("#");
-
-            $format = $this->getTransformedDateFormat(
-                $input->getFormat(),
-                self::DATEPICKER_FORMAT_MAPPING
-            );
-
-            if ($input->getUseTime() === true) {
-                $format .= ' ' . $input::TIME_FORMAT;
-            }
-        }
-
-        $tpl->setVariable("CALENDAR_GLYPH", $default_renderer->render($cal_glyph));
-
-        $config = [
-            'showClear' => true,
-            'sideBySide' => true,
-            'format' => $format,
-        ];
-        $config = array_merge($config, $input->getAdditionalPickerConfig());
-
-        $min_date = $input->getMinValue();
-        if (!is_null($min_date)) {
-            $config['minDate'] = date_format($min_date, self::DATEPICKER_MINMAX_FORMAT);
-        }
-        $max_date = $input->getMaxValue();
-        if (!is_null($max_date)) {
-            $config['maxDate'] = date_format($max_date, self::DATEPICKER_MINMAX_FORMAT);
-        }
-
-        $tpl->setVariable("NAME", $input->getName());
-        $tpl->setVariable("PLACEHOLDER", $format);
-
-        if ($input->getValue() !== null) {
-            $tpl->setCurrentBlock("value");
-            $tpl->setVariable("VALUE", $input->getValue());
-            $tpl->parseCurrentBlock();
-        }
-
-        require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
-        \ilCalendarUtil::initDateTimePicker();
-        $input = $this->setSignals($input);
-
-        $disabled = $input->isDisabled();
-        $input = $input->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
-            $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
-            if ($disabled) {
-                $js .= '$("#' . $id . ' input").prop(\'disabled\', true);';
-            }
-            return $js;
-        });
-
-        $id = $this->bindJavaScript($input);
-        $tpl->setVariable("ID", $id);
-
-        return $tpl->get();
-    }
-
-
-    protected function renderDurationInput(Duration $input, RendererInterface $default_renderer) : string
-    {
-        $tpl = $this->getTemplate("tpl.context_form.html", true, true);
-        $tpl_duration = $this->getTemplate("tpl.duration.html", true, true);
-
-        if ($input->getName()) {
-            $tpl->setVariable("NAME", $input->getName());
-        } else {
-            $tpl->setVariable("NAME", "");
-        }
-
-        $tpl->setVariable("LABEL", $input->getLabel());
-
-        if ($input->getByline() !== null) {
-            $tpl->setCurrentBlock("byline");
-            $tpl->setVariable("BYLINE", $input->getByline());
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($input->isRequired()) {
-            $tpl->touchBlock("required");
-        }
-
-        if ($input->getError() !== null) {
-            $tpl->setCurrentBlock("error");
-            $tpl->setVariable("ERROR", $input->getError());
-            $tpl->parseCurrentBlock();
-        }
-
-        $input = $this->setSignals($input);
-        $input = $input->withAdditionalOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-					il.UI.Input.duration.init('$id');
-				});";
-            }
-        );
-        $id = $this->bindJavaScript($input);
-        $tpl_duration->setVariable("ID", $id);
-
-        $input_html = '';
-        $inputs = $input->getInputs();
-
-        $inpt = array_shift($inputs); //from
-        $input_html .= $default_renderer->render($inpt);
-
-        $inpt = array_shift($inputs)->withAdditionalPickerconfig([ //until
-            'useCurrent' => false
-        ]);
-        $input_html .= $default_renderer->render($inpt);
-
-        $tpl_duration->setVariable('DURATION', $input_html);
-        $tpl->setVariable("INPUT", $tpl_duration->get());
-        return $tpl->get();
     }
 
     /**
@@ -868,7 +710,6 @@ JS;
             Component\Input\Field\File::class
         ];
     }
-
 
     protected function renderFileInput(Component\Input\Field\File $input) : Component\Input\Field\File
     {
