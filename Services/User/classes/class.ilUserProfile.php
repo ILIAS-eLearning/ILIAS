@@ -303,12 +303,17 @@ class ilUserProfile
                         "group" => "settings"),*/
         "hide_own_online_status" => array(
                         "input" => "selection",
-                        "lang_var" => "awrn_hide_from_awareness",
+                        "lang_var" => "awrn_user_show",
                         "required_hide" => true,
                         "visib_reg_hide" => true,
                         "course_export_hide" => true,
                         "group_export_hide" => true,
-                        "group" => "settings"),
+                        "group" => "settings",
+                        "default" => "y",
+                        "options" => array(
+                            "y" => "user_awrn_hide",
+                            "n" => "user_awrn_show"
+                        )),
         "bs_allow_to_contact_me" => array(
             "input" => "selection",
             "lang_var" => "buddy_allow_to_contact_me",

@@ -12,7 +12,7 @@ use \ILIAS\UI\Implementation\Component\SignalGenerator;
 /**
  * Test secondary legacy panels
  */
-class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase
+class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 {
     public function getUIFactory()
     {
@@ -339,6 +339,27 @@ EOT;
 	</div>
 	<div class="panel-footer ilBlockInfo">
 		<button class="btn btn-link" data-action="">Action</button>
+	</div>
+</div>
+EOT;
+        $this->assertHTMLEquals(
+            $this->cleanHTML($expected_html),
+            $this->cleanHTML($html)
+        );
+    }
+
+    public function test_render_with_no_header()
+    {
+        $legacy = $this->getUIFactory()->legacy("Legacy content");
+
+        $secondary_panel = $this->getUIFactory()->legacyPanel("", $legacy);
+
+        $html = $this->getDefaultRenderer()->render($secondary_panel);
+
+        $expected_html = <<<EOT
+<div class="panel panel-secondary panel-flex">
+	<div class="panel-body">
+		Legacy content
 	</div>
 </div>
 EOT;

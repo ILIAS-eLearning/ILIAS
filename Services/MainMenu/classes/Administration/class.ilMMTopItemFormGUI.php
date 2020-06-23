@@ -9,12 +9,12 @@ use ILIAS\UI\Renderer;
 
 /**
  * Class ilMMTopItemFormGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTopItemFormGUI
 {
     use Hasher;
+
     private const F_ICON = 'icon';
     /**
      * @var \ILIAS\DI\HTTPServices
@@ -50,7 +50,6 @@ class ilMMTopItemFormGUI
     protected $ui_re;
     /**
      * ilMMTopItemFormGUI constructor.
-     *
      * @param ilCtrl   $ctrl
      * @param Factory  $ui_fa
      * @param Renderer $ui_re
@@ -59,15 +58,14 @@ class ilMMTopItemFormGUI
     const F_TITLE = 'title';
     const F_TYPE = 'type';
 
-
     public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, \ILIAS\DI\HTTPServices $http, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
     {
-        $this->repository = $repository;
-        $this->http = $http;
-        $this->ctrl = $ctrl;
-        $this->ui_fa = $ui_fa;
-        $this->ui_re = $ui_re;
-        $this->lng = $lng;
+        $this->repository  = $repository;
+        $this->http        = $http;
+        $this->ctrl        = $ctrl;
+        $this->ui_fa       = $ui_fa;
+        $this->ui_re       = $ui_re;
+        $this->lng         = $lng;
         $this->item_facade = $item;
         if (!$this->item_facade->isEmpty()) {
             $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER);
@@ -76,19 +74,18 @@ class ilMMTopItemFormGUI
         $this->initForm();
     }
 
-
     private function initForm()
     {
         $txt = function ($key) {
             return $this->lng->txt($key);
         };
-        $f = function () : InputFactory {
+        $f   = function () : InputFactory {
             return $this->ui_fa->input();
         };
 
         // TITLE
         $title = $f()->field()->text($txt('topitem_title_default'), $txt('topitem_title_default_byline'))
-            ->withRequired(true);
+                     ->withRequired(true);
         if (!$this->item_facade->isEmpty()) {
             $title = $title->withValue($this->item_facade->getDefaultTitle());
         }
@@ -98,8 +95,8 @@ class ilMMTopItemFormGUI
         if ($this->item_facade->supportsCustomIcon()) {
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('topitem_icon'))
-                ->withByline($txt('topitem_icon_byline'))
-                ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withByline($txt('topitem_icon_byline'))
+                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
@@ -110,10 +107,10 @@ class ilMMTopItemFormGUI
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
-            $type = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'), $txt('topitem_type_byline'))->withRequired(true);
+            $type        = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'), $txt('topitem_type_byline'))->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? TopParentItem::class : $this->item_facade->getType();
-                $type = $type->withValue($this->hash($string));
+                $type   = $type->withValue($this->hash($string));
             } else {
                 $type = $type->withValue($this->hash(TopParentItem::class));
             }
@@ -121,27 +118,24 @@ class ilMMTopItemFormGUI
         }
 
         // ACTIVE
-        $active = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
-        if (!$this->item_facade->isEmpty()) {
-            $active = $active->withValue($this->item_facade->isAvailable());
-        }
+        $active                = $f()->field()->checkbox($txt('topitem_active'), $txt('topitem_active_byline'));
+        $active                = $active->withValue($this->item_facade->isActivated());
         $items[self::F_ACTIVE] = $active;
 
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
-            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
+            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
             $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_CREATE), [$section]);
         } else {
-            $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
+            $section    = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
             $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_UPDATE), [$section]);
         }
     }
 
-
     public function save()
     {
         $this->form = $this->form->withRequest($this->http->request());
-        $data = $this->form->getData();
+        $data       = $this->form->getData();
         if (is_null($data)) {
             return false;
         }
@@ -163,9 +157,9 @@ class ilMMTopItemFormGUI
         }
 
         if ($this->item_facade->isCustom()) {
-            $type = $this->item_facade->getType();
+            $type               = $this->item_facade->getType();
             $type_specific_data = (array) $data[0][self::F_TYPE][1];
-            $type_handler = $this->repository->getTypeHandlerForType($type);
+            $type_handler       = $this->repository->getTypeHandlerForType($type);
             $type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
         }
 
@@ -173,7 +167,6 @@ class ilMMTopItemFormGUI
 
         return true;
     }
-
 
     /**
      * @return string
@@ -183,21 +176,19 @@ class ilMMTopItemFormGUI
         return $this->ui_re->render([$this->form]);
     }
 
-
     /**
      * @param Closure $f
-     *
      * @return array
      */
     private function getTypeGroups(Closure $f) : array
     {
-        $type_groups = [];
+        $type_groups       = [];
         $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
         foreach ($type_informations as $classname => $information) {
             if ($this->item_facade->isEmpty()
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
             ) { // https://mantis.ilias.de/view.php?id=24152
-                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+                $inputs                               = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
                 $type_groups[$this->hash($classname)] = $f()->field()->group($inputs, $information->getTypeNameForPresentation());
             }
         }

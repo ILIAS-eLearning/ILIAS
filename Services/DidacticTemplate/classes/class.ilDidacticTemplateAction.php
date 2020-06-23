@@ -16,6 +16,7 @@ abstract class ilDidacticTemplateAction
     const FILTER_SOURCE_TITLE = 1;
     const FILTER_SOURCE_OBJ_ID = 2;
     const FILTER_PARENT_ROLES = 3;
+    const FILTER_LOCAL_ROLES = 4;
 
     const PATTERN_PARENT_TYPE = 'action';
     
@@ -37,7 +38,9 @@ abstract class ilDidacticTemplateAction
      */
     public function __construct($action_id = 0)
     {
-        $this->logger = $GLOBALS['DIC']->logger()->otpl();
+        global $DIC;
+
+        $this->logger = $DIC->logger()->otpl();
         
         $this->setActionId($action_id);
         $this->read();
@@ -45,7 +48,7 @@ abstract class ilDidacticTemplateAction
     
     /**
      * Get logger
-     * @return type
+     * @return \ilLogger
      */
     public function getLogger()
     {
@@ -259,6 +262,23 @@ abstract class ilDidacticTemplateAction
                     foreach ($patterns as $pattern) {
                         if ($pattern->valid(ilObject::_lookupTitle($role_id))) {
                             ilLoggerFactory::getLogger('otpl')->debug('Role is valid: ' . ilObject::_lookupTitle($role_id));
+                            $filtered[$role_id] = $role;
+                        }
+                    }
+                    break;
+
+                case self::FILTER_LOCAL_ROLES:
+
+                    if (
+                        $role['parent'] != $source->getRefId() ||
+                        $role['assign'] == 'n'
+                    ) {
+                        $this->logger->debug('Excluding non local role' . $role['title']);
+                        break;
+                    }
+                    foreach ($patterns as $pattern) {
+                        if ($pattern->valid(\ilObject::_lookupTitle($role_id))) {
+                            $this->logger->debug('Role is valid ' . \ilObject::_lookupTitle($role_id));
                             $filtered[$role_id] = $role;
                         }
                     }

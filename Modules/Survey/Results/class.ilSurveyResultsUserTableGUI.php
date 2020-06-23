@@ -75,8 +75,11 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable("USERNAME", $data['username']);
         $this->tpl->setVariable("QUESTION", $data['question']);
-        $this->tpl->setVariable("RESULTS", $data['results']
-            ? implode("<br />", $data['results'])
+        $results = array_map(function ($i) {
+            return htmlentities($i);
+        }, $data["results"]);
+        $this->tpl->setVariable("RESULTS", $results
+            ? implode("<br />", $results)
             : ilObjSurvey::getSurveySkippedValue());
         $this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
         

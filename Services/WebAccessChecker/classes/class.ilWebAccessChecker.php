@@ -448,6 +448,7 @@ class ilWebAccessChecker
     {
         global $DIC;
         include_once './Services/Context/classes/class.ilContext.php';
+        session_destroy();
         ilContext::init(ilContext::CONTEXT_WAC);
         require_once("Services/Init/classes/class.ilInitialisation.php");
         ilInitialisation::reinitILIAS();

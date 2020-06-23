@@ -183,7 +183,7 @@ block-element, respectively an UI-Component on its own.
 ### Turn View Controls into View Control Inputs (advanced)
 
 View Controls actually are more like Inputs and should be treated that way.
-They accordingly should be implemented as Input\ViewControl\ViewControlControl.
+They accordingly should be implemented as Input\ViewControl\ViewControl.
 Finally, when consumers are adapted, ViewControl can be removed from UI's root
 entirely.
 
@@ -192,6 +192,13 @@ entirely.
 * Pagination View Control Input
 * Section View Control Input
 * Sortation View Control Input
+
+### Get rid of < div > under < body > element in Standard Page template (beginner)
+In the template of the Standard Page, one level under the < body > element,
+a < div > element is used. This level seems redundant and not giving any advantages
+over just starting with < body >. We should remove the < div > element, but must
+keep the functionalities, which are coupled to the "class"-attribute of the element.
+
 
 ## Long Term
 

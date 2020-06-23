@@ -24,6 +24,7 @@ class BaseTypeRenderer implements TypeRenderer
     use isSupportedTrait;
 
     use ComponentDecoratorApplierTrait;
+
     /**
      * @var Factory
      */
@@ -63,10 +64,10 @@ class BaseTypeRenderer implements TypeRenderer
             return $this->getComponentWithContent($item);
         }
         $content = $this->ui_factory->legacy("...");
-        $name = $item instanceof hasTitle ? $item->getTitle() : "-";
-        $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
-        $slate = $this->addAsyncLoadingCode($slate, $item);
-        $slate = $this->addOnloadCode($slate, $item);
+        $name    = $item instanceof hasTitle ? $item->getTitle() : "-";
+        $slate   = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
+        $slate   = $this->addAsyncLoadingCode($slate, $item);
+        $slate   = $this->addOnloadCode($slate, $item);
 
         return $slate;
     }
@@ -105,10 +106,31 @@ class BaseTypeRenderer implements TypeRenderer
      */
     protected function getURI(string $uri_string) : URI
     {
+        $uri_string = trim($uri_string, " ");
+
         if (strpos($uri_string, 'http') === 0) {
-            return new URI($uri_string);
+            $checker = self::getURIChecker();
+            if ($checker($uri_string)) {
+                return new URI($uri_string);
+            }
+            return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($_SERVER['REQUEST_URI'], "./"));
         }
 
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
+    }
+
+    /**
+     * @return \Closure
+     */
+    public static function getURIChecker() : \Closure
+    {
+        return static function (string $v) : bool {
+            try {
+                new URI($v);
+            } catch (\Throwable $e) {
+                return false;
+            }
+            return true;
+        };
     }
 }

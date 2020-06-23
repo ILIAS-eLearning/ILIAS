@@ -2831,7 +2831,7 @@ if (!$ilDB->tableExists('svy_invitation')) {
     "SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
     [],
     []
-    );
+);
     while ($rec = $ilDB->fetchAssoc($set)) {
         $ilDB->insert("svy_invitation", [
             "survey_id" => ["integer", $rec["survey_fi"]],
@@ -2915,7 +2915,7 @@ if (!$ilDB->tableColumnExists('object_reference', 'deleted_by')) {
                         'length' => 4,
                         'default' => 0
                 ]
-        );
+    );
 }
 ?>
 <#5591>
@@ -2985,7 +2985,7 @@ if (!$ilDB->tableColumnExists('crs_settings', 'period_start')) {
                         'notnull' => false,
                         'default' => null
                 ]
-        );
+    );
     $ilDB->addTableColumn(
         'crs_settings',
         'period_end',
@@ -2994,7 +2994,7 @@ if (!$ilDB->tableColumnExists('crs_settings', 'period_start')) {
                         'notnull' => false,
                         'default' => null
                 ]
-        );
+    );
 }
 ?>
 
@@ -3036,7 +3036,7 @@ if (!$ilDB->tableColumnExists('crs_settings', 'period_time_indication')) {
                         'notnull' => true,
                         'default' => 0
                 ]
-        );
+    );
 }
 ?>
 
@@ -3056,7 +3056,7 @@ if (!$ilDB->tableColumnExists('grp_settings', 'period_start')) {
                         'notnull' => false,
                         'default' => null
                 ]
-        );
+    );
     $ilDB->addTableColumn(
         'grp_settings',
         'period_end',
@@ -3065,7 +3065,7 @@ if (!$ilDB->tableColumnExists('grp_settings', 'period_start')) {
                         'notnull' => false,
                         'default' => null
                 ]
-        );
+    );
 }
 ?>
 
@@ -3107,7 +3107,7 @@ if (!$ilDB->tableColumnExists('grp_settings', 'period_time_indication')) {
                         'notnull' => true,
                         'default' => 0
                 ]
-        );
+    );
 }
 ?>
 <#5598>
@@ -3358,7 +3358,7 @@ if (!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
                                 'length' => 4000,
                                 'notnull' => false
                         ]
-        );
+    );
 }
 ?>
 <#5613>
@@ -3375,7 +3375,7 @@ if (!$db->tableColumnExists('prg_settings', 'deadline_period')) {
                 'notnull' => true,
                 'default' => 0
             ]
-        );
+    );
 }
 if (!$db->tableColumnExists('prg_settings', 'deadline_date')) {
     $db->addTableColumn(
@@ -3385,7 +3385,7 @@ if (!$db->tableColumnExists('prg_settings', 'deadline_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3401,7 +3401,7 @@ if (!$db->tableColumnExists('prg_usr_progress', 'assignment_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3431,7 +3431,7 @@ if (!$db->tableColumnExists('prg_usr_progress', 'completion_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3449,7 +3449,7 @@ if (!$db->tableColumnExists('prg_settings', 'vq_period')) {
                 'notnull' => true,
                 'default' => -1
             ]
-        );
+    );
 }
 if (!$db->tableColumnExists('prg_settings', 'vq_date')) {
     $db->addTableColumn(
@@ -3459,7 +3459,7 @@ if (!$db->tableColumnExists('prg_settings', 'vq_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 if (!$db->tableColumnExists('prg_settings', 'vq_restart_period')) {
     $db->addTableColumn(
@@ -3471,7 +3471,7 @@ if (!$db->tableColumnExists('prg_settings', 'vq_restart_period')) {
                 'notnull' => true,
                 'default' => -1
             ]
-        );
+    );
 }
 ?>
 
@@ -3487,7 +3487,7 @@ if (!$db->tableColumnExists('prg_usr_progress', 'vq_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3503,7 +3503,7 @@ if (!$db->tableColumnExists('prg_usr_assignments', 'restart_date')) {
                 'type' => 'timestamp',
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3520,7 +3520,7 @@ if (!$db->tableColumnExists('prg_usr_assignments', 'restarted_assignment_id')) {
                 'notnull' => true,
                 'default' => -1
             ]
-        );
+    );
 }
 ?>
 <#5621>
@@ -3537,7 +3537,7 @@ if (!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
                                 'length' => 4000,
                                 'notnull' => false
                         ]
-        );
+    );
 }
 ?>
 <#5622>
@@ -3645,7 +3645,7 @@ if (!$db->tableColumnExists('prg_usr_progress', 'invalidated')) {
                 'length' => 1,
                 'notnull' => false
             ]
-        );
+    );
 }
 ?>
 
@@ -3660,7 +3660,7 @@ ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::
     ilOrgUnitOperation::OP_VIEW_MEMBERS,
     'View Memberships of other users',
     ilOrgUnitOperationContext::CONTEXT_PRG
-    );
+);
     ilOrgUnitOperationQueries::registerNewOperation(
         ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
         'View learning progress of other users',
@@ -3697,7 +3697,7 @@ if (!$db->tableColumnExists('prg_settings', 'access_ctrl_org_pos')) {
                 'notnull' => true,
                 'default' => 0
             ]
-        );
+    );
 }
 ?>
 
@@ -4024,7 +4024,7 @@ if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification')) {
                         'notnull' => true,
                         'default' => 1
                 ]
-        );
+    );
 }
 ?>
 <#5647>
@@ -4039,7 +4039,7 @@ if (!$ilDB->tableColumnExists('event_participants', 'excused')) {
                         'notnull' => true,
                         'default' => 0
                 ]
-        );
+    );
 }
 ?>
 <#5648>
@@ -4313,3 +4313,18 @@ if (!$idx) {
     $setting->set('ilfrmreadidx1', 1);
 }
 ?> 
+<#5666>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+$type = 'prgr';
+$ops_id = ilDBUpdateNewObjectType::RBAC_OP_READ;
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId($type);
+if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
+    ilDBUpdateNewObjectType::deleteRBACOperation($type, $ops_id);
+}
+?>
+<#5667>
+<?php
+/** @var $ilDB ilDBInterface */
+$ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_gc']);
+?>

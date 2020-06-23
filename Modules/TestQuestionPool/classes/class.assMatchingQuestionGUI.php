@@ -591,7 +591,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
@@ -747,7 +747,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $files = array();
         
         if ($DIC['ilBrowser']->isMobile() || $DIC['ilBrowser']->isIpad()) {
-            $files[] = './libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js';
+            $files[] = './node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js';
         }
         
         $files[] = 'Modules/TestQuestionPool/js/ilMatchingQuestion.js';
@@ -764,7 +764,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            $this->tpl->addJavaScript('./libs/bower/bower_components/jqueryui-touch-punch/jquery.ui.touch-punch.min.js');
+            $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));

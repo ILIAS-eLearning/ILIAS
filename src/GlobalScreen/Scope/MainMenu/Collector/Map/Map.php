@@ -133,8 +133,8 @@ class Map implements Filterable, Walkable
             foreach ($this->filters as $filter) {
                 $filter_copy = array_filter($filter_copy, $filter);
             }
-            $this->filtered = new ArrayObject($filter_copy);
-            $this->filters  = [];
+            $this->filtered->exchangeArray($filter_copy);
+            $this->filters = [];
         }
     }
 
@@ -168,7 +168,8 @@ class Map implements Filterable, Walkable
 
     public function sort() : void
     {
-        $sorter = function (isItem $item_one, isItem $item_two) : bool {
+        $this->applyFilters();
+        $sorter = function (isItem $item_one, isItem $item_two) : int {
             /**
              * @var $parent isParent
              */
@@ -186,11 +187,11 @@ class Map implements Filterable, Walkable
                 $position_item_two = $item_two->getPosition();
             }
 
-            return $position_item_one > $position_item_two;
+            return $position_item_one <=> $position_item_two;
         };
 
         $this->filtered->uasort($sorter);
-//        $this->raw->uasort($sorter);
+
         $this->walk(static function (isItem &$item) use ($sorter) : isItem {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();

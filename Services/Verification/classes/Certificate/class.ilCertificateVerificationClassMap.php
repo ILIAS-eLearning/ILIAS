@@ -11,7 +11,7 @@ class ilCertificateVerificationClassMap
         'tst' => 'tstv',
         'exc' => 'excv',
         'sahs' => 'scov',
-        'cmix' => 'cmiv',
+        'cmix' => 'cmxv',
         'lti' => 'ltiv'
     );
 

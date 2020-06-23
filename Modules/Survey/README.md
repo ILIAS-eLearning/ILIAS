@@ -63,11 +63,17 @@ This section documents the general concepts and structures of the Survey Module.
 ### Properties
 * **Question Type**:  (`svy_question.questiontype_fi`)
 * **Pool or Survey**: Object ID of parent Pool or Survey (`svy_question.obj_fi`)
-* **Author**: Object ID of author user (`svy_question.owner_fi`)
-* : 1 or 0 depending if the user saved any data (`svy_question.complete`)
+* **Author**: Object ID of author user (`svy_question.owner_fi`), Author name (`svy_question.author`)
+* **Title**
+* **Description**
+* **Obligatory**: Is question obligatory 1, 0 (`svy_question.obligatory`), note: table is used for both, questions in pools and surveys
+* **Complete**: 1 or 0 depending if the user saved any data (`svy_question.complete`)
 * : (`svy_question.original_id`)
-* ...
-  
+* : (`svy_question.tstamp`)
+* : (`svy_question.questiontext`)
+* : (`svy_question.label`)
+
+
 ### Issues
 * If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for services/cron which delete this rows).
 
@@ -88,14 +94,16 @@ Can we get of the table completely?
 ...
 
 ### Matrix Question
-...
+* **DB Tables**: `svy_matrix`, `svy_matrixrows`
 
 ### Text Question
 ...
 
 
 ## Question Category
-A question category is an answer option of a question. There are predefined answer options, and custom options which are created during question editing.
+
+A question category is an answer option of a question. There are predefined answer options, and custom options which are created during question editing. The categories hold the answer texts, but not the scale values which are stored in the Variables (`svy_variable`).
+
 * **Code**: `Modules/SurveyQuestinoPool/Categories`
 * **DB Tables**: `svy_category`
 
@@ -137,23 +145,25 @@ A question category is an answer option of a question. There are predefined answ
 
 
 ## Variables
+
+Answer options for each question. Hold Scale Values. Texts are in Question Categories. Note: For matrix questions only entries "for one row" are in table `svy_variable`.
+
 * **Code**: 
 * **DB Tables**: `svy_variable`
 
+### Properties
+* **ID** (`svy_variable.variable_id`)
+* **Question Category**: Reference to `svy_category` (`svy_variable.category_fi`)
+* **Question**: Reference to `svy_question` (`svy_variable.question_fi`)
+* **value1**: for metric q: min value
+* **value2**: for metric q: max value
+* **Sequence**: Order of the options in the question presentation (`svy_variable.sequence`)
+* **Timestamp**: (`svy_variable.tstamp`)
+* ??? (`svy_variable.other`)
+* **Scale Value***: Positive or NULL. Here the scale have the real value entered, not scale -1. (`svy_variable.scale`)
 
-
-[WIP]
-* Answer options for each question
-* Hold Scale Values
-* table svy_variable
-  * category_fi: general answer option -> svy_category
-  * question_fi: question -> svy_question
-  * value1: for metric q: min value
-  * value2: for metric q: max value
-  * sequence: order of the options in the question presentation
-  * other:
-  * scale: scale value (positives or NULL. Here the scale have the real value entered, not scale -1 )
-* problem: value1/value2 values seem to be redundant or belong to other tables (e.g. metric)
+### Issues  
+* value1/value2 values seem to be redundant or belong to other tables (e.g. metric)
 
 
 ## Question Editing
@@ -239,6 +249,16 @@ If the constraint is met, show the question.
   * constraint_fi: constraint definition -> svy_constraint
 * problem: it seems that svy_constraint and svy_qst_constraint could be merged into one table
 
+### Current "Business" Rules (weak, needs a better concept)
+
+* The "targets" for constraints are always single questions.
+* If a question is added to a single question page (no block), all constraints are removed (createQuestionBlock) from the single question.
+* If a contraint is defined for a block (as a target), the constraint is assigned to all questions of the block (svy_qst_constraint).
+* If a third question is added to a block svy_qst_constraint holds only entries for the first two questions.
+* Constraint checking in ilSurveyExecutionGUI->outSurveyPage seems only to be done for the constraints of the first question of a block.
+* The constraints table shows only the constraints of the first question of a question block.
+
+
 ## Survey Run
 * **Code**:
 * **DB Tables**: `svy_finished`,`svy_times`
@@ -263,13 +283,16 @@ If the constraint is met, show the question.
 * **DB Tables**: `svy_answer`
 
 [WIP]
-* Given answers by user during test run, mc question answers may lead to multiple entries for one question in a run
+* Given answers by user during test run
+  - mc question answers may lead to multiple entries for one question in a run
+  - matrix questions lead to muliple entries (each row gets a different rowvalue)
 * table svy_answer
   * active_fi: survey run -> svy_finished
   * question_fi: question -> svy_question (does not point to svy_svy_qst)
-  * value: scale value of corresponding "variable" -1?
-  * textanswer: 
-  * rowvalue:
+  * value: scale value of corresponding "variable" - 1 (!)
+    (metric question answers have the entered value stored, no "-1" !)
+  * textanswer: Text answer
+  * rowvalue: Matrix question row, starting with 0
   
 ## Invitation
 * **Code**: `Modules/Survey/Participants`

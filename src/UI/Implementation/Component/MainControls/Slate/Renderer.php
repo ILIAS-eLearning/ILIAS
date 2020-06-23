@@ -69,6 +69,13 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
 
+        $aria_role = $component->getAriaRole();
+        if ($aria_role != null) {
+            $tpl->setCurrentBlock("with_aria_role");
+            $tpl->setVariable("ARIA_ROLE", $aria_role);
+            $tpl->parseCurrentBlock();
+        }
+
         if ($component->getEngaged()) {
             $tpl->touchBlock('engaged');
         } else {

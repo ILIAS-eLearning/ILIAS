@@ -456,4 +456,23 @@ class GlyphTest extends ILIAS_UI_TestBase
         $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\" id=\"$id\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
         $this->assertEquals($expected, $html);
     }
+
+    /**
+     * @dataProvider glyph_type_provider
+     */
+    public function test_render_with_action($type)
+    {
+        $f = $this->getGlyphFactory();
+        $r = $this->getDefaultRenderer();
+        $c = $f->$type("http://www.ilias.de");
+        $c = $c->withAction("http://www.ilias.de/open-source-lms-ilias/");
+
+        $html = $this->normalizeHTML($r->render($c));
+
+        $css_classes = self::$canonical_css_classes[$type];
+        $aria_label = self::$aria_labels[$type];
+
+        $expected = "<a class=\"glyph\" href=\"http://www.ilias.de/open-source-lms-ilias/\" aria-label=\"$aria_label\"><span class=\"$css_classes\" aria-hidden=\"true\"></span></a>";
+        $this->assertEquals($expected, $html);
+    }
 }

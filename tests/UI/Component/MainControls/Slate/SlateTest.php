@@ -66,6 +66,32 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
+    public function testWithAriaRole(Slate $slate)
+    {
+        try {
+            $slate = $slate->withAriaRole(Slate::MENU);
+            $this->assertEquals("menu", $slate->getAriaRole());
+        } catch (\InvalidArgumentException $e) {
+            $this->assertFalse("This should not happen");
+        }
+    }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testWithAriaRoleIncorrect(Slate $slate)
+    {
+        try {
+            $slate = $slate->withAriaRole("loremipsum");
+            $this->assertFalse("This should not happen");
+        } catch (\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
+
+    /**
+     * @depends testConstruction
+     */
     public function testSignals(Slate $slate)
     {
         $signals = [

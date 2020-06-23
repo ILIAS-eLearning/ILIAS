@@ -38,6 +38,9 @@ class ilContainerFilterFieldData
             array($ref_id)
             );
         while ($rec = $db->fetchAssoc($set)) {
+            if ($rec["record_set_id"] > 0 && !ilAdvancedMDFieldDefinition::exists($rec["field_id"])) {
+                continue;
+            }
             $filter[] = [
                 "field" => new ilContainerFilterField($rec["record_set_id"], $rec["field_id"]),
                 "sort" => ($rec["record_set_id"] * 100000) + $rec["field_id"]];

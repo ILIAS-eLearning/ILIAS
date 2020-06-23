@@ -282,6 +282,16 @@ class Renderer extends AbstractComponentRenderer
         if ($label !== null) {
             $tpl->setVariable("LABEL", $label);
         }
+
+        $aria_role = $component->getAriaRole();
+        if ($aria_role != null) {
+            $tpl->setCurrentBlock("with_aria_role");
+            $tpl->setVariable("ARIA_ROLE", $aria_role);
+            $tpl->parseCurrentBlock();
+        }
+        if ($aria_role == Bulky::MENUITEM) {
+            $tpl->touchBlock("with_aria_haspopup");
+        }
     }
 
     /**

@@ -163,7 +163,8 @@ class ilMailOptionsGUI
 
         $form = $this->getForm();
         if ($form->save()) {
-            ilUtil::sendSuccess($this->lng->txt('mail_options_saved'));
+            ilUtil::sendSuccess($this->lng->txt('mail_options_saved'), true);
+            $this->ctrl->redirect($this, 'showOptions');
         }
 
         $this->showOptions($form);

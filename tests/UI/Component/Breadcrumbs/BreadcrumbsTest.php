@@ -69,15 +69,15 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $c = $f->Breadcrumbs($crumbs);
 
         $html = $this->normalizeHTML($r->render($c));
-        $expected = '<nav role="navigation" aria-label="breadcrumbs">'
-            . '	<ul class="breadcrumb">'
-            . '		<li class="crumb">'
+        $expected = '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper">'
+            . '	<div class="breadcrumb">'
+            . '		<span class="crumb">'
             . '			<a href="#">label</a>'
-            . '		</li>'
-            . '		<li class="crumb">'
+            . '		</span>'
+            . '		<span class="crumb">'
             . '			<a href="#">label2</a>'
-            . '		</li>'
-            . '	</ul>'
+            . '		</span>'
+            . '	</div>'
             . '</nav>';
 
         $this->assertHTMLEquals($expected, $html);

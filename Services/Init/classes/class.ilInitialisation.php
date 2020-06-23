@@ -1393,8 +1393,9 @@ class ilInitialisation
         $c['global_screen'] = function () use ($c) {
             return new Services(new ilGSProviderFactory($c));
         };
-        $c->globalScreen()->tool()->context()->stack()->main();
-        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
+        $c->globalScreen()->tool()->context()->stack()->clear();
+        $c->globalScreen()->tool()->context()->claim()->main();
+//        $c->globalScreen()->tool()->context()->current()->addAdditionalData('DEVMODE', (bool) DEVMODE);
     }
 
     /**
@@ -1544,7 +1545,8 @@ class ilInitialisation
             return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
                 $c["ui.signal_generator"],
                 $data_factory,
-                $refinery
+                $refinery,
+                $c["lng"]
             );
         };
         $c["ui.factory.input.container"] = function ($c) {

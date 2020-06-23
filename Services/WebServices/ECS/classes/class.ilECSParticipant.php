@@ -34,6 +34,7 @@ class ilECSParticipant
 {
     protected $json_obj;
     protected $cid;
+    protected $pid;
     protected $mid;
     protected $email;
     protected $certid;
@@ -41,6 +42,11 @@ class ilECSParticipant
     protected $description;
     protected $participantname;
     protected $is_self;
+
+    /**
+     * @var null | \ilLogger
+     */
+    private $logger = null;
     
     /**
      * Constructor
@@ -51,6 +57,10 @@ class ilECSParticipant
      */
     public function __construct($json_obj, $a_cid)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->wsrv();
+
         $this->json_obj = $json_obj;
         $this->cid = $a_cid;
         $this->read();
@@ -135,6 +145,15 @@ class ilECSParticipant
     {
         return $this->abr;
     }
+
+    /**
+     * Get pid
+     * @return int
+     */
+    public function getPid()
+    {
+        return $this->pid;
+    }
     
     /**
      * is publishable (enabled and mid with own cert id)
@@ -191,13 +210,9 @@ class ilECSParticipant
      */
     private function read()
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
+        $this->pid = $this->json_obj->pid;
         $this->mid = $this->json_obj->mid;
         $this->email = $this->json_obj->email;
-        #$this->certid = hexdec($this->json_obj->certid);
         $this->dns = $this->json_obj->dns;
         $this->description = $this->json_obj->description;
 

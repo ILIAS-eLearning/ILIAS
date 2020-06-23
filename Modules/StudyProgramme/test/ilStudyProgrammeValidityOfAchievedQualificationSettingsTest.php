@@ -129,7 +129,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new ILIAS\UI\Implementation\Component\SignalGenerator(),
             $df,
-            $refinery
+            $refinery,
+            $lng
         );
 
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(

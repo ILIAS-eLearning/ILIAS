@@ -1,5 +1,5 @@
 <div class="il-maincontrols-mainbar" id="{ID}">
-	<div class="il-mainbar">
+	<nav class="il-mainbar" aria-label="{ARIA_LABEL}">
 		<!-- BEGIN tools_trigger -->
 		<div class="il-mainbar-tools-button">
 			{BUTTON}
@@ -7,13 +7,13 @@
 		<!-- END tools_trigger -->
 
 		<div class="il-mainbar-triggers">
-			<div class="il-mainbar-entries" style="visibility: hidden"><!--if done via class/css-files, visibility is being applied too late -->
+			<div class="il-mainbar-entries" role="menubar" style="visibility: hidden"><!--if done via class/css-files, visibility is being applied too late -->
 				<!-- BEGIN trigger_item -->
 				{BUTTON}
 				<!-- END trigger_item -->
 			</div>
 		</div>
-	</div>
+	</nav>
 
 	<div class="il-mainbar-slates">
 		<div class="il-mainbar-tools-entries">

@@ -1327,7 +1327,7 @@ class ilPageObjectGUI
                     $main_tpl->addOnloadCode("ilCOPage.addTextFormat('" . $c . "');");
                 }
 
-                $main_tpl->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
+                $main_tpl->addJavascript("./node_modules/tinymce/tinymce.min.js");
                 $tpl->touchBlock("init_dragging");
 
                 $cfg = $this->getPageConfig();

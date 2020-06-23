@@ -212,6 +212,9 @@ class ilStartUpGUI
         // Instantiate login template
         $tpl = self::initStartUpTemplate("tpl.login.html");
 
+        $this->mainTemplate->addCss(ilObjStyleSheet::getContentStylePath(0));
+        $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
         $page_editor_html = $this->getLoginPageEditorHTML();
         $page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
         $page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
@@ -1441,7 +1444,7 @@ class ilStartUpGUI
         }
 
         // create table
-        $tbl = new ilTableGUI('',false);
+        $tbl = new ilTableGUI('', false);
 
         // title & header columns
         if ($hasPublicSection) {
@@ -1686,13 +1689,12 @@ class ilStartUpGUI
 
                 // core checks: timings/object-specific
                 if (
-                    !$access->doActivationCheck('read','', $path_ref_id, $ilUser->getId(),$pobj_id,$ptype) ||
-                    !$access->doStatusCheck('read', '' , $path_ref_id, $ilUser->getId(),$pobj_id, $ptype)
+                    !$access->doActivationCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
+                    !$access->doStatusCheck('read', '', $path_ref_id, $ilUser->getId(), $pobj_id, $ptype)
                 ) {
                     // object in path is inaccessible - aborting
                     return false;
-                }
-                elseif ($ptype == "crs") {
+                } elseif ($ptype == "crs") {
                     // check if already participant
                     include_once "Modules/Course/classes/class.ilCourseParticipant.php";
                     $participants = new ilCourseParticipant($pobj_id, $ilUser->getId());
@@ -2052,30 +2054,78 @@ class ilStartUpGUI
             $auth->storeParam('target', $params['returnTo']);
         }
 
+        ilLoggerFactory::getLogger('auth')->debug('Started SAML authentication request');
+
         if (!$auth->isAuthenticated()) {
+            ilLoggerFactory::getLogger('auth')->debug('User is not authenticated, yet');
             if (!isset($_GET['idpentityid']) || !isset($_GET['saml_idp_id'])) {
                 $activeIdps = ilSamlIdp::getActiveIdpList();
                 if (1 == count($activeIdps)) {
                     $idp = current($activeIdps);
                     $_GET['idpentityid'] = $idp->getEntityId();
                     $_GET['saml_idp_id'] = $idp->getIdpId();
+
+                    ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                        'Found exactly one active IDP with id %s: %s',
+                        $idp->getIdpId(),
+                        $idp->getEntityId()
+                    ));
                 } elseif (0 == count($activeIdps)) {
+                    ilLoggerFactory::getLogger('auth')->debug('Did not find any active IDP, skipp authentication process');
                     $GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
                 } else {
+                    ilLoggerFactory::getLogger('auth')->debug('Found multiple active IPDs, presenting IDP selection...');
                     $this->showSamlIdpSelection($auth, $activeIdps);
                     return;
                 }
             }
+
             $auth->storeParam('idpId', (int) $_GET['saml_idp_id']);
+            ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                'Stored relevant IDP id in session: %s',
+                (string) $auth->getParam('idpId')
+            ));
         }
 
         // re-init
         $auth = $factory->auth();
+
+        ilLoggerFactory::getLogger('auth')->debug('Checking SAML authentication status...');
+
         $auth->protectResource();
 
+        ilLoggerFactory::getLogger('auth')->debug(
+            'SAML authentication successful, continuing with ILIAS internal authentication process...'
+        );
+
+        $idpId = (int) $auth->getParam('idpId');
+
+        ilLoggerFactory::getLogger('auth')->debug(sprintf(
+            'Internal SAML IDP id fetched from session: %s',
+            (string) $idpId
+        ));
+
+        if ($idpId < 1) {
+            ilLoggerFactory::getLogger('auth')->debug(
+                'No valid internal IDP id found (most probably due to IDP initiated SSO), trying fallback determination...'
+            );
+            $authData = $auth->getAuthDataArray();
+            if (isset($authData['saml:sp:IdP'])) {
+                $idpId = ilSamlIdp::geIdpIdByEntityId($authData['saml:sp:IdP']);
+                ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                    'Searching active ILIAS IDP by entity id "%s" results in: %s',
+                    $authData['saml:sp:IdP'],
+                    (string) $idpId
+                ));
+            } else {
+                ilLoggerFactory::getLogger('auth')->debug(
+                    'Could not execute fallback determination, no IDP entity ID found SAML authentication session data'
+                );
+            }
+        }
         $_GET['target'] = $auth->popParam('target');
 
-        $_POST['auth_mode'] = AUTH_SAML . '_' . ((int) $auth->getParam('idpId'));
+        $_POST['auth_mode'] = AUTH_SAML . '_' . $idpId;
 
         $credentials = new ilAuthFrontendCredentialsSaml($auth);
         $credentials->initFromRequest();
@@ -2126,7 +2176,6 @@ class ilStartUpGUI
 
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));
 
-        $mainTpl = $DIC->ui()->mainTemplate();
         $factory = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
 
@@ -2146,11 +2195,8 @@ class ilStartUpGUI
         }
 
         $table->setData($items);
-        $mainTpl->setVariable('CONTENT', $table->getHtml());
+        $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
 
-        $mainTpl->fillWindowTitle();
-        $mainTpl->fillCssFiles();
-        $mainTpl->fillJavaScriptFiles();
-        $mainTpl->printToStdout('DEFAULT', false);
+        $this->mainTemplate->printToStdout('DEFAULT', false);
     }
 }

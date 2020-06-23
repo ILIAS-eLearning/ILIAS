@@ -235,6 +235,13 @@ library to the new location for external libraries. The new location is:
 `"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
 imported, the variable `icon-font-path` must be adapted accordingly.
 
+#### ILIAS 7
+
+The `icon-font-path` for glyphs has changed due to a move from the bootstrap
+library to the new location for external libraries. The new location is:
+`"../../../../node_modules/bootstrap/fonts/"`. If a 5.2 style is
+imported, the variable `icon-font-path` must be adapted accordingly.
+
 ## Less Guideline
 
 Less is a CSS pre-processor, meaning that it extends the CSS language, adding
@@ -378,3 +385,17 @@ that we handle all mobile cases as special cases and the desktop as the default.
 * You should use: `max-width: @grid-float-breakpoint-max` instead of `min-width:
 @grid-float-breakpoint (or min-width: @screen-sm-min)`. With `max-width`,  the
 mobile version is declared as the special case version (desktop first).
+
+## CSS Guideline
+
+CSS is optained by using a lessc compiler on delos.less, e.g. like so:
+
+```
+lessc templates/default/delos.less templates/default/delos.css
+```
+
+Note that the output heavily depends on the used lessc version. If you observe that 
+there are changed appearing in your css output other than the ones to be expected, 
+please first make sure, that you are using the latest lessc version. If so, please inform
+the current CSS maintainer [amstutz](http://www.ilias.de/docu/goto_docu_usr_26468.html) and only push the changes
+caused by your changes in less.

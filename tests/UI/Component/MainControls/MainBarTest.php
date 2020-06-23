@@ -227,22 +227,22 @@ class MainBarTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 			<div class="il-maincontrols-mainbar" id="id_12">
-				<div class="il-mainbar">
+				<nav class="il-mainbar" aria-label="mainbar_aria_label">
 					<div class="il-mainbar-triggers">
-						<div class="il-mainbar-entries" style="visibility: hidden">
+						<div class="il-mainbar-entries" role="menubar" style="visibility: hidden">
 							<button class="btn btn-bulky" data-action="#" id="id_1" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" data-action="#" id="id_2" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
-							<button class="btn btn-bulky" id="id_3" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1</span></button>
-							<button class="btn btn-bulky" id="id_9" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">more</span></button>
+							<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1</span></button>
+							<button class="btn btn-bulky" id="id_9" role="menuitem" aria-haspopup="true" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">more</span></button>
 						</div>
 					</div>
-				</div>
+				</nav>
 
 				<div class="il-mainbar-slates">
 					<div class="il-mainbar-tools-entries">
 						<div class="il-mainbar-tools-entries-bg"></div>
 					</div>
-					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1">
+					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content">
 							<button class="btn btn-bulky" id="id_4" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1.1</span></button>
 
@@ -259,7 +259,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 						</div>
 					</div>
 
-					<div class="il-maincontrols-slate disengaged" id="id_10" data-depth-level="1">
+					<div class="il-maincontrols-slate disengaged" id="id_10" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 					</div>
 

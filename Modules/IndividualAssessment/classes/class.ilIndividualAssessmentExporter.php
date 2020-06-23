@@ -33,6 +33,25 @@ class ilindividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
+        $res = [];
+
+        if ($a_entity == "iass") {
+            // service settings
+            $res[] = array(
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            );
+        }
+
+        return $res;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getValidSchemaVersions($a_entity)
     {
         return array(

@@ -1,5 +1,7 @@
 # How to add dependencies with bower in ILIAS
 
+**DEPRECATED**: Please use [npm](../docs/development/js/npm.md) instead.
+
 **New dependencies MUST be approved by the Jour Fixe of the ILIAS society or by the Technical Board.**
 
 To propose a new dependency, create a Pull Request on GitHub that contains the

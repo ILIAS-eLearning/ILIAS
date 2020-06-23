@@ -269,6 +269,28 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    /**
+     * Escape values for rendering.
+     * In order to prevent XSS-attacks, values need to be stripped of
+     * special chars (such as quotes or tags).
+     * Needs vary according to the type of component (e.g. the html
+     * generated for this component and the placement of {VALUE} in the
+     * template.)
+     * Please note: this may not work for customized templates!
+     */
+    protected function prepareValue(Input $component, $value)
+    {
+        switch (true) {
+            case ($component instanceof Textarea):
+                return htmlentities($value);
+            case ($component instanceof Text):
+            case ($component instanceof Password):
+            case ($component instanceof Numeric):
+                return htmlspecialchars($value, ENT_QUOTES);
+            default:
+                return $value;
+        }
+    }
 
     /**
      * @param Template $tpl
@@ -306,7 +328,10 @@ class Renderer extends AbstractComponentRenderer
 
                 if ($input->getValue() !== null && !($input instanceof Checkbox)) {
                     $tpl->setCurrentBlock("value");
-                    $tpl->setVariable("VALUE", $input->getValue());
+                    /*
+                    ATTENTION! Please see docs of "prepareValue".
+                    */
+                    $tpl->setVariable("VALUE", $this->prepareValue($input, $input->getValue()));
                     $tpl->parseCurrentBlock();
                 }
                 if ($input->isDisabled()) {

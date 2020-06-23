@@ -21,12 +21,7 @@ var OSDNotifier, OSDNotifications = function (settings) {
 			});
 
 			function closeNotification(notificationElement) {
-				$(notificationElement).animate({
-					height: 0,
-					opacity:0
-				}, 1000, "linear", function () {
-					notificationElement.remove();
-				});
+				notificationElement.remove();
 			}
 
 			this.removeNotification = function (id, callback) {
@@ -90,14 +85,17 @@ var OSDNotifier, OSDNotifications = function (settings) {
 							
 							$('.osdNotificationContainer').append(newElement);
 							if (getParam(this.data.handlerParams, 'osd.closable', true)) {
-								var href = newElement.find('.target_link').attr('href');
-								newElement.find('.target_link').click(function () {
+								let href = newElement.find('.target_link').attr('href');
+								newElement.find('.target_link').on("click", function () {
 									me.removeNotification(id, function () {
 										window.location.href = href;
 									});
-
 								});
 							}
+
+							newElement.find('.osdNotificationShortDescription a').on("click", function () {
+								me.removeNotification(id);
+							});
 
 							if (this.visible_for != 0) {
 								window.setTimeout(function() {

@@ -1,5 +1,7 @@
 <li id="{ID}"
-	class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN expanded --> expanded<!-- END expanded --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
+	 class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN expanded --> expanded<!-- END expanded --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
+	 role="{ARIA_ROLE}"
+<!-- BEGIN aria_expanded --> aria-expanded="{ARIA_EXPANDED}"<!-- END aria_expanded -->
 <!-- BEGIN async_loading --> data-async_url="{ASYNCURL}" data-async_loaded="false"<!-- END async_loading -->
 >
 	<!-- BEGIN node_without_link -->
@@ -22,7 +24,7 @@
 
 
 <!-- BEGIN subnodes -->
-<ul>
+<ul role="group">
 	{SUBNODES}
 </ul>
 <!-- END subnodes -->

@@ -198,7 +198,9 @@ class ilCertificateTemplateImportAction
                         $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
                         $fileName = basename($matches[1]);
 
-                        if (strlen($basePath) > 0) {
+                        if ('[BACKGROUND_IMAGE]' === $fileName) {
+                            $basePath = '';
+                        } elseif (strlen($basePath) > 0) {
                             $basePath .= '/';
                         }
 

@@ -94,7 +94,7 @@ abstract class AbstractFactoryTest extends TestCase
     public function test_proper_namespace()
     {
         $message = "TODO: Put your factory into the proper namespace.";
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             "#^ILIAS\\\\UI\\\\Component.#",
             $this->reflection->getNamespaceName(),
             $message
@@ -168,7 +168,7 @@ abstract class AbstractFactoryTest extends TestCase
 
         $message = "TODO ($name): fix @return, it does not match the method name.";
         if ($this->returnsFactory($docstring_data)) {
-            $this->assertRegExp(
+            $this->assertMatchesRegularExpression(
                 "$regex_head\\\\$name_uppercase\\\\Factory$#",
                 $return_doc,
                 $message

@@ -81,3 +81,9 @@ Handles everything about the state (current phase) of a user in an assignment us
 ## Peer Review
 
 ## Criteria Catalog
+
+# Other Specs
+
+## Use of TinyMCE Editor
+
+Currently the text submissions support the use of the TinyMCE editor with full configuration in the administration. The instructions use a non-configurable version with minimal format support.

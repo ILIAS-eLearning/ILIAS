@@ -341,6 +341,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // output forms
         if ($this->object->editable != 1) {
             $this->initPropertiesForm();
+            $this->getPropertiesFormValues();
             $tpl->setContent($this->form->getHTML());
         } else {
             $this->initPropertiesEditableForm();
@@ -366,18 +367,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt("cont_lm_properties"));
 
-        //check/select only once
-        $this->object->checkMasteryScoreValues();
-        
         //title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "Fobject_title");
         $ti->setMaxLength(200);
-        $ti->setValue($this->object->getTitle());
         $this->form->addItem($ti);
         
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
-        $ti->setValue($this->object->getDescription());
         $this->form->addItem($ti);
 
         // SCORM-type
@@ -400,16 +396,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         
         // online
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_online"), "cobj_online");
-        if (!$this->object->getOfflineStatus()) {
-            $cb->setChecked(true);
-        }
         $cb->setInfo($this->lng->txt("cont_online_info"));
         $this->form->addItem($cb);
         
         // offline Mode
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getOfflineMode());
         include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
         if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
             $cb->setDisabled(true);
@@ -446,36 +438,30 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $radg->addOption($op1);
         $op2 = new ilRadioOption($this->lng->txt("cont_open_window"), "5");
         $radg->addOption($op2);
-        $radg->setValue($this->object->getOpenMode()); //ACHTUNG: DATENBANK
         // width
         $ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_0");
         $ni->setMaxLength(4);
         $ni->setSize(4);
-        $ni->setValue($this->object->getWidth());
         $op1->addSubItem($ni);
         $ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width_1");
         $ni->setMaxLength(4);
         $ni->setSize(4);
-        $ni->setValue($this->object->getWidth());
         $op2->addSubItem($ni);
         // height
         $ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_0");
         $ni->setMaxLength(4);
         $ni->setSize(4);
-        $ni->setValue($this->object->getHeight());
         $ni->setInfo($this->lng->txt("cont_width_height_info"));
         $op1->addSubItem($ni);
         $ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height_1");
         $ni->setMaxLength(4);
         $ni->setSize(4);
-        $ni->setValue($this->object->getHeight());
         $ni->setInfo($this->lng->txt("cont_width_height_info"));
         $op2->addSubItem($ni);
         
         // force IE to render again
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_force_render"), "cobj_ie_force_render");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getIe_force_render());
         $cb->setInfo($this->lng->txt("cont_ie_force_render_info"));
         $op2->addSubItem($cb);
 
@@ -486,7 +472,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         //Hide Top Navigation Bar
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_nomenu"), "cobj_nomenu");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getNoMenu());
         $cb->setInfo($this->lng->txt("cont_nomenu_info"));
         $this->form->addItem($cb);
         
@@ -494,14 +479,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // Hide Left Navigation Tree
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_hidenavig"), "cobj_hidenavig");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getHideNavig());
         $cb->setInfo($this->lng->txt("cont_hidenavig_info"));
         $this->form->addItem($cb);
         
         // auto navigation to last visited item
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_last_visited"), "cobj_auto_last_visited");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getAuto_last_visited());
         $cb->setInfo($this->lng->txt("cont_auto_last_visited_info"));
         $this->form->addItem($cb);
 
@@ -521,14 +504,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $radg->addOption($op0);
         $op1 = new ilRadioOption($this->lng->txt("cont_sc_less_mode_browse"), "browse");
         $radg->addOption($op1);
-        $radg->setValue($this->object->getDefaultLessonMode());
         // credit mode
         $cmradg = new ilRadioGroupInputGUI($lng->txt("cont_credit_mode"), "credit_mode");
         $cmop0 = new ilRadioOption($this->lng->txt("cont_credit_on"), "credit");
         $cmradg->addOption($cmop0);
         $cmop1 = new ilRadioOption($this->lng->txt("cont_credit_off"), "no_credit");
         $cmradg->addOption($cmop1);
-        $cmradg->setValue($this->object->getCreditMode());
         $op0->addSubItem($cmradg);
         // set lesson mode review when completed
         $options = array(
@@ -543,7 +524,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             );
         $si = new ilSelectInputGUI($this->lng->txt("cont_sc_auto_review_2004"), "auto_review");
         $si->setOptions($options);
-        $si->setValue($this->object->getAutoReviewChar());
         $si->setInfo($this->lng->txt("cont_sc_auto_review_info_2004"));
         $op0->addSubItem($si);
         // end lesson mode
@@ -555,7 +535,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $ni = new ilNumberInputGUI($this->lng->txt("cont_mastery_score_2004"), "mastery_score");
             $ni->setMaxLength(3);
             $ni->setSize(3);
-            $ni->setValue($this->object->getMasteryScore());
             $ni->setInfo($this->lng->txt("cont_mastery_score_2004_info") . $this->object->getMasteryScoreValues());
             $this->form->addItem($ni);
         }
@@ -570,63 +549,54 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // unlimited session timeout
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_usession"), "cobj_session");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getSession());
         $cb->setInfo($this->lng->txt("cont_sc_usession_info"));
         $this->form->addItem($cb);
         
         // SCORM 2004 fourth edition features
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_fourth_edition"), "cobj_fourth_edition");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getFourth_edition());
         $cb->setInfo($this->lng->txt("cont_fourth_edition_info"));
         $this->form->addItem($cb);
         
         // sequencing
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_sequencing"), "cobj_sequencing");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getSequencing());
         $cb->setInfo($this->lng->txt("cont_sequencing_info"));
         $this->form->addItem($cb);
         
         // storage of interactions
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_interactions"), "cobj_interactions");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getInteractions());
         $cb->setInfo($this->lng->txt("cont_interactions_info"));
         $this->form->addItem($cb);
         
         // objectives
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_objectives"), "cobj_objectives");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getObjectives());
         $cb->setInfo($this->lng->txt("cont_objectives_info"));
         $this->form->addItem($cb);
 
         // comments
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_comments"), "cobj_comments");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getComments());
         $cb->setInfo($this->lng->txt("cont_comments_info"));
         $this->form->addItem($cb);
 
         // time from lms
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_time_from_lms"), "cobj_time_from_lms");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getTime_from_lms());
         $cb->setInfo($this->lng->txt("cont_time_from_lms_info"));
         $this->form->addItem($cb);
 
         // check values
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_check_values"), "cobj_check_values");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getCheck_values());
         $cb->setInfo($this->lng->txt("cont_check_values_info"));
         $this->form->addItem($cb);
 
         // auto cmi.exit to suspend
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_suspend"), "cobj_auto_suspend");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getAutoSuspend());
         $cb->setInfo($this->lng->txt("cont_auto_suspend_info"));
         $this->form->addItem($cb);
 
@@ -641,7 +611,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             );
         $si = new ilSelectInputGUI($this->lng->txt("cont_sc_id_setting_2004"), "id_setting");
         $si->setOptions($options);
-        $si->setValue($this->object->getIdSetting());
         $si->setInfo($this->lng->txt("cont_sc_id_setting_info"));
         $this->form->addItem($si);
 
@@ -656,7 +625,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             );
         $si = new ilSelectInputGUI($this->lng->txt("cont_sc_name_setting_2004"), "name_setting");
         $si->setOptions($options);
-        $si->setValue($this->object->getNameSetting());
         $si->setInfo($this->lng->txt("cont_sc_name_setting_info"));
         $this->form->addItem($si);
 
@@ -670,7 +638,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // test tool
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_debug"), "cobj_debug");
         $cb->setValue("y");
-        $cb->setChecked($this->object->getDebug());
         if ($this->object->getDebugActivated() == false) {
             $cb->setDisabled(true);
             $cb->setInfo($this->lng->txt("cont_debug_deactivated"));
@@ -680,8 +647,51 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->form->addItem($cb);
         $this->form->addCommandButton("saveProperties", $lng->txt("save"));
     }
-    
-    
+
+
+    /**
+     * Get values for properties form
+     */
+    public function getPropertiesFormValues()
+    {
+        //check/select only once
+        $this->object->checkMasteryScoreValues();
+
+        $values = array();
+        $values["Fobject_title"] = $this->object->getTitle();
+        $values["Fobject_description"] = $this->object->getDescription();
+        if (!$this->object->getOfflineStatus()) {
+            $values["cobj_online"] = true;
+        }
+        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
+        $values["open_mode"] = $this->object->getOpenMode();
+        $values["width_0"] = $this->object->getWidth();
+        $values["width_1"] = $this->object->getWidth();
+        $values["height_0"] = $this->object->getHeight();
+        $values["height_1"] = $this->object->getHeight();
+        $values["cobj_ie_force_render"] = $this->object->getIe_force_render();
+        $values["cobj_nomenu"] = $this->object->getNoMenu();
+        $values["cobj_hidenavig"] = $this->object->getHideNavig();
+        $values["cobj_auto_last_visited"] = $this->object->getAuto_last_visited();
+        $values["lesson_mode"] = $this->object->getDefaultLessonMode();
+        $values["credit_mode"] = $this->object->getCreditMode();
+        $values["auto_review"] = $this->object->getAutoReviewChar();
+        $values["mastery_score"] = $this->object->getMasteryScore();
+        $values["cobj_session"] = $this->object->getSession();
+        $values["cobj_fourth_edition"] = $this->object->getFourth_edition();
+        $values["cobj_sequencing"] = $this->object->getSequencing();
+        $values["cobj_interactions"] = $this->object->getInteractions();
+        $values["cobj_objectives"] = $this->object->getObjectives();
+        $values["cobj_comments"] = $this->object->getComments();
+        $values["cobj_time_from_lms"] = $this->object->getTime_from_lms();
+        $values["cobj_check_values"] = $this->object->getCheck_values();
+        $values["cobj_auto_suspend"] = $this->object->getAutoSuspend();
+        $values["id_setting"] = $this->object->getIdSetting();
+        $values["name_setting"] = $this->object->getNameSetting();
+        $values["cobj_debug"] = $this->object->getDebug();
+        $this->form->setValuesByArray($values);
+    }
+
     /**
      * Init properties (editable) form.
      */
