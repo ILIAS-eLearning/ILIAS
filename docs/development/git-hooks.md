@@ -84,9 +84,9 @@ ILIAS provides a [shared Git hook configuration](../../captainhook.json) for
 management library written in PHP.
 
 It enables you to define a shared (amongst developers) Git hook configuration
-for actions being executed locally on you machine.
+for actions being executed locally on your machine.
 
-Currently the following actions will be executed:
+Currently, the following actions will be executed:
 
 * pre-commit:
   * PHP Linting
@@ -98,7 +98,7 @@ you are welcome to install *CaptainHook* and our shared actions.
 
 ##### Installation
 
-Once you installed the composer development dependencies, move to the ILIAS
+Once you installed the composer development dependencies, go to the ILIAS
 main directory and execute:
 
 ```bash
