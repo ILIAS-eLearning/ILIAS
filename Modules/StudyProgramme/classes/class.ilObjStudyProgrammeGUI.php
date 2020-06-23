@@ -226,6 +226,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('auto_content');
                 $this->autocategories_gui->setRefId($this->ref_id);
+                $this->initTreeJS();
                 $this->ctrl->forwardCommand($this->autocategories_gui);
                 break;
 
@@ -601,7 +602,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 self::TAB_INFO,
                 $this->lng->txt("info_short"),
                 $this->getLinkTarget("info_short")
-                                   );
+            );
         }
 
         if ($this->checkAccess("write")) {
@@ -609,7 +610,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 self::TAB_SETTINGS,
                 $this->lng->txt("settings"),
                 $this->getLinkTarget("settings")
-                                   );
+            );
         }
 
         if (
@@ -862,5 +863,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->lng->txt('error_creating_certificate_pdf')
         );
         $pdf_action->downloadPdf($user_id, $obj_id);
+    }
+
+    protected function initTreeJS() : void
+    {
+        ilExplorerBaseGUI::init();
     }
 }
