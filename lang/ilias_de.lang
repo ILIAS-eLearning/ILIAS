@@ -16178,3 +16178,7 @@ awrn#:#user_awrn_hide#:#Nicht anzeigen
 awrn#:#user_awrn_show#:#Anzeigen
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
+survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
+survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkt von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesammte Skalenpunktesumme nicht berechnet.
+survey#:#svy_sum_score#:#Skalenpunktesumme
+survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme

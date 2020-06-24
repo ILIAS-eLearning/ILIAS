@@ -1550,4 +1550,51 @@ class SurveyMatrixQuestion extends SurveyQuestion
     {
         return $this->rows;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getMaxSumScore(int $survey_id): int
+    {
+        global $DIC;
+
+        // we need max scale values of matrix rows * number of rows (type 5)
+        $db = $DIC->database();
+
+        $set = $db->queryF(
+            "SELECT MAX(scale) max_sum_score, q.question_id FROM svy_svy_qst sq ".
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
+            "JOIN svy_variable v ON (v.question_fi = q.question_id) ".
+            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ".
+            "GROUP BY (q.question_id)",
+            ["integer", "integer"],
+            [$survey_id, 5]
+        );
+        $max_score = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $max_score[$rec["question_id"]] = $rec["max_sum_score"];
+        }
+
+        $set = $db->queryF(
+            "SELECT COUNT(mr.id_svy_qst_matrixrows) cnt_rows, q.question_id FROM svy_svy_qst sq ".
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
+            "JOIN svy_qst_matrixrows mr ON (mr.question_fi = q.question_id) ".
+            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ".
+            "GROUP BY (q.question_id)",
+            ["integer", "integer"],
+            [$survey_id, 5]
+        );
+        $cnt_rows = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $cnt_rows[$rec["question_id"]] = $rec["cnt_rows"];
+        }
+
+        $sum_sum_score = 0;
+        foreach ($max_score as $qid => $s) {
+            $sum_sum_score += $s * $cnt_rows[$qid];
+        }
+
+        return $sum_sum_score;
+    }
+
 }

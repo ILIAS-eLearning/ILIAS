@@ -4328,3 +4328,15 @@ if (ilDBUpdateNewObjectType::isRBACOperation($type_id, $ops_id)) {
 /** @var $ilDB ilDBInterface */
 $ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_gc']);
 ?>
+<#5668>
+<?php
+if (!$ilDB->tableColumnExists('svy_svy', 'calculate_sum_score'))
+{
+    $ilDB->addTableColumn('svy_svy', 'calculate_sum_score', array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 1
+    ));
+}
+?>

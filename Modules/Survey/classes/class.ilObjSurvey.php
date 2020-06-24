@@ -42,7 +42,12 @@ class ilObjSurvey extends ilObject
     // constants to define the print view values.
     const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
     const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
-    
+
+    /**
+     * @var bool
+     */
+    protected $calculate_sum_score = false;
+
     /**
     * A unique positive numerical ID which identifies the survey.
     * This is the primary key from a database table.
@@ -802,7 +807,8 @@ class ilObjSurvey extends ilObject
                 "tutor_res_status" => array("integer", (int) $this->getTutorResultsStatus()),
                 "tutor_res_reci" => array("text", implode(";", (array) $this->getTutorResultsRecipients())),
                 "confirmation_mail" => array("integer", $this->hasMailConfirmation()),
-                "anon_user_list" => array("integer", $this->hasAnonymousUserList())
+                "anon_user_list" => array("integer", $this->hasAnonymousUserList()),
+                "calculate_sum_score" => array("integer", $this->getCalculateSumScore())
             ));
             $this->setSurveyId($next_id);
         } else {
@@ -849,7 +855,8 @@ class ilObjSurvey extends ilObject
                 "tutor_res_status" => array("integer", (int) $this->getTutorResultsStatus()),
                 "tutor_res_reci" => array("text", implode(";", (array) $this->getTutorResultsRecipients())),
                 "confirmation_mail" => array("integer", $this->hasMailConfirmation()),
-                "anon_user_list" => array("integer", $this->hasAnonymousUserList())
+                "anon_user_list" => array("integer", $this->hasAnonymousUserList()),
+                "calculate_sum_score" => array("integer", $this->getCalculateSumScore())
             ), array(
             "survey_id" => array("integer", $this->getSurveyId())
             ));
@@ -1049,7 +1056,25 @@ class ilObjSurvey extends ilObject
     {
         return ($this->anonymize) ? $this->anonymize : 0;
     }
-    
+
+    /**
+     * Set calculate sum score
+     * @param bool $a_val calculate sum score
+     */
+    function setCalculateSumScore(bool $a_val)
+    {
+        $this->calculate_sum_score = $a_val;
+    }
+
+    /**
+     * Get calculate sum score
+     * @return bool calculate sum score
+     */
+    function getCalculateSumScore(): bool
+    {
+        return $this->calculate_sum_score;
+    }
+
     /**
     * Checks if the survey is accessable without a survey code
     *
@@ -1134,6 +1159,7 @@ class ilObjSurvey extends ilObject
             $this->setViewOwnResults($data["own_results_view"]);
             $this->setMailOwnResults($data["own_results_mail"]);
             $this->setMailConfirmation($data["confirmation_mail"]);
+            $this->setCalculateSumScore($data["calculate_sum_score"]);
             
             $this->setAnonymousUserList($data["anon_user_list"]);
         }
@@ -6184,4 +6210,18 @@ class ilObjSurvey extends ilObject
 
         return true;
     }
+
+    /**
+     * Get max sum score
+     * @return int
+     */
+    public function getMaxSumScore(): int
+    {
+        $sum_score = 0;
+        foreach (ilObjSurveyQuestionPool::_getQuestionClasses() as $c) {
+            $sum_score += call_user_func([$c, "getMaxSumScore"], $this->getSurveyId());
+        }
+        return $sum_score;
+    }
+
 } // END class.ilObjSurvey

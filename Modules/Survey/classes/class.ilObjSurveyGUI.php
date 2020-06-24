@@ -738,7 +738,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                         if (!$template_settings["evaluation_access"]["hide"]) {
                             $this->object->setEvaluationAccess($_POST["evaluation_access"]);
                         }
-
+                        $this->object->setCalculateSumScore((int)$_POST["calculate_sum_score"]);
                         $hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
                         if (!$hasDatasets) {
                             $hide_codes = $template_settings["acc_codes"]["hide"];
@@ -1365,6 +1365,14 @@ class ilObjSurveyGUI extends ilObjectGUI
                         $anon_list->setDisabled(true);
                     }
                 }
+
+                // calculate sum score
+                $sum_score = new ilCheckboxInputGUI($this->lng->txt("survey_calculate_sum_score"), "calculate_sum_score");
+                $sum_score->setInfo($this->lng->txt("survey_calculate_sum_score_info"));
+                $sum_score->setValue("1");
+                $sum_score->setChecked($this->object->getCalculateSumScore());
+                $form->addItem($sum_score);
+
                 break;
         }
             
