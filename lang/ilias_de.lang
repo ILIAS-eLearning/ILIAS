@@ -16158,7 +16158,7 @@ common#:#sort_descending#:#Absteigend sortieren
 common#:#show_who_is_online#:#Zeige, wer online ist!
 common#:#tags#:#Tags
 common#:#comments#:#Kommentare
-common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
+common#:#eyeclosed#:#Geschlossenes Auge: Klicken Sie, um den Inhalt des Eingabefelds zu verbergen.
 common#:#show_more#:#Mehr zeigen
 common#:#disclose#:#Aufdecken
 common#:#switch_language#:#Sprache wechseln
@@ -16169,12 +16169,12 @@ awrn#:#user_awrn_default#:#Standard
 awrn#:#user_awrn_hide#:#Nicht anzeigen
 awrn#:#user_awrn_show#:#Anzeigen
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
-common#:#objs_prgr#:#Link zu Studienprogramm
+common#:#objs_prgr#:#Links zu Studienprogrammen
 rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen
 rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
 rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
 rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
-common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
+common#:#eyeopened#:#Offenes Auge: Klicken Sie, um den Inhalt der Eingabe anzuzeigen.
+rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
