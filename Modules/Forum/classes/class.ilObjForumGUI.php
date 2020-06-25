@@ -2707,7 +2707,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     $jump++;
                 }
 
-                if ($posNum > $pageHits && $z >= ($Start + $pageHits)) {
+                if ($firstNodeInThread->getId() != $this->objCurrentPost->getId() && $posNum > $pageHits && $z >= ($Start + $pageHits)) {
                     // if anchor-link was not found ...
                     if ($this->objCurrentPost->getId() && $jump < 1) {
                         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
