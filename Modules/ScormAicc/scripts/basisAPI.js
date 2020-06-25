@@ -1,6 +1,7 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * @author  Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+* @author  Richard Klees <richard.klees@concepts-and-training.de>
 * @version $Id$
 */
 
@@ -291,6 +292,26 @@ function status4tree(i_sco,s_status,s_time){
 	}
 }
 
+// Find out if we are in a beforeunload event
+function isBeforeUnloadEvent() {
+	if (window.event && window.event.type === "beforeunload") {
+		return true;
+	}
+	var frame;
+	for (var i = 0; i < window.frames.length; i++) {
+		frame = window.frames[i];
+		if (frame.event && frame.event.type === "beforeunload") {
+			return true;
+		}
+	}
+	return false;
+}
+
+// Find out if we are using Chrome 80+
+function isChromium80plus() {
+	return navigator.userAgent.match(/Chrom(e|ium)\/8\d+/) !== null;
+}
+
 // store data
 function IliasCommit() {
 	if (a_toStore.length==0){
@@ -337,7 +358,21 @@ function IliasCommit() {
 		if (typeof SOP!="undefined" && SOP==true) ret=saveRequest(o_data);
 		else {
 			s_s=toJSONString(o_data);
-			ret=sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&do=store", s_s);
+			if (isChromium80plus() && isBeforeUnloadEvent()) {
+				// ATTENTION: This is a mean hack!
+				//
+				// With Chrome 80+ it became deprecated to send async requests
+				// during beforeunload:
+				// 	- https://www.chromestatus.com/feature/4664843055398912
+				// 	- https://mantis.ilias.de/view.php?id=28363
+				// This is why we send and async request here and just pretend
+				// that everything was "ok".
+				sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&do=store", s_s, function () {});
+				ret="ok";
+			}
+			else {
+				ret=sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&do=store", s_s);
+			}
 		}
 		if (ret!="ok") return false;
 		return true;
@@ -483,7 +518,8 @@ function onWindowUnload () {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
 		// if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true)
-			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
+			// This uses an empty callback to commit the data in Chrome 80+ as well.
+			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload, function() {});
 	}
 }
 
