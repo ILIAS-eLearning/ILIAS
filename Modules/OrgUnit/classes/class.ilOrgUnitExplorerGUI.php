@@ -22,19 +22,26 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      */
     protected $tree;
 
+    /**
+     * @var bool
+     */
+    protected $check_permissions;
+
 
     /**
      * @param $a_expl_id
      * @param $a_parent_obj
      * @param $a_parent_cmd
      * @param $a_tree
+     * @param $check_permissions
      */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree, $check_permissions = false)
     {
         parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
         $this->setAjax(true);
         $this->setTypeWhiteList(array(self::ORGU));
         $this->tree->initLangCode();
+        $this->check_permissions = $check_permissions;
     }
 
 
@@ -172,5 +179,29 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $current_node = filter_input(INPUT_GET, 'item_ref_id') ?? ilObjOrgUnit::getRootOrgRefId();
 
         return !($a_node['child'] === $current_node || $this->tree->isGrandChild($current_node, $a_node['child']));
+    }
+
+    public function getChildsOfNode($a_parent_node_id)
+    {
+        $children = parent::getChildsOfNode($a_parent_node_id);
+
+        if ($this->check_permissions) {
+            $children = $this->filterChildrenByPermission($children);
+        }
+
+        return $children;
+    }
+
+    protected function filterChildrenByPermission(array $children) : array
+    {
+        global $DIC;
+        /** @var ilAccessHandler $access */
+        $access = $DIC["ilAccess"];
+        return array_filter(
+            $children,
+            function ($child) use ($access) {
+                return $access->checkAccess("visible", "", $child["ref_id"]);
+            }
+        );
     }
 }
