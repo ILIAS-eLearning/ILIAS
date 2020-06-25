@@ -250,7 +250,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 break;
 
             case "ilcalendarappointmentpresentationgui":
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+                $this->initCategories();
                 $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
                 $ilCtrl->forwardCommand($presentation);
                 break;
@@ -718,11 +718,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected function initCategories()
     {
         $this->mode = ilCalendarCategories::MODE_REPOSITORY;
-
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-
-        if (!$this->getForceMonthView()) {	// in full container calendar presentation (allows selection of other calendars)
-            ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int) $_GET['ref_id'], true);
+        $cats = \ilCalendarCategories::_getInstance();
+        if ($this->getForceMonthView()) {
+            // old comment: in full container calendar presentation (allows selection of other calendars)
+        }
+        elseif (!$cats->getMode())
+        {
+            $cats->initialize(
+                \ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY,
+                (int) $_GET['ref_id'],
+                true
+            );
         }
     }
     
