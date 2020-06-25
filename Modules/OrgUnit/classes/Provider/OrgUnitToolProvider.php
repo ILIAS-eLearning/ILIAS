@@ -71,7 +71,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
             ilObjOrgUnitGUI::class,
             "showTree",
             new ilTree(1),
-            true
+            $this->dic["ilAccess"]
         );
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
