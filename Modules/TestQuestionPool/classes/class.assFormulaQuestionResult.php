@@ -132,7 +132,7 @@ class assFormulaQuestionResult
             $res = $result * 1;
             if (is_numeric($this->getPrecision())) {
                 if ($this->getResultType() == self::RESULT_DEC || $this->getResultType() == self::RESULT_NO_SELECTION) {
-                    $result = ilMath::_round($res, $this->getPrecision());
+                    $result = ilMath::_div($res, 1, $this->getPrecision());
                 }
             }
         }
@@ -261,7 +261,7 @@ class assFormulaQuestionResult
         $math->suppress_errors = true;
         $result = $math->evaluate($formula); // baseunit-result!!
 
-        $resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
+        $resultWithRespectedUnit = ilMath::_div($result, 1, $this->getPrecision());
         if (is_object($this->getUnit())) {
             //there is a "fix" result_unit defined!
 
@@ -304,7 +304,7 @@ class assFormulaQuestionResult
                     $frac_value = $value;
                 }
                 
-                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
+                $frac_value = ilMath::_div($frac_value, 1, $this->getPrecision())
 
                 if (substr_count($value, '/') >= 1) {
                     $check_fraction = false;
@@ -353,7 +353,7 @@ class assFormulaQuestionResult
                 } else {
                     $frac_value = $value;
                 }
-                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
+                $frac_value = ilMath::_div($frac_value, 1, $this->getPrecision());
                 $check_fraction = true;
             break;
         }
