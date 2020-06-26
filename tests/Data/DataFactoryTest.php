@@ -96,6 +96,9 @@ class DataFactoryTest extends TestCase
     public function testDataSize2()
     {
         $dataType = $this->f->dataSize("10G");
+        $this->assertEquals(10, $dataType->getSize());
+        $this->assertEquals(Data\DataSize::GiB, $dataType->getUnit());
+        $this->assertEquals(10 * Data\DataSize::GiB, $dataType->inBytes());
         $this->assertInstanceOf(Data\DataSize::class, $dataType);
     }
 }

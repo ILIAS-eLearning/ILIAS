@@ -94,7 +94,8 @@ class Factory
                 "Expected second argument to be a unit for data, '$unit' is unknown."
             );
         }
-        return new DataSize($size, DataSize::$abbreviations[$unit]);
+        $unit_size = DataSize::$abbreviations[$unit];
+        return new DataSize($size * $unit_size, $unit_size);
     }
 
     /**
