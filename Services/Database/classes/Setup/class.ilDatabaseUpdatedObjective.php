@@ -137,6 +137,7 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective
 
         $db_update->applyUpdate();
         $db_update->applyHotfix();
+        $db_update->applyCustomUpdates();
 
         return $environment;
     }
