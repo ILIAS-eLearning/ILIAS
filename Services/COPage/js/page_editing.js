@@ -5,7 +5,7 @@
 class Renderer {
 
 	// temp legacy code
-	button = "<div class='il_droparea'>+</div>";
+	button = "<div class='il_droparea'><span class='glyphicon glyphicon-plus'></span></div>";
 
 	/**
 	 * Pass dependency to math module in constructor
@@ -33,7 +33,7 @@ class Renderer {
 
 	init() {
 		console.log("Renderer init.");
-		//this.initAddButtons();
+		this.initAddButtons();
 
 		$(".il_editarea").draggable({
 				cursor: 'move',

@@ -112,17 +112,6 @@
 				<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
 				<xsl:comment>dummy</xsl:comment>
 			</div>
-			<div class="il_droparea">
-				<xsl:if test = "count(//PageContent) = 0" >
-					<xsl:attribute name="class">il_droparea ilCOPGNoPageContent</xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-				<span class="glyphicon glyphicon-plus"><xsl:comment>Dummy</xsl:comment></span>
-				<xsl:if test = "count(//PageContent) = 0" >
-					&amp;nbsp;<xsl:value-of select="//LVs/LV[@name='ed_click_to_add_pg']/@value"/>
-				</xsl:if>
-			</div>
 			<!-- insert menu for drop area -->
 			<xsl:call-template name="EditMenu">
 				<xsl:with-param name="hier_id" select="@HierId" />
@@ -343,11 +332,10 @@
 			
 			<!-- drop area -->
 			<xsl:if test="(not(../../../@DataTable) or (../../../@DataTable = 'n')) and ($javascript != 'disable')">
-				<div class="il_droparea">
-					<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-					<xsl:attribute name="onMouseOut">doMouseOut(this.id, '', null, null);</xsl:attribute>
-					<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-					<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><span class="glyphicon glyphicon-plus"></span>
+				<div data-copg-ed-type="add-area">
+					<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+					<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+					<xsl:comment>dummy</xsl:comment>
 				</div>
 			</xsl:if>
 	
@@ -901,12 +889,10 @@
 <!-- <xsl:value-of select="$hier_id"/> -->
 	<!-- Drop area -->
 	<xsl:if test="$javascript != 'disable'">
-		<div class="il_droparea">
-			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/></xsl:attribute>
-			<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-			<span class="glyphicon glyphicon-plus"></span>
+		<div data-copg-ed-type="add-area">
+			<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+			<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+			<xsl:comment>dummy</xsl:comment>
 		</div>
 	</xsl:if>
 	<!-- insert menu for drop area -->
