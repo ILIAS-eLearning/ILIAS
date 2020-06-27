@@ -48,7 +48,6 @@ var ilCOPageSuccessHandler = function(o)
 				var edit_div = document.getElementById('il_EditPage');
 				var center_td = edit_div.parentNode;
 				center_td.innerHTML = o.responseText;
-				ilCOPage.initDragElements();
 				il.Tooltip.init();
 				if (il.AdvancedSelectionList != null)
 				{

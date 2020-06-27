@@ -107,13 +107,16 @@
 	<xsl:comment>COPage-PageTop</xsl:comment>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
+			<div data-copg-ed-type="add-area">
+				<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+				<xsl:comment>dummy</xsl:comment>
+			</div>
 			<div class="il_droparea">
 				<xsl:if test = "count(//PageContent) = 0" >
 					<xsl:attribute name="class">il_droparea ilCOPGNoPageContent</xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-				<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-				<xsl:attribute name="onMouseOut">doMouseOut(this.id, '', null, null);</xsl:attribute>
 				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
 				<span class="glyphicon glyphicon-plus"><xsl:comment>Dummy</xsl:comment></span>
 				<xsl:if test = "count(//PageContent) = 0" >

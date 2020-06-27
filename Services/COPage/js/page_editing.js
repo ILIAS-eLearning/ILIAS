@@ -1,3 +1,75 @@
+/**
+ * renderer
+ *
+ */
+class Renderer {
+
+	// temp legacy code
+	button = "<div class='il_droparea'>+</div>";
+
+	/**
+	 * Pass dependency to math module in constructor
+	 * @param math
+	 */
+	constructor() {
+	}
+
+	initAddButtons() {
+
+		// init add buttons
+		document.querySelectorAll("[data-copg-ed-type='add-area']").forEach(area => {
+			console.log(area);
+			area.innerHTML = this.button;
+			const b = area.firstChild;
+			const bid = "TARGET" + area.dataset.hierid + ":" + (area.dataset.pcid || "");
+			//b.innerHTML = "t";
+			console.log(area.dataset);
+			b.id = bid;
+			b.addEventListener("click", (event) => {
+				doMouseClick(event, bid, null, null);
+			})
+		});
+	}
+
+	init() {
+		console.log("Renderer init.");
+		//this.initAddButtons();
+
+		$(".il_editarea").draggable({
+				cursor: 'move',
+				revert: true,
+				scroll: true,
+				cursorAt: { top: 5, left:20 },
+				snap: true,
+				snapMode: 'outer',
+				helper: (() => {
+						return $("<div style='width: 40px; border: 1px solid blue;'>&nbsp;</div>");
+					})		/* temp helper */
+			}
+		);
+
+		$(".il_droparea").droppable({
+			drop: (event, ui) => {
+				ui.draggable.draggable( 'option', 'revert', false );
+				const target_id = event.target.id.substr(6);
+				const source_id = ui.draggable[0].id.substr(7);
+				if (source_id != target_id) {
+					ilCOPage.sendCmdRequest("moveAfter", source_id, target_id, {},
+						true, {}, ilCOPage.pageReloadAjaxSuccess);
+				}
+			}
+		});
+
+		// this is needed to make scrolling while dragging with helper possible
+		$("main.il-layout-page-content").css("position", "relative");
+	}
+}
+$(function() {
+	renderer = new Renderer();
+	renderer.init();
+});
+
+
 var ilCOPage =
 {
 	content_css: '',
@@ -7,8 +79,6 @@ var ilCOPage =
 	minheight: 20,
 	current_td: "",
 	edit_ghost: null,
-	drag_contents: [],
-	drag_targets: [],
 	ghost_debugged: false,
 	quick_insert_id: null,
 	pc_id_str: '',
@@ -1312,6 +1382,8 @@ var ilCOPage =
 			f.removeChild(f.firstChild);
 		}
 
+		console.log(par);
+
 		for (k in par)
 		{
 			par_el = document.createElement('input');
@@ -1347,6 +1419,9 @@ var ilCOPage =
 			argument: args
 		};
 		var form_str = YAHOO.util.Connect.setForm(form_id);
+		console.log('sendajaxpostrequest');
+		console.log(form_id);
+		console.log(url);
 		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb);
 
 		return false;
@@ -1492,16 +1567,11 @@ var ilCOPage =
 
 				var edit_div = document.getElementById('il_EditPage');
 				$('#il_EditPage').replaceWith(c);
-				ilCOPage.initDragElements();
-				il.Tooltip.init();
-				il.COPagePres.updateQuestionOverviews();
+				ilCOPage.reInitUI();
+				
+
 				// we do not need this anymore, otherwise it will lead to multiple events on the iln button, see bug #21704
 				//il.IntLink.refresh();
-				if (il.AdvancedSelectionList != null)
-				{
-					il.AdvancedSelectionList.init['style_selection']();
-					il.AdvancedSelectionList.init['char_style_selection']();
-				}
 
 				// perform direct insert
 				if (o.argument.and_new) {
@@ -1510,6 +1580,18 @@ var ilCOPage =
 				}
 			}
 		}
+	},
+
+	reInitUI: function() {
+		console.log("initUI");
+		il.Tooltip.init();
+		il.COPagePres.updateQuestionOverviews();
+		if (il.AdvancedSelectionList != null)
+		{
+			il.AdvancedSelectionList.init['style_selection']();
+			il.AdvancedSelectionList.init['char_style_selection']();
+		}
+		renderer.init();
 	},
 
 	// default callback for successfull ajax request, reloads page content
@@ -1528,16 +1610,8 @@ var ilCOPage =
 			removeToolbar();
 			$("#ilPageEditTopActionBar").css("visibility", "");
 			$('#il_EditPage').replaceWith(o.responseText);
-			ilCOPage.initDragElements();
-			il.Tooltip.init();
-//			ilCOPage.renderQuestions();
-			il.COPagePres.updateQuestionOverviews();
+			ilCOPage.reInitUI();
 			il.IntLink.refresh();
-			if (il.AdvancedSelectionList != null)
-			{
-				il.AdvancedSelectionList.init['style_selection']();
-				il.AdvancedSelectionList.init['char_style_selection']();
-			}
 			if (o.argument.osd_text && o.argument.osd_text != "") {
 				OSDNotifier = OSDNotifications({
 					initialNotifications: [{
@@ -1652,55 +1726,7 @@ var ilCOPage =
 		}
 	},
 
-	/**
-	 * Init all draggable elements (YUI)
-	 */
-	initDragElements: function()
-	{
-		var d;
 
-		this.drag_contents = [];
-		this.drag_targets = [];
-
-		// get all spans
-		obj=document.getElementsByTagName('div')
-
-		// run through them
-		for (var i=0;i<obj.length;i++)
-		{
-			// make all edit areas draggable
-			if(/il_editarea/.test(obj[i].className))
-			{
-				d = new ilDragContent(obj[i].id, "gr1");
-				this.drag_contents.push(d);
-				//d.locked = true;
-			}
-			// make all drop areas dropable
-			if(/il_droparea/.test(obj[i].className))
-			{
-				d = new ilDragTarget(obj[i].id, "gr1");
-				this.drag_targets.push(d);
-			}
-		}
-	},
-
-	disableDragContents: function()
-	{
-		var i;
-		for (i in this.drag_contents)
-		{
-			this.drag_contents[i].locked = true;
-		}
-	},
-
-	enableDragContents: function()
-	{
-		var i;
-		for (i in this.drag_contents)
-		{
-			this.drag_contents[i].locked = false;
-		}
-	}
 
 }
 
@@ -1835,12 +1861,10 @@ function hideMenu(id, force)
 	}
 }
 
-var dragDropShow = false;
 var mouseIsDown = false;
 var mouseDownBlocked = false;
 var mouseUpBlocked = false;
 
-var dragId = "";
 var overId = "";
 
 function doMouseDown(id)
@@ -1854,7 +1878,6 @@ function doMouseDown(id)
 	obj = document.getElementById(id);
 
 	if (!mouseIsDown) {
-//		dragId = id;
 
 		oldMposx = Mposx;
 		oldMposy = Mposy;
@@ -1877,10 +1900,7 @@ var cmd4 = "";
 
 function doMouseUp(id)
 {
-	dragId = "";
 	mouseIsDown = false;
-	dragDropShow = false;
-	setTimeout("dragDropShow = false",500);
 }
 
 
@@ -1959,27 +1979,24 @@ function doMouseClick(e, id, type, char)
 	Mposx = t[0];
 	Mposy = t[1];
 
-	if (!dragDropShow)
+	if (openedMenu != "" || openedMenu == nextMenu)
 	{
-		if (openedMenu != "" || openedMenu == nextMenu)
-		{
-			hideMenu(openedMenu);
-			//dd.elements[openedMenu].hide();
-			oldOpenedMenu = openedMenu;
-			openedMenu = "";
-		}
-		else
-		{
-			oldOpenedMenu = "";
-		}
-
-		if (openedMenu == "" && nextMenu != oldOpenedMenu)
-		{
-			openedMenu = nextMenu;
-			showMenu(openedMenu, Mposx + 2, Mposy-10);
-		}
-		doCloseContextMenuCounter = 40;
+		hideMenu(openedMenu);
+		//dd.elements[openedMenu].hide();
+		oldOpenedMenu = openedMenu;
+		openedMenu = "";
 	}
+	else
+	{
+		oldOpenedMenu = "";
+	}
+
+	if (openedMenu == "" && nextMenu != oldOpenedMenu)
+	{
+		openedMenu = nextMenu;
+		showMenu(openedMenu, Mposx + 2, Mposy-10);
+	}
+	doCloseContextMenuCounter = 40;
 }
 
 /**
@@ -2104,9 +2121,6 @@ function editParagraph(div_id, mode, switched)
 	{
 		ilCOPage.edit_ghost = "CONTENT" + ed_para;
 	}
-
-	// disable drag content
-	ilCOPage.disableDragContents();
 
 
 //console.log("content_css: " + ilCOPage.content_css);
@@ -2619,79 +2633,6 @@ function M_out(cell)
 
 var oldMposx = -1;
 var oldMposy = -1;
-
-
-// This will be our extended DDProxy object
-ilDragContent = function(id, sGroup, config)
-{
-	this.swapInit(id, sGroup, config);
-	this.isTarget = false;
-};
-
-// We are extending DDProxy now
-YAHOO.extend(ilDragContent, YAHOO.util.DDProxy);
-
-// protype: all instances will get this functions
-ilDragContent.prototype.swapInit = function(id, sGroup, config)
-{
-	if (!id) { return; }
-	this.init(id, sGroup, config);	// important!
-	this.initFrame();				// important!
-};
-
-// overwriting onDragDrop function
-// (ending a valid drag drop operation)
-ilDragContent.prototype.onDragDrop = function(e, id)
-{
-	target_id = id.substr(6);
-	source_id = this.id.substr(7);
-	if (source_id != target_id)
-	{
-		ilCOPage.sendCmdRequest("moveAfter", source_id, target_id, {},
-			true, {}, ilCOPage.pageReloadAjaxSuccess);
-	}
-};
-
-
-ilDragContent.prototype.endDrag = function(e)
-{
-};
-
-// overwriting onDragDrop function
-ilDragContent.prototype.onDragEnter = function(e, id) {
-	target_id = id.substr(6);
-	source_id = this.id.substr(7);
-	if (source_id != target_id) {
-		$(document.getElementById(id)).addClass("ilCOPGDropActice");
-	}
-};
-
-// overwriting onDragDrop function
-ilDragContent.prototype.onDragOut = function(e, id) {
-	$(document.getElementById(id)).removeClass("ilCOPGDropActice");
-};
-
-///
-///   ilDragTarget
-///
-
-// This will be our extended DDProxy object
-ilDragTarget = function(id, sGroup, config)
-{
-	this.dInit(id, sGroup, config);
-};
-
-// We are extending DDProxy now
-//YAHOO.extend(ilDragTarget, YAHOO.util.DDProxy);
-YAHOO.extend(ilDragTarget, YAHOO.util.DDTarget);
-
-// protype: all instances will get this functions
-ilDragTarget.prototype.dInit = function(id, sGroup, config)
-{
-	if (!id) { return; }
-	this.init(id, sGroup, config);	// important!
-	//this.initFrame();				// important!
-};
 
 
 function ilEditMultiAction(cmd)
