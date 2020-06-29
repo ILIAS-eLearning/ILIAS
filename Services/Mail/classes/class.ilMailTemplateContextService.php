@@ -174,7 +174,8 @@ class ilMailTemplateContextService
         $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";
         $res = $DIC->database()->queryF($query, array('text'), array($a_context->getId()));
         $row = $DIC->database()->fetchAssoc($res);
-        $context_exists = ($row['id'] == $a_context->getId());
+        $row_id = $row['id'] ?? null;
+        $context_exists = ($row_id == $a_context->getId());
 
         if (!$context_exists) {
             $DIC->database()->insert('mail_tpl_ctx', array(

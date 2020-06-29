@@ -8,7 +8,7 @@ class ilPluginRawReader
     const BASE_PLUGIN_PATH = 'Customizing/global/plugins';
     const SEARCH_PATTERN = 'plugin.php';
 
-    public function getPluginNames() : \Iterator
+    public function getPluginNames() : ?\Iterator
     {
         if (!@is_dir(self::BASE_PLUGIN_PATH)) {
             throw new LogicException('Path not found: ' . self::BASE_PLUGIN_PATH);

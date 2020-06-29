@@ -42,7 +42,7 @@ abstract class ilObjectPlugin extends ilObject2
      */
     public static function getPluginObjectByType($type)
     {
-        if (!self::$plugin_by_type[$type]) {
+        if (!isset(self::$plugin_by_type[$type]) || !self::$plugin_by_type[$type]) {
             list($component, $component_name) = ilPlugin::lookupTypeInformationsForId($type);
             if (
                 $component == IL_COMP_SERVICE &&
