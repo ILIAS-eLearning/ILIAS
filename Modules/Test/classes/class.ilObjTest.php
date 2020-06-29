@@ -11681,6 +11681,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
     }
 
+    /**
+     * Note, this function should only be used if absolutely necessary, since it perform joins on tables that
+     * tend to grow huge and returns vast amount of data. If possible, use getStartingTimeOfUser($active_id) instead
+     *
+     * @return array
+     */
     public function getStartingTimeOfParticipants()
     {
         global $DIC;
