@@ -32,6 +32,14 @@ class ilDBUpdate
      * @var string
      */
     public $updateMsg;
+    /**
+     * @var ilIniFile|null
+     */
+    protected $client_ini;
+
+    protected $custom_updates_current_version;
+    protected $custom_updates_file_version;
+    protected $custom_updates_info_read;
 
 
     /**
@@ -211,6 +219,7 @@ class ilDBUpdate
         //go through filecontent and search for last occurence of <#x>
         reset($this->lastfilecontent);
         $regs = array();
+        $version = 0;
         foreach ($this->lastfilecontent as $row) {
             if (preg_match('/^\<\#([0-9]+)>/', $row, $regs)) {
                 $version = $regs[1];
@@ -322,7 +331,6 @@ class ilDBUpdate
         }
 
         $GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
-
         if ($this->client_ini) {
             $ilCtrlStructureReader->setIniFile($this->client_ini);
         }

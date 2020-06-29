@@ -311,7 +311,7 @@ class ilLanguage
             $lang_key = $this->lang_user;
         }
 
-        if (is_array($this->cached_modules[$a_module])) {
+        if (isset($this->cached_modules[$a_module]) && is_array($this->cached_modules[$a_module])) {
             $this->text = array_merge($this->text, $this->cached_modules[$a_module]);
 
             if ($this->usage_log_enabled) {
@@ -328,7 +328,11 @@ class ilLanguage
                 $ilDB->quote($a_module, "text");
         $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        
+
+        if ($row === false) {
+            return;
+        }
+
         $new_text = unserialize($row["lang_array"]);
         if (is_array($new_text)) {
             $this->text = array_merge($this->text, $new_text);

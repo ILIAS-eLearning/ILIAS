@@ -494,7 +494,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function query($query)
     {
         global $DIC;
-        $ilBench = $DIC['ilBench'];
+        $ilBench = $DIC['ilBench'] ?? null;
 
         $query = $this->appendLimit($query);
 
@@ -735,7 +735,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function manipulate($query)
     {
         global $DIC;
-        $ilBench = $DIC['ilBench'];
+        $ilBench = $DIC['ilBench'] ?? null;
         try {
             $query = $this->sanitizeMB4StringIfNotSupported($query);
             if ($ilBench instanceof ilBenchmark) {
