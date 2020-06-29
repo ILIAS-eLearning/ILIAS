@@ -163,7 +163,9 @@ var mainbar = function() {
                 gs_id = init_state.tools[idx].gs_id;
                 if(cookie_state.known_tools.indexOf(gs_id) === -1) {
                     cookie_state.known_tools.push(gs_id);
-                    init_state.tools[idx].engaged = true; //new tool is active
+                    if(!init_state.tools[idx].hidden) {
+                        init_state.tools[idx].engaged = true; //new tool is active
+                    }
                 } else {
                     stored = helper.findToolByGSId(cookie_state.tools, gs_id);
                     if(stored) {
