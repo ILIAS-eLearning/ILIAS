@@ -16,7 +16,11 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->getParentGui()->addSubTabs();
         $this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
         $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId());
-        $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI($this, $ilOrgUnitPermissions);
+        $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
+            $this,
+            $ilOrgUnitPermissions,
+            $this->dic()["objDefinition"]
+        );
         $ilOrgUnitDefaultPermissionFormGUI->fillForm();
 
         $this->setContent($ilOrgUnitDefaultPermissionFormGUI->getHTML());
@@ -27,7 +31,11 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     {
         $this->getParentGui()->addSubTabs();
         $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId(), true);
-        $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI($this, $ilOrgUnitPermissions);
+        $ilOrgUnitDefaultPermissionFormGUI = new ilOrgUnitDefaultPermissionFormGUI(
+            $this,
+            $ilOrgUnitPermissions,
+            $this->dic()["objDefinition"]
+        );
         if ($ilOrgUnitDefaultPermissionFormGUI->saveObject()) {
             ilUtil::sendSuccess($this->txt('msg_success_permission_saved'), true);
             $this->cancel();
