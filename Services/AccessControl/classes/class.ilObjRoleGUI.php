@@ -676,7 +676,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $ilToolbar = $DIC['ilToolbar'];
         $objDefinition = $DIC['objDefinition'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         $ilTabs->setTabActive('default_perm_settings');
         
         $this->setSubTabs('default_perm_settings');
@@ -1420,15 +1420,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // not so nice (workaround for using tabs in repository)
         $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget($this->lng->txt('previous'), $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 
         $ilHelp->setScreenIdComponent("role");
-
-        if ($this->back_target != "") {
-            $this->tabs_gui->setBackTarget(
-                $this->back_target["text"],
-                $this->back_target["link"]
-            );
-        }
 
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {
             $this->tabs_gui->addTarget(
