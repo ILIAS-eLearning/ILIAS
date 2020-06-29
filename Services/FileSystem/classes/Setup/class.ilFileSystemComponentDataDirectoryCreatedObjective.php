@@ -29,6 +29,8 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
         string $component_dir,
         int $base_location = self::DATADIR
     ) {
+        parent::__construct($component_dir);
+
         $this->component_dir = $component_dir;
         $this->base_location = $base_location;
     }
