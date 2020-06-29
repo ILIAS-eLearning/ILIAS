@@ -15,44 +15,58 @@
 		<link href="css/latex.css" rel="stylesheet" type="text/css" />
 		<base target="_self" />
 		<script language="javascript" type="text/javascript">
-			var onLatexCodeChanged = function() {
-				<!-- BEGIN js_on_change_latex -->
-				$("#preview").html('');
-				if($(this).val().length == 0)
-				{
-					$("#preview").append($("<img>").attr('src', '{LATEX_URL}'));
-				}
-				else
-				{
-					$("#preview").append($("<img>").attr('src', '{LATEX_URL}?' + encodeURIComponent($(this).val())));
-				}
-				<!-- END js_on_change_latex -->
-                <!-- BEGIN delimiter_latex -->
-                var delimiter="{DELIMITER}";
-                <!-- END delimiter_latex -->
-                switch (delimiter)
-                {
-                    case '1':
-                        $mj_start = '[tex]';
-                        $mj_end   = '[/tex]';
-                        break;
+			const deferredCallback = (function () {
+				let timer = 0;
 
-                    case '2':
-                        $mj_start = '<span class="math">';
-                        $mj_end   = '</span>';
-                        break;
+				return function(callback, ms){
+					clearTimeout(timer);
+					timer = setTimeout(callback, ms);
+				};
+			})();
 
-                    default:
-                        $mj_start = '\\(';
-                        $mj_end   = '\\)';
-                        break;
-                }
-				<!-- BEGIN js_on_change_math_jax -->
-				$("#preview").html($mj_start + $(this).val() + $mj_end);
-                if (typeof MathJax != "undefined") {
-                    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-                }
-				<!-- END js_on_change_math_jax -->
+			const onLatexCodeChanged = function() {
+				let $elm = this, $preview = $("#preview");
+
+				deferredCallback(function() {
+					<!-- BEGIN js_on_change_latex -->
+					$preview.html('');
+					if ($elm.val().length == 0) {
+						$preview.append($("<img>").attr('src', '{LATEX_URL}'));
+					} else {
+						$preview.append($("<img>").attr('src', '{LATEX_URL}?' + encodeURIComponent($elm.val())));
+					}
+					<!-- END js_on_change_latex -->
+
+					<!-- BEGIN js_on_change_math_jax -->
+					let delimiter = "{DELIMITER}";
+					switch (delimiter) {
+						case '1':
+							$mj_start = '[tex]';
+							$mj_end = '[/tex]';
+							break;
+
+						case '2':
+							$mj_start = '<span class="math">';
+							$mj_end = '</span>';
+							break;
+
+						default:
+							$mj_start = '\\(';
+							$mj_end = '\\)';
+							break;
+					}
+
+					$preview.html($mj_start + $elm.val() + $mj_end);
+					if (typeof MathJax != "undefined") {
+						MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+					}
+					<!-- END js_on_change_math_jax -->
+
+					<!-- BEGIN js_on_change_server_math_jax -->
+					$.get('latex.php?tex=' + encodeURIComponent($elm.val()))
+							.then(response => $preview.html(response));
+					<!-- END js_on_change_server_math_jax -->
+				}, 200);
 			};
 		</script>
 	</head>
