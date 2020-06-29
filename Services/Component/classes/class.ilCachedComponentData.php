@@ -467,7 +467,7 @@ class ilCachedComponentData
      */
     public function lookupActivePluginsBySlotId($slot_id)
     {
-        if (is_array($this->il_plugin_active[$slot_id])) {
+        if (isset($this->il_plugin_active[$slot_id]) && is_array($this->il_plugin_active[$slot_id])) {
             return $this->il_plugin_active[$slot_id];
         } else {
             return array();
@@ -590,7 +590,7 @@ class ilCachedComponentData
      */
     public function lookupPluginSlotByComponent($component)
     {
-        if (is_array($this->il_pluginslot_by_comp[$component])) {
+        if (isset($this->il_pluginslot_by_comp[$component]) && is_array($this->il_pluginslot_by_comp[$component])) {
             return $this->il_pluginslot_by_comp[$component];
         }
 
