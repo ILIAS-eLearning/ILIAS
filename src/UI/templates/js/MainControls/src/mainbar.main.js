@@ -2,11 +2,16 @@ var mainbar = function() {
     var mappings = {},
     external_commands = {
         /**
-         * Engage a certain tool
+         * Engage a certain tool or entry
          */
-        engageTool: function(mapping_id) {
+        engageEntry: function(mapping_id) {
             var tool_id = mappings[mapping_id];
-            this.model.actions.engageTool(tool_id);
+            if(Object.keys(this.model.getState().tools).includes(tool_id)) {
+                this.model.actions.engageTool(tool_id);
+            }
+            if(Object.keys(this.model.getState().entries).includes(tool_id)) {
+                this.model.actions.engageEntry(tool_id);
+            }
             this.renderer.render(this.model.getState());
             this.persistence.store(this.model.getState());
         },
@@ -249,7 +254,8 @@ var mainbar = function() {
         addTriggerSignal: construction.addTriggerSignal,
         adjustToScreenSize: adjustToScreenSize,
         init: init,
-        engageTool: external_commands.engageTool,
+        engageTool: external_commands.engageEntry, //for legacy reasons, please use engageEntry
+        engageEntry: external_commands.engageEntry,
         removeTool: external_commands.removeTool,
         disengageAll: external_commands.disengageAll,
         clearStates: external_commands.clearStates
