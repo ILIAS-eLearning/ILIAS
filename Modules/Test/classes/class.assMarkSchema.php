@@ -229,8 +229,7 @@ class ASS_MarkSchema
      */
     public function sort()
     {
-        function level_sort($a, $b)
-        {
+        usort($this->mark_steps, function ($a, $b) {
             if ($a->getMinimumLevel() == $b->getMinimumLevel()) {
                 $res = strcmp($a->getShortName(), $b->getShortName());
                 if ($res == 0) {
@@ -240,8 +239,7 @@ class ASS_MarkSchema
                 }
             }
             return ($a->getMinimumLevel() < $b->getMinimumLevel()) ? -1 : 1;
-        }
-        usort($this->mark_steps, 'level_sort');
+        });
     }
   
     /**
