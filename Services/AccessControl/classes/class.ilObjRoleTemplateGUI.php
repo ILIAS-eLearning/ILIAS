@@ -449,7 +449,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
-        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
+        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
 
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
             $this->tabs_gui->addTab(

@@ -1420,9 +1420,17 @@ class ilObjRoleGUI extends ilObjectGUI
 
         // not so nice (workaround for using tabs in repository)
         $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
 
         $ilHelp->setScreenIdComponent("role");
+
+        if ($this->back_target != "") {
+            $this->tabs_gui->setBackTarget(
+                $this->back_target["text"],
+                $this->back_target["link"]
+            );
+        } else {
+            $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
+        }
 
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {
             $this->tabs_gui->addTarget(
