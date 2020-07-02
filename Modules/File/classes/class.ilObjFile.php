@@ -1509,6 +1509,19 @@ class ilObjFile extends ilObject2
             $data[2] = "1";
         }
 
+// BEGIN bugfix #27391
+        if (sizeof($data) > 3)
+        {
+          $last = sizeof($data) - 1;
+          for ($n = 1; $n < $last - 1; $n++)
+          {
+            $data[0] .= "," . $data[$n];
+          }
+          $data[1] = $data[$last - 1];
+          $data[2] = $data[$last];
+        }
+// END bugfix #27391
+
         $result = array(
             "filename" => $data[0],
             "version" => $data[1],
