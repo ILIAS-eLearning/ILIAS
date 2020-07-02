@@ -39,7 +39,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->once())
             ->method('redirectToURL');
-        $dic['ilCtrl'] = function() use ($ctrl) {
+        $dic['ilCtrl'] = function () use ($ctrl) {
             return $ctrl;
         };
 
@@ -63,7 +63,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->atLeast(1))
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function() use ($user) {
+        $dic['ilUser'] = function () use ($user) {
             return $user;
         };
 
@@ -79,21 +79,21 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $http->expects($this->any())
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function() use ($http) {
+        $dic['http'] = function () use ($http) {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function() use ($evaluator) {
+        $dic['tos.document.evaluator'] = function () use ($evaluator) {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function() use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
             return $criterionFactory;
         };
 
@@ -126,7 +126,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->atLeast(1))
             ->method('getCmd')
             ->willReturn('getacceptance');
-        $dic['ilCtrl'] = function() use ($ctrl) {
+        $dic['ilCtrl'] = function () use ($ctrl) {
             return $ctrl;
         };
 
@@ -150,7 +150,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function() use ($user) {
+        $dic['ilUser'] = function () use ($user) {
             return $user;
         };
 
@@ -166,21 +166,21 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $http->expects($this->any())
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function() use ($http) {
+        $dic['http'] = function () use ($http) {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function() use ($evaluator) {
+        $dic['tos.document.evaluator'] = function () use ($evaluator) {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function() use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
             return $criterionFactory;
         };
 
@@ -328,7 +328,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->any())
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = function() use ($ctrl) {
+        $dic['ilCtrl'] = function () use ($ctrl) {
             return $ctrl;
         };
 
@@ -344,21 +344,21 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $http->expects($this->any())
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function() use ($http) {
+        $dic['http'] = function () use ($http) {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function() use ($evaluator) {
+        $dic['tos.document.evaluator'] = function () use ($evaluator) {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function() use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
             return $criterionFactory;
         };
 
@@ -369,11 +369,11 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $service->expects($this->any())
             ->method('hasToResignAcceptance')
             ->willReturn(false);
-        $dic['tos.service'] = function() use ($service) {
+        $dic['tos.service'] = function () use ($service) {
             return $service;
         };
 
-        $dic['ilUser'] = function() use ($user) {
+        $dic['ilUser'] = function () use ($user) {
             return $user;
         };
 
@@ -444,7 +444,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->any())
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = function() use ($ctrl) {
+        $dic['ilCtrl'] = function () use ($ctrl) {
             return $ctrl;
         };
 
@@ -460,21 +460,21 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $http->expects($this->any())
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function() use ($http) {
+        $dic['http'] = function () use ($http) {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function() use ($evaluator) {
+        $dic['tos.document.evaluator'] = function () use ($evaluator) {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function() use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
             return $criterionFactory;
         };
 
@@ -487,7 +487,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->willReturn(true);
         $service->expects($this->once())
             ->method('resetAcceptance');
-        $dic['tos.service'] = function() use ($service) {
+        $dic['tos.service'] = function () use ($service) {
             return $service;
         };
 
@@ -508,7 +508,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function() use ($user) {
+        $dic['ilUser'] = function () use ($user) {
             return $user;
         };
 

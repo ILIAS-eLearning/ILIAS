@@ -31,8 +31,8 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         array $countryCodes
     ) {
         $this->type = $type;
-        $this->lng  = $lng;
-        $this->countryCodes  = $countryCodes;
+        $this->lng = $lng;
+        $this->countryCodes = $countryCodes;
     }
 
     /**
