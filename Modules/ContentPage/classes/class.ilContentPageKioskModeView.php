@@ -17,30 +17,22 @@ class ilContentPageKioskModeView extends ilKioskModeView
 {
     const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
 
-    /** @var \ilObjContentPage */
+    /** @var ilObjContentPage */
     protected $contentPageObject;
-
-    /** @var \ilObjUser */
+    /** @var ilObjUser */
     protected $user;
-
     /** @var Factory */
     protected $uiFactory;
-
     /** @var Renderer */
     protected $uiRenderer;
-
-    /** @var \ilCtrl */
+    /** @var ilCtrl */
     protected $ctrl;
-
-    /** @var \ilTemplate */
+    /** @var ilTemplate */
     protected $mainTemplate;
-
     /** @var ServerRequestInterface */
     protected $httpRequest;
-
-    /** @var \ilTabsGUI */
+    /** @var ilTabsGUI */
     protected $tabs;
-
     /** @var MessageBox */
     protected $messages = [];
 
@@ -49,13 +41,13 @@ class ilContentPageKioskModeView extends ilKioskModeView
      */
     protected function getObjectClass() : string
     {
-        return \ilObjContentPage::class;
+        return ilObjContentPage::class;
     }
 
     /**
      * @inheritDoc
      */
-    protected function setObject(\ilObject $object)
+    protected function setObject(ilObject $object)
     {
         global $DIC;
 
@@ -99,9 +91,9 @@ class ilContentPageKioskModeView extends ilKioskModeView
      */
     protected function builtLearningProgressToggleControl(ControlBuilder $builder)
     {
-        $learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-            $isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
+        $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
+        if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+            $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
             $learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
@@ -133,13 +125,13 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function toggleLearningProgress(string $command)
     {
         if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
-            $learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-                $marks = new \ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
+            $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
+            if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+                $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
                 $marks->setCompleted(!$marks->getCompleted());
                 $marks->update();
 
-                \ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
+                ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
                 $this->lng->loadLanguageModule('trac');
 
@@ -167,7 +159,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         URLBuilder $url_builder,
         array $post = null
     ) : Component {
-        \ilLearningProgress::_tracProgress(
+        ilLearningProgress::_tracProgress(
             $this->user->getId(),
             $this->contentPageObject->getId(),
             $this->contentPageObject->getRefId(),
@@ -176,7 +168,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
         $this->renderContentStyle();
 
-        $forwarder = new \ilContentPagePageCommandForwarder(
+        $forwarder = new ilContentPagePageCommandForwarder(
             $this->httpRequest,
             $this->ctrl,
             $this->tabs,
@@ -184,14 +176,14 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->contentPageObject,
             $this->user
         );
-        $forwarder->setPresentationMode(\ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
+        $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
-        $this->ctrl->setParameterByClass(\ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
+        $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'ref_id', $this->contentPageObject->getRefId());
 
         return $factory->legacy(implode('', [
             $this->uiRenderer->render($this->messages),
             $forwarder->forward($this->ctrl->getLinkTargetByClass([
-                \ilRepositoryGUI::class, \ilObjContentPageGUI::class, \ilContentPagePageGUI::class
+                ilRepositoryGUI::class, ilObjContentPageGUI::class, ilContentPagePageGUI::class
             ]))
         ]));
     }
@@ -201,11 +193,11 @@ class ilContentPageKioskModeView extends ilKioskModeView
      */
     protected function renderContentStyle()
     {
-        $this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
+        $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
         $this->mainTemplate->addCss(
-            \ilObjStyleSheet::getContentStylePath(
+            ilObjStyleSheet::getContentStylePath(
                 $this->contentPageObject->getStyleSheetId()
-        )
+            )
         );
     }
 }

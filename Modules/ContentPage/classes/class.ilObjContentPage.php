@@ -4,7 +4,7 @@
 /**
  * Class ilObjContentPage
  */
-class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstants
+class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
     /**
      * @var int
@@ -26,7 +26,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     /**
      * @return ilObjectTranslation|null
      */
-    public function getObjectTranslation() :? ilObjectTranslation
+    public function getObjectTranslation() : ? ilObjectTranslation
     {
         return $this->objTrans;
     }
@@ -77,11 +77,11 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
         /** @var $new_obj self */
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
-        if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
-            $originalPageObject = new \ilContentPagePage($this->getId());
+        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+            $originalPageObject = new ilContentPagePage($this->getId());
             $originalXML = $originalPageObject->getXMLContent();
 
-            $duplicatePageObject = new \ilContentPagePage();
+            $duplicatePageObject = new ilContentPagePage();
             $duplicatePageObject->setId($new_obj->getId());
             $duplicatePageObject->setParentId($new_obj->getId());
             $duplicatePageObject->setXMLContent($originalXML);
@@ -89,8 +89,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
         }
 
         $styleId = $this->getStyleSheetId();
-        if ($styleId > 0 && !\ilObjStyleSheet::_lookupStandard($styleId)) {
-            $style = \ilObjectFactory::getInstanceByObjId($styleId, false);
+        if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
+            $style = ilObjectFactory::getInstanceByObjId($styleId, false);
             if ($style) {
                 $new_id = $style->ilClone();
                 $new_obj->setStyleSheetId($new_id);
@@ -98,12 +98,12 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
             }
         }
 
-        \ilContainer::_writeContainerSetting(
+        ilContainer::_writeContainerSetting(
             $new_obj->getId(),
-            \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            \ilContainer::_lookupContainerSetting(
+            ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+            ilContainer::_lookupContainerSetting(
                 $this->getId(),
-                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                 true
             )
         );
@@ -190,12 +190,12 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     {
         parent::doDelete();
 
-        if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
-            $originalPageObject = new \ilContentPagePage($this->getId());
+        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+            $originalPageObject = new ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
 
-        $this->initTranslationService();;
+        $this->initTranslationService();
         $this->objTrans->delete();
     }
 
@@ -225,14 +225,14 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
      */
     public function trackProgress(int $usrId)
     {
-        \ilChangeEvent::_recordReadEvent(
+        ilChangeEvent::_recordReadEvent(
             $this->getType(),
             $this->getRefId(),
             $this->getId(),
             $usrId
         );
 
-        \ilLPStatusWrapper::_updateStatus(
+        ilLPStatusWrapper::_updateStatus(
             $this->getId(),
             $usrId
         );

@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class ilContentPagePageCommandForwarder
  */
-class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
+class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**
      * presentation mode for authoring
@@ -21,57 +23,37 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
      */
     const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $presentationMode = self::PRESENTATION_MODE_EDITING;
-
-    /**
-     * @var \ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
-
-    /**
-     * @var \ilLanguage
-     */
+    /** @var ilLanguage */
     protected $lng;
-
-    /**
-     * @var \ilTabsGUI
-     */
+    /** @var ilTabsGUI */
     protected $tabs;
-
-    /**
-     * @var \ilObjContentPage
-     */
+    /** @var ilObjContentPage */
     protected $parentObject;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $backUrl = '';
-
-    /**
-     * @var ilObjUser
-     */
+    /** @var ilObjUser */
     protected $actor;
 
     /**
      * ilContentPagePageCommandForwarder constructor.
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \ilCtrl                                  $ctrl
-     * @param \ilTabsGUI                               $tabs
-     * @param \ilLanguage                              $lng
-     * @param \ilObjContentPage                        $parentObject
-     * @param \ilObjUser                               $actor
+     * @param ServerRequestInterface $request
+     * @param ilCtrl $ctrl
+     * @param ilTabsGUI $tabs
+     * @param ilLanguage $lng
+     * @param ilObjContentPage $parentObject
+     * @param ilObjUser $actor
      */
     public function __construct(
-        \Psr\Http\Message\ServerRequestInterface $request,
-        \ilCtrl $ctrl,
-        \ilTabsGUI $tabs,
-        \ilLanguage $lng,
-        \ilObjContentPage $parentObject,
-        \ilObjUser $actor
+        ServerRequestInterface $request,
+        ilCtrl $ctrl,
+        ilTabsGUI $tabs,
+        ilLanguage $lng,
+        ilObjContentPage $parentObject,
+        ilObjUser $actor
     ) {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
@@ -91,13 +73,13 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      * @param string $language
      * @param bool $isEmbedded
-     * @return \ilContentPagePageGUI
+     * @return ilContentPagePageGUI
      */
-    protected function getPageObjectGUI(string $language, $isEmbedded = false) : \ilContentPagePageGUI
+    protected function getPageObjectGUI(string $language, bool $isEmbedded = false) : ilContentPagePageGUI
     {
-        $pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
+        $pageObjectGUI = new ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -114,7 +96,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
      */
     protected function doesPageExistsForLanguage(string $language) : bool
     {
-        return \ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
+        return ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
     }
 
     /**
@@ -123,7 +105,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     protected function ensurePageObjectExists(string $language)
     {
         if (!$this->doesPageExistsForLanguage($language)) {
-            $pageObject = new \ilContentPagePage();
+            $pageObject = new ilContentPagePage();
             $pageObject->setParentId($this->parentObject->getId());
             $pageObject->setId($this->parentObject->getId());
             $pageObject->setLanguage($language);
@@ -134,11 +116,11 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      *
      */
-    protected function setBackLinkTab()
+    protected function setBackLinkTab() : void
     {
         $backUrl = $this->ctrl->getLinkTargetByClass('ilObjContentPageGUI', self::UI_CMD_VIEW);
         if (strlen($this->backUrl) > 0) {
-            $backUrlParts = parse_url(\ilUtil::stripSlashes($this->backUrl));
+            $backUrlParts = parse_url(ilUtil::stripSlashes($this->backUrl));
 
             $script = basename($backUrlParts['path']);
 
@@ -152,9 +134,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 
     /**
      * @param string $language
-     * @return \ilContentPagePageGUI
+     * @return ilContentPagePageGUI
      */
-    protected function buildEditingPageObjectGUI(string $language) : \ilContentPagePageGUI
+    protected function buildEditingPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->tabs->clearTargets();
 
@@ -170,9 +152,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 
     /**
      * @param string $language
-     * @return \ilContentPagePageGUI
+     * @return ilContentPagePageGUI
      */
-    protected function buildPresentationPageObjectGUI(string $language) : \ilContentPagePageGUI
+    protected function buildPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->ensurePageObjectExists($language);
 
@@ -180,7 +162,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -191,9 +173,9 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
 
     /**
      * @param string $language
-     * @return \ilContentPagePageGUI
+     * @return ilContentPagePageGUI
      */
-    protected function buildEmbeddedPresentationPageObjectGUI(string $language) : \ilContentPagePageGUI
+    protected function buildEmbeddedPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->ensurePageObjectExists($language);
 
@@ -201,7 +183,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -213,7 +195,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      * @param string $presentationMode
      */
-    public function setPresentationMode(string $presentationMode)
+    public function setPresentationMode(string $presentationMode) : void
     {
         $this->presentationMode = $presentationMode;
     }
@@ -261,7 +243,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
                 return $pageObjectGUI->getHTML();
 
             default:
-                throw new \ilException('Unknown presentation mode given');
+                throw new ilException('Unknown presentation mode given');
                 break;
         }
     }

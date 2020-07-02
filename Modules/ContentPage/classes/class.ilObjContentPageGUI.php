@@ -17,7 +17,7 @@
  * @ilCtrl_Calls ilObjContentPageGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjContentPageGUI: ilPageMultiLangGUI
  */
-class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectConstants, \ilDesktopItemHandling
+class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
     /**
      * @var \Psr\Http\Message\ServerRequestInterface
@@ -25,42 +25,42 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     protected $request;
 
     /**
-     * @var \ilCtrl
+     * @var ilCtrl
      */
     protected $ctrl;
 
     /**
-     * @var \ilAccessHandler
+     * @var ilAccessHandler
      */
     protected $access;
 
     /**
-     * @var \ilSetting
+     * @var ilSetting
      */
     protected $settings;
 
     /**
-     * @var \ilTabsGUI
+     * @var ilTabsGUI
      */
     protected $tabs;
 
     /**
-     * @var \ilObjUser
+     * @var ilObjUser
      */
     protected $user;
 
     /**
-     * @var \ilObjectService
+     * @var ilObjectService
      */
     protected $obj_service;
 
     /**
-     * @var \ilNavigationHistory
+     * @var ilNavigationHistory
      */
     protected $navHistory;
 
     /**
-     * @var \ilErrorHandling
+     * @var ilErrorHandling
      */
     protected $error;
 
@@ -98,10 +98,10 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('content');
 
-        if ($this->object instanceof \ilObjContentPage) {
-            $this->infoScreenEnabled = \ilContainer::_lookupContainerSetting(
+        if ($this->object instanceof ilObjContentPage) {
+            $this->infoScreenEnabled = ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
-                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                 true
             );
         }
@@ -126,15 +126,15 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
             $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', $refId);
-            $DIC->ctrl()->redirectByClass(array(
+            $DIC->ctrl()->redirectByClass([
                 'ilRepositoryGUI',
                 __CLASS__,
-            ), self::UI_CMD_VIEW);
+            ], self::UI_CMD_VIEW);
         } else {
             if ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-                \ilUtil::sendInfo(sprintf(
+                ilUtil::sendInfo(sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
-                    \ilObject::_lookupTitle(\ilObject::_lookupObjId($refId))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
                 ), true);
 
                 $DIC->ctrl()->setTargetScript('ilias.php');
@@ -184,7 +184,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
             );
         }
 
-        if (\ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $this->tabs->addTab(
                 self::UI_TAB_ID_LP,
                 $this->lng->txt('learning_progress'),
@@ -244,7 +244,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->setLocator();
 
                 $this->ctrl->setReturn($this, 'editStyleProperties');
-                $style_gui = new \ilObjStyleSheetGUI(
+                $style_gui = new ilObjStyleSheetGUI(
                     '',
                     $this->object->getStyleSheetId(),
                     false,
@@ -282,13 +282,13 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
                 $this->tpl->setVariable(
                     'LOCATION_CONTENT_STYLESHEET',
-                    \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
                 );
                 $this->tpl->setCurrentBlock('SyntaxStyle');
-                $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+                $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
 
-                $forwarder = new \ilContentPagePageCommandForwarder(
+                $forwarder = new ilContentPagePageCommandForwarder(
                     $this->request,
                     $this->ctrl,
                     $this->tabs,
@@ -312,7 +312,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 break;
 
             case 'ilcommonactiondispatchergui':
-                $this->ctrl->forwardCommand(\ilCommonActionDispatcherGUI::getInstanceFromAjaxCall());
+                $this->ctrl->forwardCommand(ilCommonActionDispatcherGUI::getInstanceFromAjaxCall());
                 break;
 
             case 'ilpermissiongui':
@@ -321,25 +321,25 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::UI_TAB_ID_PERMISSIONS);
 
-                $this->ctrl->forwardCommand(new \ilPermissionGUI($this));
+                $this->ctrl->forwardCommand(new ilPermissionGUI($this));
                 break;
 
             case 'illearningprogressgui':
-                if (!\ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+                if (!ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
 
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::UI_TAB_ID_LP);
 
-                $this->ctrl->forwardCommand(new \ilLearningProgressGUI(
-                    \ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                $this->ctrl->forwardCommand(new ilLearningProgressGUI(
+                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
                     isset(
                         $this->request->getQueryParams()['user_id']) &&
                         is_numeric(
                             $this->request->getQueryParams()['user_id']
-                    ) ?
+                        ) ?
                         (int) $this->request->getQueryParams()['user_id'] :
                         $this->user->getId()
                 ));
@@ -351,7 +351,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::UI_TAB_ID_EXPORT);
 
-                $gui = new \ilExportGUI($this);
+                $gui = new ilExportGUI($this);
                 $gui->addFormat('xml');
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -366,14 +366,14 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 $this->setSettingsSubTabs(self::UI_TAB_ID_ICON);
 
                 require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
-                $gui = new \ilObjectCustomIconConfigurationGUI($this->dic, $this, $this->object);
+                $gui = new ilObjectCustomIconConfigurationGUI($this->dic, $this, $this->object);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilobjectcopygui':
                 $this->tpl->loadStandardTemplate();
 
-                $gui = new \ilObjectCopyGUI($this);
+                $gui = new ilObjectCopyGUI($this);
                 $gui->setType(self::OBJ_TYPE);
 
                 $this->ctrl->forwardCommand($gui);
@@ -404,7 +404,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
             if ($this->checkPermissionBool('read')) {
                 $this->navHistory->addItem(
                     $this->object->getRefId(),
-                    \ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
+                    ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
                     $this->object->getType()
                 );
             }
@@ -439,7 +439,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
         $this->tabs->activateTab(self::UI_TAB_ID_INFO);
 
-        $info = new \ilInfoScreenGUI($this);
+        $info = new ilInfoScreenGUI($this);
         $info->enableLearningProgress(true);
         $info->enablePrivateNotes();
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
@@ -489,7 +489,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
      */
     public function addLocatorItems()
     {
-        if ($this->object instanceof \ilObject) {
+        if ($this->object instanceof ilObject) {
             $this->locator->addItem(
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_VIEW),
@@ -557,7 +557,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     /**
      * @param string $ctrlLink A link which describes the target controller for all page object links/actions
      * @return string
-     * @throws \ilException
+     * @throws ilException
      */
     public function getContent(string $ctrlLink = '') : string
     {
@@ -566,7 +566,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
             $this->initStyleSheets();
 
-            $forwarder = new \ilContentPagePageCommandForwarder(
+            $forwarder = new ilContentPagePageCommandForwarder(
                 $this->request,
                 $this->ctrl,
                 $this->tabs,
@@ -586,17 +586,17 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     {
         $this->tpl->setVariable(
             'LOCATION_CONTENT_STYLESHEET',
-            \ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
         );
         $this->tpl->setCurrentBlock('SyntaxStyle');
-        $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', \ilObjStyleSheet::getSyntaxStylePath());
+        $this->tpl->setVariable('LOCATION_SYNTAX_STYLESHEET', ilObjStyleSheet::getSyntaxStylePath());
         $this->tpl->parseCurrentBlock();
     }
 
     /**
      * @inheritdoc
      */
-    protected function afterSave(\ilObject $a_new_object)
+    protected function afterSave(ilObject $a_new_object)
     {
         $a_new_object->getObjectTranslation()->addLanguage(
             $this->lng->getDefaultLanguage(),
@@ -607,7 +607,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         );
         $a_new_object->getObjectTranslation()->save();
 
-        \ilUtil::sendSuccess($this->lng->txt('object_added'), true);
+        ilUtil::sendSuccess($this->lng->txt('object_added'), true);
         $this->ctrl->redirect($this, 'edit');
     }
 
@@ -625,18 +625,18 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     /**
      * @inheritdoc
      */
-    protected function initEditCustomForm(\ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
     {
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('obj_features'));
         $a_form->addItem($sh);
 
-        \ilObjectServiceSettingsGUI::initServiceSettingsForm(
+        ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
             $a_form,
-            array(
-                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
-            )
+            [
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+            ]
         );
 
         $presentationHeader = new ilFormSectionHeaderGUI();
@@ -650,26 +650,26 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
      */
     protected function getEditFormCustomValues(array &$a_values)
     {
-        $a_values[\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
+        $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
     /**
      * @inheritdoc
      */
-    protected function updateCustom(\ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $a_form)
     {
-        \ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+        ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
             $a_form,
-            array(
-                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
-            )
+            [
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+            ]
         );
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
     }
 
     /**
-     * @throws \ilObjectException
+     * @throws ilObjectException
      */
     protected function editStyleProperties()
     {
@@ -683,11 +683,11 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
     }
 
     /**
-     * @return \ilPropertyFormGUI
+     * @return ilPropertyFormGUI
      */
-    protected function buildStylePropertiesForm() : \ilPropertyFormGUI
+    protected function buildStylePropertiesForm() : ilPropertyFormGUI
     {
-        $form = new \ilPropertyFormGUI();
+        $form = new ilPropertyFormGUI();
 
         $fixedStyle = $this->settings->get('fixed_content_style_id');
         $defaultStyle = $this->settings->get('default_content_style_id');
@@ -696,26 +696,26 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         if ($fixedStyle > 0) {
             $st = new ilNonEditableValueGUI($this->lng->txt("cont_current_style"));
             $st->setValue(
-                \ilObject::_lookupTitle($fixedStyle) . " (" . $this->lng->txt("global_fixed") . ")"
+                ilObject::_lookupTitle($fixedStyle) . " (" . $this->lng->txt("global_fixed") . ")"
             );
             $form->addItem($st);
         } else {
-            $st_styles = \ilObjStyleSheet::_getStandardStyles(
+            $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
                 (int) $_GET["ref_id"]
             );
 
             if ($defaultStyle > 0) {
-                $st_styles[0] = \ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
+                $st_styles[0] = ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
             } else {
                 $st_styles[0] = $this->lng->txt('default');
             }
             ksort($st_styles);
 
             if ($styleId > 0) {
-                if (!\ilObjStyleSheet::_lookupStandard($styleId)) {
-                    $st = new \ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
+                if (!ilObjStyleSheet::_lookupStandard($styleId)) {
+                    $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
                     $st->setValue(ilObject::_lookupTitle($styleId));
                     $form->addItem($st);
 
@@ -724,8 +724,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                 }
             }
 
-            if ($styleId <= 0 || \ilObjStyleSheet::_lookupStandard($styleId)) {
-                $style_sel = new \ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
+            if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
+                $style_sel = new ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
                 $style_sel->setOptions($st_styles);
                 $style_sel->setValue($styleId);
                 $form->addItem($style_sel);
@@ -775,9 +775,9 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         if (
             $this->settings->get('fixed_content_style_id') <= 0 &&
             (
-                \ilObjStyleSheet::_lookupStandard(
+                ilObjStyleSheet::_lookupStandard(
                     $this->object->getStyleSheetId()
-            ) ||
+                ) ||
                 $this->object->getStyleSheetId() == 0
             )
         ) {
