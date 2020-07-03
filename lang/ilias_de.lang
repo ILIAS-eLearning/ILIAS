@@ -11189,7 +11189,7 @@ registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang 
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
 crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#ollen Sie sich wirklich aus den folgenden Objekten abmelden?
+mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
