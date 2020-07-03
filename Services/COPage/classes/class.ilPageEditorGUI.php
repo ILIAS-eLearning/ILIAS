@@ -20,7 +20,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -65,6 +65,16 @@ class ilPageEditorGUI
     protected $log;
 
     /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
+    /**
+     * @var \Psr\Http\Message\RequestInterface|\Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
     * Constructor
     *
     * @param	object		$a_page_object		page object
@@ -82,6 +92,9 @@ class ilPageEditorGUI
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $ilTabs = $DIC->tabs();
+
+        $this->ui = $DIC->ui();
+        $this->request = $DIC->http()->request();
 
         $this->log = ilLoggerFactory::getLogger('copg');
 
@@ -154,8 +167,14 @@ class ilPageEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-
         $this->log->debug("begin ============");
+
+        if (!true) {
+            var_dump($_GET);
+            echo "<br><br>";
+            var_dump($_POST);
+            exit;
+        }
 
         // Step BC (basic command determination)
         // determine cmd, cmdClass, hier_id and pc_id
@@ -270,6 +289,7 @@ class ilPageEditorGUI
                 $cmd != "activateSelected" && $cmd != "assignCharacteristicForm" &&
                 $cmd != "assignCharacteristic" &&
                 $cmdClass != "ilrepositoryselector2inputgui" &&
+                $cmdClass != "ilpageeditorserveradaptergui" &&
                 $cmd != "cancelCreate" && $cmd != "popup" &&
                 $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
                 ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
@@ -297,6 +317,11 @@ class ilPageEditorGUI
 
 
         // Step NC (handle empty next class)
+        if ($_REQUEST["ctype"] != "") {
+            $ctype = $_REQUEST["ctype"];
+            $pc_id = $_REQUEST["pcid"];
+            $hier_id = $_REQUEST["hier_id"];
+        }
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
         $this->ctrl->setCmd($cmd);
@@ -308,7 +333,7 @@ class ilPageEditorGUI
             }
             $next_class = $this->ctrl->getNextClass($this);
         }
-        $this->log->debug("step NC: next_class: $next_class");
+        $this->log->debug("step NC2: next_class: $next_class");
 
         // ... do not do this while imagemap editing is ongoing
         // Step IM (handle image map editing)
@@ -316,8 +341,6 @@ class ilPageEditorGUI
             $next_class = "";
         }
         $this->log->debug("step IM: next_class: $next_class");
-
-
         // Step FC (forward command)
         $this->log->debug("before FC: next_class:" . $next_class . ", pc_id:" . $pc_id .
                 ", hier_id:" . $hier_id . ", ctype:" . $ctype . ", cmd:" . $cmd . ", _GET[cmd]: " . $_GET["cmd"]);
@@ -405,6 +428,16 @@ class ilPageEditorGUI
                     $pc_id
                 );
                 $ret = $this->ctrl->forwardCommand($plugged_gui);
+                break;
+
+            case "ilpageeditorserveradaptergui":
+                $adapter = new ilPageEditorServerAdapterGUI(
+                    $this->page_gui,
+                    $this->ctrl,
+                    $this->ui,
+                    $this->request
+                );
+                $this->ctrl->forwardCommand($adapter);
                 break;
 
             default:

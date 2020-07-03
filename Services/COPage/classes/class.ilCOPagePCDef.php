@@ -30,7 +30,7 @@ class ilCOPagePCDef
         $db = $DIC->database();
         
         if (self::$pc_def == null) {
-            $set = $db->query("SELECT * FROM copg_pc_def ");
+            $set = $db->query("SELECT * FROM copg_pc_def ORDER BY order_nr");
             while ($rec = $db->fetchAssoc($set)) {
                 $rec["pc_class"] = "ilPC" . $rec["name"];
                 $rec["pc_gui_class"] = "ilPC" . $rec["name"] . "GUI";

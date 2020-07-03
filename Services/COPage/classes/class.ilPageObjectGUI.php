@@ -1306,6 +1306,10 @@ class ilPageObjectGUI
                 ilYuiUtil::initPanel(false);
                 $main_tpl->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
                 $main_tpl->addJavascript("Services/COPage/js/page_editing.js");
+                $main_tpl->addOnloadCode("il.copg.editor.init('".
+                    ILIAS_HTTP_PATH."/".$this->ctrl->getLinkTargetByClass(["ilPageEditorGUI", "ilPageEditorServerAdapterGUI"], "invokeServer")."','".
+                    $this->ctrl->getFormActionByClass("ilPageEditorGUI")
+                    ."');");
 
                 include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
                 ilModalGUI::initJS();

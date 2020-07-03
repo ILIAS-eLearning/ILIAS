@@ -4291,10 +4291,10 @@ content#:#cont_ed_edit#:#Edit
 content#:#cont_ed_enable#:#(De-)Activate Elements
 content#:#cont_ed_flist#:# File List
 content#:#cont_ed_go#:#Go
-content#:#cont_ed_insert_atable#:#Insert Advanced Table
-content#:#cont_ed_insert_code#:#Insert Code
-content#:#cont_ed_insert_dtable#:#Insert Data Table
-content#:#cont_ed_insert_filelist#:#Insert File List
+content#:#cont_ed_insert_tab#:#Insert Advanced Table
+content#:#cont_ed_insert_src#:#Insert Code
+content#:#cont_ed_insert_dtab#:#Insert Data Table
+content#:#cont_ed_insert_flst#:#Insert File List
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
 content#:#cont_ed_insert_list#:#Insert Advanced List
 content#:#cont_ed_insert_map#:#Insert Map
@@ -4303,7 +4303,7 @@ content#:#cont_ed_insert_par#:#Insert Text
 content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_repobj#:#Insert Resource List
-content#:#cont_ed_insert_section#:#Insert Section
+content#:#cont_ed_insert_sec#:#Insert Section
 content#:#cont_ed_insert_tabs#:#Insert Accordion
 content#:#cont_ed_item_down#:#Move Item Down
 content#:#cont_ed_item_up#:#Move Item Up

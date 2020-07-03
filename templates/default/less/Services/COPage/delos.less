@@ -45,15 +45,48 @@ select.ilEditSelect {
 	font-size: 12px;
 }
 
+
+button.copg-add.dropdown-toggle.btn,
+button.copg-add.dropdown-toggle.btn:focus,
+button.copg-add.dropdown-toggle.btn:hover {
+	padding: 1px 5px;
+	color: #b6b6b6;
+	text-align: center;
+	font-size: @font-size-small;
+	background-color: transparent;
+	cursor: pointer;
+	width: 100%;
+	height: 30px;
+	border: 0;
+
+	.glyphicon {
+		border-radius: 50%;
+		background-color: #f3f3f3;
+		padding: 4px;
+	}
+}
+
+button.copg-add.dropdown-toggle.btn:hover {
+	background-color: #f3f3f3;
+	color: #797979;
+}
+
+button.copg-add:hover {
+	color: lighten(@brand-secondary, 10%);
+	background-color: lighten(@brand-secondary, 52%);
+}
+
 div.il_droparea {
 	padding: 1px 5px;
 	border: 1px dashed #d0d0d0;
 	color: #d0d0d0;
 	text-align: center;
 	font-size: @font-size-small;
-	background-color: #fcfcfc;
+	background-color: #fffed1;
 	cursor: pointer;
+	height: 30px;
 }
+
 
 div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
 	border-color: lighten(@brand-secondary, 10%);

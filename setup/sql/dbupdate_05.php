@@ -4340,3 +4340,27 @@ if (!$ilDB->tableColumnExists('svy_svy', 'calculate_sum_score'))
     ));
 }
 ?>
+<#5669>
+<?php
+if (!$ilDB->tableColumnExists('copg_pc_def', 'top_item'))
+{
+    $ilDB->addTableColumn('copg_pc_def', 'top_item', array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 1
+    ));
+}
+?>
+<#5670>
+<?php
+if (!$ilDB->tableColumnExists('copg_pc_def', 'order_nr'))
+{
+    $ilDB->addTableColumn('copg_pc_def', 'order_nr', array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 1
+    ));
+}
+?>

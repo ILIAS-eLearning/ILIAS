@@ -1,75 +1,3 @@
-/**
- * renderer
- *
- */
-class Renderer {
-
-	// temp legacy code
-	button = "<div class='il_droparea'><span class='glyphicon glyphicon-plus'></span></div>";
-
-	/**
-	 * Pass dependency to math module in constructor
-	 * @param math
-	 */
-	constructor() {
-	}
-
-	initAddButtons() {
-
-		// init add buttons
-		document.querySelectorAll("[data-copg-ed-type='add-area']").forEach(area => {
-			console.log(area);
-			area.innerHTML = this.button;
-			const b = area.firstChild;
-			const bid = "TARGET" + area.dataset.hierid + ":" + (area.dataset.pcid || "");
-			//b.innerHTML = "t";
-			console.log(area.dataset);
-			b.id = bid;
-			b.addEventListener("click", (event) => {
-				doMouseClick(event, bid, null, null);
-			})
-		});
-	}
-
-	init() {
-		console.log("Renderer init.");
-		this.initAddButtons();
-
-		$(".il_editarea").draggable({
-				cursor: 'move',
-				revert: true,
-				scroll: true,
-				cursorAt: { top: 5, left:20 },
-				snap: true,
-				snapMode: 'outer',
-				helper: (() => {
-						return $("<div style='width: 40px; border: 1px solid blue;'>&nbsp;</div>");
-					})		/* temp helper */
-			}
-		);
-
-		$(".il_droparea").droppable({
-			drop: (event, ui) => {
-				ui.draggable.draggable( 'option', 'revert', false );
-				const target_id = event.target.id.substr(6);
-				const source_id = ui.draggable[0].id.substr(7);
-				if (source_id != target_id) {
-					ilCOPage.sendCmdRequest("moveAfter", source_id, target_id, {},
-						true, {}, ilCOPage.pageReloadAjaxSuccess);
-				}
-			}
-		});
-
-		// this is needed to make scrolling while dragging with helper possible
-		$("main.il-layout-page-content").css("position", "relative");
-	}
-}
-$(function() {
-	renderer = new Renderer();
-	renderer.init();
-});
-
-
 var ilCOPage =
 {
 	content_css: '',
@@ -1583,7 +1511,6 @@ var ilCOPage =
 	},
 
 	reInitUI: function() {
-		console.log("initUI");
 		il.Tooltip.init();
 		il.COPagePres.updateQuestionOverviews();
 		if (il.AdvancedSelectionList != null)
@@ -1591,7 +1518,7 @@ var ilCOPage =
 			il.AdvancedSelectionList.init['style_selection']();
 			il.AdvancedSelectionList.init['char_style_selection']();
 		}
-		renderer.init();
+		il.copg.editor.reInitUI();
 	},
 
 	// default callback for successfull ajax request, reloads page content
@@ -2075,7 +2002,6 @@ function editParagraph(div_id, mode, switched)
 	{
 		// get placeholder div
 		var pdiv = document.getElementById("TARGET" + div_id);
-//console.log(pdiv);
 		var insert_ghost = new YAHOO.util.Element(document.createElement('div'));
 		insert_ghost = YAHOO.util.Dom.insertAfter(insert_ghost, pdiv);
 		insert_ghost.id = "insert_ghost";
