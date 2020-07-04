@@ -43,6 +43,10 @@ export default class UI {
     this.actionFactory = actionFactory;
   }
 
+  //
+  // Initialisation
+  //
+
   /**
    */
   init() {
@@ -51,6 +55,7 @@ export default class UI {
       this.model = result.getPayload();
       this.initAddButtons();
       this.initDragDrop();
+      this.initMultiSelection();
     });
   }
 
@@ -59,10 +64,11 @@ export default class UI {
   reInit() {
     this.initAddButtons();
     this.initDragDrop();
+    this.initMultiSelection();
   }
 
   /**
-   *
+   * Init add buttons
    */
   initAddButtons() {
     const dispatch = this.dispatcher;
@@ -98,11 +104,6 @@ export default class UI {
           }
         });
       });
-
-      /*
-      b.addEventListener("click", (event) => {
-        doMouseClick(event, bid, null, null);
-      })*/
     });
 
   }
@@ -137,6 +138,8 @@ export default class UI {
     $(".il_droparea").droppable({
       drop: (event, ui) => {
         ui.draggable.draggable( 'option', 'revert', false );
+
+        // @todo: remove legacy
         const target_id = event.target.id.substr(6);
         const source_id = ui.draggable[0].id.substr(7);
         if (source_id !== target_id) {
@@ -150,6 +153,47 @@ export default class UI {
     $("main.il-layout-page-content").css("position", "relative");
 
     this.hideDropareas();
+  }
+
+  /**
+   * Init multi selection
+   */
+  initMultiSelection() {
+    const dispatch = this.dispatcher;
+    const action = this.actionFactory;
+
+    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(pc_area => {
+      const pcid = pc_area.dataset.pcid;
+      const hierid = pc_area.dataset.hierid;
+      const ctype = pc_area.dataset.ctype;
+      pc_area.addEventListener("dblclick", (event) => {
+        dispatch.dispatch(action.editor().multiToggle(ctype, pcid, hierid));
+      });
+    });
+  }
+
+  initMultiButtons() {
+    const dispatch = this.dispatcher;
+    const action = this.actionFactory;
+
+    document.querySelectorAll("[data-copg-ed-type='multi']").forEach(multi_button => {
+      const type = multi_button.dataset.action;
+      multi_button.addEventListener("click", (event) => {
+        dispatch.dispatch(action.editor().multiAction(type));
+      });
+    });
+  }
+
+  //
+  // Show/Hide single elements
+  //
+
+  enableDragDrop() {
+    $('.il_editarea').draggable("enable");
+  }
+
+  disableDragDrop() {
+    $('.il_editarea').draggable("disable");
   }
 
   showAddButtons() {
@@ -173,6 +217,31 @@ export default class UI {
   hideDropareas() {
     document.querySelectorAll("#il_EditPage .il_droparea").forEach(el => {
       el.style.display = "none";
+    });
+  }
+
+  showPageHelp() {
+    document.querySelector("#copg-editor-slate-content").innerHTML = this.model.pageHelp;
+  }
+
+  showMultiButtons() {
+    // @todo hate to use jquery here, but only jquery evals the included script tags
+    //document.querySelector("#copg-editor-slate-content").innerHTML = this.model.multiActions;
+    $("#copg-editor-slate-content").html(this.model.multiActions);
+    this.initMultiButtons();
+  }
+
+  /**
+   * @param {Set<string>} items
+   */
+  highlightSelected(items) {
+    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(el => {
+      const key = el.dataset.hierid + ":" + (el.dataset.pcid || "");
+      if (items.has(key)) {
+        el.classList.add("il_editarea_selected");
+      } else {
+        el.classList.remove("il_editarea_selected");
+      }
     });
   }
 

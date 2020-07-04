@@ -30,14 +30,42 @@ export default class ModelActionHandler {
    * @param {EditorAction} action
    */
   handle(action) {
+
+    const params = action.getParams();
+
     switch (action.getType()) {
 
-      case "dnd-drag":
+      case "dnd.drag":
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd-drop":
+      case "dnd.drop":
         this.model.setState(this.model.STATE_PAGE);
+        break;
+
+      case "multi.toggle":
+        this.model.toggleSelect(params.pcid, params.hierid);
+        console.log(this.model.hasSelected());
+        if (this.model.hasSelected()) {
+          this.model.setState(this.model.STATE_MULTI_ACTION);
+        } else {
+          this.model.setState(this.model.STATE_PAGE);
+        }
+        console.log(this.model.getState());
+        break;
+
+      case "multi.action":
+        switch (params.type) {
+          case "none":
+            this.model.selectNone();
+            this.model.setState(this.model.STATE_PAGE);
+            break;
+
+          case "all":
+            this.model.selectAll();
+            this.model.setState(this.model.STATE_MULTI_ACTION);
+            break;
+        }
         break;
     }
   }

@@ -16181,3 +16181,4 @@ survey#:#survey_calculate_sum_score#:#Calculate Sum Score
 survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
+content#:#cont_select_none#:#Clear Selection

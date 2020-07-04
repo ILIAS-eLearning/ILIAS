@@ -303,7 +303,7 @@
 				(./Table/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
-			<div>
+			<div data-copg-ed-type="pc-area">
 				<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
 					<xsl:if test="$javascript='enable'">
 						<xsl:attribute name="class">il_editarea</xsl:attribute>
@@ -320,11 +320,13 @@
 						<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
 						<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
 						<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>','<xsl:value-of select="./*[1]/@Characteristic"/>');</xsl:attribute>
-						<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
 				<xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-		
+				<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+				<xsl:attribute name="data-ctype"><xsl:value-of select="$content_type"/></xsl:attribute>
+				<xsl:attribute name="data-characteristic"><xsl:value-of select="./*[1]/@Characteristic"/></xsl:attribute>
 				<xsl:apply-templates>
 					<xsl:with-param name="par_counter" select ="position()" />
 				</xsl:apply-templates>
@@ -395,8 +397,7 @@
 <xsl:template name="EditLabel">
 	<xsl:param name="text"/>
 	<xsl:if test="$mode = 'edit'">
-	<div class="ilEditLabel" style="display:none;">
-		<xsl:attribute name="id">TCONTENT<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/></xsl:attribute>
+	<div class="ilEditLabel">
 	<xsl:value-of select="$text"/><xsl:comment>Dummy</xsl:comment></div>
 	</xsl:if>
 </xsl:template>

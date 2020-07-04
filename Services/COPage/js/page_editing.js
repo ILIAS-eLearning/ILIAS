@@ -1701,27 +1701,22 @@ function doMouseOver (id, mclass, type, char)
 	}
 	if (sel_edit_areas[id])
 	{
-		obj.className = "il_editarea_active_selected";
+//		obj.className = "il_editarea_active_selected";
 	}
 	else
 	{
 		if (obj.className == "il_editarea_disabled")
 		{
-			obj.className = "il_editarea_disabled_selected";
+//			obj.className = "il_editarea_disabled_selected";
 		}
 		else
 		{
 			if (mclass) {
-				obj.className = mclass;
+//				obj.className = mclass;
 			}
 		}
 	}
 
-	var typetext = document.getElementById("T" + id);
-	if (typetext)
-	{
-		typetext.style.display = '';
-	}
 
 	current_mouse_over_id = id;
 }
@@ -1737,19 +1732,14 @@ function doMouseOut(id, mclass, type, char)
 	obj = document.getElementById(id);
 	if (sel_edit_areas[id])
 	{
-		obj.className = "il_editarea_selected";
+//		obj.className = "il_editarea_selected";
 	}
 	else
 	{
 		//obj.className = mclass;
-		obj.className = edit_area_original_class[id];
+		//		obj.className = edit_area_original_class[id];
 	}
 
-	var typetext = document.getElementById("T" + id);
-	if (typetext)
-	{
-		typetext.style.display = 'none';
-	}
 
 }
 
@@ -1929,6 +1919,7 @@ function doMouseClick(e, id, type, char)
 /**
  * Process Double Mouse Click
  */
+/*
 function doMouseDblClick(e, id)
 {
 	if (cmd_called) return;
@@ -1946,7 +1937,7 @@ function doMouseDblClick(e, id)
 			obj.className = "il_editarea_active_selected";
 		}
 	}
-}
+}*/
 
 /**
  *   on MouseOut of context-menu hide context-menu

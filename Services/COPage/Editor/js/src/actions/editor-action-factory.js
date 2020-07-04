@@ -12,6 +12,8 @@ export default class EditorActionFactory {
   DND_DRAG = "dnd.drag";      // start dragging
   DND_DROP = "dnd.drop";      // dropping
   CREATE_ADD = "create.add";  // hit add link in add dropdown
+  MULTI_TOGGLE = "multi.toggle";  // toggle an element for multi selection
+  MULTI_ACTION = "multi.action";  // perform multi action
 
 
   /**
@@ -41,6 +43,26 @@ export default class EditorActionFactory {
       ctype: ctype,
       pcid: pcid,
       hierid: hierid
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  multiToggle(ctype, pcid, hierid) {
+    return new EditorAction(this.COMPONENT, this.MULTI_TOGGLE, {
+      ctype: ctype,
+      pcid: pcid,
+      hierid: hierid
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  multiAction(type) {
+    return new EditorAction(this.COMPONENT, this.MULTI_ACTION, {
+      type: type
     });
   }
 

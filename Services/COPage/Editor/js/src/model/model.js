@@ -7,7 +7,8 @@ export default class Model {
 
   STATE_PAGE = "page";                  // page editing
   STATE_DRAG_DROP = "drag_drop";        // drag drop
-  STATE_COMPONENT = "component";   // component editing (in slate)
+  STATE_COMPONENT = "component";        // component editing (in slate)
+  STATE_MULTI_ACTION = "multi";         // multi action
 
   /**
    *
@@ -15,15 +16,19 @@ export default class Model {
    */
   states = [];
 
+  dom;
+
   /**
    * @type {Object}
    */
   model = {
-    state: this.STATE_PAGE
+    state: this.STATE_PAGE,
+    selectedItems: new Set()
   };
 
   constructor() {
-    this.states = [this.STATE_PAGE, this.STATE_DRAG_DROP, this.STATE_COMPONENT];
+    this.dom = document;
+    this.states = [this.STATE_PAGE, this.STATE_DRAG_DROP, this.STATE_COMPONENT, this.STATE_MULTI_ACTION];
   }
 
   /**
@@ -40,6 +45,48 @@ export default class Model {
    */
   getState() {
       return this.model.state;
+  }
+
+  /**
+   *
+   * @param {string} pcid
+   * @param {string} hierid
+   */
+  toggleSelect(pcid, hierid) {
+    const key = hierid + ":" + pcid;
+    if (this.model.selectedItems.has(key)) {
+      this.model.selectedItems.delete(key);
+    } else {
+      this.model.selectedItems.add(key);
+    }
+  }
+
+  selectNone() {
+    this.model.selectedItems.clear();
+  }
+
+  selectAll() {
+    let key;
+    this.dom.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(pc_area => {
+      key = pc_area.dataset.hierid + ":" + pc_area.dataset.pcid;
+      this.model.selectedItems.add(key);
+    });
+  }
+
+  /**
+   * Do we have selected items?
+   * @return {boolean}
+   */
+  hasSelected() {
+    return (this.model.selectedItems.size  > 0);
+  }
+
+  /**
+   * Get all selected items
+   * @return {Set<string>}
+   */
+  getSelected() {
+    return this.model.selectedItems;
   }
 
 }

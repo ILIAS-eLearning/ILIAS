@@ -57,33 +57,90 @@ export default class UIActionHandler {
     const dispatcher = this.dispatcher;
     const actionFactory = this.actionFactory;
     const client = this.client;
+    let form_sent = false;
 
     const params = action.getParams();
     switch (action.getType()) {
 
       case "dnd.drag":
-        this.ui.hideAddButtons();
-        this.ui.showDropareas();
+        //this.ui.hideAddButtons();
+        //this.ui.showDropareas();
         break;
 
       case "dnd.drop":
-        this.ui.showAddButtons();
-        this.ui.hideDropareas();
+        //this.ui.showAddButtons();
+        //this.ui.hideDropareas();
         break;
 
       case "create.add":
-        // GET ist form action auf ilpageeditorgui
-        // POST: array(3) { ["target"]=> array(1) { [0]=> string(0) "" } ["command2_3_1"]=> string(10) "insert_mob" ["cmd"]=> array(1) { ["exec_2_3_1:25d41b9122de4883a5e099ce3571385d"]=> string(2) "Ok" } }
-        console.log("create.add");
-        console.log(params.ctype);
         if (params.ctype !== "par") {
           client.sendForm(actionFactory.command().copage().createLegacy(params.ctype, params.pcid,
             params.hierid));
+          form_sent = true;
         } else {
           // @todo refactor legacy
           editParagraph(params.hierid + ":" + params.pcid, 'insert', false);
         }
         break;
+
+      case "multi.toggle":
+        this.ui.highlightSelected(model.getSelected());
+        break;
+
+      case "multi.action":
+        let type = params.type;
+
+        // @todo refactor legacy
+        if (["delete", "cut", "copy", "characteristic", "activate"].includes(type)) {
+          client.sendForm(actionFactory.command().copage().multiLegacy(type,
+            Array.from(model.getSelected())));
+          form_sent = true;
+        }
+        if (["all", "none"].includes(type)) {
+          this.ui.highlightSelected(model.getSelected());
+        }
+        break;
+    }
+
+
+    // if we sent a (legacy) form, deactivate everything
+    if (form_sent === true) {
+      this.ui.showPageHelp();
+      this.ui.hideAddButtons();
+      this.ui.hideDropareas();
+      this.ui.disableDragDrop();
+    } else {
+
+      console.log(model.getState());
+
+      switch (model.getState()) {
+        case model.STATE_PAGE:
+          this.ui.showPageHelp();
+          this.ui.showAddButtons();
+          this.ui.hideDropareas();
+          this.ui.enableDragDrop();
+          break;
+
+        case model.STATE_MULTI_ACTION:
+          this.ui.showMultiButtons();
+          this.ui.hideAddButtons();
+          this.ui.hideDropareas();
+          this.ui.disableDragDrop();
+          break;
+
+        case model.STATE_DRAG_DROP:
+          this.ui.showPageHelp();
+          this.ui.hideAddButtons();
+          this.ui.showDropareas();
+          break;
+
+        case model.STATE_COMPONENT:
+          this.ui.showPageHelp();
+          this.ui.hideAddButtons();
+          this.ui.hideDropareas();
+          this.ui.disableDragDrop();
+          break;
+      }
     }
   }
 }
