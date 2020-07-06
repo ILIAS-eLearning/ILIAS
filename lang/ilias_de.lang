@@ -15330,7 +15330,7 @@ task#:#task_derived_tasks#:#To-Do
 task#:#task_tasks_with_deadline#:#Mit Endtermin
 task#:#task_tasks_without_deadline#:#Ohne Endtermin
 task#:#task_deadline#:#Ende
-task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Do.
+task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Dos.
 task#:#task_start#:#Beginn
 task#:#task_task#:#Aufgabe
 task#:#task_details#:#Details
