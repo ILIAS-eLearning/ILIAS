@@ -1266,6 +1266,9 @@ class ilInfoScreenGUI
             return;
         }
         $obj = $this->gui_object->object;
+        if (! ($obj->getRefId() >= 1)) {
+            return;
+        }
 
         $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($obj->getRefId(), $obj->getId());
 
