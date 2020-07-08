@@ -1,5 +1,12 @@
 <#1>
 <?php
+// Patch for https://mantis.ilias.de/view.php?id=28550
+$ilDB->update("settings", ["keyword" => [ilDBConstants::T_TEXT, "db_hotfixes_6"]], ["module" => [ilDBConstants::T_TEXT, "common"], "keyword" => [ilDBConstants::T_TEXT, "db_hotfixes_6_0"]]);
+$hostfix_version = $ilDB->queryF('SELECT value from settings WHERE module=%s AND keyword=%s', [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT], ["common", "db_hotfixes_6"])->fetchAssoc()["value"];
+if (!empty($hostfix_version)) {
+    $nr = $hostfix_version;
+}
+
 if (!$ilDB->tableColumnExists("exc_ass_reminders", "last_send_day")) {
     $field = array(
         'type' => 'date',
