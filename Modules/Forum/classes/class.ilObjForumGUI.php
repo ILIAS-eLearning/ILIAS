@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/UIComponent/SplitButton/classes/class.ilUiLinkToSplitButtonMenuItemAdapter.php';
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
