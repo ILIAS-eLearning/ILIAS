@@ -1668,8 +1668,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     {
         $modalString = '';
         foreach ((array) $this->modalActionsContainer as $modal) {
-            global $DIC;
-
             $modalString .= $this->uiRenderer->render($modal);
         }
         return $modalString;
