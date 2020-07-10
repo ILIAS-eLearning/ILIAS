@@ -126,7 +126,8 @@
 			"last_update" : "2016-05-25",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
+			"approved-date": "YYYY-MM-DD",
+			"info": "remove contrib directory due to #28586"
 		},
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",
