@@ -259,7 +259,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 break;
 
             case "ilcalendarappointmentpresentationgui":
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+                $this->initCategories();
                 $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
                 $ilCtrl->forwardCommand($presentation);
                 break;
@@ -730,22 +730,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
     {
         $this->mode = ilCalendarCategories::MODE_REPOSITORY;
 
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-
-        //if(!isset($_GET['bkid']))
-        //{
-        if ($this->getForceMonthView()) {	// in full container calendar presentation (allows selection of other calendars)
-            //ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
-        } else {							// side block in container content view -> focus on container events only
-            ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int) $_GET['ref_id'], true);
+        $cats = \ilCalendarCategories::_getInstance();
+        if ($this->getForceMonthView()) {
+            // @todo: why not
         }
-        //}
-        //else
-        //{
-        //	// display consultation hours only (in course/group)
-        //	ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
-        //	ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
-        //}
+        elseif (!$cats->getMode()) {
+            $cats->initialize(
+                \ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY,
+                (int) $_GET['ref_id'],
+                true
+            );
+        }
     }
     
     /**
