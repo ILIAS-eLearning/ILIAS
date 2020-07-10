@@ -1670,7 +1670,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         foreach ((array) $this->modalActionsContainer as $modal) {
             global $DIC;
 
-            $modalString .= $DIC->ui()->renderer()->render($modal);
+            $modalString .= $this->uiRenderer->render($modal);
         }
         return $modalString;
     }
@@ -1679,7 +1679,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     {
         if (!$this->objCurrentTopic->isClosed() && $this->is_moderator) {
             $message = $this->handleFormInput($_POST['formData']['cens_message']);
-            if($message === ''){
+            if ($message === '') {
                 $message = $this->handleFormInput($_POST['cens_message']);
             }
             $this->ensureThreadBelongsToForum((int) $this->object->getId(), $this->objCurrentPost->getThread());
@@ -5278,7 +5278,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     $action_button->setDefaultButton($sb_item);
                     ++$i;
                 } else {
-                    global $DIC;
                     if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
                         $modal_tpl = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
                         $form_id = uniqid('form');
@@ -5286,22 +5285,22 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         
                         if ($node->isCensored()) {
                             $URI = $modal_actions['revokeCensorship'];
-                            $modal_tpl->setVariable('BODY', $DIC->language()->txt('forums_info_censor2_post'));
+                            $modal_tpl->setVariable('BODY', $this->lng->txt('forums_info_censor2_post'));
                         } else {
                             $URI = $modal_actions['addCensorship'];
-                            $modal_tpl->setVariable('BODY', $DIC->language()->txt('forums_info_censor_post'));
+                            $modal_tpl->setVariable('BODY', $this->lng->txt('forums_info_censor_post'));
                             $modal_tpl->touchBlock('message');
                         }
                         $this->ctrl->clearParameters($this);
 
                         $modal_tpl->setVariable('FORM_ACTION', $URI);
 
-                        $content = $DIC->ui()->factory()->legacy($modal_tpl->get());
-                        $submit_btn = $DIC->ui()->factory()->button()->primary($DIC->language()->txt('submit'), '#')->withOnLoadCode(function ($id) use ($form_id) {
+                        $content = $this->uiFactory->legacy($modal_tpl->get());
+                        $submit_btn = $this->uiFactory->button()->primary($this->lng->txt('submit'), '#')->withOnLoadCode(function ($id) use ($form_id) {
                             return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
                         });
-                        $modal = $DIC->ui()->factory()->modal()->roundtrip($DIC->language()->txt($lng_id), $content)->withActionButtons([$submit_btn]);;
-                        $sb_item = $DIC->ui()->factory()->button()->shy($DIC->language()->txt($lng_id), '#')->withOnClick(
+                        $modal = $this->uiFactory->modal()->roundtrip($this->lng->txt($lng_id), $content)->withActionButtons([$submit_btn]);
+                        $sb_item = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
                             $modal->getShowSignal()
                         );
 
@@ -5315,9 +5314,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                          {
                              $URI = $modal_actions['delete'];
                              $this->ctrl->clearParameters($this);
-                             $modal = $DIC->ui()->factory()->modal()->interruptive($DIC->language()->txt($lng_id), $DIC->language()->txt('forums_info_delete_post'), $URI);
+                             $modal = $this->uiFactory->modal()->interruptive($this->lng->txt($lng_id), $this->lng->txt('forums_info_delete_post'), $URI);
 
-                             $sb_item = $DIC->ui()->factory()->button()->shy($DIC->language()->txt($lng_id), '#')->withOnClick(
+                             $sb_item = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
                                  $modal->getShowSignal()
                              );
 
