@@ -12900,7 +12900,6 @@ rbac#:#prg_manage_members#:#学習プログラムのメンバーを管理
 rbac#:#prg_read#:#ユーザは学習プログラムへ読み込みアクセス権があります。
 rbac#:#prg_visible#:#学習プログラムが表示されます。
 rbac#:#prg_write#:#ユーザは学習プログラムの設定を編集できます。
-rbac#:#prgr#:#ユーザは学習プログラムへリンクをコピーできます。
 rbac#:#prgr_delete#:#ユーザは学習プログラムへリンクを移動または削除できます
 rbac#:#prgr_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#prgr_visible#:#学習プログラム へのリンクを表示して使用できます
@@ -16178,3 +16177,4 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable

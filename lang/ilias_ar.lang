@@ -16167,7 +16167,6 @@ awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
 common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
 rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
 rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
@@ -16178,3 +16177,4 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
