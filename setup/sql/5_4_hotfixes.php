@@ -1328,3 +1328,11 @@ if (!$idx) {
     $setting->set('ilfrmreadidx1', 1);
 }
 ?>
+<#90>
+<?php
+
+$query = 'update object_data set offline = 1 where type = '.
+    $ilDB->quote('crs',\ilDBConstants::T_TEXT) . '  and offline IS NULL';
+$ilDB->manipulate($query);
+
+?>
