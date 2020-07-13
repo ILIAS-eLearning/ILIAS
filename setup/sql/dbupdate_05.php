@@ -4364,3 +4364,11 @@ if (!$ilDB->tableColumnExists('copg_pc_def', 'order_nr'))
     ));
 }
 ?>
+<#5671>
+<?php
+
+$query = 'update object_data set offline = 1 where type = '.
+    $ilDB->quote('crs',\ilDBConstants::T_TEXT) . '  and offline IS NULL';
+$ilDB->manipulate($query);
+
+?>
