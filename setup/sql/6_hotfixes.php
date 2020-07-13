@@ -314,3 +314,13 @@ $ilCtrlStructureReader->getStructure();
 /** @var $ilDB ilDBInterface */
 $ilDB->manipulateF("DELETE FROM cron_job WHERE job_id  = %s", ['text'], ['bgtsk_gc']);
 ?>
+
+<#25>
+<?php
+
+$query = 'update object_data set offline = 1 where type = '.
+    $ilDB->quote('crs',\ilDBConstants::T_TEXT) . '  and offline IS NULL';
+$ilDB->manipulate($query);
+
+?>
+
