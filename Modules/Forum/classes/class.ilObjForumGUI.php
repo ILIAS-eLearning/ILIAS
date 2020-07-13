@@ -335,7 +335,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'deletePostingDraft',
             'revokeCensorship',
             'addCensorship',
-            'getModalActions',
         );
 
         if (!in_array($cmd, $exclude_cmds)) {
@@ -1664,7 +1663,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     /**
      * @return string
      */
-    private function getModalActions()
+    private function getModalActions() : string
     {
         $modalString = '';
         foreach ((array) $this->modalActionsContainer as $modal) {
@@ -5304,7 +5303,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                         $this->modalActionsContainer[] = $modal;
 
-                        $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item));
+                        $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item, $this->uiRenderer));
                         continue;
                      }
                      elseif ('delete' === $lng_id) {
@@ -5320,7 +5319,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                              $this->modalActionsContainer[] = $modal;
 
-                             $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item));
+                             $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item, $this->uiRenderer));
                              continue;
                          }
                     }

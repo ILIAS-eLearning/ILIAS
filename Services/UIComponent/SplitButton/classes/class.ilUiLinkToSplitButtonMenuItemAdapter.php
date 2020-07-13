@@ -16,20 +16,25 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
     protected $link;
 
     /**
-     * @param ilButtonBase $button
+     * @var \ILIAS\UI\Renderer
      */
-    public function __construct(\ILIAS\UI\Component\Button\Button $link)
+    protected $renderer;
+
+    /**
+     * @param ilButtonBase $button
+     *                            
+     */
+    public function __construct(\ILIAS\UI\Component\Button\Button $link, \ILIAS\UI\Renderer $renderer)
     {
         $this->link = $link;
+        $this->renderer = $renderer;
     }
 
     /**
      * @return string
      */
-    public function getContent()
-    {
-        global $DIC;
-        
-        return $DIC->ui()->renderer()->render([$this->link]);
+    public function getContent() : string
+    {   
+        return $this->renderer->render([$this->link]);
     }
 }
