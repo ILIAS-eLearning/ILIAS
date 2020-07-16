@@ -1,39 +1,29 @@
 <?php
-
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronManager.php";
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilCronManagerGUI
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
- *
  * @ilCtrl_Calls ilCronManagerGUI: ilPropertyFormGUI
  * @ingroup ServicesCron
  */
 class ilCronManagerGUI
 {
-    /**
-     * @var \ilLanguage
-     */
+    /** @var \ilLanguage */
     protected $lng;
-
-    /**
-     * @var \ilCtrl
-     */
+    /** @var \ilCtrl */
     protected $ctrl;
-
-    /**
-     * @var \ilSetting
-     */
+    /** @var \ilSetting */
     protected $settings;
-    
-    /**
-     * @var \ilTemplate
-     */
+    /** @var \ilTemplate */
     protected $tpl;
+    /** @var Factory */
+    private $uiFactory;
+    /** @var Renderer */
+    private $uiRenderer;
 
     /**
      * ilCronManagerGUI constructor.
@@ -46,6 +36,8 @@ class ilCronManagerGUI
         $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
 
         $this->lng->loadLanguageModule('cron');
     }
@@ -73,11 +65,35 @@ class ilCronManagerGUI
         } else {
             $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         }
-        ilUtil::sendInfo($this->lng->txt('cronjob_last_start') . ": " . $tstamp);
-        
-        include_once "Services/Cron/classes/class.ilCronManagerTableGUI.php";
+
+        $message = $this->uiFactory->messageBox()->info($this->lng->txt('cronjob_last_start') . ': ' . $tstamp);
+
+        $title_input = $this->uiFactory->input()->field()->text("Title");
+        $select = $this->uiFactory->input()->field()->select("Selection", ["one" => "One", "two" => "Two", "three" => "Three"]);
+        $with_def = $this->uiFactory->input()->field()->text("With Default")->withValue("Def.Value");
+        $init_hide = $this->uiFactory->input()->field()->text("Hidden initially");
+
+        $action = '';
+        global $DIC;
+        $filter = $DIC->uiService()->filter()->standard(
+            "filter_ID",
+            $action,
+            [
+                "title" => $title_input,
+                "select" => $select,
+                "with_def" => $with_def,
+                "init_hide" => $init_hide,
+            ],
+            [true, true, true, false],
+            true,
+            true
+        );
+
         $tbl = new ilCronManagerTableGUI($this, "render");
-        $this->tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent(implode('', [
+            $this->uiRenderer->render([$message, $filter]),
+            $tbl->getHTML()
+        ]));
     }
     
     public function edit(ilPropertyFormGUI $a_form = null)
@@ -175,9 +191,10 @@ class ilCronManagerGUI
         }
 
         $this->ctrl->setParameter($this, "jid", $a_job_id);
-        
-        $data = array_pop(ilCronManager::getCronJobData($job->getId()));
-        
+
+        $jobData = ilCronManager::getCronJobData($job->getId());
+        $data = array_pop($jobData);
+
         include_once("Services/Cron/classes/class.ilCronJob.php");
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -398,7 +415,8 @@ class ilCronManagerGUI
         $cgui = new ilConfirmationGUI();
         
         if (sizeof($jobs) == 1) {
-            $job_id = array_pop(array_keys($jobs));
+            $jobKeys = array_keys($jobs);
+            $job_id = array_pop($jobKeys);
             $job = array_pop($jobs);
             $title = $job->getTitle();
             if (!$title) {
