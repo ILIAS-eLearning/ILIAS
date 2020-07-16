@@ -67,10 +67,15 @@
 	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, ViewMode?)>
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, Period?, ViewMode?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
+
+<!ELEMENT Period (Start, End)>
+<!ATTLIST Period
+		withTime CDATA #IMPLIED
+>
 
 <!-- Offline status => course is not available for course members -->
 <!ELEMENT NotAvailable EMPTY>
