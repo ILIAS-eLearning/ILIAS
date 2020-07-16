@@ -294,6 +294,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'CancellationEnd':
             case 'MinMembers':
                 break;
+
+            case 'WelcomeMail':
+                if (array_key_exists('status', $a_attribs)) {
+                    $this->course_obj->setAutoNotification((bool) $a_attribs['status']);
+                }
+                break;
         }
     }
 
