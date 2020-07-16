@@ -67,7 +67,7 @@
 	action (Attach|Detach) #IMPLIED
 >
 <!-- Description of course settings -->
-<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, Period?, ViewMode?)>
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,TargetGroup?,Contact?,Registration?, Period?, ViewMode?, WelcomeMail?)>
 
 <!-- Availability -->
 <!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
@@ -148,3 +148,9 @@
 		id CDATA #REQUIRED>
 
 <!ELEMENT ViewMode (#PCDATA)>
+
+<!ELEMENT WelcomeMail EMPTY>
+<!ATTLIST WelcomeMail
+		status (0,1) #REQUIRED
+>
+
