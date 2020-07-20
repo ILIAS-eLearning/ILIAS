@@ -367,6 +367,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('LINKS', $default_renderer->render($link_list));
         }
 
+        $modals = $component->getModals();
+        if ($modals) {
+            $tpl->setVariable('MODALS', $default_renderer->render($modals));
+        }
+
         $tpl->setVariable('TEXT', $component->getText());
 
         $perm_url = $component->getPermanentURL();
