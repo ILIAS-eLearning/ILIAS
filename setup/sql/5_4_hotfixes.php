@@ -1336,3 +1336,17 @@ $query = 'update object_data set offline = 1 where type = '.
 $ilDB->manipulate($query);
 
 ?>
+
+<#91>
+<?php
+
+$ilDB->modifyTableColumn(
+        'ldap_role_assignments',
+        'rule_id',
+    [
+            'type' => \ilDBConstants::T_INTEGER,
+            'length' => 4,
+            'notnull' => false
+    ]
+);
+?>
