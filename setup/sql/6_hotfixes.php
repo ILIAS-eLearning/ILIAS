@@ -324,3 +324,17 @@ $ilDB->manipulate($query);
 
 ?>
 
+<#26>
+<?php
+
+$ilDB->modifyTableColumn(
+    'ldap_role_assignments',
+    'rule_id',
+    [
+        'type' => \ilDBConstants::T_INTEGER,
+        'length' => 4,
+        'notnull' => false
+    ]
+);
+?>
+
