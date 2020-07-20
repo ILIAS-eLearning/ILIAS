@@ -369,7 +369,9 @@ class Renderer extends AbstractComponentRenderer
 
         $modals = $component->getModals();
         if ($modals) {
-            $tpl->setVariable('MODALS', $default_renderer->render($modals));
+            $tpl->setVariable('MODALS', $default_renderer->render(
+                array_merge(...$modals)
+            ));
         }
 
         $tpl->setVariable('TEXT', $component->getText());
