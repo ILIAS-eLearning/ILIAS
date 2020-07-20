@@ -5,9 +5,9 @@
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls;
+use ILIAS\UI\Component\Modal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Link;
-use ILIAS\UI\NotImplementedException;
+use ILIAS\UI\Component\Button;
 
 /**
  * Footer
@@ -20,7 +20,8 @@ class Footer implements MainControls\Footer
 
     private $links = [];
 
-    private $modals = [];
+    /** @var array<Modal\RoundTrip, Button\Shy>[] */
+    private $modalsWithTriggers = [];
 
     /**
      * @var string
@@ -29,7 +30,7 @@ class Footer implements MainControls\Footer
 
     public function __construct(array $links, string $text = '')
     {
-        $types = [\ILIAS\UI\Component\Link\Link::class, \ILIAS\UI\Component\Button\Shy::class,];
+        $types = [\ILIAS\UI\Component\Link\Link::class,];
         $this->checkArgListElements('links', $links, $types);
         $this->links = $links;
         $this->text = $text;
@@ -59,16 +60,15 @@ class Footer implements MainControls\Footer
 
     public function getModals() : array
     {
-        return $this->modals;
+        return $this->modalsWithTriggers;
     }
 
-    public function withModals(array $modals) : MainControls\Footer
-    {
-        $types = [\ILIAS\UI\Component\Modal\Modal::class,];
-        $this->checkArgListElements('modals', $modals, $types);
+    public function withAdditionalModalAndTrigger(
+        Modal\RoundTrip $roundTripModal,
+        Button\Shy $shyButton
+    ) : \ILIAS\UI\Component\MainControls\Footer {
+        $shyButton->withOnClick($roundTripModal->getShowSignal());
 
-        $clone = clone $this;
-        $clone->modals = $modals;
-        return $clone;
+        $this->modalsWithTriggers[] = [$roundTripModal, $shyButton];
     }
 }

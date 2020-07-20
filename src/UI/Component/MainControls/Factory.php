@@ -312,12 +312,13 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Footer is a unique page section to accommodate links and shy buttons that
-     *     are not being used on a regular basis, such as links to the pages's
-     *     imprint or a privacy policy document.
+     *     The Footer is a unique page section to accommodate links and shy buttons
+     *     triggering Round Trip Modals that are not being used on a regular basis,
+     *     such as links to the pages's imprint or a privacy policy document.
      *
      *   composition: >
-     *     The Footer is composed of a list of links or shy buttons and an optional text-part.
+     *     The Footer is composed of a list of Links or Shy Buttons triggering
+     *     Round Trip Modals and an optional text-part.
      *
      * context:
      *   - The Footer is used with the Standard Page.
@@ -333,7 +334,7 @@ interface Factory
      *        it SHOULD have attached a permanent URL for the current page/object.
      * ----
      *
-     * @param  \ILIAS\UI\Component\Link\Standard[]|\ILIAS\UI\Component\Button\Shy[] $links
+     * @param  \ILIAS\UI\Component\Link\Standard[] $links
      * @param  string $text
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
