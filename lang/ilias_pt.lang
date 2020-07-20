@@ -2919,126 +2919,126 @@ cntr#:#sorting_new_items_direction#:#Ordenar direção para novos objetos
 cntr#:#sorting_new_items_order#:#Ordenar para novos objetos
 cntr#:#sorting_new_items_position#:#Posição para novos objetos
 cntr#:#tab_back_to_repository#:#Voltar ao repositório
-common#:#3rd_party_software#:#Cópia de
+common#:#3rd_party_software#:#Software de terceiros
 common#:#absolute_path#:#Caminho absoluto
-common#:#accept_usr_agreement#:#Copiar
-common#:#access#:#Contar
+common#:#accept_usr_agreement#:#Aceitar termos de serviço?
+common#:#access#:#Acesso
 common#:#access_expired#:#expirado
 common#:#access_free_granted#:#Definir o(s) utilizador(es) selecionado(s) para acesso ilimitado
-common#:#access_from#:#Cursos
+common#:#access_from#:#Acesso (de)
 common#:#access_public#:#Público
-common#:#access_restricted#:#Definir o(s) utilizador(es) selecionado(s) para acesso imitado
-common#:#access_scope#:#Criar
-common#:#access_unlimited#:#Data de criação
-common#:#access_until#:#Criado a
-common#:#access_users#:#Registado em utilizadores
-common#:#accesscount_registered_users#:#País
-common#:#accessFree#:#País (entrada de texto livre
-common#:#accessRestrict#:#Curso
+common#:#access_restricted#:#Definir o(s) utilizador(es) selecionado(s) para acesso limitado
+common#:#access_scope#:#Acesso
+common#:#access_unlimited#:#Ilimitado
+common#:#access_until#:#Válido até
+common#:#access_users#:#Usuários conectados
+common#:#accesscount_registered_users#:#Leia por número de usuários distintos do ILIAS
+common#:#accessFree#:#Remover data 'válida até'
+common#:#accessRestrict#:#Definir data 'válida até'
 common#:#account_expires_body#:#A sua conta é limitada, vai expirar a:
-common#:#account_expires_subject#:#Criar estilo
-common#:#action#:#Se estiver ativado, todos os utilizadores que ativaram as notificações para certos fóruns ou grupos de fóruns receberão diariamente um e-mail de notificação sobre todos os posts novos ou alterados, mas nenhuma notificação imediata para cada posting submetido.
-common#:#action_aborted#:#Se estiver ativado, o índice de procura lucene será atualizado. Configure o servidor lucene em ’Administração -> Procura’.
-common#:#actions#:#Se estiver ativado, todos os utilizadores que querem ser informados sobre novos posts em grupos de fóruns especificados, receberão notificações por correio.
+common#:#account_expires_subject#:#Sua conta expira
+common#:#action#:#Açao
+common#:#action_aborted#:#Ação abortada
+common#:#actions#:#Ações
 common#:#activate#:#Definir ativo
-common#:#activate_assessment_logging#:#Novas notificações de correio
-common#:#activate_https#:#Se estiver ativado, todos os utilizadores, que querem ser informados sobre o novo correio, receberão notificações por correio externo. Ative a opção ‘%s’ antes de usar esta função.
-common#:#activate_tracking#:#Curso
-common#:#activation#:#Link do curso
-common#:#active#:#Escolha um curso para criar um novo link.
-common#:#add#:#Criar link de curso
-common#:#add_condition#:#Editar curso
+common#:#activate_assessment_logging#:#Ativar log de teste e avaliação
+common#:#activate_https#:#HTTPS por ILIAS <br /> (Login)
+common#:#activate_tracking#:#Ativação
+common#:#activation#:#Editar horários
+common#:#active#:#Ativo
+common#:#add#:#Adicionar
+common#:#add_condition#:#Adicionar pré-condição
 common#:#add_entry#:#Adicionar/Editar entrada
-common#:#add_member#:#Galeria dos membros do curso
-common#:#add_new_user_defined_field#:#Reprovado
-common#:#add_note#:#Novo curso
+common#:#add_member#:#Adicionar membro
+common#:#add_new_user_defined_field#:#Adicionar função de membro
+common#:#add_note#:#Adicionar nota
 common#:#add_parameter#:#Novo parâmetro
-common#:#add_remove_edit_entries_of_main_menu#:#[Acesso negado]
-common#:#add_translation#:#Titulo do curso
+common#:#add_remove_edit_entries_of_main_menu#:#Adicionar, remover ou editar entradas do menu principal
+common#:#add_translation#:#Adicionar tradução
 common#:#add_user#:#Adicionar utilizador local
 common#:#add_user_defined_field#:#Adicionar novo campo
-common#:#added_new_condition#:#Novo condição criado.
-common#:#additional_info#:#Adicionar curso
-common#:#address#:#Curso adicionado
+common#:#added_new_condition#:#Nova condição criado.
+common#:#additional_info#:#Informação adicional
+common#:#address#:#Endereço
 common#:#admin_force_noti#:#Notificação ativa
 common#:#administrate_users#:#Administração de utilizadores local
-common#:#administration#:#Cancelar a inscrição do curso
-common#:#administrator#:#Palavra-passe atual
-common#:#adopt#:#Cortar
+common#:#administration#:#Administração
+common#:#administrator#:#Administrador
+common#:#adopt#:#Adotar
 common#:#advanced_editing_allow_html_tags#:#Autorizar os tags HTML selecionados para a edição de texto
-common#:#advanced_editing_assessment_settings#:#Cortar
+common#:#advanced_editing_assessment_settings#:#Tags HTML permitidas para a ferramenta ILIAS Test and Assessment
 common#:#advanced_editing_frm_post_settings#:#Definições de posts de fóruns
 common#:#advanced_editing_rep_page_editing#:#Ativar edição de conteúdo no repositório
-common#:#advanced_editing_rep_page_editing_desc#:#Base de dados
+common#:#advanced_editing_rep_page_editing_desc#:#Esse recurso permite adicionar texto / mídia às páginas de uma categoria, curso, grupo ou pasta. Se desativado, o conteúdo existente será oculto.
 common#:#advanced_editing_required_tags#:#São preciso os seguintes tags HTML: %s
 common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para a ferramenta de inquérito ILIAS
-common#:#adve_assessment_settings#:#Versão atual da base de dados
+common#:#adve_assessment_settings#:#Configurações de teste e avaliação
 common#:#adve_frm_post_settings#:#Posts de fóruns
 common#:#adve_general_settings#:#Definições gerais
-common#:#adve_survey_settings#:#Data
+common#:#adve_survey_settings#:#Configurações da pesquisa
 common#:#agree_date#:#Acordado
-common#:#all#:#Calendário
+common#:#all#:#Tudo
 common#:#all_global_roles#:#Funções globais
 common#:#all_local_roles#:#Funções locais (todas)
-common#:#all_objects#:#Host da base de dados
+common#:#all_objects#:#Todos os objetos
 common#:#all_roles#:#Todas as funções
 common#:#all_topics#:#Todos os tópicos
-common#:#all_users#:#Nome da base de dados
+common#:#all_users#:#Todos os usuários
 common#:#allow_assign_users#:#Autoriza a atribuição de utilizador para administradores locais.
 common#:#allow_override_alert#:#As regras para .htaccess não são corretamente interpretadas.
-common#:#allow_register#:#Dia
-common#:#allow_user_toggle_noti#:#Dias
-common#:#already_delivered_files#:#A base de dados necessita de uma atualização!
-common#:#and#:#Palavra-passe da base de dados
-common#:#angry#:#Tipo de base de dados
+common#:#allow_register#:#Disponível no formulário de registro para novos usuários
+common#:#allow_user_toggle_noti#:#É permitido ao membro desativar a notificação
+common#:#already_delivered_files#:#Arquivos Enviados
+common#:#and#:#e
+common#:#angry#:#Bravo
 common#:#anonymous#:#Anónimo
-common#:#answers#:#Utilizador da base de dados
-common#:#any_language#:#Versão da base de dados
+common#:#answers#:#Respostas
+common#:#any_language#:#Qualquer língua
 common#:#apache_auth#:#Autenticação Apache
-common#:#application_completed#:#Definir para inativo
-common#:#application_date#:#Predefinição
+common#:#application_completed#:#Aplicação concluída
+common#:#application_date#:#Data de inscrição
 common#:#applications#:#Aplicações
 common#:#apply#:#Aplicar
-common#:#apply_filter#:#Idioma predefinido
-common#:#appointment#:#Permissões predefinidas
+common#:#apply_filter#:#Aplicar filtro
+common#:#appointment#:#Compromisso
 common#:#approve_date#:#Aprovado em
 common#:#approve_recipient#:#ID de login do aprovador
-common#:#archive#:#Função predefinida
+common#:#archive#:#Arquivo
 common#:#archive_broken#:#O arquivo parece estar partido ou vazio.
-common#:#are_you_sure#:#Funções predefinidas
-common#:#ass_log_admin#:#Administração de dados de registo
-common#:#ass_log_count_datasets#:#Entradas de registo
-common#:#ass_log_delete_entries#:#Apagar entradas de registo
-common#:#ass_log_delete_no_selection#:#Selecione pelo menos um teste para apagar os dados de registo
-common#:#ass_log_deleted#:#Os dados de registo para os testes selecionados foram apagados
-common#:#ass_log_output#:#Saída de dados de registo
-common#:#assessment_imap_line_color#:#Película predefinida
-common#:#assessment_log#:#Película/estilo predefinido
+common#:#are_you_sure#:#Você tem certeza?
+common#:#ass_log_admin#:#Administração de dados de registro
+common#:#ass_log_count_datasets#:#Entradas de registro
+common#:#ass_log_delete_entries#:#Apagar entradas de registro
+common#:#ass_log_delete_no_selection#:#Selecione pelo menos um teste para apagar os dados de registro
+common#:#ass_log_deleted#:#Os dados de registro para os testes selecionados foram apagados
+common#:#ass_log_output#:#Saída de dados de registro
+common#:#assessment_imap_line_color#:#Cor da linha do mapa de imagem
+common#:#assessment_log#:#Crie um log de teste e avaliação por um período específico
 common#:#assessment_log_datetime#:#Data/Hora
-common#:#assessment_log_deleted#:#Estilo predefinido
+common#:#assessment_log_deleted#:#Os dados do log de Teste e Avaliação foram excluídos na administração
 common#:#assessment_log_for_test#:#Para teste
-common#:#assessment_log_log_entries#:#entradas de registo
+common#:#assessment_log_log_entries#:#entradas de registro
 common#:#assessment_log_logging#:#Logging
-common#:#assessment_log_manual_scoring_activate#:#Vista predefinida do repositório
+common#:#assessment_log_manual_scoring_activate#:#Ative a pontuação manual para
 common#:#assessment_log_manual_scoring_desc#:#Se a pontuação manual estiver ativada para um tipo de pergunta, todas as perguntas deste tipo de pergunta podem ser manualmente pontuadas por um autor do teste. Tenha cuidado com estas definições porque uma pontuação manual tardia dos tipos de pergunta automaticamente pontuadas pode causar problemas judiciais!
 common#:#assessment_log_question#:#Pergunta
-common#:#assessment_log_text#:#Mensagem de registo
+common#:#assessment_log_text#:#Mensagem de registro
 common#:#assessment_settings_reporting_language#:#Idioma de relatório
 common#:#assf_allowed_questiontypes#:#Tipos de perguntas disponíveis
 common#:#assf_allowed_questiontypes_desc#:#Todos os tipos de perguntas selecionados estarão disponíveis nesta instalação de ILIAS. Se não quiser autorizar a criação de certo tipo de pergunta nesta instalação, tem de retirar a seleção no quadrado associado.
 common#:#assf_questiontypes#:#Definições de perguntas
-common#:#assign#:#Apagar
-common#:#assign_global_role#:#Apagado
+common#:#assign#:#Atribuir
+common#:#assign_global_role#:#Atribuir à função global
 common#:#assign_local_role#:#Atribuir à função local
 common#:#assigned_members#:#Membros atribuídos
 common#:#assigned_roles#:#Funções atribuídas
 common#:#associated_user#:#Utilizador associado
-common#:#astounded#:#Se estiver ativado, as contas do utilizador serão apagadas %s dias após inativação.
+common#:#astounded#:#Surpreendido
 common#:#at_least_one_style#:#Pelo menos um estilo tem de permanecer ativado.
-common#:#attachment#:#Dias passados desde a inativação
-common#:#attachments#:#As contas serão apagadas quando tiver passado este período de tempo desde a inativação.
+common#:#attachment#:#Anexo
+common#:#attachments#:#Anexos
 common#:#attempts#:#Tentativas
-common#:#auth_active_roles#:#Apagar
+common#:#auth_active_roles#:#Funções globais disponíveis no formulário de inscrição
 common#:#auth_allow_local#:#Autorizar autenticação local
 common#:#auth_cas#:#CAS
 common#:#auth_cas_allow_local_desc#:#Isto permite aos utilizadores CAS autenticarem-se com o seu nome de utilizador ILIAS local e uma palavra-passe local.
@@ -3056,13 +3056,13 @@ common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_enable#:#Ativar suporte LDAP
 common#:#auth_ldap_migration#:#Migração de conta
 common#:#auth_ldap_migration_info#:#Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação LDAP.
-common#:#auth_local#:#Entregar
+common#:#auth_local#:#ILIAS Auth
 common#:#auth_login_instructions#:#Instruções apresentadas na página de login
 common#:#auth_mode#:#Modo de autenticação
 common#:#auth_mode_not_changed#:#(Nada mudou)
 common#:#auth_mode_roles_changed#:#Modo de autenticação alterado para esta função
-common#:#auth_new_account_mail_desc#:#Departamento
-common#:#auth_per_default#:#Descrição
+common#:#auth_new_account_mail_desc#:#Envie um novo email da conta para o usuário, se o usuário for gerado automaticamente. Uma senha será gerada apenas se "Permitir autenticação local" também estiver ativado.
+common#:#auth_per_default#:#Por padrão
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_configure#:#Configurar autenticação RADIUS
 common#:#auth_radius_enable#:#Ativar suporte RADIUS
@@ -3071,12 +3071,12 @@ common#:#auth_radius_port#:#Porta
 common#:#auth_radius_server#:#Servidores
 common#:#auth_radius_server_desc#:#Pode adicionar múltiplos servidores separados por vírgula. Os servidores são rodados no modo Round robin, quando consultados.
 common#:#auth_radius_shared_secret#:#Segredo partilhado
-common#:#auth_remark_non_local_auth#:#Descrição
+common#:#auth_remark_non_local_auth#:#Ao selecionar outro modo de autenticação que não seja o banco de dados ILIAS, você não poderá mais alterar o nome de login e a senha do usuário.
 common#:#auth_role_auth_mode#:#Modo de autenticação
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Personalizado
 common#:#auth_select#:#Selecionar modo de autenticação
-common#:#auth_selection#:#Palavra-passe desejada
+common#:#auth_selection#:#Opções de login
 common#:#auth_settings#:#Definições de autenticação
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_instructions#:#Certifique-se que lê README relativamente às instruções sobre como configurar o suporte Shibboleth para ILIAS.
@@ -3099,12 +3099,12 @@ common#:#auth_soap_user_default_role_desc#:#Esta função é atribuída a utiliz
 common#:#auth_user_default_role#:#Detalhes
 common#:#authenticate_ilias#:#Apagar contas de utilizador inativas
 common#:#authentication_settings#:#Autenticação
-common#:#author#:#Dias passados desde o último login
+common#:#author#:#Autor
 common#:#authoring_mode#:#Modo de autorização
-common#:#authors#:#Todas as contas do utilizador sem login durante o período de tempo definido serão apagadas.
+common#:#authors#:#Autores
 common#:#autocomplete_more#:#mais
-common#:#available#:#Desativado
-common#:#back#:#Desativar manutenção prolongada
+common#:#available#:#Disponível
+common#:#back#:#Voltar
 common#:#back_to_crs_content#:#Voltar ao conteúdo do curso
 common#:#back_to_fold_content#:#Voltar ao conteúdo da pasta
 common#:#back_to_grp_content#:#Voltar ao conteúdo do grupo
@@ -3113,114 +3113,114 @@ common#:#basedn#:#BaseDN
 common#:#basic_settings#:#Definições básicas
 common#:#before#:#antes
 common#:#behind#:#Atrás
-common#:#benchmark#:#Introduza os nomes dos utilizadores (separados por vírgulas) daqueles utilizadores que devem receber um relatório diário com os utilizadores que atualmente excedem a quota do disco.
-common#:#benchmarks#:#Domínio
+common#:#benchmark#:#Referência
+common#:#benchmarks#:#Referências
 common#:#bib_data#:#Dados bibliográficos
-common#:#birthday#:#Baixo
-common#:#bkm_import#:#Download
+common#:#birthday#:#Referências
+common#:#bkm_import#:#Importar favoritos
 common#:#bkm_import_ok#:#Favoritos e %d pastas de favoritos %d importados com sucesso.
-common#:#bkm_sendmail#:#Definições de download
-common#:#block#:#Download todos os ficheiros devolvidos
-common#:#bm#:#Rascunhos
-common#:#bm_add_to_ilias#:#Editar conteúdo
-common#:#bmf#:#Editar
-common#:#bold#:#Editar limitação da adesão
+common#:#bkm_sendmail#:#Enviar como anexo
+common#:#block#:#Bloco
+common#:#bm#:#Favorito
+common#:#bm_add_to_ilias#:#Adicionar aos favoritos do ILIAS
+common#:#bmf#:#Pasta de Favoritos
+common#:#bold#:#Negrito
 common#:#bookings#:#Reservas
 common#:#bookmark_added#:#O favorito foi criado.
 common#:#bookmark_folder_new#:#Editar conteúdo da página
-common#:#bookmark_new#:#Editar propriedades
-common#:#bookmark_target#:#Editar estilo
-common#:#bookmarks#:#Editar operações
-common#:#bookmarks_of#:#Editar página
-common#:#breadcrumb_navigation#:#O endereço de email que inseriu é inválido!
-common#:#btn_add#:#Ativar
-common#:#btn_back#:#Ativado
+common#:#bookmark_new#:#Nova pasta de favoritos
+common#:#bookmark_target#:#Alvo
+common#:#bookmarks#:#Favoritos
+common#:#bookmarks_of#:#Favoritos de
+common#:#breadcrumb_navigation#:#Navegação Breadcrumb 
+common#:#btn_add#:#Adicionar
+common#:#btn_back#:#Voltar
 common#:#btn_next#:#Continuar
-common#:#btn_previous#:#Se esta opção estiver desativada, a funcionalidade ‘Posting com pseudónimo’ deixa de estar disponível em fóruns.
-common#:#btn_remove_system#:#Isto permite-lhe definir ícones personalizados para categorias individuais, cursos e grupos. A secção das propriedades das categorias, cursos e grupos fornece uma caixa de diálogo para carregar imagens.
-common#:#btn_undelete#:#Permite descarregar uma pasta incluindo subestruturas como ficheiro zip.
+common#:#btn_previous#:#Anterior
+common#:#btn_remove_system#:#Remover do sistema
+common#:#btn_undelete#:#Restaurar
 common#:#buddy_allow_to_contact_me_no#:#Não recebe pedidos de contacto
 common#:#buddy_allow_to_contact_me_yes#:#Recebe pedidos de contacto
 common#:#building_export_file#:#A criar ficheiro de exportação...
-common#:#by#:#Permite a exportação dos dados do utilizador dos módulos de aprendizagem SCORM
+common#:#by#:#por
 common#:#bytes#:#Bytes
 common#:#cal_from#:#De:
 common#:#cal_until#:#Até:
-common#:#calendar#:#Dá aos autores a oportunidade de adicionar comentários ao registo do histórico das páginas.
-common#:#cancel#:#Ativar ajuda de palavra-passe
+common#:#calendar#:#Calendário
+common#:#cancel#:#Cancelar
 common#:#cancel_file_upload#:#Tem a certeza que quer cancelar todos os uploads pendentes?
-common#:#cannot_find_xml#:#Mostrar dados do protocolo (SCORM)
-common#:#cannot_uninstall_language_in_use#:#Área pública aberta para motores de busca da Internet (p. ex Google).<br />O módulo Apache ‘mod_rewrite’ é necessário para esta extensão. Certifique-se que tem as permissões apropriadas para usar as configurações .htaccess.
-common#:#cannot_uninstall_systemlanguage#:#Ativar lixo
-common#:#cannot_unzip_file#:#Permite aos clientes WebDAV aceder ao repositório como uma pasta web. Os utilizadores podem abrir pastas da web usando a ação ‘Abrir como pasta web’ no repositório ou se introduzirem o seguinte endereço num cliente WebDAV: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#cannot_find_xml#:#Não foi possível encontrar nenhum arquivo XML.
+common#:#cannot_uninstall_language_in_use#:#Você não pode desinstalar o idioma atualmente em uso!
+common#:#cannot_uninstall_systemlanguage#:#Você não pode desinstalar o idioma do sistema!
+common#:#cannot_unzip_file#:#Não é possível descompactar o arquivo.
 common#:#cant_deactivate_if_users_assigned#:#Não pode desativar um estilo, se ainda houver utilizadores atribuídos a ele.
-common#:#cat#:#A extração do arquivo e respetivos diretórios falhou. Provavelmente porque não tem a permissão para criar pastas ou categorias dentro deste objeto.
-common#:#cat_add#:#A autenticação falhou. Talvez não tenha um certificado de utilizador válido ou o seu smart card não está inserido.
-common#:#cat_added#:#Razão: Contagem de parâmetros errada
+common#:#cat#:#Categoria
+common#:#cat_add#:#Adicionar categoria
+common#:#cat_added#:#Categoria adicionada
 common#:#cat_copy_threads_info#:#Decida que itens da categoria devem ser copiados, associados ou até omitidos.
-common#:#cat_edit#:#Erro na linha
-common#:#cat_new#:#Nenhum ficheiro de idioma encontrado!
+common#:#cat_edit#:#Configurações de categoria
+common#:#cat_new#:#Nova categoria
 common#:#cat_wizard_page#:#Copiar categoria (passo 2/2)
-common#:#categories#:#Erro a iniciar o analisador.
-common#:#categories_imported#:#Erro de destinatário
-common#:#catr#:#O carregamento falhou, pois esta é uma pasta, o tamanho do ficheiro é 0 bytes ou excedeu o tamanho máx. de carregamento ou o ficheiro entretanto mudou de nome.
-common#:#catr_edit_info#:#Apenas 1 parâmetro!
-common#:#catr_new#:#Apenas 2 parâmetro!
+common#:#categories#:#Categorias
+common#:#categories_imported#:#Importação de categoria concluída.
+common#:#catr#:#Link da categoria
+common#:#catr_edit_info#:#Por favor, escolha uma categoria para criar um novo link.
+common#:#catr_new#:#Criar link de categoria
 common#:#cc#:#Cc
 common#:#certificate#:#Certificado
-common#:#certificate_file_already_exists_error#:#Nenhum parâmetro!
-common#:#certificate_file_input_output_error#:#Mais de 3 parâmetros!
-common#:#certificate_file_not_found_error#:#Você não pode atribuir utilizadores a esta função nesta localização
-common#:#certificate_persistent_option#:#A sua sessão expirou!
-common#:#certificate_selection#:#Razão: Cabeçalho errado.
-common#:#certificate_workspace_option#:#Login ou palavra-passe errada
-common#:#change#:#Palavra-passe errada
-common#:#change_assignment#:#Adicionar exercício
+common#:#certificate_file_already_exists_error#:#O arquivo de certificado já existe no sistema de arquivos.
+common#:#certificate_file_input_output_error#:#O arquivo de certificado foi encontrado, mas não pôde ser excluído devido a erros internos. Entre em contato com seu administrador.
+common#:#certificate_file_not_found_error#:#O arquivo de certificado não existe mais no sistema de arquivos.
+common#:#certificate_persistent_option#:#Certificados de Realizações
+common#:#certificate_selection#:#Origem dos Certificados
+common#:#certificate_workspace_option#:#Certificados de Recursos Pessoais
+common#:#change#:#alterar
+common#:#change_assignment#:#Alterar atribuição
 common#:#change_header_title#:#Editar título do cabeçalho
 common#:#change_owner#:#Mudar proprietário
-common#:#change_sort_direction#:#Exercício adicionado
-common#:#changeable#:#Exercício
-common#:#changed_to#:#Exercícios
+common#:#change_sort_direction#:#Alterar a direção da classificação
+common#:#changeable#:#Alterável no perfil
+common#:#changed_to#:#alterado para
 common#:#changing_loginname_not_possible_info#:#Mudou o seu nome de login pela última vez em %s. A próxima alteração pode ser realizada em %s.
-common#:#chapter#:#A data não é válida
+common#:#chapter#:#Capítulo
 common#:#characters#:#caracteres
 common#:#chat_enter_public_room#:#Chat público
-common#:#chat_enter_public_room_tooltip#:#Introduzir chat público.
+common#:#chat_enter_public_room_tooltip#:#Entrar no chat público.
 common#:#chat_invite_public_room#:#Chat público
 common#:#chat_invite_public_room_tooltip#:#Convidar para chat público.
 common#:#chat_users_active#:#Utilizadores ativos
-common#:#check#:#Remover participante(s)
-common#:#check_all#:#Marcar todos
-common#:#check_langfile#:#Editar exercício
-common#:#check_languages#:#Editar até
-common#:#check_link#:#Ficheiros
-common#:#check_link_desc#:#Ficheiros submetidos
-common#:#check_user_accounts#:#Instruções de trabalho
-common#:#check_user_accounts_desc#:#Última submissão
-common#:#check_web_resources#:#Estes utilizadores já estão atribuídos à tarefa
-common#:#check_web_resources_desc#:#Membros atribuídos
+common#:#check#:#Verificar
+common#:#check_all#:#Verificar todos
+common#:#check_langfile#:#Verifique seu arquivo de idioma
+common#:#check_languages#:#Verificar todos os idiomas
+common#:#check_link#:#Verificação de Weblink
+common#:#check_link_desc#:#Se ativado, todos os links externos nos módulos de aprendizado do ILIAS serão verificados se estiverem ativos.
+common#:#check_user_accounts#:#Verificar contas de usuário
+common#:#check_user_accounts_desc#:#Se ativado, todos os usuários cuja conta expirar serão informados por e-mail duas semanas antes. Além disso, todos os usuários que não confirmaram sua conta após um registro com confirmação por e-mail serão excluídos.
+common#:#check_web_resources#:#Verificar links da Web
+common#:#check_web_resources_desc#:#Se ativado, todos os links da Web serão verificados se estiverem ativos.
 common#:#checked#:#Marcado
-common#:#checked_files#:#Novo exercício criado
-common#:#chg_ilias_and_webfolder_password#:#Novo exercício
-common#:#chg_ilias_password#:#Exercício
-common#:#chg_password#:#Guardar
-common#:#choose_language#:#Selecione exatamente um ficheiro.
-common#:#choose_only_one_language#:#O exercício foi enviado aos utilizadores selecionados
+common#:#checked_files#:#Arquivos importáveis
+common#:#chg_ilias_and_webfolder_password#:#Alterar senha da pasta da Web
+common#:#chg_ilias_password#:#Alterar senha do ILIAS
+common#:#chg_password#:#Alterar senha
+common#:#choose_language#:#Escolha o seu idioma
+common#:#choose_only_one_language#:#Por favor, escolha apenas um idioma
 common#:#chown_warning#:#Atenção, pode perder as autorizações de acesso relativamente a este objeto depois de mudar o proprietário.
 common#:#chta_edit_permission#:#Mudar definições de permissões
-common#:#chta_read#:#Enviado a <br />%s
-common#:#chta_visible#:#Exercício atualizado
-common#:#chta_write#:#O tempo acabou.
-common#:#chtr_copy#:#Erro ao carregar o ficheiro
+common#:#chta_read#:#Acesso de leitura à Administração da Sala de Chat
+common#:#chta_visible#:#A administração da sala de bate-papo está visível
+common#:#chta_write#:#Editar administração da sala de bate-papo
+common#:#chtr_copy#:#Copiar sala de bate-papo
 common#:#chtr_import#:#Importar sala de chat
-common#:#city#:#Executar
+common#:#city#:#Cidade, Estado
 common#:#cleaned_file#:#O ficheiro foi limpo.
 common#:#cleaning_failed#:#Limpeza falhou.
-common#:#clear#:#O tempo concedido para completar este exercício terminou. Já não é possível enviar ficheiros!
-common#:#clear_clipboard#:#Exportar
-common#:#client#:#Exportar como ficheiro HTML
-common#:#client_id#:#Web Feed
-common#:#client_ip#:#Feedback
+common#:#clear#:#Limpar
+common#:#clear_clipboard#:#Limpar área de transferência
+common#:#client#:#Cliente
+common#:#client_id#:#ID do Cliente
+common#:#client_ip#:#IP do Cliente
 common#:#clientlist_available_clients#:#Clientes disponíveis
 common#:#clientlist_clientlist#:#Lista de clientes
 common#:#clientlist_installation_name#:#Nome da instalação
@@ -3229,20 +3229,20 @@ common#:#clientlist_login_page#:#Página de login
 common#:#clientlist_public_access#:#Acesso público
 common#:#clientlist_start_page#:#Página inicial
 common#:#clipboard#:#Área de transferência
-common#:#close#:#Feedback destinatário
-common#:#cnt_new#:#Ficheiro
+common#:#close#:#Fechar
+common#:#cnt_new#:#(%s New)
 common#:#collapse#:#Colapsar
 common#:#collapse_all#:#Colapsar tudo
-common#:#collapsed#:#Nome do ficheiro
-common#:#columns#:#Falta extensão do nome do ficheiro
-common#:#comma_separated#:#Devido ao caractere / este objeto não está visível em pastas web
-common#:#comment#:#Objetos com nomes . e .. não estão visíveis em pastas web
-common#:#compose#:#Devido ao caractere . no fim do nome este objeto não está visível nas pastas da web do Windows
-common#:#concurrent_uploads#:#Número de uploads concorrentes
+common#:#collapsed#:#Colapsado
+common#:#columns#:#Colunas
+common#:#comma_separated#:#Separado por vírgula
+common#:#comment#:#Comentário
+common#:#compose#:#Compor
+common#:#concurrent_uploads#:#Número de uploads simultâneos
 common#:#concurrent_uploads_info#:#Define o número de ficheiros que podem ser carregados por processo de upload ao mesmo tempo.
-common#:#cond_ref_handling#:#Definições de ligações
-common#:#cond_ref_shared#:#Pré-condições partilhadas para todas as ligações
-common#:#cond_ref_unique#:#Pré-condições únicas para ligações
+common#:#cond_ref_handling#:#Definições de links
+common#:#cond_ref_shared#:#Pré-condições partilhadas para todas as links
+common#:#cond_ref_unique#:#Pré-condições únicas para links
 common#:#condition#:#Condição
 common#:#condition_accredited_or_passed#:#Acreditado ou aprovado
 common#:#condition_already_assigned#:#Objeto já atribuído.
@@ -3253,155 +3253,155 @@ common#:#condition_not_finished#:#Não terminado
 common#:#condition_passed#:#Aprovado
 common#:#condition_select_object#:#Selecione um objeto.
 common#:#conditions_updated#:#Condições guardadas
-common#:#confirm#:#Devido a um dos caracteres \ / : * ? " < > | este objeto não está visível em pastas da web da Windows
+common#:#confirm#:#Confirme
 common#:#confirm_delete_parameter#:#Tem a certeza que quer apagar o parâmetro?
 common#:#confirmation#:#Confirmação
 common#:#conflict_handling#:#Manuseamento de conflito
-common#:#cont_iim_content_popups_info#:#Ficheiro não encontrado
-common#:#cont_iim_create_info#:#Ficheiro inválido!
-common#:#cont_iim_overlay_info#:#Insira tipos de ficheiros com sufixo (separados por vírgula) que devem mudar de nome para ‘.sec’ quando são carregados para um espaço da web para evitar a execução deste ficheiro. Isso é feito por defeito para esses sufixos:
-common#:#contact#:#Devido ao caractere
-common#:#contact_data#:#Carregar ficheiro
-common#:#contact_sysadmin#:#Ficheiro carregado
+common#:#cont_iim_content_popups_info#:#Os pop-ups de conteúdo aparecem quando o usuário clica em partes interativas da imagem de plano de fundo. Nesta tela, você define apenas os pop-ups. O conteúdo deles pode ser editado na tela de edição da página.
+common#:#cont_iim_create_info#:#Faça o upload da imagem de fundo para a imagem interativa.
+common#:#cont_iim_overlay_info#:#As imagens de sobreposição são usadas para alterar (por exemplo, destacar) partes da imagem de fundo quando o mouse passa sobre elas. Após o upload das imagens, você pode selecioná-las na guia "Triggers".
+common#:#contact#:#Contato
+common#:#contact_data#:#Informações de Contato
+common#:#contact_sysadmin#:#Entre em contato com o suporte técnico
 common#:#container#:#Recipiente
 common#:#container_no_items#:#Nenhuns materiais disponíveis
-common#:#content#:#O ficheiro foi adicionado.
+common#:#content#:#Conteúdo
 common#:#content_frame#:#Moldura de conteúdo
-common#:#content_styles#:#Editar ficheiro e carregar nova versão
-common#:#context#:#Tamanho máximo para carregar:
+common#:#content_styles#:#Estilos de conteúdo
+common#:#context#:#Contexto
 common#:#continue#:#continuar
 common#:#continue_work#:#Continuar
 common#:#contra#:#Contra
-common#:#copy#:#Ficheiro é válido!
-common#:#copy_all#:#Filtrar
-common#:#copy_n_of_suffix#:#Nome
-common#:#copy_of#:#Ocultar barra lateral
-common#:#copy_of_suffix#:#Pasta
-common#:#copy_selected_items#:#Pasta
-common#:#copyChapter#:#Versão fornecida no ficheiro
+common#:#copy#:#Copiar
+common#:#copy_all#:#Copiar tudo
+common#:#copy_n_of_suffix#:#- Copy (%1$s)
+common#:#copy_of#:#Cópia de
+common#:#copy_of_suffix#:#- Copy
+common#:#copy_selected_items#:#Copiar
+common#:#copyChapter#:#Copiar
 common#:#copyPage#:#Preencha todos os campos necessários
-common#:#count#:#Pastas
-common#:#country#:#Adicionar pasta
-common#:#country_free_text#:#Pasta adicionada
-common#:#country_selection#:#País (seleção dropdown)
-common#:#course#:#Nova pasta
-common#:#courses#:#Tem de aceitar os Termos de serviço!
-common#:#create#:#Esqueceu-se da palavra-passe?
-common#:#create_date#:#Alguns dados estão incompletos ou inválidos. Corrija as entradas no formulário.
-common#:#create_export_file#:#Criar ficheiro de exportação
-common#:#create_stylesheet#:#Fórum
-common#:#created#:#Esqueceu-se do nome de utilizador?
+common#:#count#:#Contar
+common#:#country#:#País
+common#:#country_free_text#:#País (entrada de texto livre)
+common#:#country_selection#:#País (seleção suspensa)
+common#:#course#:#Curso
+common#:#courses#:#Cursos
+common#:#create#:#Criar
+common#:#create_date#:#Criado em
+common#:#create_export_file#:#Criar arquivo de exportação
+common#:#create_stylesheet#:#Criar estilo
+common#:#created#:#Data de criação
 common#:#cron_forum_notification#:#Enviar notificações de fóruns
-common#:#cron_forum_notification_crob_desc#:#Fóruns
-common#:#cron_forum_notification_desc#:#Artigos
+common#:#cron_forum_notification_crob_desc#:#Se ativado, todos os usuários que ativaram notificações para determinados fóruns ou segmentos do fórum receberão diariamente um e-mail de notificação sobre todas as postagens novas ou alteradas, mas nenhuma notificação imediata para cada postagem enviada.
+common#:#cron_forum_notification_desc#:#Se ativado, todos os usuários que desejam ser informados sobre novas postagens nos tópicos do fórum especificados receberão notificações por email.
 common#:#cron_jobs#:#Cron jobs
 common#:#cron_lucene_index#:#Atualizar índice de pesquisa Lucene
-common#:#cron_lucene_index_info#:#Último artigo
-common#:#cron_mail_notification#:#Novos artigos
+common#:#cron_lucene_index_info#:#Se ativado, o índice de pesquisa lucene será atualizado. Configure o servidor lucene em "Administração -> Pesquisa".
+common#:#cron_mail_notification#:#Notificações de novos emails
 common#:#cron_mail_notification_cron#:#regularmente por cron job
-common#:#cron_mail_notification_desc#:#Definições de notificações de fóruns
+common#:#cron_mail_notification_desc#:#Se ativado, todos os usuários que desejam ser informados sobre novos emails receberão notificações por email externo. Ative a opção '%s' primeiro para usar esta função.
 common#:#cron_mail_notification_message#:#Enviar notificações de mail com mensagem de correio
 common#:#cron_mail_notification_message_info#:#Se estiver ativado, todos os utilizadores recebem notificações com mensagem de correio completa por correio externo.
 common#:#cron_mail_notification_never#:#nunca
 common#:#cronjob_last_start#:#Último arranque do Cron Job
 common#:#cronjob_last_start_unknown#:#Indeterminado
-common#:#crs#:#Tópicos
-common#:#crs_activation_start_invalid#:#Notifica-me quando foi dada uma resposta direta a este posting. A notificação sobre qualquer posting neste tópico ou fórum pode ser ativada no menu de Ações na parte superior direita.
-common#:#crs_add#:#Responderam à sua entrada no fórum.
-common#:#crs_added#:#Fórum
+common#:#crs#:#Curso
+common#:#crs_activation_start_invalid#:#O horário de início e término não é válido.
+common#:#crs_add#:#Adicionar curso
+common#:#crs_added#:#Curso adicionado
 common#:#crs_archives#:#Arquivos
 common#:#crs_cancel_waiting_list#:#Tem a certeza que quer sair da lista de espera do curso "%s"?
 common#:#crs_copy_threads_info#:#Decida que materiais do curso devem ser copiados, associados ou até omitidos.
-common#:#crs_edit#:#Adicionar fórum
-common#:#crs_list_reg#:#Registo
-common#:#crs_list_reg_end#:#Fim do registo
+common#:#crs_edit#:#Editar curso
+common#:#crs_list_reg#:#Registro
+common#:#crs_list_reg_end#:#Fim do registro
 common#:#crs_list_reg_limit_full#:#Nenhum lugar livre
 common#:#crs_list_reg_limit_places#:#Lugares livres
-common#:#crs_list_reg_noreg#:#Nenhum registo possível
-common#:#crs_list_reg_period#:#Período de registo
-common#:#crs_list_reg_start#:#Início do registo
-common#:#crs_member_not_passed#:#Editar fórum
-common#:#crs_member_passed#:#Aprovado
-common#:#crs_members_gallery#:#Fórum adicionado
-common#:#crs_new#:#Novo fórum
+common#:#crs_list_reg_noreg#:#Nenhum registro possível
+common#:#crs_list_reg_period#:#Período de registro
+common#:#crs_list_reg_start#:#Início do registro
+common#:#crs_member_not_passed#:#Não passou
+common#:#crs_member_passed#:#Passou
+common#:#crs_members_gallery#:#Galeria de membros do curso
+common#:#crs_new#:#Novo Curso
 common#:#crs_removed_from_waiting_list#:#Foi retirado da lista de espera do curso "%s".
-common#:#crs_status_blocked#:#De
-common#:#crs_status_pending#:#[À espera do registo]
+common#:#crs_status_blocked#:#[Acesso recusado]
+common#:#crs_status_pending#:#[À espera do registro]
 common#:#crs_subscribers_assigned#:#Atribuído novo(s) utilizador(es)
-common#:#crs_title#:#Nome completo
-common#:#crs_unsubscribe#:#Funções
+common#:#crs_title#:#Título do curso
+common#:#crs_unsubscribe#:#Cancelar a inscrição no curso
 common#:#crs_wizard_page#:#Copiar curso (passo 2/2)
-common#:#crsr#:#Pode usar um pseudónimo para o seu posting. Se deixar este campo vazio, o seu posting será marcado como escrito por ‘Anónimo’.
-common#:#crsr_edit_info#:#O seu Nome
-common#:#crsr_new#:#Notificação
+common#:#crsr#:#Link do Curso
+common#:#crsr_edit_info#:#Por favor, escolha um curso para criar um novo link.
+common#:#crsr_new#:#Criar link do curso
 common#:#csv_export#:#Exportação CSV
 common#:#current_ip#:#IP atual:
 common#:#current_ip_alert#:#Nota: se inserir um ip errado, deixa de poder aceder ao sistema com este perfil.
-common#:#current_password#:#Mais informações
+common#:#current_password#:#Senha atual
 common#:#currently_used_disk_space#:#Espaço de disco atualmente usado
-common#:#cut#:#Adicionar definição
-common#:#cutPage#:#Nova definição
+common#:#cut#:#Cortar
+common#:#cutPage#:#Cortar Página
 common#:#daily#:#diariamente
-common#:#database#:#Forma de tratamento
-common#:#database_version#:#Sra.
+common#:#database#:#Banco de dados
+common#:#database_version#:#Versão Atual do Banco de Dados
 common#:#dataset#:#Item
-common#:#date#:#Sr.
-common#:#dateplaner#:#Definições gerais
-common#:#day#:#Gerar
-common#:#days#:#Glossário
-common#:#db_host#:#Predefinição global
-common#:#db_name#:#Global fixada
-common#:#db_need_hotfix#:#Hotfix disponível. Abra o programa de instalação.
+common#:#date#:#Data
+common#:#dateplaner#:#Calendário
+common#:#day#:#Dia
+common#:#days#:#Dias
+common#:#db_host#:#Host do banco de dados
+common#:#db_name#:#Nome do banco de dados
+common#:#db_need_hotfix#:#Hotfix disponível. Abra o programa de instalação. <a href="./setup/setup.php">»Setup</a>
 common#:#db_need_update#:#Definições globais
-common#:#db_pass#:#Utilizadores globais
-common#:#db_type#:#Glossários
-common#:#db_user#:#Glossário
-common#:#db_version#:#Adicionar glossário
+common#:#db_pass#:#Senha do banco de dados
+common#:#db_type#:#Tipo de banco de dados
+common#:#db_user#:#Usuário do banco de dados
+common#:#db_version#:#Versão do banco de dados
 common#:#dd_mm_yyyy#:#DD.MM.YYYY
-common#:#deactivate#:#Glossário adicionado
+common#:#deactivate#:#Definir inativo
 common#:#decrease_attempts#:#Tentativas - 1
-common#:#def_repository_view#:#Se conhecer a palavra-passe do grupo, pode juntar-se a este grupo. Entre em contacto com um administrador do grupo, se não souber a palavra-passe.
-common#:#default#:#Importar glossário
-common#:#default_auth_mode#:#Método de autenticação predefinido
+common#:#def_repository_view#:#Visualização de repositório padrão
+common#:#default#:#Padrão
+common#:#default_auth_mode#:#Método de autenticação padrão
 common#:#default_auth_mode_info#:#Escolha o método de autenticação que está pré-selecionado na página de login.
-common#:#default_language#:#Novo glossário
-common#:#default_perm_settings#:#Limitações de adesão
-common#:#default_role#:#Cursos atribuídos
-common#:#default_roles#:#Grupos
-common#:#default_skin#:#Membros do grupo
-common#:#default_skin_style#:#Nome do grupo
+common#:#default_language#:#Idioma padrão
+common#:#default_perm_settings#:#Permissões padrão
+common#:#default_role#:#Função padrão
+common#:#default_roles#:#Funções padrão
+common#:#default_skin#:#Aparência Padrão
+common#:#default_skin_style#:#Aparência / Estilo Padrão
 common#:#default_style#:#Pedidos de inscrição
 common#:#defaults#:#Predefinições
-common#:#delete#:#Procedimento de inscrição
+common#:#delete#:#Deletar
 common#:#delete_existing_file#:#Apagar ficheiro existente
 common#:#delete_inactivated_user_accounts#:#Apagar contas de utilizador inativadas
-common#:#delete_inactivated_user_accounts_desc#:#Tem de solicitar a adesão para aceder a este grupo. Descreva o seu interesse em tornar-se membro no formulário de mensagens. Será notificado assim que um administrador tiver aceite ou recusado o seu pedido.
+common#:#delete_inactivated_user_accounts_desc#:#Se ativada, as contas de usuário serão excluídas %s dias após a inativação.
 common#:#delete_inactivated_user_accounts_include_roles#:#Funções incluídas
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Define as funções que vão participar na eliminação.
-common#:#delete_inactivated_user_accounts_period#:#Grupo é
-common#:#delete_inactivated_user_accounts_period_desc#:#Grupo
-common#:#delete_inactive_user_accounts#:#Link do grupo
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Somente contas de usuário com uma das funções marcadas serão verificadas e excluídas se o número máximo de dias for excedido.
+common#:#delete_inactivated_user_accounts_period#:#Dias decorridos desde a inativação
+common#:#delete_inactivated_user_accounts_period_desc#:#As contas serão excluídas se esse número de dias tiver passado desde a inativação.
+common#:#delete_inactive_user_accounts#:#Excluir contas de usuário sem login por muito tempo
 common#:#delete_inactive_user_accounts_desc#:#Se estiver ativado, as contas de utilizador serão apagadas em função da data do último login.
 common#:#delete_inactive_user_accounts_include_roles#:#Funções incluídas
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Define as funções que vão participar na eliminação.
-common#:#delete_inactive_user_accounts_period#:#Editar link do grupo
-common#:#delete_inactive_user_accounts_period_desc#:#Escolha um grupo para criar um novo link de grupo.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Somente contas de usuário com uma das funções marcadas serão verificadas e excluídas se o número máximo de dias for excedido.
+common#:#delete_inactive_user_accounts_period#:#Dias decorridos desde o último login
+common#:#delete_inactive_user_accounts_period_desc#:#Todas as contas de usuário sem login dentro do número de dias definido serão excluídas automaticamente.
 common#:#delete_parameter#:#Apagar parâmetro
-common#:#delete_selected_items#:#Criar link de grupo
-common#:#deleted#:#Inscrever-se diretamente
+common#:#delete_selected_items#:#Deletar
+common#:#deleted#:#Deletado
 common#:#deleted_user#:#O utilizador foi apagado
 common#:#deleted_users#:#Utilizadores apagados
-common#:#deliver#:#Adicionar grupo
-common#:#department#:#Grupo adicionado
-common#:#desc#:#Cancelar a inscrição do grupo
-common#:#description#:#Tem a certeza que quer cancelar a seguinte inscrição no grupo?
-common#:#desired_password#:#Tem a certeza que quer cancelar a inscrição neste grupo?
-common#:#details#:#Editar grupo
+common#:#deliver#:#Entregar
+common#:#department#:#Departamento
+common#:#desc#:#Descrição
+common#:#description#:#Descrição
+common#:#desired_password#:#Senha Desejada
+common#:#details#:#Detalhes
 common#:#disable#:#desativar
 common#:#disable_check#:#Desativar seleção
-common#:#disable_ext_lang_maint#:#Mudar estado do participante
+common#:#disable_ext_lang_maint#:#Desativar manutenção estendida
 common#:#disable_hide_user_toggle#:#O membro está autorizado a desativar
-common#:#disabled#:#Não é possível remover o membro, é necessário pelo menos um administrador por grupo !
+common#:#disabled#:#Desativado
 common#:#disk_quota#:#Cota do disco
 common#:#disk_quota_exceeded_headline#:#os seguintes utilizadores excederam a sua cota do disco:
 common#:#disk_quota_is_1_by_2#:#A cota do disco efetiva é %1$s devido à adesão na função "%2$s".
@@ -3464,8 +3464,8 @@ common#:#enable_disk_quota_summary_mail_desc#:#O resumo da cota do disco é uma 
 common#:#enable_dnd_upload#:#Ativar drag-and-drop upload
 common#:#enable_dnd_upload_info#:#Os ficheiros podem ser carregados arrastando-os do computador local, se estiver ativado.
 common#:#enable_download_folder#:#Ativar Descarregar pastas
-common#:#enable_download_folder_info#:#ILIAS 2 palavra-passe
-common#:#enable_export_scorm_desc#:#Ícone
+common#:#enable_download_folder_info#:#Ativa uma opção de download dentro da lista suspensa de ações das pastas.
+common#:#enable_export_scorm_desc#:#Exibição de dados pessoais nos dados do protocolo (SCORM)
 common#:#enable_fora_statistics#:#Ativar estatísticas em fórum
 common#:#enable_fora_statistics_desc#:#Se estiver ativado, ninguém consegue aceder às estatísticas do fórum.
 common#:#enable_hide_user_toggle#:#O membro não está autorizado a desativar
@@ -3479,318 +3479,318 @@ common#:#enable_preview_info#:#Ativar esta opção para mostrar imagens de pré-
 common#:#enable_repository_dnd_upload#:#Ativar no repositório
 common#:#enable_repository_dnd_upload_info#:#Permite que os ficheiros possam ser arrastados do computador diretamente para um objeto no repositório para iniciar o uploading dos ficheiros para este objeto.
 common#:#enable_sahs_protocol_data#:#Ativar dados de protocolo
-common#:#enable_sahs_protocol_data_desc#:#Deixar em branco para usar nome do ficheiro como título
-common#:#enable_search_engine#:#Versão ILIAS
-common#:#enable_trash#:#Autor do blog
+common#:#enable_sahs_protocol_data_desc#:#Mostrar dados do protocolo (SCORM)
+common#:#enable_search_engine#:#Área pública aberta para mecanismos de pesquisa na Internet (por exemplo, Google). <br /> O módulo Apache 'mod_rewrite' é necessário para esta extensão. Por favor, verifique se você possui permissões apropriadas para usar as configurações .htaccess.
+common#:#enable_trash#:#Ativar Lixeira
 common#:#enable_trash_info#:#Se estiver ativado, os objetos apagados são movidos para o lixo e podem ser recuperados mais tarde. Se desativar esta opção, os objetos apagados são removidos irreversivelmente do sistema!
 common#:#enable_webdav#:#Ativar acesso WebDAV
-common#:#enable_webdav_info#:#Editor do blog
-common#:#enabled#:#Módulo de aprendizagem HTML
-common#:#enter_in_mb_desc#:#Introduzir um valor em MB.
-common#:#enter_new_name#:#Introduza um nome
+common#:#enable_webdav_info#:#Permite que os clientes WebDAV acessem o repositório como uma pasta da web. Os usuários podem abrir pastas da web usando a ação 'Abrir como pasta da web' no repositório ou inserindo o seguinte endereço em um cliente WebDAV: <a href="%1$s" folder="%1$s">%1$s</a>
+common#:#enabled#:#Ativado
+common#:#enter_in_mb_desc#:#Inserir um valor em MB.
+common#:#enter_new_name#:#Inserir um nome
 common#:#entry_status#:#Administrador do curso
-common#:#err_1_param#:#Membro do grupo
-common#:#err_2_param#:#Imagem
-common#:#err_auth_apache_failed#:#Importar
+common#:#err_1_param#:#Apenas 1 parâmetro!
+common#:#err_2_param#:#Apenas 2 parâmetros!
+common#:#err_auth_apache_failed#:#A autenticação falhou. Talvez você não tenha um certificado de usuário válido ou seu cartão inteligente não esteja inserido.
 common#:#err_auth_cas_no_ilias_user#:#Login falhou. A autenticação CAS foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_auth_ldap_no_ilias_user#:#Login falhou. A autenticação LDAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_auth_mode_inactive#:#O seu método de autenticação foi desativado.
 common#:#err_auth_radius_no_ilias_user#:#Login falhou. A autenticação Radius foi bem-sucedida, mas não existe um utilizador ILIAS correspondente.
 common#:#err_auth_soap_no_ilias_user#:#Login falhou. A autenticação SOAP foi bem-sucedida, mas não existe um utilizador ILIAS correspondente. Entre em contacto com o administrador do seu sistema.
 common#:#err_check_input#:#Não foi possível guardar as definições. Verifique a sua entrada.
-common#:#err_count_param#:#Importante
-common#:#err_in_line#:#Importar categorias
+common#:#err_count_param#:#Motivo: contagem de parâmetros incorreta
+common#:#err_in_line#:#Erro na linha
 common#:#err_inactive#:#Esta conta não foi desativada. Entre em contacto com o administrador do sistema para efeitos de acesso.
 common#:#err_inactive_login_attempts#:#A conta de utilizador foi desativada devido a muitas tentativas de login falhadas. Clique em 'Contactar a Assistência Técnica' no rodapé desta página para notificar o administrador da necessidade de reativar a sua conta.
 common#:#err_invalid_port#:#Número de porta inválido
 common#:#err_no_cookies#:#Ative os cookies de sessão no seu navegador!
-common#:#err_no_langfile_found#:#Importar ficheiro
-common#:#err_no_param#:#O ficheiro de importação não é válido.
-common#:#err_over_3_param#:#Número de mensagens importadas.
-common#:#err_role_not_assignable#:#Importar módulo de aprendizagem ILIAS
-common#:#err_session_expired#:#Importar teste do banco de perguntas
-common#:#err_wrong_header#:#Importar pergunta(s) para o banco de perguntas
-common#:#err_wrong_login#:#Importar pacote SCORM
-common#:#err_wrong_password#:#Importar utilizadores
+common#:#err_no_langfile_found#:#Nenhum arquivo de idioma encontrado!
+common#:#err_no_param#:#Sem parâmetro!
+common#:#err_over_3_param#:#Mais de 3 parâmetros!
+common#:#err_role_not_assignable#:#Você não pode atribuir usuários a essa função neste local
+common#:#err_session_expired#:#Sua sessão expirou!
+common#:#err_wrong_header#:#Motivo: cabeçalho errado.
+common#:#err_wrong_login#:#Login ou senha errada
+common#:#err_wrong_password#:#Senha incorreta
 common#:#error#:#Erro
 common#:#error_empty_file_or_folder#:#O tamanho do ficheiro é 0 bytes ou é uma pasta.
-common#:#error_extraction_failed#:#Membro do curso
-common#:#error_parser#:#Tutor do curso
-common#:#error_recipient#:#Moderador do fórum
-common#:#error_upload_was_zero_bytes#:#Administrador do grupo
+common#:#error_extraction_failed#:#A extração do arquivo e seus diretórios falhou. Provavelmente porque você não tem permissão para criar pastas ou categorias dentro deste objeto.
+common#:#error_parser#:#Erro ao iniciar o analisador.
+common#:#error_recipient#:#Error Recipient
+common#:#error_upload_was_zero_bytes#:#O upload falhou, pois esta é uma pasta, o tamanho do arquivo é 0 bytes ou excedeu o tamanho máx. tamanho do upload ou o arquivo foi renomeado enquanto isso.
 common#:#event_ass_materials_prop#:#Materiais de sessão
 common#:#event_assign_files#:#Atribuição de ficheiro
-common#:#exc#:#Aviso legal
-common#:#exc_add#:#Inativo
-common#:#exc_added#:#Caixa de entrada
-common#:#exc_date_not_valid#:#inclui ficheiros de idioma personalizado quando atualizar o idioma
-common#:#exc_deassign_members#:#Enviar mail para informar o utilizador das alterações
+common#:#exc#:#Exercício
+common#:#exc_add#:#Adicionar exercício
+common#:#exc_added#:#Exercício adicionado
+common#:#exc_date_not_valid#:#A data não é válida
+common#:#exc_deassign_members#:#Remover participante(s)
 common#:#exc_download_files#:#Download ficheiros
-common#:#exc_edit#:#Informação de acesso e de estado
-common#:#exc_edit_exercise#:#atribuído
-common#:#exc_edit_until#:#Tem a certeza que quer atribuir o(s) seguinte(s) utilizador(es)?
+common#:#exc_edit#:#Novo exercício criado
+common#:#exc_edit_exercise#:#Editar exercício
+common#:#exc_edit_until#:#Editar até
 common#:#exc_exercise_sent#:#Exercício enviado
-common#:#exc_files#:#Mudar utilizador
-common#:#exc_files_returned#:#Tem a certeza que quer desativar o(s) seguinte(s) utilizador(es)?
-common#:#exc_instruction#:#Objeto(s) apagado(s)
-common#:#exc_last_submission#:#Tem a certeza que quer apagar o(s) seguinte(s) item(itens)?
-common#:#exc_members_already_assigned#:#Não existe utilizador com esse nome de login ou id de utilizador
-common#:#exc_members_assigned#:#Concedido por função/posse
+common#:#exc_files#:#Arquivos
+common#:#exc_files_returned#:#Arquivos Enviados
+common#:#exc_instruction#:#Instruções de trabalho
+common#:#exc_last_submission#:#Última submissão
+common#:#exc_members_already_assigned#:#Esses usuários já estão atribuídos à atribuição.
+common#:#exc_members_assigned#:#Membros designados
 common#:#exc_members_comments_saved#:#Os comentários do exercício para o utilizador selecionado foram guardadas
-common#:#exc_new#:#Mensagem de informação
+common#:#exc_new#:#Novo Exercício
 common#:#exc_next_deadline#:#Próximo prazo
-common#:#exc_obj#:#Permissões do utilizador
-common#:#exc_save_changes#:#Utilizador
-common#:#exc_schedule#:#Marcação
-common#:#exc_select_one_file#:#Inserir
-common#:#exc_sent#:#Inserir na posição atual
-common#:#exc_sent_at#:#Instalar
+common#:#exc_obj#:#Exercício
+common#:#exc_save_changes#:#Salvar
+common#:#exc_schedule#:#Cronograma
+common#:#exc_select_one_file#:#Por favor, selecione exatamente um arquivo.
+common#:#exc_sent#:#O exercício foi enviado aos usuários selecionados
+common#:#exc_sent_at#:#Enviado em <br />%s
 common#:#exc_status#:#Estado
-common#:#exc_status_saved#:#Instalado
+common#:#exc_status_saved#:#Exercício atualizado
 common#:#exc_submission#:#Submissão
-common#:#exc_time_over_short#:#Instalado com ficheiro personalizado
+common#:#exc_time_over_short#:#O tempo acabou.
 common#:#exc_time_to_send#:#Tempo de trabalho restante
-common#:#exc_upload_error#:#Instalar com ficheiro personalizado
-common#:#excs#:#em
-common#:#execute#:#Mensageiros instantâneos
-common#:#exercise_time_over#:#Instituição
+common#:#exc_upload_error#:#Erro ao fazer upload do arquivo
+common#:#excs#:#Exercícios
+common#:#execute#:#Executar
+common#:#exercise_time_over#:#O tempo alocado para a conclusão deste exercício terminou. Os arquivos não podem mais ser enviados!
 common#:#exp_html#:#Exportar HTML
 common#:#expand#:#Expandir
 common#:#expand_all#:#Expandir tudo
 common#:#expanded#:#Expandido
-common#:#export#:#ID de instalação
+common#:#export#:#Export
 common#:#export_format#:#Exportar formato
-common#:#export_html#:#Informações da instalação
+common#:#export_html#:#Exportar como arquivo HTML
 common#:#ext_cat_settings#:#Editar Definições de categoria avançadas
 common#:#ext_link#:#Link
 common#:#extracting#:#A extrair...
 common#:#failure_message#:#Mensagem de falha
 common#:#fax#:#Fax
-common#:#feed#:#Nome da instalação
-common#:#feedback#:#Funções locais (apenas automaticamente criadas)
-common#:#feedback_recipient#:#Idioma do utilizador
+common#:#feed#:#Web Feed
+common#:#feedback#:#Comentários
+common#:#feedback_recipient#:#Destinatário do Feedback
 common#:#field_name#:#Nome do campo
 common#:#field_type#:#Tipo de campo
-common#:#file#:#A ser utilizador por
-common#:#file_add#:#Idioma
+common#:#file#:#Arquivo
+common#:#file_add#:#Subir arquivo
 common#:#file_add_and_metadata#:#Carregar ficheiro e editar metadados
-common#:#file_added#:#Idiomas
+common#:#file_added#:#Arquivo enviado
 common#:#file_allowed_suffixes#:#Tipos de ficheiro permitidos:
 common#:#file_confirm_delete_all_versions#:#Selecionou todas as versões de ficheiro. Assim vai apagar todo o objeto do ficheiro. Deseja continuar?
 common#:#file_confirm_delete_versions#:#Tem a certeza que quer apagar as seguintes versões de ficheiro?
-common#:#file_created#:#O(s) idioma(s) selecionado(s) já está(estão) instalado(s)
-common#:#file_edit#:#O(s) idioma(s) selecionado(s) já está(estão) desinstalado(s)
+common#:#file_created#:#O arquivo foi adicionado.
+common#:#file_edit#:#Editar informações do arquivo
 common#:#file_info#:#Informação sobre o ficheiro
 common#:#file_is_infected#:#O ficheiro foi infetado por um vírus.
 common#:#file_no_valid_file_type#:#Este tipo de ficheiro não está autorizado.
-common#:#file_not_found#:#não está instalado. Por favor instale este idioma primeiro
-common#:#file_not_valid#:#Caminho do idioma
-common#:#file_notice#:#Todos os idiomas instalados foram atualizados
+common#:#file_not_found#:#Arquivo não encontrado
+common#:#file_not_valid#:#Arquivo inválido!
+common#:#file_notice#:#Tamanho máximo de upload:
 common#:#file_rollback#:#Faça desta a versão atual
 common#:#file_rollback_done#:#A versão do ficheiro %s é agora a versão atual.
 common#:#file_rollback_select_exact_one#:#Apenas uma das versões do ficheiro pode ser selecionada para torná-la na versão atual.
 common#:#file_some_invalid_file_types_removed#:#Alguns tipos de ficheiros não estão autorizados e foram removidos.
 common#:#file_suffix_repl#:#Substituição do sufixo do uploads do ficheiro
-common#:#file_suffix_repl_info#:#ILIAS encontrou variáveis de idioma alteradas. A atualização do idioma vai ler o ficheiros de idioma padrão e provavelmente um ficheiros de idioma personalizado para a base de dados. Um ficheiro padrão não afeta as suas alterações. Um ficheiro personalizado vai sobrescrever as suas alterações com data mais antigas do que a data do ficheiro.
+common#:#file_suffix_repl_info#:#Digite os tipos de arquivo com sufixo (separado por vírgula) que devem ser renomeados com '.sec' quando carregados no espaço da web para impedir a execução desse arquivo. Isso é feito por padrão para estes sufixos:
 common#:#file_updated#:#O ficheiro foi atualizado.
 common#:#file_upload_pending#:#Ficheiro pendente
-common#:#file_valid#:#Deseja realmente atualizar os idiomas selecionados?
-common#:#file_version#:#Apelido
+common#:#file_valid#:#O arquivo é válido!
+common#:#file_version#:#Versão fornecida no arquivo
 common#:#file_version_create#:#Versão inicial
 common#:#file_version_new_version#:#Nova versão
 common#:#file_version_replace#:#Todas as versões substituídas
 common#:#file_version_rollback#:#Retroceder à versão %s de %s
 common#:#file_versions_deleted#:#As versões de ficheiro selecionadas foram apagadas com sucesso.
-common#:#filename#:#Endereço IP
-common#:#filename_extension_missing#:#já é o seu
+common#:#filename#:#Nome do arquivo
+common#:#filename_extension_missing#:#Falta extensão de nome de arquivo
 common#:#filename_hidden_backup_file#:#Ficheiro backup oculto
 common#:#filename_hidden_unix_file#:#Ficheiro Unix oculto
 common#:#filename_interoperability#:#Interoperabilidade
-common#:#filename_special_characters#:#Informação da instalação
-common#:#filename_special_filename#:#Juntar-se
+common#:#filename_special_characters#:#Devido ao caractere / este objeto não é visível nas pastas da web
+common#:#filename_special_filename#:#Objetos com nomes. e .. não são visíveis nas pastas da web
 common#:#filename_visibility#:#Visibilidade
-common#:#filename_windows_empty_extension#:#Frequentar
-common#:#filename_windows_special_characters#:#Palavras-chave
-common#:#filename_windows_webdav_issue#:#Ficheiro de idioma encontrado
+common#:#filename_windows_empty_extension#:#Devido ao carater . no final do nome, esse objeto não é visível nas pastas da Web do Windows
+common#:#filename_windows_special_characters#:#Devido a um dos caracteres \ /: *? "<> | este objeto não está visível nas pastas da web do Windows
+common#:#filename_windows_webdav_issue#:#Devido ao caractere # este objeto não está visível nas pastas da Web do Windows
 common#:#files#:#Ficheiros
 common#:#filesize#:#Tamanho do ficheiro
 common#:#filetype#:#Tipo de ficheiro
-common#:#fill_out_all_required_fields#:#Último acesso
-common#:#filter#:#Última modificação
+common#:#fill_out_all_required_fields#:#Por favor preencha todos os campos requeridos
+common#:#filter#:#Filtro
 common#:#filter_users_with_access#:#Apenas utilizadores com acesso
 common#:#filter_users_with_disk_usage#:#Apenas utilizadores com espaço usado no disco
 common#:#filter_users_with_exceeded_disk_quota#:#Apenas utilizadores com cota do disco excedida
 common#:#filter_users_without_access#:#Apenas utilizadores sem acesso
 common#:#filter_users_without_disk_usage#:#Apenas utilizadores sem espaço usado no disco
 common#:#first#:#Primeiro
-common#:#firstname#:#Último login
-common#:#flatview#:#Última atualização
+common#:#firstname#:#Primeiro nome
+common#:#flatview#:#Ocultar barra lateral
 common#:#fm_start#:#Abri com gestor de ficheiros
-common#:#fold#:#Atualizado
-common#:#fold_add#:#Acesso de leitura às definições LDAP
-common#:#fold_added#:#Progresso de aprendizagem
+common#:#fold#:#Pasta
+common#:#fold_add#:#Adicionar pasta
+common#:#fold_added#:#Pasta adicionada
 common#:#fold_copy_threads_info#:#Decida que materiais devem ser copiados, associados ou até omitidos.
 common#:#fold_edit#:#Editar pasta
-common#:#fold_new#:#Nível
+common#:#fold_new#:#Nova pasta
 common#:#fold_wizard_page#:#Copiar pasta (passo 2/2)
-common#:#folder#:#Última visita
-common#:#folders#:#Lançar
+common#:#folder#:#Pasta
+common#:#folders#:#Pastas
 common#:#follow_link_to_read_mails#:#clicar no seguinte link para ler estes mails:
-common#:#force_accept_usr_agreement#:#Adicionar parâmetro:
-common#:#forgot_password#:#Parâmetros de weblink dinâmicos
-common#:#forgot_username#:#Se estiver ativado, é possível anexar parâmetros dinâmicos aos links da web.<br /> P. ex. o ID do utilizador ILIAS ou o nome do utilizador.
-common#:#form_input_not_valid#:#Verificação do weblink
-common#:#forum#:#Se estiver ativado, será informado sobre links inválidos por mail.
-common#:#forum_direct_notification#:#SCORM 1.2
-common#:#forum_notify_me#:#SCORM 2004 3ª/4ª Edição
-common#:#forum_post_replied#:#Idioma
-common#:#forums#:#Mensagens desativadas
+common#:#force_accept_usr_agreement#:#Você deve aceitar os termos de serviço!
+common#:#forgot_password#:#Esqueceu sua senha?
+common#:#forgot_username#:#Esqueceu seu nome de usuário?
+common#:#form_input_not_valid#:#Alguns dados estão incompletos ou não são válidos. Corrija a entrada do formulário.
+common#:#forum#:#Fórum
+common#:#forum_direct_notification#:#Notificação
+common#:#forum_notify_me#:#Notifique-me quando uma resposta direta for dada a esta postagem. A notificação sobre qualquer publicação neste tópico ou fórum pode ser ativada no menu Ações do canto superior direito.
+common#:#forum_post_replied#:#Sua entrada no fórum foi respondida.
+common#:#forums#:#Fóruns
 common#:#forums_anonymized#:#Fórum anonimizado
 common#:#forums_anonymous#:#anónimo
-common#:#forums_articles#:#[ILIAS] Verificação do weblink
+common#:#forums_articles#:#Artigos
 common#:#forums_disable_forum_notification#:#Desativar notificação para este fórum
 common#:#forums_enable_forum_notification#:#Ativar notificação para este fórum
 common#:#forums_forum_notification_enabled#:#Será notificado sobre novas mensagens neste fórum.
-common#:#forums_last_post#:#Link
-common#:#forums_new_articles#:#Lista de perguntas
-common#:#forums_notification_settings#:#Módulo de aprendizagem ILIAS
-common#:#forums_threads#:#Adicionar módulo de aprendizagem ILIAS
-common#:#forums_use_alias#:#Módulo de aprendizagem ILIAS adicionado
-common#:#forums_your_name#:#Novo módulo de aprendizagem ILIAS
-common#:#frm#:#Idiomas
-common#:#frm_add#:#Objeto de aprendizagem
-common#:#frm_added#:#O(s) idioma(s) personalizado(s) selecionado(s) já está(estão) instalado(s)
-common#:#frm_edit#:#Ficheiros de idioma personalizado
+common#:#forums_last_post#:#Artigo mais recente
+common#:#forums_new_articles#:#Novos artigos
+common#:#forums_notification_settings#:#Configurações de notificação de fóruns
+common#:#forums_threads#:#Tópicos
+common#:#forums_use_alias#:#Você pode usar um pseudônimo para sua postagem. Se você deixar esse campo em branco, sua postagem será marcada como escrita por "Anônimo".
+common#:#forums_your_name#:#Seu nome
+common#:#frm#:#Fórum
+common#:#frm_add#:#Adicionar fórum
+common#:#frm_added#:#Fórum adicionado
+common#:#frm_edit#:#Editar fórum
 common#:#frm_import#:#Importar fórum
 common#:#frm_latest_postings#:#Últimos artigos
-common#:#frm_new#:#Ficheiros de idioma personalizados
+common#:#frm_new#:#Novo fórum
 common#:#frm_statistics_ranking#:#Classificação
-common#:#from#:#Localização
-common#:#fullname#:#Localização:
-common#:#functions#:#Login
-common#:#further_informations#:#Definições do nome do login
-common#:#gdf_add#:#Entrou como
-common#:#gdf_new#:#Dados do login
-common#:#gender#:#Já existe um utilizador com este nome de login! Por favor escolha outro.
-common#:#gender_f#:#O login escolhido é inválido! Apenas os seguintes caracteres são permitidos (mínimo de 3 caracteres): A-Z a-z 0-9 _.-+*@!$%~
-common#:#gender_m#:#Acesso ao ILIAS
-common#:#gender_n#:#Não requer forma de tratamento
-common#:#general_settings#:#Acesso ao ILIAS por Serviço de Autenticação Central
-common#:#generate#:#Acesso ao ILIAS por
+common#:#from#:#Por
+common#:#fullname#:#Nome completo
+common#:#functions#:#Funções
+common#:#further_informations#:#Outras informações
+common#:#gdf_add#:#Adicionar definição
+common#:#gdf_new#:#Nova definição
+common#:#gender#:#Saudação
+common#:#gender_f#:#Sra.
+common#:#gender_m#:#Sr.
+common#:#gender_n#:#Nenhuma saudação desejada
+common#:#general_settings#:#Configurações Gerais
+common#:#generate#:#Gerar
 common#:#ghostscript_not_configured#:#Ghostscript não está configurado. Abra o <a href="setup/setup.php?cmd=mastersettings" target="_blank">Setup</a> para configurá-lo.
-common#:#glo#:#Logout
-common#:#glo_add#:#Lixo
-common#:#glo_added#:#Erro durante a eliminação
-common#:#glo_import#:#Rascunhos
+common#:#glo#:#Glossário
+common#:#glo_add#:#Adicionar Glossário
+common#:#glo_added#:#Glossário adicionado
+common#:#glo_import#:#Importar Glossário
 common#:#glo_mode#:#Modo
 common#:#glo_mode_desc#:#Um glossário virtual funciona como um glossário normal. Além disso, ele contém os termos de todos os glossários que estão ao mesmo nível no repositório, como o glossário virtual (nível) respetivamente de todos os glossários que se encontram para baixo no repositório a partir da posição do glossário virtual (subárvore).
 common#:#glo_mode_level#:#virtual (este nível apenas)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (toda a subárvore)
-common#:#glo_new#:#O utilizador pode mudar definições de permissões na administração do correio
+common#:#glo_new#:#Novo Glossário
 common#:#global#:#Global
-common#:#global_default#:#Você saiu do ILIAS. A sua sessão foi fechada.
-common#:#global_fixed#:#Correio
-common#:#global_settings#:#Correios
-common#:#global_user#:#Correio(s)
-common#:#glossaries#:#Contactos
-common#:#glossary#:#Caixa de entrada
+common#:#global_default#:#Padrão global
+common#:#global_fixed#:#Global Fixed
+common#:#global_settings#:#Configurações globais
+common#:#global_user#:#Usuários globais
+common#:#glossaries#:#Glossários
+common#:#glossary#:#Glossário
 common#:#go#:#Ir
 common#:#grade#:#Classificação
 common#:#group#:#Grupo
-common#:#group_members#:#Correio
-common#:#group_name#:#Max. tamanho anexo
-common#:#group_new_registrations#:#E-mail aos membros
-common#:#group_password_registration_msg#:#Mail não enviado!
-common#:#group_registration#:#Registo
-common#:#group_registration_mode#:#Nenhuma entrada encontrada.
+common#:#group_members#:#Membros do grupo
+common#:#group_name#:#Nome do grupo
+common#:#group_new_registrations#:#Solicitações de ingresso
+common#:#group_password_registration_msg#:#Se você souber a senha do grupo, poderá ingressar neste grupo. Entre em contato com um administrador do grupo, se você não souber a senha.
+common#:#group_registration#:#Registro
+common#:#group_registration_mode#:#Procedimento de Registro
 common#:#group_registration_time#:#Período de registo
-common#:#group_req_direct#:#Você tem de selecionar um mail
-common#:#group_req_registration_msg#:#Erro a enviar mail
-common#:#group_status#:#Mail enviado!
-common#:#groupings#:#Enviado
-common#:#groupings_assigned_obj_crs#:#Pastas de correio
+common#:#group_req_direct#:#Junte-se diretamente
+common#:#group_req_registration_msg#:#Você precisa solicitar uma associação para acessar este grupo. Descreva seu interesse em se tornar membro no formulário de mensagens. Você será notificado assim que um administrador aceitar ou recusar sua solicitação.
+common#:#group_status#:#O grupo é
+common#:#groupings#:#Limitações de associação
+common#:#groupings_assigned_obj_crs#:#Cursos atribuídos
 common#:#groupings_assigned_obj_grp#:#Grupos atribuídos
-common#:#groups#:#Exportar ficheiro
-common#:#grp#:#Definições de correio
-common#:#grp_add#:#Número de matricula
-common#:#grp_added#:#Membro
-common#:#grp_btn_unsubscribe#:#Membros
+common#:#groups#:#Grupos
+common#:#grp#:#Group
+common#:#grp_add#:#Adicionar grupo
+common#:#grp_added#:#Grupo adicionado
+common#:#grp_btn_unsubscribe#:#Cancelar inscrição do grupo
 common#:#grp_cancel_waiting_list#:#Tem a certeza que quer sair da lista de espera do grupo "%s"?
 common#:#grp_copy_threads_info#:#Decida que materiais devem ser copiados, associados ou até omitidos.
 common#:#grp_deleted_export_files#:#Ficheiros selecionados apagados.
-common#:#grp_dismiss_member#:#Estado do membro
-common#:#grp_dismiss_myself#:#Adicionar à lista de espera
-common#:#grp_edit#:#Lugares livres
-common#:#grp_err_administrator_required#:#Ilimitado
+common#:#grp_dismiss_member#:#Tem certeza de que deseja cancelar a inscrição dos seguintes membros do grupo?
+common#:#grp_dismiss_myself#:#Tem certeza de que deseja cancelar a inscrição neste grupo?
+common#:#grp_edit#:#Editar grupo
+common#:#grp_err_administrator_required#:#Não foi possível remover o membro, é necessário pelo menos um administrador por grupo!
 common#:#grp_header_edit_members#:#Editar membros
-common#:#grp_list_reg#:#Registo
-common#:#grp_list_reg_end#:#Fim do registo
+common#:#grp_list_reg#:#Registro
+common#:#grp_list_reg_end#:#Fim do registro
 common#:#grp_list_reg_limit_full#:#Nenhum lugar livre
 common#:#grp_list_reg_limit_places#:#Lugares livres
 common#:#grp_list_reg_noreg#:#Nenhum registo possível
 common#:#grp_list_reg_period#:#Período de registo
 common#:#grp_list_reg_start#:#Início do registo
 common#:#grp_list_users#:#Listar utilizadores
-common#:#grp_mem_change_status#:#Mostrar vista de membros
-common#:#grp_mem_send_mail#:#Banco de media
+common#:#grp_mem_change_status#:#Alterar status do participante
+common#:#grp_mem_send_mail#:#Enviar uma mensagem aos participantes
 common#:#grp_members_gallery#:#Galeria dos membros do grupo
 common#:#grp_msg_applicants_assigned#:#Candidato(s) atribuído(s) como membro(s) do grupo
 common#:#grp_msg_member_assigned#:#Utilizador(es) atribuído(s) como membro(s) do grupo
-common#:#grp_msg_membership_annulled#:#Adicionar banco de media
-common#:#grp_new#:#Editar propriedades do banco de media
-common#:#grp_registration#:#Novo banco de media
-common#:#grp_registration_completed#:#Mensagem
+common#:#grp_msg_membership_annulled#:#Associação cancelada.
+common#:#grp_new#:#Novo grupo
+common#:#grp_registration#:#Juntar-se ao grupo
+common#:#grp_registration_completed#:#Você entrou no grupo
 common#:#grp_removed_from_waiting_list#:#Foi retirado da lista de espera do grupo "%s".
 common#:#grp_select_one_file#:#Selecione um ficheiro.
 common#:#grp_wizard_page#:#Copiar grupo (passo 2/2)
-common#:#grpr#:#%1$s (não é permitido enviar mails para funções globais)
-common#:#grpr_edit#:#Pastas do utilizador
-common#:#grpr_edit_info#:#Menu principal
-common#:#grpr_new#:#Entradas marcadas
+common#:#grpr#:#Link do grupo
+common#:#grpr_edit#:#Editar link do grupo
+common#:#grpr_edit_info#:#Por favor, escolha um grupo para criar um novo link de grupo.
+common#:#grpr_new#:#Criar link de grupo
 common#:#header_searchable#:#Pesquisável
 common#:#header_title#:#Título do cabeçalho
-common#:#header_visible_registration#:#Visível no registo
-common#:#header_zip#:#Conteúdo da mensagem
+common#:#header_visible_registration#:#Visível no registro
+common#:#header_zip#:#Carregar vários arquivos como arquivo zip
 common#:#height#:#Altura
-common#:#help#:#Não enviou qualquer ficheiro.
+common#:#help#:#Ajuda
 common#:#HH#:#HH:MM
 common#:#hide#:#ocultar
 common#:#hide_all_details#:#Ocultar todos os detalhes
-common#:#hide_details#:#Metadados
-common#:#hide_filter#:#Migrar
-common#:#hide_own_online_status#:#Ausente
+common#:#hide_details#:#Ocultar os detalhes
+common#:#hide_filter#:#Ocultar filtro
+common#:#hide_own_online_status#:#Ocultar meu status online
 common#:#hide_visible_sections#:#Ocultar mais informação &raquo;
 common#:#hint#:#Sugestão
 common#:#hist_lm_delete_pg#:#Página "%1" [%2] foi apagada.
 common#:#hist_lm_delete_st#:#Capítulo "%1" [%2] foi apagado.
 common#:#hist_lm_pg_create#:#Página criada.
 common#:#hist_lm_st_create#:#Capítulo criado.
-common#:#hist_webr_add#:#Objeto de media
-common#:#hist_webr_delete#:#módulo
-common#:#hist_webr_update#:#Módulos
+common#:#hist_webr_add#:#Adicionado novo link da web com o título: "%1"
+common#:#hist_webr_delete#:#Link da web excluído com o título: "%1"
+common#:#hist_webr_update#:#Link da Web modificado com o título: "%1"
 common#:#history#:#Histórico
-common#:#hits_per_page#:#Mês
-common#:#hobby#:#Janeiro
-common#:#home#:#Fevereiro
-common#:#host#:#Fev
+common#:#hits_per_page#:#Acessos / Página
+common#:#hobby#:#Interesses e hobbies
+common#:#home#:#Área publica
+common#:#host#:#Host
 common#:#hour#:#Hora
-common#:#hours#:#Março
-common#:#htlm#:#Abril
+common#:#hours#:#Horas
+common#:#htlm#:#Módulo de aprendizagem HTML
 common#:#htlm_add#:#Adicionar módulo de aprendizagem HTML
 common#:#htlm_new#:#Novo módulo de aprendizagem HTML
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Este servidor não suporta pedidos http.
-common#:#http_path#:#Maio
-common#:#https_not_possible#:#Abr
-common#:#i2passwd#:#Mai
+common#:#http_path#:#Caminho HTTP
+common#:#https_not_possible#:#Este servidor não suporta conexões HTTPS.
+common#:#i2passwd#:#ILIAS 2 password
 common#:#iass_import#:#Importar avaliação individual
 common#:#iass_new#:#Criar avaliação individual
-common#:#icon#:#Junho
-common#:#icon_settings#:#Julho
+common#:#icon#:#Ícone
+common#:#icon_settings#:#Ícones personalizados
 common#:#id#:#ID
-common#:#identifier#:#Agosto
-common#:#if_no_title_then_filename#:#Ago
+common#:#identifier#:#identificador
+common#:#if_no_title_then_filename#:#Deixe em branco para usar o nome do arquivo como título.
 common#:#ignore_on_conflict#:#Ignorar em conflito
 common#:#ignore_required_fields#:#Ignorar campos pedidos
 common#:#ignore_required_fields_info#:#Se estiver ativado, pode submeter este formulário sem preencher todos os campos obrigatórios. O novo utilizador tem de adicionar a informação que falta sobre o perfil pessoal após o próximo login.
@@ -3798,67 +3798,67 @@ common#:#il_astpl_loc_initial#:#Teste inicial
 common#:#il_astpl_loc_initial_desc#:#Modelo de definições para testes iniciais de cursos orientados para objetivos de aprendizagem
 common#:#il_astpl_loc_qualified#:#Teste de qualificação
 common#:#il_astpl_loc_qualified_desc#:#Modelo de definições para testes de qualificação de cursos orientados para objetivos de aprendizagem
-common#:#il_blog_contributor#:#Set
-common#:#il_blog_editor#:#Outubro
+common#:#il_blog_contributor#:#Autor do blog
+common#:#il_blog_editor#:#Editor do blog
 common#:#il_chat_moderator#:#Moderador de chat
-common#:#il_crs_admin#:#Out
-common#:#il_crs_member#:#Novembro
+common#:#il_crs_admin#:#Administrador do Curso
+common#:#il_crs_member#:#Membro do Curso
 common#:#il_crs_non_member#:#Não membro do curso
-common#:#il_crs_tutor#:#Dezembro
-common#:#il_frm_moderator#:#Dez
-common#:#il_grp_admin#:#Mover
-common#:#il_grp_member#:#Mover
+common#:#il_crs_tutor#:#Tutor do Curso
+common#:#il_frm_moderator#:#Moderador do fórum
+common#:#il_grp_admin#:#Administrador do grupo
+common#:#il_grp_member#:#Membro do grupo
 common#:#il_grp_status_closed#:#Grupo fechado
 common#:#il_grp_status_open#:#Grupo aberto
 common#:#il_iass_member#:#Examinado de avaliação individual
-common#:#il_lso_admin#:#Mover
-common#:#il_lso_member#:#Mover
+common#:#il_lso_admin#:#Admin da sequência de aprendizado
+common#:#il_lso_member#:#Membro da sequência de aprendizado
 common#:#il_orgu_employee#:#Funcionário
 common#:#il_orgu_superior#:#Superior
-common#:#ilias_version#:#Setembro
-common#:#image#:#Ação cancelada
-common#:#import#:#Área de transferência limpa
+common#:#ilias_version#:#Versão ILIAS
+common#:#image#:#Imagem
+common#:#import#:#Importar
 common#:#import_cat_localrol#:#Criar função local para cada nova categoria
 common#:#import_cat_table#:#A seguinte tabela só faz sentido se o quadrado estiver selecionado
-common#:#import_categories#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
+common#:#import_categories#:#Importar Categorias
 common#:#import_failure_log#:#Importar registo de falha
-common#:#import_file#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Continuar’.
-common#:#import_file_not_valid#:#Agora selecione o curso ou grupo pretendido, cujo conteúdo deve ser copiado e clique no botão ‘Continuar’.
-common#:#import_finished#:#Agora selecione a localização pretendida, para onde os objetos selecionados devem ser copiados e clique no botão ‘Colar’.
-common#:#import_lm#:#Objeto(s) selecionados movido(s)
-common#:#import_qpl#:#Função apagada
-common#:#import_questions_into_qpl#:#Funções e modelos de funções apagados
-common#:#import_sahs#:#Infelizmente, a ação falhou
-common#:#import_svy#:#Importar inquérito
+common#:#import_file#:#Importar Arquivo
+common#:#import_file_not_valid#:#O arquivo de importação não é válido.
+common#:#import_finished#:#Número de mensagens importadas.
+common#:#import_lm#:#Módulo de importação do ILIAS Learning
+common#:#import_qpl#:#Importar pool de perguntas de teste
+common#:#import_questions_into_qpl#:#Importar pergunta(s) para o conjunto de perguntas
+common#:#import_sahs#:#Importar pacote SCORM
+common#:#import_svy#:#Importar pesquisa
 common#:#import_tst#:#Importar teste
-common#:#import_users#:#Esta entrada é necessária. Por favor insira um valor.
+common#:#import_users#:#Importar Usuários
 common#:#import_warning_log#:#Importar registo de aviso
-common#:#important#:#Objeto(s) selecionados copiados
+common#:#important#:#Importante
 common#:#imported#:#importado
-common#:#imprint#:#Removeu a última função global dos seguintes utilizadores
-common#:#in#:#Objeto(s) selecionados conectado(s)
-common#:#in_use#:#Definições de permissões adotadas de
-common#:#in_use_by#:#(As definições foram guardadas!)
-common#:#inactive#:#Este objeto pode não conter objetos do tipo:
-common#:#inbox#:#Cada utilizador tem de ter pelo menos uma função global!
-common#:#include_local#:#Selecionou o mesmo idioma para diferentes traduções!
+common#:#imprint#:#Imprint
+common#:#in#:#em
+common#:#in_use#:#Idioma do Usuário
+common#:#in_use_by#:#em uso por
+common#:#inactive#:#inativo
+common#:#inbox#:#Caixa de entrada
+common#:#include_local#:#incluir arquivo de idioma personalizado ao atualizar o idioma
 common#:#info#:#Informação
-common#:#info_access_and_status_info#:#Não é possível colar o objeto em si mesmo
+common#:#info_access_and_status_info#:#Informações de acesso e status
 common#:#info_access_permissions#:#Autorizações de acesso
 common#:#info_activate_sure#:#Tem a certeza que quer aprovar o(s) seguinte(s) utilizador(es) como utilizador(es) ativo(s)?
-common#:#info_assign_sure#:#Não pode apagar a sua própria conta de utilizador.
-common#:#info_assigned#:#Nenhum idioma por padrão especificado! Tem de definir uma tradução como tradução predefinida.
+common#:#info_assign_sure#:#Tem certeza de que deseja atribuir os seguintes usuários?
+common#:#info_assigned#:#atribuído
 common#:#info_available_roles#:#Funções disponíveis
-common#:#info_change_user_view#:#Não escolheu um ficheiro, ou o ficheiro selecionado era demasiado grande.
-common#:#info_deactivate_sure#:#Nenhum idioma de tradução especificado! Tem de definir um idioma para cada tradução
-common#:#info_delete_sure#:#Não tem permissão para criar uma cópia do(s) seguinte(s) objeto(s):
+common#:#info_change_user_view#:#Mudar usuário
+common#:#info_deactivate_sure#:#Tem certeza de que deseja desativar os seguintes usuários?
+common#:#info_delete_sure#:#Tem certeza de que deseja excluir os seguintes itens?
 common#:#info_delete_warning_no_trash#:#(AVISO: Os objetos selecionados serão removidos de forma irreversível do sistema e poderão não ser recuperados!)
-common#:#info_deleted#:#Não tem permissão para mudar a atribuição da função do utilizador
-common#:#info_err_user_not_exist#:#Não tem permissão para adicionar modelos de funções
-common#:#info_from_role#:#Não tem permissão para cortar o(s) seguinte(s) objeto(s):
+common#:#info_deleted#:#Objetos excluídos
+common#:#info_err_user_not_exist#:#O usuário com esse nome de login ou user_id não existe
+common#:#info_from_role#:#Concedido por Função / Propriedade
 common#:#info_is_member#:#Utilizador é membro
 common#:#info_is_not_member#:#Utilizador não é membro
-common#:#info_message#:#Não tem permissão para apagar o(s) seguinte(s) objeto(s):
+common#:#info_message#:#Mensagem informativa
 common#:#info_not_assigned#:#não atribuído
 common#:#info_owner_of_object#:#Proprietário do objeto
 common#:#info_permission_origin#:#Posição original
@@ -3866,28 +3866,30 @@ common#:#info_permission_source#:#efetivo desde*
 common#:#info_remark_interrupted#:#A função está ininterrupta nesta posição. As definições de autorização predefinidas da função encontram-se, de facto, nessa posição.
 common#:#info_remove_sure#:#Tem a certeza que quer remover o(s) seguinte(s) item(itens)?
 common#:#info_short#:#Informação
-common#:#info_status_info#:#Não tem permissão para criar um link a partir do(s) seguinte(s) objeto(s):
-common#:#info_view_of_user#:#Não tem permissão para modificar modelos de funções
-common#:#inform_user_mail#:#A página que escolheu apenas é acessível por utilizadores registados
+common#:#info_status_info#:#Permissões do Usuário
+common#:#info_view_of_user#:#Usuário
+common#:#inform_user_mail#:#Enviar email para informar o usuário sobre alterações
 common#:#inline_file_extensions#:#Ficheiros autorizados para web
 common#:#inline_file_extensions_info#:#Os ficheiros com estas extensões são apresentados na janela do navegador.<br/>Por exemplo: <b>gif jpg mp3 pdf png</b><br/> Todos os outros ficheiros são oferecidos para download.
-common#:#insert#:#Não tem permissão para modificar os dados do utilizador
-common#:#insert_object_here#:#Não tem permissão para colar o(s) seguinte(s) objeto(s):
-common#:#inst_id#:#Este objeto já existe nesta pasta
-common#:#inst_info#:#Modificações guardadas.
-common#:#inst_name#:#Não é possível conectar objetos de recipientes, como categorias, cursos, grupos ou pastas, por razões técnicas. Em vez disso, pode conectar vários objetos individuais dentro desse recipiente a outras áreas ou criar um link de categoria, link de curso ou link de grupo.
-common#:#install#:#Não tem permissão para editar definições de permissões
-common#:#install_local#:#Nenhuma entrada encontrada
-common#:#installed#:#Não tem permissão para aceder ao item '%s’.
-common#:#installed_local#:#Não tem permissão para escrever
-common#:#instant_messengers#:#Insira a sua consulta
-common#:#institution#:#Objeto criado.
-common#:#internal_local_roles_only#:#Não é possível colar o objeto "%s" em si mesmo.
+common#:#insert#:#inserir
+common#:#insert_object_here#:#Inserir na posição atual
+common#:#inst_id#:#ID de instalação
+common#:#inst_info#:#Informação da instalação
+common#:#inst_name#:#Nome da instalação
+common#:#install#:#Instalar
+common#:#install_local#:#Instalar com arquivo personalizado
+common#:#installed#:#Instalado
+common#:#installed_local#:#Instalado com arquivo personalizado
+common#:#instant_messengers#:# 	
+Instant Messengers
+common#:#institution#:#Instituição
+common#:#internal_local_roles_only#:#Funções locais (apenas geradas automaticamente)
 common#:#invalid_visible_required_options_selected#:#Todos os campos definidos como necessários têm também de estar definidos como visíveis no registo.
 common#:#invisible_block#:#Bloco invisível
 common#:#invisible_block_mess#:#Não tem autorização para ver este bloco.
-common#:#ip_address#:#Não pode adotar definições de permissões da próprio função/modelo de função atual.
-common#:#is_already_your#:#Objeto(s) removido(s) do sistema.
+common#:#ip_address#:# 	
+IP Address
+common#:#is_already_your#:#já é seu
 common#:#item#:#Item
 common#:#itgr_add#:#Adicionar item grupo
 common#:#itgr_new#:#Novo item grupo
@@ -3895,16 +3897,16 @@ common#:#java_server#:#Servidor Java
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#Se estiver ativado, é possível pesquisar em ficheiros PDF, HTML e módulos de aprendizagem HTML
 common#:#java_server_port#:#Porta
-common#:#java_server_readme#:#A atribuição da função mudou
-common#:#join#:#O prefixo 'il_' está reservado a funções automaticamente criadas. Escolha outro nome
-common#:#join_session#:#A função do sistema não pode ser apagada
+common#:#java_server_readme#:#Informações de configuração
+common#:#join#:#Junte-se
+common#:#join_session#:#Comparecer
 common#:#kb#:#KByte
-common#:#keywords#:#As definições de permissões da função do sistema não podem ser mudadas. A função do sistema dá a todos os utilizadores atribuídos acesso ilimitado a todos os objetos e funções.
+common#:#keywords#:#Palavras-chave
 common#:#lang_dateformat#:#Y-m-d
-common#:#lang_path#:#Os meus cursos
+common#:#lang_path#:#Caminho do idioma
 common#:#lang_refresh_confirm#:#Tem a certeza que quer atualizar todos os idiomas?
-common#:#lang_refresh_confirm_info#:#Cursos e grupos
-common#:#lang_refresh_confirm_selected#:#Nome
+common#:#lang_refresh_confirm_info#:#ILIAS encontrou variáveis de linguagem alteradas. A atualização de um idioma lerá o arquivo de idioma padrão e provavelmente um arquivo de idioma personalizado no banco de dados. Um arquivo padrão não afetará suas alterações. Um arquivo personalizado substituirá as alterações anteriores à data do arquivo.
+common#:#lang_refresh_confirm_selected#:#Deseja realmente atualizar os idiomas selecionados?
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_size_bytes#:#bytes
@@ -3916,51 +3918,51 @@ common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Desinstalar alterações locais
 common#:#lang_uninstall_changes_confirm#:#Tem a certeza que quer limpar todas as alterações locais dos idiomas selecionados e repô-las no padrão da versão ILIAS atual?
 common#:#lang_uninstall_confirm#:#Tem a certeza que quer desinstalar os idiomas selecionados?
-common#:#langfile_found#:#Não existem objetos apagados
-common#:#language#:#Objeto(s) recuperado(s).
-common#:#language_not_installed#:#Os meus contactos
-common#:#languages#:#A atribuição do utilizador mudou
-common#:#languages_already_installed#:#Os seguintes utilizadores estão atribuídos apenas a esta função:
-common#:#languages_already_uninstalled#:#Apague os utilizadores ou atribua-os a outra função para apagar esta função.
-common#:#languages_updated#:#Favoritos
-common#:#last_access#:#Novidades
-common#:#last_change#:#Novo idioma
+common#:#langfile_found#:#Arquivo de idioma encontrado
+common#:#language#:#Idioma
+common#:#language_not_installed#:#não está instalado. Instale primeiro esse idioma
+common#:#languages#:#Idiomas
+common#:#languages_already_installed#:#Os idiomas selecionados já estão instalados
+common#:#languages_already_uninstalled#:#Os idiomas selecionados já estão desinstalados
+common#:#languages_updated#:#Todos os idiomas instalados foram atualizados
+common#:#last_access#:#Último acesso
+common#:#last_change#:#Última mudança
 common#:#last_edited_on#:#Última edição a
-common#:#last_login#:#Próximo
-common#:#last_refresh#:#Não
+common#:#last_login#:#Último login
+common#:#last_refresh#:#Último refresh
 common#:#last_reminder#:#Último lembrete
-common#:#last_update#:#Nenhum
-common#:#last_visited#:#Funções locais (apenas definidas para o utilizador)
-common#:#lastname#:#Novo
-common#:#laugh#:#Nota
-common#:#launch#:#Notas
+common#:#last_update#:#Atualizado
+common#:#last_visited#:#Última visita
+common#:#lastname#:#Sobrenome
+common#:#laugh#:#Rir
+common#:#launch#:#Lançamento
 common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#LDAP BaseDN
 common#:#ldap_configure#:#Configurar autenticação LDAP
 common#:#ldap_port#:#Porta LDAP
-common#:#ldap_read#:#Notas e comentários
+common#:#ldap_read#:#Acesso de leitura às configurações LDAP
 common#:#ldap_server#:#URL servidor LDAP
 common#:#ldap_tls#:#Usar LDAP TLS
 common#:#ldap_version#:#Versão de protocolo LDAP
 common#:#learning module#:#Módulo de aprendizagem
-common#:#learning_progress#:#Não instalado
+common#:#learning_progress#:#Progresso da aprendizagem
 common#:#leave_waiting_list#:#Sair da lista de espera
 common#:#legend#:#Legenda
-common#:#level#:#Não iniciou sessão
-common#:#like#:#Para aceder a este item tem de ter iniciado sessão e possuir as permissões apropriadas.
+common#:#level#:#Nível
+common#:#like#:#Gostar
 common#:#link#:#Link
 common#:#link_all#:#Ligar tudo
-common#:#link_check#:#Este objeto está vazio e não contém itens.
-common#:#link_check_message_b#:#Sem limite
-common#:#link_check_message_disabled#:#Não há funções globais para atribuir ao utilizador. Portanto, não está autorizado para adicionar utilizadores.
+common#:#link_check#:#Verificação de Weblink
+common#:#link_check_message_b#:#Se ativado, você será informado sobre links inválidos por email.
+common#:#link_check_message_disabled#:#Mensagens desativadas
 common#:#link_check_message_enabled#:#Mensagens ativadas
-common#:#link_check_subject#:#Nenhum título
+common#:#link_check_subject#:#[ILIAS] Verificação de weblink
 common#:#link_checker_refreshed#:#Vista atualizada
-common#:#link_selected_items#:#Objeto
-common#:#links_add_param#:#Atualmente não existe um texto dos termos de serviço fornecido com esta instalação. Entre em contacto com o <a href="%1$s">administrador do sistema</a>.
+common#:#link_selected_items#:#Link
+common#:#links_add_param#:#Adicionar parâmetro:
 common#:#links_dyn_parameter#:#Parâmetros dinâmicos
-common#:#links_dynamic#:#Não selecionou nenhum item!
-common#:#links_dynamic_info#:#Nenhuma data
+common#:#links_dynamic#:#Parâmetros dinâmicos weblink
+common#:#links_dynamic_info#:#Se ativado, é possível anexar parâmetros dinâmicos aos links da Web. <br /> Por exemplo, o ID do usuário ILIAS ou o nome de usuário.
 common#:#links_existing_params#:#Parâmetros existentes:
 common#:#links_name#:#Nome do parâmetro
 common#:#links_no_name_given#:#Escolha um nome de parâmetro.
@@ -3972,98 +3974,98 @@ common#:#links_user_id#:#Id de utilizador ILIAS
 common#:#links_user_name#:#Nome de utilizador ILIAS
 common#:#links_value#:#Valor de parâmetro
 common#:#list#:#Lista
-common#:#list_of_questions#:#Objetos
-common#:#lm#:#Objeto adicionado
-common#:#lm_add#:#Objeto copiado
-common#:#lm_added#:#Definições de objeto
-common#:#lm_new#:#Bancos de reservas
-common#:#lm_type_scorm#:#Categorias
-common#:#lm_type_scorm2004#:#Link de categoria
-common#:#lng#:#Sala de chat
-common#:#lngf#:#Cursos
-common#:#lo#:#Link do curso
+common#:#list_of_questions#:#Lista de perguntas
+common#:#lm#:#Módulo de Aprendizagem ILIAS
+common#:#lm_add#:#Adicionar ILIAS Learning Module
+common#:#lm_added#:#Módulo de aprendizagem ILIAS adicionado
+common#:#lm_new#:#Novo Módulo de Aprendizagem ILIAS
+common#:#lm_type_scorm#:#SCORM 1.2
+common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
+common#:#lng#:#Idioma
+common#:#lngf#:#Idiomas
+common#:#lo#:#Objeto de Aprendizagem
 common#:#loaded_preview_renderers#:#Processador de pré-visualização carregado
 common#:#local#:#Local
-common#:#local_language_file#:#Ficheiros
-common#:#local_language_files#:#Pastas
-common#:#local_languages_already_installed#:#Exercícios
-common#:#location#:#Fóruns
-common#:#locator#:#Glossários
+common#:#local_language_file#:#Arquivo de idioma personalizado
+common#:#local_language_files#:#Arquivos de idioma personalizado
+common#:#local_languages_already_installed#:#Os arquivos de idiomas personalizados selecionados já estão instalados
+common#:#location#:#Localização
+common#:#locator#:#Localização:
 common#:#log_in#:#Login
 common#:#logic_or#:#ou
 common#:#login#:#Grupos
-common#:#login_as#:#Módulos de aprendizagem HTML
-common#:#login_data#:#Módulos de aprendizagem ILIAS
-common#:#login_exists#:#Recursos de aprendizagem
+common#:#login_as#:#logado como
+common#:#login_data#:#Dados de login
+common#:#login_exists#:#Já existe um usuário com este nome de login! Por favor escolha outro.
 common#:#login_information#:#Informação de login
 common#:#login_information_desc#:#Insira uma informação de login para o respetivo idioma.
 common#:#login_information_settings_saved#:#A informação de login foi guardada com sucesso
-common#:#login_invalid#:#Mediacasts
-common#:#login_to_ilias#:#Bancos de media
-common#:#login_to_ilias_via_cas#:#Unidades organizacionais
+common#:#login_invalid#:#O login escolhido é inválido! Apenas os seguintes caracteres são permitidos (mínimo de 3 caracteres): A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_to_ilias#:#Entrar ILIAS
+common#:#login_to_ilias_via_cas#:#Efetue login no ILIAS via Central Authentication Service
 common#:#login_to_ilias_via_saml#:#Login para ILIAS via autenticação SAML
-common#:#login_to_ilias_via_shibboleth#:#Teste bancos de perguntas
+common#:#login_to_ilias_via_shibboleth#:#Login para ILIAS via
 common#:#loginname_already_exists#:#Este nome de login já existe.
-common#:#loginname_settings#:#Links do grupo
-common#:#logout#:#Cursos ECS
-common#:#logout_text#:#Funções
+common#:#loginname_settings#:#Configurações de nome de login
+common#:#logout#:#Logout
+common#:#logout_text#:#Você saiu do ILIAS. Sua sessão foi encerrada.
 common#:#logs#:#Dados de registo
-common#:#love#:#Módulos de aprendizagem SCORM
+common#:#love#:#Amor
 common#:#lres#:#Recursos de aprendizagem
-common#:#lso_add#:#Sessões
-common#:#lso_copy#:#Inquérito bancos de perguntas
-common#:#lso_copy_threads_info#:#Capítulos
-common#:#lso_edit#:#Inquéritos
-common#:#lso_import#:#Testes
-common#:#lso_new#:#Weblinks
-common#:#lso_wizard_page#:#Administração
+common#:#lso_add#:#Adicionar sequência de aprendizado
+common#:#lso_copy#:#Copiar sequência de aprendizado
+common#:#lso_copy_threads_info#:#Decida quais elementos da sequência de aprendizado devem ser copiados, vinculados ou omitidos.
+common#:#lso_edit#:#Editar sequência de aprendizado
+common#:#lso_import#:#Importar sequência de aprendizado
+common#:#lso_new#:#Nova sequência de aprendizado
+common#:#lso_wizard_page#:#Copiar sequência de aprendizado (Etapa 2/2)
 common#:#lti_outcome#:#Notificação do progresso de aprendizagem LTI
 common#:#lti_outcome_info#:#Envia o estado do progresso da aprendizagem dos utilizadores LTI ao LTI Tool Consumer.
-common#:#mail#:#Principal pasta de definições do sistema contendo todos os painéis para administrar a sua instalação do ILIAS.
-common#:#mail_addressbook#:#Teste e avaliação
+common#:#mail#:#Mail
+common#:#mail_addressbook#:#Contatos
 common#:#mail_at_the_ilias_installation#:#Recebeu %1$s novo mail na instalação ILIAS %2$s
 common#:#mail_attachment#:#Anexo do mail
-common#:#mail_b_inbox#:#Definições de plataforma para a ferramenta de teste e avaliação
-common#:#mail_c_trash#:#Autenticação e registo
-common#:#mail_d_drafts#:#Banco de reservas
-common#:#mail_delete_error#:#Configurar o seu modo de autenticação (local, LDAP, ...) e novas definições de registo de conta aqui.
-common#:#mail_e_sent#:#Link de categoria
-common#:#mail_edit_permission#:#Categoria
-common#:#mail_folders#:#Sala de chat
-common#:#mail_import_file#:#Sala de chat
-common#:#mail_mails_of#:#Plugins
-common#:#mail_maxsize_attach#:#Definições gerais para plugins
+common#:#mail_b_inbox#:#Caixa de entrada
+common#:#mail_c_trash#:#Lixeira
+common#:#mail_d_drafts#:#Rascunhos
+common#:#mail_delete_error#:#CErro ao excluir
+common#:#mail_e_sent#:#Enviado
+common#:#mail_edit_permission#:#O usuário pode alterar as configurações de permissão na administração de email
+common#:#mail_folders#:#Pastas de Correio
+common#:#mail_import_file#:#Exportar arquivo
+common#:#mail_mails_of#:#Mail
+common#:#mail_maxsize_attach#:#Máx. tamanho do anexo
 common#:#mail_member#:#Mail ao membro
-common#:#mail_members#:#Curso
+common#:#mail_members#:#Mail ao membros
 common#:#mail_multiple_recipients_found#:#Insira um endereço de correio mais específico. ILIAS encontrou possíveis destinatários múltiplos para este endereço: %s
 common#:#mail_no_recipient_found#:#Insira um endereço de correio diferente. ILIAS não encontrou um destinatário com este endereço de correio.
-common#:#mail_not_sent#:#Link do curso
-common#:#mail_search_no#:#Livro Digilib
-common#:#mail_select_one#:#Exercício
-common#:#mail_send_error#:#Ficheiros
-common#:#mail_sent#:#Definições para ficheiros e tratamento de ficheiros
-common#:#mail_settings#:#Web Feed
-common#:#mail_to_global_roles_not_allowed#:#Ficheiro
-common#:#mail_z_local#:#Ficheiro módulo de aprendizagem
-common#:#mails#:#Editar
+common#:#mail_not_sent#:#Correio não enviado!
+common#:#mail_search_no#:#Nenhuma entrada encontrada.
+common#:#mail_select_one#:#Você deve selecionar um e-mail
+common#:#mail_send_error#:#Erro ao enviar e-mail
+common#:#mail_sent#:#Mail enviado!
+common#:#mail_settings#:#Configurações de correio
+common#:#mail_to_global_roles_not_allowed#:#%1$s (não é permitido enviar e-mails para funções globais)
+common#:#mail_z_local#:#Pastas de usuário
+common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Recebeu %1$s novos mails na instalação ILIAS %2$s
-common#:#mails_pl#:#Definições de administração para editor de páginas ILIAS e TinyMCE.
-common#:#main_menu#:#Pasta
+common#:#mails_pl#:#Mail(s)
+common#:#main_menu#:#Menu principal
 common#:#manage_members#:#Gerir membros
-common#:#marked_entries#:#Fórum
-common#:#matriculation#:#Glossário
+common#:#marked_entries#:#Entradas Marcadas
+common#:#matriculation#:#Número de matrícula
 common#:#max_previews_per_object#:#Número de imagens de pré-visualização por ficheiro
 common#:#max_previews_per_object_info#:#Define o número máximo de imagens de pré-visualização que são criadas por ficheiro.
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Adicionar MediaCast
 common#:#mcst_new#:#Novo MediaCast
-common#:#mem_add_to_wl#:#Módulo de aprendizagem HTML
+common#:#mem_add_to_wl#:#Adicionar à lista de espera
 common#:#mem_alert_no_places#:#Não há lugares livres disponíveis.
 common#:#mem_cron_min_members#:#Curso/Grupo: Controlo do mínimo de membros
 common#:#mem_cron_min_members_info#:#Os administradores serão notificados se o número mínimo não for alcançado.
 common#:#mem_end#:#Fim do registo:
-common#:#mem_free_places#:#Configure aqui as definições globais de LDAP.
-common#:#mem_max_users#:#Mínimo de utilizadores:
+common#:#mem_free_places#:#Lugares livres
+common#:#mem_max_users#:#Máximo de utilizadores:
 common#:#mem_min_users#:#Mínimo de utilizadores
 common#:#mem_participants#:#Participantes
 common#:#mem_reg_expired#:#O tempo de registo expirou
@@ -4071,207 +4073,207 @@ common#:#mem_reg_not_started#:#O registo não iniciou
 common#:#mem_reg_period#:#Período de registo
 common#:#mem_reg_type#:#Tipo de registo
 common#:#mem_start#:#Início do registo:
-common#:#mem_unlimited#:#Módulo de aprendizagem ILIAS
-common#:#mem_view_activate#:#Idioma
+common#:#mem_unlimited#:#Ilimitado
+common#:#mem_view_activate#:#Mostrar visualização de membro
 common#:#mem_view_close#:#Fechar vista de membros
 common#:#mem_view_long#:#Vista de membros
 common#:#mem_waiting_list#:#Utilizadores na lista de espera:
 common#:#mem_waiting_list_position#:#A sua posição na lista de espera:
-common#:#member#:#Grupo
-common#:#member_status#:#Copiar grupo
-common#:#members#:#Link do grupo
+common#:#member#:#Membro
+common#:#member_status#:#Status do Membro
+common#:#members#:#Membros
 common#:#membership_leave#:#Sair
-common#:#mep#:#Idiomas
-common#:#mep_add#:#Gerir aqui seus idiomas do sistema.
-common#:#mep_edit#:#Recursos de aprendizagem
-common#:#mep_new#:#Correio
+common#:#mep#:#Media Pool
+common#:#mep_add#:#Adicionar Media Pool
+common#:#mep_edit#:#Editar Media Pool
+common#:#mep_new#:#Novo Media Pool
 common#:#mep_not_insert_already_exist#:#Os seguintes itens não foram inseridos porque já estão no banco de media:
-common#:#message#:#Configure aqui as definições globais do correio.
-common#:#message_content#:#Mediacast
-common#:#message_no_delivered_files#:#Banco de media
-common#:#meta_data#:#Objeto de media
+common#:#message#:#Mensagem
+common#:#message_content#:#Conteúdo da mensagem
+common#:#message_no_delivered_files#:#Você não enviou nenhum arquivo.
+common#:#meta_data#:#Metadata
 common#:#mgs_objects_linked_to_the_following_folders_p#:#Os objetos foram associados à(s) seguinte(s) pasta(s): %s
 common#:#mgs_objects_linked_to_the_following_folders_s#:#O objeto foi associados à(s) seguinte(s) pasta(s): %s
-common#:#migrate#:#Objetos e bancos de media
+common#:#migrate#:#Migrar
 common#:#minute#:#Minuto
 common#:#minutes#:#Minutos
 common#:#missing#:#Objeto não encontrado
 common#:#missing_perm#:#Falta autorização
 common#:#missing_precondition#:#Falta pré-condição
-common#:#mme_lost_item_reason#:#Novidades e Web Feeds
-common#:#mme_lost_item_title#:#Definições de objeto
-common#:#mob#:#Gerir tipos e permissões de objetos ILIAS. (apenas para especialistas!)
+common#:#mme_lost_item_reason#:#O item não é mais fornecido.
+common#:#mme_lost_item_title#:#Nenhuma atribuição
+common#:#mob#:#Media Object
 common#:#moderators#:#Moderadores
-common#:#module#:#Computador pessoal
-common#:#modules#:#Página
-common#:#month#:#Portefólio
-common#:#month_01_long#:#Privacidade e segurança
+common#:#module#:#módulo
+common#:#modules#:#módulos
+common#:#month#:#mês
+common#:#month_01_long#:#Janeiro
 common#:#month_01_short#:#Jan
-common#:#month_02_long#:#Teste bancos de perguntas
-common#:#month_02_short#:#Categoria ECS
-common#:#month_03_long#:#Curso ECS
+common#:#month_02_long#:#Fevereiro
+common#:#month_02_short#:#Fev
+common#:#month_03_long#:#Março
 common#:#month_03_short#:#Mar
-common#:#month_04_long#:#Objetos restaurados
-common#:#month_04_short#:#Contém objetos restaurados da verificação do sistema.
-common#:#month_05_long#:#Função
-common#:#month_05_short#:#Funções
-common#:#month_06_long#:#Pode gerir aqui as suas funções.
+common#:#month_04_long#:#Abril
+common#:#month_04_short#:#Abr
+common#:#month_05_long#:#Maio
+common#:#month_05_short#:#Mai
+common#:#month_06_long#:#Junho
 common#:#month_06_short#:#Jun
-common#:#month_07_long#:#Funções locais
+common#:#month_07_long#:#Julho
 common#:#month_07_short#:#Jul
-common#:#month_08_long#:#Contém funções locais do n.º do objeto.
-common#:#month_08_short#:#Modelo de função
-common#:#month_09_long#:#Repositório - Home
-common#:#month_09_short#:#Módulo de aprendizagem SCORM
-common#:#month_10_long#:#Gestão de competências
-common#:#month_10_short#:#Gerir competências e categorias de competências.
-common#:#month_11_long#:#Inquérito bancos de perguntas
+common#:#month_08_long#:#Agosto
+common#:#month_08_short#:#Ago
+common#:#month_09_long#:#Setembro
+common#:#month_09_short#:#Set
+common#:#month_10_long#:#Outubro
+common#:#month_10_short#:#Out
+common#:#month_11_long#:#Novembro
 common#:#month_11_short#:#Nov
-common#:#month_12_long#:#Capítulo
-common#:#month_12_short#:#Layout e estilos
+common#:#month_12_long#:#Decembro
+common#:#month_12_short#:#Dec
 common#:#monthly#:#mensalmente
 common#:#months#:#Meses
 common#:#mount_webfolder#:#Abrir como pasta da web
-common#:#move#:#Inquérito
-common#:#move_selected_items#:#Definições para funcionalidade de identificação.
-common#:#moveChapter#:#Copiar inquérito
-common#:#movePage#:#Identificação
-common#:#msg_cancel#:#Calendário
-common#:#msg_clear_clipboard#:#O bloco "Calendário" aparece dentro do separador "Conteúdo".
-common#:#msg_cloned#:#Novidades
-common#:#msg_copy_clipboard#:#O bloco "Novidades" aparece dentro do separador "Conteúdo".
-common#:#msg_copy_clipboard_container#:#Estatística e progresso de aprendizagem
-common#:#msg_copy_clipboard_source#:#Definições e vista geral da estatística e progresso de aprendizagem
-common#:#msg_cut_clipboard#:#Teste
-common#:#msg_cut_copied#:#Copiar teste
+common#:#move#:#Mover
+common#:#move_selected_items#:#Mover
+common#:#moveChapter#:#Mover
+common#:#movePage#:#Mover
+common#:#msg_cancel#:#Ação cancelada
+common#:#msg_clear_clipboard#:#Área de transferência limpa
+common#:#msg_cloned#:#Objetos selecionados copiados
+common#:#msg_copy_clipboard#:#Agora, selecione o local desejado, onde os objetos selecionados devem ser colados e clique no botão "Colar".
+common#:#msg_copy_clipboard_container#:#Agora, selecione o local desejado, onde os objetos selecionados devem ser colados e clique no botão "Continuar".
+common#:#msg_copy_clipboard_source#:#Agora, selecione o curso ou grupo desejado, cujo conteúdo deve ser copiado e clique no botão "Continuar".
+common#:#msg_cut_clipboard#:#Agora, selecione o local desejado, onde os objetos selecionados devem ser colados e clique no botão "Colar".
+common#:#msg_cut_copied#:#Objeto(s) selecionado(s) movido(s).
 common#:#msg_deleted_export_files#:#Exportar ficheiro(s) apagado(s)
-common#:#msg_deleted_role#:#Tipo de objeto
-common#:#msg_deleted_roles_rolts#:#Utilizador
-common#:#msg_failed#:#Gestão de utilizador
+common#:#msg_deleted_role#:#Função excluída
+common#:#msg_deleted_roles_rolts#:#Funções e modelos de função excluídos
+common#:#msg_failed#:#Desculpe, ação falhou
 common#:#msg_form_save_error#:#Não foi possível guardar os dados do formulário. Verifique os campos de entrada quanto a mensagens de erro.
 common#:#msg_input_does_not_match_regexp#:#Forneça um valor válido.
-common#:#msg_input_is_required#:#Gira aqui as contas do utilizador.
-common#:#msg_is_last_role#:#Weblink
+common#:#msg_input_is_required#:#Esta entrada é necessária. Por favor insira um valor.
+common#:#msg_is_last_role#:#Você removeu a última função global dos seguintes usuários
 common#:#msg_last_role_for_registration#:#Pelo menos uma função tem de estar disponível no formulário de registo para novos utilizadores. Esta função é atualmente a única disponível.
 common#:#msg_link_clipboard_p#:#Agora selecione a localização pretendida, à qual os objetos selecionados devem ser associados e clique no botão Colar.
 common#:#msg_link_clipboard_s#:#Agora selecione a localização pretendida, à qual o objeto selecionado deve ser associado e clique no botão Colar.
 common#:#msg_linked#:#Copiar lista dos links da web
-common#:#msg_may_not_contain#:#De
-common#:#msg_min_one_role#:#Offline
-common#:#msg_multi_language_selected#:#Uso offline
-common#:#msg_no_default_language#:#Operação
-common#:#msg_no_delete_yourself#:#Otimizar
-common#:#msg_no_file#:#Opções
-common#:#msg_no_language_selected#:#Encomenda de
-common#:#msg_no_perm_assign_role_to_user#:#Outros
+common#:#msg_may_not_contain#:#Este objeto não pode conter objetos do tipo:
+common#:#msg_min_one_role#:#Cada usuário deve ter pelo menos uma função global!
+common#:#msg_multi_language_selected#:#Você selecionou o mesmo idioma para diferentes traduções!
+common#:#msg_no_default_language#:#Nenhum idioma padrão especificado! Você deve definir uma tradução como tradução padrão.
+common#:#msg_no_delete_yourself#:#Você não pode excluir sua própria conta de usuário.
+common#:#msg_no_file#:#Você não escolheu um arquivo ou o arquivo selecionado era muito grande.
+common#:#msg_no_language_selected#:#Nenhum idioma de tradução especificado! Você deve definir um idioma para cada tradução
+common#:#msg_no_perm_assign_role_to_user#:#Você não tem permissão para alterar a atribuição de função do usuário
 common#:#msg_no_perm_assign_user_to_role#:#Não tem permissão para mudar a atribuição do utilizador
-common#:#msg_no_perm_copy#:#Vista geral
-common#:#msg_no_perm_create_rolt#:#Dono
-common#:#msg_no_perm_cut#:#Página
-common#:#msg_no_perm_delete#:#Páginas
-common#:#msg_no_perm_link#:#Layout página
-common#:#msg_no_perm_modify_rolt#:#Layouts página
-common#:#msg_no_perm_modify_user#:#Parâmetro
-common#:#msg_no_perm_paste#:#Analisar
+common#:#msg_no_perm_copy#:#Você não tem permissão para criar uma cópia do(s) seguinte(s) objeto(s):
+common#:#msg_no_perm_create_rolt#:#Você não tem permissão para adicionar modelos de função
+common#:#msg_no_perm_cut#:#Você não tem permissão para cortar o(s) seguinte(s) objeto(s):
+common#:#msg_no_perm_delete#:#Você não tem permissão para excluir o(s) seguinte(s) objeto(s):
+common#:#msg_no_perm_link#:#Você não tem permissão para criar um link a partir dos seguintes objetos:
+common#:#msg_no_perm_modify_rolt#:#Você não tem permissão para modificar modelos de função
+common#:#msg_no_perm_modify_user#:#Você não tem permissão para modificar dados do usuário
+common#:#msg_no_perm_paste#:#Você não tem permissão para colar o(s) seguinte(s) objeto(s):
 common#:#msg_no_perm_paste_object_in_folder#:#Não tem permissão para colar o objeto %s para a pasta %s.
-common#:#msg_no_perm_perm#:#Palavra-passe
+common#:#msg_no_perm_perm#:#Você não tem permissão para editar configurações de permissão
 common#:#msg_no_perm_read#:#Não tem permissão para aceder a este item.
-common#:#msg_no_perm_read_item#:#A nova palavra-passe é inválida! Apenas são permitidos os seguintes caracteres (mínimo de 6 caracteres): A-Z a-z 0-9 _.-+?
+common#:#msg_no_perm_read_item#:#Você não tem permissão para acessar o item '%s'.
 common#:#msg_no_perm_read_lm#:#Não tem permissão para ler este módulo de aprendizagem.
-common#:#msg_no_perm_write#:#As suas entradas para a nova palavra-passe não correspondem! Volte a inserir a sua nova palavra-passe.
-common#:#msg_no_search_result#:#A palavra-passe introduzida está errada!
-common#:#msg_no_search_string#:#Palavra-passe
+common#:#msg_no_perm_write#:#Você não tem permissão para escrever
+common#:#msg_no_search_result#:#Nenhuma entrada encontrada
+common#:#msg_no_search_string#:#Digite sua consulta
 common#:#msg_no_title#:#Insira um título.
-common#:#msg_not_available_for_anon#:#Antigo
-common#:#msg_not_in_itself#:#Tempo online (DD:HH:MM:SS)
+common#:#msg_not_available_for_anon#:#A página que você escolheu só pode ser acessada por usuários registrados
+common#:#msg_not_in_itself#:#Não é possível colar o objeto em si
 common#:#msg_obj_already_deleted#:#O objeto já foi apagado.
-common#:#msg_obj_created#:#Caracteres permitidos: %s
-common#:#msg_obj_exists#:#Se estiver ativada a ajuda para palavra-passe, aparece um link ‘Esqueceu-se da palavra-passe?’ na página de login de ILIAS. Os utilizadores podem usar este link para definir uma nova palavra-passe para a sua conta de utilizador sem necessidade de assistência de um administrador de sistema.
+common#:#msg_obj_created#:#Objeto criado.
+common#:#msg_obj_exists#:#Este objeto já existe nesta pasta
 common#:#msg_obj_exists_in_folder#:#O objeto %s já existe na pasta %s.
 common#:#msg_obj_may_not_contain_objects_of_type#:#O objeto %s pode não conter objetos do tipo: %s.
-common#:#msg_obj_modified#:#Tem de mudar a sua palavra-passe inicial antes de poder começar a usar os serviços ILIAS.
+common#:#msg_obj_modified#:#Modificações salvas.
 common#:#msg_obj_no_download#:#não pode ser descarregado.
-common#:#msg_obj_no_link#:#O campo da palavra-passe não pode estar vazio.
+common#:#msg_obj_no_link#:#Não é possível vincular objetos de contêiner como categorias, cursos, grupos ou pastas devido a motivos técnicos. Em vez disso, você pode vincular vários objetos únicos dentro desse contêiner a outras áreas ou criar um link de categoria, link de curso ou link de grupo.
 common#:#msg_obj_perm_download#:#Não tem direitos suficientes para descarregar os seguintes objetos:
-common#:#msg_paste_object_not_in_itself#:#A sua palavra-passe caducou e tem de ser mudada, pois a última vez que foi alterada foi há %s dia(s).
-common#:#msg_perm_adopted_from_itself#:#Colar
-common#:#msg_perm_adopted_from1#:#Os critérios múltiplos não estão cumpridos:
-common#:#msg_perm_adopted_from2#:#Colar
-common#:#msg_removed#:#Colar
-common#:#msg_role_reserved_prefix#:#Caminho
-common#:#msg_roleassignment_changed#:#Colar
-common#:#msg_sysrole_not_deletable#:#Caminhos
-common#:#msg_sysrole_not_editable#:#Caminho não definido
-common#:#msg_trash_empty#:#Caminho para o Convert
-common#:#msg_undeleted#:#Caminho para o HTMLdoc
+common#:#msg_paste_object_not_in_itself#:#Não é possível colar o objeto "%s" em si.
+common#:#msg_perm_adopted_from_itself#:#Você não pode adotar configurações de permissão da própria função / modelo de função atual.
+common#:#msg_perm_adopted_from1#:#Configurações de permissão adotadas de
+common#:#msg_perm_adopted_from2#:#(As definições foram guardadas!)
+common#:#msg_removed#:#Objeto(s) removido(s) do sistema.
+common#:#msg_role_reserved_prefix#:#O prefixo 'il_' é reservado para funções geradas automaticamente. Por favor escolha outro nome
+common#:#msg_roleassignment_changed#:#Atribuição de função alterada
+common#:#msg_sysrole_not_deletable#:#A função do sistema não pode ser excluída
+common#:#msg_sysrole_not_editable#:#As configurações de permissão da função do sistema não podem ser alteradas. A função do sistema concede a todos os usuários atribuídos acesso ilimitado a todos os objetos e funções.
+common#:#msg_trash_empty#:#Não há objetos excluídos
+common#:#msg_undeleted#:#Objeto(s) restaurado(s).
 common#:#msg_unit_is_required#:#Esta entrada requer uma unidade. Insira um valor correto.
-common#:#msg_user_last_role1#:#Caminho para o Unzip
-common#:#msg_user_last_role2#:#Caminho para o Zip
-common#:#msg_userassignment_changed#:#Caminho para o Java
-common#:#msg_wrong_filetypes#:#Exportar PDF
+common#:#msg_user_last_role1#:#Os seguintes usuários são atribuídos apenas a esta função:
+common#:#msg_user_last_role2#:#Exclua os usuários ou atribua-os a outra função para excluir essa função.
+common#:#msg_userassignment_changed#:#Atribuição de usuário alterada
+common#:#msg_wrong_filetypes#:#Tipos de arquivos permitidos:
 common#:#msg_wrong_format#:#O valor que inseriu não é um formato válido.
-common#:#my_bms#:#Ativar Chat viewer
-common#:#my_certificates#:#Link permanente
-common#:#my_contacts#:#Permissão
-common#:#my_courses#:#Permissão negada
-common#:#my_courses_groups#:#Definições de permissões de objetos
+common#:#my_bms#:#Favoritos
+common#:#my_certificates#:#Meus Certificados
+common#:#my_contacts#:#Meus contatos
+common#:#my_courses#:#Meus cursos
+common#:#my_courses_groups#:#Meus cursos e grupos
 common#:#my_staff#:#Pessoal
-common#:#name#:#Permissões
+common#:#name#:#Nome
 common#:#never#:#nunca
-common#:#new#:#Dados pessoais
-common#:#new_language#:#Avatar
+common#:#new#:#Novo
+common#:#new_language#:#Novo idioma
 common#:#new_pass_equals_old_pass#:#A nova palavra-passe é igual à antiga.
 common#:#newline#:#Nova linha
-common#:#news#:#Computador pessoal
-common#:#next#:#Dados pessoais e perfis
-common#:#no#:#Definições
+common#:#news#:#Novidades
+common#:#next#:#Próximo
+common#:#no#:#Não
 common#:#no_access_item#:#Não tem permissão para aceder a este item.
-common#:#no_access_item_public#:#Telefone, Telemóvel
-common#:#no_agreement_description#:#Telefone, Escritório
-common#:#no_checkbox#:#Frase
+common#:#no_access_item_public#:#Para acessar este item, você precisa estar logado e ter as permissões apropriadas.
+common#:#no_agreement_description#:#Atualmente, não há texto sobre os termos de serviço fornecido com esta instalação. Entre em contato com o <a href="%1$s"> administrador do sistema </a>.
+common#:#no_checkbox#:#Você não selecionou nenhum item.
 common#:#no_condition_selected#:#Selecione uma pré-condição.
-common#:#no_date#:#-- Selecione --
+common#:#no_date#:#Sem data
 common#:#no_gallery_users_available#:#Atualmente não há utilizadores na galeria.
 common#:#no_global_role_left#:#Cada utilizador tem de ser atribuído a uma função.
 common#:#no_import_file_found#:#Nenhum ficheiro de importação encontrado
-common#:#no_items#:#Insira um destino
-common#:#no_limit#:#Insira um título
+common#:#no_items#:#Este objeto está vazio e não contém itens.
+common#:#no_limit#:#Sem limite
 common#:#no_mkisofs_configured#:#Tem de configurar o serviço mkisofs na instalação ILIAS para executar a exportação ISO
 common#:#no_owner#:#Sem proprietário
 common#:#no_parent_access#:#Nenhum acesso a um objeto superordenado!
 common#:#no_permission#:#Não tem a necessária autorização.
-common#:#no_roles_user_can_be_assigned_to#:#--- Selecione ---
+common#:#no_roles_user_can_be_assigned_to#:#Não há funções globais às quais o usuário possa ser atribuído. Portanto, você não tem permissão para adicionar usuários.
 common#:#no_start_file#:#Nenhum ficheiro de arranque.
-common#:#no_title#:#Porta
+common#:#no_title#:#Sem título
 common#:#no_users_selected#:#Selecione apenas um utilizador.
 common#:#no_xml_file_found_in_zip#:#Ficheiro XML dentro do ficheiro zip não encontrado:
-common#:#non_internal_local_roles_only#:#Pessoas
-common#:#none#:#Espaço de trabalho
+common#:#non_internal_local_roles_only#:#Funções locais (apenas definido pelo usuário)
+common#:#none#:#Nenhum
 common#:#normal#:#Normal
 common#:#not_available#:#Indisponível
 common#:#not_implemented_yet#:#Não implementado ainda
-common#:#not_installed#:#Telefone
-common#:#not_logged_in#:#Telefone, Casa
-common#:#note#:#Título
-common#:#notes#:#Adicionar página
-common#:#notes_and_comments#:#Nova página
+common#:#not_installed#:#Não instalado
+common#:#not_logged_in#:#você não está logado
+common#:#note#:#Nota
+common#:#notes#:#Notas
+common#:#notes_and_comments#:#Notas e Comentários
 common#:#notice#:#Nota
 common#:#notifications#:#Notificações
 common#:#nr_following_sessions#:#%1d seguinte(s) sessão(sessões)...
 common#:#num_of_selected_files#:#%s ficheiro(s) selecionado(s)
 common#:#num_users#:#Número de utilizadores
-common#:#obj#:#Posição
+common#:#obj#:#Objeto
 common#:#obj_accs#:#Acessibilidade
 common#:#obj_accs_desc#:#Definições para funcionalidade de acessibilidade.
-common#:#obj_adm#:#utilizador registado
-common#:#obj_adm_desc#:#utilizadores registados
-common#:#obj_adve#:#Registo de nova conta
-common#:#obj_adve_desc#:#A sua conta de utilizador foi ativada.
+common#:#obj_adm#:#Administração
+common#:#obj_adm_desc#:#Pasta principal de configurações do sistema, contendo todos os painéis para administrar sua instalação do ILIAS.
+common#:#obj_adve#:#Edição
+common#:#obj_adve_desc#:#Configurações de administração para o editor de páginas ILIAS e o TinyMCE.
 common#:#obj_ass#:#Recurso
 common#:#obj_assf#:#O link será válido por apenas %s, após esse período terá que tentar novamente desde o início.
-common#:#obj_assf_desc#:#Se este e-mail não significar nada para si, é possível que alguém tenha entrado no seu endereço de e-mail deliberadamente ou acidentalmente, e deve ignorar este e-mail.
-common#:#obj_auth#:#Olá
-common#:#obj_auth_desc#:#Bem-vindo ao ILIAS eLearning!
+common#:#obj_assf_desc#:#Configurações da plataforma para a ferramenta Teste e Avaliação
+common#:#obj_auth#:#Autenticação e Registro
+common#:#obj_auth_desc#:#Configure seu modo de autenticação (local, LDAP, ...) e as novas configurações de registro de conta aqui.
 common#:#obj_awra#:#Ferramenta ‘Who is online?’ (Quem está online?)
 common#:#obj_awra_desc#:#Gerir ferramenta ‘Who is online?’ (Quem está online?)
 common#:#obj_bdga#:#Badges
@@ -4281,93 +4283,94 @@ common#:#obj_bibs#:#Bibliografia
 common#:#obj_bibs_desc#:#Administração de bibliografia
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Copiar blog
-common#:#obj_book#:#Para aceder a ILIAS utilize os seguintes dados:
-common#:#obj_cadm#:#Contactos
+common#:#obj_book#:#Booking Pool
+common#:#obj_cadm#:#Contatos
 common#:#obj_cadm_desc#:#Administração de contactos
 common#:#obj_cals#:#Calendário
 common#:#obj_cals_desc#:#Definições gerais de calendário.
-common#:#obj_cat#:#Informações pessoais adicionais:
+common#:#obj_cat#:#Categoria
 common#:#obj_cat_duplicate#:#Copiar categoria
-common#:#obj_catr#:#ILIAS eLearning - Os seus dados de acesso
+common#:#obj_catr#:#Link da categoria
 common#:#obj_cert#:#Certificados
 common#:#obj_cert_desc#:#Definições para certificados
 common#:#obj_chap#:#Capítulo
-common#:#obj_chta#:#ILIAS eLearning - O seu link de confirmação
-common#:#obj_chtr#:#A sua palavra-passe será enviada para o seu endereço de e-mail em baixo.
+common#:#obj_chta#:#Sala de chat
+common#:#obj_chtr#:#Sala de chat
 common#:#obj_cld#:#Objeto da cloud
-common#:#obj_cmps#:#Remover
-common#:#obj_cmps_desc#:#Remover tradução
-common#:#obj_copa#:#Mudar nome
-common#:#obj_crs#:#O scan repetido falhou.
-common#:#obj_crs_duplicate#:#Copiar curso
-common#:#obj_crsr#:#O scan repetido foi bem-sucedido.
+common#:#obj_cmps#:#Plugins
+common#:#obj_cmps_desc#:#Configurações gerais para plugins
+common#:#obj_copa#:#Página de conteúdo
+common#:#obj_crs#:#Curso
+common#:#obj_crs_duplicate#:#Copiar Curso
+common#:#obj_crsr#:#Link do Curso
 common#:#obj_crss#:#Curso
 common#:#obj_crss_desc#:#Definições gerais para cursos
 common#:#obj_crsv#:#Certificado de curso
-common#:#obj_dbk#:#Responder
+common#:#obj_dbk#:# 	
+Digilib Livro
 common#:#obj_dcl#:#Coleção de dados
 common#:#obj_dcl_duplicate#:#Copiar coleção de dados
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Definições gerais ECS
-common#:#obj_exc#:#Repositório
+common#:#obj_exc#:#Exercício
 common#:#obj_exc_duplicate#:#Copiar exercício
 common#:#obj_excv#:#Certificado de exercício
 common#:#obj_extt#:#Software de terceiros
 common#:#obj_extt_desc#:#Configurar software externo ou serviços que são suportados por ILIAS
-common#:#obj_facs#:#Repositório lixo e permissões
-common#:#obj_facs_desc#:#Página principal
-common#:#obj_feed#:#Exigido
-common#:#obj_file#:#Requer e-mail
-common#:#obj_file_duplicate#:#Ficheiro duplicado
-common#:#obj_file_inline#:#Requer forma de tratamento
-common#:#obj_fold#:#Requer passatempo
+common#:#obj_facs#:#Arquivos
+common#:#obj_facs_desc#:#Configurações para arquivos e manipulação de arquivos
+common#:#obj_feed#:#Web Feed
+common#:#obj_file#:#Arquivo
+common#:#obj_file_duplicate#:#Duplicar arquivo
+common#:#obj_file_inline#:#Arquivo do módulo de aprendizagem
+common#:#obj_fold#:#Pasta
 common#:#obj_fold_duplicate#:#Copiar pasta
-common#:#obj_frm#:#Requer número de matricula
+common#:#obj_frm#:#Fórum
 common#:#obj_frm_duplicate#:#Copiar fórum
 common#:#obj_frma#:#Fórum
 common#:#obj_frma_desc#:#Definições globais do fórum
-common#:#obj_glo#:#Repor
+common#:#obj_glo#:#Glossário
 common#:#obj_glo_duplicate#:#Copiar glossário
-common#:#obj_grp#:#Repor filtro
-common#:#obj_grp_duplicate#:#Ligações repositório
-common#:#obj_grpr#:#Recursos
+common#:#obj_grp#:#Grupo
+common#:#obj_grp_duplicate#:#Copiar Grupo
+common#:#obj_grpr#:#Link do grupo
 common#:#obj_grps#:#Grupo
 common#:#obj_grps_desc#:#Definições gerais para grupos
 common#:#obj_hlps#:#Sistema de ajuda
 common#:#obj_hlps_desc#:#Definições para ajuda online
-common#:#obj_htlm#:#Direito
+common#:#obj_htlm#:#Módulo de aprendizagem HTML
 common#:#obj_htlm_duplicate#:#Copiar módulo de aprendizagem HTML
 common#:#obj_iass#:#Avaliação individual
 common#:#obj_iass_duplicate#:#Copiar avaliação individual
 common#:#obj_iass_select#:#-- Selecione uma avaliação individual --
 common#:#obj_itgr#:#Grupo de itens
-common#:#obj_ldap_desc#:#Direitos
-common#:#obj_lm#:#Função
+common#:#obj_ldap_desc#:#Defina as configurações globais do LDAP aqui.
+common#:#obj_lm#:#Módulo de Aprendizagem ILIAS
 common#:#obj_lm_duplicate#:#Copiar módulo de aprendizagem
-common#:#obj_lng#:#Funções
-common#:#obj_lngf#:#Função adicionada
-common#:#obj_lngf_desc#:#Adicionar utilizador(es) à função
+common#:#obj_lng#:#Língua
+common#:#obj_lngf#:#Línguas
+common#:#obj_lngf_desc#:#Gerencie os idiomas do seu sistema aqui.
 common#:#obj_logs#:#Logging
 common#:#obj_logs_desc#:#Definições gerais Logging
-common#:#obj_lrss#:#Atribuição de funções
+common#:#obj_lrss#:#Learning Modules
 common#:#obj_lrss_desc#:#Configurar todos os tipos de módulos de aprendizagem.
-common#:#obj_lso#:#Editar função
-common#:#obj_lso_duplicate#:#Nova função
+common#:#obj_lso#:#Sequência de aprendizado
+common#:#obj_lso_duplicate#:#Copiar sequência de aprendizado
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Interoperabilidade das ferramentas de aprendizagem
-common#:#obj_mail#:#Nova pesquisa
-common#:#obj_mail_desc#:#Proteger permissões
-common#:#obj_mcst#:#Funções
+common#:#obj_mail#:#Mail
+common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_mcst#:#Mediacast
 common#:#obj_mcst_duplicate#:#Copiar Mediacast
 common#:#obj_mcts#:#Mediacast
 common#:#obj_mcts_desc#:#Definições gerais para mediacast.
-common#:#obj_mep#:#Pasta de função adicionada
+common#:#obj_mep#:#Pool de Mídia
 common#:#obj_mep_duplicate#:#Copiar banco de media
 common#:#obj_mme#:#Criar nova função
 common#:#obj_mob#:#Criar novo modelo de função
 common#:#obj_mobs#:#Apagar funções/modelos de funções
 common#:#obj_mobs_desc#:#Definições para objetos de media e bancos de media.
-common#:#obj_not_found#:#Mudar definições de permissões
+common#:#obj_not_found#:#Objeto não encontrado
 common#:#obj_nwss#:#Mudar atribuição de funções ao utilizador
 common#:#obj_nwss_desc#:#Definições para notícias internas e web feeds externos.
 common#:#obj_objf#:#Acesso de leitura a funções/modelos de funções
