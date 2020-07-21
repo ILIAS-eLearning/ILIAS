@@ -128,9 +128,11 @@ class ilObjLinkResource extends ilObject
             return false;
         }
 
-        // delete items
+        // delete items and list
         include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         ilLinkResourceItems::_deleteAll($this->getId());
+        $list = new ilLinkResourceList($this->getId());
+        $list->delete();
 
 
         // Delete notify entries
