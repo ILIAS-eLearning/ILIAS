@@ -9707,10 +9707,17 @@ webr#:#webr_import#:#Weblink importieren
 webr#:#webr_inactive_success#:#Der Weblink wurde deaktiviert.
 webr#:#webr_link_added#:#Ein neuer Weblink wurde angelegt.
 webr#:#webr_link_target#:#Ziel
-webr#:#webr_link_title#:#Titel des Weblinks
+webr#:#webr_link_title#:#Titel des Weblinks / Titel der Weblink-Sammlung
+webr#:#webr_link_type_single#:#Einzelner Weblink
+webr#:#webr_link_type_list#:#Weblink-Sammlung
+webr#:#webr_list_added#:#Eine neue Weblink-Sammlung wurde angelegt.
 webr#:#webr_list_desc#:#Beschreibung der Weblink-Sammlung
+webr#:#webr_list_set#:#Der Weblink wurde in eine Weblink-Sammlung umgewandelt.
 webr#:#webr_list_title#:#Titel der Weblink-Sammlung
 webr#:#webr_new_link#:#Neuen Weblink anlegen
+webr#:#webr_new_list#:#Neue Weblink-Sammlung anlegen
+webr#:#webr_new_list_info#:#Bitte geben Sie einen Titel und optional eine Beschreibung für die Präsentation dieser Weblink-Sammlung im Magazin ein.
+webr#:#webr_set_to_list#:#In Weblink-Sammlung umwandeln
 webr#:#webr_sort_manual#:#Manuelle Sortierung
 webr#:#webr_sort_title#:#Alphabetisch nach Titel
 webr#:#webr_sorting#:#Sortierung der Weblinks
