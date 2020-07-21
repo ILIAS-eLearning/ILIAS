@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1744,7 +1744,7 @@ common#:#usrimport_action_replaced#:#Thay thế thao tác %1$s bằng %2$s.???
 common#:#usrimport_cant_delete#:#Không thực hiện được thao tác "XÓA". Không có người sử dụng nào trong cơ sở dữ liệu.
 common#:#usrimport_cant_insert#:#Không thực hiện được thao tác "THÊM". Người sử dụng đang tồn tại trong cơ sở dữ liệu.
 common#:#usrimport_cant_update#:#Không thực hiện được thao tác "CẬP NHẬT". Không có người sử dụng nào trong cơ sở dữ liệu.
-common#:#usrimport_conflict_handling_info#:#Nếu chọn "Bỏ qua nếu xung đột", ILIAS bỏ qua thao tác, nếu không thực hiện được (ví dụ thao tác "Thêm" sẽ không hoàn thành được, nếu đã có người sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)\nNếu chọn "Cập nhật nếu xung đột", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác "Thêm" sẽ được thay thế bằng thao tác "Cập nhật", nếu một người sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu).
+common#:#usrimport_conflict_handling_info#:#Nếu chọn "Bỏ qua nếu xung đột", ILIAS bỏ qua thao tác, nếu không thực hiện được (ví dụ thao tác "Thêm" sẽ không hoàn thành được, nếu đã có người sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)Parent-StyleNếu chọn "Cập nhật nếu xung đột", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác "Thêm" sẽ được thay thế bằng thao tác "Cập nhật", nếu một người sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu).
 common#:#usrimport_global_role_for_action_required#:#Ít nhất một vai trò toàn cục phải được xác định cho thao tác "%1$s".
 common#:#usrimport_ignore_role#:#Bỏ qua vai trò
 common#:#usrimport_login_is_not_unique#:#Tên đăng nhập không duy nhất.
@@ -2344,8 +2344,8 @@ forum#:#new_post#:#Bài mới
 forum#:#thread#:#Chủ đề
 grp#:#grp_registration_unlimited#:#Unlimited registration period###19 Apr 2006 new variable
 jscalendar#:#about_calendar#:#Về lịch
-jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\n\nChọn ngày:\n- Sử dụng các nút «, » để chọn năm\n- Sử dụng các nút <, > để chọn tháng\n- Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
-jscalendar#:#about_time#:#\n\nLựa chọn thời gian:\n- Kích chuột vào bất kỳ thành phần thời gian nào để tăng\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\n- hoặc kích vào kéo chuột để chọn nhanh hơn.
+jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003Parent-StylePhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.eplParent-StylePhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.Parent-StyleParent-StyleChọn ngày:Parent-Style- Sử dụng các nút «, » để chọn nămParent-Style- Sử dụng các nút <, > để chọn thángParent-Style- Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleLựa chọn thời gian:Parent-Style- Kích chuột vào bất kỳ thành phần thời gian nào để tăngParent-Style- hoặc nhấn giữ phím Shift và kích chuột để giảmParent-Style- hoặc kích vào kéo chuột để chọn nhanh hơn.
 jscalendar#:#close#:#Đóng
 jscalendar#:#day_first#:#Hiển thị %s đầu tuần
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -2979,19 +2979,19 @@ meta#:#meta_very_high#:#Rất cao
 meta#:#meta_very_low#:#Rất thấp
 meta#:#meta_yes#:#Có
 pwassist#:#password_assistance#:#Trợ giúp phục hồi mật khẩu
-pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn.\nILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này.\nChọn tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa học của bạn hoặc %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây.\nChúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng.\nTrong trường hợp bạn không thể đặt được mật khẩu cho tài khoản người sử dụng theo mẫu đó, hãy liên hệ quản trị khóa học hoặc gửi email tới %1$s.
+pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn.Parent-StyleILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này.Parent-StyleChọn tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa học của bạn hoặc %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây.Parent-StyleChúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng.Parent-StyleTrong trường hợp bạn không thể đặt được mật khẩu cho tài khoản người sử dụng theo mẫu đó, hãy liên hệ quản trị khóa học hoặc gửi email tới %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Nhập tên đăng nhập và mật khẩu mới vào các ô dưới đây.
-pwassist#:#pwassist_invalid_email#:#Hãy điền đúng địa chỉ email.\nĐịa chỉ email đã nhập không tìm thấy trong cơ sở dữ liệu.
-pwassist#:#pwassist_invalid_username_or_email#:#Hãy chuẩn hóa thông tin nhập vào.\nTên người sử dụng và địa chỉ email bạn đã nhập không trùng với trong cơ sở dữ liệu.
-pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác.\nTên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu.
-pwassist#:#pwassist_mail_body#:#Đăng ký mật khẩu mới cho tài khoản sử dụng:\n\t%1$s\n\nThư này được sinh tự động bởi máy chủ\n\t%2$s\n\nBạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản người sử dụng "%4$s".\n\nHãy kiểm tra cẩn thận các điều kiện dưới đây, và tiếp tục theo đó:\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp mật khẩu tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản người sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ.
-pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s.\nHãy kiểm tra hộp thư của bạn.
+pwassist#:#pwassist_invalid_email#:#Hãy điền đúng địa chỉ email.Parent-StyleĐịa chỉ email đã nhập không tìm thấy trong cơ sở dữ liệu.
+pwassist#:#pwassist_invalid_username_or_email#:#Hãy chuẩn hóa thông tin nhập vào.Parent-StyleTên người sử dụng và địa chỉ email bạn đã nhập không trùng với trong cơ sở dữ liệu.
+pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác.Parent-StyleTên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu.
+pwassist#:#pwassist_mail_body#:#Đăng ký mật khẩu mới cho tài khoản sử dụng:Parent-Style\t%1$sParent-StyleParent-StyleThư này được sinh tự động bởi máy chủParent-Style\t%2$sParent-StyleParent-StyleBạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản người sử dụng "%4$s".Parent-StyleParent-StyleHãy kiểm tra cẩn thận các điều kiện dưới đây, và tiếp tục theo đó:Parent-StyleParent-Style- Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ:Parent-StyleXóa thư này.Parent-StyleParent-Style- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp mật khẩu tại máy chủ:Parent-StyleHãy liên hệ %5$s.Parent-StyleParent-Style- Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:Parent-StyleParent-Style1. Mở trình duyệt web.Parent-StyleParent-Style2. nhập địa chỉ web dưới đây vào trình duyệt:Parent-Style\t%1$sParent-StyleParent-StyleQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.Parent-StyleParent-Style3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản người sử dụng.Parent-StyleParent-StyleHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ.
+pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s.Parent-StyleHãy kiểm tra hộp thư của bạn.
 pwassist#:#pwassist_mail_subject#:#Trợ giúp phục hồi mật khẩu ILIAS
-pwassist#:#pwassist_not_permitted#:#Hãy nhập vào tên đăng nhập khác.\nTrợ giúp mật khẩu không cho phép tên đăng nhập bạn đã nhập.
+pwassist#:#pwassist_not_permitted#:#Hãy nhập vào tên đăng nhập khác.Parent-StyleTrợ giúp mật khẩu không cho phép tên đăng nhập bạn đã nhập.
 pwassist#:#pwassist_password_assigned#:#Mật khẩu đã được chỉ định thành công cho người sử dụng "%1$s".
-pwassist#:#pwassist_session_expired#:#Hãy điền lại mẫu sau.\nPhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. Điều này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn thời gian kể từ khi liên kết được gửi cho bạn.
-pwassist#:#pwassist_username_mail_body#:#Có những người sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:\n%s\n\nThông điệp này được tạo tự động bởi máy chủ ILIAS:\n\t%s\n\nBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.\n\nHãy xem dưới đây và hành động theo hướng dẫn::\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp tên đăng nhập tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản người sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ.
+pwassist#:#pwassist_session_expired#:#Hãy điền lại mẫu sau.Parent-StylePhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. Điều này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn thời gian kể từ khi liên kết được gửi cho bạn.
+pwassist#:#pwassist_username_mail_body#:#Có những người sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:Parent-Style%sParent-StyleParent-StyleThông điệp này được tạo tự động bởi máy chủ ILIAS:Parent-Style\t%sParent-StyleParent-StyleBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.Parent-StyleParent-StyleHãy xem dưới đây và hành động theo hướng dẫn::Parent-StyleParent-Style- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:Parent-StyleXóa thư này.Parent-StyleParent-Style- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp tên đăng nhập tại máy chủ:Parent-StyleHãy liên hệ %5$s.Parent-StyleParent-Style- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:Parent-StyleParent-Style1. Mở trình duyệt web.Parent-StyleParent-Style2. nhập địa chỉ web dưới đây vào trình duyệt:Parent-Style\t%1$sParent-StyleParent-StyleQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.Parent-StyleParent-Style3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản người sử dụng.Parent-StyleParent-StyleHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ.
 rbac#:#edit_learning_progress#:#Sửa tiến trình học tập
 rbac#:#filter_all_roles#:#Hiện tất cả vai trò của ngữ cảnh hiện thời
 rbac#:#filter_global_roles#:#Chỉ hiện những vai trò toàn cục
@@ -6543,7 +6543,7 @@ mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
 crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your course, click here:###21 09 2009 new variable
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
 crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
@@ -6554,7 +6554,7 @@ wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
 style#:#style_current_style#:#Current Style###21 09 2009 new variable
 style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
 style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
@@ -6564,10 +6564,10 @@ grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 200
 grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.Parent-StyleWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
@@ -6578,7 +6578,7 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -8006,7 +8006,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.Parent-StyleParent-StyleClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9339,7 +9339,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14252,3 +14252,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable

@@ -339,7 +339,7 @@ class ilChatroomFormFactory
         $interval_unit->setOptions(array(
             'days'  => $this->lng->txt('days'),
             'weeks' => $this->lng->txt('weeks'),
-            'month' => $this->lng->txt('months'),
+            'months' => $this->lng->txt('months'),
             'years' => $this->lng->txt('years'),
         ));
         $chat_deletion_interval->addSubItem($interval_unit);

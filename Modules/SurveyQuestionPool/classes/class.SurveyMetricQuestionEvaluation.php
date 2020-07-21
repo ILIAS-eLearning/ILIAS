@@ -62,30 +62,33 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         );
         
         // as we have no variables build rows from answers directly
-        $total = sizeof($a_results->getAnswers());
-        if ($total > 0) {
-            $cumulated = array();
-            foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value]++;
-            }
-            foreach ($cumulated as $value => $count) {
-                $perc = sprintf("%.2f", $count/$total*100) . "%";
-                if ((bool) $a_abs && (bool) $a_perc) {
-                    $res["rows"][] = array(
-                        $value,
-                        $count,
-                        $perc
-                    );
-                } elseif ((bool) $a_abs) {
-                    $res["rows"][] = array(
-                        $value,
-                        $count
-                    );
-                } else {
-                    $res["rows"][] = array(
-                        $value,
-                        $perc
-                    );
+        $answ = $a_results->getAnswers();
+        if (is_array($answ)) {
+            $total = sizeof($a_results->getAnswers());
+            if ($total > 0) {
+                $cumulated = array();
+                foreach ($a_results->getAnswers() as $answer) {
+                    $cumulated[$answer->value]++;
+                }
+                foreach ($cumulated as $value => $count) {
+                    $perc = sprintf("%.2f", $count / $total * 100) . "%";
+                    if ((bool) $a_abs && (bool) $a_perc) {
+                        $res["rows"][] = array(
+                            $value,
+                            $count,
+                            $perc
+                        );
+                    } elseif ((bool) $a_abs) {
+                        $res["rows"][] = array(
+                            $value,
+                            $count
+                        );
+                    } else {
+                        $res["rows"][] = array(
+                            $value,
+                            $perc
+                        );
+                    }
                 }
             }
         }

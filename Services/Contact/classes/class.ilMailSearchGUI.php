@@ -151,7 +151,7 @@ class ilMailSearchGUI
     
     public function search()
     {
-        $_SESSION["mail_search_search"] = $_POST["search"];
+        $_SESSION["mail_search_search"] = (string) $_POST["search"];
 
         if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
@@ -186,8 +186,12 @@ class ilMailSearchGUI
         $inp->setSize(30);
         $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
         $inp->setDataSource($dsDataLink);
-        
-        if (strlen(trim($_SESSION["mail_search_search"])) > 0) {
+
+        if (
+            isset($_SESSION["mail_search_search"]) &&
+            is_string($_SESSION["mail_search_search"]) &&
+            strlen(trim($_SESSION["mail_search_search"])) > 0
+        ) {
             $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
         }
         $form->addItem($inp);
@@ -245,7 +249,11 @@ class ilMailSearchGUI
         $this->tpl->setVariable('SEARCHFORM', $form->getHtml());
         
         // #14109
-        if (strlen($_SESSION['mail_search_search']) < 3) {
+        if (
+            !isset($_SESSION["mail_search_search"]) ||
+            !is_string($_SESSION["mail_search_search"]) ||
+            strlen(trim($_SESSION["mail_search_search"])) < 3
+        ) {
             if ($_GET["ref"] != "wsp") {
                 $this->tpl->show();
             }

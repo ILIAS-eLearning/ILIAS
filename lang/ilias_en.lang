@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3351,7 +3351,7 @@ common#:#server_software#:#Server Software
 common#:#server#:#Server
 rbac#:#sess_copy#:#User can copy session
 common#:#sess#:#Session
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.
 common#:#session_reminder_info#:#If enabled, you receive a reminder before the online-session of your browser expires.
 common#:#session_reminder_lead_time_info#:#Please specify the lead time for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s.
 common#:#session_reminder_lead_time#:#Leadtime
@@ -3670,7 +3670,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Can't perform ‘Delete’ action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform ‘Insert’ action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform ‘Update’ action. No such user in database.
-common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.)\nWhen ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When ‘Ignore on conflict’ is selected, ILIAS ignores an action, if it can not be performed (e. g. an ‘Insert’ action is not done, if there is already a user with the same login in the database.)Parent-StyleWhen ‘Update on conflict’ is selected, ILIAS updates the database if an action can not be performed. (e. g. an ‘Insert’ action is replaced by an ‘Update’ action, if a user with the same login exists in the database).
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
@@ -4393,7 +4393,7 @@ crs#:#crs_blocked_member#:#Membership blocked in course "%s"
 crs#:#crs_blocked#:#Access Refused
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription_body#:#%s has cancelled his/her membership for the course "%s".
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your course, click here:
 crs#:#crs_cancel_subscription#:#User left course "%s"
 crs#:#crs_contact_consultation#:#Consultation
 crs#:#crs_contact_email_info#:#Enter one or more (comma separated) e-mail addresses.
@@ -4574,7 +4574,7 @@ crs#:#crs_status#:#Status
 crs#:#crs_structure#:#Course structure
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-StyleYou will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscribe_wl#:#Your registration for course "%s"
 crs#:#crs_subscriber#:#Subscriber
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
@@ -5253,7 +5253,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
 grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
@@ -5264,9 +5264,9 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_dec_sub#:#Registration refused for group "%s"
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.Parent-StyleWe hope that you find an opportunity to participate in another group.
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-StyleYou will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s"
 grp#:#grp_map_location#:#Group Map Location
 grp#:#grp_map_settings#:#Map Settings
@@ -5313,9 +5313,9 @@ grp#:#grp_wrong_max_members#:#A maximum number of members is needed for the wait
 grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish time.
 grp#:#reg_grp_max_members_short#:#Limited Number of Members
 grp#:#reg_grp_max_members#:#Maximum Number of Members
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the Â«, Â» buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time SelectorParent-Style(c) dynarch.com 2002-2003Parent-StyleFor latest version visit: http://dynarch.com/mishoo/calendar.eplParent-StyleDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.Parent-StyleParent-StyleDate selection:Parent-Style- Use the Â«, Â» buttons to select yearParent-Style- Use the <, > buttons to select monthParent-Style- Hold mouse button on any of the above buttons for faster selection.
 jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleTime selection:Parent-Style- Click on any of the time parts to increase itParent-Style- or Shift-click to decrease itParent-Style- or click and drag for faster selection.
 jscalendar#:#close#:#Close
 jscalendar#:#day_first#:#Display %s first
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -5495,7 +5495,7 @@ ldap#:#ldap_server_name_info#:#Please choose a name for this LDAP server configu
 ldap#:#ldap_server_name#:#Name of LDAP Configuration
 ldap#:#ldap_server_security_settings#:#Security Settings
 ldap#:#ldap_server_short#:#Server URL:
-ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldap://ldap.ilias.de:389".  You may add multiple servers with commas separated.
+ldap#:#ldap_server_url_info#:#A fully qualified URL for specifying the protocol, url and port to connect to. E.g "ldaps://ldap.ilias.de:636".
 ldap#:#ldap_server_version_info#:#LDAP version to use, usually 3.
 ldap#:#ldap_settings#:#Server Settings
 ldap#:#ldap_sync_cron#:#Per Cron-Job
@@ -6493,21 +6493,21 @@ ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agree
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
 pwassist#:#password_assistance#:#Password Assistance
-pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
+pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.Parent-StyleILIAS will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address.Parent-StyleChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below.Parent-StyleILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.Parent-StyleIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
-pwassist#:#pwassist_invalid_email#:#Please correct your e-mail address.\nThe given e-mail address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe username and e-mail address you have entered do not match an entry in the database.
-pwassist#:#pwassist_login_not_match#:#Please enter another username.\nThe username you have entered does not match the username for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
-pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.
+pwassist#:#pwassist_invalid_email#:#Please correct your e-mail address.Parent-StyleThe given e-mail address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.Parent-StyleThe username and e-mail address you have entered do not match an entry in the database.
+pwassist#:#pwassist_login_not_match#:#Please enter another username.Parent-StyleThe username you have entered does not match the username for which you had asked for password assistance.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:Parent-Style\t%1$sParent-StyleParent-StyleThis message has been generated automatically by the ILIAS serverParent-Style\t%2$sParent-StyleParent-StyleYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".Parent-StyleParent-StylePlease check carefully the conditions listed below, and proceed accordingly:Parent-StyleParent-Style- If you have used the password assistance form on the ILIAS server by accident:Parent-StyleDelete this mail.Parent-StyleParent-Style- If you are certain, that you never asked for password assistance at this ILIAS server:Parent-StylePlease contact %5$s.Parent-StyleParent-Style- If you asked for password assistance, please proceed as follows:Parent-StyleParent-Style1. Open your browser.Parent-StyleParent-Style2. Enter the following address in your browser:Parent-Style\t%6$sParent-StyleParent-StyleImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.Parent-StyleParent-Style3. On the web page shown by your browser, enter a new password for your user account.Parent-StyleParent-StylePlease note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.Parent-StylePlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
-pwassist#:#pwassist_not_permitted#:#Please enter another username.\nPassword assistance is not permitted for the username you have entered.
+pwassist#:#pwassist_not_permitted#:#Please enter another username.Parent-StylePassword assistance is not permitted for the username you have entered.
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.Parent-StyleYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:Parent-Style%sParent-StyleParent-StyleThis message has been created automatically by the following ILIAS Server:Parent-Style\t%sParent-StyleParent-StyleYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.Parent-StyleParent-StylePlease check the following and act as suggested::Parent-StyleParent-Style-You have requested this e-mail by accident:Parent-StyleDelete this e-mail.Parent-StyleParent-Style-You are sure, that you never requested this e-mail:Parent-StylePlease contact %s.Parent-StyleParent-Style- If you requested this e-mail, please proceed as follows::Parent-StyleParent-Style1. Start your internet browser.Parent-StyleParent-Style2. Enter the following url:Parent-Style\t%sParent-StyleParent-StyleImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.Parent-StyleParent-Style3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
@@ -8896,7 +8896,7 @@ chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#chatroom_smiley_keyword#:#Keyword
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chat room:\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nTo join the chat room, please follow the given URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]Parent-StyleParent-StyleYou have been invited to a chat room:Parent-StyleChat Room Title: [ROOM_NAME]Parent-StyleInvited by: [INVITER_NAME]Parent-StyleURL: [LINK]Parent-StyleParent-StyleTo join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chat room.
 chatroom#:#settings_title#:#Settings
 chatroom#:#history_byday_title#:#Show Conversation per Day
@@ -10995,7 +10995,7 @@ wsp#:#wsp_shared_title#:#Title of Resource
 adve#:#adve_excass_settings#:#Exercise Assignments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
-adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings
+adve#:#advanced_editing_excass_settings#:#Exercise Text Assignments
 common#:#obj_prtt#:#Portfolio Template
 common#:#objs_prtt#:#Portfolio Templates
 common#:#obj_prtt_duplicate#:#Copy Portfolio Template
@@ -12009,7 +12009,7 @@ grp#:#grp_mem_tbl_header#:#Group Participants
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
-sess#:#sess_reg_direct_info#:#User has to click ‘Join’ to participate in session
+sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#No Registration Necessary
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
@@ -14251,3 +14251,31 @@ dateplaner#:#cal_usr_info#:#Appointment Information
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
+common#:#msg_unknown_value#:#An unknown value has been passed.
+exc#:#exc_deleted_user#:#Deleted User
+copg#:#copg_allow_html#:#Enable HTML/Javascript
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
+dcl#:#dcl_page_type_dclf#:#Details View
+crs#:#crs_page_type_lobj#:#Learning Objective Page
+copa#:#copa_page_type_copa#:#Content Page
+mep#:#mep_page_type_mep#:#Content Snippet
+wiki#:#wiki_page_type_wpg#:#Wiki Page
+blog#:#blog_page_type_blp#:#Blog Posting
+prtf#:#prtf_page_type_prtf#:#Portfolio Page
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page
+glo#:#glo_page_type_gdf#:#Term Definition
+lm#:#lm_page_type_lm#:#LM Page
+qpl#:#qpl_page_type_qht#:#Hint
+qpl#:#qpl_page_type_qpl#:#Question Page
+qpl#:#qpl_page_type_qfbg#:#General Feedback
+qpl#:#qpl_page_type_qfbs#:#Special Feedback
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page
+copg#:#copg_page_type_stys#:#Layout Page
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
+auth#:#auth_page_type_auth#:#Login Page
+impr#:#impr_page_type_impr#:#Imprint
+awrn#:#user_awrn_default#:#Default
+awrn#:#user_awrn_hide#:#Hide my status
+awrn#:#user_awrn_show#:#Show my status
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"

@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -1800,7 +1800,7 @@ chatroom#:#chat_connection_established#:#+++ <b>#username#</b> has entered chatr
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#Uitnodiging  ##inviter_name## voor chatroom
-chatroom#:#chat_invitation_long#:###salutation##\n\nJe bent uitgenodigd in een chatroom:\nChatroom Title: ##room_name##\nUitgenodigs door: ##inviter_name##\nURL: ##link##\n\nAls je op deze uitnodiging wilt ingaan, volg dan de opgegeven URL.
+chatroom#:#chat_invitation_long#:###salutation##Parent-StyleParent-StyleJe bent uitgenodigd in een chatroom:Parent-StyleChatroom Title: ##room_name##Parent-StyleUitgenodigs door: ##inviter_name##Parent-StyleURL: ##link##Parent-StyleParent-StyleAls je op deze uitnodiging wilt ingaan, volg dan de opgegeven URL.
 chatroom#:#chat_invitation_short#:#Klik op de titel om de chatroom in te gaan.
 chatroom#:#chat_invite#:#Nodig uit
 chatroom#:#chat_join#:#Aanmelden
@@ -3895,7 +3895,7 @@ common#:#session_max_idle_info#:#Bepaalt de maximum tijd die een gebruiker heeft
 common#:#session_min_idle#:#Minimale tijd dat een sessie in gebruik zal zijn voor het kan aflopen (in minuten)
 common#:#session_min_idle_info#:#Wanneer een gebruiker ten minste deze periode geen gebruik maakt van de sessie kan deze vernietigd worden als een andere sessie wordt geopend door een andere gebruiker en het maximum aantal sessies is bereikt.
 common#:#session_reminder#:#Sessie herinnering
-common#:#session_reminder_alert#:#Je sessie loopt af in %1$s at %2$s!\n\nSelecteer OK om de sessie te behouden.\nAls je op Cancel klikt zul je geen waarschuwingen meer ontvangen.
+common#:#session_reminder_alert#:#Je sessie loopt af in %1$s at %2$s!Parent-StyleParent-StyleSelecteer OK om de sessie te behouden.Parent-StyleAls je op Cancel klikt zul je geen waarschuwingen meer ontvangen.
 common#:#session_reminder_info#:#Indien ingeschakeld ontvang je een herinnering voordat je online sessie afloopt.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Specificeer het aantal minuten voor het einde van de sessie dat je de sessie herinnering wilt tonen. Aanbevolen tijd is 5 minuten. De huidige instelling voor een sessie is
@@ -5315,7 +5315,7 @@ crs#:#crs_blocked_member#:#Status van cursusdeelnemers
 crs#:#crs_blocked_member_body#:#Je deelname aan deze cursus is geblokkeerd.
 crs#:#crs_cancel_subscription#:#Uitgeschreven uit de cursus
 crs#:#crs_cancel_subscription_body#:#%s heeft zich uitgeschreven uit de cursus "%s".
-crs#:#crs_cancel_subscription_body2#:#Mogelijk staan andere deelnemers op een wachtrij voor deze cursus. \nControleer deze lijst nu. \nOm de deelnemers van de cursus te zien, klik je hier:
+crs#:#crs_cancel_subscription_body2#:#Mogelijk staan andere deelnemers op een wachtrij voor deze cursus. Parent-StyleControleer deze lijst nu. Parent-StyleOm de deelnemers van de cursus te zien, klik je hier:
 crs#:#crs_cancel_subscr_request#:#Verwijderen van aanmeldingsverzoek
 crs#:#crs_cdf_edit_member#:#Wijzigen cursusgerelateerde gebruikersgegevens
 crs#:#crs_cdf_tbl_last_edit#:#Laatste Update (cursus-specifieke gegevens)
@@ -5608,7 +5608,7 @@ crs#:#crs_subscribers_deleted#:#Verwijder inschrijver(s)
 crs#:#crs_subscribe_member#:#Inschrijving voor cursus "%s"
 crs#:#crs_subscribe_member_body#:#Hartelijk dank voor je aanmelding voor de cursus "%s".
 crs#:#crs_subscribe_wl#:#Je aanmelding voor cursus "%s".
-crs#:#crs_subscribe_wl_body#:#Je staat momenteel op de wachtij voor cursus "%s".\nJe huidige positie in deze rij is %s.\n\nJe zult bericht ontvangen van een cursusbeheerder als je verzoek is goedgekeurd of verworpen.
+crs#:#crs_subscribe_wl_body#:#Je staat momenteel op de wachtij voor cursus "%s".Parent-StyleJe huidige positie in deze rij is %s.Parent-StyleParent-StyleJe zult bericht ontvangen van een cursusbeheerder als je verzoek is goedgekeurd of verworpen.
 crs#:#crs_subscription#:#Inschrijving
 crs#:#crs_subscription_failed_limit#:#Het maximaal toegestane aantal deelnemers is overschreden
 crs#:#crs_subscription_max_members#:#Maximum aantal gebruikers
@@ -6968,7 +6968,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Om deze inschrijving te bevestigen, g
 grp#:#grp_mail_notification_reg_req_sub#:#Verzoek tot aanmelding tot groep  "%s"
 grp#:#grp_mail_notification_reg_sub#:#Gebruiker heeft zich aangemeld bij groep "%s".
 grp#:#grp_mail_notification_unsub_bod#:#%s heeft zijn/haar deelname opgezegd voor de groep "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#Gebruiker heeft groep "%s" verlaten.
 grp#:#grp_mail_permanent_link#:#Klik op de volgende koppeling om alle informatie te vinden over de groep
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
@@ -6982,9 +6982,9 @@ grp#:#grp_mail_sub_dec_sub#:#Inschrijving geweigerd voor groep "%s"
 grp#:#grp_mail_tutors_only#:#Alleen voor beheerders
 grp#:#grp_mail_tutors_only_info#:#Alleen beheerders kunnen de functie "E-mail naar deelnemers" in het Deelnemers tabblad gebruiken.
 grp#:#grp_mail_type#:#E-mail naar deelnemers
-grp#:#grp_mail_unsubscribe_member_bod#:#We bevestigen de annulering van je deelnameverzoek in groep "%s".\nWe hopen dat je in de gelegenheid bent om in een andere groep deel te nemen.
+grp#:#grp_mail_unsubscribe_member_bod#:#We bevestigen de annulering van je deelnameverzoek in groep "%s".Parent-StyleWe hopen dat je in de gelegenheid bent om in een andere groep deel te nemen.
 grp#:#grp_mail_unsubscribe_member_sub#:#De annulering van je deelname in groep "%s"
-grp#:#grp_mail_wl_bod#:#Je bent op de wachtrij geplaatst voor de groep "%s".\nJe staat op positie %s in de rij.\n\n Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet.
+grp#:#grp_mail_wl_bod#:#Je bent op de wachtrij geplaatst voor de groep "%s".Parent-StyleJe staat op positie %s in de rij.Parent-StyleParent-Style Je zult een bericht krijgen van de groepsbeheerder als je verzoek is goedgekeurd of niet.
 grp#:#grp_mail_wl_sub#:#Je aanmelding voor groep "%s".
 grp#:#grp_map_location#:#Kaartlocatie
 grp#:#grp_map_settings#:#Kaartinstellingen
@@ -7078,8 +7078,8 @@ itgr#:#itgr_edit#:#Wijzigen Item Groepen
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materialen
 jscalendar#:#about_calendar#:#Betreffende de agenda
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nKijk voor de laatste versie op : http://dynarch.com/mishoo/calendar.epl\nDistribueerd onder GNU LGPL.  Zie http://gnu.org/licenses/lgpl.html voor details.\n\nDatumkeuze:\n- Gebruik de  «, » knoppen om het jaar te kiezen\n- Gebruik de <, > knoppen om de maand te kiezen\n- Houd de muisknop ingedrukt op één van de genoemde knoppen om sneller te kiezen.
-jscalendar#:#about_time#:#\n\nKies de tijd:\n- Klik on een tijdsdeel om het te verhogen\n- of Shift-kick om het te verlagen\n- of klik-en-drag voor een snellere tijdselectie.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time SelectorParent-Style(c) dynarch.com 2002-2003Parent-StyleKijk voor de laatste versie op : http://dynarch.com/mishoo/calendar.eplParent-StyleDistribueerd onder GNU LGPL.  Zie http://gnu.org/licenses/lgpl.html voor details.Parent-StyleParent-StyleDatumkeuze:Parent-Style- Gebruik de  «, » knoppen om het jaar te kiezenParent-Style- Gebruik de <, > knoppen om de maand te kiezenParent-Style- Houd de muisknop ingedrukt op één van de genoemde knoppen om sneller te kiezen.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleKies de tijd:Parent-Style- Klik on een tijdsdeel om het te verhogenParent-Style- of Shift-kick om het te verlagenParent-Style- of klik-en-drag voor een snellere tijdselectie.
 jscalendar#:#close#:#Sluiten
 jscalendar#:#day_first#:#Tonen eerste
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -8618,21 +8618,21 @@ ps#:#rbac_log_info#:#Inschakelen loggen van alle wijzigingen in object permissie
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Veiligheid
 pwassist#:#password_assistance#:#Wachtwoord assistentie
-pwassist#:#pwassist_enter_email#:#Gelieve een e-mailadres op te geven en het formulier te vervolledigen .\nILIAS zal dan een e-mail sturen. Deze mail bevat alle gebruikers die zich hebben ingeschreven met dat e-mailadres.\nKies een gebruikersnaam en gebruik de wachtwoordservice om een nieuw wachtwoord te zoeken. Als je geen e-mail ontvangt kan je best contact opnemen met de cursusbeheerder.
-pwassist#:#pwassist_enter_username_and_email#:#Geef de gebruikersnaam en het bijhorende e-mailadres op.\nILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken.
+pwassist#:#pwassist_enter_email#:#Gelieve een e-mailadres op te geven en het formulier te vervolledigen .Parent-StyleILIAS zal dan een e-mail sturen. Deze mail bevat alle gebruikers die zich hebben ingeschreven met dat e-mailadres.Parent-StyleKies een gebruikersnaam en gebruik de wachtwoordservice om een nieuw wachtwoord te zoeken. Als je geen e-mail ontvangt kan je best contact opnemen met de cursusbeheerder.
+pwassist#:#pwassist_enter_username_and_email#:#Geef de gebruikersnaam en het bijhorende e-mailadres op.Parent-StyleILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geef de gebruikersnaam en het nieuwe wachtwoord in.
 pwassist#:#pwassist_invalid_auth_mode#:#De gebruiker zal niet authentiek verklaard worden bij ILIAS. Daardoor is het verzenden van een wachtwoord onmogelijk.
-pwassist#:#pwassist_invalid_email#:#Gelieve een juist e-mailadres op te geven.\nHet e-mailadres kon niet worden teruggevonden in de database.
-pwassist#:#pwassist_invalid_username_or_email#:#Gelieve de tekst aan te passen.\nDe gebruikersnaam en het e-mailadres komen niet overeen met de gegevens in de database.
-pwassist#:#pwassist_login_not_match#:#Gelieve een andere gebruikersnaam op te geven.\nDe gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie.
-pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor je gebruikersaccount :\n\t%1$s\n\Dit bericht werd automatisch gegenereerd door ILIAS op \t%2$s\n\nJij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".\n\n\n\n- Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.\n\n- Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.\n\n- Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:\n\n1. Open de browser.\n\n2. Geef het volgende adres in:\n\t%1$s\n\nbelangrijk: het adres is één regel.\n\n3. Op de webpagina, geef je een nieuw wachtwoord in.\n\nOpgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server.
-pwassist#:#pwassist_mail_sent#:#Er is een bericht verzonden naar %1$s.\n Gelieve je e-mail te controleren.
+pwassist#:#pwassist_invalid_email#:#Gelieve een juist e-mailadres op te geven.Parent-StyleHet e-mailadres kon niet worden teruggevonden in de database.
+pwassist#:#pwassist_invalid_username_or_email#:#Gelieve de tekst aan te passen.Parent-StyleDe gebruikersnaam en het e-mailadres komen niet overeen met de gegevens in de database.
+pwassist#:#pwassist_login_not_match#:#Gelieve een andere gebruikersnaam op te geven.Parent-StyleDe gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie.
+pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor je gebruikersaccount :Parent-Style\t%1$sParent-Style\Dit bericht werd automatisch gegenereerd door ILIAS op \t%2$sParent-StyleParent-StyleJij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".Parent-StyleParent-StyleParent-StyleParent-Style- Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.Parent-StyleParent-Style- Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.Parent-StyleParent-Style- Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:Parent-StyleParent-Style1. Open de browser.Parent-StyleParent-Style2. Geef het volgende adres in:Parent-Style\t%1$sParent-StyleParent-Stylebelangrijk: het adres is één regel.Parent-StyleParent-Style3. Op de webpagina, geef je een nieuw wachtwoord in.Parent-StyleParent-StyleOpgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server.
+pwassist#:#pwassist_mail_sent#:#Er is een bericht verzonden naar %1$s.Parent-Style Gelieve je e-mail te controleren.
 pwassist#:#pwassist_mail_subject#:#ILIAS wachtwoord assistentie
-pwassist#:#pwassist_not_permitted#:#Gelieve een andere gebruiksnaam te kiezen.\nWachtwoordassistentie is niet toegestaan voor deze gebruiker.
+pwassist#:#pwassist_not_permitted#:#Gelieve een andere gebruiksnaam te kiezen.Parent-StyleWachtwoordassistentie is niet toegestaan voor deze gebruiker.
 pwassist#:#pwassist_no_email_found#:#U kan de wachtwoord assistentie niet gebruiken, omdat er geen e-mailadres voor deze account in ingevoerd.
 pwassist#:#pwassist_password_assigned#:#Het password is toegekend aan gebruiker "%1$s".
-pwassist#:#pwassist_session_expired#:#Gelieve dit formulier opnieuw in te vullen.\nUWachtwoordassistentie is vervallen.
-pwassist#:#pwassist_username_mail_body#:#dit zijn de actieve gebruikersnamen voor dit e-mailadres:\n%s\n\nDeze mail is automatisch aangemaakt door ILIAS-server:\n\t%s\n\nJij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.\n\nGelieve het volgende te controleren en volg de volgende handelingen::\n\n-Als je per ongeluk deze mail hebt aangevraagd:\nVerwijder dan deze mail.\n\n-Ben je zeker dat je deze mail niet hebt aangevraagd:\nContacteer %s.\n\n- Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::\n\n1. Open de internetbrowser.\n\n2. Geef de volgende url:\n\t%s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen.
+pwassist#:#pwassist_session_expired#:#Gelieve dit formulier opnieuw in te vullen.Parent-StyleUWachtwoordassistentie is vervallen.
+pwassist#:#pwassist_username_mail_body#:#dit zijn de actieve gebruikersnamen voor dit e-mailadres:Parent-Style%sParent-StyleParent-StyleDeze mail is automatisch aangemaakt door ILIAS-server:Parent-Style\t%sParent-StyleParent-StyleJij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.Parent-StyleParent-StyleGelieve het volgende te controleren en volg de volgende handelingen::Parent-StyleParent-Style-Als je per ongeluk deze mail hebt aangevraagd:Parent-StyleVerwijder dan deze mail.Parent-StyleParent-Style-Ben je zeker dat je deze mail niet hebt aangevraagd:Parent-StyleContacteer %s.Parent-StyleParent-Style- Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::Parent-StyleParent-Style1. Open de internetbrowser.Parent-StyleParent-Style2. Geef de volgende url:Parent-Style\t%s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen.
 rating#:#rating_activate_rating#:#Inschakelen beoordelingsfunctie
 rating#:#rating_activate_rating_info#:#als ingeschakeld kunnen gebruikers dit object beoordeling.
 rating#:#rating_add_category#:#Add Category
@@ -14250,3 +14250,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable

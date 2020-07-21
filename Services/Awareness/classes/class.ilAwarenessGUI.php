@@ -259,10 +259,10 @@ class ilAwarenessGUI
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
-        $tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
         $tpl->parseCurrentBlock();
 
         echo json_encode(array("html" => $tpl->get(),
+            "filter_val" => ilUtil::prepareFormOutput($filter),
             "cnt" => $ad["cnt"]));
         exit;
     }

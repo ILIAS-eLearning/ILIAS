@@ -1072,7 +1072,7 @@ class ilTestServiceGUI
     protected function populateContent($content)
     {
         if ($this->isPdfDeliveryRequest()) {
-            require_once 'class.ilTestPDFGenerator.php';
+            require_once 'Modules/Test/classes/class.ilTestPDFGenerator.php';
 
             ilTestPDFGenerator::generatePDF(
                 $content,
