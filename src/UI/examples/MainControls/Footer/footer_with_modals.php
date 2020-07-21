@@ -13,8 +13,6 @@ function footer_with_modals()
 
     $roundTripModal = $f->modal()->roundtrip('Withdrawal of Consent', $f->legacy('Withdrawal of Consent ...'));
     $shyButton = $f->button()->shy('Terms Of Service', '#');
-    $shyButton = $shyButton->withOnClick($roundTripModal->getShowSignal());
-
     $footer = $footer->withAdditionalModalAndTrigger($roundTripModal, $shyButton);
 
     return $renderer->render($footer);
