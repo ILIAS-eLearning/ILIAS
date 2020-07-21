@@ -3430,7 +3430,7 @@ abstract class ilPageObject
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
-            $parent_pos = implode($pos, "_");
+            $parent_pos = implode("_", $pos);
         } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;
@@ -3522,7 +3522,7 @@ abstract class ilPageObject
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
-            $parent_pos = implode($pos, "_");
+            $parent_pos = implode("_", $pos);
         } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;

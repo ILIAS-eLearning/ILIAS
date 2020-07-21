@@ -182,7 +182,7 @@ class ilPageEditorGUI
             $pc_id = $pca[1];
             $cmd = explode("_", $pca[0]);
             unset($cmd[0]);
-            $hier_id = implode($cmd, "_");
+            $hier_id = implode("_", $cmd);
             $cmd = $_POST["command" . $hier_id];
         }
         $this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");

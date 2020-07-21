@@ -31,7 +31,7 @@ class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
         }
 
         if ($_POST['char_selector_availability'] == ilCharSelectorConfig::ENABLED
-            and trim(implode($_POST['char_selector_blocks'])) == ""
+            and trim(implode("", $_POST['char_selector_blocks'])) == ""
             and trim($_POST['char_selector_custom_items']) == '') {
             $this->setAlert($lng->txt("char_selector_msg_blocks_or_custom_needed"));
             return false;

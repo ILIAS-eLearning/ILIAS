@@ -397,7 +397,7 @@ class ilInfoScreenGUI
                     $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
                 }
             }
-            $langs = implode($langs, ", ");
+            $langs = implode(", ", $langs);
 
             // keywords
             $keywords = array();
@@ -405,7 +405,7 @@ class ilInfoScreenGUI
                 $md_key = $md_gen->getKeyword($id);
                 $keywords[] = $md_key->getKeyword();
             }
-            $keywords = implode($keywords, ", ");
+            $keywords = implode(", ", $keywords);
         }
 
         // authors

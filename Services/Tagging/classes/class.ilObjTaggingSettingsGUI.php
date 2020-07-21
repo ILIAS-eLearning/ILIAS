@@ -282,7 +282,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
         if ($forbidden != "") {
             $tags_array = unserialize($forbidden);
-            $forb_str = implode($tags_array, " ");
+            $forb_str = implode(" ", $tags_array);
         }
         
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");

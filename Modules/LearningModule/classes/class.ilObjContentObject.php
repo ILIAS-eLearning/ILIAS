@@ -2372,7 +2372,7 @@ class ilObjContentObject extends ilObject
                     $mess .= $this->lng->txt("obj_pg") . ": " . $title;
                     $mess .= '<div class="small">';
                     foreach ($error as $e) {
-                        $err_mess = implode($e, " - ");
+                        $err_mess = implode(" - ", $e);
                         if (!is_int(strpos($err_mess, ":0:"))) {
                             $mess .= htmlentities($err_mess) . "<br />";
                         }
