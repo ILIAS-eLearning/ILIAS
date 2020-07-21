@@ -104,16 +104,11 @@ class FooterTest extends ILIAS_UI_TestBase
         $modal1 = $mf->roundtrip('Modal1', $legacy);
         $modal2 = $mf->roundtrip('Modal2', $legacy);
 
-        $shyButton1 = $shyButton1->withOnClick($modal1->getShowSignal());
-        $shyButton2 = $shyButton2->withOnClick($modal2->getShowSignal());
-
         $footer = $footer
             ->withAdditionalModalAndTrigger($modal1, $shyButton1)
             ->withAdditionalModalAndTrigger($modal2, $shyButton2);
 
         $this->assertCount(2, $footer->getModals());
-        $this->assertEquals([$modal1, $shyButton1], $footer->getModals()[0]);
-        $this->assertEquals([$modal2, $shyButton2], $footer->getModals()[1]);
 
         return $footer;
     }
