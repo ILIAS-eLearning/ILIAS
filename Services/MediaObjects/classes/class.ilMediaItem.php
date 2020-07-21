@@ -781,7 +781,7 @@ class ilMediaItem
         $o_file = $file_arr[count($file_arr) - 1];
         $file_arr = explode(".", $o_file);
         unset($file_arr[count($file_arr) - 1]);
-        $file = implode($file_arr, ".");
+        $file = implode(".", $file_arr);
 
         if (!$a_reference_copy) {
             return $this->getWorkDirectory() . "/" . $file . "." . $this->getMapWorkCopyType();

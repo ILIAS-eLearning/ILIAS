@@ -105,6 +105,6 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
                 $path_items[] = $p["title"];
             }
         }
-        $this->tpl->setVariable("PATH", implode($path_items, " > "));
+        $this->tpl->setVariable("PATH", implode(" > ", $path_items));
     }
 }

@@ -176,7 +176,7 @@ class ilTaggingGUI
         );
         $ttpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode($tags, ", "))
+            ilUtil::prepareFormOutput(implode(", ", $tags))
         );
         $ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
@@ -370,7 +370,7 @@ class ilTaggingGUI
         );
         $tpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode($tags, ", "))
+            ilUtil::prepareFormOutput(implode(", ", $tags))
         );
         $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $tpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));

@@ -1011,7 +1011,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
         if (count($not_inserted) > 0) {
             ilUtil::sendInfo($this->lng->txt("mep_not_insert_already_exist") . "<br>" .
-                implode($not_inserted, "<br>"), true);
+                implode("<br>", $not_inserted), true);
         }
         $this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
     }
