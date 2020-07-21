@@ -114,11 +114,17 @@ class ilAwarenessUserCollector
 
         $awrn_logger = ilLoggerFactory::getLogger('awrn');
 
+        if (ilObjUser::_isAnonymous($this->user_id) || 0 === (int) $this->user_id) {
+            $awrn_logger->debug("No users determined for anonymous");
+            return $this->collections;
+        }
+
         $awrn_logger->debug("Start, Online Only: " . $a_online_only . ", Current User: " . $this->user_id);
 
         self::getOnlineUsers();
         include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
         $all_users = array();
+
         foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov) {
             $awrn_logger->debug("Provider: " . $prov->getProviderId() . ", Activation Mode: " . $prov->getActivationMode() . ", Current User: " . $this->user_id);
 
