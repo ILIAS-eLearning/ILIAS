@@ -4371,52 +4371,52 @@ common#:#obj_mob#:#Criar novo modelo de função
 common#:#obj_mobs#:#Apagar funções/modelos de funções
 common#:#obj_mobs_desc#:#Definições para objetos de media e bancos de media.
 common#:#obj_not_found#:#Objeto não encontrado
-common#:#obj_nwss#:#Mudar atribuição de funções ao utilizador
+common#:#obj_nwss#:#Notícias e Web Feeds
 common#:#obj_nwss_desc#:#Definições para notícias internas e web feeds externos.
-common#:#obj_objf#:#Acesso de leitura a funções/modelos de funções
-common#:#obj_objf_desc#:#As funções/modelos de funções estão visíveis
+common#:#obj_objf#:#Definições de Objeto
+common#:#obj_objf_desc#:#Gerenciar tipos de objeto ILIAS e permissões de objeto. (apenas para especialistas!)
 common#:#obj_orgu#:#Unidade organizacional
 common#:#obj_orgu_description#:#Criar e editar estrutura organizacional
 common#:#obj_page#:#Página
 common#:#obj_pdfg#:#Criação de PDF
 common#:#obj_pdfg_desc#:#Opções para criar documentos PDF
-common#:#obj_pg#:#Modelo de função
-common#:#obj_poll#:#Sondagem
-common#:#obj_poll_dupliate:#:#Copy Poll
-common#:#obj_poll_duplicate#:#Copiar sondagem
+common#:#obj_pg#:#Página
+common#:#obj_poll#:#Enquete
+common#:#obj_poll_dupliate:#:#Copiar enquete
+common#:#obj_poll_duplicate#:#Copiar enquete
 common#:#obj_prg#:#Programa de estudo
 common#:#obj_prg_duplicate#:#Copiar programa de estudo
 common#:#obj_prg_select#:#-- Selecione um programa de estudo --
 common#:#obj_prgs#:#Programas de estudo
 common#:#obj_prgs_desc#:#Administração de programas de estudo
-common#:#obj_prtf#:#Modelo de função adicionado
+common#:#obj_prtf#:#Portfólio
 common#:#obj_prtt#:#Modelo de portefólio
 common#:#obj_prtt_duplicate#:#Copiar modelo de portefólio
-common#:#obj_ps#:#Editar modelo de função
+common#:#obj_ps#:#Privacidade e segurança
 common#:#obj_ps_desc#:#Configurar definições de privacidade e segurança aqui.
-common#:#obj_qpl#:#Novo modelo de função
+common#:#obj_qpl#:#Teste banco de perguntas
 common#:#obj_qpl_duplicate#:#Copiar teste banco de perguntas
 common#:#obj_qpl_select#:#-- Selecione um teste banco de perguntas --
-common#:#obj_rcat#:#Linhas
-common#:#obj_rcrs#:#Fontes adicionais para a criação de ficheiros PDF. Outras fontes diferentes de ‘Helvetica’ e ‘unifont’ devem ser instaladas no servidor ILIAS.
-common#:#obj_recf#:#Módulo de aprendizagem SCORM
-common#:#obj_recf_desc#:#Módulo de aprendizagem SCORM adicionado
+common#:#obj_rcat#:#Categoria ECS
+common#:#obj_rcrs#:#Curso ECS
+common#:#obj_recf#:#Objetos restaurados
+common#:#obj_recf_desc#:#Contém objetos restaurados da verificação do sistema.
 common#:#obj_reps#:#Repositório
 common#:#obj_reps_desc#:#Definições gerais para o repositório
 common#:#obj_rfil#:#Ficheiro ECS
 common#:#obj_rglo#:#Glossário ECS
 common#:#obj_rgrp#:#Grupo ECS
 common#:#obj_rlm#:#Módulo de aprendizagem ECS
-common#:#obj_role#:#Forma de tratamento
-common#:#obj_rolf#:#Sr./Sra.
-common#:#obj_rolf_desc#:#Sr.
-common#:#obj_rolf_local#:#Guardar
-common#:#obj_rolf_local_desc#:#Guardado com sucesso
-common#:#obj_rolt#:#Guardar e voltar
-common#:#obj_root#:#Guardar como esboço
+common#:#obj_role#:#Função
+common#:#obj_rolf#:#Funções
+common#:#obj_rolf_desc#:#Gerencie suas funções aqui.
+common#:#obj_rolf_local#:#Funções locais
+common#:#obj_rolf_local_desc#:#Contém funções locais do objeto no.
+common#:#obj_rolt#:#Modelo de Função
+common#:#obj_root#:#Repositório - Página inicial
 common#:#obj_rtst#:#Teste ECS
 common#:#obj_rwik#:#Wiki ECS
-common#:#obj_sahs#:#Guardar parâmetro para Cron Job
+common#:#obj_sahs#:#Módulo de Aprendizagem SCORM
 common#:#obj_sahs_duplicate#:#Copiar módulo de aprendizagem
 common#:#obj_sco#:#SCO
 common#:#obj_scov#:#Certificado SCORM
@@ -4424,132 +4424,132 @@ common#:#obj_seas#:#Pesquisa
 common#:#obj_seas_desc#:#Gerir aqui as definições de pesquisa.
 common#:#obj_sess#:#Sessão
 common#:#obj_sess_duplicate#:#Copiar sessão
-common#:#obj_skmg#:#Guardar e atualizar
-common#:#obj_skmg_desc#:#Guardar e voltar
-common#:#obj_spl#:#Guardar definições
+common#:#obj_skmg#:#Gestão de Competências
+common#:#obj_skmg_desc#:#Gerenciar competências e categorias de competência.
+common#:#obj_spl#:#Question Pool Survey
 common#:#obj_spl_select#:#-- Selecione um inquérito de banco de perguntas --
-common#:#obj_st#:#Criar ficheiro de exportação (SCORM 2004 3.ª edição)
+common#:#obj_st#:#Capítulo
 common#:#obj_sty#:#Estilo
-common#:#obj_stys#:#SCORM 2004: define nome de utilizador ILIAS como cmi.learner_id
+common#:#obj_stys#:#Layout e estilos
 common#:#obj_stys_desc#:#Gerir definições de película e estilo aqui
-common#:#obj_svy#:#Se estiver ativado, o nome de utilizador é definido para o id cmi.learner_em vez do ID do utilizador.
-common#:#obj_svy_duplicate#:#Definição padrão para progresso de aprendizagem
-common#:#obj_svyf#:#Inquérito
-common#:#obj_svyf_desc#:#Definições de plataforma para a ferramenta de inquérito
+common#:#obj_svy#:#Pesquisa
+common#:#obj_svy_duplicate#:#Copiar pesquisa
+common#:#obj_svyf#:#Pesquisa
+common#:#obj_svyf_desc#:#Definições de plataforma para a ferramenta de pesquisa
 common#:#obj_sysc#:#Verificação do sistema
 common#:#obj_sysc_desc#:#Verificação do sistema e ferramentas de reparação
-common#:#obj_tags#:#Se o progresso de aprendizagem estiver ativado em geral, os novos módulos de aprendizagem SCORM são definidos para ‘Recolha de itens SCORM’ e todos os SCOs são selecionados para determinar o progresso de aprendizagem. Os ajustes continuam a ser possíveis para cada módulo de aprendizagem SCORM.
-common#:#obj_tags_desc#:#Criar módulo de aprendizagem SCORM (modo de autoria)
+common#:#obj_tags#:#Marcação
+common#:#obj_tags_desc#:#Configurações para o recurso de marcação.
 common#:#obj_tax#:#Taxonomia
 common#:#obj_taxf#:#Taxonomias
-common#:#obj_tool_setting_calendar#:#SCORM: permitir dados de armazenamento sem sessão
-common#:#obj_tool_setting_calendar_info#:#Pesquisa
+common#:#obj_tool_setting_calendar#:#Calendário
+common#:#obj_tool_setting_calendar_info#:#Um calendário está disponível e o bloco "Calendário" é exibido na guia "Conteúdo".
 common#:#obj_tool_setting_custom_metadata#:#Metadados personalizados
 common#:#obj_tool_setting_custom_metadata_info#:#Se estiver ativado, os metadados podem ser configurados.
-common#:#obj_tool_setting_news#:#URLs .html de leitura
-common#:#obj_tool_setting_news_info#:#Pesquisar
+common#:#obj_tool_setting_news#:#Notícias
+common#:#obj_tool_setting_news_info#:#O bloco "Notícias" será exibido na guia "Conteúdo".
 common#:#obj_tos#:#Termos de serviço
 common#:#obj_tos_desc#:#Definições de termos de serviço
-common#:#obj_trac#:#Pesquisar em
-common#:#obj_trac_desc#:#Nova pesquisa
-common#:#obj_tst#:#Resultado da pesquisa
-common#:#obj_tst_duplicate#:#Procurar utilizador
+common#:#obj_trac#:#Estatísticas e Progresso da Aprendizagem
+common#:#obj_trac_desc#:#Estatística e configurações e visão geral do progresso da aprendizagem
+common#:#obj_tst#:#Teste
+common#:#obj_tst_duplicate#:#Copiar teste
 common#:#obj_tstv#:#Certificado de teste
-common#:#obj_type#:#Segundos
+common#:#obj_type#:#Tipo de objeto
 common#:#obj_user#:#Utilizador
-common#:#obj_usr#:#Segundo e-mail
-common#:#obj_usrf#:#Selecionar
-common#:#obj_usrf_desc#:#Selecionado
+common#:#obj_usr#:#Usuário
+common#:#obj_usrf#:#Gerenciamento de usuários
+common#:#obj_usrf_desc#:#Gerencie contas de usuário aqui.
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Definições gerais para web links
 common#:#obj_webr#:#Selecionar tudo
 common#:#obj_webr_duplicate#:#Selecionar ficheiro
-common#:#obj_wfe#:#Fluxo de trabalho motor
+common#:#obj_wfe#:#Workflow Engine
 common#:#obj_wfld#:#Pasta
 common#:#obj_wiki#:#Wiki
 common#:#obj_wiki_duplicate#:#Copiar wiki
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Definições globais wiki
 common#:#object#:#Objeto
-common#:#object_added#:#Superior
+common#:#object_added#:#Objeto adicionado
 common#:#object_copy_in_progress#:#Início da cópia.
-common#:#object_duplicated#:#Tem de preencher todos os pré-requisitos que se seguem
+common#:#object_duplicated#:#Objeto copiado
 common#:#object_id#:#ID de objeto
 common#:#object_imported#:#Objeto importado
-common#:#objects#:#Inferior
-common#:#objf#:#Tem de preencher <b>%s</b> dos seguintes pré-requisitos
+common#:#objects#:#Objetos
+common#:#objf#:#Definições de objeto
 common#:#objs_bibl#:#Bibliografias
 common#:#objs_blog#:#Blogs
-common#:#objs_book#:#Pré-requisitos que devem ser cumpridos para aceder a este objeto
-common#:#objs_cat#:#Preferências
-common#:#objs_catr#:#Anterior
-common#:#objs_chtr#:#Imprimir
+common#:#objs_book#:#Booking Pools
+common#:#objs_cat#:#Categorias
+common#:#objs_catr#:#Link da categoria
+common#:#objs_chtr#:#Chat Room
 common#:#objs_cld#:#Objetos da cloud
-common#:#objs_copa#:#Vista da impressão
-common#:#objs_crs#:#Novas privadas
-common#:#objs_crsr#:#Per
+common#:#objs_copa#:#Páginas de conteúdo
+common#:#objs_crs#:#Cursos
+common#:#objs_crsr#:#Link do Curso
 common#:#objs_dcl#:#Coleções de dados
-common#:#objs_exc#:#Perfil
+common#:#objs_exc#:#Exercícios
 common#:#objs_feed#:#Web Feeds
-common#:#objs_file#:#ILIAS eLearning - O seu perfil mudou
+common#:#objs_file#:#Arquivos
 common#:#objs_fold#:#O seu perfil está incompleto. Preencha todos os dados necessários.
-common#:#objs_frm#:#Perfil de
-common#:#objs_glo#:#Propriedades
-common#:#objs_grp#:#Servidor Proxy
-common#:#objs_grpr#:#Para usar um proxy em ILIAS (p. ex. para web feeds ou para verificar links da web) ative a caixa de seleção em cima.
-common#:#objs_htlm#:#Perfil
+common#:#objs_frm#:#Pastas
+common#:#objs_glo#:#Glossários
+common#:#objs_grp#:#Grupos
+common#:#objs_grpr#:#Links do grupo
+common#:#objs_htlm#:#Módulos de aprendizado de HTML
 common#:#objs_iass#:#Avaliações individuais
 common#:#objs_itgr#:#Grupos de item
-common#:#objs_lm#:#Acesso anónimo
-common#:#objs_lres#:#Se estiver ativado, algumas partes do sistema (p. ex. repositório, espaço de trabalho, perfis de utilizador) podem ficar disponíveis na internet sem autenticação. As permissões da função ‘Anónimo’ controlarão o acesso aos recursos do repositório.
-common#:#objs_lso#:#Teste banco de perguntas
+common#:#objs_lm#:#Módulos de Aprendizagem ILIAS
+common#:#objs_lres#:#Recursos de aprendizagem
+common#:#objs_lso#:#Sequências de Aprendizagem
 common#:#objs_mail#:#Correio
-common#:#objs_mcst#:#Adicionar teste banco de perguntas
-common#:#objs_mep#:#Novo teste banco de perguntas
-common#:#objs_orgu#:#Pergunta
-common#:#objs_poll#:#Sondagens
+common#:#objs_mcst#:#Mediacasts
+common#:#objs_mep#:#Media Pools
+common#:#objs_orgu#:#Unidades Organizacionais
+common#:#objs_poll#:#Enquetes
 common#:#objs_prg#:#Programas de estudo
 common#:#objs_prtf#:#Portefólios
 common#:#objs_prtt#:#Modelos de portefólio
-common#:#objs_qpl#:#Desistir
+common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Perguntas
 common#:#objs_rcat#:#Categorias ECS
-common#:#objs_rcrs#:#Citar
+common#:#objs_rcrs#:#Cursos ECS
 common#:#objs_rfil#:#Ficheiros ECS
 common#:#objs_rglo#:#Glossários ECS
 common#:#objs_rgrp#:#Grupos ECS
 common#:#objs_rlm#:#Módulos de aprendizagem ECS
-common#:#objs_role#:#Ler
+common#:#objs_role#:#Funções
 common#:#objs_rtst#:#Testes ECS
 common#:#objs_rwik#:#Wikis ECS
-common#:#objs_sahs#:#Quantidade de acessos de leitura não-anónimos
-common#:#objs_sess#:#Destinatário
-common#:#objs_spl#:#Como ficou a saber do ILIAS?
-common#:#objs_st#:#Atualizar
-common#:#objs_svy#:#Atualizar todos os idiomas
-common#:#objs_tst#:#Registar
-common#:#objs_webr#:#Registado desde
+common#:#objs_sahs#:#Módulos de Aprendizagem SCORM
+common#:#objs_sess#:#Sessões
+common#:#objs_spl#:#Question Pools Survey
+common#:#objs_st#:#Capítulos
+common#:#objs_svy#:#Pesquisas
+common#:#objs_tst#:#Testes
+common#:#objs_webr#:#Weblinks
 common#:#objs_wiki#:#Wikis
-common#:#of#:#Selecionar ficheiros
-common#:#offline#:#Inserir perguntas em
-common#:#offline_mode#:#País
+common#:#of#:#Of
+common#:#offline#:#Offline
+common#:#offline_mode#:#Modo offline
 common#:#ok#:#OK
-common#:#old#:#Enviar
+common#:#old#:#antigo
 common#:#omit#:#Omitir
 common#:#omit_all#:#Omitir tudo
 common#:#on_waiting_list#:#Está na lista de espera
 common#:#online#:#Online
-common#:#online_time#:#Remetente
-common#:#only_active#:#Enviar mensagem
-common#:#only_inactive#:#Enviado
-common#:#open#:#Sequência
-common#:#operation#:#Sequências
-common#:#optimize#:#Servidor
+common#:#online_time#:#Tempo online (DD:HH:MM:SS)
+common#:#only_active#:#Somente ativo
+common#:#only_inactive#:#Somente inativo
+common#:#open#:#Abrir
+common#:#operation#:#Operação
+common#:#optimize#:#Otimizar
 common#:#option#:#Opção
 common#:#optional_filter_hint#:#Ative um dos filtros opcionais.
 common#:#optional_filters#:#Filtros opcionais
-common#:#options#:#Informação do servidor
-common#:#order_by#:#Software do servidor
+common#:#options#:#Opções
+common#:#order_by#:#Ordenar por
 common#:#order_by_date#:#Ordenar por data
 common#:#org_op_access_enrolments#:#Ver estado da inscrição
 common#:#org_op_manage_members#:#Gerir membros subordinados
@@ -4557,101 +4557,100 @@ common#:#org_op_read_learning_progress#:#Ver progresso de aprendizagem dos utili
 common#:#org_permission_settings#:#Autorizações de posições em unidades organizacionais
 common#:#org_units#:#Unidades organizacionais
 common#:#organization#:#Fornecedor
-common#:#other#:#Define o número máximo de sessões que podem ser criadas em simultâneo. Definir isto para ‘0’ desativa a funcionalidade.
-common#:#overview#:#Aviso de sessão
+common#:#other#:#Outros
+common#:#overview#:#Visão geral
 common#:#overwrite#:#Substituir
-common#:#owner#:#Se estiver ativado, recebe um aviso a antes de a sessão online do seu motor de busca expirar.
+common#:#owner#:#Proprietário
 common#:#owner_updated#:#Proprietário atualizado.
-common#:#page#:#Prazo de aviso
+common#:#page#:#Página
 common#:#page_count#:#Contagem de páginas
-common#:#page_layout#:#Definir
-common#:#page_layouts#:#Definir idioma do sistema
-common#:#pages#:#Especifique o prazo de aviso da sessão em minutos. O aviso mostra um alerta apenas quando já só falta este intervalo antes de a sessão expirar. O valor recomendado é 5 (minutos)<br / >A duração atual de uma sessão de utilizador é %s.
+common#:#page_layout#:#Layout da página
+common#:#page_layouts#:#Layouts da página
+common#:#pages#:#Páginas
 common#:#parameter#:#Definições
-common#:#parse#:#Os membros serão notificados automaticamente
-common#:#participate#:#Os membros serão notificados automaticamente. É permitido desativar notificações para cada membro individualmente.
+common#:#parse#:#Analisar
+common#:#participate#:#Inscrever-se
 common#:#passed#:#Aprovado
-common#:#passwd#:#Definições guardadas
-common#:#passwd_generation#:#Criação de palavra-passe
-common#:#passwd_invalid#:#Definir idioma do utilizador
-common#:#passwd_not_match#:#Definir offline
-common#:#passwd_wrong#:#Definir online
-common#:#password#:#Atributo para endereço de e-mail
-common#:#password_allow_chars#:#Atributo para o nome próprio
-common#:#password_assistance_info#:#Atributo para forma de tratamento (tem de ser 'm' ou 'f')
-common#:#password_change_on_first_login_demand#:#Fornece uma lista de Fornecedores de Identidades para que o utilizador possa escolher a partir da página de login ILIAS.<br>Em cada linha deve haver um tuplo separado por vírgulas para <strong>providerID de IdP</strong> (ver o ficheiro Shibboleth metadados) e <strong>Nome de IdP</strong> tal como deve ser exibido na lista drop-down.<br>Como terceiro parâmetro opcional pode adicionar a <strong>localização de um iniciador de sessão Shibboleth</strong> esse deve ser usado no caso de a sua instalação ILIAS fazer parte de uma instalação de múltiplas federações.
+common#:#passwd#:#Senha
+common#:#passwd_generation#:#Criação de senha
+common#:#passwd_invalid#:#A nova senha é inválida! Apenas os seguintes caracteres são permitidos (mínimo de 6 caracteres): A-Z a-z 0-9 _.-+?#*@!$%~
+common#:#passwd_not_match#:#Suas entradas para a nova senha não correspondem! Digite sua nova senha novamente.
+common#:#passwd_wrong#:#A senha que você digitou está errada!
+common#:#password#:#Senha
+common#:#password_allow_chars#:#Caracteres permitidos:%s
+common#:#password_assistance_info#:#Se a assistência por senha estiver ativada, um link 'Esqueceu a senha?' Será exibido na página de login do ILIAS. Os usuários podem usar esse link para definir uma nova senha para sua conta de usuário sem precisar da assistência de um administrador do sistema.
+common#:#password_change_on_first_login_demand#:#Você precisa alterar sua senha antes de começar a usar os serviços do ILIAS.
 common#:#password_contains_invalid_chars#:#A palavra-passe contém caracteres inválidos
 common#:#password_contains_parts_of_login_err#:#A palavra-passe escolhida contém o seu nome de utilizador. Insira uma nova palavra-passe.
-common#:#password_empty#:#Caminho para a imagem de um botão login Shibboleth que é usado para redirecionar utilizadores para o WAYF especificado na configuração de Shibboleth
-common#:#password_expired#:#Sou um membro de...
-common#:#password_multiple_errors#:#Este título vai aparecer na barra de títulos do cabeçalho do motor de busca. Se não houver nenhum valor, é usado ‘ILIAS’.
+common#:#password_empty#:#O campo da senha não deve estar vazio.
+common#:#password_expired#:#Sua senha expirou e precisa ser alterada, pois a última alteração ocorreu %s dia(s) atrás.
+common#:#password_multiple_errors#:#Vários critérios não são atendidos:
 common#:#password_must_chars_and_numbers#:#A palavra-passe tem de incluir caracteres e números.
 common#:#password_must_contain_lcase_chars#:#A palavra-passe tem de incluir pelo menos %s minúsculas.
 common#:#password_must_contain_ucase_chars#:#A palavra-passe tem de incluir pelo menos %s maiúsculas.
 common#:#password_must_special_chars#:#A palavra-passe tem de incluir caracteres especiais.
 common#:#password_to_long#:#A palavra-passe tem de ter no máximo um tamanho de %s caracteres.
 common#:#password_to_short#:#A palavra-passe tem de ter no mínimo um tamanho de %s caracteres.
-common#:#paste#:#Mostrar
-common#:#paste_clipboard_items#:#Mostrar lista
-common#:#pasteChapter#:#Mostrar detalhes
-common#:#pastePage#:#Mostrar filtro
-common#:#path#:#Mostrar membros
-common#:#path_not_set#:#Mensagens do sistema
-common#:#path_to_convert#:#Mostrar utilizadores ativos
-common#:#path_to_htmldoc#:#Assinatura
-common#:#path_to_java#:#Tamanho
-common#:#path_to_unzip#:#Competências
-common#:#path_to_zip#:#Película/estilo predefinido
-common#:#pathes#:#Mostrar dono
-common#:#pd_items_news#:#Inclui notícias de itens pessoais
-common#:#pdf_export#:#Administração via SOAP
+common#:#paste#:#Colar
+common#:#paste_clipboard_items#:#Colar
+common#:#pasteChapter#:#Colar
+common#:#pastePage#:#Colar
+common#:#path#:#Caminho
+common#:#path_not_set#:#Caminho não definido
+common#:#path_to_convert#:#Caminho para converter
+common#:#path_to_htmldoc#:#Caminho para HTMLdoc
+common#:#path_to_java#:#Caminho para Java
+common#:#path_to_unzip#:#Caminho para Unzip
+common#:#path_to_zip#:#Caminho para Zip
+common#:#pd_items_news#:#Incluir notícias de itens pessoais
+common#:#pdf_export#:#Exportação de PDF
 common#:#pdfg_edit_permission#:#O utilizador pode mudar as definições de permissões
 common#:#pdfg_read#:#O utilizador tem acesso de leitura à criação de PDF
 common#:#pdfg_visible#:#A criação de PDF está visível
 common#:#pdfg_write#:#O utilizador pode editar definições da criação de PDF
-common#:#perm_settings#:#Títulos por ordem alfabética
-common#:#perma_link#:#O modo de ordenação é adotado de um curso/grupo familiar.
-common#:#permission#:#Os itens do conteúdo podem ser dispostos manualmente pela ordem que preferir. Deve ainda definir a ordenação padrão para objetos novos.
-common#:#permission_denied#:#Os itens do conteúdo são dispostos automaticamente por título por ordem alfabética.
-common#:#permission_settings#:#Manualmente
-common#:#person_title#:#Passo
-common#:#personal_data#:#Ordenar por esta coluna
-common#:#personal_picture#:#Adicionar inquérito banco de perguntas
-common#:#personal_profile#:#Novo inquérito banco de perguntas
-common#:#personal_settings#:#Página login ILIAS
-common#:#persons#:#Nenhuma permissão concedida
-common#:#pg_add#:#Rua
-common#:#pg_new#:#Estrutura
-common#:#phone#:#Assunto
-common#:#phone_home#:#Submeter
-common#:#phone_mobile#:#Sub-objetos
-common#:#phone_office#:#Subscrição
-common#:#phrase#:#Sumário
-common#:#please_choose#:#Adicionar inquérito
-common#:#please_enter_target#:#Completou o inquérito
-common#:#please_enter_title#:#O inquérito ainda não foi concluído
-common#:#please_select#:#Não participou neste inquérito
+common#:#perm_settings#:#Permissões
+common#:#perma_link#:#Link permanente
+common#:#permission#:#Permissões
+common#:#permission_denied#:#Permissão negada
+common#:#permission_settings#:#Configurações de permissão de objeto
+common#:#person_title#:#Título
+common#:#personal_data#:#Dados pessoais
+common#:#personal_picture#:#Avatar
+common#:#personal_profile#:#Perfil e Privacidade
+common#:#personal_settings#:#Configurações
+common#:#persons#:#Pessoas
+common#:#pg_add#:#Adicionar Página
+common#:#pg_new#:#Nova página
+common#:#phone#:#Telefone
+common#:#phone_home#:#Telefone, casa
+common#:#phone_mobile#:#Telefone, móvel
+common#:#phone_office#:#Telefone, escritório
+common#:#phrase#:#Frase
+common#:#please_choose#:#-- Selecione --
+common#:#please_enter_target#:#Digite um alvo
+common#:#please_enter_title#:#Por favor insira um título
+common#:#please_select#:#-- Por favor selecione --
 common#:#please_select_a_delivered_file_to_delete#:#Tem de selecionar pelo menos um ficheiro entregue para o eliminar!
 common#:#please_select_a_delivered_file_to_download#:#Tem de selecionar pelo menos um ficheiro entregue para o descarregar!
 common#:#please_wait#:#Por favor, aguarde...
-common#:#port#:#O inquérito está incompleto
-common#:#portfolio#:#Portefólio
-common#:#pos_bottom#:#Processar verificação do sistema em Cron Job
+common#:#port#:#Porta
+common#:#portfolio#:#Portfólio
+common#:#pos_bottom#:#Inferior
 common#:#pos_left#:#Esquerda
 common#:#pos_right#:#Direita
-common#:#pos_top#:#Ativação da verificação do sistema em Cron Job
-common#:#position#:#Sistema
+common#:#pos_top#:#Topo
+common#:#position#:#Posição
 common#:#position_permission_settings#:#Permissões específicas Orgunit
 common#:#precondition#:#Pré-condição
 common#:#precondition_not_accessible#:#Não tem autorização suficiente para ver a ou as pré-condições deste item.
 common#:#precondition_required_itemlist#:#Pré-condição exigida
-common#:#precondition_toggle#:#Mensagens do sistema
+common#:#precondition_toggle#:#Condições prévias que precisam ser atendidas para acessar este objeto
 common#:#preconditions#:#Pré-condições
-common#:#preconditions_obligatory_hint#:#Verificação do Sistema
-common#:#preconditions_optional_hint#:#Idioma do sistema
+common#:#preconditions_obligatory_hint#:#Você deve cumprir todas as seguintes condições prévias
+common#:#preconditions_optional_hint#:#Você deve cumprir <b> %s </b> das seguintes condições prévias
 common#:#predefined_template#:#Modelo de função predefinido
-common#:#preferences#:#Importar mail
-common#:#presentation_table_more#:#Os meus Tags
+common#:#preferences#:#Preferências
+common#:#presentation_table_more#:#Mostre mais
 common#:#preview#:#Pré-visualização
 common#:#preview_create#:#Criar pré-visualização
 common#:#preview_delete#:#Apagar pré-visualização
@@ -4665,21 +4664,21 @@ common#:#preview_status_deleting#:#A pré-visualização está a ser apagada.
 common#:#preview_status_failed#:#Falhou a criação da pré-visualização.
 common#:#preview_status_missing#:#Não existe uma pré-visualização para este ficheiro.
 common#:#preview_status_pending#:#A pré-visualização ainda não foi criada. Tente novamente mais tarde.
-common#:#previous#:#Adicionar taxonomia
+common#:#previous#:#Anterior
 common#:#prg_copy_threads_info#:#Decida que elementos do programa de estudo devem ser copiados, associados ou até omitidos.
 common#:#prg_wizard_page#:#Copiar programa de estudo (passo 2/2)
-common#:#print#:#Termo
-common#:#print_view#:#Testes
-common#:#private_notes#:#Tempo
-common#:#pro#:#Acesso
+common#:#print#:#Imprimir
+common#:#print_view#:#Vista de impressão
+common#:#private_notes#:#Notas particulares
+common#:#pro#:#Pro
 common#:#proceed#:#Proceder
-common#:#profile#:#Insira um período de tempo para o(s) utilizador(es) selecionado(s).
-common#:#profile_changed#:#Selecione um utilizador.
-common#:#profile_incomplete#:#A sua conta de utilizador não está ativa.
-common#:#profile_of#:#Título
-common#:#properties#:#Insira um título.
-common#:#proxy#:#Para
-common#:#proxy_connectable#:#Ligação estabelecida
+common#:#profile#:#Perfil
+common#:#profile_changed#:#Seu perfil mudou
+common#:#profile_incomplete#:#O seu perfil está incompleto. Por favor, preencha todos os dados necessários.
+common#:#profile_of#:#Perfil de
+common#:#properties#:#Propriedades
+common#:#proxy#:#Proxy-Server
+common#:#proxy_connectable#:#Conexão estabelecida.
 common#:#proxy_host#:#Host
 common#:#proxy_host_info#:#Insira um host.
 common#:#proxy_not_connectable#:#ILIAS não conseguiu criar uma ligação ao proxy definido.
@@ -4688,208 +4687,208 @@ common#:#proxy_port_info#:#Insira uma porta entre 0 e 65535, p. ex.8080.
 common#:#proxy_port_numeric#:#A porta introduzida tem de ter um valor numérico entre 0 e 65535
 common#:#proxy_socket_error#:#Erro base: %s
 common#:#proxy_status#:#Proxy
-common#:#proxy_status_info#:#Hoje
-common#:#ps_export_scorm#:#Dados de rastreio SCORM
+common#:#proxy_status_info#:#Para usar um proxy no ILIAS (por exemplo, para feeds da Web ou para verificar links da Web), ative a caixa de seleção acima.
+common#:#ps_export_scorm#:#Dados pessoais em dados de protocolo
 common#:#ps_password_lowercase_chars_num#:#Minúsculas
 common#:#ps_password_lowercase_chars_num_info#:#Insira o número de minúsculas que uma palavra-passe tem de incluir. Insira 0 para desativar este requisito.
 common#:#ps_password_must_not_contain_loginame#:#Evitar nome de utilizador na palavra-passe
 common#:#ps_password_must_not_contain_loginame_info#:#Se estiver ativado, uma palavra-passe não pode incluir o nome de utilizador.
 common#:#ps_password_uppercase_chars_num#:#Maiúsculas
 common#:#ps_password_uppercase_chars_num_info#:#Insira o número de maiúsculas que uma palavra-passe tem de incluir. Insira 0 para desativar este requisito.
-common#:#pub_section#:#Alternar global fixa
-common#:#pub_section_info#:#Amanhã
+common#:#pub_section#:#Acesso Anônimo
+common#:#pub_section_info#:#Se ativado, partes do sistema (por exemplo, repositório, espaço de trabalho, perfis de usuário) podem ser disponibilizadas na Internet sem autenticação. As permissões da função "Anônimo" controlarão o acesso aos recursos do repositório.
 common#:#public#:#público
 common#:#public_notes#:#Notas públicas
-common#:#public_profile#:#Alternar predefinição global
+common#:#public_profile#:#Perfil pública
 common#:#public_room#:#Sala pública
 common#:#purpose#:#Propósito
 common#:#pwsp_recalculate_disk_quota#:#Espaço de trabalho pessoal: Recálculo da cota do disco
 common#:#pwsp_recalculate_disk_quota_desc#:#Recalcula todos os valores da cota do disco para o espaço de trabalho pessoal.
-common#:#qpl#:#Topo da página
-common#:#qpl_add#:#Seleção de clientes
+common#:#qpl#:#Question Pool Test
+common#:#qpl_add#:#Adicionar Question Pool Test
 common#:#qpl_copy#:#Copiar teste banco de perguntas
-common#:#qpl_new#:#Adicionar ao desktop
+common#:#qpl_new#:#Novo Question Pool Test
 common#:#query_data#:#Dados de consulta
-common#:#question#:#Definições do progresso de aprendizagem
-common#:#question_message#:#Pergunta
-common#:#quit#:#Tradução
-common#:#quote#:#Lixo
+common#:#question#:#Pergunta
+common#:#question_message#:#Mensagem da Pergunta
+common#:#quit#:#Sair
+common#:#quote#:#Citar
 common#:#reached_session_limit#:#O limite de utilizadores online foi alcançado. Tente novamente mais tarde.
-common#:#read#:#Árvore
+common#:#read#:#Ler
 common#:#readcount_anonymous_users#:#Quantidade de acessos de leitura anónimos
-common#:#readcount_users#:#Vista barra lateral
-common#:#recipient#:#Quadro de árvore
+common#:#readcount_users#:#Quantidade de acessos de leitura não anônimos
+common#:#recipient#:#Recipiente
 common#:#reference_deleted#:#Destino indisponível
 common#:#reference_of#:#Referência de:
-common#:#referral_comment#:#Teste
-common#:#refresh#:#Adicionar teste
-common#:#refresh_languages#:#Novo teste
+common#:#referral_comment#:#Como você ficou sabendo do ILIAS?
+common#:#refresh#:#Atualizar
+common#:#refresh_languages#:#Atualizar todos os idiomas
 common#:#refuse#:#Recusar
-common#:#reg_account_confirmation_successful#:#Definição do tipo de objeto
+common#:#reg_account_confirmation_successful#:#Sua conta de usuário foi ativada.
 common#:#reg_goto_parent_membership_info#:#Apenas os membros podem aceder ao objeto de destino.
-common#:#reg_mail_body_2_confirmation#:#Tipo
-common#:#reg_mail_body_3_confirmation#:#Novo campo adicionado.
+common#:#reg_mail_body_2_confirmation#:#O link será bom apenas para %s; depois disso, você precisará tentar novamente desde o início.
+common#:#reg_mail_body_3_confirmation#:#Se esse email não significa nada para você, é possível que outra pessoa tenha inserido seu endereço de email de forma deliberada ou acidental. Portanto, ignore-o.
 common#:#reg_mail_body_forgot_password_info#:#Para obter a sua palavra-passe, use a função « Esqueci-me da palavra-passe » no ecrã de login para pedir uma nova palavra-passe para esta conta.
-common#:#reg_mail_body_salutation#:#Quando o campo está definido para ‘exigido’, deve ser definido para ‘visível no registo’
-common#:#reg_mail_body_text1#:#Data
-common#:#reg_mail_body_text2#:#Lista de seleção (escolha única)
-common#:#reg_mail_body_text3#:#Campo de texto (uma linha)
-common#:#reg_mail_subject#:#Se esta não for a sua conta, pressione ‘Criar nova conta’.
-common#:#reg_mail_subject_confirmation#:#Se nenhuma destas for a sua conta, pressione ‘Criar nova conta’.
-common#:#reg_passwd_via_mail#:#Marca distinta
-common#:#register#:#Estatística
-common#:#registered_since#:#Estatística
-common#:#registered_user#:#Não é suposto fazer este teste.
-common#:#registered_users#:#Tutores
-common#:#registration#:#Registou-se com sucesso no ILIAS. Clique no botão em baixo para entrar no ILIAS com a sua conta de utilizador.
+common#:#reg_mail_body_salutation#:#Ola
+common#:#reg_mail_body_text1#:#Bem-vindo ao ILIAS eLearning!
+common#:#reg_mail_body_text2#:#Para acessar o ILIAS, use os seguintes dados:
+common#:#reg_mail_body_text3#:#Outras informações pessoais:
+common#:#reg_mail_subject#:#ILIAS eLearning - Seus dados de acesso
+common#:#reg_mail_subject_confirmation#:#ILIAS eLearning - Seu link de confirmação
+common#:#reg_passwd_via_mail#:#Sua senha será enviada para o seu endereço de e-mail abaixo.
+common#:#register#:#Registrar
+common#:#registered_since#:#Registrado desde
+common#:#registered_user#:#Usuário registrado
+common#:#registered_users#:#Usuários registrados
+common#:#registration#:#Registrar nova conta
 common#:#related_to#:#Relacionado com
-common#:#remove#:#Desinstalar
+common#:#remove#:#Remover
 common#:#remove_entries#:#Remover entradas
-common#:#remove_translation#:#desinstalado.
-common#:#rename#:#DESCONHECIDO
-common#:#rename_file#:#Mudar o nome ao ficheiro
+common#:#remove_translation#:#Remover tradução
+common#:#rename#:#Renomear
+common#:#rename_file#:#Renomear arquivo
 common#:#renderer_supported_file_types#:#Tipos de ficheiro suportados
 common#:#renderer_supported_repo_types#:#Objetos ILIAS suportados
 common#:#renderer_type_builtin#:#Integrado
-common#:#rep_main_page#:#Carregar
+common#:#rep_main_page#:#Página principal
 common#:#repeat_scan#:#A repetir scan de vírus...
-common#:#repeat_scan_failed#:#Não lido
-common#:#repeat_scan_succeded#:#Remover do desktop
+common#:#repeat_scan_failed#:#Falha na verificação repetida.
+common#:#repeat_scan_succeded#:#A varredura repetida foi bem-sucedida.
 common#:#replace_file#:#Substituir ficheiro
-common#:#reply#:#Cima
-common#:#repository#:#Atualização aplicada
-common#:#repository_admin#:#Atualizar idioma
+common#:#reply#:#Responder
+common#:#repository#:#Repositório
+common#:#repository_admin#:#Lixeira e Permissões do Repositório
 common#:#repository_admin_desc#:#Definir permissões para itens de repositório, recuperar ou remover objetos do lixo do sistema
-common#:#require_email#:#Carregar definições
-common#:#require_gender#:#Utilizador
-common#:#require_hobby#:#Dados do utilizador
-common#:#require_matriculation#:#Nome de utilizador
+common#:#require_email#:#Exigir email
+common#:#require_gender#:#Exigir saudação
+common#:#require_hobby#:#Exigir hobby
+common#:#require_matriculation#:#Exigir número de matrícula
 common#:#require_referral_comment#:#Requer comentário de referência
-common#:#required_field#:#O ficheiro foi carregado e verificado, agora pode começar a importá-lo.
-common#:#res_links#:#Utilizador adicionado
+common#:#required_field#:#Obrigatório
+common#:#res_links#:#Links do Repositório
 common#:#res_links_short#:#Links
-common#:#reset#:#Utilizadores
-common#:#reset_filter#:#Os seguintes utilizadores não existem, as suas mensagens não podem ser importadas
-common#:#resources#:#Utilizadores ativos
+common#:#reset#:#Redefinir
+common#:#reset_filter#:#Redefinir filtro
+common#:#resources#:#Recursos
 common#:#right#:#Atribuição de utilizador
-common#:#rights#:#%1$s (o utilizador não está autorizado a usar o sistema de correio)
-common#:#role#:#Campos personalizados
-common#:#role_add_user#:#Conta usada para autenticação externa. (CAS, SOAP, LDAP ou autenticação Radius)
-common#:#role_added#:#Utilizador apagado
-common#:#role_assignment#:#Importação de utilizador completa.
+common#:#rights#:#Atribuições de utilizador
+common#:#role#:#Função
+common#:#role_add_user#:#Adicionar usuário(s) à função
+common#:#role_added#:#Função adicionada
+common#:#role_assignment#:#Atribuição de função
 common#:#role_assignment_updated#:#A atribuição de funções foi atualizada.
-common#:#role_edit#:#Idioma do utilizador
+common#:#role_edit#:#Editar função
 common#:#role_mailto#:#Mail para todos os utilizadores atribuídos
-common#:#role_new#:#Este mail é enviado automaticamente aos utilizadores que se autorregistaram ou aos que foram registados por um administrador com definição ativada ‘Enviar mail para informar o utilizador das alterações’.
-common#:#role_new_search#:#Enviar novo e-mail da conta
+common#:#role_new#:#Nova função
+common#:#role_new_search#:#Nova pesquisa
 common#:#role_no_roles_selected#:#Selecione uma função
-common#:#role_protect_permissions#:#O membro não está autorizado a desativar a notificação
+common#:#role_protect_permissions#:#Proteger permissões
 common#:#role_protect_permissions_desc#:#As permissões de objeto já não podem ser mudadas pelas operações do sistema. Além disso, apenas os administradores de níveis superiores é que podem mudar as permissões.
 common#:#role_select_one_item#:#Selecione um objeto.
 common#:#role_sure_delete_desk_items#:#Tem a certeza que quer apagar as seguintes atribuições?
 common#:#role_templates_only#:#Apenas modelos de funções
-common#:#roles#:#Campos de dados do utilizador personalizados
+common#:#roles#:#Funções
 common#:#roles_of_import_global#:#Funções globais do ficheiro de importação
 common#:#roles_of_import_local#:#Funções locais do ficheiro de importação
-common#:#rolf#:#Utilizador
-common#:#rolf_added#:#Contas de utilizador
-common#:#rolf_create_role#:#Não pode executar a ação ‘Apagar’. Nenhum utilizador desses na base de dados.
-common#:#rolf_create_rolt#:#Não pode executar a ação ‘Inserir’. O utilizador já está na base de dados.
-common#:#rolf_delete#:#Não pode executar a ação ‘Atualizar’. Nenhum utilizador desses na base de dados.
-common#:#rolf_edit_permission#:#Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.) Quando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados).
-common#:#rolf_edit_userassignment#:#Não pode executar a ação ‘Inserir’. A conta externa já existe.
-common#:#rolf_read#:#Não pode executar a ação ‘Atualizar’. A conta externa já existe.
-common#:#rolf_visible#:#Adicionar utilizador
-common#:#rolf_write#:#Termos de serviço
-common#:#rolt#:#Editar utilizador
-common#:#rolt_added#:#Novo utilizador
-common#:#rolt_edit#:#Marque ‘Visível’ para mostrar campos no formulário de registo e dados pessoais no computador pessoal. Marque ‘Modificável’ para permitir que o utilizador mude o valor nos dados pessoais. Note que os campos visíveis podem sempre ser introduzidos no formulário de registo. Os campos obrigatórios são exigidos no formulário de registo e os dados pessoais. Todos os dados podem ser mudados na administração de utilizadores independentemente dessas definições.
-common#:#rolt_new#:#Campos de dados do utilizador padrão
+common#:#rolf#:#Funções
+common#:#rolf_added#:#Pasta de função adicionada
+common#:#rolf_create_role#:#Criar nova função
+common#:#rolf_create_rolt#:#Criar novo modelo de função
+common#:#rolf_delete#:#Excluir modelos de funções / funções
+common#:#rolf_edit_permission#:#Alterar configurações de permissão
+common#:#rolf_edit_userassignment#:#Alterar a atribuição do usuário de funções
+common#:#rolf_read#:#Acesso de leitura a modelos de funções / funções
+common#:#rolf_visible#:#Os papéis / modelos de função são visíveis
+common#:#rolf_write#:#Editar configurações de permissão padrão de modelos de funções / função
+common#:#rolt#:#Modelo de Função
+common#:#rolt_added#:#Modelo de função adicionado
+common#:#rolt_edit#:#Editar modelo de função
+common#:#rolt_new#:#Novo modelo de função
 common#:#row#:#Linha
-common#:#rows#:#Película/estilo
+common#:#rows#:#Linhas
 common#:#rpc_pdf_font#:#Fontes
-common#:#rpc_pdf_font_info#:#Validar
+common#:#rpc_pdf_font_info#:#Fontes adicionais para a geração de arquivos PDF. Outras fontes que não sejam 'Helvetica' e 'unifont' devem estar instaladas no servidor ILIAS.
 common#:#rpc_pdf_generation#:#Criação de PDF
-common#:#sad#:#Valor
-common#:#sahs#:#Cartão de visita
-common#:#sahs_added#:#Descarregar cartão de visita
+common#:#sad#:#Sad
+common#:#sahs#:#Módulo de Aprendizagem SCORM
+common#:#sahs_added#:#Módulo de aprendizagem SCORM adicionado
 common#:#sahs_export_file#:#Ficheiro de arquivo SCORM exportado de ILIAS
 common#:#sahs_insert_chap_from_clip#:#Colar capítulos a partir da área de transferência
 common#:#sahs_insert_page_from_clip#:#Colar páginas a partir da área de transferência
 common#:#sahs_insert_sco_from_clip#:#Colar SCOs a partir da área de transferência
-common#:#salutation#:#Versão
-common#:#salutation_f#:#Versões
-common#:#salutation_m#:#Ver
-common#:#salutation_n#:#Ver conteúdo
+common#:#salutation#:#Saudação
+common#:#salutation_f#:#Sra.
+common#:#salutation_m#:#Sr.
+common#:#salutation_n#:#Nenhuma saudação desejada
 common#:#saml_log_in#:#Login direto
 common#:#saml_login_form_info_txt#:#Pode fazer login usando o botão “Login direto” sem ter de inserir o seu nome de utilizador ou palavra-passe.
 common#:#saml_login_form_txt#:#Login para ILIAS via SAML
-common#:#save#:#Visível
-common#:#save_and_back#:#Sugerimos criar uma palavra-passe local para abrir o repositório como pasta web.<br />Esta palavra-passe é apenas exigida para a funcionalidade da pasta web.
+common#:#save#:#Salvar
+common#:#save_and_back#:#Salvar e voltar
 common#:#save_message#:#Salvar Mensagem
-common#:#save_params_for_cron#:#Abra esta página como uma pasta da web com <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">outros motores de busca</a>.
-common#:#save_refresh#:#Weblink
-common#:#save_return#:#Adicionar weblink
-common#:#save_settings#:#Webkink(s) apagado(s).
+common#:#save_params_for_cron#:#Salvar Parâmetro para Trabalho Cron
+common#:#save_refresh#:#Salvar e atualizar
+common#:#save_return#:#Salvar e retornar
+common#:#save_settings#:#Salvar configurações
 common#:#save_user_related_data#:#Guardar dados de acesso relacionados com o utilizador
-common#:#saved_successfully#:#Visitas
+common#:#saved_successfully#:#Salvo com sucesso
 common#:#saving#:#A guardar...
 common#:#scorm_create_export_file_html#:#Criar ficheiro de exportação (HTML)
 common#:#scorm_create_export_file_pdf#:#Criar ficheiro de exportação (PDF)
 common#:#scorm_create_export_file_scrom12#:#Criar ficheiro de exportação (SCORM 1.2)
-common#:#scorm_create_export_file_scrom2004#:#Desativar validação
+common#:#scorm_create_export_file_scrom2004#:#Criar arquivo de exportação (SCORM 2004 3.ª edição)
 common#:#scorm_create_export_file_scrom2004_4th#:#Criar ficheiro de exportação (SCORM 2004 4.ª edição)
-common#:#scorm_login_as_learner_id#:#Editar weblink
-common#:#scorm_login_as_learner_id_info#:#Tem a certeza que quer apagar o(s) seguinte(s) link(s) da web?
-common#:#scorm_lp_auto_activate#:#SOAP
-common#:#scorm_lp_auto_activate_info#:#Weblinks
-common#:#scorm_new#:#Semana
-common#:#scorm_without_session#:#Bem-vindo
-common#:#scorm_without_session_info#:#Isso garante o armazenamento dos dados de aprendizagem SCORM mesmo se a sessão ILIAS expirou
-common#:#search#:#Adicionar wiki
+common#:#scorm_login_as_learner_id#:#SCORM 2004: defina o nome de usuário do ILIAS como cmi.learner_id
+common#:#scorm_login_as_learner_id_info#:#Se ativado, o nome de usuário em vez do ID do usuário é definido para cmi.learner_id.
+common#:#scorm_lp_auto_activate#:#Configuração padrão para o progresso da aprendizagem
+common#:#scorm_lp_auto_activate_info#:#Se o progresso do aprendizado for ativado em geral, as configurações dos novos módulos de aprendizado do SCORM serão definidas como 'Coleção de itens do SCORM' e todos os SCOs serão selecionados para determinar o progresso do aprendizado. Ainda são possíveis ajustes para cada módulo de aprendizado do SCORM.
+common#:#scorm_new#:#Criar módulo de aprendizado SCORM (modo de autoria)
+common#:#scorm_without_session#:#SCORM 2004: ativar o armazenamento de dados sem sessão
+common#:#scorm_without_session_info#:#Isso garante o armazenamento dos dados de aprendizagem SCORM mesmo se a sessão ILIAS expirou. Para o SCORM 1.2, o armazenamento sem sessão está sempre ativado.
+common#:#search#:#Pesquisar
 common#:#search_active#:#Incluir utilizadores ativos
 common#:#search_at_current_position#:#Na posição atual
-common#:#search_engine#:#com
-common#:#search_for#:#A sua procura obteve as seguintes entradas. Selecione uma delas.
+common#:#search_engine#:#URLs .html legíveis
+common#:#search_for#:#Procure por
 common#:#search_globally#:#Globalmente
-common#:#search_in#:#Escrever
+common#:#search_in#:#Procure em
 common#:#search_inactive#:#Incluir utilizadores inativos
-common#:#search_new#:#O seu acesso é recusado devido a um ip errado de cliente.<br>Atualmente está a usar este endereço IP: %s<br>Entre em contacto com o administrador do sistema.
-common#:#search_result#:#Ano
+common#:#search_new#:#Nova pesquisa
+common#:#search_result#:#Resultado da pesquisa
 common#:#search_results#:#Resultados da pesquisa
-common#:#search_user#:#anual
+common#:#search_user#:#Pesquisar Usuário
 common#:#seas_max_hits#:#Máx. número de entradas
 common#:#seas_max_hits_info#:#Insira um número máximo de resultado da pesquisa.
 common#:#seas_settings#:#Definições da pesquisa
 common#:#second#:#Segundo
-common#:#second_email#:#Ontem
-common#:#seconds#:#Sim
-common#:#sel_country#:#Citar
-common#:#select#:#Código Postal
-common#:#select_all#:#O arquivo contém os mesmos nomes de ficheiro. Carregamento cancelado.
+common#:#second_email#:#Segundo e-mail
+common#:#seconds#:#Segundos
+common#:#sel_country#:#País
+common#:#select#:#Selecionar
+common#:#select_all#:#Selecionar tudo
 common#:#select_at_least_one_object#:#Selecione pelo menos um objeto.
-common#:#select_file#:#Adicionar entrada de menu
-common#:#select_files_from_computer#:#Todos
+common#:#select_file#:#Selecione o arquivo
+common#:#select_files_from_computer#:#Selecione o arquivo
 common#:#select_max_one_item#:#Selecione apenas um item
 common#:#select_object_to_link#:#Selecione o objeto que quer associar
 common#:#select_one#:#Selecione um.
-common#:#select_question_pool_info#:#Acesso para utilizadores não registados
-common#:#select_questionpool#:#Módulos inteiros de aprendizagem
-common#:#selected#:#Código Postal
+common#:#select_question_pool_info#:#Enquanto o arquivo de importação contiver perguntas, essas perguntas também serão importadas para o pool de perguntas selecionado.
+common#:#select_questionpool#:#Inserir perguntas em
+common#:#selected#:#Selecionado
 common#:#selected_files#:#Ficheiros selecionados
 common#:#selected_items#:#Itens pessoais
 common#:#selected_items_back#:#Voltar aos itens pessoais
 common#:#selected_languages_updated#:#Os idiomas selecionados foram atualizados (se instalados):
-common#:#send#:#Citar de...
-common#:#send_mail#:#Citar para...
-common#:#sender#:#Citar esta página
-common#:#sent#:#Pelo menos bloqueado até
-common#:#sequence#:#Painel adicionado.
-common#:#sequences#:#Termo adicionado
-common#:#server#:#Informação adicional
-common#:#server_data#:#Adicionar área
+common#:#send#:#Enviar
+common#:#send_mail#:#Enviar mensagem
+common#:#sender#:#Remetente
+common#:#sent#:#Enviado
+common#:#sequence#:#Sequência
+common#:#sequences#:#Sequências
+common#:#server#:#Servidor
+common#:#server_data#:#Informações do servidor
 common#:#server_disabled#:#O chat está desativado
-common#:#server_software#:#Adicionar definição
+common#:#server_software#:#Software Servidor
 common#:#sess#:#Sessão
 common#:#sess_fixed_duration#:#Duração fixa da sessão
 common#:#sess_load_dependent_session_handling#:#Carregar manuseamento da sessão dependente
@@ -4897,30 +4896,30 @@ common#:#sess_mode#:#Modo de sessão
 common#:#session_config#:#Definições de sessão
 common#:#session_config_maintenance_disabled#:#Manutenção pelo cliente não autorizada
 common#:#session_max_count#:#Número máx. de sessões ativas
-common#:#session_max_count_info#:#Adicionar painel
+common#:#session_max_count_info#:#Define o número máximo de sessões que podem ser criadas simultaneamente. Definir isso como '0' desativa o recurso.
 common#:#session_max_idle#:#Número máx. de sessões inativas (em minutos)
 common#:#session_max_idle_after_first_request#:#Número máx. de sessões depois do primeiro pedido (em minutos)
 common#:#session_max_idle_after_first_request_info#:#Todas as sessões inativas durante pelo menos este período de tempo após o primeiro pedido serão eliminadas se for aberta outra sessão por outro utilizador e se o número máximo de sessões existentes for alcançado.
 common#:#session_max_idle_info#:#Define o período máximo de tempo de inatividade de um utilizador antes da sessão expirar.
 common#:#session_min_idle#:#Número mín. de sessões inativas (em minutos)
 common#:#session_min_idle_info#:#Quando um utilizador estiver inativo durante pelo menos este período de tempo, a sessão será eliminada se for aberta outra sessão por outro utilizador e se o número máximo de sessões existentes for alcançado.
-common#:#session_reminder#:#Correto!
+common#:#session_reminder#:#Lembrete de Sessão
 common#:#session_reminder_alert#:#A sua sessão expira em %1$s a %2$s!  Clique OK para continuar a sua sessão. Se clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.  Instalação: %3$s.
-common#:#session_reminder_info#:#Todas as páginas
-common#:#session_reminder_lead_time#:#Alfabético A, B, ...
-common#:#session_reminder_lead_time_info#:#Alfabético a, b, ...
+common#:#session_reminder_info#:#Se ativado, você receberá um lembrete antes que a sessão online do seu navegador expire.
+common#:#session_reminder_lead_time#:#Tempo de espera
+common#:#session_reminder_lead_time_info#:#Especifique o tempo de espera para o lembrete da sessão em minutos. O lembrete exibe um aviso quando apenas esse período é deixado antes que a sessão expire. O valor recomendado é 5 (minutos) <br /> A duração atual de uma sessão do usuário é %s.
 common#:#session_reminder_session_duration#:#(Duração da sessão: %s).
-common#:#set#:#Áreas do mapa apagadas.
-common#:#set_offline#:#Voltar
-common#:#set_online#:#Imagem de fundo
+common#:#set#:#Definir
+common#:#set_offline#:#Definir offline
+common#:#set_online#:#Definir online
 common#:#set_skin_does_not_exist#:#A película que escolheu já não existe. Pode mudar o seu estilo nas definições pessoais ou contactar o seu administrador. Seleção atual:
 common#:#set_style_does_not_exist#:#O estilo que escolheu já não existe. Pode mudar o seu estilo nas definições pessoais ou contactar o seu administrador. Seleção atual:
-common#:#setSystemLanguage#:#Atribuir ecrã Inteiro
-common#:#settings#:#Atribuir padrão
-common#:#settings_for_all_members#:#Continuar com o último capítulo visitado
-common#:#settings_per_users#:#Aos utilizadores é apresentado o SCO/recurso que mais recentemente visitaram, quando abriram novamente o módulo de aprendizagem.
-common#:#settings_saved#:#Proteger dados de rastreio
-common#:#setUserLanguage#:#Esta opção é para módulos de aprendizagem SCORM que suportam SCORM 2004 de um modo inadequado ao não enviarem valores apropriados para cmi.exit<br />Isso assegurará que os dados de rastreio são guardados independentemente de o utilizador fechar corretamente o módulo, por exemplo fechando simplesmente o motor de busca.
+common#:#setSystemLanguage#:#Definir idioma do sistema
+common#:#settings#:#Configurações
+common#:#settings_for_all_members#:#Os membros serão notificados automaticamente
+common#:#settings_per_users#:#Os membros são notificados automaticamente. A desativação de notificações pode ser permitida para cada membro individualmente.
+common#:#settings_saved#:#Configurações salvas
+common#:#setUserLanguage#:#Definir idioma do usuário
 common#:#shib#:#Shibboleth
 common#:#shib_active#:#Ativar suporte Shibboleth
 common#:#shib_city#:#Atributo para cidade
@@ -4928,28 +4927,28 @@ common#:#shib_country#:#Atributo para país
 common#:#shib_data_conv#:#Caminho absoluto para manipulação de dados API
 common#:#shib_data_conv_warning#:#O ficheiro API de manipulação de dados que especificou não pode ser lido
 common#:#shib_department#:#Atributo para departamento
-common#:#shib_email#:#Inferior
+common#:#shib_email#:#Atributo para endereço de email
 common#:#shib_federation_name#:#Nome da sua federação Shibboleth
-common#:#shib_firstname#:#A eliminação do ficheiro de ecrã inteiro não é possível.
-common#:#shib_gender#:#A eliminação do ficheiro de vista padrão não é possível.
+common#:#shib_firstname#:#Atributo para o primeiro nome
+common#:#shib_gender#:#Atributo para saudação (deve ser 'm' ou 'f')
 common#:#shib_general_login_instructions#:#Para se registar via %s, clique no botão de login e escolha a sua organização da seguinte página.<br>Se tiver perguntas relativas a isso, pergunte a
 common#:#shib_general_wayf_login_instructions#:#No caso de não estar associado às organizações indicadas e precisar de aceder a um curso neste servidor, entre em contacto com
-common#:#shib_idp_list#:#Legenda
+common#:#shib_idp_list#:#Forneça uma lista de Provedores de Identidade para permitir que o usuário escolha na página de login do ILIAS. <br> Em cada linha deve haver uma tupla separada por vírgula para <strong> providerID of IdP </strong> (consulte o arquivo de metadados Shibboleth) e <strong> Nome do IdP </strong> como ele deve ser exibido na lista suspensa. <br> Como terceiro parâmetro opcional, você pode adicionar o <strong> local de um iniciador de sessão Shibboleth </strong> que deve ser usado no caso de sua instalação do ILIAS fazer parte de uma configuração de várias federações.
 common#:#shib_institution#:#Atributo para instituição
 common#:#shib_invalid_home_organization#:#Escolha uma organização válida!
 common#:#shib_language#:#Atributo para idioma
-common#:#shib_lastname#:#Atributo para apelido
+common#:#shib_lastname#:#Atributo para sobrenome
 common#:#shib_login#:#Atributo único Shibboleth
-common#:#shib_login_button#:#Mudar tipo
+common#:#shib_login_button#:#Caminho para a imagem de um botão de login Shibboleth usado para redirecionar usuários para o WAYF especificado na configuração Shibboleth
 common#:#shib_login_embedded_wayf#:#Design personalizado da área de login
 common#:#shib_login_embedded_wayf_description#:#Se esta opção estiver ativada, pode fornecer qualquer código HTML na área do texto das instruções de login em baixo. Isso pode ser usado, por exemplo, para incorporar um próprio JavaScript WAYF/serviço de descoberta ou criar um design personalizado da área de login.
 common#:#shib_login_external_wayf#:#Usar serviço WAYF externo
 common#:#shib_login_internal_wayf#:#Usar serviço WAYF ILIAS
 common#:#shib_login_type#:#Seleção da organização
 common#:#shib_matriculation#:#Atributo para número de matricula
-common#:#shib_member_of#:#Capítulos
+common#:#shib_member_of#:#Eu sou um membro de ...
 common#:#shib_phone_home#:#Atributo para número de telefone de casa
-common#:#shib_phone_mobile#:#Atributo para número de telemóvel
+common#:#shib_phone_mobile#:#Atributo para número de telefone móvel
 common#:#shib_phone_office#:#Atributo para número de telefone do escritório
 common#:#shib_select_home_organization#:#Para autenticação via %s, selecione a sua organização da lista drop down.
 common#:#shib_settings_saved#:#As definições Shibboleth foram guardadas
@@ -4959,30 +4958,30 @@ common#:#shib_update#:#Atualizar este campo aquando o login
 common#:#shib_user_default_role#:#Função predefinida atribuída a utilizadores de Shibboleth
 common#:#shib_zipcode#:#Atributo para código postal
 common#:#short_inst_name#:#Título curto
-common#:#short_inst_name_info#:#Note que as páginas têm de preceder todos os subcapítulos do mesmo nível.
-common#:#show#:#Capítulos e páginas
+common#:#short_inst_name_info#:#Este título aparecerá na barra de título do cabeçalho do navegador. Se nenhum valor for inserido, 'ILIAS' será usado.
+common#:#show#:#Mostrar
 common#:#show_all_details#:#Mostrar todos os detalhes
-common#:#show_details#:#Capítulo marcado para mover. Selecione destino agora.
-common#:#show_filter#:#Classe de estilo
+common#:#show_details#:#Mostrar detalhes
+common#:#show_filter#:#Mostrar filtro
 common#:#show_hidden_sections#:#Mostrar mais informação &raquo;
-common#:#show_list#:#Verificar valores enviados a partir de SCO
-common#:#show_members#:#Círculo
-common#:#show_owner#:#Citação
-common#:#show_users_online#:#Clique no canto inferior direito da área desejada.
+common#:#show_list#:#Mostrar lista
+common#:#show_members#:#Exibir membros
+common#:#show_owner#:#Mostrar proprietário
+common#:#show_users_online#:#Mostrar usuários ativos
 common#:#side_frame#:#Moldura lateral
-common#:#signature#:#Clique no centro da área desejada.
+common#:#signature#:#Assinatura
 common#:#simultaneous_login_detected#:#O seu acesso é recusado por causa de um login simultâneo com a mesma conta.
-common#:#size#:#Clique num ponto circular da área desejada.
-common#:#skills#:#Clique no próximo ponto do polígono ou guarde a área. (Não é necessário clicar outra vez no ponto inicial deste polígono!)
-common#:#skin_style#:#Clique no próximo ponto do polígono.
+common#:#size#:#Tamanho
+common#:#skills#:#Competências
+common#:#skin_style#:#Aparência / Estilo Padrão
 common#:#smtp#:#SMTP
 common#:#soap_connect_timeout#:#Tempo esgotado da ligação
 common#:#soap_connect_timeout_info#:#O tempo máximo em segundos até ser interrompida uma tentativa de ligação ao webservice SOAP.
-common#:#soap_user_administration#:#Clique no ponto inicial do polígono.
-common#:#soap_user_administration_desc#:#Clique no canto superior esquerdo da área desejada.
+common#:#soap_user_administration#:#Administração via SOAP
+common#:#soap_user_administration_desc#:#Se ativado, o ILIAS pode ser administrado via SOAP.
 common#:#soap_wsdl_path#:#Caminho WSDL
-common#:#soap_wsdl_path_info#:#Insira o caminho para o ficheiro wsdl de ilias que deve ser usado para o webservice. Se deixar este campo vazio, será usado o seguinte caminho por defeito:%s
-common#:#sort_by_this_column#:#Note que as mesmas formatações não são suportadas em módulos de conteúdo.
+common#:#soap_wsdl_path_info#:#Insira o caminho para o ficheiro wsdl de ilias que deve ser usado para o webservice. Se deixar este campo vazio, será usado o seguinte caminho por padrão:%s
+common#:#sort_by_this_column#:#Ordenar por esta coluna
 common#:#sort_inherit_prefix#:#Predefinição
 common#:#sorting_asc#:#Ascendente
 common#:#sorting_creation_header#:#Por data de criação
@@ -4990,125 +4989,124 @@ common#:#sorting_creation_info#:#Os itens do conteúdo são dispostos automatica
 common#:#sorting_desc#:#Descendente
 common#:#sorting_direction#:#Ordenar direção
 common#:#sorting_header#:#Ordenar item de conteúdo
-common#:#sorting_info_inherit#:#Guardar comentários
-common#:#sorting_info_manual#:#Tem a certeza que quer apagar este(s) item(itens)?
-common#:#sorting_info_title#:#Conteúdo
-common#:#sorting_manual_header#:#Coordenadas
+common#:#sorting_info_inherit#:#O modo de classificação é adotado em um curso / grupo de pais.
+common#:#sorting_info_manual#:#Os itens de conteúdo podem ser organizados manualmente em uma ordem preferida. Além disso, defina as configurações de classificação padrão para novos objetos.
+common#:#sorting_info_title#:#Os itens de conteúdo são organizados automaticamente por título em ordem alfabética.
+common#:#sorting_manual_header#:#Manualmente
 common#:#sorting_save#:#Guarda ordenação
-common#:#sorting_title_header#:#Ver acima a solução correta.
+common#:#sorting_title_header#:#Títulos em ordem alfabética
 common#:#spacer#:#Espaçador
-common#:#spl#:#Criar objeto de media
-common#:#spl_add#:#Classificar estado do rastreio
+common#:#spl#:#Question Pool Survey
+common#:#spl_add#:#Adicionar Question Pool Survey
 common#:#spl_import#:#Importar inquérito banco de perguntas
-common#:#spl_new#:#Estado do rastreio não classificado
+common#:#spl_new#:#Novo Question Pool Survey
 common#:#ssl#:#SSL (HTTPS)
 common#:#standard_fields#:#Campos padrão
-common#:#startpage#:#Classificar estado do rastreio (aprovado ou reprovado)
+common#:#startpage#:#Página de Login do ILIAS
 common#:#stat_selected#:#Selecionado
 common#:#statistic#:#Estatística
-common#:#statistics#:#Tamanho fixo
+common#:#statistics#:#Estatisticas
 common#:#status#:#Estado
-common#:#status_no_permission#:#adlcp:datafromlms
-common#:#step#:#Desativado
-common#:#street#:#Ativar ferramenta de teste
-common#:#structure#:#Será exibida uma ferramenta de teste no modo de apresentação do módulo de aprendizagem. Com base nos dados fornecidos por ele, é possível avaliar a interação do módulo de aprendizagem e de ILIAS. Para usar a ferramenta de teste, a árvore de navegação tem de ser ligada.
+common#:#status_no_permission#:#Nenhuma permissão concedida
+common#:#step#:#Passo
+common#:#street#:#Rua
+common#:#structure#:#Estrutura
 common#:#sty#:#Estilo
 common#:#sub_request_deleted#:#Pedido de adesão apagado
 common#:#sub_request_saved#:#Pedido de adesão guardado
-common#:#subject#:#A ferramenta de teste está atualmente desativada de modo global na administração ILIAS (administração » recursos de aprendizagem).
-common#:#submit#:#Definição
-common#:#subobjects#:#Definições
-common#:#subscription#:#Layout predefinido
+common#:#subject#:#Assunto
+common#:#submit#:#Enviar
+common#:#subobjects#:#Subobjetos
+common#:#subscription#:#Inscrição
 common#:#subtabs#:#Subseparadores
 common#:#success_message#:#Mensagem de sucesso
-common#:#summary#:#Registar dados de rastreio
+common#:#summary#:#Resumo
 common#:#sure_delete_selected_users#:#Tem a certeza que quer apagar o(s) utilizador(es) selecionado(s)?
 common#:#survey_defaults#:#Definições padrão para inquéritos
 common#:#survey_unlimited_invitation#:#Convite ilimitado
-common#:#svy#:#Inquérito
-common#:#svy_add#:#predefinição
-common#:#svy_finished#:#Dependências
-common#:#svy_new#:#Novo inquérito
-common#:#svy_not_finished#:#(Des)ativar
+common#:#svy#:#Pesquisa
+common#:#svy_add#:#Adicionar pesquisa
+common#:#svy_finished#:#Você concluiu a pesquisa
+common#:#svy_new#:#Nova pesquisa
+common#:#svy_not_finished#:#A pesquisa ainda não foi concluída
 common#:#svy_not_started#:#Diretório/Ficheiro
-common#:#svy_run#:#Funcionar
-common#:#svy_warning_survey_not_complete#:#Ativar download
-common#:#system#:#Oferece todos os ficheiros de exportação públicos para download (p. ex. para uso offline ou importação).
-common#:#system_check#:#Arraste e largue o elemento para a posição pretendida. De seguida, 'Guardar'.
+common#:#svy_run#:#Run
+common#:#svy_warning_survey_not_complete#:#A pesquisa está incompleta
+common#:#system#:#Sistema
+common#:#system_check#:#Checagem de sistema
 common#:#system_information#:#Informação do sistema
-common#:#system_language#:#Editar imagem de fundo
+common#:#system_language#:#Verificação do sistema de processo no trabalho Cron
 common#:#system_styles#:#Estilos do sistema
-common#:#systemcheck_cron#:#O download não estará disponível aos utilizadores, uma vez que a funcionalidade de download não está ativada.
-common#:#systemcheck_cronform#:#O download não estará disponível aos utilizadores, uma vez que o menu do módulo de aprendizagem não está ativado.
-common#:#table_mail_import#:#Editar objeto de media
-common#:#tabs#:#Separadores
-common#:#tagging_my_tags#:#Editar propriedades da instância de objeto de media
+common#:#systemcheck_cron#:#Verificação do sistema de processo no trabalho Cron
+common#:#systemcheck_cronform#:#Ativação da verificação do sistema no trabalho Cron
+common#:#table_mail_import#:#Importação de correio
+common#:#tagging_my_tags#:#Minhas etiquetas
 common#:#take_over_structure#:#Adotar estrutura
 common#:#take_over_structure_info#:#Se estiver ativado, os diretórios no ficheiro zip serão mapeados para categorias ou, se for usado em grupos ou cursos, para pastas.
 common#:#target#:#Meta
 common#:#tax#:#Taxonomia
-common#:#tax_add#:#Editar texto
+common#:#tax_add#:#Adicionar taxonomia
 common#:#tax_new#:#Nova taxonomia
 common#:#term#:#Editar termo
 common#:#test#:#Teste
-common#:#tests#:#Alinhar: centro
-common#:#textbox#:#Caixa de teste
+common#:#tests#:#Testes
+common#:#textbox#:#Caixa de texto
 common#:#thread#:#Tópico
 common#:#thumbnail#:#Miniatura
-common#:#time#:#Alinhar: esquerda
-common#:#time_limit#:#Alinhar: esquerda flutuante
-common#:#time_limit_add_time_limit_for_selected#:#Alinhar: direita
+common#:#time#:#Tempo
+common#:#time_limit#:#Acesso
+common#:#time_limit_add_time_limit_for_selected#:#Digite um período para o(s) usuário(s) selecionado(s)
 common#:#time_limit_from#:#De (tempo limite)
 common#:#time_limit_message#:#Mensagem (tempo limite)
-common#:#time_limit_no_users_selected#:#Alinhar: direita flutuante
+common#:#time_limit_no_users_selected#:#Por favor, selecione um usuário.
 common#:#time_limit_not_valid#:#O período não é válido.
 common#:#time_limit_owner#:#Proprietário (tempo limite)
-common#:#time_limit_reached#:#Estilo
+common#:#time_limit_reached#:#Sua conta de usuário não está ativa.
 common#:#time_limit_unlimited#:#Ilimitado (tempo limite)
 common#:#time_limit_until#:#Até (tempo limite)
-common#:#title#:#Mover coluna esquerda
-common#:#title_required#:#Mover coluna direita
-common#:#to#:#Copiar
-common#:#to_client_list#:#Eliminar linha
-common#:#today#:#Copiar para a área de transferência
+common#:#title#:#Título
+common#:#title_required#:#Por favor insira um título.
+common#:#to#:#Para
+common#:#to_client_list#:#Seleção de Clientes
+common#:#today#:#Hoje
 common#:#toggle_dropdown#:#Alternar Dropdown
-common#:#toggleGlobalDefault#:#Cortar
-common#:#toggleGlobalFixed#:#Apagar
-common#:#tomorrow#:#Eliminar coluna
-common#:#top_of_page#:#Eliminar item
+common#:#toggleGlobalDefault#:#Alternar padrão global
+common#:#toggleGlobalFixed#:#Alternar global fixo
+common#:#tomorrow#:#Amanhã
+common#:#top_of_page#:#Topo da página
 common#:#total#:#Total
-common#:#tracking_settings#:#Editar dados
-common#:#translation#:#Editar ficheiros
-common#:#trash#:#Editar sequência parágrafo
-common#:#tree#:#Editar propriedades
-common#:#tree_frame#:#Ir
-common#:#treeview#:#(Des)ativar elementos
-common#:#tst#:#A largura da coluna pode abranger múltiplas unidades 1/12 da linha e depende do tamanho geral do ecrã. Os dispositivos são dados como exemplos. O tamanho do seu ecrã determina o comportamento concreto. 12/12 igual a 100% da largura.
-common#:#tst_add#:#Inserir tabela avançada
+common#:#tracking_settings#:#Configurações de progresso da aprendizagem
+common#:#translation#:#Tradução
+common#:#trash#:#Lixo
+common#:#tree#:#Árvore
+common#:#tree_frame#:#Frame da árvore
+common#:#treeview#:#Mostrar barra lateral
+common#:#tst#:#Teste
+common#:#tst_add#:#Adicionar teste
 common#:#tst_edit_questions#:#Editar perguntas
-common#:#tst_new#:#Inserir blog
-common#:#tst_results#:#Inserir código
-common#:#tst_run#:#Funcionar
-common#:#tst_statistical_evaluation#:#Inserir tabela de dados
-common#:#tst_statistics#:#Inserir lista de ficheiros
-common#:#tst_user_not_invited#:#Inserir imagem interativa
+common#:#tst_new#:#Novo teste
+common#:#tst_results#:#Resultado dos testes
+common#:#tst_run#:#Run
+common#:#tst_statistical_evaluation#:#Estatisticas
+common#:#tst_statistics#:#Estatisticas
+common#:#tst_user_not_invited#:#Você não deveria fazer este teste.
 common#:#tst_warning_test_not_complete#:#O teste não está completo!
-common#:#tutors#:#Inserir fragmento do conteúdo
-common#:#txt_registered#:#Inserir lista de avançada
+common#:#tutors#:#Tutores
+common#:#txt_registered#:#Você se registrou com sucesso no ILIAS. Clique no botão abaixo para acessar o ILIAS com sua conta de usuário.
 common#:#txt_registered_passw_gen#:#Registou-se com sucesso em ILIAS. Deve receber um e-mail que inclui a sua palavra-passe brevemente criada.
 common#:#txt_submitted#:#Submeteu com sucesso um pedido de conta para ILIAS. O seu pedido de conta será revisto pelos administradores do sistema e deverá estar ativada em 48 horas. Não poderá fazer login enquanto a sua conta não estar ativada.
-common#:#typ#:#Inserir elemento página de login
-common#:#type#:#Inserir mapa
-common#:#udf_added_field#:#Inserir imagem/media
+common#:#typ#:#Definição do tipo de objeto
+common#:#type#:#Tipo
+common#:#udf_added_field#:#Adicionado novo campo.
 common#:#udf_delete_sure#:#Tem a certeza que quer apagar este campo e todos os dados do utilizador atribuído?
 common#:#udf_duplicate_entries#:#Os valores têm de ser únicos.
 common#:#udf_field_deleted#:#Campo apagado.
 common#:#udf_name_already_exists#:#Este nome de campo já existe. Escolha um nome diferente.
-common#:#udf_required_requires_visib_reg#:#Inserir texto
-common#:#udf_type_date#:#Inserir pergunta
+common#:#udf_required_requires_visib_reg#:#Quando o campo é definido como "obrigatório", ele deve ser definido como "visível no registro"
+common#:#udf_type_date#:#Data
 common#:#udf_type_datetime#:#Data e hora
-common#:#udf_type_select#:#Inserir espaço
-common#:#udf_type_text#:#Inserir dados pessoais
+common#:#udf_type_select#:#Lista de seleção (escolha única)
+common#:#udf_type_text#:#Campo de texto (uma linha)
 common#:#udf_type_wysiwyg#:#Área de texto (WYSIWYG)
 common#:#udf_update_select_field#:#Editar caixa de seleção
 common#:#udf_update_text_field#:#Editar campo de texto
@@ -5116,32 +5114,32 @@ common#:#udf_update_wysiwyg_field#:#Editar área de texto (WYSIWYG) campo
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Criar nova conta
 common#:#ums_explanation#:#Não foi possível mapear a sua conta externa com uma conta ILIAS. Mas ILIAS encontrou uma conta com o seu endereço de e-mail. Se esta conta for sua, faça login com a sua palavra-passe ILIAS.
-common#:#ums_explanation_2#:#Inserir vista geral de perguntas
+common#:#ums_explanation_2#:#Se essa não for sua conta, clique em "Criar nova conta".
 common#:#ums_explanation_3#:#Não foi possível mapear a sua conta externa com uma conta ILIAS. Mas ILIAS encontrou múltiplas contas com o seu endereço de e-mail. Se um destas contas for sua, faça login com a sua palavra-passe ILIAS.
-common#:#ums_explanation_4#:#Inserir lista de recursos
-common#:#unambiguousness#:#Inserir seção
+common#:#ums_explanation_4#:#Se nenhuma delas for sua conta, clique em "Criar nova conta".
+common#:#unambiguousness#:#inequívoco
 common#:#uncheck_all#:#Desmarcar tudo
 common#:#unchecked#:#Desmarcado
-common#:#uninstall#:#Inserir competências
-common#:#uninstalled#:#Inserir Accordion
-common#:#unknown#:#Inserir certificado
-common#:#unparticipate#:#Mover item para baixo
-common#:#unread#:#Mover item para cima
+common#:#uninstall#:#Desinstalar
+common#:#uninstalled#:#desinstalado
+common#:#unknown#:#DESCONHECIDO
+common#:#unparticipate#:#Cancelar subscrição
+common#:#unread#:#Não lida
 common#:#unzip#:#Deszipar
-common#:#up#:#Mover antes
+common#:#up#:#Acima
 common#:#update#:#Editar
-common#:#update_applied#:#Nova coluna depois
-common#:#update_language#:#Nova coluna antes
+common#:#update_applied#:#Atualização aplicada
+common#:#update_language#:#Atualizar idioma
 common#:#update_on_conflict#:#Atualizar em conflito
 common#:#update_orgunits#:#Atualizar unidades organizacionais atribuídas
 common#:#update_orgunits_desc#:#Se estiver ativado, o campo 'Unidades organizacionais' será atualizado para todas as contas de utilizador.
-common#:#upload#:#Novo item depois
+common#:#upload#:#Carregar
 common#:#upload_error_file_not_found#:#Erro de upload: Ficheiro não encontrado.
 common#:#upload_files#:#Carregar ficheiros
 common#:#upload_files_title#:#Carregar ficheiros
 common#:#upload_pending#:#Pendente
-common#:#upload_settings#:#Nova linha depois
-common#:#uploaded_and_checked#:#Novo item antes
+common#:#upload_settings#:#Configurações de upload
+common#:#uploaded_and_checked#:#O arquivo foi carregado e verificado. Agora você pode começar a importá-lo.
 common#:#uploading#:#A carregar...
 common#:#uri#:#URI
 common#:#url#:#URL
@@ -5149,50 +5147,50 @@ common#:#url_not_found#:#Ficheiro não encontrado
 common#:#url_to_latex#:#URL para script LaTeX CGI
 common#:#use_customized_instructions#:#Usar instruções personalizadas:
 common#:#use_default_instructions#:#Usar instruções predefinidas.
-common#:#user#:#Nova linha antes
+common#:#user#:#Usuário
 common#:#user_activated#:#Utilizador foi aprovado
-common#:#user_added#:#Passar para a página seguinte
-common#:#user_assignment#:#Largura
-common#:#user_cant_receive_mail#:#A edição da pergunta não foi concluída. Clique e edite ou apague a pergunta.
+common#:#user_added#:#Usuário adicionado
+common#:#user_assignment#:#Atribuição de Usuário
+common#:#user_cant_receive_mail#:#%1$s - o usuário não tem permissão para usar o sistema de correio.
 common#:#user_comment#:#Comentário do utilizador
 common#:#user_deactivated#:#Utilizador não foi aprovado
-common#:#user_defined_fields#:#Guarda versões mais antigas das páginas e permite recuar até versões mais antigas.
-common#:#user_defined_list#:#Exemplo
-common#:#user_deleted#:#Ficheiro
+common#:#user_defined_fields#:#Campos personalizados
+common#:#user_defined_list#:#Campos de dados do usuário personalizado
+common#:#user_deleted#:#Usuário excluído
 common#:#user_detail#:#Dados de detalhe
 common#:#user_ext_account#:#Conta externa
-common#:#user_ext_account_desc#:#Ficheiros
+common#:#user_ext_account_desc#:#Conta usada para autenticação externa. (Autenticação CAS, SOAP, LDAP ou Radius)
 common#:#user_image#:#Imagem de utilizador
 common#:#user_import_failed#:#Importação de utilizador falhou.
-common#:#user_imported#:#Ficheiro do espaço de trabalho
+common#:#user_imported#:#Importação do usuário concluída.
 common#:#user_imported_with_warnings#:#Importação de utilizador completa com avisos.
-common#:#user_language#:#Primeiro painel aberto
-common#:#user_new_account_mail#:#Novo mail da conta
-common#:#user_new_account_mail_desc#:#Primeira linha classe de estilo
+common#:#user_language#:#Idioma do Usuário
+common#:#user_new_account_mail#:#Mail para nova conta 
+common#:#user_new_account_mail_desc#:#Este e-mail é enviado automaticamente para usuários que se registraram automaticamente ou para aqueles que foram registrados por um administrador com a configuração ativada "Enviar e-mail para informar o usuário sobre alterações".
 common#:#user_not_found#:#Utilizador não encontrado
 common#:#user_not_found_to_delete#:#Não foi possível encontrar um utilizador para apagar.
 common#:#user_not_known#:#Insira um nome de utilizador válido.
 common#:#user_profile_other#:#Outras informações
-common#:#user_send_new_account_mail#:#Formato
+common#:#user_send_new_account_mail#:#Enviar nova conta por email
 common#:#user_status#:#Estado do utilizador
-common#:#user_toggle_noti#:#SCORM 2004 4.ª edição oferece algumas vantagens comparativamente com a 3.ª edição: Os dados podem ser transportados entre SCOs. Atualmente poucos módulos de aprendizagem usam esta funcionalidade e ela tem um impacto negativo sobre o desempenho.
-common#:#userdata#:#Colar
+common#:#user_toggle_noti#:#O membro não tem permissão para desativar a notificação
+common#:#userdata#:#Dados do usuário
 common#:#userfolder_export_csv#:#Valores separados por vírgulas
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
 common#:#userfolder_export_file#:#Ficheiro
 common#:#userfolder_export_file_size#:#Tamanho do ficheiro
 common#:#userfolder_export_files#:#Ficheiros
 common#:#userfolder_export_xml#:#XML
-common#:#username#:#Colar a partir da área de transferência
-common#:#users#:#Mover linha para baixo
-common#:#users_not_imported#:#Mover linha para cima
-common#:#users_online#:#Passar para a página seguinte
-common#:#usr#:#Ecrã inteiro
+common#:#username#:#Nome do usuário
+common#:#users#:#Usuários
+common#:#users_not_imported#:#Os seguintes usuários não existem, suas mensagens não podem ser importadas
+common#:#users_online#:#Usuários ativos
+common#:#usr#:#Usuário
 common#:#usr_account_inactive#:#Conta inativa
 common#:#usr_active_only#:#Apenas utilizadores ativos
-common#:#usr_add#:#Reduz problemas com a apresentação de módulos de aprendizagem SCORM mais antigos que foram otimizados para o Internet Explorer. Se o modo de compatibilidade estiver desligado em versões mais recentes do Internet Explorer, esta definição não é eficaz.
-common#:#usr_agreement#:#Forçar Internet Explorer para processar novamente
-common#:#usr_edit#:#Os módulos de aprendizagem com muitos enquadramentos ou iFrames serão apresentados corretamente depois de processar o conteúdo mais uma vez.
+common#:#usr_add#:#Adicionar usuário
+common#:#usr_agreement#:#Termos de serviço
+common#:#usr_edit#:#Editar usuário
 common#:#usr_filter_coursemember#:#Membro do curso
 common#:#usr_filter_groupmember#:#Membro do grupo
 common#:#usr_filter_lastlogin#:#Último login do utilizador
@@ -5200,27 +5198,27 @@ common#:#usr_filter_role#:#Função atribuída
 common#:#usr_inactive_only#:#Apenas utilizadores inativos
 common#:#usr_limited_access_only#:#Apenas utilizadores com acesso limitado
 common#:#usr_name_undisclosed#:#Não divulgado
-common#:#usr_new#:#Mapa de imagem
+common#:#usr_new#:#Novo usuário
 common#:#usr_settings_changeable_lua#:#Alterável na administração de utilizadores local
-common#:#usr_settings_explanation_profile#:#Identificador
-common#:#usr_settings_header_profile#:#Ocorreram alguns erros durante a validação do módulo de aprendizagem. A apresentação do módulo de aprendizagem pode estar ok, mas é provável que não seja capaz de editar as páginas que contêm erros.
+common#:#usr_settings_explanation_profile#:#Marque "Visível" para mostrar os campos no formulário de registro e nas configurações pessoais. Marque "Alterável" para permitir que o usuário altere os valores. Observe que os campos visíveis sempre podem ser inseridos no formulário de registro. Os campos obrigatórios são obrigatórios no formulário de registro e nas configurações pessoais. Todos os dados podem ser alterados na administração do usuário independentemente dessas configurações.
+common#:#usr_settings_header_profile#:#Campos de dados do usuário padrão
 common#:#usr_settings_saved#:#Definições gerais de utilizadores guardadas com sucesso!
 common#:#usr_settings_visib_lua#:#Visível na administração de utilizadores local
-common#:#usr_skin_style#:#Inserir um subcapítulo
+common#:#usr_skin_style#:#Película / Estilo
 common#:#usr_without_courses#:#Utilizadores sem cursos atribuídos
-common#:#usrf#:#Impossível eliminar. O ficheiro de ecrã inteiro está no diretório.
+common#:#usrf#:#Contas de usuário
 common#:#usrf_profile_link#:#Link para perfil de utilizador
 common#:#usrimport_action_ignored#:#Ação ignorada %1$s.
 common#:#usrimport_action_replaced#:#Ação substituída %1$s por %2$s.
-common#:#usrimport_cant_delete#:#obter ligação
-common#:#usrimport_cant_insert#:#Altura em pixel
-common#:#usrimport_cant_update#:#Ocultar árvore de navegação
-common#:#usrimport_conflict_handling_info#:#A árvore de navegação no lado esquerdo pode ser ocultada, se o módulo de aprendizagem SCORM incluir funções suficientes para navegar entre secções do conteúdo, ou se a barra superior de navegação for exibida.
+common#:#usrimport_cant_delete#:#Não é possível executar a ação "Excluir". O usuário não existe no banco de dados.
+common#:#usrimport_cant_insert#:#Não é possível executar a ação "Inserir". O usuário já está no banco de dados.
+common#:#usrimport_cant_update#:#Não é possível executar a ação "Atualizar". O usuário não existe no banco de dados.
+common#:#usrimport_conflict_handling_info#:#Quando 'Ignorar em conflito' é selecionado, o ILIAS ignora uma ação, se ela não puder ser executada (por exemplo, uma ação 'Inserir' não é executada, se já houver um usuário com o mesmo logon no banco de dados.) Quando 'Atualizar em conflito 'for selecionado, o ILIAS atualizará o banco de dados se uma ação não puder ser executada. (por exemplo, uma ação "Inserir" é substituída por uma ação "Atualizar" e vice-versa, se um usuário com o mesmo login existir no banco de dados).
 common#:#usrimport_global_role_for_action_required#:#Pelo menos uma função global tem de ser especificada para a ação"%1$s".
 common#:#usrimport_ignore_role#:#Ignorar função
 common#:#usrimport_login_is_not_unique#:#Login não é único.
-common#:#usrimport_no_insert_ext_account_exists#:#Permite manter IDs extra para módulos de aprendizagem ILIAS que são usados para designar ficheiros HTML quando a exportação HTML está executada.
-common#:#usrimport_no_update_ext_account_exists#:#identifierref
+common#:#usrimport_no_insert_ext_account_exists#:#Não é possível executar a ação "Inserir". A conta externa já existe.
+common#:#usrimport_no_update_ext_account_exists#:#Não é possível executar a ação "Atualizar". A conta externa já existe.
 common#:#usrimport_with_specified_role_not_permitted#:#Não é permitido importar com função especificada.
 common#:#usrimport_xml_attribute_missing#:#Falta o atributo "%2$s" no elemento "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#O valor "%3$s" do atributo "%2$s" no elemento "%1$s" é ilegal.
@@ -5229,66 +5227,66 @@ common#:#usrimport_xml_element_content_illegal#:#O conteúdo "%2$s" do elemento 
 common#:#usrimport_xml_element_for_action_required#:#O elemento "%1$s" tem de ser especificado para a ação "%2$s".
 common#:#usrimport_xml_element_inapplicable#:#O elemento "%1$s" não é aplicável à ação "%2$s".
 common#:#valid#:#Válido
-common#:#validate#:#Adicionar posting de blog
-common#:#value#:#Inserir item de ficheiro
-common#:#vcard#:#Inserir lista de ficheiros
-common#:#vcard_download#:#Inserir lista de avançada
+common#:#validate#:#Validar
+common#:#value#:#Valor
+common#:#vcard#:#Cartão de visita
+common#:#vcard_download#:#Baixar Cartão de Visita
 common#:#verification_failed#:#Verificação falhou
-common#:#verification_failure_log#:#Registo de falha da verificação
-common#:#verification_warning_log#:#Registo de aviso da verificação
-common#:#version#:#Inserir objeto de media
-common#:#versions#:#Inserir texto
-common#:#view#:#Publicar dados pessoais
-common#:#view_content#:#Inserir competência
-common#:#view_learning_progress#:#Ver progresso de aprendizagem
-common#:#view_learning_progress_rec#:#Ver progresso de aprendizagem da unidade incl. subunidades
-common#:#visible#:#Inserir subcapítulo
+common#:#verification_failure_log#:#Registro de falha da verificação
+common#:#verification_warning_log#:#Registro de aviso da verificação
+common#:#version#:#Versão
+common#:#versions#:#Versões
+common#:#view#:#Visão
+common#:#view_content#:#Exibir conteúdo
+common#:#view_learning_progress#:#Exibir progresso de aprendizagem
+common#:#view_learning_progress_rec#:#Exibir progresso de aprendizagem da unidade incl. subunidades
+common#:#visible#:#Visível
 common#:#visible_registration#:#Visível no registo
 common#:#visitor#:#Visitante
 common#:#visitors#:#Visitantes
-common#:#visits#:#Colar subcapítulos a partir da área de transferência
-common#:#web_resources#:#Propriedades da lista
+common#:#visits#:#Visitas
+common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
-common#:#webdav_pwd_instruction#:#Adicionar certificado
+common#:#webdav_pwd_instruction#:#Sugerimos criar uma senha local para abrir o repositório como pasta da Web. <br /> Essa senha é necessária apenas para a funcionalidade da pasta da Web.
 common#:#webdav_pwd_instruction_success#:#Foi criada uma nova palavra-passe local. Pode abrir agora o repositório como pasta da web.
 common#:#webfolder_dir_info#:#Chegou aqui porque o seu navegador não pode abrir pastas da web. Ler as <a href="%1$s">instruções para abrir pastas da web</a>.
 common#:#webfolder_index_of#:#Índice de %1$s
 common#:#webfolder_instructions#:#Instruções relativas a pastas da web
 common#:#webfolder_instructions_info#:#As instruções relativas a pastas da web são exibidas nos navegadores que não conseguem abrir diretamente uma pastas da web. Pode usar o código HTML e as seguintes variáveis: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Limpe o campo para obter as instruções predefinidas.
-common#:#webfolder_instructions_text#:#Guardar resultados de interações
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3> <ol> <li>Open Windows-Explorer (e.g. key combination Windows + E).</li> <li>Rightclick on "This PC" and select "Map network drive...".</li> <li>Enter the following address as address (you may copy and paste the URL):<br /><br /> <b>[WEBFOLDER_URI]</b><br /><br /></li> <li>Click "Finish".</li> <li>Enter your login and password, and select "OK".</li> <li>You can now access the webfolder from the start menu "Computer".</li> </ol> <br /> Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS] [MAC] <h3>Instructions for Mac OS X</h3> <ol> <li>Open the Finder.</li> <li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li> <li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li> <li>Enter your login and password, and select "OK".</li> </ol> <br /> Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX] <h3>Instructions for Linux with Konqueror</h3> <ol> <li>Open Konqueror Browser.</li> <li>Enter this URL as server URL:<br /> <b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li> <li>Enter your login and password, and select "OK".</li> </ol> <h3>Instructions for Linux with Nautilus</h3> <ol> <li>Open Nautilus Browser.</li> <li>Enter this URL as server URL:<br /> <b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li> <li>Enter your login and password, and select "OK".</li> </ol> <br /> Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX] <h3>Tips &amp; Support</h3> <ul> <li>These steps need to be done <b>only once</b>. You may access your connection again later.</li> </ul> <ul> <li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li> </ul> <ul> <li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li> </ul>
 common#:#webfolder_instructions_titletext#:#Abrir %1$s como pasta da web
 common#:#webfolder_mount_dir_with#:#link interno
-common#:#webr#:#é visível
+common#:#webr#:#Weblink
 common#:#webr_active#:#Ativo
-common#:#webr_add#:#Permite definir layouts individuais para cada página. Isto ativa também automaticamente a definição ‘Sincronizar molduras’.
-common#:#webr_deleted_items#:#Link (externo)
-common#:#webr_disable_check#:#Link (interno)
-common#:#webr_edit#:#Link interno
+common#:#webr_add#:#Adicionar link da Web
+common#:#webr_deleted_items#:#Link(s) da Web excluído.
+common#:#webr_disable_check#:#Desativar validação
+common#:#webr_edit#:#Editar Weblink
 common#:#webr_last_check_table#:#Última verificação:
-common#:#webr_sure_delete_items#:#Link para página Wiki (inserir parênteses)
-common#:#webservices#:#Tipo de link
-common#:#week#:#Capítulo
+common#:#webr_sure_delete_items#:#Deseja realmente excluir os seguintes links da Web?
+common#:#webservices#:#SOAP
+common#:#week#:#Semana
 common#:#weekly#:#semanal
 common#:#weeks#:#Semanas
-common#:#welcome#:#Capítulo (nova moldura)
+common#:#welcome#:#Bem-vinda
 common#:#width#:#Largura
 common#:#wiki#:#Wiki
-common#:#wiki_add#:#Media (moldura FAQ)
+common#:#wiki_add#:#Adicionar Wiki
 common#:#wiki_new#:#Nova wiki
-common#:#with#:#Media (em linha)
-common#:#wizard_search_list#:#Media (moldura media)
-common#:#wizard_title_info#:#Insira o título do objeto que quer duplicar.
-common#:#write#:#Media (moldura nova)
-common#:#wrong_ip_detected#:#Página
-common#:#year#:#Página (moldura FAQ)
-common#:#yearly#:#Página (moldura nova)
+common#:#with#:#com
+common#:#wizard_search_list#:#Sua pesquisa produziu os seguintes hits. Por favor, selecione um deles.
+common#:#wizard_title_info#:#Procure o objeto que você deseja duplicar. Digite o título do objeto ou parte dele e clique em 'Continuar' para obter resultados de pesquisa correspondentes.
+common#:#write#:#Escrever
+common#:#wrong_ip_detected#:#Seu acesso foi negado devido a um IP de cliente errado. <br> Você está usando este endereço IP:%s <br> Entre em contato com o administrador do sistema.
+common#:#year#:#Ano
+common#:#yearly#:#anual
 common#:#years#:#Anos
-common#:#yes#:#Termo do glossário
-common#:#yesterday#:#Termo do glossário (moldura nova)
-common#:#zip#:#Definições do módulo de aprendizagem
-common#:#zip_structure_error#:#Definições
+common#:#yes#:#Sim
+common#:#yesterday#:#ontem
+common#:#zip#:#Código Postal
+common#:#zip_structure_error#:#O arquivo contém os mesmos nomes de arquivo. Upload abortado.
 common#:#zip_test_failed#:#Teste Zip falhou. Entre em contacto com o seu administrador ILIAS.
-common#:#zipcode#:#Idioma usado para textos predefinidos, p. ex. "Anterior" e "Próximo".
+common#:#zipcode#:#Código Postal
 cond#:#cond_under_parent_control#:#Manifesto
 cont#:#cont_add_skill#:#Adicionar competência
 cont#:#cont_assign_competence#:#Atribuir competências a membros
@@ -15145,268 +15143,268 @@ common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s
 common#:#entered_notification#:#"%s" has joined the session "%s".###18 05 2020 new variable
 crs#:#crs_target_group#:#Target Group###18 05 2020 new variable
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"###18 05 2020 new variable
-acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept###18 05 2020 new variable
-acc#:#acc_add_document_btn_label#:#Add Document###18 05 2020 new variable
-acc#:#acc_form_new_doc_head#:#Create Document###18 05 2020 new variable
-acc#:#acc_form_edit_doc_head#:#Edit Document###18 05 2020 new variable
-acc#:#acc_form_document_title#:#Title###18 05 2020 new variable
-acc#:#acc_form_document_title_info#:#Please enter a title for the document.###18 05 2020 new variable
-acc#:#acc_form_document#:#Document###18 05 2020 new variable
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.###18 05 2020 new variable
-acc#:#acc_form_document_new#:#Change Content###18 05 2020 new variable
-acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.###18 05 2020 new variable
-acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.###18 05 2020 new variable
-acc#:#acc_tbl_docs_title#:#Documents###18 05 2020 new variable
-acc#:#acc_tbl_docs_head_sorting#:#Sorting###18 05 2020 new variable
-acc#:#acc_tbl_docs_head_title#:#Title###18 05 2020 new variable
-acc#:#acc_tbl_docs_head_created#:#Creation Date###18 05 2020 new variable
-acc#:#acc_tbl_docs_head_last_change#:#Last Change###18 05 2020 new variable
-acc#:#acc_tbl_docs_head_criteria#:#Criteria###18 05 2020 new variable
-acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion###18 05 2020 new variable
-acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned###18 05 2020 new variable
-acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion###18 05 2020 new variable
-acc#:#acc_doc_delete#:#Delete Document###18 05 2020 new variable
-acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?###18 05 2020 new variable
-acc#:#acc_doc_crit_detached#:#The criterion has been detached.###18 05 2020 new variable
-acc#:#acc_doc_crit_attached#:#The criterion has been attached.###18 05 2020 new variable
-acc#:#acc_doc_crit_changed#:#The criterion has been changed.###18 05 2020 new variable
-acc#:#acc_form_attach_criterion_head#:#Attach Criterion###18 05 2020 new variable
-acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment###18 05 2020 new variable
-acc#:#acc_form_criterion#:#Criterion###18 05 2020 new variable
-acc#:#acc_document#:#Document###18 05 2020 new variable
-acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?###18 05 2020 new variable
-acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?###18 05 2020 new variable
-acc#:#acc_deleted_documents_s#:#The document has been deleted.###18 05 2020 new variable
-acc#:#acc_deleted_documents_p#:#The documents have been deleted.###18 05 2020 new variable
-acc#:#acc_saved_sorting#:#The sorting has been saved.###18 05 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###18 05 2020 new variable
-acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.###18 05 2020 new variable
-acc#:#acc_crit_type_usr_language#:#Profile Language###18 05 2020 new variable
-assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed###18 05 2020 new variable
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.###18 05 2020 new variable
-assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###18 05 2020 new variable
-assessment#:#tst_filter_lifecycle_enabled#:#Use Lifecycle as Filter###18 05 2020 new variable
-assessment#:#qst_essay_chars_remaining#:#Remaining characters:###18 05 2020 new variable
-assessment#:#qst_essay_written_words#:#Number of entered words:###18 05 2020 new variable
-assessment#:#qst_essay_allready_written_words#:#Already entered words:###18 05 2020 new variable
-assessment#:#qst_essay_wordcounter_enabled#:#Count Words###18 05 2020 new variable
-assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.###18 05 2020 new variable
-assessment#:#questionpool_not_selected#:#Please select a question pool!###18 05 2020 new variable
-assessment#:#qst_lifecycle_filter_all#:#All Lifecycles###18 05 2020 new variable
-assessment#:#qst_lifecycle#:#Lifecycle###18 05 2020 new variable
-assessment#:#qst_lifecycle_draft#:#Draft###18 05 2020 new variable
-assessment#:#qst_lifecycle_review#:#To be Reviewed###18 05 2020 new variable
-assessment#:#qst_lifecycle_rejected#:#Rejected###18 05 2020 new variable
+acc#:#acc_ctrl_cpt_txt#:#Conceito de controle de acessibilidade###18 05 2020 new variable
+acc#:#acc_add_document_btn_label#:#Adicionar documento###18 05 2020 new variable
+acc#:#acc_form_new_doc_head#:#Criar documento###18 05 2020 new variable
+acc#:#acc_form_edit_doc_head#:#Editar Documento###18 05 2020 new variable
+acc#:#acc_form_document_title#:#Título###18 05 2020 new variable
+acc#:#acc_form_document_title_info#:#Digite um título para o documento.###18 05 2020 new variable
+acc#:#acc_form_document#:#Documento###18 05 2020 new variable
+acc#:#acc_form_document_info#:#Por favor, selecione um arquivo do seu sistema de arquivos local. Você pode carregar um arquivo de texto sem formatação ou um arquivo HTML simples. Os arquivos HTML serão purificados, apenas o conteúdo do elemento body será usado.###18 05 2020 new variable
+acc#:#acc_form_document_new#:#Alterar conteúdo###18 05 2020 new variable
+acc#:#acc_form_document_new_info#:#Por favor, selecione um arquivo do seu sistema de arquivos local. Você pode carregar um arquivo de texto sem formatação ou um arquivo HTML simples. Os arquivos HTML serão purificados, apenas o conteúdo do elemento body será usado. O conteúdo existente será substituído.###18 05 2020 new variable
+acc#:#acc_form_document_content_changed#:#O conteúdo do arquivo carregado foi purificado pelo ILIAS. Verifique o resultado e faça o upload de um novo arquivo, se necessário.###18 05 2020 new variable
+acc#:#acc_tbl_docs_title#:#Documentos###18 05 2020 new variable
+acc#:#acc_tbl_docs_head_sorting#:#Ordenação###18 05 2020 new variable
+acc#:#acc_tbl_docs_head_title#:#Título###18 05 2020 new variable
+acc#:#acc_tbl_docs_head_created#:#Data de criação###18 05 2020 new variable
+acc#:#acc_tbl_docs_head_last_change#:#Última mudança###18 05 2020 new variable
+acc#:#acc_tbl_docs_head_criteria#:#Critério###18 05 2020 new variable
+acc#:#acc_tbl_docs_action_add_criterion#:#Adicionar critério###18 05 2020 new variable
+acc#:#acc_tbl_docs_cell_not_criterion#:#Nenhum critério atribuído###18 05 2020 new variable
+acc#:#acc_doc_detach_crit_confirm_title#:#Critério desanexado###18 05 2020 new variable
+acc#:#acc_doc_delete#:#Excluir documento###18 05 2020 new variable
+acc#:#acc_doc_sure_detach_crit#:#Tem certeza de que deseja desanexar o critério?###18 05 2020 new variable
+acc#:#acc_doc_crit_detached#:#O critério foi desanexado.###18 05 2020 new variable
+acc#:#acc_doc_crit_attached#:#O critério foi anexado.###18 05 2020 new variable
+acc#:#acc_doc_crit_changed#:#O critério foi alterado.###18 05 2020 new variable
+acc#:#acc_form_attach_criterion_head#:#Anexar critério###18 05 2020 new variable
+acc#:#acc_form_edit_criterion_head#:#Editar atribuição de critério###18 05 2020 new variable
+acc#:#acc_form_criterion#:#Critério###18 05 2020 new variable
+acc#:#acc_document#:#Documento###18 05 2020 new variable
+acc#:#acc_sure_delete_documents_s#:#Tem certeza de que deseja excluir o documento?###18 05 2020 new variable
+acc#:#acc_sure_delete_documents_p#:#Tem certeza de que deseja excluir os documentos selecionados?###18 05 2020 new variable
+acc#:#acc_deleted_documents_s#:#O documento foi deletado.###18 05 2020 new variable
+acc#:#acc_deleted_documents_p#:#Os documentos foram excluídos.###18 05 2020 new variable
+acc#:#acc_saved_sorting#:#A classificação foi salva.###18 05 2020 new variable
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Você não pode alterar o critério conforme desejado. Já existe um critério idêntico em anexo.###18 05 2020 new variable
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Você não pode alterar o critério conforme desejado. Já existe um critério idêntico em anexo.###18 05 2020 new variable
+acc#:#acc_crit_type_usr_language#:#Idioma do perfil###18 05 2020 new variable
+assessment#:#tst_block_passes_after_passed#:#Bloquear passes adicionais após a aprovação do teste###18 05 2020 new variable
+assessment#:#tst_block_passes_after_passed_info#:#Depois que um participante passa no teste, nenhuma outra passagem de teste é permitida ao participante com esta opção.###18 05 2020 new variable
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Você passou no teste. O teste não pode ser iniciado novamente.###18 05 2020 new variable
+assessment#:#tst_filter_lifecycle_enabled#:#Usar ciclo de vida como filtro###18 05 2020 new variable
+assessment#:#qst_essay_chars_remaining#:#Caracteres restantes:###18 05 2020 new variable
+assessment#:#qst_essay_written_words#:#Número de palavras inseridas:###18 05 2020 new variable
+assessment#:#qst_essay_allready_written_words#:#Palavras já inseridas:###18 05 2020 new variable
+assessment#:#qst_essay_wordcounter_enabled#:#Contar Palavras###18 05 2020 new variable
+assessment#:#qst_essay_wordcounter_enabled_info#:#As palavras inseridas são contadas. O número de palavras escritas é mostrado aos participantes abaixo do campo de entrada de texto.###18 05 2020 new variable
+assessment#:#questionpool_not_selected#:#Selecione um pool de perguntas!###18 05 2020 new variable
+assessment#:#qst_lifecycle_filter_all#:#Todos os Ciclos de Vida###18 05 2020 new variable
+assessment#:#qst_lifecycle#:#Ciclo de Vida###18 05 2020 new variable
+assessment#:#qst_lifecycle_draft#:#Rascunho###18 05 2020 new variable
+assessment#:#qst_lifecycle_review#:#A ser revisado###18 05 2020 new variable
+assessment#:#qst_lifecycle_rejected#:#Rejetado###18 05 2020 new variable
 assessment#:#qst_lifecycle_final#:#Final###18 05 2020 new variable
-assessment#:#qst_lifecycle_sharable#:#Sharable###18 05 2020 new variable
-assessment#:#qst_lifecycle_outdated#:#Outdated###18 05 2020 new variable
-common#:#account#:#My Account###18 05 2020 new variable
-common#:#add_member_role#:#Add Member Role###18 05 2020 new variable
-common#:#add_role#:#Add Role###18 05 2020 new variable
-common#:#awra#:#Who is online?###18 05 2020 new variable
-common#:#grp_list_members#:#List members###18 05 2020 new variable
+assessment#:#qst_lifecycle_sharable#:#Compartilhável###18 05 2020 new variable
+assessment#:#qst_lifecycle_outdated#:#Desatualizado###18 05 2020 new variable
+common#:#account#:#Minha conta###18 05 2020 new variable
+common#:#add_member_role#:#Adicionar função de membro###18 05 2020 new variable
+common#:#add_role#:#Adicionar função###18 05 2020 new variable
+common#:#awra#:#Quem está online?###18 05 2020 new variable
+common#:#grp_list_members#:#Listar Membros###18 05 2020 new variable
 common#:#log_out#:#Logout###18 05 2020 new variable
-common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.###18 05 2020 new variable
-common#:#noc#:#Notification Center###18 05 2020 new variable
+common#:#msg_bt_download_started#:#O ILIAS está gerando um arquivo ZIP de todos os arquivos disponíveis. Você pode baixá-los no Centro de Notificação (ícone de campainha) no canto superior direito.###18 05 2020 new variable
+common#:#noc#:#Centro de Notificação###18 05 2020 new variable
 common#:#obj_accs_captcha#:#Captchas###18 05 2020 new variable
-common#:#global_role_assignment#:#Globale Rollenzuweisung###18 05 2020 new variable
-common#:#local_role_assignment#:#Lokale Rollenzuweisung###18 05 2020 new variable
-rep#:#rep_add_to_favourites#:#Add to Favourites###18 05 2020 new variable
-rep#:#rep_remove_from_favourites#:#Remove from Favourites###18 05 2020 new variable
-common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.###18 05 2020 new variable
-common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###18 05 2020 new variable
-common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):###18 05 2020 new variable
-common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:###18 05 2020 new variable
-common#:#webdav_problem_info_duplicate#:#There is a file with the same title as the info file.###18 05 2020 new variable
-common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.###18 05 2020 new variable
-common#:#webdav_enable_versioning#:#File Versioning###18 05 2020 new variable
-common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.###18 05 2020 new variable
-common#:#webdav_add_instructions_btn_label#:#Add Mount Instructions Document###18 05 2020 new variable
-common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents###18 05 2020 new variable
-common#:#webdav_general_settings#:#General Settings###18 05 2020 new variable
-common#:#webdav_form_document#:#Instructions Document###18 05 2020 new variable
-common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information###18 05 2020 new variable
-common#:#webdav_form_document_title#:#Title###18 05 2020 new variable
-common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened###18 05 2020 new variable
-common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document###18 05 2020 new variable
-common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document###18 05 2020 new variable
-common#:#webdav_mount_instructions#:#Mount Instructions###18 05 2020 new variable
-common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:###18 05 2020 new variable
-common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions###18 05 2020 new variable
-common#:#webdav_tbl_docs_head_title#:#Dokument title###18 05 2020 new variable
-common#:#webdav_upload_instructions#:#Upload Instructions###18 05 2020 new variable
-common#:#webdav_chosen_language_already_used#:#There already is another document associated with the chosen language###18 05 2020 new variable
-common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount Instructions###18 05 2020 new variable
-common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions###18 05 2020 new variable
-mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.###18 05 2020 new variable
-mail#:#mail_email_usr_subject#:#Test E-Mail User Mail###18 05 2020 new variable
-mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.###18 05 2020 new variable
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail###18 05 2020 new variable
-mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.###18 05 2020 new variable
-ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?###18 05 2020 new variable
-ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.###18 05 2020 new variable
+common#:#global_role_assignment#:#Atribuição de função global###18 05 2020 new variable
+common#:#local_role_assignment#:#Atribuição de função local###18 05 2020 new variable
+rep#:#rep_add_to_favourites#:#Adicionar aos favoritos###18 05 2020 new variable
+rep#:#rep_remove_from_favourites#:#Remova dos favoritos###18 05 2020 new variable
+common#:#usrimport_form_not_evaluabe#:#Os dados do formulário não puderam ser lidos.###18 05 2020 new variable
+common#:#usrimport_wrong_file_count#:#Muitos arquivos na pasta de importação. Por favor, tente novamente.###18 05 2020 new variable
+common#:#webdav_forbidden_chars_title#:#Os seguintes arquivos não podem ser exibidos, porque contêm um ou mais caracteres proibidos (\ <> /: *? "| #):###18 05 2020 new variable
+common#:#webdav_duplicate_detected_title#:#Os seguintes objetos não puderam ser exibidos, porque um objeto com o mesmo título já está sendo mostrado:###18 05 2020 new variable
+common#:#webdav_problem_info_duplicate#:#Há um arquivo com o mesmo título que o arquivo de informações.###18 05 2020 new variable
+common#:#webdav_problem_free_container#:#Não há objetos que causem problemas neste contêiner.###18 05 2020 new variable
+common#:#webdav_enable_versioning#:#Versões do arquivo###18 05 2020 new variable
+common#:#webdav_versioning_info#:#Se ativado, os arquivos já existentes receberão uma nova versão em vez de serem substituídos.###18 05 2020 new variable
+common#:#webdav_add_instructions_btn_label#:#Adicionar documento de instruções de montagem###18 05 2020 new variable
+common#:#webdav_docs_mount_instructions#:#Documentos de Instruções de Montagem###18 05 2020 new variable
+common#:#webdav_general_settings#:#Configurações Gerais###18 05 2020 new variable
+common#:#webdav_form_document#:#Documento de instruções###18 05 2020 new variable
+common#:#webdav_form_document_info#:#Carregue um arquivo txt ou html aqui. Após o upload, o arquivo será analisado e processado. Para maiores informações###18 05 2020 new variable
+common#:#webdav_form_document_title#:#Título###18 05 2020 new variable
+common#:#webdav_form_document_title_info#:#Este título será exibido como o título do modal quando as Instruções de Montagem forem abertas###18 05 2020 new variable
+common#:#webdav_form_new_doc_head#:#Criar novo documento de instruções de montagem###18 05 2020 new variable
+common#:#webdav_form_edit_doc_head#:#Editar documento de instruções de montagem###18 05 2020 new variable
+common#:#webdav_mount_instructions#:#Instruções de montagem###18 05 2020 new variable
+common#:#webdav_sure_delete_documents_s#:#Tem certeza de que deseja excluir as instruções de montagem com o seguinte título:###18 05 2020 new variable
+common#:#webdav_tbl_docs_title#:#Lista de instruções de montagem do WebDAV carregadas###18 05 2020 new variable
+common#:#webdav_tbl_docs_head_title#:#Título do documento###18 05 2020 new variable
+common#:#webdav_upload_instructions#:#Instruções de Upload###18 05 2020 new variable
+common#:#webdav_chosen_language_already_used#:#Já existe outro documento associado ao idioma escolhido###18 05 2020 new variable
+common#:#webdav_missing_lang#:#Não há versão em português das instruções de montagem do WebDAV###18 05 2020 new variable
+common#:#webdav_doc_delete#:#Excluir instruções de montagem do WebDav###18 05 2020 new variable
+mail#:#mail_firstname_last_name_superior#:#Uma lista separada por vírgula do nome e sobrenome do respectivo gerente.###18 05 2020 new variable
+mail#:#mail_email_usr_subject#:#Teste o email do email do usuário###18 05 2020 new variable
+mail#:#mail_email_usr_body#:#Este é um email de teste para testar a entrega de emails de usuários para a conta de email externa.###18 05 2020 new variable
+mail#:#mail_email_sys_subject#:#Teste o email do email do sistema###18 05 2020 new variable
+mail#:#mail_email_sys_body#:#Este é um email de teste para testar a entrega de emails do sistema para a conta de email externa.###18 05 2020 new variable
+ps#:#ps_passwd_policy_changed_force_user_reset#:#As alterações foram salvas com sucesso. Você acabou de modificar pelo menos uma configuração de diretiva de senha. Os usuários locais devem ser forçados a alterar sua senha após o próximo login bem-sucedido?###18 05 2020 new variable
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#As alterações foram aplicadas com sucesso.###18 05 2020 new variable
 rbac#:#upload_blacklisted_files#:#Bypass blacklist###18 05 2020 new variable
-rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist###18 05 2020 new variable
-rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration###18 05 2020 new variable
-rbac#:#dshs_read#:#User has read access to Dashboard administration###18 05 2020 new variable
-rbac#:#dshs_visible#:#Dashboard administration is visible###18 05 2020 new variable
-rbac#:#dshs_write#:#Edit settings of Dashboard administration###18 05 2020 new variable
-grp#:#grp_auto_notification#:#Welcome-Mail For New Members###18 05 2020 new variable
-grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.###18 05 2020 new variable
+rbac#:#facs_upload_blacklisted_files#:#Carregar tipos de arquivos indexados, apesar da lista negra###18 05 2020 new variable
+rbac#:#dshs_edit_permission#:#Usuário pode alterar as configurações de permissão da administração do painel###18 05 2020 new variable
+rbac#:#dshs_read#:#O usuário tem acesso de leitura à administração do Painel###18 05 2020 new variable
+rbac#:#dshs_visible#:#A administração do painel está visível###18 05 2020 new variable
+rbac#:#dshs_write#:#Editar configurações da administração do painel###18 05 2020 new variable
+grp#:#grp_auto_notification#:#Correio de boas-vindas para novos membros###18 05 2020 new variable
+grp#:#grp_auto_notification_info#:#Os novos membros recebem uma notificação por email quando adicionados ao grupo.###18 05 2020 new variable
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler###18 05 2020 new variable
-ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.###18 05 2020 new variable
-rep#:#rep_added_to_favourites#:#The item has been added to your favourites.###18 05 2020 new variable
-rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.###18 05 2020 new variable
-skmg#:#skmg_description_info#:#The description comes from the template.###18 05 2020 new variable
-administration#:#adm_layout_and_navigation#:#Layout and Navigation###18 05 2020 new variable
-blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"###18 05 2020 new variable
-acc#:#acc_dashboard#:#Dashboard###18 05 2020 new variable
+ecs#:#ecs_cron_task_scheduler_info#:#As tarefas do ECS serão executadas de acordo com as configurações de agendamento. Somente necessário, se os servidores ECS estiverem configurados.###18 05 2020 new variable
+rep#:#rep_added_to_favourites#:#O item foi adicionado aos seus favoritos.###18 05 2020 new variable
+rep#:#rep_removed_from_favourites#:#O item foi removido dos seus favoritos.###18 05 2020 new variable
+skmg#:#skmg_description_info#:#A descrição vem do modelo.###18 05 2020 new variable
+administration#:#adm_layout_and_navigation#:#Layout e Navegação###18 05 2020 new variable
+blog#:#blog_task_publishing_draft_title#:#Publicação de Rascunho "%s"###18 05 2020 new variable
+acc#:#acc_dashboard#:#Painel de controle###18 05 2020 new variable
 dcl#:#dcl_no_entry#:#No entry###18 05 2020 new variable
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:###18 05 2020 new variable
-crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen###18 05 2020 new variable
-crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.###18 05 2020 new variable
-crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.###18 05 2020 new variable
-crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.###18 05 2020 new variable
-crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.###18 05 2020 new variable
-skmg#:#skmg_add_assignment#:#Add Roles / Members###18 05 2020 new variable
-skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile###18 05 2020 new variable
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?###18 05 2020 new variable
-common#:#obj_rep#:#Repository###18 05 2020 new variable
-orgu#:#user_assignments_recursive#:#User Assignments Subtree###18 05 2020 new variable
-mst#:#mst_list_certificates#:#Certificates###18 05 2020 new variable
-mst#:#mst_list_competences#:#Competences###18 05 2020 new variable
-mst#:#mst_profile_fulfilled#:#Not met, yet###18 05 2020 new variable
-mst#:#mst_profile_not_fulfilled#:#Fulfilled###18 05 2020 new variable
-mst#:#mst_cert_issued_on#:#Issued On###18 05 2020 new variable
-mst#:#mst_download_certificate#:#Download Certificate###18 05 2020 new variable
-orgu#:#org_op_view_certificates#:#View certificates of other users###18 05 2020 new variable
-rbac#:#org_op_view_certificates#:#View certificates of subordinated users###18 05 2020 new variable
-orgu#:#org_op_view_competences#:#View competences of other users###18 05 2020 new variable
-rbac#:#org_op_view_competences#:#View competences of subordinated users###18 05 2020 new variable
-sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:###18 05 2020 new variable
-crs#:#crs_period_start_mail_placeholder#:#Period Start###18 05 2020 new variable
-crs#:#crs_period_end_mail_placeholder#:#Period End###18 05 2020 new variable
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact###18 05 2020 new variable
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.###18 05 2020 new variable
-common#:#report_accessibility_issue#:#Report Accessibility Issue###18 05 2020 new variable
-common#:#report_accessibility_link#:#Reported Link:###18 05 2020 new variable
-common#:#accessibility_control_concept#:#Accessibility Control Concept###18 05 2020 new variable
-common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.###18 05 2020 new variable
-administration#:#adm_repository_and_objects#:#Repository and Objects###18 05 2020 new variable
-administration#:#adm_extending_ilias#:#Extending ILIAS###18 05 2020 new variable
-administration#:#adm_search_and_find#:#Search and Find###18 05 2020 new variable
-administration#:#adm_achievements#:#Achievements###18 05 2020 new variable
+objref#:#objref_failure_target_type#:#O destino do link deve ser do seguinte tipo:###18 05 2020 new variable
+crs#:#crs_ref_member_update#:#Adicionar novos membros###18 05 2020 new variable
+crs#:#crs_ref_member_update_info#:#Todos os novos membros do curso de nível superior são inseridos automaticamente no curso referido por este link do curso.###18 05 2020 new variable
+crs#:#crs_ref_missing_parent_crs#:#A opção não pode ser selecionada porque este link do curso não possui um curso pai.###18 05 2020 new variable
+crs#:#crs_ref_missing_access#:#A opção não pode ser selecionada porque você não tem a permissão "Gerenciar membros" para os dois cursos.###18 05 2020 new variable
+crs#:#crs_ref_delete_confirmation_info#:#Deseja remover os seguintes membros deste curso? Se esses membros forem removidos dos cursos vinculados a este curso, ative as respectivas caixas de seleção.###18 05 2020 new variable
+skmg#:#skmg_add_assignment#:#Adicionar funções / membros###18 05 2020 new variable
+skmg#:#skmg_add_user_to_profile#:#Adicionar usuários ou funções ao perfil###18 05 2020 new variable
+mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Tem certeza de que deseja cancelar a inscrição nos seguintes objetos?###18 05 2020 new variable
+common#:#obj_rep#:#Repositório###18 05 2020 new variable
+orgu#:#user_assignments_recursive#:#Subárvore de atribuições de usuário###18 05 2020 new variable
+mst#:#mst_list_certificates#:#Certificados###18 05 2020 new variable
+mst#:#mst_list_competences#:#Competências###18 05 2020 new variable
+mst#:#mst_profile_fulfilled#:#Ainda não cumprido###18 05 2020 new variable
+mst#:#mst_profile_not_fulfilled#:#Realizado###18 05 2020 new variable
+mst#:#mst_cert_issued_on#:#Emitida em###18 05 2020 new variable
+mst#:#mst_download_certificate#:#Baixar certificado###18 05 2020 new variable
+orgu#:#org_op_view_certificates#:#Ver certificados de outros usuários###18 05 2020 new variable
+rbac#:#org_op_view_certificates#:#Exibir certificados de usuários subordinados###18 05 2020 new variable
+orgu#:#org_op_view_competences#:#Ver competências de outros usuários###18 05 2020 new variable
+rbac#:#org_op_view_competences#:#Exibir competências de usuários subordinados###18 05 2020 new variable
+sess#:#sess_mail_permanent_link_participants#:#Clique no link a seguir para editar os participantes da sessão:###18 05 2020 new variable
+crs#:#crs_period_start_mail_placeholder#:#Início do período###18 05 2020 new variable
+crs#:#crs_period_end_mail_placeholder#:#Fim do período###18 05 2020 new variable
+adm#:#adm_accessibility_contacts#:#Ponto de contato de acessibilidade###18 05 2020 new variable
+adm#:#adm_accessibility_contacts_info#:#Contatos para relatar problemas de acessibilidade no link do rodapé. Lista separada por vírgula de logins de contas.###18 05 2020 new variable
+common#:#report_accessibility_issue#:#Informar problema de acessibilidade###18 05 2020 new variable
+common#:#report_accessibility_link#:#Link reportado:###18 05 2020 new variable
+common#:#accessibility_control_concept#:#Conceito de controle de acessibilidade###18 05 2020 new variable
+common#:#no_accessibility_control_concept_description#:#Atualmente, não há nenhum conceito de controle de acessibilidade fornecido com esta instalação. Entre em contato com o <a href="%1$s"> ponto de contato de acessibilidade </a>.###18 05 2020 new variable
+administration#:#adm_repository_and_objects#:#Repositório e Objetos###18 05 2020 new variable
+administration#:#adm_extending_ilias#:#Estendendo ILIAS###18 05 2020 new variable
+administration#:#adm_search_and_find#:#Pesquisar e Encontrar###18 05 2020 new variable
+administration#:#adm_achievements#:#Conquistas###18 05 2020 new variable
 chatroom#:#chatroom_log#:#Chatserver Log###18 05 2020 new variable
-common#:#obj_bgtk#:#Background Task###18 05 2020 new variable
-chatroom#:#chat_osc_nc_prop_time#:#Time###18 05 2020 new variable
-chatroom#:#chat_osc_nc_no_conv#:#No Conversations available###18 05 2020 new variable
-chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation.###18 05 2020 new variable
-chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.###18 05 2020 new variable
-chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'###18 05 2020 new variable
-mail#:#nc_mail_unread_messages#:#You have %s in your inbox.###18 05 2020 new variable
-mail#:#nc_mail_unread_messages_number_p#:#%s Unread Mails###18 05 2020 new variable
-mail#:#nc_mail_unread_messages_number_s#:#1 Unread Mail###18 05 2020 new variable
-mail#:#nc_mail_noti_item_title#:#Inbox###18 05 2020 new variable
-mail#:#nc_mail_prop_time#:#Time###18 05 2020 new variable
+common#:#obj_bgtk#:#Tarefa secundária###18 05 2020 new variable
+chatroom#:#chat_osc_nc_prop_time#:#Tempo###18 05 2020 new variable
+chatroom#:#chat_osc_nc_no_conv#:#Nenhuma conversa disponível###18 05 2020 new variable
+chatroom#:#chat_osc_nc_conv_x_s#:#Você tem uma conversa oculta.###18 05 2020 new variable
+chatroom#:#chat_osc_nc_conv_x_p#:#Você tem %s conversas ocultas.###18 05 2020 new variable
+chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Configurações pessoais'###18 05 2020 new variable
+mail#:#nc_mail_unread_messages#:#Você tem %s na sua caixa de entrada.###18 05 2020 new variable
+mail#:#nc_mail_unread_messages_number_p#:#%s mails não lidas###18 05 2020 new variable
+mail#:#nc_mail_unread_messages_number_s#:#1 mail não lida###18 05 2020 new variable
+mail#:#nc_mail_noti_item_title#:#Caixa de entrada###18 05 2020 new variable
+mail#:#nc_mail_prop_time#:#Tempo###18 05 2020 new variable
 pdfgen#:#webkit#:#wkhtmltopdf###18 05 2020 new variable
 pdfgen#:#path#:#Path to wkhtmltopdf###18 05 2020 new variable
-pdfgen#:#wkhtml_config#:#Configuration for WKHTML###18 05 2020 new variable
-pdfgen#:#overwrite_font#:#Overwrite default font###18 05 2020 new variable
-pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.###18 05 2020 new variable
-pdfgen#:#external_links#:#Externel links###18 05 2020 new variable
-pdfgen#:#enable_forms#:#Enable Forms###18 05 2020 new variable
-pdfgen#:#user_stylesheet#:#User stylesheet###18 05 2020 new variable
-pdfgen#:#low_quality#:#Low quality###18 05 2020 new variable
-pdfgen#:#greyscale#:#Greyscale###18 05 2020 new variable
-pdfgen#:#output_options#:#Output options###18 05 2020 new variable
-pdfgen#:#header_text_left#:#Text left###18 05 2020 new variable
-pdfgen#:#header_text_center#:#Text center###18 05 2020 new variable
-pdfgen#:#header_text_right#:#Text right###18 05 2020 new variable
-pdfgen#:#footer_text_left#:#Text left###18 05 2020 new variable
-pdfgen#:#footer_text_center#:#Text center###18 05 2020 new variable
-pdfgen#:#footer_text_right#:#Text right###18 05 2020 new variable
-pdfgen#:#spacing#:#Spacing###18 05 2020 new variable
-pdfgen#:#header_line#:#Header line###18 05 2020 new variable
-pdfgen#:#footer_line#:#Footer line###18 05 2020 new variable
-pdfgen#:#checkbox_svg#:#Path to checkbox svg###18 05 2020 new variable
-pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg###18 05 2020 new variable
-pdfgen#:#radio_button_svg#:#Path to radiobutton svg###18 05 2020 new variable
-pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg###18 05 2020 new variable
+pdfgen#:#wkhtml_config#:#Configuração para WKHTML###18 05 2020 new variable
+pdfgen#:#overwrite_font#:#Substituir fonte padrão###18 05 2020 new variable
+pdfgen#:#overwrite_font_info#:#Digite algo semelhante a: 'serif', 'sans-serif', 'monospace' etc.###18 05 2020 new variable
+pdfgen#:#external_links#:#Links exteros###18 05 2020 new variable
+pdfgen#:#enable_forms#:#Ativar formulários###18 05 2020 new variable
+pdfgen#:#user_stylesheet#:#Folha de estilo do usuário###18 05 2020 new variable
+pdfgen#:#low_quality#:#Baixa qualidade###18 05 2020 new variable
+pdfgen#:#greyscale#:#Escala de cinza###18 05 2020 new variable
+pdfgen#:#output_options#:#Opções de saída###18 05 2020 new variable
+pdfgen#:#header_text_left#:#Texto à esquerda###18 05 2020 new variable
+pdfgen#:#header_text_center#:#Texto centrado###18 05 2020 new variable
+pdfgen#:#header_text_right#:#Texto à direita###18 05 2020 new variable
+pdfgen#:#footer_text_left#:#Texto à esquerda###18 05 2020 new variable
+pdfgen#:#footer_text_center#:#Texto centrado###18 05 2020 new variable
+pdfgen#:#footer_text_right#:#Texto à direita###18 05 2020 new variable
+pdfgen#:#spacing#:#Espaçamento###18 05 2020 new variable
+pdfgen#:#header_line#:#Linha de cabeçalho###18 05 2020 new variable
+pdfgen#:#footer_line#:#Linha de rodapé###18 05 2020 new variable
+pdfgen#:#checkbox_svg#:#Caminho para a caixa de seleção svg###18 05 2020 new variable
+pdfgen#:#checkbox_checked_svg#:#Caminho para a caixa de seleção marcada svg###18 05 2020 new variable
+pdfgen#:#radio_button_svg#:#Caminho para o botão de opção svg###18 05 2020 new variable
+pdfgen#:#radio_button_checked_svg#:#Caminho para o botão de opção marcado svg###18 05 2020 new variable
 pdfgen#:#config#:#Config###18 05 2020 new variable
-pdfgen#:#none#:#Keine###18 05 2020 new variable
+pdfgen#:#none#:#Nenhum###18 05 2020 new variable
 pdfgen#:#html#:#Html###18 05 2020 new variable
 pdfgen#:#footer_html#:#Html###18 05 2020 new variable
-pdfgen#:#external_links_info#:#Make links to remote web pages###18 05 2020 new variable
-pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields###18 05 2020 new variable
-pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space###18 05 2020 new variable
-pdfgen#:#greyscale_info#:#PDF will be generated in grayscale###18 05 2020 new variable
-pdfgen#:#print_media_info#:#Use print media-type instead of screen###18 05 2020 new variable
-pdfgen#:#margin_info#:#Margin in mm e.g. 10mm###18 05 2020 new variable
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###18 05 2020 new variable
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.###18 05 2020 new variable
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?###18 05 2020 new variable
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.###18 05 2020 new variable
-common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.###18 05 2020 new variable
-common#:#cron_users_without_login_del_role_whitelist#:#Included Roles###18 05 2020 new variable
-common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles###18 05 2020 new variable
+pdfgen#:#external_links_info#:#Crie links para páginas da web remotas###18 05 2020 new variable
+pdfgen#:#enable_forms_info#:#Transforme campos de formulário HTML em campos de formulário PDF###18 05 2020 new variable
+pdfgen#:#low_quality_info#:#Gera pdf / ps de qualidade inferior. Útil para reduzir o espaço do documento resultante###18 05 2020 new variable
+pdfgen#:#greyscale_info#:#O PDF será gerado em escala de cinza###18 05 2020 new variable
+pdfgen#:#print_media_info#:#Use o tipo de mídia de impressão em vez da tela###18 05 2020 new variable
+pdfgen#:#margin_info#:#Margem em mm p.ex. 10mm###18 05 2020 new variable
+background_tasks#:#ui_msg_num_files#:#%s arquivo(-s) foram detectados para download, você deseja continuar?###18 05 2020 new variable
+background_tasks#:#ui_msg_no_files_found#:#Nenhum arquivo foi encontrado. O download será abortado.###18 05 2020 new variable
+background_tasks#:#ui_msg_sum_file_sizes#:#O tamanho total do download antes de criar a pasta zip é %s. Você quer continuar?###18 05 2020 new variable
+background_tasks#:#ui_msg_files_violate_maxsize#:#O tamanho total do download viola o limite global. O download será abortado.###18 05 2020 new variable
+common#:#user_never_logged_in_info_threshold_err_num#:#Somente números positivos não decimais são aceitos.###18 05 2020 new variable
+common#:#cron_users_without_login_del_role_whitelist#:#Funções incluídas###18 05 2020 new variable
+common#:#cron_users_without_login_del_role_whitelist_info#:#A exclusão será processada apenas para usuários atribuídos a pelo menos uma das funções selecionadas###18 05 2020 new variable
 common#:#cron_users_without_login_del_create_date_thr#:#Thresholt###18 05 2020 new variable
-common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.###18 05 2020 new variable
-common#:#user_never_logged_in#:#Delete user accounts without login###18 05 2020 new variable
-common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.###18 05 2020 new variable
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.###18 05 2020 new variable
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###18 05 2020 new variable
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.###18 05 2020 new variable
-common#:#settings_presentation_header#:#Presentation###18 05 2020 new variable
-common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.###18 05 2020 new variable
-mail#:#mail_bg_task_title#:#E-mail Delivery###18 05 2020 new variable
-mail#:#mail_bg_task_desc#:#Subject: %s###18 05 2020 new variable
-mme#:#restore#:#Reset Main Menu###18 05 2020 new variable
-mme#:#msg_restore_confirm#:#All Custom Items and Translations will be deleted, all Standard items will be reset to factory default. All customization will be lost.###18 05 2020 new variable
-mme#:#msg_restored#:#Main Menu completely reset###18 05 2020 new variable
-mme#:#topitem_icon#:#Icon###18 05 2020 new variable
-mme#:#topitem_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.###18 05 2020 new variable
-mme#:#sub_icon#:#Icon###18 05 2020 new variable
-mme#:#sub_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.###18 05 2020 new variable
-mme#:#err_uri_not_valid#:#Please provide a valid URL###18 05 2020 new variable
-validation#:#not_numeric_empty_string#:#Your input is not numeric.###18 05 2020 new variable
-common#:#pagination_label_x_of_y#:#Page %1$d of %2$d###18 05 2020 new variable
-assessment#:#finalized_evaluation#:#Scoring completed###18 05 2020 new variable
-assessment#:#evaluated_users#:#Evaluated Users###18 05 2020 new variable
-assessment#:#not_evaluated_users#:#Not Yet Evaluated User###18 05 2020 new variable
-assessment#:#finalized_by#:#Completed by###18 05 2020 new variable
-assessment#:#finalized_on#:#Completed at###18 05 2020 new variable
-assessment#:#answer_of#:#Answer of###18 05 2020 new variable
-common#:#obj_task#:#Task###18 05 2020 new variable
-task#:#task_derived_tasks#:#Tasks###18 05 2020 new variable
-task#:#task_tasks_with_deadline#:#With Deadline###18 05 2020 new variable
-task#:#task_tasks_without_deadline#:#Without Deadline###18 05 2020 new variable
-task#:#task_deadline#:#End###18 05 2020 new variable
-task#:#task_no_tasks#:#You do not have any open tasks.###18 05 2020 new variable
-task#:#task_start#:#Start###18 05 2020 new variable
-task#:#task_task#:#Task###18 05 2020 new variable
-task#:#task_details#:#Details###18 05 2020 new variable
-pd#:#block_show_pdtasks#:#Show Tasks###18 05 2020 new variable
-exc#:#exc_task_submission#:#Submission of Assignment "%1"###18 05 2020 new variable
-exc#:#exc_task_grading#:#Grading of Assignment "%1"###18 05 2020 new variable
-exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"###18 05 2020 new variable
-exc#:#exc_tbl_action_open_submission#:#Open Submission###18 05 2020 new variable
-exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.###18 05 2020 new variable
-exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.###18 05 2020 new variable
-exc#:#exc_compare_submissions#:#Compare submissions###18 05 2020 new variable
-exc#:#exc_compare_selected_submissions#:#Compare selected submissions###18 05 2020 new variable
-wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s###18 05 2020 new variable
-wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.###18 05 2020 new variable
-wiki#:#wiki_commented_by#:#Commented by###18 05 2020 new variable
-content#:#cont_notification_activated#:#Notification Activated (Whole LM)###18 05 2020 new variable
-content#:#cont_page_notification_activated#:#Notification Activated (Single Page)###18 05 2020 new variable
-content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module###18 05 2020 new variable
-content#:#cont_notification_deactivate_page#:#Deactivate Notification for Page###18 05 2020 new variable
-content#:#cont_notification_activate_lm#:#Activate Notification for Learning Module###18 05 2020 new variable
-content#:#cont_notification_activate_page#:#Activate Notification for Page###18 05 2020 new variable
-content#:#cont_notification_deactivated#:#Notification Deactivated###18 05 2020 new variable
-content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s###18 05 2020 new variable
-content#:#cont_change_notification_salutation#:#Hello %s,###18 05 2020 new variable
-content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented###18 05 2020 new variable
+common#:#cron_users_without_login_del_create_date_thr_info#:#Todas as contas de usuário criadas antes do limite definido serão levadas em consideração.###18 05 2020 new variable
+common#:#user_never_logged_in#:#Excluir contas de usuário sem fazer login###18 05 2020 new variable
+common#:#user_never_logged_in_info#:#Todas as contas de usuário sem login serão excluídas.###18 05 2020 new variable
+file#:#general_upload_error_occured#:#Ocorreu um erro inesperado durante o upload.###18 05 2020 new variable
+file#:#file_suffix_custom_expl_black#:#Lista negra explícita###18 05 2020 new variable
+file#:#file_suffix_custom_expl_black_info#:#Arquivos com essas extensões não são aceitos.###18 05 2020 new variable
+common#:#settings_presentation_header#:#Apresentação###18 05 2020 new variable
+common#:#msg_info_blacklisted#:#Os arquivos não podem ser carregados devido a razões de segurança.###18 05 2020 new variable
+mail#:#mail_bg_task_title#:#Entrega de E-mail###18 05 2020 new variable
+mail#:#mail_bg_task_desc#:#Assunto: %s###18 05 2020 new variable
+mme#:#restore#:#Redefinir menu principal###18 05 2020 new variable
+mme#:#msg_restore_confirm#:#Todos os itens personalizados e traduções serão excluídos, todos os itens padrão serão redefinidos para os padrões de fábrica. Toda a personalização será perdida.###18 05 2020 new variable
+mme#:#msg_restored#:#Menu Principal completamente redefinido###18 05 2020 new variable
+mme#:#topitem_icon#:#Ícone###18 05 2020 new variable
+mme#:#topitem_icon_byline#:#Carregue um ícone personalizado para este item. Observe que os ícones SVG serão invertidos.###18 05 2020 new variable
+mme#:#sub_icon#:#Ícone###18 05 2020 new variable
+mme#:#sub_icon_byline#:#Carregue um ícone personalizado para este item. Observe que os ícones SVG serão invertidos.###18 05 2020 new variable
+mme#:#err_uri_not_valid#:#Forneça um URL válido###18 05 2020 new variable
+validation#:#not_numeric_empty_string#:#Sua entrada não é numérica.###18 05 2020 new variable
+common#:#pagination_label_x_of_y#:#Página %1$d de %2$d###18 05 2020 new variable
+assessment#:#finalized_evaluation#:#Pontuação concluída###18 05 2020 new variable
+assessment#:#evaluated_users#:#Usuários avaliados###18 05 2020 new variable
+assessment#:#not_evaluated_users#:#Usuário ainda não avaliado###18 05 2020 new variable
+assessment#:#finalized_by#:#Concluído por###18 05 2020 new variable
+assessment#:#finalized_on#:#Concluído em###18 05 2020 new variable
+assessment#:#answer_of#:#Resposta de###18 05 2020 new variable
+common#:#obj_task#:#Tarefa###18 05 2020 new variable
+task#:#task_derived_tasks#:#Tarefas###18 05 2020 new variable
+task#:#task_tasks_with_deadline#:#Com prazo###18 05 2020 new variable
+task#:#task_tasks_without_deadline#:#Sem prazo###18 05 2020 new variable
+task#:#task_deadline#:#Fim###18 05 2020 new variable
+task#:#task_no_tasks#:#Você não possui nenhuma tarefa aberta.###18 05 2020 new variable
+task#:#task_start#:#Começo###18 05 2020 new variable
+task#:#task_task#:#Tarefa###18 05 2020 new variable
+task#:#task_details#:#Detalhes###18 05 2020 new variable
+pd#:#block_show_pdtasks#:#Mostrar tarefas###18 05 2020 new variable
+exc#:#exc_task_submission#:#Envio de tarefa "%1"###18 05 2020 new variable
+exc#:#exc_task_grading#:#Classificação da tarefa "%1"###18 05 2020 new variable
+exc#:#exc_task_peer_feedback#:#Enviar comentários na tarefa "%1"###18 05 2020 new variable
+exc#:#exc_tbl_action_open_submission#:#Submissão Aberta###18 05 2020 new variable
+exc#:#exc_copy_zip_error#:#O envio não pode ser aberto. Ocorreu um erro ao copiar os arquivos.###18 05 2020 new variable
+exc#:#exc_find_zip_error#:#O envio não pode ser aberto. Os arquivos originais não foram encontrados.###18 05 2020 new variable
+exc#:#exc_compare_submissions#:#Comparar envios###18 05 2020 new variable
+exc#:#exc_compare_selected_submissions#:#Comparar envios selecionados###18 05 2020 new variable
+wiki#:#wiki_notification_comment_subject#:#Um comentário foi adicionado a %s: %s###18 05 2020 new variable
+wiki#:#wiki_notification_comment#:#A seguinte Página Wiki foi comentada.###18 05 2020 new variable
+wiki#:#wiki_commented_by#:#Comentado por###18 05 2020 new variable
+content#:#cont_notification_activated#:#Notificação ativada (LM inteiro)###18 05 2020 new variable
+content#:#cont_page_notification_activated#:#Notificação ativada (página única)###18 05 2020 new variable
+content#:#cont_notification_deactivate_lm#:#Desativar o módulo Notificação para aprendizado###18 05 2020 new variable
+content#:#cont_notification_deactivate_page#:#Desativar notificação para página###18 05 2020 new variable
+content#:#cont_notification_activate_lm#:#Ativar notificação para módulo de aprendizagem###18 05 2020 new variable
+content#:#cont_notification_activate_page#:#Ativar notificação para página###18 05 2020 new variable
+content#:#cont_notification_deactivated#:#Notificação desativada###18 05 2020 new variable
+content#:#cont_notification_comment_subject_lm#:#Um comentário foi adicionado a %s: %s###18 05 2020 new variable
+content#:#cont_change_notification_salutation#:#Olá %s,###18 05 2020 new variable
+content#:#cont_notification_comment_lm#:#Seguinte página do módulo de aprendizagem foi comentada###18 05 2020 new variable
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated###18 05 2020 new variable
 content#:#cont_commented_by#:#Commented by###18 05 2020 new variable
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s###18 05 2020 new variable
