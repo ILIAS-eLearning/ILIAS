@@ -94,19 +94,18 @@ class FooterTest extends ILIAS_UI_TestBase
     public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer)
     {
         $bf = new I\Button\Factory();
-        $mf = new I\Modal\Factory(new SignalGenerator());
-        $dummyComponent = new class() implements \ILIAS\UI\Component\Component {
-            public function getCanonicalName()
-            {
-                return 'dummy';
-            }
-        };
+        $signalGenerator = new SignalGenerator();
+        $mf = new I\Modal\Factory($signalGenerator);
+        $legacy = new ILIAS\UI\Implementation\Component\Legacy\Legacy('PhpUnit', $signalGenerator);
 
         $shyButton1 = $bf->shy('Button1', '#');
         $shyButton2 = $bf->shy('Button2', '#');
 
-        $modal1 = $mf->roundtrip('Modal1', $dummyComponent);
-        $modal2 = $mf->roundtrip('Modal2', $dummyComponent);
+        $modal1 = $mf->roundtrip('Modal1', $legacy);
+        $modal2 = $mf->roundtrip('Modal2', $legacy);
+
+        $shyButton1 = $shyButton1->withOnClick($modal1->getShowSignal());
+        $shyButton2 = $shyButton2->withOnClick($modal2->getShowSignal());
 
         $footer = $footer
             ->withAdditionalModalAndTrigger($modal1, $shyButton1)
@@ -115,6 +114,8 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->assertCount(2, $footer->getModals());
         $this->assertEquals([$modal1, $shyButton1], $footer->getModals()[0]);
         $this->assertEquals([$modal2, $shyButton2], $footer->getModals()[1]);
+
+        return $footer;
     }
 
     /**
@@ -220,6 +221,71 @@ EOT;
                         <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
                         <li><a href="#" >go up</a></li>
                     </ul>
+                </div>
+            </div>
+        </div>
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    /**
+     * @depends testGetAndSetModalsWithTrigger
+     */
+    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer)
+    {
+        $r = $this->getDefaultRenderer();
+        $html = $r->render($footer);
+
+        $expected = <<<EOT
+        <div class="il-maincontrols-footer">
+            <div class="il-footer-content">
+                <div class="il-footer-text">footer text</div>
+
+                <div class="il-footer-links">
+                    <ul>
+                        <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
+                        <li><a href="#" >go up</a></li>
+                        <li><button class="btn btn-link" id="id_1" >Button1</button></li>
+                        <li><button class="btn btn-link" id="id_2">Button2</button></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="il-footer-modals">
+                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_3">
+                    <div class="modal-dialog" role="document" data-replace-marker="component">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Modal1</h4>
+                            </div>
+                            <div class="modal-body">PhpUnit</div>
+                            <div class="modal-footer">
+                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_5">
+                    <div class="modal-dialog" role="document" data-replace-marker="component">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Modal2</h4>
+                            </div>
+                            <div class="modal-body">PhpUnit</div>
+                            <div class="modal-footer">
+                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

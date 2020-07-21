@@ -67,8 +67,6 @@ class Footer implements MainControls\Footer
         Modal\RoundTrip $roundTripModal,
         Button\Shy $shyButton
     ) : \ILIAS\UI\Component\MainControls\Footer {
-        $shyButton->withOnClick($roundTripModal->getShowSignal());
-
         $clone = clone $this;
         $clone->modalsWithTriggers[] = [$roundTripModal, $shyButton];
         return $clone;
