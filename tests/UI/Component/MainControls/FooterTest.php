@@ -7,12 +7,17 @@ require_once(__DIR__ . "/../../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * Tests for the Footer.
  */
 class FooterTest extends ILIAS_UI_TestBase
 {
+    private $links = [];
+    private $text = '';
+    private $perm_url = '';
+
     public function setUp() : void
     {
         $f = new I\Link\Factory();
@@ -26,7 +31,6 @@ class FooterTest extends ILIAS_UI_TestBase
 
     protected function getFactory()
     {
-        $sig_gen = new I\SignalGenerator();
         $sig_gen = new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
         $slate_factory = new I\MainControls\Slate\Factory(
@@ -82,6 +86,35 @@ class FooterTest extends ILIAS_UI_TestBase
             $this->text,
             $footer->getText()
         );
+    }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer)
+    {
+        $bf = new I\Button\Factory();
+        $mf = new I\Modal\Factory(new SignalGenerator());
+        $dummyComponent = new class() implements \ILIAS\UI\Component\Component {
+            public function getCanonicalName()
+            {
+                return 'dummy';
+            }
+        };
+
+        $shyButton1 = $bf->shy('Button1', '#');
+        $shyButton2 = $bf->shy('Button2', '#');
+
+        $modal1 = $mf->roundtrip('Modal1', $dummyComponent);
+        $modal2 = $mf->roundtrip('Modal2', $dummyComponent);
+
+        $footer = $footer
+            ->withAdditionalModalAndTrigger($modal1, $shyButton1)
+            ->withAdditionalModalAndTrigger($modal2, $shyButton2);
+
+        $this->assertCount(2, $footer->getModals());
+        $this->assertEquals([$modal1, $shyButton1], $footer->getModals()[0]);
+        $this->assertEquals([$modal2, $shyButton2], $footer->getModals()[1]);
     }
 
     /**
