@@ -260,7 +260,8 @@ class ilPermanentLinkGUI
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
         $current_selection_list = new ilAdvancedSelectionListGUI();
-        $current_selection_list->setId('socialbm_actions_' . md5(uniqid(rand(), true)));
+        $random = new \ilRandom();
+        $current_selection_list->setId('socialbm_actions_' . md5(uniqid($random->int(), true)));
 
         $html = '';
 

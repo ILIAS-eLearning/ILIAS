@@ -10496,7 +10496,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $testSession->setUserId($user_id);
                     $testSession->saveToDb();
                     $passes = ($this->getNrOfTries()) ? $this->getNrOfTries() : 10;
-                    $nr_of_passes = rand(1, $passes);
+                    $random = new \ilRandom();
+                    $nr_of_passes = $random->int(1, $passes);
                     $active_id = $testSession->getActiveId();
                     for ($pass = 0; $pass < $nr_of_passes; $pass++) {
                         include_once "./Modules/Test/classes/class.ilTestSequence.php";
