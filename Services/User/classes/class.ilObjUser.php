@@ -3910,10 +3910,11 @@ class ilObjUser extends ilObject
             $thumb_file = $image_dir . "/usr_" . $a_usr_id . "_" . $a_size . ".jpg";
         }
         // END DiskQuota: Support 'big' user images
-        
+
+        $random = new \ilRandom();
         if ((($upload && $profile) || $a_force_pic)
             && @is_file($thumb_file)) {
-            $file = $thumb_file . "?t=" . rand(1, 99999);
+            $file = $thumb_file . "?t=" . $random->int(1, 99999);
         } else {
             if (!$a_prevent_no_photo_image) {
                 // we only have xsmall and xxsmall for this
@@ -4274,7 +4275,8 @@ class ilObjUser extends ilObject
                 if (strlen($rec["feed_hash"]) == 32) {
                     return $rec["feed_hash"];
                 } elseif ($a_create) {
-                    $hash = md5(rand(1, 9999999) + str_replace(" ", "", (string) microtime()));
+                    $random = new \ilRandom();
+                    $hash = md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
                     $ilDB->manipulateF(
                         "UPDATE usr_data SET feed_hash = %s" .
                         " WHERE usr_id = %s",
@@ -4907,8 +4909,9 @@ class ilObjUser extends ilObject
         
         do {
             $continue = false;
-            
-            $hashcode = substr(md5(uniqid(rand(), true)), 0, 16);
+
+            $random = new \ilRandom();
+            $hashcode = substr(md5(uniqid($random->int(), true)), 0, 16);
             
             $res = $ilDB->queryf(
                 '

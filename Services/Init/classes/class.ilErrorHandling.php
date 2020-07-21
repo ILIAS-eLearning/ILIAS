@@ -350,7 +350,8 @@ class ilErrorHandling extends PEAR
             require_once("Services/Utilities/classes/class.ilUtil.php");
 
             $session_id = substr(session_id(), 0, 5);
-            $err_num = rand(1, 9999);
+            $random = new \ilRandom();
+            $err_num = $random->int(1, 9999);
             $file_name = $session_id . "_" . $err_num;
 
             $logger = ilLoggingErrorSettings::getInstance();
