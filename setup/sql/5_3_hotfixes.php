@@ -690,4 +690,19 @@ if ($ilDB->tableColumnExists("lng_log", "identifier")) {
     );
     $ilDB->modifyTableColumn("lng_log", "identifier", $field);
 }
-?> 
+?>
+
+<#52>
+<?php
+
+$ilDB->modifyTableColumn(
+    'ldap_role_assignments',
+    'rule_id',
+    [
+        'type' => \ilDBConstants::T_INTEGER,
+        'length' => 4,
+        'notnull' => false
+    ]
+);
+?>
+
