@@ -449,6 +449,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
+        $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
 
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
             $this->tabs_gui->addTab(
@@ -491,7 +492,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $ilLocator->addItem(
             ilObject::_lookupTitle(
                 ilObject::_lookupObjId($_GET["ref_id"])
-        ),
+            ),
             $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
         );
     }
