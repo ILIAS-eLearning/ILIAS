@@ -41,7 +41,7 @@ class ilRandom
                 return random_int($min, $max);
             } catch (Exception $e) {
                 $this->logger->logStack(\ilLogLevel::ERROR);
-                $this->logger()->error('No suitable random number generator found.');
+                $this->logger->error('No suitable random number generator found.');
                 throw $e;
             } catch (Throwable $e) {
                 $this->logger->logStack(\ilLogLevel::ERROR);
