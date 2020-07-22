@@ -16178,3 +16178,4 @@ rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
 common#:#eyeopened#:#Offenes Auge: Klicken Sie, um den Inhalt der Eingabe anzuzeigen.
 rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
+feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.

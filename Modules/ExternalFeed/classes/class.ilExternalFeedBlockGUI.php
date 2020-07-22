@@ -207,14 +207,19 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     {
         $this->initFormFeedBlock(self::FORM_CREATE);
 
-        if ($this->form_gui->checkInput()) {
-            $this->external_feed_block = new ilExternalFeedBlock();
+        $this->external_feed_block = new ilExternalFeedBlock();
+
+        if ($this->form_gui->checkInput() &&
+            !$this->external_feed_block->isFeedUrlLocal($this->form_gui->getInput("block_feed_url"))) {
             $this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
             $this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
             $this->prepareSaveFeedBlock($this->external_feed_block);
             $this->external_feed_block->create();
             $this->exitSaveFeedBlock();
         } else {
+            if ($this->external_feed_block->isFeedUrlLocal($this->form_gui->getInput("block_feed_url"))) {
+                ilUtil::sendFailure($this->lng->txt("feed_no_local_url"), true);
+            }
             $this->form_gui->setValuesByPost();
             return $this->form_gui->getHtml();
         }
@@ -227,12 +232,16 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     public function updateFeedBlock()
     {
         $this->initFormFeedBlock(self::FORM_EDIT);
-        if ($this->form_gui->checkInput()) {
+        if ($this->form_gui->checkInput() &&
+            !!$this->external_feed_block->isFeedUrlLocal($this->form_gui->getInput("block_feed_url"))) {
             $this->external_feed_block->setTitle($this->form_gui->getInput("block_title"));
             $this->external_feed_block->setFeedUrl($this->form_gui->getInput("block_feed_url"));
             $this->external_feed_block->update();
             $this->exitUpdateFeedBlock();
         } else {
+            if ($this->external_feed_block->isFeedUrlLocal($this->form_gui->getInput("block_feed_url"))) {
+                ilUtil::sendFailure($this->lng->txt("feed_no_local_url"), true);
+            }
             $this->form_gui->setValuesByPost();
             return $this->form_gui->getHtml();
         }
