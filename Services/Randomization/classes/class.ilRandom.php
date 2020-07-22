@@ -27,7 +27,7 @@ class ilRandom
      * @return int
      * @throws Throwable
      */
-    public function int($min = null, $max = null)
+    public function int(int $min = null, int $max = null) :int
     {
         if(is_null($min)) {
             $min = 0;
@@ -36,32 +36,17 @@ class ilRandom
             $max = mt_getrandmax();
         }
 
-        if($this->supportsRandomInt()) {
-            try {
-                return random_int($min, $max);
-            } catch (Exception $e) {
-                $this->logger->logStack(\ilLogLevel::ERROR);
-                $this->logger()->error('No suitable random number generator found.');
-                throw $e;
-            } catch (Throwable $e) {
-                $this->logger->logStack(\ilLogLevel::ERROR);
-                $this->logger->error('max should be greater than min.');
-                throw $e;
-            }
+        try {
+            return random_int($min, $max);
+        } catch (Exception $e) {
+            $this->logger->logStack(\ilLogLevel::ERROR);
+            $this->logger()->error('No suitable random number generator found.');
+            throw $e;
+        } catch (Throwable $e) {
+            $this->logger->logStack(\ilLogLevel::ERROR);
+            $this->logger->error('max should be greater than min.');
+            throw $e;
         }
-        // version 5.6 => use mt_rand
-        return mt_rand($min, $max);
-    }
-
-    /**
-     * @return bool
-     */
-    private function supportsRandomInt()
-    {
-        if(version_compare(PHP_VERSION , '7.0.0', '>=')) {
-            return true;
-        }
-        return false;
     }
 
 }
