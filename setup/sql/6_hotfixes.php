@@ -341,3 +341,9 @@ $ilDB->modifyTableColumn(
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#28>
+<?php
+// remove magpie cache dir
+$mcdir = CLIENT_WEB_DIR."/magpie_cache";
+ilUtil::delDir($mcdir);
+?>
