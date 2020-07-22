@@ -226,6 +226,12 @@ class ilAwarenessData
      */
     public function getData()
     {
+        if ($this->user_id == ANONYMOUS_USER_ID) {
+            return [
+                "data" => [],
+                "cnt" => "0:0"
+            ];
+        }
         $awrn_set = new ilSetting("awrn");
         $max = $awrn_set->get("max_nr_entries");
 
