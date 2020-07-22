@@ -152,7 +152,7 @@ class ilLMObjTranslation
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
             " AND lang = " . $ilDB->quote($this->getLang(), "text")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setShortTitle($rec["short_title"]);
         $this->create_date = $rec["create_date"];
@@ -206,7 +206,7 @@ class ilLMObjTranslation
             " WHERE id = " . $ilDB->quote($a_id, "integer") .
             " AND lang = " . $ilDB->quote($a_lang, "text")
         );
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;

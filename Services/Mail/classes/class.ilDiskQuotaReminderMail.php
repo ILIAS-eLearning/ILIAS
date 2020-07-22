@@ -123,7 +123,7 @@ class ilDiskQuotaReminderMail
                 $tmp_lang->txt('disk_quota_body_text2') . "\n" .
                 ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID . "\n";
             $mail_body .= $tmp_lang->txt('login') . ': ' . $data['firstname'] . "\n";
-            $mail_body.= "\n";
+            $mail_body .= "\n";
             $mail_body .= $tmp_lang->txt('disk_quota_mail_body_text3') . "\n\r";
         //$mail_body .= $user->getProfileAsString($tmp_lang);
         } else {
@@ -183,13 +183,13 @@ class ilDiskQuotaReminderMail
         $a_string = str_replace("[LAST_NAME]", $this->data['lastname'], $a_string);
         // BEGIN Mail Include E-Mail Address in account mail
         $a_string = str_replace("[EMAIL]", $this->data['email'], $a_string);
-        $a_string  = str_replace(
+        $a_string = str_replace(
             "[ILIAS_URL]",
             ILIAS_HTTP_PATH . "/login.php?client_id=" . CLIENT_ID,
             $a_string
         );
-        $a_string  = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
-        $a_string  = str_replace(
+        $a_string = str_replace("[CLIENT_NAME]", CLIENT_NAME, $a_string);
+        $a_string = str_replace(
             "[ADMIN_MAIL]",
             $DIC->settings()->get("admin_email"),
             $a_string

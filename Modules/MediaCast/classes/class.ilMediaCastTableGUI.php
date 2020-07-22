@@ -164,9 +164,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         $file = ilObjMediaObject::_lookupItemPath($a_mob->getMobId(), false, false, $a_mob->getPurpose());
                         if (is_file($file)) {
                             $size = filesize($file);
-                            $size = ", " . sprintf("%.1f MB", $size/1024/1024);
+                            $size = ", " . sprintf("%.1f MB", $size / 1024 / 1024);
                         }
-                        $format = ($a_mob->getFormat()!= "")?$a_mob->getFormat():"audio/mpeg";
+                        $format = ($a_mob->getFormat() != "")?$a_mob->getFormat():"audio/mpeg";
                         $this->tpl->setCurrentBlock("downloadable");
                         $this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
                         $this->tpl->setVariable("CMD_DOWNLOAD", $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
@@ -178,7 +178,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
                 
                 // the news id will be used as player id, see also ilObjMediaCastGUI
-                $event_url =  ($this->presentation_mode)
+                $event_url = ($this->presentation_mode)
                     ? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
                     : "";
                 $mpl = new ilMediaPlayerGUI($a_set["id"], $event_url);

@@ -27,7 +27,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     private $sp_user_progress_db;
 
-    public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="", \ilStudyProgrammeUserProgressDB $sp_user_progress_db)
+    public function __construct($a_prg_obj_id, $a_prg_ref_id, $a_parent_obj, $a_parent_cmd = "", $a_template_context = "", \ilStudyProgrammeUserProgressDB $sp_user_progress_db)
     {
         $this->setId("sp_member_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -331,14 +331,14 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getColumnsChildren()
     {
-        return array( "name" 				=> array("name")
-                        , "login" 				=> array("login")
-                        , "prg_status" 			=> array("status")
-                        , "prg_completion_by"	=> array(null)
+        return array( "name" => array("name")
+                        , "login" => array("login")
+                        , "prg_status" => array("status")
+                        , "prg_completion_by" => array(null)
                         , "prg_points_required" => array("points")
-                        , "prg_points_current"  => array("points_current")
-                        , "prg_custom_plan"		=> array("custom_plan")
-                        , "prg_belongs_to"		=> array("belongs_to")
+                        , "prg_points_current" => array("points_current")
+                        , "prg_custom_plan" => array("custom_plan")
+                        , "prg_belongs_to" => array("belongs_to")
                         );
     }
 
@@ -349,13 +349,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getColumnsLPChildren()
     {
-        return array( "name" 				=> array("name")
-                        , "login" 				=> array("login")
-                        , "prg_status" 			=> array("status")
-                        , "prg_completion_by"	=> array(null)
+        return array( "name" => array("name")
+                        , "login" => array("login")
+                        , "prg_status" => array("status")
+                        , "prg_completion_by" => array(null)
                         , "prg_points_reachable" => array("points")
-                        , "prg_custom_plan"		=> array("custom_plan")
-                        , "prg_belongs_to"		=> array("belongs_to")
+                        , "prg_custom_plan" => array("custom_plan")
+                        , "prg_belongs_to" => array("belongs_to")
                         );
     }
 

@@ -246,7 +246,7 @@ class ilTermListTableGUI extends ilTable2GUI
         }
 
 
-        for ($j=0; $j<count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
 
 
@@ -271,7 +271,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $short_str = $page->getFirstParagraphText();
                 $short_str = strip_tags($short_str, "<br>");
                 $ltexe = strpos($short_str, "[/tex]", $ltexs);
-                $short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
+                $short_str = ilUtil::shortenText($short_str, $ltexe + 6, true);
             }
 
             include_once './Services/MathJax/classes/class.ilMathJax.php';

@@ -69,7 +69,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $title = $sep = "";
         foreach ($path as $p) {
             if ($p["type"] != "skrt") {
-                $title.= $sep . $p["title"];
+                $title .= $sep . $p["title"];
                 $sep = " > ";
             }
         }

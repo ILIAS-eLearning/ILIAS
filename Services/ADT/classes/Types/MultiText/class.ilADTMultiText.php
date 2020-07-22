@@ -27,7 +27,7 @@ class ilADTMultiText extends ilADT
         if (is_array($a_values)) {
             if (sizeof($a_values)) {
                 foreach ($a_values as $idx => $element) {
-                    $a_values[$idx]= trim($element);
+                    $a_values[$idx] = trim($element);
                     if (!$a_values[$idx]) {
                         unset($a_values[$idx]);
                     }

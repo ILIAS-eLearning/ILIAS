@@ -177,10 +177,10 @@ class ilMDRelation extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
-                     'kind'		=> ilUtil::prepareDBString($this->getKind()));
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
+                     'kind' => ilUtil::prepareDBString($this->getKind()));
     }
 
     public function read()
@@ -214,12 +214,12 @@ class ilMDRelation extends ilMDBase
 
         // Identifier_
         foreach ($this->getIdentifier_Ids() as $id) {
-            $ide =&$this->getIdentifier_($id);
+            $ide = &$this->getIdentifier_($id);
             $ide->toXML($writer);
         }
         // Description
         foreach ($this->getDescriptionIds() as $id) {
-            $des =&$this->getDescription($id);
+            $des = &$this->getDescription($id);
             $des->toXML($writer);
         }
         $writer->xmlEndTag('Resource');

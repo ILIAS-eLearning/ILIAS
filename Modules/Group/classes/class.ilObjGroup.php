@@ -33,9 +33,9 @@ define('GRP_TYPE_PUBLIC', 3);
 class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 {
     const CAL_REG_START = 1;
-    const CAL_REG_END 	= 2;
-    const CAL_START		= 3;
-    const CAL_END		= 4;
+    const CAL_REG_END = 2;
+    const CAL_START = 3;
+    const CAL_END = 4;
     
     const GRP_MEMBER = 1;
     const GRP_ADMIN = 2;
@@ -116,7 +116,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         $tree = $DIC['tree'];
 
-        $this->tree =&$tree;
+        $this->tree = &$tree;
 
         $this->type = "grp";
         parent::__construct($a_id, $a_call_by_reference);
@@ -1015,7 +1015,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * @access	private
     * @param	integer	member status = obj_id of local_group_role
     */
-    public function join($a_user_id, $a_mem_role="")
+    public function join($a_user_id, $a_mem_role = "")
     {
         global $DIC;
 
@@ -1142,9 +1142,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $rbacadmin = $DIC['rbacadmin'];
         $rbacreview = $DIC['rbacreview'];
 
-        $usr_arr= array();
+        $usr_arr = array();
 
-        $rol  = $this->getLocalGroupRoles();
+        $rol = $this->getLocalGroupRoles();
 
         foreach ($rol as $value) {
             foreach ($rbacreview->assignedUsers($value) as $member_id) {
@@ -1173,7 +1173,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $ilBench = $DIC['ilBench'];
         $ilDB = $DIC['ilDB'];
 
-        $usr_arr= array();
+        $usr_arr = array();
 
         $q = "SELECT login,firstname,lastname,title,usr_id,last_login " .
              "FROM usr_data " .
@@ -1237,7 +1237,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     * @access	public
     * @param 	returns the obj_ids of group specific roles(il_grp_member,il_grp_admin)
     */
-    public function getDefaultGroupRoles($a_grp_id="")
+    public function getDefaultGroupRoles($a_grp_id = "")
     {
         global $DIC;
 
@@ -1250,13 +1250,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $grp_id = $this->getRefId();
         }
 
-        $role_arr  = $rbacreview->getRolesOfRoleFolder($grp_id);
+        $role_arr = $rbacreview->getRolesOfRoleFolder($grp_id);
 
         foreach ($role_arr as $role_id) {
-            $role_Obj =&$this->ilias->obj_factory->getInstanceByObjId($role_id);
+            $role_Obj = &$this->ilias->obj_factory->getInstanceByObjId($role_id);
 
-            $grp_Member ="il_grp_member_" . $grp_id;
-            $grp_Admin  ="il_grp_admin_" . $grp_id;
+            $grp_Member = "il_grp_member_" . $grp_id;
+            $grp_Admin = "il_grp_admin_" . $grp_id;
 
             if (strcmp($role_Obj->getTitle(), $grp_Member) == 0) {
                 $arr_grpDefaultRoles["grp_member_role"] = $role_Obj->getId();
@@ -1285,11 +1285,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         if (empty($this->local_roles)) {
             $this->local_roles = array();
-            $role_arr  = $rbacreview->getRolesOfRoleFolder($this->getRefId());
+            $role_arr = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
             foreach ($role_arr as $role_id) {
                 if ($rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
-                    $role_Obj =&$this->ilias->obj_factory->getInstanceByObjId($role_id);
+                    $role_Obj = &$this->ilias->obj_factory->getInstanceByObjId($role_id);
 
                     if ($a_translate) {
                         $role_name = ilObjRole::_getTranslation($role_Obj->getTitle());
@@ -1697,7 +1697,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         if ($a_field) {
             include_once './Services/User/classes/class.ilObjUser.php';
 
-            $tmp_user =&ilObjectFactory::getInstanceByObjId($a_user_id);
+            $tmp_user = &ilObjectFactory::getInstanceByObjId($a_user_id);
             switch ($a_field) {
                 case 'login':
                     $and = "AND login = '" . $tmp_user->getLogin() . "' ";
@@ -2167,7 +2167,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $part = new ilGroupParticipants($row["obj_id"]);
             $reci = $part->getNotificationRecipients();
             if (sizeof($reci)) {
-                $missing = (int) $row["registration_min_members"]-$part->getCountMembers();
+                $missing = (int) $row["registration_min_members"] - $part->getCountMembers();
                 if ($missing > 0) {
                     $res[$row["obj_id"]] = array($missing, $reci);
                 }
@@ -2175,5 +2175,19 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         }
         
         return $res;
+    }
+
+    public static function lookupShowMembersEnabled(int $a_obj_id) : bool
+    {
+        global $DIC;
+        $ilDB = $DIC["ilDB"];
+        $query = 'SELECT show_members FROM grp_settings'
+            .' WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+        $res = $ilDB->query($query);
+        if($ilDB->numRows($res) == 0) {
+            return false;
+        }
+        $row = $ilDB->fetchAssoc($res);
+        return (bool)$row['show_members'];
     }
 } //END class.ilObjGroup

@@ -51,7 +51,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             [
                 ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
                 'ref_id' => $this->getParentObject()->getRefId(),
-                'ts'     => time()
+                'ts' => time()
             ];
         return $context_options;
     }

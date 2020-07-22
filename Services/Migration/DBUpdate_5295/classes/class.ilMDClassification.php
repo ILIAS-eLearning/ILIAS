@@ -201,10 +201,10 @@ class ilMDClassification extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
-                     'purpose'	=> array('text',$this->getPurpose()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
+                     'purpose' => array('text',$this->getPurpose()),
                      'description' => array('text',$this->getDescription()),
                      'description_language' => array('text',$this->getDescriptionLanguageCode()));
     }
@@ -248,7 +248,7 @@ class ilMDClassification extends ilMDBase
         // Taxon Path
         $taxs = $this->getTaxonPathIds();
         foreach ($taxs as $id) {
-            $tax =&$this->getTaxonPath($id);
+            $tax = &$this->getTaxonPath($id);
             $tax->toXML($writer);
         }
         if (!count($taxs)) {
@@ -269,7 +269,7 @@ class ilMDClassification extends ilMDBase
         // Keyword
         $keys = $this->getKeywordIds();
         foreach ($keys as $id) {
-            $key =&$this->getKeyword($id);
+            $key = &$this->getKeyword($id);
             $key->toXML($writer);
         }
         if (!count($keys)) {

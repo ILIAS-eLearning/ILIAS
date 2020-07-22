@@ -109,7 +109,7 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
      *
      * @param string $a_mode edit mode
      */
-    public function properties($a_mode="save", $a_form = null)
+    public function properties($a_mode = "save", $a_form = null)
     {
         $ilTabs = $this->tabs;
     

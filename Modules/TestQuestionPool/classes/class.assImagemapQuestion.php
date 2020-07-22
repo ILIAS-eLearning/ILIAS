@@ -27,7 +27,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public $currentSolution = array();
     // hey.
     
-    const MODE_SINGLE_CHOICE   = 0;
+    const MODE_SINGLE_CHOICE = 0;
     const MODE_MULTIPLE_CHOICE = 1;
 
     /** @var $answers array The possible answers of the imagemap question. */
@@ -142,9 +142,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         // Anworten wegschreiben
         foreach ($this->answers as $key => $value) {
-            $answer_obj   = $this->answers[$key];
+            $answer_obj = $this->answers[$key];
             $answer_obj->setOrder($key);
-            $next_id      = $ilDB->nextId('qpl_a_imagemap');
+            $next_id = $ilDB->nextId('qpl_a_imagemap');
             $ilDB->manipulateF(
                 "INSERT INTO qpl_a_imagemap (answer_id, question_fi, answertext, points, aorder, coords, area, points_unchecked) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                 array( "integer", "integer", "text", "float", "integer", "text", "text", "float" ),
@@ -493,8 +493,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $answertext = "",
         $points = 0.0,
         $order = 0,
-        $coords="",
-        $area="",
+        $coords = "",
+        $area = "",
         $points_unchecked = 0.0
     ) {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerImagemap.php";
@@ -502,8 +502,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             // Insert answer
             $answer = new ASS_AnswerImagemap($answertext, $points, $order, $coords, $area, -1, $points_unchecked);
             for ($i = count($this->answers) - 1; $i >= $order; $i--) {
-                $this->answers[$i+1] = $this->answers[$i];
-                $this->answers[$i+1]->setOrder($i+1);
+                $this->answers[$i + 1] = $this->answers[$i];
+                $this->answers[$i + 1]->setOrder($i + 1);
             }
             $this->answers[$order] = $answer;
         } else {
@@ -897,7 +897,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['is_multiple'] = (bool) $this->getIsMultipleChoice();
@@ -911,14 +911,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $order = 0;
         foreach ($this->getAnswers() as $key => $answer_obj) {
             array_push($answers, array(
-                "answertext"       => (string) $answer_obj->getAnswertext(),
-                "points"           => (float) $answer_obj->getPoints(),
+                "answertext" => (string) $answer_obj->getAnswertext(),
+                "points" => (float) $answer_obj->getPoints(),
                 "points_unchecked" => (float) $answer_obj->getPointsUnchecked(),
-                "order"            => (int) $order,
-                "coords"           => $answer_obj->getCoords(),
-                "state"            => $answer_obj->getState(),
-                "area"             => $answer_obj->getArea(),
-                "feedback"         => $this->formatSAQuestion(
+                "order" => (int) $order,
+                "coords" => $answer_obj->getCoords(),
+                "state" => $answer_obj->getState(),
+                "area" => $answer_obj->getArea(),
+                "feedback" => $this->formatSAQuestion(
                     $this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), 0, $key)
                 )
             ));
@@ -1018,7 +1018,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }

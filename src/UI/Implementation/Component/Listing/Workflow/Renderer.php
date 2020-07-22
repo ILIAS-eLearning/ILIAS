@@ -37,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.linear.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
 
-        foreach ($component->getSteps() as $index=>$step) {
+        foreach ($component->getSteps() as $index => $step) {
             $tpl->setCurrentBlock("step");
 
             $action = $step->getAction();

@@ -369,7 +369,7 @@ class ilSAHSPresentationGUI
                 case "cmi.interactions._count":
                     $this->setSingleVariable($var, $value);
                     $this->setArray("cmi.interactions", $value, "id", $re_value);
-                    for ($i=0; $i<$value; $i++) {
+                    for ($i = 0; $i < $value; $i++) {
                         $var2 = "cmi.interactions." . $i . ".objectives._count";
                         if (isset($v_array[$var2])) {
                             $cnt = $v_array[$var2];
@@ -392,7 +392,7 @@ class ilSAHSPresentationGUI
                     }
                     $this->setArray("cmi.interactions", $value, "time", $re_value);
                     $this->setArray("cmi.interactions", $value, "type", $re_value);
-                    for ($i=0; $i<$value; $i++) {
+                    for ($i = 0; $i < $value; $i++) {
                         $var2 = "cmi.interactions." . $i . ".correct_responses._count";
                         if (isset($v_array[$var2])) {
                             $cnt = $v_array[$var2];
@@ -477,8 +477,8 @@ class ilSAHSPresentationGUI
         $this->tpl->setVariable(
             "SCO_ICO",
             ilUtil::getImagePath(
-            "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
-        )
+                "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
+            )
         );
         $this->tpl->setVariable(
             "SCO_ALT",
@@ -547,7 +547,7 @@ class ilSAHSPresentationGUI
     */
     public function setArray($a_left, $a_value, $a_name, &$v_array)
     {
-        for ($i=0; $i<$a_value; $i++) {
+        for ($i = 0; $i < $a_value; $i++) {
             $var = $a_left . "." . $i . "." . $a_name;
             if (isset($v_array[$var])) {
                 $this->tpl->setCurrentBlock("set_value");

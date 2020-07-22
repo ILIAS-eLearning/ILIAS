@@ -121,7 +121,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                     true,
                     0,
                     "",
-                    array("style"=>"min-width:125px"),
+                    array("style" => "min-width:125px"),
                     $disabled
                 );
                 $this->tpl->setVariable('VAL_OBJ_TYPE_STATUS', $select);

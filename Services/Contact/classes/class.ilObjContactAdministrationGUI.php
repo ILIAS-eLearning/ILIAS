@@ -51,7 +51,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -113,7 +113,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
             $form = $this->getConfigurationForm();
             $form->setValuesByArray(array(
-                'enable'  => (bool) ilBuddySystem::getInstance()->getSetting('enabled', 0),
+                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', 0),
                 'use_osd' => isset($cfg['buddysystem_request']) && array_search('osd', $cfg['buddysystem_request']) !== false
             ));
         }

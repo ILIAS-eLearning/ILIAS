@@ -31,8 +31,8 @@
  */
 class ilLDAPRoleAssignmentRules
 {
-    const ROLE_ACTION_ASSIGN	= 'Assign';
-    const ROLE_ACTION_DEASSIGN	= 'Detach';
+    const ROLE_ACTION_ASSIGN = 'Assign';
+    const ROLE_ACTION_DEASSIGN = 'Detach';
     
     protected static $active_plugins = null;
     protected static $default_role = null;
@@ -313,9 +313,9 @@ class ilLDAPRoleAssignmentRules
         $rbacreview = $DIC['rbacreview'];
         
         return array(
-            'id'		=> $a_role_id,
-            'type'		=> $rbacreview->isGlobalRole($a_role_id) ? 'Global' : 'Local',
-            'action'	=> $a_action
+            'id' => $a_role_id,
+            'type' => $rbacreview->isGlobalRole($a_role_id) ? 'Global' : 'Local',
+            'action' => $a_action
             );
     }
 }

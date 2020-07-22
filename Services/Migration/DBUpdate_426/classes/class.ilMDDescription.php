@@ -105,12 +105,12 @@ class ilMDDescription extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'parent_type' => $this->getParentType(),
                      'parent_id' => $this->getParentId(),
-                     'description'	=> ilUtil::prepareDBString($this->getDescription()),
+                     'description' => ilUtil::prepareDBString($this->getDescription()),
                      'description_language' => ilUtil::prepareDBString($this->getDescriptionLanguageCode()));
     }
 

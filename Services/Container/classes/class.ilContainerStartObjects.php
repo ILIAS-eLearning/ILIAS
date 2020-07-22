@@ -146,7 +146,7 @@ class ilContainerStartObjects
             $max_pos = $ilDB->query("SELECT max(pos) pos FROM crs_start" .
                 " WHERE crs_id = " . $ilDB->quote($this->getObjId(), "integer"));
             $max_pos = $ilDB->fetchAssoc($max_pos);
-            $max_pos = ((int) $max_pos["pos"])+10;
+            $max_pos = ((int) $max_pos["pos"]) + 10;
             
             $next_id = $ilDB->nextId('crs_start');
             $query = "INSERT INTO crs_start" .

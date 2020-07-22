@@ -228,8 +228,8 @@ class ilExerciseMembers
                             "notice" => $row->notice,
                             "returned" => $row->returned,
                             "status" => $row->status,
-                            "sent"	 => $row->sent,
-                            "feedback"	 => $row->feedback
+                            "sent" => $row->sent,
+                            "feedback" => $row->feedback
                             );
         }
         foreach ($data as $row) {

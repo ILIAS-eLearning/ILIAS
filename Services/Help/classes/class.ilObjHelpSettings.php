@@ -126,7 +126,7 @@ class ilObjHelpSettings extends ilObject2
             $newObj->create(true);
             $newObj->createLMTree();
 
-            $mess =  $newObj->importFromDirectory($t, false);
+            $mess = $newObj->importFromDirectory($t, false);
 
             // this should only be true for help modules
             // search the zip file
@@ -189,7 +189,7 @@ class ilObjHelpSettings extends ilObject2
         $set = $ilDB->query("SELECT * FROM help_module");
         
         $mods = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
                 $rec["title"] = ilObject::_lookupTitle($rec["lm_id"]);
                 $rec["create_date"] = ilObject::_lookupCreationDate($rec["lm_id"]);
@@ -217,7 +217,7 @@ class ilObjHelpSettings extends ilObject2
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
             return ilObject::_lookupTitle($rec["lm_id"]);
         }
@@ -240,7 +240,7 @@ class ilObjHelpSettings extends ilObject2
             "SELECT lm_id FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         return $rec["lm_id"];
     }
     
@@ -264,7 +264,7 @@ class ilObjHelpSettings extends ilObject2
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
 
         // delete learning module
         if (ilObject::_lookupType($rec["lm_id"]) == "lm") {

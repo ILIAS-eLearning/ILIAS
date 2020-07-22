@@ -23,7 +23,7 @@ class ilOnScreenChatUserDataProvider
      */
     public function __construct(\ilDBInterface $db, \ilObjUser $user)
     {
-        $this->db   = $db;
+        $this->db = $db;
         $this->user = $user;
     }
 
@@ -86,7 +86,7 @@ class ilOnScreenChatUserDataProvider
         $oldWacTokenValue = \ilWACSignedPath::getTokenMaxLifetimeInSeconds();
         \ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
 
-        $publicData  = \ilUserUtil::getNamePresentation($usrIds, true, false, '', false, true, false, true);
+        $publicData = \ilUserUtil::getNamePresentation($usrIds, true, false, '', false, true, false, true);
 
         $data = [];
 
@@ -115,7 +115,7 @@ class ilOnScreenChatUserDataProvider
             }
 
             $data[$usr_id] = array(
-                'public_name'   => $publicName,
+                'public_name' => $publicName,
                 'profile_image' => $publicImage
             );
         }

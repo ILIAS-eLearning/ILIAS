@@ -1063,7 +1063,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $types = array("integer","text","text","integer","integer","timestamp","integer","integer");
             $values = array($contextId, $resourceLink->getId(), $settingsValue, $primaryResourceLinkId, $approved, $now, $consumerId, $id);
         }
-        $ok =$ilDB->manipulateF($query, $types, $values);
+        $ok = $ilDB->manipulateF($query, $types, $values);
 
         $this->logger->info('Update resource link with query: ' . $query);
         $this->logger->logStack();

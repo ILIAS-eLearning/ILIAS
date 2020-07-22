@@ -131,12 +131,12 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
                 break;
         }
         if ($a_set['fullday']) {
-            $date =  ilDatePresentation::formatPeriod(
+            $date = ilDatePresentation::formatPeriod(
                 new ilDate($a_set['begin'], IL_CAL_UNIX),
                 new ilDate($a_set['end'], IL_CAL_UNIX)
             );
         } else {
-            $date =  ilDatePresentation::formatPeriod(
+            $date = ilDatePresentation::formatPeriod(
                 new ilDateTime($a_set['begin'], IL_CAL_UNIX),
                 new ilDateTime($a_set['end'], IL_CAL_UNIX)
             );

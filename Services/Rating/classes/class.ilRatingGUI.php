@@ -475,7 +475,7 @@ class ilRatingGUI
                 $this->sub_obj_type
             );
         } else {
-            $rating = array("avg"=>$user_rating);
+            $rating = array("avg" => $user_rating);
         }
         
         for ($i = 1; $i <= 5; $i++) {

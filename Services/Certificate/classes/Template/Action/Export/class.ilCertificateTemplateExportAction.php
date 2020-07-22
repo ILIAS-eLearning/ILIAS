@@ -54,10 +54,10 @@ class ilCertificateTemplateExportAction
         ilCertificateObjectHelper $objectHelper = null,
         ilCertificateUtilHelper $utilHelper = null
     ) {
-        $this->objectId           = $objectId;
-        $this->certificatePath    = $certificatePath;
+        $this->objectId = $objectId;
+        $this->certificatePath = $certificatePath;
         $this->templateRepository = $templateRepository;
-        $this->filesystem         = $filesystem;
+        $this->filesystem = $filesystem;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();

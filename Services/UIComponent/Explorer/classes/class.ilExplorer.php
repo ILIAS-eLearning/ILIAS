@@ -225,7 +225,7 @@ class ilExplorer
         $this->output_icons = true;
         $this->expand_variable = "expand";
         $this->setTitleLength(50);
-        $this->post_sort=true;
+        $this->post_sort = true;
         $this->setFilterMode(IL_FM_NEGATIVE);
         $this->highlighted = "";
         $this->show_minus = true;
@@ -654,15 +654,15 @@ class ilExplorer
                         if ($object["child"] != $this->getRoot()) {
                             $parent_index = $this->getIndex($object);
                         }
-                        $this->format_options["$this->counter"]["parent"]		= $object["parent"];
-                        $this->format_options["$this->counter"]["child"]		= $object["child"];
-                        $this->format_options["$this->counter"]["title"]		= $object["title"];
-                        $this->format_options["$this->counter"]["type"]		= $object["type"];
-                        $this->format_options["$this->counter"]["obj_id"]		= $object["obj_id"];
-                        $this->format_options["$this->counter"]["desc"] 		= "obj_" . $object["type"];
-                        $this->format_options["$this->counter"]["depth"]		= $tab;
-                        $this->format_options["$this->counter"]["container"]	= false;
-                        $this->format_options["$this->counter"]["visible"]	= true;
+                        $this->format_options["$this->counter"]["parent"] = $object["parent"];
+                        $this->format_options["$this->counter"]["child"] = $object["child"];
+                        $this->format_options["$this->counter"]["title"] = $object["title"];
+                        $this->format_options["$this->counter"]["type"] = $object["type"];
+                        $this->format_options["$this->counter"]["obj_id"] = $object["obj_id"];
+                        $this->format_options["$this->counter"]["desc"] = "obj_" . $object["type"];
+                        $this->format_options["$this->counter"]["depth"] = $tab;
+                        $this->format_options["$this->counter"]["container"] = false;
+                        $this->format_options["$this->counter"]["visible"] = true;
                         $this->format_options["$this->counter"]["highlighted_subtree"] = $a_highlighted_subtree;
 
                         // Create prefix array
@@ -699,12 +699,12 @@ class ilExplorer
                             if ($this->expand_all or in_array($object["parent"], $this->expanded)) {
                                 //echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
                                 if ($this->forceExpanded($object["parent"])) {
-                                    $this->format_options["$parent_index"]["tab"][($tab-2)] = 'forceexp';
+                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'forceexp';
                                 } else {
-                                    $this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'minus';
                                 }
                             } else {
-                                $this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+                                $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'plus';
                             }
                         }
                         //echo "-"."$parent_index"."-";
@@ -778,7 +778,7 @@ class ilExplorer
 
         $depth = $this->getMaximumTreeDepth();
 
-        for ($i=0;$i<$depth;++$i) {
+        for ($i = 0;$i < $depth;++$i) {
             $this->createLines($i);
         }
 
@@ -800,7 +800,7 @@ class ilExplorer
             if (is_array($this->up_params)) {
                 $up_str = $lim = "";
                 foreach ($this->up_params as $p) {
-                    $up_str.=  $lim . "'" . $p . "'";
+                    $up_str .= $lim . "'" . $p . "'";
                     $lim = ",";
                 }
                 $tpl_tree->setVariable("UPDATE_PARAMS", $up_str);
@@ -1180,7 +1180,7 @@ class ilExplorer
             ? "&ict=1"
             : "";
         if ($this->getAsynchExpanding()) {
-            $ict_str.= "&cmdMode=asynch";
+            $ict_str .= "&cmdMode=asynch";
         }
         if ($a_append_anch) {
             return $this->expand_target . $sep . $this->expand_variable . "=" . $a_node_id . $this->params_get . $ict_str . "#" . abs($a_node_id);
@@ -1208,22 +1208,22 @@ class ilExplorer
     public function createLines($a_depth)
     {
         for ($i = 0; $i < count($this->format_options); ++$i) {
-            if ($this->format_options[$i]["depth"] == $a_depth+1
+            if ($this->format_options[$i]["depth"] == $a_depth + 1
                and !$this->format_options[$i]["container"]
                 and $this->format_options[$i]["depth"] != 1) {
                 $this->format_options[$i]["tab"]["$a_depth"] = "quer";
             }
 
-            if ($this->format_options[$i]["depth"] == $a_depth+2) {
-                if ($this->is_in_array($i+1, $this->format_options[$i]["depth"])) {
+            if ($this->format_options[$i]["depth"] == $a_depth + 2) {
+                if ($this->is_in_array($i + 1, $this->format_options[$i]["depth"])) {
                     $this->format_options[$i]["tab"]["$a_depth"] = "winkel";
                 } else {
                     $this->format_options[$i]["tab"]["$a_depth"] = "ecke";
                 }
             }
 
-            if ($this->format_options[$i]["depth"] > $a_depth+2) {
-                if ($this->is_in_array($i+1, $a_depth+2)) {
+            if ($this->format_options[$i]["depth"] > $a_depth + 2) {
+                if ($this->is_in_array($i + 1, $a_depth + 2)) {
                     $this->format_options[$i]["tab"]["$a_depth"] = "hoch";
                 }
             }
@@ -1239,7 +1239,7 @@ class ilExplorer
     */
     public function is_in_array($a_start, $a_depth)
     {
-        for ($i=$a_start;$i<count($this->format_options);++$i) {
+        for ($i = $a_start;$i < count($this->format_options);++$i) {
             if ($this->format_options[$i]["depth"] < $a_depth) {
                 break;
             }

@@ -71,8 +71,8 @@ class ilMailbox
         global $DIC;
 
         $this->ilias = $DIC['ilias'];
-        $this->lng   = $DIC->language();
-        $this->db    = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
 
         $this->user_id = $a_user_id;
 
@@ -91,19 +91,19 @@ class ilMailbox
             $this->lng->loadLanguageModule("mail");
 
             $this->actions = array(
-                "moveMails"        => $this->lng->txt("mail_move_to"),
-                "markMailsRead"   => $this->lng->txt("mail_mark_read"),
+                "moveMails" => $this->lng->txt("mail_move_to"),
+                "markMailsRead" => $this->lng->txt("mail_mark_read"),
                 "markMailsUnread" => $this->lng->txt("mail_mark_unread"),
-                "deleteMails"      => $this->lng->txt("delete"));
+                "deleteMails" => $this->lng->txt("delete"));
         }
         
         // array contains basic folders and there lng translation for every new user
         $this->default_folder = array(
-            "b_inbox"     => "inbox",
-            "c_trash"     => "trash",
-            "d_drafts"    => "drafts",
-            "e_sent"      => "sent",
-            "z_local"     => "local");
+            "b_inbox" => "inbox",
+            "c_trash" => "trash",
+            "d_drafts" => "drafts",
+            "e_sent" => "sent",
+            "z_local" => "local");
     }
 
     /**
@@ -349,7 +349,7 @@ class ilMailbox
         $this->mtree->deleteTree($this->mtree->getNodeData($a_folder_id));
 
         foreach ($subtree as $node) {
-            $mails    = $umail->getMailsOfFolder($node["obj_id"]);
+            $mails = $umail->getMailsOfFolder($node["obj_id"]);
             $mail_ids = array();
             foreach ($mails as $mail) {
                 $mail_ids[] = $mail["mail_id"];
@@ -388,8 +388,8 @@ class ilMailbox
 
         return array(
             'obj_id' => $row['obj_id'],
-            'title'  => $row['title'],
-            'type'   => $row['m_type']
+            'title' => $row['title'],
+            'type' => $row['m_type']
         );
     }
 
@@ -439,8 +439,8 @@ class ilMailbox
             $row = $this->db->fetchAssoc($res);
 
             $user_folder[] = array(
-                'title'  => $key,
-                'type'   => $row['m_type'],
+                'title' => $key,
+                'type' => $row['m_type'],
                 'obj_id' => $row['obj_id']
             );
         }
@@ -457,8 +457,8 @@ class ilMailbox
         );
         while ($row = $this->db->fetchAssoc($res)) {
             $user_folder[] = array(
-                'title'  => $row['title'],
-                'type'   => $row['m_type'],
+                'title' => $row['title'],
+                'type' => $row['m_type'],
                 'obj_id' => $row['child']
             );
         }

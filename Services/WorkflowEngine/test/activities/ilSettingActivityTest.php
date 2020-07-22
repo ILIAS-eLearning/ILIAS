@@ -93,7 +93,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         
         // Act
         $expected_name = 'Ralle';
-        $expected_value  = 'OK';
+        $expected_value = 'OK';
         $activity->setSetting($expected_name, $expected_value);
         $actual_name = $activity->getSettingName();
         $actual_value = $activity->getSettingValue();
@@ -110,7 +110,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         // Arrange
         $activity = new ilSettingActivity($this->node);
         $expected_name = 'Ralle';
-        $expected_val  = 'OK';
+        $expected_val = 'OK';
         $activity->setSetting($expected_name, $expected_val);
 
         require_once './Services/Administration/classes/class.ilSetting.php';

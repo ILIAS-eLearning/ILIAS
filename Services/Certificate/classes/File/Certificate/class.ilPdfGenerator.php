@@ -44,7 +44,7 @@ class ilPdfGenerator
         ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
         $this->certificateRepository = $userCertificateRepository;
-        $this->logger                = $logger;
+        $this->logger = $logger;
 
         if (null === $rpcHelper) {
             $rpcHelper = new ilCertificateRpcClientFactoryHelper();

@@ -82,17 +82,17 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         $placeholders = array();
         
         $placeholders['ass_title'] = array(
-            'placeholder'	=> 'ASSIGNMENT_TITLE',
-            'label'			=> $lng->txt('exc_mail_context_reminder_assignment_title')
+            'placeholder' => 'ASSIGNMENT_TITLE',
+            'label' => $lng->txt('exc_mail_context_reminder_assignment_title')
         );
         $placeholders['exc_title'] = array(
-            'placeholder'	=> 'EXERCISE_TITLE',
-            'label'			=> $lng->txt('exc_mail_context_reminder_exercise_title')
+            'placeholder' => 'EXERCISE_TITLE',
+            'label' => $lng->txt('exc_mail_context_reminder_exercise_title')
         );
                                 
         $placeholders['ass_link'] = array(
-            'placeholder'	=> 'ASSIGNMENT_LINK',
-            'label'			=> $lng->txt('perma_link')
+            'placeholder' => 'ASSIGNMENT_LINK',
+            'label' => $lng->txt('perma_link')
         );
 
         return $placeholders;

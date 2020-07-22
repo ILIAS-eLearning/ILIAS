@@ -120,7 +120,7 @@ class ilECSMappingUtils
                 $lecturers = array();
                 foreach ((array) $course->groups as $group) {
                     foreach ((array) $group->lecturers as $lecturer) {
-                        $lecturers[] =  (string) ($lecturer->lastName . ', ' . $lecturer->firstName);
+                        $lecturers[] = (string) ($lecturer->lastName . ', ' . $lecturer->firstName);
                     }
                 }
                 return $lecturers;

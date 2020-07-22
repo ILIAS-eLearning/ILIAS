@@ -94,8 +94,8 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
         /** @var ilLanguage $lng */
         $lng = $DIC['lng'];
 
-        $workflow = substr($params, 2, strpos($params, 'EVT')-2);
-        $event = substr($params, strpos($params, 'EVT')+3);
+        $workflow = substr($params, 2, strpos($params, 'EVT') - 2);
+        $event = substr($params, strpos($params, 'EVT') + 3);
 
         $type = 'endpoint_event';
         $content = 'was_requested';

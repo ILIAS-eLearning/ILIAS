@@ -98,7 +98,7 @@ class ilDAVCronDiskQuota extends ilCronJob
         $a_form->addItem($cb_prop_reminder);
         
         // Enable summary mail for certain users
-        $cb_prop_summary= new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
+        $cb_prop_summary = new ilCheckboxInputGUI($lng->txt("enable_disk_quota_summary_mail"), "enable_disk_quota_summary_mail");
         $cb_prop_summary->setValue(1);
         $cb_prop_summary->setChecked($disk_quota_obj->isDiskQuotaSummaryMailEnabled());
         $cb_prop_summary->setInfo($lng->txt('enable_disk_quota_summary_mail_desc'));

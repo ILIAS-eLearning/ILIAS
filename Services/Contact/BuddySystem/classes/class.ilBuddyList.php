@@ -95,7 +95,7 @@ class ilBuddyList
     public function reset()
     {
         $this->relations_read = false;
-        $this->relations      = null;
+        $this->relations = null;
         unset(self::$instances[$this->getOwnerId()]);
     }
 

@@ -63,16 +63,16 @@ class ilTimingsCronReminder extends ilCronJob
         global $ilObjDataCache, $lng, $ilDB;
 
         $this->log = $DIC->logger()->crs();
-        $this->lng	= $DIC->language();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('crs');
-        $this->db	= $DIC->database();
+        $this->db = $DIC->database();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
 
-        self::$objects_information         = array();
-        self::$coaches_emails              = array();
+        self::$objects_information = array();
+        self::$coaches_emails = array();
         $this->users_with_exceeded_timings = array();
-        $this->users                       = array();
-        $this->now                         = time();
+        $this->users = array();
+        $this->now = time();
     }
 
     /**
@@ -171,7 +171,7 @@ class ilTimingsCronReminder extends ilCronJob
             array($now, $now)
         );
         while ($row = $this->db->fetchAssoc($query)) {
-            $usr_id               = (int) $row['usr_id'];
+            $usr_id = (int) $row['usr_id'];
             $this->users[$usr_id] = $usr_id;
         }
         $this->log->debug('Found ' . count($this->users) . ' users.');
@@ -202,7 +202,7 @@ class ilTimingsCronReminder extends ilCronJob
                     $objects = array_diff_key($objects, $already_notified);
                     foreach ($objects as $ref_id => $v) {
                         $detail_data = $this->getInformationForRefId($ref_id);
-                        $obj_data[$ref_id]				= $detail_data;
+                        $obj_data[$ref_id] = $detail_data;
                     }
                     if (count($obj_data) > 0) {
                         $users_with_exceeded_objects[$user_id] = $obj_data;
@@ -231,7 +231,7 @@ class ilTimingsCronReminder extends ilCronJob
                     $this->log->debug('User_id ' . $user_id . ' was already notified for ' . sizeof($already_notified) . ' elements ');
                     $objects = array_diff_key($objects, $already_notified);
                     foreach ($objects as $ref_id => $v) {
-                        $obj_data[$ref_id]	= $this->getInformationForRefId($ref_id);
+                        $obj_data[$ref_id] = $this->getInformationForRefId($ref_id);
 
                         if (is_array($objects[$ref_id])) {
                             if ((isset($objects[$ref_id]['end']) && isset($objects[$ref_id]['start'])) && $objects[$ref_id]['end'] > $this->now) {
@@ -357,9 +357,9 @@ class ilTimingsCronReminder extends ilCronJob
      */
     protected function buildMailSalutation($user_id, $tpl)
     {
-        $name		= ilObjUser::_lookupName($user_id);
+        $name = ilObjUser::_lookupName($user_id);
         if (is_array($name)) {
-            $salutation	= $this->user_lang->txt('mail_salutation_n') . ' ';
+            $salutation = $this->user_lang->txt('mail_salutation_n') . ' ';
             if ($name['gender'] != '') {
                 $salutation .= $this->user_lang->txt('salutation_' . $name['gender']) . ' ';
             }
@@ -478,11 +478,11 @@ class ilTimingsCronReminder extends ilCronJob
      */
     protected function getAlreadySentNotifications($user_id, $for_exceeded = true)
     {
-        $ref_ids	= array();
-        $table		= ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE;
+        $ref_ids = array();
+        $table = ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE;
 
         if (!$for_exceeded) {
-            $table =  ilCourseConstants::CRON_TIMINGS_STARTED_TABLE;
+            $table = ilCourseConstants::CRON_TIMINGS_STARTED_TABLE;
         }
 
         $result = $this->db->queryF(
@@ -507,11 +507,11 @@ class ilTimingsCronReminder extends ilCronJob
     {
         if (!array_key_exists($ref_id, self::$objects_information)) {
             $obj_id = $this->obj_data_cache->lookupObjId($ref_id);
-            $type 	= $this->obj_data_cache->lookupType($obj_id);
-            $value = array(	'title'	=> $this->obj_data_cache->lookupTitle($obj_id),
-                            'type'	=> $type,
-                            'url'	=> ilLink::_getLink($ref_id, $type),
-                            'obj_id'=> $obj_id
+            $type = $this->obj_data_cache->lookupType($obj_id);
+            $value = array(	'title' => $this->obj_data_cache->lookupTitle($obj_id),
+                            'type' => $type,
+                            'url' => ilLink::_getLink($ref_id, $type),
+                            'obj_id' => $obj_id
             );
             self::$objects_information[$ref_id] = $value;
 

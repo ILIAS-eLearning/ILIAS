@@ -159,8 +159,8 @@ abstract class ilCronJob
                 return ($last != $ref);
                 
             case self::SCHEDULE_TYPE_QUARTERLY:
-                $last = date("Y", $a_ts_last_run) . "-" . ceil(date("n", $a_ts_last_run)/3);
-                $ref = date("Y", $now) . "-" . ceil(date("n", $now)/3);
+                $last = date("Y", $a_ts_last_run) . "-" . ceil(date("n", $a_ts_last_run) / 3);
+                $ref = date("Y", $now) . "-" . ceil(date("n", $now) / 3);
                 return ($last != $ref);
                 
             case self::SCHEDULE_TYPE_YEARLY:
@@ -169,15 +169,15 @@ abstract class ilCronJob
                 return ($last != $ref);
             
             case self::SCHEDULE_TYPE_IN_MINUTES:
-                $diff = floor(($now-$a_ts_last_run)/60);
+                $diff = floor(($now - $a_ts_last_run) / 60);
                 return ($diff >= $a_schedule_value);
                 
             case self::SCHEDULE_TYPE_IN_HOURS:
-                $diff = floor(($now-$a_ts_last_run)/(60*60));
+                $diff = floor(($now - $a_ts_last_run) / (60 * 60));
                 return ($diff >= $a_schedule_value);
                 
             case self::SCHEDULE_TYPE_IN_DAYS:
-                $diff = floor(($now-$a_ts_last_run)/(60*60*24));
+                $diff = floor(($now - $a_ts_last_run) / (60 * 60 * 24));
                 return ($diff >= $a_schedule_value);
         }
     }

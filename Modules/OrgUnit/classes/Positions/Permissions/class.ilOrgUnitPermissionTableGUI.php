@@ -145,12 +145,12 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
                 $from_templates[$position->getId()] = $is_template;
 
                 $ops[] = [
-                    "op_id"          => $op->getOperationId(),
-                    "operation"      => $op,
-                    "position"       => $position,
-                    "permission"     => $ilOrgUnitPermission,
+                    "op_id" => $op->getOperationId(),
+                    "operation" => $op,
+                    "position" => $position,
+                    "permission" => $ilOrgUnitPermission,
                     "permission_set" => $ilOrgUnitPermission->isOperationIdSelected($op->getOperationId()),
-                    "from_template"  => $is_template,
+                    "from_template" => $is_template,
                 ];
             }
             $perms[] = $ops;
@@ -158,16 +158,16 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
         $perms[] = [
             "show_select_all" => true,
-            "positions"       => $positions,
-            "ops"             => $ops_ids,
-            "template"        => $from_templates,
+            "positions" => $positions,
+            "ops" => $ops_ids,
+            "template" => $from_templates,
         ];
         if (ilOrgUnitGlobalSettings::getInstance()
                                    ->isPositionAccessActiveForObject($this->getObjId())) {
             $perms[] = [
                 "header_command" => true,
-                "positions"      => $positions,
-                "template"       => $from_templates,
+                "positions" => $positions,
+                "template" => $from_templates,
             ];
         }
 

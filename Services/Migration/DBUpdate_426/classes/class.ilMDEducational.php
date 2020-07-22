@@ -311,15 +311,15 @@ class ilMDEducational extends ilMDBase
             $this->db->query($query);
 
             foreach ($this->getTypicalAgeRangeIds() as $id) {
-                $typ =&$this->getTypicalAgeRange($id);
+                $typ = &$this->getTypicalAgeRange($id);
                 $typ->delete();
             }
             foreach ($this->getDescriptionIds() as $id) {
-                $des =&$this->getDescription($id);
+                $des = &$this->getDescription($id);
                 $des->delete();
             }
             foreach ($this->getLanguageIds() as $id) {
-                $lan =&$this->getLanguage($id);
+                $lan = &$this->getLanguage($id);
                 $lan->delete();
             }
 
@@ -332,9 +332,9 @@ class ilMDEducational extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> $this->getRBACId(),
-                     'obj_id'	=> $this->getObjId(),
-                     'obj_type'	=> ilUtil::prepareDBString($this->getObjType()),
+        return array('rbac_id' => $this->getRBACId(),
+                     'obj_id' => $this->getObjId(),
+                     'obj_type' => ilUtil::prepareDBString($this->getObjType()),
                      'interactivity_type' => ilUtil::prepareDBString($this->getInteractivityType()),
                      'learning_resource_type' => ilUtil::prepareDBString($this->getLearningResourceType()),
                      'interactivity_level' => ilUtil::prepareDBString($this->getInteractivityLevel()),
@@ -393,7 +393,7 @@ class ilMDEducational extends ilMDBase
                              
         // TypicalAgeRange
         foreach ($this->getTypicalAgeRangeIds() as $id) {
-            $key =&$this->getTypicalAgeRange($id);
+            $key = &$this->getTypicalAgeRange($id);
             $key->toXML($writer);
         }
         // TypicalLearningTime
@@ -401,12 +401,12 @@ class ilMDEducational extends ilMDBase
 
         // Description
         foreach ($this->getDescriptionIds() as $id) {
-            $key =&$this->getDescription($id);
+            $key = &$this->getDescription($id);
             $key->toXML($writer);
         }
         // Language
         foreach ($this->getLanguageIds() as $id) {
-            $lang =&$this->getLanguage($id);
+            $lang = &$this->getLanguage($id);
             $lang->toXML($writer);
         }
         $writer->xmlEndTag('Educational');

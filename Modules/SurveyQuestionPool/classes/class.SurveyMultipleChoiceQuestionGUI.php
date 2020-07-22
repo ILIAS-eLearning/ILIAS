@@ -321,7 +321,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
                                 if (strlen($value["value"])) {
-                                    if ($value["value"] == $cat->scale-1) {
+                                    if ($value["value"] == $cat->scale - 1) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
                                         if (!$value['uncheck']) {
                                             $template->setVariable("CHECKED_MC", " checked=\"checked\"");
@@ -342,7 +342,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
                                 if (strlen($value["value"])) {
-                                    if ($value["value"] == $cat->scale-1) {
+                                    if ($value["value"] == $cat->scale - 1) {
                                         if (!$value['uncheck']) {
                                             $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                         }
@@ -372,7 +372,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                     if (is_array($working_data)) {
                         foreach ($working_data as $value) {
                             if (strlen($value["value"])) {
-                                if ($value["value"] == $cat->scale-1) {
+                                if ($value["value"] == $cat->scale - 1) {
                                     if (!$value['uncheck']) {
                                         $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                     }
@@ -393,7 +393,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         if (is_array($working_data)) {
                             foreach ($working_data as $value) {
                                 if (strlen($value["value"])) {
-                                    if ($value["value"] == $cat->scale-1) {
+                                    if ($value["value"] == $cat->scale - 1) {
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
                                     }
                                 }

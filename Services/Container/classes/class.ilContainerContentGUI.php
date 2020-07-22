@@ -401,11 +401,11 @@ abstract class ilContainerContentGUI
 
         // get item list gui object
         if (!is_object($this->list_gui[$item_data["type"]])) {
-            $item_list_gui =&ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
+            $item_list_gui = &ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
             $item_list_gui->setContainerObject($this->getContainerGUI());
-            $this->list_gui[$item_data["type"]] =&$item_list_gui;
+            $this->list_gui[$item_data["type"]] = &$item_list_gui;
         } else {
-            $item_list_gui =&$this->list_gui[$item_data["type"]];
+            $item_list_gui = &$this->list_gui[$item_data["type"]];
         }
 
         // unique js-ids
@@ -565,7 +565,7 @@ abstract class ilContainerContentGUI
         if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
-                sprintf('%d', (int) $a_position*10)
+                sprintf('%d', (int) $a_position * 10)
             );
         }
         
@@ -646,7 +646,7 @@ abstract class ilContainerContentGUI
                 if ($this->getContainerGUI()->isActiveItemOrdering()) {
                     $item_list_gui2->setPositionInputField(
                         "[sess][" . $a_item_data['obj_id'] . "][" . $item["ref_id"] . "]",
-                        sprintf('%d', (int) $pos*10)
+                        sprintf('%d', (int) $pos * 10)
                     );
                     $pos++;
                 }
@@ -724,6 +724,7 @@ abstract class ilContainerContentGUI
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();
         $user = $DIC->user();
+        $access = $DIC->access();
 
         $item_list_gui = $this->getItemGUI($a_item_data);
         $item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
@@ -820,6 +821,26 @@ abstract class ilContainerContentGUI
 
         $icon = $f->icon()->standard($a_item_data["type"], $this->lng->txt("obj_" . $a_item_data["type"]))
             ->withIsOutlined(true);
+
+        // card title action
+        $card_title_action = "";
+        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
+            $card_title_action = $modified_link;
+        } else if ($def_command['link'] == "" &&
+            $item_list_gui->getInfoScreenStatus() &&
+            $access->checkAccessOfUser(
+                $user->getId(),
+                "visible",
+                "",
+                $a_item_data["ref_id"]
+            )) {
+            $card_title_action = ilLink::_getLink($a_item_data["ref_id"]);
+            if ($image->getAction() == "") {
+                $image = $image->withAction($card_title_action);
+            }
+        }
+
+
         $card = $f->card()->repositoryObject(
             $title . "<span data-list-item-id='" . $item_list_gui->getUniqueItemId(true) . "'></span>",
             $image
@@ -829,14 +850,14 @@ abstract class ilContainerContentGUI
             $dropdown
         );
 
-        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {	// #24256
-            $card = $card->withTitleAction($modified_link);
+        if ($card_title_action != "") {
+            $card = $card->withTitleAction($card_title_action);
         }
 
         // properties
         $l = [];
         foreach ($item_list_gui->determineProperties() as $p) {
-            if ($p["property"] != $this->lng->txt("learning_progress")) {
+            if ($p["alert"] && $p["property"] != $this->lng->txt("learning_progress")) {
                 $l[(string) $p["property"]] = (string) $p["value"];
             }
         }
@@ -1058,7 +1079,7 @@ abstract class ilContainerContentGUI
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
         include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
         $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
-        if ($stored_val !== false) {
+        if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;

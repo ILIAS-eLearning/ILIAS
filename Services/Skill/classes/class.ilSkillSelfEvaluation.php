@@ -360,15 +360,15 @@ class ilSkillSelfEvaluation
                     reset($ls);
                     foreach ($ls as $ld) {
                         if ($ld["id"] == $levels[$child["child"]]) {
-                            $sum+= $ord[$ld["id"]];
+                            $sum += $ord[$ld["id"]];
                         }
                     }
-                    $cnt+= 1;
+                    $cnt += 1;
                 }
             }
         }
         if ($cnt > 0) {
-            $avg = round($sum/$cnt);
+            $avg = round($sum / $cnt);
             if ($avg > 0) {
                 return (array("skill_title" => $cnode["title"],
                     "ord" => $avg, "avg_title" => $ls[$avg - 1]["title"]));

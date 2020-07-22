@@ -88,8 +88,8 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                     $sco = new ilSCORM2004Sco(
                         $this->node_object->getSLMObject(),
                         $this->node_object->tree->getParentId(
-                                    $this->node_object->getId()
-                                )
+                            $this->node_object->getId()
+                        )
                     );
                     if (count($sco->getGlossaryTermIds()) > 1) {
                         include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");

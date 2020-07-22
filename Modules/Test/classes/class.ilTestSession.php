@@ -189,8 +189,8 @@ class ilTestSession
             $_SESSION[$this->active_id]['tst_last_increase_pass'] = time();
             $this->tstamp = time();
             $ilDB->update(
-                    'tst_active',
-                    array(
+                'tst_active',
+                array(
                         'lastindex' => array('integer', $this->getLastSequence()),
                         'tries' => array('integer', $this->getPass()),
                         'submitted' => array('integer', $submitted),
@@ -200,10 +200,10 @@ class ilTestSession
                         'last_started_pass' => array('integer', $this->getLastStartedPass()),
                         'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
                     ),
-                    array(
+                array(
                         'active_id' => array('integer', $this->getActiveId())
                     )
-                );
+            );
         }
     }
     
@@ -222,7 +222,7 @@ class ilTestSession
                     'tries' => array('integer', $this->getPass()),
                     'submitted' => array('integer', $submitted),
                     'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                    'tstamp' => array('integer', time()-10),
+                    'tstamp' => array('integer', time() - 10),
                     'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                     'last_started_pass' => array('integer', $this->getPass()),
                     'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
@@ -247,7 +247,7 @@ class ilTestSession
                         'tries' => array('integer', $this->getPass()),
                         'submitted' => array('integer', $submitted),
                         'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : null),
-                        'tstamp' => array('integer', time()-10),
+                        'tstamp' => array('integer', time() - 10),
                         'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
                         'last_started_pass' => array('integer', $this->getPass()),
                         'objective_container' => array('integer', (int) $this->getObjectiveOrientedContainerId())
@@ -567,7 +567,7 @@ class ilTestSession
         $code = "";
 
         for ($i = 1; $i <= self::ACCESS_CODE_LENGTH; $i++) {
-            $index = mt_rand(0, strlen($codestring)-1);
+            $index = mt_rand(0, strlen($codestring) - 1);
             $code .= substr($codestring, $index, 1);
         }
 

@@ -311,22 +311,22 @@ $c["ui.renderer"] = function ($c) {
 $c["ui.component_renderer_loader"] = function ($c) {
     return new ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
         new ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
-        $c["ui.resource_registry"],
-        new ILIAS\UI\Implementation\Render\FSLoader(
-                new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
-                $c["ui.factory"],
-                $c["ui.template_factory"],
-                $c["lng"],
-                $c["ui.javascript_binding"]
-            ),
-                new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
+            $c["ui.resource_registry"],
+            new ILIAS\UI\Implementation\Render\FSLoader(
+            new ILIAS\UI\Implementation\Render\DefaultRendererFactory(
+                    $c["ui.factory"],
+                    $c["ui.template_factory"],
+                    $c["lng"],
+                    $c["ui.javascript_binding"]
+                ),
+            new ILIAS\UI\Implementation\Component\Glyph\GlyphRendererFactory(
                     $c["ui.factory"],
                     $c["ui.template_factory"],
                     $c["lng"],
                     $c["ui.javascript_binding"]
                 )
-            )
-    )
+        )
+        )
     );
 };
 $c["ui.template_factory"] = function ($c) {

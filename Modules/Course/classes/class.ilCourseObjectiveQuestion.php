@@ -334,12 +334,12 @@ class ilCourseObjectiveQuestion
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $test['test_objective_id'] = $row->test_objective_id;
-            $test['objective_id']		= $row->objective_id;
-            $test['ref_id']			= $row->ref_id;
-            $test['obj_id']			= $row->obj_id;
-            $test['tst_status']		= $row->tst_status;
-            $test['tst_limit']		= $row->tst_limit_p;
-            $test['title']			= $row->title;
+            $test['objective_id'] = $row->objective_id;
+            $test['ref_id'] = $row->ref_id;
+            $test['obj_id'] = $row->obj_id;
+            $test['tst_status'] = $row->tst_status;
+            $test['tst_limit'] = $row->tst_limit_p;
+            $test['title'] = $row->title;
 
             $tests[] = $test;
         }
@@ -392,11 +392,11 @@ class ilCourseObjectiveQuestion
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $test['test_objective_id'] = $row->test_objective_id;
-            $test['objective_id']		= $row->objective_id;
-            $test['ref_id']			= $row->ref_id;
-            $test['obj_id']			= $row->obj_id;
-            $test['tst_status']		= $row->tst_status;
-            $test['tst_limit']		= $row->tst_limit_p;
+            $test['objective_id'] = $row->objective_id;
+            $test['ref_id'] = $row->ref_id;
+            $test['obj_id'] = $row->obj_id;
+            $test['tst_status'] = $row->tst_status;
+            $test['tst_limit'] = $row->tst_limit_p;
         }
 
         return $test ? $test : array();
@@ -562,9 +562,9 @@ class ilCourseObjectiveQuestion
 
         $points = 0;
         foreach ($this->getQuestions() as $question) {
-            $tmp_test =&ilObjectFactory::getInstanceByRefId($question['ref_id']);
+            $tmp_test = &ilObjectFactory::getInstanceByRefId($question['ref_id']);
 
-            $tmp_question =&ilObjTest::_instanciateQuestion($question['question_id']);
+            $tmp_question = &ilObjTest::_instanciateQuestion($question['question_id']);
 
             $points += $tmp_question->getMaximumPoints();
 
@@ -578,11 +578,11 @@ class ilCourseObjectiveQuestion
     {
         $points = 0;
 
-        $tmp_test =&ilObjectFactory::getInstanceByRefId($a_test_ref_id);
+        $tmp_test = &ilObjectFactory::getInstanceByRefId($a_test_ref_id);
 
         foreach ($this->getQuestions() as $question) {
             if ($question['ref_id'] == $a_test_ref_id) {
-                $tmp_question =&ilObjTest::_instanciateQuestion($question['question_id']);
+                $tmp_question = &ilObjTest::_instanciateQuestion($question['question_id']);
 
                 $points += $tmp_question->getMaximumPoints();
 
@@ -816,7 +816,7 @@ class ilCourseObjectiveQuestion
         include_once('Modules/Course/classes/class.ilCourseObjective.php');
 
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
-        $container_ref_id  = current($container_ref_ids);
+        $container_ref_id = current($container_ref_ids);
         
         // Read test data
         $query = "SELECT * FROM crs_objective_tst " .

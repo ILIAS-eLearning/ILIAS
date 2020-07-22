@@ -132,7 +132,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
 
@@ -291,7 +291,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
         $ui = $DIC->ui();
-        $ilSetting =$DIC->settings();
+        $ilSetting = $DIC->settings();
 
         $message = "";
         // page type: blog
@@ -421,7 +421,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
                 $obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), "blog");
                 $obj->setRequired(true);
-                $obj->setOptions(array(""=>$this->lng->txt("please_select"))+$options);
+                $obj->setOptions(array("" => $this->lng->txt("please_select")) + $options);
                 $type_blog->addSubItem($obj);
             } else {
                 $type->setValue("page");
@@ -441,7 +441,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         } else {
             $tmpl = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtt");
             $tmpl->setRequired(true);
-            $tmpl->setOptions(array(""=>$this->lng->txt("please_select"))+$templates);
+            $tmpl->setOptions(array("" => $this->lng->txt("please_select")) + $templates);
             $opt_tmpl->addSubItem($tmpl);
             
             // incoming from repository
@@ -885,7 +885,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
                             $obj = new ilSelectInputGUI($this->lng->txt("obj_blog"), $field_id . "_reuse_blog");
                             $obj->setRequired(true);
-                            $obj->setOptions(array(""=>$this->lng->txt("please_select"))+$blog_options);
+                            $obj->setOptions(array("" => $this->lng->txt("please_select")) + $blog_options);
                             $reuse_blog->addSubItem($obj);
                         }
                                                 
@@ -1258,7 +1258,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $radg->setValue("all_pages");
         $op2 = new ilRadioOption($lng->txt("prtf_all_pages"), "all_pages");
         $radg->addOption($op2);
-        $op3= new ilRadioOption($lng->txt("prtf_selected_pages"), "selection");
+        $op3 = new ilRadioOption($lng->txt("prtf_selected_pages"), "selection");
         $radg->addOption($op3);
 
         include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");

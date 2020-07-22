@@ -124,7 +124,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                     $badge_item["parent_title"];
             
             if ((bool) $badge_item["deleted"]) {
-                $container .=  ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
+                $container .= ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
             } else {
                 $ref_id = array_shift(ilObject::_getAllReferences($badge_item["parent_id"]));
                 if ($ilAccess->checkAccess("read", "", $ref_id)) {
@@ -136,7 +136,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                                     
             $data[] = array(
                 "id" => $badge_item["id"],
-                "active"=> $badge_item["active"],
+                "active" => $badge_item["active"],
                 "type" => $type_caption,
                 "title" => $badge_item["title"],
                 "container_meta" => $container,

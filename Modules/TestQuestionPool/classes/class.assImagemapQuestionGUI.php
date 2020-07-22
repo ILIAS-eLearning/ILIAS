@@ -201,7 +201,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $image->setValue($this->object->getImageFilename());
             $image->setAreas($this->object->getAnswers());
             $assessmentSetting = new ilSetting("assessment");
-            $linecolor         = (strlen(
+            $linecolor = (strlen(
                 $assessmentSetting->get("imap_line_color")
             )) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
             $image->setLineColor($linecolor);
@@ -245,7 +245,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 break;
             case "circle":
                 if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $_POST['image']['mapcoords'][0] . " " . $_POST['image']['mapcoords'][1], $matches)) {
-                    $coords = "$matches[1],$matches[2]," . (int) sqrt((($matches[3]-$matches[1])*($matches[3]-$matches[1]))+(($matches[4]-$matches[2])*($matches[4]-$matches[2])));
+                    $coords = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
                 }
                 ilUtil::sendSuccess($this->lng->txt('msg_circle_added'), true);
                 break;
@@ -314,7 +314,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $preview->addPoint($preview->getAreaCount(), join($coords, ","), true, "blue");
                 } elseif (count($coords) == 2) {
                     if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $coords[0] . " " . $coords[1], $matches)) {
-                        $c = "$matches[1],$matches[2]," . (int) sqrt((($matches[3]-$matches[1])*($matches[3]-$matches[1]))+(($matches[4]-$matches[2])*($matches[4]-$matches[2])));
+                        $c = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
                     }
                     $hidearea = true;
                     $disabled_save = "";
@@ -441,7 +441,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $pass = ilObjTest::_getPass($active_id);
                 }
             }
-            $solutions =&$this->object->getSolutionValues($active_id, $pass);
+            $solutions = &$this->object->getSolutionValues($active_id, $pass);
         } else {
             if (!$this->object->getIsMultipleChoice()) {
                 $found_index = -1;
@@ -456,7 +456,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             } else {
                 // take the correct solution instead of the user solution
                 foreach ($this->object->answers as $index => $answer) {
-                    $points_checked   = $answer->getPoints();
+                    $points_checked = $answer->getPoints();
                     $points_unchecked = $answer->getPointsUnchecked();
                     if ($points_checked > $points_unchecked) {
                         if ($points_checked > 0) {
@@ -485,7 +485,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $questiontext = $this->object->getQuestion();
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         
@@ -577,7 +577,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", true, true, "Modules/TestQuestionPool");
 
-        if ($this->getQuestionActionCmd()  && strlen($this->getTargetGuiClass())) {
+        if ($this->getQuestionActionCmd() && strlen($this->getTargetGuiClass())) {
             $hrefArea = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), $this->getQuestionActionCmd());
         } else {
             $hrefArea = null;
@@ -981,7 +981,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $image->setValue($this->object->getImageFilename());
             $image->setAreas($this->object->getAnswers());
             $assessmentSetting = new ilSetting("assessment");
-            $linecolor         = (strlen(
+            $linecolor = (strlen(
                 $assessmentSetting->get("imap_line_color")
             )) ? "\"#" . $assessmentSetting->get("imap_line_color") . "\"" : "\"#FF0000\"";
             $image->setLineColor($linecolor);

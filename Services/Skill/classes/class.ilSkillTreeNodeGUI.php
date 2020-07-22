@@ -296,7 +296,7 @@ class ilSkillTreeNodeGUI
             include_once("./Services/Skill/classes/class.ilSkillTree.php");
             $tree = new ilSkillTree();
             $path = $tree->getPathFull($_GET["obj_id"]);
-            for ($i =  1; $i < count($path); $i++) {
+            for ($i = 1; $i < count($path); $i++) {
                 switch ($path[$i]["type"]) {
                     case "scat":
                         $ilCtrl->setParameterByClass(
@@ -361,7 +361,7 @@ class ilSkillTreeNodeGUI
             $desc = "";
             foreach ($path as $p) {
                 if (in_array($p["type"], array("scat", "skll", "sktr"))) {
-                    $desc.= $sep . $p["title"];
+                    $desc .= $sep . $p["title"];
                     $sep = " > ";
                 }
             }
@@ -752,7 +752,7 @@ class ilSkillTreeNodeGUI
         include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html.= $tab->getHTML() . "<br/><br/>";
+            $html .= $tab->getHTML() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

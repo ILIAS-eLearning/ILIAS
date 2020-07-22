@@ -151,7 +151,7 @@ class HTML_Template_IT
      * @access   public
      * @see      $openingDelimiter, $blocknameRegExp, $variablenameRegExp
      */
-    public $closingDelimiter     = '}';
+    public $closingDelimiter = '}';
 
     /**
      * RegExp matching a block in the template.
@@ -161,7 +161,7 @@ class HTML_Template_IT
      * @access   public
      * @see      $variablenameRegExp, $openingDelimiter, $closingDelimiter
      */
-    public $blocknameRegExp    = '[\.0-9A-Za-z_-]+';
+    public $blocknameRegExp = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp matching a variable placeholder in the template.
@@ -171,7 +171,7 @@ class HTML_Template_IT
      * @access   public
      * @see      $blocknameRegExp, $openingDelimiter, $closingDelimiter
      */
-    public $variablenameRegExp    = '[\.0-9A-Za-z_-]+';
+    public $variablenameRegExp = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp used to find variable placeholder, filled by the constructor.
@@ -353,7 +353,7 @@ class HTML_Template_IT
      */
     public $_options = array(
         'preserve_data' => false,
-        'use_preg'      => true
+        'use_preg' => true
     );
 
     /**
@@ -446,7 +446,7 @@ class HTML_Template_IT
      */
     public function get($block = '__global__')
     {
-        if ($block == '__global__'  && !$this->flagGlobalParsed) {
+        if ($block == '__global__' && !$this->flagGlobalParsed) {
             $this->parse('__global__');
         }
 
@@ -466,7 +466,7 @@ class HTML_Template_IT
                         '%preserved%' . $this->closingDelimiter,
                     $this->openingDelimiter,
                     $ret
-                    );
+                );
             }
             return $ret;
         }
@@ -496,7 +496,7 @@ class HTML_Template_IT
         }
 
         if (!$flag_recursion) {
-            $regs   = array();
+            $regs = array();
             $values = array();
         }
         $outer = $this->blocklist[$block];
@@ -513,7 +513,7 @@ class HTML_Template_IT
         } else {
             foreach ($this->blockvariables[$block] as $allowedvar => $v) {
                 if (isset($this->variableCache[$allowedvar])) {
-                    $regs[]   = $this->openingDelimiter .
+                    $regs[] = $this->openingDelimiter .
                                $allowedvar . $this->closingDelimiter;
                     $values[] = $this->variableCache[$allowedvar];
                     unset($this->variableCache[$allowedvar]);
@@ -535,18 +535,18 @@ class HTML_Template_IT
                     $placeholder,
                     $this->blockdata[$innerblock],
                     $outer
-                        );
+                );
                 $this->blockdata[$innerblock] = "";
             }
         }
 
         if (!$flag_recursion && 0 != count($values)) {
             if ($this->_options['use_preg']) {
-                $regs        = array_map(
+                $regs = array_map(
                     array(
                                     &$this, '_addPregDelimiters'),
                     $regs
-                                );
+                );
                 $funcReplace = 'preg_replace';
             } else {
                 $funcReplace = 'str_replace';
@@ -556,7 +556,7 @@ class HTML_Template_IT
                 $values = array_map(
                     array(&$this, '_preserveOpeningDelimiter'),
                     $values
-                        );
+                );
             }
 
             $outer = $funcReplace($regs, $values, $outer);
@@ -568,7 +568,7 @@ class HTML_Template_IT
 
         if ($empty) {
             if (!$this->removeEmptyBlocks) {
-                $this->blockdata[$block ].= $outer;
+                $this->blockdata[$block ] .= $outer;
             } else {
                 if (isset($this->touchedBlocks[$block])) {
                     $this->blockdata[$block] .= $outer;
@@ -616,7 +616,7 @@ class HTML_Template_IT
             $this->variableCache = array_merge(
                 $this->variableCache,
                 $variable
-                                    );
+            );
         } else {
             $this->variableCache[$variable] = $value;
         }
@@ -717,9 +717,9 @@ class HTML_Template_IT
 
         $this->currentBlock = '__global__';
 
-        $this->variableCache    = array();
-        $this->blocklist        = array();
-        $this->touchedBlocks    = array();
+        $this->variableCache = array();
+        $this->blocklist = array();
+        $this->touchedBlocks = array();
 
         $this->flagBlocktrouble = false;
         $this->flagGlobalParsed = false;
@@ -793,7 +793,7 @@ class HTML_Template_IT
                     $template,
                     $removeUnknownVariables,
                     $removeEmptyBlocks
-                    ) : false;
+                ) : false;
     } // end func LoadTemplatefile
 
     /**
@@ -839,12 +839,12 @@ class HTML_Template_IT
      */
     public function getGlobalvariables()
     {
-        $regs   = array();
+        $regs = array();
         $values = array();
 
         foreach ($this->blockvariables['__global__'] as $allowedvar => $v) {
             if (isset($this->variableCache[$allowedvar])) {
-                $regs[]   = '@' . $this->openingDelimiter .
+                $regs[] = '@' . $this->openingDelimiter .
                             $allowedvar . $this->closingDelimiter . '@';
                 $values[] = $this->variableCache[$allowedvar];
                 unset($this->variableCache[$allowedvar]);
@@ -865,7 +865,7 @@ class HTML_Template_IT
         $blocklist = array();
         if (preg_match_all($this->blockRegExp, $string, $regs, PREG_SET_ORDER)) {
             foreach ($regs as $k => $match) {
-                $blockname         = $match[1];
+                $blockname = $match[1];
                 $blockcontent = $match[2];
 
                 if (isset($this->blocklist[$blockname])) {
@@ -894,7 +894,7 @@ class HTML_Template_IT
                                         '__' . $name . '__' .
                                         $this->closingDelimiter,
                         $this->blocklist[$blockname]
-                               );
+                    );
                     $this->blockinner[$blockname][] = $name;
                     $this->blockparents[$name] = $blockname;
                 }
@@ -993,16 +993,16 @@ class HTML_Template_IT
         static $errorMessages;
         if (!isset($errorMessages)) {
             $errorMessages = array(
-                IT_OK                       => '',
-                IT_ERROR                    => 'unknown error',
-                IT_TPL_NOT_FOUND            => 'Cannot read the template file',
-                IT_BLOCK_NOT_FOUND          => 'Cannot find this block',
-                IT_BLOCK_DUPLICATE          => 'The name of a block must be' .
+                IT_OK => '',
+                IT_ERROR => 'unknown error',
+                IT_TPL_NOT_FOUND => 'Cannot read the template file',
+                IT_BLOCK_NOT_FOUND => 'Cannot find this block',
+                IT_BLOCK_DUPLICATE => 'The name of a block must be' .
                                                ' uniquewithin a template.' .
                                                ' Found "' . $blockname . '" twice.' .
                                                'Unpredictable results ' .
                                                'may appear.',
-                IT_UNKNOWN_OPTION           => 'Unknown option'
+                IT_UNKNOWN_OPTION => 'Unknown option'
             );
         }
 

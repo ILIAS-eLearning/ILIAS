@@ -30,6 +30,11 @@ class ilMailAddressParserTest extends \ilMailBaseTest
             ['phpunit@ilias.de', [
                 new \ilMailAddress('phpunit', 'ilias.de')
             ]],
+            ['phpunit.@ilias.de',
+                [
+                    new ilMailAddress('phpunit.', 'ilias.de')
+                ]
+            ],
             ['#il_ml_4711', [
                 new \ilMailAddress('#il_ml_4711', self::DEFAULT_HOST)
             ]],
@@ -52,12 +57,27 @@ class ilMailAddressParserTest extends \ilMailBaseTest
     }
 
     /**
+     * @return array[]
+     */
+    public function emailInvalidAddressesProvider() : array
+    {
+        return [
+            ['phpunit"@'],
+            ['phpunit"@ilias.de'],
+        ];
+    }
+
+    /**
      * @param string $addresses
      * @param array  $expected
      * @dataProvider emailAddressesProvider
      */
     public function testBuiltInAddressParser(string $addresses, array $expected)
     {
+        if (!function_exists('imap_rfc822_parse_adrlist')) {
+            $this->markTestSkipped('Skipped test, imap extension required');
+        }
+
         $parser = new \ilMailImapRfc822AddressParser($addresses);
         $parsedAddresses = $parser->parse();
 
@@ -77,6 +97,18 @@ class ilMailAddressParserTest extends \ilMailBaseTest
 
         $this->assertCount(count($expected), $parsedAddresses);
         $this->assertEquals($expected, $parsedAddresses);
+    }
+
+    /**
+     * @dataProvider emailInvalidAddressesProvider
+     * @param string $addresses
+     */
+    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void
+    {
+        $this->expectException(ilMailException::class);
+
+        $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
+        $parser->parse();
     }
 
     /**

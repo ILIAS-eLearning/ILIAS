@@ -118,7 +118,7 @@ class ilDiskQuotaChecker
 
         // Note: Users with the system role have an infinite disk quota
         //       We calculate positive infinity by negating the logarithm of 0.
-        $info['role_disk_quota']  = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->disk_quota;
+        $info['role_disk_quota'] = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->disk_quota;
         $info['disk_quota'] = max($info['user_disk_quota'], $info['role_disk_quota']);
 
         return $info;
@@ -178,7 +178,7 @@ class ilDiskQuotaChecker
                     if ($type) {
                         $detail_data = $details[$type];
                         if ($detail_data == null) {
-                            $detail_data = array('type'=>$type);
+                            $detail_data = array('type' => $type);
                         }
                         $detail_data[$key] = $row->value;
                     }
@@ -219,7 +219,7 @@ class ilDiskQuotaChecker
     *	'disk_quota'=>integer,	// the disk quota in bytes
     * } }
     */
-    public static function _fetchDiskQuotaReport($a_usage_filter = 3, $a_access_filter = 1, $a_order_column='disk_usage', $a_order_by='desc')
+    public static function _fetchDiskQuotaReport($a_usage_filter = 3, $a_access_filter = 1, $a_order_column = 'disk_usage', $a_order_by = 'desc')
     {
         $data = array();
         global $DIC;
@@ -306,7 +306,7 @@ class ilDiskQuotaChecker
             "LEFT JOIN usr_pref p4 ON p4.usr_id=u.usr_id AND p4.keyword = 'disk_quota_last_reminder'  " .
 
             $where_clause .
-            "ORDER BY " . $a_order_column . " " . ($a_order_by=='asc'?' ASC':' DESC') . ", " .
+            "ORDER BY " . $a_order_column . " " . ($a_order_by == 'asc'?' ASC':' DESC') . ", " .
                 "lastname, firstname, login",
             array('integer','integer'),
             array(ROLE_FOLDER_ID, SYSTEM_ROLE_ID)
@@ -713,7 +713,7 @@ class ilDiskQuotaChecker
 
         // Note: Users with the system role have an infinite disk quota
         //       We calculate positive infinity by negating the logarithm of 0.
-        $info['role_wsp_disk_quota']  = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->wsp_disk_quota;
+        $info['role_wsp_disk_quota'] = ($row->role_id == SYSTEM_ROLE_ID) ? -log(0) : $row->wsp_disk_quota;
         $info['disk_quota'] = max($info['user_wsp_disk_quota'], $info['role_wsp_disk_quota']);
 
         return $info;

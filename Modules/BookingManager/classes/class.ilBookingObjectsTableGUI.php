@@ -320,7 +320,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 }
             }
             
-            $this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"]-$cnt);
+            $this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"] - $cnt);
             $this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]);
 
             if ($a_set["nr_items"] <= $cnt || ($this->overall_limit && $this->current_bookings && $this->current_bookings >= $this->overall_limit)) {

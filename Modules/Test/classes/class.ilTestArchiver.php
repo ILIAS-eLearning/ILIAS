@@ -16,38 +16,38 @@ class ilTestArchiver
 {
     #region Constants / Config
 
-    const DIR_SEP								= '/';
+    const DIR_SEP = '/';
 
-    const HTML_SUBMISSION_FILENAME 				= 'test_submission.html';
-    const PDF_SUBMISSION_FILENAME 				= 'test_submission.pdf';
-    const PASS_MATERIALS_PATH_COMPONENT			= 'materials';
-    const QUESTION_PATH_COMPONENT_PREFIX		= 'q_';
+    const HTML_SUBMISSION_FILENAME = 'test_submission.html';
+    const PDF_SUBMISSION_FILENAME = 'test_submission.pdf';
+    const PASS_MATERIALS_PATH_COMPONENT = 'materials';
+    const QUESTION_PATH_COMPONENT_PREFIX = 'q_';
 
-    const TEST_BEST_SOLUTION_PATH_COMPONENT		= 'best_solution';
-    const HTML_BEST_SOLUTION_FILENAME			= 'best_solution.html';
-    const PDF_BEST_SOLUTION_FILENAME			= 'best_solution.pdf';
-    const TEST_MATERIALS_PATH_COMPONENT			= 'materials';
+    const TEST_BEST_SOLUTION_PATH_COMPONENT = 'best_solution';
+    const HTML_BEST_SOLUTION_FILENAME = 'best_solution.html';
+    const PDF_BEST_SOLUTION_FILENAME = 'best_solution.pdf';
+    const TEST_MATERIALS_PATH_COMPONENT = 'materials';
 
-    const TEST_RESULT_FILENAME					= 'test_result_v';
-    const TEST_RESULT_POSTFIX					= '.pdf';
+    const TEST_RESULT_FILENAME = 'test_result_v';
+    const TEST_RESULT_POSTFIX = '.pdf';
 
-    const TEST_OVERVIEW_PDF_FILENAME			= 'results_overview_html_v';
-    const TEST_OVERVIEW_PDF_POSTFIX				= '.pdf';
+    const TEST_OVERVIEW_PDF_FILENAME = 'results_overview_html_v';
+    const TEST_OVERVIEW_PDF_POSTFIX = '.pdf';
 
-    const TEST_OVERVIEW_HTML_FILENAME			= 'results_overview_pdf_v';
-    const TEST_OVERVIEW_HTML_POSTFIX			= '.html';
+    const TEST_OVERVIEW_HTML_FILENAME = 'results_overview_pdf_v';
+    const TEST_OVERVIEW_HTML_POSTFIX = '.html';
 
-    const LOG_DTSGROUP_FORMAT					= 'D M j G:i:s T Y';
-    const LOG_ADDITION_STRING					= ' Adding ';
-    const LOG_CREATION_STRING					= ' Creating ';
-    const LOG_UPDATE_STRING						= ' Updating ';
-    const LOG_DELETION_STRING					= ' Deleting ';
+    const LOG_DTSGROUP_FORMAT = 'D M j G:i:s T Y';
+    const LOG_ADDITION_STRING = ' Adding ';
+    const LOG_CREATION_STRING = ' Creating ';
+    const LOG_UPDATE_STRING = ' Updating ';
+    const LOG_DELETION_STRING = ' Deleting ';
 
-    const TEST_LOG_FILENAME						= 'test.log';
-    const DATA_INDEX_FILENAME					= 'data_index.csv';
-    const ARCHIVE_LOG							= 'archive.log';
+    const TEST_LOG_FILENAME = 'test.log';
+    const DATA_INDEX_FILENAME = 'data_index.csv';
+    const ARCHIVE_LOG = 'archive.log';
 
-    const EXPORT_DIRECTORY						= 'archive_exports';
+    const EXPORT_DIRECTORY = 'archive_exports';
 
     #endregion
 
@@ -101,12 +101,12 @@ class ilTestArchiver
         /** @var $ilias ILIAS */
         global $DIC;
         $ilias = $DIC['ilias'];
-        $this->external_directory_path  = $ilias->ini_ilias->readVariable('clients', 'datadir');
-        $this->client_id 				= $ilias->client_id;
-        $this->test_obj_id 				= $test_obj_id;
-        $this->ilDB						= $ilias->db;
+        $this->external_directory_path = $ilias->ini_ilias->readVariable('clients', 'datadir');
+        $this->client_id = $ilias->client_id;
+        $this->test_obj_id = $test_obj_id;
+        $this->ilDB = $ilias->db;
 
-        $this->archive_data_index 		= $this->readArchiveDataIndex();
+        $this->archive_data_index = $this->readArchiveDataIndex();
         
         $this->participantData = null;
     }
@@ -341,7 +341,7 @@ class ilTestArchiver
      */
     protected function getTestArchive()
     {
-        $test_archive_directory =  $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
+        $test_archive_directory = $this->external_directory_path . self::DIR_SEP . $this->client_id . self::DIR_SEP . 'tst_data'
             . self::DIR_SEP . 'archive' . self::DIR_SEP . 'tst_' . $this->test_obj_id;
         return $test_archive_directory;
     }
@@ -727,10 +727,10 @@ class ilTestArchiver
         $date = date_create_from_format(DATE_ISO8601, $date);
         $line = array(
             'identifier' => $active_fi . '|' . $pass,
-            'yyyy'       => date_format($date, 'Y'),
-            'mm'         => date_format($date, 'm'),
-            'dd'         => date_format($date, 'd'),
-            'directory'  => $active_fi . '_' . $pass . '_' . $user_firstname . '_' . $user_lastname . '_' . $matriculation
+            'yyyy' => date_format($date, 'Y'),
+            'mm' => date_format($date, 'm'),
+            'dd' => date_format($date, 'd'),
+            'directory' => $active_fi . '_' . $pass . '_' . $user_firstname . '_' . $user_lastname . '_' . $matriculation
         );
         return $line;
     }

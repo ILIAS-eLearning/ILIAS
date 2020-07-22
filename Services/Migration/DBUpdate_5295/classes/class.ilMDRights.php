@@ -142,10 +142,10 @@ class ilMDRights extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
-                     'costs'	=> array('text',$this->getCosts()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
+                     'costs' => array('text',$this->getCosts()),
                      'cpr_and_or' => array('text',$this->getCopyrightAndOtherRestrictions()),
                      'description' => array('text',$this->getDescription()),
                      'description_language' => array('text',$this->getDescriptionLanguageCode()));

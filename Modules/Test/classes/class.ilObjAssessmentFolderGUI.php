@@ -57,7 +57,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $ilTabs->activateTab('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilsettingstemplategui':
@@ -168,7 +168,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $chb->addSubItem($rg);
 
         $assessmentSetting = new ilSetting('assessment');
-        $imap_line_color   = array_key_exists('imap_line_color', $_GET) ? $_GET['imap_line_color'] : $assessmentSetting->get('imap_line_color');
+        $imap_line_color = array_key_exists('imap_line_color', $_GET) ? $_GET['imap_line_color'] : $assessmentSetting->get('imap_line_color');
         if (strlen($imap_line_color) == 0) {
             $imap_line_color = 'FF0000';
         }
@@ -178,11 +178,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $form->addItem($linepicker);
 
         $user_criteria = array_key_exists('user_criteria', $_GET) ? $_GET['user_criteria'] : $assessmentSetting->get('user_criteria');
-        $userCriteria  = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
+        $userCriteria = new ilSelectInputGUI($this->lng->txt('user_criteria'), 'user_criteria');
         $userCriteria->setInfo($this->lng->txt('user_criteria_desc'));
         $userCriteria->setRequired(true);
 
-        $fields     = array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
+        $fields = array('usr_id', 'login', 'email', 'matriculation', 'ext_account');
         $usr_fields = array();
         foreach ($fields as $field) {
             $usr_fields[$field] = $field;
@@ -215,7 +215,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         // available question types
         $allowed = new ilCheckboxGroupInputGUI($this->lng->txt('assf_allowed_questiontypes'), "chb_allowed_questiontypes");
-        $questiontypes =&ilObjQuestionPool::_getQuestionTypes(true);
+        $questiontypes = &ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
         $allowedtypes = array();
         foreach ($questiontypes as $qt) {
@@ -284,7 +284,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->object->setExportEssayQuestionsWithHtml((int) $_POST["export_essay_qst_with_html"] == 1);
         $this->object->_setManualScoring($_POST["chb_manual_scoring"]);
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-        $questiontypes =&ilObjQuestionPool::_getQuestionTypes(true);
+        $questiontypes = &ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = array();
         foreach ($questiontypes as $name => $row) {
             if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
@@ -344,8 +344,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             return;
         }
 
-        $test  = $form->getInput('sel_test');
-        $from  = $form->getItemByPostVar('log_from')->getDate()->get(IL_CAL_UNIX);
+        $test = $form->getInput('sel_test');
+        $from = $form->getItemByPostVar('log_from')->getDate()->get(IL_CAL_UNIX);
         $until = $form->getItemByPostVar('log_until')->getDate()->get(IL_CAL_UNIX);
 
         $csv = array();
@@ -358,7 +358,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $available_tests =&ilObjTest::_getAvailableTests(1);
+        $available_tests = &ilObjTest::_getAvailableTests(1);
         array_push($csv, ilUtil::processCSVRow($row, true, $separator));
         $log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
         $users = array();
@@ -428,7 +428,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         foreach ($available_tests as $key => $value) {
             $sorted_options[] = array(
                 'title' => ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
-                'key'   => $key
+                'key' => $key
             );
         }
         $sorted_options = ilUtil::sortArray($sorted_options, 'title', 'asc');
@@ -460,8 +460,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $template = new ilTemplate("tpl.assessment_logs.html", true, true, "Modules/Test");
 
-        $p_test    = 0;
-        $fromdate  = 0;
+        $p_test = 0;
+        $fromdate = 0;
         $untildate = 0;
 
         if (!($form instanceof ilPropertyFormGUI)) {
@@ -489,12 +489,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
             $form->setValuesByArray($values);
         } else {
-            $fromdate_input  = $form->getItemByPostVar('log_from')->getDate();
+            $fromdate_input = $form->getItemByPostVar('log_from')->getDate();
             $untildate_input = $form->getItemByPostVar('log_until')->getDate();
             if ($fromdate_input instanceof ilDateTime && $untildate_input instanceof ilDateTime) {
-                $p_test  = $form->getInput('sel_test');
+                $p_test = $form->getInput('sel_test');
 
-                $fromdate  = $fromdate_input->get(IL_CAL_UNIX);
+                $fromdate = $fromdate_input->get(IL_CAL_UNIX);
                 $untildate = $untildate_input->get(IL_CAL_UNIX);
             }
         }
@@ -515,7 +515,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             array_walk($log_output, function (&$row) use ($self) {
                 if (is_numeric($row['ref_id']) && $row['ref_id'] > 0) {
                     $row['location_href'] = ilLink::_getLink($row['ref_id'], 'tst');
-                    $row['location_txt']  = $self->lng->txt("perma_link");
+                    $row['location_txt'] = $self->lng->txt("perma_link");
                 }
             });
 
@@ -561,11 +561,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         foreach ($available_tests as $ref_id => $title) {
             $obj_id = ilObject::_lookupObjectId($ref_id);
             array_push($data, array(
-                "title"         => $title,
-                "nr"            => $this->object->getNrOfLogEntries($obj_id),
-                "id"            => $obj_id,
+                "title" => $title,
+                "nr" => $this->object->getNrOfLogEntries($obj_id),
+                "id" => $obj_id,
                 "location_href" => ilLink::_getLink($ref_id, 'tst'),
-                "location_txt"  => $this->lng->txt("perma_link")
+                "location_txt" => $this->lng->txt("perma_link")
             ));
         }
         $table_gui->setData($data);
@@ -680,7 +680,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $form = $this->getLogSettingsForm();
             $form->setValuesByArray(array(
                 'chb_assessment_logging' => ilObjAssessmentFolder::_enabledAssessmentLogging(),
-                'reporting_language'     => ilObjAssessmentFolder::_getLogLanguage()
+                'reporting_language' => ilObjAssessmentFolder::_getLogLanguage()
             ));
         }
 

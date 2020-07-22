@@ -290,8 +290,8 @@ class ilDclTableView extends ActiveRecord
             $visible = ilDclTableViewFieldSetting::
             where(
                 array(
-                    "tableview_id"               => $this->id,
-                    'visible'                    => true,
+                    "tableview_id" => $this->id,
+                    'visible' => true,
                     'il_dcl_tfield_set.table_id' => $this->getTableId(),
                 )
             )->innerjoin('il_dcl_tfield_set', 'field', 'field', array())->orderBy('il_dcl_tfield_set.field_order')->get();
@@ -310,7 +310,7 @@ class ilDclTableView extends ActiveRecord
     {
         return ilDclTableViewFieldSetting::where(
             array(
-                'tableview_id'               => $this->getId(),
+                'tableview_id' => $this->getId(),
                 'il_dcl_tfield_set.table_id' => $this->getTableId(),
             )
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))->orderBy('field_order')->get();
@@ -358,7 +358,7 @@ class ilDclTableView extends ActiveRecord
         if (!ilDclTableViewFieldSetting::where(
             array(
                 'tableview_id' => $this->id,
-                'field'        => $field_id,
+                'field' => $field_id,
             )
         )->get()
         ) {

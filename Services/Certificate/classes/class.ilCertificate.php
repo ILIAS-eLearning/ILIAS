@@ -120,13 +120,13 @@ class ilCertificate
     ) {
         global $DIC;
 
-        $this->lng      = $DIC['lng'];
-        $this->ctrl     = $DIC['ilCtrl'];
-        $this->ilias    = $DIC['ilias'];
-        $this->tree     = $DIC['tree'];
+        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->ilias = $DIC['ilias'];
+        $this->tree = $DIC['tree'];
         $this->settings = $DIC['ilSetting'];
-        $this->log      = $DIC['ilLog'];
-        $this->db       = $DIC['ilDB'];
+        $this->log = $DIC['ilLog'];
+        $this->db = $DIC['ilDB'];
 
         $this->adapter = $adapter;
 
@@ -365,7 +365,7 @@ class ilCertificate
     */
     public function setAdapter($adapter)
     {
-        $this->adapter =&$adapter;
+        $this->adapter = &$adapter;
     }
 
     /***************************************
@@ -480,7 +480,7 @@ class ilCertificate
      */
     public function readActive()
     {
-        $set    = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
+        $set = $this->db->query("SELECT obj_id FROM il_certificate WHERE obj_id = " . $this->db->quote($this->objectId, "integer"));
         return $this->db->numRows($set);
     }
 }

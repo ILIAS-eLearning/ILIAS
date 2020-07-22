@@ -743,8 +743,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         foreach ($this->offline_mobs as $mob) {
             $this->exportHTMLMOB($a_target_dir, $glo_gui, $mob, "_blank");
         }
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["obj_id"]  = $a_mob_id;
+        $_GET["obj_type"] = "MediaObject";
+        $_GET["obj_id"] = $a_mob_id;
         $_GET["cmd"] = "";
         
         // export all file objects
@@ -899,8 +899,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         
         $tpl = new ilTemplate("tpl.main.html", true, true);
         $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["mob_id"]  = $a_mob_id;
+        $_GET["obj_type"] = "MediaObject";
+        $_GET["mob_id"] = $a_mob_id;
         $_GET["cmd"] = "";
         $content = $a_glo_gui->media();
         $file = $a_target_dir . "/media_" . $a_mob_id . ".html";
@@ -920,7 +920,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         if ($mob_obj->hasFullscreenItem()) {
             $tpl = new ilTemplate("tpl.main.html", true, true);
             $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-            $_GET["mob_id"]  = $a_mob_id;
+            $_GET["mob_id"] = $a_mob_id;
             $_GET["cmd"] = "fullscreen";
             $content = $a_glo_gui->fullscreen();
             $file = $a_target_dir . "/fullscreen_" . $a_mob_id . ".html";

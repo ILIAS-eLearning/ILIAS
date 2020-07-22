@@ -224,17 +224,17 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement("ApproveDate", $row["approve_date"], null, "approve_date");
         $this->__addElement("AgreeDate", $row["agree_date"], null, "agree_date");
 
-        if (strlen($row["auth_mode"])>0) {
+        if (strlen($row["auth_mode"]) > 0) {
             $this->__addElement("AuthMode", null, array("type" => $row["auth_mode"]), "auth_mode", true);
         }
 
-        if (strlen($row["ext_account"])>0) {
+        if (strlen($row["ext_account"]) > 0) {
             $this->__addElement("ExternalAccount", $row["ext_account"], null, "ext_account", true);
         }
 
         if ($this->canExport("Look", "skin_style")) {
             $this->__addElement("Look", null, array(
-                "Skin"	=>	$prefs["skin"], "Style"	=>	$prefs["style"]
+                "Skin" => $prefs["skin"], "Style" => $prefs["style"]
             ), "skin_style", true);
         }
 

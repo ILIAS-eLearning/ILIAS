@@ -35,7 +35,7 @@ class ilBuddySystem
         global $DIC;
 
         $this->settings = new ilSetting('buddysystem');
-        $this->user     = $DIC['ilUser'];
+        $this->user = $DIC['ilUser'];
     }
 
     /**

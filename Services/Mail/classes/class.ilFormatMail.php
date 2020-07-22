@@ -173,7 +173,7 @@ class ilFormatMail extends ilMail
         $linebreak = $this->mail_options->getLinebreak();
 
         $lines = explode(chr(10), $a_message);
-        for ($i=0;$i<count($lines);$i++) {
+        for ($i = 0;$i < count($lines);$i++) {
             if (substr($lines[$i], 0, 1) != '>') {
                 $formatted[] = wordwrap($lines[$i], $linebreak, chr(10));
             } else {

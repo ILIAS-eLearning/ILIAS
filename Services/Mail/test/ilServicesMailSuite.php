@@ -19,9 +19,9 @@ class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 
         foreach (new \RegExIterator(
             new \RecursiveIteratorIterator(
-                         new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
-                         \RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
+                new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::LEAVES_ONLY
+            ),
             '/BaseTest\.php$/'
         ) as $file) {
             /** @var \SplFileInfo $file */
@@ -30,9 +30,9 @@ class ilServicesMailSuite extends PHPUnit_Framework_TestSuite
 
         foreach (new \RegExIterator(
             new \RecursiveIteratorIterator(
-                         new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
-                         \RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
+                new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::LEAVES_ONLY
+            ),
             '/(?<!Base)Test\.php$/'
         ) as $file) {
             /** @var \SplFileInfo $file */

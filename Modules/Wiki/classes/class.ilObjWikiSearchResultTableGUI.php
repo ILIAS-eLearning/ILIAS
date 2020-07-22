@@ -25,7 +25,7 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         foreach ($this->getResults()->getResults() as $result_set) {
             $row = array();
             include_once './Modules/Wiki/classes/class.ilWikiPage.php';
-            $row['title']  = ilWikiPage::lookupTitle($result_set['item_id']);
+            $row['title'] = ilWikiPage::lookupTitle($result_set['item_id']);
             
             $ilCtrl->setParameterByClass(
                 'ilwikipagegui',

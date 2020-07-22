@@ -54,50 +54,50 @@ abstract class ilDatabaseCommonTestMockData
     public function getDBFields()
     {
         $fields = array(
-            'id'             => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => true,
             ),
-            'is_online'      => array(
-                'type'    => 'integer',
-                'length'  => 1,
+            'is_online' => array(
+                'type' => 'integer',
+                'length' => 1,
                 'notnull' => false,
             ),
-            'is_default'     => array(
-                'type'    => 'integer',
-                'length'  => 1,
+            'is_default' => array(
+                'type' => 'integer',
+                'length' => 1,
                 'notnull' => false,
                 'default' => 1,
             ),
-            'latitude'       => array(
+            'latitude' => array(
                 'type' => 'float',
             ),
-            'longitude'      => array(
+            'longitude' => array(
                 'type' => 'float',
             ),
-            'elevation'      => array(
+            'elevation' => array(
                 'type' => 'float',
             ),
-            'address'        => array(
-                'type'    => 'text',
-                'length'  => 256,
+            'address' => array(
+                'type' => 'text',
+                'length' => 256,
                 'notnull' => false,
             ),
-            'init_mob_id'    => array(
-                'type'    => 'integer',
-                'length'  => 4,
+            'init_mob_id' => array(
+                'type' => 'integer',
+                'length' => 4,
                 'notnull' => false,
             ),
             'comment_mob_id' => array(
-                'type'   => 'integer',
+                'type' => 'integer',
                 'length' => 4,
             ),
-            'container_id'   => array(
-                'type'   => 'integer',
+            'container_id' => array(
+                'type' => 'integer',
                 'length' => 4,
             ),
-            'big_data'       => array(
+            'big_data' => array(
                 'type' => 'clob',
             ),
         );
@@ -114,35 +114,35 @@ abstract class ilDatabaseCommonTestMockData
     public function getInputArray($update_mob_id = false, $blob_null = true, $with_clob = true)
     {
         $fields = array(
-            'id'             => array(
+            'id' => array(
                 'integer',
                 56,
             ),
-            'is_online'      => array(
+            'is_online' => array(
                 'integer',
                 true,
             ),
-            'is_default'     => array(
+            'is_default' => array(
                 'integer',
                 false,
             ),
-            'latitude'       => array(
+            'latitude' => array(
                 'float',
                 47.059830,
             ),
-            'longitude'      => array(
+            'longitude' => array(
                 'float',
                 7.624028,
             ),
-            'elevation'      => array(
+            'elevation' => array(
                 'float',
                 2.56,
             ),
-            'address'        => array(
+            'address' => array(
                 'text',
                 'Farbweg 9, 3400 Burgdorf',
             ),
-            'init_mob_id'    => array(
+            'init_mob_id' => array(
                 'integer',
                 $update_mob_id ? $update_mob_id : 78,
             ),
@@ -150,7 +150,7 @@ abstract class ilDatabaseCommonTestMockData
                 'integer',
                 69,
             ),
-            'container_id'   => array(
+            'container_id' => array(
                 'integer',
                 456,
             ),
@@ -172,11 +172,11 @@ abstract class ilDatabaseCommonTestMockData
     public function getInputArrayForTransaction()
     {
         $fields = array(
-            'id'         => array(
+            'id' => array(
                 'integer',
                 123456,
             ),
-            'is_online'  => array(
+            'is_online' => array(
                 'integer',
                 true,
             ),

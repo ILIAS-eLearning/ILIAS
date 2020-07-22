@@ -72,7 +72,7 @@ class ilSamlIdp
      */
     public function __construct($a_idp_id = 0)
     {
-        $this->db     = $GLOBALS['DIC']->database();
+        $this->db = $GLOBALS['DIC']->database();
         $this->idp_id = $a_idp_id;
 
         if ($this->idp_id > 0) {
@@ -114,7 +114,7 @@ class ilSamlIdp
     private function read()
     {
         $query = 'SELECT * FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->getIdpId(), 'integer');
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
         while ($record = $this->db->fetchAssoc($res)) {
             $this->bindDbRecord($record);
             return;
@@ -129,7 +129,7 @@ class ilSamlIdp
     public function persist()
     {
         if (!$this->getIdpId()) {
-            $this->setIdpId($this->db->nextId('saml_idp_settings'));
+            $this->setIdpId((int) $this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(
@@ -138,13 +138,13 @@ class ilSamlIdp
                 'idp_id' => array('integer', $this->getIdpId())
             ),
             array(
-                'is_active'           => array('integer', $this->isActive()),
-                'default_role_id'     => array('integer', $this->getDefaultRoleId()),
-                'uid_claim'           => array('text', $this->getUidClaim()),
-                'login_claim'         => array('text', $this->getLoginClaim()),
-                'entity_id'           => array('text', $this->getEntityId()),
-                'sync_status'         => array('integer', $this->isSynchronizationEnabled()),
-                'allow_local_auth'    => array('integer', $this->allowLocalAuthentication()),
+                'is_active' => array('integer', $this->isActive()),
+                'default_role_id' => array('integer', $this->getDefaultRoleId()),
+                'uid_claim' => array('text', $this->getUidClaim()),
+                'login_claim' => array('text', $this->getLoginClaim()),
+                'entity_id' => array('text', $this->getEntityId()),
+                'sync_status' => array('integer', $this->isSynchronizationEnabled()),
+                'allow_local_auth' => array('integer', $this->allowLocalAuthentication()),
                 'account_migr_status' => array('integer', $this->isAccountMigrationEnabled())
             )
         );
@@ -174,15 +174,15 @@ class ilSamlIdp
     public function toArray()
     {
         return array(
-            'idp_id'              => $this->getIdpId(),
-            'is_active'           => $this->isActive(),
-            'default_role_id'     => $this->getDefaultRoleId(),
-            'uid_claim'           => $this->getUidClaim(),
-            'login_claim'         => $this->getLoginClaim(),
-            'sync_status'         => $this->isSynchronizationEnabled(),
+            'idp_id' => $this->getIdpId(),
+            'is_active' => $this->isActive(),
+            'default_role_id' => $this->getDefaultRoleId(),
+            'uid_claim' => $this->getUidClaim(),
+            'login_claim' => $this->getLoginClaim(),
+            'sync_status' => $this->isSynchronizationEnabled(),
             'account_migr_status' => $this->isAccountMigrationEnabled(),
-            'allow_local_auth'    => $this->allowLocalAuthentication(),
-            'entity_id'           => $this->getEntityId()
+            'allow_local_auth' => $this->allowLocalAuthentication(),
+            'entity_id' => $this->getEntityId()
         );
     }
 
@@ -248,6 +248,21 @@ class ilSamlIdp
         }
 
         return null;
+    }
+
+    /**
+     * @param string $entityId
+     * @return int
+     */
+    public static function geIdpIdByEntityId($entityId)
+    {
+        foreach (self::getAllIdps() as $idp) {
+            if ($idp->isActive() && $idp->getEntityId() === $entityId) {
+                return $idp->getIdpId();
+            }
+        }
+
+        return 0;
     }
 
     /**

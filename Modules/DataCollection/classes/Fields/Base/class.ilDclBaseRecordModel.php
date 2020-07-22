@@ -93,15 +93,15 @@ class ilDclBaseRecordModel
         $ilDB = $DIC['ilDB'];
 
         $values = array(
-            "table_id"     => array(
+            "table_id" => array(
                 "integer",
                 $this->getTableId(),
             ),
-            "last_update"  => array(
+            "last_update" => array(
                 "date",
                 $this->fixDate($this->getLastUpdate()),
             ),
-            "owner"        => array(
+            "owner" => array(
                 "text",
                 $this->getOwner(),
             ),
@@ -856,10 +856,10 @@ class ilDclBaseRecordModel
                 'Modules/DataCollection',
                 'deleteRecord',
                 array(
-                    'dcl'       => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
-                    'table_id'  => $this->table_id,
+                    'dcl' => ilDclCache::getTableCache($this->getTableId())->getCollectionObject(),
+                    'table_id' => $this->table_id,
                     'record_id' => $this->getId(),
-                    'record'    => $this,
+                    'record' => $this,
                 )
             );
         }

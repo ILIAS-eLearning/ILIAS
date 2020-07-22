@@ -150,9 +150,9 @@ class ilTermsOfServiceDocumentTest extends \ilTermsOfServiceCriterionBaseTest
                 $object = new stdClass();
 
                 $object->id = 4711;
-                $object->title =  'phpunit';
-                $object->creation_ts =  time();
-                $object->modification_ts =  time();
+                $object->title = 'phpunit';
+                $object->creation_ts = time();
+                $object->modification_ts = time();
                 $object->owner_usr_id = 6;
                 $object->last_modified_usr_id = 6;
                 $object->sorting = 10;

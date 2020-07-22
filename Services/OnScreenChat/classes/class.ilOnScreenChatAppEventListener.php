@@ -28,7 +28,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
                         require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
                         require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
-                        $settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+                        $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
                         $connector = new ilChatroomServerConnector($settings);
                         $connector->sendUserConfigChange(json_encode($message));
                         break;

@@ -41,7 +41,7 @@ class ilUnitConfigurationRepository
         $lng = $DIC['lng'];
 
         $this->consumer_id = $consumer_id;
-        $this->lng         = $lng;
+        $this->lng = $lng;
     }
 
     /**
@@ -111,7 +111,7 @@ class ilUnitConfigurationRepository
             'il_qpl_qst_fq_ucat',
             array(
                 'category_id' => array('integer', $next_id),
-                'category'    => array('text', $a_category_name),
+                'category' => array('text', $a_category_name),
                 'question_fi' => array('integer', (int) $a_question_fi)
             )
         );
@@ -132,12 +132,12 @@ class ilUnitConfigurationRepository
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $res   = $ilDB->queryF(
+        $res = $ilDB->queryF(
             'SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
             array('integer'),
             array($a_from_category_id)
         );
-        $i     = 0;
+        $i = 0;
         $units = array();
         while ($row = $ilDB->fetchAssoc($res)) {
             $next_id = $ilDB->nextId('il_qpl_qst_fq_unit');
@@ -148,12 +148,12 @@ class ilUnitConfigurationRepository
             $ilDB->insert(
                 'il_qpl_qst_fq_unit',
                 array(
-                    'unit_id'     => array('integer', $next_id),
-                    'unit'        => array('text', $row['unit']),
-                    'factor'      => array('float', $row['factor']),
+                    'unit_id' => array('integer', $next_id),
+                    'unit' => array('text', $row['unit']),
+                    'factor' => array('float', $row['factor']),
                     'baseunit_fi' => array('integer', (int) $row['baseunit_fi']),
                     'category_fi' => array('integer', (int) $a_to_category_id),
-                    'sequence'    => array('integer', (int) $row['sequence']),
+                    'sequence' => array('integer', (int) $row['sequence']),
                     'question_fi' => array('integer', (int) $a_question_fi)
                 )
             );
@@ -176,7 +176,7 @@ class ilUnitConfigurationRepository
                 'il_qpl_qst_fq_var',
                 array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                 array(
-                    'unit_fi'     => array('integer', $unit['old_unit_id']),
+                    'unit_fi' => array('integer', $unit['old_unit_id']),
                     'question_fi' => array('integer', $a_question_fi)
                 )
             );
@@ -186,7 +186,7 @@ class ilUnitConfigurationRepository
                 'il_qpl_qst_fq_res',
                 array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                 array(
-                    'unit_fi'     => array('integer', $unit['old_unit_id']),
+                    'unit_fi' => array('integer', $unit['old_unit_id']),
                     'question_fi' => array('integer', $a_question_fi)
                 )
             );
@@ -196,7 +196,7 @@ class ilUnitConfigurationRepository
                 'il_qpl_qst_fq_res_unit',
                 array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                 array(
-                    'unit_fi'     => array('integer', $unit['old_unit_id']),
+                    'unit_fi' => array('integer', $unit['old_unit_id']),
                     'question_fi' => array('integer', $a_question_fi)
                 )
             );
@@ -347,7 +347,7 @@ class ilUnitConfigurationRepository
                         $cat = new assFormulaQuestionUnitCategory();
                         $cat->initFormArray(array(
                             'category_id' => $row['category_fi'],
-                            'category'    => $row['category'],
+                            'category' => $row['category'],
                             'question_fi' => $row['question_fi'],
                         ));
                         array_push($this->categorizedUnits, $cat);
@@ -384,7 +384,7 @@ class ilUnitConfigurationRepository
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $units  = array();
+        $units = array();
         $result = $ilDB->queryF(
             "
 			SELECT units.*, baseunits.unit baseunit_title
@@ -436,7 +436,7 @@ class ilUnitConfigurationRepository
         $ilDB = $DIC['ilDB'];
 
         $categories = array();
-        $result     = $ilDB->queryF(
+        $result = $ilDB->queryF(
             "SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi > %s ORDER BY category",
             array('integer'),
             array(0)
@@ -446,9 +446,9 @@ class ilUnitConfigurationRepository
                 $value = (strcmp("-qpl_qst_formulaquestion_" . $row["category"] . "-", $this->lng->txt($row["category"])) == 0) ? $row["category"] : $this->lng->txt($row["category"]);
 
                 if (strlen(trim($row["category"]))) {
-                    $cat                             = array(
-                        "value"  => $row["category_id"],
-                        "text"   => $value,
+                    $cat = array(
+                        "value" => $row["category_id"],
+                        "text" => $value,
                         "qst_id" => $row['question_fi']
                     );
                     $categories[$row["category_id"]] = $cat;
@@ -464,7 +464,7 @@ class ilUnitConfigurationRepository
         $ilDB = $DIC['ilDB'];
 
         $categories = array();
-        $result     = $ilDB->queryF(
+        $result = $ilDB->queryF(
             "SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s  ORDER BY category",
             array('integer'),
             array(0)
@@ -474,9 +474,9 @@ class ilUnitConfigurationRepository
                 $value = (strcmp("-qpl_qst_formulaquestion_" . $row["category"] . "-", $this->lng->txt($row["category"])) == 0) ? $row["category"] : $this->lng->txt($row["category"]);
 
                 if (strlen(trim($row["category"]))) {
-                    $cat                             = array(
-                        "value"  => $row["category_id"],
-                        "text"   => $value,
+                    $cat = array(
+                        "value" => $row["category_id"],
+                        "text" => $value,
                         "qst_id" => $row['question_fi']
                     );
                     $categories[$row["category_id"]] = $cat;
@@ -564,7 +564,7 @@ class ilUnitConfigurationRepository
         $ilDB = $DIC['ilDB'];
 
         $query = 'SELECT * FROM il_qpl_qst_fq_ucat WHERE category_id = ' . $ilDB->quote($id, 'integer');
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
         if (!$ilDB->numRows($res)) {
             throw new ilException('un_category_not_exist');
         }
@@ -649,7 +649,7 @@ class ilUnitConfigurationRepository
         $ilDB = $DIC['ilDB'];
 
         $categories = array();
-        $result     = $ilDB->queryF(
+        $result = $ilDB->queryF(
             "SELECT * FROM il_qpl_qst_fq_ucat WHERE question_fi = %s OR question_fi = %s ORDER BY category",
             array('integer', 'integer'),
             array($this->getConsumerId(), 0)
@@ -750,7 +750,7 @@ class ilUnitConfigurationRepository
             array($unit->getId())
         );
         if ($ilDB->fetchAssoc($res)) {
-            $row      = $ilDB->fetchAssoc($res);
+            $row = $ilDB->fetchAssoc($res);
             $sequence = $row['sequence'];
             if (is_null($unit->getBaseUnit()) || !strlen($unit->getBaseUnit())) {
                 $unit->setFactor(1);
@@ -787,13 +787,13 @@ class ilUnitConfigurationRepository
         }
 
         foreach ($category_mapping as $old_category_id => $new_category_id) {
-            $res   = $ilDB->queryF(
+            $res = $ilDB->queryF(
                 'SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
                 array('integer'),
                 array($old_category_id)
             );
 
-            $i     = 0;
+            $i = 0;
             $units = array();
             while ($row = $ilDB->fetchAssoc($res)) {
                 $next_id = $ilDB->nextId('il_qpl_qst_fq_unit');
@@ -804,12 +804,12 @@ class ilUnitConfigurationRepository
                 $ilDB->insert(
                     'il_qpl_qst_fq_unit',
                     array(
-                        'unit_id'     => array('integer', $next_id),
-                        'unit'        => array('text', $row['unit']),
-                        'factor'      => array('float', $row['factor']),
+                        'unit_id' => array('integer', $next_id),
+                        'unit' => array('text', $row['unit']),
+                        'factor' => array('float', $row['factor']),
                         'baseunit_fi' => array('integer', (int) $row['baseunit_fi']),
                         'category_fi' => array('integer', (int) $new_category_id),
-                        'sequence'    => array('integer', (int) $row['sequence']),
+                        'sequence' => array('integer', (int) $row['sequence']),
                         'question_fi' => array('integer', (int) $a_to_consumer_id)
                     )
                 );
@@ -832,7 +832,7 @@ class ilUnitConfigurationRepository
                     'il_qpl_qst_fq_var',
                     array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                     array(
-                        'unit_fi'     => array('integer', (int) $unit['old_unit_id']),
+                        'unit_fi' => array('integer', (int) $unit['old_unit_id']),
                         'question_fi' => array('integer', (int) $a_to_consumer_id)
                     )
                 );
@@ -842,7 +842,7 @@ class ilUnitConfigurationRepository
                     'il_qpl_qst_fq_res',
                     array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                     array(
-                        'unit_fi'     => array('integer', (int) $unit['old_unit_id']),
+                        'unit_fi' => array('integer', (int) $unit['old_unit_id']),
                         'question_fi' => array('integer', (int) $a_to_consumer_id)
                     )
                 );
@@ -852,7 +852,7 @@ class ilUnitConfigurationRepository
                     'il_qpl_qst_fq_res_unit',
                     array('unit_fi' => array('integer', (int) $unit['new_unit_id'])),
                     array(
-                        'unit_fi'     => array('integer', (int) $unit['old_unit_id']),
+                        'unit_fi' => array('integer', (int) $unit['old_unit_id']),
                         'question_fi' => array('integer', (int) $a_to_consumer_id)
                     )
                 );

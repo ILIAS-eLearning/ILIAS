@@ -237,11 +237,11 @@ class ilForumDraftsHistory
         $next_id = $this->db->nextId('frm_drafts_history');
         $this->db->insert(
             'frm_drafts_history',
-            array('history_id'   => array('integer', $next_id),
-                  'draft_id'     => array('integer', $this->getDraftId()),
+            array('history_id' => array('integer', $next_id),
+                  'draft_id' => array('integer', $this->getDraftId()),
                   'post_subject' => array('text', $this->getPostSubject()),
                   'post_message' => array('text', $this->getPostMessage()),
-                  'draft_date'   => array('timestamp', date("Y-m-d H:i:s"))
+                  'draft_date' => array('timestamp', date("Y-m-d H:i:s"))
             )
         );
         $this->setHistoryId($next_id);
@@ -305,7 +305,7 @@ class ilForumDraftsHistory
     {
         $draft_ids = array();
         if (count($post_ids) > 0) {
-            $res  = $this->db->query('
+            $res = $this->db->query('
 			SELECT frm_drafts_history.history_id, frm_drafts_history.draft_id 
 			FROM frm_posts_drafts  
  			INNER JOIN frm_drafts_history ON frm_posts_drafts.draft_id
@@ -323,7 +323,7 @@ class ilForumDraftsHistory
     public function deleteHistoryByDraftIds($draft_ids = array())
     {
         if (count($draft_ids) > 0) {
-            $res  = $this->db->query('SELECT history_id FROM frm_drafts_history 
+            $res = $this->db->query('SELECT history_id FROM frm_drafts_history 
  					WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
             
             while ($row = $this->db->fetchAssoc($res)) {

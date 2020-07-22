@@ -238,7 +238,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->setReturn($this, "editStyleProperties");
         $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
         $style_gui->omitLocator();
-        if ($cmd == "create" || $_GET["new_type"]=="sty") {
+        if ($cmd == "create" || $_GET["new_type"] == "sty") {
             $style_gui->setCreationMode(true);
         }
 
@@ -711,7 +711,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                             'download'
                         );
                     } else {
-                        $url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+                        $url = $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
                         $main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
                         $main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
                         $main_tpl->addOnLoadCode('il.BgTask.setAjax("' . $url . '");');
@@ -733,9 +733,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $toolbar->addButton(
                     $this->lng->txt('cntr_adopt_content'),
                     $this->ctrl->getLinkTargetByClass(
-                            'ilObjectCopyGUI',
-                            'adoptContent'
-                        )
+                        'ilObjectCopyGUI',
+                        'adoptContent'
+                    )
                 );
             }
             //			}
@@ -1074,7 +1074,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++)%2)+1));
+            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable("TYPE", $lng->txt("objs_" . $type) .
                     " (" . ((int) $cnt[$type]) . ")");
@@ -2237,7 +2237,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
-        $output.= "<br />" . $t->getHTML();
+        $output .= "<br />" . $t->getHTML();
 
         $this->tpl->setContent($output);
     }
@@ -2889,7 +2889,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     * @param	string the new name of the copy (optional).
     * @return	The ref_id pointing to the cloned object.
     */
-    public function cloneNodes($srcRef, $dstRef, &$mapping, $newName=null)
+    public function cloneNodes($srcRef, $dstRef, &$mapping, $newName = null)
     {
         $tree = $this->tree;
 

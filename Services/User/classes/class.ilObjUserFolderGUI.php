@@ -78,7 +78,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'ilrepositorysearchgui':
@@ -94,7 +94,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
                 $this->tabs_gui->setTabActive('search_user_extended');
                 $this->ctrl->setReturn($this, 'view');
-                $ret =&$this->ctrl->forwardCommand($user_search);
+                $ret = &$this->ctrl->forwardCommand($user_search);
                 break;
             
             case 'ilaccountcodesgui':
@@ -390,7 +390,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $count = 0;
                 if ($row["max"] > 0) {
                     //how many elements are present?
-                    for ($i=0; $i<count($this->data["ctrl"]); $i++) {
+                    for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
                         if ($this->data["ctrl"][$i]["type"] == $row["name"]) {
                             $count++;
                         }
@@ -447,7 +447,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // FOR ALL SELECTED OBJECTS
         foreach ($_POST["id"] as $id) {
             // instatiate correct object class (usr)
-            $obj =&$this->ilias->obj_factory->getInstanceByObjId($id);
+            $obj = &$this->ilias->obj_factory->getInstanceByObjId($id);
             $obj->setActive(true, $ilUser->getId());
             $obj->update();
         }
@@ -481,7 +481,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // FOR ALL SELECTED OBJECTS
         foreach ($_POST["id"] as $id) {
             // instatiate correct object class (usr)
-            $obj =&$this->ilias->obj_factory->getInstanceByObjId($id);
+            $obj = &$this->ilias->obj_factory->getInstanceByObjId($id);
             $obj->setActive(false, $ilUser->getId());
             $obj->update();
         }
@@ -653,7 +653,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // FOR ALL SELECTED OBJECTS
         foreach ($_POST["id"] as $id) {
             // instatiate correct object class (usr)
-            $obj =&$this->ilias->obj_factory->getInstanceByObjId($id);
+            $obj = &$this->ilias->obj_factory->getInstanceByObjId($id);
             $obj->delete();
         }
 
@@ -1196,9 +1196,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             // that's why whe show only a choice with the the option "ignore",
                             // and the matching roles.
                             $selectable_roles = array();
-                            $selectable_roles[""] =  $this->lng->txt("usrimport_ignore_role");
+                            $selectable_roles[""] = $this->lng->txt("usrimport_ignore_role");
                             foreach ($matching_role_ids as $id) {
-                                $selectable_roles[$id] =  $l_roles[$id];
+                                $selectable_roles[$id] = $l_roles[$id];
                             }
                             $role_select = ilUtil::formSelect($pre_select, "role_assign[" . $role_id . "]", $selectable_roles, false, true);
                         } else {
@@ -1376,8 +1376,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         
         $this->form->setValuesByArray(
             array(
-                'lua'	=> $aset->isLocalUserAdministrationEnabled(),
-                'lrua'	=> $aset->isUserAccessRestricted(),
+                'lua' => $aset->isLocalUserAdministrationEnabled(),
+                'lrua' => $aset->isUserAccessRestricted(),
                 'allow_change_loginname' => (bool) $ilSetting->get('allow_change_loginname'),
                 'create_history_loginname' => (bool) $ilSetting->get('create_history_loginname'),
                 'reuse_of_loginnames' => (bool) $ilSetting->get('reuse_of_loginnames'),
@@ -1987,6 +1987,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilias->setSetting('mail_incoming_mail', (int) $_POST['select']['default_mail_incoming_mail']);
         $ilias->setSetting('chat_osc_accept_msg', ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg']));
         $ilias->setSetting('bs_allow_to_contact_me', ilUtil::stripSlashes($_POST['select']['default_bs_allow_to_contact_me']));
+        $ilias->setSetting('hide_own_online_status', ilUtil::stripSlashes($_POST['select']['default_hide_own_online_status']));
 
         ilUtil::sendSuccess($this->lng->txt("usr_settings_saved"));
         $this->settingsObject();
@@ -2172,7 +2173,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $tbl->render();
 
         if (count($export_files) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($export_files as $exp_file) {
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("TXT_FILENAME", $exp_file["filename"]);
@@ -2679,7 +2680,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // show confirmation
         else {
             $cmds = array(
-                'activateUsers'	=> $this->lng->txt('activate'),
+                'activateUsers' => $this->lng->txt('activate'),
                 'deactivateUsers' => $this->lng->txt('deactivate'),
                 'restrictAccess' => $this->lng->txt('accessRestrict'),
                 'freeAccess' => $this->lng->txt('accessFree')

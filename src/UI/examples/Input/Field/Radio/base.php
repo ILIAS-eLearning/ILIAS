@@ -15,8 +15,8 @@ function base()
     $dependant_field1 = $ui->input()->field()->text("Item 1", "Just some dependent group field");
     $dependant_field2 = $ui->input()->field()->text("Item 2", "Just some dependent group field");
     $dependant_fields = [
-        "dependant_field_a"=>$dependant_field1,
-        "dependant_field_b"=>$dependant_field2
+        "dependant_field_a" => $dependant_field1,
+        "dependant_field_b" => $dependant_field2
     ];
 
     $radio_d = $ui->input()->field()->radio("Dep. Radio", "check an option")
@@ -42,7 +42,7 @@ function base()
     //Step 4: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='radio') {
+        && $request->getQueryParams()['example_name'] == 'radio') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

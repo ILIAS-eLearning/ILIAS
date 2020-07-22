@@ -477,7 +477,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $header = $this->lng->txt("lang_refresh_confirm");
         } elseif (!empty($_POST["id"])) {
             $ids = $_POST["id"];
-            $header =  $this->lng->txt("lang_refresh_confirm_selected");
+            $header = $this->lng->txt("lang_refresh_confirm_selected");
         } else {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
@@ -604,7 +604,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
-            $res.= $mod . "," . $key . "\n";
+            $res .= $mod . "," . $key . "\n";
         }
 
         $this->tpl->setContent("<pre>" . $res . "</pre>");
@@ -619,7 +619,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {
-            $res.= $mod . "," . $key . "\n";
+            $res .= $mod . "," . $key . "\n";
         }
 
         ilUtil::deliverData($res, "lang_deprecated.csv");

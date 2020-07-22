@@ -28,9 +28,9 @@ class ilNotificationOSDGUI
      */
     public function __construct(\ilObjUser $user, \ilTemplate $mainTemplate, \ilLanguage $lng)
     {
-        $this->user         = $user;
+        $this->user = $user;
         $this->mainTemplate = $mainTemplate;
-        $this->lng          = $lng;
+        $this->lng = $lng;
     }
     
     public function render()

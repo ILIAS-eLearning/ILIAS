@@ -262,12 +262,12 @@ class ilStudyProgrammeType extends ActiveRecord
      */
     public function delete()
     {
-        $prgs = ilStudyProgramme::where(array('subtype_id'=>$this->getId()))->get();
+        $prgs = ilStudyProgramme::where(array('subtype_id' => $this->getId()))->get();
 
         if (count($prgs)) {
             $titles = array();
             /** @var $prg ilStudyProgramme */
-            foreach ($prgs as $key=>$prg) {
+            foreach ($prgs as $key => $prg) {
                 require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
                 $container = new ilObjStudyProgramme($prg->getObjId(), false);
                 $titles[] = $container->getTitle();
@@ -312,7 +312,7 @@ class ilStudyProgrammeType extends ActiveRecord
         }
 
         // Delete relations to advanced metadata records
-        $records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
+        $records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id' => $this->getId()))->get();
         foreach ($records as $record) {
             $record->delete();
         }
@@ -385,7 +385,7 @@ class ilStudyProgrammeType extends ActiveRecord
      */
     public function getAssignedStudyProgrammes($include_deleted = true)
     {
-        return ilStudyProgramme::where(array('subtype_id'=>$this->getId()))->get();
+        return ilStudyProgramme::where(array('subtype_id' => $this->getId()))->get();
     }
 
     public function getAssignedStudyProgrammeIds()
@@ -430,7 +430,7 @@ class ilStudyProgrammeType extends ActiveRecord
             return $this->amd_records_assigned[$active];
         }
         $this->amd_records_assigned[$active] = array();
-        $sets = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId()))->get();
+        $sets = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id' => $this->getId()))->get();
 
         foreach ($sets as $set) {
             $amd_record = new ilAdvancedMDRecord($set->getRecId());
@@ -531,7 +531,7 @@ class ilStudyProgrammeType extends ActiveRecord
             $record_ids = $this->getAssignedAdvancedMDRecordIds();
             $record_ids[] = $a_record_id;
 
-            $exists = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->first();
+            $exists = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id' => $this->getId(), 'rec_id' => $a_record_id))->first();
 
             if (!$exists) {
                 $advanced_meta = new ilStudyProgrammeAdvancedMetadataRecord();
@@ -576,7 +576,7 @@ class ilStudyProgrammeType extends ActiveRecord
             }
             unset($record_ids[$key]);
 
-            $records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id'=>$this->getId(), 'rec_id'=>$a_record_id))->get();
+            $records = ilStudyProgrammeAdvancedMetadataRecord::where(array('type_id' => $this->getId(), 'rec_id' => $a_record_id))->get();
             foreach ($records as $record) {
                 $record->delete();
             }
@@ -727,7 +727,7 @@ class ilStudyProgrammeType extends ActiveRecord
             throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
         }
 
-        $trans_obj = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'member'=>$a_member, 'lang'=>$a_lang_code))->first();
+        $trans_obj = ilStudyProgrammeTypeTranslation::where(array('prg_type_id' => $this->getId(), 'member' => $a_member, 'lang' => $a_lang_code))->first();
         if (!$trans_obj) {
             $trans_obj = new ilStudyProgrammeTypeTranslation();
             $trans_obj->setPrgTypeId($this->getId());
@@ -776,7 +776,7 @@ class ilStudyProgrammeType extends ActiveRecord
         if (isset($this->translations[$a_lang_code])) {
             return $this->translations[$a_lang_code];
         } else {
-            $trans_array = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'lang'=>$a_lang_code))->getArray('member', 'value');
+            $trans_array = ilStudyProgrammeTypeTranslation::where(array('prg_type_id' => $this->getId(), 'lang' => $a_lang_code))->getArray('member', 'value');
             if (count($trans_array)) {
                 $this->translations[$a_lang_code] = $trans_array;
 
@@ -835,7 +835,7 @@ class ilStudyProgrammeType extends ActiveRecord
      */
     public function getAllTranslations()
     {
-        $translations = ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId()))->get();
+        $translations = ilStudyProgrammeTypeTranslation::where(array('prg_type_id' => $this->getId()))->get();
         /** @var ilStudyProgrammeTypeTranslation $trans */
         foreach ($translations as $trans) {
             $this->translations[$trans->getLang()] = $trans->getArray('member', 'value');

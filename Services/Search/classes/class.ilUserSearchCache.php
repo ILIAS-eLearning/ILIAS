@@ -369,25 +369,25 @@ class ilUserSearchCache
             $ilDB->update(
                 'usr_search',
                 array(
-                    'search_result'	=> array('clob',serialize(array(0))),
-                    'checked'		=> array('clob',serialize(array(0))),
-                    'failed'		=> array('clob',serialize(array(0))),
-                    'page'			=> array('integer',0)),
+                    'search_result' => array('clob',serialize(array(0))),
+                    'checked' => array('clob',serialize(array(0))),
+                    'failed' => array('clob',serialize(array(0))),
+                    'page' => array('integer',0)),
                 array(
-                    'usr_id'		=> array('integer',(int) $this->usr_id),
-                    'search_type'	=> array('integer',(int) $this->search_type)
+                    'usr_id' => array('integer',(int) $this->usr_id),
+                    'search_type' => array('integer',(int) $this->search_type)
             )
             );
         } else {
             $ilDB->insert(
                 'usr_search',
                 array(
-                    'search_result'	=> array('clob',serialize(array(0))),
-                    'checked'		=> array('clob',serialize(array(0))),
-                    'failed'		=> array('clob',serialize(array(0))),
-                    'page'			=> array('integer',0),
-                    'usr_id'		=> array('integer',(int) $this->usr_id),
-                    'search_type'	=> array('integer',(int) $this->search_type)
+                    'search_result' => array('clob',serialize(array(0))),
+                    'checked' => array('clob',serialize(array(0))),
+                    'failed' => array('clob',serialize(array(0))),
+                    'page' => array('integer',0),
+                    'usr_id' => array('integer',(int) $this->usr_id),
+                    'search_type' => array('integer',(int) $this->search_type)
             )
             );
         }
@@ -458,16 +458,16 @@ class ilUserSearchCache
         $res = $ilDB->manipulate($query);
         
         $ilDB->insert('usr_search', array(
-            'usr_id'		=> array('integer',(int) $this->usr_id),
-            'search_result'	=> array('clob',serialize($this->search_result)),
-            'checked'		=> array('clob',serialize($this->checked)),
-            'failed'		=> array('clob',serialize($this->failed)),
-            'page'			=> array('integer',(int) $this->page_number),
-            'search_type'	=> array('integer',(int) $this->search_type),
-            'query'			=> array('clob',serialize($this->getQuery())),
-            'root'			=> array('integer',$this->getRoot()),
-            'item_filter'	=> array('text',serialize($this->getItemFilter())),
-            'mime_filter'	=> array('text',  serialize($this->getMimeFilter())),
+            'usr_id' => array('integer',(int) $this->usr_id),
+            'search_result' => array('clob',serialize($this->search_result)),
+            'checked' => array('clob',serialize($this->checked)),
+            'failed' => array('clob',serialize($this->failed)),
+            'page' => array('integer',(int) $this->page_number),
+            'search_type' => array('integer',(int) $this->search_type),
+            'query' => array('clob',serialize($this->getQuery())),
+            'root' => array('integer',$this->getRoot()),
+            'item_filter' => array('text',serialize($this->getItemFilter())),
+            'mime_filter' => array('text',  serialize($this->getMimeFilter())),
             'creation_filter' => array('text', serialize($this->getCreationFilter()))
         ));
             
@@ -476,9 +476,9 @@ class ilUserSearchCache
         $ilDB->insert(
             'usr_search',
             array(
-                'usr_id'		=> array('integer',$this->usr_id),
-                'search_type'	=> array('integer',self::LAST_QUERY),
-                'query'			=> array('text',serialize($this->getQuery()))
+                'usr_id' => array('integer',$this->usr_id),
+                'search_type' => array('integer',self::LAST_QUERY),
+                'query' => array('text',serialize($this->getQuery()))
             )
         );
     }
@@ -488,16 +488,16 @@ class ilUserSearchCache
         unset($_SESSION['usr_search_cache']);
 
         $_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;
-        $_SESSION['usr_search_cache'][$this->search_type]['checked'] =  $this->checked;
-        $_SESSION['usr_search_cache'][$this->search_type]['failed'] =  $this->failed;
-        $_SESSION['usr_search_cache'][$this->search_type]['page'] =  $this->page_number;
-        $_SESSION['usr_search_cache'][$this->search_type]['query'] =  $this->getQuery();
-        $_SESSION['usr_search_cache'][$this->search_type]['root'] =  $this->getRoot();
-        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] =  $this->getItemFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] =  $this->getMimeFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] =  $this->getCreationFilter();
+        $_SESSION['usr_search_cache'][$this->search_type]['checked'] = $this->checked;
+        $_SESSION['usr_search_cache'][$this->search_type]['failed'] = $this->failed;
+        $_SESSION['usr_search_cache'][$this->search_type]['page'] = $this->page_number;
+        $_SESSION['usr_search_cache'][$this->search_type]['query'] = $this->getQuery();
+        $_SESSION['usr_search_cache'][$this->search_type]['root'] = $this->getRoot();
+        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] = $this->getItemFilter();
+        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] = $this->getMimeFilter();
+        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();
 
-        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] =  $this->getQuery();
+        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();
 
         return true;
     }

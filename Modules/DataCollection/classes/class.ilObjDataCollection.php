@@ -62,11 +62,11 @@ class ilObjDataCollection extends ilObject2
         $ilDB->insert(
             "il_dcl_data",
             array(
-            "id"           => array("integer", $this->getId()),
-            "is_online"    => array("integer", (int) $this->getOnline()),
-            "rating"       => array("integer", (int) $this->getRating()),
+            "id" => array("integer", $this->getId()),
+            "is_online" => array("integer", (int) $this->getOnline()),
+            "rating" => array("integer", (int) $this->getRating()),
             "public_notes" => array("integer", (int) $this->getPublicNotes()),
-            "approval"     => array("integer", (int) $this->getApproval()),
+            "approval" => array("integer", (int) $this->getApproval()),
             "notification" => array("integer", (int) $this->getNotification()),
         )
         );
@@ -104,11 +104,11 @@ class ilObjDataCollection extends ilObject2
         $ilDB->update(
             "il_dcl_data",
             array(
-            "id"           => array("integer", $this->getId()),
-            "is_online"    => array("integer", (int) $this->getOnline()),
-            "rating"       => array("integer", (int) $this->getRating()),
+            "id" => array("integer", $this->getId()),
+            "is_online" => array("integer", (int) $this->getOnline()),
+            "rating" => array("integer", (int) $this->getRating()),
             "public_notes" => array("integer", (int) $this->getPublicNotes()),
-            "approval"     => array("integer", (int) $this->getApproval()),
+            "approval" => array("integer", (int) $this->getApproval()),
             "notification" => array("integer", (int) $this->getNotification()),
         ),
             array(

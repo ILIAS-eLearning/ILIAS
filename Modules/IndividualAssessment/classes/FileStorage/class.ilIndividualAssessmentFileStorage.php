@@ -99,7 +99,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
         $fh = opendir($this->getAbsolutePath());
         $files = array();
         while ($file = readdir($fh)) {
-            if ($file !="." && $file !=".." && !is_dir($this->getAbsolutePath() . "/" . $file)) {
+            if ($file != "." && $file != ".." && !is_dir($this->getAbsolutePath() . "/" . $file)) {
                 $files[] = $file;
             }
         }

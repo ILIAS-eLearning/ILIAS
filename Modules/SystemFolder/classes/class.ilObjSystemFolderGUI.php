@@ -111,7 +111,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =&$this->ctrl->forwardCommand($perm_gui);
+                $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
             
             case 'ilimprintgui':
@@ -486,7 +486,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         foreach ($data["Fobject"] as $key => $val) {
             // add translation button
-            if ($key == $count -1) {
+            if ($key == $count - 1) {
                 $this->tpl->setCurrentBlock("addTranslation");
                 $this->tpl->setVariable("TXT_ADD_TRANSLATION", $this->lng->txt("add_translation") . " >>");
                 $this->tpl->parseCurrentBlock();
@@ -700,7 +700,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         include_once "./Services/Repository/classes/class.ilValidator.php";
         $validator = new IlValidator();
-        $scan_log =&$validator->readScanLog();
+        $scan_log = &$validator->readScanLog();
 
         if (is_array($scan_log)) {
             $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
@@ -1840,11 +1840,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // Level
         $lev = new ilSelectInputGUI($this->lng->txt('lucene_level'), 'le');
         $lev->setOptions(array(
-            'DEBUG'		=> 'DEBUG',
-            'INFO'		=> 'INFO',
-            'WARN'		=> 'WARN',
-            'ERROR'		=> 'ERROR',
-            'FATAL'		=> 'FATAL'));
+            'DEBUG' => 'DEBUG',
+            'INFO' => 'INFO',
+            'WARN' => 'WARN',
+            'ERROR' => 'ERROR',
+            'FATAL' => 'FATAL'));
         $lev->setValue('INFO');
         $lev->setRequired(true);
         $this->form->addItem($lev);

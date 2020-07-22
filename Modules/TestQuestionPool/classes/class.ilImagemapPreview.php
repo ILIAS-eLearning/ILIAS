@@ -35,7 +35,7 @@ class ilImagemapPreview
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $this->lng =&$lng;
+        $this->lng = &$lng;
         $this->imagemap_filename = $imagemap_filename;
         $this->preview_filename = $preview_filename;
         if (!@is_file($this->preview_filename)) {
@@ -75,7 +75,7 @@ class ilImagemapPreview
         $fillcolor = "#FFFFFFA0"
     ) {
         if (ini_get("safe_mode")) {
-            if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
+            if ((strpos($fillcolor, "#") !== false) ||  (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
             }
         }
@@ -111,7 +111,7 @@ class ilImagemapPreview
     
     public function getAreaIdent()
     {
-        if (count($this->areas)+count($this->points) > 0) {
+        if (count($this->areas) + count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
             sort($arr, SORT_NUMERIC);
             
@@ -127,7 +127,7 @@ class ilImagemapPreview
 
     public function createPreview()
     {
-        if (count($this->areas)+count($this->points)==0) {
+        if (count($this->areas) + count($this->points) == 0) {
             return;
         }
         include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -140,13 +140,13 @@ class ilImagemapPreview
                 $r = 6;
                 // draw a circle at the point
                 $convert_cmd .= "-stroke " . $point["bordercolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"line " .
-                ($x-$r) . "," . ($y-$r) . " " . ($x+$r) . "," . ($y+$r) . "\" " .
+                ($x - $r) . "," . ($y - $r) . " " . ($x + $r) . "," . ($y + $r) . "\" " .
                 "-stroke " . $point["bordercolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"line " .
-                ($x+$r) . "," . ($y-$r) . " " . ($x-$r) . "," . ($y+$r) . "\" " .
+                ($x + $r) . "," . ($y - $r) . " " . ($x - $r) . "," . ($y + $r) . "\" " .
                 "-stroke " . $point["linecolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"line " .
-                ($x-$r) . "," . ($y-$r) . " " . ($x+$r) . "," . ($y+$r) . "\" " .
+                ($x - $r) . "," . ($y - $r) . " " . ($x + $r) . "," . ($y + $r) . "\" " .
                 "-stroke " . $point["linecolor"] . " -fill " . $point["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"line " .
-                ($x+$r) . "," . ($y-$r) . " " . ($x-$r) . "," . ($y+$r) . "\" ";
+                ($x + $r) . "," . ($y - $r) . " " . ($x - $r) . "," . ($y + $r) . "\" ";
             }
         }
         foreach ($this->areas as $area) {
@@ -157,7 +157,7 @@ class ilImagemapPreview
                 $x1 = $matches[3];
                 $y1 = $matches[4];
                 // draw a rect around the selection
-                $convert_cmd .=	"-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"rectangle " .
+                $convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"rectangle " .
                 $x0 . "," . $y0 . " " . ($x1) . "," . $y1 . "\" " .
                 "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"rectangle " .
                 $x0 . "," . $y0 . " " . ($x1) . "," . $y1 . "\" ";
@@ -168,9 +168,9 @@ class ilImagemapPreview
                 $r = $matches[3];
                 // draw a circle around the selection
                 $convert_cmd .= "-stroke " . $area["bordercolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_outer -draw \"circle " .
-                $x . "," . $y . " " . ($x+$r) . "," . $y . "\" " .
+                $x . "," . $y . " " . ($x + $r) . "," . $y . "\" " .
                 "-stroke " . $area["linecolor"] . " -fill " . $area["fillcolor"] . " -strokewidth $this->linewidth_inner -draw \"circle " .
-                $x . "," . $y . " " . ($x+$r) . "," . $y . "\" ";
+                $x . "," . $y . " " . ($x + $r) . "," . $y . "\" ";
             } elseif ($area["visible"] and strcmp(strtolower($area["shape"]), "poly") == 0) {
                 $obj = "polygon";
                 // draw a polygon around the selection
@@ -201,7 +201,7 @@ class ilImagemapPreview
     public function getPreviewFilename($imagePath, $baseFileName)
     {
         $filename = $baseFileName;
-        if (count($this->areas)+count($this->points)>0) {
+        if (count($this->areas) + count($this->points) > 0) {
             $pfile = $this->preview_filename;
             if (is_file($pfile)) {
                 $ident = $this->getAreaIdent();

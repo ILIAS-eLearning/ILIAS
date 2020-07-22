@@ -63,7 +63,7 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends \ilTermsOfServiceCriterio
         $this->skipIfvfsStreamNotSupported();
 
         vfs\vfsStreamWrapper::register();
-        $root  = vfs\vfsStreamWrapper::setRoot(new vfs\vfsStreamDirectory('root'));
+        $root = vfs\vfsStreamWrapper::setRoot(new vfs\vfsStreamDirectory('root'));
         $cacheDirectory = vfs\vfsStream::newDirectory('HTMLPurifier')->at($root);
         $cacheDirectory->chmod(0777);
 

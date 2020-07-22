@@ -39,13 +39,13 @@ class ilMailTemplatePlaceholderResolver
         $message = $this->message;
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
-            $result  = $this->context->resolvePlaceholder($key, $a_context_params, $user);
+            $result = $this->context->resolvePlaceholder($key, $a_context_params, $user);
             if (!$replace_empty && strlen($result) == 0) {
                 continue;
             }
 
             $startTag = '\[IF_' . strtoupper($key) . '\]';
-            $endTag   = '\[\/IF_' . strtoupper($key) . '\]';
+            $endTag = '\[\/IF_' . strtoupper($key) . '\]';
 
             if (strlen($result) > 0) {
                 $message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $message);

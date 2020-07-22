@@ -80,23 +80,23 @@ class ilBrowser
             $this->BROWSER_AGENT = 'IE';
         } elseif (preg_match('/Opera ([0-9].[0-9]{1,2})/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/Opera\/([0-9].[0-9]{1,2})/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER   = $log_version[1];
+            $this->BROWSER_VER = $log_version[1];
             $this->BROWSER_AGENT = 'OPERA';
         } elseif (preg_match('/Safari ([0-9\/.]*)/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/Safari\/([0-9\/.]*)/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER   = $log_version[1];
+            $this->BROWSER_VER = $log_version[1];
             $this->BROWSER_AGENT = 'Safari';
         } elseif (preg_match('/Firefox ([0-9\/.]*)/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/Firefox\/([0-9\/.]*)/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER   = $log_version[1];
+            $this->BROWSER_VER = $log_version[1];
             $this->BROWSER_AGENT = 'Firefox';
         } elseif (preg_match('/iCab ([0-9].[0-9a-zA-Z]{1,4})/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/iCab\/([0-9].[0-9a-zA-Z]{1,4})/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER   = $log_version[1];
+            $this->BROWSER_VER = $log_version[1];
             $this->BROWSER_AGENT = 'iCab';
         } elseif (preg_match('/Mozilla ([0-9].[0-9a-zA-Z]{1,4})/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/Mozilla\/([0-9].[0-9a-zA-Z]{1,4})/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER   = $log_version[1];
+            $this->BROWSER_VER = $log_version[1];
             if (preg_match('/Gecko/', $HTTP_USER_AGENT, $log_version)) {
                 $this->BROWSER_AGENT = 'Mozilla';
             } else {
@@ -104,28 +104,28 @@ class ilBrowser
             }
         } elseif (preg_match('/Konqueror\/([0-9].[0-9].[0-9]{1,2})/', $HTTP_USER_AGENT, $log_version) ||
             preg_match('/Konqueror\/([0-9].[0-9]{1,2})/', $HTTP_USER_AGENT, $log_version)) {
-            $this->BROWSER_VER=$log_version[1];
-            $this->BROWSER_AGENT='Konqueror';
+            $this->BROWSER_VER = $log_version[1];
+            $this->BROWSER_AGENT = 'Konqueror';
         } else {
-            $this->BROWSER_VER=0;
-            $this->BROWSER_AGENT='OTHER';
+            $this->BROWSER_VER = 0;
+            $this->BROWSER_AGENT = 'OTHER';
         }
 
         /*
             Determine platform
         */
         if (strstr($HTTP_USER_AGENT, 'Win')) {
-            $this->BROWSER_PLATFORM='Win';
+            $this->BROWSER_PLATFORM = 'Win';
         } elseif (strstr($HTTP_USER_AGENT, 'Mac')) {
-            $this->BROWSER_PLATFORM='Mac';
+            $this->BROWSER_PLATFORM = 'Mac';
         } elseif (strstr($HTTP_USER_AGENT, 'Linux')) {
-            $this->BROWSER_PLATFORM='Linux';
+            $this->BROWSER_PLATFORM = 'Linux';
         } elseif (strstr($HTTP_USER_AGENT, 'Unix')) {
-            $this->BROWSER_PLATFORM='Unix';
+            $this->BROWSER_PLATFORM = 'Unix';
         } elseif (strstr($HTTP_USER_AGENT, 'Beos')) {
-            $this->BROWSER_PLATFORM='Beos';
+            $this->BROWSER_PLATFORM = 'Beos';
         } else {
-            $this->BROWSER_PLATFORM='Other';
+            $this->BROWSER_PLATFORM = 'Other';
         }
         
         // Mobile detection
@@ -224,8 +224,8 @@ class ilBrowser
     public function returnArray()
     {
         $this->data = array(
-            'agent'    => $this->getAgent(),
-            'version'  => $this->getVersion(false),
+            'agent' => $this->getAgent(),
+            'version' => $this->getVersion(false),
             'platform' => $this->getPlatform()
         );
 

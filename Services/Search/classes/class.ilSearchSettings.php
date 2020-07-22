@@ -17,14 +17,14 @@ class ilSearchSettings
     const INDEX_SEARCH = 1;
     const LUCENE_SEARCH = 2;
     
-    const OPERATOR_AND	= 1;
-    const OPERATOR_OR	= 2;
+    const OPERATOR_AND = 1;
+    const OPERATOR_OR = 2;
     
     protected static $instance = null;
     
     protected $default_operator = self::OPERATOR_AND;
     protected $fragmentSize = 30;
-    protected $fragmentCount =  3;
+    protected $fragmentCount = 3;
     protected $numSubitems = 5;
     protected $showRelevance = true;
     protected $last_index_date = null;

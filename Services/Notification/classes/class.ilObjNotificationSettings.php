@@ -71,7 +71,7 @@ class ilObjNotificationSettings
     {
         $db = $this->db;
 
-        if ($this->obj_id  > 0) {
+        if ($this->obj_id > 0) {
             $db->replace(
                 "obj_noti_settings",
                 array("obj_id" => array("integer", $this->obj_id)),

@@ -51,8 +51,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
-        $this->scosSelected=$a_scosSelected;
-        $this->userSelected=$a_userSelected;
+        $this->scosSelected = $a_scosSelected;
+        $this->userSelected = $a_userSelected;
         if ($a_parent_cmd == "showTrackingItemsBySco") {
             $this->bySCO = true;
         }
@@ -84,7 +84,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
             }
             if (substr($l, 0, 17) == "interaction_value") {
-                $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ')-17))) . substr($l, strpos($l, ' '));
+                $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
             }
             if (substr($l, 0, 23) == "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
@@ -121,28 +121,28 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         
         switch ($this->report) {
             case "exportSelectedCore":
-                $cols=ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedInteractions":
-                $cols=ilSCORM2004TrackingItems::exportSelectedInteractionsColumns();
+                $cols = ilSCORM2004TrackingItems::exportSelectedInteractionsColumns();
             break;
             case "exportSelectedObjectives":
-                $cols=ilSCORM2004TrackingItems::exportSelectedObjectivesColumns();
+                $cols = ilSCORM2004TrackingItems::exportSelectedObjectivesColumns();
             break;
             case "exportObjGlobalToSystem":
-                $cols=ilSCORM2004TrackingItems::exportObjGlobalToSystemColumns();
+                $cols = ilSCORM2004TrackingItems::exportObjGlobalToSystemColumns();
             break;
             case "tracInteractionItem":
-                $cols=ilSCORM2004TrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "tracInteractionUser":
-                $cols=ilSCORM2004TrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
             break;
             case "tracInteractionUserAnswers":
-                $cols=ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
             break;
             case "exportSelectedSuccess":
-                $cols=ilSCORM2004TrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
+                $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
             break;
         }
         
@@ -192,7 +192,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             break;
         }
         $this->setMaxCount($tr_data["cnt"]);
-        if (ilUtil::stripSlashes($this->getOrderField()) !="") {
+        if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
         }
@@ -212,7 +212,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 break;
         }
         //BLUM round
-        if ($id=="launch_data" || $id=="suspend_data") {
+        if ($id == "launch_data" || $id == "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {

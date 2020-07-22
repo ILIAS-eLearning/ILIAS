@@ -20,11 +20,11 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
     /**
      * command constants
      */
-    const CMD_SHOW_LIST			= 'showList';
-    const CMD_SHOW_HINT			= 'showHint';
-    const CMD_CONFIRM_REQUEST	= 'confirmRequest';
-    const CMD_PERFORM_REQUEST	= 'performRequest';
-    const CMD_BACK_TO_QUESTION	= 'backToQuestion';
+    const CMD_SHOW_LIST = 'showList';
+    const CMD_SHOW_HINT = 'showHint';
+    const CMD_CONFIRM_REQUEST = 'confirmRequest';
+    const CMD_PERFORM_REQUEST = 'performRequest';
+    const CMD_BACK_TO_QUESTION = 'backToQuestion';
     
     /**
      * @var mixed

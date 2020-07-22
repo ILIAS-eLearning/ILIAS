@@ -69,7 +69,7 @@ function data_processing()
 
     //Step 6: Define some data processing.
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] =='data_processing') {
+            && $request->getQueryParams()['example_name'] == 'data_processing') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

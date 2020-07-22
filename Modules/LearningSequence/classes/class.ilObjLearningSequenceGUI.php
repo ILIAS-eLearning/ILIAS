@@ -127,12 +127,40 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->object = $this->getObject();
     }
 
+    protected function getCurrentItemLearningProgress()
+    {
+        $usr_id = (int) $this->user->getId();
+        $items = $this->getLearnerItems($usr_id);
+        $current_item_ref_id = $this->getCurrentItemForLearner($usr_id);
+        foreach ($items as $index => $item) {
+            if ($item->getRefId() === $current_item_ref_id) {
+                return $item->getLearningProgressStatus();
+            }
+        }
+    }
+
+    protected function recordLearningSequenceRead()
+    {
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+    }
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        $tpl = $this->tpl;
 
+        //exit real early for LP-checking.
+        if ($cmd === LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP) {
+            print $this->getCurrentItemLearningProgress();
+            exit;
+        }
+
+        $tpl = $this->tpl;
         parent::prepareOutput();
         $this->addToNavigationHistory();
         //showRepTree is from containerGUI;
@@ -329,9 +357,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
         if ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
+            $this->recordLearningSequenceRead();
             return;
         }
         $this->info(self::CMD_INFO);
+        $this->recordLearningSequenceRead();
     }
 
     protected function manageContent(string $cmd = self::CMD_CONTENT)
@@ -584,7 +614,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this->getLinkTarget(self::CMD_LEARNER_VIEW)
         );
 
-        if ($this->checkAccess("edit_permission")) {
+        if ($this->checkAccess("write")) {
             $this->tabs->addSubTab(
                 self::TAB_MANAGE,
                 $this->lng->txt(self::TAB_MANAGE),

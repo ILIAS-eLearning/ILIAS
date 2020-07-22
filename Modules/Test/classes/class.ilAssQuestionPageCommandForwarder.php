@@ -67,7 +67,7 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->setQuestionTabs();
         $q_gui->outAdditionalOutput();
         $q_gui->object->setObjId($this->getTestObj()->getId());
-        $question =&$q_gui->object;
+        $question = &$q_gui->object;
         $DIC->ctrl()->saveParameter($this, "q_id");
         $DIC->language()->loadLanguageModule("content");
         $DIC->ctrl()->setReturnByClass("ilAssQuestionPageGUI", "view");

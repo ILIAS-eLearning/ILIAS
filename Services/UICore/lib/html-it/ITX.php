@@ -281,7 +281,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $this->openingDelimiter . '__' . $blockname . '__' .
                     $this->closingDelimiter,
             $this->blocklist[$parents[0]]
-                );
+        );
 
         $this->deleteFromBlockvariablelist($parents[0], $placeholder);
         $this->updateBlockvariablelist($blockname);
@@ -347,7 +347,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             // search all blocks and return the name of the first block that
             // contains the placeholder
             reset($this->blockvariables);
-            foreach ($this->blockvariables as $blockname  => $variables) {
+            foreach ($this->blockvariables as $blockname => $variables) {
                 if (is_array($variables) && isset($variables[$placeholder])) {
                     $found = $blockname;
                     break;
@@ -388,7 +388,7 @@ class HTML_Template_ITX extends HTML_Template_IT
                        $callFunction(
                            $this->callback[$function['name']]['function'],
                            $function['args']
-                     );
+                       );
                 }
                 $this->variableCache['__function' . $func_id . '__'] = $call;
             }
@@ -465,7 +465,7 @@ class HTML_Template_ITX extends HTML_Template_IT
     * @deprecated The $callbackobject parameter is depricated since
     *             version 1.2 and might be dropped in further versions.
     */
-    public function setCallbackFunction($tplfunction, $callbackfunction, $callbackobject = '', $expandCallbackParameters=false)
+    public function setCallbackFunction($tplfunction, $callbackfunction, $callbackobject = '', $expandCallbackParameters = false)
     {
         if ($tplfunction == '' || $callbackfunction == '') {
             throw (new ilTemplateException("No template function " . "('$tplfunction')" .
@@ -473,7 +473,7 @@ class HTML_Template_ITX extends HTML_Template_IT
         }
         $this->callback[$tplfunction] = array(
                                           'function' => $callbackfunction,
-                                          'object'   => $callbackobject,
+                                          'object' => $callbackobject,
                                           'expandParameters' => (boolean) $expandCallbackParameters
                                         );
 
@@ -609,7 +609,7 @@ class HTML_Template_ITX extends HTML_Template_IT
                        $this->closingDelimiter;
 
             $this->template = str_replace($search, $replace, $this->template);
-            $template       = str_replace($search, $replace, $template);
+            $template = str_replace($search, $replace, $template);
 
             while ($head != '' && $args2 = $this->getValue($head, ',')) {
                 $arg2 = trim($args2);
@@ -622,8 +622,8 @@ class HTML_Template_ITX extends HTML_Template_IT
             }
 
             $this->functions[$num++] = array(
-                                                'name'    => $regs[1],
-                                                'args'    => $args
+                                                'name' => $regs[1],
+                                                'args' => $args
                                             );
         }
     } // end func buildFunctionlist
@@ -648,8 +648,8 @@ class HTML_Template_ITX extends HTML_Template_IT
             $delimiter = array( $delimiter => true );
         }
 
-        $len         = strlen($code);
-        $enclosed    = false;
+        $len = strlen($code);
+        $enclosed = false;
         $enclosed_by = '';
 
         if (isset($delimiter[$code[0]])) {
@@ -714,7 +714,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $this->variablesRegExp,
             $this->blocklist[$block],
             $regs
-                    );
+        );
 
         if (count($regs[1]) != 0) {
             foreach ($regs[1] as $k => $var) {
@@ -780,7 +780,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $message,
             $file,
             $line
-                );
+        );
 
         $this->warn[] = $message;
 

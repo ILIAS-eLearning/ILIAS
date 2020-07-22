@@ -20,7 +20,7 @@ class ilVirusScannerSophos extends ilVirusScanner
     public function __construct($a_scancommand, $a_cleancommand)
     {
         parent::__construct($a_scancommand, $a_cleancommand);
-        $this->type         = "sophos";
+        $this->type = "sophos";
         $this->scanZipFiles = true;
     }
 
@@ -43,7 +43,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         // - return the scanResult, if file is infected
         // - return an empty string, if file is not infected
 
-        $this->scanFilePath     = $a_filepath;
+        $this->scanFilePath = $a_filepath;
         $this->scanFileOrigName = $a_origname;
 
         // Call of scan_file from Sophie (www.vanja.com/tools/sophie)
@@ -118,7 +118,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         // - return the cleanResult, if file is cleaned
         // - return an empty string, if file is not cleaned
 
-        $this->cleanFilePath     = $a_filepath;
+        $this->cleanFilePath = $a_filepath;
         $this->cleanFileOrigName = $a_origname;
 
         // Call of sweep from Sophos (www.sophos.com)

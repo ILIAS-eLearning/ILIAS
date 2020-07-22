@@ -39,13 +39,13 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
     /**
      * ilAuthProviderSaml constructor.
      * @param \ilAuthFrontendCredentials|\ilAuthFrontendCredentialsSaml $credentials
-     * @param null                          $a_idp_id
+     * @param int|null $a_idp_id
      */
     public function __construct(\ilAuthFrontendCredentials $credentials, $a_idp_id = null)
     {
         parent::__construct($credentials);
 
-        if (null === $a_idp_id) {
+        if (null === $a_idp_id || 0 === $a_idp_id) {
             $this->idp = ilSamlIdp::getFirstActiveIdp();
         } else {
             $this->idp = ilSamlIdp::getInstanceByIdpId($a_idp_id);
@@ -53,7 +53,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
         if ($credentials instanceof \ilAuthFrontendCredentialsSaml) {
             $this->attributes = $credentials->getAttributes();
-            $this->return_to  = $credentials->getReturnTo();
+            $this->return_to = $credentials->getReturnTo();
         }
     }
 
@@ -223,9 +223,9 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             return false;
         }
 
-        $this->uid        = $this->getCredentials()->getUsername();
+        $this->uid = $this->getCredentials()->getUsername();
         $this->attributes = ilSession::get('tmp_attributes');
-        $this->return_to  = ilSession::get('tmp_return_to');
+        $this->return_to = ilSession::get('tmp_return_to');
 
         $this->force_new_account = true;
         return $this->handleSamlAuth($status);
@@ -284,8 +284,8 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             $xml_writer->xmlElement('Login', array(), $login);
 
             $xml_writer->xmlElement('Role', array(
-                'Id'     => $this->idp->getDefaultRoleId(),
-                'Type'   => 'Global',
+                'Id' => $this->idp->getDefaultRoleId(),
+                'Type' => 'Global',
                 'Action' => 'Assign'
             ));
 
@@ -299,7 +299,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
             $mapping = new ilExternalAuthUserCreationAttributeMappingFilter($mapping);
         } else {
-            $login  = $a_internal_login;
+            $login = $a_internal_login;
             $usr_id = ilObjUser::_lookupId($a_internal_login);
 
             $xml_writer->xmlStartTag('User', array('Action' => 'Update', 'Id' => $usr_id));

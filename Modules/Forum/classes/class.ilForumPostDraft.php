@@ -666,7 +666,7 @@ class ilForumPostDraft
             
             while ($row = $ilDB->fetchAssoc($res)) {
                 $num_drafts_total += $row['num_drafts'];
-                self::$forum_statistics_cache[$ref_id][$ilUser->getId()][$row['thread_id']] =  $row['num_drafts'];
+                self::$forum_statistics_cache[$ref_id][$ilUser->getId()][$row['thread_id']] = $row['num_drafts'];
             }
             
             self::$forum_statistics_cache[$ref_id][$ilUser->getId()]['total'] = $num_drafts_total;
@@ -738,7 +738,7 @@ class ilForumPostDraft
         while ($row = $ilDB->fetchAssoc($res)) {
             $tmp_obj = new self;
             self::populateWithDatabaseRecord($tmp_obj, $row);
-            $draft_data[] = array('subject'=> $tmp_obj->getPostSubject(), 'post_update' => $tmp_obj->getPostUpdate(), 'draft_id' => $tmp_obj->getDraftId());
+            $draft_data[] = array('subject' => $tmp_obj->getPostSubject(), 'post_update' => $tmp_obj->getPostUpdate(), 'draft_id' => $tmp_obj->getDraftId());
         }
         return $draft_data;
     }

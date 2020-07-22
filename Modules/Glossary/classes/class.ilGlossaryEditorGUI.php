@@ -56,7 +56,7 @@ class ilGlossaryEditorGUI
         $ilErr = $DIC["ilErr"];
         
         // initialisation stuff
-        $this->ctrl =  $ilCtrl;
+        $this->ctrl = $ilCtrl;
         $lng->loadLanguageModule("content");
         
         // check write permission

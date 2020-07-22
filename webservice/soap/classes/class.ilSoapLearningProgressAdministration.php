@@ -147,14 +147,21 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         }
         return true;
     }
-    
+
+    /**
+     * @param string $sid
+     * @param int $a_ref_id
+     * @param int[] $a_progress_filter
+     * @return soap_fault|SoapFault|string
+     */
     public function getProgressInfo($sid, $a_ref_id, $a_progress_filter)
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
         $this->initAuth($sid);
         $this->initIlias();
+
+        $ilAccess = $DIC->access();
 
         // Check session
         if (!$this->__checkSession($sid)) {

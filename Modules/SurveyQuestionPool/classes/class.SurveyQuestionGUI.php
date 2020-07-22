@@ -114,7 +114,7 @@ abstract class SurveyQuestionGUI
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             default:
-                $ret =&$this->$cmd();
+                $ret = &$this->$cmd();
                 break;
         }
         return $ret;
@@ -845,7 +845,7 @@ abstract class SurveyQuestionGUI
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
                 $cont_obj = $cont_obj_gui->object;
                 // get all chapters
-                $ctree =&$cont_obj->getLMTree();
+                $ctree = &$cont_obj->getLMTree();
                 $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
                 foreach ($nodes as $node) {
                     if ($node["type"] == $_SESSION["search_link_type"]) {

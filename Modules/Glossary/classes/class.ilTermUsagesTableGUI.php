@@ -234,9 +234,9 @@ class ilTermUsagesTableGUI extends ilTable2GUI
             }
             foreach ($usage["hist_nr"] as $nr) {
                 if ($nr > 0) {
-                    $ver.= $sep . $nr;
+                    $ver .= $sep . $nr;
                 } else {
-                    $ver.= $sep . $this->lng->txt("cont_current_version");
+                    $ver .= $sep . $this->lng->txt("cont_current_version");
                 }
                 $sep = ", ";
             }

@@ -225,10 +225,10 @@ class ilCloudPluginService
      */
     public function formatBytes($bytes)
     {
-        $unit  = array('B', 'KB', 'MB', 'GB', 'TB');
+        $unit = array('B', 'KB', 'MB', 'GB', 'TB');
         $bytes = max($bytes, 0);
-        $pow   = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow   = min($pow, count($unit) - 1);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($unit) - 1);
         $bytes /= pow(1024, $pow);
         return round($bytes, 2) . ' ' . $unit[$pow];
     }

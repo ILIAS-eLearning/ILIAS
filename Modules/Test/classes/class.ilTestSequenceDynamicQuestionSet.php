@@ -862,7 +862,7 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $summary = array();
 
         foreach ($questionOrder as $qId) {
-            $question =&ilObjTest::_instanciateQuestion($qId);
+            $question = &ilObjTest::_instanciateQuestion($qId);
             if (is_object($question)) {
                 $worked_through = $question->_isWorkedThrough($this->getActiveId(), $question->getId(), $this->getPass());
                 $solved = 0;

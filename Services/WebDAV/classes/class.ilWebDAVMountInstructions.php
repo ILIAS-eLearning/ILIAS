@@ -175,7 +175,7 @@ class ilWebDAVMountInstructions
         $a_instruction_tpl = str_replace("[WEBFOLDER_URI_NAUTILUS]", $this->getNautilusUri(), $a_instruction_tpl);
         $a_instruction_tpl = str_replace("[ADMIN_MAIL]", $this->settings->get("admin_email"), $a_instruction_tpl);
         
-        if (strpos($this->user_agent, 'MSIE')!==false) {
+        if (strpos($this->user_agent, 'MSIE') !== false) {
             $a_instruction_tpl = preg_replace('/\[IF_IEXPLORE\](?:(.*))\[\/IF_IEXPLORE\]/s', '\1', $a_instruction_tpl);
         } else {
             $a_instruction_tpl = preg_replace('/\[IF_NOTIEXPLORE\](?:(.*))\[\/IF_NOTIEXPLORE\]/s', '\1', $a_instruction_tpl);

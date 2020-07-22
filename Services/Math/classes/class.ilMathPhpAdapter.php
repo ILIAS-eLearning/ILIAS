@@ -34,9 +34,19 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
      */
     public function mul($left_operand, $right_operand, $scale = null)
     {
-        $res = $this->normalize($left_operand) * $this->normalize($right_operand);
+        try {
+            $res = $this->normalize($left_operand) * $this->normalize($right_operand);
 
-        return $this->applyScale($res, $this->normalize($scale));
+            $multiplication = $this->applyScale($res, $this->normalize($scale));
+        } catch (Throwable $e) {
+            if (strpos($e->getMessage(), 'A non-numeric value encountered') !== false) {
+                $multiplication = 0;
+            } else {
+                throw $e;
+            }
+        }
+
+        return $multiplication;
     }
 
     /**
@@ -49,9 +59,20 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
-        $res = $this->normalize($left_operand) / $this->normalize($right_operand);
+        // This ensures the old PHP <= 7.0.x behaviour, see: #27785 / #26361
+        try {
+            $res = $this->normalize($left_operand) / $this->normalize($right_operand);
 
-        return $this->applyScale($res, $this->normalize($scale));
+            $division = $this->applyScale($res, $this->normalize($scale));
+        } catch (Throwable $e) {
+            if (strpos($e->getMessage(), 'A non-numeric value encountered') !== false) {
+                $division = 0;
+            } else {
+                throw $e;
+            }
+        }
+
+        return $division;
     }
 
     /**
@@ -94,12 +115,12 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
      */
     public function comp($left_operand, $right_operand, $scale = null)
     {
-        $left_operand  = $this->normalize($left_operand);
+        $left_operand = $this->normalize($left_operand);
         $right_operand = $this->normalize($right_operand);
-        $scale         = $this->normalize($scale);
+        $scale = $this->normalize($scale);
 
         if (is_numeric($scale)) {
-            $left_operand  = $this->applyScale($left_operand, $scale);
+            $left_operand = $this->applyScale($left_operand, $scale);
             $right_operand = $this->applyScale($right_operand, $scale);
         }
 

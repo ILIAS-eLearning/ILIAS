@@ -147,7 +147,7 @@ class ilMailTemplateGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             default:
@@ -341,10 +341,10 @@ class ilMailTemplateGUI
     protected function populateFormWithTemplate(\ilPropertyFormGUI $form, \ilMailTemplate $template)
     {
         $form->setValuesByArray(array(
-            'tpl_id'    => $template->getTplId(),
-            'title'     => $template->getTitle(),
-            'context'   => $template->getContext(),
-            'lang'      => $template->getLang(),
+            'tpl_id' => $template->getTplId(),
+            'title' => $template->getTitle(),
+            'context' => $template->getContext(),
+            'lang' => $template->getLang(),
             'm_subject' => $template->getSubject(),
             'm_message' => $template->getMessage(),
         ));
@@ -468,7 +468,7 @@ class ilMailTemplateGUI
         $title->setDisabled(!$this->isEditingAllowed());
         $form->addItem($title);
 
-        $context  = new \ilRadioGroupInputGUI($this->lng->txt('mail_template_context'), 'context');
+        $context = new \ilRadioGroupInputGUI($this->lng->txt('mail_template_context'), 'context');
         $context->setDisabled(!$this->isEditingAllowed());
         $contexts = \ilMailTemplateContextService::getTemplateContexts();
 
@@ -477,19 +477,19 @@ class ilMailTemplateGUI
             $this->ctrl->redirect($this, 'showTemplates');
         }
 
-        $context_sort    = array();
+        $context_sort = array();
         $context_options = array();
         $generic_context = new \ilMailTemplateGenericContext();
         foreach ($contexts as $ctx) {
             if ($ctx->getId() != $generic_context->getId()) {
                 $context_options[$ctx->getId()] = $ctx;
-                $context_sort[$ctx->getId()]    = $ctx->getTitle();
+                $context_sort[$ctx->getId()] = $ctx->getTitle();
             }
         }
         asort($context_sort);
         $first = null;
         foreach ($context_sort as $id => $title) {
-            $ctx    = $context_options[$id];
+            $ctx = $context_options[$id];
             $option = new \ilRadioOption($ctx->getTitle(), $ctx->getId());
             $option->setInfo($ctx->getDescription());
             $context->addOption($option);

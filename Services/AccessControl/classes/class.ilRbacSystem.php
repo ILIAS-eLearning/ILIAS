@@ -40,16 +40,16 @@ class ilRbacSystem
         $ilErr = $DIC['ilErr'];
         $ilias = $DIC['ilias'];
 
-        $this->ilias =&$ilias;
+        $this->ilias = &$ilias;
 
         // set db & error handler
-        (isset($ilDB)) ? $this->ilDB =&$ilDB : $this->ilDB =&$ilias->db;
+        (isset($ilDB)) ? $this->ilDB = &$ilDB : $this->ilDB = &$ilias->db;
         
         if (!isset($ilErr)) {
             $ilErr = new ilErrorHandling();
             $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
         } else {
-            $this->ilErr =&$ilErr;
+            $this->ilErr = &$ilErr;
         }
     }
     

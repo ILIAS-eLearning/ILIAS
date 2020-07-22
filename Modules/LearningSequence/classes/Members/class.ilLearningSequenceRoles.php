@@ -254,7 +254,7 @@ class ilLearningSequenceRoles
             $object = $this->getRoleObject((int) $role);
 
             $member = self::ROLE_LS_MEMBER . "_" . $lso_id;
-            $admin  = self::ROLE_LS_ADMIN . "_" . $lso_id;
+            $admin = self::ROLE_LS_ADMIN . "_" . $lso_id;
 
             if (strcmp($object->getTitle(), $member) == 0) {
                 $default_roles["lso_member_role"] = $object->getId();

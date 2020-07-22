@@ -46,8 +46,8 @@ class ilLMPageObject extends ilLMObject
 
         $this->is_alias = false;
         $this->contains_int_link = false;
-        $this->mobs_contained  = array();
-        $this->files_contained  = array();
+        $this->mobs_contained = array();
+        $this->files_contained = array();
         $this->halt_on_error = $a_halt;
 
         if ($a_id != 0) {
@@ -675,8 +675,8 @@ class ilLMPageObject extends ilLMObject
         $from = " FROM page_question pq JOIN lm_tree t ON (t.lm_id = " . $ilDB->quote($a_lm_id, "integer") .
             " AND pq.page_id = t.child and pq.page_parent_type = " . $ilDB->quote("lm", "text") . ") " .
             " WHERE t.lm_id = " . $ilDB->quote($a_lm_id, "integer");
-        $count_query.= $from;
-        $query.= $from;
+        $count_query .= $from;
+        $query .= $from;
 
 
         // count query

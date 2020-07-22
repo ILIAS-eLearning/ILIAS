@@ -221,7 +221,7 @@ class ilLDAPRoleGroupMapping
         $this->active_servers = true;
         $this->mappings = array();
         foreach ($server_ids as $server_id) {
-            $this->servers[$server_id]  = new ilLDAPServer($server_id);
+            $this->servers[$server_id] = new ilLDAPServer($server_id);
             $this->mappings = ilLDAPRoleGroupMappingSettings::_getAllActiveMappings();
         }
         $this->mapping_info = array();

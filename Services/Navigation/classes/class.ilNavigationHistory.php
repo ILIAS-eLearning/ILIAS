@@ -108,7 +108,7 @@ class ilNavigationHistory
         // put items in session
         $this->items = $new_items;
 
-        $items  = serialize($this->items);
+        $items = serialize($this->items);
         $_SESSION["il_nav_history"] = $items;
         //var_dump($this->getItems());
 
@@ -162,7 +162,7 @@ class ilNavigationHistory
                 "SELECT last_visited FROM usr_data " .
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
             );
-            $rec  = $ilDB->fetchAssoc($set);
+            $rec = $ilDB->fetchAssoc($set);
             $db_entries = unserialize($rec["last_visited"]);
             $cnt = count($items);
             if (is_array($db_entries)) {

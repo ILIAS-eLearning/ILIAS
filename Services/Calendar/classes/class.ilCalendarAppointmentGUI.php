@@ -249,7 +249,7 @@ class ilCalendarAppointmentGUI
             
             // completion
             $completion_vals = array();
-            for ($i = 0; $i <= 100; $i+=5) {
+            for ($i = 0; $i <= 100; $i += 5) {
                 $completion_vals[$i] = $i . " %";
             }
             $compl = new ilSelectInputGUI(
@@ -272,7 +272,7 @@ class ilCalendarAppointmentGUI
             $resp = new ilNonEditableValueGUI($this->lng->txt('cal_responsible'), "", true);
             $delim = "";
             foreach ($users as $r) {
-                $value.= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
+                $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
             }
             if (count($users) > 0) {
@@ -313,7 +313,7 @@ class ilCalendarAppointmentGUI
 
         // Notifications
         include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-        if (ilCalendarSettings::_getInstance()->isNotificationEnabled()  and count($cats->getNotificationCalendars())) {
+        if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and count($cats->getNotificationCalendars())) {
             $selected_cal = new ilCalendarCategory($selected_calendar);
             $disabled = true;
             if ($selected_cal->getType() == ilCalendarCategory::TYPE_OBJ) {
@@ -340,7 +340,7 @@ class ilCalendarAppointmentGUI
      * @access protected
      * @return
      */
-    protected function add(ilPropertyFormGUI $form  = null)
+    protected function add(ilPropertyFormGUI $form = null)
     {
         global $DIC;
 
@@ -465,7 +465,7 @@ class ilCalendarAppointmentGUI
         $ilUser = $DIC['ilUser'];
 
         include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
-        $notification =  new ilCalendarMailNotification();
+        $notification = new ilCalendarMailNotification();
         $notification->setAppointmentId($this->app->getEntryId());
         
         foreach ($this->notification->getRecipients() as $rcp) {
@@ -497,7 +497,7 @@ class ilCalendarAppointmentGUI
         $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($a_cat_id);
         
         include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
-        $notification =  new ilCalendarMailNotification();
+        $notification = new ilCalendarMailNotification();
         $notification->setAppointmentId($app_id);
         
         switch ($cat_info['type']) {
@@ -752,7 +752,7 @@ class ilCalendarAppointmentGUI
             $users = $this->app->readResponsibleUsers();
             $delim = "";
             foreach ($users as $r) {
-                $value.= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
+                $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
             }
             if (count($users) > 0) {

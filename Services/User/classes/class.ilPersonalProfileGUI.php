@@ -45,7 +45,7 @@ class ilPersonalProfileGUI
         $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -188,7 +188,7 @@ class ilPersonalProfileGUI
 
                 // take quality 100 to avoid jpeg artefacts when uploading jpeg files
                 // taking only frame [0] to avoid problems with animated gifs
-                $show_file  = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
+                $show_file = "$image_dir/usr_" . $ilUser->getId() . ".jpg";
                 $thumb_file = "$image_dir/usr_" . $ilUser->getId() . "_small.jpg";
                 $xthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xsmall.jpg";
                 $xxthumb_file = "$image_dir/usr_" . $ilUser->getId() . "_xxsmall.jpg";
@@ -248,7 +248,7 @@ class ilPersonalProfileGUI
         // if people check on check box it will
         // write some datata to table usr_pref
         // if check on Public Profile
-        if (($_POST["chk_pub"])=="on") {
+        if (($_POST["chk_pub"]) == "on") {
             $ilUser->setPref("public_profile", "y");
         } else {
             $ilUser->setPref("public_profile", "n");
@@ -542,7 +542,7 @@ class ilPersonalProfileGUI
             $def = ilMapUtil::getDefaultSettings();
             $latitude = $def["latitude"];
             $longitude = $def["longitude"];
-            $zoom =  $def["zoom"];
+            $zoom = $def["zoom"];
         }
         
         $street = $a_user->getStreet();
@@ -739,7 +739,7 @@ class ilPersonalProfileGUI
                     "» " . $lng->txt("user_make_profile_public"),
                     $ctrl->getLinkTarget($this, "showPublicProfile")
                 );
-                $it.= "<br><br>" . $DIC->ui()->renderer()->render($button);
+                $it .= "<br><br>" . $DIC->ui()->renderer()->render($button);
             }
             
             ilUtil::sendInfo(nl2br($it));

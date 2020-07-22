@@ -17,8 +17,8 @@ class ilCronJobResult
     const STATUS_RESET = 5;
     const STATUS_FAIL = 6;
     
-    const CODE_NO_RESULT      = 'job_no_result';
-    const CODE_MANUAL_RESET   = 'job_manual_reset';
+    const CODE_NO_RESULT = 'job_no_result';
+    const CODE_MANUAL_RESET = 'job_manual_reset';
     const CODE_SUPPOSED_CRASH = 'job_auto_deactivation_time_limit';
     
     protected $status; // [int]

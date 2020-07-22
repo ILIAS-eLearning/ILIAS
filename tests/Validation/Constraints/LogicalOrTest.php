@@ -73,9 +73,9 @@ class LogicalOrTest extends \PHPUnit_Framework_TestCase
      */
     public function testRestrict(LogicalOr $constraint, $okValue, $errorValue)
     {
-        $rf    = new Data\Factory();
-        $ok    = $rf->ok($okValue);
-        $ok2   = $rf->ok($errorValue);
+        $rf = new Data\Factory();
+        $ok = $rf->ok($okValue);
+        $ok2 = $rf->ok($errorValue);
         $error = $rf->error('text');
 
         $result = $constraint->restrict($ok);

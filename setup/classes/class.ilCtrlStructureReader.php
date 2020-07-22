@@ -279,7 +279,7 @@ class ilCtrlStructureReader
         );
         $set = $ilDB->query("SELECT * FROM ctrl_classfile ");
         $cnt = 1;
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $cid = base_convert((string) $cnt, 10, 36);
             $ilDB->manipulate(
                 "UPDATE ctrl_classfile SET " .

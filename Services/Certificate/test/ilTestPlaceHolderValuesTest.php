@@ -113,14 +113,14 @@ class ilTestPlaceholderValuesTest extends PHPUnit_Framework_TestCase
         $result = $placeholdervalues->getPlaceholderValues(10, 200);
 
         $this->assertEquals(array(
-            'RESULT_PASSED'      => 'Formatted Output',
-            'RESULT_POINTS'      => 'Formatted Output',
-            'RESULT_PERCENT'     => '71.43%',
-            'MAX_POINTS'         => 'Formatted Output',
-            'RESULT_MARK_SHORT'  => 'Formatted Output',
-            'RESULT_MARK_LONG'   => 'Formatted Output',
-            'TEST_TITLE'         => 'Formatted Output',
-            'DATE_COMPLETED'     => '2018-01-12',
+            'RESULT_PASSED' => 'Formatted Output',
+            'RESULT_POINTS' => 'Formatted Output',
+            'RESULT_PERCENT' => '71.43%',
+            'MAX_POINTS' => 'Formatted Output',
+            'RESULT_MARK_SHORT' => 'Formatted Output',
+            'RESULT_MARK_LONG' => 'Formatted Output',
+            'TEST_TITLE' => 'Formatted Output',
+            'DATE_COMPLETED' => '2018-01-12',
             'DATETIME_COMPLETED' => '2018-01-12 10:32:01'
 
         ), $result);

@@ -114,15 +114,15 @@ class ilSamlSettingsGUI
     {
         global $DIC;
 
-        $this->ctrl          = $DIC->ctrl();
-        $this->tpl           = $DIC->ui()->mainTemplate();
-        $this->lng           = $DIC->language();
-        $this->access        = $DIC->access();
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
         $this->error_handler = $DIC['ilErr'];
-        $this->tabs          = $DIC->tabs();
-        $this->rbacreview    = $DIC->rbac()->review();
-        $this->toolbar       = $DIC['ilToolbar'];
-        $this->help          = $DIC['ilHelp'];
+        $this->tabs = $DIC->tabs();
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->help = $DIC['ilHelp'];
 
         $this->lng->loadLanguageModule('auth');
         $this->ref_id = $ref_id;
@@ -441,7 +441,7 @@ class ilSamlSettingsGUI
             $form = $this->getUserAttributeMappingForm();
             $data = array();
             foreach ($this->mapping as $rule) {
-                $data[$rule->getAttribute()]             = $rule->getExternalAttribute();
+                $data[$rule->getAttribute()] = $rule->getExternalAttribute();
                 $data[$rule->getAttribute() . '_update'] = (bool) $rule->isAutomaticallyUpdated();
             }
             $form->setValuesByArray($data);
@@ -522,7 +522,7 @@ class ilSamlSettingsGUI
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
             $form->setValuesByArray(array(
-                'login_form'       => ilSamlSettings::getInstance()->isDisplayedOnLoginPage()
+                'login_form' => ilSamlSettings::getInstance()->isDisplayedOnLoginPage()
             ));
         }
 

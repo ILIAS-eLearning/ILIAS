@@ -254,7 +254,7 @@ class ilObjRepositorySettings extends ilObject
         $pos = 0;
         foreach ($groups as $group => $items) {
             $pos += 10;
-            $grp_id = $pos/10;
+            $grp_id = $pos / 10;
 
             if (is_array($items)) {
                 $title = $lng->txt("rep_add_new_def_grp_" . $group);
@@ -268,7 +268,7 @@ class ilObjRepositorySettings extends ilObject
                 foreach ($items as $idx => $item) {
                     $res["items"][$item] = $grp_id;
                     $res["sort"][$item] = str_pad($pos, 4, "0", STR_PAD_LEFT) .
-                        str_pad($idx+1, 4, "0", STR_PAD_LEFT);
+                        str_pad($idx + 1, 4, "0", STR_PAD_LEFT);
                 }
             } else {
                 $title = "COL_SEP";

@@ -12,8 +12,8 @@ include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
 $_COOKIE['ilClientId'] = $_SERVER['argv'][3];
-$_POST['username']     = $_SERVER['argv'][1];
-$_POST['password']     = $_SERVER['argv'][2];
+$_POST['username'] = $_SERVER['argv'][1];
+$_POST['password'] = $_SERVER['argv'][2];
 
 include_once './include/inc.header.php';
 

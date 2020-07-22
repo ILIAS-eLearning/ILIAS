@@ -62,7 +62,7 @@ class ilPCContentTemplate extends ilPageContent
             $source_content = $source_page->getContentObject($copy_id);
 
             $source_node = $source_content->getNode();
-            $clone_node  = $source_node->clone_node(true);
+            $clone_node = $source_node->clone_node(true);
             $clone_node->unlink_node($clone_node);
 
             // insert cloned node at target

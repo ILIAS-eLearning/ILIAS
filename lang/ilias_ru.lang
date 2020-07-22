@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2598,7 +2598,7 @@ chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the S
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -4916,7 +4916,7 @@ common#:#session_max_idle_info#:#Максимальное время безде�
 common#:#session_min_idle#:#Минимальное время бездействия (в минутах)
 common#:#session_min_idle_info#:#Когда пользователь простаивает данный период времени, его сеанс может быть прерван, чтобы была возможность открыть сеанс для другого пользователя, благодаря чему достигается максимальное количество сеансов.
 common#:#session_reminder#:#Напоминание
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#Выводить предупреждение об окончании сеанса.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
@@ -6559,7 +6559,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cancel_subscription#:#Отписаться от курса "%s"
 crs#:#crs_cancel_subscription_body#:#Пользователь отписался от курса "%s".
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:
 crs#:#crs_cancellation_end#:#Ограничение на отписку
 crs#:#crs_cancellation_end_info#:#По истечении указанного срока участники не смогут самостоятельно покинуть курс.
 crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
@@ -6924,7 +6924,7 @@ crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Подписчик
 crs#:#crs_subscribers_deleted#:#Удалить подписчика(ов)
 crs#:#crs_subscription#:#Подписка
@@ -8874,7 +8874,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
 grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
@@ -8890,7 +8890,7 @@ grp#:#grp_mail_tutors_only_info#:#Характеристика "Отправля
 grp#:#grp_mail_type#:#Отправлять участникам e-mail сообщения
 grp#:#grp_mail_unsubscribe_member_bod#:#Вы отписаны от участия в группе "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Отписка от участия в группе "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.   You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Group Map Location
 grp#:#grp_map_settings#:#Map Settings
@@ -9101,8 +9101,8 @@ itgr#:#itgr_materials#:#Материалы
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 jscalendar#:#about_calendar#:#О календаре
-jscalendar#:#about_calendar_long#:#DHTML Дата/Время Селектор\n(c) dynarch.com 2002-2003\nЗа последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.epl\nDistributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .\n\nВыбор даты:\n- Используйте кнопку «, » для выбора года\n- Используйте кнопку <, > для выбора месяца\n- Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора.
-jscalendar#:#about_time#:#\n\nВыбор времени:\n- Для увеличения щёлкните на любой части времени \n- Для уменьшения выполните Shift+щелчок\n- или щёлкните и тащите для быстрого выбора.
+jscalendar#:#about_calendar_long#:#DHTML Дата/Время Селектор (c) dynarch.com 2002-2003 За последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.epl Distributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .  Выбор даты: - Используйте кнопку «, » для выбора года - Используйте кнопку <, > для выбора месяца - Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора.
+jscalendar#:#about_time#:#  Выбор времени: - Для увеличения щёлкните на любой части времени  - Для уменьшения выполните Shift+щелчок - или щёлкните и тащите для быстрого выбора.
 jscalendar#:#close#:#Закрыть
 jscalendar#:#day_first#:#Экран %s первый
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -9367,7 +9367,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"
 lso#:#lso_mail_notification_reg_sub#:#User registered for learning sequence "%s"
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"
 lso#:#lso_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the learning sequence:
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.
@@ -9378,9 +9378,9 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_dec_sub#:#Registration refused for learning sequence "%s"
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_member_administration#:#Edit Participants
@@ -11377,17 +11377,17 @@ ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Безопасность
 pwassist#:#password_assistance#:#Ассистент паролей
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.\nСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.\nВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form. ILIAS will send an email to that address. The email contains all usernames which have registered this email address. Choose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже. Система Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя. В случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Задайте имя пользователя и новый пароль в поля ниже.
-pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя.\nВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
-pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи:\n\t%1$s\n\nЭто сообщение было создано автоматически на сервере Илиас \n\t%2$s\n\nВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".\n\nПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:\n\n- Если вы пользовались ассистентом паролей Илиас-сервера:\nУдалите это письмо.\n\n- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.\n\n- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:\n\n1. Откройте ваш браузер.\n\n2. Введите следующий адрес:\n\t%1$s\n\nВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.\n\n3. На появившейся веб-странице задайте новый пароль.\n\nЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
-pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s.\nПожалуйста, проверьте ваш почтовый ящик.
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.
+pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя. Вы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
+pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи: \t%1$s  Это сообщение было создано автоматически на сервере Илиас  \t%2$s  Вы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".  Пожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:  - Если вы пользовались ассистентом паролей Илиас-сервера: Удалите это письмо.  - Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.  - Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:  1. Откройте ваш браузер.  2. Введите следующий адрес: \t%1$s  Важно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.  3. На появившейся веб-странице задайте новый пароль.  Заметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
+pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s. Пожалуйста, проверьте ваш почтовый ящик.
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Ассистент паролей Илиас
 pwassist#:#pwassist_password_assigned#:#Для пользователя "%1$s" пароль был успешно изменен.
-pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
+pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова. Сессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address: %s  This message has been created automatically by the following ILIAS Server: \t%s  You (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.  Please check the following and act as suggested::  -You have requested this mail by accident: Delete this email.  -You are sure, that you never requested this email: Please contact %s.  - If you requested this email, please proceed as follows::  1. Start your internet browser.  2. Enter the following url: \t%s  Important: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.  3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rat_not_rated_yet#:#Not Rated Yet
 rating#:#rat_nr_ratings#:#%s Ratings
@@ -15065,6 +15065,57 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable

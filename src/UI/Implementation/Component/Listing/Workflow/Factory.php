@@ -14,7 +14,7 @@ class Factory implements \ILIAS\UI\Component\Listing\Workflow\Factory
     /**
      * @inheritdoc
      */
-    public function step($label, $description='', $action=null)
+    public function step($label, $description = '', $action = null)
     {
         return new Step($label, $description, $action);
     }

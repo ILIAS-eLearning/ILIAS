@@ -17,10 +17,6 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -28,8 +24,9 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 
     public function parse($userSelected, $report, $reports)
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $lng = $DIC['lng'];
         $lng->loadLanguageModule("scormtrac");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
@@ -37,15 +34,15 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $options = array("all" => $lng->txt("all"));
 
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
-        $users=ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
+        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
 
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::_getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
-        if (count($users)>0) {
+        if ($users && count($users) > 0) {
             foreach ($users as $user) {
-                if (ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+                if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
                     if ($allowExportPrivacy == true) {
                         $e_user = new ilObjUser($user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
@@ -64,7 +61,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i=0;$i<count($reports);$i++) {
+        for ($i = 0;$i < count($reports);$i++) {
             $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");

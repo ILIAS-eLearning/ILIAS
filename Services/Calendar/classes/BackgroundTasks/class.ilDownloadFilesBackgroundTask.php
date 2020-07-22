@@ -172,10 +172,10 @@ class ilDownloadFilesBackgroundTask
                 if ($event['fullday']) {
                     $folder_app = ilUtil::getASCIIFilename($event['event']->getPresentationTitle(false));   //title formalized
                 } else {
-                    $start_time = $start->get(IL_CAL_FKT_DATE, 'H:i', $this->user->getTimeZone());
+                    $start_time = $start->get(IL_CAL_FKT_DATE, 'H.i', $this->user->getTimeZone());
 
                     $end = new ilDateTime($event['dend'], IL_CAL_UNIX);
-                    $end_time = $end->get(IL_CAL_FKT_DATE, 'H:i', $this->user->getTimeZone());
+                    $end_time = $end->get(IL_CAL_FKT_DATE, 'H.i', $this->user->getTimeZone());
 
                     if ($start_time != $end_time) {
                         $start_time .= (' - ' . $end_time);

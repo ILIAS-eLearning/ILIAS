@@ -257,8 +257,8 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $smiley = ilChatroomSmilies::_getSmiley($smileyId);
 
         $form_data = array(
-            'chatroom_smiley_id'                 => $smiley['smiley_id'],
-            'chatroom_smiley_keywords'           => $smiley['smiley_keywords'],
+            'chatroom_smiley_id' => $smiley['smiley_id'],
+            'chatroom_smiley_keywords' => $smiley['smiley_keywords'],
             'chatroom_current_smiley_image_path' => $smiley['smiley_fullpath'],
         );
 
@@ -413,9 +413,9 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             return $this->showEditSmileyEntryFormObject();
         }
 
-        $data                    = array();
+        $data = array();
         $data["smiley_keywords"] = join("\n", $keywords);
-        $data["smiley_id"]       = (int) $_REQUEST['smiley_id'];
+        $data["smiley_id"] = (int) $_REQUEST['smiley_id'];
 
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
@@ -538,7 +538,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             return $this->view();
         }
 
-        $pathinfo    = pathinfo($_FILES["chatroom_image_path"]["name"]);
+        $pathinfo = pathinfo($_FILES["chatroom_image_path"]["name"]);
         $target_file = md5(time() + $pathinfo['basename']) . "." . $pathinfo['extension'];
 
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {

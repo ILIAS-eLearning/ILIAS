@@ -43,8 +43,8 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
                     $filename = $entry; //($this->isExportInProgress($entry))? substr($entry, 0, - strlen(self::PROGRESS_IDENTIFIER)) : $entry;
 
-                    $file[$entry . $type] = array("type"      => $type, "file" => $filename,
-                                                  "size"      => ($this->isExportInProgress($entry)) ? '0' : filesize($dir . "/" . $entry),
+                    $file[$entry . $type] = array("type" => $type, "file" => $filename,
+                                                  "size" => ($this->isExportInProgress($entry)) ? '0' : filesize($dir . "/" . $entry),
                                                   "timestamp" => $ts);
                 }
             }

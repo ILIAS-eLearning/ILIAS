@@ -14,9 +14,9 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjMail extends ilObject
 {
-    const PD_SYS_MSG_OWN_BLOCK  = 0;
+    const PD_SYS_MSG_OWN_BLOCK = 0;
     const PD_SYS_MSG_MAIL_BLOCK = 1;
-    const PD_SYS_MSG_NO_BLOCK   = 2;
+    const PD_SYS_MSG_NO_BLOCK = 2;
 
     /**
     * Constructor

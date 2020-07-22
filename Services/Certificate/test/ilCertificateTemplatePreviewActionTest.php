@@ -18,9 +18,9 @@ class ilCertificateTemplatePreviewActionTest extends PHPUnit_Framework_TestCase
 
         $placeholderValuesObject->method('getPlaceholderValuesForPreview')
             ->willReturn(array(
-                'USER_LOGIN'         => 'SomeLogin',
-                'USER_FULLNAME'      => 'SomeFullName',
-                'USER_FIRSTNAME'     => 'SomeFirstName'
+                'USER_LOGIN' => 'SomeLogin',
+                'USER_FULLNAME' => 'SomeFullName',
+                'USER_FIRSTNAME' => 'SomeFirstName'
             ));
 
         $logger = $this->getMockBuilder('ilLogger')

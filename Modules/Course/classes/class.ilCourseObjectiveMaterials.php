@@ -43,7 +43,7 @@ class ilCourseObjectiveMaterials
 
         $ilDB = $DIC['ilDB'];
 
-        $this->db =&$ilDB;
+        $this->db = &$ilDB;
     
         $this->objective_id = $a_objective_id;
 
@@ -437,7 +437,7 @@ class ilCourseObjectiveMaterials
         
         include_once('Modules/Course/classes/class.ilCourseObjective.php');
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
-        $container_ref_id  = current($container_ref_ids);
+        $container_ref_id = current($container_ref_ids);
         
         // begin-patch lok
         
@@ -481,10 +481,10 @@ class ilCourseObjectiveMaterials
             $writer->xmlElement(
                 'Material',
                 array(
-                    'refId'		=> $material['ref_id'],
-                    'objId'		=> $material['obj_id'],
-                    'type'		=> $material['type'],
-                    'position'	=> $material['position']
+                    'refId' => $material['ref_id'],
+                    'objId' => $material['obj_id'],
+                    'type' => $material['type'],
+                    'position' => $material['position']
                 )
             );
         }

@@ -338,7 +338,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
         foreach ($usages as $k => $usage) {
             $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-            $html.= $tab->getHTML() . "<br/><br/>";
+            $html .= $tab->getHTML() . "<br/><br/>";
         }
 
         $tpl->setContent($html);

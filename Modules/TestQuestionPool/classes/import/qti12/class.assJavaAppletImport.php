@@ -150,13 +150,13 @@ class assJavaAppletImport extends assQuestionImport
             }
             $this->object->saveToDb();
         }
-        $javaapplet =&base64_decode($applet->getContent());
+        $javaapplet = &base64_decode($applet->getContent());
         $javapath = $this->object->getJavaPath();
         if (!file_exists($javapath)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             ilUtil::makeDirParents($javapath);
         }
-        $javapath .=  $this->object->getJavaAppletFilename();
+        $javapath .= $this->object->getJavaAppletFilename();
         $fh = fopen($javapath, "wb");
         if ($fh == false) {
             //									global $DIC;
@@ -186,7 +186,7 @@ class assJavaAppletImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($feedbacksgeneric as $correctness => $material) {

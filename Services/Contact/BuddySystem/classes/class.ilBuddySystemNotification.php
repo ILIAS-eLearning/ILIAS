@@ -62,10 +62,10 @@ class ilBuddySystemNotification
             }
 
             $bodyParams = array(
-                'SALUTATION'      => ilMail::getSalutation($user->getId(), $rcp_lng),
-                'BR'              => nl2br("\n"),
+                'SALUTATION' => ilMail::getSalutation($user->getId(), $rcp_lng),
+                'BR' => nl2br("\n"),
                 'APPROVE_REQUEST' => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved') . '">' . $rcp_lng->txt('buddy_notification_contact_request_link_osd') . '</a>',
-                'IGNORE_REQUEST'  => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored') . '">' . $rcp_lng->txt('buddy_notification_contact_request_ignore_osd') . '</a>',
+                'IGNORE_REQUEST' => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored') . '">' . $rcp_lng->txt('buddy_notification_contact_request_ignore_osd') . '</a>',
                 'REQUESTING_USER' => ilUserUtil::getNamePresentation($this->sender->getId())
             );
             $notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams, 'buddysystem');

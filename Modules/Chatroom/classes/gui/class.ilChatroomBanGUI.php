@@ -106,15 +106,15 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
 
             require_once 'Services/User/classes/class.ilUserUtil.php';
             $sortable_names = ilUserUtil::getNamePresentation($actorIDs);
-            $names          = ilUserUtil::getNamePresentation($actorIDs, false, false, '', false, false, false);
+            $names = ilUserUtil::getNamePresentation($actorIDs, false, false, '', false, false, false);
 
             array_walk($data, function (&$row) use ($names, $sortable_names) {
                 if ($row['actor_id'] > 0 && isset($names[$row['actor_id']])) {
                     $row['actor_display'] = $names[$row['actor_id']];
-                    $row['actor']         = $sortable_names[$row['actor_id']];
+                    $row['actor'] = $sortable_names[$row['actor_id']];
                 } else {
                     $row['actor_display'] = $this->language->txt('unknown');
-                    $row['actor']         = $this->language->txt('unknown');
+                    $row['actor'] = $this->language->txt('unknown');
                 }
             });
 
@@ -131,14 +131,14 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission(array('read', 'moderate'));
 
-        $room      = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
         $subRoomId = $_REQUEST['sub'];
         $userToBan = $_REQUEST['user'];
 
         $this->exitIfNoRoomExists($room);
 
         $connector = $this->gui->getConnector();
-        $response  = $connector->sendBan($room->getRoomId(), $subRoomId, $userToBan); // @TODO Respect Scope
+        $response = $connector->sendBan($room->getRoomId(), $subRoomId, $userToBan); // @TODO Respect Scope
 
         if ($this->isSuccessful($response)) {
             $room->banUser($_REQUEST['user'], $this->user->getId());

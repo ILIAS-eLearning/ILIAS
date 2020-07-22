@@ -662,7 +662,7 @@ class ilLMObject
 
             // link only in learning module, that is not trashed
             include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
-            $ref_ids  = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
+            $ref_ids = ilObject::_getAllReferences($lm_id);	// will be 0 if import of lm is in progress (new import)
             if (count($ref_ids) == 0 || ilObject::_hasUntrashedReference($lm_id) ||
                 ilObjHelpSettings::isHelpLM($lm_id)) {
                 return $obj_rec["obj_id"];

@@ -85,11 +85,11 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
         $si->setRequired(true);
         $this->addItem($si);
 
-        $options = [ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT    => $this->lng()->txt(
+        $options = [ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT => $this->lng()->txt(
             "filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_TEXT_INPUT
-        ), ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT       => $this->lng()->txt(
-                "filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT
-            ), ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->lng()->txt(
+        ), ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT => $this->lng()->txt(
+            "filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_SELECT_INPUT
+        ), ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT => $this->lng()->txt(
                 "filter_type_" . ilBiblFieldFilterInterface::FILTER_TYPE_MULTI_SELECT_INPUT
             ),];
         $si = new ilSelectInputGUI($this->lng()->txt("filter_type"), self::F_FILTER_TYPE);

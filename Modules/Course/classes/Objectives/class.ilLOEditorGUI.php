@@ -427,15 +427,15 @@ class ilLOEditorGUI
         
         $passed_mode->addOption(
             new ilRadioOption(
-                    $this->lng->txt('crs_loc_settings_passed_mode_hide'),
-                    ilLOSettings::HIDE_PASSED_OBJECTIVE_QST
-                )
+                $this->lng->txt('crs_loc_settings_passed_mode_hide'),
+                ilLOSettings::HIDE_PASSED_OBJECTIVE_QST
+            )
         );
         $passed_mode->addOption(
             new ilRadioOption(
-                    $this->lng->txt('crs_loc_settings_passed_mode_mark'),
-                    ilLOSettings::MARK_PASSED_OBJECTIVE_QST
-                )
+                $this->lng->txt('crs_loc_settings_passed_mode_mark'),
+                ilLOSettings::MARK_PASSED_OBJECTIVE_QST
+            )
         );
         $type_qa->addSubItem($passed_mode);
         

@@ -52,14 +52,14 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         global $DIC;
 
-        $objDefinition  = $DIC["objDefinition"];
-        $tpl  = $DIC["tpl"];
-        $ilCtrl  = $DIC["ilCtrl"];
-        $ilErr  = $DIC["ilErr"];
-        $lng  = $DIC["lng"];
-        $ilTabs  = $DIC["ilTabs"];
-        $tree  = $DIC["tree"];
-        $ilAccess  = $DIC["ilAccess"];
+        $objDefinition = $DIC["objDefinition"];
+        $tpl = $DIC["tpl"];
+        $ilCtrl = $DIC["ilCtrl"];
+        $ilErr = $DIC["ilErr"];
+        $lng = $DIC["lng"];
+        $ilTabs = $DIC["ilTabs"];
+        $tree = $DIC["tree"];
+        $ilAccess = $DIC["ilAccess"];
         $this->object_service = $DIC->object();
         
         if (!isset($ilErr)) {
@@ -641,7 +641,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     //	final private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
     //	final public function getFormAction($a_cmd, $a_formaction = "") { die("ilObject2GUI::getFormAction() is deprecated."); }
     //	final protected  function setFormAction($a_cmd, $a_formaction) { die("ilObject2GUI::setFormAction() is deprecated."); }
-    final protected function getReturnLocation($a_cmd, $a_location ="")
+    final protected function getReturnLocation($a_cmd, $a_location = "")
     {
         die("ilObject2GUI::getReturnLocation() is deprecated.");
     }

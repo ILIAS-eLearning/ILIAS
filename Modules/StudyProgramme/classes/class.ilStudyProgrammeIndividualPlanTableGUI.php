@@ -162,7 +162,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                            , "completion_by" => $completion_by
                            , "progress_id" => $progress->getId()
                            , "program_status" => $progress->getStudyProgramme()->getStatus()
-                           , "deadline" =>$progress->getDeadline()
+                           , "deadline" => $progress->getDeadline()
                            );
         });
         return $plan;

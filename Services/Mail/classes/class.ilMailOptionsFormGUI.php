@@ -64,13 +64,13 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
 
         parent::__construct();
 
-        $this->ctrl     = $DIC->ctrl();
+        $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
-        $this->lng      = $DIC->language();
-        $this->user     = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
 
-        $this->options     = $options;
-        $this->parentGui   = $parentGui;
+        $this->options = $options;
+        $this->parentGui = $parentGui;
         $this->positiveCmd = $positiveCmd;
 
         $this->init();
@@ -126,7 +126,7 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
             $this->settings->get('usr_settings_hide_mail_incoming_mail') != '1' &&
             $this->settings->get('usr_settings_disable_mail_incoming_mail') != '1'
         ) {
-            $incoming_type       = (int) $this->getInput('incoming_type');
+            $incoming_type = (int) $this->getInput('incoming_type');
 
             $mail_address_option = $this->options->getMailAddressOption();
             switch ($incoming_type) {
@@ -139,7 +139,7 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
                     break;
             }
         } else {
-            $incoming_type       = $this->options->getIncomingType();
+            $incoming_type = $this->options->getIncomingType();
             $mail_address_option = $this->options->getMailAddressOption();
         }
 
@@ -160,8 +160,8 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
     public function populate()
     {
         $data = array(
-            'linebreak'            => $this->options->getLinebreak(),
-            'signature'            => $this->options->getSignature(),
+            'linebreak' => $this->options->getLinebreak(),
+            'signature' => $this->options->getSignature(),
             'cronjob_notification' => $this->options->getCronjobNotification()
         );
 
@@ -170,7 +170,7 @@ class ilMailOptionsFormGUI extends \ilPropertyFormGUI
 
             $mail_address_option = $this->options->getMailAddressOption();
 
-            $data['mail_address_option']      = $mail_address_option;
+            $data['mail_address_option'] = $mail_address_option;
             $data['mail_address_option_both'] = $mail_address_option;
         }
 

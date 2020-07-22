@@ -381,15 +381,15 @@ class ilUserImportParser extends ilSaxParser
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -397,7 +397,7 @@ class ilUserImportParser extends ilSaxParser
             }
         }
 
-        $tag.= ">";
+        $tag .= ">";
 
         return $tag;
     }
@@ -512,7 +512,7 @@ class ilUserImportParser extends ilSaxParser
                 $this->userObj->setLanguage($a_attribs["Language"]);
                 $this->userObj->setImportId($a_attribs["Id"]);
                 $this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
-                $this->currPassword     = null;
+                $this->currPassword = null;
                 $this->currPasswordType = null;
                 $this->currActive = null;
                 $this->multi_values = array();
@@ -653,7 +653,7 @@ class ilUserImportParser extends ilSaxParser
                 && $this->action != "Delete") {
                     $this->logFailure($this->userObj->getImportId(), sprintf($lng->txt("usrimport_xml_attribute_value_illegal"), "User", "Action", $a_attribs["Action"]));
                 }
-                $this->currPassword     = null;
+                $this->currPassword = null;
                 $this->currPasswordType = null;
                 break;
 
@@ -951,7 +951,7 @@ class ilUserImportParser extends ilSaxParser
                 $this->userObj->setFullname();
                 // Fetch the user_id from the database, if we didn't have it in xml file
                 // fetch as well, if we are trying to insert -> recognize duplicates!
-                if ($this->user_id == -1 || $this->action=="Insert") {
+                if ($this->user_id == -1 || $this->action == "Insert") {
                     $user_id = ilObjUser::getUserIdByLogin($this->userObj->getLogin());
                 } else {
                     $user_id = $this->user_id;
@@ -1647,7 +1647,7 @@ class ilUserImportParser extends ilSaxParser
                 }
                 break;
             case 'AccountInfo':
-                if ($this->current_messenger_type =="external") {
+                if ($this->current_messenger_type == "external") {
                     $this->userObj->setExternalAccount($this->cdata);
                 }
                 break;

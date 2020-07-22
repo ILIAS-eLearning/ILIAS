@@ -562,10 +562,10 @@ class ilDclRecordEditGUI
             $dispatchEvent = "update";
 
             $dispatchEventData = array(
-                'dcl'       => $this->parent_obj->getDataCollectionObject(),
-                'table_id'  => $this->table_id,
+                'dcl' => $this->parent_obj->getDataCollectionObject(),
+                'table_id' => $this->table_id,
                 'record_id' => $record_obj->getId(),
-                'record'    => $record_obj,
+                'record' => $record_obj,
             );
 
             if ($create_mode) {

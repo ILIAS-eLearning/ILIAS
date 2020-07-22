@@ -50,7 +50,7 @@ class ilPCList extends ilPageContent
     */
     public function addItems($a_nr)
     {
-        for ($i=1; $i<=$a_nr; $i++) {
+        for ($i = 1; $i <= $a_nr; $i++) {
             $new_item = $this->dom->create_element("ListItem");
             $new_item = $this->list_node->append_child($new_item);
         }

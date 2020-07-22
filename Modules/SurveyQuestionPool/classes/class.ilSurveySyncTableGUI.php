@@ -177,7 +177,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
             $path_full = $tree->getPathFull($ref_id);
             if (sizeof($path_full)) {
                 foreach ($path_full as $data) {
-                    if (++$counter < (count($path_full)-1)) {
+                    if (++$counter < (count($path_full) - 1)) {
                         continue;
                     }
                     $path .= " &raquo; ";

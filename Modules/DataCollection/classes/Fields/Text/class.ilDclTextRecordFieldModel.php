@@ -1,5 +1,7 @@
 <?php
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+
 /**
  * Class ilDclTextRecordFieldModel
  *
@@ -15,7 +17,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = array(
-                "link"  => $form->getInput("field_" . $this->getField()->getId()),
+                "link" => $form->getInput("field_" . $this->getField()->getId()),
                 "title" => $form->getInput("field_" . $this->getField()->getId() . '_title'));
         } else {
             $value = $form->getInput("field_" . $this->getField()->getId());
@@ -44,7 +46,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
                 $col += 2;
             }
         } else {
-            $worksheet->setCell($row, $col, $value);
+            $worksheet->setCell($row, $col, $value, DataType::TYPE_STRING);
             $col++;
         }
     }

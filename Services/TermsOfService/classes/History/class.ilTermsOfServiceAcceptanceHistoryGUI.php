@@ -71,16 +71,16 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
         Renderer $uiRenderer,
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
     ) {
-        $this->tos                      = $tos;
-        $this->criterionTypeFactory     = $criterionTypeFactory;
-        $this->tpl                      = $tpl;
-        $this->ctrl                     = $ctrl;
-        $this->lng                      = $lng;
-        $this->rbacsystem               = $rbacsystem;
-        $this->error                    = $error;
-        $this->request                  = $request;
-        $this->uiFactory                = $uiFactory;
-        $this->uiRenderer               = $uiRenderer;
+        $this->tos = $tos;
+        $this->criterionTypeFactory = $criterionTypeFactory;
+        $this->tpl = $tpl;
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->rbacsystem = $rbacsystem;
+        $this->error = $error;
+        $this->request = $request;
+        $this->uiFactory = $uiFactory;
+        $this->uiRenderer = $uiRenderer;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
     }
 
@@ -90,7 +90,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements \ilTermsOfServiceControlle
     public function executeCommand()
     {
         $nextClass = $this->ctrl->getNextClass($this);
-        $cmd       = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         if (
             !$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||

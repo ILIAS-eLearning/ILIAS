@@ -561,7 +561,7 @@ class ilObjectMetaDataGUI
                     $block->addBlockCommand($url, $lng->txt($caption), "_top");
                 }
             }
-            $html.= $block->getHTML();
+            $html .= $block->getHTML();
         }
         
         return $html;
@@ -600,7 +600,7 @@ class ilObjectMetaDataGUI
                     continue;
                 }
 
-                $html.= $sep . $defs[$element_id]->getTitle() . ": ";
+                $html .= $sep . $defs[$element_id]->getTitle() . ": ";
 
                 if ($element->isNull()) {
                     $value = "-";
@@ -609,7 +609,7 @@ class ilObjectMetaDataGUI
 
                     $value = $value->getHTML();
                 }
-                $html.= $value;
+                $html .= $value;
                 $sep = ",&nbsp;&nbsp;&nbsp; ";
             }
         }

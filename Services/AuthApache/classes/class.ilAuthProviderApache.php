@@ -95,7 +95,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
             return $this->handleLDAPDataSource($status);
         }
         
-        $login  = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
+        $login = ilObjUser::_checkExternalAuthAccount('apache', $this->getCredentials()->getUsername());
         $usr_id = ilObjUser::_lookupId($login);
         if (!$usr_id) {
             $this->getLogger()->info('Cannot find user id for external account: ' . $this->getCredentials()->getUsername());

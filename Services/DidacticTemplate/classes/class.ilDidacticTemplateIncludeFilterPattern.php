@@ -51,7 +51,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
                 $writer->xmlElement(
                     'includePattern',
                     array(
-                        'preg'	=> $this->getPattern()
+                        'preg' => $this->getPattern()
                     )
                 );
         }

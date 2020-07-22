@@ -254,7 +254,7 @@ class ilSurveyPageGUI
             if (substr($pos, -1) != "c") {
                 // block handling
                 $current = $this->object->getSurveyPages();
-                $current = $current[$this->current_page-1];
+                $current = $current[$this->current_page - 1];
                 if (sizeof($current) == 1) {
                     // as questions are moved to first block question
                     // always use existing as first
@@ -322,7 +322,7 @@ class ilSurveyPageGUI
             if (substr($pos, -1) != "c") {
                 // block handling
                 $current = $this->object->getSurveyPages();
-                $current = $current[$this->current_page-1];
+                $current = $current[$this->current_page - 1];
                 if (sizeof($current) == 1) {
                     // as questions are moved to first block question
                     // always use existing as first
@@ -331,7 +331,7 @@ class ilSurveyPageGUI
                         $this->getAutoBlockTitle(),
                         true,
                         false,
-                        array((int) $pos)+$new_ids
+                        array((int) $pos) + $new_ids
                     );
                 } else {
                     $block_id = array_pop($current);
@@ -402,7 +402,7 @@ class ilSurveyPageGUI
         if ($a_special_position == "toolbar") {
             $id = $this->object->getSurveyPages();
             if ($a_pos && $a_pos != "fst") {
-                $id = $id[$a_pos-1];
+                $id = $id[$a_pos - 1];
                 $id = array_pop($id);
                 $id = $id["question_id"] . "c";
             } else {
@@ -412,7 +412,7 @@ class ilSurveyPageGUI
         // append current page
         elseif ($a_special_position == "page_end") {
             $id = $this->object->getSurveyPages();
-            $id = $id[$this->current_page-1];
+            $id = $id[$this->current_page - 1];
             $id = array_pop($id);
             $id = $id["question_id"] . "a";
         } else {
@@ -543,8 +543,8 @@ class ilSurveyPageGUI
     {
         $data = $_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$data["source"]-1];
-        $target = $pages[$this->current_page-1];
+        $source = $pages[$data["source"] - 1];
+        $target = $pages[$this->current_page - 1];
                 
         // #12558 - use order of source page
         $nodes = array();
@@ -625,7 +625,7 @@ class ilSurveyPageGUI
                     }
                 }
                 if ($max) {
-                    $title .= " (" . ($max+1) . ")";
+                    $title .= " (" . ($max + 1) . ")";
                 } else {
                     $title .= " (2)";
                 }
@@ -690,7 +690,7 @@ class ilSurveyPageGUI
             $pos = 0;
         } else {
             $page = $this->object->getSurveyPages();
-            $page = $page[$this->current_page-1];
+            $page = $page[$this->current_page - 1];
             $last = array_pop($page);
             $target_id = (int) $last["question_id"];
             $pos = 1;
@@ -713,7 +713,7 @@ class ilSurveyPageGUI
         ilUtil::sendQuestion($lng->txt("remove_questions"));
         
         $page = $this->object->getSurveyPages();
-        $page = $page[$this->current_page-1];
+        $page = $page[$this->current_page - 1];
         
         // #10567
         if ($_REQUEST["csum"] != md5(print_r($page, true))) {
@@ -764,7 +764,7 @@ class ilSurveyPageGUI
 
 
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$this->current_page-1];
+        $source = $pages[$this->current_page - 1];
 
         $block_id = $source;
         $block_id = array_shift($block_id);
@@ -772,7 +772,7 @@ class ilSurveyPageGUI
 
         if (sizeof($ids) && sizeof($source) > sizeof($ids)) {
             // block is obsolete
-            if (sizeof($source)-sizeof($ids) == 1) {
+            if (sizeof($source) - sizeof($ids) == 1) {
                 $this->object->unfoldQuestionblocks(array($block_id));
             }
             // block will remain, remove question(s) from block
@@ -870,7 +870,7 @@ class ilSurveyPageGUI
     protected function splitPage($a_id)
     {
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$this->current_page-1];
+        $source = $pages[$this->current_page - 1];
 
         $block_questions = array();
         $add = $block_id = false;
@@ -917,7 +917,7 @@ class ilSurveyPageGUI
     protected function moveNext($a_id)
     {
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$this->current_page-1];
+        $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page];
         if (sizeof($target)) {
             $target_id = $target;
@@ -973,8 +973,8 @@ class ilSurveyPageGUI
     protected function movePrevious($a_id)
     {
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$this->current_page-1];
-        $target = $pages[$this->current_page-2];
+        $source = $pages[$this->current_page - 1];
+        $target = $pages[$this->current_page - 2];
         if (sizeof($target)) {
             $target_id = $target;
             $target_id = array_pop($target_id);
@@ -1065,13 +1065,13 @@ class ilSurveyPageGUI
 
         $pages = $this->object->getSurveyPages();
         if ($pages) {
-            $pages_drop = array("fst"=>$lng->txt("survey_at_beginning"));
+            $pages_drop = array("fst" => $lng->txt("survey_at_beginning"));
             foreach ($pages as $idx => $questions) {
                 $question = array_shift($questions);
                 if ($question["questionblock_id"]) {
-                    $pages_drop[$idx+1] = $lng->txt("survey_behind_page") . " " . $question["questionblock_title"];
+                    $pages_drop[$idx + 1] = $lng->txt("survey_behind_page") . " " . $question["questionblock_title"];
                 } else {
-                    $pages_drop[$idx+1] = $lng->txt("survey_behind_page") . " " . strip_tags($question["title"]);
+                    $pages_drop[$idx + 1] = $lng->txt("survey_behind_page") . " " . strip_tags($question["title"]);
                 }
             }
             $pos = new ilSelectInputGUI($lng->txt("position"), "pgov");
@@ -1144,12 +1144,12 @@ class ilSurveyPageGUI
                 $pages_drop["fst"] = $lng->txt("survey_at_beginning");
             }
             foreach ($pages as $idx => $questions) {
-                if (($idx+1) != $this->current_page && ($idx+2) != $this->current_page) {
+                if (($idx + 1) != $this->current_page && ($idx + 2) != $this->current_page) {
                     $question = array_shift($questions);
                     if ($question["questionblock_id"]) {
-                        $pages_drop[$idx+1] = $lng->txt("survey_behind_page") . " " . $question["questionblock_title"];
+                        $pages_drop[$idx + 1] = $lng->txt("survey_behind_page") . " " . $question["questionblock_title"];
                     } else {
-                        $pages_drop[$idx+1] = $lng->txt("survey_behind_page") . " " . strip_tags($question["title"]);
+                        $pages_drop[$idx + 1] = $lng->txt("survey_behind_page") . " " . strip_tags($question["title"]);
                     }
                 }
             }
@@ -1174,8 +1174,8 @@ class ilSurveyPageGUI
         $ilCtrl = $this->ctrl;
 
         // current_page is already set to new position
-        $target_page = $this->current_page-1;
-        $source_page = $_REQUEST["old_pos"]-1;
+        $target_page = $this->current_page - 1;
+        $source_page = $_REQUEST["old_pos"] - 1;
 
         $pages = $this->object->getSurveyPages();
         foreach ($pages[$source_page] as $question) {
@@ -1230,8 +1230,8 @@ class ilSurveyPageGUI
 
                 $last_on_page = 0;
                 if ($a_pages &&
-                    is_array($a_pages[$this->current_page-1])) {
-                    $last_on_page = $a_pages[$this->current_page-1];
+                    is_array($a_pages[$this->current_page - 1])) {
+                    $last_on_page = $a_pages[$this->current_page - 1];
                     $last_on_page = array_pop($last_on_page);
                     $last_on_page = $last_on_page["question_id"];
                 }
@@ -1262,7 +1262,7 @@ class ilSurveyPageGUI
         if ($a_pages) {
             // previous/next
             
-            $ilCtrl->setParameter($this, "pg", $this->current_page-1);
+            $ilCtrl->setParameter($this, "pg", $this->current_page - 1);
             $button = ilLinkButton::getInstance();
             $button->setCaption("survey_prev_question");
             if ($this->has_previous_page) {
@@ -1271,7 +1271,7 @@ class ilSurveyPageGUI
             $button->setDisabled(!$this->has_previous_page);
             $ilToolbar->addStickyItem($button);
             
-            $ilCtrl->setParameter($this, "pg", $this->current_page+1);
+            $ilCtrl->setParameter($this, "pg", $this->current_page + 1);
             $button = ilLinkButton::getInstance();
             $button->setCaption("survey_next_question");
             if ($this->has_next_page) {
@@ -1286,15 +1286,15 @@ class ilSurveyPageGUI
                 $page = $questions;
                 $page = array_shift($page);
                 if ($page["questionblock_id"]) {
-                    $pages_drop[$idx+1] = $page["questionblock_title"];
+                    $pages_drop[$idx + 1] = $page["questionblock_title"];
 
                     if (sizeof($questions) > 1) {
                         foreach ($questions as $question) {
-                            $pages_drop[($idx+1) . "__" . $question["question_id"]] = "- " . $question["title"];
+                            $pages_drop[($idx + 1) . "__" . $question["question_id"]] = "- " . $question["title"];
                         }
                     }
                 } else {
-                    $pages_drop[$idx+1] = strip_tags($page["title"]);
+                    $pages_drop[$idx + 1] = strip_tags($page["title"]);
                 }
             }
         }
@@ -1320,7 +1320,7 @@ class ilSurveyPageGUI
             if (!$this->has_datasets) {
                 $ilToolbar->addSeparator();
                 
-                $ilCtrl->setParameter($this, "csum", md5(print_r($a_pages[$this->current_page-1], true)));
+                $ilCtrl->setParameter($this, "csum", md5(print_r($a_pages[$this->current_page - 1], true)));
                 $url = $ilCtrl->getLinkTarget($this, "deleteBlock");
                 $ilCtrl->setParameter($this, "csum", "");
                 
@@ -1377,15 +1377,15 @@ class ilSurveyPageGUI
             if (!$read_only) {
                 // clipboard is empty
                 if (!$_SESSION["survey_page_view"][$this->ref_id]["clipboard"]) {
-                    $multi_commands[] = array("cmd"=>"multiDelete", "text"=>$lng->txt("delete"));
-                    $multi_commands[] = array("cmd"=>"multiCut", "text"=>$lng->txt("cut"));
-                    $multi_commands[] = array("cmd"=>"multiCopy", "text"=>$lng->txt("copy"));
-                    $multi_commands[] = array("cmd"=>"selectAll", "text"=>$lng->txt("select_all"));
+                    $multi_commands[] = array("cmd" => "multiDelete", "text" => $lng->txt("delete"));
+                    $multi_commands[] = array("cmd" => "multiCut", "text" => $lng->txt("cut"));
+                    $multi_commands[] = array("cmd" => "multiCopy", "text" => $lng->txt("copy"));
+                    $multi_commands[] = array("cmd" => "selectAll", "text" => $lng->txt("select_all"));
                 } else {
                     if (!$this->suppress_clipboard_msg) {
                         ilUtil::sendInfo($lng->txt("survey_clipboard_notice"));
                     }
-                    $multi_commands[] = array("cmd"=>"clearClipboard", "text"=>$lng->txt("survey_dnd_clear_clipboard"));
+                    $multi_commands[] = array("cmd" => "clearClipboard", "text" => $lng->txt("survey_dnd_clear_clipboard"));
                 }
 
                 // help - see ilPageObjectGUI::insertHelp()
@@ -1446,7 +1446,7 @@ class ilSurveyPageGUI
 
             // nodes
             $ttpl->setVariable("NODES", $this->getPageNodes(
-                $pages[$this->current_page-1],
+                $pages[$this->current_page - 1],
                 $this->has_previous_page,
                 $this->has_next_page,
                 $read_only
@@ -1526,13 +1526,13 @@ class ilSurveyPageGUI
             if (!$a_readonly) {
                 if (!$has_clipboard) {
                     foreach ($questiontypes as $trans => $item) {
-                        $menu[] = array("cmd"=> "addQuestion_" . $item["questiontype_id"],
-                            "text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
+                        $menu[] = array("cmd" => "addQuestion_" . $item["questiontype_id"],
+                            "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                     }
                     
                     if ($this->object->isPoolActive()) {
-                        $menu[] = array("cmd"=> "addPoolQuestion",
-                            "text"=> $lng->txt("browse_for_questions"));
+                        $menu[] = array("cmd" => "addPoolQuestion",
+                            "text" => $lng->txt("browse_for_questions"));
                     }
                 } else {
                     $menu[] = array("cmd" => "paste", "text" => $lng->txt("survey_dnd_paste"));
@@ -1608,13 +1608,13 @@ class ilSurveyPageGUI
         if (!$a_readonly) {
             if (!$has_clipboard) {
                 foreach ($questiontypes as $trans => $item) {
-                    $menu[] = array("cmd"=> "addQuestion_" . $item["questiontype_id"],
-                        "text"=> sprintf($lng->txt("svy_page_add_question"), $trans));
+                    $menu[] = array("cmd" => "addQuestion_" . $item["questiontype_id"],
+                        "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                 }
                 
                 if ($this->object->isPoolActive()) {
-                    $menu[] = array("cmd"=> "addPoolQuestion",
-                        "text"=> $lng->txt("browse_for_questions"));
+                    $menu[] = array("cmd" => "addPoolQuestion",
+                        "text" => $lng->txt("browse_for_questions"));
                 }
             } else {
                 $menu[] = array("cmd" => "paste", "text" => $lng->txt("survey_dnd_paste"));
@@ -1755,7 +1755,7 @@ class ilSurveyPageGUI
         
         if ($node == "page_end") {
             $pos = $this->object->getSurveyPages();
-            $pos = array_pop($pos[$this->current_page-1]);
+            $pos = array_pop($pos[$this->current_page - 1]);
             $pos = $pos["question_id"] . "a";
         } else {
             $pos = $pos . "b";

@@ -157,7 +157,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     public function testCostsCanBeDeterminedDynamically(ilBcryptPhpPasswordEncoder $encoder)
     {
         $costs_default = $encoder->benchmarkCost();
-        $costs_target  = $encoder->benchmarkCost(0.5);
+        $costs_target = $encoder->benchmarkCost(0.5);
 
         $this->assertTrue($costs_default > 4 && $costs_default < 32);
         $this->assertTrue($costs_target > 4 && $costs_target < 32);

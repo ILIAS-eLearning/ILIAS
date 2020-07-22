@@ -220,7 +220,7 @@ class ilAdvancedMDSettingsGUI
             $perm = null;
             // :TODO: hardwired?
             if (in_array($obj_type, ['cat','crs','sess','grp','iass'])) {
-                $perm =	$this->getPermissions()->hasPermissions(
+                $perm = $this->getPermissions()->hasPermissions(
                     ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
                     $obj_type,
                     array(
@@ -986,9 +986,9 @@ class ilAdvancedMDSettingsGUI
         if ($this->obj_type) {
             $this->record->setAssignedObjectTypes(array(
                 array(
-                    "obj_type"=>$this->obj_type,
-                    "sub_type"=>$this->sub_type,
-                    "optional"=>false
+                    "obj_type" => $this->obj_type,
+                    "sub_type" => $this->sub_type,
+                    "optional" => false
             )));
         }
         
@@ -1318,7 +1318,7 @@ class ilAdvancedMDSettingsGUI
     protected function getSubstitutionFieldPermissions($a_obj_type, $a_field_id)
     {
         if ($a_obj_type == "crs") {
-            $perm =	$this->getPermissions()->hasPermissions(
+            $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_COURSE,
                 $a_field_id,
                 array(
@@ -1335,7 +1335,7 @@ class ilAdvancedMDSettingsGUI
                 ,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_COURSE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         } elseif ($a_obj_type == "cat") {
-            $perm =	$this->getPermissions()->hasPermissions(
+            $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_CATEGORY,
                 $a_field_id,
                 array(
@@ -1352,7 +1352,7 @@ class ilAdvancedMDSettingsGUI
                 ,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_CATEGORY_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         } elseif ($a_obj_type == "sess") {
-            $perm =	$this->getPermissions()->hasPermissions(
+            $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_SESSION,
                 $a_field_id,
                 array(
@@ -1369,7 +1369,7 @@ class ilAdvancedMDSettingsGUI
             ,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SESSION_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         } elseif ($a_obj_type == "grp") {
-            $perm =	$this->getPermissions()->hasPermissions(
+            $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_GROUP,
                 $a_field_id,
                 array(
@@ -1386,7 +1386,7 @@ class ilAdvancedMDSettingsGUI
             ,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_GROUP_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         } elseif ($a_obj_type == "iass") {
-            $perm =	$this->getPermissions()->hasPermissions(
+            $perm = $this->getPermissions()->hasPermissions(
                 ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_IASS,
                 $a_field_id,
                 array(
@@ -1431,7 +1431,7 @@ class ilAdvancedMDSettingsGUI
             $perm = null;
             // :TODO: hardwird ?
             if (in_array($obj_type, ['crs','cat','sess','grp','iass'])) {
-                $perm =	$this->getPermissions()->hasPermissions(
+                $perm = $this->getPermissions()->hasPermissions(
                     ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
                     $obj_type,
                     array(

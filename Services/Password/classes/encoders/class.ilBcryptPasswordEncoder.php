@@ -13,7 +13,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     /**
      * @var int
      */
-    const MIN_SALT_SIZE         = 16;
+    const MIN_SALT_SIZE = 16;
 
     /**
      * @var string
@@ -173,7 +173,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
             throw new ilPasswordException('Missing client salt.');
         }
 
-        return !$this->isPasswordTooLong($raw)  && $this->check($encoded, $raw, $salt);
+        return !$this->isPasswordTooLong($raw) && $this->check($encoded, $raw, $salt);
     }
 
     /**
@@ -211,9 +211,9 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     protected function encode($raw, $user_secret)
     {
-        $client_secret   = $this->getClientSalt();
+        $client_secret = $this->getClientSalt();
         $hashed_password = hash_hmac('whirlpool', str_pad($raw, strlen($raw) * 4, sha1($user_secret), STR_PAD_BOTH), $client_secret, true);
-        $salt            = substr(str_shuffle(str_repeat('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 22)), 0, 22);
+        $salt = substr(str_shuffle(str_repeat('./0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 22)), 0, 22);
 
         /**
          * Check for security flaw in the bcrypt implementation used by crypt()
@@ -252,7 +252,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     protected function check($encoded, $raw, $salt)
     {
-        $hashed_password  = hash_hmac('whirlpool', str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH), $this->getClientSalt(), true);
+        $hashed_password = hash_hmac('whirlpool', str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH), $this->getClientSalt(), true);
         return crypt($hashed_password, substr($encoded, 0, 30)) == $encoded;
     }
 

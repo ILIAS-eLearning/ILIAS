@@ -181,7 +181,7 @@ class SurveyImportParser extends ilSaxParser
     public function getParent($a_xml_parser)
     {
         if ($this->depth[$a_xml_parser] > 0) {
-            return $this->path[$this->depth[$a_xml_parser]-1];
+            return $this->path[$this->depth[$a_xml_parser] - 1];
         } else {
             return "";
         }
@@ -197,7 +197,7 @@ class SurveyImportParser extends ilSaxParser
         $this->characterbuffer = "";
         $this->activetag = $a_name;
         $this->elements++;
-        $this->attributes+=count($a_attribs);
+        $this->attributes += count($a_attribs);
         switch ($a_name) {
             case "questionblock":
                 $this->in_questionblock = true;
@@ -413,7 +413,7 @@ class SurveyImportParser extends ilSaxParser
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
         $this->texts++;
-        $this->text_size+=strlen($a_data);
+        $this->text_size += strlen($a_data);
         $this->characterbuffer .= $a_data;
         $a_data = $this->characterbuffer;
     }
@@ -446,7 +446,7 @@ class SurveyImportParser extends ilSaxParser
                     if (count($this->constraints)) {
                         $relations = $this->survey->getAllRelations(true);
                         foreach ($this->constraints as $constraint) {
-                            $constraint_id= $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
+                            $constraint_id = $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
                             $this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);
                         }
                     }
@@ -535,10 +535,10 @@ class SurveyImportParser extends ilSaxParser
                 }
                 break;
             case "mattext":
-                $this->material[count($this->material)-1]["text"] = $this->characterbuffer;
+                $this->material[count($this->material) - 1]["text"] = $this->characterbuffer;
                 break;
             case "matimage":
-                $this->material[count($this->material)-1]["image"] = $this->characterbuffer;
+                $this->material[count($this->material) - 1]["image"] = $this->characterbuffer;
                 break;
             case "material":
                 if ($this->in_survey) {
@@ -572,10 +572,10 @@ class SurveyImportParser extends ilSaxParser
                 $this->material = array();
                 break;
             case "fieldlabel":
-                $this->metadata[count($this->metadata)-1]["label"] = $this->characterbuffer;
+                $this->metadata[count($this->metadata) - 1]["label"] = $this->characterbuffer;
                 break;
             case "fieldentry":
-                $this->metadata[count($this->metadata)-1]["entry"] = $this->characterbuffer;
+                $this->metadata[count($this->metadata) - 1]["entry"] = $this->characterbuffer;
                 break;
             case "metadata":
                 if (strcmp($this->getParent($a_xml_parser), "question") == 0) {
@@ -697,7 +697,7 @@ class SurveyImportParser extends ilSaxParser
                 $this->responses[$this->response_id]["material"] = $this->material;
                 break;
             case "adjective":
-                $this->adjectives[count($this->adjectives)-1]["text"] = $this->characterbuffer;
+                $this->adjectives[count($this->adjectives) - 1]["text"] = $this->characterbuffer;
                 break;
             case "bipolar_adjectives":
                 if (is_object($this->activequestion)) {
@@ -709,7 +709,7 @@ class SurveyImportParser extends ilSaxParser
                 foreach ($this->material as $material) {
                     $row .= $material["text"];
                 }
-                $this->matrix[count($this->matrix)-1] = array('title' => $row, 'id' => $this->matrixrowattribs['id'], 'label' => $this->matrixrowattribs['label'], 'other' => $this->matrixrowattribs['other']);
+                $this->matrix[count($this->matrix) - 1] = array('title' => $row, 'id' => $this->matrixrowattribs['id'], 'label' => $this->matrixrowattribs['label'], 'other' => $this->matrixrowattribs['other']);
                 break;
             case "matrix":
                 if (is_object($this->activequestion)) {

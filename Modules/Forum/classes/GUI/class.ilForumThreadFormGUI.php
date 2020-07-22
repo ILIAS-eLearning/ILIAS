@@ -43,12 +43,12 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
     ) {
         parent::__construct();
 
-        $this->delegatingGui   = $delegatingGui;
-        $this->properties      = $properties;
+        $this->delegatingGui = $delegatingGui;
+        $this->properties = $properties;
         $this->allowPseudonyms = $allowPseudonyms;
         $this->allowNotification = $allowNotification;
-        $this->isDraftContext  = $isDraftContext;
-        $this->draftId  = $draftId;
+        $this->isDraftContext = $isDraftContext;
+        $this->draftId = $draftId;
 
         $this->initForm();
     }

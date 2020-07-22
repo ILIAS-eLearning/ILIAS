@@ -97,8 +97,8 @@ class ilTestToplistGUI
         $activeId = $this->object->getActiveIdOfUser($DIC->user()->getId());
         $data = $this->object->getCompleteEvaluationData();
         $median = $data->getStatistics()->getStatistics()->median();
-        $pct    = $data->getParticipant($activeId)->getMaxpoints() ? ($median / $data->getParticipant($activeId)->getMaxpoints()) * 100.0 : 0;
-        $mark   = $this->object->mark_schema->getMatchingMark($pct);
+        $pct = $data->getParticipant($activeId)->getMaxpoints() ? ($median / $data->getParticipant($activeId)->getMaxpoints()) * 100.0 : 0;
+        $mark = $this->object->mark_schema->getMatchingMark($pct);
         $content = $mark->getShortName();
         
         $panel = $DIC->ui()->factory()->panel()->standard(

@@ -1152,7 +1152,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     public function getRandomId()
     {
-        mt_srand((double) microtime()*1000000);
+        mt_srand((double) microtime() * 1000000);
         $random_number = mt_rand(1, 100000);
         $found = false;
         while ($found) {
@@ -1359,7 +1359,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['matching_mode'] = $this->getMatchingMode();
         $result['shuffle'] = true;
@@ -1377,7 +1377,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getShuffler()->shuffle($this->getTerms()) as $term) {
             $terms[] = array(
                 "text" => $this->formatSAQuestion($term->text),
-                "id" =>(int) $this->getId() . $term->identifier
+                "id" => (int) $this->getId() . $term->identifier
             );
         }
         $result['terms'] = $terms;
@@ -1523,7 +1523,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         $definitions = array();
-        for ($index=1; $index <= $ilDB->numRows($data); ++$index) {
+        for ($index = 1; $index <= $ilDB->numRows($data); ++$index) {
             $row = $ilDB->fetchAssoc($data);
             $definitions[$row["ident"]] = $index;
         }
@@ -1535,7 +1535,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
 
         $terms = array();
-        for ($index=1; $index <= $ilDB->numRows($data); ++$index) {
+        for ($index = 1; $index <= $ilDB->numRows($data); ++$index) {
             $row = $ilDB->fetchAssoc($data);
             $terms[$row["ident"]] = $index;
         }
@@ -1565,7 +1565,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }
@@ -1595,7 +1595,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 
         $origImagePath = $this->buildImagePath($origQuestionId, $origParentObjId);
-        $dupImagePath  = $this->buildImagePath($dupQuestionId, $dupParentObjId);
+        $dupImagePath = $this->buildImagePath($dupQuestionId, $dupParentObjId);
 
         ilUtil::delDir($origImagePath);
         if (is_dir($dupImagePath)) {

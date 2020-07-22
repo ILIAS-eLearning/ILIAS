@@ -45,10 +45,10 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['RESULT_PASSED']      = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
-        $this->placeholder['RESULT_MARK']        = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
-        $this->placeholder['EXERCISE_TITLE']     = ilUtil::prepareFormOutput($language->txt('certificate_ph_exercisetitle'));
-        $this->placeholder['DATE_COMPLETED']     = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['RESULT_PASSED'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_passed'));
+        $this->placeholder['RESULT_MARK'] = ilUtil::prepareFormOutput($language->txt('certificate_var_result_mark_short'));
+        $this->placeholder['EXERCISE_TITLE'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_exercisetitle'));
+        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
 

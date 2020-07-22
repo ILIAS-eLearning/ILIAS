@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -14,6 +14,26 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten Rolle oder Rollenvorlage zu den Rechtevorgaben der Ziel-Rolle hinzu. Nicht markierte Rechte werden ignoriert.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten Rolle oder Rollenvorlage überschreiben alle Rechtevorgaben der Ziel-Rolle. Dies gilt für markierte und nicht markierte Rechte in der Vorlage.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten Rolle oder Rollenvorlage aus den Rechtevorgaben der Ziel-Rolle.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte um ausgewählte Rechte ergänzen
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Nur Rechtevorgaben anpassen
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Sowohl die vorhandenen Rechtevorgaben der Ziel-Rolle als auch die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Ergänzt werden nur die vorhandenen Rechtevorgaben der Ziel-Rolle. Die Rechte bereits existierender Objekte bleiben dagegen unberührt.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben werden entsprechend überschrieben und IN GÄNZE mit allen markierten und nicht markierten Rechten auf alle vorhandenen Objekte angewendet.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene Rechtevorgaben der Ziel-Rolle werden überschrieben. Die Rechteeinstellungen der bereits vorhandenen Objekte werden dagegen nicht geändert.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte um ausgewählte Rechte reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Nur Rechtevorgaben reduzieren
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Die markierten Rechte werden aus den Rechtevorgaben der Ziel-Rolle und aus den Rechteeinstellungen vorhandener Objekte entfernt.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden nur aus den Rechtevorgaben der Ziel-Rolle entfernt. Die Rechteeinstellungen bereits vorhandener Objekte werden dagegen nicht angepasst.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -312,7 +332,7 @@ administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
-adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten
+adve#:#advanced_editing_excass_settings#:#Einstellungen Übungseinheiten (Textabgaben)
 adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
 adve#:#adve_activation#:#Aktivierung
@@ -455,7 +475,7 @@ assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie maximal %s von %s Antworten
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
 assessment#:#ass_process_lock#:#Verwende Locking-Mechanismus während der Testdurchläufe
-assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkosistenten Testergebnissen führen.
+assessment#:#ass_process_lock_desc#:#Ohne die Verwendung eines Locking-Mechanismus sind Race Conditions möglich. Diese können zu inkonsistenten Testergebnissen führen.
 assessment#:#ass_process_lock_mode#:#Locking-Modus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_process_lock_mode_db#:#Verwende Datenbanktabellen-Locks
 assessment#:#ass_process_lock_mode_db_desc#:#Dieser Locking-Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für den selben oder anderere Benutzer im selben oder einem anderen Test für die selbe oder andere Fragen müssen warten, bis der andere Prozess den Lock wieder freigibt.
@@ -722,7 +742,7 @@ assessment#:#intprecision#:#Teilbar durch
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#kiosk#:#Prüfungsansicht
-assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen bitte Sie zusätzlich spezialisierten Browser (z.B. Safe Exam Browser) ein.
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet. Um Teilnehmer effektiv daran zu hindern, während des Tests andere Webseiten zu öffnen, setzen Sie bitte zusätzlich einen auf E-Klausuren spezialisierten Browser ein (z.B. den 'Safe Exam Browser').
 assessment#:#kiosk_options#:#Angezeigte Informationen
 assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers
@@ -2427,7 +2447,7 @@ buddysystem#:#buddy_bs_state_requested#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
-buddysystem#:#buddy_enable#:#Aktviere „Benutzerkontakte“
+buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
@@ -2613,7 +2633,7 @@ chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum S
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: [ROOM_NAME]\nEingeladen von: [INVITER_NAME]\nURL: [LINK]\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]  Sie wurden in einen Chatraum eingeladen: Titel des Chatraums: [ROOM_NAME] Eingeladen von: [INVITER_NAME] URL: [LINK]  Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel, um den Chatraum zu betreten.
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_join#:#Betreten
@@ -2664,6 +2684,7 @@ chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_client_name#:#Name
 chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
+chatroom#:#chat_log_level#:#Log-Level
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
 chatroom#:#chatserver_address#:#IP-Adresse/FQN des Chat-Servers
@@ -4937,7 +4958,7 @@ common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv 
 common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
 common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session beendet werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!\n\nKlicken Sie auf OK, um Ihre Sitzung zu verlängern!\nWollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.\n\nBetroffene Installation: %3$s.
+common#:#session_reminder_alert#:#Ihre Sitzung läuft in %1$s um %2$s ab!  Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.  Betroffene Installation: %3$s.
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
 common#:#session_reminder_lead_time_info#:#Hier können Sie festlegen, wann ILIAS Sie vor dem Ablauf Ihrer Sitzung warnen soll. Sie erhalten dann einen Hinweis und können einfach per Mausklick die Sitzung verlängern. Geben Sie einen Wert in Minuten ein. Empfohlen sind 5 Minuten.<br />Der aktuelle Wert für die Dauer einer Sitzung in diesem ILIAS beträgt %s.
@@ -5252,7 +5273,7 @@ common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
 common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
 common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
 common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist).
+common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit demselben Benutzernamen in der Datenbank vorhanden ist.) Wenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Benutzernamen in der Datenbank vorhanden ist).
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
 common#:#usrimport_login_is_not_unique#:#Benutzername ist nicht eindeutig.
@@ -6581,7 +6602,7 @@ crs#:#crs_breadcrumb_full_path#:#Gesamten Pfad anzeigen
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
-crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
 crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
@@ -6803,7 +6824,7 @@ crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
 crs#:#crs_new_subscription_request_body#:#%1$s hat einen Aufnahmeantrag für den Kurs "%2$s" gestellt.
-crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
+crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen. Wählen Sie dazu bitte folgenden Link:
 crs#:#crs_news#:#Mail zum Kurs
 crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
@@ -6946,7 +6967,7 @@ crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs "%s" aufgenommen.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers_deleted#:#Der Aufnahmeantrag wurde abgelehnt.
 crs#:#crs_subscription#:#Beitrittsverfahren
@@ -7222,7 +7243,7 @@ dateplaner#:#cal_ch_bookings_tbl#:#Gebuchte Termine
 dateplaner#:#cal_ch_cancel_booking#:#Buchung stornieren
 dateplaner#:#cal_ch_cancel_booking_info#:#Bei der Absage von Terminbuchungen werden die Teilnehmer per Mail über die Absage der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer nicht informiert werden, sollten Sie die Option „Terminbuchung(en) löschen” auswählen.
 dateplaner#:#cal_ch_cancel_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen abgesagt werden sollen?
-dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
+dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden gelöscht.
 dateplaner#:#cal_ch_ch#:#Sprechstundentermine
 dateplaner#:#cal_ch_cron_reminder#:#Sprechstunden-Benachrichtigungen versenden
 dateplaner#:#cal_ch_cron_reminder_days#:#Anzahl Tage
@@ -7234,7 +7255,7 @@ dateplaner#:#cal_ch_delete_app_booking_info#:#Bei folgenden Terminen bestehen be
 dateplaner#:#cal_ch_delete_booking#:#Terminbuchung löschen
 dateplaner#:#cal_ch_delete_booking_info#:#Beim Löschen von Terminbuchungen werden die Teilnehmer nicht per Mail über die Löschung der Termine informiert. Sollten Sie wünschen, dass die Teilnehmer informiert werden, sollten Sie die Option „Terminbuchung(en) absagen” auswählen.
 dateplaner#:#cal_ch_delete_booking_sure#:#Sind Sie sicher, dass die ausgewählten Terminbuchungen gelöscht werden sollen?
-dateplaner#:#cal_ch_deleted_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
+dateplaner#:#cal_ch_canceled_bookings#:#Die ausgewählten Buchungen wurden abgesagt.
 dateplaner#:#cal_ch_duration#:#Dauer eines Termins
 dateplaner#:#cal_ch_export_apps#:#Gebuchte Termine
 dateplaner#:#cal_ch_field_ch#:#Sprechstundentermine
@@ -8529,7 +8550,8 @@ feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_nr_pd_feeds#:#Anzahl externer Webfeeds auf dem Persönlichen Schreibtisch
 feed#:#feed_nr_pd_feeds_info#:#Bestimmt die maximale Anzahl externer Webfeeds, die ein Benutzer auf seinen Persönlichen Schreibtisch legen kann.
 feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
-feed#:#feed_settings#:#Externe Webfeeds
+feed#:#feed_settings#:#Externe Webfeeds^
+file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
 file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 file#:#file_copy#:#Datei kopieren
@@ -8895,11 +8917,11 @@ grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
 grp#:#grp_mail_notification_reg_bod#:#%s ist der Gruppe "%s" beigetreten.
 grp#:#grp_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Gruppe "%s" gestellt.
-grp#:#grp_mail_notification_reg_req_bod2#:#Um den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
+grp#:#grp_mail_notification_reg_req_bod2#:#Um den Benutzer zur Gruppe zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
 grp#:#grp_mail_notification_reg_req_sub#:#Aufnahmeantrag für Gruppe "%s"
 grp#:#grp_mail_notification_reg_sub#:#Neue Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Gruppe "%s" beendet.
-grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+grp#:#grp_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Gruppe eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 grp#:#grp_mail_notification_unsub_sub#:#Austritt aus der Gruppe "%s"
 grp#:#grp_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Gruppeninhalt zuzugreifen:
 grp#:#grp_mail_status_bod#:#Ihr Status in Gruppe "%s" wurde geändert.
@@ -8915,7 +8937,7 @@ grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail
 grp#:#grp_mail_type#:#Mail an Mitglieder
 grp#:#grp_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Gruppe "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Gruppe "%s"
-grp#:#grp_mail_wl_bod#:#Sie sind auf die Warteliste der Gruppe "%s" gesetzt worden und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+grp#:#grp_mail_wl_bod#:#Sie sind auf die Warteliste der Gruppe "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 grp#:#grp_mail_wl_sub#:#Ihre Anmeldung für Gruppe "%s"
 grp#:#grp_map_location#:#Standort auf Gruppenkarte
 grp#:#grp_map_settings#:#Einstellungen Karte
@@ -9107,7 +9129,7 @@ iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
 iass#:#lp_inactive#:#Beachten Sie: die Lernfortschrittsbestimmung für dieses Objekt ist deaktiviert. Daher können Teilnahmen nicht finalisiert werden.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
-init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
+init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
 itgr#:#itgr_always_open#:#Immer offen
@@ -9126,8 +9148,8 @@ itgr#:#itgr_materials#:#Objekte
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 jscalendar#:#about_calendar#:#Über den Kalender
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
-jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen - Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
+jscalendar#:#about_time#:#  Auswahl der Zeit: - Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen - or Umschalten+Klicken, um den Wert zu erniedrigen - oder klicken und ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst anzeigen
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -9391,11 +9413,11 @@ lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beende
 lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
 lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
 lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
-lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen.\nWählen Sie dazu bitte folgenden Link:
+lso#:#lso_mail_notification_reg_req_bod2#:#Um den Benutzer zur Lernsequenz zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung aufrufen. Wählen Sie dazu bitte folgenden Link:
 lso#:#lso_mail_notification_reg_req_sub#:#Aufnahmeantrag für Lernsequenz "%s"
 lso#:#lso_mail_notification_reg_sub#:#Neue Mitgliedschaft in Lernsequenz "%s"
 lso#:#lso_mail_notification_unsub_bod#:#die Teilnehmerin / der Teilnehmer "%s" hat die Mitgliedschaft in der Lernsequenz "%s" beendet.
-lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+lso#:#lso_mail_notification_unsub_bod2#:#Eventuell sind Teilnehmende in die Warteliste dieser Lernsequenz eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 lso#:#lso_mail_notification_unsub_sub#:#Austritt aus der Lernsequenz "%s"
 lso#:#lso_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt der Lernsequenz zuzugreifen:
 lso#:#lso_mail_status_bod#:#Ihr Status in Lernsequenz "%s" wurde geändert.
@@ -9408,7 +9430,7 @@ lso#:#lso_mail_subscribe_member_bod#:#wir freuen uns Ihnen mitteilen zu dürfen,
 lso#:#lso_mail_subscribe_member_sub#:#Ihre Anmeldung für Lernsequenz "%s"
 lso#:#lso_mail_unsubscribe_member_bod#:#wir bestätigen Ihre Abmeldung von der Lernsequenz "%s".
 lso#:#lso_mail_unsubscribe_member_sub#:#Ihre Abmeldung von der Lernsequenz "%s"
-lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+lso#:#lso_mail_wl_bod#:#Sie sind auf die Warteliste der Lernsequenz "%s" gesetzt worden und haben die Position %s auf der Warteliste.  Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 lso#:#lso_mail_wl_sub#:#Ihre Anmeldung für Lernsequenz "%s"
 lso#:#lso_mem_tbl_header#:#Lernsequenz Teilnehmer
 lso#:#lso_member_administration#:#Teilnehmerverwaltung
@@ -9722,7 +9744,7 @@ maps#:#configure_geolocation#:#Please finish the geolocation configuration in th
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
 maps#:#maps_enable_maps#:#Karten aktivieren
-maps#:#maps_enable_maps_info#:#Activiert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 maps#:#maps_google_maps#:#Google Maps
@@ -10325,7 +10347,7 @@ meta#:#meta_l_el#:#Griechisch
 meta#:#meta_l_en#:#Englisch
 meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Spanisch
-meta#:#meta_l_et#:#Estisch
+meta#:#meta_l_et#:#Estnisch
 meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
@@ -10805,7 +10827,7 @@ obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
 obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
 obj#:#obj_target_location#:#Zielordner
 obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird für genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
+obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
 obj#:#obj_tool_setting_info_tab#:#Info-Reiter
@@ -11408,17 +11430,17 @@ ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde. Wählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein:\n\t%1$s\n\nDiese Nachricht wurde automatisch generiert von der ILIAS-Installation:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachten Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
-pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
-pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
+pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: \t%1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: \t%2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
+pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
-pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: \t%s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
 pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
@@ -15067,7 +15089,7 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
 style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
 common#:#msg_unknown_value#:#Ein unbekannter Wert wurde übergeben.
 exc#:#exc_deleted_user#:#Gelöschter Benutzer
 copg#:#copg_allow_html#:#HTML/Javascript erlauben
@@ -15092,3 +15114,9 @@ cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
 cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
 auth#:#auth_page_type_auth#:#Loginseite
 impr#:#impr_page_type_impr#:#Impressum
+crs#:#crs_timing_err_start_end#:#Das Startdatum muss kleiner gleich dem Enddatum sein.
+awrn#:#user_awrn_default#:#Standard
+awrn#:#user_awrn_hide#:#Nicht anzeigen
+awrn#:#user_awrn_show#:#Anzeigen
+awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
+feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.

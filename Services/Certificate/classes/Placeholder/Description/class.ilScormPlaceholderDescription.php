@@ -66,10 +66,10 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['SCORM_TITLE']        = $language->txt('certificate_ph_scormtitle');
-        $this->placeholder['SCORM_POINTS']       = $language->txt('certificate_ph_scormpoints');
-        $this->placeholder['SCORM_POINTS_MAX']   = $language->txt('certificate_ph_scormmaxpoints');
-        $this->placeholder['DATE_COMPLETED']     = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
+        $this->placeholder['SCORM_TITLE'] = $language->txt('certificate_ph_scormtitle');
+        $this->placeholder['SCORM_POINTS'] = $language->txt('certificate_ph_scormpoints');
+        $this->placeholder['SCORM_POINTS_MAX'] = $language->txt('certificate_ph_scormmaxpoints');
+        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
 

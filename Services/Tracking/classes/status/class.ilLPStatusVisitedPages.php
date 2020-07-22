@@ -95,7 +95,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         
         $user_page_ids = sizeof(self::getVisitedPages($a_obj_id, $a_user_id));
                     
-        return floor($user_page_ids/$all_page_ids*100);
+        return floor($user_page_ids / $all_page_ids * 100);
     }
         
     

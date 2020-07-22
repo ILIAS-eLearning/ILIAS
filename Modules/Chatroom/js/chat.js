@@ -733,7 +733,7 @@
 
 
 	function scrollChatArea(container) {
-		if($('#chat_auto_scroll').attr('checked')) {
+		if ($('#chat_auto_scroll:checked').length > 0) {
 			$(container).parent().animate({
 				scrollTop: $(container).height()
 			}, 5);

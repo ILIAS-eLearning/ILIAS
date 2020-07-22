@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -11,7 +11,9 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 //  NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the correspondi
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
 acc#:#acc_access_key#:#Přístupový klíč
 acc#:#acc_access_keys#:#Přístupové klíče
 acc#:#acc_comp_frm#:#Fórum
@@ -2607,7 +2609,7 @@ chatroom#:#chat_https_cert_info#:#Definujte absolutní cestu k serveru pro soubo
 chatroom#:#chat_https_dhparam_info#:#Definujte absolutní cestu k serveru pro soubor (např.: /etc/ssl/private/dhparam.pem), používá se pro převod parametrů Diffie-Hellman (např. generované přes: openssl dhparam-out /etc/ssl/private/dhparam.pem 2048).
 chatroom#:#chat_https_key_info#:#Definujte absolutní cestu k serveru pro soubor privátního klíče (např.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Pozvání od [INVITER_NAME] do hovorny [ROOM_NAME]
-chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nByl(a) jste pozván(a) do hovorny:\nNázev hovorny: [ROOM_NAME]\nPozvání od: [INVITER_NAME]\nURL: [LINK]\n\nPokud se chcete zapojit do hovorny, následujte prosím uvedený URL.
+chatroom#:#chat_invitation_long#:#[SALUTATION]  Byl(a) jste pozván(a) do hovorny: Název hovorny: [ROOM_NAME] Pozvání od: [INVITER_NAME] URL: [LINK]  Pokud se chcete zapojit do hovorny, následujte prosím uvedený URL.
 chatroom#:#chat_invitation_short#:#Ke vstupu do hovorny klepněte prosím na název odkazu.
 chatroom#:#chat_invite#:#Pozvat
 chatroom#:#chat_join#:#Připojit
@@ -5246,7 +5248,7 @@ common#:#usrimport_action_replaced#:#Akce %1$s podle %2$s přemístěna.
 common#:#usrimport_cant_delete#:#Nelze vykonat akci "Smazat". V databázi nenalezen žádný uživatel.
 common#:#usrimport_cant_insert#:#Nelze vykonat akci "Vložit". Uživatel je již v databázi.
 common#:#usrimport_cant_update#:#Nelze vykonat akci "Aktualizovat".  V databázi nenalezen žádný uživatel.
-common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.)\nKdyž je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
+common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.) Když je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
 common#:#usrimport_global_role_for_action_required#:#Nejméně jedna globální role musí být pro akci"%1$s"  specifikována.
 common#:#usrimport_ignore_role#:#Ignorovat roli
 common#:#usrimport_login_is_not_unique#:#Login není unikátní.
@@ -6584,7 +6586,7 @@ crs#:#crs_breadcrumb_full_path#:#Úplná cesta
 crs#:#crs_cancel_subscr_request#:#Smazat požadavek členství
 crs#:#crs_cancel_subscription#:#Uživatel opustil kurz "%s"
 crs#:#crs_cancel_subscription_body#:#%s ukončil své členství v kurzu "%s".
-crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.\nMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.\nKe zobrazení členů Vašeho kurzu klepněte na:
+crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé. Měl(a) by jste nyní tento seznam čekatelů zkontrolovat. Ke zobrazení členů Vašeho kurzu klepněte na:
 crs#:#crs_cancellation_end#:#Limit zrušení
 crs#:#crs_cancellation_end_info#:#Od tohoto data se již účastníci nemohou odhlásit.
 crs#:#crs_cancellation_end_rbac_info#:#Lhůta pro zrušení byla splněna v %s, zrušení již není možné.
@@ -6952,7 +6954,7 @@ crs#:#crs_subject_course_group_notification#:#Denní zpráva pro %s
 crs#:#crs_subscribe_member#:#Vaše registrace v kurzu "%s"
 crs#:#crs_subscribe_member_body#:#S potěšením Vám potvrzujeme Vaši registraci do kurzu "%s".
 crs#:#crs_subscribe_wl#:#Vaše registrace v kurzu "%s".
-crs#:#crs_subscribe_wl_body#:#byl(a) jste zařazen(a) na seznam čekatelů kurzu "%s".\nByl(a) jste zařazena na %s místě seznamut.\n\nOd správce kurzu obdržíte zprávu, zda Váš požadavek byl akceptován, nebo zamítnut.
+crs#:#crs_subscribe_wl_body#:#byl(a) jste zařazen(a) na seznam čekatelů kurzu "%s". Byl(a) jste zařazena na %s místě seznamut.  Od správce kurzu obdržíte zprávu, zda Váš požadavek byl akceptován, nebo zamítnut.
 crs#:#crs_subscriber#:#Žadatel
 crs#:#crs_subscribers_deleted#:#Smazaní žadatelé
 crs#:#crs_subscription#:#Zápis
@@ -8918,7 +8920,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#K potvrzení Vaší registrace vstupt
 grp#:#grp_mail_notification_reg_req_sub#:#Požadavek připojení ke skupině "%s"
 grp#:#grp_mail_notification_reg_sub#:#Uživatel registrován ve skupině "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s bylo ukončeno jeho/její členství ve skupině "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé.\nMěl(a) by jste nyní zkontrolovat seznam čekatelů.\nK zobrazení členů Vaší skupiny klepněte na:
+grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé. Měl(a) by jste nyní zkontrolovat seznam čekatelů. K zobrazení členů Vaší skupiny klepněte na:
 grp#:#grp_mail_notification_unsub_sub#:#Uživatel opustil skupinu "%s"
 grp#:#grp_mail_permanent_link#:#Klepněte na nasledující odkaz k nalezení všech informací týkající se skupiny, které potřebujete:
 grp#:#grp_mail_status_bod#:#Váš status ve skupině "%s" byl změněn.
@@ -8932,9 +8934,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Vaše registrace ve skupině "%s"
 grp#:#grp_mail_tutors_only#:#Pouze pro správce
 grp#:#grp_mail_tutors_only_info#:#Pouze správci mohou používat funkci „Pošta členům“ v záložce „Členové“.
 grp#:#grp_mail_type#:#Pošta členům
-grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s.\nDoufáme, že najdete příležitost zúčastnit se v jiné skupině.
+grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s. Doufáme, že najdete příležitost zúčastnit se v jiné skupině.
 grp#:#grp_mail_unsubscribe_member_sub#:#Vaše ukončení členství ve skupině "%s"
-grp#:#grp_mail_wl_bod#:#byl(a) jste zařazen(a) na seznam čekatelů skupiny "%s".\nJste zařazen(a) na %s místě v seznamu.\n\n Od správce skupiny obdržíte zprávu, zda Váš požadavek byl akceptován, nebo zamítnut.
+grp#:#grp_mail_wl_bod#:#byl(a) jste zařazen(a) na seznam čekatelů skupiny "%s". Jste zařazen(a) na %s místě v seznamu.   Od správce skupiny obdržíte zprávu, zda Váš požadavek byl akceptován, nebo zamítnut.
 grp#:#grp_mail_wl_sub#:#Vaše registrace ve skupině "%s".
 grp#:#grp_map_location#:#Umístění mapy skupiny
 grp#:#grp_map_settings#:#Nastavení mapy
@@ -9145,8 +9147,8 @@ itgr#:#itgr_materials#:#Materiály
 itgr#:#itgr_show_title#:#Zobrazit nadpis
 itgr#:#itgr_show_title_info#:#Zobrazuje název skupiny položek v prezentaci pro žáka.
 jscalendar#:#about_calendar#:#O tomto kalendáři
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/\nDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.\n\nVýběr data:\n- Použijte tlačítka «, » pro výběr roku\n- Použijte tlačítka <, > pro výběr měsíce\n- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr\n- Mezerník slouží pro skok na dnešní den.
-jscalendar#:#about_time#:#\n\nVýběr času:\n- Klepněte na některé z časových částí k jejímu zvětšení\n- nebo klepnutím se Shiftem ke zmenšení\n- nebo klepnout a táhnout pro rychlý výběr.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 Poslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/ Distribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.  Výběr data: - Použijte tlačítka «, » pro výběr roku - Použijte tlačítka <, > pro výběr měsíce - Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr - Mezerník slouží pro skok na dnešní den.
+jscalendar#:#about_time#:#  Výběr času: - Klepněte na některé z časových částí k jejímu zvětšení - nebo klepnutím se Shiftem ke zmenšení - nebo klepnout a táhnout pro rychlý výběr.
 jscalendar#:#close#:#Zavřít
 jscalendar#:#day_first#:#Zobrazit nejprve %s
 jscalendar#:#def_date_format#:#%d-%m-%R
@@ -9414,7 +9416,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#Chcete-li tuto registraci potvrdit, p
 lso#:#lso_mail_notification_reg_req_sub#:#Požadavek na spojení výuková sekvence „%s“
 lso#:#lso_mail_notification_reg_sub#:#Uživatel byl registrován pro výukovou sekvenci "%s"
 lso#:#lso_mail_notification_unsub_bod#:#%s zrušil své členství ve výukové sekvenci "%s".
-lso#:#lso_mail_notification_unsub_bod2#:#Mohou existovat i další členové na pořadníku vaší výukové sekvence.\nMěli byste si teď zkontrolovat pořadník.\nChcete-li zobrazit členy své výukové sekvence, klikněte zde:
+lso#:#lso_mail_notification_unsub_bod2#:#Mohou existovat i další členové na pořadníku vaší výukové sekvence. Měli byste si teď zkontrolovat pořadník. Chcete-li zobrazit členy své výukové sekvence, klikněte zde:
 lso#:#lso_mail_notification_unsub_sub#:#Uživatel opustil výukovou sekvenci "%s"
 lso#:#lso_mail_permanent_link#:#Klikněte na následující odkaz, kde najděte všechny potřebné informace týkající se výukové sekvence:
 lso#:#lso_mail_status_bod#:#váš status ve výukové sekvenci "%s" byl změněn.
@@ -9425,9 +9427,9 @@ lso#:#lso_mail_sub_dec_bod#:#s politováním vám oznamujeme, že vaše registra
 lso#:#lso_mail_sub_dec_sub#:#Registrace do výukové sekvence "%s" byla odmítnuta.
 lso#:#lso_mail_subscribe_member_bod#:#s potěšením vám potvrzujeme, že jste byli registrováni do výukové sekvence "%s".
 lso#:#lso_mail_subscribe_member_sub#:#Vaše registrace pro výukovou sekvenci "% s"
-lso#:#lso_mail_unsubscribe_member_bod#:#Potvrzujeme zrušení vašeho členství ve výukové sekvenci %s. \nDoufáme, že najdete příležitost k účasti v jiné výukové sekvenci.
+lso#:#lso_mail_unsubscribe_member_bod#:#Potvrzujeme zrušení vašeho členství ve výukové sekvenci %s.  Doufáme, že najdete příležitost k účasti v jiné výukové sekvenci.
 lso#:#lso_mail_unsubscribe_member_sub#:#Zrušení vašeho členství ve výukové sekvenci "% s"
-lso#:#lso_mail_wl_bod#:#byli jste přiřazeni do pořadníku výukové sekvence "%s".\nNa listině máte přiřazenu pozici %s.\nPo schválení nebo zamítnutí žádosti obdržíte zprávu od správce výukové sekvence.
+lso#:#lso_mail_wl_bod#:#byli jste přiřazeni do pořadníku výukové sekvence "%s". Na listině máte přiřazenu pozici %s. Po schválení nebo zamítnutí žádosti obdržíte zprávu od správce výukové sekvence.
 lso#:#lso_mail_wl_sub#:#Vaše registrace pro výukovou sekvenci "% s"
 lso#:#lso_mem_tbl_header#:#Člen výukové sekvence
 lso#:#lso_member_administration#:#Upravit účastníky
@@ -11340,7 +11342,6 @@ ps#:#crs_ps_cdf_info#:#Další kurzu odpovídající údaje:
 ps#:#crs_ps_required_info#:#Pro zpřístupnění kurzu jsou požadovány další kurzu odpovídající pole.
 ps#:#grp_ps_cdf_info#:#Další skupině odpovídající údaje:
 ps#:#grp_ps_required_info#:#Pro zpřístupnění skupiny jsou požadovány další kurzu odpovídající pole.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#Uživatelské ujednání akceptováno
 ps#:#ps_auto_https#:#Autodetekce HTTPS
 ps#:#ps_auto_https_description#:#Je-li zapnuto, ILIAS zkouší zjistit status HTTPs analyzováním hodnoty hlavičky specifikované níže.
@@ -11429,17 +11430,17 @@ ps#:#show_privacy#:#Soukromé
 ps#:#show_security#:#Bezpečnost
 pwassist#:#password_assistance#:#Asistence hesla
 pwassist#:#pwassist_disabled_no_access#:#Pomoc s heslem není povolena. Pokud potřebujete další pomoc, obraťte se správce systému: %s
-pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete.\nILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována.\nVyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže.\nILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet.\nV případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete. ILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována. Vyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže. ILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet. V případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Vložte jméno uživatele a nové heslo do polí níže.
-pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno.\nUživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
-pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet:\n\t%1$s\n\nTato zpráva byla vygenerována automaticky serverem ILIAS\n\t%2$s\n\nVy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".\n\nZkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:\n\n- Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě:\nSmažte tento e-mail.\n\n- Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS:\nKontaktujte prosím %5$s.\n\n- Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte do Vašeho prohlížeče následující adresu:\n t%1$s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.\n\n3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.\n\nPamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
-pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s.\nZkontrolujte prosím svou poštovní schránku.
-pwassist#:#pwassist_mail_sent_generic#:#Zpráva byla odeslána na e-mailovou adresu definovanou v ILIAS.\nPodívejte se laskavě do své poštovní schránky.
+pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno. Uživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
+pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet: \t%1$s  Tato zpráva byla vygenerována automaticky serverem ILIAS \t%2$s  Vy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".  Zkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:  - Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě: Smažte tento e-mail.  - Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS: Kontaktujte prosím %5$s.  - Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:  1. Spusťte svůj internetový prohlížeč.  2. Vložte do Vašeho prohlížeče následující adresu:  t%1$s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.  3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.  Pamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
+pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s. Zkontrolujte prosím svou poštovní schránku.
+pwassist#:#pwassist_mail_sent_generic#:#Zpráva byla odeslána na e-mailovou adresu definovanou v ILIAS. Podívejte se laskavě do své poštovní schránky.
 pwassist#:#pwassist_mail_subject#:#Asistence hesla ILIAS
 pwassist#:#pwassist_password_assigned#:#Heslo bylo úspěšně přiřazeno uživateli "%1$s".
-pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu.\nVaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
-pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu:\n%s\n\nTato zpráva byla vytvořena automaticky serverem ILIAS:\n\t%s\n\nVy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.\n\nZkontrolujte prosím následující a postupujte podle doporučení::\n\n-Vy jste požádal(a) o tento e-mail při závadě:\nSmažte tento e-mail.\n\n-Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a):\nKontaktujte prosím %s.\n\n- Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte následující URL:\n\t%s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.\n\n3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
+pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu. Vaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
+pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu: %s  Tato zpráva byla vytvořena automaticky serverem ILIAS: \t%s  Vy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.  Zkontrolujte prosím následující a postupujte podle doporučení::  -Vy jste požádal(a) o tento e-mail při závadě: Smažte tento e-mail.  -Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a): Kontaktujte prosím %s.  - Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::  1. Spusťte svůj internetový prohlížeč.  2. Vložte následující URL: \t%s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.  3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
 pwassist#:#unassist_disabled_no_access#:#Pomoc s uživatelským jménem není povolena. Pokud potřebujete další pomoc, obraťte se správce systému: %s
 rating#:#rat_not_rated_yet#:#Dosud nehodnoceno
 rating#:#rat_nr_ratings#:#%s Hodnocení
@@ -15066,3 +15067,55 @@ wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
 style#:#Style#:#Style###07 02 2020 new variable
 content#:#cont_Link#:#Link###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable

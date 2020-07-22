@@ -462,7 +462,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     
         $template = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_solution.html", true, true, "Modules/TestQuestionPool");
         $template->setVariable('SOLUTION_OUTPUT', $solution_html);
-        if ($show_question_text==true) {
+        if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         }
         $questionoutput = $template->get();
@@ -479,7 +479,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             }
             
             $fb = $this->getSpecificFeedbackOutput(array());
-            $feedback .=  strlen($fb) ? $fb : '';
+            $feedback .= strlen($fb) ? $fb : '';
             
             if (strlen($feedback)) {
                 $cssClass = (

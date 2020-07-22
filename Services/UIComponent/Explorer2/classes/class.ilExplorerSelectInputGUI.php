@@ -170,7 +170,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
                 $tpl->setVariable("HID_NAME", $this->getPostVar() . "[]");
                 $tpl->setVariable("HID_VAL", $v);
                 $tpl->parseCurrentBlock();
-                $val_txt.= $sep . $this->getTitleForNodeId($v);
+                $val_txt .= $sep . $this->getTitleForNodeId($v);
                 $sep = ", ";
                 $this->explorer_gui->setNodeOpen($v);
                 $this->explorer_gui->setNodeSelected($v);

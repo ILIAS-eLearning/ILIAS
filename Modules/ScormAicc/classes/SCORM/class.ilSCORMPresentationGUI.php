@@ -96,7 +96,7 @@ class ilSCORMPresentationGUI
         $items = ilSCORMObject::_lookupPresentableItems($this->slm->getId());
         
         //check for max_attempts and raise error if max_attempts is exceeded
-        if ($this->get_max_attempts()!=0) {
+        if ($this->get_max_attempts() != 0) {
             if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
                 header('Content-Type: text/html; charset=utf-8');
                 echo($lng->txt("cont_sc_max_attempt_exceed"));
@@ -362,9 +362,9 @@ class ilSCORMPresentationGUI
         $exp->setFrameTarget($a_target);
         
         //$exp->setFiltered(true);
-        $jsApi=false;
+        $jsApi = false;
         if ($_GET["jsApi"] == "1") {
-            $jsApi=true;
+            $jsApi = true;
         }
 
         if ($_GET["scexpand"] == "") {
@@ -504,7 +504,7 @@ class ilSCORMPresentationGUI
 
         //unlimited sessions
         if ($slm_obj->getSession()) {
-            $session_timeout = (int) ($ilias->ini->readVariable("session", "expire"))/2;
+            $session_timeout = (int) ($ilias->ini->readVariable("session", "expire")) / 2;
         } else {
             $session_timeout = 0;
         }
@@ -616,7 +616,7 @@ class ilSCORMPresentationGUI
                 case "cmi.interactions._count":
                     $this->setSingleVariable($var, $value);
                     $this->setArray("cmi.interactions", $value, "id", $re_value);
-                    for ($i=0; $i<$value; $i++) {
+                    for ($i = 0; $i < $value; $i++) {
                         $var2 = "cmi.interactions." . $i . ".objectives._count";
                         if (isset($v_array[$var2])) {
                             $cnt = $v_array[$var2];
@@ -639,7 +639,7 @@ class ilSCORMPresentationGUI
                     }
                     $this->setArray("cmi.interactions", $value, "time", $re_value);
                     $this->setArray("cmi.interactions", $value, "type", $re_value);
-                    for ($i=0; $i<$value; $i++) {
+                    for ($i = 0; $i < $value; $i++) {
                         $var2 = "cmi.interactions." . $i . ".correct_responses._count";
                         if (isset($v_array[$var2])) {
                             $cnt = $v_array[$var2];
@@ -733,8 +733,8 @@ class ilSCORMPresentationGUI
         $this->tpl->setVariable(
             "SCO_ICO",
             ilUtil::getImagePath(
-            "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
-        )
+                "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
+            )
         );
         $this->tpl->setVariable(
             "SCO_ALT",
@@ -843,7 +843,7 @@ class ilSCORMPresentationGUI
     */
     public function setArray($a_left, $a_value, $a_name, &$v_array)
     {
-        for ($i=0; $i<$a_value; $i++) {
+        for ($i = 0; $i < $a_value; $i++) {
             $var = $a_left . "." . $i . "." . $a_name;
             if (isset($v_array[$var])) {
                 $this->tpl->setCurrentBlock("set_value");

@@ -25,7 +25,7 @@ class ilMailAddress
     public function __construct(string $mailbox, string $host)
     {
         $this->mailbox = $mailbox;
-        $this->host    = $host;
+        $this->host = $host;
     }
 
     /**

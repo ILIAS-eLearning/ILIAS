@@ -270,6 +270,28 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+    /**
+     * Escape values for rendering.
+     * In order to prevent XSS-attacks, values need to be stripped of
+     * special chars (such as quotes or tags).
+     * Needs vary according to the type of component (e.g. the html
+     * generated for this component and the placement of {VALUE} in the
+     * template.)
+     * Please note: this may not work for customized templates!
+     */
+    protected function prepareValue(Input $component, $value)
+    {
+        switch (true) {
+            case ($component instanceof Textarea):
+                return htmlentities($value);
+            case ($component instanceof Text):
+            case ($component instanceof Password):
+            case ($component instanceof Numeric):
+                return htmlspecialchars($value, ENT_QUOTES);
+            default:
+                return $value;
+        }
+    }
 
     /**
      * @param Template $tpl
@@ -300,7 +322,10 @@ class Renderer extends AbstractComponentRenderer
 
                 if ($input->getValue() !== null) {
                     $tpl->setCurrentBlock("value");
-                    $tpl->setVariable("VALUE", $input->getValue());
+                    /*
+                    ATTENTION! Please see docs of "prepareValue".
+                    */
+                    $tpl->setVariable("VALUE", $this->prepareValue($input, $input->getValue()));
                     $tpl->parseCurrentBlock();
                 }
                 if ($id) {
@@ -484,7 +509,7 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($input);
         $input_tpl->setVariable("ID", $id);
 
-        foreach ($input->getOptions() as $value=>$label) {
+        foreach ($input->getOptions() as $value => $label) {
             $group_id = $id . '_' . $value . '_group';
             $opt_id = $id . '_' . $value . '_opt';
 
@@ -494,7 +519,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue()===$value) {
+            if ($input->getValue() !== null && $input->getValue() === $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
 

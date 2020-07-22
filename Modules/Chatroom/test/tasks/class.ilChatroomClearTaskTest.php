@@ -83,7 +83,7 @@ class ilChatroomClearTaskTest extends ilChatroomAbstractTaskTest
         );
         $this->createSendResponseMock($this->task, array(
             'success' => false,
-            'reason'  => 'unkown room',
+            'reason' => 'unkown room',
         ));
 
         $this->setExpectedException('Exception', 'Exit', 0);

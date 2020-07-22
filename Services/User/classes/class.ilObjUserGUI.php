@@ -81,7 +81,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->type = "usr";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->usrf_ref_id =&$this->ref_id;
+        $this->usrf_ref_id = &$this->ref_id;
 
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array('obj_id', 'letter'));
@@ -92,9 +92,9 @@ class ilObjUserGUI extends ilObjectGUI
         // for gender selection. don't change this
         // maybe deprecated
         $this->gender = array(
-                              'n'    => "salutation_n",
-                              'm'    => "salutation_m",
-                              'f'    => "salutation_f",
+                              'n' => "salutation_n",
+                              'm' => "salutation_m",
+                              'f' => "salutation_f",
                               );
     }
 
@@ -251,7 +251,7 @@ class ilObjUserGUI extends ilObjectGUI
     public function __checkUserDefinedRequiredFields()
     {
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
         foreach ($this->user_defined_fields->getDefinitions() as $field_id => $definition) {
             if ($definition['required'] and !strlen($_POST['udf'][$field_id])) {
@@ -265,7 +265,7 @@ class ilObjUserGUI extends ilObjectGUI
     public function __showUserDefinedFields()
     {
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
 
         if ($this->object->getType() == 'usr') {
             $user_defined_data = $this->object->getUserDefinedData();
@@ -481,7 +481,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $userObj->setPref("show_users_online", $_POST["show_users_online"]);
             }*/
             if ($this->isSettingChangeable('hide_own_online_status')) {
-                $userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+                $userObj->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
                 $userObj->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
@@ -856,7 +856,7 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->object->setPref("show_users_online", $_POST["show_users_online"]);
             }*/
             if ($this->isSettingChangeable('hide_own_online_status')) {
-                $this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"] ? 'y' : 'n');
+                $this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
                 $this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
@@ -948,7 +948,7 @@ class ilObjUserGUI extends ilObjectGUI
         $data["agree_date"] = ($this->object->getAgreeDate() != "")
             ? ilDatePresentation::formatDate(new ilDateTime($this->object->getAgreeDate(), IL_CAL_DATETIME))
             : null;
-        $data["last_login"] =  ($this->object->getLastLogin() != "")
+        $data["last_login"] = ($this->object->getLastLogin() != "")
              ? ilDatePresentation::formatDate(new ilDateTime($this->object->getLastLogin(), IL_CAL_DATETIME))
              : null;
         $data["active"] = $this->object->getActive();
@@ -1035,7 +1035,7 @@ class ilObjUserGUI extends ilObjectGUI
         $data["skin_style"] = $this->object->skin . ":" . $this->object->prefs["style"];
         $data["hits_per_page"] = $this->object->prefs["hits_per_page"];
         //$data["show_users_online"] = $this->object->prefs["show_users_online"];
-        $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"] == 'y';
+        $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
         $data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
         $data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
         $data["session_reminder_enabled"] = (int) $this->object->prefs["session_reminder_enabled"];
@@ -1089,7 +1089,7 @@ class ilObjUserGUI extends ilObjectGUI
                 // begin-patch ldap_multiple
                 #$name = $this->lng->txt('auth_'.$auth_name);
                 include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-                $name = ilAuthUtils::getAuthModeTranslation($auth_key);
+                $name = ilAuthUtils::getAuthModeTranslation($auth_key, $auth_name);
                 // end-patch ldap_multiple
             }
             $option[$auth_name] = $name;
@@ -1657,8 +1657,24 @@ class ilObjUserGUI extends ilObjectGUI
         // hide online status
         if ($this->isSettingChangeable('hide_own_online_status')) {
             $lng->loadLanguageModule("awrn");
-            $os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+
+            $default = ($ilSetting->get('hide_own_online_status') == "n")
+                ? $this->lng->txt("user_awrn_show")
+                : $this->lng->txt("user_awrn_hide");
+
+            $options = array(
+                "" => $this->lng->txt("user_awrn_default")." (".$default.")",
+                "n" => $this->lng->txt("user_awrn_show"),
+                "y" => $this->lng->txt("user_awrn_hide"));
+            $os = new ilSelectInputGUI($lng->txt("awrn_user_show"), "hide_own_online_status");
+            $os->setOptions($options);
+            $os->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
+            $os->setInfo($lng->txt("awrn_hide_from_awareness_info"));
             $this->form_gui->addItem($os);
+
+
+            //$os = new ilCheckboxInputGUI($lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
+            //$this->form_gui->addItem($os);
         }
 
         // allow to contact me
@@ -1809,7 +1825,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
-            $show_file  = "$image_dir/usr_" . $this->object->getId() . ".jpg";
+            $show_file = "$image_dir/usr_" . $this->object->getId() . ".jpg";
             $thumb_file = "$image_dir/usr_" . $this->object->getId() . "_small.jpg";
             $xthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xsmall.jpg";
             $xxthumb_file = "$image_dir/usr_" . $this->object->getId() . "_xxsmall.jpg";
@@ -2013,7 +2029,7 @@ class ilObjUserGUI extends ilObjectGUI
                         $path .= $tmpPath[$i]["title"];
                     }*/
 
-                    $path = $tmpPath[count($tmpPath)-1]["title"];
+                    $path = $tmpPath[count($tmpPath) - 1]["title"];
                 }
             } else {
                 $path = "<b>Rolefolder " . $rolf[0] . " not found in tree! (Role " . $role["obj_id"] . ")</b>";
@@ -2118,25 +2134,25 @@ class ilObjUserGUI extends ilObjectGUI
     {
         switch ($a_type) {
             case "minute":
-                for ($i=0;$i<=60;$i++) {
+                for ($i = 0;$i <= 60;$i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
                 return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "hour":
-                for ($i=0;$i<24;$i++) {
+                for ($i = 0;$i < 24;$i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
                 return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "day":
-                for ($i=1;$i<32;$i++) {
+                for ($i = 1;$i < 32;$i++) {
                     $days[$i] = $i < 10 ? "0" . $i : $i;
                 }
                 return ilUtil::formSelect($a_selected, $a_varname, $days, false, true);
 
             case "month":
-                for ($i=1;$i<13;$i++) {
+                for ($i = 1;$i < 13;$i++) {
                     $month[$i] = $i < 10 ? "0" . $i : $i;
                 }
                 return ilUtil::formSelect($a_selected, $a_varname, $month, false, true);

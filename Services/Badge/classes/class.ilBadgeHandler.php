@@ -462,7 +462,7 @@ class ilBadgeHandler
         
         $path = $this->getBasePath() . "instances/" .
             $a_ass->getBadgeId() . "/" .
-            floor($a_ass->getUserId()/1000) . "/";
+            floor($a_ass->getUserId() / 1000) . "/";
         
         ilUtil::makeDirParents($path);
         
@@ -497,7 +497,7 @@ class ilBadgeHandler
         $hash = md5($a_badge->getId());
         
         $path = $this->getBasePath() . "badges/" .
-            floor($a_badge->getId()/100) . "/" .
+            floor($a_badge->getId() / 100) . "/" .
             $hash . "/";
         
         ilUtil::makeDirParents($path);

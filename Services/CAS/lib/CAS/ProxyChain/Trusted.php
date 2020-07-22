@@ -39,9 +39,7 @@
  * @license  http://www.apache.org/licenses/LICENSE-2.0  Apache License 2.0
  * @link     https://wiki.jasig.org/display/CASC/phpCAS
  */
-class CAS_ProxyChain_Trusted
-extends CAS_ProxyChain
-implements CAS_ProxyChain_Interface
+class CAS_ProxyChain_Trusted extends CAS_ProxyChain implements CAS_ProxyChain_Interface
 {
 
     /**
@@ -51,9 +49,8 @@ implements CAS_ProxyChain_Interface
      *
      * @return bool
      */
-    protected function isSizeValid (array $list)
+    protected function isSizeValid(array $list)
     {
         return (sizeof($this->chain) <= sizeof($list));
     }
-
 }

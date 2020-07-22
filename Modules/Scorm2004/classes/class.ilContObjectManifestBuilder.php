@@ -57,26 +57,26 @@ class ilContObjectManifestBuilder
         $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() . "_m_" . $this->cont_obj->getId();
         switch ($this->version) {
             case "2004":
-                $attrs["xmlns:imsss"]="http://www.imsglobal.org/xsd/imsss";
-                $attrs["xmlns:adlseq"]="http://www.adlnet.org/xsd/adlseq_v1p3";
-                $attrs["xmlns:adlnav"]="http://www.adlnet.org/xsd/adlnav_v1p3";
-                $attrs["xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-                $attrs["xmlns:adlcp"]="http://www.adlnet.org/xsd/adlcp_v1p3";
-                $attrs["xmlns"]="http://www.imsglobal.org/xsd/imscp_v1p1";
-                $attrs["xsi:schemaLocation"]="http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd";
-                $attrs["version"]="2004 " . $revision . " Edition";
+                $attrs["xmlns:imsss"] = "http://www.imsglobal.org/xsd/imsss";
+                $attrs["xmlns:adlseq"] = "http://www.adlnet.org/xsd/adlseq_v1p3";
+                $attrs["xmlns:adlnav"] = "http://www.adlnet.org/xsd/adlnav_v1p3";
+                $attrs["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
+                $attrs["xmlns:adlcp"] = "http://www.adlnet.org/xsd/adlcp_v1p3";
+                $attrs["xmlns"] = "http://www.imsglobal.org/xsd/imscp_v1p1";
+                $attrs["xsi:schemaLocation"] = "http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd";
+                $attrs["version"] = "2004 " . $revision . " Edition";
                 break;
             case "12":
-                $attrs["xmlns"]="http://www.imsproject.org/xsd/imscp_rootv1p1p2";
-                $attrs["xmlns:adlcp"]="http://www.adlnet.org/xsd/adlcp_rootv1p2";
-                $attrs["xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-                $attrs["xsi:schemaLocation"]="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd";
-                $attrs["version"]="1.1";
+                $attrs["xmlns"] = "http://www.imsproject.org/xsd/imscp_rootv1p1p2";
+                $attrs["xmlns:adlcp"] = "http://www.adlnet.org/xsd/adlcp_rootv1p2";
+                $attrs["xmlns:xsi"] = "http://www.w3.org/2001/XMLSchema-instance";
+                $attrs["xsi:schemaLocation"] = "http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd";
+                $attrs["version"] = "1.1";
                 break;
         }
         $this->writer->xmlStartTag("manifest", $attrs);
         
-        if ($this->version=="2004") {
+        if ($this->version == "2004") {
             $this->writer->xmlStartTag("metadata");
             $this->writer->xmlElement("schema", null, "ADL SCORM");
             $this->writer->xmlElement("schemaversion", null, "2004 " . $revision . " Edition");
@@ -85,7 +85,7 @@ class ilContObjectManifestBuilder
         }
         // organizations start tag
         $attrs = array();
-        if ($this->version=="2004") {
+        if ($this->version == "2004") {
             $attrs["xmlns:imscp"] = "http://www.imsglobal.org/xsd/imscp_v1p1";
         }
         $attrs["default"] = "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() . "_" . $this->cont_obj->getId();
@@ -93,7 +93,7 @@ class ilContObjectManifestBuilder
 
         // organization start tag
         $attrs = array();
-        $attrs["identifier"] =  "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() . "_" . $this->cont_obj->getId();
+        $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $this->cont_obj->getType() . "_" . $this->cont_obj->getId();
         $attrs["structure"] = "hierarchical";
         $this->writer->xmlStartTag("organization", $attrs);
 
@@ -113,7 +113,7 @@ class ilContObjectManifestBuilder
         
         
         // sequencing information
-        if ($this->version=="2004") {
+        if ($this->version == "2004") {
             $seq_item = new ilSCORM2004Item($this->cont_obj->getId(), true);
             $this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()), false, false);
         }
@@ -171,15 +171,15 @@ class ilContObjectManifestBuilder
         //$tree->setTreeTablePK("slm_id");
         $last_type = "";
         foreach ($tree->getFilteredSubTree($tree->getRootId(), array('page')) as $obj) {
-            if ($obj['type']=='') {
+            if ($obj['type'] == '') {
                 continue;
             }
             $attrs = array();
-            if ($obj['type']!='sco'&&$last_type=="sco") {
+            if ($obj['type'] != 'sco' && $last_type == "sco") {
                 $this->writer->xmlEndTag("item");
             }
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'];
-            if ($obj['type']=='sco') {
+            if ($obj['type'] == 'sco') {
                 $attrs["identifierref"] = $attrs["identifier"] . "_ref";
             }
             $this->writer->xmlStartTag("item", $attrs);
@@ -187,16 +187,16 @@ class ilContObjectManifestBuilder
         
             $this->writer->xmlElement("title", $attrs, $obj['title']);
 
-            if ($this->version=="2004") {
+            if ($this->version == "2004") {
                 // sequencing information
                 $seq_item = new ilSCORM2004Item($obj['obj_id']);
                 $this->writer->xmlData($this->writer->xmlFormatData($seq_item->exportAsXML()), false, false);
             }
             
-            if ($obj['type']=='sco') {
+            if ($obj['type'] == 'sco') {
                 $this->writer->xmlEndTag("item");
             }
-            $last_type=$obj['type'];
+            $last_type = $obj['type'];
         }
         $this->writer->xmlEndTag("item");
     }
@@ -208,12 +208,12 @@ class ilContObjectManifestBuilder
     public function writeItemHierarchyRec($tree, $a_parent_node)
     {
         foreach ($tree->getFilteredChilds(array('page'), $a_parent_node) as $obj) {
-            if ($obj['type']=='') {
+            if ($obj['type'] == '') {
                 continue;
             }
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'];
-            if ($obj['type']=='sco' || $obj['type']=='ass') {
+            if ($obj['type'] == 'sco' || $obj['type'] == 'ass') {
                 $attrs["identifierref"] = $attrs["identifier"] . "_ref";
             }
             $this->writer->xmlStartTag("item", $attrs);
@@ -224,8 +224,8 @@ class ilContObjectManifestBuilder
                 $this->writeItemHierarchyRec($tree, $obj['obj_id']);
             }
             
-            if ($this->version=="2004") {
-                if ($obj['type']=='sco' || $obj['type']=='ass') {
+            if ($this->version == "2004") {
+                if ($obj['type'] == 'sco' || $obj['type'] == 'ass') {
                     $this->writer->xmlStartTag("metadata");
                     $this->writer->xmlElement("adlcp:location", null, $obj['obj_id'] . "/indexMD.xml");
                     $this->writer->xmlEndTag("metadata");
@@ -254,51 +254,51 @@ class ilContObjectManifestBuilder
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . "_ref";
             $attrs["type"] = "webcontent";
             if ($obj['type'] == "sco") {
-                $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
+                $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "sco";
             } else {
-                $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+                $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             }
             $attrs["href"] = "./" . $obj['obj_id'] . "/index.html";
             $this->writer->xmlStartTag("resource", $attrs, "");
-            $this->writer->xmlElement("dependency", array("identifierref"=>"il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'ITSELF'), "");
-            $this->writer->xmlElement("dependency", array("identifierref"=>"il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'OBJECTS'), "");
-            $this->writer->xmlElement("dependency", array("identifierref"=>"il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'RESOURCES'), "");
-            $this->writer->xmlElement("dependency", array("identifierref"=>"il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'FLAVOUR'), "");
+            $this->writer->xmlElement("dependency", array("identifierref" => "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'ITSELF'), "");
+            $this->writer->xmlElement("dependency", array("identifierref" => "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'OBJECTS'), "");
+            $this->writer->xmlElement("dependency", array("identifierref" => "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'RESOURCES'), "");
+            $this->writer->xmlElement("dependency", array("identifierref" => "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'FLAVOUR'), "");
             $this->writer->xmlEndTag("resource");
             
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'ITSELF';
             $attrs["type"] = "webcontent";
-            $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+            $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             $this->writer->xmlStartTag("resource", $attrs, "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/index.xml"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/ilias_co_3_7.dtd"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/index.html"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/index.xml"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/ilias_co_3_7.dtd"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/index.html"), "");
             $this->writer->xmlEndTag("resource");
             
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'RESOURCES';
             $attrs["type"] = "webcontent";
-            $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+            $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             $this->writer->xmlStartTag("resource", $attrs, "");
             $this->writer->xmlEndTag("resource");
             
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'FLAVOUR';
             $attrs["type"] = "webcontent";
-            $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+            $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             $this->writer->xmlStartTag("resource", $attrs, "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/index.xml"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/sco.xsl"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/css/system.css"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/css/style.css"), "");
-            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/js/scorm.js"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/index.xml"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/sco.xsl"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/css/system.css"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/css/style.css"), "");
+            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/js/scorm.js"), "");
             $this->writer->xmlEndTag("resource");
             
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . 'OBJECTS';
             $attrs["type"] = "webcontent";
-            $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+            $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             $this->writer->xmlStartTag("resource", $attrs, "");
             
             include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -312,7 +312,7 @@ class ilContObjectManifestBuilder
             chdir(dirname($active_css[0]));
             foreach ($css_files as $fileref) {
                 if (file_exists($fileref)) {
-                    $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/images/" . basename($fileref)), "");
+                    $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/images/" . basename($fileref)), "");
                 }
             }
             chdir($currdir);
@@ -331,8 +331,8 @@ class ilContObjectManifestBuilder
                     if ($mob_id > 0 && ilObject::_exists($mob_id)) {
                         $media_obj = new ilObjMediaObject($mob_id);
                         $media_obj = $media_obj->getMediaItem("Standard");
-                        if ($media_obj!=null && $media_obj->getLocationType() == "LocalFile") {
-                            $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/objects/il_" . IL_INST_ID . "_mob_" . $mob_id . "/" . rawurlencode($media_obj->getLocation())), "");
+                        if ($media_obj != null && $media_obj->getLocationType() == "LocalFile") {
+                            $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/objects/il_" . IL_INST_ID . "_mob_" . $mob_id . "/" . rawurlencode($media_obj->getLocation())), "");
                         }
                     }
                 }
@@ -343,7 +343,7 @@ class ilContObjectManifestBuilder
                     if (ilObject::_lookupType($file_id) == "file") {
                         include_once("./Modules/File/classes/class.ilObjFile.php");
                         $file_obj = new ilObjFile($file_id, false);
-                        $this->writer->xmlElement("file", array("href"=>"./" . $obj['obj_id'] . "/objects/il_" . IL_INST_ID . "_file_" . $file_id . "/" . rawurlencode($file_obj->filename)), "");
+                        $this->writer->xmlElement("file", array("href" => "./" . $obj['obj_id'] . "/objects/il_" . IL_INST_ID . "_file_" . $file_id . "/" . rawurlencode($file_obj->getFileName())), "");
                     }
                 }
                 unset($page_obj);
@@ -351,11 +351,11 @@ class ilContObjectManifestBuilder
                         
             $this->writer->xmlEndTag("resource");
         }
-        if ($this->version=="2004") {
+        if ($this->version == "2004") {
             $attrs = array();
             $attrs["identifier"] = "PKG";
             $attrs["type"] = "webcontent";
-            $attrs[($this->version=="2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
+            $attrs[($this->version == "2004"?"adlcp:scormType":"adlcp:scormtype")] = "asset";
             $this->writer->xmlStartTag("resource", $attrs, "");
             
             $xsd_files = array('adlcp_v1p3.xsd','adlseq_v1p3.xsd','imsss_v1p0.xsd','adlnav_v1p3.xsd','adlnav_v1p3.xsd',

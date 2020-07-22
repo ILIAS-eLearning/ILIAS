@@ -62,6 +62,6 @@
         
         public function __construct($iRules)
         {
-            $this->mRules=$iRules;
+            $this->mRules = $iRules;
         }
     }

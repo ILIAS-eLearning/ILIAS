@@ -54,10 +54,10 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $tpl = $DIC['tpl'];
         $ilMainMenu = $DIC['ilMainMenu'];
 
-        $this->ilias =&$ilias;
-        $this->ctrl =&$ilCtrl;
-        $this->tpl =&$tpl;
-        $this->lng =&$lng;
+        $this->ilias = &$ilias;
+        $this->ctrl = &$ilCtrl;
+        $this->tpl = &$tpl;
+        $this->lng = &$lng;
         $this->lng->loadLanguageModule('search');
 
         $ilMainMenu->setActive('search');

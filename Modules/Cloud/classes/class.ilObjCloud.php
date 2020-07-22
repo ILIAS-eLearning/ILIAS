@@ -203,7 +203,7 @@ class ilObjCloud extends ilObject2
     public function setRootFolder($a_val, $no_check = false)
     {
         if ($this->currentUserIsOwner() || $no_check || $this->getRootFolder() == null) {
-            $a_val             = ilCloudUtil::normalizePath($a_val);
+            $a_val = ilCloudUtil::normalizePath($a_val);
             $this->root_folder = $a_val;
         } else {
             throw new ilCloudException(ilCloudException::PERMISSION_TO_CHANGE_ROOT_FOLDER_DENIED);

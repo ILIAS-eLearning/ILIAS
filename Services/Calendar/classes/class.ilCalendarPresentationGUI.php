@@ -525,7 +525,7 @@ class ilCalendarPresentationGUI
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
 
-        $tpl =  new ilTemplate('tpl.cal_side_block.html', true, true, 'Services/Calendar');
+        $tpl = new ilTemplate('tpl.cal_side_block.html', true, true, 'Services/Calendar');
         if ($this->getRepositoryMode()) {
             include_once("./Services/Calendar/classes/class.ilCalendarBlockGUI.php");
             $side_cal = new ilCalendarBlockGUI();

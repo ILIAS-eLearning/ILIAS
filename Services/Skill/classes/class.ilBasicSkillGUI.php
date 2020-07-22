@@ -564,7 +564,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $desc = "";
         foreach ($path as $p) {
             if (in_array($p["type"], array("scat", "skll"))) {
-                $desc.= $sep . $p["title"];
+                $desc .= $sep . $p["title"];
                 $sep = " > ";
             }
         }

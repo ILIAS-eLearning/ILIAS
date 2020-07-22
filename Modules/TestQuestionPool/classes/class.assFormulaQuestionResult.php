@@ -10,9 +10,9 @@
 class assFormulaQuestionResult
 {
     const RESULT_NO_SELECTION = 0;
-    const RESULT_DEC          = 1;
-    const RESULT_FRAC         = 2;
-    const RESULT_CO_FRAC      = 3;
+    const RESULT_DEC = 1;
+    const RESULT_FRAC = 2;
+    const RESULT_CO_FRAC = 3;
 
     private $result;
     private $range_min;
@@ -57,16 +57,16 @@ class assFormulaQuestionResult
         $this->setRangeMax($range_max);
 
 
-        $this->tolerance     = $tolerance;
-        $this->unit          = $unit;
-        $this->formula       = $formula;
-        $this->points        = $points;
-        $this->precision     = $precision;
+        $this->tolerance = $tolerance;
+        $this->unit = $unit;
+        $this->formula = $formula;
+        $this->points = $points;
+        $this->precision = $precision;
         $this->rating_simple = $rating_simple;
-        $this->rating_sign   = $rating_sign;
-        $this->rating_value  = $rating_value;
-        $this->rating_unit   = $rating_unit;
-        $this->result_type   = $result_type;
+        $this->rating_sign = $rating_sign;
+        $this->rating_value = $rating_value;
+        $this->rating_unit = $rating_unit;
+        $this->result_type = $result_type;
         $this->setRangeMinTxt($range_min);
         $this->setRangeMaxTxt($range_max);
     }
@@ -109,19 +109,19 @@ class assFormulaQuestionResult
         $formula = $this->substituteFormula($variables, $results);
         if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
             foreach ($matches[1] as $variable) {
-                $varObj  = $variables[$variable];
+                $varObj = $variables[$variable];
                 if (!is_object($varObj)) {
                     continue;
                 }
-                $value   = $varObj->getBaseValue();
+                $value = $varObj->getBaseValue();
                 $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $value . ")" . "\\1", $formula);
             }
         }
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
 
         $formula = str_replace(",", ".", $formula);
-        $result                = $math->evaluate($formula);
+        $result = $math->evaluate($formula);
         if (is_object($this->getUnit())) {
             $result = ilMath::_div($result, $this->getUnit()->getFactor(), 100);
         }
@@ -131,7 +131,7 @@ class assFormulaQuestionResult
         if ($use_precision == true) {
             $res = $result * 1;
             if (is_numeric($this->getPrecision())) {
-                if ($this->getResultType()==self::RESULT_DEC || $this->getResultType()==self::RESULT_NO_SELECTION) {
+                if ($this->getResultType() == self::RESULT_DEC || $this->getResultType() == self::RESULT_NO_SELECTION) {
                     $result = ilMath::_round($res, $this->getPrecision());
                 }
             }
@@ -142,7 +142,7 @@ class assFormulaQuestionResult
     public function findValidRandomVariables($variables, $results)
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
-        $i       = 0;
+        $i = 0;
         $inRange = false;
         while ($i < 1000 && !$inRange) {
             $formula = $this->substituteFormula($variables, $results);
@@ -156,10 +156,10 @@ class assFormulaQuestionResult
                     $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
                 }
             }
-            $math                  = new EvalMath();
+            $math = new EvalMath();
             $math->suppress_errors = true;
-            $result                = $math->evaluate($formula);
-            $inRange               = (is_numeric($result)) ? true : false;
+            $result = $math->evaluate($formula);
+            $inRange = (is_numeric($result)) ? true : false;
             if ($inRange) {
                 if (is_numeric($this->getRangeMin())) {
                     if ($result < $this->getRangeMinBase()) {
@@ -195,9 +195,9 @@ class assFormulaQuestionResult
                     $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
                 }
             }
-            $math                  = new EvalMath();
+            $math = new EvalMath();
             $math->suppress_errors = true;
-            $result                = $math->evaluate($formula);
+            $result = $math->evaluate($formula);
             if (($range_min == null) || ($result < $range_min)) {
                 $range_min = $result;
             }
@@ -227,7 +227,7 @@ class assFormulaQuestionResult
         if ($value === null || 0 == strlen($value)) {
             return false;
         }
-        $value=str_replace(' ', '', $value);
+        $value = str_replace(' ', '', $value);
         
         include_once "./Services/Math/classes/class.EvalMath.php";
         include_once "./Services/Math/classes/class.ilMath.php";
@@ -257,9 +257,9 @@ class assFormulaQuestionResult
             }
         }
 
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
-        $result                = $math->evaluate($formula); // baseunit-result!!
+        $result = $math->evaluate($formula); // baseunit-result!!
 
         $resultWithRespectedUnit = ilMath::_round($result, $this->getPrecision());
         if (is_object($this->getUnit())) {
@@ -298,13 +298,13 @@ class assFormulaQuestionResult
         switch ($this->getResultType()) {
             case assFormulaQuestionResult::RESULT_DEC:
                 if (substr_count($value, '.') == 1 || substr_count($value, ',') == 1) {
-                    $exp_val    = $value;
+                    $exp_val = $value;
                     $frac_value = str_replace(',', '.', $exp_val);
                 } else {
                     $frac_value = $value;
                 }
                 
-                $frac_value =  ilMath::_round($frac_value, $this->getPrecision());
+                $frac_value = ilMath::_round($frac_value, $this->getPrecision());
 
                 if (substr_count($value, '/') >= 1) {
                     $check_fraction = false;
@@ -444,15 +444,15 @@ class assFormulaQuestionResult
                 }
             }
 
-            $math                  = new EvalMath();
+            $math = new EvalMath();
             $math->suppress_errors = true;
-            $result                = $math->evaluate($formula);
+            $result = $math->evaluate($formula);
 
             // result_type extension
             switch ($this->getResultType()) {
                 case assFormulaQuestionResult::RESULT_DEC:
                     if ((substr_count($value, '.') == 1) || (substr_count($value, ',') == 1)) {
-                        $exp_val    = $value;
+                        $exp_val = $value;
                         $frac_value = str_replace(',', '.', $exp_val);
                     } else {
                         $frac_value = $value;
@@ -469,7 +469,7 @@ class assFormulaQuestionResult
                             $check_fraction = false;
                         }
                     } else {
-                        $frac_value =  ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
                         if (ilMath::_equals(abs($frac_value), abs($result), $this->getPrecision())) {
                             $check_fraction = true;
                         }
@@ -541,16 +541,16 @@ class assFormulaQuestionResult
             include_once "./Services/Math/classes/class.EvalMath.php";
             include_once "./Services/Math/classes/class.ilMath.php";
             $totalpoints = 0;
-            $formula     = $this->substituteFormula($variables, $results);
+            $formula = $this->substituteFormula($variables, $results);
             if (preg_match_all("/(\\\$v\\d+)/ims", $formula, $matches)) {
                 foreach ($matches[1] as $variable) {
-                    $varObj  = $variables[$variable];
+                    $varObj = $variables[$variable];
                     $formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $varObj->getBaseValue() . ")" . "\\1", $formula);
                 }
             }
-            $math                  = new EvalMath();
+            $math = new EvalMath();
             $math->suppress_errors = true;
-            $result                = $math->evaluate($formula);
+            $result = $math->evaluate($formula);
             if (is_object($this->getUnit())) {
                 $result = ilMath::_mul($result, $this->getUnit()->getFactor(), 100);
             }
@@ -560,12 +560,12 @@ class assFormulaQuestionResult
             }
             $details = array();
             if ($this->checkSign($result, $value)) {
-                $points = ilMath::_mul($this->getPoints(), $this->getRatingSign()/100);
+                $points = ilMath::_mul($this->getPoints(), $this->getRatingSign() / 100);
                 $totalpoints += $points;
                 $details['sign'] = $points;
             }
             if ($this->isInTolerance(abs($value), abs($result), $this->getTolerance())) {
-                $points     = ilMath::_mul($this->getPoints(), $this->getRatingValue()/100);
+                $points = ilMath::_mul($this->getPoints(), $this->getRatingValue() / 100);
                 $totalpoints += $points;
                 $details['value'] = $points;
             }
@@ -576,7 +576,7 @@ class assFormulaQuestionResult
                 }
                 $base2 = $units[$this->getUnit()->getBaseUnit()];
                 if (is_object($base1) && is_object($base2) && $base1->getId() == $base2->getId()) {
-                    $points = ilMath::_mul($this->getPoints(), $this->getRatingUnit()/100);
+                    $points = ilMath::_mul($this->getPoints(), $this->getRatingUnit() / 100);
                     $totalpoints += $points;
                     $details['unit'] = $points;
                 }
@@ -610,10 +610,10 @@ class assFormulaQuestionResult
         //		$this->range_min = $val;
 
         include_once "./Services/Math/classes/class.EvalMath.php";
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
-        $result                = $math->evaluate($range_min);
-        $this->range_min       = $result;
+        $result = $math->evaluate($range_min);
+        $this->range_min = $result;
     }
 
     public function getRangeMin()
@@ -642,10 +642,10 @@ class assFormulaQuestionResult
         //		$this->range_max = $val;
 
         include_once "./Services/Math/classes/class.EvalMath.php";
-        $math                  = new EvalMath();
+        $math = new EvalMath();
         $math->suppress_errors = true;
-        $result                = $math->evaluate($range_max);
-        $this->range_max       = $result;
+        $result = $math->evaluate($range_max);
+        $this->range_max = $result;
     }
 
     public function getRangeMax()
@@ -813,15 +813,15 @@ class assFormulaQuestionResult
 
     public static function convertDecimalToCoprimeFraction($decimal_value, $tolerance = 1.e-9)
     {
-        $to_string   = (string) $decimal_value;
+        $to_string = (string) $decimal_value;
         $is_negative = strpos($to_string, '-') === 0;
         if ($is_negative) {
             $decimal_value = substr($decimal_value, 1);
         }
-        $h1=1;
-        $h2=0;
-        $k1=0;
-        $k2=1;
+        $h1 = 1;
+        $h2 = 0;
+        $k1 = 0;
+        $k2 = 1;
         $b = 1 / $decimal_value;
         do {
             $b = 1 / $b;
@@ -839,11 +839,11 @@ class assFormulaQuestionResult
             $checkResult = $h1;
         } else {
             $result = "$h1/$k1";
-            $checkResult = ($h1/$k1);
+            $checkResult = ($h1 / $k1);
         }
         if ($is_negative) {
-            $result =  '-' . $result;
-            $checkResult = ($h1/$k1)*-1;
+            $result = '-' . $result;
+            $checkResult = ($h1 / $k1) * -1;
         }
         if ($to_string == $checkResult . '' || $checkResult . '' == $result) {
             return $result;

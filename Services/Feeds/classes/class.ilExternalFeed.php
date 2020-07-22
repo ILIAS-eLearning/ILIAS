@@ -5,15 +5,16 @@ require_once './Services/Http/classes/class.ilProxySettings.php';
 
 define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 define("MAGPIE_CACHE_ON", true);
-define("MAGPIE_CACHE_DIR", "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/magpie_cache");
+define("MAGPIE_CACHE_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID . "/magpie_cache");
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_AGE', 900);			// 900 seconds = 15 minutes
+define('MAGPIE_DEBUG', false);
 include_once(MAGPIE_DIR . "/rss_fetch.inc");
 
 include_once("./Services/Feeds/classes/class.ilExternalFeedItem.php");
 
 /**
-* Handles external Feeds via Magpie libaray.
+* Handles external Feeds via Magpie library.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -86,8 +87,8 @@ class ilExternalFeed
     */
     public static function _createCacheDirectory()
     {
-        if (!is_dir(ilUtil::getWebspaceDir() . "/magpie_cache")) {
-            ilUtil::makeDir(ilUtil::getWebspaceDir() . "/magpie_cache");
+        if (!is_dir(ilUtil::getDataDir() . "/magpie_cache")) {
+            ilUtil::makeDir(ilUtil::getDataDir() . "/magpie_cache");
         }
     }
     
@@ -162,12 +163,12 @@ class ilExternalFeed
         
         $cache = new RSSCache(MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE);
         
-        $cache_status    = 0;       // response of check_cache
+        $cache_status = 0;       // response of check_cache
         $request_headers = array(); // HTTP headers to send with fetch
-        $rss             = 0;       // parsed RSS object
-        $errormsg        = 0;       // errors, if any
+        $rss = 0;       // parsed RSS object
+        $errormsg = 0;       // errors, if any
         
-        $cache_key       = $this->getUrl() . MAGPIE_OUTPUT_ENCODING;
+        $cache_key = $this->getUrl() . MAGPIE_OUTPUT_ENCODING;
         
         if (!$cache->ERROR) {
             // return cache HIT, MISS, or STALE
@@ -231,7 +232,7 @@ class ilExternalFeed
         
         $contents = '';
         while (!feof($res)) {
-            $contents.= fread($res, 8192);
+            $contents .= fread($res, 8192);
         }
         fclose($res);
         
@@ -253,7 +254,7 @@ class ilExternalFeed
             $links = $matches[1];
             $final_links = array();
             $link_count = count($links);
-            for ($n=0; $n<$link_count; $n++) {
+            for ($n = 0; $n < $link_count; $n++) {
                 $attributes = preg_split('/\s+/s', $links[$n]);
                 foreach ($attributes as $attribute) {
                     $att = preg_split('/\s*=\s*/s', $attribute, 2);
@@ -265,7 +266,7 @@ class ilExternalFeed
                 $final_links[$n] = $final_link;
             }
             #now figure out which one points to the RSS file
-            for ($n=0; $n<$link_count; $n++) {
+            for ($n = 0; $n < $link_count; $n++) {
                 if (strtolower($final_links[$n]['rel']) == 'alternate') {
                     if (strtolower($final_links[$n]['type']) == 'application/rss+xml') {
                         $href = $final_links[$n]['href'];

@@ -548,12 +548,12 @@ class ilExport
             "xsi:schemaLocation" => "http://www.ilias.de/Services/Export/exp/4_1 " . ILIAS_HTTP_PATH . "/xml/ilias_export_4_1.xsd"
             );
         if ($sv["namespace"] != "" && $sv["xsd_file"] != "") {
-            $attribs["xsi:schemaLocation"].= " " . $sv["namespace"] . " " .
+            $attribs["xsi:schemaLocation"] .= " " . $sv["namespace"] . " " .
                 ILIAS_HTTP_PATH . "/xml/" . $sv["xsd_file"];
             $attribs["xmlns"] = $sv["namespace"];
         }
         if ($sv["uses_dataset"]) {
-            $attribs["xsi:schemaLocation"].= " " .
+            $attribs["xsi:schemaLocation"] .= " " .
                 "http://www.ilias.de/Services/DataSet/ds/4_3 " . ILIAS_HTTP_PATH . "/xml/ilias_ds_4_3.xsd";
             $attribs["xmlns:ds"] = "http://www.ilias.de/Services/DataSet/ds/4_3";
         }

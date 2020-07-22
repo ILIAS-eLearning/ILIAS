@@ -97,7 +97,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $list->setListTitle($this->lng->txt('actions'));
         
         include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
-        $task_handler =  ilSCComponentTaskFactory::getComponentTask($row['id']);
+        $task_handler = ilSCComponentTaskFactory::getComponentTask($row['id']);
         
         $GLOBALS['DIC']['ilCtrl']->setParameterByClass(get_class($task_handler), 'task_id', $row['id']);
         foreach ((array) $task_handler->getActions() as $actions) {
@@ -105,9 +105,9 @@ class ilSCTaskTableGUI extends ilTable2GUI
                 $actions['txt'],
                 '',
                 $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass(
-                        get_class($task_handler),
-                        $actions['command']
-                    )
+                    get_class($task_handler),
+                    $actions['command']
+                )
             );
         }
         
@@ -124,7 +124,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
         include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
         foreach (ilSCTasks::getInstanceByGroupId($this->getGroupId())->getTasks() as $task) {
             include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
-            $task_handler =  ilSCComponentTaskFactory::getComponentTask($task->getId());
+            $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
 
             if (!$task->isActive()) {
                 continue;

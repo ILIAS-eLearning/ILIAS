@@ -68,7 +68,7 @@ class ilChatroomConfigFileHandler
      */
     protected function writeDataToFile($content, $filename)
     {
-        $path   = $this->createDataDirIfNotExists();
+        $path = $this->createDataDirIfNotExists();
         $handle = fopen($path . $filename, 'w');
 
         if (!fwrite($handle, $content)) {

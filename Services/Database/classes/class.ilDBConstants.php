@@ -66,16 +66,16 @@ class ilDBConstants
      */
     protected static $descriptions = array(
         // Main
-        ilDBConstants::TYPE_MYSQL            => "MySQL 5.5.x or higher (MyISAM engine)",
-        ilDBConstants::TYPE_MYSQLI           => "MySQL 5.5.x or higher (MyISAM engine)",
-        ilDBConstants::TYPE_INNODB           => "MySQL 5.5.x or higher (InnoDB engine)",
+        ilDBConstants::TYPE_MYSQL => "MySQL 5.5.x or higher (MyISAM engine)",
+        ilDBConstants::TYPE_MYSQLI => "MySQL 5.5.x or higher (MyISAM engine)",
+        ilDBConstants::TYPE_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
         // Experimental
-        ilDBConstants::TYPE_POSTGRES         => "Postgres (experimental)",
-        ilDBConstants::TYPE_GALERA           => "Galera-Cluster (experimental)",
+        ilDBConstants::TYPE_POSTGRES => "Postgres (experimental)",
+        ilDBConstants::TYPE_GALERA => "Galera-Cluster (experimental)",
         // Development identifiers (will be removed in 5.3)
         ilDBConstants::TYPE_PDO_MYSQL_MYISAM => "MySQL 5.5.x or higher (MyISAM engine) [developers-identifier]",
         ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.5.x or higher (InnoDB engine) [developers-identifier]",
-        ilDBConstants::TYPE_PDO_POSTGRE      => "Postgres (experimental) [developers-identifier]",
+        ilDBConstants::TYPE_PDO_POSTGRE => "Postgres (experimental) [developers-identifier]",
         ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
     );
 

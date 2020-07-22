@@ -193,7 +193,7 @@ class ilLanguageFile
                             $pos_white = false;
                         }
                         if ($pos_white) {
-                            $param = substr($line, $pos_par, $pos_white-$pos_par);
+                            $param = substr($line, $pos_par, $pos_white - $pos_par);
                             $value = trim(substr($line, $pos_white));
 
                             $this->params[$param] = $value;
@@ -290,7 +290,7 @@ class ilLanguageFile
         }
 
         // fault tolerant check for adding newline
-        $add_newline = (substr($content, strlen($content)-1, 1) != "\n");
+        $add_newline = (substr($content, strlen($content) - 1, 1) != "\n");
 
         // build the content
         foreach ($this->values as $key => $value) {

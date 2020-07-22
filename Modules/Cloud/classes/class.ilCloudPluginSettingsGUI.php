@@ -118,9 +118,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
      */
     public function getSettingsValues()
     {
-        $values["title"]       = $this->cloud_object->getTitle();
-        $values["desc"]        = $this->cloud_object->getDescription();
-        $values["online"]      = $this->cloud_object->getOnline();
+        $values["title"] = $this->cloud_object->getTitle();
+        $values["desc"] = $this->cloud_object->getDescription();
+        $values["online"] = $this->cloud_object->getOnline();
         $values["root_folder"] = $this->cloud_object->getRootFolder();
         $this->getPluginSettingsValues($values);
         $this->form->setValuesByArray($values);

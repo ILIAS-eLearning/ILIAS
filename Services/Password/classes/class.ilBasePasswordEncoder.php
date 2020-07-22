@@ -28,10 +28,10 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
     {
         // Prevent issues if string length is 0
         $known_string .= chr(0);
-        $user_string  .= chr(0);
+        $user_string .= chr(0);
 
         $known_string_length = strlen($known_string);
-        $user_string_length  = strlen($user_string);
+        $user_string_length = strlen($user_string);
 
         // Set the result to the difference between the lengths
         $result = $known_string_length - $user_string_length;

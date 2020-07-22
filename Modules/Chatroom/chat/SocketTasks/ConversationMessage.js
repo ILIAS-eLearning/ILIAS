@@ -25,7 +25,7 @@ module.exports = function(conversationId, userId, message) {
 		var conversation = namespace.getConversations().getById(conversationId);
 		var participant = namespace.getSubscriber(userId);
 
-		if(conversation.isParticipant(participant))
+		if(conversation !== null && conversation.isParticipant(participant))
 		{
 			var messageObj = {
 				conversationId: conversationId,

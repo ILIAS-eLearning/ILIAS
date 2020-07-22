@@ -533,10 +533,10 @@ abstract class ilDatabaseImplementationBaseTest extends PHPUnit_Framework_TestCa
     public function testModifyTableColumn()
     {
         $changes = array(
-            "type"    => "text",
-            "length"  => 250,
+            "type" => "text",
+            "length" => 250,
             "notnull" => false,
-            'fixed'   => false,
+            'fixed' => false,
         );
 
         $this->changeGlobal($this->db);

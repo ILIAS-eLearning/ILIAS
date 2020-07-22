@@ -42,14 +42,14 @@ class ilPageActivationDBRepository
         }
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .
-            $db->in("page_id", $ids, false, "integer").
+            $db->in("page_id", $ids, false, "integer") .
             " AND parent_type = %s AND lang = %s",
             ["text", "text"],
             [$parent_type, $lang]
-            );
+        );
         $active = [];
         $now = ilUtil::now();
-        while($rec = $db->fetchAssoc($set)) {
+        while ($rec = $db->fetchAssoc($set)) {
             if (!$rec["active"] && $check_scheduled_activation) {
                 if ($now >= $rec["activation_start"] &&
                     $now <= $rec["activation_end"]) {
@@ -78,5 +78,4 @@ class ilPageActivationDBRepository
         }
         return $active;
     }
-
 }

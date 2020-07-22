@@ -37,7 +37,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
         
         $this->prepareOutput();
 

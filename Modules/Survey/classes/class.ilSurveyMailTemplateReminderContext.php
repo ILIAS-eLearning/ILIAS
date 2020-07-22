@@ -85,13 +85,13 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
         $placeholders = array();
         
         $placeholders['svy_title'] = array(
-            'placeholder'	=> 'SURVEY_TITLE',
-            'label'			=> $lng->txt('svy_mail_context_reminder_survey_title')
+            'placeholder' => 'SURVEY_TITLE',
+            'label' => $lng->txt('svy_mail_context_reminder_survey_title')
         );
                                 
         $placeholders['svy_link'] = array(
-            'placeholder'	=> 'SURVEY_LINK',
-            'label'			=> $lng->txt('perma_link')
+            'placeholder' => 'SURVEY_LINK',
+            'label' => $lng->txt('perma_link')
         );
                                 
         return $placeholders;

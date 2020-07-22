@@ -1798,7 +1798,8 @@ class ilObjStyleSheet extends ilObject
 
         $ilSetting = $DIC->settings();
 
-        $rand = rand(1, 999999);
+        $random = new \ilRandom();
+        $rand = $random->int(1, 999999);
         
         
         // check global fixed content style
@@ -1985,29 +1986,29 @@ class ilObjStyleSheet extends ilObject
      */
     public function getXML()
     {
-        $xml.= "<StyleSheet>\n";
+        $xml .= "<StyleSheet>\n";
         
         // title and description
-        $xml.= "<Title>" . $this->handleXmlString($this->getTitle()) . "</Title>";
-        $xml.= "<Description>" . $this->handleXmlString($this->getDescription()) . "</Description>\n";
+        $xml .= "<Title>" . $this->handleXmlString($this->getTitle()) . "</Title>";
+        $xml .= "<Description>" . $this->handleXmlString($this->getDescription()) . "</Description>\n";
         
         // style classes
         foreach ($this->chars as $char) {
-            $xml.= "<Style Tag=\"" . ilObjStyleSheet::_determineTag($char["type"]) .
+            $xml .= "<Style Tag=\"" . ilObjStyleSheet::_determineTag($char["type"]) .
                 "\" Type=\"" . $char["type"] . "\" Class=\"" . $char["class"] . "\">\n";
             foreach ($this->style as $style) {
                 if ($style[0]["type"] == $char["type"] && $style[0]["class"] == $char["class"]) {
                     foreach ($style as $tag) {
-                        $xml.="<StyleParameter Name=\"" . $tag["parameter"] . "\" Value=\"" . $tag["value"] . "\" Custom=\"" . $tag["custom"] . "\" />\n";
+                        $xml .= "<StyleParameter Name=\"" . $tag["parameter"] . "\" Value=\"" . $tag["value"] . "\" Custom=\"" . $tag["custom"] . "\" />\n";
                     }
                 }
             }
-            $xml.= "</Style>\n";
+            $xml .= "</Style>\n";
         }
         
         // colors
         foreach ($this->getColors() as $color) {
-            $xml.="<StyleColor Name=\"" . $color["name"] . "\" Code=\"" . $color["code"] . "\"/>\n";
+            $xml .= "<StyleColor Name=\"" . $color["name"] . "\" Code=\"" . $color["code"] . "\"/>\n";
         }
 
         // templates
@@ -2016,18 +2017,18 @@ class ilObjStyleSheet extends ilObject
             $ts = $this->getTemplates($tct);
             
             foreach ($ts as $t) {
-                $xml.="<StyleTemplate Type=\"" . $tct . "\" Name=\"" . $t["name"] . "\">\n";
+                $xml .= "<StyleTemplate Type=\"" . $tct . "\" Name=\"" . $t["name"] . "\">\n";
                 foreach ($t["classes"] as $ct => $c) {
                     if ($c != "") {
-                        $xml.="<StyleTemplateClass ClassType=\"" . $ct . "\" Class=\"" . $c . "\"/>\n";
+                        $xml .= "<StyleTemplateClass ClassType=\"" . $ct . "\" Class=\"" . $c . "\"/>\n";
                     }
                 }
-                $xml.="</StyleTemplate>\n";
+                $xml .= "</StyleTemplate>\n";
             }
         }
         
         
-        $xml.= "</StyleSheet>";
+        $xml .= "</StyleSheet>";
         //echo "<pre>".htmlentities($xml)."</pre>"; exit;
         return $xml;
     }
@@ -3064,7 +3065,7 @@ class ilObjStyleSheet extends ilObject
             }
         
             if ($r == $max) {
-                $h  = ($g - $b) / ($max - $min);
+                $h = ($g - $b) / ($max - $min);
             } elseif ($g == $max) {
                 $h = 2.0 + ($b - $r) / ($max - $min);
             } elseif ($b == $max) {
@@ -3115,7 +3116,7 @@ class ilObjStyleSheet extends ilObject
                         break;
                         
                     case "b":
-                        $temp3 = $h - 1.0/3.0;
+                        $temp3 = $h - 1.0 / 3.0;
                         break;
                 }
                 if ($temp3 < 0) {
@@ -3130,7 +3131,7 @@ class ilObjStyleSheet extends ilObject
                 } elseif (2.0 * $temp3 < 1) {
                     $rgb[$k] = $temp2;
                 } elseif (3.0 * $temp3 < 2) {
-                    $rgb[$k] = $temp1 + ($temp2 - $temp1) * ((2.0/3.0) - $temp3) * 6.0;
+                    $rgb[$k] = $temp1 + ($temp2 - $temp1) * ((2.0 / 3.0) - $temp3) * 6.0;
                 } else {
                     $rgb[$k] = $temp1;
                 }
@@ -3286,7 +3287,7 @@ class ilObjStyleSheet extends ilObject
                 " order_nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($mq["id"], "integer")
             );
-            $cnt+= 10;
+            $cnt += 10;
         }
     }
 
@@ -3505,19 +3506,19 @@ class ilObjStyleSheet extends ilObject
                     "even_col" => "EvenColClass");*/
                 $c = $t["classes"];
         
-                $tag.= '<StyleTemplate Name="' . $t["name"] . '">';
+                $tag .= '<StyleTemplate Name="' . $t["name"] . '">';
                 
                 foreach ($atts as $type => $t) {
                     if ($c[$type] != "") {
-                        $tag.= '<StyleClass Type="' . $type . '" Value="' . $c[$type] . '" />';
+                        $tag .= '<StyleClass Type="' . $type . '" Value="' . $c[$type] . '" />';
                     }
                 }
                 
-                $tag.= "</StyleTemplate>";
+                $tag .= "</StyleTemplate>";
             }
         }
         
-        $tag.= "</StyleTemplates>";
+        $tag .= "</StyleTemplates>";
 
         //echo htmlentities($tag);
         return $tag;
@@ -3628,7 +3629,7 @@ class ilObjStyleSheet extends ilObject
             " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") .
             " AND name = " . $ilDB->quote($a_name, "text")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         
         return $rec["value"];
     }
@@ -3664,7 +3665,7 @@ class ilObjStyleSheet extends ilObject
             "SELECT style_id FROM style_usage " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
         );
-        $rec  = $ilDB->fetchAssoc($set);
+        $rec = $ilDB->fetchAssoc($set);
         
         if (ilObject::_lookupType($rec["style_id"]) == "sty") {
             return (int) $rec["style_id"];

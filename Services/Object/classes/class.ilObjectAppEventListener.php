@@ -17,7 +17,7 @@ class ilObjectAppEventListener implements \ilAppEventListener
         if ('Services/Object' === $a_component && 'beforeDeletion' === $a_event) {
             /** @var \ilObjectCustomIconFactory  $customIconFactory */
             $customIconFactory = $DIC['object.customicons.factory'];
-            $customIcon        = $customIconFactory->getByObjId($a_parameter['object']->getId(), $a_parameter['object']->getType());
+            $customIcon = $customIconFactory->getByObjId($a_parameter['object']->getId(), $a_parameter['object']->getType());
             $customIcon->delete();
         }
     }

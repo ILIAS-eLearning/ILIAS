@@ -149,7 +149,7 @@ class ilCalendarAppointmentPanelGUI
             $users = $a_app['event']->readResponsibleUsers();
             $delim = "";
             foreach ($users as $r) {
-                $value.= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
+                $value .= $delim . $r["lastname"] . ", " . $r["firstname"] . " [" . $r["login"] . "]";
                 $delim = "<br />";
             }
             if (count($users) > 0) {

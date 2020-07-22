@@ -173,7 +173,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
                 case 'dateduration':
 
                     foreach (array("start", "end") as $type) {
-                        $postVar  = $item->getPostVar() . '[' . $type . ']';
+                        $postVar = $item->getPostVar() . '[' . $type . ']';
                         $datetime = $item->{'get' . ucfirst($type)}();
 
                         if ($datetime instanceof ilDateTime) {

@@ -93,7 +93,7 @@ class ilAccessKey
 
         $c_str = $lim = "";
         foreach (self::$func_def[$a_func_id]["component"] as $c) {
-            $c_str.= $lim . $lng->txt("acc_comp_" . $c);
+            $c_str .= $lim . $lng->txt("acc_comp_" . $c);
             $lim = ", ";
         }
         return $c_str;
@@ -123,7 +123,7 @@ class ilAccessKey
             "SELECT * FROM acc_access_key " .
             " WHERE lang_key = " . $ilDB->quote($lang_key, "text")
         );
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $keys[$rec["function_id"]] = $rec["access_key"];
         }
         
@@ -154,7 +154,7 @@ class ilAccessKey
             " WHERE lang_key = " . $ilDB->quote($lang_key, "text") .
             " AND function_id = " . $ilDB->quote($a_func_id, "integer")
         );
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             $key = $rec["access_key"];
         }
         

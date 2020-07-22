@@ -99,7 +99,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         $res = array();
         
         if (is_array($a_working_data)) {
-            $res[] = array("textanswer"=>trim($a_working_data[0]["textanswer"]));
+            $res[] = array("textanswer" => trim($a_working_data[0]["textanswer"]));
         }
         
         return $res;
@@ -127,8 +127,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         } else {
             $template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
             $template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
-            $template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
-            $template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
+            $template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth() * 16);
+            $template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight() * 16);
         }
         if ($this->object->getMaxChars()) {
             $template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));

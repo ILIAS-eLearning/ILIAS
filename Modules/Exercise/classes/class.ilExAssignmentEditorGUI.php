@@ -1508,7 +1508,7 @@ class ilExAssignmentEditorGUI
         if ($reminder->getReminderStatus()) {
             $values["rmd_peer_status"] = $reminder->getReminderStatus();
             $values["rmd_peer_start"] = $reminder->getReminderStart();
-            $values["rmd_peer_end"] = 	new ilDateTime($reminder->getReminderEnd(), IL_CAL_UNIX);
+            $values["rmd_peer_end"] = new ilDateTime($reminder->getReminderEnd(), IL_CAL_UNIX);
             $values["rmd_peer_freq"] = $reminder->getReminderFrequency();
             $values["rmd_peer_template_id"] = $reminder->getReminderMailTemplate();
         }
@@ -1739,7 +1739,7 @@ class ilExAssignmentEditorGUI
         } else {
             if ($a_min_participants) {
                 $number_of_teams = round($total_members / $a_min_participants);
-                $participants_extra_team =  $total_members % $a_min_participants;
+                $participants_extra_team = $total_members % $a_min_participants;
                 if ($participants_extra_team > $number_of_teams) {
                     //Can't create teams with this minimum of participants.
                     $message = sprintf($this->lng->txt("exc_team_minimal_too_big"), $a_min_participants);

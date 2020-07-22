@@ -132,12 +132,12 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         );
         // #14866
         if ($a_obj_id && ilObjSAHSLearningModuleAccess::_lookupOfflineModeAvailable($a_obj_id)) {
-            $offlineMode=ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
+            $offlineMode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
             if ($offlineMode == false) {
-                $commands[]=array("permission" => "read", "cmd" => "offlineModeStart", "lang_var" => "offline_mode");
+                $commands[] = array("permission" => "read", "cmd" => "offlineModeStart", "lang_var" => "offline_mode");
             } else {
-                $commands[]=array("permission" => "read", "cmd" => "offlineModeStop", "lang_var" => "offline_mode");
-                $commands[0]=array("permission" => "read", "cmd" => "offlineModeView", "lang_var" => "show","default" => true);
+                $commands[] = array("permission" => "read", "cmd" => "offlineModeStop", "lang_var" => "offline_mode");
+                $commands[0] = array("permission" => "read", "cmd" => "offlineModeView", "lang_var" => "show","default" => true);
             }
         }
         

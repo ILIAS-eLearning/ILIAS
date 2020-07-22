@@ -36,7 +36,7 @@ class ilSessionReminderCheck
 
         $response = array('remind' => false);
 
-        $res  = $ilDB->queryF(
+        $res = $ilDB->queryF(
             '
 			SELECT expires, user_id, data
 			FROM usr_session
@@ -109,9 +109,9 @@ class ilSessionReminderCheck
         }
 
         $response = array(
-            'extend_url'               => './ilias.php?baseClass=ilPersonalDesktopGUI',
-            'txt'                      => str_replace("\\n", '%0A', sprintf($lng->txt('session_reminder_alert'), ilDatePresentation::secondsToString($expiretime - time()), $formatted_expiration_time, $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath())),
-            'remind'                   => true
+            'extend_url' => './ilias.php?baseClass=ilPersonalDesktopGUI',
+            'txt' => str_replace("\\n", '%0A', sprintf($lng->txt('session_reminder_alert'), ilDatePresentation::secondsToString($expiretime - time()), $formatted_expiration_time, $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath())),
+            'remind' => true
         );
 
         return ilJsonUtil::encode($response);

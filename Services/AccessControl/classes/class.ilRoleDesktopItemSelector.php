@@ -44,7 +44,7 @@ class ilRoleDesktopItemSelector extends ilExplorer
 
         $this->ctrl = $ilCtrl;
 
-        $this->role_desk_obj =&$role_desk_item_obj;
+        $this->role_desk_obj = &$role_desk_item_obj;
 
         parent::__construct($a_target);
         $this->tree = $tree;

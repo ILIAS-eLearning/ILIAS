@@ -409,7 +409,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $lng->txt("trac_collection_tlt_learner_subitem"),
                     ilDatePresentation::secondsToString($spent),
                     ilDatePresentation::secondsToString($needed),
-                    min(100, round(abs($spent)/$needed*100))
+                    min(100, round(abs($spent) / $needed * 100))
                 ));
             }
             

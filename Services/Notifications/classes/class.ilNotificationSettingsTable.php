@@ -43,8 +43,8 @@ class ilNotificationSettingsTable extends ilTable2GUI
         foreach ($channels as $key => $channel) {
             $this->addColumn(
                 $this->language->txt(
-                'notc_' . $channel['title']
-            ),
+                    'notc_' . $channel['title']
+                ),
                 '',
                 '20%',
                 false,

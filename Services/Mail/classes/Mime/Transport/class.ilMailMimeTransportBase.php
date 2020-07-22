@@ -139,11 +139,21 @@ abstract class ilMailMimeTransportBase implements \ilMailMimeTransport
             $mail->getFrom()->getEnvelopFromAddress()
         ));
 
+        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Alternative Body: %s", $this->getMailer()->AltBody));
+        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Body: %s", $this->getMailer()->Body));
+
         $this->getMailer()->CharSet = 'utf-8';
 
         $this->mailer->SMTPDebug = 4;
         $this->mailer->Debugoutput = function ($message, $level) {
-            ilLoggerFactory::getLogger('mail')->debug($message);
+            if (
+                strpos($message, 'Invalid address') !== false ||
+                strpos($message, 'Message body empty') !== false
+            ) {
+                ilLoggerFactory::getLogger('mail')->warning($message);
+            } else {
+                ilLoggerFactory::getLogger('mail')->debug($message);
+            }
         };
 
         $this->onBeforeSend();
@@ -152,6 +162,13 @@ abstract class ilMailMimeTransportBase implements \ilMailMimeTransport
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 'Successfully delegated external mail delivery'
             ));
+
+            if (strlen($this->getMailer()->ErrorInfo) > 0) {
+                ilLoggerFactory::getLogger('mail')->warning(sprintf(
+                    '... with most recent errors: %s',
+                    $this->getMailer()->ErrorInfo
+                ));
+            }
         } else {
             ilLoggerFactory::getLogger('mail')->warning(sprintf(
                 'Could not deliver external email: %s',

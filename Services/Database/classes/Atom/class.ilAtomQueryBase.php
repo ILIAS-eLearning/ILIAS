@@ -41,14 +41,14 @@ abstract class ilAtomQueryBase implements ilAtomQuery
             ilAtomQuery::ANO_NON_REPEATED_READ,
             ilAtomQuery::ANO_PHANTOM,
         ),
-        ilAtomQuery::ISOLATION_READ_COMMITED   => array(
+        ilAtomQuery::ISOLATION_READ_COMMITED => array(
             ilAtomQuery::ANO_NON_REPEATED_READ,
             ilAtomQuery::ANO_PHANTOM,
         ),
-        ilAtomQuery::ISOLATION_REPEATED_READ   => array(
+        ilAtomQuery::ISOLATION_REPEATED_READ => array(
             ilAtomQuery::ANO_PHANTOM,
         ),
-        ilAtomQuery::ISOLATION_SERIALIZABLE    => array(),
+        ilAtomQuery::ISOLATION_SERIALIZABLE => array(),
     );
     /**
      * @var int

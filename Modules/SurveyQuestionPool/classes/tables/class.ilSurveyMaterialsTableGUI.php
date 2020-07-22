@@ -77,7 +77,7 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TYPE", $data['type']);
         $this->tpl->setVariable("TITLE", $data['title']);
         $this->tpl->setVariable("HREF", $data['href']);
-        $this->tpl->setVariable("CHECKBOX_VALUE", $this->counter-1);
+        $this->tpl->setVariable("CHECKBOX_VALUE", $this->counter - 1);
         $this->tpl->setVariable("COUNTER", $this->counter++);
     }
 }

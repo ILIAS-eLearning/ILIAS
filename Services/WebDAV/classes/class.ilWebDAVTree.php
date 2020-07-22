@@ -63,7 +63,7 @@ class ilWebDAVTree
         if ($repository_mountpoint == 'ilias') {
             if ($path_in_mountpoint != '') {
                 $ref_path = self::getRefIdForGivenRootAndPath(ROOT_FOLDER_ID, $path_in_mountpoint);
-                $searched_node = $ref_path[count($ref_path)-1];
+                $searched_node = $ref_path[count($ref_path) - 1];
                 $ref_id = $searched_node['child'];
             } else {
                 $ref_id = ROOT_FOLDER_ID;
@@ -122,12 +122,12 @@ class ilWebDAVTree
             $child_obj_id = ilObject::_lookupObjectId($child_ref);
             $child_title = strtolower(ilObject::_lookupTitle($child_obj_id));
             if ($path_title_array[$searched_element_index] == $child_title) {
-                if (count($path_title_array)-1 == $searched_element_index) {
+                if (count($path_title_array) - 1 == $searched_element_index) {
                     // Last element found. Return ref_id
                     return $child_ref;
                 } else {
                     // Search next element in path
-                    return self::iterateRecursiveThroughTree($path_title_array, $searched_element_index+1, $child_ref);
+                    return self::iterateRecursiveThroughTree($path_title_array, $searched_element_index + 1, $child_ref);
                 }
             }
         }

@@ -531,21 +531,21 @@ class ilPersonalDesktopGUI
             $multikeys = array_keys($array);
             $keys = array_keys($array[$multikeys[0]]);
             
-            for ($m=0; $m < count($key_sorta); $m++) {
+            for ($m = 0; $m < count($key_sorta); $m++) {
                 $nkeys[$m] = trim($key_sorta[$m]);
             }
             $n += count($key_sorta);
             
-            for ($i=0; $i < count($keys); $i++) {
+            for ($i = 0; $i < count($keys); $i++) {
                 if (!in_array($keys[$i], $key_sorta)) {
                     $nkeys[$n] = $keys[$i];
                     $n += "1";
                 }
             }
             
-            for ($u=0;$u<count($array); $u++) {
+            for ($u = 0;$u < count($array); $u++) {
                 $arr = $array[$multikeys[$u]];
-                for ($s=0; $s<count($nkeys); $s++) {
+                for ($s = 0; $s < count($nkeys); $s++) {
                     $k = $nkeys[$s];
                     $output[$multikeys[$u]][$k] = $array[$multikeys[$u]][$k];
                 }

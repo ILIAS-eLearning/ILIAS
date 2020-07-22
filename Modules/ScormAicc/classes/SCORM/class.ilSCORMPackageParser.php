@@ -150,15 +150,15 @@ class ilSCORMPackageParser extends ilSaxParser
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -166,7 +166,7 @@ class ilSCORMPackageParser extends ilSaxParser
             }
         }
 
-        $tag.= ">";
+        $tag .= ">";
 
         return $tag;
     }
@@ -214,7 +214,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $organization->setImportId($a_attribs["identifier"]);
                 $organization->setStructure($a_attribs["structure"]);
                 $organization->create();
-                $this->current_organization =&$organization;
+                $this->current_organization = &$organization;
                 $this->sc_tree->insertNode($organization->getId(), $this->getCurrentParent());
                 array_push($this->parent_stack, $organization->getId());
                 break;
@@ -233,7 +233,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $item->create();
                 $this->sc_tree->insertNode($item->getId(), $this->getCurrentParent());
                 array_push($this->parent_stack, $item->getId());
-                $this->item_stack[count($this->item_stack)] =&$item;
+                $this->item_stack[count($this->item_stack)] = &$item;
                 break;
 
             case "adlcp:prerequisites":
@@ -258,7 +258,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $resource->setXmlBase($a_attribs["xml:base"]);
                 $resource->setHRef($a_attribs["href"]);
                 $resource->create();
-                $this->current_resource =&$resource;
+                $this->current_resource = &$resource;
                 $this->sc_tree->insertNode($resource->getId(), $this->getCurrentParent());
                 array_push($this->parent_stack, $resource->getId());
                 break;

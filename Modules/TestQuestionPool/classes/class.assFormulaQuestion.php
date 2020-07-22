@@ -46,10 +46,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $question = ""
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
-        $this->variables        = array();
-        $this->results          = array();
-        $this->resultunits      = array();
-        $this->unitrepository   = new ilUnitConfigurationRepository(0);
+        $this->variables = array();
+        $this->results = array();
+        $this->resultunits = array();
+        $this->unitrepository = new ilUnitConfigurationRepository(0);
     }
 
     public function clearVariables()
@@ -275,7 +275,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             }
 
             $unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
-            $val  = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
+            $val = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
             
             $text = preg_replace("/\\$" . substr($varObj->getVariable(), 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
         }
@@ -283,7 +283,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
                 $resObj = $this->getResult($result);
-                $value  = "";
+                $value = "";
                 $frac_helper = '';
                 $user_data[$result]['result_type'] = $resObj->getResultType();
 
@@ -302,7 +302,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                                 $value = assFormulaQuestionResult::convertDecimalToCoprimeFraction($value_org);
                                 if (is_array($value)) {
                                     $frac_helper = $value[1];
-                                    $value =  $value[0];
+                                    $value = $value[0];
                                 }
                             }
                         } else {
@@ -331,18 +331,18 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         // If all default values are set, this function is called in getPreview
                         $use_precision = !($userdata == null && $graphicalOutput == false && $forsolution == false && $result_output == false);
 
-                        $val   = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId(), $use_precision);
+                        $val = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId(), $use_precision);
 
                         if ($resObj->getResultType() == assFormulaQuestionResult::RESULT_FRAC
-                            ||$resObj->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC) {
+                            || $resObj->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC) {
                             $val = $resObj->convertDecimalToCoprimeFraction($val);
                             if (is_array($val)) {
                                 $frac_helper = $val[1];
                                 $val = $val[0];
                             }
                         } else {
-                            $val   = sprintf("%." . $resObj->getPrecision() . "f", $val);
-                            $val   = (strlen($val) > 8) ? strtoupper(sprintf("%e", $val)) : $val;
+                            $val = sprintf("%." . $resObj->getPrecision() . "f", $val);
+                            $val = (strlen($val) > 8) ? strtoupper(sprintf("%e", $val)) : $val;
                         }
                         $value = ' value="' . $val . '"';
                     }
@@ -414,7 +414,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 }
                 $checkSign = "";
                 if ($graphicalOutput) {
-                    $resunit    = null;
+                    $resunit = null;
                     $user_value = '';
                     if (is_array($userdata) && is_array($userdata[$result])) {
                         if ($userdata[$result]["unit"] > 0) {
@@ -453,7 +453,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $resulttext = "(";
                     if ($resObj->getRatingSimple()) {
                         if ($frac_helper) {
-                            $resulttext .="n/a";
+                            $resulttext .= "n/a";
                         } else {
                             $resulttext .= $found['points'] . " " . (($found['points'] == 1) ? $this->lng->txt('point') : $this->lng->txt('points'));
                         }
@@ -482,8 +482,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      */
     public function canUseAdvancedRating($result)
     {
-        $result_units  = $this->getResultUnits($result);
-        $resultunit    = $result->getUnit();
+        $result_units = $this->getResultUnits($result);
+        $resultunit = $result->getUnit();
         $similar_units = 0;
         foreach ($result_units as $unit) {
             if (is_object($resultunit)) {
@@ -542,18 +542,18 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         );
 
         foreach ($this->variables as $variable) {
-            $next_id      = $ilDB->nextId('il_qpl_qst_fq_var');
+            $next_id = $ilDB->nextId('il_qpl_qst_fq_var');
             $ilDB->insert(
                 'il_qpl_qst_fq_var',
                 array(
-                'variable_id'   => array('integer', $next_id),
-                'question_fi'   => array('integer', $this->getId()),
-                'variable'      => array('text', $variable->getVariable()),
-                'range_min'     => array('float', ((strlen($variable->getRangeMin())) ? $variable->getRangeMin() : 0.0)),
-                'range_max'     => array('float', ((strlen($variable->getRangeMax())) ? $variable->getRangeMax() : 0.0)),
-                'unit_fi'       => array('integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)),
-                'varprecision'  => array('integer', (int) $variable->getPrecision()),
-                'intprecision'  => array('integer', (int) $variable->getIntprecision()),
+                'variable_id' => array('integer', $next_id),
+                'question_fi' => array('integer', $this->getId()),
+                'variable' => array('text', $variable->getVariable()),
+                'range_min' => array('float', ((strlen($variable->getRangeMin())) ? $variable->getRangeMin() : 0.0)),
+                'range_max' => array('float', ((strlen($variable->getRangeMax())) ? $variable->getRangeMax() : 0.0)),
+                'unit_fi' => array('integer', (is_object($variable->getUnit()) ? (int) $variable->getUnit()->getId() : 0)),
+                'varprecision' => array('integer', (int) $variable->getPrecision()),
+                'intprecision' => array('integer', (int) $variable->getIntprecision()),
                 'range_min_txt' => array('text', $variable->getRangeMinTxt()),
                 'range_max_txt' => array('text', $variable->getRangeMaxTxt())
             )
@@ -571,27 +571,27 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             if (is_object($result->getUnit())) {
                 $tmp_result_unit = $result->getUnit()->getId();
             } else {
-                $tmp_result_unit = 	null;
+                $tmp_result_unit = null;
             }
 
             $formula = str_replace(",", ".", $result->getFormula());
             
             $ilDB->insert("il_qpl_qst_fq_res", array(
-                "result_id"     => array("integer", $next_id),
-                "question_fi"   => array("integer", $this->getId()),
-                "result"        => array("text", $result->getResult()),
-                "range_min"     => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : 0)),
-                "range_max"     => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : 0)),
-                "tolerance"     => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : 0)),
-                "unit_fi"       => array("integer", (int) $tmp_result_unit),
-                "formula"       => array("clob", $formula),
-                "resprecision"  => array("integer", $result->getPrecision()),
+                "result_id" => array("integer", $next_id),
+                "question_fi" => array("integer", $this->getId()),
+                "result" => array("text", $result->getResult()),
+                "range_min" => array("float", ((strlen($result->getRangeMin())) ? $result->getRangeMin() : 0)),
+                "range_max" => array("float", ((strlen($result->getRangeMax())) ? $result->getRangeMax() : 0)),
+                "tolerance" => array("float", ((strlen($result->getTolerance())) ? $result->getTolerance() : 0)),
+                "unit_fi" => array("integer", (int) $tmp_result_unit),
+                "formula" => array("clob", $formula),
+                "resprecision" => array("integer", $result->getPrecision()),
                 "rating_simple" => array("integer", ($result->getRatingSimple()) ? 1 : 0),
-                "rating_sign"   => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingSign()),
-                "rating_value"  => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingValue()),
-                "rating_unit"   => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingUnit()),
-                "points"        => array("float", $result->getPoints()),
-                "result_type"   => array('integer', (int) $result->getResultType()),
+                "rating_sign" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingSign()),
+                "rating_value" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingValue()),
+                "rating_unit" => array("float", ($result->getRatingSimple()) ? 0 : $result->getRatingUnit()),
+                "points" => array("float", $result->getPoints()),
+                "result_type" => array('integer', (int) $result->getResultType()),
                 "range_min_txt" => array("text", $result->getRangeMinTxt()),
                 "range_max_txt" => array("text", $result->getRangeMaxTxt())
 
@@ -605,7 +605,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         );
         foreach ($this->results as $result) {
             foreach ($this->getResultUnits($result) as $unit) {
-                $next_id      = $ilDB->nextId('il_qpl_qst_fq_res_unit');
+                $next_id = $ilDB->nextId('il_qpl_qst_fq_res_unit');
                 $affectedRows = $ilDB->manipulateF(
                     "INSERT INTO il_qpl_qst_fq_res_unit (result_unit_id, question_fi, result, unit_fi) VALUES (%s, %s, %s, %s)",
                     array('integer', 'integer', 'text', 'integer'),
@@ -653,7 +653,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             } catch (ilTestQuestionPoolException $e) {
             }
 
-            $this->unitrepository   = new ilUnitConfigurationRepository($question_id);
+            $this->unitrepository = new ilUnitConfigurationRepository($question_id);
 
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
@@ -697,7 +697,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $unit   = $this->getUnitrepository()->getUnit($data["unit_fi"]);
+                    $unit = $this->getUnitrepository()->getUnit($data["unit_fi"]);
                     $resObj = $this->getResult($data["result"]);
                     $this->addResultUnit($resObj, $unit);
                 }
@@ -850,12 +850,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $solutions     =&$this->getSolutionValues($active_id, $pass, $authorizedSolution);
+        $solutions = &$this->getSolutionValues($active_id, $pass, $authorizedSolution);
         $user_solution = array();
         foreach ($solutions as $idx => $solution_value) {
             if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
                 $user_solution[$matches[1]] = $solution_value["value2"];
-                $varObj                     = $this->getVariable($solution_value["value1"]);
+                $varObj = $this->getVariable($solution_value["value1"]);
                 $varObj->setValue($solution_value["value2"]);
             } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
@@ -1221,12 +1221,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      */
     public function getBestSolution($solutions)
     {
-        $user_solution              = array();
+        $user_solution = array();
 
         foreach ($solutions as $idx => $solution_value) {
             if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
                 $user_solution[$matches[1]] = $solution_value["value2"];
-                $varObj                     = $this->getVariable($matches[1]);
+                $varObj = $this->getVariable($matches[1]);
                 $varObj->setValue($solution_value["value2"]);
             } elseif (preg_match("/^(\\\$r\\d+)$/", $solution_value["value1"], $matches)) {
                 if (!array_key_exists($matches[1], $user_solution)) {
@@ -1424,7 +1424,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $points = $this->calculateReachedPoints($active_id, $pass);
         $max_points = $this->getMaximumPoints();
 
-        $result->setReachedPercentage(($points/$max_points) * 100);
+        $result->setReachedPercentage(($points / $max_points) * 100);
 
         return $result;
     }
@@ -1440,7 +1440,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     public function getAvailableAnswerOptions($index = null)
     {
         if ($index !== null) {
-            return $this->getResult('$r' . ($index+1));
+            return $this->getResult('$r' . ($index + 1));
         } else {
             return $this->getResults();
         }

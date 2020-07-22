@@ -23,7 +23,7 @@ function base()
         return $s;
     });
     $equal_ten = $validation->custom(function ($v) {
-        return $v==10;
+        return $v == 10;
     }, "The sum must equal ten");
 
     //Step 2: Define inputs
@@ -50,7 +50,7 @@ function base()
 
     //Step 4, implement some form data processing.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+        && $request->getQueryParams()['example_name'] == 'numeric_inputs') {
         $form = $form->withRequest($request);
         $result = $form->getData()[0];
     } else {

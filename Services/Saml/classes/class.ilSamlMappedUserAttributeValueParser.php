@@ -25,7 +25,7 @@ class ilSamlMappedUserAttributeValueParser
      */
     public function __construct(\ilExternalAuthUserAttributeMappingRule $rule, array $userData)
     {
-        $this->rule     = $rule;
+        $this->rule = $rule;
         $this->userData = $userData;
     }
 
@@ -43,7 +43,7 @@ class ilSamlMappedUserAttributeValueParser
             $index = (int) $matches[3];
         }
 
-        return $index  >= 0 ? $index : 0;
+        return $index >= 0 ? $index : 0;
     }
 
     /**

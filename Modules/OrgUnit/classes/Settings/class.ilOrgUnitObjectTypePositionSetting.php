@@ -112,9 +112,9 @@ class ilOrgUnitObjectTypePositionSetting
         $this->db->replace('orgu_obj_type_settings', [
                 'obj_type' => [ 'text', $this->type ],
             ], [
-                'active'             => [ 'integer', (int) $this->isActive() ],
+                'active' => [ 'integer', (int) $this->isActive() ],
                 'activation_default' => [ 'integer', (int) $this->getActivationDefault() ],
-                'changeable'         => [ 'integer', (int) $this->isChangeableForObject() ],
+                'changeable' => [ 'integer', (int) $this->isChangeableForObject() ],
             ]);
     }
 

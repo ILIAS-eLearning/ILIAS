@@ -51,9 +51,9 @@ class ilTimingAccepted
         $lng = $DIC['lng'];
         $tree = $DIC['tree'];
 
-        $this->ilErr =&$ilErr;
-        $this->db  =&$ilDB;
-        $this->lng =&$lng;
+        $this->ilErr = &$ilErr;
+        $this->db = &$ilDB;
+        $this->lng = &$lng;
 
         $this->crs_id = $crs_id;
         $this->user_id = $a_usr_id;

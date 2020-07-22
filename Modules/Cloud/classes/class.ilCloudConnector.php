@@ -96,7 +96,7 @@ class ilCloudConnector
         }
 
         if (array_key_exists($service_name, ilCloudConnector::getActiveServices())) {
-            $class_name    = ilCloudConnector::getFullClassName($service_name, "Service");
+            $class_name = ilCloudConnector::getFullClassName($service_name, "Service");
             return new $class_name($service_name, $obj_id);
         } else {
             throw new ilCloudException(ilCloudException::SERVICE_NOT_ACTIVE, $service_name);

@@ -36,13 +36,13 @@ class ilCertificateQueueRepository
         $id = $this->database->nextId('il_cert_cron_queue');
 
         $row = array(
-            'id'                => array('integer', $id),
-            'obj_id'            => array('integer', $certificateQueueEntry->getObjId()),
-            'usr_id'            => array('integer', $certificateQueueEntry->getUserId()),
-            'adapter_class'     => array('text', $certificateQueueEntry->getAdapterClass()),
-            'state'             => array('text', $certificateQueueEntry->getState()),
+            'id' => array('integer', $id),
+            'obj_id' => array('integer', $certificateQueueEntry->getObjId()),
+            'usr_id' => array('integer', $certificateQueueEntry->getUserId()),
+            'adapter_class' => array('text', $certificateQueueEntry->getAdapterClass()),
+            'state' => array('text', $certificateQueueEntry->getState()),
             'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp()),
-            'template_id'       => array('integer', $certificateQueueEntry->getTemplateId()),
+            'template_id' => array('integer', $certificateQueueEntry->getTemplateId()),
 
         );
 

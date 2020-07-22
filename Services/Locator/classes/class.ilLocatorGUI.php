@@ -391,10 +391,10 @@ class ilLocatorGUI
         if (is_array($items)) {
             foreach ($items as $item) {
                 if (!$first) {
-                    $str.= " > ";
+                    $str .= " > ";
                 }
                 
-                $str.= $item["title"];
+                $str .= $item["title"];
                 
                 $first = false;
             }

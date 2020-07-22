@@ -17,7 +17,7 @@ include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.p
 class ilCronDeleteInactiveUserAccounts extends ilCronJob
 {
     const DEFAULT_INACTIVITY_PERIOD = 365;
-    const DEFAULT_REMINDER_PERIOD   = 0;
+    const DEFAULT_REMINDER_PERIOD = 0;
 
     private $period = null;
     private $reminderTimer = null;
@@ -144,11 +144,11 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $ilLog = $DIC['ilLog'];
         
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        $reminder_time      = (int) $this->reminderTimer;
-        $checkMail          = (int) $this->period - $reminder_time;
+        $reminder_time = (int) $this->reminderTimer;
+        $checkMail = (int) $this->period - $reminder_time;
         $usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($checkMail);
         $counter = 0;
-        $userDeleted        = 0;
+        $userDeleted = 0;
         $userMailsDelivered = 0;
         foreach ($usr_ids as $usr_id) {
             if ($usr_id == ANONYMOUS_USER_ID || $usr_id == SYSTEM_USER_ID) {
@@ -172,7 +172,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
             $user = ilObjectFactory::getInstanceByObjId($usr_id);
             $timestamp_last_login = strtotime($user->getLastLogin());
-            $grace_period_over    = time() - ((int) $this->period * 24 * 60 * 60);
+            $grace_period_over = time() - ((int) $this->period * 24 * 60 * 60);
             if ($timestamp_last_login < $grace_period_over) {
                 $user->delete();
                 $userDeleted++;
@@ -199,9 +199,9 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     
     protected function calculateDeletionData($date_for_deletion)
     {
-        $cron_timing 		= ilCronManager::getCronJobData($this->getId());
-        $time_difference 	= 0;
-        $multiplier 		= 1;
+        $cron_timing = ilCronManager::getCronJobData($this->getId());
+        $time_difference = 0;
+        $multiplier = 1;
 
         if (!is_array($cron_timing) || !is_array($cron_timing[0])) {
             return time() + $date_for_deletion + $time_difference;
@@ -307,10 +307,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
 
         $valid = true;
-        $delete_period 		= ilUtil::stripSlashes($_POST['cron_inactive_user_delete_period']);
-        $reminder_period 	= ilUtil::stripSlashes($_POST['cron_inactive_user_reminder_period']);
-        $cron_period 		= (int) ilUtil::stripSlashes($_POST['type']);
-        $cron_period_custom	= (int) ilUtil::stripSlashes($_POST['sdyi']);
+        $delete_period = ilUtil::stripSlashes($_POST['cron_inactive_user_delete_period']);
+        $reminder_period = ilUtil::stripSlashes($_POST['cron_inactive_user_reminder_period']);
+        $cron_period = (int) ilUtil::stripSlashes($_POST['type']);
+        $cron_period_custom = (int) ilUtil::stripSlashes($_POST['sdyi']);
 
         if ($this->isDecimal($delete_period)) {
             $valid = false;
@@ -325,31 +325,31 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_must_be_smaller_than'), 'send_mail_to_inactive_users_must_be_smaller_than');
         }
         if ($cron_period >= ilCronJob::SCHEDULE_TYPE_IN_DAYS && $cron_period <= ilCronJob::SCHEDULE_TYPE_YEARLY && $reminder_period > 0) {
-            $logic					= true;
-            $check_window_logic 	= $delete_period - $reminder_period;
-            if ($cron_period ==  ilCronJob::SCHEDULE_TYPE_IN_DAYS) {
+            $logic = true;
+            $check_window_logic = $delete_period - $reminder_period;
+            if ($cron_period == ilCronJob::SCHEDULE_TYPE_IN_DAYS) {
                 if ($check_window_logic < $cron_period_custom) {
-                    $logic 	= false;
+                    $logic = false;
                 }
             } elseif ($cron_period == ilCronJob::SCHEDULE_TYPE_WEEKLY) {
                 if ($check_window_logic <= 7) {
-                    $logic 	= false;
+                    $logic = false;
                 }
-            } elseif ($cron_period ==  ilCronJob::SCHEDULE_TYPE_MONTHLY) {
+            } elseif ($cron_period == ilCronJob::SCHEDULE_TYPE_MONTHLY) {
                 if ($check_window_logic <= 31) {
-                    $logic 	= false;
+                    $logic = false;
                 }
-            } elseif ($cron_period ==  ilCronJob::SCHEDULE_TYPE_QUARTERLY) {
+            } elseif ($cron_period == ilCronJob::SCHEDULE_TYPE_QUARTERLY) {
                 if ($check_window_logic <= 92) {
-                    $logic 	= false;
+                    $logic = false;
                 }
-            } elseif ($cron_period ==  ilCronJob::SCHEDULE_TYPE_YEARLY) {
+            } elseif ($cron_period == ilCronJob::SCHEDULE_TYPE_YEARLY) {
                 if ($check_window_logic <= 366) {
-                    $logic 	= false;
+                    $logic = false;
                 }
             }
             if (!$logic) {
-                $valid 		= false;
+                $valid = false;
                 $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_reminder_window_too_small'), 'send_mail_reminder_window_too_small');
             }
         }

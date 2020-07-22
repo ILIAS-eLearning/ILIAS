@@ -183,7 +183,7 @@ class ilSCORMOfflineMode
         if ($this->type == "scorm2004") {
             $scorm_version = "2004";
         }
-        $tree="";
+        $tree = "";
         
         $learning_progress_enabled = 1;
         include_once './Services/Object/classes/class.ilObjectLP.php';
@@ -276,17 +276,17 @@ class ilSCORMOfflineMode
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        $package_attempts	= 0;
-        $module_version		= 1;//if module_version in sop is different...
-        $last_visited		= "";
-        $first_access		= null;
-        $last_access		= null;
-        $last_status_change	= null;
-        $total_time_sec		= null;
-        $sco_total_time_sec	= 0;
-        $status				= 0;
+        $package_attempts = 0;
+        $module_version = 1;//if module_version in sop is different...
+        $last_visited = "";
+        $first_access = null;
+        $last_access = null;
+        $last_status_change = null;
+        $total_time_sec = null;
+        $sco_total_time_sec = 0;
+        $status = 0;
         $percentage_completed = 0;
-        $user_data			= "";
+        $user_data = "";
 
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -301,10 +301,10 @@ class ilSCORMOfflineMode
             $module_version = $row['module_version'];
             $last_visited = $row['last_visited'];
             if ($row['first_access'] != null) {
-                $first_access = strtotime($row['first_access'])*1000;//check Oracle!
+                $first_access = strtotime($row['first_access']) * 1000;//check Oracle!
             }
             if ($row['last_access'] != null) {
-                $last_access = strtotime($row['last_access'])*1000;//check Oracle!
+                $last_access = strtotime($row['last_access']) * 1000;//check Oracle!
             }
             $total_time_sec = $row['total_time_sec'];
             $sco_total_time_sec = $row['sco_total_time_sec'];
@@ -315,7 +315,7 @@ class ilSCORMOfflineMode
             include_once './Services/Tracking/classes/class.ilChangeEvent.php';
             $all = ilChangeEvent::_lookupReadEvents($this->obj_id, $ilUser->getID());
             foreach ($all as $event) {
-                $first_access = strtotime($event['first_access'])*1000;//
+                $first_access = strtotime($event['first_access']) * 1000;//
             }
         }
         return array($package_attempts, $module_version, $last_visited, $first_access, $last_access, $last_status_change, $total_time_sec, $sco_total_time_sec, $status, $percentage_completed, $user_data);
@@ -329,32 +329,32 @@ class ilSCORMOfflineMode
         $ilUser = $DIC['ilUser'];
         $in = file_get_contents("php://input");
         $GLOBALS['DIC']['ilLog']->write($in);
-        $ret = array('msg'=>array(),'err'=>array());
+        $ret = array('msg' => array(),'err' => array());
         
         if (!$in || $in == "") {
             $ret['err'][] = "no post data recieved";
             print(json_encode($ret));
             exit;
         }
-        $userId=$ilUser->getID();
-        $result=true;
+        $userId = $ilUser->getID();
+        $result = true;
 
         if ($this->type == 'scorm2004') {
             $lm_set = $ilDB->queryF('SELECT default_lesson_mode, interactions, objectives, comments, time_from_lms FROM sahs_lm WHERE id = %s', array('integer'), array($this->obj_id));
             while ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
-                $defaultLessonMode=($lm_rec["default_lesson_mode"]);
-                $interactions=(ilUtil::yn2tf($lm_rec["interactions"]));
-                $objectives=(ilUtil::yn2tf($lm_rec["objectives"]));
-                $comments=(ilUtil::yn2tf($lm_rec["comments"]));
-                $time_from_lms=(ilUtil::yn2tf($lm_rec["time_from_lms"]));
+                $defaultLessonMode = ($lm_rec["default_lesson_mode"]);
+                $interactions = (ilUtil::yn2tf($lm_rec["interactions"]));
+                $objectives = (ilUtil::yn2tf($lm_rec["objectives"]));
+                $comments = (ilUtil::yn2tf($lm_rec["comments"]));
+                $time_from_lms = (ilUtil::yn2tf($lm_rec["time_from_lms"]));
             }
             include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
             $data = json_decode($in);
             $GLOBALS['DIC']['ilLog']->write('cmi_count=' . count($data->cmi));
-            for ($i=0; $i<count($data->cmi); $i++) {
-                if ($result==true) {
+            for ($i = 0; $i < count($data->cmi); $i++) {
+                if ($result == true) {
                     //$a_r=array();
-                    $cdata=$data->cmi[$i];
+                    $cdata = $data->cmi[$i];
                     $a_r = ilSCORM2004StoreData::setCMIData(
                         $userId,
                         $this->obj_id,
@@ -364,29 +364,29 @@ class ilSCORMOfflineMode
                         $objectives
                     );
                     if (!is_array($a_r)) {
-                        $result=false;
+                        $result = false;
                     }
                 }
             }
-            if ($result==true) {
-                $result=ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status, $time_from_lms);
+            if ($result == true) {
+                $result = ilSCORM2004StoreData::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status, $time_from_lms);
             }
         } else {
             include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php";
             $data = json_decode($in);
-            $result=ilObjSCORMTracking::storeJsApiCmi($userId, $this->obj_id, $data);
-            if ($result==true) {
-                $result=ilObjSCORMTracking::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
+            $result = ilObjSCORMTracking::storeJsApiCmi($userId, $this->obj_id, $data);
+            if ($result == true) {
+                $result = ilObjSCORMTracking::syncGlobalStatus($userId, $this->obj_id, $data, $data->now_global_status);
             }
         }
-        if ($result==true) {
-            $result=self::scormPlayerUnloadForSOP2il($data);
+        if ($result == true) {
+            $result = self::scormPlayerUnloadForSOP2il($data);
         }
 
-        if ($result==false) {
+        if ($result == false) {
             $ret['err'][] = "invalid post data recieved";
         } else {
-            $ret['msg'][]  = "post data recieved";
+            $ret['msg'][] = "post data recieved";
         }
         header('Content-Type: text/plain; charset=UTF-8');
         print json_encode($ret);
@@ -397,21 +397,21 @@ class ilSCORMOfflineMode
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        $first_access=null;
+        $first_access = null;
         if ($data->first_access != null) {
-            $first_access=date('Y-m-d H:i:s', round($data->first_access/1000));
+            $first_access = date('Y-m-d H:i:s', round($data->first_access / 1000));
         }
-        $last_access=null;
-        $i_last_access=null;
+        $last_access = null;
+        $i_last_access = null;
         if ($data->last_access != null) {
-            $i_last_access = round($data->last_access/1000);
-            $last_access=date('Y-m-d H:i:s', $i_last_access);
+            $i_last_access = round($data->last_access / 1000);
+            $last_access = date('Y-m-d H:i:s', $i_last_access);
             include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
             ilChangeEvent::_updateAccessForScormOfflinePlayer($this->obj_id, $ilUser->getId(), $i_last_access, $first_access);
         }
-        $last_status_change=null;
+        $last_status_change = null;
         if ($data->last_status_change != null) {
-            $last_status_change=date('Y-m-d H:i:s', round($data->last_status_change/1000));
+            $last_status_change = date('Y-m-d H:i:s', round($data->last_status_change / 1000));
         }
         $GLOBALS['DIC']['ilLog']->write('first_access=' . $first_access);
         $res = $ilDB->queryF(
@@ -435,7 +435,7 @@ class ilSCORMOfflineMode
             array('text','integer','integer'),
             array($a_mode, $this->obj_id,$ilUser->getId())
         );
-        $this->offlineMode=$a_mode;
+        $this->offlineMode = $a_mode;
     }
     public function getOfflineMode()
     {

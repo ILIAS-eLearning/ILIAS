@@ -32,9 +32,9 @@ class ilIndividualAssessmentMembersTest extends PHPUnit_Framework_TestCase
     public function createUser()
     {
         $user = new ilObjUser;
-        $user->setFirstname('iass_test_firstname' . (count(self::$created_users)+time()));
-        $user->setLastname('iass_test_lastname' . (count(self::$created_users)+time()));
-        $user->setLogin('iass_tesst_login' . (count(self::$created_users)+time()));
+        $user->setFirstname('iass_test_firstname' . (count(self::$created_users) + time()));
+        $user->setLastname('iass_test_lastname' . (count(self::$created_users) + time()));
+        $user->setLogin('iass_tesst_login' . (count(self::$created_users) + time()));
         $user->create();
         $user->saveAsNew();
         self::$created_users[] = $user;

@@ -226,7 +226,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         
         $params = null;
         if ($a_back_url) {
-            $params = array("back_url"=>rawurlencode($a_back_url));
+            $params = array("back_url" => rawurlencode($a_back_url));
         }
         
         include_once "Services/Link/classes/class.ilLink.php";

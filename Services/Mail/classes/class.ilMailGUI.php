@@ -48,15 +48,15 @@ class ilMailGUI
     {
         global $DIC;
 
-        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
-        $this->lng  = $DIC->language();
-        $this->user  = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
 
-        $this->mbox  = new ilMailbox($this->user->getId());
+        $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new \ilMail($this->user->getId());
         if (!$DIC->rbac()->system()->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId())) {
             $DIC['ilErr']->raiseError($this->lng->txt("permission_denied"), $DIC['ilErr']->WARNING);

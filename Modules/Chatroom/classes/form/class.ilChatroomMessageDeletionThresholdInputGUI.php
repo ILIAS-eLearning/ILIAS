@@ -36,7 +36,7 @@ class ilChatroomMessageDeletionThresholdInputGUI extends ilNumberInputGUI
         $this->setValueByArray((array) $_POST);
         $this->thresholdUnits->setValueByArray((array) $_POST);
 
-        $unit =  $this->thresholdUnits->getValue();
+        $unit = $this->thresholdUnits->getValue();
         switch (true) {
             case $unit == 'days' && $this->getValue() > 31:
                 $this->setAlert(sprintf(

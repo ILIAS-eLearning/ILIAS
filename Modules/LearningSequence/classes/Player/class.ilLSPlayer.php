@@ -47,7 +47,7 @@ class ilLSPlayer
         $this->ui_factory = $ui_factory;
     }
 
-    public function render(array $get, array $post=null)
+    public function render(array $get, array $post = null)
     {
         //init state and current item
         $stored = $this->state_db->getCurrentItemsFor(
@@ -55,14 +55,25 @@ class ilLSPlayer
             [$this->usr_id]
         );
 
-        if (count($stored) === 0 ||
-            $stored[$this->usr_id] < 0 //returns -1 if there is no current item
+        $current_item = $this->items[0];
+        $current_item_ref_id = $current_item->getRefId();
+
+        if (count($stored) > 0 ||
+            $stored[$this->usr_id] > -1 //returns -1 if there is no current item
         ) {
-            $current_item = $this->items[0];
-            $current_item_ref_id = $current_item->getRefId();
-        } else {
             $current_item_ref_id = $stored[$this->usr_id];
-            list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
+
+            //maybe item is not available?
+            $valid_ref_ids = array_map(
+                function ($item) {
+                    return $item->getRefId();
+                },
+                array_values($this->items)
+            );
+
+            if (in_array($current_item_ref_id, $valid_ref_ids)) {
+                list($position, $current_item) = $this->findItemByRefId($current_item_ref_id);
+            }
         }
 
         $view = $this->view_factory->getViewFor($current_item);
@@ -147,7 +158,7 @@ class ilLSPlayer
         ILIAS\KioskMode\State $state,
         ILIAS\KioskMode\View $view,
         array $get,
-        array $post=null
+        array $post = null
     ) : ILIAS\KioskMode\State {
         //get view internal command
         $command = $_GET[self::PARAM_LSO_COMMAND];
@@ -177,7 +188,7 @@ class ilLSPlayer
      */
     protected function findItemByRefId(int $ref_id) : array
     {
-        foreach ($this->items as $index=>$item) {
+        foreach ($this->items as $index => $item) {
             if ($item->getRefId() === $ref_id) {
                 return [$index, $item];
             }

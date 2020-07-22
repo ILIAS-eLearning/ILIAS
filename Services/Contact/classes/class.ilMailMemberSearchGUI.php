@@ -57,15 +57,15 @@ class ilMailMemberSearchGUI
     {
         global $DIC;
 
-        $this->ctrl   = $DIC['ilCtrl'];
-        $this->tpl    = $DIC['tpl'];
-        $this->lng    = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
         $this->access = $DIC['ilAccess'];
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
 
-        $this->gui    = $gui;
+        $this->gui = $gui;
         $this->ref_id = $ref_id;
 
         $this->objMailMemberRoles = $objMailMemberRoles;
@@ -154,7 +154,7 @@ class ilMailMemberSearchGUI
         $form = $this->initMailToMembersForm();
         if ($form->checkInput()) {
             if ($form->getInput('mail_member_type') == 'mail_member_roles') {
-                if (count($form->getInput('roles')) > 0) {
+                if (is_array($form->getInput('roles')) && count($form->getInput('roles')) > 0) {
                     $role_mail_boxes = array();
                     $roles = $form->getInput('roles');
                     foreach ($roles as $role_id) {
@@ -170,9 +170,9 @@ class ilMailMemberSearchGUI
                         'showSearchForm',
                         array('type' => 'role'),
                         array(
-                            'type'   => 'role',
+                            'type' => 'role',
                             'rcp_to' => implode(',', $role_mail_boxes),
-                            'sig'    => $this->gui->createMailSignature()
+                            'sig' => $this->gui->createMailSignature()
                         ),
                         $this->generateContextArray()
                     ));
@@ -205,8 +205,8 @@ class ilMailMemberSearchGUI
                 if ($this->access->checkAccess('write', "", $this->ref_id)) {
                     $context_array = array(
                         ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-                        'ref_id'                    => $this->ref_id,
-                        'ts'                        => time()
+                        'ref_id' => $this->ref_id,
+                        'ts' => time()
                     );
                 }
                 break;
@@ -215,8 +215,8 @@ class ilMailMemberSearchGUI
                 if ($this->access->checkAccess('write', "", $this->ref_id)) {
                     $context_array = array(
                         ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
-                        'ref_id'                    => $this->ref_id,
-                        'ts'                        => time()
+                        'ref_id' => $this->ref_id,
+                        'ts' => time()
                     );
                 }
                 break;
@@ -245,7 +245,7 @@ class ilMailMemberSearchGUI
      */
     protected function sendMailToSelectedUsers()
     {
-        if (!count($_POST['user_ids'])) {
+        if (!is_array($_POST['user_ids']) || 0 === count($_POST['user_ids'])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
@@ -271,7 +271,7 @@ class ilMailMemberSearchGUI
             array(),
             array(
                 'type' => 'new',
-                'sig'  =>  $this->gui->createMailSignature()
+                'sig' => $this->gui->createMailSignature()
             ),
             $this->generateContextArray()
         ));
@@ -343,13 +343,13 @@ class ilMailMemberSearchGUI
     {
         $mail_roles = $this->getMailRoles();
 
-        $radio_grp   = new ilRadioGroupInputGUI('', 'mail_member_type');
+        $radio_grp = new ilRadioGroupInputGUI('', 'mail_member_type');
 
         $radio_sel_users = new ilRadioOption($this->lng->txt('mail_sel_users'), 'mail_sel_users');
 
         $radio_roles = new ilRadioOption($this->objMailMemberRoles->getRadioOptionTitle(), 'mail_member_roles');
         foreach ($mail_roles as $role) {
-            $chk_role     = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
+            $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
 
             if (array_key_exists('default_checked', $role) && $role['default_checked']) {
                 $chk_role->setChecked(true);

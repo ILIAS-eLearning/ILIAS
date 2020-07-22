@@ -130,23 +130,23 @@ class ilRoleMailboxAddress
             "JOIN object_data odat ON odat.obj_id = oref.obj_id " .
             "WHERE rdat.obj_id = " . $this->db->quote($this->roleId, 'integer') . " " .
             "AND fa.assign = 'y' ";
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
         if (!$row = $this->db->fetchObject($res)) {
             return '';
         }
 
         $object_title = $row->object_title;
-        $object_ref   = $row->object_ref;
-        $role_title   = $row->role_title;
+        $object_ref = $row->object_ref;
+        $role_title = $row->role_title;
 
         // In a perfect world, we could use the object_title in the
         // domain part of the mailbox address, and the role title
         // with prefix '#' in the local part of the mailbox address.
-        $domain     = $object_title;
+        $domain = $object_title;
         $local_part = $role_title;
 
         // Determine if the object title is unique
-        $q   = "SELECT COUNT(DISTINCT dat.obj_id) count " .
+        $q = "SELECT COUNT(DISTINCT dat.obj_id) count " .
             "FROM object_data dat " .
             "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
             "JOIN tree ON tree.child = ref.ref_id " .
@@ -183,7 +183,7 @@ class ilRoleMailboxAddress
         if (strpos($role_title, 'il_') === 0 && $domain != null) {
             $unambiguous_role_title = $role_title;
 
-            $pos        = strpos($role_title, '_', 3) + 1;
+            $pos = strpos($role_title, '_', 3) + 1;
             $local_part = substr(
                 $role_title,
                 $pos,

@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (Local changes merged into the global language file)
 *
@@ -1965,7 +1965,7 @@ auth#:#auth_sync_cas#:#Se estiver selecionado, as mensagens no chat de repositó
 auth#:#auth_sync_cas_info#:#"[INVITER_NAME]" convida-o para a sala de chat "[ROOM_NAME]"
 auth#:#err_auth_saml_failed#:#Autenticação falhou. Entre em contacto com o administrador do seu sistema.
 auth#:#err_auth_saml_no_ilias_user#:#Autenticação falhou. Entre em contacto com o administrador do seu sistema.
-auth#:#login_page_activate#:#[SALUTATION]\n\nFoi convidado para uma sala de chat:\nTítulo da sala de chat: [ROOM_NAME]\nConvidado por: [INVITER_NAME]\nURL: [LINK]\n\nPara se juntar à sala de chat, siga o URL fornecido.
+auth#:#login_page_activate#:#[SALUTATION]  Foi convidado para uma sala de chat: Título da sala de chat: [ROOM_NAME] Convidado por: [INVITER_NAME] URL: [LINK]  Para se juntar à sala de chat, siga o URL fornecido.
 auth#:#login_page_editor_switched#:#Clique no link do título para entrar na sala de chat.
 auth#:#login_page_switch_ipe#:#Juntar-se
 auth#:#login_page_switch_rte#:#Se o servidor de chat estiver acessível apenas através de um subdiretório com um URL como "http(s)://[IP/Domain]/[SUB_DIRECTORY]" é necessário inserir o [SUB_DIRECTORY] para este servidor de chat. Na maior parte dos cenários pode deixar este campo vazio.
@@ -4824,7 +4824,7 @@ common#:#rolf_added#:#Contas de utilizador
 common#:#rolf_create_role#:#Não pode executar a ação ‘Apagar’. Nenhum utilizador desses na base de dados.
 common#:#rolf_create_rolt#:#Não pode executar a ação ‘Inserir’. O utilizador já está na base de dados.
 common#:#rolf_delete#:#Não pode executar a ação ‘Atualizar’. Nenhum utilizador desses na base de dados.
-common#:#rolf_edit_permission#:#Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.)\nQuando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados).
+common#:#rolf_edit_permission#:#Quando está selecionado ‘Ignorar um conflito’, o ILIAS ignora uma ação, se não puder ser executada (p. ex. uma ação de ‘Inserir’ não é executada, se já houver um utilizador com o mesmo login na base de dados.) Quando está selecionado ‘Atualizar em caso de conflito’, o ILIAS atualiza a base de dados se uma ação não puder ser executada. (p. ex. uma ação de ‘Inserir’ é substituída por uma ação de ‘Atualizar’, se existir um utilizador com o mesmo login na base de dados).
 common#:#rolf_edit_userassignment#:#Não pode executar a ação ‘Inserir’. A conta externa já existe.
 common#:#rolf_read#:#Não pode executar a ação ‘Atualizar’. A conta externa já existe.
 common#:#rolf_visible#:#Adicionar utilizador
@@ -4933,7 +4933,7 @@ common#:#session_max_idle_info#:#Define o período máximo de tempo de inativida
 common#:#session_min_idle#:#Número mín. de sessões inativas (em minutos)
 common#:#session_min_idle_info#:#Quando um utilizador estiver inativo durante pelo menos este período de tempo, a sessão será eliminada se for aberta outra sessão por outro utilizador e se o número máximo de sessões existentes for alcançado.
 common#:#session_reminder#:#Correto!
-common#:#session_reminder_alert#:#A sua sessão expira em %1$s a %2$s!\n\nClique OK para continuar a sua sessão.\nSe clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.\n\nInstalação: %3$s.
+common#:#session_reminder_alert#:#A sua sessão expira em %1$s a %2$s!  Clique OK para continuar a sua sessão. Se clicar Cancelar deixará de ser lembrado durante a atual sessão do navegador.  Instalação: %3$s.
 common#:#session_reminder_info#:#Todas as páginas
 common#:#session_reminder_lead_time#:#Alfabético A, B, ...
 common#:#session_reminder_lead_time_info#:#Alfabético a, b, ...
@@ -6326,7 +6326,7 @@ content#:#cont_type_not_allowed#:#Tipo de conteúdo não permitido nesta posiç�
 content#:#cont_unlock_allow_continue#:#Desbloquear/Permitir continuar
 content#:#cont_unlocked#:#Desbloqueado
 content#:#cont_update_amd_page_list#:#Editar lista de páginas
-content#:#cont_update_blog#:#foi atribuído à lista de espera do curso "%s".\nEstá atribuído à posição %s na lista.\n\nVai receber uma mensagem de um administrador do curso assim que o seu pedido for aprovado ou rejeitado.
+content#:#cont_update_blog#:#foi atribuído à lista de espera do curso "%s". Está atribuído à posição %s na lista.  Vai receber uma mensagem de um administrador do curso assim que o seu pedido for aprovado ou rejeitado.
 content#:#cont_update_consultation_hours#:#Editar horas de consulta
 content#:#cont_update_login_page#:#Editar elemento página de login
 content#:#cont_update_map#:#Editar mapa
@@ -6586,7 +6586,7 @@ crs#:#crs_breadcrumb_full_path#:#Marcações novas e alteradas
 crs#:#crs_cancel_subscr_request#:#Apagar pedido de adesão
 crs#:#crs_cancel_subscription#:#‘Apagar reserva’ não notifica os utilizadores por e-mail. Se quiser notificar os utilizadores, escolha a ação ‘Cancelar reserva’.
 crs#:#crs_cancel_subscription_body#:#Duração de cada marcação
-crs#:#crs_cancel_subscription_body2#:#Pode haver outros membros numa lista de espera do seu curso.\nDevia verificar a lista de espera agora.\nPara ver membros do seu curso, clique aqui:
+crs#:#crs_cancel_subscription_body2#:#Pode haver outros membros numa lista de espera do seu curso. Devia verificar a lista de espera agora. Para ver membros do seu curso, clique aqui:
 crs#:#crs_cancellation_end#:#Reserva recurso
 crs#:#crs_cancellation_end_info#:#‘Cancelar reserva’ envia mails de notificação aos utilizadores. Se não quiser notificar os utilizadores, escolha a opção ‘Apagar reserva’.
 crs#:#crs_cancellation_end_rbac_info#:#O prazo de cancelamento foi a %s, já não é possível cancelar.
@@ -7527,7 +7527,7 @@ dateplaner#:#more#:#Os membros selecionados até esta data podem cancelar a insc
 dateplaner#:#of#:#Definições de ícones
 dateplaner#:#properties#:#Informação importante
 dateplaner#:#r_14#:#Apenas os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’.
-dateplaner#:#r_4_weeks#:#foi atribuído à lista de espera do grupo "%s".\nEstá atribuído à posição %s na lista.\n\nVai receber uma mensagem de um administrador do grupo assim que o seu pedido for aprovado ou rejeitado.
+dateplaner#:#r_4_weeks#:#foi atribuído à lista de espera do grupo "%s". Está atribuído à posição %s na lista.  Vai receber uma mensagem de um administrador do grupo assim que o seu pedido for aprovado ou rejeitado.
 dateplaner#:#remote_pass_info#:#Os membros e os administradores podem usar a funcionalidade ‘Mail para participantes’ no separador ‘Membros’.
 dateplaner#:#Sa_long#:#O seu registo para o grupo "%s"
 dateplaner#:#Sa_short#:#Recebe um mail de ILIAS porque é administrador do grupo com a notificação ativada.
@@ -7618,10 +7618,10 @@ dcl#:#dcl_empty_detailed_view_success#:#Sobre o calendário
 dcl#:#dcl_err_formula_field_not_found#:#Campo com título '%s' não encontrado
 dcl#:#dcl_error_parsing_expression#:#Erro expressão de emparelhamento
 dcl#:#dcl_export_enabled#:#Permitir exportar função para todos os utilizadores
-dcl#:#dcl_export_enabled_desc#:#DHTML Seletor de data/hora\n(c) dynarch.com 2002-2003\nPara a última visita de versão: http://dynarch.com/mishoo/calendar.epl\nDistribuído sob GNU LGPL.  Ver http://gnu.org/licenses/lgpl.html quanto a detalhes.\n\nSeleção da data:\n- Usar os botões Â«, Â» para selecionar ano\n- Usar os botões <, > para selecionar mês\n- Manter o botão do rato premido sobre qualquer um dos botões acima referidos para selecionar mais rapidamente.
+dcl#:#dcl_export_enabled_desc#:#DHTML Seletor de data/hora (c) dynarch.com 2002-2003 Para a última visita de versão: http://dynarch.com/mishoo/calendar.epl Distribuído sob GNU LGPL.  Ver http://gnu.org/licenses/lgpl.html quanto a detalhes.  Seleção da data: - Usar os botões Â«, Â» para selecionar ano - Usar os botões <, > para selecionar mês - Manter o botão do rato premido sobre qualquer um dos botões acima referidos para selecionar mais rapidamente.
 dcl#:#dcl_export_finished#:#Exportação terminada
 dcl#:#dcl_export_started#:#Exportação assíncrona começou
-dcl#:#dcl_field_datatype#:#\n\nSeleção da hora:\n- Clique e qualquer uma das secções da hora para aumentá-la\n- ou clique Shift para reduzi-la\n- ou clique e arraste para selecionar mais rapidamente.
+dcl#:#dcl_field_datatype#:#  Seleção da hora: - Clique e qualquer uma das secções da hora para aumentá-la - ou clique Shift para reduzi-la - ou clique e arraste para selecionar mais rapidamente.
 dcl#:#dcl_field_description#:#Descrição
 dcl#:#dcl_field_required#:#Exigido
 dcl#:#dcl_field_title_change_warning#:#Mudou o título do campo, uma vez que algumas variáveis na definição da vista podem estar danificadas. Essas têm de ser reparadas manualmente, quando surgir uma oportunidade.
@@ -8920,7 +8920,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Para confirmar este registo, vá a:
 grp#:#grp_mail_notification_reg_req_sub#:#Pedido para entrar no grupo "%s"
 grp#:#grp_mail_notification_reg_sub#:#O utilizador registou-se para o grupo "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s  cancelou a sua adesão a este grupo "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Pode haver outros membros numa lista de espera do seu grupo.\nDevia verificar a lista de espera agora.\nPara ver membros do seu grupo, clique aqui:
+grp#:#grp_mail_notification_unsub_bod2#:#Pode haver outros membros numa lista de espera do seu grupo. Devia verificar a lista de espera agora. Para ver membros do seu grupo, clique aqui:
 grp#:#grp_mail_notification_unsub_sub#:#Utilizador saiu do grupo "%s"
 grp#:#grp_mail_permanent_link#:#Clique no seguinte link para encontrar toda a informação que precisa relativamente ao grupo:
 grp#:#grp_mail_status_bod#:#o seu estado no grupo "%s" foi alterado.
@@ -8934,7 +8934,7 @@ grp#:#grp_mail_subscribe_member_sub#:#O seu registo para o grupo "%s"
 grp#:#grp_mail_tutors_only#:#Para administradores apenas
 grp#:#grp_mail_tutors_only_info#:#Líbano
 grp#:#grp_mail_type#:#E-mail aos membros
-grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos o seu cancelamento de adesão ao grupo %s.\nEsperamos que tenha oportunidade de participar noutro grupo.
+grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos o seu cancelamento de adesão ao grupo %s. Esperamos que tenha oportunidade de participar noutro grupo.
 grp#:#grp_mail_unsubscribe_member_sub#:#O cancelamento da sua adesão ao grupo "%s"
 grp#:#grp_mail_wl_bod#:#Santa Lúcia
 grp#:#grp_mail_wl_sub#:#Libéria
@@ -9869,7 +9869,7 @@ membership#:#mem_force_notification_mode_custom#:#Personalizado
 membership#:#mem_force_notification_mode_self#:#Privacidade
 mep#:#mep_all#:#Ajuda de senha
 mep#:#mep_all_mobs#:#Todos os objetos de media
-mep#:#mep_bulk_upload#:#Introduza um endereço de e-mail e envie o formulário.\nILIAS envia um e-mail para esse endereço. O e-mail contém todos os nomes de utilizador que registaram esse endereço de e-mail.\n Escolha um nome de utilizador adequado e use o serviço de palavra-passe para recuperar uma nova palavra-passe. Se não recuperar qualquer e-mail através deste serviço, entre em contacto com o administrador do seu curso ou %1$s.
+mep#:#mep_bulk_upload#:#Introduza um endereço de e-mail e envie o formulário. ILIAS envia um e-mail para esse endereço. O e-mail contém todos os nomes de utilizador que registaram esse endereço de e-mail.  Escolha um nome de utilizador adequado e use o serviço de palavra-passe para recuperar uma nova palavra-passe. Se não recuperar qualquer e-mail através deste serviço, entre em contacto com o administrador do seu curso ou %1$s.
 mep#:#mep_choose_from_folder#:#Escolher da pasta
 mep#:#mep_choose_from_mep#:#Escolher do banco
 mep#:#mep_content#:#Conteúdo
@@ -9885,18 +9885,18 @@ mep#:#mep_default_height#:#Altura predefinida
 mep#:#mep_default_width#:#Largura predefinida
 mep#:#mep_default_width_height_info#:#A largura e altura predefinidas são usadas como padrão para a criação de novos objetos de media.
 mep#:#mep_edit_content_snippet#:#Editar fragmento do conteúdo
-mep#:#mep_edit_folder#:#Introduza um nome de utilizador e o endereço de e-mail associado nos campos apresentados em baixo.\nILIAS envia uma mensagem para esse endereço de e-mail. A mensagem contém um endereço para uma página web, onde pode inserir uma nova palavra-passe para a conta de utilizador.\nSe não puder atribuir uma palavra-passe à sua conta de utilizador usando este formulário, entre em contacto com a administração do curso ou envie um e-mail para %1$s.
+mep#:#mep_edit_folder#:#Introduza um nome de utilizador e o endereço de e-mail associado nos campos apresentados em baixo. ILIAS envia uma mensagem para esse endereço de e-mail. A mensagem contém um endereço para uma página web, onde pode inserir uma nova palavra-passe para a conta de utilizador. Se não puder atribuir uma palavra-passe à sua conta de utilizador usando este formulário, entre em contacto com a administração do curso ou envie um e-mail para %1$s.
 mep#:#mep_file#:#Introduza o nome de utilizador e a nova palavra-passe nos campos abaixo.
-mep#:#mep_folder#:#Insira outro nome de utilizador.\nO nome de utilizador que introduziu não corresponde ao nome de utilizador para o qual pediu ajuda.
-mep#:#mep_format#:#Registe uma nova palavra-passe para a sua conta de utilizador:\n\t%1$s\n\nEsta mensagem foi criada automaticamente pelo servidor ILIAS\n\t%2$s\n\nVocê (ou alguém em %3$s) pediu ajuda para a palavra-passe relativamente à conta utilizador "%4$s".\n\nVerifique cuidadosamente as condições listadas em baixo e proceda de acordo com elas:\n\n- Se usou o formulário de ajuda para a palavra-passe no servidor ILIAS por engano:\nApague este mail.\n\n- Se tiver a certeza que nunca pediu a ajuda para a palavra-passe neste servidor ILIAS:\nEntre em contacto com %5$s.\n\n- Se pediu a ajuda para a palavra-passe, proceda do seguinte modo:\n\n1. Abra o seu navegador.\n\n2. Introduza o seguinte endereço no seu navegador:\n\t%6$s\n\nImportante: O endereço é uma única linha. Se vir este endereço dividido em múltiplas linhas, é porque o seu programa de e-mail inseriu essas quebras de linha.\n\n3. Na página da web apresentada pelo seu navegador, introduza uma nova palavra-passe para a sua conta de utilizador.\n\nNote que, por razões de segurança, pode executar os três passos acima referidos apenas exatamente uma vez e por um tempo limitada. Depois disso, o endereço fica inválido e tem de usar novamente a página de ajuda para a palavra-passe no servidor ILIAS.
+mep#:#mep_folder#:#Insira outro nome de utilizador. O nome de utilizador que introduziu não corresponde ao nome de utilizador para o qual pediu ajuda.
+mep#:#mep_format#:#Registe uma nova palavra-passe para a sua conta de utilizador: \t%1$s  Esta mensagem foi criada automaticamente pelo servidor ILIAS \t%2$s  Você (ou alguém em %3$s) pediu ajuda para a palavra-passe relativamente à conta utilizador "%4$s".  Verifique cuidadosamente as condições listadas em baixo e proceda de acordo com elas:  - Se usou o formulário de ajuda para a palavra-passe no servidor ILIAS por engano: Apague este mail.  - Se tiver a certeza que nunca pediu a ajuda para a palavra-passe neste servidor ILIAS: Entre em contacto com %5$s.  - Se pediu a ajuda para a palavra-passe, proceda do seguinte modo:  1. Abra o seu navegador.  2. Introduza o seguinte endereço no seu navegador: \t%6$s  Importante: O endereço é uma única linha. Se vir este endereço dividido em múltiplas linhas, é porque o seu programa de e-mail inseriu essas quebras de linha.  3. Na página da web apresentada pelo seu navegador, introduza uma nova palavra-passe para a sua conta de utilizador.  Note que, por razões de segurança, pode executar os três passos acima referidos apenas exatamente uma vez e por um tempo limitada. Depois disso, o endereço fica inválido e tem de usar novamente a página de ajuda para a palavra-passe no servidor ILIAS.
 mep#:#mep_import#:#Ajuda de palavra-passe ILIAS
 mep#:#mep_import_lang#:#Idioma de destino
 mep#:#mep_import_trans#:#Importar tradução
 mep#:#mep_master_language_only#:#Idioma principal para tradução
 mep#:#mep_master_language_only_no_media#:#Idioma principal sem media
-mep#:#mep_media_files#:#Volte a preencher este formulário.\nA sua sessão de ajuda de palavra-passe expirou. Isso pode ter acontecido por ter tentado usar o link que lhe foi enviado por e-mail mais do que uma vez ou porque passou demasiado tempo desde que o link lhe foi enviado.
+mep#:#mep_media_files#:#Volte a preencher este formulário. A sua sessão de ajuda de palavra-passe expirou. Isso pode ter acontecido por ter tentado usar o link que lhe foi enviado por e-mail mais do que uma vez ou porque passou demasiado tempo desde que o link lhe foi enviado.
 mep#:#mep_media_subtitles#:#Subtítulos media
-mep#:#mep_mob#:#Estes são os nomes de utilizador ativos encontrados para o endereço de e-mail fornecido:\n%s\n\nEsta mensagem foi criada automaticamente pelo seguinte ILIAS:\n\t%s\n\nVocê (ou alguém com o IP  %s) pediu ajuda por se ter esquecido dos nomes de utilizador para o endereço de e-mail '%s'.\n\nVerifique e faça o seguinte::\n\n-Pediu este e-mail por engano:\nApague este e-mail.\n\n-Tem a certeza que nunca pediu este e-mail:\nEntre em contacto com %s.\n\n- Se pediu este e-mail, proceda do seguinte modo::\n\n1. Inicie o seu navegador da Internet.\n\n2. Insira o seguinte url:\n\t%s\n\nImportante: O endereço é uma única linha. Se vir este endereço dividido por múltiplas linhas é porque o seu programa de e-mail inseriu estas quebras de linha.\n\n3. O seu navegador mostra agora o serviço de palavras-passe. Use esta página com um dos nomes de utilizador e de acordo com o endereço de e-mail para recuperar uma nova palavra-passe.
+mep#:#mep_mob#:#Estes são os nomes de utilizador ativos encontrados para o endereço de e-mail fornecido: %s  Esta mensagem foi criada automaticamente pelo seguinte ILIAS: \t%s  Você (ou alguém com o IP  %s) pediu ajuda por se ter esquecido dos nomes de utilizador para o endereço de e-mail '%s'.  Verifique e faça o seguinte::  -Pediu este e-mail por engano: Apague este e-mail.  -Tem a certeza que nunca pediu este e-mail: Entre em contacto com %s.  - Se pediu este e-mail, proceda do seguinte modo::  1. Inicie o seu navegador da Internet.  2. Insira o seguinte url: \t%s  Importante: O endereço é uma única linha. Se vir este endereço dividido por múltiplas linhas é porque o seu programa de e-mail inseriu estas quebras de linha.  3. O seu navegador mostra agora o serviço de palavras-passe. Use esta página com um dos nomes de utilizador e de acordo com o endereço de e-mail para recuperar uma nova palavra-passe.
 mep#:#mep_new_content_snippet#:#Novo fragmento do conteúdo
 mep#:#mep_new_folder#:#Classificação padrão de objeto
 mep#:#mep_page_properties#:#Propriedades da página
@@ -10318,145 +10318,145 @@ meta#:#meta_is_referenced_by#:#O utilizador pode mover ou apagar o curso ECS
 meta#:#meta_is_required_by#:#O utilizador pode mudar as definições de permissões
 meta#:#meta_is_version_of#:#O utilizador pode usar o curso ECS
 meta#:#meta_keyword#:#O curso ECS está visível
-meta#:#meta_kind#:#O utilizador pode editar definições do curso ECS
-meta#:#meta_l_aa#:#À distância
-meta#:#meta_l_ab#:#Os seguintes passos serão executados para a ação "Bloquear função":<br /><br />- as permissões de funções deste e de todos os objetos subordinados serão bloqueadas.<br />- as novas definições de permissões serão protegidas.
-meta#:#meta_l_af#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_am#:#O utilizador tem acesso de leitura <i>Repositório - Página inicial</i>
-meta#:#meta_l_ar#:#<i>Repositório - Página inicial</i> está visível
-meta#:#meta_l_as#:#Assamês
-meta#:#meta_l_ay#:#O utilizador pode editar definições de <i>Repositório - Página inicial</i> e gerir conteúdo
-meta#:#meta_l_az#:#O utilizador pode copiar o módulo de aprendizagem SCORM
+meta#:#meta_kind#:#Tipo
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkaziano
+meta#:#meta_l_af#:#Africano
+meta#:#meta_l_am#:#Amharico
+meta#:#meta_l_ar#:#Arábe###14 Sep 2004 content changed
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aimara
+meta#:#meta_l_az#:#Azerbaijanes
 meta#:#meta_l_ba#:#Bashkir
-meta#:#meta_l_be#:#O utilizador pode mover ou apagar o módulo de aprendizagem SCORM
-meta#:#meta_l_bg#:#O utilizador pode editar as definições do progresso de aprendizagem
+meta#:#meta_l_be#:#Bielorusso
+meta#:#meta_l_bg#:#Búlgaro###14 Sep 2004 content changed
 meta#:#meta_l_bh#:#Bihari
-meta#:#meta_l_bi#:#Bislamá
+meta#:#meta_l_bi#:#Bislama
 meta#:#meta_l_bn#:#Bengali; Bangla
-meta#:#meta_l_bo#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_br#:#O utilizador pode ler o módulo de aprendizagem SCORM
-meta#:#meta_l_ca#:#O módulo de aprendizagem SCORM está visível
-meta#:#meta_l_co#:#O utilizador pode editar o conteúdo e as definições do módulo de aprendizagem SCORM
-meta#:#meta_l_cs#:#O utilizador pode mudar definições de permissões da administração de pesquisa
-meta#:#meta_l_cy#:#Galês
-meta#:#meta_l_da#:#O utilizador tem acesso de leitura à administração de pesquisa
-meta#:#meta_l_de#:#O utilizador pode usar a pesquisa global em ILIAS
-meta#:#meta_l_dz#:#A administração de pesquisa está visível
-meta#:#meta_l_el#:#Editar definições na administração de pesquisa
-meta#:#meta_l_en#:#O utilizador pode copiar uma sessão
+meta#:#meta_l_bo#:#Tibetano
+meta#:#meta_l_br#:#Bretão
+meta#:#meta_l_ca#:#Catalão
+meta#:#meta_l_co#:#Corsicão
+meta#:#meta_l_cs#:#Checo###14 Sep 2004 content changed
+meta#:#meta_l_cy#:#Welsh
+meta#:#meta_l_da#:#Dinamarquês###14 Sep 2004 content changed
+meta#:#meta_l_de#:#Alemão###14 Sep 2004 content changed
+meta#:#meta_l_dz#:#Butanez
+meta#:#meta_l_el#:#Grego###14 Sep 2004 content changed
+meta#:#meta_l_en#:#Inglês###14 Sep 2004 content changed
 meta#:#meta_l_eo#:#Esperanto
-meta#:#meta_l_es#:#O utilizador pode mover ou apagar uma sessão
-meta#:#meta_l_et#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_eu#:#O utilizador tem acesso de leitura às sessões
-meta#:#meta_l_fa#:#O utilizador pode editar o conteúdo e as definições da sessão
-meta#:#meta_l_fi#:#O utilizador pode mudar definições de permissões da administração de gestão de competências
-meta#:#meta_l_fj#:#Fijiano
-meta#:#meta_l_fo#:#Feroês
-meta#:#meta_l_fr#:#O utilizador tem acesso de leitura à administração de gestão de competências
-meta#:#meta_l_fy#:#Frisão
-meta#:#meta_l_ga#:#A administração de gestão de competências está visível
-meta#:#meta_l_gd#:#Escocês gaélico
-meta#:#meta_l_gl#:#O utilizador pode editar definições da gestão de competências
+meta#:#meta_l_es#:#Espanhol###14 Sep 2004 content changed
+meta#:#meta_l_et#:#Estoniano###14 Sep 2004 content changed
+meta#:#meta_l_eu#:#Basco
+meta#:#meta_l_fa#:#Persa (farsi)
+meta#:#meta_l_fi#:#Finlandês
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faroese
+meta#:#meta_l_fr#:#Francês###14 Sep 2004 content changed
+meta#:#meta_l_fy#:#Frisian
+meta#:#meta_l_ga#:#Irlândes
+meta#:#meta_l_gd#:#Scots gaelic
+meta#:#meta_l_gl#:#Galego
 meta#:#meta_l_gn#:#Guarani
-meta#:#meta_l_gu#:#Guzerate
-meta#:#meta_l_ha#:#Hauçá
-meta#:#meta_l_he#:#E-mail SMTP
+meta#:#meta_l_gu#:#Gujarati
+meta#:#meta_l_ha#:#Hausa
+meta#:#meta_l_he#:#Hebreu
 meta#:#meta_l_hi#:#Hindi
-meta#:#meta_l_hr#:#O utilizador pode copiar banco de perguntas para inquéritos
-meta#:#meta_l_hu#:#O utilizador pode mover ou apagar bancos de perguntas
-meta#:#meta_l_hy#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_ia#:#O utilizador pode ler perguntas do inquérito no banco e inseri-las no inquérito
-meta#:#meta_l_id#:#O utilizador pode editar perguntas do inquérito e definições do banco de perguntas
-meta#:#meta_l_ie#:#Interlíngua
-meta#:#meta_l_ik#:#Inuíte
-meta#:#meta_l_is#:#O utilizador pode mudar definições de permissões da administração de layout e estilos
-meta#:#meta_l_it#:#O utilizador tem acesso de leitura à administração de layout e estilos
-meta#:#meta_l_iu#:#Inuctitut
-meta#:#meta_l_ja#:#A administração de layout e estilos está visível
-meta#:#meta_l_jv#:#O utilizador pode mudar definições de permissões na administração de inquérito
-meta#:#meta_l_ka#:#O utilizador tem acesso de leitura à administração de inquérito
-meta#:#meta_l_kk#:#Cazaque
-meta#:#meta_l_kl#:#A administração de inquérito está visível
-meta#:#meta_l_km#:#Editar definições na administração de inquérito
-meta#:#meta_l_kn#:#O utilizador pode copiar um inquérito
-meta#:#meta_l_ko#:#O utilizador pode mover ou apagar um inquérito
-meta#:#meta_l_ks#:#Caxemiriano
-meta#:#meta_l_ku#:#Curdo
-meta#:#meta_l_ky#:#Quirguiz
-meta#:#meta_l_la#:#Latim
+meta#:#meta_l_hr#:#Croáta
+meta#:#meta_l_hu#:#Húngaro###14 Sep 2004 content changed
+meta#:#meta_l_hy#:#Arménio
+meta#:#meta_l_ia#:#Interlíngua
+meta#:#meta_l_id#:#Indonésio
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#Islandês
+meta#:#meta_l_it#:#Italiano###14 Sep 2004 content changed
+meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_ja#:#Japonês###14 Sep 2004 content changed
+meta#:#meta_l_jv#:#Javanês
+meta#:#meta_l_ka#:#Georgiano
+meta#:#meta_l_kk#:#Kazakh
+meta#:#meta_l_kl#:#Gronelandês
+meta#:#meta_l_km#:#Cambodjiano
+meta#:#meta_l_kn#:#Cannada
+meta#:#meta_l_ko#:#Coreano
+meta#:#meta_l_ks#:#Kashmiri
+meta#:#meta_l_ku#:#Kurdish
+meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_la#:#Latin
 meta#:#meta_l_ln#:#Lingala
-meta#:#meta_l_lo#:#Laosiano
-meta#:#meta_l_lt#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_lv#:#O utilizador pode convidar outros para um inquérito
-meta#:#meta_l_mg#:#Malgaxe
+meta#:#meta_l_lo#:#Laothian
+meta#:#meta_l_lt#:#Lituano###14 Sep 2004 content changed
+meta#:#meta_l_lv#:#Latvian; Lettish
+meta#:#meta_l_mg#:#Malagasy
 meta#:#meta_l_mi#:#Maori
-meta#:#meta_l_mk#:#O utilizador pode participar num inquérito
-meta#:#meta_l_ml#:#Malaiala
-meta#:#meta_l_mn#:#O utilizador pode editar conteúdo e definições de um inquérito
-meta#:#meta_l_mo#:#O utilizador pode mudar definições de permissões na administração de identificação
-meta#:#meta_l_mr#:#Marati
-meta#:#meta_l_ms#:#Malaio
-meta#:#meta_l_mt#:#Maltês
-meta#:#meta_l_my#:#Birmanês
-meta#:#meta_l_na#:#Nauruano
-meta#:#meta_l_ne#:#Nepalês
-meta#:#meta_l_nl#:#O utilizador tem acesso de leitura à administração de identificação
-meta#:#meta_l_no#:#A administração de identificação está visível
-meta#:#meta_l_oc#:#Occitano
-meta#:#meta_l_om#:#Afaan oromoo
-meta#:#meta_l_or#:#Oriá
-meta#:#meta_l_pa#:#Panjábi
-meta#:#meta_l_pl#:#O utilizador pode editar definições na administração de identificação
-meta#:#meta_l_ps#:#O utilizador pode apagar dados de rastreio
-meta#:#meta_l_pt#:#Mudar definições de permissões na administração na administração de estatísticas e do progresso de aprendizagem
-meta#:#meta_l_qu#:#Quíchua
-meta#:#meta_l_rm#:#Reto-românico
-meta#:#meta_l_rn#:#Kirundi
-meta#:#meta_l_ro#:#O utilizador tem acesso de leitura à administração de estatísticas e do progresso de aprendizagem
-meta#:#meta_l_ru#:#A administração de estatísticas e do progresso de aprendizagem está visível
-meta#:#meta_l_rw#:#Quiniaruanda
-meta#:#meta_l_sa#:#Sânscrito
-meta#:#meta_l_sd#:#Sindi
-meta#:#meta_l_sg#:#Sango
-meta#:#meta_l_sh#:#O utilizador pode copiar um teste
-meta#:#meta_l_si#:#Cingalês
-meta#:#meta_l_sk#:#O utilizador pode mover ou apagar um teste
-meta#:#meta_l_sl#:#O utilizador pode editar as definições do progresso de aprendizagem
-meta#:#meta_l_sm#:#Samoano
-meta#:#meta_l_sn#:#Xona
+meta#:#meta_l_mk#:#Macedónio
+meta#:#meta_l_ml#:#Malayalam
+meta#:#meta_l_mn#:#Mongólio
+meta#:#meta_l_mo#:#Moldávo
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malay
+meta#:#meta_l_mt#:#Maltese
+meta#:#meta_l_my#:#Burmese
+meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_ne#:#Nepali
+meta#:#meta_l_nl#:#Holandês###14 Sep 2004 content changed
+meta#:#meta_l_no#:#Norueguês
+meta#:#meta_l_oc#:#Occitan
+meta#:#meta_l_om#:#Afan (oromo)
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabi
+meta#:#meta_l_pl#:#Poláco###14 Sep 2004 content changed
+meta#:#meta_l_ps#:#Pashto;pushto
+meta#:#meta_l_pt#:#Português
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rhaeto-romance
+meta#:#meta_l_rn#:#Kurundi
+meta#:#meta_l_ro#:#Romeno###14 Sep 2004 content changed
+meta#:#meta_l_ru#:#Russo###14 Sep 2004 content changed
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Sindhi
+meta#:#meta_l_sg#:#Sangho
+meta#:#meta_l_sh#:#Servo-croáta
+meta#:#meta_l_si#:#Singhalese
+meta#:#meta_l_sk#:#Eslováco###14 Sep 2004 content changed
+meta#:#meta_l_sl#:#Esloveno
+meta#:#meta_l_sm#:#Samoan
+meta#:#meta_l_sn#:#Shona
 meta#:#meta_l_so#:#Somali
-meta#:#meta_l_sq#:#O utilizador pode mudar as definições de permissões
-meta#:#meta_l_sr#:#O utilizador pode realizar o teste
-meta#:#meta_l_ss#:#Suázi
-meta#:#meta_l_st#:#Sesoto
-meta#:#meta_l_su#:#O teste está visível
-meta#:#meta_l_sv#:#O utilizador pode editar conteúdo e definições de um teste
-meta#:#meta_l_sw#:#Suaíli
-meta#:#meta_l_ta#:#Tâmil
-meta#:#meta_l_te#:#Telugo
-meta#:#meta_l_tg#:#Tajique
-meta#:#meta_l_th#:#Tailandês
-meta#:#meta_l_ti#:#Tigrinha
-meta#:#meta_l_tk#:#Turcomeno
-meta#:#meta_l_tl#:#Tagalo
-meta#:#meta_l_tn#:#Tsuana
+meta#:#meta_l_sq#:#Albanês###14 Sep 2004 content changed
+meta#:#meta_l_sr#:#Servio###14 Sep 2004 content changed
+meta#:#meta_l_ss#:#Siswati
+meta#:#meta_l_st#:#Sesotho
+meta#:#meta_l_su#:#Sundanês
+meta#:#meta_l_sv#:#Suéco
+meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_ta#:#Tamil
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tajik
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinya
+meta#:#meta_l_tk#:#Turkmen
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Setswana
 meta#:#meta_l_to#:#Tonga
-meta#:#meta_l_tr#:#O utilizador pode apagar contas de utilizador
+meta#:#meta_l_tr#:#Turco###14 Sep 2004 content changed
 meta#:#meta_l_ts#:#Tsonga
-meta#:#meta_l_tt#:#Tártaro
-meta#:#meta_l_tw#:#Axante
+meta#:#meta_l_tt#:#Tatar
+meta#:#meta_l_tw#:#Twi
 meta#:#meta_l_ug#:#Uigur
-meta#:#meta_l_uk#:#O utilizador pode mudar definições de permissões na administração de utilizadores
+meta#:#meta_l_uk#:#Ucraniano###14 Sep 2004 content changed
 meta#:#meta_l_ur#:#Urdu
-meta#:#meta_l_uz#:#Usbeque
-meta#:#meta_l_vi#:#O utilizador pode mudar a atribuição da função da conta do utilizador
-meta#:#meta_l_vo#:#Volapuque
-meta#:#meta_l_wo#:#Uolofe
+meta#:#meta_l_uz#:#Uzbek
+meta#:#meta_l_vi#:#Vietnamês###14 Sep 2004 content changed
+meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
-meta#:#meta_l_yi#:#Iídiche
-meta#:#meta_l_yo#:#Iorubá
+meta#:#meta_l_yi#:#Yiddish
+meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
-meta#:#meta_l_zh#:#O utilizador está autorizado a avançar itens no computador pessoal dos membros das funções
+meta#:#meta_l_zh#:#Chinês###14 Sep 2004 content changed
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Acesso de leitura para contas de utilizador
 meta#:#meta_learner#:#O utilizador pode mudar definições de permissões da administração de objetos restaurados
@@ -11342,7 +11342,6 @@ ps#:#crs_ps_cdf_info#:#Mais dados específicos do curso:
 ps#:#crs_ps_required_info#:#Mais campos específicos do curso necessários para aceder ao conteúdo do curso.
 ps#:#grp_ps_cdf_info#:#Mais dados específicos do grupo:
 ps#:#grp_ps_required_info#:#Mais campos específicos do grupo necessários para aceder ao conteúdo do grupo.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#O estado não pode ser mudado para &quot;online&quot; porque não há perguntas no inquérito!
 ps#:#ps_auto_https#:#Autodetetar HTTPS
 ps#:#ps_auto_https_description#:#Se estiver ativado, ILIAS tenta detetar o estado de HTTPs analisando o valor do cabeçalho especificado em baixo.
@@ -11436,7 +11435,7 @@ pwassist#:#pwassist_enter_username_and_email#:#Comportamento padrão (sim-indeci
 pwassist#:#pwassist_enter_username_and_new_password#:#O sistema não conseguiu encontrar os dados do seu inquérito para o código de inquérito &quot;%s&quot;. Verifique o código de inquérito que introduziu!
 pwassist#:#pwassist_login_not_match#:#Os dados de importação devem conter pelo menos um campo de ‘e-mail’
 pwassist#:#pwassist_mail_body#:#Os dados de importação devem conter pelo menos uma coluna de ‘e-mail’ com o título ‘e-mail’ na primeira linha e os endereços de e-mail nas linhas seguintes
-pwassist#:#pwassist_mail_sent#:#Foi enviada uma mensagem para %1$s.\nPVerifique a sua caixa de correio.
+pwassist#:#pwassist_mail_sent#:#Foi enviada uma mensagem para %1$s. PVerifique a sua caixa de correio.
 pwassist#:#pwassist_mail_sent_generic#:#O valor máximo tem de ser superior ou igual ao valor mínimo e deve ser inferior ou igual ao número máximo de respostas.
 pwassist#:#pwassist_mail_subject#:#Selecione exatamente %s resposta(s).
 pwassist#:#pwassist_password_assigned#:#A palavra-passe foi atribuída com sucesso ao utilizador "%1$s".
@@ -15068,3 +15067,55 @@ wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Pasta
 style#:#Style#:#Style###07 02 2020 new variable
 content#:#cont_Link#:#Link###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable

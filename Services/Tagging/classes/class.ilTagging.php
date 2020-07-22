@@ -389,7 +389,7 @@ class ilTagging
             " ORDER BY lastname, firstname"
         );
         $users = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $users[] = array("id" => $rec["user_id"]);
         }
         return $users;

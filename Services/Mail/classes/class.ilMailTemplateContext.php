@@ -61,32 +61,32 @@ abstract class ilMailTemplateContext
         return array(
             'mail_salutation' => array(
                 'placeholder' => 'MAIL_SALUTATION',
-                'label'       => $DIC->language()->txt('mail_nacc_salutation')
+                'label' => $DIC->language()->txt('mail_nacc_salutation')
             ),
-            'first_name'      => array(
+            'first_name' => array(
                 'placeholder' => 'FIRST_NAME',
-                'label'       => $DIC->language()->txt('firstname')
+                'label' => $DIC->language()->txt('firstname')
             ),
-            'last_name'       => array(
+            'last_name' => array(
                 'placeholder' => 'LAST_NAME',
-                'label'       => $DIC->language()->txt('lastname')
+                'label' => $DIC->language()->txt('lastname')
             ),
-            'login'           => array(
+            'login' => array(
                 'placeholder' => 'LOGIN',
-                'label'       => $DIC->language()->txt('mail_nacc_login')
+                'label' => $DIC->language()->txt('mail_nacc_login')
             ),
-            'title'           => array(
-                'placeholder'       => 'TITLE',
-                'label'             => $DIC->language()->txt('mail_nacc_title'),
+            'title' => array(
+                'placeholder' => 'TITLE',
+                'label' => $DIC->language()->txt('mail_nacc_title'),
                 'supportsCondition' => true
             ),
-            'ilias_url'       => array(
+            'ilias_url' => array(
                 'placeholder' => 'ILIAS_URL',
-                'label'       => $DIC->language()->txt('mail_nacc_ilias_url')
+                'label' => $DIC->language()->txt('mail_nacc_ilias_url')
             ),
-            'client_name'     => array(
+            'client_name' => array(
                 'placeholder' => 'CLIENT_NAME',
-                'label'       => $DIC->language()->txt('mail_nacc_client_name')
+                'label' => $DIC->language()->txt('mail_nacc_client_name')
             )
         );
     }
@@ -98,7 +98,7 @@ abstract class ilMailTemplateContext
     final public function getPlaceholders()
     {
         $placeholders = self::getGenericPlaceholders();
-        $specific     = $this->getSpecificPlaceholders();
+        $specific = $this->getSpecificPlaceholders();
 
         return $placeholders + $specific;
     }

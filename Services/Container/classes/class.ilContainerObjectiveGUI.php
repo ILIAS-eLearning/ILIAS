@@ -299,7 +299,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     )
                 )
             ) {
-                $lur_data[$objective_id] = array("type"=>ilLOSettings::TYPE_TEST_INITIAL);
+                $lur_data[$objective_id] = array("type" => ilLOSettings::TYPE_TEST_INITIAL);
             }
 
             if ($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id])) {
@@ -802,7 +802,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $has_sections = true;
 
                     include_once './Modules/LearningModule/classes/class.ilLMObject.php';
-                    $title =  $item['title'] .
+                    $title = $item['title'] .
                         " &rsaquo; " . ilLMObject::_lookupTitle($chapter['obj_id']) .
                         " (" . $lng->txt('obj_' . $chapter['type']) . ")";
 
@@ -814,7 +814,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     if ($is_order) {
                         $item_list_gui2->setPositionInputField(
                             "[lobj][" . $a_objective_id . "][" . $chapter['lm_ass_id'] . "]",
-                            sprintf('%d', $chapter['position']*10)
+                            sprintf('%d', $chapter['position'] * 10)
                         );
                     }
 
@@ -837,7 +837,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 if ($is_order) {
                     $item_list_gui2->setPositionInputField(
                         "[lobj][" . $a_objective_id . "][" . $lm_ass_id . "]",
-                        sprintf('%d', $sort_map[$lm_ass_id]*10)
+                        sprintf('%d', $sort_map[$lm_ass_id] * 10)
                     );
                 }
                                 
@@ -850,7 +850,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                                 
                 // #13381 - use materials order
                 $sort_key = str_pad($sort_map[$lm_ass_id], 5, 0, STR_PAD_LEFT) . "_" . strtolower($item['title']) . "_" . $lm_ass_id;
-                $sort_content[$sort_key]  = $sub_item_html;
+                $sort_content[$sort_key] = $sub_item_html;
             }
         }
         
@@ -863,7 +863,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         if ($is_order) {
             $this->objective_list_gui->setPositionInputField(
                 "[lobj][" . $a_objective_id . "][0]",
-                $objective->__getPosition()*10
+                $objective->__getPosition() * 10
             );
         }
             
@@ -1056,7 +1056,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $tpl->setVariable("PERC_COLOR", $a_css);
             if ($a_perc_limit) {
                 // :TODO: magic?
-                $limit_pos = (99-(int) $a_perc_limit)*-1;
+                $limit_pos = (99 - (int) $a_perc_limit) * -1;
                 $tpl->setVariable("LIMIT_POS", $limit_pos);
             }
             if ($a_tt_txt &&

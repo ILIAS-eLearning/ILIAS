@@ -59,9 +59,9 @@ class ilConditionHandlerGUI
         $this->tree = $tree;
         
         if ($a_ref_id) {
-            $this->target_obj =&ilObjectFactory::getInstanceByRefId($a_ref_id);
+            $this->target_obj = &ilObjectFactory::getInstanceByRefId($a_ref_id);
         } else {
-            $this->target_obj =&$this->gui_obj->object;
+            $this->target_obj = &$this->gui_obj->object;
         }
 
         // this only works for ilObject derived objects (other objects
@@ -348,7 +348,7 @@ class ilConditionHandlerGUI
             $this->getTargetType()
         );
         
-        if ($_POST["obl"] && sizeof($_POST["obl"]) > sizeof($all_conditions)-2) {
+        if ($_POST["obl"] && sizeof($_POST["obl"]) > sizeof($all_conditions) - 2) {
             ilUtil::sendFailure($this->lng->txt("rbac_precondition_minimum_optional"), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
@@ -644,7 +644,7 @@ class ilConditionHandlerGUI
                 break;
         }
         // this has to be changed, if non referenced trigger are implemted
-        if (!$trigger_obj =&ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
+        if (!$trigger_obj = &ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
             echo 'ilConditionHandler: Trigger object does not exist';
         }
         $this->ch_obj->setTriggerRefId($trigger_obj->getRefId());

@@ -74,7 +74,7 @@ class ilUIHookPluginGUI
                 $a_def_html = $a_resp["html"];
                 break;
             case ilUIHookPluginGUI::APPEND:
-                $a_def_html.= $a_resp["html"];
+                $a_def_html .= $a_resp["html"];
                 break;
             case ilUIHookPluginGUI::PREPEND:
                 $a_def_html = $a_resp["html"] . $a_def_html;

@@ -38,14 +38,14 @@ class ilObjChatroomListGUI extends ilObjectListGUI
      */
     public function init()
     {
-        $this->delete_enabled      = true;
-        $this->cut_enabled         = true;
-        $this->copy_enabled        = true;
-        $this->subscribe_enabled   = true;
-        $this->link_enabled        = true;
+        $this->delete_enabled = true;
+        $this->cut_enabled = true;
+        $this->copy_enabled = true;
+        $this->subscribe_enabled = true;
+        $this->link_enabled = true;
         $this->info_screen_enabled = true;
-        $this->type                = 'chtr';
-        $this->gui_class_name      = 'ilobjchatroomgui';
+        $this->type = 'chtr';
+        $this->gui_class_name = 'ilobjchatroomgui';
 
         require_once 'Modules/Chatroom/classes/class.ilObjChatroomAccess.php';
         $this->commands = ilObjChatroomAccess::_getCommands();
@@ -73,7 +73,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
             }
 
             if (self::$chat_enabled === null) {
-                $chatSetting        = new ilSetting('chatroom');
+                $chatSetting = new ilSetting('chatroom');
                 self::$chat_enabled = (boolean) $chatSetting->get('chat_enabled');
             }
 

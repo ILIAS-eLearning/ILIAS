@@ -54,7 +54,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
         $a_adt_form->getElement("tags")->setRequired(true);
         // $a_adt_form->getElement("last_login")->setRequired(true);
         
-        $a_adt_form->getElement("lang")->forceRadio(true, array("en"=>$lng->txt("lang_en_info")));
+        $a_adt_form->getElement("lang")->forceRadio(true, array("en" => $lng->txt("lang_en_info")));
         
         $a_adt_form->getElement("entry_date")->setParentElement("active");
         // $a_adt_form->getElement("entry_date")->setDisabled(true);

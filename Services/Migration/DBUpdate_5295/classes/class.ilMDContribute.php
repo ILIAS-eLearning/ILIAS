@@ -162,12 +162,12 @@ class ilMDContribute extends ilMDBase
 
     public function __getFields()
     {
-        return array('rbac_id'	=> array('integer',$this->getRBACId()),
-                     'obj_id'	=> array('integer',$this->getObjId()),
-                     'obj_type'	=> array('text',$this->getObjType()),
+        return array('rbac_id' => array('integer',$this->getRBACId()),
+                     'obj_id' => array('integer',$this->getObjId()),
+                     'obj_type' => array('text',$this->getObjType()),
                      'parent_type' => array('text',$this->getParentType()),
                      'parent_id' => array('integer',$this->getParentId()),
-                     'role'	=> array('text',$this->getRole()),
+                     'role' => array('text',$this->getRole()),
                      'c_date' => array('text',$this->getDate()));
     }
 
@@ -211,7 +211,7 @@ class ilMDContribute extends ilMDBase
         // Entities
         $entities = $this->getEntityIds();
         foreach ($entities as $id) {
-            $ent =&$this->getEntity($id);
+            $ent = &$this->getEntity($id);
             $ent->toXML($writer);
         }
         if (!count($entities)) {

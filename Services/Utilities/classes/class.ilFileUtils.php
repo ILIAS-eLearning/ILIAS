@@ -882,7 +882,7 @@ class ilFileUtils
         $pi = pathinfo($a_target);
         if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
             include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
-            throw new ilFileUtilsException("Invalid target file " . $pi["basename"] . ".");
+            throw new ilFileUtilsException("Invalid target file");
         }
 
         return rename($a_source, $a_target);

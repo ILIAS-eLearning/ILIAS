@@ -96,7 +96,7 @@ class CounterTest extends ILIAS_UI_TestBase
             );
     }
 
-    public static $canonical_css_classes = array( "status"	=> "badge badge-notify il-counter-status"
+    public static $canonical_css_classes = array( "status" => "badge badge-notify il-counter-status"
         , "novelty" => "badge badge-notify il-counter-novelty"
         );
 

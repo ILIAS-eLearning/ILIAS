@@ -9,16 +9,16 @@ class ilCertificateMigrationInformationObjectTest extends PHPUnit_Framework_Test
     public function testCreatingObjectAndReceiveData()
     {
         $array = array(
-            'id'              => 100,
-            'usr_id'          => 200,
-            'lock'            => true,
-            'found_items'     => 4,
+            'id' => 100,
+            'usr_id' => 200,
+            'lock' => true,
+            'found_items' => 4,
             'processed_items' => 3,
-            'migrated_items'  => 5,
-            'progress'        => 50,
-            'state'           => 'finished',
-            'started_ts'      => 123456789,
-            'finished_ts'     => 987654321
+            'migrated_items' => 5,
+            'progress' => 50,
+            'state' => 'finished',
+            'started_ts' => 123456789,
+            'finished_ts' => 987654321
         );
 
         $informationObject = new ilCertificateMigrationInformationObject($array);
@@ -54,15 +54,15 @@ class ilCertificateMigrationInformationObjectTest extends PHPUnit_Framework_Test
         $dataArray = $informationObject->getDataAsArray();
 
         $this->assertEquals(array(
-            'id'              => 100,
-            'usr_id'          => 200,
-            'lock'            => 1,
-            'found_items'     => 4,
+            'id' => 100,
+            'usr_id' => 200,
+            'lock' => 1,
+            'found_items' => 4,
             'processed_items' => 3,
-            'progress'        => 50,
-            'state'           => 'finished',
-            'started_ts'      => 123456789,
-            'finished_ts'     => 987654321
+            'progress' => 50,
+            'state' => 'finished',
+            'started_ts' => 123456789,
+            'finished_ts' => 987654321
         ), $dataArray);
     }
 }

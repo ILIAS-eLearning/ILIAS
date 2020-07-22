@@ -17,9 +17,9 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
-    protected $editable 		= true;
-    protected $writeAccess 		= false;
-    protected $totalPoints 		= 0;
+    protected $editable = true;
+    protected $writeAccess = false;
+    protected $totalPoints = 0;
     protected $totalWorkingTime = '00:00:00';
     protected $confirmdelete;
     
@@ -459,7 +459,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
 
                 $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $data['question_id']);
-                $hintsHref =  $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+                $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
                 $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
                 $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
             }

@@ -194,7 +194,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
                 $style_gui->omitLocator();
-                if ($cmd == "create" || $_GET["new_type"]=="sty") {
+                if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
                 }
 
@@ -310,7 +310,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                         if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
                             $this->getCreationMode() == true) {
                             $this->prepareOutput();
-                            $cmd.= "Object";
+                            $cmd .= "Object";
                         } else {
                             $this->getTemplate();
                             $this->setTabs();
@@ -377,10 +377,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $form->addItem($ta);
 
         // mode
-        $stati 	= array(
-                        "none"=>$this->lng->txt("glo_mode_normal"),
-                        "level"=>$this->lng->txt("glo_mode_level"),
-                        "subtree"=>$this->lng->txt("glo_mode_subtree")
+        $stati = array(
+                        "none" => $this->lng->txt("glo_mode_normal"),
+                        "level" => $this->lng->txt("glo_mode_level"),
+                        "subtree" => $this->lng->txt("glo_mode_subtree")
                         );
         $tm = new ilSelectInputGUI($this->lng->txt("glo_mode"), "glo_mode");
         $tm->setOptions($stati);

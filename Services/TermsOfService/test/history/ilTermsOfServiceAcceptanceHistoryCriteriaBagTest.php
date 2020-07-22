@@ -12,7 +12,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
      */
     public function testCriteriaCanBePassedAsArray()
     {
-        $configCrit1 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
+        $configCrit1 = $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $configCrit1
             ->expects($this->any())
@@ -21,7 +21,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
                 'usr_language' => 'de'
             ]);
         
-        $configCrit2 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
+        $configCrit2 = $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $configCrit2
             ->expects($this->any())
@@ -78,7 +78,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
      */
     public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation()
     {
-        $configCrit1 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
+        $configCrit1 = $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $criterion1 = $this->getMockBuilder(\ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
@@ -104,7 +104,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
      */
     public function testExceptionIsRaisedWhenInvalidJsonDataIsPassedOnImport()
     {
-        $configCrit1 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
+        $configCrit1 = $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $criterion1 = $this->getMockBuilder(\ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
@@ -129,7 +129,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends \ilTermsOfService
      */
     public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport()
     {
-        $configCrit1 =  $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
+        $configCrit1 = $this->getMockBuilder(\ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $criterion1 = $this->getMockBuilder(\ilTermsOfServiceEvaluableCriterion::class)->getMock();
 

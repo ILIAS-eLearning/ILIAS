@@ -38,7 +38,7 @@ class ilTestRandomQuestionsQuantitiesDistribution
     /**
      * @var array[ $definitionId => ilTestRandomSetQuestionCollection ]
      */
-    protected $srcPoolDefRelatedQuestRegister= array();
+    protected $srcPoolDefRelatedQuestRegister = array();
     
     // -----------------------------------------------------------------------------------------------------------------
 

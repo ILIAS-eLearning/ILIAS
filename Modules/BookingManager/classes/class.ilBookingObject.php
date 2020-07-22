@@ -417,7 +417,7 @@ class ilBookingObject
         return $ilDB->update(
             'booking_object',
             $fields,
-            array('booking_object_id'=>array('integer', $this->id))
+            array('booking_object_id' => array('integer', $this->id))
         );
     }
 
@@ -442,7 +442,7 @@ class ilBookingObject
                 ' OR ' . $ilDB->like('description', 'text', '%' . $a_title . '%') . ')';
         }
         
-        $sql .=	' ORDER BY title';
+        $sql .= ' ORDER BY title';
 
         $set = $ilDB->query($sql);
         $res = array();

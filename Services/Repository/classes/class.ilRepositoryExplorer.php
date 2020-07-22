@@ -375,7 +375,7 @@ class ilRepositoryExplorer extends ilExplorer
         }
         if ($container_parent_id) {
             // do not display session materials for container course/group
-            if ($ilSetting->get("repository_tree_pres")  == "all_types" && $container_parent_id != $a_ref_id) {
+            if ($ilSetting->get("repository_tree_pres") == "all_types" && $container_parent_id != $a_ref_id) {
                 // get container event items only once
                 if (!isset($this->session_materials[$container_parent_id])) {
                     include_once './Modules/Session/classes/class.ilEventItems.php';
@@ -456,7 +456,7 @@ class ilRepositoryExplorer extends ilExplorer
         if ($a_parent_obj_id > 0) {
             $parent_type = ilObject::_lookupType($a_parent_obj_id);
         } else {
-            $parent_type  = "dummy";
+            $parent_type = "dummy";
             $this->type_grps["dummy"] = array("root" => "dummy");
         }
 

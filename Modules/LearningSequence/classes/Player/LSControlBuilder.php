@@ -166,7 +166,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @inheritdoc
      */
-    public function next(string $command, int $parameter=null) : ControlBuilder
+    public function next(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->next_control) {
             throw new \LogicException("Only one next-control per view...", 1);
@@ -184,7 +184,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @inheritdoc
      */
-    public function previous(string $command, int $parameter=null) : ControlBuilder
+    public function previous(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->previous_control) {
             throw new \LogicException("Only one previous-control per view...", 1);
@@ -202,7 +202,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @inheritdoc
      */
-    public function done(string $command, int $parameter=null) : ControlBuilder
+    public function done(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->done_control) {
             throw new \LogicException("Only one done-control per view...", 1);
@@ -217,7 +217,7 @@ class LSControlBuilder implements ControlBuilder
     /**
      * @inheritdoc
      */
-    public function generic(string $label, string $command, int $parameter=null) : ControlBuilder
+    public function generic(string $label, string $command, int $parameter = null) : ControlBuilder
     {
         $cmd = $this->url_builder->getHref($command, $parameter);
         $this->controls[] = $this->ui_factory->button()->standard($label, $cmd);
@@ -285,7 +285,7 @@ class LSControlBuilder implements ControlBuilder
      *
      * The start-control is exclusively used to open an ILIAS-Object in a new windwow/tab.
      */
-    public function start(string $label, string $url, int $parameter=null) : ControlBuilder
+    public function start(string $label, string $url, int $parameter = null) : ControlBuilder
     {
         if ($this->start) {
             throw new \LogicException("Only one start-control per view...", 1);

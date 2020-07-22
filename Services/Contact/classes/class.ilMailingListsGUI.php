@@ -62,14 +62,14 @@ class ilMailingListsGUI
     {
         global $DIC;
 
-        $this->tpl        = $DIC['tpl'];
-        $this->ctrl       = $DIC['ilCtrl'];
-        $this->lng        = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->user       = $DIC['ilUser'];
-        $this->error      = $DIC['ilErr'];
-        $this->toolbar    = $DIC['ilToolbar'];
-        $this->tabs       = $DIC['ilTabs'];
+        $this->user = $DIC['ilUser'];
+        $this->error = $DIC['ilErr'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->tabs = $DIC['ilTabs'];
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
@@ -81,6 +81,13 @@ class ilMailingListsGUI
 
     public function executeCommand()
     {
+        if (
+            !ilBuddySystem::getInstance()->isEnabled() ||
+            0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations())
+        ) {
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        }
+
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
             default:
@@ -423,12 +430,12 @@ class ilMailingListsGUI
             }
 
             require_once 'Services/User/classes/class.ilUserUtil.php';
-            $names  = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
+            $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
             $counter = 0;
             foreach ($assigned_entries as $entry) {
                 $result[$counter]['check'] = ilUtil::formCheckbox(0, 'a_id[]', $entry['a_id']);
-                $result[$counter]['user']  = $names[$entry['usr_id']];
+                $result[$counter]['user'] = $names[$entry['usr_id']];
                 ++$counter;
             }
 
@@ -471,7 +478,7 @@ class ilMailingListsGUI
         }
 
         require_once 'Services/User/classes/class.ilUserUtil.php';
-        $names  = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
+        $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
         foreach ($assigned_entries as $entry) {
             if (in_array($entry['a_id'], $_POST['a_id'])) {
@@ -527,7 +534,7 @@ class ilMailingListsGUI
         require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
         require_once 'Services/User/classes/class.ilUserUtil.php';
         $relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
-        $names     = ilUserUtil::getNamePresentation(array_keys($relations->toArray()), false, false, '', false, false, false);
+        $names = ilUserUtil::getNamePresentation(array_keys($relations->toArray()), false, false, '', false, false, false);
         foreach ($relations as $relation) {
             /**
              * @var $relation ilBuddySystemRelation

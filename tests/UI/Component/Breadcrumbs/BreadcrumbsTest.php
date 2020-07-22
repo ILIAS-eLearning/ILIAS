@@ -66,7 +66,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
     public function testAppending()
     {
         $f = $this->getFactory();
-        $crumb  = new I\Component\Link\Standard("label2", '#');
+        $crumb = new I\Component\Link\Standard("label2", '#');
 
         $c = $f->Breadcrumbs(array())
             ->withAppendedItem($crumb);

@@ -602,7 +602,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             }
             // portfolio template (RBAC)
             else {
-                $ref_ids  = ilObject::_getAllReferences($obj_id);
+                $ref_ids = ilObject::_getAllReferences($obj_id);
                 foreach ($ref_ids as $ref_id) {
                     if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "prtt", $obj_id)) {
                         return true;

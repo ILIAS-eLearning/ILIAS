@@ -180,7 +180,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         
         $def = $this->getValue();
         if (!$def) {
-            $def = array(null=>null);
+            $def = array(null => null);
         }
             
         $days = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");

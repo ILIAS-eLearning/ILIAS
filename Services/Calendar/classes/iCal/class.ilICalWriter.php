@@ -77,7 +77,7 @@ class ilICalWriter
 
         for ($i = 0; $i < count($chunks); $i++) {
             $this->ical .= $chunks[$i];
-            if (isset($chunks[$i+1])) {
+            if (isset($chunks[$i + 1])) {
                 $this->ical .= self::LINEBREAK;
                 $this->ical .= self::BEGIN_LINE_WHITESPACE;
             }

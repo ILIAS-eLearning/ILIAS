@@ -73,7 +73,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
         $this->course_waiting_list = new ilCourseWaitingList($this->course_obj->getId());
         // flip the array so we can use array_key_exists
-        $this->course_members_array =  array_flip($this->course_members->getParticipants());
+        $this->course_members_array = array_flip($this->course_members->getParticipants());
 
         $this->md_obj = new ilMD($this->course_obj->getId(), 0, 'crs');
         $this->setMDObject($this->md_obj);

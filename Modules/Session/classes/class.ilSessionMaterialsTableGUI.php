@@ -139,7 +139,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
             $assigned_items = new ilEventItems($this->parent_object_id);
             $assigned_items = $assigned_items->getItems();
 
-            if ($this->filter["status"]== "assigned") {
+            if ($this->filter["status"] == "assigned") {
                 foreach ($data_filtered as $key => $material) {
                     if (!in_array($material["ref_id"], $assigned_items)) {
                         unset($data_filtered[$key]);

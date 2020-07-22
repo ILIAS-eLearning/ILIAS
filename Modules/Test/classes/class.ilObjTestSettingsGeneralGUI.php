@@ -22,11 +22,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM					= 'showForm';
-    const CMD_SAVE_FORM					= 'saveForm';
-    const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
-    const CMD_SHOW_RESET_TPL_CONFIRM	= 'showResetTemplateConfirmation';
-    const CMD_CONFIRMED_RESET_TPL		= 'confirmedResetTemplate';
+    const CMD_SHOW_FORM = 'showForm';
+    const CMD_SAVE_FORM = 'saveForm';
+    const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
+    const CMD_SHOW_RESET_TPL_CONFIRM = 'showResetTemplateConfirmation';
+    const CMD_CONFIRMED_RESET_TPL = 'confirmedResetTemplate';
     
     const ANSWER_FIXATION_NONE = 'none';
     const ANSWER_FIXATION_ON_INSTANT_FEEDBACK = 'instant_feedback';
@@ -1156,7 +1156,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $autosave_output->setInfo($this->lng->txt('autosave_info'));
         $autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
         $autosave_interval->setSize(10);
-        $autosave_interval->setValue($this->testOBJ->getAutosaveIval()/1000);
+        $autosave_interval->setValue($this->testOBJ->getAutosaveIval() / 1000);
         $autosave_interval->setSuffix($this->lng->txt('seconds'));
         $autosave_output->addSubItem($autosave_interval);
         $form->addItem($autosave_output);

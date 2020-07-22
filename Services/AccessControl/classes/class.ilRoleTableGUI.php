@@ -287,7 +287,7 @@ class ilRoleTableGUI extends ilTable2GUI
             if ($GLOBALS['DIC']['rbacsystem']->checkAccess('write', $this->role_folder_id)) {
                 // Copy role
                 $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
-                $this->ctrl->setParameter($this->getParentObject(), "copy_source", $set["obj_id"]);
+                $this->ctrl->setParameter($this->getParentObject(), "csource", $set["obj_id"]);
                 $link = $this->ctrl->getLinkTarget($this->getParentObject(), 'roleSearch');
                 $this->tpl->setVariable(
                     'COPY_LINK',

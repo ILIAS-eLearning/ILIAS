@@ -172,8 +172,8 @@ class ilColumnGUI
     // @todo: add calendar
     protected $check_global_activation =
         array("news" => true,
-            "cal"	=> true,
-            "pdcal"	=> true,
+            "cal" => true,
+            "pdcal" => true,
             "pdnews" => true,
             "pdfeed" => true,
             "pdbookm" => true,
@@ -493,7 +493,7 @@ class ilColumnGUI
 
                 if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
                     in_array($cur_block_type, $this->rep_block_types)) {
-                    $block_class = substr($gui_class, 0, strlen($gui_class)-3);
+                    $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
                     include_once("./" . self::$locations[$gui_class] . "classes/" .
                         "class." . $block_class . ".php");
                     $app_block = new $block_class($_GET["block_id"]);
@@ -550,7 +550,7 @@ class ilColumnGUI
                     $block["id"]
                 ) > 0) {
                 $gui_class = $block["class"];
-                $block_class = substr($block["class"], 0, strlen($block["class"])-3);
+                $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
                 
                 // get block gui class
                 include_once("./" . self::$locations[$gui_class] . "classes/" .
@@ -764,7 +764,7 @@ class ilColumnGUI
 
             if ($_GET["block_id"] == "block_" . $block["type"] . "_" . $block["id"]) {
                 $gui_class = $block["class"];
-                $block_class = substr($block["class"], 0, strlen($block["class"])-3);
+                $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
                 
                 $block_gui = new $gui_class();
                 $block_gui->setProperties($this->block_property[$block["type"]]);
@@ -1123,7 +1123,7 @@ class ilColumnGUI
                     ilBlockSetting::_writeNumber($bid[1], $i, $ilUser->getId(), $bid[2]);
                     ilBlockSetting::_writeSide($bid[1], $side, $ilUser->getId(), $bid[2]);
 
-                    $i +=2;
+                    $i += 2;
                 }
             }
         }

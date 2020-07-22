@@ -110,19 +110,19 @@ class ilMail
         $this->mailAddressTypeFactory = $mailAddressTypeFactory;
         $this->eventHandler = $eventHandler;
 
-        $this->lng              = $DIC->language();
-        $this->db               = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
 
         $this->lng->loadLanguageModule('mail');
 
-        $this->table_mail       = 'mail';
+        $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
 
-        $this->user_id          = $a_user_id;
+        $this->user_id = $a_user_id;
 
-        $this->mfile            = new ilFileDataMail($this->user_id);
-        $this->mail_options     = new ilMailOptions($a_user_id);
-        $this->mailbox          = new ilMailbox($this->user_id);
+        $this->mfile = new ilFileDataMail($this->user_id);
+        $this->mail_options = new ilMailOptions($a_user_id);
+        $this->mailbox = new ilMailbox($this->user_id);
 
         $this->setSaveInSentbox(false);
         $this->readMailObjectReferenceId();
@@ -286,7 +286,7 @@ class ilMail
             if ($usr_id > 0) {
                 $pp = ilObjUser::_lookupPref($usr_id, 'public_profile');
                 if ($pp == 'y' || ($pp == 'g' && !$DIC->user()->isAnonymous())) {
-                    $user    = self::getCachedUserInstance($usr_id);
+                    $user = self::getCachedUserInstance($usr_id);
                     $names[] = $user->getFullname() . ' [' . $recipient . ']';
                     continue;
                 }
@@ -442,7 +442,7 @@ class ilMail
     */
     public function markRead(array $a_mail_ids)
     {
-        $data       = array();
+        $data = array();
         $data_types = array();
 
         $query = "UPDATE {$this->table_mail} SET m_status = %s WHERE user_id = %s ";
@@ -450,7 +450,7 @@ class ilMail
         array_push($data, 'read', $this->user_id);
 
         if (count($a_mail_ids) > 0) {
-            $in      = 'mail_id IN (';
+            $in = 'mail_id IN (';
             $counter = 0;
             foreach ($a_mail_ids as $a_mail_id) {
                 array_push($data, $a_mail_id);
@@ -478,7 +478,7 @@ class ilMail
     */
     public function markUnread(array $a_mail_ids)
     {
-        $data       = array();
+        $data = array();
         $data_types = array();
 
         $query = "UPDATE {$this->table_mail} SET m_status = %s WHERE user_id = %s ";
@@ -585,8 +585,8 @@ class ilMail
             return null;
         }
 
-        $a_row['attachments']    = unserialize(stripslashes($a_row['attachments']));
-        $a_row['m_type']         = unserialize(stripslashes($a_row['m_type']));
+        $a_row['attachments'] = unserialize(stripslashes($a_row['attachments']));
+        $a_row['m_type'] = unserialize(stripslashes($a_row['m_type']));
         $a_row['tpl_ctx_params'] = (array) (@json_decode($a_row['tpl_ctx_params'], true));
 
         return $a_row;
@@ -601,10 +601,10 @@ class ilMail
     {
         $next_id = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, array(
-            'mail_id'        => array('integer', $next_id),
-            'user_id'        => array('integer', $usrId),
-            'folder_id'      => array('integer', $folderId),
-            'sender_id'      => array('integer', $usrId)
+            'mail_id' => array('integer', $next_id),
+            'user_id' => array('integer', $usrId),
+            'folder_id' => array('integer', $folderId),
+            'sender_id' => array('integer', $usrId)
         ));
 
         return $next_id;
@@ -628,20 +628,20 @@ class ilMail
         $this->db->update(
             $this->table_mail,
             array(
-                'folder_id'        => array('integer', $a_folder_id),
-                'attachments'      => array('clob', serialize($a_attachments)),
-                'send_time'        => array('timestamp', date('Y-m-d H:i:s', time())),
-                'rcp_to'           => array('clob', $a_rcp_to),
-                'rcp_cc'           => array('clob', $a_rcp_cc),
-                'rcp_bcc'          => array('clob', $a_rcp_bcc),
-                'm_status'         => array('text', 'read'),
-                'm_type'           => array('text', serialize($a_m_type)),
-                'm_email'          => array('integer', $a_m_email),
-                'm_subject'        => array('text', $a_m_subject),
-                'm_message'        => array('clob', $a_m_message),
+                'folder_id' => array('integer', $a_folder_id),
+                'attachments' => array('clob', serialize($a_attachments)),
+                'send_time' => array('timestamp', date('Y-m-d H:i:s', time())),
+                'rcp_to' => array('clob', $a_rcp_to),
+                'rcp_cc' => array('clob', $a_rcp_cc),
+                'rcp_bcc' => array('clob', $a_rcp_bcc),
+                'm_status' => array('text', 'read'),
+                'm_type' => array('text', serialize($a_m_type)),
+                'm_email' => array('integer', $a_m_email),
+                'm_subject' => array('text', $a_m_subject),
+                'm_message' => array('clob', $a_m_message),
                 'use_placeholders' => array('integer', $a_use_placeholders),
-                'tpl_ctx_id'       => array('text', $a_tpl_context_id),
-                'tpl_ctx_params'   => array('blob', @json_encode((array) $a_tpl_context_params))
+                'tpl_ctx_id' => array('text', $a_tpl_context_id),
+                'tpl_ctx_params' => array('blob', @json_encode((array) $a_tpl_context_params))
             ),
             array(
                 'mail_id' => array('integer', $a_draft_id)
@@ -734,21 +734,21 @@ class ilMail
 
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, array(
-            'mail_id'        => array('integer', $nextId),
-            'user_id'        => array('integer', $a_user_id),
-            'folder_id'      => array('integer', $a_folder_id),
-            'sender_id'      => array('integer', $a_sender_id),
-            'attachments'    => array('clob', serialize($a_attachments)),
-            'send_time'      => array('timestamp', date('Y-m-d H:i:s', time())),
-            'rcp_to'         => array('clob', $a_rcp_to),
-            'rcp_cc'         => array('clob', $a_rcp_cc),
-            'rcp_bcc'        => array('clob', $a_rcp_bcc),
-            'm_status'       => array('text', $a_status),
-            'm_type'         => array('text', serialize($a_m_type)),
-            'm_email'        => array('integer', $a_m_email),
-            'm_subject'      => array('text', $a_m_subject),
-            'm_message'      => array('clob', $a_m_message),
-            'tpl_ctx_id'     => array('text', $a_tpl_context_id),
+            'mail_id' => array('integer', $nextId),
+            'user_id' => array('integer', $a_user_id),
+            'folder_id' => array('integer', $a_folder_id),
+            'sender_id' => array('integer', $a_sender_id),
+            'attachments' => array('clob', serialize($a_attachments)),
+            'send_time' => array('timestamp', date('Y-m-d H:i:s', time())),
+            'rcp_to' => array('clob', $a_rcp_to),
+            'rcp_cc' => array('clob', $a_rcp_cc),
+            'rcp_bcc' => array('clob', $a_rcp_bcc),
+            'm_status' => array('text', $a_status),
+            'm_type' => array('text', serialize($a_m_type)),
+            'm_email' => array('integer', $a_m_email),
+            'm_subject' => array('text', $a_m_subject),
+            'm_message' => array('clob', $a_m_message),
+            'tpl_ctx_id' => array('text', $a_tpl_context_id),
             'tpl_ctx_params' => array('blob', @json_encode((array) $a_tpl_context_params))
         ));
 
@@ -759,15 +759,15 @@ class ilMail
 
         if ($raiseEvent) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
-                'id'          => (int) $nextId,
-                'subject'     => (string) $a_m_subject,
-                'body'        => (string) $a_m_message,
+                'id' => (int) $nextId,
+                'subject' => (string) $a_m_subject,
+                'body' => (string) $a_m_message,
                 'from_usr_id' => (int) $a_sender_id,
-                'to_usr_id'   => (int) $a_user_id,
-                'rcp_to'      => (string) $a_rcp_to,
-                'rcp_cc'      => (string) $a_rcp_cc,
-                'rcp_bcc'     => (string) $a_rcp_bcc,
-                'type'        => (array) $a_m_type,
+                'to_usr_id' => (int) $a_user_id,
+                'rcp_to' => (string) $a_rcp_to,
+                'rcp_cc' => (string) $a_rcp_cc,
+                'rcp_bcc' => (string) $a_rcp_bcc,
+                'type' => (array) $a_m_type,
             ]);
         }
 
@@ -832,8 +832,8 @@ class ilMail
             foreach ($rcp_ids as $id) {
                 $tmp_mail_options = new ilMailOptions($id);
 
-                $tmp_user                     = self::getCachedUserInstance($id);
-                $user_is_active               = $tmp_user->getActive();
+                $tmp_user = self::getCachedUserInstance($id);
+                $user_is_active = $tmp_user->getActive();
                 $user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
                 if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
@@ -894,7 +894,7 @@ class ilMail
                 }
             }
 
-            $to  = array();
+            $to = array();
             $bcc = array();
             
             $as_email = array_values(array_unique($as_email));
@@ -906,11 +906,48 @@ class ilMail
                 }
             }
 
-            if (count($to) > 0 || count($bcc) > 0) {
+            if (count($to) > 0) {
                 $this->sendMimeMail(implode(',', $to), '', implode(',', $bcc), $a_subject, $this->formatLinebreakMessage($a_message), $a_attachments);
+            } elseif (count($bcc) > 0) {
+                $remainingAddresses = '';
+                $maxRecipientCharacterLength = 998;
+                foreach ($bcc as $emailAddress) {
+                    $sep = '';
+                    if (strlen($remainingAddresses) > 0) {
+                        $sep = ',';
+                    }
+    
+                    $recipientsLineLength = ilStr::strLen($remainingAddresses) + ilStr::strLen($sep . $emailAddress);
+                    if ($recipientsLineLength >= $maxRecipientCharacterLength) {
+                        $this->sendMimeMail(
+                            '',
+                            '',
+                            $remainingAddresses,
+                            $a_subject,
+                            $this->formatLinebreakMessage($a_message),
+                            $a_attachments
+                        );
+    
+                        $remainingAddresses = '';
+                        $sep = '';
+                    }
+    
+                    $remainingAddresses .= ($sep . $emailAddress);
+                }
+    
+                if ('' !== $remainingAddresses) {
+                    $this->sendMimeMail(
+                        '',
+                        '',
+                        $remainingAddresses,
+                        $a_subject,
+                        $this->formatLinebreakMessage($a_message),
+                        $a_attachments
+                    );
+                }
             }
         } else {
-            $rcp_ids_replace    = $this->getUserIds(array($a_rcp_to));
+            $rcp_ids_replace = $this->getUserIds(array($a_rcp_to));
             $rcp_ids_no_replace = $this->getUserIds(array($a_rcp_cc, $a_rcp_bcc));
 
             ilLoggerFactory::getLogger('mail')->debug(sprintf(
@@ -922,14 +959,14 @@ class ilMail
                 implode(', ', $rcp_ids_no_replace)
             ));
 
-            $as_email          = array();
+            $as_email = array();
             $id_to_message_map = array();
 
             foreach ($rcp_ids_replace as $id) {
                 $tmp_mail_options = new ilMailOptions($id);
 
-                $tmp_user                     = self::getCachedUserInstance($id);
-                $user_is_active               = $tmp_user->getActive();
+                $tmp_user = self::getCachedUserInstance($id);
+                $user_is_active = $tmp_user->getActive();
                 $user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
                 if (in_array('system', $a_type) && !$user_can_read_internal_mails) {
@@ -1009,8 +1046,8 @@ class ilMail
             foreach ($rcp_ids_no_replace as $id) {
                 $tmp_mail_options = new ilMailOptions($id);
 
-                $tmp_user                     = self::getCachedUserInstance($id);
-                $user_is_active               = $tmp_user->getActive();
+                $tmp_user = self::getCachedUserInstance($id);
+                $user_is_active = $tmp_user->getActive();
                 $user_can_read_internal_mails = !$tmp_user->hasToAcceptTermsOfService() && $tmp_user->checkTimeLimit();
 
                 if ($user_is_active) {
@@ -1112,7 +1149,7 @@ class ilMail
 
         foreach (array(
             $subject => 'mail_add_subject',
-            $to      => 'mail_add_recipient'
+            $to => 'mail_add_recipient'
         ) as $string => $error) {
             if (0 === strlen($string)) {
                 $errors[] = new \ilMailError($error);
@@ -1213,17 +1250,17 @@ class ilMail
                 'user_id' => array('integer', $this->user_id)
             ),
             array(
-                'attachments'      => array('clob', serialize($a_attachments)),
-                'rcp_to'           => array('clob', $a_rcp_to),
-                'rcp_cc'           => array('clob', $a_rcp_cc),
-                'rcp_bcc'          => array('clob', $a_rcp_bcc),
-                'm_type'           => array('text', serialize($a_m_type)),
-                'm_email'          => array('integer', $a_m_email),
-                'm_subject'        => array('text', $a_m_subject),
-                'm_message'        => array('clob', $a_m_message),
+                'attachments' => array('clob', serialize($a_attachments)),
+                'rcp_to' => array('clob', $a_rcp_to),
+                'rcp_cc' => array('clob', $a_rcp_cc),
+                'rcp_bcc' => array('clob', $a_rcp_bcc),
+                'm_type' => array('text', serialize($a_m_type)),
+                'm_email' => array('integer', $a_m_email),
+                'm_subject' => array('text', $a_m_subject),
+                'm_message' => array('clob', $a_m_message),
                 'use_placeholders' => array('integer', $a_use_placeholders),
-                'tpl_ctx_id'       => array('text', $a_tpl_context_id),
-                'tpl_ctx_params'   => array('blob', json_encode((array) $a_tpl_ctx_params))
+                'tpl_ctx_id' => array('text', $a_tpl_context_id),
+                'tpl_ctx_params' => array('blob', json_encode((array) $a_tpl_ctx_params))
             )
         );
 
@@ -1324,8 +1361,8 @@ class ilMail
         }
 
         if ($numberOfExternalAddresses > 0) {
-            $externalMailRecipientsTo  = $this->getEmailRecipients($rcp_to);
-            $externalMailRecipientsCc  = $this->getEmailRecipients($rcp_cc);
+            $externalMailRecipientsTo = $this->getEmailRecipients($rcp_to);
+            $externalMailRecipientsCc = $this->getEmailRecipients($rcp_cc);
             $externalMailRecipientsBcc = $this->getEmailRecipients($rcp_bc);
 
             ilLoggerFactory::getLogger('mail')->debug(
@@ -1443,7 +1480,7 @@ class ilMail
             $soap_client->enableWSDL(true);
             $soap_client->init();
 
-            $attachments   = array();
+            $attachments = array();
             $a_attachments = $a_attachments ? $a_attachments : array();
             foreach ($a_attachments as $attachment) {
                 $attachments[] = $this->mfile->getAbsoluteAttachmentPoolPathByFilename($attachment);
@@ -1702,7 +1739,7 @@ class ilMail
 
         $gender = ilObjUser::_lookupGender($a_usr_id);
         $gender = $gender ? $gender : 'n';
-        $name   = ilObjUser::_lookupName($a_usr_id);
+        $name = ilObjUser::_lookupName($a_usr_id);
 
         if (!strlen($name['firstname'])) {
             return $lang->txt('mail_salutation_anonymous') . ',';

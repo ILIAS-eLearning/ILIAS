@@ -353,7 +353,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         if ($this->ctrl->isAsynch()) {
             $form = $this->getAsyncCreationForm();
             $form->setValuesByPost();
-            echo ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>$this->ctrl->getCmd(), "success"=>false, "errors"=>$form->getErrors()));
+            echo ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" => $this->ctrl->getCmd(), "success" => false, "errors" => $form->getErrors()));
             exit();
         }
     }
@@ -366,7 +366,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected function cancel()
     {
-        $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>"cancel", "success"=>false));
+        $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" => "cancel", "success" => false));
 
         ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
 
@@ -390,7 +390,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
         $settings->save();
 
-        $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" =>"cancel", "success"=>true, "message"=>$this->lng->txt("object_added")));
+        $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" => "cancel", "success" => true, "message" => $this->lng->txt("object_added")));
 
         ilAsyncOutputHandler::handleAsyncOutput("", $async_response, false);
 

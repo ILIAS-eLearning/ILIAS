@@ -337,7 +337,7 @@ class ilBookingReservation
             if ($row['cnt'] >= $nr_map[$row['object_id']]) {
                 $blocked[] = $row['object_id'];
             } elseif ($a_return_counter) {
-                $counter[$row['object_id']] = (int) $nr_map[$row['object_id']]-(int) $row['cnt'];
+                $counter[$row['object_id']] = (int) $nr_map[$row['object_id']] - (int) $row['cnt'];
             }
         }
         
@@ -454,7 +454,7 @@ class ilBookingReservation
                 }
             }
             
-            $a_from += (60*60*24);
+            $a_from += (60 * 60 * 24);
         }
 
         if ($available_in_period - $booked_in_period > 0) {
@@ -537,7 +537,7 @@ class ilBookingReservation
         $cnt = $ilDB->fetchAssoc($set);
         $cnt = (int) $cnt['cnt'];
 
-        return (int) $all-$cnt; // #11864
+        return (int) $all - $cnt; // #11864
     }
 
     /**
@@ -643,7 +643,7 @@ class ilBookingReservation
             $res[] = $row;
         }
 
-        return array('data'=>$res, 'counter'=>$counter);
+        return array('data' => $res, 'counter' => $counter);
     }
     
     /**
@@ -735,7 +735,7 @@ class ilBookingReservation
             
             if ($a_has_schedule && $filter["slot"]) {
                 $slot_idx = date("w", $row["date_from"]) . "_" . date("H:i", $row["date_from"]) .
-                    "-" . date("H:i", $row["date_to"]+1);
+                    "-" . date("H:i", $row["date_to"] + 1);
                 if ($filter["slot"] != $slot_idx) {
                     continue;
                 }
@@ -757,7 +757,7 @@ class ilBookingReservation
                     $res[$idx]["booking_reservation_id"] = $idx;
                     $res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
                     $res[$idx]["slot"] = date("H:i", $row["date_from"]) . " - " .
-                        date("H:i", $row["date_to"]+1);
+                        date("H:i", $row["date_to"] + 1);
                     $res[$idx]["week"] = date("W", $row["date_from"]);
                     $res[$idx]["weekday"] = date("w", $row["date_from"]);
                     $res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&

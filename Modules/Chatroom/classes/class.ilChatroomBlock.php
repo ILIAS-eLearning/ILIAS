@@ -21,7 +21,7 @@ class ilChatroomBlock
 
         $readable = $this->getReadableAreas();
 
-        $tpl      = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
+        $tpl = new ilTemplate('tpl.chatroom_block_room_select.html', true, true, 'Modules/Chatroom');
 
         if (count($readable) > 0) {
             $response->has_records = true;
@@ -69,10 +69,10 @@ class ilChatroomBlock
                 $room = ilChatroom::byObjectId($object['obj_id']);
                 if ($room && !$room->isUserBanned($DIC->user()->getId())) {
                     $readable_rooms[$object['obj_id']] = array(
-                        'ref_id'       => $object['ref_id'],
-                        'obj_id'       => $object['obj_id'],
-                        'room_id'      => $room->getRoomId(),
-                        'title'        => $object['title'],
+                        'ref_id' => $object['ref_id'],
+                        'obj_id' => $object['obj_id'],
+                        'room_id' => $room->getRoomId(),
+                        'title' => $object['title'],
                         'parent_title' => $object['parent_title']
                     );
                 }

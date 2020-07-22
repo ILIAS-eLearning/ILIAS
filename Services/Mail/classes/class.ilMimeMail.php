@@ -257,9 +257,9 @@ class ilMimeMail
             $file_type = 'application/octet-stream';
         }
 
-        $this->aattach[]  = $filename;
-        $this->actype[]   = $file_type;
-        $this->adispo[]   = $disposition;
+        $this->aattach[] = $filename;
+        $this->actype[] = $file_type;
+        $this->adispo[] = $disposition;
         $this->adisplay[] = $display_name;
     }
 
@@ -303,8 +303,8 @@ class ilMimeMail
         global $DIC;
 
         $this->finalBodyAlt = '';
-        $this->finalBody    = '';
-        $this->images       = array();
+        $this->finalBody = '';
+        $this->images = array();
 
         if ($DIC->settings()->get('mail_send_html', 0)) {
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
@@ -328,7 +328,7 @@ class ilMimeMail
         if (strip_tags($this->body, '<b><u><i><a>') == $this->body) {
             // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
             $this->finalBodyAlt = $this->body;
-            $this->body         = \ilUtil::makeClickable(nl2br($this->body));
+            $this->body = \ilUtil::makeClickable(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
             $this->finalBodyAlt = strip_tags(str_ireplace(array("<br />", "<br>", "<br/>"), "\n", $this->body));
@@ -389,7 +389,7 @@ class ilMimeMail
 
             $this->images[$cid] = array(
                 'path' => $file->getPathname(),
-                'cid'  => $cid,
+                'cid' => $cid,
                 'name' => $file->getFilename()
             );
         }

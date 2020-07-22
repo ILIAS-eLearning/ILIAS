@@ -34,30 +34,34 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $options = array("all" => $lng->txt("all"));
 
         include_once "Services/Tracking/classes/class.ilTrQuery.php";
-        $users=ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
+        $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
 
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::_getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
-        //$users = $this->parent_obj->object->getTrackedUsers("");
-        foreach ($users as $user) {
-            if (ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
-                if ($allowExportPrivacy == true) {
-                    $e_user = new ilObjUser($user);
-                    $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
-                } else {
-                    $options[$user] = 'User Id: ' . $user;
-                }
-            }
+        if ($users && count($users) > 0) {
+			foreach ($users as $user) {
+				if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+					if ($allowExportPrivacy == true) {
+						$e_user = new ilObjUser($user);
+						$options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
+					} else {
+						$options[$user] = 'User Id: ' . $user;
+					}
+				}
+			}
+        } else {
+            $options = array("-1" => $lng->txt("no_items"));
         }
+
         $si = new ilSelectInputGUI($lng->txt("user"), "userSelected");
         $si->setOptions($options);
         $si->setValue($userSelected);
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i=0;$i<count($reports);$i++) {
+        for ($i = 0;$i < count($reports);$i++) {
             $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");

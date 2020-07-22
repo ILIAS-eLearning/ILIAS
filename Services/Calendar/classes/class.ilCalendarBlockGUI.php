@@ -107,7 +107,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             isset($_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"])) {
             $seed_str = $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"];
         } elseif (isset($_GET["seed"])) {
-            $seed_str =  $_GET["seed"];
+            $seed_str = $_GET["seed"];
         }
             
         if (isset($_GET["seed"]) && $_GET["seed"] != "") {
@@ -256,7 +256,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 break;
 
             case "ilcalendarappointmentpresentationgui":
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+                $this->initCategories();
                 $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
                 $ilCtrl->forwardCommand($presentation);
                 break;
@@ -690,7 +690,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             global $DIC;
             $f = $DIC->ui()->factory()->legacy("");
-            $ret.= $DIC->ui()->renderer()->renderAsync($f);
+            $ret .= $DIC->ui()->renderer()->renderAsync($f);
         }
 
         return $ret;
@@ -741,22 +741,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
     {
         $this->mode = ilCalendarCategories::MODE_REPOSITORY;
 
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-
-        //if(!isset($_GET['bkid']))
-        //{
-        if ($this->getForceMonthView()) {	// in full container calendar presentation (allows selection of other calendars)
-            //ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY, (int)$_GET['ref_id'], true);
-        } else {							// side block in container content view -> focus on container events only
-            ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int) $_GET['ref_id'], true);
+        $cats = \ilCalendarCategories::_getInstance();
+        if ($this->getForceMonthView()) {
+            // @todo: why not
         }
-        //}
-        //else
-        //{
-        //	// display consultation hours only (in course/group)
-        //	ilCalendarCategories::_getInstance()->setCHUserId((int) $_GET['bkid']);
-        //	ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_CONSULTATION,(int) $_GET['ref_id'],true);
-        //}
+        elseif (!$cats->getMode()) {
+            $cats->initialize(
+                \ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY,
+                (int) $_GET['ref_id'],
+                true
+            );
+        }
     }
     
     /**
@@ -1011,7 +1006,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $shy = $renderer->render($comps);
 
                 $data[] = array(
-                    "date" =>  ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
+                    "date" => ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
                     "title" => $item["event"]->getPresentationTitle(),
                     "url" => "#",
                     "shy_button" => $shy

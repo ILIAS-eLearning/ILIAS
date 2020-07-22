@@ -105,7 +105,7 @@ class ilArrayElementShuffler
         $shuffledArray = array();
         
         while (count($orderedArray) > 0) {
-            $key = mt_rand(0, (count($orderedArray)-1));
+            $key = mt_rand(0, (count($orderedArray) - 1));
             $splice = array_splice($orderedArray, $key, 1);
             $shuffledArray[] = current($splice);
         }

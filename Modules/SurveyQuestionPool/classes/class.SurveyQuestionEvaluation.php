@@ -81,7 +81,7 @@ abstract class SurveyQuestionEvaluation
         $num_users_answered = sizeof($a_answers);
 
         $a_results->setUsersAnswered($num_users_answered);
-        $a_results->setUsersSkipped($this->getNrOfParticipants()-$num_users_answered);
+        $a_results->setUsersSkipped($this->getNrOfParticipants() - $num_users_answered);
         
         // parse answers
         $has_multi = false;
@@ -95,7 +95,7 @@ abstract class SurveyQuestionEvaluation
                 // map selection value to scale/category
                 if ($a_categories &&
                     $answer["value"] != "") {
-                    $scale = $a_categories->getCategoryForScale($answer["value"]+1);
+                    $scale = $a_categories->getCategoryForScale($answer["value"] + 1);
                     if ($scale instanceof ilSurveyCategory) {
                         $answer["value"] = $scale->scale;
                     }
@@ -134,8 +134,8 @@ abstract class SurveyQuestionEvaluation
                     }
                 }
                 if ($total % 2 == 0) {
-                    $lower = $median[($total/2)-1];
-                    $upper = $median[($total/2)];
+                    $lower = $median[($total / 2) - 1];
+                    $upper = $median[($total / 2)];
                     $median_value = 0.5 * ($lower + $upper);
                     if ($a_categories &&
                         round($median_value) != $median_value) {
@@ -143,7 +143,7 @@ abstract class SurveyQuestionEvaluation
                         $median_value = array($lower, $upper);
                     }
                 } else {
-                    $median_value = $median[(($total+1)/2)-1];
+                    $median_value = $median[(($total + 1) / 2) - 1];
                 }
                 $a_results->setMedian($median_value);
             }
@@ -159,7 +159,7 @@ abstract class SurveyQuestionEvaluation
                     $cat,
                     $selections[$scale],
                     $total
-                            ? $selections[$scale]/$total
+                            ? $selections[$scale] / $total
                             : null
                 );
                 $a_results->addVariable($var);
@@ -253,7 +253,7 @@ abstract class SurveyQuestionEvaluation
         if ($vars) {
             foreach ($vars as $var) {
                 $perc = $var->perc
-                    ? sprintf("%.2f", $var->perc*100) . "%"
+                    ? sprintf("%.2f", $var->perc * 100) . "%"
                     : "0%";
                 
                 if ((bool) $a_abs && (bool) $a_perc) {
@@ -502,7 +502,7 @@ abstract class SurveyQuestionEvaluation
                     $var->cat->scale,
                     $var->abs,
                     $var->perc
-                        ? sprintf("%.2f", $var->perc*100) . "%"
+                        ? sprintf("%.2f", $var->perc * 100) . "%"
                         : "0%"
                 );
             }

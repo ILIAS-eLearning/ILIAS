@@ -537,7 +537,7 @@ class SurveyMetricQuestion extends SurveyQuestion
         $entered_value = str_replace(",", ".", $entered_value);
         
         if ($a_return) {
-            return array(array("value"=>$entered_value, "textanswer"=>null));
+            return array(array("value" => $entered_value, "textanswer" => null));
         }
         if (strlen($entered_value) == 0) {
             return;

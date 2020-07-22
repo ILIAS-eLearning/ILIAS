@@ -184,7 +184,7 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase
     public function testUpdateStyle()
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
-        $skin =  $container->getSkin();
+        $skin = $container->getSkin();
 
         $old_style = clone $skin->getStyle($this->style1->getId());
         $new_style = $skin->getStyle($this->style1->getId());
@@ -216,7 +216,7 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase
     public function testDeleteSkin()
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
-        $skin =  $container->getSkin();
+        $skin = $container->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId()));
         $container->delete();
@@ -226,12 +226,12 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase
     public function testCopySkin()
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
-        $skin =  $container->getSkin();
+        $skin = $container->getSkin();
 
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
 
         $container_copy = $container->copy();
-        $skin_copy =  $container_copy->getSkin();
+        $skin_copy = $container_copy->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId()));
@@ -270,12 +270,12 @@ class ilSystemStyleSkinContainerTest extends PHPUnit_Framework_TestCase
         //Only perform this test, if an unzip path has been found.
         if (PATH_TO_UNZIP != "") {
             $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
-            $skin =  $container->getSkin();
+            $skin = $container->getSkin();
 
             $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
 
             $container_import = $container->import($container->createTempZip(), $this->skin->getId() . ".zip", null, $this->system_style_config, false);
-            $skin_copy =  $container_import->getSkin();
+            $skin_copy = $container_import->getSkin();
 
             $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
             $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId()));

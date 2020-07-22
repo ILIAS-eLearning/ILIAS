@@ -27,7 +27,7 @@ class ilCronManager implements \ilCronManagerInterface
     public function __construct(\ilSetting $settings, \ilLogger $logger)
     {
         $this->settings = $settings;
-        $this->logger   = $logger;
+        $this->logger = $logger;
     }
 
     /**
@@ -46,8 +46,8 @@ class ilCronManager implements \ilCronManagerInterface
         $this->logger->info(sprintf(
             'Verification of last run datetime (read from database): %s',
             ilDatePresentation::formatDate(
-            new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX)
-        )
+                new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX)
+            )
         ));
         ilDatePresentation::setUseRelativeDates((bool) $useRelativeDates);
 
@@ -134,10 +134,10 @@ class ilCronManager implements \ilCronManagerInterface
         if ($a_job_data["alive_ts"]) {
             $ilLog->write("CRON - job " . $a_job_data["job_id"] . " still running");
 
-            $cut = 60*60*3; // 3h
+            $cut = 60 * 60 * 3; // 3h
 
             // is running (and has not pinged) for 3 hours straight, we assume it crashed
-            if (time()-$a_job_data["alive_ts"] > $cut) {
+            if (time() - $a_job_data["alive_ts"] > $cut) {
                 $ilDB->manipulate("UPDATE cron_job SET" .
                     " running_ts = " . $ilDB->quote(0, "integer") .
                     " , alive_ts = " . $ilDB->quote(0, "integer") .
@@ -191,7 +191,7 @@ class ilCronManager implements \ilCronManagerInterface
                 $ilLog->error($e->getMessage());
                 $ilLog->error($e->getTraceAsString());
             }
-            $ts_dur = self::getMicrotime()-$ts_in;
+            $ts_dur = self::getMicrotime() - $ts_in;
 
             // no proper result
             if (!$result instanceof ilCronJobResult) {
@@ -713,7 +713,7 @@ class ilCronManager implements \ilCronManagerInterface
             " , job_result_message = " . $ilDB->quote($a_result->getMessage(), "text") .
             " , job_result_type = " . $ilDB->quote($a_manual, "integer") .
             " , job_result_ts = " . $ilDB->quote(time(), "integer") .
-            " , job_result_dur = " . $ilDB->quote($a_result->getDuration()*1000, "integer") .
+            " , job_result_dur = " . $ilDB->quote($a_result->getDuration() * 1000, "integer") .
             " WHERE job_id = " . $ilDB->quote($a_job->getId(), "text");
         $ilDB->manipulate($sql);
     }

@@ -59,7 +59,7 @@ class ilUserSearchOptions
             }
 
             $col_info[$field['db']] = array(
-                'txt'		=> $field['lang']
+                'txt' => $field['lang']
             );
 
             if ($field['db'] == 'login' or $field['db'] == 'firstname' or $field['db'] == 'lastname') {

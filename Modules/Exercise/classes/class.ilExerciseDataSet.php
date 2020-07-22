@@ -652,6 +652,15 @@ class ilExerciseDataSet extends ilDataSet
                         ilUtil::rCopy($source_dir, $target_dir);
                     }
 
+                    // 5.4 Team wiki assignment AR
+                    if ($a_rec["Type"] == ilExAssignment::TYPE_WIKI_TEAM) {
+                        $ar = new ilExAssWikiTeamAR();
+                        $ar->setId($ass->getId());
+                        $ar->setTemplateRefId(0);
+                        $ar->setContainerRefId(0);
+                        $ar->save();
+                    }
+
                     $a_mapping->addMapping("Modules/Exercise", "exc_assignment", $a_rec["Id"], $ass->getId());
                 }
 

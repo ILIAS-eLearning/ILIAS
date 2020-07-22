@@ -99,9 +99,9 @@ class ilObjSystemFolder extends ilObject
         $num = 0;
 
         while ($row = $ilDB->fetchObject($r)) {
-            $data["Fobject"][$num]= array("title"	=> $row->title,
-                                          "desc"	=> ilUtil::shortenText($row->description, ilObject::DESC_LENGTH, true),
-                                          "lang"	=> $row->lang_code
+            $data["Fobject"][$num] = array("title" => $row->title,
+                                          "desc" => ilUtil::shortenText($row->description, ilObject::DESC_LENGTH, true),
+                                          "lang" => $row->lang_code
                                           );
             $num++;
         }
@@ -149,8 +149,8 @@ class ilObjSystemFolder extends ilObject
 
         $ilDB = $DIC->database();
 
-        $q   = "SELECT obj_id FROM object_data WHERE type = " . $ilDB->quote('adm', 'text');
-        $r   = $ilDB->query($q);
+        $q = "SELECT obj_id FROM object_data WHERE type = " . $ilDB->quote('adm', 'text');
+        $r = $ilDB->query($q);
         $row = $ilDB->fetchObject($r);
 
         return $row->obj_id;

@@ -113,7 +113,7 @@ class ilTestSkillLevelThresholdsGUI
 
             $valid = true;
 
-            $table    = $this->getPopulatedTable();
+            $table = $this->getPopulatedTable();
             $renderedElements = [];
             if (isset($_POST['rendered']) && is_array($_POST['rendered'])) {
                 $renderedElements = $_POST['rendered'];
@@ -144,9 +144,9 @@ class ilTestSkillLevelThresholdsGUI
             $skillLevelThresholds = array();
 
             foreach ($assignmentList->getUniqueAssignedSkills() as $data) {
-                $skill    = $data['skill'];
+                $skill = $data['skill'];
                 $skillKey = $data['skill_base_id'] . ':' . $data['skill_tref_id'];
-                $levels   = $skill->getLevelData();
+                $levels = $skill->getLevelData();
 
                 $thresholds_by_level = array();
 
@@ -161,7 +161,7 @@ class ilTestSkillLevelThresholdsGUI
 
                         $skillLevelThreshold->setThreshold($threshold[$skillKey][$level['id']]);
                         $skillLevelThresholds[] = $skillLevelThreshold;
-                        $thresholds_by_level[]  = $threshold[$skillKey][$level['id']];
+                        $thresholds_by_level[] = $threshold[$skillKey][$level['id']];
                     }
                 }
 

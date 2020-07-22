@@ -61,7 +61,7 @@ class ilRegistrationRoleAccessLimitations
 
         $this->access_limitations = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->access_limitations[$row->role_id]['id'] =  $row->role_id;
+            $this->access_limitations[$row->role_id]['id'] = $row->role_id;
             $this->access_limitations[$row->role_id]['absolute'] = $row->limit_absolute;
             $this->access_limitations[$row->role_id]['relative_d'] = $row->limit_relative_d;
             $this->access_limitations[$row->role_id]['relative_m'] = $row->limit_relative_m;

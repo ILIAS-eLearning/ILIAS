@@ -29,18 +29,18 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         $id2 = $obj2->getId();
         
         if ($id2 == ($id + 1)) {
-            $value.= "create1-";
+            $value .= "create1-";
         }
         
         if (ilObject::_exists($id)) {
-            $value.= "create2-";
+            $value .= "create2-";
         }
         
         $obj->delete();
         $obj2->delete();
         
         if (!ilObject::_exists($id)) {
-            $value.= "create3-";
+            $value .= "create3-";
         }
 
         
@@ -68,28 +68,28 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         $obj = new ilObject($id, false);
 
         if ($obj->getType() == "") {
-            $value.= "sg1-";
+            $value .= "sg1-";
         }
         if ($obj->getTitle() == "TestObject") {
-            $value.= "sg2-";
+            $value .= "sg2-";
         }
         if ($obj->getDescription() == "TestDescription") {
-            $value.= "sg3-";
+            $value .= "sg3-";
         }
         if ($obj->getImportId() == "imp_44") {
-            $value.= "sg4-";
+            $value .= "sg4-";
         }
         if ($obj->getOwner() == $ilUser->getId()) {
-            $value.= "sg5-";
+            $value .= "sg5-";
         }
         
         $obj = new ilObject($ref_id);
         if ($obj->getTitle() == "TestObject") {
-            $value.= "sg6-";
+            $value .= "sg6-";
         }
         
         if ($obj->getCreateDate() == ($lu = $obj->getLastUpdateDate())) {
-            $value.= "sg7-";
+            $value .= "sg7-";
         }
         $obj->setTitle("TestObject2");
         sleep(2);			// we want a different date here...
@@ -97,54 +97,54 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         
         $obj = new ilObject($ref_id);
         if ($lu != ($lu2 = $obj->getLastUpdateDate())) {
-            $value.= "up1-";
+            $value .= "up1-";
         }
         if ($obj->getTitle() == "TestObject2") {
-            $value.= "up2-";
+            $value .= "up2-";
         }
 
         if ($id == ilObject::_lookupObjIdByImportId("imp_44")) {
-            $value.= "lu1-";
+            $value .= "lu1-";
         }
         
         if ($ilUser->getFullname() == ilObject::_lookupOwnerName(ilObject::_lookupOwner($id))) {
-            $value.= "lu2-";
+            $value .= "lu2-";
         }
         
         if (ilObject::_lookupTitle($id) == "TestObject2") {
-            $value.= "lu3-";
+            $value .= "lu3-";
         }
         if (ilObject::_lookupDescription($id) == "TestDescription") {
-            $value.= "lu4-";
+            $value .= "lu4-";
         }
         if (ilObject::_lookupLastUpdate($id) == $lu2) {
-            $value.= "lu5-";
+            $value .= "lu5-";
         }
         if (ilObject::_lookupObjId($ref_id) == $id) {
-            $value.= "lu6-";
+            $value .= "lu6-";
         }
         if (ilObject::_lookupType($id) == "") {
-            $value.= "lu7-";
+            $value .= "lu7-";
         }
         if (ilObject::_lookupObjectId($ref_id) == $id) {
-            $value.= "lu8-";
+            $value .= "lu8-";
         }
         $ar = ilObject::_getAllReferences($id);
-        if (is_array($ar) && count($ar) == 1 &&  $ar[$ref_id] == $ref_id) {
-            $value.= "lu9-";
+        if (is_array($ar) && count($ar) == 1 && $ar[$ref_id] == $ref_id) {
+            $value .= "lu9-";
         }
         
         $ids = ilObject::_getIdsForTitle("TestObject2");
         foreach ($ids as $i) {
             if ($i == $id) {
-                $value.= "lu10-";
+                $value .= "lu10-";
             }
         }
 
         $obs = ilObject::_getObjectsByType("usr");
         foreach ($obs as $ob) {
             if ($ob["obj_id"] == $ilUser->getId()) {
-                $value.= "lu11-";
+                $value .= "lu11-";
             }
         }
         
@@ -154,7 +154,7 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         ilObject::_resetDeletedDate($ref_id);
         $d3 = ilObject::_lookupDeletedDate($ref_id);
         if ($d1 != $d2 && $d1 == $d3 && $d3 == null) {
-            $value.= "dd1-";
+            $value .= "dd1-";
         }
         
         $obj->delete();
@@ -185,10 +185,10 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         $obj->putInTree(ROOT_FOLDER_ID);
         $obj->setPermissions(ROOT_FOLDER_ID);
         if ($tree->isInTree($ref_id)) {
-            $value.= "tree1-";
+            $value .= "tree1-";
         }
         if (ilObject::_hasUntrashedReference($id)) {
-            $value.= "tree2-";
+            $value .= "tree2-";
         }
         
         // isSaved() uses internal cache!
@@ -196,16 +196,16 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         
         $tree->saveSubTree($ref_id, true);
         if ($tree->isDeleted($ref_id)) {
-            $value.= "tree3-";
+            $value .= "tree3-";
         }
         if ($tree->isSaved($ref_id)) {
-            $value.= "tree4-";
+            $value .= "tree4-";
         }
         if (ilObject::_isInTrash($ref_id)) {
-            $value.= "tree5-";
+            $value .= "tree5-";
         }
         if (!ilObject::_hasUntrashedReference($id)) {
-            $value.= "tree6-";
+            $value .= "tree6-";
         }
         
         $saved_tree = new ilTree(-(int) $ref_id);
@@ -213,13 +213,13 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
         $saved_tree->deleteTree($node_data);
 
         if (!ilObject::_isInTrash($ref_id)) {
-            $value.= "tree7-";
+            $value .= "tree7-";
         }
         
         $obs = ilUtil::_getObjectsByOperations("cat", "read");
         foreach ($obs as $ob) {
             if (ilObject::_lookupType(ilObject::_lookupObjId($ob)) != "cat") {
-                $value.= "nocat-";
+                $value .= "nocat-";
             }
         }
 

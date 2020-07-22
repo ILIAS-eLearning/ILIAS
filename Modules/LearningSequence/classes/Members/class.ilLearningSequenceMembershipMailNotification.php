@@ -9,7 +9,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 {
     // v Notifications affect members & co. v
     const TYPE_ADMISSION_MEMBER = 20;
-    const TYPE_DISMISS_MEMBER 	= 21;
+    const TYPE_DISMISS_MEMBER = 21;
     const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
     const TYPE_REFUSED_SUBSCRIPTION_MEMBER = 23;
     const TYPE_STATUS_CHANGED = 24;
@@ -57,7 +57,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
     public function send() : bool
     {
         if (!$this->isNotificationTypeEnabled($this->getType())) {
-            $this->logger->lso()->info('Membership mail disabled globally.');
+            $this->logger->info('Membership mail disabled globally.');
             return false;
         }
 

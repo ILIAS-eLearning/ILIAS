@@ -36,6 +36,7 @@ class ilObjFileGUI extends ilObject2GUI
     {
         $this->log = ilLoggerFactory::getLogger('file');
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+        $this->lng->loadLanguageModule('file');
     }
 
 
@@ -187,7 +188,6 @@ class ilObjFileGUI extends ilObject2GUI
 
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $this->lng->loadLanguageModule("file");
                 ilUtil::sendFailure($this->lng->txt("personal_workspace_quota_exceeded_warning"), true);
                 $this->ctrl->redirect($this, "cancel");
             }
@@ -564,8 +564,6 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function initPropertiesForm($mode = "create")
     {
-        $this->lng->loadLanguageModule('file');
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
         $form->setTitle($this->lng->txt('file_edit'));
@@ -706,9 +704,6 @@ class ilObjFileGUI extends ilObject2GUI
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
-            // #9876
-            $this->lng->loadLanguageModule("file");
-
             // #14378
             include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
@@ -763,7 +758,6 @@ class ilObjFileGUI extends ilObject2GUI
         $uploader = array_shift($uploader);
         $uploader = $uploader["user_id"];
 
-        $this->lng->loadLanguageModule("file");
         include_once "Services/User/classes/class.ilUserUtil.php";
         $info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
 
@@ -1008,7 +1002,7 @@ class ilObjFileGUI extends ilObject2GUI
                     }
                 }
             } catch (Exception $ex) {
-                $response->error = $ex->getMessage();
+                $response->error = $this->lng->txt('general_upload_error_occured');
             }
         } else {
             $dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
@@ -1028,10 +1022,14 @@ class ilObjFileGUI extends ilObject2GUI
         header('Vary: Accept');
         header('Content-type: text/plain');
 
-        foreach ($DIC->upload()->getResults() as $result) {
-            if (!ilFileUtils::hasValidExtension($result->getName())) {
-                $this->lng->loadLanguageModule('file');
-                ilUtil::sendInfo($this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'), true);
+        if ($DIC->upload()->hasBeenProcessed()) {
+            foreach ($DIC->upload()->getResults() as $result) {
+                if (!ilFileUtils::hasValidExtension($result->getName())) {
+                    ilUtil::sendInfo(
+                        $this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'),
+                        true
+                    );
+                }
             }
         }
         echo json_encode($response);
@@ -1150,7 +1148,7 @@ class ilObjFileGUI extends ilObject2GUI
             } catch (ilFileUtilsException $e) {
                 $response->error = $e->getMessage();
             } catch (Exception $ex) {
-                $response->error = $ex->getMessage();
+                $response->error = $this->lng->txt('general_upload_error_occured');
             }
 
             ilUtil::delDir($newDir);

@@ -204,7 +204,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $lng = $this->lng;
         $empty = false;
 
-        foreach ($_POST as $key=>$value) {
+        foreach ($_POST as $key => $value) {
             if (preg_match('/(obj_)(.+)/', $key, $match)) {
                 $objective = new ilScorm2004Objective($this->node_object->getId(), $match[2]);
                 //				if (!$value)
@@ -500,7 +500,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $output = $sco_tpl->get();
                     
         // append glossary entries on the sco level
-        $output.= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
+        $output .= ilSCORM2004PageGUI::getGlossaryHTML($this->node_object);
         
         //insert questions
         require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
@@ -516,7 +516,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         ilOverlayGUI::initJavascript();
         
         //inline JS
-        $output .='<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
+        $output .= '<script type="text/javascript" src="./Modules/Scorm2004/scripts/questions/question_handling.js"></script>';
         $tpl->setVariable("CONTENT", $output);
         $tpl->show();
         exit;
@@ -736,16 +736,16 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
                     $export_files[$i]["type"] = $media_obj->getDescription();
                     $export_files[$i]["path"] = $path;
                     $this->ctrl->setParameter(
-                            $this,
-                            "resource",
-                            rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id, false, false))
-                        );
+                        $this,
+                        "resource",
+                        rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id, false, false))
+                    );
                     $export_files[$i]["link"] = $this->ctrl->getLinkTarget($this, "downloadResource");
                     $i++;
                 }
             }
             include_once("./Services/COPage/classes/class.ilPCFileList.php");
-            $file_ids =ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
+            $file_ids = ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
             foreach ($file_ids as $file_id) {
                 $file_obj = new ilObjFile($file_id, false);
                 $export_files[$i]["date"] = $file_obj->getCreateDate();
@@ -822,7 +822,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         
         $tbl->render();
         if (count($export_files) > 0) {
-            $i=0;
+            $i = 0;
             foreach ($export_files as $exp_file) {
                 /* remote files (youtube videos) have no size, so we allow them now
                 if (!$exp_file["size"] > 0)
@@ -932,32 +932,32 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tpl->setVariable("TXT_VALIDATE_FILE", $lng->txt("cont_validate_file"));
 
         // get the value for the maximal uploadable filesize from the php.ini (if available)
-        $umf=get_cfg_var("upload_max_filesize");
+        $umf = get_cfg_var("upload_max_filesize");
         // get the value for the maximal post data from the php.ini (if available)
-        $pms=get_cfg_var("post_max_size");
+        $pms = get_cfg_var("post_max_size");
         
         //convert from short-string representation to "real" bytes
-        $multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+        $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
         
-        $umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-        $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         
         if (count($umf_parts) == 2) {
-            $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]];
+            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) == 2) {
-            $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]];
+            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
         
         // use the smaller one as limit
-        $max_filesize=min($umf, $pms);
+        $max_filesize = min($umf, $pms);
 
         if (!$max_filesize) {
-            $max_filesize=max($umf, $pms);
+            $max_filesize = max($umf, $pms);
         }
     
         //format for display in mega-bytes
-        $max_filesize=sprintf("%.1f MB", $max_filesize/1024/1024);
+        $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
 
         // gives out the limit as a little notice
         $tpl->setVariable("TXT_FILE_INFO", $lng->txt("file_notice") . " $max_filesize");

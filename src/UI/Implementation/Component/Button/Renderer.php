@@ -211,7 +211,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $def = $component->getDefault();
 
-        for ($i = 1; $i<=12; $i++) {
+        for ($i = 1; $i <= 12; $i++) {
             $this->toJS(array("month_" . str_pad($i, 2, "0", STR_PAD_LEFT) . "_short"));
         }
 

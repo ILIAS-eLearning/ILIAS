@@ -90,7 +90,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     public function supportsRerenderSignal($elementId, $url)
     {
         $this->rerenderTriggerElementName = $elementId;
-        $this->rerenderUrl                = $url;
+        $this->rerenderUrl = $url;
     }
 
     /**

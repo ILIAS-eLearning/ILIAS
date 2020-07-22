@@ -2,11 +2,11 @@
 
 class ilPDFCompInstaller
 {
-    const PURPOSE_CONF_TABLE 		= "pdfgen_conf";
-    const PURPOSE_MAP_TABLE 		= "pdfgen_map";
-    const PURPOSE_PURPOSES_TABLE 	= "pdfgen_purposes";
-    const RENDERER_TABLE			= "pdfgen_renderer";
-    const RENDERER_AVAIL_TABLE 		= "pdfgen_renderer_avail";
+    const PURPOSE_CONF_TABLE = "pdfgen_conf";
+    const PURPOSE_MAP_TABLE = "pdfgen_map";
+    const PURPOSE_PURPOSES_TABLE = "pdfgen_purposes";
+    const RENDERER_TABLE = "pdfgen_renderer";
+    const RENDERER_AVAIL_TABLE = "pdfgen_renderer_avail";
 
     /**
      * @param string $service
@@ -34,9 +34,9 @@ class ilPDFCompInstaller
         $ilDB->insert(
             self::PURPOSE_PURPOSES_TABLE,
             array(
-                'purpose_id'	=>	array('int',	$ilDB->nextId(self::PURPOSE_PURPOSES_TABLE)),
-                'service' 		=>	array('text', 	$service),
-                'purpose' 		=>	array('text', 	$purpose),
+                'purpose_id' => array('int',	$ilDB->nextId(self::PURPOSE_PURPOSES_TABLE)),
+                'service' => array('text', 	$service),
+                'purpose' => array('text', 	$purpose),
             )
         );
     }
@@ -54,11 +54,11 @@ class ilPDFCompInstaller
         $ilDB->insert(
             self::PURPOSE_MAP_TABLE,
             array(
-                'map_id'    => array('int', $ilDB->nextId(self::PURPOSE_MAP_TABLE)),
-                'service'   => array('text', $service),
-                'purpose'   => array('text', $purpose),
+                'map_id' => array('int', $ilDB->nextId(self::PURPOSE_MAP_TABLE)),
+                'service' => array('text', $service),
+                'purpose' => array('text', $purpose),
                 'preferred' => array('text', $preferred),
-                'selected'  => array('text', $preferred)
+                'selected' => array('text', $preferred)
             )
         );
     }
@@ -225,9 +225,9 @@ class ilPDFCompInstaller
         $ilDB->insert(
             self::RENDERER_TABLE,
             array(
-                      'renderer_id'	=>	array('int',	$ilDB->nextId(self::RENDERER_TABLE)),
-                      'renderer' 	=>	array('text', 	$renderer),
-                      'path' 		=>	array('text', 	$path)
+                      'renderer_id' => array('int',	$ilDB->nextId(self::RENDERER_TABLE)),
+                      'renderer' => array('text', 	$renderer),
+                      'path' => array('text', 	$path)
                   )
         );
     }
@@ -246,10 +246,10 @@ class ilPDFCompInstaller
         $ilDB->insert(
             self::RENDERER_AVAIL_TABLE,
             array(
-                      'availability_id'	=>	array('int',	$ilDB->nextId(self::RENDERER_AVAIL_TABLE)),
-                      'service' 		=>	array('text', 	$service),
-                      'purpose' 		=>	array('text', 	$purpose),
-                      'renderer' 		=>	array('text', 	$renderer)
+                      'availability_id' => array('int',	$ilDB->nextId(self::RENDERER_AVAIL_TABLE)),
+                      'service' => array('text', 	$service),
+                      'purpose' => array('text', 	$purpose),
+                      'renderer' => array('text', 	$renderer)
                   )
         );
     }

@@ -354,26 +354,26 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
 
         // Step 1: parse query string
-        if (!is_object($query_parser =&$this->__parseQueryString())) {
+        if (!is_object($query_parser = &$this->__parseQueryString())) {
             ilUtil::sendInfo($query_parser);
             $this->showSearch();
             
             return false;
         }
         // Step 2: perform object search. Get an ObjectSearch object via factory. Depends on fulltext or like search type.
-        $result =&$this->__searchObjects($query_parser);
+        $result = &$this->__searchObjects($query_parser);
 
         // Step 3: perform meta keyword search. Get an MetaDataSearch object.
-        $result_meta =&$this->__searchMeta($query_parser, 'keyword');
+        $result_meta = &$this->__searchMeta($query_parser, 'keyword');
         $result->mergeEntries($result_meta);
 
-        $result_meta =&$this->__searchMeta($query_parser, 'contribute');
+        $result_meta = &$this->__searchMeta($query_parser, 'contribute');
         $result->mergeEntries($result_meta);
     
-        $result_meta =&$this->__searchMeta($query_parser, 'title');
+        $result_meta = &$this->__searchMeta($query_parser, 'title');
         $result->mergeEntries($result_meta);
     
-        $result_meta =&$this->__searchMeta($query_parser, 'description');
+        $result_meta = &$this->__searchMeta($query_parser, 'description');
         $result->mergeEntries($result_meta);
     
         // Perform details search in object specific tables
@@ -474,46 +474,46 @@ class ilSearchGUI extends ilSearchBaseGUI
                     break;
                 
                 case 'lms':
-                    $content_search =&ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+                    $content_search = &ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
                     $content_search->setFilter($this->__getFilter());
                     $result->mergeEntries($content_search->performSearch());
                     break;
 
                 case 'frm':
-                    $forum_search =&ilObjectSearchFactory::_getForumSearchInstance($query_parser);
+                    $forum_search = &ilObjectSearchFactory::_getForumSearchInstance($query_parser);
                     $forum_search->setFilter($this->__getFilter());
                     $result->mergeEntries($forum_search->performSearch());
                     break;
 
                 case 'glo':
                     // Glossary term definition pages
-                    $gdf_search =&ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+                    $gdf_search = &ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
                     $gdf_search->setFilter(array('gdf'));
                     $result->mergeEntries($gdf_search->performSearch());
                     // Glossary terms
-                    $gdf_term_search =&ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
+                    $gdf_term_search = &ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
                     $result->mergeEntries($gdf_term_search->performSearch());
                     break;
 
                 case 'exc':
-                    $exc_search =&ilObjectSearchFactory::_getExerciseSearchInstance($query_parser);
+                    $exc_search = &ilObjectSearchFactory::_getExerciseSearchInstance($query_parser);
                     $exc_search->setFilter($this->__getFilter());
                     $result->mergeEntries($exc_search->performSearch());
                     break;
 
                 case 'mcst':
-                    $mcst_search =&ilObjectSearchFactory::_getMediaCastSearchInstance($query_parser);
+                    $mcst_search = &ilObjectSearchFactory::_getMediaCastSearchInstance($query_parser);
                     $result->mergeEntries($mcst_search->performSearch());
                     break;
 
                 case 'tst':
-                    $tst_search =&ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+                    $tst_search = &ilObjectSearchFactory::_getTestSearchInstance($query_parser);
                     $tst_search->setFilter($this->__getFilter());
                     $result->mergeEntries($tst_search->performSearch());
                     break;
 
                 case 'mep':
-                    $mep_search =&ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+                    $mep_search = &ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
                     $mep_search->setFilter($this->__getFilter());
                     $result->mergeEntries($mep_search->performSearch());
                     
@@ -525,7 +525,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                     break;
 
                 case 'wiki':
-                    $wiki_search =&ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
+                    $wiki_search = &ilObjectSearchFactory::_getWikiContentSearchInstance($query_parser);
                     $wiki_search->setFilter($this->__getFilter());
                     $result->mergeEntries($wiki_search->performSearch());
 
@@ -567,7 +567,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
-        $obj_search =&ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+        $obj_search = &ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $obj_search->setFilter($this->__getFilter());
         }
@@ -613,7 +613,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
-        $meta_search =&ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
+        $meta_search = &ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $meta_search->setFilter($this->__getFilter());
         }

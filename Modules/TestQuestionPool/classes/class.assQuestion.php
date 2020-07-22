@@ -674,7 +674,7 @@ abstract class assQuestion
      * @access public
      * @see $comment
      */
-    public function setEstimatedWorkingTime($hour=0, $min=0, $sec=0)
+    public function setEstimatedWorkingTime($hour = 0, $min = 0, $sec = 0)
     {
         $this->est_working_time = array("h" => (int) $hour, "m" => (int) $min, "s" => (int) $sec);
     }
@@ -705,7 +705,7 @@ abstract class assQuestion
     {
         if ($searchkey) {
             foreach ($array as $key => $value) {
-                if (strcmp($key, $searchkey)==0) {
+                if (strcmp($key, $searchkey) == 0) {
                     return true;
                 }
             }
@@ -1005,7 +1005,7 @@ abstract class assQuestion
     */
     public static function _getSuggestedSolutionOutput($question_id)
     {
-        $question =&assQuestion::_instanciateQuestion($question_id);
+        $question = &assQuestion::_instanciateQuestion($question_id);
         if (!is_object($question)) {
             return "";
         }
@@ -1242,15 +1242,15 @@ abstract class assQuestion
             if ($existingSolutions['authorized']) {
                 $next_id = $ilDB->nextId("tst_test_result");
                 $fieldData = array(
-                    'test_result_id'	=> array('integer', $next_id),
-                    'active_fi'			=> array('integer', $active_id),
-                    'question_fi'		=> array('integer', $this->getId()),
-                    'pass'				=> array('integer', $pass),
-                    'points'			=> array('float', $reached_points),
-                    'tstamp'			=> array('integer', time()),
-                    'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
-                    'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
-                    'answered'			=> array('integer', $isAnswered)
+                    'test_result_id' => array('integer', $next_id),
+                    'active_fi' => array('integer', $active_id),
+                    'question_fi' => array('integer', $this->getId()),
+                    'pass' => array('integer', $pass),
+                    'points' => array('float', $reached_points),
+                    'tstamp' => array('integer', time()),
+                    'hint_count' => array('integer', $requestsStatisticData->getRequestsCount()),
+                    'hint_points' => array('float', $requestsStatisticData->getRequestsPoints()),
+                    'answered' => array('integer', $isAnswered)
                 );
 
                 if ($this->getStep() !== null) {
@@ -1410,18 +1410,18 @@ abstract class assQuestion
             );
 
             $ilDB->insert('tst_result_cache', array(
-                'active_fi'=> array('integer', $active_id),
-                'pass'=> array('integer', strlen($pass) ? $pass : 0),
-                'max_points'=> array('float', strlen($max) ? $max : 0),
-                'reached_points'=> array('float', strlen($reached) ? $reached : 0),
-                'mark_short'=> array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
-                'mark_official'=> array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+                'active_fi' => array('integer', $active_id),
+                'pass' => array('integer', strlen($pass) ? $pass : 0),
+                'max_points' => array('float', strlen($max) ? $max : 0),
+                'reached_points' => array('float', strlen($reached) ? $reached : 0),
+                'mark_short' => array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
+                'mark_official' => array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
                 'passed_once' => array('integer', $passedOnce),
-                'passed'=> array('integer', $isPassed),
-                'failed'=> array('integer', $isFailed),
-                'tstamp'=> array('integer', time()),
-                'hint_count'=> array('integer', $row['hint_count']),
-                'hint_points'=> array('float', $row['hint_points']),
+                'passed' => array('integer', $isPassed),
+                'failed' => array('integer', $isFailed),
+                'tstamp' => array('integer', time()),
+                'hint_count' => array('integer', $row['hint_count']),
+                'hint_points' => array('float', $row['hint_points']),
                 'obligations_answered' => array('integer', $obligationsAnswered)
             ));
         };
@@ -1519,18 +1519,18 @@ abstract class assQuestion
                     'tst_pass_result',
                     array(
                         'active_fi' => array('integer', $active_id),
-                        'pass'      => array('integer', strlen($pass) ? $pass : 0)),
+                        'pass' => array('integer', strlen($pass) ? $pass : 0)),
                     array(
-                        'points'               => array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
-                        'maxpoints'            => array('float', $data['points']),
-                        'questioncount'        => array('integer', $data['count']),
-                        'answeredquestions'    => array('integer', $row['answeredquestions']),
-                        'workingtime'          => array('integer', $time),
-                        'tstamp'               => array('integer', time()),
-                        'hint_count'           => array('integer', $row['hint_count']),
-                        'hint_points'          => array('float', $row['hint_points']),
+                        'points' => array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
+                        'maxpoints' => array('float', $data['points']),
+                        'questioncount' => array('integer', $data['count']),
+                        'answeredquestions' => array('integer', $row['answeredquestions']),
+                        'workingtime' => array('integer', $time),
+                        'tstamp' => array('integer', time()),
+                        'hint_count' => array('integer', $row['hint_count']),
+                        'hint_points' => array('float', $row['hint_points']),
                         'obligations_answered' => array('integer', $obligations_answered),
-                        'exam_id'              => array('text', $exam_identifier)
+                        'exam_id' => array('text', $exam_identifier)
                     )
                 );
             };
@@ -2898,14 +2898,14 @@ abstract class assQuestion
             $ilDB->insert(
                 'qpl_sol_sug',
                 array(
-                                           'suggested_solution_id'	=> array( 'integer', 	$next_id ),
-                                           'question_fi'			=> array( 'integer', 	$id ),
-                                           'type'					=> array( 'text', 		$solution['type'] ),
-                                           'value'					=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($solution['value'])) ? serialize($solution[ 'value' ]) : $solution['value'], 0) ),
-                                           'internal_link'			=> array( 'text', 		$solution['internal_link'] ),
-                                           'import_id'				=> array( 'text',		null ),
-                                           'subquestion_index'		=> array( 'integer', 	$index ),
-                                           'tstamp'				=> array( 'integer',	time() ),
+                                           'suggested_solution_id' => array( 'integer', 	$next_id ),
+                                           'question_fi' => array( 'integer', 	$id ),
+                                           'type' => array( 'text', 		$solution['type'] ),
+                                           'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($solution['value'])) ? serialize($solution[ 'value' ]) : $solution['value'], 0) ),
+                                           'internal_link' => array( 'text', 		$solution['internal_link'] ),
+                                           'import_id' => array( 'text',		null ),
+                                           'subquestion_index' => array( 'integer', 	$index ),
+                                           'tstamp' => array( 'integer',	time() ),
                                        )
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
@@ -2947,14 +2947,14 @@ abstract class assQuestion
         $affectedRows = $ilDB->insert(
             'qpl_sol_sug',
             array(
-                                                       'suggested_solution_id'	=> array( 'integer', 	$next_id ),
-                                                       'question_fi'			=> array( 'integer', 	$this->getId() ),
-                                                       'type'					=> array( 'text', 		$type ),
-                                                       'value'					=> array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0) ),
-                                                       'internal_link'			=> array( 'text', 		$solution_id ),
-                                                       'import_id'				=> array( 'text',		null ),
-                                                       'subquestion_index'		=> array( 'integer', 	$subquestion_index ),
-                                                       'tstamp'					=> array( 'integer',	time() ),
+                                                       'suggested_solution_id' => array( 'integer', 	$next_id ),
+                                                       'question_fi' => array( 'integer', 	$this->getId() ),
+                                                       'type' => array( 'text', 		$type ),
+                                                       'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0) ),
+                                                       'internal_link' => array( 'text', 		$solution_id ),
+                                                       'import_id' => array( 'text',		null ),
+                                                       'subquestion_index' => array( 'integer', 	$subquestion_index ),
+                                                       'tstamp' => array( 'integer',	time() ),
                                                    )
         );
         if ($affectedRows == 1) {
@@ -3797,11 +3797,11 @@ abstract class assQuestion
                 $ilDB->insert(
                     'qpl_hints',
                     array(
-                        'qht_hint_id'     => array('integer', $next_id),
+                        'qht_hint_id' => array('integer', $next_id),
                         'qht_question_fi' => array('integer', $this->original_id),
-                        'qht_hint_index'  => array('integer', $row["qht_hint_index"]),
+                        'qht_hint_index' => array('integer', $row["qht_hint_index"]),
                         'qht_hint_points' => array('integer', $row["qht_hint_points"]),
-                        'qht_hint_text'   => array('text', $row["qht_hint_text"]),
+                        'qht_hint_text' => array('text', $row["qht_hint_text"]),
                     )
                 );
             }
@@ -4226,7 +4226,7 @@ abstract class assQuestion
                 $this->setOriginalId($value);
                 break;
             case "page":
-                $this->page =&$value;
+                $this->page = &$value;
                 break;
             default:
                 $this->arrData[$key] = $value;

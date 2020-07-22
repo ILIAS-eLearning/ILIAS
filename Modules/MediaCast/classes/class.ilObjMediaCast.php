@@ -170,11 +170,11 @@ class ilObjMediaCast extends ilObject
                 $pos = sizeof($order);
                 foreach (array_keys($med_items) as $idx) {
                     if (array_key_exists($idx, $order)) {
-                        $med_items[$idx]["order"] = ($order[$idx]+1)*10;
+                        $med_items[$idx]["order"] = ($order[$idx] + 1) * 10;
                     }
                     // item has no order yet
                     else {
-                        $med_items[$idx]["order"] = (++$pos)*10;
+                        $med_items[$idx]["order"] = (++$pos) * 10;
                     }
                 }
                 

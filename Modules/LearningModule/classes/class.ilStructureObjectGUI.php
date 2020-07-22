@@ -355,7 +355,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $acts = array("delete" => "delete", "cutChapter" => "cut",
                 "copyChapter" => "copyChapter");
         if ($ilUser->clipboardHasObjectsOfType("st")) {
-            $acts["pasteChapter"] =  "pasteChapter";
+            $acts["pasteChapter"] = "pasteChapter";
         }
         $this->showActions($acts);
         //}

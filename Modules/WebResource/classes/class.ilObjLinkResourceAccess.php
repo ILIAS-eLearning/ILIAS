@@ -121,16 +121,16 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title']				= $row->title;
-            $item['description']		= $row->description;
-            $item['target']				= $row->target;
-            $item['active']				= (bool) $row->active;
-            $item['disable_check']		= $row->disable_check;
-            $item['create_date']		= $row->create_date;
-            $item['last_update']		= $row->last_update;
-            $item['last_check']			= $row->last_check;
-            $item['valid']				= $row->valid;
-            $item['link_id']			= $row->link_id;
+            $item['title'] = $row->title;
+            $item['description'] = $row->description;
+            $item['target'] = $row->target;
+            $item['active'] = (bool) $row->active;
+            $item['disable_check'] = $row->disable_check;
+            $item['create_date'] = $row->create_date;
+            $item['last_update'] = $row->last_update;
+            $item['last_check'] = $row->last_check;
+            $item['valid'] = $row->valid;
+            $item['link_id'] = $row->link_id;
             self::$item[$row->webr_id] = $item;
         }
         return $item ? $item : array();
@@ -157,16 +157,16 @@ class ilObjLinkResourceAccess extends ilObjectAccess
             self::$item[$id] = array();
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title']				= $row->title;
-            $item['description']		= $row->description;
-            $item['target']				= $row->target;
-            $item['active']				= (bool) $row->active;
-            $item['disable_check']		= $row->disable_check;
-            $item['create_date']		= $row->create_date;
-            $item['last_update']		= $row->last_update;
-            $item['last_check']			= $row->last_check;
-            $item['valid']				= $row->valid;
-            $item['link_id']			= $row->link_id;
+            $item['title'] = $row->title;
+            $item['description'] = $row->description;
+            $item['target'] = $row->target;
+            $item['active'] = (bool) $row->active;
+            $item['disable_check'] = $row->disable_check;
+            $item['create_date'] = $row->create_date;
+            $item['last_update'] = $row->last_update;
+            $item['last_check'] = $row->last_check;
+            $item['valid'] = $row->valid;
+            $item['link_id'] = $row->link_id;
             self::$item[$row->webr_id] = $item;
         }
     }

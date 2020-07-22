@@ -134,7 +134,7 @@ class ilGlossaryAdvMetaDataAdapter
                         "(glo_id, field_id, order_nr) VALUES (" .
                         $ilDB->quote($this->glo_id, "integer") . "," .
                         $ilDB->quote($c["id"], "integer") . "," .
-                        $ilDB->quote($nr+=10, "integer") .
+                        $ilDB->quote($nr += 10, "integer") .
                         ")");
                 $set[$c["id"]] = $c["id"];
             }

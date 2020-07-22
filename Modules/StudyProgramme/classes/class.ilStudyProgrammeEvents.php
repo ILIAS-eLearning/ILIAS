@@ -29,27 +29,27 @@ class ilStudyProgrammeEvents
     
     public static function userAssigned(ilStudyProgrammeUserAssignment $a_assignment)
     {
-        self::raise("userAssigned", array( "root_prg_id"		=> $a_assignment->getStudyProgramme()->getId()
-            , "usr_id"			=> $a_assignment->getUserId()
-            , "ass_id"			=> $a_assignment->getId()
+        self::raise("userAssigned", array( "root_prg_id" => $a_assignment->getStudyProgramme()->getId()
+            , "usr_id" => $a_assignment->getUserId()
+            , "ass_id" => $a_assignment->getId()
             ));
     }
     
     public static function userDeassigned(ilStudyProgrammeUserAssignment $a_assignment)
     {
-        self::raise("userDeassigned", array( "root_prg_id"		=> $a_assignment->getStudyProgramme()->getId()
-            , "usr_id"			=> $a_assignment->getUserId()
-            , "ass_id"			=> $a_assignment->getId()
+        self::raise("userDeassigned", array( "root_prg_id" => $a_assignment->getStudyProgramme()->getId()
+            , "usr_id" => $a_assignment->getUserId()
+            , "ass_id" => $a_assignment->getId()
             ));
     }
     
     public static function userSuccessful(ilStudyProgrammeUserProgress $a_progress)
     {
         $ass = $a_progress->getAssignment();
-        self::raise("userSuccessful", array( "root_prg_id"		=> $ass->getStudyProgramme()->getId()
-            , "prg_id"			=> $a_progress->getStudyProgramme()->getId()
-            , "usr_id"			=> $ass->getUserId()
-            , "ass_id"			=> $ass->getId()
+        self::raise("userSuccessful", array( "root_prg_id" => $ass->getStudyProgramme()->getId()
+            , "prg_id" => $a_progress->getStudyProgramme()->getId()
+            , "usr_id" => $ass->getUserId()
+            , "ass_id" => $ass->getId()
             ));
     }
 }

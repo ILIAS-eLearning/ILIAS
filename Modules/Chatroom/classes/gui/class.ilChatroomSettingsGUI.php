@@ -30,7 +30,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
      */
     public function saveGeneral()
     {
-        $formFactory  = new ilChatroomFormFactory();
+        $formFactory = new ilChatroomFormFactory();
         $settingsForm = $formFactory->getSettingsForm();
 
         if (!$settingsForm->checkInput()) {
@@ -55,10 +55,10 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             $this->gui->object->update();
             // @todo: Do not rely on raw post data
             $settings = $_POST;
-            $room     = ilChatRoom::byObjectId($this->gui->object->getId());
+            $room = ilChatRoom::byObjectId($this->gui->object->getId());
 
             if (!$room) {
-                $room                  = new ilChatRoom();
+                $room = new ilChatRoom();
                 $settings['object_id'] = $this->gui->object->getId();
             }
             $room->saveSettings($settings);
@@ -99,11 +99,11 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
             require_once 'Services/Object/classes/class.ilObjectActivation.php';
             $settings = array(
-                'title'                 => $this->gui->object->getTitle(),
-                'desc'                  => $this->gui->object->getDescription(),
-                'access_period'         => array(
+                'title' => $this->gui->object->getTitle(),
+                'desc' => $this->gui->object->getDescription(),
+                'access_period' => array(
                     'start' => $this->gui->object->getAccessBegin() ? new ilDateTime($this->gui->object->getAccessBegin(), IL_CAL_UNIX) : null,
-                    'end'   => $this->gui->object->getAccessEnd()   ? new ilDateTime($this->gui->object->getAccessEnd(), IL_CAL_UNIX) : null
+                    'end' => $this->gui->object->getAccessEnd()   ? new ilDateTime($this->gui->object->getAccessEnd(), IL_CAL_UNIX) : null
                 ),
                 'access_visibility' => $this->gui->object->getAccessVisibility()
             );

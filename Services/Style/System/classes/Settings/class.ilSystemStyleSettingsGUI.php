@@ -62,7 +62,7 @@ class ilSystemStyleSettingsGUI
         $style = $skin->getStyle($_GET["style_id"]);
 
         if ($style->isSubstyle()) {
-            if ($cmd == "edit"|| $cmd == "view") {
+            if ($cmd == "edit" || $cmd == "view") {
                 $this->setSubStyleSubTabs("edit");
             } else {
                 $this->setSubStyleSubTabs("assignStyle");
@@ -143,9 +143,9 @@ class ilSystemStyleSettingsGUI
             $values["parent_style"] = $style->getSubstyleOf();
         } else {
             $values["active"] = ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId());
-            $is_personal_style = $DIC->user()->getPref("skin")==$skin->getId() && $DIC->user()->getPref("style") == $style->getId();
-            $values["personal"] =  $is_personal_style;
-            $is_default_style = ilSystemStyleSettings::getCurrentDefaultSkin()==$skin->getId()  && ilSystemStyleSettings::getCurrentDefaultStyle() == $style->getId();
+            $is_personal_style = $DIC->user()->getPref("skin") == $skin->getId() && $DIC->user()->getPref("style") == $style->getId();
+            $values["personal"] = $is_personal_style;
+            $is_default_style = ilSystemStyleSettings::getCurrentDefaultSkin() == $skin->getId() && ilSystemStyleSettings::getCurrentDefaultStyle() == $style->getId();
             $values["default"] = $is_default_style;
         }
 
@@ -216,10 +216,10 @@ class ilSystemStyleSettingsGUI
 
         if ($_POST["active"] == 1) {
             ilSystemStyleSettings::_activateStyle($new_skin->getId(), $new_style->getId());
-            if ($_POST["personal"]==1) {
+            if ($_POST["personal"] == 1) {
                 ilSystemStyleSettings::setCurrentUserPrefStyle($new_skin->getId(), $new_style->getId());
             }
-            if ($_POST["default"]==1) {
+            if ($_POST["default"] == 1) {
                 ilSystemStyleSettings::setCurrentDefaultStyle($new_skin->getId(), $new_style->getId());
             }
         } else {

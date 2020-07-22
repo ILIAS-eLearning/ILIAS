@@ -76,7 +76,7 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord
         return "prg_translations";
     }
 
-    public function __construct($primary_key=0, $a_lang_code='')
+    public function __construct($primary_key = 0, $a_lang_code = '')
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -92,7 +92,7 @@ class ilStudyProgrammeTypeTranslation extends ActiveRecord
      */
     public static function deleteAllTranslations($type_id)
     {
-        $translations = self::where(array('prg_type_id'=>$type_id))->get();
+        $translations = self::where(array('prg_type_id' => $type_id))->get();
         foreach ($translations as $translation) {
             $translation->delete();
         }

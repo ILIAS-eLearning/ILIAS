@@ -29,7 +29,7 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
         $room->clearMessages($subRoomId);
 
         $connector = $this->gui->getConnector();
-        $response  = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
+        $response = $connector->sendClearMessages($room->getRoomId(), $subRoomId, $chat_user->getUserId());
 
         $this->sendResponse($response);
     }

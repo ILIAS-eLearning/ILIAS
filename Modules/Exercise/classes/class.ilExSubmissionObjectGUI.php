@@ -88,7 +88,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("exc_create_blog");
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createBlog"));
-                $buttons_str.= $button->render();
+                $buttons_str .= $button->render();
             }
             // #10462
             $blogs = sizeof($wsp_tree->getObjectsFromType("blog"));
@@ -97,13 +97,13 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("exc_select_blog" . ($valid_blog ? "_change" : ""));
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectBlog"));
-                $buttons_str.= " " . $button->render();
+                $buttons_str .= " " . $button->render();
             }
         }
 
         // todo: move this to ks somehow
         if ($buttons_str != "") {
-            $files_str.="<p>" . $buttons_str . "</p>";
+            $files_str .= "<p>" . $buttons_str . "</p>";
         }
 
 
@@ -183,25 +183,25 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("exc_select_portfolio" . ($valid_prtf ? "_change" : ""));
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "selectPortfolio"));
-                $buttons_str.= " " . $button->render();
+                $buttons_str .= " " . $button->render();
             }
             if ($valid_prtf) {
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("exc_select_portfolio" . ($valid_prtf ? "_unlink" : ""));
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio"));
-                $buttons_str.= " " . $button->render();
+                $buttons_str .= " " . $button->render();
             }
         }
         // todo: move this to ks somehow
         if ($buttons_str != "") {
-            $files_str.="<p>" . $buttons_str . "</p>";
+            $files_str .= "<p>" . $buttons_str . "</p>";
         }
         if ($files_str) {
             $a_info->addProperty($lng->txt("exc_portfolio_returned"), $files_str);
         }
         if ($a_submission->hasSubmitted()) {
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", $selected_prtf["returned_id"]);
-            $dl_link =$ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
+            $dl_link = $ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionFileGUI"), "download");
             $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "delivered", "");
 
             $button = ilLinkButton::getInstance();
@@ -385,7 +385,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $portfolios = ilObjPortfolio::getPortfoliosOfUser($this->submission->getUserId());
         if ($portfolios) {
             foreach ($portfolios as $portfolio) {
-                $items[$portfolio["id"]]= $portfolio["title"];
+                $items[$portfolio["id"]] = $portfolio["title"];
             }
         }
         
@@ -635,7 +635,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         // submit current version of portfolio
         elseif ($_REQUEST["prtf_id"]) {
-            $success = 	$this->submitPortfolio($_REQUEST["prtf_id"]);
+            $success = $this->submitPortfolio($_REQUEST["prtf_id"]);
             $this->ctrl->setParameter($this, "prtf_id", "");
         }
                 

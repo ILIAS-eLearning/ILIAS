@@ -67,6 +67,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     /** @var \ilNavigationHistory */
     public $ilNavigationHistory;
+    /** @var string */
+    private $requestAction = '';
 
     public $access;
     public $ilObjDataCache;
@@ -123,6 +125,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         // Model of current post
         $this->objCurrentPost = new ilForumPost((int) $_GET['pos_pk'], $this->is_moderator);
+
+        $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
     }
 
     protected function initSessionStorage()
@@ -169,7 +173,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
             $draft_id = (int) $_GET['draft_id'] > 0 ?  (int) $_GET['draft_id'] : 0;
             $this->ctrl->setParameter($this, 'draft_id', $draft_id);
-            $this->ctrl->setParameter($this, 'action', \ilUtil::stripSlashes($_GET['action']));
+            $this->ctrl->setParameter($this, 'action', \ilUtil::stripSlashes($this->requestAction));
             $this->tpl->addOnLoadCode(
                 "il.Language.setLangVar('saving', " . json_encode($this->lng->txt('saving')) . ");"
             );
@@ -177,9 +181,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->tpl->addOnLoadCode('il.ForumDraftsAutosave.init(' . json_encode(array(
                     'loading_img_src' => \ilUtil::getImagePath('loader.svg'),
                     'draft_id' => $draft_id,
-                    'interval'        => $interval * 1000,
-                    'url'             => $this->ctrl->getFormAction($this, $autosave_cmd, '', true, false),
-                    'selectors'       => array(
+                    'interval' => $interval * 1000,
+                    'url' => $this->ctrl->getFormAction($this, $autosave_cmd, '', true, false),
+                    'selectors' => array(
                         'form' => '#form_' . $form->getId()
                     )
                 )) . ');');
@@ -525,8 +529,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     public function getSubTabs($subtab = 'showThreads')
     {
         if ($this->objProperties->getThreadSorting() == 1 && $this->is_moderator) {
-            $this->tabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $subtab=='showThreads'? true : false);
-            $this->tabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $subtab=='sortThreads'? true : false);
+            $this->tabs->addSubTabTarget('show', $this->ctrl->getLinkTarget($this, 'showThreads'), 'showThreads', get_class($this), '', $subtab == 'showThreads'? true : false);
+            $this->tabs->addSubTabTarget('sorting_header', $this->ctrl->getLinkTarget($this, 'sortThreads'), 'sortThreads', get_class($this), '', $subtab == 'sortThreads'? true : false);
         }
     }
     
@@ -616,20 +620,24 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     /**
      * @param string $action
-     * @param      $render_drafts
+     * @param bool $render_drafts
      * @param      $node
      * @param null $edit_draft_id
      * @return bool
      * @throws ilSplitButtonException
      */
-    protected function renderDraftContent(string $action, $render_drafts, $node, $edit_draft_id = null)
+    protected function renderDraftContent(string $action, bool $render_drafts, $node, $edit_draft_id = null)
     {
+        if (!$render_drafts) {
+            return false;
+        }
+
         $frm = $this->object->Forum;
         
         $draftsObjects = ilForumPostDraft::getInstancesByUserIdAndThreadId($this->user->getId(), $this->objCurrentTopic->getId());
-        $drafts         = $draftsObjects[$node->getId()];
+        $drafts = $draftsObjects[$node->getId()];
         
-        if ($render_drafts && is_array($drafts)) {
+        if (is_array($drafts)) {
             foreach ($drafts as $draft) {
                 if (!$draft instanceof ilForumPostDraft) {
                     continue 1;
@@ -680,6 +688,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $rowCol = 'tblrowmarked';
                 // set row color
                 $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+                $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
                 
                 // Author
                 $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
@@ -895,6 +904,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         
         // set row color
         $this->tpl->setVariable('ROWCOL', ' ' . $rowCol);
+        $this->tpl->setVariable('DEPTH', (int) ($node->getDepth() - 1));
         // if post is not activated display message for the owner
         if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
             $this->tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
@@ -1367,8 +1377,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'Modules/Forum',
             'activatedPost',
             array(
-                'ref_id'            => $this->object->getRefId(),
-                'post'              => $this->objCurrentPost
+                'ref_id' => $this->object->getRefId(),
+                'post' => $this->objCurrentPost
             )
         );
         ilUtil::sendInfo($this->lng->txt('forums_post_was_activated'), true);
@@ -1522,7 +1532,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     public function cancelPostObject()
     {
-        $_GET['action'] = '';
+        $this->requestAction = '';
         if (isset($_POST['draft_id']) && (int) $_POST['draft_id'] > 0) {
             $draft = ilForumPostDraft::newInstanceByDraftId((int) $_POST['draft_id']);
             $draft->deleteDraftsByDraftIds(array( (int) $_POST['draft_id']));
@@ -1533,7 +1543,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     
     public function cancelDraftObject()
     {
-        $_GET['action'] = '';
+        $this->requestAction = '';
         if (isset($_GET['draft_id']) && (int) $_GET['draft_id'] > 0) {
             if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
                 $history_obj = new ilForumDraftsHistory();
@@ -1668,10 +1678,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->replyEditForm->setId('id_showreply');
         $this->replyEditForm->setTableWidth('100%');
         $cancel_cmd = 'cancelPost';
-        if ($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply') {
+        if (in_array($this->requestAction, ['showreply', 'ready_showreply'])) {
             $this->ctrl->setParameter($this, 'action', 'ready_showreply');
-        } elseif ($_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft') {
-            $this->ctrl->setParameter($this, 'action', $_GET['action']);
+        } elseif (in_array($this->requestAction, ['showdraft', 'editdraft'])) {
+            $this->ctrl->setParameter($this, 'action', $this->requestAction);
             $this->ctrl->setParameter($this, 'draft_id', (int) $_GET['draft_id']);
         } else {
             $this->ctrl->setParameter($this, 'action', 'ready_showedit');
@@ -1683,24 +1693,25 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
         if ($this->isTopLevelReplyCommand()) {
             $this->replyEditForm->setFormAction($this->ctrl->getFormAction($this, 'saveTopLevelPost'), 'frm_page_bottom');
-        } elseif ($_GET['action'] == 'publishDraft' || $_GET['action'] == 'editdraft') {
+        } elseif (in_array($this->requestAction, ['publishDraft', 'editdraft'])) {
             $this->replyEditForm->setFormAction($this->ctrl->getFormAction($this, 'publishDraft'), $this->objCurrentPost->getId());
         } else {
             $this->replyEditForm->setFormAction($this->ctrl->getFormAction($this, 'savePost'), $this->objCurrentPost->getId());
         }
         $this->ctrl->clearParameters($this);
 
-        if ($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply') {
+        if (in_array($this->requestAction, ['showreply', 'ready_showreply'])) {
             $this->replyEditForm->setTitle($this->lng->txt('forums_your_reply'));
-        } elseif ($_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft') {
+        } elseif (in_array($this->requestAction, ['showdraft', 'editdraft'])) {
             $this->replyEditForm->setTitle($this->lng->txt('forums_edit_draft'));
         } else {
             $this->replyEditForm->setTitle($this->lng->txt('forums_edit_post'));
         }
 
-        // alias
-        if ($this->isWritingWithPseudonymAllowed()
-          && in_array($_GET['action'], array('showreply', 'ready_showreply'))) {
+        if (
+            $this->isWritingWithPseudonymAllowed() &&
+            in_array($this->requestAction, array('showreply', 'ready_showreply'))
+        ) {
             $oAnonymousNameGUI = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
             $oAnonymousNameGUI->setMaxLength(64);
             $oAnonymousNameGUI->setInfo($this->lng->txt('forums_use_alias'));
@@ -1708,7 +1719,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->replyEditForm->addItem($oAnonymousNameGUI);
         }
 
-        // subject
         $oSubjectGUI = new ilTextInputGUI($this->lng->txt('forums_subject'), 'subject');
         $oSubjectGUI->setMaxLength(255);
         $oSubjectGUI->setRequired(true);
@@ -1719,9 +1729,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->replyEditForm->addItem($oSubjectGUI);
 
-        // post
         $oPostGUI = new ilTextAreaInputGUI(
-            $_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' ? $this->lng->txt('forums_your_reply') : $this->lng->txt('forums_edit_post'),
+            $this->requestAction == 'showreply' || $this->requestAction == 'ready_showreply' ?
+                $this->lng->txt('forums_your_reply') :
+                $this->lng->txt('forums_edit_post'),
             'message'
         );
         $oPostGUI->setRequired(true);
@@ -1732,8 +1743,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oPostGUI->addButton('pastelatex');
         $oPostGUI->addPlugin('ilfrmquote');
 
-        //$oPostGUI->addPlugin('code');
-        if ($_GET['action'] == 'showreply' || $_GET['action'] == 'showdraft') {
+        if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
             $oPostGUI->addButton('ilFrmQuoteAjaxCall');
         }
         $oPostGUI->removePlugin('advlink');
@@ -1756,7 +1766,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'formatselect'
         ));
 
-        if ($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' || $_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft') {
+        if (in_array($this->requestAction, ['showreply', 'ready_showreply', 'showdraft', 'editdraft'])) {
             $oPostGUI->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
         } else {
             $oPostGUI->setRTESupport($this->objCurrentPost->getId(), 'frm', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.5.11');
@@ -1794,7 +1804,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $attachments_of_node = $oFDForum->getFilesOfPost();
-        if (count($attachments_of_node) && ($_GET['action'] == 'showedit' || $_GET['action'] == 'ready_showedit')) {
+        if (count($attachments_of_node) && in_array($this->requestAction, ['showedit', 'ready_showedit'])) {
             $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI($this->lng->txt('forums_delete_file'), 'del_file');
             foreach ($oFDForum->getFilesOfPost() as $file) {
                 $oAttachmentGUI = new ilCheckboxInputGUI($file['name'], 'del_file');
@@ -1805,11 +1815,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
-            if ($_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft') {
+            if (in_array($this->requestAction, ['showdraft', 'editdraft'])) {
                 $draftInfoGUI = new ilNonEditableValueGUI('', 'autosave_info', true);
                 $draftInfoGUI->setValue(sprintf($this->lng->txt('autosave_draft_info'), ilForumPostDraft::lookupAutosaveInterval()));
                 $this->replyEditForm->addItem($draftInfoGUI);
-            } elseif ($_GET['action'] != 'showedit' && $_GET['action'] != 'ready_showedit') {
+            } elseif (!in_array($this->requestAction, ['showedit', 'ready_showedit'])) {
                 $draftInfoGUI = new ilNonEditableValueGUI('', 'autosave_info', true);
                 $draftInfoGUI->setValue(sprintf($this->lng->txt('autosave_post_draft_info'), ilForumPostDraft::lookupAutosaveInterval()));
                 $this->replyEditForm->addItem($draftInfoGUI);
@@ -1833,19 +1843,19 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         if ($this->isTopLevelReplyCommand()) {
             $this->replyEditForm->addCommandButton('saveTopLevelPost', $this->lng->txt('create'));
-        } elseif (ilForumPostDraft::isSavePostDraftAllowed() && $_GET['action'] == 'editdraft') {
+        } elseif (ilForumPostDraft::isSavePostDraftAllowed() && $this->requestAction == 'editdraft') {
             $this->replyEditForm->addCommandButton('publishDraft', $this->lng->txt('publish'));
         } else {
             $this->replyEditForm->addCommandButton('savePost', $this->lng->txt('save'));
         }
-        $hidden_draft_id= new ilHiddenInputGUI('draft_id');
-        if (isset($_GET['draft_id']) && (int) $_GET['draft_id']> 0) {
+        $hidden_draft_id = new ilHiddenInputGUI('draft_id');
+        if (isset($_GET['draft_id']) && (int) $_GET['draft_id'] > 0) {
             $auto_save_draft_id = (int) $_GET['draft_id'];
         }
         $hidden_draft_id->setValue($auto_save_draft_id);
         $this->replyEditForm->addItem($hidden_draft_id);
 
-        if ($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply' || $_GET['action'] == 'editdraft') {
+        if (in_array($this->requestAction, ['showreply', 'ready_showreply', 'editdraft'])) {
             $rtestring = ilRTE::_getRTEClassname();
             
             if (array_key_exists('show_rte', $_POST)) {
@@ -1860,15 +1870,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
             }
             
-            if (!$this->user->isAnonymous()
-                && ($_GET['action'] == 'editdraft' || $_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
-                && ilForumPostDraft::isSavePostDraftAllowed()
+            if (
+                !$this->user->isAnonymous() &&
+                in_array($this->requestAction, ['editdraft', 'showreply', 'ready_showreply']) &&
+                ilForumPostDraft::isSavePostDraftAllowed()
             ) {
                 if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
                     $this->decorateWithAutosave($this->replyEditForm);
                 }
 
-                if ($_GET['action'] == 'editdraft') {
+                if ($this->requestAction == 'editdraft') {
                     $this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
                 } else {
                     $this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));
@@ -1962,7 +1973,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         if (!$this->objCurrentPost->getId()) {
-            $_GET['action'] = '';
+            $this->requestAction = '';
             \ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
             $this->viewThreadObject();
             return;
@@ -2061,8 +2072,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'Modules/Forum',
                 'createdPost',
                 array(
-                    'ref_id'            => $this->object->getRefId(),
-                    'post'              => new ilForumPost($newPost),
+                    'ref_id' => $this->object->getRefId(),
+                    'post' => new ilForumPost($newPost),
                     'notify_moderators' => (bool) $send_activation_mail
                 )
             );
@@ -2113,7 +2124,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oReplyEditForm = $this->getReplyEditForm();
         if ($oReplyEditForm->checkInput()) {
             if (!$this->objCurrentPost->getId()) {
-                $_GET['action'] = '';
+                $this->requestAction = '';
                 \ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
                 $this->viewThreadObject();
                 return;
@@ -2135,7 +2146,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $topicData = $frm->getOneTopic();
 
             // Generating new posting
-            if ($_GET['action'] == 'ready_showreply') {
+            if ($this->requestAction == 'ready_showreply') {
                 if (!$this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
@@ -2199,7 +2210,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 if ($this->objProperties->isFileUploadAllowed()) {
                     $oFDForum = new ilFileDataForum($forumObj->getId(), $newPost);
-                    $file     = $_FILES['userfile'];
+                    $file = $_FILES['userfile'];
                     if (is_array($file) && !empty($file)) {
                         $oFDForum->storeUploadedFile($file);
                     }
@@ -2209,8 +2220,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     'Modules/Forum',
                     'createdPost',
                     array(
-                        'ref_id'            => $this->object->getRefId(),
-                        'post'              => new ilForumPost($newPost),
+                        'ref_id' => $this->object->getRefId(),
+                        'post' => new ilForumPost($newPost),
                         'notify_moderators' => (bool) $send_activation_mail
                     )
                 );
@@ -2297,9 +2308,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $news_item->setTitle($this->objCurrentPost->getSubject());
                         $news_item->setContent(
                             ilRTE::_replaceMediaObjectImageSrc($frm->prepareText(
-                            $this->objCurrentPost->getMessage(),
-                            0
-                        ), 1)
+                                $this->objCurrentPost->getMessage(),
+                                0
+                            ), 1)
                         );
                         
                         if ($this->objCurrentPost->getMessage() != strip_tags($this->objCurrentPost->getMessage())) {
@@ -2328,9 +2339,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         'Modules/Forum',
                         'updatedPost',
                         array(
-                            'ref_id'                => $this->object->getRefId(),
-                            'post'                  => $this->objCurrentPost,
-                            'notify_moderators'     => (bool) $send_activation_mail,
+                            'ref_id' => $this->object->getRefId(),
+                            'post' => $this->objCurrentPost,
+                            'notify_moderators' => (bool) $send_activation_mail,
                             'old_status_was_active' => (bool) $old_status_was_active
                         )
                     );
@@ -2344,7 +2355,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $this->ctrl->redirect($this, 'viewThread');
             }
         } else {
-            $_GET['action'] = substr($_GET['action'], 6);
+            $this->requestAction = substr($this->requestAction, 6);
         }
         return $this->viewThreadObject();
     }
@@ -2370,7 +2381,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
         
         if ($this->objCurrentTopic->isClosed()) {
-            $_GET['action'] = '';
+            $this->requestAction = '';
             return $this->viewThreadObject();
         }
         
@@ -2385,9 +2396,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         // add mandatory fields
         $oReplyEditForm->getItemByPostVar('subject')->setRequired(true);
         $oReplyEditForm->getItemByPostVar('message')->setRequired(true);
-        
-        $_GET['action'] = 'showreply';
-        
+
+        $this->requestAction = 'showreply';
+
         $this->viewThreadObject();
     }
     
@@ -2436,7 +2447,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     public function viewThreadObject()
     {
-        $bottom_toolbar                    = clone $this->toolbar;
+        $bottom_toolbar = clone $this->toolbar;
         $bottom_toolbar_split_button_items = array();
         
 
@@ -2457,8 +2468,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $_SESSION['viewmode'] = $_GET['viewmode'];
         }
 
-        if ((isset($_GET['action']) && $_SESSION['viewmode'] != ilForumProperties::VIEW_DATE)
-        ||($_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)) {
+        if ((strlen($this->requestAction) > 0 && $_SESSION['viewmode'] != ilForumProperties::VIEW_DATE)
+        || ($_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)) {
             $_SESSION['viewmode'] = ilForumProperties::VIEW_TREE;
         } else {
             $_SESSION['viewmode'] = ilForumProperties::VIEW_DATE;
@@ -2484,7 +2495,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $file_obj = $oForumObjects['file_obj'];
 
         $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
-        $action = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
 
         if (isset($this->httpRequest->getQueryParams()['file'])) {
             $file_obj_for_delivery = $file_obj;
@@ -2506,7 +2516,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->tpl->setLoginTargetPar('frm_' . $_GET['ref_id'] . $append);
 
         // delete temporary media object (not in case a user adds media objects and wants to save an invalid form)
-        if (!in_array($action, ['showreply', 'showedit'])) {
+        if (!in_array($this->requestAction, ['showreply', 'showedit'])) {
             try {
                 $mobs = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->user->getId());
                 foreach ($mobs as $mob) {
@@ -2520,15 +2530,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
         }
 
-        if ($this->isHierarchicalView()) {
+        $firstNodeInThread = $this->objCurrentTopic->getFirstPostNode($this->is_moderator, true);
+
+        if ($this->isHierarchicalView() && $firstNodeInThread) {
             $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread');
-            $exp->setThread($this->objCurrentTopic);
+            $exp->setThread($this->objCurrentTopic, $firstNodeInThread);
             if (!$exp->handleCommand()) {
                 $this->tpl->setLeftNavContent($exp->getHTML());
             }
         }
-
-        $this->lng->loadLanguageModule('forum');
 
         if (!$this->getCreationMode() && $this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->ilNavigationHistory->addItem(
@@ -2548,6 +2558,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (isset($this->httpRequest->getQueryParams()['anchor'])) {
             $this->tpl->setVariable('JUMP2ANCHOR_ID', (int) $this->httpRequest->getQueryParams()['anchor']);
         }
+        $this->tpl->setVariable('LIST_TYPE', $this->isHierarchicalView() ? 'sort_by_posts' : 'sort_by_date');
 
         if ($this->isHierarchicalView()) {
             $orderField = 'frm_posts_tree.rgt';
@@ -2565,8 +2576,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         // get forum- and thread-data
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-        if (is_array($topicData = $frm->getOneTopic())) {
-            // Visit-Counter for topic
+        if ($firstNodeInThread) {
             $this->objCurrentTopic->updateVisits();
             
             $this->tpl->setTitle($this->lng->txt('forums_thread') . " \"" . $this->objCurrentTopic->getSubject() . "\"");
@@ -2620,12 +2630,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             // get complete tree of thread
-            $first_node = $this->objCurrentTopic->getFirstPostNode();
             $this->objCurrentTopic->setOrderField($orderField);
-            $subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
+            $subtree_nodes = $this->objCurrentTopic->getPostTree($firstNodeInThread);
 
             if (!$this->isTopLevelReplyCommand() &&
-                $first_node instanceof ilForumPost &&
+                $firstNodeInThread instanceof ilForumPost &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])
             ) {
@@ -2633,7 +2642,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $reply_button->setPrimary(true);
                 $reply_button->setCaption('add_new_answer');
                 $this->ctrl->setParameter($this, 'action', 'showreply');
-                $this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
+                $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
                 $this->ctrl->setParameter($this, 'offset', (int) $_GET['offset']);
                 $this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
@@ -2656,9 +2665,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             // navigation to browse
             if ($posNum > $pageHits) {
                 $params = array(
-                    'ref_id'		=> $_GET['ref_id'],
-                    'thr_pk'		=> $this->objCurrentTopic->getId(),
-                    'orderby'		=> $_GET['orderby']
+                    'ref_id' => $_GET['ref_id'],
+                    'thr_pk' => $this->objCurrentTopic->getId(),
+                    'orderby' => $_GET['orderby']
                 );
 
                 if (!isset($_GET['offset'])) {
@@ -2698,7 +2707,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     $jump++;
                 }
 
-                if ($posNum > $pageHits && $z >= ($Start + $pageHits)) {
+                if ($firstNodeInThread->getId() != $this->objCurrentPost->getId() && $posNum > $pageHits && $z >= ($Start + $pageHits)) {
                     // if anchor-link was not found ...
                     if ($this->objCurrentPost->getId() && $jump < 1) {
                         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -2715,11 +2724,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     if (!$this->isTopLevelReplyCommand() && $this->objCurrentPost->getId() == $node->getId()) {
                         # actions for "active" post
                         if ($this->is_moderator || $node->isActivated() || $node->isOwner($this->user->getId())) {
-                            if (!$this->objCurrentTopic->isClosed() && in_array($action, [
+                            if (!$this->objCurrentTopic->isClosed() && in_array($this->requestAction, [
                                 'showreply', 'showedit', 'showdraft', 'editdraft'
                             ])) {
-                                $this->renderPostingForm($frm, $node, $action);
-                            } elseif (!$this->objCurrentTopic->isClosed() && $action === 'delete') {
+                                $this->renderPostingForm($frm, $node, $this->requestAction);
+                            } elseif (!$this->objCurrentTopic->isClosed() && $this->requestAction === 'delete') {
                                 if (
                                     $this->is_moderator ||
                                     ($node->isOwner($this->user->getId()) && !$node->hasReplies()) &&
@@ -2727,7 +2736,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                                 ) {
                                     $this->tpl->setVariable('FORM', $this->getDeleteFormHTML());
                                 }
-                            } elseif (!$this->objCurrentTopic->isClosed() && $action === 'censor') {
+                            } elseif (!$this->objCurrentTopic->isClosed() && $this->requestAction === 'censor') {
                                 if ($this->is_moderator) {
                                     $this->tpl->setVariable('FORM', $this->getCensorshipFormHTML());
                                 }
@@ -2738,53 +2747,52 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             }
                         }
                     }
-                    $this->renderPostContent($node, $action, $Start, $z);
-                    $this->renderDraftContent($action, $render_drafts, $node, $selected_draft_id);
+                    $this->renderPostContent($node, $this->requestAction, $Start, $z);
+                    $this->renderDraftContent($this->requestAction, $render_drafts, $node, $selected_draft_id);
                 }
                 $z++;
             }
 
-            if ($first_node instanceof \ilForumPost) {
-                if (!$this->objCurrentTopic->isClosed() && ($action === 'showdraft'|| $action === 'editdraft')) {
-                    $this->renderPostingForm($frm, $first_node, $action);
+            if ($firstNodeInThread instanceof \ilForumPost) {
+                if (!$this->objCurrentTopic->isClosed() && in_array($this->requestAction, ['showdraft', 'editdraft'])) {
+                    $this->renderPostingForm($frm, $firstNodeInThread, $this->requestAction);
                 }
-                $this->renderDraftContent($action, $render_drafts, $first_node, $selected_draft_id);
+                $this->renderDraftContent($this->requestAction, $render_drafts, $firstNodeInThread, $selected_draft_id);
             }
 
             if (
-                $first_node instanceof ilForumPost &&
+                $firstNodeInThread instanceof ilForumPost &&
                 in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                 // Important: Don't separate the following two lines (very fragile code ...)
-                $this->objCurrentPost->setId($first_node->getId());
+                $this->objCurrentPost->setId($firstNodeInThread->getId());
                 $form = $this->getReplyEditForm();
 
                 if ($this->ctrl->getCmd() == 'saveTopLevelPost') {
                     $form->setValuesByPost();
                 } elseif ($this->ctrl->getCmd() == 'quoteTopLevelPost') {
                     $authorinfo = new ilForumAuthorInformation(
-                        $first_node->getPosAuthorId(),
-                        $first_node->getDisplayUserId(),
-                        $first_node->getUserAlias(),
-                        $first_node->getImportName()
+                        $firstNodeInThread->getPosAuthorId(),
+                        $firstNodeInThread->getDisplayUserId(),
+                        $firstNodeInThread->getUserAlias(),
+                        $firstNodeInThread->getImportName()
                     );
 
                     $form->setValuesByPost();
                     $form->getItemByPostVar('message')->setValue(
                         ilRTE::_replaceMediaObjectImageSrc(
-                            $frm->prepareText($first_node->getMessage(), 1, $authorinfo->getAuthorName()) . "\n" . $form->getInput('message'),
+                            $frm->prepareText($firstNodeInThread->getMessage(), 1, $authorinfo->getAuthorName()) . "\n" . $form->getInput('message'),
                             1
                         )
                     );
                 }
-                $this->ctrl->setParameter($this, 'pos_pk', $first_node->getId());
-                $this->ctrl->setParameter($this, 'thr_pk', $first_node->getThreadId());
+                $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
+                $this->ctrl->setParameter($this, 'thr_pk', $firstNodeInThread->getThreadId());
                 $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
                 $jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC', $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
                 $this->ctrl->clearParameters($this);
                 $this->tpl->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());
-                ;
                 $this->tpl->setVariable('BOTTOM_FORM', $form->getHTML());
             }
         } else {
@@ -2851,14 +2859,14 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             if ($on_reply == true) {
                 // i.e. $subject = "Re(12):"
                 $str_pos_start = strpos($subject, '(');
-                $str_pos_end   = strpos($subject, ')');
+                $str_pos_end = strpos($subject, ')');
 
-                $length        = ((int) $str_pos_end - (int) $str_pos_start);
+                $length = ((int) $str_pos_end - (int) $str_pos_start);
                 $str_pos_start++;
                 $txt_number = substr($subject, $str_pos_start, $length - 1);
 
                 if (is_numeric($txt_number)) {
-                    $re_count         = (int) $txt_number + 1;
+                    $re_count = (int) $txt_number + 1;
                     $modified_subject = substr($subject, 0, $str_pos_start) . $re_count . substr($subject, $str_pos_end);
                 }
             }
@@ -2896,9 +2904,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         if (!$this->access->checkAccess('read', '', $a_forum_ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-        
-        $this->lng->loadLanguageModule('forum');
-        
+
         /**
          * @var $ref_obj ilObjForum
          */
@@ -2980,7 +2986,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     for ($i = 0; $i < count($_POST['thread_ids']); $i++) {
                         $tmp_obj = new ilForumTopic($_POST['thread_ids'][$i]);
                         $this->ensureThreadBelongsToForum((int) $this->object->getId(), $tmp_obj);
-                        $makeSticky =  $tmp_obj->makeSticky();
+                        $makeSticky = $tmp_obj->makeSticky();
 
                         if (!$makeSticky) {
                             $message = $this->lng->txt('sel_threads_already_sticky');
@@ -3373,8 +3379,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'Modules/Forum',
                 'createdPost',
                 [
-                    'ref_id'            => $this->object->getRefId(),
-                    'post'              => new \ilForumPost($newPost),
+                    'ref_id' => $this->object->getRefId(),
+                    'post' => new \ilForumPost($newPost),
                     'notify_moderators' => !$status
             ]
             );
@@ -3657,7 +3663,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             return true;
         }
         
-        if ($this->objProperties->isUserToggleNoti() ==  0) {
+        if ($this->objProperties->isUserToggleNoti() == 0) {
             return true;
         }
         
@@ -3726,7 +3732,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         foreach ($threadIdToSortValueMap as $threadId => $sortValue) {
             $sortValue = str_replace(',', '.', $sortValue);
-            $sortValue =  (float) $sortValue * 100;
+            $sortValue = (float) $sortValue * 100;
             $this->object->setThreadSorting((int) $threadId, $sortValue);
         }
 
@@ -3984,7 +3990,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $historyCheck = (int) ($this->httpRequest->getQueryParams()['hist_check'] ?? 1);
-        if (!($form instanceof \ilPropertyFormGUI) && $historyCheck  > 0) {
+        if (!($form instanceof \ilPropertyFormGUI) && $historyCheck > 0) {
             $this->doHistoryCheck($draft->getDraftId());
         }
 
@@ -3996,7 +4002,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'message' => \ilRTE::_replaceMediaObjectImageSrc($frm->prepareText($draft->getPostMessage(), 2), 1),
                 'notify' => $draft->getNotify() ? true : false,
                 'userfile' => '',
-                'del_file' =>  []
+                'del_file' => []
             ]);
         } else {
             $this->ctrl->setParameter($this, 'draft_id', $draftId);
@@ -4107,7 +4113,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->ctrl->redirect($this, 'showThreads');
         }
 
-        $_GET['action'] = substr($_GET['action'], 6); // @nmatuschek: Why this, I don't get it???
+        $this->requestAction = substr($this->requestAction, 6); // @nmatuschek: Why this, I don't get it???
         $form->setValuesByPost();
         $this->ctrl->setParameter($this, 'draft_id', $autoSavedDraftId);
         $this->tpl->setContent($form->getHTML());
@@ -4208,7 +4214,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oReplyEditForm = $this->getReplyEditForm();
         if ($oReplyEditForm->checkInput()) {
             if (!$this->objCurrentPost->getId()) {
-                $_GET['action'] = '';
+                $this->requestAction = '';
                 \ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
                 $this->viewThreadObject();
                 return;
@@ -4230,7 +4236,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $topicData = $frm->getOneTopic();
             
             // Generating new posting
-            if ($_GET['action'] == 'ready_showreply') {
+            if ($this->requestAction == 'ready_showreply') {
                 if (!$this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
@@ -4265,12 +4271,12 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     
                 if (ilForumPostDraft::isSavePostDraftAllowed()) {
                     $GLOBALS['ilAppEventHandler']->raise(
-                            'Modules/Forum',
-                            'savedAsDraft',
-                            array('draftObj'               => $draftObj,
-                                  'obj_id'                 => $this->object->getId(),
+                        'Modules/Forum',
+                        'savedAsDraft',
+                        array('draftObj' => $draftObj,
+                                  'obj_id' => $this->object->getId(),
                                   'is_file_upload_allowed' => $this->objProperties->isFileUploadAllowed())
-                        );
+                    );
                 }
                 
                 if ($this->objProperties->isFileUploadAllowed()) {
@@ -4293,7 +4299,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
         } else {
             $oReplyEditForm->setValuesByPost();
-            $_GET['action'] = substr($_GET['action'], 6);
+            $this->requestAction = substr($this->requestAction, 6);
         }
         return $this->viewThreadObject();
     }
@@ -4326,7 +4332,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         if (!$this->objCurrentPost->getId()) {
-            $_GET['action'] = '';
+            $this->requestAction = '';
             \ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_parent_deleted'));
             $this->viewThreadObject();
             return;
@@ -4346,9 +4352,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
              * @var $forumObj ilObjForum
              */
             $forumObj = $oForumObjects['forumObj'];
-        
-            if (!$this->user->isAnonymous() &&
-                ($_GET['action'] == 'showdraft' || $_GET['action'] == 'editdraft')) {
+
+            if (!$this->user->isAnonymous() && in_array($this->requestAction, ['showdraft', 'editdraft'])) {
                 if (!$this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
@@ -4388,7 +4393,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 
                 if ($this->objProperties->isFileUploadAllowed()) {
                     $oFDForumDrafts = new ilFileDataForumDrafts($forumObj->getId(), $update_draft->getDraftId());
-                    $file     = $_FILES['userfile'];
+                    $file = $_FILES['userfile'];
                     if (is_array($file) && !empty($file)) {
                         $oFDForumDrafts->storeUploadedFile($file);
                     }
@@ -4461,10 +4466,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $post_id  = $this->objCurrentPost->getId();
+        $post_id = $this->objCurrentPost->getId();
         if (!($draft_obj instanceof ilForumPostDraft)) {
             $draft_id_to_delete = (int) $_GET['draft_id'];
-            $draft_obj          = new ilForumPostDraft($this->user->getId(), $post_id, $draft_id_to_delete);
+            $draft_obj = new ilForumPostDraft($this->user->getId(), $post_id, $draft_id_to_delete);
             
             if (!$draft_obj->getDraftId() || ($draft_obj->getDraftId() != $draft_id_to_delete)) {
                 $this->ctrl->clearParameters($this);
@@ -4499,10 +4504,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     protected function autosaveDraftAsyncObject()
     {
-        $requestedAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
         $draftId = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
         if (
-            $requestedAction !== 'ready_showreply' &&
+            $this->requestAction !== 'ready_showreply' &&
             $this->access->checkAccess('read', '', $this->object->getRefId()) &&
             $this->access->checkAccess('add_reply', '', $this->object->getRefId())
         ) {
@@ -4517,7 +4521,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 },
                 $draftId,
                 (int) \ilObjForum::lookupForumIdByRefId($this->ref_id),
-                \ilUtil::stripSlashes($requestedAction)
+                \ilUtil::stripSlashes($this->requestAction)
             );
 
             echo json_encode($action->executeAndGetResponseObject());
@@ -4528,10 +4532,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     
     protected function autosaveThreadDraftAsyncObject()
     {
-        $requestedAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
         $draftId = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
         if (
-            $requestedAction !== 'ready_showreply' &&
+            $this->requestAction !== 'ready_showreply' &&
             $this->access->checkAccess('read', '', $this->object->getRefId()) &&
             $this->access->checkAccess('add_thread', '', $this->object->getRefId())
         ) {
@@ -4546,7 +4549,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 },
                 $draftId,
                 (int) \ilObjForum::lookupForumIdByRefId($this->ref_id),
-                \ilUtil::stripSlashes($requestedAction)
+                \ilUtil::stripSlashes($this->requestAction)
             );
 
             echo json_encode($action->executeAndGetResponseObject());
@@ -4695,7 +4698,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         } else {
             if (!isset($draft)) {
                 $draftsObjects = ilForumPostDraft::getInstancesByUserIdAndThreadId($this->user->getId(), $this->objCurrentTopic->getId());
-                $draft         = $draftsObjects[$node->getId()];
+                $draft = $draftsObjects[$node->getId()];
             }
             // get actions for drafts
             $this->ctrl->setParameter($this, 'action', 'publishdraft');

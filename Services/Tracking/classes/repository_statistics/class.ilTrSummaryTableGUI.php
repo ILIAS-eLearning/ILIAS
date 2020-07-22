@@ -243,10 +243,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             include_once "Services/Tracking/classes/class.ilLPStatus.php";
             $item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
             $item->setOptions(array("" => $lng->txt("trac_all"),
-                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-                ilLPStatus::LP_STATUS_COMPLETED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
-                ilLPStatus::LP_STATUS_FAILED_NUM+1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
+                ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
+                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
+                ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
+                ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
             $this->filter["status"] = $item->getValue();
             if ($this->filter["status"]) {
                 $this->filter["status"]--;
@@ -289,7 +289,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         if ($ilSetting->get("usr_settings_course_export_sel_country")) {
             $item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true);
-            $item->setOptions(array("" => $lng->txt("trac_all"))+$this->getSelCountryCodes());
+            $item->setOptions(array("" => $lng->txt("trac_all")) + $this->getSelCountryCodes());
             $this->filter["sel_country"] = $item->getValue();
         }
 
@@ -436,9 +436,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $users_no = $result["user_total"];
             $data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
             $data["set"][$idx]["gender"] = $this->getItemsPercentages($result["gender"], $users_no, array(
-                "n"=>$lng->txt("gender_n"),
-                "m"=>$lng->txt("gender_m"),
-                "f"=>$lng->txt("gender_f"),
+                "n" => $lng->txt("gender_n"),
+                "m" => $lng->txt("gender_m"),
+                "f" => $lng->txt("gender_f"),
             ));
             $data["set"][$idx]["city"] = $this->getItemsPercentages($result["city"], $users_no);
             $data["set"][$idx]["sel_country"] = $this->getItemsPercentages($result["sel_country"], $users_no, $this->getSelCountryCodes());
@@ -487,7 +487,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         if ($data) {
             // if we have only 1 item more than the limit, "others" makes no sense
-            if (sizeof($data) == $limit+1) {
+            if (sizeof($data) == $limit + 1) {
                 $limit++;
             }
             
@@ -505,7 +505,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         $caption = $lng->txt("none");
                     }
 
-                    $perc = round($count/$overall*100);
+                    $perc = round($count / $overall * 100);
                     $result[] = array(
                         "caption" => $caption,
                         "absolute" => $count, // ." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
@@ -518,7 +518,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
 
             if ($others_counter) {
-                $perc = round($others_sum/$overall*100);
+                $perc = round($others_sum / $overall * 100);
                 $result[] = array(
                     "caption" => $others_counter . "  " . $lng->txt("trac_others"),
                     "absolute" => $others_sum, // ." ".($others_sum > 1 ? $lng->txt("users") : $lng->txt("user")),
@@ -550,7 +550,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             if (isset($data[$id])) {
                 $count = $data[$id];
             }
-            $perc = round($count/$overall*100);
+            $perc = round($count / $overall * 100);
             
             $result[] = array(
                 "caption" => $caption,
@@ -571,7 +571,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         // get rid of aggregation
         $pos = strrpos($id, "_");
         if ($pos !== false) {
-            $function = strtoupper(substr($id, $pos+1));
+            $function = strtoupper(substr($id, $pos + 1));
             if (in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT"))) {
                 $id = substr($id, 0, $pos);
             }
@@ -741,7 +741,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     {
         $pos = strrpos($a_field, "_");
         if ($pos !== false) {
-            $function = strtoupper(substr($a_field, $pos+1));
+            $function = strtoupper(substr($a_field, $pos + 1));
             if (in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT", "TOTAL"))) {
                 return true;
             }

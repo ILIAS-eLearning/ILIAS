@@ -64,9 +64,9 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     public static function findOrCreateAssignment($user_id, $position_id, $orgu_id)
     {
         $inst = self::where(array(
-            'user_id'     => $user_id,
+            'user_id' => $user_id,
             'position_id' => $position_id,
-            'orgu_id'     => $orgu_id,
+            'orgu_id' => $orgu_id,
         ))->first();
         if (!$inst) {
             $inst = new self();

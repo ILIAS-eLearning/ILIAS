@@ -266,14 +266,14 @@ class ilCloudFileNode
      */
     public function getJSONEncode()
     {
-        $node                     = array();
-        $node["id"]               = $this->getId();
-        $node["is_dir"]           = $this->getIsDir();
-        $node["path"]             = $this->getPath();
-        $node["parent_id"]        = $this->getParentId();
+        $node = array();
+        $node["id"] = $this->getId();
+        $node["is_dir"] = $this->getIsDir();
+        $node["path"] = $this->getPath();
+        $node["parent_id"] = $this->getParentId();
         $node["loading_complete"] = $this->getLoadingComplete();
-        $node["children"]         = $this->getChildrenPathes();
-        $node["size"]             = $this->getSize();
+        $node["children"] = $this->getChildrenPathes();
+        $node["size"] = $this->getSize();
 
         return $node;
     }

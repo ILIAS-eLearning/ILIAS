@@ -231,10 +231,10 @@ class ilExSubmissionTeamGUI
                 $this,
                 $ilToolbar,
                 array(
-                    'auto_complete_name'	=> $this->lng->txt('user'),
-                    'submit_name'			=> $this->lng->txt('add'),
-                    'add_search'			=> $add_search,
-                    'add_from_container'    => $this->exercise->getRefId()
+                    'auto_complete_name' => $this->lng->txt('user'),
+                    'submit_name' => $this->lng->txt('add'),
+                    'add_search' => $add_search,
+                    'add_from_container' => $this->exercise->getRefId()
                 )
             );
         } elseif ($this->submission->getAssignment()->getTeamTutor()) {
@@ -309,7 +309,7 @@ class ilExSubmissionTeamGUI
         if (!$this->submission->isTutor()) {
             $ids = [];
             if ((bool) $a_full_delete) {
-                $ids =  $this->team->getMembers();
+                $ids = $this->team->getMembers();
             } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
                 $ids = $_POST["id"];
             }
@@ -377,7 +377,7 @@ class ilExSubmissionTeamGUI
 
         $ids = [];
         if ((bool) $a_full_delete) {
-            $ids =  $this->team->getMembers();
+            $ids = $this->team->getMembers();
         } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
             $ids = $_POST["id"];
         }

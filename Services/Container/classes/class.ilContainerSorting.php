@@ -445,13 +445,13 @@ class ilContainerSorting
             $ilDB->replace(
                 'container_sorting',
                 array(
-                    'obj_id'	=> array('integer',$this->obj_id),
-                    'child_id'	=> array('integer',$child_id),
-                    'parent_id'	=> array('integer',0)
+                    'obj_id' => array('integer',$this->obj_id),
+                    'child_id' => array('integer',$child_id),
+                    'parent_id' => array('integer',0)
                 ),
                 array(
                     'parent_type' => array('text',''),
-                    'position'	  => array('integer',$position)
+                    'position' => array('integer',$position)
                 )
             );
         }
@@ -473,13 +473,13 @@ class ilContainerSorting
             $ilDB->replace(
                 'container_sorting',
                 array(
-                    'obj_id'	=> array('integer',$this->obj_id),
-                    'child_id'	=> array('integer',$child_id),
-                    'parent_id'	=> array('integer',$a_parent_id)
+                    'obj_id' => array('integer',$this->obj_id),
+                    'child_id' => array('integer',$child_id),
+                    'parent_id' => array('integer',$a_parent_id)
                 ),
                 array(
                     'parent_type' => array('text',$a_parent_type),
-                    'position'	  => array('integer',$position)
+                    'position' => array('integer',$position)
                 )
             );
         }
@@ -499,7 +499,7 @@ class ilContainerSorting
         $ilDB->replace(
             'container_sorting_bl',
             array(
-                'obj_id'	=> array('integer',$this->obj_id)
+                'obj_id' => array('integer',$this->obj_id)
             ),
             array(
                 'block_ids' => array('text', implode(";", array_keys($a_values)))
@@ -568,7 +568,7 @@ class ilContainerSorting
 
         foreach ($items as $key => $item) {
             if ($item["position"] == self::ORDER_DEFAULT) {
-                $no_position[]= array("key" => $key, "title" => $item["title"], "create_date" => $item["create_date"],
+                $no_position[] = array("key" => $key, "title" => $item["title"], "create_date" => $item["create_date"],
                     "start" => $item["start"]);
             }
         }

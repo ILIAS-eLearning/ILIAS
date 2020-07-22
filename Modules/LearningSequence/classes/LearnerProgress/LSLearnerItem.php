@@ -33,7 +33,7 @@ class LSLearnerItem extends LSItem
 
     public function __construct(
         int $usr_id,
-        int $learning_progress_status,
+        \Closure $learning_progress_status,
         int $availability_status,
         ILIAS\KioskMode\State $kiosk_state,
         LSItem $ls_item
@@ -60,9 +60,17 @@ class LSLearnerItem extends LSItem
         return $this->usr_id;
     }
 
+    /**
+     * Calling a closure here is a breach of the "immutable object" paradigm
+     * and no good practice at all! Do NOT copy!
+     * However, this fixes #27853 for relase 5.4 - with release 6, the issue (among others)
+     * is solved by restructuring dependencies and re-ordering calls and instantiation.
+     */
     public function getLearningProgressStatus() : int
     {
-        return $this->learning_progress_status;
+        $lp_call = $this->learning_progress_status;
+        $lp = $lp_call($this->getRefId(), $this->getUserId());
+        return $lp;
     }
 
     public function getAvailability() : int

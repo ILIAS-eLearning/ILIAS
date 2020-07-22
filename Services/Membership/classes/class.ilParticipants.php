@@ -158,12 +158,15 @@ abstract class ilParticipants
     
     /**
      * Check if (current) user has access to the participant list
-     * @param type $a_obj
-     * @param type $a_usr_id
-     * @todo refactor remove
+     * @param int $a_obj
+     * @param int $a_usr_id
      */
     public static function hasParticipantListAccess($a_obj_id, $a_usr_id = null)
     {
+        global $DIC;
+
+        $access = $DIC->access();
+
         if (!$a_usr_id) {
             $a_usr_id = $GLOBALS['DIC']['ilUser']->getId();
         }
@@ -172,15 +175,18 @@ abstract class ilParticipants
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($refs);
 
-        if ($GLOBALS['DIC']['ilAccess']->checkAccess('write', '', $ref_id)) {
+        if ($access->checkAccess('manage_members', '', $ref_id)) {
             return true;
         }
-        $part = self::getInstanceByObjId($a_obj_id);
+        $part = self::getInstance($ref_id);
         if ($part->isAssigned($a_usr_id)) {
             if ($part->getType() == 'crs') {
-                // Check for show_members
-                include_once './Modules/Course/classes/class.ilObjCourse.php';
                 if (!ilObjCourse::lookupShowMembersEnabled($a_obj_id)) {
+                    return false;
+                }
+            }
+            if ($part->getType() == 'grp') {
+                if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
             }
@@ -1246,7 +1252,7 @@ abstract class ilParticipants
         $this->participants_status = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->participants_status[$row->usr_id]['blocked'] = $row->blocked;
-            $this->participants_status[$row->usr_id]['notification']  = $row->notification;
+            $this->participants_status[$row->usr_id]['notification'] = $row->notification;
             $this->participants_status[$row->usr_id]['passed'] = $row->passed;
             // cognos-blu-patch: begin
             $this->participants_status[$row->usr_id]['contact'] = $row->contact;
@@ -1273,7 +1279,7 @@ abstract class ilParticipants
         if ($a_field) {
             include_once './Services/User/classes/class.ilObjUser.php';
 
-            $tmp_user =&ilObjectFactory::getInstanceByObjId($a_usr_id);
+            $tmp_user = &ilObjectFactory::getInstanceByObjId($a_usr_id);
             switch ($a_field) {
                 case 'login':
                     $and = "AND login = " . $ilDB->quote($tmp_user->getLogin(), 'text') . " ";
@@ -1398,7 +1404,7 @@ abstract class ilParticipants
             return false;
         }
 
-        if (!$tmp_obj =&ilObjectFactory::getInstanceByObjId($a_usr_id)) {
+        if (!$tmp_obj = &ilObjectFactory::getInstanceByObjId($a_usr_id)) {
             $ilErr->appendMessage($this->lng->txt("crs_user_not_exists"));
 
             return false;

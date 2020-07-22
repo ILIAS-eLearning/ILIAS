@@ -30,8 +30,8 @@ class ilOrgUnitPermissionQueries
         }
 
         $template_set = ilOrgUnitPermission::where([
-            'parent_id'   => ilOrgUnitPermission::PARENT_TEMPLATE,
-            'context_id'  => $context->getId(),
+            'parent_id' => ilOrgUnitPermission::PARENT_TEMPLATE,
+            'context_id' => $context->getId(),
             'position_id' => $position_id,
         ])->first();
 
@@ -60,7 +60,7 @@ class ilOrgUnitPermissionQueries
     public static function hasLocalSet($ref_id, $position_id)
     {
         return (ilOrgUnitPermission::where([
-            'parent_id'   => $ref_id,
+            'parent_id' => $ref_id,
             'position_id' => $position_id,
         ])->hasSets());
     }
@@ -93,8 +93,8 @@ class ilOrgUnitPermissionQueries
          * @var $dedicated_set ilOrgUnitPermission
          */
         $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id'   => $ref_id,
-            'context_id'  => $context->getId(),
+            'parent_id' => $ref_id,
+            'context_id' => $context->getId(),
             'position_id' => $position_id,
         ])->first();
         if ($dedicated_set) {
@@ -129,8 +129,8 @@ class ilOrgUnitPermissionQueries
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id'   => $ref_id,
-            'context_id'  => $context->getId(),
+            'parent_id' => $ref_id,
+            'context_id' => $context->getId(),
             'position_id' => $position_id,
         ])->first();
         if ($dedicated_set) {
@@ -176,10 +176,10 @@ class ilOrgUnitPermissionQueries
         }
 
         $dedicated_set = ilOrgUnitPermission::where([
-            'parent_id'   => $ref_id,
-            'context_id'  => $context->getId(),
+            'parent_id' => $ref_id,
+            'context_id' => $context->getId(),
             'position_id' => $position_id,
-            'protected'   => false,
+            'protected' => false,
         ])->first();
         if ($dedicated_set) {
             $dedicated_set->delete();

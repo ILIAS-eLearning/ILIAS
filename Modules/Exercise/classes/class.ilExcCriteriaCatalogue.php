@@ -161,7 +161,7 @@ class ilExcCriteriaCatalogue
         
         $fields = $this->getDBProperties();
         $fields["parent"] = array("integer", $this->getParent());
-        $fields["pos"] = array("integer", $this->getLastPosition()+10);
+        $fields["pos"] = array("integer", $this->getLastPosition() + 10);
         $fields["id"] = array("integer", $this->id);
         
         $ilDB->insert("exc_crit_cat", $fields);
@@ -175,7 +175,7 @@ class ilExcCriteriaCatalogue
             return $this->save();
         }
         
-        $primary = array("id"=>array("integer", $this->id));
+        $primary = array("id" => array("integer", $this->id));
         $ilDB->update("exc_crit_cat", $this->getDBProperties(), $primary);
     }
     

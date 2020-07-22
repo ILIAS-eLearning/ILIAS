@@ -173,7 +173,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
             }
             if (!$set) {
                 $params[$parameter] = $parameter;
-                $params[$key]       = $parameter;
+                $params[$key] = $parameter;
             }
         }
 

@@ -402,7 +402,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
         }
 
         // marked text spans
-        $ws= "[ \t\r\f\v\n]*";
+        $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $s_text, $found)) {
             $attribs = ilUtil::attribsToArray($found[2]);
             if (isset($attribs["class"])) {
@@ -493,7 +493,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     {
         $err_str = "";
         foreach ($a_err as $err) {
-            $err_str.= $err[1] . "<br />";
+            $err_str .= $err[1] . "<br />";
         }
         echo $err_str;
         $this->log->debug("ilPCParagraphGUI, outputError() and exit: " . substr($err_str, 0, 100));
@@ -540,7 +540,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 );
             }
             $a_tpl->parseCurrentBlock();
-            if ((($i+1) % 3) == 0) {	//
+            if ((($i + 1) % 3) == 0) {	//
                 $a_tpl->touchBlock("characteristic_row");
             }
             $i++;
@@ -677,7 +677,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         $chars = array(
             "Comment" => array("code" => "com", "txt" => $lng->txt("cont_char_style_com")),
-            "Quotation" => array("code" => "quot", "txt" =>$lng->txt("cont_char_style_quot")),
+            "Quotation" => array("code" => "quot", "txt" => $lng->txt("cont_char_style_quot")),
             "Accent" => array("code" => "acc", "txt" => $lng->txt("cont_char_style_acc")),
             "Code" => array("code" => "code", "txt" => $lng->txt("cont_char_style_code"))
             );

@@ -21,7 +21,7 @@ class ilModulesTestTasks
         //IN: targetref, titlestring
         //OUT: refid
         $input_params = $params[0];
-        $output_params =$params[1];
+        $output_params = $params[1];
 
         require_once './Modules/Test/classes/class.ilObjTest.php';
 
@@ -56,7 +56,7 @@ class ilModulesTestTasks
         //OUT: void
 
         $input_params = $params[0];
-        $output_params =$params[1];
+        $output_params = $params[1];
 
         $usr_id_list = array();
 

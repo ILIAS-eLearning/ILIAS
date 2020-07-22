@@ -461,7 +461,7 @@ class Text_Diff_Engine_native
         }
 
         $this->lcs = 0;
-        $this->seq[0]= $yoff - 1;
+        $this->seq[0] = $yoff - 1;
         $this->in_seq = array();
         $ymids[0] = array();
 
@@ -474,7 +474,7 @@ class Text_Diff_Engine_native
                 }
             }
 
-            $x1 = $xoff + (int) (($numer + ($xlim-$xoff)*$chunk) / $nchunks);
+            $x1 = $xoff + (int) (($numer + ($xlim - $xoff) * $chunk) / $nchunks);
             for (; $x < $x1; $x++) {
                 $line = $flip ? $this->yv[$x] : $this->xv[$x];
                 if (empty($ymatches[$line])) {

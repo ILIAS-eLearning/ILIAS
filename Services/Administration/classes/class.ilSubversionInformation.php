@@ -17,7 +17,7 @@ class ilSubversionInformation implements ilVersionControlInformation
     /**
      * @var string
      */
-    const SVN_LT_17_FILE  = '.svn/entries';
+    const SVN_LT_17_FILE = '.svn/entries';
     
     /**
      * @var string
@@ -118,7 +118,7 @@ class ilSubversionInformation implements ilVersionControlInformation
                 }
             }
             if (self::isProbablySubversionLower17()) {
-                $svnfile  = file(self::SVN_LT_17_FILE);
+                $svnfile = file(self::SVN_LT_17_FILE);
                 $revision = $svnfile[3];
                 if (self::isSvnRevision($revision)) {
                     $info[] = sprintf($lng->txt('svn_revision_last_change'), $revision);

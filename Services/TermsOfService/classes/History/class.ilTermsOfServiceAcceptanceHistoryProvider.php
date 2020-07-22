@@ -62,20 +62,20 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends \ilTermsOfServiceTableDa
 
             if (null !== $filter['period']['start']) {
                 $dateFilterParts[] = 'tos_acceptance_track.ts >= ' . $this->db->quote(
-                     $filter['period']['start'],
+                    $filter['period']['start'],
                     'integer'
                 );
             }
 
             if (null !== $filter['period']['end']) {
                 $dateFilterParts[] = 'tos_acceptance_track.ts <= ' . $this->db->quote(
-                     $filter['period']['end'],
+                    $filter['period']['end'],
                     'integer'
                 );
             }
 
             if (count($dateFilterParts) > 0) {
-                $where[] =  '(' . implode(' AND ', $dateFilterParts) . ')';
+                $where[] = '(' . implode(' AND ', $dateFilterParts) . ')';
             }
         }
 

@@ -1049,11 +1049,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         if (strlen($value)) {
                             $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
-                                ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
+                                ? $this->stripSlashesAddSpaceFallback($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                                 : null;
-                            $answer_data[] = array("value"=>$value,
-                                "textanswer"=>$other_value,
-                                "rowvalue"=>$matches[1]);
+                            $answer_data[] = array("value" => $value,
+                                "textanswer" => $other_value,
+                                "rowvalue" => $matches[1]);
                         }
                     }
                 }
@@ -1063,12 +1063,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         $other_value = (array_key_exists('matrix_other_' . $this->getId() . '_' . $matches[1], $post_data))
-                            ? ($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
+                            ? $this->stripSlashesAddSpaceFallback($post_data['matrix_other_' . $this->getId() . '_' . $matches[1]])
                             : null;
                         foreach ($value as $checked) {
-                            $answer_data[] = array("value"=>$checked,
-                                "textanswer"=>$other_value,
-                                "rowvalue"=>$matches[1]);
+                            $answer_data[] = array("value" => $checked,
+                                "textanswer" => $other_value,
+                                "rowvalue" => $matches[1]);
                         }
                     }
                 }

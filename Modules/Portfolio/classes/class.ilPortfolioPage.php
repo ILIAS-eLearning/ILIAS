@@ -192,7 +192,7 @@ class ilPortfolioPage extends ilPageObject
             $ilDB->update(
                 "usr_portfolio_page",
                 $fields,
-                array("id"=>array("integer", $id))
+                array("id" => array("integer", $id))
             );
 
             parent::update($a_validate, $a_no_history);
@@ -322,7 +322,7 @@ class ilPortfolioPage extends ilPageObject
                 " order_nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($p["id"], "integer")
             );
-            $cnt+= 10;
+            $cnt += 10;
         }
     }
     

@@ -51,7 +51,7 @@ class ilOrgUnitTypeTranslation
     protected static $instances = array();
 
 
-    public function __construct($a_org_type_id=0, $a_lang_code='')
+    public function __construct($a_org_type_id = 0, $a_lang_code = '')
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

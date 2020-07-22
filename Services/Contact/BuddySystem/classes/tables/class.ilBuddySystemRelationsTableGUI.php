@@ -63,9 +63,9 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
          */
         global $DIC;
 
-        $this->ctrl           = $DIC['ilCtrl'];
-        $this->container_tpl  = $DIC['tpl'];
-        $this->user           = $DIC['ilUser'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->container_tpl = $DIC['tpl'];
+        $this->user = $DIC['ilUser'];
 
         $this->setId('buddy_system_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -112,7 +112,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     public function initFilter()
     {
         $this->filters = array();
-        $this->filter  = array();
+        $this->filter = array();
 
         require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateFactory.php';
 
@@ -155,7 +155,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         require_once 'Services/User/classes/class.ilUserUtil.php';
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
-        $logins       = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
+        $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
         $logins = array_map(function ($value) {
             $matches = null;
@@ -179,9 +179,9 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         foreach ($relations->toArray() as $usr_id => $relation) {
             $data[] = array(
-                'usr_id'        => $usr_id,
-                'public_name'   => $public_names[$usr_id],
-                'login'         => $logins[$usr_id]
+                'usr_id' => $usr_id,
+                'public_name' => $public_names[$usr_id],
+                'login' => $logins[$usr_id]
             );
         }
 
@@ -203,14 +203,14 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         if (!$this->user->isAnonymous() && $public_profile == 'y' || $public_profile == 'g') {
             $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $a_set['usr_id']);
             $profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
-            $a_set['profile_link']       = $profile_target;
+            $a_set['profile_link'] = $profile_target;
             $a_set['linked_public_name'] = $a_set['public_name'];
 
             $a_set['profile_link_login'] = $profile_target;
-            $a_set['linked_login']       = $a_set['login'];
+            $a_set['linked_login'] = $a_set['login'];
         } else {
             $a_set['unlinked_public_name'] = $a_set['public_name'];
-            $a_set['unlinked_login']       = $a_set['login'];
+            $a_set['unlinked_login'] = $a_set['login'];
         }
 
         $a_set['contact_actions'] = ilBuddySystemLinkButton::getInstanceByUserId($a_set['usr_id'])->getHtml();

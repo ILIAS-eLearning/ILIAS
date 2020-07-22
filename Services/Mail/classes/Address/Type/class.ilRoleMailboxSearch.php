@@ -101,13 +101,13 @@ class ilRoleMailboxSearch
 
             if (substr($local_part, 0, 8) == 'il_role_') {
                 $role_id = substr($local_part, 8);
-                $query   = "SELECT t.tree " .
+                $query = "SELECT t.tree " .
                     "FROM rbac_fa fa " .
                     "JOIN tree t ON t.child = fa.parent " .
                     "WHERE fa.rol_id = " . $this->db->quote($role_id, 'integer') . " " .
                     "AND fa.assign = 'y' " .
                     "AND t.tree = 1";
-                $res     = $this->db->query($query);
+                $res = $this->db->query($query);
                 if ($this->db->numRows($res) > 0) {
                     $role_ids[] = $role_id;
                 }
@@ -160,7 +160,7 @@ class ilRoleMailboxSearch
             // Nothing found?
             // In this case, we search for roles = host.
             if ($count == 0 && strtolower($address->getHost()) == \ilMail::ILIAS_HOST) {
-                $q   = "SELECT dat.obj_id " .
+                $q = "SELECT dat.obj_id " .
                     "FROM object_data dat " .
                     "JOIN object_reference ref ON ref.obj_id = dat.obj_id " .
                     "JOIN tree t ON t.child = ref.ref_id " .

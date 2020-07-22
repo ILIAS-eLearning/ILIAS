@@ -154,10 +154,10 @@ class ilQTIParser extends ilSaxParser
         $this->qpl_id = $a_qpl_id;
         $this->import_idents = array();
         if (is_array($a_import_idents)) {
-            $this->import_idents =&$a_import_idents;
+            $this->import_idents = &$a_import_idents;
         }
         
-        $this->lng =&$lng;
+        $this->lng = &$lng;
         $this->hasRootElement = false;
         $this->import_mapping = array();
         $this->assessments = array();
@@ -218,7 +218,7 @@ class ilQTIParser extends ilSaxParser
     
     public function setTestObject(&$a_tst_object)
     {
-        $this->tst_object =&$a_tst_object;
+        $this->tst_object = &$a_tst_object;
         if (is_object($a_tst_object)) {
             $this->tst_id = $this->tst_object->getId();
         }
@@ -260,7 +260,7 @@ class ilQTIParser extends ilSaxParser
     public function getParent($a_xml_parser)
     {
         if ($this->depth[$a_xml_parser] > 0) {
-            return $this->path[$this->depth[$a_xml_parser]-1];
+            return $this->path[$this->depth[$a_xml_parser] - 1];
         } else {
             return "";
         }
@@ -298,7 +298,7 @@ class ilQTIParser extends ilSaxParser
         switch (strtolower($a_name)) {
             case "assessment":
                 include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
-                $this->assessment =&$this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+                $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
                 $this->in_assessment = true;
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -339,7 +339,7 @@ class ilQTIParser extends ilSaxParser
                 break;
             case 'presentation_material':
                 require_once 'Services/QTI/classes/class.ilQTIPresentationMaterial.php';
-                $this->prensentation_material    = new ilQTIPresentationMaterial();
+                $this->prensentation_material = new ilQTIPresentationMaterial();
                 $this->in_prensentation_material = true;
                 break;
             case "section":
@@ -930,7 +930,7 @@ class ilQTIParser extends ilSaxParser
             case "item":
                 include_once("./Services/QTI/classes/class.ilQTIItem.php");
                 $this->gap_index = 0;
-                $this->item =&$this->items[array_push($this->items, new ilQTIItem())-1];
+                $this->item = &$this->items[array_push($this->items, new ilQTIItem()) - 1];
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
@@ -1058,7 +1058,7 @@ class ilQTIParser extends ilSaxParser
                 if (count($this->flow_mat)) {
                     $flow_mat = array_pop($this->flow_mat);
                     if (count($this->flow_mat)) {
-                        $this->flow_mat[count($this->flow_mat)-1]->addFlow_mat($flow_mat);
+                        $this->flow_mat[count($this->flow_mat) - 1]->addFlow_mat($flow_mat);
                     } elseif ($this->in_prensentation_material) {
                         $this->prensentation_material->addFlowMat($flow_mat);
                     } elseif ($this->itemfeedback != null) {
@@ -1224,7 +1224,7 @@ class ilQTIParser extends ilSaxParser
                     } elseif (($this->render_type != null) && (strcmp(strtolower($this->getParent($a_xml_parser)), "render_hotspot") == 0)) {
                         $this->render_type->addMaterial($this->material);
                     } elseif (count($this->flow_mat) && (strcmp(strtolower($this->getParent($a_xml_parser)), "flow_mat") == 0)) {
-                        $this->flow_mat[count($this->flow_mat)-1]->addMaterial($this->material);
+                        $this->flow_mat[count($this->flow_mat) - 1]->addMaterial($this->material);
                     } elseif ($this->itemfeedback != null) {
                         $this->itemfeedback->addMaterial($this->material);
                     } elseif ($this->response_label != null) {
@@ -1420,7 +1420,7 @@ class ilQTIParser extends ilSaxParser
         switch (strtolower($a_name)) {
             case "assessment":
                 include_once("./Services/QTI/classes/class.ilQTIAssessment.php");
-                $this->assessment =&$this->assessments[array_push($this->assessments, new ilQTIAssessment())-1];
+                $this->assessment = &$this->assessments[array_push($this->assessments, new ilQTIAssessment()) - 1];
                 $this->in_assessment = true;
                 if (is_array($a_attribs)) {
                     foreach ($a_attribs as $attribute => $value) {
@@ -1468,7 +1468,7 @@ class ilQTIParser extends ilSaxParser
                 array_push($this->founditems, array("title" => "$title", "type" => "", "ident" => $a_attribs["ident"]));
                 break;
             case "response_lid":
-                if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0) {
+                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
                     // test for non ILIAS generated question types
                     if (is_array($a_attribs)) {
                         foreach ($a_attribs as $attribute => $value) {
@@ -1477,13 +1477,13 @@ class ilQTIParser extends ilSaxParser
                                     include_once "./Services/QTI/classes/class.ilQTIItem.php";
                                     switch (strtolower($value)) {
                                         case "single":
-                                            $this->founditems[count($this->founditems)-1]["type"] = QT_MULTIPLE_CHOICE_SR;
+                                            $this->founditems[count($this->founditems) - 1]["type"] = QT_MULTIPLE_CHOICE_SR;
                                             break;
                                         case "multiple":
-                                            $this->founditems[count($this->founditems)-1]["type"] = QT_MULTIPLE_CHOICE_MR;
+                                            $this->founditems[count($this->founditems) - 1]["type"] = QT_MULTIPLE_CHOICE_MR;
                                             break;
                                         case "ordered":
-                                            $this->founditems[count($this->founditems)-1]["type"] = QT_ORDERING;
+                                            $this->founditems[count($this->founditems) - 1]["type"] = QT_ORDERING;
                                             break;
                                     }
                                     break;
@@ -1493,7 +1493,7 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "response_str":
-                if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0) {
+                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
                     // test for non ILIAS generated question types
                     if (is_array($a_attribs)) {
                         foreach ($a_attribs as $attribute => $value) {
@@ -1502,10 +1502,10 @@ class ilQTIParser extends ilSaxParser
                                     include_once "./Services/QTI/classes/class.ilQTIItem.php";
                                     switch (strtolower($value)) {
                                         case "single":
-                                            $this->founditems[count($this->founditems)-1]["type"] = QT_CLOZE;
+                                            $this->founditems[count($this->founditems) - 1]["type"] = QT_CLOZE;
                                             break;
                                         case "ordered":
-                                            $this->founditems[count($this->founditems)-1]["type"] = QT_TEXT;
+                                            $this->founditems[count($this->founditems) - 1]["type"] = QT_TEXT;
                                             break;
                                     }
                                     break;
@@ -1515,18 +1515,18 @@ class ilQTIParser extends ilSaxParser
                 }
                 break;
             case "response_xy":
-                if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0) {
-                    $this->founditems[count($this->founditems)-1]["type"] = QT_IMAGEMAP;
+                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
+                    $this->founditems[count($this->founditems) - 1]["type"] = QT_IMAGEMAP;
                 }
                 break;
             case "response_num":
-                if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0) {
-                    $this->founditems[count($this->founditems)-1]["type"] = QT_NUMERIC;
+                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
+                    $this->founditems[count($this->founditems) - 1]["type"] = QT_NUMERIC;
                 }
                 break;
             case "response_grp":
-                if (strlen($this->founditems[count($this->founditems)-1]["type"]) == 0) {
-                    $this->founditems[count($this->founditems)-1]["type"] = QT_MATCHING;
+                if (strlen($this->founditems[count($this->founditems) - 1]["type"]) == 0) {
+                    $this->founditems[count($this->founditems) - 1]["type"] = QT_MATCHING;
                 }
                 break;
             case "qticomment":
@@ -1538,7 +1538,7 @@ class ilQTIParser extends ilSaxParser
                     foreach ($a_attribs as $attribute => $value) {
                         switch (strtolower($attribute)) {
                             case "label":
-                                $this->founditems[count($this->founditems)-1]["title"] = $value;
+                                $this->founditems[count($this->founditems) - 1]["title"] = $value;
                                 break;
                         }
                     }
@@ -1576,7 +1576,7 @@ class ilQTIParser extends ilSaxParser
             case "qtimetadatafield":
                 $this->verifymetadatafield = 0;
                 if (strcmp($this->verifyfieldlabeltext, "QUESTIONTYPE") == 0) {
-                    $this->founditems[count($this->founditems)-1]["type"] = $this->verifyfieldentrytext;
+                    $this->founditems[count($this->founditems) - 1]["type"] = $this->verifyfieldentrytext;
                 }
                 if ($this->in_assessment) {
                     $this->assessment->addQtiMetadata($this->metadata);
@@ -1600,7 +1600,7 @@ class ilQTIParser extends ilSaxParser
         if ($this->verifyqticomment == 1) {
             if (preg_match("/Questiontype\=(.*)/", $a_data, $matches)) {
                 if (count($this->founditems)) {
-                    $this->founditems[count($this->founditems)-1]["type"] = $matches[1];
+                    $this->founditems[count($this->founditems) - 1]["type"] = $matches[1];
                 }
             }
         } elseif ($this->verifyfieldlabel == 1) {
@@ -1645,7 +1645,7 @@ class ilQTIParser extends ilSaxParser
         $questionIdMapping = array();
 
         foreach ((array) $this->getImportMapping() as $k => $v) {
-            $oldQuestionId = substr($k, strpos($k, 'qst_')+strlen('qst_'));
+            $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
             $newQuestionId = $v['test']; // yes, this is the new question id ^^
 
             $questionIdMapping[$oldQuestionId] = $newQuestionId;

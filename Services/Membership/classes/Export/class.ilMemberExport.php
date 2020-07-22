@@ -242,7 +242,7 @@ class ilMemberExport
                 break;
                 
             case self::EXPORT_EXCEL:
-                $this->worksheet->setCell($a_row+1, $a_col, $a_value);
+                $this->worksheet->setCell($a_row + 1, $a_col, $a_value);
                 break;
         }
     }
@@ -662,7 +662,7 @@ class ilMemberExport
             $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id  && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $tree->checkForParentType($group_data["ref_id"], "grp", true)) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];

@@ -95,7 +95,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
         foreach ($instance_vars as $instance_var) {
             if ($instance_var['id'] == $this->var_name) {
                 if ($instance_var['reference']) {
-                    $target    = $instance_var['target'];
+                    $target = $instance_var['target'];
                 }
             }
         }

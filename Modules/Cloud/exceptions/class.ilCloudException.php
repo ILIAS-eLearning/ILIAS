@@ -15,9 +15,9 @@ class ilCloudException extends ilException
 {
     const UNKNONW_EXCEPTION = -1;
 
-    const NO_SERVICE_ACTIVE   = 1001;
+    const NO_SERVICE_ACTIVE = 1001;
     const NO_SERVICE_SELECTED = 1002;
-    const SERVICE_NOT_ACTIVE  = 1003;
+    const SERVICE_NOT_ACTIVE = 1003;
     const SERVICE_CLASS_FILE_NOT_FOUND = 1004;
     const PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED = 1005;
 

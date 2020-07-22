@@ -67,28 +67,21 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
         $this->setSkipRootNode(false);
         $this->setAjax(true);
 
-        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
 
-        $frm               = new ilForum();
+        $frm = new ilForum();
         $this->max_entries = (int) $frm->getPageHits();
     }
 
     /**
-     * @return ilForumTopic
-     */
-    public function getThread()
-    {
-        return $this->thread;
-    }
-
-    /**
      * @param ilForumTopic $thread
+     * @param ilForumPost $firstNode
      */
-    public function setThread($thread)
+    public function setThread(ilForumTopic $thread, ilForumPost $firstNode)
     {
-        $this->thread    = $thread;
-        $this->root_node = $thread->getFirstPostNode();
+        $this->thread = $thread;
+        $this->root_node = $firstNode;
         $this->root_node->setIsRead($this->root_node->isRead($this->root_node->getPosAuthorId()));
         $this->setNodeOpen($this->root_node->getId());
 
@@ -119,14 +112,14 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
         }
 
         return array(
-            'pos_pk'              => $this->root_node->getId(),
-            'pos_subject'         => $this->root_node->getSubject(),
-            'pos_author_id'       => $this->root_node->getPosAuthorId(),
+            'pos_pk' => $this->root_node->getId(),
+            'pos_subject' => $this->root_node->getSubject(),
+            'pos_author_id' => $this->root_node->getPosAuthorId(),
             'pos_display_user_id' => $this->root_node->getDisplayUserId(),
-            'pos_usr_alias'       => $this->root_node->getUserAlias(),
-            'pos_date'            => $this->root_node->getCreateDate(),
-            'import_name'         => $this->root_node->getImportName(),
-            'post_read'           => $this->root_node->isPostRead()
+            'pos_usr_alias' => $this->root_node->getUserAlias(),
+            'pos_date' => $this->root_node->getCreateDate(),
+            'import_name' => $this->root_node->getImportName(),
+            'post_read' => $this->root_node->isPostRead()
         );
     }
 
@@ -148,6 +141,8 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
             if (isset($this->preloaded_children[$a_parent_node_id])) {
                 return $this->preloaded_children[$a_parent_node_id];
             }
+
+            return [];
         }
 
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
@@ -158,7 +153,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
      */
     public function preloadChildren()
     {
-        $this->preloaded_children            = array();
+        $this->preloaded_children = array();
         $this->node_id_to_parent_node_id_map = array();
 
         $children = $this->thread->getNestedSetPostChildren($this->root_node->getId());
@@ -288,7 +283,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
     public function beforeRendering()
     {
         if (isset($_GET['post_created_below']) && (int) $_GET['post_created_below'] > 0) {
-            $parent  = (int) $_GET['post_created_below'];
+            $parent = (int) $_GET['post_created_below'];
             do {
                 $this->setNodeOpen((int) $parent);
             } while ($parent = $this->node_id_to_parent_node_id_map[$parent]);
@@ -308,7 +303,7 @@ class ilForumExplorerGUI extends ilExplorerBaseGUI
 
         $this->tpl->addOnLoadCode('il.ForumExplorer.init(' . json_encode(array(
             'selectors' => array(
-                'container'        => '#' . $this->getContainerId(),
+                'container' => '#' . $this->getContainerId(),
                 'unlinked_content' => '.' . $this->getUnlinkedNodeContentClass()
             )
         )) . ');');

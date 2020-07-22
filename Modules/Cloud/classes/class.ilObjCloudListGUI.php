@@ -22,15 +22,15 @@ class ilObjCloudListGUI extends ilObjectListGUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $this->copy_enabled        = false;
-        $this->delete_enabled      = true;
-        $this->cut_enabled         = false;
-        $this->subscribe_enabled   = true;
-        $this->link_enabled        = false;
+        $this->copy_enabled = false;
+        $this->delete_enabled = true;
+        $this->cut_enabled = false;
+        $this->subscribe_enabled = true;
+        $this->link_enabled = false;
         $this->info_screen_enabled = true;
-        $this->timings_enabled     = true;
-        $this->type                = "cld";
-        $this->gui_class_name      = "ilobjcloudgui";
+        $this->timings_enabled = true;
+        $this->type = "cld";
+        $this->gui_class_name = "ilobjcloudgui";
 
         // general commands array
         include_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
@@ -147,7 +147,7 @@ class ilObjCloudListGUI extends ilObjectListGUI
                 array_push(
                     $custom_urls,
                     [
-                        "id"   => $custom_list_action["lang_var"],
+                        "id" => $custom_list_action["lang_var"],
                         "link" => $custom_list_action["custom_url"],
                     ]
                 );

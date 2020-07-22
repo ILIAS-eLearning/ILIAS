@@ -31,7 +31,12 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $exp = $subitems->getExplorerGUI();
         $exp->setSkipRootNode(true);
         $exp->setRootId($this->parent_ref_id);
-        $exp->setTypeWhiteList($this->getLPTypes($this->parent_ref_id));
+        $white = $this->getLPTypes($this->parent_ref_id);
+        $exp->setSelectableTypes($white);
+        if (!in_array("fold", $white)) {
+            $white[] = "fold";
+        }
+        $exp->setTypeWhiteList($white);
         $subitems->setTitleModifier(function ($a_id) {
             $obj_id = ilObject::_lookupObjId($a_id);
             $olp = ilObjectLP::getInstance($obj_id);

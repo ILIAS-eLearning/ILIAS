@@ -608,14 +608,14 @@ class ilLOSettings
         $writer->xmlElement(
             'Settings',
             array(
-                'initialTestType'			=> (int) $this->getInitialTestType(),
-                'initialTestStart'			=> (int) $this->isInitialTestStart(),
-                'qualifyingTestType'		=> (int) $this->getQualifyingTestType(),
-                'qualifyingTestStart'		=> (int) $this->isQualifyingTestStart(),
-                'resetResults'				=> (int) $this->isResetResultsEnabled(),
-                'passedObjectivesMode'		=> (int) $this->getPassedObjectiveMode(),
-                'iTest'						=> (int) $this->getInitialTest(),
-                'qTest'						=> (int) $this->getQualifiedTest()
+                'initialTestType' => (int) $this->getInitialTestType(),
+                'initialTestStart' => (int) $this->isInitialTestStart(),
+                'qualifyingTestType' => (int) $this->getQualifyingTestType(),
+                'qualifyingTestStart' => (int) $this->isQualifyingTestStart(),
+                'resetResults' => (int) $this->isResetResultsEnabled(),
+                'passedObjectivesMode' => (int) $this->getPassedObjectiveMode(),
+                'iTest' => (int) $this->getInitialTest(),
+                'qTest' => (int) $this->getQualifiedTest()
             )
         );
     }

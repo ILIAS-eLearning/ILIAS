@@ -16,11 +16,11 @@ include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 */
 class ilTestScoringGUI extends ilTestServiceGUI
 {
-    const PART_FILTER_ACTIVE_ONLY			= 1;
-    const PART_FILTER_INACTIVE_ONLY			= 2;
-    const PART_FILTER_ALL_USERS				= 3; // default
-    const PART_FILTER_MANSCORING_DONE		= 4;
-    const PART_FILTER_MANSCORING_NONE		= 5;
+    const PART_FILTER_ACTIVE_ONLY = 1;
+    const PART_FILTER_INACTIVE_ONLY = 2;
+    const PART_FILTER_ALL_USERS = 3; // default
+    const PART_FILTER_MANSCORING_DONE = 4;
+    const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
     
     /**
@@ -346,10 +346,10 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $scorer->recalculateSolutions();
         
         if ($this->object->getAnonymity() == 0) {
-            $user_name 				= ilObjUser::_lookupName(ilObjTestAccess::_getParticipantId($activeId));
-            $name_real_or_anon 		= $user_name['firstname'] . ' ' . $user_name['lastname'];
+            $user_name = ilObjUser::_lookupName(ilObjTestAccess::_getParticipantId($activeId));
+            $name_real_or_anon = $user_name['firstname'] . ' ' . $user_name['lastname'];
         } else {
-            $name_real_or_anon 		= $lng->txt('anonymous');
+            $name_real_or_anon = $lng->txt('anonymous');
         }
         ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $name_real_or_anon), true);
         if ($redirect == true) {

@@ -39,8 +39,8 @@ class ilMailCronOrphanedMailsNotifier
 
         $this->db = $DIC->database();
 
-        $this->collector            = $collector;
-        $this->threshold            = $threshold;
+        $this->collector = $collector;
+        $this->threshold = $threshold;
         $this->mail_notify_orphaned = $mail_notify_orphaned;
     }
 
@@ -55,7 +55,7 @@ class ilMailCronOrphanedMailsNotifier
             $notify_days_before = 1;
         }
 
-        $ts_delete       = strtotime("+ " . $notify_days_before . " days");
+        $ts_delete = strtotime("+ " . $notify_days_before . " days");
         $ts_for_deletion = mktime(0, 0, 0, date('m', $ts_delete), date('d', $ts_delete), date('Y', $ts_delete));
 
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
@@ -65,12 +65,12 @@ class ilMailCronOrphanedMailsNotifier
                 $mail_id = $mail_obj->getMailId();
             
                 $this->db->insert(
-                        'mail_cron_orphaned',
-                        array(
-                        'mail_id' 		=> array('integer', $mail_id),
-                        'folder_id'		=> array('integer', $folder_id),
-                        'ts_do_delete'	=> array('integer', $ts_for_deletion))
-                    );
+                    'mail_cron_orphaned',
+                    array(
+                        'mail_id' => array('integer', $mail_id),
+                        'folder_id' => array('integer', $folder_id),
+                        'ts_do_delete' => array('integer', $ts_for_deletion))
+                );
             }
         }
     }

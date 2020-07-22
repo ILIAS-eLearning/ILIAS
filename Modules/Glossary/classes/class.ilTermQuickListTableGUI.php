@@ -63,7 +63,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
         
         $sep = ": ";
-        for ($j=0; $j < count($defs); $j++) {
+        for ($j = 0; $j < count($defs); $j++) {
             $def = $defs[$j];
 
             $this->tpl->setCurrentBlock("definition");
@@ -75,7 +75,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
                 "iltermdefinitioneditorgui",
                 "ilglossarydefpagegui"), "edit")
             );
-            $this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr") . ($j+1));
+            $this->tpl->setVariable("TEXT_DEF", $this->lng->txt("glo_definition_abbr") . ($j + 1));
             $this->tpl->parseCurrentBlock();
             $sep = ", ";
         }

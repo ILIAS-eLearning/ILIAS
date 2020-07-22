@@ -100,17 +100,17 @@ class assOrderingQuestionExport extends assQuestionExport
         $attrs = array();
 
         if ($this->object->getOrderingType() == OQ_PICTURES) {
-            $ordering_type ='OQP';
+            $ordering_type = 'OQP';
         } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
-            $ordering_type ='OQNP';
+            $ordering_type = 'OQNP';
         } elseif ($this->object->getOrderingType() == OQ_NESTED_TERMS) {
-            $ordering_type ='OQNT';
+            $ordering_type = 'OQNT';
         } elseif ($this->object->getOrderingType() == OQ_TERMS) {
-            $ordering_type ='OQT';
+            $ordering_type = 'OQT';
         }
 
         $attrs = array(
-            "ident"        => $ordering_type,
+            "ident" => $ordering_type,
             "rcardinality" => "Ordered"
         );
 
@@ -218,13 +218,13 @@ class assOrderingQuestionExport extends assQuestionExport
             $attrs = array();
             
             if ($this->object->getOrderingType() == OQ_PICTURES) {
-                $ordering_type ='OQP';
+                $ordering_type = 'OQP';
             } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
-                $ordering_type ='OQNP';
+                $ordering_type = 'OQNP';
             } elseif ($this->object->getOrderingType() == OQ_NESTED_TERMS) {
-                $ordering_type ='OQNT';
+                $ordering_type = 'OQNT';
             } elseif ($this->object->getOrderingType() == OQ_TERMS) {
-                $ordering_type ='OQT';
+                $ordering_type = 'OQT';
             }
             
             $attrs = array("respident" => $ordering_type);
@@ -263,13 +263,13 @@ class assOrderingQuestionExport extends assQuestionExport
                 $attrs = array();
                 
                 if ($this->object->getOrderingType() == OQ_PICTURES) {
-                    $ordering_type ='OQP';
+                    $ordering_type = 'OQP';
                 } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
-                    $ordering_type ='OQNP';
+                    $ordering_type = 'OQNP';
                 } elseif ($this->object->getOrderingType() == OQ_NESTED_TERMS) {
-                    $ordering_type ='OQNT';
+                    $ordering_type = 'OQNT';
                 } elseif ($this->object->getOrderingType() == OQ_TERMS) {
-                    $ordering_type ='OQT';
+                    $ordering_type = 'OQT';
                 }
 
                 $attrs = array("respident" => $ordering_type);
@@ -304,13 +304,13 @@ class assOrderingQuestionExport extends assQuestionExport
             foreach ($this->object->getOrderingElementList() as $element) {
                 $attrs = array();
                 if ($this->object->getOrderingType() == OQ_PICTURES) {
-                    $ordering_type ='OQP';
+                    $ordering_type = 'OQP';
                 } elseif ($this->object->getOrderingType() == OQ_NESTED_PICTURES) {
-                    $ordering_type ='OQNP';
+                    $ordering_type = 'OQNP';
                 } elseif ($this->object->getOrderingType() == OQ_NESTED_TERMS) {
-                    $ordering_type ='OQNT';
+                    $ordering_type = 'OQNT';
                 } elseif ($this->object->getOrderingType() == OQ_TERMS) {
-                    $ordering_type ='OQT';
+                    $ordering_type = 'OQT';
                 }
 
                 $attrs = array("respident" => $ordering_type);

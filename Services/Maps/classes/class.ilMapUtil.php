@@ -194,8 +194,8 @@ class ilMapUtil
         global $DIC;
         $lng = $DIC['lng'];
         $lng->loadLanguageModule("maps");
-        return array( "openlayers" 	=> $lng->txt("maps_open_layers_maps")
-                    , "googlemaps"	=> $lng->txt("maps_google_maps")
+        return array( "openlayers" => $lng->txt("maps_open_layers_maps")
+                    , "googlemaps" => $lng->txt("maps_google_maps")
                     );
     }
 }

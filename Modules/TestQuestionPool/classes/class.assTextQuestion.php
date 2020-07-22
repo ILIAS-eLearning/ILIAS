@@ -488,7 +488,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 $points = 0;
 
                 foreach ($answers as $answer) {
-                    $qst_answer  = $answer->getAnswertext();
+                    $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
 
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
@@ -503,7 +503,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 $points = $this->getMaximumPoints();
 
                 foreach ($answers as $answer) {
-                    $qst_answer  = $answer->getAnswertext();
+                    $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
 
                     if (!$this->isKeywordMatching($user_answer, $qst_answer)) {
@@ -519,7 +519,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 $points = 0;
 
                 foreach ($answers as $answer) {
-                    $qst_answer  = $answer->getAnswertext();
+                    $qst_answer = $answer->getAnswertext();
                     $user_answer = '  ' . $solution;
 
                     if ($this->isKeywordMatching($user_answer, $qst_answer)) {
@@ -802,7 +802,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $result['id'] = (int) $this->getId();
         $result['type'] = (string) $this->getQuestionType();
         $result['title'] = (string) $this->getTitle();
-        $result['question'] =  $this->formatSAQuestion($this->getQuestion());
+        $result['question'] = $this->formatSAQuestion($this->getQuestion());
         $result['nr_of_tries'] = (int) $this->getNrOfTries();
         $result['shuffle'] = (bool) $this->getShuffle();
         $result['maxlength'] = (int) $this->getMaxNumOfChars();

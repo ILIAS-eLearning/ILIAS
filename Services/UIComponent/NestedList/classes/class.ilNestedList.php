@@ -151,7 +151,7 @@ class ilNestedList
         $nr_str = $sep = "";
         if ($this->getAutoNumbering()) {
             for ($i = 1; $i <= $depth; $i++) {
-                $nr_str.= $sep . $nr[$i];
+                $nr_str .= $sep . $nr[$i];
                 $sep = ".";
             }
         }

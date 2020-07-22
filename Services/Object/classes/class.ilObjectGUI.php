@@ -910,7 +910,7 @@ class ilObjectGUI
         
         $lng->loadLanguageModule('didactic');
         $existing_exclusive = false;
-        $options = array();
+        $options = [];
         $options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
             sprintf(
                 $this->lng->txt('didactic_default_type_info'),
@@ -966,8 +966,8 @@ class ilObjectGUI
             foreach ($options as $id => $data) {
                 $option = new ilRadioOption($data[0], $id, $data[1]);
 
-                if ($existing_exclusive && $id == "dtpl_0" && $this->getCreationMode()) {
-                    //set default disabled if an exclusive template exists but just in creation screen
+                if ($existing_exclusive && $id == 'dtpl_0') {
+                    //set default disabled if an exclusive template exists
                     $option->setDisabled(true);
                 }
 
@@ -1067,8 +1067,8 @@ class ilObjectGUI
     public function getDidacticTemplateVar($a_type)
     {
         $tpl = $_POST["didactic_type"];
-        if ($tpl && substr($tpl, 0, strlen($a_type)+1) == $a_type . "_") {
-            return (int) substr($tpl, strlen($a_type)+1);
+        if ($tpl && substr($tpl, 0, strlen($a_type) + 1) == $a_type . "_") {
+            return (int) substr($tpl, strlen($a_type) + 1);
         }
         return 0;
     }
@@ -1456,7 +1456,7 @@ class ilObjectGUI
     *									return location was set)
     * @access	public
     */
-    protected function getReturnLocation($a_cmd, $a_location ="")
+    protected function getReturnLocation($a_cmd, $a_location = "")
     {
         if ($this->return_location[$a_cmd] != "") {
             return $this->return_location[$a_cmd];
@@ -1518,7 +1518,7 @@ class ilObjectGUI
             if ($crs_id = $tree->checkForParentType($a_ref_id, 'crs')) {
                 if (!$this->checkPermissionBool("write", "", "", $crs_id)) {
                     // Show only activated courses
-                    $tmp_obj =&ilObjectFactory::getInstanceByRefId($crs_id, false);
+                    $tmp_obj = &ilObjectFactory::getInstanceByRefId($crs_id, false);
     
                     if (!$tmp_obj->isActivated()) {
                         unset($tmp_obj);
@@ -1623,7 +1623,7 @@ class ilObjectGUI
 
                 if ($row["max"] > 0) {
                     //how many elements are present?
-                    for ($i=0; $i<count($this->data["ctrl"]); $i++) {
+                    for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
                         if ($this->data["ctrl"][$i]["type"] == $row["name"]) {
                             $count++;
                         }
@@ -2064,7 +2064,7 @@ class ilObjectGUI
             if ($a_form) {
                 global $DIC;
                 /** @var \ilObjectCustomIconFactory  $customIconFactory */
-                $customIconFactory        = $DIC['object.customicons.factory'];
+                $customIconFactory = $DIC['object.customicons.factory'];
 
                 $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
@@ -2077,7 +2077,7 @@ class ilObjectGUI
                 $a_form->addItem($title);
 
                 $caption = $this->lng->txt("cont_custom_icon");
-                $icon    = new ilImageFileInputGUI($caption, "cont_icon");
+                $icon = new ilImageFileInputGUI($caption, "cont_icon");
 
                 $icon->setSuffixes($customIcon->getSupportedFileExtensions());
                 $icon->setUseCache(false);

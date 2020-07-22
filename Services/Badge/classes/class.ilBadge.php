@@ -418,7 +418,7 @@ class ilBadge
         $ilDB->update(
             "badge_badge",
             $fields,
-            array("id"=>array("integer", $this->getId()))
+            array("id" => array("integer", $this->getId()))
         );
     }
     

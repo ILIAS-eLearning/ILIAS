@@ -149,7 +149,7 @@ class ilCalendarShared
      * @return array shared calendar info
      * @static
      */
-    public static function getSharedCalendarsForUser($a_usr_id  = 0)
+    public static function getSharedCalendarsForUser($a_usr_id = 0)
     {
         global $DIC;
 

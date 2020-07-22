@@ -51,8 +51,8 @@ class ilFSStorageExercise5069 extends ilFileSystemStorage5069
                 $this->tmp_path = $this->path . "/tmp_" . $this->ass_id;
                 $this->feedb_path = $this->path . "/feedb_" . $this->ass_id;
                 $this->multi_feedback_upload_path = $this->path . "/mfb_up_" . $this->ass_id;
-                $this->peer_review_upload_path =  $this->path . "/peer_up_" . $this->ass_id;
-                $this->path.= "/ass_" . $this->ass_id;
+                $this->peer_review_upload_path = $this->path . "/peer_up_" . $this->ass_id;
+                $this->path .= "/ass_" . $this->ass_id;
             }
         } else {
             return false;
@@ -185,9 +185,9 @@ class ilFSStorageExercise5069 extends ilFileSystemStorage5069
         while ($file = readdir($dp)) {
             if (!is_dir($this->path . '/' . $file)) {
                 $files[] = array(
-                    'name'     => $file,
-                    'size'     => filesize($this->path . '/' . $file),
-                    'ctime'    => filectime($this->path . '/' . $file),
+                    'name' => $file,
+                    'size' => filesize($this->path . '/' . $file),
+                    'ctime' => filectime($this->path . '/' . $file),
                     'fullpath' => $this->path . '/' . $file);
             }
         }
@@ -266,7 +266,7 @@ class ilFSStorageExercise5069 extends ilFileSystemStorage5069
                 $result = array(
                     "filename" => $prefix . "_" . $filename,
                     "fullname" => $savepath . "/" . $prefix . "_" . $filename,
-                    "mimetype" =>	ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
+                    "mimetype" => ilObjMediaObject::getMimeType($savepath . "/" . $prefix . "_" . $filename)
                 );
             }
         }

@@ -29,10 +29,10 @@ class ilMailForm
         if ($search_recipients) {
             $sent_mails_recipient_provider = new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term);
         }
-        $approved_contacts             = new ilMailAutoCompleteBuddyRecipientsProvider($quoted_term, $term);
-        $user                          = new ilMailAutoCompleteUserProvider($quoted_term, $term);
+        $approved_contacts = new ilMailAutoCompleteBuddyRecipientsProvider($quoted_term, $term);
+        $user = new ilMailAutoCompleteUserProvider($quoted_term, $term);
 
-        $result                        = new ilMailAutocompleteRecipientResult(
+        $result = new ilMailAutocompleteRecipientResult(
             isset($_GET['fetchall']) && (int) $_GET['fetchall'] ?
             ilMailAutocompleteRecipientResult::MODE_FETCH_ALL :
             ilMailAutocompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES

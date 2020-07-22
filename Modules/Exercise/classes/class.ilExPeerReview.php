@@ -81,7 +81,7 @@ class ilExPeerReview
             $rater_ids = $user_ids;
             $matrix = array();
 
-            $max = min(sizeof($user_ids)-1, $this->assignment->getPeerReviewMin());
+            $max = min(sizeof($user_ids) - 1, $this->assignment->getPeerReviewMin());
             for ($loop = 0; $loop < $max; $loop++) {
                 $run_ids = array_combine($user_ids, $user_ids);
                 
@@ -235,7 +235,7 @@ class ilExPeerReview
             $items = @unserialize($data);
             if (!is_array($items)) {
                 // v1 - pcomment == text
-                $items = array("text"=>$data);
+                $items = array("text" => $data);
             }
             return $items;
         }
@@ -283,7 +283,7 @@ class ilExPeerReview
             $values = @unserialize($data);
             if (!is_array($values)) {
                 // v1 - pcomment == text
-                $values = array("text"=>$data);
+                $values = array("text" => $data);
             }
         }
         
@@ -438,7 +438,7 @@ class ilExPeerReview
             " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
         $cnt = $ilDB->fetchAssoc($set);
         $cnt = (int) $cnt["cnt"];
-        return $cnt-1;
+        return $cnt - 1;
     }
     
     public function getNumberOfMissingFeedbacksForReceived()
@@ -460,7 +460,7 @@ class ilExPeerReview
         // there could be less participants than stated in the min required setting
         $min = min($max, $needed);
                 
-        return max(0, $min-$this->countGivenFeedback());
+        return max(0, $min - $this->countGivenFeedback());
     }
         
     public function isFeedbackValidForPassed($a_user_id)
@@ -491,7 +491,7 @@ class ilExPeerReview
                 // there could be less participants than stated in the min required setting
                 $min = min($max, $this->assignment->getPeerReviewMin());
                 
-                return (($min-$no_of_feedbacks) < 1);
+                return (($min - $no_of_feedbacks) < 1);
         }
     }
 

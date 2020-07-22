@@ -28,8 +28,8 @@ class ilChatroomServerSettings
         global $DIC;
 
         $query = 'SELECT * FROM chatroom_admconfig';
-        $rset  = $DIC->database()->query($query);
-        $row   = $DIC->database()->fetchAssoc($rset);
+        $rset = $DIC->database()->query($query);
+        $row = $DIC->database()->fetchAssoc($rset);
 
         $client_settings = json_decode($row['client_settings']);
         $server_settings = json_decode($row['server_settings']);

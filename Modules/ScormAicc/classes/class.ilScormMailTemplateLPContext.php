@@ -70,50 +70,50 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         
         
         $placeholders['sahs_title'] = array(
-            'placeholder'	=> 'SCORM_TITLE',
-            'label'			=> $lng->txt('obj_sahs')
+            'placeholder' => 'SCORM_TITLE',
+            'label' => $lng->txt('obj_sahs')
         );
         
         $placeholders['sahs_status'] = array(
-            'placeholder'	=> 'SCORM_STATUS',
-            'label'			=> $lng->txt('trac_status')
+            'placeholder' => 'SCORM_STATUS',
+            'label' => $lng->txt('trac_status')
         );
 
         $placeholders['sahs_mark'] = array(
-            'placeholder'	=> 'SCORM_MARK',
-            'label'			=> $lng->txt('trac_mark')
+            'placeholder' => 'SCORM_MARK',
+            'label' => $lng->txt('trac_mark')
         );
         
         // #17969
         $lng->loadLanguageModule('content');
         $placeholders['sahs_score'] = array(
-            'placeholder'	=> 'SCORM_SCORE',
-            'label'			=> $lng->txt('cont_score')
+            'placeholder' => 'SCORM_SCORE',
+            'label' => $lng->txt('cont_score')
         );
         
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
             $placeholders['sahs_time_spent'] = array(
-                'placeholder'	=> 'SCORM_TIME_SPENT',
-                'label'			=> $lng->txt('trac_spent_seconds')
+                'placeholder' => 'SCORM_TIME_SPENT',
+                'label' => $lng->txt('trac_spent_seconds')
             );
         }
         
         if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
             $placeholders['sahs_first_access'] = array(
-                'placeholder'	=> 'SCORM_FIRST_ACCESS',
-                'label'			=> $lng->txt('trac_first_access')
+                'placeholder' => 'SCORM_FIRST_ACCESS',
+                'label' => $lng->txt('trac_first_access')
             );
 
             $placeholders['sahs_last_access'] = array(
-                'placeholder'	=> 'SCORM_LAST_ACCESS',
-                'label'			=> $lng->txt('trac_last_access')
+                'placeholder' => 'SCORM_LAST_ACCESS',
+                'label' => $lng->txt('trac_last_access')
             );
         }
 
 
         $placeholders['sahs_link'] = array(
-            'placeholder'	=> 'SCORM_LINK',
-            'label'			=> $lng->txt('perma_link')
+            'placeholder' => 'SCORM_LINK',
+            'label' => $lng->txt('perma_link')
         );
         
         return $placeholders;

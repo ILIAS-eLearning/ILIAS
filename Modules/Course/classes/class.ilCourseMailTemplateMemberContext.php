@@ -67,16 +67,16 @@ class ilCourseMailTemplateMemberContext extends ilMailTemplateContext
         $placeholders = array();
         
         $placeholders['crs_title'] = array(
-            'placeholder'	=> 'COURSE_TITLE',
-            'label'			=> $lng->txt('crs_title')
+            'placeholder' => 'COURSE_TITLE',
+            'label' => $lng->txt('crs_title')
         );
         
         
         
         
         $placeholders['crs_link'] = array(
-            'placeholder'	=> 'COURSE_LINK',
-            'label'			=> $lng->txt('crs_mail_permanent_link')
+            'placeholder' => 'COURSE_LINK',
+            'label' => $lng->txt('crs_mail_permanent_link')
         );
         
         

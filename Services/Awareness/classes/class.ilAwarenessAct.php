@@ -136,7 +136,7 @@ class ilAwarenessAct
         include_once("./Services/Object/classes/class.ilObjectFactory.php");
         //$recipient = ilObjectFactory::getInstanceByObjId($this->user_id);
         $bodyParams = array(
-            'online_user_names'         => implode("<br />", $new_online_users)
+            'online_user_names' => implode("<br />", $new_online_users)
         );
         //var_dump($bodyParams); exit;
         require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';

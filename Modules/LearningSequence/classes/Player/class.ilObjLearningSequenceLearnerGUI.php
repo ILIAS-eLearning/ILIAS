@@ -69,9 +69,7 @@ class ilObjLearningSequenceLearnerGUI
             case self::CMD_VIEW:
                 $this->play();
                 break;
-            case LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP:
-                $this->getCurrentItemLearningProgress();
-                // no break
+
             default:
                 throw new ilException(
                     "ilObjLearningSequenceLearnerGUI: " .
@@ -122,7 +120,7 @@ class ilObjLearningSequenceLearnerGUI
         } else {
             if (!$completed) {
                 if ($has_items) {
-                    $state_db =  $this->ls_object->getStateDB();
+                    $state_db = $this->ls_object->getStateDB();
                     $obj_ref_id = (int) $this->ls_object->getRefId();
                     $first_access = $state_db->getFirstAccessFor(
                         $obj_ref_id,
@@ -184,7 +182,7 @@ class ilObjLearningSequenceLearnerGUI
     private function getCurriculum() : array
     {
         $current_position = 0;
-        foreach ($this->ls_learner_items as $index=>$item) {
+        foreach ($this->ls_learner_items as $index => $item) {
             if ($item->getRefId() === $this->current_item) {
                 $current_position = $index;
             }
@@ -261,16 +259,5 @@ class ilObjLearningSequenceLearnerGUI
             $href = $this->ctrl->getLinkTarget($this, $cmd, '', false, false);
             \ilUtil::redirect($href);
         }
-    }
-
-
-    protected function getCurrentItemLearningProgress()
-    {
-        foreach ($this->ls_learner_items as $index=>$item) {
-            if ($item->getRefId() === $this->current_item) {
-                print $item->getLearningProgressStatus();
-            }
-        }
-        exit;
     }
 }

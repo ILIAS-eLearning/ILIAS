@@ -48,7 +48,7 @@ class ilChatUserActionProvider extends ilUserActionProvider
 
         $chatSettings = new ilSetting('chatroom');
         $this->chat_enabled = $chatSettings->get('chat_enabled');
-        $this->osc_enabled  = $chatSettings->get('enable_osc');
+        $this->osc_enabled = $chatSettings->get('enable_osc');
 
         $this->lng->loadLanguageModule('chatroom');
     }
@@ -132,13 +132,13 @@ class ilChatUserActionProvider extends ilUserActionProvider
             if ($this->acceptsMessages($a_target_user)) {
                 $f->setText($this->lng->txt('chat_osc_start_conversation'));
                 $f->setData(array(
-                    'onscreenchat-userid'   => $a_target_user,
+                    'onscreenchat-userid' => $a_target_user,
                     'onscreenchat-username' => ilObjUser::_lookupLogin($a_target_user)
                 ));
             } else {
                 $f->setText($this->lng->txt('chat_osc_doesnt_accept_msg'));
                 $f->setData(array(
-                    'onscreenchat-inact-userid'   => $a_target_user
+                    'onscreenchat-inact-userid' => $a_target_user
                 ));
             }
             $coll->addAction($f);

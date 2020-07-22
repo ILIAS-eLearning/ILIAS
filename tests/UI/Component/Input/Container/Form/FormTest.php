@@ -327,9 +327,9 @@ class FormTest extends ILIAS_UI_TestBase
     {
         $if = $this->buildInputFactory();
         $inputs = [
-            2     => $if->text(""),
+            2 => $if->text(""),
             "foo" => $if->text(""),
-            1     => $if->text(""),
+            1 => $if->text(""),
             $if->text(""),
         ];
         $form = new ConcreteForm($this->buildInputFactory(), []);

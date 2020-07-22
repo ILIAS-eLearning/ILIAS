@@ -22,10 +22,10 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-        $response           = new stdClass();
-        $response->success  = null;
-        $response->error    = null;
-        $response->message  = null;
+        $response = new stdClass();
+        $response->success = null;
+        $response->error = null;
+        $response->message = null;
 
         try {
             $this->initCreateFolder();
@@ -81,7 +81,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
 
-        $response        = new stdClass();
+        $response = new stdClass();
         $response->success = null;
         $response->message = null;
         $response->folder_id = null;
@@ -106,7 +106,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
      */
     public function cancel()
     {
-        $response        = new stdClass();
+        $response = new stdClass();
         $response->status = "cancel";
 
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";

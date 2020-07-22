@@ -50,10 +50,10 @@ class ilMailAttachmentGUI
     {
         global $DIC;
 
-        $this->tpl     = $DIC->ui()->mainTemplate();
-        $this->ctrl    = $DIC->ctrl();
-        $this->lng     = $DIC->language();
-        $this->user    = $DIC->user();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
@@ -222,9 +222,9 @@ class ilMailAttachmentGUI
         $table = new ilMailAttachmentTableGUI($this, 'showAttachments');
 
         $mailData = $this->umail->getSavedData();
-        $files    = $this->mfile->getUserFilesData();
-        $data     = array();
-        $counter  = 0;
+        $files = $this->mfile->getUserFilesData();
+        $data = array();
+        $counter = 0;
         foreach ($files as $file) {
             $checked = false;
             if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'])) {
@@ -232,10 +232,10 @@ class ilMailAttachmentGUI
             }
 
             $data[$counter] = array(
-                'checked'       => $checked,
-                'filename'      => $file['name'],
-                'filesize'      => (int) $file['size'],
-                'filecreatedate'=> (int) $file['ctime']
+                'checked' => $checked,
+                'filename' => $file['name'],
+                'filesize' => (int) $file['size'],
+                'filecreatedate' => (int) $file['ctime']
             );
 
             ++$counter;

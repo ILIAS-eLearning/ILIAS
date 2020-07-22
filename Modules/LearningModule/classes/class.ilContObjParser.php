@@ -457,15 +457,15 @@ class ilContObjParser extends ilMDSaxParser
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -473,7 +473,7 @@ class ilContObjParser extends ilMDSaxParser
             }
         }
 
-        $tag.= ">";
+        $tag .= ">";
 
         return $tag;
     }

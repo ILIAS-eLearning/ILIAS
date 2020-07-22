@@ -163,7 +163,7 @@ class ilMediaPoolItem
             "SELECT * FROM mep_item WHERE " .
             "obj_id = " . $ilDB->quote($this->getId(), "integer")
         );
-        if ($rec  = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             $this->setType($rec["type"]);
             $this->setForeignId($rec["foreign_id"]);
             $this->setTitle($rec["title"]);
@@ -294,7 +294,7 @@ class ilMediaPoolItem
             " WHERE child = " . $ilDB->quote($a_id, "integer")
         );
         $pool_ids = array();
-        while ($rec  = $ilDB->fetchAssoc($set)) {
+        while ($rec = $ilDB->fetchAssoc($set)) {
             $pool_ids[] = $rec["mep_id"];
         }
         return $pool_ids;		// currently this array should contain only one id

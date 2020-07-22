@@ -54,16 +54,16 @@ class ilMailFolderGUI
     {
         global $DIC;
 
-        $this->tpl      = $DIC->ui()->mainTemplate();
-        $this->ctrl     = $DIC->ctrl();
-        $this->lng      = $DIC->language();
-        $this->toolbar  = $DIC->toolbar();
-        $this->user     = $DIC->user();
-        $this->tabs     = $DIC->tabs();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->toolbar = $DIC->toolbar();
+        $this->user = $DIC->user();
+        $this->tabs = $DIC->tabs();
         $this->httpRequest = $DIC->http()->request();
 
         $this->umail = new ilMail($this->user->getId());
-        $this->mbox  = new ilMailbox($this->user->getId());
+        $this->mbox = new ilMailbox($this->user->getId());
 
         $this->initFolder();
     }
@@ -305,7 +305,7 @@ class ilMailFolderGUI
                     } else {
                         if ($folder['type'] === 'local') {
                             $isUserRootFolder = true;
-                            $isUserSubFolder  = false;
+                            $isUserSubFolder = false;
                         }
                     }
                 }
@@ -711,7 +711,7 @@ class ilMailFolderGUI
         /**
          * @var $sender ilObjUser
          */
-        $sender   = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+        $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $replyBtn = \ilLinkButton::getInstance();
@@ -757,8 +757,8 @@ class ilMailFolderGUI
         $this->toolbar->addButtonInstance($deleteBtn);
 
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
-            $linked_fullname    = $sender->getPublicName();
-            $picture            = ilUtil::img(
+            $linked_fullname = $sender->getPublicName();
+            $picture = ilUtil::img(
                 $sender->getPersonalPicturePath('xsmall'),
                 $sender->getPublicName(),
                 '',
@@ -1053,12 +1053,12 @@ class ilMailFolderGUI
      */
     protected function applyFilter()
     {
-        $sentFolderId   = $this->mbox->getSentFolder();
+        $sentFolderId = $this->mbox->getSentFolder();
         $draftsFolderId = $this->mbox->getDraftsFolder();
 
-        $isTrashFolder = $this->currentFolderId  == $this->mbox->getTrashFolder();
-        $isSentFolder  = $this->currentFolderId  == $sentFolderId;
-        $isDraftFolder = $this->currentFolderId  == $draftsFolderId;
+        $isTrashFolder = $this->currentFolderId == $this->mbox->getTrashFolder();
+        $isSentFolder = $this->currentFolderId == $sentFolderId;
+        $isDraftFolder = $this->currentFolderId == $draftsFolderId;
 
         $table = new ilMailFolderTableGUI($this, $this->currentFolderId, 'showFolder');
         $table->isSentFolder($isSentFolder)
@@ -1076,11 +1076,11 @@ class ilMailFolderGUI
      */
     protected function resetFilter()
     {
-        $sentFolderId   = $this->mbox->getSentFolder();
+        $sentFolderId = $this->mbox->getSentFolder();
         $draftsFolderId = $this->mbox->getDraftsFolder();
 
         $isTrashFolder = $this->currentFolderId == $this->mbox->getTrashFolder();
-        $isSentFolder  = $this->currentFolderId == $sentFolderId;
+        $isSentFolder = $this->currentFolderId == $sentFolderId;
         $isDraftFolder = $this->currentFolderId == $draftsFolderId;
 
         $table = new ilMailFolderTableGUI($this, $this->currentFolderId, 'showFolder');

@@ -106,7 +106,7 @@ class ilSetupPasswordManager
         $currentEncoder = $this->getEncoderFactory()->getFirstEncoderForEncodedPasswordAndMatchers(
             $encoded,
             [
-                'md5'       => function ($encoded) {
+                'md5' => function ($encoded) {
                     return is_string($encoded) && strlen($encoded) === 32;
                 },
                 'bcryptphp' => function ($encoded) {

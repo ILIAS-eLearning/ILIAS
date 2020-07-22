@@ -103,21 +103,21 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
         \ilHtmlPurifierInterface $documentPurifier
     ) {
-        $this->tos                      = $tos;
-        $this->criterionTypeFactory     = $criterionTypeFactory;
-        $this->tpl                      = $tpl;
-        $this->ctrl                     = $ctrl;
-        $this->lng                      = $lng;
-        $this->rbacsystem               = $rbacsystem;
-        $this->error                    = $error;
-        $this->user                     = $user;
-        $this->log                      = $log;
-        $this->toolbar                  = $toolbar;
-        $this->httpState                = $httpState;
-        $this->uiFactory                = $uiFactory;
-        $this->uiRenderer               = $uiRenderer;
-        $this->fileSystems              = $fileSystems;
-        $this->fileUpload               = $fileUpload;
+        $this->tos = $tos;
+        $this->criterionTypeFactory = $criterionTypeFactory;
+        $this->tpl = $tpl;
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->rbacsystem = $rbacsystem;
+        $this->error = $error;
+        $this->user = $user;
+        $this->log = $log;
+        $this->toolbar = $toolbar;
+        $this->httpState = $httpState;
+        $this->uiFactory = $uiFactory;
+        $this->uiRenderer = $uiRenderer;
+        $this->fileSystems = $fileSystems;
+        $this->fileUpload = $fileUpload;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
         $this->documentPurifier = $documentPurifier;
     }
@@ -128,7 +128,7 @@ class ilTermsOfServiceDocumentGUI implements \ilTermsOfServiceControllerEnabled
     public function executeCommand()
     {
         $nextClass = $this->ctrl->getNextClass($this);
-        $cmd       = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         if (!$this->rbacsystem->checkAccess('read', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

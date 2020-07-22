@@ -68,11 +68,27 @@ class ilApc extends ilGlobalCacheService
 
 
     /**
+     * @param bool $complete
+     *
      * @return bool
      */
-    public function flush()
+    public function flush($complete = false)
     {
-        return apcu_clear_cache();
+        if ($complete) {
+            return apcu_clear_cache();
+        }
+
+        $key_prefix = $this->returnKey('');
+        $apcu_iterator = new APCUIterator();
+        $apcu_iterator->rewind();
+        while ($current_key = $apcu_iterator->key()) {
+            // "begins with"
+            if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
+                $this->delete($current_key);
+            }
+            $apcu_iterator->next();
+        }
+        return true;
     }
 
 
@@ -111,12 +127,12 @@ class ilApc extends ilGlobalCacheService
         unset($cache_info['slot_distribution']);
 
         $return['__cache_info'] = array(
-            'apc.enabled'      => ini_get('apc.enabled'),
-            'apc.shm_size'     => ini_get('apc.shm_size'),
+            'apc.enabled' => ini_get('apc.enabled'),
+            'apc.shm_size' => ini_get('apc.shm_size'),
             'apc.shm_segments' => ini_get('apc.shm_segments'),
-            'apc.gc_ttl'       => ini_get('apc.gc_ttl'),
-            'apc.user_ttl'     => ini_get('apc.ttl'),
-            'info'             => $cache_info,
+            'apc.gc_ttl' => ini_get('apc.gc_ttl'),
+            'apc.user_ttl' => ini_get('apc.ttl'),
+            'info' => $cache_info,
         );
 
         $cache_info = apc_cache_info();

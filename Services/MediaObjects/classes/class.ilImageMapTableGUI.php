@@ -107,7 +107,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $areas = array();
         
         include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
-        for ($i=1; $i<=$max; $i++) {
+        for ($i = 1; $i <= $max; $i++) {
             $area = new ilMapArea($st_item->getId(), $i);
             $areas[] = array("nr" => $i, "area" => $area, "title" => $area->getTitle());
         }

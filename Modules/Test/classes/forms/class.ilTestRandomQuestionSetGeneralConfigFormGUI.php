@@ -150,9 +150,9 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         // question amount per test
             
         $questionAmountPerTest = new ilNumberInputGUI(
-                $this->lng->txt('tst_inp_quest_amount_per_test'),
-                'quest_amount_per_test'
-            );
+            $this->lng->txt('tst_inp_quest_amount_per_test'),
+            'quest_amount_per_test'
+        );
             
         $questionAmountPerTest->setRequired(true);
         $questionAmountPerTest->setMinValue(1);
@@ -161,8 +161,8 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         $questionAmountPerTest->setSize(4);
             
         $questionAmountPerTest->setValue(
-                $this->questionSetConfig->getQuestionAmountPerTest()
-            );
+            $this->questionSetConfig->getQuestionAmountPerTest()
+        );
             
         $questionAmountConfigModePerTest->addSubItem($questionAmountPerTest);
 

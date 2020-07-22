@@ -101,7 +101,7 @@ class ilLinkChecker
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $invalid[] = array('page_id' => $row->page_id,
-                               'url'	 => $row->url);
+                               'url' => $row->url);
         }
 
         return $invalid ? $invalid : array();
@@ -175,7 +175,7 @@ class ilLinkChecker
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $pages[] = array('page_id' => $row->page_id,
                                  'content' => $row->content,
-                                 'type'	 => $row->parent_type);
+                                 'type' => $row->parent_type);
             }
         } elseif ($this->getValidateAll()) {
             $query = "SELECT * FROM page_object " .
@@ -185,7 +185,7 @@ class ilLinkChecker
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $pages[] = array('page_id' => $row->page_id,
                                  'content' => $row->content,
-                                 'type'	 => $row->parent_type);
+                                 'type' => $row->parent_type);
             }
         }
 
@@ -270,7 +270,7 @@ class ilLinkChecker
         $obj_name = "";
 
         foreach (ilLinkCheckNotify::_getAllNotifiers($this->db) as $usr_id => $obj_ids) {
-            if (!is_object($tmp_user =&ilObjectFactory::getInstanceByObjId($usr_id, false))) {
+            if (!is_object($tmp_user = &ilObjectFactory::getInstanceByObjId($usr_id, false))) {
                 $this->__appendLogMessage('LinkChecker: Cannot find user with id: ' . $usr_id);
                 continue;
             }
@@ -390,12 +390,12 @@ class ilLinkChecker
                 }
 
                 $lm_id = $this->__getObjIdByPageId($a_page['page_id']);
-                $link[] = array('page_id'  => $a_page['page_id'],
-                                'obj_id'   => $lm_id,
-                                'type'	   => $a_page['type'],
+                $link[] = array('page_id' => $a_page['page_id'],
+                                'obj_id' => $lm_id,
+                                'type' => $a_page['type'],
                                 'complete' => $matches[1][$i],
-                                'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
-                                'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
+                                'scheme' => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
+                                'host' => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
             }
         }
 
@@ -419,13 +419,13 @@ class ilLinkChecker
                 if (sizeof($parts) == 2 &&
                     is_numeric($parts[1]) &&
                     $objDefinition->isAllowedInRepository($parts[0])) {
-                    $link[] = array('page_id'  => $item_data['link_id'],
-                                'obj_id'   => $this->getObjId(),
-                                'type'	   => 'webr',
+                    $link[] = array('page_id' => $item_data['link_id'],
+                                'obj_id' => $this->getObjId(),
+                                'type' => 'webr',
                                 'complete' => $item_data['target'],
-                                'scheme'   => 'internal',
+                                'scheme' => 'internal',
                                 'obj_type' => $parts[0],
-                                'ref_id'   => $parts[1]);
+                                'ref_id' => $parts[1]);
                     continue;
                 }
             }
@@ -438,12 +438,12 @@ class ilLinkChecker
                 $item_data['target'] = 'http://' . $item_data['target'];
             }
 
-            $link[] = array('page_id'  => $item_data['link_id'],
-                        'obj_id'   => $this->getObjId(),
-                        'type'	   => 'webr',
+            $link[] = array('page_id' => $item_data['link_id'],
+                        'obj_id' => $this->getObjId(),
+                        'type' => 'webr',
                         'complete' => $item_data['target'],
-                        'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
-                        'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
+                        'scheme' => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
+                        'host' => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
         }
         return $link ? $link : array();
     }
@@ -516,7 +516,7 @@ class ilLinkChecker
                     $curl->setOpt(CURLOPT_MAXREDIRS, MAX_REDIRECTS);
                     $curl->exec();
                     $headers = $curl->getInfo();
-                    $http_code  = $headers['http_code'];
+                    $http_code = $headers['http_code'];
                 } catch (ilCurlConnectionException $e) {
                     $c_error_no = $e->getCode();
                     ilLoggerFactory::getLogger('lchk')->error('LinkChecker: No valid http code received. Curl error (' . $e->getCode() . '): ' . $e->getMessage());
@@ -610,7 +610,7 @@ class ilLinkChecker
                         
             if (!$res->numRows()) {
                 $this->notify[$link["obj_id"]][] = array('page_id' => $link['page_id'],
-                                                         'url'	   => $link['complete']);
+                                                         'url' => $link['complete']);
             }
         }
     }

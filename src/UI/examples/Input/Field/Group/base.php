@@ -23,7 +23,7 @@ function base()
         return $s;
     });
     $equal_ten = $validation->custom(function ($v) {
-        return $v==10;
+        return $v == 10;
     }, "The sum must equal ten.");
 
     //Step 2: Define inputs
@@ -44,11 +44,11 @@ function base()
         'numeric_inputs'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ["custom_group"=>$group]);
+    $form = $ui->input()->container()->form()->standard($form_action, ["custom_group" => $group]);
 
     //Step 4: Implement some form data processing.
     if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+        && $request->getQueryParams()['example_name'] == 'numeric_inputs') {
         //Step 4.1: Device some context dependant logic to display the potential
         // constraint error on the group.
         $form = $form->withRequest($request);

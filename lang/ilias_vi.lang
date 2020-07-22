@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1742,7 +1742,7 @@ common#:#usrimport_action_replaced#:#Thay thế thao tác %1$s bằng %2$s.???
 common#:#usrimport_cant_delete#:#Không thực hiện được thao tác "XÓA". Không có người sử dụng nào trong cơ sở dữ liệu.
 common#:#usrimport_cant_insert#:#Không thực hiện được thao tác "THÊM". Người sử dụng đang tồn tại trong cơ sở dữ liệu.
 common#:#usrimport_cant_update#:#Không thực hiện được thao tác "CẬP NHẬT". Không có người sử dụng nào trong cơ sở dữ liệu.
-common#:#usrimport_conflict_handling_info#:#Nếu chọn "Bỏ qua nếu xung đột", ILIAS bỏ qua thao tác, nếu không thực hiện được (ví dụ thao tác "Thêm" sẽ không hoàn thành được, nếu đã có người sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.)\nNếu chọn "Cập nhật nếu xung đột", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác "Thêm" sẽ được thay thế bằng thao tác "Cập nhật", nếu một người sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu).
+common#:#usrimport_conflict_handling_info#:#Nếu chọn "Bỏ qua nếu xung đột", ILIAS bỏ qua thao tác, nếu không thực hiện được (ví dụ thao tác "Thêm" sẽ không hoàn thành được, nếu đã có người sử dụng trùng tên đăng nhập trong cơ sở dữ liệu.) Nếu chọn "Cập nhật nếu xung đột", ILIAS sẽ cập nhật cơ sở dữ liệu nếu một thao tác không thực hiện được. (ví dụ một thao tác "Thêm" sẽ được thay thế bằng thao tác "Cập nhật", nếu một người sử dụng trùng tên đăng nhập đã tồn tại trong cơ sở dữ liệu).
 common#:#usrimport_global_role_for_action_required#:#Ít nhất một vai trò toàn cục phải được xác định cho thao tác "%1$s".
 common#:#usrimport_ignore_role#:#Bỏ qua vai trò
 common#:#usrimport_login_is_not_unique#:#Tên đăng nhập không duy nhất.
@@ -2342,8 +2342,8 @@ forum#:#new_post#:#Bài mới
 forum#:#thread#:#Chủ đề
 grp#:#grp_registration_unlimited#:#Unlimited registration period###19 Apr 2006 new variable
 jscalendar#:#about_calendar#:#Về lịch
-jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003\nPhiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl\nPhân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.\n\nChọn ngày:\n- Sử dụng các nút «, » để chọn năm\n- Sử dụng các nút <, > để chọn tháng\n- Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
-jscalendar#:#about_time#:#\n\nLựa chọn thời gian:\n- Kích chuột vào bất kỳ thành phần thời gian nào để tăng\n- hoặc nhấn giữ phím Shift và kích chuột để giảm\n- hoặc kích vào kéo chuột để chọn nhanh hơn.
+jscalendar#:#about_calendar_long#:#Chương trình chọn ngày/thời gian DHTML (c) dynarch.com 2002-2003 Phiên bản mới nhất có tại: http://dynarch.com/mishoo/calendar.epl Phân phối theo GNU LGPL.  Truy cập http://gnu.org/licenses/lgpl.html để xem chi tiết.  Chọn ngày: - Sử dụng các nút «, » để chọn năm - Sử dụng các nút <, > để chọn tháng - Nhấn giữ chuột trên các nút này để chọn nhanh hơn.
+jscalendar#:#about_time#:#  Lựa chọn thời gian: - Kích chuột vào bất kỳ thành phần thời gian nào để tăng - hoặc nhấn giữ phím Shift và kích chuột để giảm - hoặc kích vào kéo chuột để chọn nhanh hơn.
 jscalendar#:#close#:#Đóng
 jscalendar#:#day_first#:#Hiển thị %s đầu tuần
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -2977,16 +2977,16 @@ meta#:#meta_very_high#:#Rất cao
 meta#:#meta_very_low#:#Rất thấp
 meta#:#meta_yes#:#Có
 pwassist#:#password_assistance#:#Trợ giúp phục hồi mật khẩu
-pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn.\nILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này.\nChọn tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa học của bạn hoặc %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây.\nChúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng.\nTrong trường hợp bạn không thể đặt được mật khẩu cho tài khoản người sử dụng theo mẫu đó, hãy liên hệ quản trị khóa học hoặc gửi email tới %1$s.
+pwassist#:#pwassist_enter_email#:#Hãy nhập địa chỉ email và đệ trình mẫu đơn. ILIAS sẽ gửi email tới địa chỉ đó. Email đó chứa tất cả tên đăng nhập đã sử dụng địa chỉ email này. Chọn tên đăng nhập và sử dụng dịch vụ mật khẩu để tạo mật khẩu mới. Nếu bạn không nhận được email xin liên hệ quản trị khóa học của bạn hoặc %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Nhập tên đăng nhập và địa chỉ email tương ứng vào các ô dưới đây. Chúng tôi sẽ gửi thư tới địa chỉ email đó. Thư chứa một địa chỉ trang web, tại đó bạn có thể nhập vào mật khẩu mới cho tài khoản sử dụng. Trong trường hợp bạn không thể đặt được mật khẩu cho tài khoản người sử dụng theo mẫu đó, hãy liên hệ quản trị khóa học hoặc gửi email tới %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Nhập tên đăng nhập và mật khẩu mới vào các ô dưới đây.
-pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác.\nTên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu.
-pwassist#:#pwassist_mail_body#:#Đăng ký mật khẩu mới cho tài khoản sử dụng:\n\t%1$s\n\nThư này được sinh tự động bởi máy chủ\n\t%2$s\n\nBạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản người sử dụng "%4$s".\n\nHãy kiểm tra cẩn thận các điều kiện dưới đây, và tiếp tục theo đó:\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp mật khẩu tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản người sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ.
-pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s.\nHãy kiểm tra hộp thư của bạn.
+pwassist#:#pwassist_login_not_match#:#Hãy nhập vào tên đăng nhập khác. Tên đăng nhập bạn đã nhập không trùng khớp với tên đăng nhập yêu cầu trợ giúp phục hồi mật khẩu.
+pwassist#:#pwassist_mail_body#:#Đăng ký mật khẩu mới cho tài khoản sử dụng: \t%1$s  Thư này được sinh tự động bởi máy chủ \t%2$s  Bạn (hoặc ai khác %3$s) đã yêu cầu trợ giúp mật khẩu cho tài khoản người sử dụng "%4$s".  Hãy kiểm tra cẩn thận các điều kiện dưới đây, và tiếp tục theo đó:  - Nếu bạn lỡ tay yêu cầu trợ giúp mật khẩu từ máy chủ: Xóa thư này.  - Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp mật khẩu tại máy chủ: Hãy liên hệ %5$s.  - Nếu bạn yêu cầu trợ giúp mật khẩu, hãy tiếp tục như sau:  1. Mở trình duyệt web.  2. nhập địa chỉ web dưới đây vào trình duyệt: \t%1$s  Quan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.  3. Trên trang web hiển thị tại trình duyệt, nhập mật khẩu mới cho tài khoản người sử dụng.  Hãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ phải sử dụng trang trợ giúp mật khẩu trên máy chủ.
+pwassist#:#pwassist_mail_sent#:#Một thư đã được gửi tới %1$s. Hãy kiểm tra hộp thư của bạn.
 pwassist#:#pwassist_mail_subject#:#Trợ giúp phục hồi mật khẩu ILIAS
 pwassist#:#pwassist_password_assigned#:#Mật khẩu đã được chỉ định thành công cho người sử dụng "%1$s".
-pwassist#:#pwassist_session_expired#:#Hãy điền lại mẫu sau.\nPhiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. Điều này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn thời gian kể từ khi liên kết được gửi cho bạn.
-pwassist#:#pwassist_username_mail_body#:#Có những người sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho:\n%s\n\nThông điệp này được tạo tự động bởi máy chủ ILIAS:\n\t%s\n\nBạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.\n\nHãy xem dưới đây và hành động theo hướng dẫn::\n\n- Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ:\nXóa thư này.\n\n- Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp tên đăng nhập tại máy chủ:\nHãy liên hệ %5$s.\n\n- Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:\n\n1. Mở trình duyệt web.\n\n2. nhập địa chỉ web dưới đây vào trình duyệt:\n\t%1$s\n\nQuan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.\n\n3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản người sử dụng.\n\nHãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ.
+pwassist#:#pwassist_session_expired#:#Hãy điền lại mẫu sau. Phiên làm việc trợ giúp mật khẩu của bạn đã hết hạn. Điều này có thể xảy ra, vì bạn đã cố sử dụng hai lần liên kết được gửi cho bạn qua email, hoặc đã quá hạn thời gian kể từ khi liên kết được gửi cho bạn.
+pwassist#:#pwassist_username_mail_body#:#Có những người sử dụng hoạt động sau được tìm thấy tương ứng với địa chỉ email đã cho: %s  Thông điệp này được tạo tự động bởi máy chủ ILIAS: \t%s  Bạn (hoặc ai đó với địa chỉ IP  %s) đã yêu cầu hỗ trợ phục hồi tên đăng nhập cho địa chỉ email '%s'.  Hãy xem dưới đây và hành động theo hướng dẫn::  - Nếu bạn lỡ tay yêu cầu trợ giúp tên đăng nhập từ máy chủ: Xóa thư này.  - Nếu bạn chắc chắn, chưa bao giờ yêu cầu trợ giúp tên đăng nhập tại máy chủ: Hãy liên hệ %5$s.  - Nếu bạn yêu cầu trợ giúp tên đăng nhập, hãy tiếp tục như sau:  1. Mở trình duyệt web.  2. nhập địa chỉ web dưới đây vào trình duyệt: \t%1$s  Quan trọng cần chú ý: Địa chỉ chỉ có một dòng. Nếu bạn thấy địa chỉ ngắt ra thành nhiều dòng, đó là chương trình email của bạn ngắt ra.  3. Trên trang web hiển thị tại trình duyệt, nhập tên đăng nhập và mật khẩu mới cho tài khoản người sử dụng.  Hãy chú ý, vì lý do an ninh, bạn hãy theo các bước chỉ một lần và trong thời gian giới hạn. Sau đây địa chỉ sẽ trở nên không hợp lệ, và bạn sẽ lại phải sử dụng trang trợ giúp tên đăng nhập trên máy chủ.
 rbac#:#edit_learning_progress#:#Sửa tiến trình học tập
 rbac#:#filter_all_roles#:#Hiện tất cả vai trò của ngữ cảnh hiện thời
 rbac#:#filter_global_roles#:#Chỉ hiện những vai trò toàn cục
@@ -6517,7 +6517,7 @@ mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
 crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course. You should check for the waiting list now. To view the members of your course, click here:###21 09 2009 new variable
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
 crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
@@ -6528,7 +6528,7 @@ wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
 style#:#style_current_style#:#Current Style###21 09 2009 new variable
 style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
 style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
@@ -6538,10 +6538,10 @@ grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 200
 grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s. We hope that you find an opportunity to participate in another group.###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
@@ -6552,7 +6552,7 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.   You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -7980,7 +7980,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9311,7 +9311,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14235,7 +14235,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14830,10 +14830,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14844,7 +14844,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
@@ -15067,6 +15067,57 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable

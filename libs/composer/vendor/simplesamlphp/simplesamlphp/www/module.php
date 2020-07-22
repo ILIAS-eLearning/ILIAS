@@ -119,7 +119,9 @@ if (!file_exists($path)) {
     throw new SimpleSAML_Error_NotFound('The URL wasn\'t found in the module.');
 }
 
-if (preg_match('#\.php$#D', $path)) {
+// ilias-patch: begin
+if (preg_match('#\.php$#D', mb_strtolower($path, 'UTF-8'))) {
+// ilias-patch: end
     // PHP file - attempt to run it
 
     /* In some environments, $_SERVER['SCRIPT_NAME'] is already set with $_SERVER['PATH_INFO']. Check for that case,

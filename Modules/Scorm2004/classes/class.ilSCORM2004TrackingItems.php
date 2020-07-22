@@ -64,25 +64,25 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng->loadLanguageModule("scormtrac");
         // default fields
         $cols = array();
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]
             . ',audio_captioning,audio_level,completion_status,completion_threshold,credit,delivery_speed'
             . ',c_entry,c_exit,c_language,c_location,c_mode,progress_measure,c_max,c_min,c_raw,scaled'
             . ',scaled_passing_score,session_time,session_time_seconds,success_status,total_time,total_time_seconds,c_timestamp,suspend_data,launch_data'
         );
-        $a_true=explode(',', $udh["default"] . ",sco_title,success_status,completion_status");
-        for ($i=0;$i<count($a_cols);$i++) {
+        $a_true = explode(',', $udh["default"] . ",sco_title,success_status,completion_status");
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function exportSelectedCore($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -105,9 +105,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . 'AND ' . $ilDB->in('user_id', $a_user, false, 'integer') . ' '
             . 'ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cp_node_id, user_id';
+            $query .= 'cp_node_id, user_id';
         } else {
-            $query.='user_id, cp_node_id';
+            $query .= 'user_id, cp_node_id';
         }
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -116,7 +116,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["audio_captioning"] = "" . $data["audio_captioning"];
@@ -139,13 +139,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["session_time"] = "" . $data["session_time"];
             $data["session_time_seconds"] = "";
             if ($data["session_time"] != "") {
-                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"])/100);
+                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"]) / 100);
             }
             $data["success_status"] = "" . $data["success_status"];
             $data["total_time"] = "" . $data["total_time"];
             $data["total_time_seconds"] = "";
             if ($data["total_time"] != "") {
-                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"])/100);
+                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"]) / 100);
             }
             $data["c_timestamp"] = $data["c_timestamp"];//ilDatePresentation::formatDate(new ilDateTime($data["c_timestamp"],IL_CAL_UNIX));
             $data["suspend_data"] = "" . $data["suspend_data"];
@@ -159,7 +159,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             // $status = $data["completion_status"];
             // }
             // }
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         
         return $returnData;
@@ -172,23 +172,23 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $cols = array();
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]
             . ',id,description,weighting,c_type,result,latency,latency_seconds,c_timestamp,learner_response'
         );
-        $a_true=explode(',', $udh["default"] . ",sco_title,id,result,learner_response");//note for trunk: id instead of description
-        for ($i=0;$i<count($a_cols);$i++) {
+        $a_true = explode(',', $udh["default"] . ",sco_title,id,result,learner_response");//note for trunk: id instead of description
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function exportSelectedInteractions($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -219,11 +219,11 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id
 				ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cmi_node.cp_node_id, cmi_node.user_id';
+            $query .= 'cmi_node.cp_node_id, cmi_node.user_id';
         } else {
-            $query.='cmi_node.user_id, cmi_node.cp_node_id';
+            $query .= 'cmi_node.user_id, cmi_node.cp_node_id';
         }
-        $query.=', cmi_interaction.cmi_interaction_id, cmi_interaction.cmi_node_id';
+        $query .= ', cmi_interaction.cmi_interaction_id, cmi_interaction.cmi_node_id';
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $dbdata[] = $row;
@@ -231,7 +231,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -240,12 +240,12 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["result"] = "" . $data["result"];
             $data["latency"] = "" . $data["latency"];
             $data["latency_seconds"] = "";
-            if ($data["latency"]!="") {
-                $data["latency_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["latency"])/100);
+            if ($data["latency"] != "") {
+                $data["latency_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["latency"]) / 100);
             }
             $data["c_timestamp"] = "" . $data["c_timestamp"];
             $data["learner_response"] = "" . str_replace('"', '', $data["learner_response"]);
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         //		var_dump($returnData);
         return $returnData;
@@ -258,23 +258,23 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $cols = array();
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]
             . ',id,description,completion_status,progress_measure,success_status,scaled,c_max,c_min,c_raw,scope'
         );
-        $a_true=explode(',', $udh["default"] . ",sco_title,id,completion_status,success_status");
-        for ($i=0;$i<count($a_cols);$i++) {
+        $a_true = explode(',', $udh["default"] . ",sco_title,id,completion_status,success_status");
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function exportSelectedObjectives($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -306,11 +306,11 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				AND cmi_interaction_id is null 
 				ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cmi_node.cp_node_id, cmi_node.user_id';
+            $query .= 'cmi_node.cp_node_id, cmi_node.user_id';
         } else {
-            $query.='cmi_node.user_id, cmi_node.cp_node_id';
+            $query .= 'cmi_node.user_id, cmi_node.cp_node_id';
         }
-        $query.=', cmi_objective.cmi_node_id';
+        $query .= ', cmi_objective.cmi_node_id';
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $dbdata[] = $row;
@@ -318,7 +318,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -330,7 +330,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["c_min"] = "" . $data["c_min"];
             $data["c_raw"] = "" . $data["c_raw"];
             $data["scope"] = "" . $data["scope"];
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         //		var_dump($returnData);
         return $returnData;
@@ -343,23 +343,23 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $cols = array();
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,' . $udh["cols"]
             . ',Status,satisfied,measure,c_raw,c_min,c_max,completion_status,progress_measure'
         );
-        $a_true=explode(',', $udh["default"] . ",lm_title,Status,satisfied,completion_status");
-        for ($i=0;$i<count($a_cols);$i++) {
+        $a_true = explode(',', $udh["default"] . ",lm_title,Status,satisfied,completion_status");
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function exportObjGlobalToSystem($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -386,7 +386,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $data["scope_id"];
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["Status"] = "" . $data["status"];
             $data["satisfied"] = "" . $data["satisfied"];
             $data["measure"] = "" . $data["measure"];
@@ -395,7 +395,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["c_max"] = "" . $data["c_max"];
             $data["completion_status"] = "" . $data["completion_status"];
             $data["progress_measure"] = "" . $data["progress_measure"];
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         //		var_dump($returnData);
         return $returnData;
@@ -409,7 +409,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
         $cols = array();
-        $a_cols=explode(
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title'
             . ',id,description,counter_all'
@@ -417,17 +417,17 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',counter_incorrect,counter_incorrect_percent'
             . ',counter_other,counter_other_percent'
         );
-        $a_true=explode(',', "sco_title,description,counter_correct,counter_incorrect");
-        for ($i=0;$i<count($a_cols);$i++) {
+        $a_true = explode(',', "sco_title,description,counter_correct,counter_incorrect");
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function tracInteractionItem($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -481,7 +481,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             if ($a_incorrect[$skey] != null) {
                 $incorrect = $a_incorrect[$skey];
             }
-            $other = $all-($correct+$incorrect);
+            $other = $all - ($correct + $incorrect);
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
@@ -490,12 +490,12 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["description"] = "" . $data["description"];
             //			$data["counter_all"] = $data["counter"];
             $data["counter_correct"] = $correct;
-            $data["counter_correct_percent"] = $correct*100/$all;
+            $data["counter_correct_percent"] = $correct * 100 / $all;
             $data["counter_incorrect"] = $incorrect;
-            $data["counter_incorrect_percent"] = $incorrect*100/$all;
+            $data["counter_incorrect_percent"] = $incorrect * 100 / $all;
             $data["counter_other"] = $other;
-            $data["counter_other_percent"] = $other*100/$all;
-            $returnData[]=$data;
+            $data["counter_other_percent"] = $other * 100 / $all;
+            $returnData[] = $data;
         }
         return $returnData;
     }
@@ -508,8 +508,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng->loadLanguageModule("scormtrac");
         // default fields
         $cols = array();
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(
             ',',
             'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]
             . ',counter_i_correct,counter_i_correct_percent'
@@ -519,21 +519,21 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . ',c_entry,c_exit,c_language,c_location,c_mode,progress_measure,c_max,c_min,c_raw,scaled'
             . ',scaled_passing_score,session_time,session_time_seconds,success_status,total_time,total_time_seconds,c_timestamp,suspend_data,launch_data'
         );
-        $a_true=explode(',', $udh["default"] . ',sco_title'
+        $a_true = explode(',', $udh["default"] . ',sco_title'
             . ',counter_i_correct,counter_i_correct_percent'
             . ',counter_i_incorrect,counter_i_incorrect_percent'
             . ',counter_i_other,counter_i_other_percent'
             . ',c_raw,scaled');
-        for ($i=0;$i<count($a_cols);$i++) {
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
         return $cols;
     }
 
-    public function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function tracInteractionUser($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -588,9 +588,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             . 'AND ' . $ilDB->in('user_id', $a_user, false, 'integer') . ' '
             . 'ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cp_node_id, user_id';
+            $query .= 'cp_node_id, user_id';
         } else {
-            $query.='user_id, cp_node_id';
+            $query .= 'user_id, cp_node_id';
         }
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -610,27 +610,27 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             if ($a_other[$skey] != null) {
                 $other = $a_other[$skey];
             }
-            $all = $correct+$incorrect+$other;
+            $all = $correct + $incorrect + $other;
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["counter_i_correct"] = $correct;
             if ($all > 0) {
-                $data["counter_i_correct_percent"] = $correct*100/$all;
+                $data["counter_i_correct_percent"] = $correct * 100 / $all;
             } else {
                 $data["counter_i_correct_percent"] = 0;
             }
             $data["counter_i_incorrect"] = $incorrect;
             if ($all > 0) {
-                $data["counter_i_incorrect_percent"] = $incorrect*100/$all;
+                $data["counter_i_incorrect_percent"] = $incorrect * 100 / $all;
             } else {
                 $data["counter_i_incorrect_percent"] = 0;
             }
             $data["counter_i_other"] = $other;
             if ($all > 0) {
-                $data["counter_i_other_percent"] = $other*100/$all;
+                $data["counter_i_other_percent"] = $other * 100 / $all;
             } else {
                 $data["counter_i_other_percent"] = 0;
             }
@@ -654,13 +654,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["session_time"] = "" . $data["session_time"];
             $data["session_time_seconds"] = "";
             if ($data["session_time"] != "") {
-                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"])/100);
+                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"]) / 100);
             }
             $data["success_status"] = "" . $data["success_status"];
             $data["total_time"] = "" . $data["total_time"];
             $data["total_time_seconds"] = "";
             if ($data["total_time"] != "") {
-                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"])/100);
+                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"]) / 100);
             }
             $data["c_timestamp"] = $data["c_timestamp"];//ilDatePresentation::formatDate(new ilDateTime($data["c_timestamp"],IL_CAL_UNIX));
             $data["suspend_data"] = "" . $data["suspend_data"];
@@ -674,7 +674,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             // $status = $data["completion_status"];
             // }
             // }
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         return $returnData;
     }
@@ -689,8 +689,8 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $lng->loadLanguageModule("scormtrac");
         // default fields
         $cols = array();
-        $a_interaction=array();
-        $a_interactionDescription=array();
+        $a_interaction = array();
+        $a_interactionDescription = array();
         $dbdata = array();
         $query = 'SELECT cmi_node.cp_node_id,
 				cmi_interaction.cmi_interaction_id, 
@@ -702,11 +702,11 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id
 				ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cmi_node.cp_node_id, cmi_node.user_id';
+            $query .= 'cmi_node.cp_node_id, cmi_node.user_id';
         } else {
-            $query.='cmi_node.user_id, cmi_node.cp_node_id';
+            $query .= 'cmi_node.user_id, cmi_node.cp_node_id';
         }
-        $query.=', cmi_interaction.cmi_interaction_id, cmi_interaction.id';
+        $query .= ', cmi_interaction.cmi_interaction_id, cmi_interaction.id';
 
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -714,29 +714,29 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         }
         foreach ($dbdata as $data) {
             $key = $data["cp_node_id"] . ':' . $data["id"];
-            $exist=false;
-            for ($i=0;$i<count($a_interaction);$i++) {
+            $exist = false;
+            for ($i = 0;$i < count($a_interaction);$i++) {
                 if ($a_interaction[$i] == $key) {
-                    $exist=true;
+                    $exist = true;
                 }
             }
-            if ($exist==false) {
+            if ($exist == false) {
                 $a_interaction[] = $key;
             }
-            if ($a_interactionDescription[$key]==null) {
+            if ($a_interactionDescription[$key] == null) {
                 $a_interactionDescription[$key] = "" . $data["description"];
             }
         }
-        $udh=self::userDataHeaderForExport();
-        $a_cols=explode(',', 'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]);
-        $a_true=explode(',', $udh["default"] . ",sco_title");
-        for ($i=0;$i<count($a_cols);$i++) {
+        $udh = self::userDataHeaderForExport();
+        $a_cols = explode(',', 'lm_id,lm_title,cp_node_id,sco_marked_for_learning_progress,sco_title,' . $udh["cols"]);
+        $a_true = explode(',', $udh["default"] . ",sco_title");
+        for ($i = 0;$i < count($a_cols);$i++) {
             $cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
         }
-        for ($i=0;$i<count($a_true);$i++) {
+        for ($i = 0;$i < count($a_true);$i++) {
             $cols[$a_true[$i]]["default"] = true;
         }
-        for ($i=0;$i<count($a_interaction);$i++) {
+        for ($i = 0;$i < count($a_interaction);$i++) {
             //			$cols["interaction_id".$i] = array("txt" => $lng->txt("interaction_id").' '.$i,"default" => false);
             //			if ($a_interactionDescription[$a_interaction[$i]] != "") {
             //				$cols["interaction_description".$i] = array("txt" => $lng->txt("interaction_description").' '.$i,"default" => false);
@@ -747,7 +747,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    public function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO=false, $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function tracInteractionUserAnswers($a_user = array(), $a_sco = array(), $b_orderBySCO = false, $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -759,10 +759,10 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
-        $a_interaction=array();
-        $a_interactionId=array();
-        $a_interactionDescription=array();
-        $a_interactionUser=array();
+        $a_interaction = array();
+        $a_interactionId = array();
+        $a_interactionDescription = array();
+        $a_interactionUser = array();
         $dbdata = array();
         $query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
 				cmi_interaction.cmi_interaction_id, 
@@ -775,27 +775,27 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 				AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id
 				ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cmi_node.cp_node_id, cmi_node.user_id';
+            $query .= 'cmi_node.cp_node_id, cmi_node.user_id';
         } else {
-            $query.='cmi_node.user_id, cmi_node.cp_node_id';
+            $query .= 'cmi_node.user_id, cmi_node.cp_node_id';
         }
-        $query.=', cmi_interaction.cmi_interaction_id, cmi_interaction.id';
+        $query .= ', cmi_interaction.cmi_interaction_id, cmi_interaction.id';
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $dbdata[] = $row;
         }
         foreach ($dbdata as $data) {
             $key = $data["cp_node_id"] . ':' . $data["id"];
-            $exist=false;
-            for ($i=0;$i<count($a_interaction);$i++) {
+            $exist = false;
+            for ($i = 0;$i < count($a_interaction);$i++) {
                 if ($a_interaction[$i] == $key) {
-                    $exist=true;
+                    $exist = true;
                 }
             }
             // if ($exist==false) $a_interaction[] = $key;
             // if ($a_interactionId[$key]==null) $a_interactionId[$key] = "".$data["id"];
             // if ($a_interactionDescription[$key]==null) $a_interactionDescription[$key] = "".$data["description"];
-            if ($exist==false) {
+            if ($exist == false) {
                 $a_interaction[] = $key;
                 $a_interactionId[$key] = "" . $data["id"];
                 $a_interactionDescription[$key] = "" . $data["description"];
@@ -813,16 +813,16 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             // . 'GROUP BY user_id '
             . 'ORDER BY ';
         if ($b_orderBySCO) {
-            $query.='cp_node_id, user_id';
+            $query .= 'cp_node_id, user_id';
         } else {
-            $query.='user_id, cp_node_id';
+            $query .= 'user_id, cp_node_id';
         }
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
             $dbdata[] = $row;
         }
         foreach ($dbdata as $data) {
-            for ($i=0;$i<count($a_interaction);$i++) {
+            for ($i = 0;$i < count($a_interaction);$i++) {
                 // $data["interaction_id".$i] = $a_interactionId[$a_interaction[$i]];
                 // $data["interaction_description".$i] = $a_interactionDescription[$a_interaction[$i]];
                 // $data["interaction_value".$i] = "";
@@ -830,24 +830,24 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
                 // if ($a_interactionUser[$ukey] != null) $data["interaction_value".$i] = $a_interactionUser[$ukey];
                 $intdesc = "interaction_value" . $i . " " . $a_interactionDescription[$a_interaction[$i]];
                 $data[$intdesc] = "";
-                $ukey=$a_interaction[$i] . ':' . $data["user_id"];
+                $ukey = $a_interaction[$i] . ':' . $data["user_id"];
                 if ($a_interactionUser[$ukey] != null) {
                     $data[$intdesc] = $a_interactionUser[$ukey];
                 }
             }
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data=array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
-            $returnData[]=$data;
+            $returnData[] = $data;
         }
         //		var_dump($returnData);
         return $returnData;
     }
     
 
-    public function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false, $obj_id, $lmTitle)
+    public function exportSelectedSuccess($a_user = array(), $allowExportPrivacy = false, $obj_id, $lmTitle)
     {
         $ilDB = $this->db;
 
@@ -869,7 +869,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $u_startedSCO = array();
         $u_completedSCO = array();
         $u_passedSCO = array();
-        for ($i=0; $i<count($a_user); $i++) {
+        for ($i = 0; $i < count($a_user); $i++) {
             $u_startedSCO[$a_user[$i]] = 0;
             $u_completedSCO[$a_user[$i]] = 0;
             $u_passedSCO[$a_user[$i]] = 0;

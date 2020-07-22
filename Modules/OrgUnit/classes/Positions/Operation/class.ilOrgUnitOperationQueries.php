@@ -33,7 +33,7 @@ class ilOrgUnitOperationQueries
         $ilOrgUnitOperationContext = $contextList->first();
 
         if (ilOrgUnitOperation::where(array(
-            'context_id'       => $ilOrgUnitOperationContext->getId(),
+            'context_id' => $ilOrgUnitOperationContext->getId(),
             'operation_string' => $operation_name,
         ))->hasSets()) {
             throw new ilException('This operation in this context has already been registered.');
@@ -115,6 +115,6 @@ class ilOrgUnitOperationQueries
     {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
-        return ilOrgUnitOperation::where([ 'operation_string' => $operation_string, 'context_id'=>$context->getId() ])->first();
+        return ilOrgUnitOperation::where([ 'operation_string' => $operation_string, 'context_id' => $context->getId() ])->first();
     }
 }

@@ -226,13 +226,13 @@ class ilCertificateGUI
             $certificatePath
         );
 
-        $this->lng     = $DIC['lng'];
-        $this->tpl     = $DIC['tpl'];
-        $this->ctrl    = $DIC['ilCtrl'];
-        $this->ilias   = $DIC['ilias'];
-        $this->tree    = $DIC['tree'];
-        $this->tree    = $DIC['tree'];
-        $this->access  = $DIC['ilAccess'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->ilias = $DIC['ilias'];
+        $this->tree = $DIC['tree'];
+        $this->tree = $DIC['tree'];
+        $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
 
         $this->lng->loadLanguageModule('certificate');
@@ -547,10 +547,10 @@ class ilCertificateGUI
                     try {
                         $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage($temporaryFileName, $nextVersion);
                     } catch (ilException $exception) {
-                        $form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+                        $form->getItemByPostVar('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
                     }
                     if (false === $this->fileSystem->has($backgroundImagePath)) {
-                        $form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
+                        $form->getItemByPostVar('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
                         $backgroundImagePath = '';
                     }
                 }
@@ -589,10 +589,10 @@ class ilCertificateGUI
                             $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
                         }
                     } catch (ilException $exception) {
-                        $form->getFileUpload('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
+                        $form->getItemByPostVar('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
                     }
                     if (false === $this->fileSystem->has($cardThumbnailImagePath)) {
-                        $form->getFileUpload('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
+                        $form->getItemByPostVar('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
                         $cardThumbnailImagePath = '';
                     }
                 }
@@ -680,14 +680,14 @@ class ilCertificateGUI
             $formats = $this->pageFormats->fetchPageFormats();
 
             $formFieldArray = array(
-                'pageformat'         => $format,
-                'pagewidth'          => $formats['width'],
-                'pageheight'         => $formats['height'],
-                'margin_body_top'    => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
-                'margin_body_right'  => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
+                'pageformat' => $format,
+                'pagewidth' => $formats['width'],
+                'pageheight' => $formats['height'],
+                'margin_body_top' => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
+                'margin_body_right' => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
                 'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
-                'margin_body_left'   => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
-                'certificate_text'   => $certificateTemplate->getCertificateContent()
+                'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
+                'certificate_text' => $certificateTemplate->getCertificateContent()
             );
 
             return $formFieldArray;

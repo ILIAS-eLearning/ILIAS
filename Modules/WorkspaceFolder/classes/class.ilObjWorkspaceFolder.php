@@ -23,7 +23,7 @@ class ilObjWorkspaceFolder extends ilObject2
 
     public function setFolderTree($a_tree)
     {
-        $this->folder_tree =&$a_tree;
+        $this->folder_tree = &$a_tree;
     }
     
     /**

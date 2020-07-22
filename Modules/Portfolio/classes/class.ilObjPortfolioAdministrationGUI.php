@@ -260,7 +260,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $ne = new ilNonEditableValueGUI($lng->txt("prtf_allow_html"), "", true);
         $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
         $link = $this->ctrl->getLinkTarget($gui);
-        $ne->setValue("<a href='$link'> >> ".$this->lng->txt("settings")."</a>");
+        $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
         $form->addItem($ne);
         
         $mycourses = new ilCheckboxInputGUI($lng->txt("prtf_allow_my_courses"), "mycrs");
@@ -318,7 +318,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         foreach ($lng->getInstalledLanguages() as $l) {
             $txt = $lng->txt("meta_l_" . $l);
             if ($lng->getDefaultLanguage() == $l) {
-                $txt.= " (" . $lng->txt("default") . ")";
+                $txt .= " (" . $lng->txt("default") . ")";
             }
             $fields["decl_" . $l] = $f->input()->field()->textarea($txt)
                 ->withRequired(false)

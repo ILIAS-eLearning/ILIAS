@@ -22,95 +22,95 @@ class ilSCORM13Player
     private static $schema = array // order of entries matters!
     (
         'package' => array(
-            'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'user_id'),
-            'learner_name' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'learner_name'),
-            'slm_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'slm_id'),
-            'mode' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'c_mode'),
-            'credit' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'credit'),
+            'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
+            'learner_name' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'learner_name'),
+            'slm_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'slm_id'),
+            'mode' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'c_mode'),
+            'credit' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'credit'),
         ),
         'node' => array(
-            'accesscount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'accesscount'),
-            'accessduration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'accessduration'),
-            'accessed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'accessed'),
-            'activityAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'activityabsduration'),
-            'activityAttemptCount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'activityattemptcount'),
-            'activityExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'activityexpduration'),
-            'activityProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'activityprogstatus'),
-            'attemptAbsoluteDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'attemptabsduration'),
-            'attemptCompletionAmount' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'attemptcomplamount'),
-            'attemptCompletionStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'attemptcomplstatus'),
-            'attemptExperiencedDuration' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'attemptexpduration'),
-            'attemptProgressStatus' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'attemptprogstatus'),
-            'audio_captioning' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'audio_captioning'),
-            'audio_level' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'audio_level'),
-            'availableChildren' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'availablechildren'),
-            'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_node_id'),
-            'completion' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'completion'),
-            'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'completion_status'),
-            'completion_threshold' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'completion_threshold'),
-            'cp_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cp_node_id'),
-            'created' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'created'),
-            'credit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'credit'),
-            'delivery_speed' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'delivery_speed'),
-            'entry' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_entry'),
-            'exit' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_exit'),
-            'language' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_language'),
-            'launch_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'launch_data'),
-            'learner_name' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'learner_name'),
-            'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'location'),
-            'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_max'),
-            'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_min'),
-            'mode' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_mode'),
-            'modified' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'modified'),
-            'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'progress_measure'),
-            'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_raw'),
-            'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'scaled'),
-            'scaled_passing_score' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'scaled_passing_score'),
-            'session_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'session_time'),
-            'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'success_status'),
-            'suspend_data' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'suspend_data'),
-            'total_time' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'total_time'),
-            'user_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'user_id'),
+            'accesscount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accesscount'),
+            'accessduration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessduration'),
+            'accessed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'accessed'),
+            'activityAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityabsduration'),
+            'activityAttemptCount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityattemptcount'),
+            'activityExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityexpduration'),
+            'activityProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'activityprogstatus'),
+            'attemptAbsoluteDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptabsduration'),
+            'attemptCompletionAmount' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplamount'),
+            'attemptCompletionStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptcomplstatus'),
+            'attemptExperiencedDuration' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptexpduration'),
+            'attemptProgressStatus' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'attemptprogstatus'),
+            'audio_captioning' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_captioning'),
+            'audio_level' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'audio_level'),
+            'availableChildren' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'availablechildren'),
+            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+            'completion' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion'),
+            'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
+            'completion_threshold' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_threshold'),
+            'cp_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cp_node_id'),
+            'created' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'created'),
+            'credit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'credit'),
+            'delivery_speed' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'delivery_speed'),
+            'entry' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_entry'),
+            'exit' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_exit'),
+            'language' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_language'),
+            'launch_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'launch_data'),
+            'learner_name' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_name'),
+            'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
+            'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
+            'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
+            'mode' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_mode'),
+            'modified' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'modified'),
+            'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
+            'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
+            'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
+            'scaled_passing_score' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled_passing_score'),
+            'session_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'session_time'),
+            'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
+            'suspend_data' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'suspend_data'),
+            'total_time' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'total_time'),
+            'user_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'user_id'),
         ),
         'comment' => array(
-            'cmi_comment_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_comment_id'),
-            'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_node_id'),
-            'comment' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_comment'),
-            'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_timestamp'),
-            'location' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'location'),
-            'sourceIsLMS' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'sourceislms'),
+            'cmi_comment_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_comment_id'),
+            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+            'comment' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_comment'),
+            'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
+            'location' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'location'),
+            'sourceIsLMS' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'sourceislms'),
         ),
         'correct_response' => array(
-            'cmi_correct_response_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_correct_resp_id'),
-            'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_interaction_id'),
-            'pattern' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'pattern'),
+            'cmi_correct_response_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_correct_resp_id'),
+            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+            'pattern' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'pattern'),
         ),
         'interaction' => array(
-            'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_interaction_id'),
-            'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_node_id'),
-            'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'description'),
-            'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'id'),
-            'latency' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'latency'),
-            'learner_response' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'learner_response'),
-            'result' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'result'),
-            'timestamp' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_timestamp'),
-            'type' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_type'),
-            'weighting' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'weighting'),
+            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+            'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
+            'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
+            'latency' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'latency'),
+            'learner_response' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'learner_response'),
+            'result' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'result'),
+            'timestamp' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_timestamp'),
+            'type' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_type'),
+            'weighting' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'weighting'),
         ),
         'objective' => array(
-            'cmi_interaction_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_interaction_id'),
-            'cmi_node_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_node_id'),
-            'cmi_objective_id' =>  array('pattern'=>null, 'permission' => self::NONE, 'default'=>null, 'dbfield'=>'cmi_objective_id'),
-            'completion_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'completion_status'),
-            'description' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'description'),
-            'id' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'id'),
-            'max' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_max'),
-            'min' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_min'),
-            'raw' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'c_raw'),
-            'scaled' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'scaled'),
-            'progress_measure' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'progress_measure'),
-            'success_status' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'success_status'),
-            'scope' =>  array('pattern'=>null, 'permission' => self::READWRITE, 'default'=>null, 'dbfield'=>'scope'),
+            'cmi_interaction_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_interaction_id'),
+            'cmi_node_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_node_id'),
+            'cmi_objective_id' => array('pattern' => null, 'permission' => self::NONE, 'default' => null, 'dbfield' => 'cmi_objective_id'),
+            'completion_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'completion_status'),
+            'description' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'description'),
+            'id' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'id'),
+            'max' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_max'),
+            'min' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_min'),
+            'raw' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'c_raw'),
+            'scaled' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scaled'),
+            'progress_measure' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'progress_measure'),
+            'success_status' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'success_status'),
+            'scope' => array('pattern' => null, 'permission' => self::READWRITE, 'default' => null, 'dbfield' => 'scope'),
         ),
     );
     
@@ -136,7 +136,7 @@ class ilSCORM13Player
         // $this->userId = $GLOBALS['DIC']['USER']['usr_id'];
         // }
         $this->packageId = (int) $_REQUEST['packageId'];
-        $this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript')!==false;
+        $this->jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;
         
         $this->page = $_REQUEST['page'];
         
@@ -146,9 +146,9 @@ class ilSCORM13Player
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
                 
-        $this->packageId=ilObject::_lookupObjectId($_GET['ref_id']);
+        $this->packageId = ilObject::_lookupObjectId($_GET['ref_id']);
         $this->ref_id = $_GET['ref_id'];
-        $this->userId=$ilUser->getID();
+        $this->userId = $ilUser->getID();
     
         if ($_GET['envEditor'] != null) {
             $this->envEditor = $_GET['envEditor'];
@@ -216,7 +216,7 @@ class ilSCORM13Player
                 
             case 'cmi':
 
-                if ($_SERVER['REQUEST_METHOD']=='POST') {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     include_once './Modules/Scorm2004/classes/class.ilSCORM2004StoreData.php';
                     ilSCORM2004StoreData::persistCMIData(
                         $this->userId,
@@ -273,7 +273,7 @@ class ilSCORM13Player
     public function getRTEjs()
     {
         $js_data = file_get_contents("./Modules/Scorm2004/scripts/buildrte/rte.js");
-        if (self::ENABLE_GZIP==1) {
+        if (self::ENABLE_GZIP == 1) {
             ob_start("ob_gzhandler");
             header('Content-Type: text/javascript; charset=UTF-8');
         } else {
@@ -285,9 +285,9 @@ class ilSCORM13Player
     
     public function getDataDirectory()
     {
-        $webdir=str_replace("/ilias.php", "", $_SERVER["SCRIPT_NAME"]);
+        $webdir = str_replace("/ilias.php", "", $_SERVER["SCRIPT_NAME"]);
         //load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
-        $lm_dir=$webdir . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data" . "/lm_" . $this->packageId;
+        $lm_dir = $webdir . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data" . "/lm_" . $this->packageId;
         return $lm_dir;
     }
         
@@ -299,7 +299,7 @@ class ilSCORM13Player
 
         $initSuspendData = null;
         $config = array(
-            'scope'=>$this->getScope(),
+            'scope' => $this->getScope(),
             'learner_id' => (string) $ilUser->getID(),
             'cmi_learner_id' => (string) $this->slm->getApiStudentId(),
             'course_id' => (string) $this->packageId,
@@ -384,31 +384,31 @@ class ilSCORM13Player
             $store_url = 'storeScorm2004.php?package_id=' . $this->packageId . '&ref_id=' . $_GET["ref_id"] . '&client_id=' . CLIENT_ID . '&do=store';
             $unload_url = 'storeScorm2004.php?package_id=' . $this->packageId . '&ref_id=' . $_GET["ref_id"] . '&client_id=' . CLIENT_ID . '&do=unload';
         }
-        $config['cp_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id=' . $_GET["ref_id"];
-        $config['cmi_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cmi&ref_id=' . $_GET["ref_id"];
-        $config['store_url']			= $store_url;
-        $config['get_adldata_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSharedData&ref_id=' . $_GET["ref_id"];
-        $config['set_adldata_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $_GET["ref_id"];
-        $config['adlact_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=adlact&ref_id=' . $_GET["ref_id"];
-        $config['specialpage_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=specialPage&ref_id=' . $_GET["ref_id"];
-        $config['suspend_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=suspend&ref_id=' . $_GET["ref_id"];
-        $config['get_suspend_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSuspend&ref_id=' . $_GET["ref_id"];
+        $config['cp_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cp&ref_id=' . $_GET["ref_id"];
+        $config['cmi_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=cmi&ref_id=' . $_GET["ref_id"];
+        $config['store_url'] = $store_url;
+        $config['get_adldata_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSharedData&ref_id=' . $_GET["ref_id"];
+        $config['set_adldata_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=setSharedData&ref_id=' . $_GET["ref_id"];
+        $config['adlact_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=adlact&ref_id=' . $_GET["ref_id"];
+        $config['specialpage_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=specialPage&ref_id=' . $_GET["ref_id"];
+        $config['suspend_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=suspend&ref_id=' . $_GET["ref_id"];
+        $config['get_suspend_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getSuspend&ref_id=' . $_GET["ref_id"];
         //next 2 lines could be deleted later
-        $config['gobjective_url']		= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=gobjective&ref_id=' . $_GET["ref_id"];
-        $config['get_gobjective_url']	= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getGobjective&ref_id=' . $_GET["ref_id"];
-        $config['ping_url']				= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=pingSession&ref_id=' . $_GET["ref_id"];
-        $config['scorm_player_unload_url']= $unload_url;
-        $config['post_log_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=postLogEntry&ref_id=' . $_GET["ref_id"];
-        $config['livelog_url']			= 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=liveLogContent&ref_id=' . $_GET["ref_id"];
-        $config['package_url']			= $this->getDataDirectory() . "/";
+        $config['gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=gobjective&ref_id=' . $_GET["ref_id"];
+        $config['get_gobjective_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=getGobjective&ref_id=' . $_GET["ref_id"];
+        $config['ping_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=pingSession&ref_id=' . $_GET["ref_id"];
+        $config['scorm_player_unload_url'] = $unload_url;
+        $config['post_log_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=postLogEntry&ref_id=' . $_GET["ref_id"];
+        $config['livelog_url'] = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=liveLogContent&ref_id=' . $_GET["ref_id"];
+        $config['package_url'] = $this->getDataDirectory() . "/";
 
         //editor
-        $config['envEditor']			= $this->envEditor;
+        $config['envEditor'] = $this->envEditor;
         
         //debug
-        $config['debug']				= $this->slm->getDebug();
-        $config['debug_fields']			= $this->getDebugValues();
-        $config['debug_fields_test']	= $this->getDebugValues(true);
+        $config['debug'] = $this->slm->getDebug();
+        $config['debug_fields'] = $this->getDebugValues();
+        $config['debug_fields_test'] = $this->getDebugValues(true);
 
 
         //language strings
@@ -418,13 +418,13 @@ class ilSCORM13Player
         $langstrings['btnSuspendAll'] = $lng->txt('scplayer_suspendall');
         $langstrings['btnPrevious'] = $lng->txt('scplayer_previous');
         $langstrings['btnContinue'] = $lng->txt('scplayer_continue');
-        $langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
-        $langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
-        $langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
-        $langstrings['linkcollapseTree']=$lng->txt('scplayer_collapsetree');
-        $langstrings['contCreditOff']=$lng->txt('cont_credit_off');
+        $langstrings['btnhidetree'] = $lng->txt('scplayer_hidetree');
+        $langstrings['btnshowtree'] = $lng->txt('scplayer_showtree');
+        $langstrings['linkexpandTree'] = $lng->txt('scplayer_expandtree');
+        $langstrings['linkcollapseTree'] = $lng->txt('scplayer_collapsetree');
+        $langstrings['contCreditOff'] = $lng->txt('cont_credit_off');
         if ($this->slm->getAutoReviewChar() == "s") {
-            $langstrings['contCreditOff']=$lng->txt('cont_sc_score_was_higher_message');
+            $langstrings['contCreditOff'] = $lng->txt('cont_sc_score_was_higher_message');
         }
         $config['langstrings'] = $langstrings;
         
@@ -458,7 +458,7 @@ class ilSCORM13Player
         $this->tpl->setVariable('INIT_GLOBALOBJ_DATA', json_encode($initGlobalobjData));
         $this->tpl->setVariable('JS_DATA', json_encode($config));
         list($tsfrac, $tsint) = explode(' ', microtime());
-        $this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000*(float) $tsfrac));
+        $this->tpl->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
         $this->tpl->setVariable('BASE_DIR', './Modules/Scorm2004/');
         $this->tpl->setVariable('TXT_COLLAPSE', $lng->txt('scplayer_collapsetree'));
         if ($this->slm->getDebug()) {
@@ -480,7 +480,7 @@ class ilSCORM13Player
         }
 
         //disable top menu
-        if ($this->slm->getNoMenu()=="y") {
+        if ($this->slm->getNoMenu() == "y") {
             $this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
         } else {
             $this->tpl->setVariable("VAL_DISPLAY", "");
@@ -488,7 +488,7 @@ class ilSCORM13Player
 
 
         //check for max_attempts and raise error if max_attempts is exceeded
-        if ($this->get_max_attempts()!=0) {
+        if ($this->get_max_attempts() != 0) {
             if ($this->get_actual_attempts() >= $this->get_max_attempts()) {
                 header('Content-Type: text/html; charset=utf-8');
                 echo($lng->txt("cont_sc_max_attempt_exceed"));
@@ -668,19 +668,19 @@ class ilSCORM13Player
 
         if (!$ilDB->numRows($res)) {
             $ilDB->insert('cp_suspend', array(
-                'data'		=> array('clob', file_get_contents('php://input')),
-                'obj_id'	=> array('integer', $this->packageId),
-                'user_id'	=> array('integer', $ilUser->getId())
+                'data' => array('clob', file_get_contents('php://input')),
+                'obj_id' => array('integer', $this->packageId),
+                'user_id' => array('integer', $ilUser->getId())
             ));
         } else {
             $ilDB->update(
                 'cp_suspend',
                 array(
-                    'data'		=> array('clob', file_get_contents('php://input'))
+                    'data' => array('clob', file_get_contents('php://input'))
                 ),
                 array(
-                    'obj_id'	=> array('integer', $this->packageId),
-                    'user_id'	=> array('integer', $ilUser->getId())
+                    'obj_id' => array('integer', $this->packageId),
+                    'user_id' => array('integer', $ilUser->getId())
                 )
             );
         }
@@ -961,22 +961,22 @@ class ilSCORM13Player
         $lng = $DIC['lng'];
         
         $specialpages = array(
-            "_COURSECOMPLETE_"	=>		"seq_coursecomplete",
-            "_ENDSESSION_"		=> 		"seq_endsession",
-            "_SEQBLOCKED_"		=> 		"seq_blocked",
-            "_NOTHING_"			=> 		"seq_nothing",
-            "_ERROR_"			=>  	"seq_error",
-            "_DEADLOCK_"		=>		"seq_deadlock",
-            "_INVALIDNAVREQ_"	=>		"seq_invalidnavreq",
-            "_SEQABANDON_"		=>		"seq_abandon",
-            "_SEQABANDONALL_"	=>		"seq_abandonall",
-            "_TOC_"				=>		"seq_toc"
+            "_COURSECOMPLETE_" => "seq_coursecomplete",
+            "_ENDSESSION_" => "seq_endsession",
+            "_SEQBLOCKED_" => "seq_blocked",
+            "_NOTHING_" => "seq_nothing",
+            "_ERROR_" => "seq_error",
+            "_DEADLOCK_" => "seq_deadlock",
+            "_INVALIDNAVREQ_" => "seq_invalidnavreq",
+            "_SEQABANDON_" => "seq_abandon",
+            "_SEQABANDONALL_" => "seq_abandonall",
+            "_TOC_" => "seq_toc"
         );
         
         $this->tpl = new ilTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('TXT_SPECIALPAGE', $lng->txt($specialpages[$this->page]));
-        if ($this->page!="_TOC_" && $this->page!="_SEQABANDON_" && $this->page!="_SEQABANDONALL_") {
+        if ($this->page != "_TOC_" && $this->page != "_SEQABANDON_" && $this->page != "_SEQABANDONALL_") {
             $this->tpl->setVariable('CLOSE_WINDOW', $lng->txt('seq_close'));
         } else {
             $this->tpl->setVariable('CLOSE_WINDOW', "");
@@ -1018,7 +1018,7 @@ class ilSCORM13Player
         global $DIC;
         $ilDB = $DIC['ilDB'];
         
-        $i_check=0;
+        $i_check = 0;
         $result = array(
             'schema' => array(),
             'data' => array()
@@ -1038,8 +1038,8 @@ class ilSCORM13Player
                     break;
 
                 case "comment":
-                    if ($i_check>7) {
-                        $i_check-=8;
+                    if ($i_check > 7) {
+                        $i_check -= 8;
                         if ($this->slm->getComments()) {
                             $q = 'SELECT 
 							cmi_comment.cmi_comment_id, 
@@ -1060,8 +1060,8 @@ class ilSCORM13Player
                     break;
 
                 case "correct_response":
-                    if ($i_check>3) {
-                        $i_check-=4;
+                    if ($i_check > 3) {
+                        $i_check -= 4;
                         if ($this->slm->getInteractions()) {
                             $q = 'SELECT cmi_correct_response.* 
 							FROM cmi_correct_response 
@@ -1077,8 +1077,8 @@ class ilSCORM13Player
                     break;
 
                 case "interaction":
-                    if ($i_check>1) {
-                        $i_check-=2;
+                    if ($i_check > 1) {
+                        $i_check -= 2;
                         if ($this->slm->getInteractions()) {
                             $q = 'SELECT 
 							cmi_interaction.cmi_interaction_id, 
@@ -1102,7 +1102,7 @@ class ilSCORM13Player
                     break;
 
                 case "objective":
-                    if ($i_check>0) {
+                    if ($i_check > 0) {
                         if ($this->slm->getObjectives()) {
                             $q = 'SELECT 
 							cmi_objective.cmi_interaction_id, 
@@ -1150,12 +1150,12 @@ class ilSCORM13Player
                 while ($row = $ilDB->fetchAssoc($res)) {
                     $tmp_result = array();
                     foreach ($row as $key => $value) {
-                        if ($k == "comment" && $key == "c_timestamp" && strpos($value, ' ')==10) {
+                        if ($k == "comment" && $key == "c_timestamp" && strpos($value, ' ') == 10) {
                             $value = str_replace(' ', 'T', $value);
                         }
                         $tmp_result[] = $value;
-                        if ($k=="node" && $key=="additional_tables" && $i_check<$value) {
-                            $i_check=$value;
+                        if ($k == "node" && $key == "additional_tables" && $i_check < $value) {
+                            $i_check = $value;
                             //							$GLOBALS['DIC']['ilLog']->write($i_check);
                         }
                     }
@@ -1177,7 +1177,7 @@ class ilSCORM13Player
         }
 
         foreach ($a_array as $k => $item) {
-            if ($item !=  null) {
+            if ($item != null) {
                 $a_array[$k] = $ilDB->quote($item);
             } else {
                 $a_array[$k] = "NULL";
@@ -1539,7 +1539,7 @@ class ilSCORM13Player
             $logtpl->setVariable("started", $lng->txt("started"));
             $logtpl->setVariable("nr_session", $lng->txt("nr_session"));
             $logtpl->setVariable("id_learning_module", $lng->txt("id_learning_module"));
-            if ($this->slm->getCheck_values()==false) {
+            if ($this->slm->getCheck_values() == false) {
                 $logtpl->setVariable("CHECK_VALUES", $lng->txt("sent_values_not_checked"));
             }
             $logtpl->parseCurrentBlock();
@@ -1551,9 +1551,9 @@ class ilSCORM13Player
 
     public function getDataDirectory2()
     {
-        $webdir=str_replace("/ilias.php", "", $_SERVER["SCRIPT_NAME"]);
+        $webdir = str_replace("/ilias.php", "", $_SERVER["SCRIPT_NAME"]);
         //load ressources always with absolute URL..relative URLS fail on innersco navigation on certain browsers
-        $lm_dir=$webdir . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data" . "/lm_" . $this->packageId;
+        $lm_dir = $webdir . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/lm_data" . "/lm_" . $this->packageId;
         return $lm_dir;
     }
 
@@ -1561,7 +1561,7 @@ class ilSCORM13Player
     {
         //		$logDir=ilUtil::getDataDir()."/SCORMlogs"."/lm_".$this->packageId;
         //		if (!file_exists($logDir)) ilUtil::makeDirParents($logDir);
-        $logDir=$this->slm->getDataDirectory() . "/logs";
+        $logDir = $this->slm->getDataDirectory() . "/logs";
         if (!file_exists($logDir)) {
             ilUtil::makeDir($logDir);
         }
@@ -1604,17 +1604,17 @@ class ilSCORM13Player
             $fnameparts = preg_split('/_/', $parts['filename'], -1, PREG_SPLIT_NO_EMPTY);
             $deleteUrl = '&nbsp;<a href=#' . " onclick=\"javascript:deleteFile('" . $item['filename'] . "');\">" . $s_delete . "</a>";
             //no delete for most recent file
-            if ($this->get_actual_attempts()==$fnameparts[1]) {
-                $deleteUrl="";
+            if ($this->get_actual_attempts() == $fnameparts[1]) {
+                $deleteUrl = "";
             }
             
             $urlDownload = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=downloadLog&ref_id=' . $_GET["ref_id"] . '&logFile=' . $fileInfo->getFilename();
             $urlOpen = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=openLog&ref_id=' . $_GET["ref_id"] . '&logFile=' . $fileInfo->getFilename();
             $item['date'] = date('Y/m/d H:i:s', $fileInfo->getCTime());
             if ($parts['extension'] == "html") {
-                $item['action'] =$deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>&nbsp;<a target=_new href=" . $urlOpen . ">" . $s_open . "</a>";
+                $item['action'] = $deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>&nbsp;<a target=_new href=" . $urlOpen . ">" . $s_open . "</a>";
             } else {
-                $item['action'] =$deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>";
+                $item['action'] = $deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>";
             }
             if ($parts['extension'] == "html" || $parts['extension'] == "csv") {
                 array_push($data, $item);
@@ -1728,7 +1728,7 @@ class ilSCORM13Player
         $fh_tmp = fopen($tmp_name, 'r') or die("can't open tmp file");
         
         //init tmp file
-        if (filesize($tmp_name)>0) {
+        if (filesize($tmp_name) > 0) {
             $tmp_content = unserialize(fread($fh_tmp, filesize($tmp_name)));
         } else {
             $tmp_content = null;
@@ -1760,12 +1760,12 @@ class ilSCORM13Player
             $toleratedFailure = true;
             $extraErrorDescription = "tolerated failure";
         }
-        if ($errorcode>99999) {
-            $errorcode-=100000;
+        if ($errorcode > 99999) {
+            $errorcode -= 100000;
             $fixedFailure = true;
             $extraErrorDescription = " failure corrected by ILIAS";
         }
-        if (strpos($logdata->action, "ANALYZE")===false) {
+        if (strpos($logdata->action, "ANALYZE") === false) {
             $errorDescriptions = array("0" => "",
                 "101" => "General Exeption",
                 "102" => "General Initialization Failure",
@@ -1812,7 +1812,7 @@ class ilSCORM13Player
             $sql_data = $this->getNodeData($logdata->scoid, $fh_csv);
             if (count($sql_data) != 0) {
                 foreach ($sql_data as $key => $value) {
-                    $sql_string =  $this->packageId . ';"'
+                    $sql_string = $this->packageId . ';"'
                         . $logdata->scoid . '";"'
                         . $logdata->scotitle . '";'
                         . $timestamp . ';"SQL";"'
@@ -1834,7 +1834,7 @@ class ilSCORM13Player
         //write TXT
         $logtpl = $this->getLogTemplate();
         $color = "red";
-        $importantkey=1;
+        $importantkey = 1;
         $ArGetValues = array('comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time');
 
         switch ($logdata->action) {
@@ -1842,10 +1842,10 @@ class ilSCORM13Player
                 if ($logdata->result == "true" && $errorcode == 0) {
                     $color = "green";
                 }
-                if ($color=="green" && $logdata->key == "cmi.exit" && $logdata->value!="suspend") {
+                if ($color == "green" && $logdata->key == "cmi.exit" && $logdata->value != "suspend") {
                     $color = "orange";
                 }
-                if ($fixedFailure == false && $errorcode!=406) {
+                if ($fixedFailure == false && $errorcode != 406) {
                     $logdata->value = '"' . $logdata->value . '"';
                 }
                 if ($toleratedFailure == true) {
@@ -1891,7 +1891,7 @@ class ilSCORM13Player
                 }
                 break;
             case 'GetErrorString':
-                $importantkey=0;
+                $importantkey = 0;
                 if ($errorcode == 0) {
                     $color = "green";
                 }
@@ -1932,7 +1932,7 @@ class ilSCORM13Player
                     $logtpl->setVariable("VALUE", "");
                 } else {
                     $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
-                    for ($i=0; $i <count($ArGetValues); $i++) {
+                    for ($i = 0; $i < count($ArGetValues); $i++) {
                         $tmpvalue = str_replace("SetValue(\"cmi." . $ArGetValues[$i] . "\", ... )", "GetValue(\"cmi." . $ArGetValues[$i] . "\")", $tmpvalue);
                     }
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
@@ -1952,7 +1952,7 @@ class ilSCORM13Player
                     $logtpl->setVariable("VALUE", "");
                 } else {
                     $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
-                    for ($i=0; $i <count($ArGetValues); $i++) {
+                    for ($i = 0; $i < count($ArGetValues); $i++) {
                         $tmpvalue = str_replace("SetValue(\"cmi." . $ArGetValues[$i] . "\", ... )", "GetValue(\"cmi." . $ArGetValues[$i] . "\")", $tmpvalue);
                     }
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
@@ -1972,7 +1972,7 @@ class ilSCORM13Player
                 $logtpl->parseCurrentBlock();
                 break;
             default:
-                $importantkey=0;
+                $importantkey = 0;
                 $color = "orange";
                 break;
         }
@@ -1984,11 +1984,11 @@ class ilSCORM13Player
             $logtpl->setVariable("VALUE", $logdata->value);
             $logtpl->setVariable("RESULT", $logdata->result);
             $logtpl->setVariable("ERRORCODE", $errorcode);
-            $debugfields=$this->getDebugValues(true);
-            $importantkey=0;
-            for ($i=0; $i <count($debugfields) ; $i++) {
+            $debugfields = $this->getDebugValues(true);
+            $importantkey = 0;
+            for ($i = 0; $i < count($debugfields) ; $i++) {
                 if ($logdata->key == $debugfields[$i]) {
-                    $importantkey=1;
+                    $importantkey = 1;
                 }
             }
             $logtpl->setVariable("IMPORTANTKEY", "" . $importantkey);
@@ -2028,7 +2028,7 @@ class ilSCORM13Player
 
     private function getStructureFlat($data)
     {
-        for ($i=0; $i <count($data) ; $i++) {
+        for ($i = 0; $i < count($data) ; $i++) {
             $element = array();
             $element['title'] = $data[$i]['title'];
             $element['id'] = $data[$i]['id'];
@@ -2037,10 +2037,10 @@ class ilSCORM13Player
             } else {
                 $element['sco'] = "assset";
             }
-            if ($data[$i]['href'] !=null) {
+            if ($data[$i]['href'] != null) {
                 array_push($this->flat_structure, $element);
             }
-            if ($data[$i]['item']!=null) {
+            if ($data[$i]['item'] != null) {
                 $this->getStructureFlat($data[$i]['item']);
             }
         }
@@ -2098,8 +2098,8 @@ class ilSCORM13Player
             //write api data
             $id = $tree_element['id'];
             foreach ($api_keys as $api_element) {
-                if ($api_data[$id]!=null) {
-                    if ($api_data[$id][$api_element]!=null) {
+                if ($api_data[$id] != null) {
+                    if ($api_data[$id][$api_element] != null) {
                         $csv_data = $csv_data . $api_data[$id][$api_element]['value'] . ";" . $api_data[$id][$api_element]['status'] . ";";
                     } else {
                         $csv_data = $csv_data . ";;";

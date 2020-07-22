@@ -475,7 +475,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 foreach ($usages as $k => $usage) {
                     include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
                     $tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
-                    $html.= $tab->getHTML() . "<br/><br/>";
+                    $html .= $tab->getHTML() . "<br/><br/>";
                 }
                 $tpl->setContent($html);
                 $ilCtrl->saveParameter($a_gui, "tmpmode");

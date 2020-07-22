@@ -655,7 +655,7 @@ class ilLMPresentationGUI
                 $this->tpl->fillOnLoadCode();
                 //$this->tpl->fillViewAppendInlineCss();
             }
-            $content =  $this->tpl->get();
+            $content = $this->tpl->get();
             $content = str_replace("&#123;", "{", $content);
             $content = str_replace("&#125;", "}", $content);
 
@@ -665,7 +665,7 @@ class ilLMPresentationGUI
             $this->tpl->fillLeftNav();
             $this->tpl->fillOnLoadCode();
             //$this->tpl->fillViewAppendInlineCss();
-            $content =  $this->tpl->get();
+            $content = $this->tpl->get();
         }
 
         return($content);
@@ -780,33 +780,33 @@ class ilLMPresentationGUI
         $exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang, $this->focus_id, $this->export_all_languages);
         $exp->setMainTemplate($this->tpl);
         $exp->setTracker($this->getTracker());
-        if (!$exp->handleCommand()) {
-            // determine highlighted and force open nodes
-            $page_id = $this->getCurrentPageId();
-            if ($this->deactivated_page) {
-                $page_id = $_GET["obj_id"];
-            }
-            if ($page_id > 0) {
-                $exp->setPathOpen((int) $page_id);
-            }
-            // empty chapter
-            if ($this->chapter_has_no_active_page &&
-                ilLMObject::_lookupType($_GET["obj_id"]) == "st") {
-                $exp->setHighlightNode($_GET["obj_id"]);
-            } else {
-                if ($this->lm->getTOCMode() == "pages") {
-                    if ($this->deactivated_page) {
-                        $exp->setHighlightNode($_GET["obj_id"]);
-                    } else {
-                        $exp->setHighlightNode($page_id);
-                    }
+        // determine highlighted and force open nodes
+        $page_id = $this->getCurrentPageId();
+        if ($this->deactivated_page) {
+            $page_id = $_GET["obj_id"];
+        }
+        if ($page_id > 0) {
+            $exp->setPathOpen((int) $page_id);
+        }
+        // empty chapter
+        if ($this->chapter_has_no_active_page &&
+            ilLMObject::_lookupType($_GET["obj_id"]) == "st") {
+            $exp->setHighlightNode($_GET["obj_id"]);
+        } else {
+            if ($this->lm->getTOCMode() == "pages") {
+                if ($this->deactivated_page) {
+                    $exp->setHighlightNode($_GET["obj_id"]);
                 } else {
-                    $exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+                    $exp->setHighlightNode($page_id);
                 }
+            } else {
+                $exp->setHighlightNode($this->lm_tree->getParentId($page_id));
             }
-            if ($this->offlineMode()) {
-                $exp->setOfflineMode(true);
-            }
+        }
+        if ($this->offlineMode()) {
+            $exp->setOfflineMode(true);
+        }
+        if (!$exp->handleCommand()) {
 
             if ($a_get_explorer) {
                 return $exp;
@@ -934,7 +934,7 @@ class ilLMPresentationGUI
                 $this->lang
             );
             if ($pg_title != "") {
-                $title.= ": " . $pg_title;
+                $title .= ": " . $pg_title;
             }
             
             $plinkgui->setTitle($title);
@@ -1393,7 +1393,7 @@ class ilLMPresentationGUI
             
             if ($_GET["srcstring"] != "" && !$this->offlineMode()) {
                 include_once './Services/Search/classes/class.ilUserSearchCache.php';
-                $cache =  ilUserSearchCache::_getInstance($ilUser->getId());
+                $cache = ilUserSearchCache::_getInstance($ilUser->getId());
                 $cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
                 $search_string = $cache->getQuery();
                 
@@ -1464,7 +1464,7 @@ class ilLMPresentationGUI
             $act_data = ilLMPage::_lookupActivationData((int) $_GET["obj_id"], $this->lm->getType());
             if ($act_data["show_activation_info"] &&
                 (ilUtil::now() < $act_data["activation_start"])) {
-                $m.= "<p>" . sprintf(
+                $m .= "<p>" . sprintf(
                     $this->lng->txt("cont_page_activation_on"),
                     ilDatePresentation::formatDate(
                         new ilDateTime($act_data["activation_start"], IL_CAL_DATETIME)
@@ -1580,7 +1580,7 @@ class ilLMPresentationGUI
 
         // read link targets
         $link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-        $link_xml.= $this->getLinkTargetsXML();
+        $link_xml .= $this->getLinkTargetsXML();
 
         // get lm page object
         $lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
@@ -1814,13 +1814,13 @@ class ilLMPresentationGUI
         $parent = $this->lm_tree->getParentId($topchap);
         $childs = $this->lm_tree->getChildsByType($parent, "st");
         $next = "";
-        $j=-2;
-        $i=1;
+        $j = -2;
+        $i = 1;
         foreach ($childs as $child) {
             if ($child["child"] == $topchap) {
                 $j = $i;
             }
-            if ($i++ == ($j+1)) {
+            if ($i++ == ($j + 1)) {
                 $succ_node = $this->lm_tree->fetchSuccessorNode($child["child"], "pg");
             }
         }
@@ -1886,9 +1886,9 @@ class ilLMPresentationGUI
                                 : $ltarget;
                             if ($ltarget == "") {
                                 if ($showViewInFrameset) {
-                                    $ltarget="_parent";
+                                    $ltarget = "_parent";
                                 } else {
-                                    $ltarget="_top";
+                                    $ltarget = "_top";
                                 }
                             }
                             // scorm always in 1window view and link target
@@ -2019,7 +2019,7 @@ class ilLMPresentationGUI
                 }*/
             }
         }
-        $link_info.= "</IntLinkInfos>";
+        $link_info .= "</IntLinkInfos>";
         return $link_info;
     }
 
@@ -2030,9 +2030,9 @@ class ilLMPresentationGUI
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info.="<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
-        $link_info.= "</LinkTargets>";
+        $link_info .= "</LinkTargets>";
         return $link_info;
     }
 
@@ -2076,7 +2076,7 @@ class ilLMPresentationGUI
 
         $int_links = $term_gui->getInternalLinks();
         $link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-        $link_xml.= $this->getLinkTargetsXML();
+        $link_xml .= $this->getLinkTargetsXML();
         $term_gui->setLinkXML($link_xml);
 
         $term_gui->setOfflineDirectory($this->getOfflineDirectory());
@@ -2126,7 +2126,7 @@ class ilLMPresentationGUI
         //$int_links = $page_object->getInternalLinks();
         $med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
         $link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
-        $link_xml.= $this->getLinkTargetsXML();
+        $link_xml .= $this->getLinkTargetsXML();
         //echo "<br><br>".htmlentities($link_xml);
         require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
@@ -2138,18 +2138,18 @@ class ilLMPresentationGUI
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         } else {
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml.= $media_obj->getXML(IL_MODE_ALIAS);
-            $xml.= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml.= $link_xml;
-            $xml.="</dummy>";
+            $xml .= $media_obj->getXML(IL_MODE_ALIAS);
+            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+            $xml .= $link_xml;
+            $xml .= "</dummy>";
         }
 
         //echo htmlentities($xml); exit;
@@ -2625,11 +2625,11 @@ class ilLMPresentationGUI
                         );
                     $attributes["title"] = $this->lng->txt("cont_frame_" . $attributes["name"]);
                     if ($attributes["name"] == "toc") {
-                        $attributes["src"].= "#" . $_GET["obj_id"];
+                        $attributes["src"] .= "#" . $_GET["obj_id"];
                     } else {
                         // Handle Anchors
                         if ($_GET["anchor"] != "") {
-                            $attributes["src"].= "#" . rawurlencode($_GET["anchor"]);
+                            $attributes["src"] .= "#" . rawurlencode($_GET["anchor"]);
                         }
                     }
                     $a_content .= $this->buildTag("", "frame", $attributes);
@@ -2646,15 +2646,15 @@ class ilLMPresentationGUI
     * @param	string		element/tag name
     * @param	array		array of attributes
     */
-    public function buildTag($type, $name, $attr="")
+    public function buildTag($type, $name, $attr = "")
     {
         $tag = "<";
 
         if ($type == "end") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= $name;
+        $tag .= $name;
 
         if (is_array($attr)) {
             foreach ($attr as $k => $v) {
@@ -2663,10 +2663,10 @@ class ilLMPresentationGUI
         }
 
         if ($type == "") {
-            $tag.= "/";
+            $tag .= "/";
         }
 
-        $tag.= ">\n";
+        $tag .= ">\n";
 
         return $tag;
     }
@@ -3022,7 +3022,7 @@ class ilLMPresentationGUI
                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
-                            $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
                     $img_src = ilUtil::getImagePath("icon_pg.svg");
@@ -3052,7 +3052,7 @@ class ilLMPresentationGUI
                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
-                            $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                            $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                         }
                     }
                     $img_src = ilUtil::getImagePath("icon_st.svg");
@@ -3061,7 +3061,7 @@ class ilLMPresentationGUI
             }
 
             if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $node["obj_id"])) {
-                $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                $text .= " (" . $this->lng->txt("cont_no_access") . ")";
             }
 
             $this->nl->addListNode(
@@ -3093,7 +3093,7 @@ class ilLMPresentationGUI
                $this->lm_gui->object->getPublicAccessMode() == "selected") {
                 if (!ilLMObject::_isPagePublic($_GET["obj_id"])) {
                     $disabled = true;
-                    $text.= " (" . $this->lng->txt("cont_no_access") . ")";
+                    $text .= " (" . $this->lng->txt("cont_no_access") . ")";
                 }
             }
             $img_src = ilUtil::getImagePath("icon_pg.svg");
@@ -3161,7 +3161,7 @@ class ilLMPresentationGUI
         $radg->addOption($op1);
         $op2 = new ilRadioOption($lng->txt("cont_current_chapter"), "chapter");
         $radg->addOption($op2);
-        $op3= new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
+        $op3 = new ilRadioOption($lng->txt("cont_selected_pg_chap"), "selection");
         $radg->addOption($op3);
 
         include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
@@ -3581,7 +3581,7 @@ class ilLMPresentationGUI
             $annex_cnt++;
             $this->tpl->setCurrentBlock("glossary");
             $annex_title = $this->lng->txt("cont_annex") . " " .
-                chr(64+$annex_cnt) . ": " . $this->lng->txt("glo");
+                chr(64 + $annex_cnt) . ": " . $this->lng->txt("glo");
             $this->tpl->setVariable("TXT_GLOSSARY", $annex_title);
             $this->tpl->parseCurrentBlock();
 
@@ -3633,7 +3633,7 @@ class ilLMPresentationGUI
             $annex_cnt++;
             $this->tpl->setCurrentBlock("ref_images");
             $annex_title = $this->lng->txt("cont_annex") . " " .
-                chr(64+$annex_cnt) . ": " . $this->lng->txt("cont_ref_images");
+                chr(64 + $annex_cnt) . ": " . $this->lng->txt("cont_ref_images");
             $this->tpl->setVariable("TXT_REF_IMAGES", $annex_title);
             $this->tpl->parseCurrentBlock();
 
@@ -3665,7 +3665,7 @@ class ilLMPresentationGUI
             foreach ($nodes2 as $node2) {
                 if ($node2["type"] == "st"
                     && ilObjContentObject::_checkPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $node2["obj_id"])) {
-                    for ($j=1; $j < $node2["depth"]; $j++) {
+                    for ($j = 1; $j < $node2["depth"]; $j++) {
                         $this->tpl->setCurrentBlock("indent");
                         $this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.png"));
                         $this->tpl->parseCurrentBlock();
@@ -3939,7 +3939,7 @@ class ilLMPresentationGUI
                 }
             }
             
-            if ($a_anchor !=  "") {
+            if ($a_anchor != "") {
                 $this->ctrl->setParameter($this, "anchor", rawurlencode($a_anchor));
             }
             if ($a_srcstring != "") {
@@ -3966,7 +3966,7 @@ class ilLMPresentationGUI
                                 
                             default:
                                 $this->ctrl->setParameter($this, "obj_id", $a_obj_id);
-                                $link.= "&amp;obj_id=" . $a_obj_id;
+                                $link .= "&amp;obj_id=" . $a_obj_id;
                                 break;
                         }
                     }

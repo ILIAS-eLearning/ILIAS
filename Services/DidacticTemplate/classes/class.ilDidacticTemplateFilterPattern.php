@@ -180,7 +180,7 @@ abstract class ilDidacticTemplateFilterPattern
             'parent_type = ' . $ilDB->quote($this->getParentType(), 'text') . ', ' .
             'WHERE pattern_id = ' . $ilDB->quote($this->getPatternId(), 'integer');
         $res = $ilDB->manipulate($query);
-        return void;
+        return;
     }
 
     /**

@@ -86,7 +86,7 @@ class ilUIHookProcessor
             $html = $this->replace;
         }
         foreach ($this->append as $a) {
-            $html.= $a;
+            $html .= $a;
         }
         foreach ($this->prepend as $p) {
             $html = $p . $html;

@@ -254,7 +254,7 @@ class ilStudyProgrammeUserAssignmentTest extends PHPUnit_Framework_TestCase
         $this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE);
         $ass = $this->root->assignUser($user1->getId());
 
-        $root_id  = $this->root->getId();
+        $root_id = $this->root->getId();
         $this->root->delete();
         $this->root = null;
         

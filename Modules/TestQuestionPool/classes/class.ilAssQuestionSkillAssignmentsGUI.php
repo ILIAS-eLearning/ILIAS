@@ -225,9 +225,9 @@ class ilAssQuestionSkillAssignmentsGUI
             for ($i = 0; $i < 2; $i++) {
                 foreach ($_POST['skill_points'] as $assignmentKey => $skillPoints) {
                     $assignmentKey = explode(':', $assignmentKey);
-                    $skillBaseId   = (int) $assignmentKey[0];
-                    $skillTrefId   = (int) $assignmentKey[1];
-                    $questionId    = (int) $assignmentKey[2];
+                    $skillBaseId = (int) $assignmentKey[0];
+                    $skillTrefId = (int) $assignmentKey[1];
+                    $questionId = (int) $assignmentKey[2];
 
                     if ($this->isTestQuestion($questionId)) {
                         $assignment = new ilAssQuestionSkillAssignment($this->db);

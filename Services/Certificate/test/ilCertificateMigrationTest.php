@@ -26,16 +26,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => false,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => false,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 10,
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 10,
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -43,16 +43,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
         $result = $migration->getTaskInformations();
 
         $this->assertEquals(array(
-            'id'              => 100,
-            'usr_id'          => 200,
-            'lock'            => false,
-            'found_items'     => 4,
+            'id' => 100,
+            'usr_id' => 200,
+            'lock' => false,
+            'found_items' => 4,
             'processed_items' => 3,
-            'migrated_items'  => 5,
-            'progress'        => 50,
-            'state'           => 10,
-            'started_ts'      => 123456789,
-            'finished_ts'     => 987654321
+            'migrated_items' => 5,
+            'progress' => 50,
+            'state' => 10,
+            'started_ts' => 123456789,
+            'finished_ts' => 987654321
         ), $result);
     }
 
@@ -80,16 +80,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => false,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => false,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 10,
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 10,
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -123,16 +123,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => false,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => false,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 10,
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 10,
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -166,16 +166,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => false,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => false,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 'not started',
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 'not started',
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -209,16 +209,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => true,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => true,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 'running',
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 'running',
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -252,16 +252,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => true,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => true,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 'failed',
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 'failed',
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
@@ -295,16 +295,16 @@ class ilCertificateMigrationTest extends PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('fetchAssoc')
             ->willReturn(array(
-                'id'              => 100,
-                'usr_id'          => 200,
-                'lock'            => true,
-                'found_items'     => 4,
+                'id' => 100,
+                'usr_id' => 200,
+                'lock' => true,
+                'found_items' => 4,
                 'processed_items' => 3,
-                'migrated_items'  => 5,
-                'progress'        => 50,
-                'state'           => 'finished',
-                'started_ts'      => 123456789,
-                'finished_ts'     => 987654321
+                'migrated_items' => 5,
+                'progress' => 50,
+                'state' => 'finished',
+                'started_ts' => 123456789,
+                'finished_ts' => 987654321
             ));
 
         $migration = new ilCertificateMigration(100, $database);
