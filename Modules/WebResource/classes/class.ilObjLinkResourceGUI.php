@@ -155,10 +155,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->initFormLink(self::LINK_MOD_CREATE);
-        if ($this->checkLinkInput(self::LINK_MOD_CREATE, 0, 0) && $this->form->getInput('tar_mode_type') == 'single') {
+        $valid = $this->form->checkInput();
+        if ($this->checkLinkInput(self::LINK_MOD_CREATE, $valid, 0, 0)
+            && $this->form->getInput('tar_mode_type') == 'single') {
             // Save new object
             parent::save();
-        } elseif ($this->checkListInput(self::LINK_MOD_CREATE, 0) && $this->form->getInput('tar_mode_type') == 'list') {
+        } elseif ($valid && $this->form->getInput('tar_mode_type') == 'list') {
+            $this->initList(self::LINK_MOD_CREATE, 0);
             parent::save();
         } else {
             // Data incomplete or invalid
@@ -231,8 +234,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $ilTabs->activateTab('id_settings');
         
         $this->initFormSettings();
-        if ($this->checkListInput(self::LINK_MOD_EDIT_LIST, $this->object->getId())) {
+        $valid = $this->form->checkInput();
+        if ($valid) {
             // update list
+            $this->initList(self::LINK_MOD_EDIT_LIST, $this->object->getId());
             $this->list->update();
 
             // update object
@@ -374,7 +379,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->initFormLink(self::LINK_MOD_EDIT);
-        if ($this->checkLinkInput(self::LINK_MOD_EDIT, $this->object->getId(), (int) $_REQUEST['link_id'])) {
+        $valid = $this->form->checkInput();
+        if ($this->checkLinkInput(self::LINK_MOD_EDIT, $valid, $this->object->getId(), (int) $_REQUEST['link_id'])) {
             $this->link->setLinkId((int) $_REQUEST['link_id']);
             $this->link->update();
             if (ilParameterAppender::_isEnabled() and is_object($this->dynamic)) {
@@ -444,13 +450,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->checkPermission('write');
 
         $this->initFormLink(self::LINK_MOD_SET_LIST);
-        if ($this->checkListInput(self::LINK_MOD_SET_LIST, $this->object->getId())) {
+        $valid = $this->form->checkInput();
+        if ($valid) {
             // Save list data
             $this->object->setTitle($this->form->getInput('lti'));
             $this->object->setDescription($this->form->getInput('tde'));
             $this->object->update();
 
             // Save Link List
+            $this->initList(self::LINK_MOD_SET_LIST, $this->object->getId());
             $this->list->add();
             ilUtil::sendSuccess($this->lng->txt('webr_list_set'), true);
             $ilCtrl->redirect($this, 'view');
@@ -488,7 +496,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->checkPermission('write');
     
         $this->initFormLink(self::LINK_MOD_ADD);
-        if ($this->checkLinkInput(self::LINK_MOD_ADD, $this->object->getId(), 0)) {
+        $valid = $this->form->checkInput();
+        if ($this->checkLinkInput(self::LINK_MOD_ADD, $valid, $this->object->getId(), 0)) {
             // Save Link
             $link_id = $this->link->add();
             $this->link->updateValid(true);
@@ -689,18 +698,14 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         );
     }
 
-
     /**
-     * Check input after creating a new link list
+     * Init a new link list
      *
      * @param int $a_mode
      * @param int $a_webr_id
-     * @return bool
      */
-    protected function checkListInput(int $a_mode, int $a_webr_id = 0)
+    protected function initList(int $a_mode, int $a_webr_id = 0)
     {
-        $valid = $this->form->checkInput();
-
         if ($a_mode == self::LINK_MOD_CREATE || $a_mode == self::LINK_MOD_EDIT_LIST) {
             $this->list = new ilLinkResourceList($a_webr_id);
             $this->list->setTitle($this->form->getInput('title'));
@@ -712,21 +717,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $this->list->setTitle($this->form->getInput('lti'));
             $this->list->setDescription($this->form->getInput('tde'));
         }
-
-        return $valid;
     }
     
     
     /**
      * Check input after creating a new link
      * @param object $a_mode
+     * @param bool $a_valid
      * @param object $a_webr_id [optional]
      * @param object $a_link_id [optional]
      * @return
      */
-    protected function checkLinkInput($a_mode, $a_webr_id = 0, $a_link_id = 0)
+    protected function checkLinkInput($a_mode, $a_valid, $a_webr_id = 0, $a_link_id = 0)
     {
-        $valid = $this->form->checkInput();
+        $valid = $a_valid;
         
         $link_input = $this->form->getInput('tar');
         
