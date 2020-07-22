@@ -337,4 +337,7 @@ $ilDB->modifyTableColumn(
     ]
 );
 ?>
-
+<#27>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
