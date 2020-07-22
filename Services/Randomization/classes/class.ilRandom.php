@@ -7,9 +7,9 @@
 class ilRandom
 {
     /**
-     * @var \ilLogger | null
+     * @var ilLogger|null
      */
-    private $logger = null;
+    private $logger;
 
     /**
      * constructor.
@@ -29,14 +29,14 @@ class ilRandom
      */
     public function int($min = null, $max = null)
     {
-        if(is_null($min)) {
+        if (is_null($min)) {
             $min = 0;
         }
-        if(is_null($max)) {
+        if (is_null($max)) {
             $max = mt_getrandmax();
         }
 
-        if($this->supportsRandomInt()) {
+        if ($this->supportsRandomInt()) {
             try {
                 return random_int($min, $max);
             } catch (Exception $e) {
@@ -58,10 +58,9 @@ class ilRandom
      */
     private function supportsRandomInt()
     {
-        if(version_compare(PHP_VERSION , '7.0.0', '>=')) {
+        if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
             return true;
         }
         return false;
     }
-
 }
