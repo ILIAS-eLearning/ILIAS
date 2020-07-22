@@ -15018,7 +15018,7 @@ cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
 cert#:#cert_object_label#:#Objekt
 cert#:#cert_description_label#:#Beschreibung
-cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
+cert#:#cert_currently_no_certs#:#Aktuell besitzen Sie noch keine Zertifikate.
 certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 certificate#:#certificate_card_thumbnail_image#:#Bild für Kacheldarstellung
