@@ -76,6 +76,12 @@ class ilSkillExporter extends ilXmlExporter
     public function getValidSchemaVersions($a_entity)
     {
         return array(
+            "7.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Skill/skll/7_0",
+                "xsd_file" => "ilias_skll_7_0.xsd",
+                "uses_dataset" => true,
+                "min" => "7.0",
+                "max" => ""),
             "5.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/Skill/skll/5_1",
                 "xsd_file" => "ilias_skll_5_1.xsd",

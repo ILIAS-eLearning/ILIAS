@@ -107,13 +107,14 @@ class ilSkillProfile implements ilSkillUsageInfo
      * @param
      * @return
      */
-    public function addSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id)
+    public function addSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
     {
         //echo "-".$a_base_skill_id."-";
         $this->skill_level[] = array(
             "base_skill_id" => $a_base_skill_id,
             "tref_id" => $a_tref_id,
-            "level_id" => $a_level_id
+            "level_id" => $a_level_id,
+            "order_nr" => $a_order_nr
             );
     }
     
@@ -123,12 +124,13 @@ class ilSkillProfile implements ilSkillUsageInfo
      * @param
      * @return
      */
-    public function removeSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id)
+    public function removeSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
     {
         foreach ($this->skill_level as $k => $sl) {
             if ((int) $sl["base_skill_id"] == (int) $a_base_skill_id &&
                 (int) $sl["tref_id"] == (int) $a_tref_id &&
-                (int) $sl["level_id"] == (int) $a_level_id) {
+                (int) $sl["level_id"] == (int) $a_level_id &&
+                (int) $sl["order_nr"] == (int) $a_order_nr) {
                 unset($this->skill_level[$k]);
             }
         }
@@ -142,6 +144,10 @@ class ilSkillProfile implements ilSkillUsageInfo
      */
     public function getSkillLevels()
     {
+        usort($this->skill_level, function($level_a, $level_b) {
+            return $level_a['order_nr'] <=> $level_b['order_nr'];
+        });
+
         return $this->skill_level;
     }
     
@@ -171,7 +177,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             $this->addSkillLevel(
                 (int) $rec["base_skill_id"],
                 (int) $rec["tref_id"],
-                (int) $rec["level_id"]
+                (int) $rec["level_id"],
+                (int) $rec["order_nr"]
             );
         }
     }
@@ -200,7 +207,9 @@ class ilSkillProfile implements ilSkillUsageInfo
                     "tref_id" => array("integer", (int) $level["tref_id"]),
                     "base_skill_id" => array("integer", (int) $level["base_skill_id"])
                     ),
-                array("level_id" => array("integer", (int) $level["level_id"]))
+                array("order_nr" => array("integer", (int) $level["order_nr"]),
+                    "level_id" => array("integer", (int) $level["level_id"])
+                    )
                 );
         }
     }
@@ -232,7 +241,9 @@ class ilSkillProfile implements ilSkillUsageInfo
                     "tref_id" => array("integer", (int) $level["tref_id"]),
                     "base_skill_id" => array("integer", (int) $level["base_skill_id"])
                     ),
-                array("level_id" => array("integer", (int) $level["level_id"]))
+                array("order_nr" => array("integer", (int) $level["order_nr"]),
+                      "level_id" => array("integer", (int) $level["level_id"])
+                )
                 );
             
             /*$ilDB->manipulate("INSERT INTO skl_profile_level ".
@@ -263,6 +274,73 @@ class ilSkillProfile implements ilSkillUsageInfo
             "DELETE FROM skl_profile WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
             );
+    }
+
+    /**
+     * Update skill order
+     *
+     * @param array $order
+     */
+    public function updateSkillOrder(array $order)
+    {
+        $ilDB = $this->db;
+
+        asort($order);
+
+        $cnt = 1;
+        foreach ($order as $id => $o) {
+            $id_arr = explode("_", $id);
+            $ilDB->manipulate(
+                "UPDATE skl_profile_level SET " .
+                " order_nr = " . $ilDB->quote(($cnt * 10), "integer") .
+                " WHERE base_skill_id = " . $ilDB->quote($id_arr[0], "integer") .
+                " AND tref_id = " . $ilDB->quote($id_arr[1], "integer") .
+                " AND profile_id = " . $ilDB->quote($this->getId(), "integer")
+            );
+            $cnt++;
+        }
+    }
+
+    /**
+     * Fix skill order numbering
+     */
+    public function fixSkillOrderNumbering()
+    {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            "SELECT profile_id, base_skill_id, tref_id, order_nr FROM skl_profile_level WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer") .
+            " ORDER BY order_nr ASC"
+        );
+        $cnt = 1;
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $ilDB->manipulate(
+                "UPDATE skl_profile_level SET " .
+                " order_nr = " . $ilDB->quote(($cnt * 10), "integer") .
+                " WHERE profile_id = " . $ilDB->quote($rec["profile_id"], "integer") .
+                " AND base_skill_id = " . $ilDB->quote($rec["base_skill_id"], "integer") .
+                " AND tref_id = " . $ilDB->quote($rec["tref_id"], "integer")
+            );
+            $cnt++;
+        }
+    }
+
+    /**
+     * Get maximum order number of levels
+     *
+     * @return int
+     */
+    public function getMaxLevelOrderNr()
+    {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            "SELECT MAX(order_nr) mnr FROM skl_profile_level WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
+        $rec = $ilDB->fetchAssoc($set);
+        return (int) $rec["mnr"];
     }
     
     /**

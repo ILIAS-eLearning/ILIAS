@@ -111,7 +111,7 @@ class ilSkillDataSet extends ilDataSet
      */
     public function getSupportedVersions()
     {
-        return array("5.1.0");
+        return array("5.1.0", "7.0");
     }
     
     /**
@@ -136,6 +136,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skmg") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     return array(
                             "Mode" => "text"
                     );
@@ -144,6 +145,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_subtree") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     return array(
                             "SklTreeId" => "integer",
                             "TopNode" => "integer",
@@ -163,6 +165,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_templ_subtree") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     return array(
                             "SklTreeId" => "integer",
                             "TopNode" => "integer",
@@ -181,6 +184,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_level") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     return array(
                             "LevelId" => "integer",
                             "SkillId" => "integer",
@@ -193,6 +197,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_prof") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     return array(
                             "Id" => "integer",
                             "Title" => "text",
@@ -208,6 +213,14 @@ class ilSkillDataSet extends ilDataSet
                             "BaseSkillId" => "integer",
                             "TrefId" => "integer",
                             "LevelId" => "integer"
+                    );
+                case "7.0":
+                    return array(
+                        "ProfileId" => "integer",
+                        "BaseSkillId" => "integer",
+                        "TrefId" => "integer",
+                        "LevelId" => "integer",
+                        "OrderNr" => "integer"
                     );
             }
         }
@@ -232,6 +245,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skmg") {	// dummy node
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     if ($this->getMode() == self::MODE_SKILLS) {
                         $this->data[] = array("Mode" => "Skills");
                     } elseif ($this->getMode() == self::MODE_PROFILES) {
@@ -244,6 +258,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_subtree") {	// get subtree for top node
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     foreach ($a_ids as $id) {
                         $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
@@ -280,6 +295,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_templ_subtree") {	// get template subtree for template id
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     foreach ($a_ids as $id) {
                         $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
@@ -309,6 +325,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_level") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     $this->getDirectDataFromQuery("SELECT id level_id, skill_id, nr, title, description" .
                             " FROM skl_level WHERE " .
                             $ilDB->in("skill_id", $a_ids, false, "integer") . " ORDER BY skill_id ASC, nr ASC");
@@ -320,6 +337,7 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_prof") {
             switch ($a_version) {
                 case "5.1.0":
+                case "7.0":
                     $this->getDirectDataFromQuery("SELECT id, title, description" .
                             " FROM skl_profile WHERE " .
                             $ilDB->in("id", $a_ids, false, "integer"));
@@ -335,7 +353,11 @@ class ilSkillDataSet extends ilDataSet
                             " FROM skl_profile_level WHERE " .
                             $ilDB->in("profile_id", $a_ids, false, "integer"));
                     break;
-
+                case "7.0":
+                    $this->getDirectDataFromQuery("SELECT profile_id, base_skill_id, tref_id, level_id, order_nr" .
+                        " FROM skl_profile_level WHERE " .
+                        $ilDB->in("profile_id", $a_ids, false, "integer"));
+                    break;
             }
         }
     }
@@ -562,7 +584,7 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     if ($level_id > 0) {
-                        $prof->addSkillLevel($base_skill, $tref_id, $level_id);
+                        $prof->addSkillLevel($base_skill, $tref_id, $level_id, $a_rec["OrderNr"]);
                     }
                     $prof->update();
                 }
