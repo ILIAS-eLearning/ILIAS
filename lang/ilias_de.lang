@@ -16183,3 +16183,4 @@ survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkt
 survey#:#svy_sum_score#:#Skalenpunktesumme
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
+feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.

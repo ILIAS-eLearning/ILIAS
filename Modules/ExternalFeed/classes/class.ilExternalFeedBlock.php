@@ -52,6 +52,30 @@ class ilExternalFeedBlock extends ilCustomBlock
     }
 
     /**
+     * Check if feed url is local
+     * @param string
+     * @return bool
+     */
+    public function isFeedUrlLocal($url)
+    {
+        $host = strtolower(parse_url($url, PHP_URL_HOST));
+        if (is_int(strpos($url, ".localhost")) || trim($host) == "localhost") {
+            return true;
+        }
+        $ip = gethostbyname($host);
+
+        $res = filter_var(
+            $ip,
+            FILTER_VALIDATE_IP,
+            FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+        );
+        if (in_array($res, [false, ""])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
     * Get FeedUrl.
     *
     * @return	string	URL of the external news feed.

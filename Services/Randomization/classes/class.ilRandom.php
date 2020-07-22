@@ -29,10 +29,10 @@ class ilRandom
      */
     public function int(int $min = null, int $max = null) :int
     {
-        if(is_null($min)) {
+        if (is_null($min)) {
             $min = 0;
         }
-        if(is_null($max)) {
+        if (is_null($max)) {
             $max = mt_getrandmax();
         }
 
@@ -48,5 +48,4 @@ class ilRandom
             throw $e;
         }
     }
-
 }
