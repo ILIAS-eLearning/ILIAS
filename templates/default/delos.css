@@ -15478,6 +15478,12 @@ span.ilNewsRssIcon:hover {
   margin-right: 0;
 }
 @media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
+    right: auto;
+    left: 90%;
+  }
+}
+@media only screen and (max-width: 767px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -15532,6 +15538,8 @@ span.ilNewsRssIcon:hover {
 @media only screen and (max-width: 767px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
+    right: auto;
+    margin-left: -25px;
   }
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
@@ -15585,9 +15593,9 @@ span.ilNewsRssIcon:hover {
   margin-top: 8px;
 }
 .ilNewsTimelineTruncatedText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
 }
 .ilNewsTimelineObjHead img {
   width: 22px;
