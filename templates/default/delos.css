@@ -17680,6 +17680,12 @@ span.ilNewsRssIcon:hover {
   margin-right: 0;
 }
 @media only screen and (max-width: 768px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
+    right: auto;
+    left: 90%;
+  }
+}
+@media only screen and (max-width: 768px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -17734,6 +17740,8 @@ span.ilNewsRssIcon:hover {
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
+    right: auto;
+    margin-left: -25px;
   }
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
@@ -17790,9 +17798,9 @@ span.ilNewsRssIcon:hover {
   background-color: white;
 }
 .ilNewsTimelineTruncatedText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
 }
 .ilNewsTimelineObjHead img {
   width: 22px;
@@ -19396,3 +19404,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: 0.25em;
 }
+/*# sourceMappingURL=delos.css.map */
