@@ -221,26 +221,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             );
         }
             
-        $per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
-
-        if ($per > 0) {
-            switch ($per) {
-                case 2:
-                case 3:
-                case 5: $per_str = sprintf($lng->txt("news_period_x_days"), $per); break;
-                case 7: $per_str = $lng->txt("news_period_1_week"); break;
-                case 14: $per_str = sprintf($lng->txt("news_period_x_weeks"), 2); break;
-                case 30: $per_str = $lng->txt("news_period_1_month"); break;
-                case 60: $per_str = sprintf($lng->txt("news_period_x_months"), 2); break;
-                case 120: $per_str = sprintf($lng->txt("news_period_x_months"), 4); break;
-                case 180: $per_str = sprintf($lng->txt("news_period_x_months"), 6); break;
-                case 366: $per_str = $lng->txt("news_period_1_year"); break;
-            }
-            if ($per_str != "") {
-                $this->setTitle($this->getTitle() . ' <span style="font-weight:normal;">- ' . $per_str . "</span>");
-            }
-        }
-
         $en = "";
         if ($ilUser->getPref("il_feed_js") == "n") {
             $en = $this->getJSEnabler();
@@ -356,15 +336,8 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
             $form->setTableWidth("100%");
 
             $per_opts = array(
-                2 => "2 " . $lng->txt("days"),
-                3 => "3 " . $lng->txt("days"),
-                5 => "5 " . $lng->txt("days"),
                 7 => "1 " . $lng->txt("week"),
-                14 => "2 " . $lng->txt("weeks"),
                 30 => "1 " . $lng->txt("month"),
-                60 => "2 " . $lng->txt("months"),
-                120 => "4 " . $lng->txt("months"),
-                180 => "6 " . $lng->txt("months"),
                 366 => "1 " . $lng->txt("year"));
 
             $unset = array();

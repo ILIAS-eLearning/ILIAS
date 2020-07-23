@@ -347,3 +347,12 @@ $ilCtrlStructureReader->getStructure();
 $mcdir = CLIENT_WEB_DIR."/magpie_cache";
 ilUtil::delDir($mcdir);
 ?>
+<#29>
+<?php
+$ilDB->update("il_block_setting", [
+    "value" => ["integer", 30]
+], [    // where
+        "setting" => ["text", "news_pd_period"]
+    ]
+);
+?>
