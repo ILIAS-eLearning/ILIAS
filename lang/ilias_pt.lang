@@ -15405,243 +15405,243 @@ content#:#cont_notification_deactivated#:#Notificação desativada###18 05 2020 
 content#:#cont_notification_comment_subject_lm#:#Um comentário foi adicionado a %s: %s###18 05 2020 new variable
 content#:#cont_change_notification_salutation#:#Olá %s,###18 05 2020 new variable
 content#:#cont_notification_comment_lm#:#Seguinte página do módulo de aprendizagem foi comentada###18 05 2020 new variable
-content#:#cont_notification_update_lm#:#the following Learning Module has been updated###18 05 2020 new variable
-content#:#cont_commented_by#:#Commented by###18 05 2020 new variable
-content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s###18 05 2020 new variable
-rbac#:#dshs_change_presentation#:#Change presentation of dashboard view###18 05 2020 new variable
-rbac#:#change_presentation#:#Change Presentation###18 05 2020 new variable
-pd#:#pd_presentation_mode_list#:#Item List Presentation###18 05 2020 new variable
-pd#:#pd_presentation_mode_tile#:#Tile Presentation###18 05 2020 new variable
-common#:#mm_organisation#:#Organisation###18 05 2020 new variable
-common#:#mm_staff_list#:#Staff List###18 05 2020 new variable
-common#:#mm_enrolments#:#Enrolments###18 05 2020 new variable
-common#:#mm_communication#:#Communication###18 05 2020 new variable
+content#:#cont_notification_update_lm#:#O seguinte Módulo de Aprendizagem foi atualizado###18 05 2020 new variable
+content#:#cont_commented_by#:#Comentado por###18 05 2020 new variable
+content#:#cont_change_notification_subject_lm#:#O módulo de aprendizagem "%1$s" foi alterado: %2$s###18 05 2020 new variable
+rbac#:#dshs_change_presentation#:#Mudar a apresentação da visão do painel###18 05 2020 new variable
+rbac#:#change_presentation#:#Modificar apresentação###18 05 2020 new variable
+pd#:#pd_presentation_mode_list#:#Apresentação da Lista de Itens###18 05 2020 new variable
+pd#:#pd_presentation_mode_tile#:#Apresentação do azulejo###18 05 2020 new variable
+common#:#mm_organisation#:#Organização###18 05 2020 new variable
+common#:#mm_staff_list#:#Lista de funcionários###18 05 2020 new variable
+common#:#mm_enrolments#:#Inscrições###18 05 2020 new variable
+common#:#mm_communication#:#Comunicação###18 05 2020 new variable
 common#:#mm_contacts#:#Contacts###18 05 2020 new variable
 common#:#mm_mail#:#Mail###18 05 2020 new variable
-common#:#mm_news#:#News###18 05 2020 new variable
-common#:#mm_notes#:#Notes###18 05 2020 new variable
-common#:#mm_comments#:#Comments###18 05 2020 new variable
-common#:#mm_achievements#:#Achievements###18 05 2020 new variable
-common#:#mm_learning_history#:#Learning History###18 05 2020 new variable
-common#:#mm_skills#:#Competences###18 05 2020 new variable
-common#:#mm_learning_progress#:#Learning Progress###18 05 2020 new variable
-common#:#mm_badges#:#Badges###18 05 2020 new variable
-common#:#mm_administration#:#Administration###18 05 2020 new variable
-common#:#mm_repository#:#Repository###18 05 2020 new variable
-common#:#mm_dashboard#:#Dashboard###18 05 2020 new variable
-common#:#mm_repo_tree_view#:#Tree View###18 05 2020 new variable
-common#:#mm_task_derived_tasks#:#Tasks###18 05 2020 new variable
-common#:#mm_favorites#:#Favourites###18 05 2020 new variable
-common#:#mm_calendar#:#Calendar###18 05 2020 new variable
-common#:#mm_tags#:#Tags###18 05 2020 new variable
-common#:#mm_portfolio#:#Portfolio###18 05 2020 new variable
-common#:#mm_certificates#:#Certificates###18 05 2020 new variable
-common#:#mm_personal_and_shared_r#:#Personal and Shared Resources###18 05 2020 new variable
-common#:#mm_personal_workspace#:#Personal Workspace###18 05 2020 new variable
-content#:#lm_editing_view#:#Editing View###18 05 2020 new variable
-common#:#mm_repo_tree_view_act#:#Activate Tree###18 05 2020 new variable
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree###18 05 2020 new variable
-content#:#cont_tool_media#:#Media###18 05 2020 new variable
+common#:#mm_news#:#Notícias###18 05 2020 new variable
+common#:#mm_notes#:#Notas###18 05 2020 new variable
+common#:#mm_comments#:#Comentários###18 05 2020 new variable
+common#:#mm_achievements#:#Realizações###18 05 2020 new variable
+common#:#mm_learning_history#:#História do aprendizado###18 05 2020 new variable
+common#:#mm_skills#:#Competências###18 05 2020 new variable
+common#:#mm_learning_progress#:#Progresso do aprendizado###18 05 2020 new variable
+common#:#mm_badges#:#Crachás###18 05 2020 new variable
+common#:#mm_administration#:#Administração###18 05 2020 new variable
+common#:#mm_repository#:#Repositório###18 05 2020 new variable
+common#:#mm_dashboard#:#Painel de controle###18 05 2020 new variable
+common#:#mm_repo_tree_view#:#Vista em árvore###18 05 2020 new variable
+common#:#mm_task_derived_tasks#:#Tarefas###18 05 2020 new variable
+common#:#mm_favorites#:#Favoritos###18 05 2020 new variable
+common#:#mm_calendar#:#Calendário###18 05 2020 new variable
+common#:#mm_tags#:#Etiquetas###18 05 2020 new variable
+common#:#mm_portfolio#:#Portfólio###18 05 2020 new variable
+common#:#mm_certificates#:#Certificados###18 05 2020 new variable
+common#:#mm_personal_and_shared_r#:#Recursos pessoais e compartilhados###18 05 2020 new variable
+common#:#mm_personal_workspace#:#Espaço de trabalho pessoal###18 05 2020 new variable
+content#:#lm_editing_view#:#Vista de Edição###18 05 2020 new variable
+common#:#mm_repo_tree_view_act#:#Ativar árvore###18 05 2020 new variable
+common#:#mm_repo_tree_view_deact#:#Deativar árvore###18 05 2020 new variable
+content#:#cont_tool_media#:#Mídia###18 05 2020 new variable
 content#:#cont_tool_faq#:#FAQ###18 05 2020 new variable
-common#:#nc_contact_requests_headline#:#Contact Requests###18 05 2020 new variable
-common#:#nc_contact_requests_number_s#:#You have %s Contact Request.###18 05 2020 new variable
-common#:#nc_contact_requests_number_p#:#You have %s Contact Requests.###18 05 2020 new variable
-common#:#nc_contact_requests_prop_time#:#Time###18 05 2020 new variable
-forum#:#sorting#:#Sorting###18 05 2020 new variable
-wfld#:#wfld_sortation#:#Sortation###18 05 2020 new variable
-wfld#:#wfld_derive#:#Adopt from parent###18 05 2020 new variable
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.###18 05 2020 new variable
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.###18 05 2020 new variable
-wfld#:#wfld_creation_asc#:#Creation Date, asc.###18 05 2020 new variable
-wfld#:#wfld_creation_desc#:#Creation Date, desc.###18 05 2020 new variable
-wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository###18 05 2020 new variable
-wsp#:#wsp_switch_to_wsp_tree#:#Switch to Personal Resources###18 05 2020 new variable
-obj#:#obj_tool_setting_booking#:#Resources###18 05 2020 new variable
-book#:#book_select_pool#:#Select Pool###18 05 2020 new variable
-book#:#book_pool_selection#:#Booking Pool Selection###18 05 2020 new variable
-book#:#book_booked_in#:#Booked in###18 05 2020 new variable
-obj#:#obj_tool_booking#:#Resources###18 05 2020 new variable
-obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.###18 05 2020 new variable
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.###18 05 2020 new variable
-common#:#mm_rep_tree_view#:#Tree View###18 05 2020 new variable
-exc#:#exc_rel_last_submission#:#Last Possible Submission###18 05 2020 new variable
-exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.###18 05 2020 new variable
-exc#:#exc_mandatory_rand_determined#:#Randomly determined###18 05 2020 new variable
-exc#:#exc_random_selection#:#Random Selection###18 05 2020 new variable
-exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.###18 05 2020 new variable
-exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments###18 05 2020 new variable
-exc#:#exc_denied_has_submissions#:#Reason: Users have already submitted to assignments.###18 05 2020 new variable
-exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.###18 05 2020 new variable
-exc#:#exc_denied_has_team_assignments#:#Reason: There are team assignments in this exercise.###18 05 2020 new variable
-exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.###18 05 2020 new variable
-exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.###18 05 2020 new variable
-exc#:#exc_start_exercise#:#Start Exercise###18 05 2020 new variable
-exc#:#exc_random_assignment#:#Random Assignment###18 05 2020 new variable
-exc#:#exc_random_assignment_info#:#When starting the exercise some assignments will be randomly selected being mandatory for you.###18 05 2020 new variable
-exc#:#exc_rand_overall_ass#:#Overall Number of Assignments###18 05 2020 new variable
-exc#:#exc_rand_nr_mandatory#:#Number of Mandatory Assignments###18 05 2020 new variable
-exc#:#exc_random#:#Random###18 05 2020 new variable
-book#:#book_no_objects#:#No Assignment###18 05 2020 new variable
-rep#:#rep_recommended_content#:#Recommended Content###18 05 2020 new variable
-rep#:#rep_rec_content_removed#:#Recommended content has been removed.###18 05 2020 new variable
-rep#:#rep_added_rec_content#:#Recommended content has been added.###18 05 2020 new variable
-rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?###18 05 2020 new variable
-rbac#:#rbac_add_recommended_content#:#Recommended Content###18 05 2020 new variable
-rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.###18 05 2020 new variable
-dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.###18 05 2020 new variable
-dash#:#dash_click_here#:#Click here###18 05 2020 new variable
-svy#:#svy_remove_all_participants#:#Remove all Participants###18 05 2020 new variable
-svy#:#svy_invite_participants#:#Invite Participants###18 05 2020 new variable
-svy#:#svy_codes#:#Access Codes###18 05 2020 new variable
-svy#:#svy_part_overview#:#Overview###18 05 2020 new variable
-svy#:#svy_remove_participants#:#Remove Participants###18 05 2020 new variable
+common#:#nc_contact_requests_headline#:#Pedidos de contato###18 05 2020 new variable
+common#:#nc_contact_requests_number_s#:#Você tem %s pedido de contato.###18 05 2020 new variable
+common#:#nc_contact_requests_number_p#:#Você tem %s pedidos de contato.###18 05 2020 new variable
+common#:#nc_contact_requests_prop_time#:#Horário###18 05 2020 new variable
+forum#:#sorting#:#Ordenação###18 05 2020 new variable
+wfld#:#wfld_sortation#:#Ordenação###18 05 2020 new variable
+wfld#:#wfld_derive#:#Adotar dos pais###18 05 2020 new variable
+wfld#:#wfld_alphabetically_asc#:#Em ordem alfabética, asc.###18 05 2020 new variable
+wfld#:#wfld_alphabetically_desc#:#Em ordem alfabética, desc.###18 05 2020 new variable
+wfld#:#wfld_creation_asc#:#Data de criação, asc.###18 05 2020 new variable
+wfld#:#wfld_creation_desc#:#Data de criação, desc.###18 05 2020 new variable
+wsp#:#wsp_switch_to_repo_tree#:#Mudar para Repositório###18 05 2020 new variable
+wsp#:#wsp_switch_to_wsp_tree#:#Mudar para Recursos Pessoais###18 05 2020 new variable
+obj#:#obj_tool_setting_booking#:#Recursos###18 05 2020 new variable
+book#:#book_select_pool#:#Selecione o Pool###18 05 2020 new variable
+book#:#book_pool_selection#:#Seleção do pool de reservas###18 05 2020 new variable
+book#:#book_booked_in#:#Reservado em###18 05 2020 new variable
+obj#:#obj_tool_booking#:#Recursos###18 05 2020 new variable
+obj#:#obj_tool_booking_info#:#Utilize os pools de reservas para reservar recursos.###18 05 2020 new variable
+book#:#book_all_pools_need_schedules#:#Configurações não salvas. Todos os pools designados precisam ter pelo menos um horário.###18 05 2020 new variable
+common#:#mm_rep_tree_view#:#Vista em árvore###18 05 2020 new variable
+exc#:#exc_rel_last_submission#:#Última submissão possível###18 05 2020 new variable
+exc#:#exc_rel_last_submission_info#:#Se esta data opcional for definida, todos os usuários têm que enviar até que este prazo seja alcançado.###18 05 2020 new variable
+exc#:#exc_mandatory_rand_determined#:#Determinado aleatoriamente###18 05 2020 new variable
+exc#:#exc_random_selection#:#Seleção aleatória###18 05 2020 new variable
+exc#:#exc_random_selection_info#:#A cada usuário é atribuída uma seleção aleatória de atribuições obrigatórias.###18 05 2020 new variable
+exc#:#exc_nr_random_mand#:#Número de tarefas obrigatórias###18 05 2020 new variable
+exc#:#exc_denied_has_submissions#:#Motivo: Os usuários já se submeteram a tarefas.###18 05 2020 new variable
+exc#:#exc_denied_has_peer_reviews#:#Motivo: Algumas tarefas têm revisão por pares ativada.###18 05 2020 new variable
+exc#:#exc_denied_has_team_assignments#:#Motivo: Há tarefas em equipe neste exercício.###18 05 2020 new variable
+exc#:#exc_random_selection_not_changeable_info#:#Este modo não pode ser ativado.###18 05 2020 new variable
+exc#:#exc_pass_mode_not_changeable_info#:#O modo de passe não pode mais ser alterado.###18 05 2020 new variable
+exc#:#exc_start_exercise#:#Iniciar Exercício###18 05 2020 new variable
+exc#:#exc_random_assignment#:#Atribuição aleatória###18 05 2020 new variable
+exc#:#exc_random_assignment_info#:#Ao iniciar o exercício, algumas tarefas serão selecionadas aleatoriamente, sendo obrigatórias para você.###18 05 2020 new variable
+exc#:#exc_rand_overall_ass#:#Número geral de tarefas###18 05 2020 new variable
+exc#:#exc_rand_nr_mandatory#:#Número de tarefas obrigatórias###18 05 2020 new variable
+exc#:#exc_random#:#Aleatório###18 05 2020 new variable
+book#:#book_no_objects#:#Sem atribuição###18 05 2020 new variable
+rep#:#rep_recommended_content#:#Conteúdo recomendado###18 05 2020 new variable
+rep#:#rep_rec_content_removed#:#O conteúdo recomendado foi removido.###18 05 2020 new variable
+rep#:#rep_added_rec_content#:#O conteúdo recomendado foi adicionado.###18 05 2020 new variable
+rep#:#rep_remove_rec_content#:#Você tem certeza de que deseja remover o seguinte conteúdo recomendado?###18 05 2020 new variable
+rbac#:#rbac_add_recommended_content#:#Conteúdo recomendado###18 05 2020 new variable
+rbac#:#rbac_add_recommended_content_info#:#Adiciona o objeto atual '%1' para todos os membros do papel como conteúdo recomendado.###18 05 2020 new variable
+dash#:#dash_member_main_alt#:#Cursos e grupos também podem ser configurados como uma entrada de menu principal separada.###18 05 2020 new variable
+dash#:#dash_click_here#:#Clique aqui###18 05 2020 new variable
+svy#:#svy_remove_all_participants#:#Remover todos os participantes###18 05 2020 new variable
+svy#:#svy_invite_participants#:#Convidar participantes###18 05 2020 new variable
+svy#:#svy_codes#:#Códigos de acesso###18 05 2020 new variable
+svy#:#svy_part_overview#:#Visão geral###18 05 2020 new variable
+svy#:#svy_remove_participants#:#Remover Participantes###18 05 2020 new variable
 svy#:#svy_status#:#Status###18 05 2020 new variable
-svy#:#svy_status_invited#:#Invited###18 05 2020 new variable
-svy#:#svy_status_in_progress#:#In Progress###18 05 2020 new variable
-svy#:#svy_status_finished#:#Finished###18 05 2020 new variable
-svy#:#svy_users_invited#:#Users have been invited.###18 05 2020 new variable
-svy#:#svy_finish_survey#:#Finish survey '%1'###18 05 2020 new variable
-pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###18 05 2020 new variable
+svy#:#svy_status_invited#:#Convidado###18 05 2020 new variable
+svy#:#svy_status_in_progress#:#Em andamento###18 05 2020 new variable
+svy#:#svy_status_finished#:#Concluído###18 05 2020 new variable
+svy#:#svy_users_invited#:#Os usuários foram convidados.###18 05 2020 new variable
+svy#:#svy_finish_survey#:#Terminar a pesquisa '%1'###18 05 2020 new variable
+pwsp#:#pwsp_enable_personal_resources#:#Habilitar recursos pessoais###18 05 2020 new variable
 file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources###18 05 2020 new variable
-file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.###18 05 2020 new variable
-common#:#personal_resources#:#Personal Resources###18 05 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###18 05 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###18 05 2020 new variable
-wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###18 05 2020 new variable
-administration#:#adm_personal_workspace#:#Personal Workspace###18 05 2020 new variable
-dash#:#dash_favourites#:#Favourites###18 05 2020 new variable
-dash#:#dash_memberships#:#My Courses and Groups###18 05 2020 new variable
-dash#:#dash_learningsequences#:#My Learning Sequences###18 05 2020 new variable
-dash#:#dash_studyprogramme#:#My Study Programmes###18 05 2020 new variable
-rbac#:#read_outcomes#:#View learning experiences of other users###18 05 2020 new variable
-rbac#:#add_consume_provider#:#Add Own LTI Provider Settings###18 05 2020 new variable
-rbac#:#ltis_add_consume_provider#:#User can add own provider settings for LTI consumer###18 05 2020 new variable
-rbac#:#lti_visible#:#LTI consumer is visible###18 05 2020 new variable
-rbac#:#lti_read#:#User can see LTI consumer###18 05 2020 new variable
-rbac#:#lti_read_outcomes#:#User can see learning experiences and ranking of other users###18 05 2020 new variable
-rbac#:#lti_read_learning_progress#:#User can view learning progress of other users###18 05 2020 new variable
-rbac#:#lti_edit_learning_progress#:#User can edit learning progress settings###18 05 2020 new variable
-rbac#:#lti_copy#:#User can copy LTI consumer###18 05 2020 new variable
-rbac#:#lti_write#:#User can edit settings of LTI consumer###18 05 2020 new variable
-rbac#:#lti_delete#:#User can move or delete LTI consumer###18 05 2020 new variable
-rbac#:#lti_edit_permission#:#User can change permission settings###18 05 2020 new variable
-rbac#:#rbac_create_lti#:#Create LTI Consumer###18 05 2020 new variable
-rbac#:#cmix_visible#:#xAPI/cmi5 Object is visible###18 05 2020 new variable
-rbac#:#cmix_read#:#User can see xAPI/cmi5 Object###18 05 2020 new variable
-rbac#:#cmix_read_outcomes#:#User can see learning experiences and ranking of other users###18 05 2020 new variable
-rbac#:#cmix_read_learning_progress#:#User can view learning progress of other users###18 05 2020 new variable
-rbac#:#cmix_edit_learning_progress#:#User can edit learning progress settings###18 05 2020 new variable
-rbac#:#cmix_copy#:#User can copy xAPI/cmi5 Object###18 05 2020 new variable
-rbac#:#cmix_write#:#User can edit settings of xAPI/cmi5 Object###18 05 2020 new variable
-rbac#:#cmix_delete#:#User can move or delete xAPI/cmi5 Object###18 05 2020 new variable
-rbac#:#cmix_edit_permission#:#User can change permission settings###18 05 2020 new variable
-rbac#:#rbac_create_cmix#:#Create xAPI/cmi5 Object###18 05 2020 new variable
-common#:#obj_lti#:#LTI Consumer###18 05 2020 new variable
-common#:#objs_lti#:#LTI Consumers###18 05 2020 new variable
+file#:#personal_resources_disk_quota_info#:#Permite a definição de uma quota de disco rígido para cada conta de usuário e cada função global. Esta cota afeta apenas os arquivos nos recursos pessoais e nos portfólios. Assim que um usuário exceder a cota definida, o ILIAS proibirá o usuário de carregar mais arquivos até que o espaço em disco utilizado esteja novamente sob cota.###18 05 2020 new variable
+common#:#personal_resources#:#Recursos pessoais###18 05 2020 new variable
+file#:#personal_resources_quota_exceeded_warning#:#Você excedeu a cota de discos para seus recursos pessoais.###18 05 2020 new variable
+file#:#personal_resources_quota_status_legend#:#Você está usando %1$s de sua quota de disco disponível de %2$s (%3$d%%).###18 05 2020 new variable
+wsp#:#wsp_personal_resources_description#:#Aqui você pode gerenciar seus arquivos particulares, blogs e artefatos.###18 05 2020 new variable
+administration#:#adm_personal_workspace#:#Espaço de trabalho pessoal###18 05 2020 new variable
+dash#:#dash_favourites#:#Favoritos###18 05 2020 new variable
+dash#:#dash_memberships#:#Meus cursos e grupos###18 05 2020 new variable
+dash#:#dash_learningsequences#:#Minhas Sequências de Aprendizagem###18 05 2020 new variable
+dash#:#dash_studyprogramme#:#Meus programas de estudo###18 05 2020 new variable
+rbac#:#read_outcomes#:#Ver experiências de aprendizagem de outros usuários###18 05 2020 new variable
+rbac#:#add_consume_provider#:#Adicionar configurações próprias do provedor LTI###18 05 2020 new variable
+rbac#:#ltis_add_consume_provider#:#O usuário pode adicionar configurações próprias do fornecedor para o consumidor LTI###18 05 2020 new variable
+rbac#:#lti_visible#:#O consumidor LTI é visível###18 05 2020 new variable
+rbac#:#lti_read#:#O usuário pode ver o consumidor LTI###18 05 2020 new variable
+rbac#:#lti_read_outcomes#:#O usuário pode ver experiências de aprendizagem e ranking de outros usuários###18 05 2020 new variable
+rbac#:#lti_read_learning_progress#:#O usuário pode ver o progresso do aprendizado de outros usuários###18 05 2020 new variable
+rbac#:#lti_edit_learning_progress#:#O usuário pode editar as configurações de progresso de aprendizagem###18 05 2020 new variable
+rbac#:#lti_copy#:#O usuário pode copiar o consumidor LTI###18 05 2020 new variable
+rbac#:#lti_write#:#O usuário pode editar as configurações do consumidor LTI###18 05 2020 new variable
+rbac#:#lti_delete#:#O usuário pode mover ou apagar o consumidor de ITL###18 05 2020 new variable
+rbac#:#lti_edit_permission#:#O usuário pode alterar as configurações de permissão###18 05 2020 new variable
+rbac#:#rbac_create_lti#:#Criar LTI Consumidor###18 05 2020 new variable
+rbac#:#cmix_visible#:#xAPI/cmi5 objeto é visível###18 05 2020 new variable
+rbac#:#cmix_read#:#O usuário pode ver xAPI/cmi5 objeto###18 05 2020 new variable
+rbac#:#cmix_read_outcomes#:#O usuário pode ver experiências de aprendizagem e ranking de outros usuários###18 05 2020 new variable
+rbac#:#cmix_read_learning_progress#:#O usuário pode ver o progresso do aprendizado de outros usuários###18 05 2020 new variable
+rbac#:#cmix_edit_learning_progress#:#O usuário pode editar as configurações de progresso de aprendizagem###18 05 2020 new variable
+rbac#:#cmix_copy#:#O usuário pode copiar xAPI/cmi5 objeto###18 05 2020 new variable
+rbac#:#cmix_write#:#O usuário pode editar as configurações do objeto xAPI/cmi5###18 05 2020 new variable
+rbac#:#cmix_delete#:#O usuário pode mover ou apagar xAPI/cmi5 objeto###18 05 2020 new variable
+rbac#:#cmix_edit_permission#:#O usuário pode alterar as configurações de permissão###18 05 2020 new variable
+rbac#:#rbac_create_cmix#:#Criar objeto xAPI/cmi5###18 05 2020 new variable
+common#:#obj_lti#:#LTI Consumidor###18 05 2020 new variable
+common#:#objs_lti#:#LTI Consumidores###18 05 2020 new variable
 common#:#obj_cmis#:#xAPI/cmi5###18 05 2020 new variable
-common#:#obj_cmis_desc#:#Learning Record Store Types Configuration###18 05 2020 new variable
+common#:#obj_cmis_desc#:#Configuração dos tipos de lojas de registro de aprendizagem###18 05 2020 new variable
 common#:#obj_cmix#:#xAPI/cmi5###18 05 2020 new variable
-common#:#objs_cmix#:#Objects xAPI/cmi5###18 05 2020 new variable
-certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object###18 05 2020 new variable
+common#:#objs_cmix#:#Objetos xAPI/cmi5###18 05 2020 new variable
+certificate#:#cmix_cert_ph_object_title#:#Título do objeto xAPI/cmi5###18 05 2020 new variable
 certificate#:#cmix_cert_ph_object_description#:#Description###18 05 2020 new variable
-certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage###18 05 2020 new variable
-certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object###18 05 2020 new variable
-certificate#:#lti_cert_ph_object_description#:#Description###18 05 2020 new variable
-certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage###18 05 2020 new variable
-certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage###18 05 2020 new variable
-wsp#:#wsp_type_cmxv#:#Certificate: xAPI/cmi5###18 05 2020 new variable
-wsp#:#wsp_list_cmxv#:#Certificate of xAPI/cmi5 Object###18 05 2020 new variable
-wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer###18 05 2020 new variable
-wsp#:#wsp_list_ltiv#:#Certificate of LTI Consumer Object###18 05 2020 new variable
-ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object###18 05 2020 new variable
-ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it###18 05 2020 new variable
-cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object###18 05 2020 new variable
-cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it###18 05 2020 new variable
-trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated###18 05 2020 new variable
-trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'.###18 05 2020 new variable
-trac#:#cmix_lp_mode_with_failed#:#Also consider failed###18 05 2020 new variable
-trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of 'in progress'.###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_passed#:#Completed when 'passed'###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'.###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when passed or completed###18 05 2020 new variable
-trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'.###18 05 2020 new variable
-trac#:#trac_mode_lti_outcome#:#Mastery Score Must be reached###18 05 2020 new variable
-trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.###18 05 2020 new variable
-lti#:#launch_method_own_win#:#Own Window###18 05 2020 new variable
-lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###18 05 2020 new variable
-lti#:#launch_method_new_win#:#New Window###18 05 2020 new variable
-lti#:#launch_method_new_win_info#:#The content is opened in a new window. When leaving the content this window gets closed.###18 05 2020 new variable
-lti#:#launch_method_embedded#:#Embedded Content###18 05 2020 new variable
-lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.###18 05 2020 new variable
-lti#:#learning_progress_options#:#Options for Learning Progress###18 05 2020 new variable
-lti#:#mastery_score#:#Mastery Score###18 05 2020 new variable
-lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.###18 05 2020 new variable
-lti#:#lti_form_section_appearance#:#Options for launch###18 05 2020 new variable
-lti#:#launched#:#Resource was already launched.###18 05 2020 new variable
-lti#:#lti_info_learning_progress_section#:#Info about Determination of the Learning Progress###18 05 2020 new variable
-lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the provider at launch###18 05 2020 new variable
-lti#:#lti_info_external_provider_label#:#Additional Info about this Provider###18 05 2020 new variable
-lti#:#lti_info_external_provider_info#:#The used Provider is an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.###18 05 2020 new variable
-lti#:#lti_select_provider#:#Select Provider###18 05 2020 new variable
-lti#:#lti_custom_new#:#Create Own Provider Settings###18 05 2020 new variable
-lti#:#lti_copy#:#Copy Consumer###18 05 2020 new variable
-lti#:#lti_providing_tab#:#ILIAS as LTI Provider###18 05 2020 new variable
-lti#:#lti_consuming_tab#:#ILIAS as LTI Consumer###18 05 2020 new variable
-lti#:#global_provider_subtab#:#Global Providers for all Users###18 05 2020 new variable
-lti#:#user_provider_subtab#:#Providers Defined by Users###18 05 2020 new variable
-lti#:#usage_subtab#:#Usage###18 05 2020 new variable
-lti#:#tbl_provider_usage_header#:#LTI Provider###18 05 2020 new variable
-lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.###18 05 2020 new variable
-lti#:#tbl_lti_prov_used_by#:#Provider Used by Objects in Tree###18 05 2020 new variable
-lti#:#settings_subtab#:#Settings###18 05 2020 new variable
-lti#:#lti_global_settings_form#:#Global Settings###18 05 2020 new variable
-lti#:#lti_add_global_provider#:#Add Global Provider for all Users###18 05 2020 new variable
-lti#:#lti_import_global_provider#:#Import Global Provider for all Users with XML-File###18 05 2020 new variable
-lti#:#form_import_provider#:#Import Global Provider###18 05 2020 new variable
-lti#:#field_provider_xml#:#XML-File###18 05 2020 new variable
-lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.###18 05 2020 new variable
-lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)###18 05 2020 new variable
-lti#:#tbl_provider_header#:#LTI Provider###18 05 2020 new variable
-lti#:#lti_form_provider_create#:#Create Provider Settings###18 05 2020 new variable
-lti#:#lti_con_prov_authentication#:#Authentication###18 05 2020 new variable
-lti#:#lti_con_prov_privacy_settings#:#Privacy Settings###18 05 2020 new variable
-lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress###18 05 2020 new variable
-lti#:#lti_con_prov_launch_options#:#Launch Options###18 05 2020 new variable
-lti#:#lti_form_provider_edit#:#Edit Provider Settings###18 05 2020 new variable
-lti#:#tbl_lti_prov_icon#:#Icon###18 05 2020 new variable
-lti#:#tbl_lti_prov_title#:#Title of Provider###18 05 2020 new variable
-lti#:#tbl_lti_prov_description#:#Description###18 05 2020 new variable
-lti#:#tbl_lti_prov_availability#:#Availability###18 05 2020 new variable
-lti#:#tbl_lti_prov_usages#:#Usages###18 05 2020 new variable
-lti#:#tbl_lti_prov_usages_trashed#:#Trashed Usages###18 05 2020 new variable
-lti#:#tbl_lti_prov_usages_untrashed#:#Repository Usages###18 05 2020 new variable
-lti#:#tbl_lti_prov_provider_creator#:#Creator###18 05 2020 new variable
-lti#:#tbl_lti_prov_own_provider#:#Own Provider###18 05 2020 new variable
-lti#:#lti_action_delete_providers#:#Delete Providers###18 05 2020 new variable
-lti#:#lti_delete_provider#:#Delete Provider###18 05 2020 new variable
-lti#:#lti_success_delete_provider#:#Successfully deleted###18 05 2020 new variable
-lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?###18 05 2020 new variable
-lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Provider for all Users###18 05 2020 new variable
-lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Provider for all Users###18 05 2020 new variable
-lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Provider###18 05 2020 new variable
-lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined Provider###18 05 2020 new variable
-lti#:#lti_no_provider_selected#:#No provider selected###18 05 2020 new variable
-lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).###18 05 2020 new variable
-lti#:#tbl_lti_prov_keyword#:#Keyword###18 05 2020 new variable
-lti#:#tbl_lti_prov_keywords#:#Keywords###18 05 2020 new variable
-lti#:#tbl_lti_prov_category#:#Category###18 05 2020 new variable
-lti#:#tbl_lti_prov_all_categories#:#All Categories###18 05 2020 new variable
-lti#:#tbl_lti_prov_outcome#:#Outcome Service###18 05 2020 new variable
-lti#:#tbl_lti_prov_internal#:#Internal Provider###18 05 2020 new variable
-lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret###18 05 2020 new variable
-lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture###18 05 2020 new variable
-lti#:#lti_con_prov_inc_usr_pic_info#:#Links to ILIAS user pictures are included at launch of LTI consumer object.###18 05 2020 new variable
-lti#:#lti_con_prov_title#:#Title###18 05 2020 new variable
-lti#:#lti_con_prov_description#:#Description###18 05 2020 new variable
-lti#:#lti_con_prov_icon#:#Icon###18 05 2020 new variable
-lti#:#obj_tile_image_info#:#Use an Image in Square Format###18 05 2020 new variable
+certificate#:#cmix_cert_ph_reached_score#:#Atingiu porcentagem da pontuação###18 05 2020 new variable
+certificate#:#lti_cert_ph_object_title#:#Título do Objeto do Consumidor LTI###18 05 2020 new variable
+certificate#:#lti_cert_ph_object_description#:#Descrição###18 05 2020 new variable
+certificate#:#lti_cert_ph_mastery_score#:#Nota de domínio como porcentagem###18 05 2020 new variable
+certificate#:#lti_cert_ph_reached_score#:#Atingiu a pontuação como porcentagem###18 05 2020 new variable
+wsp#:#wsp_type_cmxv#:#Certificado: xAPI/cmi5###18 05 2020 new variable
+wsp#:#wsp_list_cmxv#:#Certificado de objeto xAPI/cmi5###18 05 2020 new variable
+wsp#:#wsp_type_ltiv#:#Certificado: LTI Consumidor###18 05 2020 new variable
+wsp#:#wsp_list_ltiv#:#Certificado de objeto de consumidor LTI###18 05 2020 new variable
+ltiv#:#ltiv_create#:#Criar Certificado para Objeto de Consumo LTI###18 05 2020 new variable
+ltiv#:#ltiv_create_info#:#Selecione um objeto de consumo LTI completo para gerar um certificado para ele###18 05 2020 new variable
+cmxv#:#cmxv_create#:#Criar certificado para xAPI/cmi5 Objeto###18 05 2020 new variable
+cmxv#:#cmxv_create_info#:#Selecione um objeto xAPI/cmi5 completo para gerar um certificado para ele###18 05 2020 new variable
+trac#:#cmix_lp_mode_deactivated#:#O progresso do aprendizado é desativado###18 05 2020 new variable
+trac#:#cmix_lp_mode_deactivated_info#:#O status de progresso do aprendizado não é exibido e não influencia os objetos pais.###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_completed#:#Concluído quando 'concluído'###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_completed_info#:#O status ILIAS 'concluído' é definido quando o verbo do último xAPI-Statement relevante é 'concluído'.###18 05 2020 new variable
+trac#:#cmix_lp_mode_with_failed#:#Considere também falha###18 05 2020 new variable
+trac#:#cmix_lp_mode_with_failed_info#:#O status poderia ser "falhado" em vez de "em andamento".###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_passed#:#Concluído quando "passou".###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_passed_info#:#O status ILIAS 'concluído' é definido quando o verbo do último xAPI-Statement relevante é 'aprovado' ou 'satisfeito'.###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Concluído quando aprovado ou concluído###18 05 2020 new variable
+trac#:#cmix_lp_mode_when_passed_or_completed_info#:#O status do ILIAS 'concluído' é definido quando o verbo da última xAPI-Statement relevante é 'concluído' ou 'aprovado' ou 'satisfeito'.###18 05 2020 new variable
+trac#:#trac_mode_lti_outcome#:#É preciso alcançar a pontuação de maestria###18 05 2020 new variable
+trac#:#trac_mode_lti_outcome_info#:#O progresso da aprendizagem será avaliado a partir do resultado do LTI e do limiar de domínio.###18 05 2020 new variable
+lti#:#launch_method_own_win#:#Janela própria###18 05 2020 new variable
+lti#:#launch_method_own_win_info#:#O conteúdo é aberto na mesma janela e substitui a tela ILIAS. Ao deixar o conteúdo, o usuário retorna ao ILIAS.###18 05 2020 new variable
+lti#:#launch_method_new_win#:#Nova Janela###18 05 2020 new variable
+lti#:#launch_method_new_win_info#:#O conteúdo é aberto em uma nova janela. Ao deixar o conteúdo, esta janela é fechada.###18 05 2020 new variable
+lti#:#launch_method_embedded#:#Conteúdo Embutido###18 05 2020 new variable
+lti#:#launch_method_embedded_info#:#O conteúdo é aberto dentro do contexto do ILIAS. Ele é apresentado como conteúdo incorporado dentro da guia de conteúdo.###18 05 2020 new variable
+lti#:#learning_progress_options#:#Opções para o progresso da aprendizagem###18 05 2020 new variable
+lti#:#mastery_score#:#Pontuação de domínio###18 05 2020 new variable
+lti#:#mastery_score_info#:#O progresso do aprendizado será avaliado a partir do Serviço de Resultados do Provedor e do limiar de pontuação de domínio.###18 05 2020 new variable
+lti#:#lti_form_section_appearance#:#Opções de lançamento###18 05 2020 new variable
+lti#:#launched#:#O recurso já foi lançado.###18 05 2020 new variable
+lti#:#lti_info_learning_progress_section#:#Informações sobre a determinação do progresso do aprendizado###18 05 2020 new variable
+lti#:#lti_info_privacy_section#:#Informações sobre dados pessoais transmitidos ao fornecedor no lançamento###18 05 2020 new variable
+lti#:#lti_info_external_provider_label#:#Informações adicionais sobre este Provedor###18 05 2020 new variable
+lti#:#lti_info_external_provider_info#:#O Provedor usado é um Provedor externo. Um Provedor externo é caracterizado pela influência insuficiente do operador da instalação ILIAS sobre o Provedor. Este é o caso, por exemplo, se não há direitos para excluir dados.###18 05 2020 new variable
+lti#:#lti_select_provider#:#Selecione o Provedor###18 05 2020 new variable
+lti#:#lti_custom_new#:#Criar configurações próprias do fornecedor###18 05 2020 new variable
+lti#:#lti_copy#:#Copiar Consumidor###18 05 2020 new variable
+lti#:#lti_providing_tab#:#ILIAS como Provedor LTI###18 05 2020 new variable
+lti#:#lti_consuming_tab#:#ILIAS como Consumidor LTI###18 05 2020 new variable
+lti#:#global_provider_subtab#:#Provedores globais para todos os usuários###18 05 2020 new variable
+lti#:#user_provider_subtab#:#Provedores definidos pelos usuários###18 05 2020 new variable
+lti#:#usage_subtab#:#Uso###18 05 2020 new variable
+lti#:#tbl_provider_usage_header#:#Provedor LTI###18 05 2020 new variable
+lti#:#tbl_provider_usage_header_info#:#Antes de eliminar os fornecedores, as utilizações destruídas também devem ser eliminadas.###18 05 2020 new variable
+lti#:#tbl_lti_prov_used_by#:#Fornecedor utilizado por Objetos em Árvore###18 05 2020 new variable
+lti#:#settings_subtab#:#Configurações###18 05 2020 new variable
+lti#:#lti_global_settings_form#:#Configurações globais###18 05 2020 new variable
+lti#:#lti_add_global_provider#:#Adicionar Provedor Global para todos os Usuários###18 05 2020 new variable
+lti#:#lti_import_global_provider#:#Importar fornecedor global para todos os usuários com XML-File###18 05 2020 new variable
+lti#:#form_import_provider#:#Importar Fornecedor Global###18 05 2020 new variable
+lti#:#field_provider_xml#:#Arquivo XML###18 05 2020 new variable
+lti#:#field_provider_xml_info#:#São suportados arquivos XML para ferramentas de consumo e para cartuchos comuns de acordo com https://www.imsglobal.org/specs/lti/xml.###18 05 2020 new variable
+lti#:#lti_add_own_provider#:#Adicionar Provedor próprio (não para todos os Usuários)###18 05 2020 new variable
+lti#:#tbl_provider_header#:#Provedor LTI###18 05 2020 new variable
+lti#:#lti_form_provider_create#:#Criar configurações do fornecedor###18 05 2020 new variable
+lti#:#lti_con_prov_authentication#:#Autenticação###18 05 2020 new variable
+lti#:#lti_con_prov_privacy_settings#:#Configurações de privacidade###18 05 2020 new variable
+lti#:#lti_con_prov_learning_progress_options#:#Opções para o progresso da aprendizagem###18 05 2020 new variable
+lti#:#lti_con_prov_launch_options#:#Opções de lançamento###18 05 2020 new variable
+lti#:#lti_form_provider_edit#:#Editar configurações do fornecedor###18 05 2020 new variable
+lti#:#tbl_lti_prov_icon#:#Ícone###18 05 2020 new variable
+lti#:#tbl_lti_prov_title#:#Título de Provedor###18 05 2020 new variable
+lti#:#tbl_lti_prov_description#:#Descrição###18 05 2020 new variable
+lti#:#tbl_lti_prov_availability#:#Disponibilidade###18 05 2020 new variable
+lti#:#tbl_lti_prov_usages#:#Usos###18 05 2020 new variable
+lti#:#tbl_lti_prov_usages_trashed#:#Usos Destruídos###18 05 2020 new variable
+lti#:#tbl_lti_prov_usages_untrashed#:#Repositório de usos###18 05 2020 new variable
+lti#:#tbl_lti_prov_provider_creator#:#Criador###18 05 2020 new variable
+lti#:#tbl_lti_prov_own_provider#:#Provedor próprio###18 05 2020 new variable
+lti#:#lti_action_delete_providers#:#Excluir Provedores###18 05 2020 new variable
+lti#:#lti_delete_provider#:#Excluir Provedor###18 05 2020 new variable
+lti#:#lti_success_delete_provider#:#Excluido com sucesso###18 05 2020 new variable
+lti#:#lti_confirm_delete_providers#:#Você está certo de que deseja excluir o seguinte fornecedor(s)?###18 05 2020 new variable
+lti#:#lti_success_accept_as_global#:#Aceito com sucesso como Provedor Global para todos os Usuários###18 05 2020 new variable
+lti#:#lti_success_accept_as_global_multi#:#Aceito com sucesso como Provedor Global para todos os Usuários###18 05 2020 new variable
+lti#:#lti_success_reset_to_usr_def#:#Resetato com sucesso como provedor definido pelo usuário###18 05 2020 new variable
+lti#:#lti_success_reset_to_usr_def_multi#:#Resetato com sucesso como provedor definido pelo usuário###18 05 2020 new variable
+lti#:#lti_no_provider_selected#:#Nenhum provedor selecionado###18 05 2020 new variable
+lti#:#lti_at_least_one_prov_has_usages#:#Pelo menos um fornecedor não pôde ser apagado porque este fornecedor tem usos (pode estar no lixo).###18 05 2020 new variable
+lti#:#tbl_lti_prov_keyword#:#Palavra-chave###18 05 2020 new variable
+lti#:#tbl_lti_prov_keywords#:#Palavras-chave###18 05 2020 new variable
+lti#:#tbl_lti_prov_category#:#Categoria###18 05 2020 new variable
+lti#:#tbl_lti_prov_all_categories#:#Todas Categorias###18 05 2020 new variable
+lti#:#tbl_lti_prov_outcome#:#Serviço de resultados###18 05 2020 new variable
+lti#:#tbl_lti_prov_internal#:#Provedor interno###18 05 2020 new variable
+lti#:#tbl_lti_prov_with_key#:#Predefinido com chave / segredo###18 05 2020 new variable
+lti#:#lti_con_prov_inc_usr_pic#:#Enviar foto do usuário###18 05 2020 new variable
+lti#:#lti_con_prov_inc_usr_pic_info#:#Links para fotos de usuários ILIAS estão incluídos no lançamento do objeto de consumo LTI.###18 05 2020 new variable
+lti#:#lti_con_prov_title#:#Título###18 05 2020 new variable
+lti#:#lti_con_prov_description#:#Descrição###18 05 2020 new variable
+lti#:#lti_con_prov_icon#:#Ícone###18 05 2020 new variable
+lti#:#obj_tile_image_info#:#Use uma imagem em formato quadrado###18 05 2020 new variable
 lti#:#lti_con_prov_availability#:#Availability###18 05 2020 new variable
 lti#:#lti_con_prov_availability_create#:#For Creating Objects###18 05 2020 new variable
 lti#:#lti_con_prov_availability_existing#:#Only for existing Objects###18 05 2020 new variable
