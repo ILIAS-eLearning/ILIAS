@@ -127,7 +127,8 @@ Please note that different configurations SHOULD be possible, but it might be ha
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
-  * utf8_general_ci
+  * Character Set: utf8
+  * Collation: utf8_general_ci
   * query_cache_size (> 16M)
   * join_buffer_size (> 128.0K, or always use indexes with joins)
   * table_open_cache (> 400)
