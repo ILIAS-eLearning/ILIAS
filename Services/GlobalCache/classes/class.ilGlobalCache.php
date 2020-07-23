@@ -289,7 +289,7 @@ class ilGlobalCache
      */
     public function isActive()
     {
-        if (self::$active_cache[$this->getComponent()] !== null) {
+        if (array_key_exists($this->getComponent(), self::$active_cache)) {
             return self::$active_cache[$this->getComponent()];
         }
         if (!self::ACTIVE) {
