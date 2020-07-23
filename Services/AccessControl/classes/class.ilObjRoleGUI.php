@@ -676,7 +676,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $ilToolbar = $DIC['ilToolbar'];
         $objDefinition = $DIC['objDefinition'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         $ilTabs->setTabActive('default_perm_settings');
         
         $this->setSubTabs('default_perm_settings');
@@ -1428,6 +1428,8 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->back_target["text"],
                 $this->back_target["link"]
             );
+        } else {
+            $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
         }
 
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {

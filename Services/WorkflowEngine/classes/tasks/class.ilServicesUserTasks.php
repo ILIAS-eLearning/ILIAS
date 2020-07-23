@@ -10,11 +10,11 @@
  */
 class ilServicesUserTasks
 {
-    const ANON_FIRSTNAME = 'Anonymous';
-    const ANON_LASTNAME = 'Exam-User';
-    const ANON_LOGIN_PREFIX = 'EX-';
-    const ANON_GENDER = 'm';
-    const PASSWORD_CHARACTERSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    const ANON_FIRSTNAME 		= 'Anonymous';
+    const ANON_LASTNAME  		= 'Exam-User';
+    const ANON_LOGIN_PREFIX 	= 'EX-';
+    const ANON_GENDER			= 'm';
+    const PASSWORD_CHARACTERSET	= 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
     /**
      * @param ilNode $context
@@ -25,7 +25,7 @@ class ilServicesUserTasks
     public static function createAnonymousUsers($context, $params)
     {
         $input_params = $params[0];
-        $output_params = $params[1];
+        $output_params =$params[1];
 
         // IN: useridlist
         // OUT: anonaccountlist, userIdList
@@ -50,16 +50,16 @@ class ilServicesUserTasks
             );
 
             $discloseMap[] = array(
-                'Original User' => $user_id,
-                'Original Login' => $source_user->getLogin(),
-                'Original Firstname' => $source_user->getFirstname(),
-                'Original Lastname' => $source_user->getLastname(),
-                'Original Matriculation' => $source_user->getMatriculation(),
-                'Original Gender' => $source_user->getGender(),
-                'Original EMail' => $source_user->getEmail(),
-                'Anon User' => $new_id,
-                'Anon Login' => $anon_login,
-                'Anon Password' => $anon_password
+                'Original User' 			=> $user_id,
+                'Original Login' 			=> $source_user->getLogin(),
+                'Original Firstname' 		=> $source_user->getFirstname(),
+                'Original Lastname' 		=> $source_user->getLastname(),
+                'Original Matriculation' 	=> $source_user->getMatriculation(),
+                'Original Gender' 			=> $source_user->getGender(),
+                'Original EMail' 			=> $source_user->getEmail(),
+                'Anon User' 				=> $new_id,
+                'Anon Login' 				=> $anon_login,
+                'Anon Password' 			=> $anon_password
             );
 
             $usrIdList[] = $new_id;
@@ -73,8 +73,9 @@ class ilServicesUserTasks
      */
     protected static function getValidLogin()
     {
+        $random = new \ilRandom();
         do {
-            $login = self::ANON_LOGIN_PREFIX . str_pad(rand(0, 9999999), 7, STR_PAD_LEFT);
+            $login = self::ANON_LOGIN_PREFIX . str_pad($random->int(0, 9999999), 7, STR_PAD_LEFT);
         } while (ilObjUser::_loginExists($login));
 
         return $login;
@@ -87,11 +88,12 @@ class ilServicesUserTasks
      */
     protected static function generatePassword($length = 8)
     {
+        $random = new \ilRandom();
         $password = array();
         $setLength = strlen(self::PASSWORD_CHARACTERSET) - 1;
 
         for ($i = 0; $i < $length; $i++) {
-            $index = rand(0, $setLength);
+            $index = $random->int(0, $setLength);
             $password[] = self::PASSWORD_CHARACTERSET[$index];
         }
 
@@ -140,7 +142,7 @@ class ilServicesUserTasks
     {
         // IN: discloseMap
         $input_params = $params[0];
-        $output_params = $params[1];
+        $output_params =$params[1];
 
         foreach ($input_params['discloseMap'] as $disclose_entry) {
             $anon_user = new ilObjUser($disclose_entry['Anon User'], false);
