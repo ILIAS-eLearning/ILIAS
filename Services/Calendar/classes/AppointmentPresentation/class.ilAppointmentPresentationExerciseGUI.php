@@ -54,7 +54,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
             $this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment_instructions);
         }
         $files = $assignment->getFiles();
-        if (count($files) > 0) {
+        if (count($files) > 0 && !$assignment->notStartedYet()) {
             $this->has_files = true;
             $str_files = array();
             foreach ($files as $file) {
