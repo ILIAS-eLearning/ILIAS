@@ -2698,6 +2698,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'infoScreen'
                     && $cmd != 'sendfile'
                     && $cmd != 'unsubscribe'
+                    && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
                     && !$ilAccess->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
@@ -3289,7 +3290,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
-        $request = $DIC->http()->request();
 
         $user_id = null;
         if ($ilAccess->checkAccess('manage_members', '', $this->ref_id)) {
