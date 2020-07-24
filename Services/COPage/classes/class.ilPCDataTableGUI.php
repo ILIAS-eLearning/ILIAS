@@ -664,6 +664,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
             ", " . ilUtil::getStyleSheetLocation() . ", ./Services/COPage/css/tiny_extra.css');
 			ilCOPage.editTD('cell_0_0');
 				");
+        foreach (ilPCParagraphGUI::_getTextCharacteristics($this->getStyleId()) as $c) {
+            $GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('" . $c . "');");
+        }
 
         $cfg = $this->getPageConfig();
 
