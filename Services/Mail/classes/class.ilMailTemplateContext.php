@@ -263,7 +263,7 @@ abstract class ilMailTemplateContext
      */
     protected function initLanguage(ilObjUser $user) : void
     {
-        $this->initLanguageByIso2Code($user->getLanguage());
+        $this->initLanguageByIso2Code((string) $user->getLanguage());
     }
 
     /**
