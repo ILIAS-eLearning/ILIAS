@@ -7,6 +7,7 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
+use ILIAS\Skill\Service\SkillService;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -314,6 +315,15 @@ class Container extends \Pimple\Container
     public function bookingManager()
     {
         return new \ilBookingManagerService();
+    }
+
+
+    /**
+     * @return SkillService
+     */
+    public function skills()
+    {
+        return new SkillService();
     }
 
 
