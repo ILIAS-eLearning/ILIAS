@@ -704,25 +704,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $folder_set = new ilSetting("fold");
                 if ($folder_set->get("enable_multi_download") == true) {
                     $toolbar->addSeparator();
-                        
-                    if (!$folder_set->get("bgtask_download", 0)) {
-                        $toolbar->addFormButton(
-                            $this->lng->txt('download_selected_items'),
-                            'download'
-                        );
-                    } else {
-                        $url = $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
-                        $main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
-                        $main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-                        $main_tpl->addOnLoadCode('il.BgTask.setAjax("' . $url . '");');
-
-                        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-                        $button = ilSubmitButton::getInstance();
-                        $button->setCaption("download_selected_items");
-                        $button->addCSSClass("ilbgtasksubmit");
-                        $button->setCommand("download");
-                        $toolbar->addButtonInstance($button);
-                    }
+                    $this->addDownloadButton($main_tpl, $toolbar);
                 }
             }
             if ($this->object->getType() == 'crs' or $this->object->getType() == 'grp') {
@@ -802,10 +784,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $this->ctrl->setParameter($this, "type", "");
                     $this->ctrl->setParameter($this, "item_ref_id", "");
 
-                    $toolbar->addFormButton(
-                        $this->lng->txt('download_selected_items'),
-                        'download'
-                    );
+                    $this->addDownloadButton($main_tpl, $toolbar);
 
                     $GLOBALS['tpl']->addAdminPanelToolbar(
                         $toolbar,
@@ -816,6 +795,28 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     ilUtil::sendInfo($this->lng->txt('msg_no_downloadable_objects'), true);
                 }
             }
+        }
+    }
+
+    private function addDownloadButton(&$tpl, &$toolbar) {
+        $folder_set = new ilSetting("fold");
+        if (!$folder_set->get("bgtask_download", 0)) {
+            $toolbar->addFormButton(
+                $this->lng->txt('download_selected_items'),
+                'download'
+            );
+        } else {
+            $url = $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
+            $tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
+            $tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
+            $tpl->addOnLoadCode('il.BgTask.setAjax("' . $url . '");');
+
+            include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+            $button = ilSubmitButton::getInstance();
+            $button->setCaption("download_selected_items");
+            $button->addCSSClass("ilbgtasksubmit");
+            $button->setCommand("download");
+            $toolbar->addButtonInstance($button);
         }
     }
 
