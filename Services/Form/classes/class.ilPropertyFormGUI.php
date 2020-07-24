@@ -246,10 +246,11 @@ class ilPropertyFormGUI extends ilFormGUI
     }
     
     /**
-    * Set top anchor
-    *
-    * @param	string	top anchor
-    */
+     * Set top anchor
+     *
+     * @param	string	top anchor
+     * @deprecated
+     */
     public function setTopAnchor($a_val)
     {
         $this->top_anchor = $a_val;
@@ -711,7 +712,7 @@ class ilPropertyFormGUI extends ilFormGUI
             
             $this->tpl->setCurrentBlock("header");
             $this->tpl->setVariable("TXT_TITLE", $this->getTitle());
-            $this->tpl->setVariable("LABEL", $this->getTopAnchor());
+            //$this->tpl->setVariable("LABEL", $this->getTopAnchor());
             $this->tpl->setVariable("TXT_DESCRIPTION", $this->getDescription());
             $this->tpl->parseCurrentBlock();
         }

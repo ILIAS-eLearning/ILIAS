@@ -320,7 +320,11 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
             $ptpl->setCurrentBlock("retype");
             $ptpl->setVariable("RSIZE", $this->getSize());
             $ptpl->setVariable("RID", $this->getFieldId());
-            $ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
+            if ($this->getMaxLength() > 0) {
+                $ptpl->setCurrentBlock("rmaxlength");
+                $ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
+                $ptpl->parseCurrentBlock();
+            }
             $ptpl->setVariable("RPOST_VAR", $this->getPostVar());
 
             if ($this->isHtmlAutoCompleteDisabled()) {
@@ -351,7 +355,11 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         $ptpl->setVariable("POST_VAR", $this->getPostVar());
         $ptpl->setVariable("ID", $this->getFieldId());
         $ptpl->setVariable("SIZE", $this->getSize());
-        $ptpl->setVariable("MAXLENGTH", $this->getMaxLength());
+        if ($this->getMaxLength() > 0) {
+            $ptpl->setCurrentBlock("maxlength");
+            $ptpl->setVariable("MAXLENGTH", $this->getMaxLength());
+            $ptpl->parseCurrentBlock();
+        }
         if ($this->getDisabled()) {
             $ptpl->setVariable(
                 "DISABLED",
