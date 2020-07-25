@@ -554,10 +554,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
         $a_tpl->setCurrentBlock("container_standard_row");
         $a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
-        $rel_headers = ($a_related_header != "")
+        /*$rel_headers = ($a_related_header != "")
         ? "th_selected_items " . $a_related_header
         : "th_selected_items";
-        $a_tpl->setVariable("BLOCK_ROW_HEADERS", $rel_headers);
+        $a_tpl->setVariable("BLOCK_ROW_HEADERS", $rel_headers);*/
         $a_tpl->parseCurrentBlock();
         $a_tpl->touchBlock("container_row");
     }
