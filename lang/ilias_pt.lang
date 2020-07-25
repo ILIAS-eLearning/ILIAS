@@ -15642,540 +15642,540 @@ lti#:#lti_con_prov_title#:#Título###18 05 2020 new variable
 lti#:#lti_con_prov_description#:#Descrição###18 05 2020 new variable
 lti#:#lti_con_prov_icon#:#Ícone###18 05 2020 new variable
 lti#:#obj_tile_image_info#:#Use uma imagem em formato quadrado###18 05 2020 new variable
-lti#:#lti_con_prov_availability#:#Availability###18 05 2020 new variable
-lti#:#lti_con_prov_availability_create#:#For Creating Objects###18 05 2020 new variable
-lti#:#lti_con_prov_availability_existing#:#Only for existing Objects###18 05 2020 new variable
-lti#:#lti_con_prov_availability_non#:#not available###18 05 2020 new variable
-lti#:#lti_con_prov_url#:#URL of Provider###18 05 2020 new variable
-lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret###18 05 2020 new variable
-lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.###18 05 2020 new variable
-lti#:#lti_con_prov_key#:#Key###18 05 2020 new variable
-lti#:#lti_con_prov_secret#:#Secret###18 05 2020 new variable
-lti#:#lti_con_prov_has_outcome_service#:#Provider supports Outcome Service###18 05 2020 new variable
-lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Provider returns a value between 0 and 1 to indicate the Learning Progress.###18 05 2020 new variable
-lti#:#lti_con_prov_always_learner#:#LTI User is always Learner###18 05 2020 new variable
-lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.###18 05 2020 new variable
-lti#:#lti_con_prov_use_provider_id#:#Use Provider ID###18 05 2020 new variable
-lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_activity_id#:#Activity ID###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.###18 05 2020 new variable
-lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements###18 05 2020 new variable
-lti#:#lti_con_prov_keywords#:#Keywords###18 05 2020 new variable
-lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.###18 05 2020 new variable
-lti#:#lti_con_prov_category#:#Category###18 05 2020 new variable
-lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.###18 05 2020 new variable
-lti#:#conf_user_ident#:#User identification###18 05 2020 new variable
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###18 05 2020 new variable
-lti#:#conf_user_ident_real_email#:#E-Mail Address###18 05 2020 new variable
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###18 05 2020 new variable
-lti#:#conf_user_name#:#User name###18 05 2020 new variable
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.###18 05 2020 new variable
-lti#:#conf_user_name_none#:#No one###18 05 2020 new variable
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###18 05 2020 new variable
-lti#:#conf_user_name_firstname#:#First name###18 05 2020 new variable
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 05 2020 new variable
-lti#:#conf_user_name_lastname#:#Title and last name###18 05 2020 new variable
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 05 2020 new variable
-lti#:#conf_user_name_fullname#:#Entire name###18 05 2020 new variable
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name###18 05 2020 new variable
-lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options###18 05 2020 new variable
-lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings###18 05 2020 new variable
-lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects###18 05 2020 new variable
-lti#:#lti_con_prov_privacy_setting_force#:#Settings are not changeable for Objects###18 05 2020 new variable
-lti#:#lti_con_prov_external_provider#:#External Provider###18 05 2020 new variable
-lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###18 05 2020 new variable
-lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score###18 05 2020 new variable
-lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.###18 05 2020 new variable
-lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint###18 05 2020 new variable
+lti#:#lti_con_prov_availability#:#Disponibilidade###18 05 2020 new variable
+lti#:#lti_con_prov_availability_create#:#para a criação de objetos###18 05 2020 new variable
+lti#:#lti_con_prov_availability_existing#:#somente para Objetos existentes###18 05 2020 new variable
+lti#:#lti_con_prov_availability_non#:#não disponível###18 05 2020 new variable
+lti#:#lti_con_prov_url#:#URL do Provedor###18 05 2020 new variable
+lti#:#lti_con_prov_provider_key_global#:#Chave e segredo pré-definidos###18 05 2020 new variable
+lti#:#lti_con_prov_provider_key_global_info#:#Se não estiver definido, os usuários têm que adicionar chave e segredo para usar o fornecedor.###18 05 2020 new variable
+lti#:#lti_con_prov_key#:#Chave###18 05 2020 new variable
+lti#:#lti_con_prov_secret#:#Segredo###18 05 2020 new variable
+lti#:#lti_con_prov_has_outcome_service#:#Provedor apóia o Outcome Service###18 05 2020 new variable
+lti#:#lti_con_prov_has_outcome_service_info#:#Se o Serviço de Resultados do LTI for apoiado, o Progresso da Aprendizagem poderia ser ativado. O Provedor retorna um valor entre 0 e 1 para indicar o Progresso do Aprendizado.###18 05 2020 new variable
+lti#:#lti_con_prov_always_learner#:#O usuário do LTI é sempre um aprendiz###18 05 2020 new variable
+lti#:#lti_con_prov_always_learner_info#:#Normalmente o papel no ILIAS é mapeado para um papel de LTI. Os administradores do curso poderiam ter mais direitos no Provedor, por exemplo, para manipular o objeto. Ative esta opção para evitar o mapeamento do papel.###18 05 2020 new variable
+lti#:#lti_con_prov_use_provider_id#:#Usar o ID do Provedor###18 05 2020 new variable
+lti#:#lti_con_prov_use_provider_id_info#:#Normalmente a Ref-Id do Consumidor LTI é transferida para o Provedor. Alguns Provedores mapeiam esta Ref-Id com o Recurso do Provedor. Para obter sempre o mesmo Recurso para estes Provedores, esta Opção deve ser ativada.###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_activity_id#:#ID da atividade###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_activity_id_info#:#A identificação da atividade é necessária para solicitar dados da Loja de Registro de Aprendizado. Somente insira algo aqui se a atribuição do recurso do provedor a uma Identificação de Atividade for única! Se nada for inserido aqui, a identificação da atividade pode ser inserida no LTI Consumer. A identificação da atividade pode ser solicitada ao Provedor do LTI.###18 05 2020 new variable
+lti#:#lti_con_prov_use_xapi#:#O provedor apóia a solicitação de xAPI-Statements###18 05 2020 new variable
+lti#:#lti_con_prov_keywords#:#Palavras-chave###18 05 2020 new variable
+lti#:#lti_con_prov_keywords_info#:#As palavras-chave devem ser separadas por um ponto e vírgula (;). As palavras-chave são automaticamente levadas para os Metadados como Palavras-chave.###18 05 2020 new variable
+lti#:#lti_con_prov_category#:#Categoria###18 05 2020 new variable
+lti#:#lti_con_prov_category_info#:#Categoria para filtrar as entradas quando o Objeto de Consumo LTI é criado.###18 05 2020 new variable
+lti#:#conf_user_ident#:#Identificação do usuário###18 05 2020 new variable
+lti#:#conf_user_ident_info#:#O padrão é freqüentemente o endereço de e-mail. A identificação única da plataforma ILIAS é:###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_user_id#:#ID de usuário ILIAS combinado com uma ID de plataforma ILIAS única formada como um endereço de e-mail.###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_user_id_info#:#Isto é idêntico a cada chamada, mas não permite uma conclusão direta sobre o usuário do ILIAS.###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_login#:#Login ILIAS combinado com uma id da plataforma ILIAS única, formada como um endereço de e-mail.###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_login_info#:#Isto é idêntico a cada chamada, mas pode permitir uma conclusão direta sobre o usuário do ILIAS.###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_ext_account#:#Id do usuário externo combinado com uma única plataforma ILIAS id formada como um endereço de e-mail.###18 05 2020 new variable
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Isto é idêntico a cada chamada, mas pode permitir uma conclusão direta sobre o usuário.###18 05 2020 new variable
+lti#:#conf_user_ident_real_email#:#Endereço de E-Mail###18 05 2020 new variable
+lti#:#conf_user_ident_real_email_info#:#Envia endereço de e-mail do usuário como identificação (Atenção: um endereço de e-mail pode ser usado por vários usuários!)###18 05 2020 new variable
+lti#:#conf_user_name#:#Nome do usuário###18 05 2020 new variable
+lti#:#conf_user_name_info#:#O envio de um nome de usuário geralmente não é necessário.###18 05 2020 new variable
+lti#:#conf_user_name_none#:#Ninguém###18 05 2020 new variable
+lti#:#conf_user_name_none_info#:#Envia '-' em vez de um nome###18 05 2020 new variable
+lti#:#conf_user_name_firstname#:#Primeiro nome###18 05 2020 new variable
+lti#:#conf_user_name_firstname_info#:#Envia o primeiro nome do nome do usuário do ILIAS###18 05 2020 new variable
+lti#:#conf_user_name_lastname#:#Título e sobrenome###18 05 2020 new variable
+lti#:#conf_user_name_lastname_info#:#Envia o Sr. ou Sra. (salvo especificação em contrário) e o sobrenome###18 05 2020 new variable
+lti#:#conf_user_name_fullname#:#Nome completo###18 05 2020 new variable
+lti#:#conf_user_name_fullname_info#:#Envia título, nome e sobrenome###18 05 2020 new variable
+lti#:#lti_con_prov_privacy_setting_conf#:#Opções de configuração###18 05 2020 new variable
+lti#:#lti_con_prov_privacy_setting_info#:#Opções de configuração para configurações de privacidade###18 05 2020 new variable
+lti#:#lti_con_prov_privacy_setting_default#:#Configurações padrão, modificáveis para Objetos###18 05 2020 new variable
+lti#:#lti_con_prov_privacy_setting_force#:#As configurações não são modificáveis para Objetos###18 05 2020 new variable
+lti#:#lti_con_prov_external_provider#:#Fornecedor externo###18 05 2020 new variable
+lti#:#lti_con_prov_external_provider_info#:#Uma dica será mostrada aos usuários quando lidarem com um Provedor externo. Um Provedor externo é caracterizado pela influência insuficiente do operador da instalação do ILIAS sobre o Provedor. Este é o caso quando não há direitos para excluir.###18 05 2020 new variable
+lti#:#lti_con_prov_mastery_score_default#:#Pontuação padrão de maestria###18 05 2020 new variable
+lti#:#lti_con_prov_mastery_score_default_info#:#O progresso do aprendizado será avaliado a partir do Serviço de Resultados do Provedor e do limiar de pontuação de domínio.###18 05 2020 new variable
+lti#:#lti_con_prov_use_xapi_info#:#Provedor apóia xAPI-Statements###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_launch_url#:#URL do Ponto Final da LRS###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_launch_url_info#:#Favor adicionar a URL completa com https://###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_launch_key#:#Chave do Ponto Final da LRS###18 05 2020 new variable
 lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;###18 05 2020 new variable
-lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint###18 05 2020 new variable
+lti#:#lti_con_prov_xapi_launch_secret#:#Segredo do Ponto Final da LRS###18 05 2020 new variable
 lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;###18 05 2020 new variable
-lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider###18 05 2020 new variable
-lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2###18 05 2020 new variable
-lti#:#lti_con_prov_group_options#:#Options to group and filter Providers###18 05 2020 new variable
-lti#:#lti_con_prov_hints#:#Hints###18 05 2020 new variable
-lti#:#lti_con_prov_remarks#:#Internal Remarks###18 05 2020 new variable
-lti#:#lti_action_edit_provider#:#Edit Provider###18 05 2020 new variable
-lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users###18 05 2020 new variable
-lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global###18 05 2020 new variable
-lti#:#lti_action_reset_provider_to_user_scope#:#Reset Provider as User Defined Provider###18 05 2020 new variable
-lti#:#lti_action_reset_providers_to_user_scope#:#Reset Providers as User Defined###18 05 2020 new variable
-lti#:#lti_delete_consume_provider#:#Delete Provider###18 05 2020 new variable
-lti#:#lti_delete_consume_providers#:#Delete Providers###18 05 2020 new variable
+lti#:#lti_con_prov_custom_params#:#Parâmetros personalizados para este fornecedor específico###18 05 2020 new variable
+lti#:#lti_con_prov_custom_params_info#:#Por favor, digite-os na forma param1=value1; param2=value2###18 05 2020 new variable
+lti#:#lti_con_prov_group_options#:#Opções para agrupar e filtrar Provedores###18 05 2020 new variable
+lti#:#lti_con_prov_hints#:#Dicas###18 05 2020 new variable
+lti#:#lti_con_prov_remarks#:#Observações internas###18 05 2020 new variable
+lti#:#lti_action_edit_provider#:#Editar Provedor###18 05 2020 new variable
+lti#:#lti_action_accept_provider_as_global#:#Aceitar Provedor como Provedor Global para todos os Usuários###18 05 2020 new variable
+lti#:#lti_action_accept_providers_as_global#:#Aceitar Provedores como globais###18 05 2020 new variable
+lti#:#lti_action_reset_provider_to_user_scope#:#Redefinir o Provedor como Provedor Definido pelo Usuário###18 05 2020 new variable
+lti#:#lti_action_reset_providers_to_user_scope#:#Redefinir Provedores como Usuário Definido###18 05 2020 new variable
+lti#:#lti_delete_consume_provider#:#Excluir fornecedor###18 05 2020 new variable
+lti#:#lti_delete_consume_providers#:#Excluir fornecedores###18 05 2020 new variable
 lti#:#tab_info#:#Info###18 05 2020 new variable
-lti#:#tab_content#:#Content###18 05 2020 new variable
-lti#:#tab_settings#:#Settings###18 05 2020 new variable
-lti#:#tab_statements#:#Learning Experiences###18 05 2020 new variable
-lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'###18 05 2020 new variable
-lti#:#subtab_object_settings#:#Object Settings###18 05 2020 new variable
-lti#:#subtab_certificate#:#Certificate###18 05 2020 new variable
-lti#:#subtab_provider_settings#:#LTI Provider Settings###18 05 2020 new variable
-lti#:#lti_settings_form#:#Object Settings###18 05 2020 new variable
-lti#:#provider_info#:#Used Provider###18 05 2020 new variable
-lti#:#title_info#:#Give the object a title.###18 05 2020 new variable
-lti#:#description_info#:#The description will be shown below the title.###18 05 2020 new variable
-lti#:#online_info#:#This makes the object visible and usable for the users.###18 05 2020 new variable
-lti#:#launch_method#:#Options for Launch###18 05 2020 new variable
+lti#:#tab_content#:#Conteúdo###18 05 2020 new variable
+lti#:#tab_settings#:#Configurações###18 05 2020 new variable
+lti#:#tab_statements#:#Experiências de aprendizagem###18 05 2020 new variable
+lti#:#lti_provider_not_avail_msg#:#O Provedor LTI está definido como "Não Disponível".###18 05 2020 new variable
+lti#:#subtab_object_settings#:#Configurações do objeto###18 05 2020 new variable
+lti#:#subtab_certificate#:#Certificado###18 05 2020 new variable
+lti#:#subtab_provider_settings#:#Configurações do fornecedor LTI###18 05 2020 new variable
+lti#:#lti_settings_form#:#Configurações do objeto###18 05 2020 new variable
+lti#:#provider_info#:#Fornecedor usado###18 05 2020 new variable
+lti#:#title_info#:#Dê um título ao objeto.###18 05 2020 new variable
+lti#:#description_info#:#A descrição será mostrada abaixo do título.###18 05 2020 new variable
+lti#:#online_info#:#Isto torna o objeto visível e utilizável para os usuários.###18 05 2020 new variable
+lti#:#launch_method#:#Opções de lançamento###18 05 2020 new variable
 lti#:#use_xapi#:#Use xAPI-Support###18 05 2020 new variable
 lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.###18 05 2020 new variable
-lti#:#activity_id#:#Activity ID###18 05 2020 new variable
-lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.###18 05 2020 new variable
-lti#:#show_statements#:#Display Learning Experiences###18 05 2020 new variable
-lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###18 05 2020 new variable
-lti#:#tab_scoring#:#Ranking###18 05 2020 new variable
-lti#:#highscore_enabled#:#Ranking###18 05 2020 new variable
-lti#:#highscore_description#:#The names of other users could be displayed if the right 'View learning experiences of other users' is set.###18 05 2020 new variable
-lti#:#highscore_achieved_ts#:#Date###18 05 2020 new variable
-lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.###18 05 2020 new variable
-lti#:#highscore_score#:#Score###18 05 2020 new variable
-lti#:#highscore_score_description#:#A column containing the score will be included in the ranking.###18 05 2020 new variable
-lti#:#highscore_percentage#:#Percentage###18 05 2020 new variable
-lti#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.###18 05 2020 new variable
-lti#:#highscore_wtime#:#Duration###18 05 2020 new variable
-lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.###18 05 2020 new variable
-lti#:#highscore_mode#:#Mode###18 05 2020 new variable
-lti#:#highscore_own_table#:#Participant's Own Rank###18 05 2020 new variable
-lti#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.###18 05 2020 new variable
-lti#:#highscore_top_table#:#Top Ranking###18 05 2020 new variable
-lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.###18 05 2020 new variable
-lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking###18 05 2020 new variable
-lti#:#highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.###18 05 2020 new variable
-lti#:#highscore_top_num#:#Length of Top Ranking###18 05 2020 new variable
-lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.###18 05 2020 new variable
-lti#:#highscore_top_num_unit#:#entries###18 05 2020 new variable
-cmix#:#cmix_new#:#New xAPI/cmi5 Object###18 05 2020 new variable
-cmix#:#cmix_add#:#Add xAPI/cmi5 Object###18 05 2020 new variable
+lti#:#activity_id#:#ID da atividade###18 05 2020 new variable
+lti#:#activity_id_info#:#Esta identificação de atividade é utilizada pelo Provedor do LTI para identificar declarações.###18 05 2020 new variable
+lti#:#show_statements#:#Mostrar experiências de aprendizagem###18 05 2020 new variable
+lti#:#show_statements_info#:#As Experiências de aprendizagem de outros usuários poderiam ser exibidas se for definida a 'Ver experiências de aprendizagem de outros usuários' correta.###18 05 2020 new variable
+lti#:#tab_scoring#:#Classificação###18 05 2020 new variable
+lti#:#highscore_enabled#:#Classificação###18 05 2020 new variable
+lti#:#highscore_description#:#Os nomes de outros usuários poderiam ser exibidos se for definida a 'Ver experiências de aprendizagem de outros usuários' correta.###18 05 2020 new variable
+lti#:#highscore_achieved_ts#:#Data###18 05 2020 new variable
+lti#:#highscore_achieved_ts_description#:#Uma coluna contendo a data será incluída no ranking.###18 05 2020 new variable
+lti#:#highscore_score#:#Pontuação###18 05 2020 new variable
+lti#:#highscore_score_description#:#Uma coluna contendo a pontuação será incluída no ranking.###18 05 2020 new variable
+lti#:#highscore_percentage#:#Porcentagem###18 05 2020 new variable
+lti#:#highscore_percentage_description#:#Uma coluna contendo a pontuação como porcentagem será incluída no ranking.###18 05 2020 new variable
+lti#:#highscore_wtime#:#Duração###18 05 2020 new variable
+lti#:#highscore_wtime_description#:#Uma coluna contendo a duração será incluída no ranking.###18 05 2020 new variable
+lti#:#highscore_mode#:#Modo###18 05 2020 new variable
+lti#:#highscore_own_table#:#Ranking do próprio participante###18 05 2020 new variable
+lti#:#highscore_own_table_description#:#Os participantes são informados de sua própria posição no ranking.###18 05 2020 new variable
+lti#:#highscore_top_table#:#Primeiro Ranking###18 05 2020 new variable
+lti#:#highscore_top_table_description#:#Os participantes são apresentados com uma tabela contendo as melhores classificações.###18 05 2020 new variable
+lti#:#highscore_all_tables#:#Ranking Próprio do Participante e Top Ranking###18 05 2020 new variable
+lti#:#highscore_all_tables_description#:#Os participantes obtêm informações sobre a primeira colocação e sua própria posição no ranking.###18 05 2020 new variable
+lti#:#highscore_top_num#:#Comprimento do Top Ranking###18 05 2020 new variable
+lti#:#highscore_top_num_description#:#Especifique quantos postos devem ser incluídos na lista de classificação superior.###18 05 2020 new variable
+lti#:#highscore_top_num_unit#:#entradas###18 05 2020 new variable
+cmix#:#cmix_new#:#Novo Objeto xAPI/cmi5###18 05 2020 new variable
+cmix#:#cmix_add#:#Adiciona Objeto xAPI/cmi5###18 05 2020 new variable
 cmix#:#cmix_add_cmi5_lm#:#cmi5 Learning Module###18 05 2020 new variable
-cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.###18 05 2020 new variable
+cmix#:#cmix_add_cmi5_lm_info#:#Esta opção deve ser usada quando o conteúdo é um módulo de aprendizagem compatível com o cmi5. Características relacionadas como relatórios adequados estão disponíveis sem outras configurações.###18 05 2020 new variable
 cmix#:#cmix_add_xapi_standard_object#:#xAPI Standard Object###18 05 2020 new variable
-cmix#:#cmix_add_xapi_standard_object_info#:#Use this option to have a generic content module offering all features like different reportings. This option comes with the greatest possible flexibility but requires a more complex configuration.###18 05 2020 new variable
+cmix#:#cmix_add_xapi_standard_object_info#:#Use esta opção para ter um módulo de conteúdo genérico que oferece todas as características como diferentes relatórios. Esta opção vem com a maior flexibilidade possível, mas requer uma configuração mais complexa.###18 05 2020 new variable
 cmix#:#cmix_add_lrs_type#:#LRS-Type###18 05 2020 new variable
-cmix#:#cmix_add_source#:#Source###18 05 2020 new variable
-cmix#:#cmix_add_source_url#:#Resource URL###18 05 2020 new variable
-cmix#:#cmix_add_source_url_info#:#Use this option for an external resource.###18 05 2020 new variable
-cmix#:#cmix_add_source_local_dir#:#Local Directory###18 05 2020 new variable
-cmix#:#cmix_add_source_local_dir_info#:#Use this option for content packages on your local device.###18 05 2020 new variable
-cmix#:#cmix_add_source_upload_dir#:#Upload Directory###18 05 2020 new variable
-cmix#:#cmix_add_source_upload_dir_info#:#Use this option for content packages already uploaded into the ILIAS upload directory which is also used for SCORM and HTML packages.###18 05 2020 new variable
-cmix#:#cmix_add_source_upload_select#:#--- Please select ---###18 05 2020 new variable
-cmix#:#cmix_add_source_external_app#:#Resource not launched by ILIAS###18 05 2020 new variable
-cmix#:#cmix_add_source_external_app_info#:#Use this option for separately launched resources as e.g. apps or simulations. Users must agree to the fetching of data.###18 05 2020 new variable
-cmix#:#create_registration#:#Register your E-Mail address###18 05 2020 new variable
-cmix#:#form_create_registration#:#Registration###18 05 2020 new variable
-cmix#:#field_user_ident#:#E-Mail-Address###18 05 2020 new variable
-cmix#:#field_user_ident_info#:#Enter the e-mail address used in the external application to identify you.###18 05 2020 new variable
-cmix#:#btn_create_registration#:#Submit###18 05 2020 new variable
-cmix#:#registration_saved_successfully#:#Registration saved successfully###18 05 2020 new variable
-cmix#:#change_registration#:#E-Mail address for Registration###18 05 2020 new variable
-cmix#:#form_change_registration#:#Registration###18 05 2020 new variable
-cmix#:#btn_change_registration#:#Submit###18 05 2020 new variable
-cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address###18 05 2020 new variable
-cmix#:#cmix_import#:#Import xAPI/cmi5 Object###18 05 2020 new variable
-cmix#:#cmix_copy#:#Copy xAPI/cmi5 Object###18 05 2020 new variable
-cmix#:#cmix_info_privacy_section_launch#:#Info about personal data transmitted at launch###18 05 2020 new variable
-cmix#:#cmix_info_privacy_section#:#Info about personal data###18 05 2020 new variable
+cmix#:#cmix_add_source#:#Fonte###18 05 2020 new variable
+cmix#:#cmix_add_source_url#:#URL do recurso###18 05 2020 new variable
+cmix#:#cmix_add_source_url_info#:#Use esta opção para um recurso externo.###18 05 2020 new variable
+cmix#:#cmix_add_source_local_dir#:#Diretório Local###18 05 2020 new variable
+cmix#:#cmix_add_source_local_dir_info#:#Use esta opção para pacotes de conteúdo em seu dispositivo local.###18 05 2020 new variable
+cmix#:#cmix_add_source_upload_dir#:#Diretório de Upload###18 05 2020 new variable
+cmix#:#cmix_add_source_upload_dir_info#:#Use esta opção para pacotes de conteúdo já carregados no diretório de upload ILIAS que também é usado para pacotes SCORM e HTML.###18 05 2020 new variable
+cmix#:#cmix_add_source_upload_select#:#--- Favor selecionar ---###18 05 2020 new variable
+cmix#:#cmix_add_source_external_app#:#Recurso não lançado pelo ILIAS###18 05 2020 new variable
+cmix#:#cmix_add_source_external_app_info#:#Use esta opção para recursos lançados separadamente como, por exemplo, aplicações ou simulações. Os usuários devem concordar com a obtenção de dados.###18 05 2020 new variable
+cmix#:#create_registration#:#Registre seu endereço de E-Mail###18 05 2020 new variable
+cmix#:#form_create_registration#:#Registro###18 05 2020 new variable
+cmix#:#field_user_ident#:#Endereço de e-mail###18 05 2020 new variable
+cmix#:#field_user_ident_info#:#Digite o endereço de e-mail utilizado na aplicação externa para identificá-lo.###18 05 2020 new variable
+cmix#:#btn_create_registration#:#Enviar###18 05 2020 new variable
+cmix#:#registration_saved_successfully#:#Registro salvo com sucesso###18 05 2020 new variable
+cmix#:#change_registration#:#Endereço de E-Mail para Inscrição###18 05 2020 new variable
+cmix#:#form_change_registration#:#Registro###18 05 2020 new variable
+cmix#:#btn_change_registration#:#Enviar###18 05 2020 new variable
+cmix#:#conf_user_registered_mail#:#Endereço de e-mail cadastrado###18 05 2020 new variable
+cmix#:#cmix_import#:#Importar objeto xAPI/cmi5###18 05 2020 new variable
+cmix#:#cmix_copy#:#Copiar objeto xAPI/cmi5###18 05 2020 new variable
+cmix#:#cmix_info_privacy_section_launch#:#Informações sobre dados pessoais transmitidos no lançamento###18 05 2020 new variable
+cmix#:#cmix_info_privacy_section#:#Informações sobre dados pessoais###18 05 2020 new variable
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)###18 05 2020 new variable
-cmix#:#cmix_info_external_lrs_label#:#Additional Info about this LRS###18 05 2020 new variable
-cmix#:#cmix_info_external_lrs_info#:#This Learning Record Store is an external LRS. An external LRS is characterized by insufficient influence on the LRS by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.###18 05 2020 new variable
-cmix#:#cmix_indication_to_user#:#Further Hints for this LRS###18 05 2020 new variable
-cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress###18 05 2020 new variable
-cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.###18 05 2020 new variable
-cmix#:#conf_bypass_proxy#:#Detection of Learning Progress###18 05 2020 new variable
-cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data###18 05 2020 new variable
-cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store###18 05 2020 new variable
-cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.###18 05 2020 new variable
-cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results###18 05 2020 new variable
-cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.###18 05 2020 new variable
-cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store###18 05 2020 new variable
-cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet###18 05 2020 new variable
-cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully###18 05 2020 new variable
-cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:###18 05 2020 new variable
+cmix#:#cmix_info_external_lrs_label#:#Informações adicionais sobre LRS###18 05 2020 new variable
+cmix#:#cmix_info_external_lrs_info#:#Esta Registro de Aprendizagem (LRS) é uma LRS externa. Uma LRS externa é caracterizada pela influência insuficiente sobre a LRS por parte do operador da ILIAS-Installation. Este é o caso, por exemplo, se não há direitos para excluir dados.###18 05 2020 new variable
+cmix#:#cmix_indication_to_user#:#Outras dicas para esta LRS###18 05 2020 new variable
+cmix#:#conf_cronjob_neccessary#:#CronJob necessário para o progresso da aprendizagem###18 05 2020 new variable
+cmix#:#conf_cronjob_neccessary_info#:#Ao ativar esta opção, o xAPI-Objects usando este tipo de LRS não poderia usar o xAPI-Proxy para obter imediatamente dados para Detecção de Progresso de Aprendizagem. Use somente o CronJob em caso de limitações em relação a recursos ou servidor.###18 05 2020 new variable
+cmix#:#conf_bypass_proxy#:#Detecção de progresso de aprendizagem###18 05 2020 new variable
+cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy para obter dados imediatamente###18 05 2020 new variable
+cmix#:#conf_bypass_proxy_enabled#:#CronJob para verificar o Learning Record Store###18 05 2020 new variable
+cmix#:#conf_bypass_proxy_info#:#Na maioria dos casos é recomendado o uso do xAPI-Proxy. Use o CronJob em caso de Limitações em relação ao Recurso ou ao Servidor.###18 05 2020 new variable
+cmix#:#cron_xapi_results_evaluation#:#Obter resultados xAPI/cmi5###18 05 2020 new variable
+cmix#:#cron_xapi_results_evaluation_desc#:#Solicita todos os resultados xAPI das lojas de registros de aprendizagem para objetos que não suportam o proxy xAPI do ILIAS.###18 05 2020 new variable
+cmix#:#fetch_xapi_statements#:#Buscar resultados do Learning Record Store###18 05 2020 new variable
+cmix#:#xapi_statements_not_fetched_yet#:#Os resultados do Learning Record Store ainda não foram obtidos###18 05 2020 new variable
+cmix#:#xapi_statements_fetched_successfully#:#Os resultados do Learning Record Store foram obtidos com sucesso###18 05 2020 new variable
+cmix#:#xapi_statements_last_fetch_date#:#Último resultado:###18 05 2020 new variable
 cmix#:#tab_info#:#Info###18 05 2020 new variable
-cmix#:#tab_settings#:#Settings###18 05 2020 new variable
-cmix#:#tab_statements#:#Learning Experiences###18 05 2020 new variable
+cmix#:#tab_settings#:#Configurações###18 05 2020 new variable
+cmix#:#tab_statements#:#Experiências de aprendizagem###18 05 2020 new variable
 cmix#:#tab_export#:#Export###18 05 2020 new variable
 cmix#:#tab_scoring#:#Ranking###18 05 2020 new variable
-cmix#:#tbl_statements_date#:#Date###18 05 2020 new variable
-cmix#:#tbl_statements_actor#:#User###18 05 2020 new variable
+cmix#:#tbl_statements_date#:#Data###18 05 2020 new variable
+cmix#:#tbl_statements_actor#:#Usuário###18 05 2020 new variable
 cmix#:#tbl_statements_verb#:#Verb###18 05 2020 new variable
-cmix#:#tbl_statements_object#:#Object###18 05 2020 new variable
+cmix#:#tbl_statements_object#:#Objeto###18 05 2020 new variable
 cmix#:#tbl_action_raw_data#:#View Raw Data###18 05 2020 new variable
 cmix#:#tab_lrs_types#:#LRS-Types###18 05 2020 new variable
 cmix#:#btn_create_lrs_type#:#Add LRS-Type###18 05 2020 new variable
 cmix#:#tbl_lrs_types_header#:#LRS-Types###18 05 2020 new variable
-cmix#:#tbl_lrs_type_title#:#Title###18 05 2020 new variable
-cmix#:#tbl_lrs_type_availability#:#Availability###18 05 2020 new variable
-cmix#:#tbl_lrs_type_usages#:#Usages Count###18 05 2020 new variable
+cmix#:#tbl_lrs_type_title#:#Título###18 05 2020 new variable
+cmix#:#tbl_lrs_type_availability#:#Disponibilidade###18 05 2020 new variable
+cmix#:#tbl_lrs_type_usages#:#Contagem de usos###18 05 2020 new variable
 cmix#:#create_lrs_type_form#:#New LRS-Type###18 05 2020 new variable
 cmix#:#edit_lrs_type_form#:#LRS-Type###18 05 2020 new variable
-cmix#:#lrs_authentication#:#Authentication###18 05 2020 new variable
-cmix#:#sect_learning_progress_options#:#Options for Learning Progress###18 05 2020 new variable
-cmix#:#conf_title#:#Title###18 05 2020 new variable
-cmix#:#info_title#:#This title will be shown when choosing the type for new objects.###18 05 2020 new variable
-cmix#:#conf_description#:#Description###18 05 2020 new variable
-cmix#:#info_description#:#This description will be shown when choosing the type for new objects.###18 05 2020 new variable
-cmix#:#conf_availability#:#Availability###18 05 2020 new variable
-cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.###18 05 2020 new variable
-cmix#:#conf_availability_0#:#Not available###18 05 2020 new variable
-cmix#:#conf_availability_1#:#Existing ones allowed###18 05 2020 new variable
-cmix#:#conf_availability_2#:#New producible###18 05 2020 new variable
+cmix#:#lrs_authentication#:#Autenticação###18 05 2020 new variable
+cmix#:#sect_learning_progress_options#:#Opções para o progresso da aprendizagem###18 05 2020 new variable
+cmix#:#conf_title#:#Título###18 05 2020 new variable
+cmix#:#info_title#:#Este título será mostrado ao escolher o tipo para novos objetos.###18 05 2020 new variable
+cmix#:#conf_description#:#Descrição###18 05 2020 new variable
+cmix#:#info_description#:#Esta descrição será mostrada ao escolher o tipo para novos objetos.###18 05 2020 new variable
+cmix#:#conf_availability#:#Disponibilidade###18 05 2020 new variable
+cmix#:#info_availability#:#Assim, você pode operar a disponibilidade do tipo LRS dentro da revista. Todos os tipos podem ser configurados em "permitir os existentes" em vez de serem apagados.###18 05 2020 new variable
+cmix#:#conf_availability_0#:#Não disponível###18 05 2020 new variable
+cmix#:#conf_availability_1#:#Os já existentes são permitidos###18 05 2020 new variable
+cmix#:#conf_availability_2#:#Novos produtos###18 05 2020 new variable
 cmix#:#conf_lrs_endpoint#:#Endpoint###18 05 2020 new variable
-cmix#:#info_lrs_endpoint#:#URL of the endpoint without '/' at the end###18 05 2020 new variable
-cmix#:#conf_lrs_key#:#Key / Login###18 05 2020 new variable
-cmix#:#info_lrs_key#:#Key or login for access, i.e. 12345###18 05 2020 new variable
-cmix#:#conf_lrs_secret#:#Secret / Password###18 05 2020 new variable
-cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret###18 05 2020 new variable
-cmix#:#conf_own_window#:#Own Window###18 05 2020 new variable
-cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###18 05 2020 new variable
-cmix#:#conf_any_window#:#Any Window###18 05 2020 new variable
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###18 05 2020 new variable
-cmix#:#conf_launch_mode#:#Launch Mode###18 05 2020 new variable
+cmix#:#info_lrs_endpoint#:#URL do endpoint sem '/' no fim###18 05 2020 new variable
+cmix#:#conf_lrs_key#:#Chave / Login###18 05 2020 new variable
+cmix#:#info_lrs_key#:#Chave ou login para acesso, ou seja 12345###18 05 2020 new variable
+cmix#:#conf_lrs_secret#:#Segredo / Senha###18 05 2020 new variable
+cmix#:#info_lrs_secret#:#Segredo compartilhado / Senha, ou seja, segredo###18 05 2020 new variable
+cmix#:#conf_own_window#:#Janela própria###18 05 2020 new variable
+cmix#:#conf_own_window_info#:#O conteúdo é aberto na mesma janela e substitui a tela ILIAS. Ao deixar o conteúdo, o usuário retorna ao ILIAS.###18 05 2020 new variable
+cmix#:#conf_any_window#:#Qualquer Janela###18 05 2020 new variable
+cmix#:#conf_any_window_info#:#O conteúdo é aberto em uma nova janela. Ao deixar o conteúdo, esta janela é fechada.###18 05 2020 new variable
+cmix#:#conf_launch_mode#:#Modo de lançamento###18 05 2020 new variable
 cmix#:#conf_launch_mode_normal#:#Normal###18 05 2020 new variable
-cmix#:#conf_launch_mode_browse#:#Browse###18 05 2020 new variable
-cmix#:#conf_launch_mode_review#:#Review###18 05 2020 new variable
-cmix#:#conf_keep_lp#:#Keep Learning Progress###18 05 2020 new variable
-cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.###18 05 2020 new variable
+cmix#:#conf_launch_mode_browse#:#Navegue###18 05 2020 new variable
+cmix#:#conf_launch_mode_review#:#Revisão###18 05 2020 new variable
+cmix#:#conf_keep_lp#:#Continue progresso aprendizado###18 05 2020 new variable
+cmix#:#conf_keep_lp_info#:#O estado de progresso de aprendizagem do ILIAS seria congelado.###18 05 2020 new variable
 cmix#:#conf_external_lrs#:#External LRS###18 05 2020 new variable
-cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###18 05 2020 new variable
-cmix#:#conf_user_ident#:#User identification###18 05 2020 new variable
-cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###18 05 2020 new variable
-cmix#:#conf_user_ident_real_email#:#E-Mail Address###18 05 2020 new variable
-cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###18 05 2020 new variable
-cmix#:#conf_user_name#:#User name###18 05 2020 new variable
-cmix#:#conf_user_name_info#:#Sending an user name is usually not required.###18 05 2020 new variable
-cmix#:#conf_user_name_none#:#No one###18 05 2020 new variable
-cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name###18 05 2020 new variable
-cmix#:#conf_user_name_firstname#:#First name###18 05 2020 new variable
-cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 05 2020 new variable
-cmix#:#conf_user_name_lastname#:#Title and last name###18 05 2020 new variable
-cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 05 2020 new variable
-cmix#:#conf_user_name_fullname#:#Entire name###18 05 2020 new variable
-cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###18 05 2020 new variable
-cmix#:#conf_privacy_setting_conf#:#Configuration Options###18 05 2020 new variable
-cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###18 05 2020 new variable
-cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects###18 05 2020 new variable
-cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects###18 05 2020 new variable
-cmix#:#conf_privacy_comment_default#:#Indication to user###18 05 2020 new variable
-cmix#:#info_privacy_comment_default#:#Please insert, if required, an additional indication on data security when using this LRS.###18 05 2020 new variable
-cmix#:#conf_remarks#:#Internal comments###18 05 2020 new variable
-cmix#:#info_remarks#:#Place to write down your comments on this LRS-type here.###18 05 2020 new variable
-cmix#:#title_info#:#Give the object a title.###18 05 2020 new variable
-cmix#:#description_info#:#The description will be shown below the title.###18 05 2020 new variable
-cmix#:#online_info#:#This makes the object visible and usable for the users.###18 05 2020 new variable
-cmix#:#launch_options#:#Options for Launch###18 05 2020 new variable
-cmix#:#launch_url#:#URL of the resource###18 05 2020 new variable
-cmix#:#launch_url_info#:#Insert here the Internet address by adding http:// or https:// . Options for data security are also relevant for remote resources.###18 05 2020 new variable
-cmix#:#activity_id#:#Activity-ID###18 05 2020 new variable
-cmix#:#activity_id_info#:#This ID is primarily used for the display of data from the LRS. You receive this ID from the resource provider.###18 05 2020 new variable
-cmix#:#use_fetch#:#Authorization through Fetch-URL###18 05 2020 new variable
-cmix#:#use_fetch_info#:#As long as the resource supports this option, you should use this option to increase data security.###18 05 2020 new variable
-cmix#:#privacy_options#:#Options for data security###18 05 2020 new variable
-cmix#:#content_privacy_ident#:#User identification for resource###18 05 2020 new variable
-cmix#:#content_privacy_name#:#User name for resource###18 05 2020 new variable
-cmix#:#log_options#:#Options for the display of transmitted data###18 05 2020 new variable
-cmix#:#show_debug#:#Display Learning Experiences###18 05 2020 new variable
-cmix#:#show_debug_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.###18 05 2020 new variable
-cmix#:#cmix_all_verbs#:#All Verbs###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_answered#:#Answered###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_asked#:#Asked###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_attempted#:#Attempted###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_attended#:#Attended###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_commented#:#Commented###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_completed#:#Completed###18 05 2020 new variable
+cmix#:#info_external_lrs#:#Uma dica será mostrada aos usuários quando lidarem com um LRS externo. Uma LRS externa é caracterizada pela influência insuficiente sobre a LRS pelo operador da instalação do ILIAS. Este é o caso quando não há direitos para excluir.###18 05 2020 new variable
+cmix#:#conf_user_ident#:#Identificação do usuário###18 05 2020 new variable
+cmix#:#conf_user_ident_info#:#O padrão é freqüentemente o endereço de e-mail. A identificação única da plataforma ILIAS é:###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS ID de usuário combinado com uma plataforma ILIAS única id formada como um endereço de e-mail.###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Isto é idêntico a cada chamada, mas não permite uma conclusão direta sobre o usuário do ILIAS.###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_login#:#Login ILIAS combinado com uma plataforma ILIAS única, id id formada como um endereço de e-mail.###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_login_info#:#Isto é idêntico a cada chamada, mas pode permitir uma conclusão direta sobre o usuário do ILIAS.###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_ext_account#:#Id do usuário externo combinado com uma única plataforma ILIAS id formada como um endereço de e-mail.###18 05 2020 new variable
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Isto é idêntico a cada chamada, mas pode permitir uma conclusão direta sobre o usuário.###18 05 2020 new variable
+cmix#:#conf_user_ident_real_email#:#Endereço E-Mail###18 05 2020 new variable
+cmix#:#conf_user_ident_real_email_info#:#Envia endereço de e-mail do usuário como identificação (Atenção: um endereço de e-mail pode ser usado por vários usuários!)###18 05 2020 new variable
+cmix#:#conf_user_name#:#Nome do usuário###18 05 2020 new variable
+cmix#:#conf_user_name_info#:#O envio de um nome de usuário geralmente não é necessário.###18 05 2020 new variable
+cmix#:#conf_user_name_none#:#Ninguém###18 05 2020 new variable
+cmix#:#conf_user_name_none_info#:#Envia '-' em vez de um nome###18 05 2020 new variable
+cmix#:#conf_user_name_firstname#:#Primeiro nome###18 05 2020 new variable
+cmix#:#conf_user_name_firstname_info#:#Envia o primeiro nome do nome do usuário do ILIAS###18 05 2020 new variable
+cmix#:#conf_user_name_lastname#:#Título e sobrenome###18 05 2020 new variable
+cmix#:#conf_user_name_lastname_info#:#Envia o Sr. ou Sra. (salvo especificação em contrário) e o sobrenome###18 05 2020 new variable
+cmix#:#conf_user_name_fullname#:#Nome completo###18 05 2020 new variable
+cmix#:#conf_user_name_fullname_info#:#Envia título, nome e sobrenome###18 05 2020 new variable
+cmix#:#conf_privacy_setting_conf#:#Opções de configuração###18 05 2020 new variable
+cmix#:#conf_privacy_setting_info#:#Opções de configuração para configurações de privacidade###18 05 2020 new variable
+cmix#:#conf_privacy_setting_default#:#Configurações padrão, modificáveis para Objetos###18 05 2020 new variable
+cmix#:#conf_privacy_setting_force#:#As configurações não são modificáveis para Objetos###18 05 2020 new variable
+cmix#:#conf_privacy_comment_default#:#Indicação ao usuário###18 05 2020 new variable
+cmix#:#info_privacy_comment_default#:#Favor inserir, se necessário, uma indicação adicional sobre segurança de dados ao usar este LRS.###18 05 2020 new variable
+cmix#:#conf_remarks#:#Comentários internos###18 05 2020 new variable
+cmix#:#info_remarks#:#Escreva aqui seus comentários sobre este tipo de LRS.###18 05 2020 new variable
+cmix#:#title_info#:#Dê um título ao objeto.###18 05 2020 new variable
+cmix#:#description_info#:#A descrição será mostrada abaixo do título.###18 05 2020 new variable
+cmix#:#online_info#:#Isto torna o objeto visível e utilizável para os usuários.###18 05 2020 new variable
+cmix#:#launch_options#:#Opções de lançamento###18 05 2020 new variable
+cmix#:#launch_url#:#URL do recurso###18 05 2020 new variable
+cmix#:#launch_url_info#:#Insira aqui o endereço da Internet, acrescentando http:// ou https:// . As opções para segurança de dados também são relevantes para recursos remotos.###18 05 2020 new variable
+cmix#:#activity_id#:#Identificação da Atividade###18 05 2020 new variable
+cmix#:#activity_id_info#:#Esta identificação é usada principalmente para a exibição de dados da LRS. Você recebe esta identificação do fornecedor do recurso.###18 05 2020 new variable
+cmix#:#use_fetch#:#Autorização através da Fetch-URL###18 05 2020 new variable
+cmix#:#use_fetch_info#:#Desde que o recurso suporte esta opção, você deve usar esta opção para aumentar a segurança dos dados.###18 05 2020 new variable
+cmix#:#privacy_options#:#Opções para segurança de dados###18 05 2020 new variable
+cmix#:#content_privacy_ident#:#Identificação do usuário para o recurso###18 05 2020 new variable
+cmix#:#content_privacy_name#:#Nome do usuário do recurso###18 05 2020 new variable
+cmix#:#log_options#:#Opções para a exibição dos dados transmitidos###18 05 2020 new variable
+cmix#:#show_debug#:#Mostrar experiências de aprendizagem###18 05 2020 new variable
+cmix#:#show_debug_info#:#As Experiências de aprendizagem de outros usuários poderiam ser exibidas se for definida a 'Ver experiências de aprendizagem de outros usuários' correta.###18 05 2020 new variable
+cmix#:#cmix_all_verbs#:#Todos os Verbos###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_answered#:#Respondido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_asked#:#Perguntado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_attempted#:#Tentativa###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_attended#:#Atendido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_commented#:#Comentado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_completed#:#Concluído###18 05 2020 new variable
 cmix#:#cmix_adlnetgov_expapi_verbs_exited#:#Exited###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_experienced#:#Experienced###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_failed#:#Failed###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_imported#:#Imported###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_initialized#:#Initialized###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_interacted#:#Interacted###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_launched#:#Launched###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_mastered#:#Mastered###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_passed#:#Passed###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_preferred#:#Preferred###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_progressed#:#Progressed###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_registered#:#Registered###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_responded#:#Responded###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_resumed#:#Resumed###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_scored#:#Scored###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_shared#:#Shared###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_suspended#:#Suspended###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_terminated#:#Terminated###18 05 2020 new variable
-cmix#:#cmix_adlnetgov_expapi_verbs_voided#:#Voided###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_experienced#:#Experimentado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_failed#:#Falhada###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_imported#:#Importado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_initialized#:#Inicializado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_interacted#:#Interagido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_launched#:#Lançado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_mastered#:#Dominado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_passed#:#Aprovado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_preferred#:#Preferido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_progressed#:#Progredido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_registered#:#Registrado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_responded#:#Respondido###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_resumed#:#Retomado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_scored#:#Pontuado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_shared#:#Compartilhado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_suspended#:#Suspenso###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_terminated#:#Terminado###18 05 2020 new variable
+cmix#:#cmix_adlnetgov_expapi_verbs_voided#:#Anulado###18 05 2020 new variable
 cmix#:#highscore_enabled#:#Ranking###18 05 2020 new variable
-cmix#:#highscore_description#:#The names of other users could be displayed if the right 'View learning experiences of other users' is set.###18 05 2020 new variable
-cmix#:#highscore_achieved_ts#:#Date###18 05 2020 new variable
-cmix#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.###18 05 2020 new variable
-cmix#:#highscore_score#:#Score###18 05 2020 new variable
-cmix#:#highscore_score_description#:#A column containing the score will be included in the ranking.###18 05 2020 new variable
-cmix#:#highscore_percentage#:#Percentage###18 05 2020 new variable
-cmix#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.###18 05 2020 new variable
-cmix#:#highscore_wtime#:#Duration###18 05 2020 new variable
-cmix#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.###18 05 2020 new variable
-cmix#:#highscore_mode#:#Mode###18 05 2020 new variable
-cmix#:#highscore_own_table#:#Participant's Own Rank###18 05 2020 new variable
-cmix#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.###18 05 2020 new variable
+cmix#:#highscore_description#:#Os nomes de outros usuários poderiam ser exibidos se a opção "Ver experiências de aprendizagem de outros usuários" estiver definida.###18 05 2020 new variable
+cmix#:#highscore_achieved_ts#:#Data###18 05 2020 new variable
+cmix#:#highscore_achieved_ts_description#:#Uma coluna contendo a data será incluída no ranking.###18 05 2020 new variable
+cmix#:#highscore_score#:#Pontuação###18 05 2020 new variable
+cmix#:#highscore_score_description#:#Uma coluna contendo a pontuação será incluída no ranking.###18 05 2020 new variable
+cmix#:#highscore_percentage#:#Porcentagem###18 05 2020 new variable
+cmix#:#highscore_percentage_description#:#Uma coluna contendo a pontuação como porcentagem será incluída no ranking.###18 05 2020 new variable
+cmix#:#highscore_wtime#:#Duração###18 05 2020 new variable
+cmix#:#highscore_wtime_description#:#Uma coluna contendo a duração será incluída no ranking.###18 05 2020 new variable
+cmix#:#highscore_mode#:#Modo###18 05 2020 new variable
+cmix#:#highscore_own_table#:#Ranking do próprio participante###18 05 2020 new variable
+cmix#:#highscore_own_table_description#:#Os participantes são informados de sua própria posição no ranking.###18 05 2020 new variable
 cmix#:#highscore_top_table#:#Top Ranking###18 05 2020 new variable
-cmix#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.###18 05 2020 new variable
-cmix#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking###18 05 2020 new variable
-cmix#:#highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.###18 05 2020 new variable
-cmix#:#highscore_top_num#:#Length of Top Ranking###18 05 2020 new variable
-cmix#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.###18 05 2020 new variable
-cmix#:#highscore_top_num_unit#:#entries###18 05 2020 new variable
-cmix#:#download_certificate#:#Download Certificate###18 05 2020 new variable
-dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?###18 05 2020 new variable
-mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.###18 05 2020 new variable
+cmix#:#highscore_top_table_description#:#Os participantes são apresentados com uma tabela contendo as melhores classificações.###18 05 2020 new variable
+cmix#:#highscore_all_tables#:#Ranking Próprio do Participante e Top Ranking###18 05 2020 new variable
+cmix#:#highscore_all_tables_description#:#Os participantes obtêm informações sobre a primeira colocação e sua própria posição no ranking.###18 05 2020 new variable
+cmix#:#highscore_top_num#:#Comprimento do Top Ranking###18 05 2020 new variable
+cmix#:#highscore_top_num_description#:#Especifique quantos postos devem ser incluídos na lista de classificação superior.###18 05 2020 new variable
+cmix#:#highscore_top_num_unit#:#entradas###18 05 2020 new variable
+cmix#:#download_certificate#:#Download do certificado###18 05 2020 new variable
+dash#:#dash_info_sure_remove_from_favs#:#Você tem certeza de que deseja remover os seguintes objetos de seus Favoritos?###18 05 2020 new variable
+mmbr#:#mmbr_unsubscribed_from_objs#:#Você foi desinscrito dos objetos selecionados.###18 05 2020 new variable
 cont#:#cont_std_filter_title_9#:#Online/Offline###18 05 2020 new variable
-rep#:#rep_export_limitation#:#Container Export Limitation###18 05 2020 new variable
-rep#:#rep_export_limitation_info#:#Limits the number of objects for container exports (courses, categories, ...) in the repository.###18 05 2020 new variable
+rep#:#rep_export_limitation#:#Limitação de exportação de contêineres###18 05 2020 new variable
+rep#:#rep_export_limitation_info#:#Limita o número de objetos para exportação de contêineres (cursos, categorias, ...) no repositório.###18 05 2020 new variable
 rep#:#rep_export_limitation_disabled#:#Container Export Disabled###18 05 2020 new variable
 rep#:#rep_export_limitation_limited#:#Limit Export###18 05 2020 new variable
-rep#:#rep_export_limit_number#:#Number of Objects###18 05 2020 new variable
-exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.###18 05 2020 new variable
-exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.###18 05 2020 new variable
-lso#:#lso_mainbar_button_label_toc#:#Content###18 05 2020 new variable
+rep#:#rep_export_limit_number#:#Número de Objetos###18 05 2020 new variable
+exp#:#exp_error_too_many_objects#:#A exportação ultrapassa o número máximo de objetos com poder de penetração (%1). Favor selecionar um número menor de objetos.###18 05 2020 new variable
+exp#:#exp_error_disabled#:#O recurso de exportação é desativado para contêineres. Você pode entrar em contato com o administrador de seu sistema.###18 05 2020 new variable
+lso#:#lso_mainbar_button_label_toc#:#Conteúdo###18 05 2020 new variable
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum###18 05 2020 new variable
-mem#:#mem_period_without_time#:#Without Time Indication###18 05 2020 new variable
-trac#:#trac_mode_course_reference#:#Adopted from Course###18 05 2020 new variable
-trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.###18 05 2020 new variable
-style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module###18 05 2020 new variable
-content#:#cont_insert_pagelayout#:#Insert Template Page###18 05 2020 new variable
-content#:#cont_page_template#:#Page Template###18 05 2020 new variable
-content#:#cont_page_created#:#Page created###18 05 2020 new variable
-prg#:#assignment_date#:#Assignment Date###18 05 2020 new variable
-prg#:#completion_date#:#Completion Date###18 05 2020 new variable
-prg#:#prg_no_deadline#:#No fixed prozessing time###18 05 2020 new variable
-prg#:#prg_deadline_period#:#Processing time is determined inividually###18 05 2020 new variable
-prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.###18 05 2020 new variable
-prg#:#prg_deadline_date#:#Processing time expires at fixed date###18 05 2020 new variable
-prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###18 05 2020 new variable
-prg#:#prg_no_validity_qualification#:#Long-Lasting qualification###18 05 2020 new variable
-prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications###18 05 2020 new variable
-prg#:#validity_qualification_period#:#Qualification expires individually###18 05 2020 new variable
-prg#:#validity_qualification_period_desc#:#days after completion###18 05 2020 new variable
-prg#:#validity_qualification_date#:#Qualification expires at fixed date###18 05 2020 new variable
-prg#:#validity_qualification_date_desc#:#expiry date###18 05 2020 new variable
-prg#:#prg_no_restart#:#No restart required###18 05 2020 new variable
-prg#:#restart_period#:#Restart obligatory###18 05 2020 new variable
-prg#:#restart_period_desc#:#days before expiry###18 05 2020 new variable
-prg#:#sp_certificate_title#:#Title of the Study Programme###18 05 2020 new variable
-prg#:#sp_certificate_description#:#Description of the Study Programme###18 05 2020 new variable
-prg#:#sp_certificate_type#:#Type of the Study Programme###18 05 2020 new variable
-prg#:#sp_certificate_points#:#Amount of points that have been acquired###18 05 2020 new variable
-prg#:#sp_certificate_completion_date#:#Date of completion###18 05 2020 new variable
-prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification###18 05 2020 new variable
-prg#:#prg_completion_date#:#Completion date###18 05 2020 new variable
-prg#:#prg_expiry_date#:#Expiry date###18 05 2020 new variable
-prg#:#prg_validity#:#Validity###18 05 2020 new variable
-prg#:#prg_still_valid#:#still valid###18 05 2020 new variable
-prg#:#prg_not_valid#:#not valid###18 05 2020 new variable
-prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments###18 05 2020 new variable
-prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire###18 05 2020 new variable
-prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress###18 05 2020 new variable
-prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'###18 05 2020 new variable
-prg#:#prg_orgus#:#Organisational Units###18 05 2020 new variable
-prg#:#content_automation_title#:#Automatically add and remove Courses from these categories###18 05 2020 new variable
-prg#:#content_automation#:#Content Automation###18 05 2020 new variable
-prg#:#last_edited_by#:#Last Editor###18 05 2020 new variable
-prg#:#last_edited#:#Last edited###18 05 2020 new variable
-prg#:#add_category#:#Add Category###18 05 2020 new variable
-prg#:#modal_categories_title#:#Category to be monitored###18 05 2020 new variable
+mem#:#mem_period_without_time#:#Sem Indicação de Tempo###18 05 2020 new variable
+trac#:#trac_mode_course_reference#:#Adotado do Curso###18 05 2020 new variable
+trac#:#trac_mode_course_reference_info#:#A modalidade é adotada automaticamente a partir do curso para o qual este curso aponta.###18 05 2020 new variable
+style#:#style_page_layout_module_learning_module#:#Módulo de Aprendizagem ILIAS###18 05 2020 new variable
+content#:#cont_insert_pagelayout#:#Inserir página de modelo###18 05 2020 new variable
+content#:#cont_page_template#:#modelo de página###18 05 2020 new variable
+content#:#cont_page_created#:#Página criada###18 05 2020 new variable
+prg#:#assignment_date#:#Data de Atribuição###18 05 2020 new variable
+prg#:#completion_date#:#Data de Conclusão###18 05 2020 new variable
+prg#:#prg_no_deadline#:#Sem tempo de processamento fixo###18 05 2020 new variable
+prg#:#prg_deadline_period#:#O tempo de processamento é determinado de forma individual###18 05 2020 new variable
+prg#:#prg_deadline_period_desc#:#O programa deve ser concluído dentro de um determinado período de tempo.###18 05 2020 new variable
+prg#:#prg_deadline_date#:#O tempo de processamento expira em data fixa###18 05 2020 new variable
+prg#:#prg_deadline_date_desc#:#O programa deve ser concluído até uma determinada data.###18 05 2020 new variable
+prg#:#prg_no_validity_qualification#:#Qualificação de longa duração###18 05 2020 new variable
+prg#:#prg_validity_of_qualification#:#Validade das Qualificações Alcançadas###18 05 2020 new variable
+prg#:#validity_qualification_period#:#A qualificação expira individualmente###18 05 2020 new variable
+prg#:#validity_qualification_period_desc#:#dias após a conclusão###18 05 2020 new variable
+prg#:#validity_qualification_date#:#A qualificação expira em data fixa###18 05 2020 new variable
+prg#:#validity_qualification_date_desc#:#data de expiração###18 05 2020 new variable
+prg#:#prg_no_restart#:#Não é necessário reiniciar###18 05 2020 new variable
+prg#:#restart_period#:#Reinício obrigatório###18 05 2020 new variable
+prg#:#restart_period_desc#:#dias antes do vencimento###18 05 2020 new variable
+prg#:#sp_certificate_title#:#Título do Programa de Estudos###18 05 2020 new variable
+prg#:#sp_certificate_description#:#Descrição do Programa de Estudo###18 05 2020 new variable
+prg#:#sp_certificate_type#:#Tipo do Programa de Estudo###18 05 2020 new variable
+prg#:#sp_certificate_points#:#Quantidade de pontos que foram adquiridos###18 05 2020 new variable
+prg#:#sp_certificate_completion_date#:#Data de conclusão###18 05 2020 new variable
+prg#:#sp_certificate_progress_expires_at#:#Data do vencimento da qualificação###18 05 2020 new variable
+prg#:#prg_completion_date#:#Data de conclusão###18 05 2020 new variable
+prg#:#prg_expiry_date#:#Data de expiração###18 05 2020 new variable
+prg#:#prg_validity#:#Validade###18 05 2020 new variable
+prg#:#prg_still_valid#:#ainda válido###18 05 2020 new variable
+prg#:#prg_not_valid#:#não válido###18 05 2020 new variable
+prg#:#prg_restart_assignments_temporal_progress_title#:#Reiniciar atribuições do Studyprogramme###18 05 2020 new variable
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Reiniciar as atribuições do Studyprogramme com os progressos prestes a expirar###18 05 2020 new variable
+prg#:#prg_invalidate_expired_progresses_title#:#Validade limitada do progresso do Studyprogramme###18 05 2020 new variable
+prg#:#prg_invalidate_expired_progresses_desc#:#As marcas expiradas progridem no Studyprogrammes como "não passadas".###18 05 2020 new variable
+prg#:#prg_orgus#:#Unidades Organizacionais###18 05 2020 new variable
+prg#:#content_automation_title#:#Adicionar e remover automaticamente os Cursos destas categorias###18 05 2020 new variable
+prg#:#content_automation#:#Automação de conteúdo###18 05 2020 new variable
+prg#:#last_edited_by#:#Último Editor###18 05 2020 new variable
+prg#:#last_edited#:#Última edição###18 05 2020 new variable
+prg#:#add_category#:#Adicionar categoria###18 05 2020 new variable
+prg#:#modal_categories_title#:#Categoria a ser monitorada###18 05 2020 new variable
 prg#:#category#:#Category RefId###18 05 2020 new variable
-common#:#obj_prgr#:#Link to Study Programme###18 05 2020 new variable
-common#:#obj_prgrs#:#Links to Study Programmes###18 05 2020 new variable
-prg#:#prgr_new#:#Create Study Programme Link###18 05 2020 new variable
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###18 05 2020 new variable
-prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.###18 05 2020 new variable
-prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry###18 05 2020 new variable
-prg#:#prg_validity_of_qualification_restart#:#Restart###18 05 2020 new variable
-prg#:#prg_deadline_settings#:#Processing Period###18 05 2020 new variable
-prg#:#edit_participants#:#Edit Members###18 05 2020 new variable
-prg#:#auto_memberships#:#Membership Automation###18 05 2020 new variable
-prg#:#orgu#:#Organisational Unit###18 05 2020 new variable
-prg#:#rol#:#Role###18 05 2020 new variable
-prg#:#auto_membership_title#:#Sources for Membership Automation###18 05 2020 new variable
-prg#:#add_automembership_source#:#Add Source###18 05 2020 new variable
-prg#:#auto_membership_src_type#:#Type###18 05 2020 new variable
+common#:#obj_prgr#:#Link para o Programa de Estudos###18 05 2020 new variable
+common#:#obj_prgrs#:#Links para Programas de Estudo###18 05 2020 new variable
+prg#:#prgr_new#:#Criar Link para o Programa de Estudos###18 05 2020 new variable
+prg#:#prgr_edit_info#:#Favor escolher um Programa de Estudo para criar um novo link.###18 05 2020 new variable
+prg#:#prgr_may_not_create_circular_reference#:#Este Programa de Estudo pode não estar vinculado aqui, uma vez que o objeto pai já está vinculado dentro do alvo.###18 05 2020 new variable
+prg#:#prg_validity_of_qualification_limit#:#Validade da Qualificação###18 05 2020 new variable
+prg#:#prg_validity_of_qualification_restart#:#Reiniciar###18 05 2020 new variable
+prg#:#prg_deadline_settings#:#Período de processamento###18 05 2020 new variable
+prg#:#edit_participants#:#Editar Membros###18 05 2020 new variable
+prg#:#auto_memberships#:#Automação de membros###18 05 2020 new variable
+prg#:#orgu#:#Unidade Organizacional###18 05 2020 new variable
+prg#:#rol#:#Função###18 05 2020 new variable
+prg#:#auto_membership_title#:#Fontes para a automatização dos membros###18 05 2020 new variable
+prg#:#add_automembership_source#:#Adicionar fonte###18 05 2020 new variable
+prg#:#auto_membership_src_type#:#Tipo###18 05 2020 new variable
 prg#:#membership_source_id#:#Id###18 05 2020 new variable
-prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>###18 05 2020 new variable
-prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>###18 05 2020 new variable
-prg#:#modal_automembership_title#:#Automatismus hinzufügen###18 05 2020 new variable
-prg#:#membership_source_type#:#Source###18 05 2020 new variable
+prg#:#membership_source_id_byline_objid#:#Favor usar o <b>object-id</b>###18 05 2020 new variable
+prg#:#membership_source_id_byline_refid#:#Por favor, use o <b>reference-id</b>###18 05 2020 new variable
+prg#:#modal_automembership_title#:#Adicionar automatismo###18 05 2020 new variable
+prg#:#membership_source_type#:#Fonte###18 05 2020 new variable
 prg#:#prg_autoassignment#:#(auto)###18 05 2020 new variable
-prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.###18 05 2020 new variable
-prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.###18 05 2020 new variable
-prg#:#prg_some_users_may_not_be_marked_relevant#:#Partially marked relevant.###18 05 2020 new variable
-prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.###18 05 2020 new variable
-orgu#:#org_op_view_members#:#View Members###18 05 2020 new variable
-orgu#:#org_op_view_individual_plan#:#View Individual Plan###18 05 2020 new variable
-orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###18 05 2020 new variable
-prg#:#prg_formatted_period#:#%d days###18 05 2020 new variable
-prg#:#deadline_information#:#Information regarding processing period###18 05 2020 new variable
-prg#:#dealine_period_info#:#Days to process after assignment###18 05 2020 new variable
-prg#:#dealine_date_info#:#Deadline date###18 05 2020 new variable
-prg#:#vq_information#:#Information regarding validity of achived qualification###18 05 2020 new variable
-prg#:#vq_period_info#:#Days until qualification will expire after achivement###18 05 2020 new variable
-prg#:#vq_date_info#:#Qualification expires at fixed date###18 05 2020 new variable
-prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration###18 05 2020 new variable
-prg#:#restart_period_info#:#Days before qualification expiration to restart qualification###18 05 2020 new variable
-prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions###18 05 2020 new variable
-prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.###18 05 2020 new variable
-prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.###18 05 2020 new variable
-prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:###18 05 2020 new variable
-prg#:#prg_title#:#Title###18 05 2020 new variable
-prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm###18 05 2020 new variable
-prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.###18 05 2020 new variable
-prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm###18 05 2020 new variable
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.###18 05 2020 new variable
-prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart###18 05 2020 new variable
-prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.###18 05 2020 new variable
-prg#:#prg_processing_ends_no_success#:#Reminder mail failing###18 05 2020 new variable
-prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.###18 05 2020 new variable
-prg#:#prg_cron_job_configuration#:#Configuration automatic Mails###18 05 2020 new variable
-prg#:#send_re_assigned_mail#:#E-mail renewed participation###18 05 2020 new variable
-prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.###18 05 2020 new variable
-prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart###18 05 2020 new variable
-prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.###18 05 2020 new variable
-prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure###18 05 2020 new variable
-prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.###18 05 2020 new variable
-prg#:#prg_user_not_restarted_title#:#Send warning mail about restart###18 05 2020 new variable
-prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.###18 05 2020 new variable
-prg#:#send_risky_to_fail_mail#:#E-mail in case of failure###18 05 2020 new variable
-prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.###18 05 2020 new variable
-search#:#search_for_orgu_members#:#Search for Organisational Units###18 05 2020 new variable
-search#:#select_orgu#:#Select Organisational Units###18 05 2020 new variable
-prg#:#prg_dash_label_valid#:#Valid:###18 05 2020 new variable
-prg#:#prg_dash_label_minimum#:#Minimum Completion:###18 05 2020 new variable
-prg#:#prg_dash_label_gain#:#Current Completion:###18 05 2020 new variable
+prg#:#prg_some_users_may_not_be_accredited#:#Usuários parcialmente credenciados.###18 05 2020 new variable
+prg#:#prg_some_users_may_not_be_unmarked_accredited#:#Usuários parcialmente não credenciados.###18 05 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_relevant#:#Parcialmente marcado como relevante.###18 05 2020 new variable
+prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Parcialmente sem marca relevante.###18 05 2020 new variable
+orgu#:#org_op_view_members#:#Ver Membros###18 05 2020 new variable
+orgu#:#org_op_view_individual_plan#:#Ver Plano Individual###18 05 2020 new variable
+orgu#:#org_op_edit_individual_plan#:#Editar Plano Individual###18 05 2020 new variable
+prg#:#prg_formatted_period#:#%d dias###18 05 2020 new variable
+prg#:#deadline_information#:#Informações relativas ao período de processamento###18 05 2020 new variable
+prg#:#dealine_period_info#:#Dias para processar após a designação###18 05 2020 new variable
+prg#:#dealine_date_info#:#Data limite###18 05 2020 new variable
+prg#:#vq_information#:#Informações sobre a validade da qualificação obtida###18 05 2020 new variable
+prg#:#vq_period_info#:#Os dias até a qualificação expirarão após a conclusão###18 05 2020 new variable
+prg#:#vq_date_info#:#A qualificação expira em data fixa###18 05 2020 new variable
+prg#:#restart_information#:#Informações relativas ao reinício automático após a expiração da qualificação pendente###18 05 2020 new variable
+prg#:#restart_period_info#:#Dias antes da expiração da qualificação para reiniciar a qualificação###18 05 2020 new variable
+prg#:#access_ctr_by_orgu_position#:#Controle de acesso de acordo com as posições da Unidade Organizacional###18 05 2020 new variable
+prg#:#could_not_add_users_no_permissons#:#Não foi possível atribuir %d Usuários devido à falta de permissões.###18 05 2020 new variable
+prg#:#not_a_valid_cat_id#:#%s não é um ref-id válido de uma categoria.###18 05 2020 new variable
+prg#:#prg_mail_permanent_link#:#Clique no link a seguir para encontrar todas as informações necessárias sobre o programa de estudo:###18 05 2020 new variable
+prg#:#prg_title#:#Título###18 05 2020 new variable
+prg#:#re_assigned_mail_subject#:#Participação renovada no programa de estudo###18 05 2020 new variable
+prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>você foi re-atribuido ao programa de estudo '%s' como participante.###18 05 2020 new variable
+prg#:#info_to_re_assign_mail_subject#:#Lembrete de participação renovada no programa de estudo###18 05 2020 new variable
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>A validade de sua participação no programa de estudo '%s' expira em breve. Por favor, inscreva-se novamente.###18 05 2020 new variable
+prg#:#prg_user_not_restarted_time_input#:#Reinício do correio de lembrete###18 05 2020 new variable
+prg#:#prg_user_not_restarted_time_input_info#:#Lembrete Mail Lembra ao usuário x dias antes da invalidação que ele deve reiniciar o programa.###18 05 2020 new variable
+prg#:#prg_processing_ends_no_success#:#Falha no email de lembrete###18 05 2020 new variable
+prg#:#prg_processing_ends_no_success_info#:#Lembra ao usuário x dias antes da expiração do programa que ele corre o risco de falhar.###18 05 2020 new variable
+prg#:#prg_cron_job_configuration#:#Configuração de correios automáticos###18 05 2020 new variable
+prg#:#send_re_assigned_mail#:#Participação renovada por e-mail###18 05 2020 new variable
+prg#:#send_re_assigned_mail_info#:#Enviar um e-mail para se juntar automaticamente novamente ao programa sudy.###18 05 2020 new variable
+prg#:#send_info_to_re_assign_mail#:#Reinício do lembrete por e-mail###18 05 2020 new variable
+prg#:#send_info_to_re_assign_mail_info#:#Enviar um e-mail para lembrar o usuário de reiniciar o programa de estudo.###18 05 2020 new variable
+prg#:#prg_user_risky_to_fail_title#:#Enviar correio de advertência sobre possível falha###18 05 2020 new variable
+prg#:#prg_user_risky_to_fail_desc#:#Envia aos usuários um correio de advertência se eles correm o risco de falhar um programa de estudo devido a um prazo.###18 05 2020 new variable
+prg#:#prg_user_not_restarted_title#:#Enviar correio de advertência sobre reinício###18 05 2020 new variable
+prg#:#prg_user_not_restarted_desc#:#Envia aos usuários um e-mail de aviso se uma qualificação em um programa de estudos expirar e eles ainda não reiniciaram o programa.###18 05 2020 new variable
+prg#:#send_risky_to_fail_mail#:#E-mail em caso de falha###18 05 2020 new variable
+prg#:#send_risky_to_fail_mail_info#:#Enviar um e-mail se o usuário estiver em risco de falha do programa de estudo.###18 05 2020 new variable
+search#:#search_for_orgu_members#:#Pesquisa de Unidades Organizacionais###18 05 2020 new variable
+search#:#select_orgu#:#Selecione Unidades Organizacionais###18 05 2020 new variable
+prg#:#prg_dash_label_valid#:#Válido:###18 05 2020 new variable
+prg#:#prg_dash_label_minimum#:#Conclusão mínima:###18 05 2020 new variable
+prg#:#prg_dash_label_gain#:#Conclusão atual:###18 05 2020 new variable
 prg#:#prg_dash_label_status#:#Status:###18 05 2020 new variable
-prg#:#prg_dash_label_finish_until#:#Finish until:###18 05 2020 new variable
-prg#:#prg_dash_label_restart_from#:#Restart from:###18 05 2020 new variable
+prg#:#prg_dash_label_finish_until#:#Terminar até:###18 05 2020 new variable
+prg#:#prg_dash_label_restart_from#:#Reiniciar a partir de:###18 05 2020 new variable
 prg#:#percentage#:#%###18 05 2020 new variable
-prg#:#prg_status_1#:#In Progress###18 05 2020 new variable
-prg#:#prg_status_2#:#Completed###18 05 2020 new variable
-prg#:#prg_status_3#:#Accredited###18 05 2020 new variable
-prg#:#prg_status_4#:#Not Relevant###18 05 2020 new variable
-prg#:#prg_status_5#:#failed###18 05 2020 new variable
-prg#:#prg_multi_change_deadline#:#Change deadline###18 05 2020 new variable
-prg#:#prg_multi_change_expire_date#:#Change expire date###18 05 2020 new variable
-prg#:#update_expire_date#:#Successfully update expire date.###18 05 2020 new variable
-prg#:#update_deadline#:#Successfully update deadline.###18 05 2020 new variable
-prg#:#error_updating_expire_date#:#Error during updating expire date.###18 05 2020 new variable
-prg#:#error_updating_deadline#:#Error during updating deadline.###18 05 2020 new variable
-prg#:#select_crs#:#Search for Courses###18 05 2020 new variable
-prg#:#select_grp#:#Search for Groups###18 05 2020 new variable
-prg#:#select_role#:#Search for Roles###18 05 2020 new variable
-prg#:#select_org#:#Search for Organisational Unit###18 05 2020 new variable
-prg#:#label_crs#:#Course Name###18 05 2020 new variable
-prg#:#label_grp#:#Group Name###18 05 2020 new variable
-prg#:#label_role#:#Role Name###18 05 2020 new variable
-prg#:#modal_member_auto_select_title#:#Select source for auto assignment###18 05 2020 new variable
-prg#:#prg_auto_member_select_crs#:#Courses###18 05 2020 new variable
-prg#:#prg_auto_member_select_grp#:#Groups###18 05 2020 new variable
-prg#:#prg_auto_member_select_role#:#Roles###18 05 2020 new variable
-badge#:#badge_new_badges#:#You have %1 new badge(s).###18 05 2020 new variable
-content#:#cont_no_read#:#No read permission###18 05 2020 new variable
+prg#:#prg_status_1#:#Em andamento###18 05 2020 new variable
+prg#:#prg_status_2#:#Concluído###18 05 2020 new variable
+prg#:#prg_status_3#:#Credenciado###18 05 2020 new variable
+prg#:#prg_status_4#:#Não Relevante###18 05 2020 new variable
+prg#:#prg_status_5#:#falhou###18 05 2020 new variable
+prg#:#prg_multi_change_deadline#:#Alterar o prazo###18 05 2020 new variable
+prg#:#prg_multi_change_expire_date#:#Data de expiração da mudança###18 05 2020 new variable
+prg#:#update_expire_date#:#A atualização expira com sucesso.###18 05 2020 new variable
+prg#:#update_deadline#:#Atualização de prazo bem sucedido.###18 05 2020 new variable
+prg#:#error_updating_expire_date#:#Erro durante atualização data de expiração.###18 05 2020 new variable
+prg#:#error_updating_deadline#:#Erro durante o prazo de atualização.###18 05 2020 new variable
+prg#:#select_crs#:#Procura de cursos###18 05 2020 new variable
+prg#:#select_grp#:#Procura de grupos###18 05 2020 new variable
+prg#:#select_role#:#Busca por funções###18 05 2020 new variable
+prg#:#select_org#:#Busca por Unidade Organizacional###18 05 2020 new variable
+prg#:#label_crs#:#Nome do curso###18 05 2020 new variable
+prg#:#label_grp#:#Nome do grupo###18 05 2020 new variable
+prg#:#label_role#:#Nome da função###18 05 2020 new variable
+prg#:#modal_member_auto_select_title#:#Selecione a fonte para a atribuição automática###18 05 2020 new variable
+prg#:#prg_auto_member_select_crs#:#Cursos###18 05 2020 new variable
+prg#:#prg_auto_member_select_grp#:#Grupos###18 05 2020 new variable
+prg#:#prg_auto_member_select_role#:#Funções###18 05 2020 new variable
+badge#:#badge_new_badges#:#Você tem %1 crachá(s) novo(s).###18 05 2020 new variable
+content#:#cont_no_read#:#Sem permissão de leitura###18 05 2020 new variable
 content#:#cont_grid_t_two_column#:#Two-column-layout###18 05 2020 new variable
-content#:#cont_grid_t_two_column_info#:#Creates two equally wide columns next to each other. Switches to a one-column layout in Mobile View (small).###18 05 2020 new variable
+content#:#cont_grid_t_two_column_info#:#Cria duas colunas igualmente largas uma ao lado da outra. Comuta para um layout de uma coluna em Vista Móvel (pequena).###18 05 2020 new variable
 content#:#cont_grid_t_three_column#:#Three-column-Layout###18 05 2020 new variable
-content#:#cont_grid_t_three_column_info#:#Creates three columns of equal width next to each other. Switches to a one-column layout in Mobile View (small).###18 05 2020 new variable
-content#:#cont_grid_t_main_side#:#Main and side block###18 05 2020 new variable
-content#:#cont_grid_t_main_side_info#:#Creates a wide column on the left and a narrower column on the right. Switches to a one-column layout in Mobile View (small).###18 05 2020 new variable
+content#:#cont_grid_t_three_column_info#:#Cria três colunas de largura igual, uma ao lado da outra. Comuta para um layout de uma coluna em Vista Móvel (pequena).###18 05 2020 new variable
+content#:#cont_grid_t_main_side#:#Bloco principal e lateral###18 05 2020 new variable
+content#:#cont_grid_t_main_side_info#:#Cria uma coluna larga à esquerda e uma coluna mais estreita à direita. Comuta para um layout de uma coluna em Vista Móvel (pequena).###18 05 2020 new variable
 content#:#cont_grid_t_two_by_two#:#Two-time-two-box###18 05 2020 new variable
-content#:#cont_grid_t_two_by_two_info#:#Creates two rows with two columns of equal width. Switches to a one-column layout in mobile view (small) and to a four-column layout on extra-wide screens (extra large).###18 05 2020 new variable
-content#:#cont_grid_t_manual#:#Manually created page layout###18 05 2020 new variable
-content#:#cont_grid_t_manual_info#:#Enables the free design of the number and width of columns.###18 05 2020 new variable
-dateplaner#:#cal_no_events_block#:#There are no dates available for you.###18 05 2020 new variable
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:###18 05 2020 new variable
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###18 05 2020 new variable
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".###18 05 2020 new variable
-rep#:#rep_mo_mem_dash#:#You are currently not yet a member of a course or group.###18 05 2020 new variable
-task#:#task_no_task_items#:#There are no tasks for you.###18 05 2020 new variable
-prg#:#prg_quali_still_valid#:#Qualification still valid###18 05 2020 new variable
-prg#:#prg_quali_not_valid#:#Qualification not valid###18 05 2020 new variable
-rep#:#rep_configure#:#Configure###18 05 2020 new variable
-cont#:#cont_found_objects#:#Found Objects###18 05 2020 new variable
-prg#:#prg_type_byline#:#Set a type to use certain custom metadata sets or icons.###18 05 2020 new variable
-prg#:#prg_points_byline#:#Students get a certain amount of points when they succeed in this programme and need to get this many points in subsequent programmes.###18 05 2020 new variable
-prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.###18 05 2020 new variable
-prg#:#prg_description#:#Description###18 05 2020 new variable
+content#:#cont_grid_t_two_by_two_info#:#Cria duas fileiras com duas colunas de largura igual. Comuta para um layout de uma coluna em vista móvel (pequena) e para um layout de quatro colunas em telas extra largas (extra grandes).###18 05 2020 new variable
+content#:#cont_grid_t_manual#:#Layout de página criado manualmente###18 05 2020 new variable
+content#:#cont_grid_t_manual_info#:#Permite o desenho livre do número e largura das colunas.###18 05 2020 new variable
+dateplaner#:#cal_no_events_block#:#Não há datas disponíveis para você.###18 05 2020 new variable
+rep#:#rep_fav_intro1#:#Você ainda não selecionou nenhum dos favoritos. Para fazer isso, você deve tomar duas medidas:###18 05 2020 new variable
+rep#:#rep_fav_intro2#:#Clique em '%s' e selecione um objeto de aprendizagem da oferta disponível, por exemplo, um módulo de aprendizagem ou um fórum.###18 05 2020 new variable
+rep#:#rep_fav_intro3#:#Quando você tiver encontrado algo que lhe interessa, você pode facilmente adicioná-lo aos seus favoritos. Selecione o item desejado no menu <i>Ações</i> e escolha "<i>Adicionar aos favoritos</i>".###18 05 2020 new variable
+rep#:#rep_mo_mem_dash#:#Atualmente, você ainda não é membro de um curso ou grupo.###18 05 2020 new variable
+task#:#task_no_task_items#:#Não há tarefas para você.###18 05 2020 new variable
+prg#:#prg_quali_still_valid#:#Qualificação ainda válida###18 05 2020 new variable
+prg#:#prg_quali_not_valid#:#Qualificação não válida###18 05 2020 new variable
+rep#:#rep_configure#:#Configurar###18 05 2020 new variable
+cont#:#cont_found_objects#:#Objetos encontrados###18 05 2020 new variable
+prg#:#prg_type_byline#:#Definir um tipo para usar certos conjuntos de metadados ou ícones personalizados.###18 05 2020 new variable
+prg#:#prg_points_byline#:#Os estudantes recebem uma certa quantidade de pontos quando são bem sucedidos neste programa e precisam obter estes muitos pontos em programas subseqüentes.###18 05 2020 new variable
+prg#:#prg_status_byline#:#Use o status para controlar se este programa é designado a estudantes.###18 05 2020 new variable
+prg#:#prg_description#:#Descrição###18 05 2020 new variable
 prg#:#prg_link#:#Link###18 05 2020 new variable
-prg#:#prg_mail_context_title#:#Study Programme: Mail to Members###18 05 2020 new variable
-prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme###18 05 2020 new variable
-prg#:#prg_additional_settings#:#Additional Features###18 05 2020 new variable
-prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions###18 05 2020 new variable
-prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.###18 05 2020 new variable
-ui#:#ui_numeric_only#:#Please insert a whole number.###18 05 2020 new variable
-mmbr#:#mmbr_memberships#:#Memberships###18 05 2020 new variable
-notes#:#note_without_object#:#Without reference###18 05 2020 new variable
-prg#:#msg_fill_required#:#Please fill all required fields.###18 05 2020 new variable
-iass#:#iass_file_dropzone#:#you can drop your files here###18 05 2020 new variable
-iass#:#iass_confirm_finalize#:#Finalize###18 05 2020 new variable
-iass#:#iass_cancel#:#Cancel###18 05 2020 new variable
-iass#:#iass_finalize_info#:#Individual Assessment will be finalized.###18 05 2020 new variable
-iass#:#download_assessment_paper#:#Download Record file###18 05 2020 new variable
-prg#:#prg_profile_not_public#:#Profile of the user is not public.###18 05 2020 new variable
-prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.###18 05 2020 new variable
-prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?###18 05 2020 new variable
-prg#:#prg_confirm_delete#:#Delete###18 05 2020 new variable
-prg#:#prg_cancel#:#Cancel###18 05 2020 new variable
-prg#:#prg_delete_failure#:#Delete failed.###18 05 2020 new variable
-prg#:#prg_delete_success#:#Successfuly delete entries.###18 05 2020 new variable
-prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?###18 05 2020 new variable
-prg#:#prg_delete_single_success#:#Successfuly delete entry.###18 05 2020 new variable
-common#:#obj_lsos#:#Learning Sequences###18 05 2020 new variable
-common#:#obj_lsos_desc#:#General settings for Learning Sequences###18 05 2020 new variable
-mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members###18 05 2020 new variable
-mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.###18 05 2020 new variable
-mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators###18 05 2020 new variable
-mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.###18 05 2020 new variable
-prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached###18 05 2020 new variable
-prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.###18 05 2020 new variable
-prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline###18 05 2020 new variable
-prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after Crossing Deadline.###18 05 2020 new variable
-common#:#collapse_content#:#Collapse Content###18 05 2020 new variable
-common#:#expand_content#:#Expand Content###18 05 2020 new variable
-common#:#briefcase#:#Background Tasks###18 05 2020 new variable
-common#:#sort_ascending#:#Sort Ascending###18 05 2020 new variable
-common#:#sort_descending#:#Sort Descending###18 05 2020 new variable
-common#:#show_who_is_online#:#Show who is online###18 05 2020 new variable
-common#:#tags#:#Tags###18 05 2020 new variable
-common#:#comments#:#Comments###18 05 2020 new variable
-common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###18 05 2020 new variable
-common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###18 05 2020 new variable
-common#:#show_more#:#Show More###18 05 2020 new variable
-common#:#disclose#:#Disclose###18 05 2020 new variable
-common#:#switch_language#:#Switch Language###18 05 2020 new variable
-lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.###18 05 2020 new variable
-lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###18 05 2020 new variable
-lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.###18 05 2020 new variable
-awrn#:#user_awrn_default#:#Default###18 05 2020 new variable
-awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
-awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
-common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
-rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
-rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
-rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
-rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
-ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
+prg#:#prg_mail_context_title#:#Programa de estudos: Correio para Membros###18 05 2020 new variable
+prg#:#prg_mail_context_info#:#Para os e-mails dos participantes nas telas de progresso dos membros e de aprendizagem de um programa de estudo###18 05 2020 new variable
+prg#:#prg_additional_settings#:#Características adicionais###18 05 2020 new variable
+prg#:#prg_access_by_orgu#:#Controle de Acesso por Cargos da Unidade Organizadora###18 05 2020 new variable
+prg#:#prg_access_by_orgu_byline#:#Se habilitado, regras adicionais de controle de acesso podem ser definidas por cargos em unidades organizacionais.###18 05 2020 new variable
+ui#:#ui_numeric_only#:#Por favor, insira um número inteiro.###18 05 2020 new variable
+mmbr#:#mmbr_memberships#:#Associações###18 05 2020 new variable
+notes#:#note_without_object#:#Sem referência###18 05 2020 new variable
+prg#:#msg_fill_required#:#Por favor, preencha todos os campos obrigatórios.###18 05 2020 new variable
+iass#:#iass_file_dropzone#:#você pode deixar seus arquivos aqui###18 05 2020 new variable
+iass#:#iass_confirm_finalize#:#Finalizar###18 05 2020 new variable
+iass#:#iass_cancel#:#Cancelar###18 05 2020 new variable
+iass#:#iass_finalize_info#:#A avaliação individual será finalizada.###18 05 2020 new variable
+iass#:#download_assessment_paper#:#Baixar arquivo de registro###18 05 2020 new variable
+prg#:#prg_profile_not_public#:#O perfil do usuário não é público.###18 05 2020 new variable
+prg#:#prg_delete_nothing_selected#:#Favor selecionar pelo menos uma entrada para excluir.###18 05 2020 new variable
+prg#:#prg_delete_confirmation#:#Você realmente quer apagar as entradas selecionadas?###18 05 2020 new variable
+prg#:#prg_confirm_delete#:#Deletar###18 05 2020 new variable
+prg#:#prg_cancel#:#Cancelar###18 05 2020 new variable
+prg#:#prg_delete_failure#:#A exclusão falhou.###18 05 2020 new variable
+prg#:#prg_delete_success#:#Eliminar entradas com sucesso.###18 05 2020 new variable
+prg#:#prg_delete_single_confirmation#:#Você realmente quer apagar a entrada selecionada?###18 05 2020 new variable
+prg#:#prg_delete_single_success#:#Eliminar a entrada com sucesso.###18 05 2020 new variable
+common#:#obj_lsos#:#Sequências de aprendizagem###18 05 2020 new variable
+common#:#obj_lsos_desc#:#Configurações gerais para seqüências de aprendizagem###18 05 2020 new variable
+mail#:#mail_enable_lso_member_notification#:#Notificar os Membros da Sequência de Aprendizagem###18 05 2020 new variable
+mail#:#mail_enable_lso_member_notification_info#:#O ILIAS enviará automaticamente um e-mail a cada membro se seu status de membro for alterado. Esta configuração se aplica a todas as sequências de aprendizagem na plataforma.###18 05 2020 new variable
+mail#:#mail_enable_lso_admin_notification#:#Notificar os Administradores da Sequência de Aprendizagem###18 05 2020 new variable
+mail#:#mail_enable_lso_admin_notification_info#:#Nas novas sequências de aprendizagem, a configuração "Notificação sobre novos membros" será ativada por padrão. Ela é definida na guia 'Membros' das Seqüências de Aprendizagem. Os administradores receberão um e-mail quando um membro entrar na Sequência de Aprendizagem ou sair dela.###18 05 2020 new variable
+prg#:#risky_to_fail_mail_subject#:#Lembrete, que o prazo para o programa de estudo será atingido em breve###18 05 2020 new variable
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>o prazo para completar o programa de estudo '%s' será atingido em breve.###18 05 2020 new variable
+prg#:#prg_update_progress_title#:#Estabelecer o progresso para Failed after Deadline###18 05 2020 new variable
+prg#:#prg_update_progress_description#:#Estabelecer o progresso de 'Em andamento' para 'falhou' após o término do prazo.###18 05 2020 new variable
+common#:#collapse_content#:#Collapse Conteúdo###18 05 2020 new variable
+common#:#expand_content#:#Expandir Conteúdo###18 05 2020 new variable
+common#:#briefcase#:#Tarefas de fundo###18 05 2020 new variable
+common#:#sort_ascending#:#Ordenar ascendente###18 05 2020 new variable
+common#:#sort_descending#:#Ordenação decrescente###18 05 2020 new variable
+common#:#show_who_is_online#:#Mostrar quem está online###18 05 2020 new variable
+common#:#tags#:#Etiquetas###18 05 2020 new variable
+common#:#comments#:#Comentários###18 05 2020 new variable
+common#:#eyeclosed#:#De olho fechado - Clique para ocultar o conteúdo da entrada###18 05 2020 new variable
+common#:#eyeopened#:#De olho aberto - Clique para revelar o conteúdo da entrada###18 05 2020 new variable
+common#:#show_more#:#Mostrar mais###18 05 2020 new variable
+common#:#disclose#:#Divulgue###18 05 2020 new variable
+common#:#switch_language#:#Trocar o idioma###18 05 2020 new variable
+lti#:#lti_user_role_created#:#O papel global recomendado para os usuários de ITL foi criado.###18 05 2020 new variable
+lti#:#lti_create_lti_user_role#:#Criar papel global recomendado para os usuários de LTI###18 05 2020 new variable
+lti#:#lti_user_role_info#:#O papel global recomendado para os usuários do LTI ainda não foi criado nesta instalação. Esta função global especial contém apenas a permissão 'visível' para repositório e categorias.###18 05 2020 new variable
+awrn#:#user_awrn_default#:#Padrão###18 05 2020 new variable
+awrn#:#user_awrn_hide#:#Ocultar meu status###18 05 2020 new variable
+awrn#:#user_awrn_show#:#Mostrar meu status###18 05 2020 new variable
+awrn#:#awrn_user_show#:#Mostre sua conta em "Who-is-online?###18 05 2020 new variable
+common#:#objs_prgr#:#Link para o Programa de Estudos###18 05 2020 new variable
+rbac#:#prgr_delete#:#O usuário pode mover ou apagar o link para o programa de estudo###18 05 2020 new variable
+rbac#:#prgr_edit_permission#:#O usuário pode alterar as configurações de permissão###18 05 2020 new variable
+rbac#:#prgr_visible#:#Links para programas de estudo são visíveis e podem ser utilizados###18 05 2020 new variable
+rbac#:#prgr_write#:#O usuário pode editar configurações de links para programas de estudo###18 05 2020 new variable
+rbac#:#rbac_create_prgr#:#Criar link para programa de estudo###18 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Permitir a ativação de listas de participantes na Galeria de Cursos dos Membros###19 06 2020 new variable
 common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
-rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+rbac#:#prgr_copy#:#O usuário pode copiar links para programas de estudo###10 07 2020 new variable
