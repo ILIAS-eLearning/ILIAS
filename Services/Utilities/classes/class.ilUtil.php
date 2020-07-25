@@ -1894,7 +1894,7 @@ class ilUtil
     * Build img tag
     *
     * @static
-    *
+    * @deprecated
     */
     public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
     {
@@ -1914,7 +1914,7 @@ class ilUtil
         if ($a_id != "") {
             $img .= ' id="' . $a_id . '"';
         }
-        $img .= ' border="' . (int) $a_border . '"/>';
+        $img .= ' />';
 
         return $img;
     }
