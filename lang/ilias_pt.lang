@@ -28,8 +28,8 @@ acc#:#acc_mark_all_read#:#Marcar tudo como lido
 acc#:#acc_next#:#Próximo
 acc#:#acc_previous#:#Anterior
 acc#:#acc_reply#:#Resposta
-acc#:#acc_tree_off#:#Árvore Off
-acc#:#acc_tree_on#:#Árvore On
+acc#:#acc_tree_off#:#Árvore desligado
+acc#:#acc_tree_on#:#Árvore ligado
 adm#:#adm_awrn_support_contacts_info#:#Todos os contactos de assistência técnica constam de uma lista. Os utilizadores estão definidos como contactos de assistência técnica na secção "Definições gerais" > "Informação de contacto".
 adm#:#adm_support_contacts#:#Assistência Técnica
 adm#:#adm_support_contacts_info#:#Suporta os contactos usados no link do rodapé e (se estiver ativado) na ferramenta ‘Who is online?’ (“Quem está online?”). Lista de logins de conta separados por vírgulas.
@@ -61,7 +61,7 @@ administration#:#adm_item_cmd_asynch#:#Carregar listas de ações de recursos as
 administration#:#adm_item_cmd_asynch_info#:#Os comandos de ação, p. ex. no repositório, são carregados assincronamente. Isto aumenta o desempenho em geral, mas desacelera ligeiramente o carregamento das listas de comandos de ações.
 administration#:#adm_locale#:#Local
 administration#:#adm_locale_info#:#A definição local influencia p. ex. a ordenação em listas. Exemplos disso são nl_NL ou de_DE. Os locais múltiplos podem ser separados por vírgula. Será usado o primeiro válido.
-administration#:#adm_maintenance#:#Manutenção
+administration#:#adm_maintenance#:#Configurações e manutenção do sistema
 administration#:#adm_missing_entries#:#Entradas em falta
 administration#:#adm_missing_entry_add#:#Adicionar entrada nova
 administration#:#adm_missing_entry_add_action#:#Adicionar
@@ -86,7 +86,7 @@ administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Tem a certeza que quer apagar os seguintes modelos?
 administration#:#adm_table#:#Tabela
 administration#:#adm_time#:#Tempo
-administration#:#adm_user_administration#:#Administração de utilizadores
+administration#:#adm_user_administration#:#Usuários e funções
 administration#:#adm_user_starting_point#:#Ponto de início pessoal
 administration#:#adm_user_starting_point_info#:#Selecione a página ou objeto que aparece depois do login.
 administration#:#adm_user_starting_point_inherit#:#Usar definições padrão
@@ -114,7 +114,7 @@ administration#:#apache_auth_target_override_login#:#url de destino para página
 administration#:#apache_auth_username_by_function#:#Atribua nomes de utilizadores com a função de personalização
 administration#:#apache_auth_username_config#:#Configuração do nome de utilizador
 administration#:#apache_auth_username_config_type#:#Tipo
-administration#:#apache_auth_username_direct_mapping#:#Atribuição seguida
+administration#:#apache_auth_username_direct_mapping#:#Atribuição direta
 administration#:#apache_auth_username_direct_mapping_fieldname#:#Campo para atribuição
 administration#:#apache_auth_username_extended_mapping#:#Atribuição expandida
 administration#:#apache_autocreate#:#Permitir criação de conta
@@ -145,8 +145,8 @@ administration#:#found#:#encontrado.
 administration#:#found_none#:#nenhum encontrado.
 administration#:#frm_disp_info_desc#:#Selecione os atributos que devem ser apresentados nas vistas gerais.
 administration#:#frm_displayed_infos#:#Informação apresentada
-administration#:#git_hash_short#:#Comprometer Hash (abreviado): %s
-administration#:#git_last_commit#:#Último compromisso: %s
+administration#:#git_hash_short#:#Commit Hash (abreviado): %s
+administration#:#git_last_commit#:#Último commit: %s
 administration#:#git_revision#:#Número: %s
 administration#:#group_export#:#Visível em grupos
 administration#:#history_loginname#:#Histórico do nome de login
@@ -167,7 +167,7 @@ administration#:#language_error_read_local#:#O ficheiro do idioma personalizado 
 administration#:#language_error_write_global#:#O ficheiro do idioma padrão não pode ser escrito!
 administration#:#language_export_file#:#Exportar ficheiro de idioma
 administration#:#language_file_imported#:#O ficheiro de idioma %s foi importado
-administration#:#language_file_scope#:#Volume do ficheiro de idioma
+administration#:#language_file_scope#:#Escopo do arquivo de idioma
 administration#:#language_former_file_description#:#Para comparar as suas alterações locais com as alterações da última atualização, copie o ficheiro de idioma da versão ILIAS previamente instalado para o caminho mencionado acima. Antes da próxima atualização, pode fazer isso com a opção 'Fazer cópia de segurança do ficheiro de idioma' no separador de manutenção.
 administration#:#language_former_file_equal#:#O ficheiro <b>%s</b> é idêntico ao ficheiro do idioma atual.
 administration#:#language_former_file_missing#:#O ficheiro <b>%s</b> está ausente.
@@ -612,7 +612,8 @@ assessment#:#error_random_question_generation#:#Ocorreu um erro fatal durante a 
 assessment#:#errors#:#Erros
 assessment#:#errors_section#:#Erro dados
 assessment#:#errortext#:#Texto de erros
-assessment#:#errortext_info#:#Introduza o texto de erro. Para marcar uma palavra como erro, insira um sinal cardinal (
+assessment#:#errortext_info#:#Por favor, digite o texto de erro. Para marcar uma palavra como erro, favor inserir um sinal de hash (#) na frente da palavra. Para marcar um grupo de palavras como um erro, favor encapsular o grupo de palavras entre colchetes duplos (ou seja: aqui está ((um exemplo)) dele). Se você pressionar o botão &quot;Analizar Texto de Error&quot; todas as palavras marcadas serão extraídas para processamento posterior.
+assessment#:#errortext_info#:#Por favor, digite o texto de erro. Para marcar uma palavra como erro, favor inserir um sinal de hash (#) na frente da palavra. Para marcar um grupo de palavras como um erro, favor encapsular o grupo de palavras entre colchetes duplos (ou seja: aqui está ((um exemplo)) dele). Se você pressionar o botão &quot;Analizar Texto de Error&quot; todas as palavras marcadas serão extraídas para processamento posterior.
 assessment#:#errRecursionInResult#:#A fórmula contém um recurso infinito.
 assessment#:#essay_scoring_mode#:#Modo de pontuação
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Pontuação automática com palavras-chave em Encontrar TUDO
@@ -718,7 +719,7 @@ assessment#:#kprim_instruction_text#:#Tem de decidir sobre cada declaração: [%
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#A opção da quarta resposta é um intervalo de seleção e foi escolhida a segunda opção
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
 assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#A opção da segunda resposta é um intervalo numérico e foi respondida com o valor numérico 5
-assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] =
+assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5#
 assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#A opção da primeira resposta é um intervalo de texto e foi respondida com “Segunda-feira”
 assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~Segunda-feira~
 assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#A opção da quarta resposta é um intervalo de seleção e foi escolhida a opção rotulada “Verde”
@@ -728,7 +729,7 @@ assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
 assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta
 assessment#:#lacex_assErrorText_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assFormulaQuestion_NumericResultExpression_d#:#A opção da primeira resposta foi respondida com um valor numérico 3,14159
-assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] =
+assessment#:#lacex_assFormulaQuestion_NumericResultExpression_e#:#R[1] = #3.14159#
 assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_d#:#Foram escolhidas exatamente as opções de resposta 1, 3 e 4 enquanto respondia à pergunta
 assessment#:#lacex_assImagemapQuestion_ExclusiveResultExpression_e#:#R = *1,3,4*
 assessment#:#lacex_assImagemapQuestion_NumberOfResultExpression_d#:#Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta
@@ -740,7 +741,7 @@ assessment#:#lacex_assMultipleChoice_ExclusiveResultExpression_e#:#R = *1,3,4*
 assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_d#:#Enquanto respondia à pergunta, foi escolhida a segunda opção de resposta
 assessment#:#lacex_assMultipleChoice_NumberOfResultExpression_e#:#R = +2+
 assessment#:#lacex_assNumeric_NumericResultExpression_d#:#A pergunta foi respondida com um valor numérico 4,7
-assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R =
+assessment#:#lacex_assNumeric_NumericResultExpression_e#:#R = #4.7#
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_d#:#Os elementos da pergunta foram ordenados do seguinte modo: 2, 5, 1, 4, 3
 assessment#:#lacex_assOrderingHorizontal_OrderingResultExpression_e#:#R = $2,5,1,4,3$
 assessment#:#lacex_assOrderingQuestion_OrderingResultExpression_d#:#Os elementos da pergunta foram ordenados do seguinte modo: 2, 5, 1, 4, 3
@@ -846,8 +847,8 @@ assessment#:#option_label_not_adequate#:#não adequado
 assessment#:#option_label_not_applicable#:#não aplicável
 assessment#:#option_label_plus#:#+
 assessment#:#option_label_plus_minus#:#+ / -
-assessment#:#option_label_right#:#direita
-assessment#:#option_label_right_wrong#:#direita/esquerda
+assessment#:#option_label_right#:#correto
+assessment#:#option_label_right_wrong#:#correto / errado
 assessment#:#option_label_wrong#:#errado
 assessment#:#oq_btn_define_pictures#:#Mudar para vista de definição de fotografia
 assessment#:#oq_btn_define_terms#:#Mudar para vista de definição de termo
@@ -1277,74 +1278,74 @@ assessment#:#tst_exp_sc_short_desc#:#No separador ‘Estatísticas’ é propost
 assessment#:#tst_extratime_added#:#O tempo de trabalho do participante aumentou em %s minutos.
 assessment#:#tst_extratime_info#:#Se quiser adicionar o tempo de trabalho várias vezes para o mesmo participante, insira o tempo total que quer adicionar.
 assessment#:#tst_extratime_notavailable#:#O tempo extra pode ser adicionado apenas para testes com uma tentativa e um tempo de processamento máximo.
-assessment#:#tst_failed#:#Não foi possível criar as atribuições das perguntas às seguintes competências. Não se conseguiram identificar as correspondentes competências dentro do sistema local.
-assessment#:#tst_failed_imp_qst_skl_assign#:#Taxonomia
+assessment#:#tst_failed#:#Falhou
+assessment#:#tst_failed_imp_qst_skl_assign#:#As atribuições da pergunta para as seguintes competências não puderam ser criadas. As competências de acordo não puderam ser identificadas dentro do sistema local.
 assessment#:#tst_failed_imp_skl_thresholds#:#A importação de limites para as seguintes competências foi ignorada porque as correspondentes competências dentro do sistema local estão configuradas com uma lista diferente de níveis.
 assessment#:#tst_feedback#:#Feedback
 assessment#:#tst_filter_question_type#:#Tipo de pergunta
 assessment#:#tst_filter_question_type_enabled#:#Usar tipo de pergunta como filtro
 assessment#:#tst_filter_tax_node#:#Nó de taxonomia
-assessment#:#tst_filter_taxonomy#:#Acabar o teste
-assessment#:#tst_final_information#:#Vai acabar este teste e chegar ao número máximo de tentativas de teste permitidas. Não poderá entrar novamente neste teste para mudar as suas respostas. Quer mesmo acabar o teste?
+assessment#:#tst_filter_taxonomy#:#Taxonomia
+assessment#:#tst_final_information#:#Concluindo o teste
 assessment#:#tst_finish_confirm_button#:#Sim, quero terminar o teste
-assessment#:#tst_finish_confirm_cancel_button#:#Notificação
-assessment#:#tst_finish_confirmation_question#:#Não, voltar à resposta anterior
-assessment#:#tst_finish_notification#:#Enviar resultado de teste completo
-assessment#:#tst_finish_notification_advanced#:#Enviar nome de utilizador e data de fim
+assessment#:#tst_finish_confirm_cancel_button#:#Não, volte para a pergunta anterior
+assessment#:#tst_finish_confirmation_question#:#Você vai terminar este teste e atingir o número máximo de passes de teste permitidos. Você não poderá entrar novamente neste teste para mudar suas respostas. Você realmente quer terminar o teste?
+assessment#:#tst_finish_notification#:#Notificação
+assessment#:#tst_finish_notification_advanced#:#Enviar o resultado completo do teste
 assessment#:#tst_finish_notification_content#:#Conteúdo do e-mail
 assessment#:#tst_finish_notification_desc#:#Envia um e-mail para o proprietário do teste relativamente a cada utilizador que completou o teste.
 assessment#:#tst_finish_notification_no#:#Nenhum e-mail
-assessment#:#tst_finish_notification_simple#:#Definições gerais
+assessment#:#tst_finish_notification_simple#:#Send username and finish date
 assessment#:#tst_finished#:#Terminado
 assessment#:#tst_form_dynamic_question_set_config#:#Continuar seleção de perguntas
 assessment#:#tst_gap_analysis#:#Análise de intervalo
-assessment#:#tst_general_properties#:#A sua resposta:
-assessment#:#tst_header_participant#:#Melhor solução:
-assessment#:#tst_header_solution#:#Pontuação
-assessment#:#tst_heading_scoring#:#Ocultar lista de perguntas
-assessment#:#tst_hide_side_list#:#Data
+assessment#:#tst_general_properties#:#Configurações gerais
+assessment#:#tst_header_participant#:#Sua resposta:
+assessment#:#tst_header_solution#:#Melhor solução:
+assessment#:#tst_heading_scoring#:#Pontuação
+assessment#:#tst_hide_side_list#:#Hide list of questions
 assessment#:#tst_highscore_achieved_ts#:#Será incluída na classificação uma coluna que contém a data do teste.
 assessment#:#tst_highscore_achieved_ts_description#:#Classificação própria do participante e Top da classificação
-assessment#:#tst_highscore_all_tables#:#Os participantes recebem informação sobre o Top da classificação e a respetiva posição própria na classificação.
-assessment#:#tst_highscore_all_tables_description#:#Sem nomes
-assessment#:#tst_highscore_anon#:#A classificação é apresentada sem expor os nomes dos outros participantes. De qualquer modo, isso acontece se o teste foi feito com anonimato.
-assessment#:#tst_highscore_anon_description#:#No separador 'Informação', aos participantes é apresentado um botão 'Mostrar classificação'. Quando se clica nele, os participantes poderão ver uma tabela classificativa sobre o desempenho no teste. Tem de ativar 'Aceder aos resultados do teste', para poder usar estar funcionalidade.
-assessment#:#tst_highscore_description#:#Classificação
-assessment#:#tst_highscore_enabled#:#Sugestões
-assessment#:#tst_highscore_hints#:#Será incluída na classificação uma coluna que contém as sugestões pedidas.
-assessment#:#tst_highscore_hints_description#:#Classificação própria dos participantes
+assessment#:#tst_highscore_all_tables#:#Participant's Own Rank and Top Ranking
+assessment#:#tst_highscore_all_tables_description#:#Os participantes obtêm informações sobre a primeira colocação e sua própria posição no ranking.
+assessment#:#tst_highscore_anon#:#Sem nomes
+assessment#:#tst_highscore_anon_description#:#O ranking é exibido sem a lista dos nomes dos outros participantes. Este será o caso de qualquer forma se o teste foi feito anonimamente.
+assessment#:#tst_highscore_description#:#Dentro dos 'Resultados' -tab os participantes são apresentados com uma subtab 'Mostrar Ranking'. Ao clicar nela, os participantes são apresentados com uma tabela do campeonato sobre o desempenho no teste. Você também tem que ativar 'Acesso aos resultados do teste', a fim de usar esta funcionalidade.
+assessment#:#tst_highscore_enabled#:#Classificação
+assessment#:#tst_highscore_hints#:#Dicas
+assessment#:#tst_highscore_hints_description#:#Uma coluna contendo as dicas solicitadas será incluída no ranking.
 assessment#:#tst_highscore_mode#:#Modo
-assessment#:#tst_highscore_own_table#:#Os participantes são aconselhados sobre a sua própria posição na classificação.
-assessment#:#tst_highscore_own_table_description#:#Percentagem
-assessment#:#tst_highscore_percentage#:#Será incluída na classificação uma coluna que contém a percentagem dos testes.
-assessment#:#tst_highscore_percentage_description#:#Pontuação
-assessment#:#tst_highscore_score#:#Será incluída na classificação uma coluna que contém a pontuação.
-assessment#:#tst_highscore_score_description#:#Comprimento do Top de classificação
-assessment#:#tst_highscore_top_num#:#Especifica quantas classificações devem ser incluídas na lista de classificação.
-assessment#:#tst_highscore_top_num_description#:#Top de classificação
+assessment#:#tst_highscore_own_table#:#Ranking do próprio participante
+assessment#:#tst_highscore_own_table_description#:#Os participantes são informados de sua própria posição no ranking.
+assessment#:#tst_highscore_percentage#:#Porcentagem
+assessment#:#tst_highscore_percentage_description#:#Uma coluna contendo a porcentagem de testes será incluída no ranking.
+assessment#:#tst_highscore_score#:#Pontuação
+assessment#:#tst_highscore_score_description#:#Uma coluna contendo a pontuação será incluída no ranking.
+assessment#:#tst_highscore_top_num#:#Comprimento do Top Ranking
+assessment#:#tst_highscore_top_num_description#:#Especifique quantos postos devem ser incluídos na lista de classificação superior.
 assessment#:#tst_highscore_top_num_unit#:#entradas
-assessment#:#tst_highscore_top_table#:#Aos participantes é apresentada uma tabela com o top das classificações.
-assessment#:#tst_highscore_top_table_description#:#Duração do teste
-assessment#:#tst_highscore_wtime#:#Será incluída na classificação uma coluna que contém a duração do teste.
-assessment#:#tst_highscore_wtime_description#:#Use apenas bancos com perguntas com a mesma pontuação
+assessment#:#tst_highscore_top_table#:#Top Ranking
+assessment#:#tst_highscore_top_table_description#:#Os participantes são apresentados com uma tabela contendo as melhores classificações.
+assessment#:#tst_highscore_wtime#:#Duração do teste
+assessment#:#tst_highscore_wtime_description#:#Uma coluna contendo a duração do teste será incluída na classificação.
 assessment#:#tst_imap_qst_mode#:#Modo
 assessment#:#tst_imap_qst_mode_mc#:#Escolha múltipla
 assessment#:#tst_imap_qst_mode_sc#:#Escolha única
 assessment#:#tst_import_non_ilias_zip#:#Erro: O nome do ficheiro de importação carregado não corresponde ao formato esperado.
 assessment#:#tst_import_verify_found_questions#:#ILIAS encontrou as seguintes perguntas no ficheiro de importação de teste. Selecione as perguntas que quer importar com este teste.
-assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Se estiver ativado, são propostas apenas perguntas que têm o mesmo número de pontos. Os participantes desse tipo de teste podem ter todos o mesmo número máximo de pontos, para se poder comparar melhor os resultados do teste. Recomenda-se esta opção.
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Quantidade de perguntas
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Use Somente Bancos com Perguntas com Pontuação Igual
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Se estiver ativado, são propostas apenas perguntas que têm o mesmo número de pontos. Os participantes desse tipo de teste podem ter todos o mesmo número máximo de pontos, para se poder comparar melhor os resultados do teste. Recomenda-se esta opção.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#A ordem de apresentação para as bases de perguntas de acordo com a data da última edição das perguntas.
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#A ordem de apresentação para as bases de perguntas de acordo com as atribuições das perguntas numa taxonomia.
 assessment#:#tst_inp_no_available_tax_hint#:#Taxonomias não disponíveis para banco de perguntas selecionados
-assessment#:#tst_inp_quest_amount_cfg_mode#:#Definir a quantidade de perguntas por banco de perguntas selecionado e nó de taxonomia.
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Quantidade de perguntas
 assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Definir a quantidade de perguntas por teste
-assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Banco de perguntas
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Definir a quantidade de perguntas por teste
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Quantidade de perguntas
 assessment#:#tst_inp_quest_amount_per_test#:#Número de perguntas para todo o teste
 assessment#:#tst_inp_source_pool_filter_tax#:#Filtro de taxonomia
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Usar taxonomia "%s" como filtro
-assessment#:#tst_inp_source_pool_label#:#Selecione pelo menos uma pergunta para inseri-la no teste!
+assessment#:#tst_inp_source_pool_label#:#Banco de perguntas
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Não usar taxonomia com base no filtro
 assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Fornecer filtro do estado da pergunta
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordenação taxonomia
@@ -1354,14 +1355,14 @@ assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordenar 
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordenar perguntas por taxonomia
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Banco de perguntas original
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Fornecer filtro de taxonomia
-assessment#:#tst_insert_missing_question#:#Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
-assessment#:#tst_insert_questions#:#Este teste foi já feito por %s utilizador(es). Inserir perguntas neste teste removerá todos os resultados destes utilizadores. Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
-assessment#:#tst_insert_questions_and_results#:#Feedback sobre resposta totalmente correta
+assessment#:#tst_insert_missing_question#:#Por favor, selecione pelo menos uma pergunta para inseri-la no teste!
+assessment#:#tst_insert_questions#:#Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
+assessment#:#tst_insert_questions_and_results#:#Este teste foi já feito por %s utilizador(es). Inserir perguntas neste teste removerá todos os resultados destes utilizadores. Tem a certeza que quer inserir a(s) seguinte(s) pergunta(s) no teste?
 assessment#:#tst_instant_feedback#:#Feedback instantâneo
-assessment#:#tst_instant_feedback_answer_generic#:#Se a resposta fornecida estiver totalmente correta, ILIAS mostra um tipo de feedback se clicar no botão ‘Marcar’. Se a resposta fornecida não estiver totalmente correta, será exibido outro tipo de feedback. Ambos os tipos de feedback foram preparados no separador ‘Feedback’ da respetiva pergunta.
-assessment#:#tst_instant_feedback_answer_generic_desc#:#Feedback específico fornecido para cada resposta
-assessment#:#tst_instant_feedback_answer_specific#:#Se clicar no botão ‘Marcar’, ILIAS mostra um feedback específico para cada opção de resposta selecionada pelo participante. O feedback tem de estar preparado juntamente com a pergunta. Este feedback específico não é suportado para todos os tipos de pergunta.
-assessment#:#tst_instant_feedback_answer_specific_desc#:#Pontos obtidos
+assessment#:#tst_instant_feedback_answer_generic#:#Feedback sobre a resposta totalmente correta
+assessment#:#tst_instant_feedback_answer_generic_desc#:#Se a resposta fornecida estiver totalmente correta, ILIAS mostra um tipo de feedback se clicar no botão ‘Marcar’. Se a resposta fornecida não estiver totalmente correta, será exibido outro tipo de feedback. Ambos os tipos de feedback foram preparados no separador ‘Feedback’ da respetiva pergunta.
+assessment#:#tst_instant_feedback_answer_specific#:#Feedback específico fornecido para cada resposta
+assessment#:#tst_instant_feedback_answer_specific_desc#:#Se clicar no botão ‘Marcar’, ILIAS mostra um feedback específico para cada opção de resposta selecionada pelo participante. O feedback tem de estar preparado juntamente com a pergunta. Este feedback específico não é suportado para todos os tipos de pergunta.
 assessment#:#tst_instant_feedback_contents#:#Se clicar no botão ‘Marcar’, ILIAS mostra quantos pontos foram obtidos ao responder a esta pergunta.
 assessment#:#tst_instant_feedback_desc#:#Mostrar a melhor resposta possível
 assessment#:#tst_instant_feedback_forced#:#Forçar feedback instantâneo
@@ -3880,15 +3881,13 @@ common#:#install#:#Instalar
 common#:#install_local#:#Instalar com arquivo personalizado
 common#:#installed#:#Instalado
 common#:#installed_local#:#Instalado com arquivo personalizado
-common#:#instant_messengers#:# 	
-Instant Messengers
+common#:#instant_messengers#:#Instant Messengers
 common#:#institution#:#Instituição
 common#:#internal_local_roles_only#:#Funções locais (apenas geradas automaticamente)
 common#:#invalid_visible_required_options_selected#:#Todos os campos definidos como necessários têm também de estar definidos como visíveis no registo.
 common#:#invisible_block#:#Bloco invisível
 common#:#invisible_block_mess#:#Não tem autorização para ver este bloco.
-common#:#ip_address#:# 	
-IP Address
+common#:#ip_address#:#IP Address
 common#:#is_already_your#:#já é seu
 common#:#item#:#Item
 common#:#itgr_add#:#Adicionar item grupo
@@ -4306,8 +4305,7 @@ common#:#obj_crsr#:#Link do Curso
 common#:#obj_crss#:#Curso
 common#:#obj_crss_desc#:#Definições gerais para cursos
 common#:#obj_crsv#:#Certificado de curso
-common#:#obj_dbk#:# 	
-Digilib Livro
+common#:#obj_dbk#:#Digilib Livro
 common#:#obj_dcl#:#Coleção de dados
 common#:#obj_dcl_duplicate#:#Copiar coleção de dados
 common#:#obj_ecss#:#ECS
@@ -15004,7 +15002,7 @@ common#:#obj_coms_desc#:#Comments settings###18 05 2020 new variable
 common#:#obj_coms#:#Comments###18 05 2020 new variable
 note#:#note_enable_comments#:#Enable Comments###18 05 2020 new variable
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts###18 05 2020 new variable
-administration#:#adm_communication#:#Communication###18 05 2020 new variable
+administration#:#adm_communication#:#Communicaçao###18 05 2020 new variable
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors###18 05 2020 new variable
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors###18 05 2020 new variable
 note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.###18 05 2020 new variable
@@ -15162,7 +15160,7 @@ acc#:#acc_tbl_docs_head_last_change#:#Última mudança###18 05 2020 new variable
 acc#:#acc_tbl_docs_head_criteria#:#Critério###18 05 2020 new variable
 acc#:#acc_tbl_docs_action_add_criterion#:#Adicionar critério###18 05 2020 new variable
 acc#:#acc_tbl_docs_cell_not_criterion#:#Nenhum critério atribuído###18 05 2020 new variable
-acc#:#acc_doc_detach_crit_confirm_title#:#Critério desanexado###18 05 2020 new variable
+acc#:#acc_doc_detach_crit_confirm_title#:#Desanexar Critério###18 05 2020 new variable
 acc#:#acc_doc_delete#:#Excluir documento###18 05 2020 new variable
 acc#:#acc_doc_sure_detach_crit#:#Tem certeza de que deseja desanexar o critério?###18 05 2020 new variable
 acc#:#acc_doc_crit_detached#:#O critério foi desanexado.###18 05 2020 new variable
@@ -15176,7 +15174,7 @@ acc#:#acc_sure_delete_documents_s#:#Tem certeza de que deseja excluir o document
 acc#:#acc_sure_delete_documents_p#:#Tem certeza de que deseja excluir os documentos selecionados?###18 05 2020 new variable
 acc#:#acc_deleted_documents_s#:#O documento foi deletado.###18 05 2020 new variable
 acc#:#acc_deleted_documents_p#:#Os documentos foram excluídos.###18 05 2020 new variable
-acc#:#acc_saved_sorting#:#A classificação foi salva.###18 05 2020 new variable
+acc#:#acc_saved_sorting#:#A ordenação foi salva.###18 05 2020 new variable
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Você não pode alterar o critério conforme desejado. Já existe um critério idêntico em anexo.###18 05 2020 new variable
 acc#:#acc_criterion_assignment_must_be_unique_update#:#Você não pode alterar o critério conforme desejado. Já existe um critério idêntico em anexo.###18 05 2020 new variable
 acc#:#acc_crit_type_usr_language#:#Idioma do perfil###18 05 2020 new variable
