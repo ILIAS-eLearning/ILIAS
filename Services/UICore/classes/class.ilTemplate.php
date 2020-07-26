@@ -680,7 +680,7 @@ class ilTemplate extends HTML_Template_ITX
         
         if ($this->blockExists("tabs_outer_start")) {
             $this->sthtml = $ilTabs->getSubTabHTML();
-            $this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+            $this->thtml = $ilTabs->getHTML((trim($this->sthtml) == ""));
         }
     }
     

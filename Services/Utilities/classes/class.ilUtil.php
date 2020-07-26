@@ -1895,11 +1895,11 @@ class ilUtil
     * @static
     * @deprecated
     */
-    public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
+    public static function img($a_src, $a_alt = null, $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
     {
         $img = '<img src="' . $a_src . '"';
-        if ($a_alt != "") {
-            $img .= ' alt="' . htmlspecialchars($a_alt) . '" title="' . htmlspecialchars($a_alt) . '"';
+        if (!is_null($a_alt)) {
+            $img .= ' alt="' . htmlspecialchars($a_alt) . '"';
         }
         if ($a_width != "") {
             $img .= ' width="' . htmlspecialchars($a_width) . '"';

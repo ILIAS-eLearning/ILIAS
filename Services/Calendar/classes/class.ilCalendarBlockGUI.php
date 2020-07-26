@@ -475,7 +475,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             }
         }
         $a_tpl->setCurrentBlock('mini_month');
-        $a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
+        //$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
 
         $first_of_month = substr($this->seed->get(IL_CAL_DATE), 0, 7) . "-01";
         $myseed = new ilDate($first_of_month, IL_CAL_DATE);
