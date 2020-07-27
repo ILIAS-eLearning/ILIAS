@@ -13699,6 +13699,7 @@ rbac#:#mep_copy#:#User can copy media pool
 crs#:#crs_cannot_find_role#:#Can't find this role.
 grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+form#:#form_date_aria_desc#:#The following input format is required:
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server

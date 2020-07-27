@@ -6460,6 +6460,7 @@ file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab 
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
+form#:#form_date_aria_desc#:#Es ist folgendes Eingabeformat gefordert:
 form#:#form_days#:#Tage
 form#:#form_file_input#:#Datei auswählen
 form#:#form_format#:#Format
