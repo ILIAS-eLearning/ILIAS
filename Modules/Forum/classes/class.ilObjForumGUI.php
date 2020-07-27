@@ -725,6 +725,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $this->tpl->setVariable('DRAFT_ANCHOR', 'draft_' . $draft->getDraftId());
                 
                 $this->tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+                $this->tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
                 if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int) $_GET['ref_id'], $draft->getPostAuthorId())) {
                     if ($authorinfo->getAuthor()->getGender() == 'f') {
                         $this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
@@ -943,6 +944,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
         
         $this->tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+        $this->tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
         if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int) $_GET['ref_id'], $node->getPosAuthorId())) {
             if ($authorinfo->getAuthor()->getGender() == 'f') {
                 $this->tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
@@ -4584,11 +4586,14 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $this->ctrl->setParameter($this, 'offset', $Start);
                         $this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
                         $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-                        
+
                         if (!isset($draftsObjects[$node->getId()])) {
-                            $actions['reply_to_postings'] = $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId());
+                            $actions['reply_to_postings'] = $this->ctrl->getLinkTarget(
+                                $this, 'viewThread',
+                                'reply_' . $node->getId()
+                            );
                         }
-                        
+
                         $this->ctrl->clearParameters($this);
                     }
                     
@@ -4855,7 +4860,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
         }
 
-        $this->tpl->setVariable('REPLY_ANKER', $this->objCurrentPost->getId());
+        $this->tpl->setVariable('REPLY_ANKER', 'reply_' . $this->objCurrentPost->getId());
         $oEditReplyForm = $this->getReplyEditForm();
         if ($action !== 'editdraft') {
             switch ($this->objProperties->getSubjectSetting()) {
