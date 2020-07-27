@@ -1396,7 +1396,10 @@ class ilTable2GUI extends ilTableGUI
         if ($allcolumnswithwidth) {
             foreach ((array) $this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
-                $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", $column["width"]);
+                $width = (is_numeric($column["width"]))
+                    ? $column["width"]."px"
+                    : $column["width"];
+                $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
                 $this->tpl->parseCurrentBlock();
             }
         }
@@ -1886,7 +1889,7 @@ class ilTable2GUI extends ilTableGUI
                 );
                 $this->tpl->setVariable(
                     "F_INPUT_ID",
-                    $item->getFieldId()
+                    $item->getTableFilterLabelFor()
                 );
                 $this->tpl->setVariable(
                     "INPUT_HTML",
