@@ -263,6 +263,7 @@ class ilMainMenuGUI
             $this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
             $this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
             $this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+            $this->tpl->setVariable("LOGO_TITLE", $lng->txt("logo"));
 
             // #15759
             $header_top_title = ilObjSystemFolder::_getHeaderTitle();
@@ -409,6 +410,7 @@ class ilMainMenuGUI
             $this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
             $this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
             $this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+            $this->tpl->setVariable("LOGO_TITLE", $lng->txt("logo"));
         }
 
         $this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
