@@ -491,7 +491,6 @@ class ilObjContainerDAVTest extends TestCase
         // Arrange
         $number_of_children = 5;
         $searched_title = 'dummy';
-        $dummy_obj_dav = new ilObjDummyDAV();
 
         $children_ref_ids = array();
         for ($i = 101; $i < $number_of_children + 101; $i++) {

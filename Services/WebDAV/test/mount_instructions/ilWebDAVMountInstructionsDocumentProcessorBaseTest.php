@@ -96,18 +96,18 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     public function parseInstructionsToAssocArray_tagsContainSpaces_returnArrayOnlyWithInputString()
     {
         // Arrange
-        $instrunction_text = 'This are the mount Instructions';
+        $instruction_text = 'This are the mount Instructions';
         $tag_title = 'tag with spaces';
         $start_tag = "[$tag_title]";
         $end_tag = "[/$tag_title]";
-        $instructions = $start_tag . $instrunction_text . $end_tag;
+        $instructions = $start_tag . $instruction_text . $end_tag;
         $doc_processor = $this->createDocumentProcessorBaseObject();
 
         // Act
         $parsed_instructions = $doc_processor->parseInstructionsToAssocArray($instructions);
 
         // Assert
-        $this->assertEquals($instrunction_text, $parsed_instructions[$tag_title]);
+        $this->assertEquals($instruction_text, $parsed_instructions[$tag_title]);
     }
 
     /**
@@ -117,18 +117,18 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     public function parseInstructionsToAssocArray_tagsContainSpecialChars_returnArrayOnlyWithInputString()
     {
         // Arrange
-        $instrunction_text = 'This are the mount Instructions';
+        $instruction_text = 'This are the mount Instructions';
         $tag_title = 'tag_w!th$pecial"chars?';
         $start_tag = "[$tag_title]";
         $end_tag = "[/$tag_title]";
-        $instructions = $start_tag . $instrunction_text . $end_tag;
+        $instructions = $start_tag . $instruction_text . $end_tag;
         $doc_processor = $this->createDocumentProcessorBaseObject();
 
         // Act
         $parsed_instructions = $doc_processor->parseInstructionsToAssocArray($instructions);
 
         // Assert
-        $this->assertEquals($instrunction_text, $parsed_instructions[$tag_title]);
+        $this->assertEquals($instruction_text, $parsed_instructions[$tag_title]);
     }
 
     /**
@@ -138,18 +138,18 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
     public function parseInstructionsToAssocArray_beforeStartTagAndAfterEndTagIsText_returnArrayOnlyWithStringBetweenTags()
     {
         // Arrange
-        $instrunction_text = 'This are the mount Instructions';
+        $instruction_text = 'This are the mount Instructions';
         $tag_title = 'tag';
         $start_tag = "[$tag_title]";
         $end_tag = "[/$tag_title]";
-        $instructions = 'This will be cut off' . $start_tag . $instrunction_text . $end_tag . 'and this of will be cut off as well';
+        $instructions = 'This will be cut off' . $start_tag . $instruction_text . $end_tag . 'and this of will be cut off as well';
         $doc_processor = $this->createDocumentProcessorBaseObject();
 
         // Act
         $parsed_instructions = $doc_processor->parseInstructionsToAssocArray($instructions);
 
         // Assert
-        $this->assertEquals($instrunction_text, $parsed_instructions[$tag_title]);
+        $this->assertEquals($instruction_text, $parsed_instructions[$tag_title]);
     }
 
     /**
