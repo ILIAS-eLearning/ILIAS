@@ -878,7 +878,8 @@ class ilInfoScreenGUI
                 }
                 $tpl->setVariable("TCLASS", $this->getTableClass());
                 $tpl->setVariable("TXT_SECTION", $this->section[$i]["title"]);
-                $tpl->touchBlock("row");
+                $tpl->setCurrentBlock("row");
+                $tpl->parseCurrentBlock();
             }
         }
 

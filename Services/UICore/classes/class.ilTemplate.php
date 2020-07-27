@@ -1707,7 +1707,8 @@ class ilTemplate extends HTML_Template_ITX
             $this->setCurrentBlock("head_action_inner");
             $this->setVariable("HEAD_ACTION", $header);
             $this->parseCurrentBlock();
-            $this->touchBlock("head_action");
+            $this->setCurrentBlock("head_action");
+            $this->parseCurrentBlock();
         }
 
         if (count((array) $this->title_alerts)) {
