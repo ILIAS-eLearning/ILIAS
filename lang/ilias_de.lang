@@ -8592,6 +8592,7 @@ form#:#captcha_code#:#Sicherheitsüberprüfung
 form#:#email_not_match#:#Ihre Eingaben für die E-Mail-Adresse stimmen nicht überein! Bitte geben Sie die E-Mail-Adresse erneut ein.
 form#:#form_alphabet_all#:#Alle
 form#:#form_chars_remaining#:#Verbleibende Zeichen:
+form#:#form_date_aria_desc#:#Es ist folgendes Eingabeformat gefordert:
 form#:#form_date_duration_end#:#Ende
 form#:#form_date_duration_start#:#Start
 form#:#form_days#:#Tage
