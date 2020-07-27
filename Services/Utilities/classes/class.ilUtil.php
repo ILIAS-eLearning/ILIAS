@@ -362,7 +362,11 @@ class ilUtil
             $disabled = ' disabled=\"disabled\"';
         }
 
-        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class size=\"" . $size . "\" $attributes $disabled>\n";
+        $size_str = "";
+        if ($size > 0) {
+            $size_str = ' size="'.$size.'" ';
+        }
+        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $attributes $disabled>\n";
 
         foreach ((array) $options as $key => $val) {
             $style = "";

@@ -13508,6 +13508,9 @@ div.ilTableNav {
   font-size: 80%;
   text-align: right;
 }
+div.ilTableNav table {
+  width: 100%;
+}
 tr.tblfooter {
   color: black;
   font-weight: normal;
