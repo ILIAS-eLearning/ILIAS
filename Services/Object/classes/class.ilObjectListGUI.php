@@ -3033,7 +3033,7 @@ class ilObjectListGUI
                             $htpl->setVariable("TAG", "span");
                         }
                         $htpl->setVariable("PROP_ID", $id);
-                        $htpl->setVariable("IMG", ilUtil::img($attr["img"]));
+                        $htpl->setVariable("IMG", ilUtil::img($attr["img"], $attr["tooltip"]));
                         if ($attr["href"] != "") {
                             $htpl->setVariable("PROP_HREF", ' href="' . $attr["href"] . '" ');
                         }
