@@ -579,7 +579,9 @@ class ilTabsGUI
                 } else {
                     $tpl->setVariable($pre2 . "TAB_TEXT", $lng->txt($target["text"]));
                 }
-                $tpl->setVariable($pre2 . "TAB_TARGET", $target["frame"]);
+                if ($target["frame"] != "") {
+                    $tpl->setVariable($pre2 . "TAB_TARGET", ' target="'.$target["frame"].'" ');
+                }
                 $tpl->parseCurrentBlock();
             }
             

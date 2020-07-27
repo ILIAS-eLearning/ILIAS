@@ -40,7 +40,8 @@
     "pouchdb": "^6.3.4",
     "openlayers": "^4.6.4",
     "owl.carousel": "^2.3.3",
-    "nestable2": "^1.6.0"
+    "nestable2": "^1.6.0",
+    "linkifyjs": "^2.1.9"
   },
   "extra": {
     "pouchdb": {
@@ -113,7 +114,8 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "",
-      "last-update-for-ilias": null
+      "last-update-for-ilias": null,
+      "note": "rm -r libs/bower/bower_components/yui2/sandbox, see #28587"
     },
     "jstree": {
       "introduction-date": null,
@@ -224,6 +226,13 @@
       "developer": "bheyser",
       "purpose": "Assessment Nested Ordering",
       "last-update-for-ilias": "5.4.3"
+    },
+    "linkifyjs": {
+      "introduction-date": "2015-08-11",
+      "approved-by": "Jour Fixe",
+      "developer": "akill",
+      "purpose": "Services/Link, autolinking of external links",
+      "last-update-for-ilias": "5.4.13"
     }
   }
 }

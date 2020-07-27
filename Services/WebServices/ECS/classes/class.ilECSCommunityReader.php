@@ -136,8 +136,7 @@ class ilECSCommunityReader
      * get communities
      *
      * @access public
-     * @param
-     *
+     * @return \ilECSCommunity[]
      */
     public function getCommunities()
     {
@@ -159,6 +158,23 @@ class ilECSCommunityReader
             }
         }
         return null;
+    }
+
+    /**
+     * @param int $a_pid
+     * @return \ilECSParticipant[]
+     */
+    public function getParticipantsByPid($a_pid)
+    {
+        $participants = [];
+        foreach ($this->getCommunities() as $community) {
+            foreach ($community->getParticipants() as $participant) {
+                if ($participant->getPid() == $a_pid) {
+                    $participants[] = $participant;
+                }
+            }
+        }
+        return $participants;
     }
     
     /**

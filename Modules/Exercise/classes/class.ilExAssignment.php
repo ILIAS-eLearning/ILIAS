@@ -2055,7 +2055,6 @@ class ilExAssignment
     public function afterCustomDate()
     {
         $date_custom = $this->getFeedbackDateCustom();
-
         //if the solution will be displayed only after reach all the deadlines.
         //$final_deadline = $this->afterDeadlineStrict();
         //$dl = max($final_deadline, time());

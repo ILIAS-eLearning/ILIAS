@@ -1297,11 +1297,6 @@ abstract class assQuestion
      */
     final public function persistWorkingState($active_id, $pass = null, $obligationsEnabled = false, $authorized = true)
     {
-        if ($pass === null) {
-            require_once 'Modules/Test/classes/class.ilObjTest.php';
-            $pass = ilObjTest::_getPass($active_id);
-        }
-        
         if (!$this->validateSolutionSubmit()) {
             return false;
         }
@@ -1309,6 +1304,12 @@ abstract class assQuestion
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
+
+            if ($pass === null) {
+                require_once 'Modules/Test/classes/class.ilObjTest.php';
+                $pass = ilObjTest::_getPass($active_id);
+            }
+
             $saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 
             if ($authorized) {

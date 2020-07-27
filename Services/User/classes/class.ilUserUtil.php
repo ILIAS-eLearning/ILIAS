@@ -140,7 +140,7 @@ class ilUserUtil
     
             if ($a_user_image) {
                 $img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
-                $pres = '<img class="ilUserXXSmall" border="0" src="' . $img . '" alt="' . $lng->txt("icon") .
+                $pres = '<img class="ilUserXXSmall" src="' . $img . '" alt="' . $lng->txt("icon") .
                     " " . $lng->txt("user_picture") . '" /> ' . $pres;
                 $d["img"] = $img;
             }

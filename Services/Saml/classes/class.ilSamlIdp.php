@@ -129,7 +129,7 @@ class ilSamlIdp
     public function persist()
     {
         if (!$this->getIdpId()) {
-            $this->setIdpId($this->db->nextId('saml_idp_settings'));
+            $this->setIdpId((int) $this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(
@@ -248,6 +248,21 @@ class ilSamlIdp
         }
 
         return null;
+    }
+
+    /**
+     * @param string $entityId
+     * @return int
+     */
+    public static function geIdpIdByEntityId($entityId)
+    {
+        foreach (self::getAllIdps() as $idp) {
+            if ($idp->isActive() && $idp->getEntityId() === $entityId) {
+                return $idp->getIdpId();
+            }
+        }
+
+        return 0;
     }
 
     /**

@@ -139,13 +139,23 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
     }
 
+    protected function recordLearningSequenceRead()
+    {
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+    }
+
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         //exit real early for LP-checking.
-        if($cmd === LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP) {
+        if ($cmd === LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP) {
             print $this->getCurrentItemLearningProgress();
             exit;
         }
@@ -347,9 +357,11 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
         if ($this->checkAccess("read")) {
             $this->learnerView(self::CMD_LEARNER_VIEW);
+            $this->recordLearningSequenceRead();
             return;
         }
         $this->info(self::CMD_INFO);
+        $this->recordLearningSequenceRead();
     }
 
     protected function manageContent(string $cmd = self::CMD_CONTENT)
