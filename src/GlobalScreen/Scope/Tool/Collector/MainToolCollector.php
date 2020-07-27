@@ -93,7 +93,15 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         array_walk($this->tools, function (isToolItem $tool) {
             $this->applyTypeInformation($tool);
         });
+    }
 
+    public function cleanupItemsForUIRepresentation() : void
+    {
+        // TODO: Implement cleanupItemsForUIRepresentation() method.
+    }
+
+    public function sortItemsForUIRepresentation() : void
+    {
         usort($this->tools, $this->getItemSorter());
     }
 
