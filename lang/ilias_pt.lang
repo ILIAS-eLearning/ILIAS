@@ -613,7 +613,6 @@ assessment#:#errors#:#Erros
 assessment#:#errors_section#:#Erro dados
 assessment#:#errortext#:#Texto de erros
 assessment#:#errortext_info#:#Por favor, digite o texto de erro. Para marcar uma palavra como erro, favor inserir um sinal de hash (#) na frente da palavra. Para marcar um grupo de palavras como um erro, favor encapsular o grupo de palavras entre colchetes duplos (ou seja: aqui está ((um exemplo)) dele). Se você pressionar o botão &quot;Analizar Texto de Error&quot; todas as palavras marcadas serão extraídas para processamento posterior.
-assessment#:#errortext_info#:#Por favor, digite o texto de erro. Para marcar uma palavra como erro, favor inserir um sinal de hash (#) na frente da palavra. Para marcar um grupo de palavras como um erro, favor encapsular o grupo de palavras entre colchetes duplos (ou seja: aqui está ((um exemplo)) dele). Se você pressionar o botão &quot;Analizar Texto de Error&quot; todas as palavras marcadas serão extraídas para processamento posterior.
 assessment#:#errRecursionInResult#:#A fórmula contém um recurso infinito.
 assessment#:#essay_scoring_mode#:#Modo de pontuação
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Pontuação automática com palavras-chave em Encontrar TUDO
@@ -667,7 +666,7 @@ assessment#:#final_statement_show_desc#:#Mostra as observações finais depois d
 assessment#:#finish_all_user_passes#:#Terminar todas as tentativas de teste
 assessment#:#finish_pass_for_all_users#:#Tem a certeza que quer terminar as tentativas de teste para todos os utilizadores?
 assessment#:#finish_pass_for_user_confirmation#:#Tem a certeza que quer terminar esta tentativa de teste?
-assessment#:#finish_test#:#Acabar o teste
+assessment#:#finish_test#:#Finalizar o teste
 assessment#:#finish_unfinished_passes#:#Terminar tentativas abertas
 assessment#:#finish_unfinished_passes_desc#:#As tentativas que têm um tempo para acabar ou uma duração limite configurada serão fechadas por este cron job (agendador de tarefas)
 assessment#:#fixed_participants_hint#:#Este teste está apenas acessível aos participantes manualmente adicionados que aparecem na lista abaixo. Pode desativar esta definição se desativar a caixa de controlo ‘Participantes manualmente selecionados’ nas definições de teste.
@@ -1187,7 +1186,7 @@ assessment#:#tst_answer_fixation_on_instant_feedback_desc#:#Depois de se mostrar
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst#:#Bloquear respostas com a apresentação do feedback ou perguntas seguintes
 assessment#:#tst_answer_fixation_on_instantfb_or_followupqst_desc#:#As respostas dos participantes a uma pergunta serão bloqueadas com a apresentação do feedback da pergunta ou quando é apresentada a pergunta seguinte.
 assessment#:#tst_answer_status_answered#:#Respondido
-assessment#:#tst_answer_status_editing#:# (editar)
+assessment#:#tst_answer_status_editing#:#(editando)
 assessment#:#tst_answer_status_not_answered#:#Não respondido
 assessment#:#tst_answered_questions#:#Perguntas respondidas
 assessment#:#tst_answered_questions_of_total#:#%s de %s
@@ -1304,9 +1303,9 @@ assessment#:#tst_header_participant#:#Sua resposta:
 assessment#:#tst_header_solution#:#Melhor solução:
 assessment#:#tst_heading_scoring#:#Pontuação
 assessment#:#tst_hide_side_list#:#Hide list of questions
-assessment#:#tst_highscore_achieved_ts#:#Será incluída na classificação uma coluna que contém a data do teste.
-assessment#:#tst_highscore_achieved_ts_description#:#Classificação própria do participante e Top da classificação
-assessment#:#tst_highscore_all_tables#:#Participant's Own Rank and Top Ranking
+assessment#:#tst_highscore_achieved_ts#:#Data
+assessment#:#tst_highscore_achieved_ts_description#:#Será incluída na classificação uma coluna que contém a data do teste.
+assessment#:#tst_highscore_all_tables#:#Ranking Próprio do Participante e Top Ranking
 assessment#:#tst_highscore_all_tables_description#:#Os participantes obtêm informações sobre a primeira colocação e sua própria posição no ranking.
 assessment#:#tst_highscore_anon#:#Sem nomes
 assessment#:#tst_highscore_anon_description#:#O ranking é exibido sem a lista dos nomes dos outros participantes. Este será o caso de qualquer forma se o teste foi feito anonimamente.
@@ -1363,32 +1362,32 @@ assessment#:#tst_instant_feedback_answer_generic#:#Feedback sobre a resposta tot
 assessment#:#tst_instant_feedback_answer_generic_desc#:#Se a resposta fornecida estiver totalmente correta, ILIAS mostra um tipo de feedback se clicar no botão ‘Marcar’. Se a resposta fornecida não estiver totalmente correta, será exibido outro tipo de feedback. Ambos os tipos de feedback foram preparados no separador ‘Feedback’ da respetiva pergunta.
 assessment#:#tst_instant_feedback_answer_specific#:#Feedback específico fornecido para cada resposta
 assessment#:#tst_instant_feedback_answer_specific_desc#:#Se clicar no botão ‘Marcar’, ILIAS mostra um feedback específico para cada opção de resposta selecionada pelo participante. O feedback tem de estar preparado juntamente com a pergunta. Este feedback específico não é suportado para todos os tipos de pergunta.
-assessment#:#tst_instant_feedback_contents#:#Se clicar no botão ‘Marcar’, ILIAS mostra quantos pontos foram obtidos ao responder a esta pergunta.
-assessment#:#tst_instant_feedback_desc#:#Mostrar a melhor resposta possível
+assessment#:#tst_instant_feedback_contents#:#Conteúdo Incluído
+assessment#:#tst_instant_feedback_desc#:#Quando as perguntas são configuradas com feedback, ele é fornecido aos participantes durante a aprovação no teste.
 assessment#:#tst_instant_feedback_forced#:#Forçar feedback instantâneo
-assessment#:#tst_instant_feedback_results#:#Ao clicar no botão ‘Marcar', ILIAS mostra a melhor resposta possível à pergunta.
-assessment#:#tst_instant_feedback_results_desc#:#Mensagem introdutória
-assessment#:#tst_instant_feedback_solution#:#Mostra uma mensagem introdutória no separador 'Informação' do teste. Este texto está acessível antes de o teste poder ser iniciado.
-assessment#:#tst_instant_feedback_solution_desc#:#Número limite das tentativas de teste
-assessment#:#tst_instant_feedback_trigger#:#Mostrar antes de o participante terminar o teste
-assessment#:#tst_instant_feedback_trigger_forced#:#Mostrar antes da primeira pergunta
-assessment#:#tst_instant_feedback_trigger_forced_desc#:#Inclui descrições de perguntas
-assessment#:#tst_instant_feedback_trigger_manual#:#Nota
-assessment#:#tst_instant_feedback_trigger_manual_desc#:#Criar novo avanço de nota
-assessment#:#tst_introduction#:#Repor esquema de anotações simples
-assessment#:#tst_introduction_desc#:#Nível mínimo (em %)
+assessment#:#tst_instant_feedback_results#:#Pontos atribuídos
+assessment#:#tst_instant_feedback_results_desc#:#Ao clicar no botão 'Verificar', o ILIAS exibirá quantos pontos foram alcançados ao responder esta pergunta.
+assessment#:#tst_instant_feedback_solution#:#Mostrar a melhor resposta possível
+assessment#:#tst_instant_feedback_solution_desc#:#Ao clicar no botão 'Verificar' o ILIAS exibirá a melhor resposta possível à pergunta.
+assessment#:#tst_instant_feedback_trigger#:#Acionador de Feedback
+assessment#:#tst_instant_feedback_trigger_forced#:#O Feedback é acionado pela resposta a perguntas
+assessment#:#tst_instant_feedback_trigger_forced_desc#:#A apresentação de feedback é forçada a todos os participantes com a resposta a uma pergunta.
+assessment#:#tst_instant_feedback_trigger_manual#:#Os participantes podem acionar o Feedback Manualmente
+assessment#:#tst_instant_feedback_trigger_manual_desc#:#O feedback está disponível, mas só será mostrado quando um participante acionar a apresentação manualmente.
+assessment#:#tst_introduction#:#Mensagem introdutória
+assessment#:#tst_introduction_desc#:#Mostra uma mensagem introdutória na guia 'Info' do teste. Este texto já está acessível antes que o teste possa ser iniciado.
 assessment#:#tst_introduction_text#:#Mensagem introdutória
 assessment#:#tst_invited_nobody#:#Nenhum utilizador, grupo ou função foi adicionado como participante de teste fixo
 assessment#:#tst_invited_selected_users#:#Os utilizadores selecionados foram adicionado como participante de teste fixo
 assessment#:#tst_level#:#Nível de competência
-assessment#:#tst_limit_nr_of_tries#:#Forma oficial
+assessment#:#tst_limit_nr_of_tries#:#Número limite de passes de teste
 assessment#:#tst_link_only_unassigned#:#Selecionou pelo menos uma pergunta que já está associada a um banco de perguntas. Só é possível adicionar a um banco de perguntas as perguntas que não estão atribuídas.
 assessment#:#tst_list_answer_details#:#Mostrar lista abaixo
 assessment#:#tst_list_of_answers#:#Lista de respostas
 assessment#:#tst_list_of_answers_show#:#Mostrar lista de respostas
-assessment#:#tst_list_of_questions_end#:#Aprovado
-assessment#:#tst_list_of_questions_start#:#Forma curta
-assessment#:#tst_list_of_questions_with_description#:#Pontos máximos
+assessment#:#tst_list_of_questions_end#:#Mostrar antes que um participante termine o teste
+assessment#:#tst_list_of_questions_start#:#Mostrar antes da primeira pergunta
+assessment#:#tst_list_of_questions_with_description#:#Incluir descrições de perguntas
 assessment#:#tst_man_scoring_by_part#:#Pontuação por participante
 assessment#:#tst_man_scoring_by_qst#:#Pontuação por pergunta
 assessment#:#tst_manage_competence_assigns#:#Gerir atribuições de competência
@@ -1397,147 +1396,147 @@ assessment#:#tst_manscoring_input_question_and_user_solution#:#Pergunta e soluç
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#O máximo de %s ponto(s) foi excedido!
 assessment#:#tst_manscoring_question_section_header#:#Pergunta: %s
 assessment#:#tst_manscoring_user_notification#:#Enviar notificação
-assessment#:#tst_mark#:#A configuração para o conjunto aleatório de perguntas foi modificada com sucesso.
-assessment#:#tst_mark_create_new_mark_step#:#Não é possível um teste com um conjunto aleatório de perguntas sem uma quantidade de perguntas corretamente definida.
-assessment#:#tst_mark_create_simple_mark_schema#:#Não é possível um teste com um conjunto aleatório de perguntas sem selecionar pelo menos um banco de perguntas.
-assessment#:#tst_mark_minimum_level#:#<b>Não é possível um teste com um conjunto aleatório de perguntas com a seleção atual de bancos de perguntas e a quantidade de perguntas.</b><br />
-assessment#:#tst_mark_official_form#:#Date da última sincronização dos bancos de perguntas selecionados: <b>%s</b>
-assessment#:#tst_mark_passed#:#Os pontos de competência foram guardados.
-assessment#:#tst_mark_short_form#:#A regra foi removida com sucesso.
+assessment#:#tst_mark#:#Nota
+assessment#:#tst_mark_create_new_mark_step#:#Criar Nova Etapa de Nota
+assessment#:#tst_mark_create_simple_mark_schema#:#Redefinição para esquema de nota simples
+assessment#:#tst_mark_minimum_level#:#Nível mínimo (em %)
+assessment#:#tst_mark_official_form#:#Formulário oficial
+assessment#:#tst_mark_passed#:#Passou
+assessment#:#tst_mark_short_form#:#Formulário curto
 assessment#:#tst_max_allowed_users_heading#:#Foi alcançado o número máximo de utilizadores simultâneos no teste
 assessment#:#tst_max_allowed_users_message#:#Foi alcançado o número máximo de utilizadores ativos simultâneos no teste. Tente novamente mais tarde reiniciar ou retomar o teste. Se um dos utilizadores ativos estiver inativo durante mais de %s segundos, pode introduzir este teste. Obrigado pela sua compreensão.
 assessment#:#tst_max_comp_points#:#Pontos máx. de competência
-assessment#:#tst_maximum_points#:#Recebeu esta notificação porque participou neste teste.
+assessment#:#tst_maximum_points#:#Pontos máximos
 assessment#:#tst_mc_label_none_above#:#Nenhuma das respostas acima
-assessment#:#tst_median_mark_panel#:#Pontuação manual para teste "%s" comprometida
+assessment#:#tst_median_mark_panel#:#Nota de Mediana
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#A configuração contínua da seleção de perguntas não pode ser alterada devido a dados existentes do participante.
 assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#A configuração do conjunto aleatório de perguntas não pode ser alterada devido a dados existentes do participante.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#A configuração contínua da seleção de perguntas foi alterada.
 assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Pode mudar a quantidade de perguntas aqui: %s
-assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Não existem dados de avaliação disponíveis.
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Um teste com um conjunto aleatório de perguntas não é possível sem uma quantidade de perguntas corretamente definida.
 assessment#:#tst_msg_rand_quest_set_lost_pools#:#A configuração da seleção de perguntas do teste foi congelada porque os seguintes bancos de perguntas envolvidos na configuração deixaram de estar disponíveis:<br />%s
-assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#No subseparador %s os bancos de perguntas indisponíveis podem ser novamente derivados.
+assessment#:#tst_msg_rand_quest_set_lost_pools_link#:#Bancos de perguntas selecionados abertos
 assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Atualmente, não pode adicionar novas regras à seleção de perguntas porque não há bancos de perguntas disponíveis.
-assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Não existem nenhumas anotações definidas, por favor crie pelo menos um esquema de anotações simples!
+assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um teste com um conjunto aleatório de perguntas não é possível sem selecionar pelo menos um conjunto de perguntas.
 assessment#:#tst_msg_rand_quest_set_not_sync#:#As regras para uma seleção aleatória de perguntas foram recentemente criadas ou alteradas. As perguntas dos bancos têm de ser sincronizadas no teste antes de poderem ser usadas. Isto verifica também se é possível um teste aleatório com o conjunto definido de regras.
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#Com a atual configuração é possível um teste com um conjunto aleatório de perguntas.
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Selecione pelo menos uma pergunta para remover!
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
 assessment#:#tst_msg_rand_quest_set_rule_label#:#Regra %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing#:#Regra %s requer %s perguntas, mas só há %s perguntas fornecidas.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_missing_shared#:#Para além destas perguntas, há também %s perguntas fornecidas para outras regras que se seguem: %s
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved#:#Regra %s requer %s perguntas, e há %s perguntas fornecidas.
 assessment#:#tst_msg_rand_quest_set_rule_not_satisfied_reserved_shared#:#Mas só %s das perguntas fornecidas é que estão garantidamente disponíveis devido às intersecções com as seguintes outras regras: %s
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Não está disponível nenhuma pergunta para pontuar
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Data da última sincronização dos grupos de perguntas selecionadas: %s
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#A configuração para o conjunto aleatório de perguntas foi modificada com sucesso. Pode adicionar uma nova regra agora.
-assessment#:#tst_msg_random_question_set_config_modified#:#O seu teste foi manualmente pontuado:
+assessment#:#tst_msg_random_question_set_config_modified#:#A configuração para o conjunto aleatório de perguntas foi modificada com sucesso.
 assessment#:#tst_msg_random_question_set_synced#:#As perguntas para a atual configuração foram sincronizadas com sucesso.
 assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Os limites de competência foram guardados.
 assessment#:#tst_msg_skl_qst_assign_points_not_saved#:#Os pontos de competência não foram guardados. Verifique a sua entrada.
-assessment#:#tst_msg_skl_qst_assign_points_saved#:#nenhuma
-assessment#:#tst_msg_source_pool_definitions_deleted#:#Número máx. de tentativas
-assessment#:#tst_nav_next_locks_current_answer_confirm#:#Tentativas já concluídos
-assessment#:#tst_nav_next_locks_current_answer_header#:#Respondidas corretamente
-assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Não apresentadas, ainda
-assessment#:#tst_nav_next_locks_empty_answer_header#:#Ignoradas
+assessment#:#tst_msg_skl_qst_assign_points_saved#:#Os pontos de competência foram salvos.
+assessment#:#tst_msg_source_pool_definitions_deleted#:#A regra foi removida com sucesso.
+assessment#:#tst_nav_next_locks_current_answer_confirm#:#Quando você navegar para a próxima pergunta, sua resposta à pergunta atual será bloqueada e não poderá mais ser alterada.
+assessment#:#tst_nav_next_locks_current_answer_header#:#Navegação para a próxima pergunta
+assessment#:#tst_nav_next_locks_empty_answer_confirm#:#Você não respondeu à pergunta atual. Uma solução vazia será salva e bloqueada como resposta. Esta resposta não pode ser alterada posteriormente.
+assessment#:#tst_nav_next_locks_empty_answer_header#:#Navegação sem resposta
 assessment#:#tst_nav_while_edit_modal_cancel_btn#:#Cancelar
 assessment#:#tst_nav_while_edit_modal_header#:#Decisão sobre respostas
-assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Não guardar
-assessment#:#tst_nav_while_edit_modal_save_btn#:#Guardar
+assessment#:#tst_nav_while_edit_modal_nosave_btn#:#Não salvar
+assessment#:#tst_nav_while_edit_modal_save_btn#:#Salvar
 assessment#:#tst_nav_while_edit_modal_text#:#O que fazer com as respostas que possivelmente inseriu para esta pergunta?
-assessment#:#tst_no_evaluation_data#:#Se definir uma palavra-passe de teste, todos os utilizadores com acesso ao teste têm de introduzir essa palavra-passe para iniciar o teste.
-assessment#:#tst_no_marks_defined#:#Este teste pode ser acedido apenas com uma palavra-passe de teste. Introduza a palavra-passe do teste para iniciar o mesmo.
+assessment#:#tst_no_evaluation_data#:#Não há dados de avaliação disponíveis.
+assessment#:#tst_no_marks_defined#:#Não há notas definidas, por favor, crie pelo menos um esquema de notas simples!
 assessment#:#tst_no_question_selected_for_moving_to_qpl#:#Escolha pelo menos uma pergunta para adicionar a uma banco de perguntas!
-assessment#:#tst_no_question_selected_for_removal#:#Pontuar a melhor tentativa
-assessment#:#tst_no_scorable_qst_available#:#Resultados detalhados
-assessment#:#tst_no_tries#:#Pontuar a última tentativa
+assessment#:#tst_no_question_selected_for_removal#:#Por favor, verifique pelo menos uma pergunta para removê-la!
+assessment#:#tst_no_scorable_qst_available#:#Não há pergunta para pontuar disponível
+assessment#:#tst_no_tries#:#nenhuma
 assessment#:#tst_non_avail_pool_msg_status_lost#:#Este banco de perguntas deixou de estar disponível. Deixou de ser possível sincronizar perguntas deste banco de perguntas. Pode derivar um novo banco de perguntas a partir das perguntas contidas neste teste.
 assessment#:#tst_non_avail_pool_msg_status_trashed#:#Este banco de perguntas é destruído quando é removido do sistema permanentemente, o teste deixa de estar disponível para se poder sincronizar pergunta a partir dele.
 assessment#:#tst_non_avail_pools_table#:#Bancos de perguntas indisponíveis
 assessment#:#tst_non_available_pool_newly_derived#:#O(s) novo(s) banco(s) de perguntas foi/foram derivados com sucesso.
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>O atual modo de teste inclui perguntas nesta configuração que não estão atribuídas a nenhum banco de perguntas. Se mudar o modo de teste, essas perguntas perdem-se permanentemente.</b>
 assessment#:#tst_notification_explanation_admin#:#Recebe este e-mail de ILIAS porque ativou a notificação.
-assessment#:#tst_notify_manscoring_done_body_msg_reason#:# Respondidas erradamente
-assessment#:#tst_notify_manscoring_done_body_msg_subject#:#<b>As perguntas relacionadas com os objetivos de aprendizagem já aprovados foram respondidas em tentativas anteriores.</b><br /><br />Quer navegar para uma pergunta relacionada com um objetivo de aprendizagem já aprovado.<br />Pode optar:<br /><br />Se continuar, pode rever essas perguntas. Se mudar as suas respostas que foram adotadas de tentativas anteriores, pode também prejudicar o seu resultado do objetivo de aprendizagem.<br /><br />Se decidir não rever essas perguntas, pode voltar atrás. As perguntas serão consideradas na avaliação, em cada caso.
-assessment#:#tst_notify_manscoring_done_body_msg_topic#:#<b>As perguntas relacionadas com objetivos de aprendizagem já aprovados são opcionais.</b><br /><br />Quer navegar para uma pergunta que está relacionada com um objetivo de aprendizagem já aprovado.<br />Pode optar:<br /><br />Se continuar, pode rever essas perguntas. As suas respostas das tentativas anteriores não foram adotadas, uma vez que as novas perguntas aleatórias foram selecionadas para esta tentativa. Se rever estas perguntas, pode também prejudicar o seu resultado do objetivo de aprendizagem.<br /><br />Se decidir não rever essas perguntas, pode voltar atrás. Neste caso, estas perguntas não serão consideradas na avaliação.
+assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Você recebeu esta notificação, porque participou deste teste.
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Pontuação manual para teste "%s" cometido
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#Seu teste foi classificado manualmente:
 assessment#:#tst_nr_of_passes#:#Número de tentativas de teste
-assessment#:#tst_nr_of_tries#:#Pontuar múltiplas tentativas
+assessment#:#tst_nr_of_tries#:#Máx. Número de Passes
 assessment#:#tst_nr_of_tries_desc#:#Número máximo de tentativas que um participante pode fazer.
-assessment#:#tst_nr_of_tries_of_user#:#Percentagem de resolvido
+assessment#:#tst_nr_of_tries_of_user#:#Passes já concluídos
 assessment#:#tst_num_all_questions#:#Número de todas as perguntas
-assessment#:#tst_num_correct_answered_questions#:#Perguntas não respondidas
-assessment#:#tst_num_non_answered_questions_notseen#:#As perguntas não respondidas ficam no lugar
-assessment#:#tst_num_non_answered_questions_skipped#:#As perguntas que o utilizador analisou mas não respondeu ficam no seu lugar no teste e não serão bloqueadas no fim do teste.
+assessment#:#tst_num_correct_answered_questions#:#Respondido Corretamente
+assessment#:#tst_num_non_answered_questions_notseen#:#Não apresentado, ainda
+assessment#:#tst_num_non_answered_questions_skipped#:#Pulados
 assessment#:#tst_num_questions#:#Número de perguntas
 assessment#:#tst_num_selected_questions#:#Número das perguntas selecionadas
-assessment#:#tst_num_wrong_answered_questions#:#Perguntas não respondidas serão bloqueadas
+assessment#:#tst_num_wrong_answered_questions#:#Respondeu erroneamente
 assessment#:#tst_objective_oriented_test_pass_without_questions#:#A tentativa iniciada para o teste "%s" não contém qualquer pergunta.
 assessment#:#tst_objective_progress_header#:#Progresso dos objetivos de aprendizagem
 assessment#:#tst_objectives_progress_header#:#Progresso dos objetivos de aprendizagem
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Este teste aleatório está num estado irreparável porque foram eliminados um ou mais bancos de perguntas conectados. Por isso, os participantes já não podem fazer este teste.
-assessment#:#tst_optional_questions_confirmation_fixed_test#:#As perguntas que o utilizador analisou mas não respondeu serão bloqueadas para serem novamente apresentadas de forma automática no fim do teste.
-assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#Administrar o teste: comportamento da pergunta
+assessment#:#tst_optional_questions_confirmation_fixed_test#:#<b>Questões relacionadas a objetivos de aprendizado já aprovados foram respondidas em passes anteriores.</b><br /><br />Você quer navegar para uma pergunta, que se relaciona a um objetivo de aprendizado já aprovado.<br />Você pode escolher:<br /><br />Se você prosseguir, você pode trabalhar ou simplesmente rever estas perguntas. Se você mudar suas respostas que foram adotadas de passagens anteriores, você também pode degradar seu resultado objetivo de aprendizado.<br /><br />Se você decidir não trabalhar ou rever estas perguntas, você pode voltar atrás. As perguntas serão consideradas na avaliação em todos os casos.
+assessment#:#tst_optional_questions_confirmation_non_fixed_test#:#<b>Questões relacionadas a objetivos de aprendizado já aprovados são opcionais.</b><br /><br />Você quer navegar para uma pergunta, que se relaciona a um objetivo de aprendizado já aprovado.<br />Você pode escolher:<br /><br />Se você prossegue, você pode trabalhar nestas perguntas. Suas respostas de tentativas anteriores não foram adotadas, já que novas perguntas aleatórias foram selecionadas para esta tentativa. Ao trabalhar nestas perguntas, você também pode degradar seu resultado objetivo de aprendizado.<br /><br />Se você decidir não trabalhar nestas perguntas, você pode voltar atrás. Neste caso, estas perguntas não serão consideradas na avaliação.
 assessment#:#tst_participant#:#Participante
 assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#tst_participant_status#:#Estado do participante
 assessment#:#tst_participating_users#:#Utilizadores participantes
-assessment#:#tst_pass_best_pass#:#N.º
+assessment#:#tst_pass_best_pass#:#Marque a melhor tentativa
 assessment#:#tst_pass_best_pass_desc#:#A melhor tentativa do participante é a que será pontuada. Esta definição apenas se aplica quando é possível tentar mais do que uma vez o teste.
 assessment#:#tst_pass_deletion#:#Tentativas anteriores
 assessment#:#tst_pass_deletion_allowed#:#É permitido eliminar as tentativas anteriores
 assessment#:#tst_pass_deletion_not_allowed#:#NÃO é permitido eliminar as tentativas anteriores
-assessment#:#tst_pass_details#:#Pergunta(s) inserida(s)!
+assessment#:#tst_pass_details#:#Resultados detalhados
 assessment#:#tst_pass_details_header_lo_initial#:#Resultados de teste iniciais para os objetivos de aprendizagem<br />%s - %s
 assessment#:#tst_pass_details_header_lo_qualifying#:#Resultados de teste que se qualificam para os objetivos de aprendizagem<br />%s - %s
 assessment#:#tst_pass_details_overview_table_title#:#Vista geral detalhada para tentativa %s
 assessment#:#tst_pass_finished_on#:#Tentativa de teste concluída a
-assessment#:#tst_pass_last_pass#:#Pergunta(s) removida(s)!
+assessment#:#tst_pass_last_pass#:#Marque a última tentativa
 assessment#:#tst_pass_last_pass_desc#:#Será pontuada a última tentativa de um participante.
 assessment#:#tst_pass_overview_for_participant#:#Tentativas de teste para o participante: %s
 assessment#:#tst_pass_overview_header_lo_initial_all_objectives#:#Resultados de teste iniciais<br />para os objetivos de aprendizagem dentro do curso %s
 assessment#:#tst_pass_overview_header_lo_initial_per_objective#:#Resultados de teste iniciais<br />para os objetivos de aprendizagem %s dentro do curso %s
 assessment#:#tst_pass_overview_header_lo_qualifying_all_objectives#:#Resultados de teste que se qualificam<br />para os objetivos de aprendizagem dentro do curso %s
 assessment#:#tst_pass_overview_header_lo_qualifying_per_objective#:#Resultados de teste que se qualificam<br />para os objetivos de aprendizagem %s dentro do curso %s
-assessment#:#tst_pass_scoring#:#Que perguntas devem ser apresentadas?
+assessment#:#tst_pass_scoring#:#Pontuação de múltiplas tentativas
 assessment#:#tst_pass_waiting_enabled#:#Forçar tempo de espera entre tentativas
 assessment#:#tst_pass_waiting_info#:#Com esta opção, não é possível iniciar tentativas adicionais antes de o tempo definido ter decorrido relativamente à última tentativa concluída.
 assessment#:#tst_pass_waiting_time#:#Tempo de espera
-assessment#:#tst_passed#:#Teste e avaliação - Visão de impressão
+assessment#:#tst_passed#:#Passou
 assessment#:#tst_passes#:#Tentativas de teste
 assessment#:#tst_password#:#Palavra-passe de teste
-assessment#:#tst_password_details#:#Duração limite do teste
+assessment#:#tst_password_details#:#Se você definir uma senha de teste, todos os usuários com acesso a teste devem digitar esta senha para iniciar o teste.
 assessment#:#tst_password_enter#:#Inserir palavra-passe
 assessment#:#tst_password_entered_wrong_password#:#Não pode iniciar o teste porque inseriu a palavra-passe de teste errada!
 assessment#:#tst_password_form#:#Inserir palavra-passe de teste
-assessment#:#tst_password_introduction#:#Os participantes podem rever o processar apenas por um período de tempo especificado. O tempo começa a contar a partir do momento que um utilizador inicia o teste pela primeira vez. Suspender o teste não para o relógio. Se houver um número limitado de possíveis tentativas do teste, aparece uma função adicional para garantir tempo extra aos participantes no separador 'Participantes'.
-assessment#:#tst_percent_solved#:#Todas as perguntas, exceto as que forem respondidas corretamente
+assessment#:#tst_password_introduction#:#Este teste só pode ser acessado com uma senha de teste. Por favor, digite a senha de teste para iniciar o teste.
+assessment#:#tst_percent_solved#:#Porcentagem resolvida
 assessment#:#tst_please_select_target_for_pool_derives#:#Selecione um destinatário.
 assessment#:#tst_position#:#Pergunta %s de %s
 assessment#:#tst_position_without_total#:#Pergunta %s
-assessment#:#tst_postpone#:#Apenas as perguntas respondidas erradamente
-assessment#:#tst_postpone_off#:#A área de transferência de encomendas foi resposta.
-assessment#:#tst_postpone_off_desc#:#Marcado
-assessment#:#tst_postpone_on#:#Encomenda
-assessment#:#tst_postpone_on_desc#:#Seleção das perguntas do teste
-assessment#:#tst_presentation_properties#:#Lista de perguntas - Todas as perguntas de um banco de perguntas
-assessment#:#tst_presentation_settings_section#:#Os participantes revêm as perguntas de um banco de perguntas. As perguntas respondidas erradamente serão novamente apresentadas. As perguntas podem ser adicionadas e editadas num teste de funcionamento.
-assessment#:#tst_print#:#Conjunto fixo de perguntas
-assessment#:#tst_proceed#:#Todos os participantes recebem o mesmo conjunto de perguntas.
-assessment#:#tst_processing_time#:#Conjunto aleatório de perguntas
-assessment#:#tst_processing_time_desc#:#Cada participante obtém um conjunto diferente de perguntas. As perguntas são selecionadas à sorte de um ou mais bancos de perguntas.
+assessment#:#tst_postpone#:#Perguntas não respondidas
+assessment#:#tst_postpone_off#:#Perguntas não respondidas fiquem na posição
+assessment#:#tst_postpone_off_desc#:#Pergunta que os usuários apenas olham e se viram sem respondê-las, permanecerão em sua posição no teste e não serão questionados no final do teste.
+assessment#:#tst_postpone_on#:#Perguntas não respondidas serão enfileiradas
+assessment#:#tst_postpone_on_desc#:#Pergunta que os usuários apenas olham e viram sem respondê-las, será enfileiradas para ser apresentada novamente automaticamente ao final do teste.
+assessment#:#tst_presentation_properties#:#Administrando o teste: Comportamento da pergunta
+assessment#:#tst_presentation_settings_section#:#Apresentação
+assessment#:#tst_print#:#Teste e Avaliação - Vista impressão
+assessment#:#tst_proceed#:#Proceder
+assessment#:#tst_processing_time#:#Duração limitada do teste
+assessment#:#tst_processing_time_desc#:#Os participantes podem trabalhar através do teste apenas por um período de tempo especificado. O tempo está se afastando do momento em que um usuário inicia um teste pela primeira vez. A suspensão do teste não pára o relógio. Se o número de testes possíveis for limitado, uma característica adicional para conceder tempo extra aos participantes aparece na aba "Painel".
 assessment#:#tst_processing_time_duration#:#Duração máxima do teste
 assessment#:#tst_processing_time_duration_desc#:#Tempo máximo concedido para fazer o teste.
 assessment#:#tst_qbt_filter_question_title#:#Título da pergunta
 assessment#:#tst_qst_added_to_pool_p#:#As perguntas foram adicionadas com sucesso ao banco selecionado.
 assessment#:#tst_qst_added_to_pool_s#:#A pergunta foi adicionada com sucesso ao banco selecionado.
-assessment#:#tst_qst_order#:#Título da pergunta
+assessment#:#tst_qst_order#:#No.
 assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#A atribuição de perguntas de competência para testes com o modo "%s" deve ser efetuada no correspondente banco de perguntas:<br />%s<br /><br />A configuração dos valores limite deve ser realizada aqui no teste.
 assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#A atribuição de perguntas de competência para testes com o modo "%s" deve ser efetuada no(s) correspondente(s) banco(s) de perguntas:<br />%s<br /><br />A configuração dos valores limite deve ser realizada aqui no teste.
 assessment#:#tst_question#:#Pergunta
 assessment#:#tst_question_amount#:#Quantidade de perguntas
-assessment#:#tst_question_answer_status#:#Tem a certeza que quer remover a(s) seguinte(s) pergunta(s) do teste?
-assessment#:#tst_question_answer_status_all_non_correct#:#Este teste foi já feito por %s utilizador(es). Remover perguntas deste teste removerá todos os resultados de teste destes utilizadores. Tem a certeza que quer remover a(s) seguinte(s) pergunta(s) do teste?
+assessment#:#tst_question_answer_status#:#Quais perguntas devem ser apresentadas?
+assessment#:#tst_question_answer_status_all_non_correct#:#Todas as perguntas, exceto as respondidas corretamente
 assessment#:#tst_question_answer_status_non_answered#:#Perguntas não respondidas
-assessment#:#tst_question_answer_status_wrong_answered#:#Mostrar os resultados do teste quando terminar
+assessment#:#tst_question_answer_status_wrong_answered#:#Somente perguntas respondidas erroneamente
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Voltar à pergunta vocacional
 assessment#:#tst_question_feedback_edit_page#:#Editar conteúdo
 assessment#:#tst_question_hints_back_to_hint_list#:#Lista de sugestões de perguntas
@@ -1562,7 +1561,7 @@ assessment#:#tst_question_hints_form_label_hint_text#:#Sugestão
 assessment#:#tst_question_hints_form_saved_msg#:#A sugestão foi guardada com sucesso.
 assessment#:#tst_question_hints_index_column_label#:#Sugestão %s
 assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#A sugestão %s está guardada na área de transferência ordenação.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Repor duração para cada tentativa de teste
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#A prancheta de pedidos foi reajustada.
 assessment#:#tst_question_hints_paste_after_success_msg#:#A sugestão %s foi colada após a sugestão %s com sucesso.
 assessment#:#tst_question_hints_paste_before_success_msg#:#A sugestão %s foi colada antes da sugestão %s com sucesso.
 assessment#:#tst_question_hints_request_confirmation#:#Tem a certeza que quer pedir uma sugestão %s? Para esta sugestão será/serão deduzido(s) %s ponto(s).
@@ -1581,20 +1580,20 @@ assessment#:#tst_question_hints_table_link_edit_hint_points#:#Editar pontos
 assessment#:#tst_question_hints_table_no_items#:#Sem sugestões existentes
 assessment#:#tst_question_mark#:#Marcar esta pergunta
 assessment#:#tst_question_marked#:#Marcou esta pergunta
-assessment#:#tst_question_marker#:#A duração será reposta para o máximo definido para cada tentativa de teste. Esta definição requer tentativas de teste para se torna eficaz.
-assessment#:#tst_question_no#:#Resultados de teste
+assessment#:#tst_question_marker#:#Marcado
+assessment#:#tst_question_no#:#Ordem
 assessment#:#tst_question_not_from_pool_info#:#Nenhum banco
 assessment#:#tst_question_not_marked#:#A pergunta não está marcada
 assessment#:#tst_question_offer#:#Aceita esta amostra ou quer outra?
-assessment#:#tst_question_set_type#:#Imediatamente
-assessment#:#tst_question_set_type_dynamic#:#Os participantes podem aceder os seus resultados no separador ‘Informação’ imediatamente depois de iniciar a tentativa de teste e ainda enquanto estão a fazer o teste. Além disso, ILIAS apresenta-lhes os seus resultados de teste logo após a sua conclusão.
-assessment#:#tst_question_set_type_dynamic_desc#:#Os participantes poderão aceder aos resultados do seu teste no separador 'Informação' após a data definida.
-assessment#:#tst_question_set_type_fixed#:#Aos participantes é apresentado um botão ‘Mostrar resultados de teste’ no separador ‘Informação’. As opções nesta secção e nas secções que se seguem abaixo configuram qual a informação que deve ser incluída no relatório e quando estará acessível.
-assessment#:#tst_question_set_type_fixed_desc#:#Depois de terminar a tentativa de teste
-assessment#:#tst_question_set_type_random#:#ILIAS apresenta os resultados de teste depois de o teste estar concluído. Concluída a tentativa de teste, os participantes podem aceder aos resultados do seu teste no separador ‘Informação’, a qualquer momento.
-assessment#:#tst_question_set_type_random_desc#:#Voltar à mensagem introdutória
-assessment#:#tst_question_title#:#Mostrar sinal resultante
-assessment#:#tst_question_type#:#O sinal resultante será anexado ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’.
+assessment#:#tst_question_set_type#:#Seleção de perguntas de teste
+assessment#:#tst_question_set_type_dynamic#:#Fila de perguntas - Todas as perguntas de um grupo de perguntas
+assessment#:#tst_question_set_type_dynamic_desc#:#Os participantes trabalham com perguntas de um grupo de perguntas. As perguntas respondidas incorretamente serão apresentadas novamente. As perguntas podem ser adicionadas e editadas em um teste em andamento.
+assessment#:#tst_question_set_type_fixed#:#Conjunto fixo de perguntas
+assessment#:#tst_question_set_type_fixed_desc#:#Todos os participantes recebem o mesmo conjunto de perguntas.
+assessment#:#tst_question_set_type_random#:#Conjunto aleatório de perguntas
+assessment#:#tst_question_set_type_random_desc#:#Cada participante recebe um conjunto diferente de perguntas. As perguntas são selecionadas aleatoriamente a partir de um ou mais grupos de perguntas.
+assessment#:#tst_question_title#:#Título da pergunta
+assessment#:#tst_question_type#:#Tipo de pergunta
 assessment#:#tst_questions_hints_table_cmd_save_order#:#Guardar ordem
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cortar sugestão para ordenação área de transferência
 assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Apagar sugestão(sugestões)
@@ -1602,20 +1601,20 @@ assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Anexar sugest
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Pré-anexar sugestão ao selecionado
 assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Adicionar sugestão
 assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Repor sugestão para ordenação área de transferência
-assessment#:#tst_questions_inserted#:#Tipo de pergunta
-assessment#:#tst_questions_removed#:#Pontos
+assessment#:#tst_questions_inserted#:#Pergunta(s) inserida(s)!
+assessment#:#tst_questions_removed#:#Pergunta(s) removida(s)!
 assessment#:#tst_random_nr_of_questions#:#Quantas perguntas?
 assessment#:#tst_random_select_questionpool#:#Selecione o banco de perguntas para escolher as perguntas de
-assessment#:#tst_reached_points#:#Mostrar estado ‘Aprovado’/‘Falhado’
-assessment#:#tst_reached_points_of_max#:#A informação sobre o estado ‘Aprovado’/‘Falhado’ será anexada ao resultado resumido do teste. Os participantes podem aceder aos seus resultados de teste no separador ‘Informação’. <br />
+assessment#:#tst_reached_points#:#Pontos
+assessment#:#tst_reached_points_of_max#:#%s de %s
 assessment#:#tst_remove_mark#:#Remover esta marca
 assessment#:#tst_remove_question#:#Tem a certeza que quer remover a seguinte pergunta do teste?
 assessment#:#tst_remove_questions#:#Visão global das tentativas dos resultados do Teste
-assessment#:#tst_remove_questions_and_results#:#Melhor solução
+assessment#:#tst_remove_questions_and_results#:#Este teste já foi executado por %s usuário(s). A remoção de perguntas deste teste removerá todos os resultados de teste destes usuários. Você tem certeza de que deseja remover a(s) seguinte(s) pergunta(s) do teste?
 assessment#:#tst_report_after_date#:#Após uma data fixa do relatório da pontuação
 assessment#:#tst_report_after_first_question#:#Oferecer os resultados do teste quando tiver iniciado o teste
-assessment#:#tst_report_after_passed#:#Para cada pergunta será adicionalmente apresentada a melhor solução possível.
-assessment#:#tst_report_after_test#:#Resultados de teste para %s
+assessment#:#tst_report_after_passed#:#Oferecer resultados de teste quando o teste tiver sido aprovado
+assessment#:#tst_report_after_test#:#Oferecer resultados de teste quando o teste for concluído
 assessment#:#tst_report_never#:#Nenhuns resultados de teste disponíveis
 assessment#:#tst_reporting_date#:#Data
 assessment#:#tst_res_jump_to_participant_btn#:#Saltar
@@ -1623,184 +1622,184 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--Saltar para participante--
 assessment#:#tst_res_lo_objectives_header#:#Objetivos de aprendizagem relevantes
 assessment#:#tst_res_lo_try_header#:#Tentativa
 assessment#:#tst_res_lo_try_n#:#Tentativa %s
-assessment#:#tst_res_tab_msg_res_after_date#:#A sequência das perguntas é fixa
-assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Administrar o teste: Funcionalidade disponível para participantes
-assessment#:#tst_res_tab_msg_res_after_finish_test#:#Definições de sessão
-assessment#:#tst_res_tab_msg_res_after_taking_test#:#Administrar o teste: realização de teste
-assessment#:#tst_res_tab_msg_res_after_test_passed#:#Apenas se tiver respondido a todas as perguntas obrigatórias é que pode terminar o teste. As perguntas obrigatórias podem ser definidas na ‘Vista de lista’. A opção ‘Mostrar lista de perguntas’ devia estar ativada para os participantes.
-assessment#:#tst_reset_processing_time#:#Retomar o teste
-assessment#:#tst_reset_processing_time_desc#:#Configuração
+assessment#:#tst_res_tab_msg_res_after_date#:#Os resultados dos testes serão oferecidos aqui na seguinte data: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#Quando você fizer o teste, seus resultados serão oferecidos aqui na seguinte data: %s
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#Após a conclusão do teste, seus resultados serão oferecidos aqui.
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#Depois de fazer o teste, seus resultados serão oferecidos aqui.
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#Depois de passar no teste, seus resultados serão oferecidos aqui.
+assessment#:#tst_reset_processing_time#:#Reiniciar a duração para cada tentativa de teste
+assessment#:#tst_reset_processing_time_desc#:#A duração será redefinida para o máximo definido para cada passe de teste. Esta configuração requer múltiplas passagens de teste para se tornar efetiva.
 assessment#:#tst_result#:#Resultado de teste
 assessment#:#tst_result_pass#:#Resultados da tentativa de teste
-assessment#:#tst_result_user_name#:#Selecione um banco de perguntas para guardar a pergunta criada
+assessment#:#tst_result_user_name#:#Resultados de teste para %s
 assessment#:#tst_result_user_name_pass#:#Resultados da tentativa de teste %s para %s
-assessment#:#tst_results#:#Bancos de perguntas selecionados
-assessment#:#tst_results_access_always#:#Configurar conjunto aleatório de perguntas
-assessment#:#tst_results_access_always_desc#:#Regra para seleção de perguntas
+assessment#:#tst_results#:#Resultado do teste
+assessment#:#tst_results_access_always#:#Imediatamente
+assessment#:#tst_results_access_always_desc#:#Os participantes podem acessar seus resultados dentro da guia "Resultados" imediatamente após iniciar o teste e enquanto ainda estão fazendo o teste. Além disso, o ILIAS redirecionará para a guia 'Resultados' depois que o teste tiver sido terminado.
 assessment#:#tst_results_access_date#:#Data
-assessment#:#tst_results_access_date_desc#:#Nova regra para seleção de perguntas
+assessment#:#tst_results_access_date_desc#:#Os participantes têm acesso aos resultados de seus testes dentro de uma tabela de "Resultados" após a data definida.
 assessment#:#tst_results_access_enabled#:#Aceder a resultados de teste
-assessment#:#tst_results_access_enabled_desc#:#A pontuação manual para a tentativa de teste %s para %s foi guardada com sucesso.
-assessment#:#tst_results_access_finished#:#Pontos negativos
-assessment#:#tst_results_access_finished_desc#:#Para cada pergunta, os pontos negativos são definido para ‘0 pontos’
-assessment#:#tst_results_access_passed#:#Para o teste completo, um resultado negativo é definido para ‘0 pontos’
-assessment#:#tst_results_access_passed_desc#:#Perguntas de escolha múltipla com resposta vazia
+assessment#:#tst_results_access_enabled_desc#:#Uma aba 'Resultados' será oferecida aos participantes. As opções nesta seção e as seguintes abaixo configuram quais informações devem ser incluídas no relatório e quando serão acessíveis.
+assessment#:#tst_results_access_finished#:#Após a conclusão do Teste de Aprovação
+assessment#:#tst_results_access_finished_desc#:#ILIAS exibe os resultados do teste após a aprovação no teste ter sido concluída. Após terminar o passe de teste, os participantes podem acessar seus resultados dentro da guia "Resultados" a qualquer momento.
+assessment#:#tst_results_access_passed#:#Após o teste ter sido aprovado
+assessment#:#tst_results_access_passed_desc#:#ILIAS exibe os resultados do teste após o participante ter passado no teste. Após passarem no teste, os participantes podem acessar seus resultados dentro da guia "Resultados" a qualquer momento.
 assessment#:#tst_results_access_setting#:#Momento
 assessment#:#tst_results_aggregated#:#Resultados do teste agrupados
 assessment#:#tst_results_back_introduction#:#Guardar e pontuar respostas vazias (descontinuado)
 assessment#:#tst_results_back_overview#:#Voltar à vista geral de resultados
 assessment#:#tst_results_details_options#:#Mais detalhes a serem incluídos nos resultados de teste
-assessment#:#tst_results_grading_opt_show_mark#:#Uma opção adicional "Nenhuma das anteriores" permite guardar respostas vazias. As opções não marcadas serão pontuadas conforme definido na pergunta. Esta definição só é mantida para testes existentes e será abandonada numa versão ILIAS posterior.
-assessment#:#tst_results_grading_opt_show_mark_desc#:#Não guarda respostas vazias
-assessment#:#tst_results_grading_opt_show_status#:#As respostas sem qualquer opção marcada não são guardadas. Os participantes obtêm 0 pontos nestas perguntas.
-assessment#:#tst_results_grading_opt_show_status_desc#:#Relatório da pontuação
-assessment#:#tst_results_overview#:#Data do relatório da pontuação
-assessment#:#tst_results_print_best_solution#:#Procurar participantes
-assessment#:#tst_results_print_best_solution_info#:#A data do teste do(s) utilizador(es) selecionado(s) foi removida com sucesso
+assessment#:#tst_results_grading_opt_show_mark#:#Mostrar a nota resultante
+assessment#:#tst_results_grading_opt_show_mark_desc#:#A nota resultante será anexada ao resultado do teste sumário. Os participantes podem acessar os resultados de seus testes dentro da guia "Resultados".
+assessment#:#tst_results_grading_opt_show_status#:#Mostrar status 'Aprovado' / 'Reprovado'.
+assessment#:#tst_results_grading_opt_show_status_desc#:#As informações sobre o status 'Aprovado' / 'Reprovado' serão anexadas ao resultado do teste sumário. Os participantes podem acessar os resultados de seus testes dentro da guia 'Resultados'.
+assessment#:#tst_results_overview#:#Visão geral dos resultados dos testes
+assessment#:#tst_results_print_best_solution#:#Melhor solução
+assessment#:#tst_results_print_best_solution_info#:#Além disso, para cada pergunta, será apresentada a melhor solução possível.
 assessment#:#tst_results_tax_filters#:#Filtro de resultado
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Retomar teste com a seleção atual de perguntas
-assessment#:#tst_resume_test#:#Sequência
+assessment#:#tst_resume_test#:#Retomar teste
 assessment#:#tst_revert_changes#:#Anular edição
-assessment#:#tst_rnd_quest_cfg_tab_general#:#Perguntas obrigatórias
-assessment#:#tst_rnd_quest_cfg_tab_pool#:#Os participantes pedem sugestões para responder a uma pergunta. Com cada sugestão apresentada, o número máximo de pontos a obter diminui.
-assessment#:#tst_rnd_quest_set_cfg_general_form#:#Sugestões
-assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Suspender teste
-assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Os participantes têm um botão para parar o teste e continuá-lo mais tarde. Cuidado: Suspender o teste não para o relógio do tempo máximo para o teste.
+assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuração
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Bancos de perguntas selecionados
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Configurar Conjunto Aleatório de Perguntas
+assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regra para seleção de perguntas
+assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Nova regra para seleção de perguntas
 assessment#:#tst_save_and_create_new_rule#:#Guardar e adicionar nova regra
 assessment#:#tst_save_and_proceed#:#Guardar e continuar
 assessment#:#tst_save_comp_points#:#Guardar pontos de competência
 assessment#:#tst_save_manscoring_failed#:#Guardar a pontuação manual para a tentativa de teste %s falhou.
 assessment#:#tst_save_thresholds#:#Guardar limites
 assessment#:#tst_saved_manscoring_by_question_successfully#:#A pontuação manual para a pergunta %s para a tentativa de teste %s foi guardada com sucesso.
-assessment#:#tst_saved_manscoring_successfully#:#Mostrar ‘Tabela dos resultados detalhados do teste’ para cada tentativa de teste num determinado momento
-assessment#:#tst_score_cut_question#:#Mostrar resultados do teste
+assessment#:#tst_saved_manscoring_successfully#:#A pontuação manual para o passe de teste %s para %s foi salva com sucesso.
+assessment#:#tst_score_cut_question#:#Para cada pergunta os pontos negativos são definidos como '0 pontos'.
 assessment#:#tst_score_cut_question_desc#:#Os participantes podem pontuar resultados negativos para uma pergunta que teve pontos negativos para atribuir a opções de resposta individuais. Esta definição garante que, por cada pergunta, qualquer resultado negativo é definido para 0 pontos.
-assessment#:#tst_score_cut_test#:#Mostrar lista de perguntas
+assessment#:#tst_score_cut_test#:#Para o teste completo, um resultado negativo é definido como '0 pontos'.
 assessment#:#tst_score_cut_test_desc#:#Os participantes podem pontuar pontos negativos nas perguntas. Os pontos pontuados em todas as perguntas são somados. Apenas se o resultado geral do teste for negativo, este resultado geral será definido para 0 pontos. Com esta definição, os pontos negativos têm um forte peso.
-assessment#:#tst_score_cutting#:#O resumo dos resultados será anexado no momento indicado nas definições anteriores: Uma ‘Tabela dos resultados detalhados do teste’ mostra o título das perguntas e os pontos adquiridos numa determinada tentativa de teste. <br> Caso contrário, a tabela será apresentada depois da última tentativa possível de teste (definições no link ‘Geral’, opção ‘Número limite das tentativas de teste’) ou depois de o teste estar oficialmente terminado (definições no link ‘Geral’, opção ‘Tempo para acabar’). <br> Podem ser feitas outras definições sobre o conteúdo da ‘Tabela dos resultados detalhados do teste’ na secção ‘Outros detalhes a incluir nos resultados do teste’ deste formulário.
-assessment#:#tst_score_mcmr_questions#:#Visão da impressão dos resultados (só respostas)
-assessment#:#tst_score_mcmr_use_scoring_system#:#Se estiver selecionada, o conteúdo de ILIAS que colocou sobre uma pergunta usando a página do separador ‘Editar conteúdo’ não estará visível numa impressão. Se quiser poupar espaço no papel, selecione esta opção.
-assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Mostrar a melhor solução em ‘Resultados detalhados’
-assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Os participantes têm uma vista geral que compara as suas próprias respostas com as melhores soluções. Note que esta vista será apresentada nos 'Resultados detalhados' que pode ser acedida através do botão 'Mostrar resultados do teste' no separador 'Informação'. Não será apresentada na 'Lista de respostas' passível de ser impressa, apesar de as definições serem feitas aqui.
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Respostas pontuadas do participante
-assessment#:#tst_score_reporting#:#Para além da ‘Tabela dos resultados detalhados do teste’, o participante recebe um link para uma página por cada pergunta. Esta página contém a pergunta, a resposta fornecida pelo participante, informação sobre se a resposta estava correta e pontos adquiridos com esta resposta.
-assessment#:#tst_score_reporting_date#:#Feedback
-assessment#:#tst_search_users#:#É apresentado o feedback relacionado com as respostas fornecidas pelo participante. Note que esta opção só é válida se tiver ativado Respostas pontuadas do participante’ e se o feedback foi preparado juntamente com as perguntas em primeiro lugar.
-assessment#:#tst_select_questionpool#:#É criada uma vista geral de todas as perguntas com as respostas do respetivo participante. Esta lista aparece no separador ‘Informação’.
-assessment#:#tst_selected_user_data_deleted#:#‘Lista de respostas’ adicional para impressão
-assessment#:#tst_sequence#:#Variável para assinatura
-assessment#:#tst_sequence_fixed#:#A versão de impressão preparada contém um espaço de assinatura para o participante. Lembre-se de ativara ‘Tabela de resultados de teste detalhados’ para usar esta funcionalidade.
+assessment#:#tst_score_cutting#:#Pontos Negativos
+assessment#:#tst_score_mcmr_questions#:#Perguntas de múltipla escolha com resposta vazia
+assessment#:#tst_score_mcmr_use_scoring_system#:#Salvar e pontuar Respostas vazias (Depreciadas)
+assessment#:#tst_score_mcmr_use_scoring_system_desc#:#Uma opção adicional "Nenhuma das opções acima" permite salvar as respostas vazias. As opções desmarcadas serão pontuadas conforme definido na pergunta. Esta configuração é mantida apenas para testes existentes e será abandonada em uma versão ILIAS a seguir.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Não salve as respostas vazias
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#As respostas sem nenhuma opção marcada não são salvas. Os participantes ganham 0 pontos nestas perguntas.
+assessment#:#tst_score_reporting#:#Relatório de pontuação
+assessment#:#tst_score_reporting_date#:#Data de relatório de pontuação
+assessment#:#tst_search_users#:#Procurar Participantes
+assessment#:#tst_select_questionpool#:#Por favor, selecione um banco de perguntas para armazenar a pergunta criada
+assessment#:#tst_selected_user_data_deleted#:#Os dados de teste do(s) usuário(s) selecionado(s) foram removidos com sucesso
+assessment#:#tst_sequence#:#Sequência
+assessment#:#tst_sequence_fixed#:#A sequência de perguntas é fixa
 assessment#:#tst_sequence_postpone#:#As perguntas podem ser adiadas para o fim de uma tentativa de teste
-assessment#:#tst_sequence_properties#:#Conteúdo para recapitulação
-assessment#:#tst_session_settings#:#Se houver conteúdo para recapitulação atribuído às perguntas do teste, este conteúdo será apresentado na ‘Tabela dos resultados detalhados do teste’. Os participantes têm a oportunidade de uma aprendizagem corretiva. Para efetivar essa opção tem de ativar ‘Tabela dos resultados detalhados do teste’ em ‘Acesso aos resultados de teste’.
+assessment#:#tst_sequence_properties#:#Administrando o Teste: Funcionalidade disponível para os participantes
+assessment#:#tst_session_settings#:#Configurações da sessão
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#O teste foi definido para online porque as definições do modo de teste foram alteradas. Tem de definir um novo modo de teste relacionado com a configuração das perguntas antes de o teste poder ser definido para online novamente.
-assessment#:#tst_setting_enable_obligations_info#:#Mostrar classificação
-assessment#:#tst_setting_enable_obligations_label#:#Mistura a sequência das perguntas para cada participante e cada tentativa de teste.
-assessment#:#tst_setting_offer_hints_info#:#Configurar limites de competência
-assessment#:#tst_setting_offer_hints_label#:#Banco de perguntas
-assessment#:#tst_settings_conflict_message#:#Mostrar 'Lista de perguntas'
+assessment#:#tst_setting_enable_obligations_info#:#Somente se todas as perguntas obrigatórias forem respondidas, o teste poderá ser concluído. As perguntas compulsórias podem ser definidas na "Visão de lista". Para os participantes, a opção 'Mostrar lista de perguntas' deve ser ativada.
+assessment#:#tst_setting_enable_obligations_label#:#Perguntas Obrigatórias
+assessment#:#tst_setting_offer_hints_info#:#Os participantes solicitam dicas para responder a uma pergunta. Com cada dica apresentada, o número máximo de pontos a serem ganhos diminui.
+assessment#:#tst_setting_offer_hints_label#:#Dicas
+assessment#:#tst_settings_conflict_message#:#A configuração atual utiliza combinações de configurações que não são permitidas.
 assessment#:#tst_settings_header_execution#:#Administrar o teste: Acesso
 assessment#:#tst_settings_header_intro#:#Informação antes de iniciar o teste
-assessment#:#tst_settings_header_test_run#:#Os participantes podem ativar uma lista de perguntas de teste no lado esquerdo da pergunta atual. Para além disso, têm um botão ‘Lista de perguntas’. Nesse ecrã aparece o estado geral de todas as perguntas.
+assessment#:#tst_settings_header_test_run#:#Administrando o Teste: Execução do Teste
 assessment#:#tst_show_answer_sheet#:#Mostrar respostas
-assessment#:#tst_show_cancel#:#Regras para seleção aleatória de perguntas
-assessment#:#tst_show_cancel_description#:#Hora para começar
+assessment#:#tst_show_cancel#:#Suspender teste
+assessment#:#tst_show_cancel_description#:#Os participantes são apresentados com um botão para interromper a execução do teste e para continuar mais tarde. Cuidado: A suspensão do teste não interrompe a contagem regressiva da duração máxima do teste.
 assessment#:#tst_show_comp_results#:#Mostrar resultados de competência
-assessment#:#tst_show_pass_details#:#Iniciar nova tentativa de teste
-assessment#:#tst_show_pass_details_desc#:#Começar o teste
-assessment#:#tst_show_results#:#Tempo médio para analisar
-assessment#:#tst_show_side_list#:#Primeira visita
-assessment#:#tst_show_solution_answers_only#:#Última visita
-assessment#:#tst_show_solution_answers_only_desc#:#Percentagem do trabalho total já feito
-assessment#:#tst_show_solution_compare#:#Perguntas já processadas
-assessment#:#tst_show_solution_compare_desc#:#Resultados de testes em anotações
-assessment#:#tst_show_solution_details#:#Resultados de testes em pontos
-assessment#:#tst_show_solution_details_desc#:#Tempo para trabalhar
-assessment#:#tst_show_solution_feedback#:#Para terminar este teste, tem de responder a todas as perguntas obrigatórias (*).
-assessment#:#tst_show_solution_feedback_desc#:#Sistema de pontuação
-assessment#:#tst_show_solution_printview#:#Limites (em %)
-assessment#:#tst_show_solution_printview_desc#:#Começou o teste às: %s. O teu tempo máximo de processamento é %s.
-assessment#:#tst_show_solution_signature#:#Mostrar título da pergunta
-assessment#:#tst_show_solution_signature_desc#:#Títulos das perguntas e pontos disponíveis
-assessment#:#tst_show_solution_suggested#:#Apenas títulos das perguntas
-assessment#:#tst_show_solution_suggested_desc#:#Nem títulos das perguntas ou pontos disponíveis
-assessment#:#tst_show_summary#:#Tipo de teste
-assessment#:#tst_show_summary_description#:#Usar respostas anteriores
-assessment#:#tst_show_toplist#:#Os participantes poderão ver as suas respostas das tentativas de este anteriores. Esta opção tem de ser ativada por participantes individuais no separador Informação antes de começar uma tentativa de teste.
+assessment#:#tst_show_pass_details#:#Mostrar 'Tabela de Resultados Detalhados de Testes' para cada teste aprovado em um ponto selecionado no tempo
+assessment#:#tst_show_pass_details_desc#:#O resumo dos resultados será anexado no momento indicado na configuração acima: Uma "Tabela de resultados detalhados do teste" mostrará o título das perguntas e os pontos obtidos em uma determinada passagem no teste. <br> Além disso, a tabela será exibida após a última aprovação possível no teste (configuração no link 'Geral', opção 'Número Limite de Aprovações no Teste') ou após a conclusão oficial do teste (configuração no link 'Geral', opção 'Tempo de Conclusão'). <br> Outras configurações sobre o conteúdo da 'Tabela de Resultados Detalhados de Teste' podem ser feitas na seção 'Outros Detalhes a serem Incluídos nos Resultados de Teste' deste formulário.
+assessment#:#tst_show_results#:#Resultados dos testes
+assessment#:#tst_show_side_list#:#Mostrar lista de perguntas
+assessment#:#tst_show_solution_answers_only#:#Visão de impressão dos resultados (Somente respostas)
+assessment#:#tst_show_solution_answers_only_desc#:#Se for selecionado, o conteúdo do ILIAS que você colocar em torno de uma pergunta usando a página de registro 'Editar conteúdo' não será visível em uma impressão. Se você quiser economizar algum espaço de papel, selecione esta opção.
+assessment#:#tst_show_solution_compare#:#Mostrar a melhor solução em 'Resultados detalhados'.
+assessment#:#tst_show_solution_compare_desc#:#Os participantes são apresentados com uma visão geral comparando suas próprias respostas com as melhores soluções. Observe que esta visão será exibida no 'Resultados Detalhados' que pode ser acessado através do botão 'Mostrar Resultados de Testes', na guia 'Info'. Ela não será exibida na 'Lista de Respostas' imprimível, mesmo que a configuração seja feita aqui.
+assessment#:#tst_show_solution_details#:#Respostas pontuadas dos participantes
+assessment#:#tst_show_solution_details_desc#:#Como um suplemento à "Tabela de Resultados Detalhados de Testes", o participante recebe um link para uma página para cada pergunta. Esta página com link contém a pergunta, a resposta fornecida pelo participante, informações sobre se esta foi a resposta correta e os pontos marcados por esta resposta.
+assessment#:#tst_show_solution_feedback#:#Feedback
+assessment#:#tst_show_solution_feedback_desc#:#O feedback relacionado com as respostas fornecidas pelo participante é exibido. Por favor, tenha em mente que esta opção torna-se efetiva somente se você tiver ativado as 'Respostas pontuadas do participante' e o feedback foi preparado junto com as perguntas em primeiro lugar.
+assessment#:#tst_show_solution_printview#:#Lista de respostas adicionais para impressão
+assessment#:#tst_show_solution_printview_desc#:#É gerada uma visão geral de todas as perguntas com as respostas do respectivo participante. Esta lista será oferecida dentro da tabela 'Resultados' em uma sub tabela 'Revisão das respostas pontuadas'.
+assessment#:#tst_show_solution_signature#:#Local para Assinatura
+assessment#:#tst_show_solution_signature_desc#:#A versão impressa preparada conterá um espaço de assinatura para o participante. Por favor, lembre-se de ativar a 'Tabela de Resultados Detalhados de Testes' para usar esta funcionalidade.
+assessment#:#tst_show_solution_suggested#:#Conteúdo para Recapitulação
+assessment#:#tst_show_solution_suggested_desc#:#Se o conteúdo para recapitulação foi atribuído às perguntas do teste em primeiro lugar, este conteúdo será mostrado na 'Tabela de Resultados Detalhados do Teste' - tabela. Os participantes têm a oportunidade de aprender a remediar. Para que esta opção seja efetiva, é necessário ativar a 'Tabela de Resultados Detalhados de Testes' em 'Acesso aos Resultados de Testes'.
+assessment#:#tst_show_summary#:#Mostrar 'Lista de perguntas'.
+assessment#:#tst_show_summary_description#:#Os participantes podem ligar uma lista de perguntas de teste à esquerda da pergunta propriamente dita. Além disso, eles são apresentados com um botão 'Lista de perguntas'. Nessa tela, será exibido o status geral de todas as perguntas.
+assessment#:#tst_show_toplist#:#Classificação
 assessment#:#tst_shuffle_questions#:#Misturar perguntas
-assessment#:#tst_shuffle_questions_description#:#Usar as minhas respostas anteriores como valores por defeito nas futuras tentativas de teste
+assessment#:#tst_shuffle_questions_description#:#Mistura a sequência de perguntas para cada participante e cada tentativa de teste.
 assessment#:#tst_signature#:#Assinatura
 assessment#:#tst_single_answer_details#:#Mostrar resposta única
 assessment#:#tst_single_results#:#Resultados por pergunta
 assessment#:#tst_skill_triggerings_num_req_answers#:#Quantidade de respostas necessária para acionadores de competência
 assessment#:#tst_skill_triggerings_num_req_answers_desc#:#As competências não são ativadas antes de esta quantidade de perguntas respondidas contribuir para o cálculo do nível de competência.
 assessment#:#tst_skill_triggerings_num_req_answers_not_reached_warn#:#Pelo menos uma das competências abordadas por este teste não é ativada pela quantidade mínima exigida de perguntas.<br />A quantidade de perguntas exigida: %s
-assessment#:#tst_skl_level_thresholds_link#:#Resultados de teste iniciais para o objetivo de aprendizagem<br />%s
+assessment#:#tst_skl_level_thresholds_link#:#Configurar limites  de competência
 assessment#:#tst_skl_level_thresholds_missing#:#Faltam limites para as competências relevantes!
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Note que os resultados de competência a partir de um único teste tem uma importância limitada. Quanto mais informação é recolhida por competência, mais importância terá. Se houver competências únicas sem qualquer entrada, foi recolhida informação a menos.
 assessment#:#tst_skl_sub_tab_thresholds#:#Limites de competência
 assessment#:#tst_sol_comp_expressions#:#Expressões de comparação
 assessment#:#tst_solution_compare_cfg#:#Configuração para comparação de soluções
-assessment#:#tst_source_question_pool#:#Resultados de teste que se qualificam para o objetivo de aprendizagem<br />%s
-assessment#:#tst_src_quest_pool_def_list_table#:#Não foram assumidas respostas das tentativas anteriores, de modo que tem de analisar esta pergunta, caso contrário o seu resultado do objetivo de aprendizagem é afetado.
+assessment#:#tst_source_question_pool#:#Banco de Perguntas
+assessment#:#tst_src_quest_pool_def_list_table#:#Regras para seleção aleatória de perguntas
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Iniciar teste com a seleção atual de perguntas
-assessment#:#tst_start_new_test_pass#:#ilimitado
-assessment#:#tst_start_test#:#Material carregado
+assessment#:#tst_start_new_test_pass#:#Iniciar nova tentativa de teste
+assessment#:#tst_start_test#:#Iniciar o teste
 assessment#:#tst_started#:#Teste iniciado
-assessment#:#tst_starting_time#:#Esta pergunta refere-se a um objetivo de aprendizagem já aprovado.
+assessment#:#tst_starting_time#:#Hora de início
 assessment#:#tst_starting_time_desc#:#Momento após o qual o teste pode ser iniciado clicando no botão ‘Iniciar’, os participantes podem fornecer respostas às perguntas.
-assessment#:#tst_stat_result_atimeofwork#:#Não é suposto fazer este teste.
-assessment#:#tst_stat_result_firstvisit#:#Não possui o endereço de IP certo para aceder a este teste.
-assessment#:#tst_stat_result_lastvisit#:#Use o grau 'FX'
+assessment#:#tst_stat_result_atimeofwork#:#Tempo médio de trabalho
+assessment#:#tst_stat_result_firstvisit#:#Primeira visita
+assessment#:#tst_stat_result_lastvisit#:#Última visita
 assessment#:#tst_stat_result_mark_median#:#Marca de mediano
 assessment#:#tst_stat_result_median#:#Mediano do resultado do teste em pontos
-assessment#:#tst_stat_result_pworkedthrough#:#Processado
+assessment#:#tst_stat_result_pworkedthrough#:#Porcentagem da carga total de trabalho já trabalhada
 assessment#:#tst_stat_result_qmax#:#Número total de perguntas
-assessment#:#tst_stat_result_qworkedthrough#:#Código
+assessment#:#tst_stat_result_qworkedthrough#:#Perguntas já trabalhadas
 assessment#:#tst_stat_result_rank_median#:#Classificação de mediano
 assessment#:#tst_stat_result_rank_participant#:#Classificação do participante
-assessment#:#tst_stat_result_resultsmarks#:#Para reativar a sua conta pode usar um código de conta ILIAS.
-assessment#:#tst_stat_result_resultspoints#:#Código de conta
-assessment#:#tst_stat_result_timeofwork#:#A sua conta foi reativada. Faça novamente login por razões de segurança.
+assessment#:#tst_stat_result_resultsmarks#:#Resultados dos testes em notas
+assessment#:#tst_stat_result_resultspoints#:#Resultados dos testes em pontos
+assessment#:#tst_stat_result_timeofwork#:#Hora do trabalho
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes
 assessment#:#tst_submit_results#:#Sim, eu confirmo a submissão.
 assessment#:#tst_tab_competences#:#Competências
 assessment#:#tst_tab_results_objective_oriented#:#Resultados por objetivos de aprendizagem
 assessment#:#tst_tab_results_pass_oriented#:#Resultados por tentativas
-assessment#:#tst_tbl_col_answered_questions#:#Nova conta ILIAS
-assessment#:#tst_tbl_col_final_mark#:#Migrar conta de utilizador existente
-assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
-assessment#:#tst_tbl_col_passed_status#:#Migração
-assessment#:#tst_tbl_col_percent_result#:#Criar nova conta de utilizador
-assessment#:#tst_tbl_col_reached_points#:#Escolha esta opção se nunca se registou em ILIAS. Será criada uma nova conta.
-assessment#:#tst_tbl_col_scored_pass#:#Se você já possui uma conta de ILIAS insira o nome de utilizador e a palavra-passe para migrar os seus dados pessoais (correio, resultados do teste...).
-assessment#:#tst_tbl_invited_users#:#Editor do ecrã login
-assessment#:#tst_tbl_participants#:#Codificação dos caracteres
-assessment#:#tst_tbl_results_grades#:#Selecione a codificação dos caracteres para a comunicação com o servidor Radius. Se não tiver a certeza, selecione UTF-8.
-assessment#:#tst_test_contains_obligatory_questions#:#Sincronização usando LDAP
+assessment#:#tst_tbl_col_answered_questions#:#Perguntas respondidas
+assessment#:#tst_tbl_col_final_mark#:#Nota
+assessment#:#tst_tbl_col_pass_finished#:#Tentativa concluído
+assessment#:#tst_tbl_col_passed_status#:#Avaliação
+assessment#:#tst_tbl_col_percent_result#:#Porcentagem resolvida
+assessment#:#tst_tbl_col_reached_points#:#Pontos Alcançados
+assessment#:#tst_tbl_col_scored_pass#:#Tentativa pontuado
+assessment#:#tst_tbl_invited_users#:#Participantes selecionados manualmente
+assessment#:#tst_tbl_participants#:#Participantes
+assessment#:#tst_tbl_results_grades#:#Resultados e notas
+assessment#:#tst_test_contains_obligatory_questions#:#Para terminar este teste, você tem que responder a todas as perguntas obrigatórias (*).
 assessment#:#tst_test_result#:#Resultado de teste
-assessment#:#tst_text_count_system#:#Se estiver ativada, a sincronização das contas do utilizador e das atribuições das funções é efetuada usando uma configuração LDAP existente.
-assessment#:#tst_threshold#:#Criação automática de contas de utilizador
-assessment#:#tst_time_already_spent#:#Cria automaticamente contas de utilizador ILIAS, para utilizadores autenticados com sucesso contra Radius, sem ter ainda uma conta ILIAS.
-assessment#:#tst_time_already_spent_left#:#Saiu %s.
-assessment#:#tst_title_output#:#Migração de conta:
-assessment#:#tst_title_output_full#:#Ative esta opção para permitir aos utilizadores migrar as suas contas ILIAS existentes para a autenticação Radius.
-assessment#:#tst_title_output_hide_points#:#Verifique e edite a configuração SimpleSAMLphp em '<strong>%s</strong>' e '<strong>%s</strong>' (diretório externo de dados). Não se esqueça de adicionar os caminhos à sua chave privada e certificado no ficheiro authsources.php. Leia o manual para mais explicações %s.<br />Federação metadados URL: %s
-assessment#:#tst_title_output_no_title#:#Sincronização de utilizador
+assessment#:#tst_text_count_system#:#Sistema de Pontuação
+assessment#:#tst_threshold#:#Limites (em %)
+assessment#:#tst_time_already_spent#:#Você começou o teste em: %s. Seu tempo máximo de processamento é de: %s.
+assessment#:#tst_time_already_spent_left#:#Você ainda tem %s.
+assessment#:#tst_title_output#:#Mostrar título da pergunta
+assessment#:#tst_title_output_full#:#Títulos de perguntas e pontos disponíveis
+assessment#:#tst_title_output_hide_points#:#Somente títulos de perguntas
+assessment#:#tst_title_output_no_title#:#Nem títulos de perguntas nem pontos disponíveis
 assessment#:#tst_trigger_result_refreshing#:#Os resultados têm de ser recalculados. Pode demorar algum tempo.
-assessment#:#tst_type#:#Criação automática de contas de utilizador
+assessment#:#tst_type#:#Tipo de teste
 assessment#:#tst_unchanged_answer_is_correct#:#A resposta predefinida está correta
 assessment#:#tst_unchanged_order_is_correct#:#A ordem predefinida está correta
-assessment#:#tst_use_previous_answers#:#Cria automaticamente contas de utilizador ILIAS, para utilizadores autenticados com sucesso contra CAS, sem ter ainda uma conta ILIAS.
-assessment#:#tst_use_previous_answers_description#:#Ativar editor para idiomas selecionados
-assessment#:#tst_use_previous_answers_user#:#O editor de páginas ativo foi modificado
+assessment#:#tst_use_previous_answers#:#Use Respostas Anteriores
+assessment#:#tst_use_previous_answers_description#:#Os participantes serão apresentados com suas respostas de testes anteriores. Esta opção deve ser ativada pelos participantes individuais no Info-tab antes de iniciar um teste de aprovação.
+assessment#:#tst_use_previous_answers_user#:#Usar minhas respostas anteriores como valores padrão em futuros testes de aprovação
 assessment#:#tst_user_finished_test#:#Utilizador terminou o teste (%s)
 assessment#:#tst_view_competence_assign#:#Ver propriedades de atribuição
-assessment#:#tst_virtual_pass_header_lo_initial#:#Usar o editor de páginas ILIAS
-assessment#:#tst_virtual_pass_header_lo_qualifying#:#Usar o editor Rich-Text
+assessment#:#tst_virtual_pass_header_lo_initial#:#Resultados do Teste Inicial para o Objetivo de Aprendizado<br />%s
+assessment#:#tst_virtual_pass_header_lo_qualifying#:#Resultados do Teste de Qualificação para o Objetivo de Aprendizagem<br />%s
 assessment#:#tst_wf_info_answer_adopted_from_prev_pass#:#Foi adotada a sua resposta de uma tentativa anterior.
-assessment#:#tst_wf_info_answer_not_adopted#:#Número máximo de itens na lista ‘Quem está online?’. Esta definição tem apenas uma influência mínima no desempenho quando apresenta a ferramenta na barra superior.
-assessment#:#tst_wf_info_optional_question#:#Tarefas secundárias
+assessment#:#tst_wf_info_answer_not_adopted#:#Não houve resposta das tentativas anteriores adotadas, então você tem que trabalhar através desta pergunta, pois caso contrário seu resultado objetivo de aprendizado será degradado.
+assessment#:#tst_wf_info_optional_question#:#Esta pergunta está relacionada a um objetivo de aprendizagem já aprovado.
 assessment#:#tst_you_have_to_answer_this_question#:#Tem de responder a esta pergunta para terminar o teste.
 assessment#:#tst_your_answer_was#:#A sua resposta foi
 assessment#:#tst_your_answers#:#Estas são as respostas que deu nas seguintes perguntas.
@@ -1834,15 +1833,15 @@ assessment#:#unfinished_passes#:#Tentativas não acabadas
 assessment#:#unit#:#Unidade
 assessment#:#unit_placeholder#:#** Nova unidade **
 assessment#:#units#:#Unidades
-assessment#:#unlimited#:#Conta Mozilla Backpack (e-mail)
+assessment#:#unlimited#:#ilimitado
 assessment#:#unlock#:#Desbloquear
-assessment#:#uploaded_material#:#E-mail de contacto
-assessment#:#use_ects_fx#:#Aprovar posting
+assessment#:#uploaded_material#:#Material carregado
+assessment#:#use_ects_fx#:#Use o grau "FX
 assessment#:#use_previous_solution#:#Usar solução anterior
 assessment#:#use_previous_solution_advice#:#A solução apresentada para a pergunta é a que deu anteriormente. Tem de confirmar a adoção da solução, se quiser usá-la sem qualquer alteração.
 assessment#:#user_has_finished_a_test#:#Um participante acabou um teste.
-assessment#:#user_not_invited#:#Copiar bibliografia
-assessment#:#user_wrong_clientip#:#Mostrar como link na lista
+assessment#:#user_not_invited#:#Não é suposto você fazer este teste.
+assessment#:#user_wrong_clientip#:#Você não tem o endereço IP correto para acessar este teste.
 assessment#:#value_between_x_and_y#:#O valor deve estar entre %s e %s
 assessment#:#values#:#Valores
 assessment#:#variable_x#:#Variável %s
@@ -1855,14 +1854,13 @@ assessment#:#without_solutions_participants#:#Participantes sem soluções
 assessment#:#worked_through#:#Escrito por
 assessment#:#working_time#:#Tempo de trabalho
 assessment#:#you_received_a_of_b_points#:#Recebeu %s de %s possíveis pontos
-auth#:#auth_account_code#:#foi criado o seguinte posting de blog.
-auth#:#auth_account_code_info#:#foi atualizado o seguinte posting de blog.
-auth#:#auth_account_code_title#:#Link para posting de blog
-auth#:#auth_account_code_used#:#Está a receber este e-mail porque ativou notificações para o blog mencionado acima.
-auth#:#auth_account_migration#:#Para além da lista de ‘Contribuidores’, os utilizadores com uma das seguintes funções podem também adicionar postings: %s
-auth#:#auth_account_migration_keep#:#Contribuidores de blog
-auth#:#auth_account_migration_name#:#O posting é retirado e deixa de ser publicado.
-auth#:#auth_account_migration_new#:#Aprovar postings
+auth#:#auth_account_code#:#Código
+auth#:#auth_account_code_info#:#Para reativar sua conta, você pode usar um código de conta ILIAS.
+auth#:#auth_account_code_title#:#Código da conta
+auth#:#auth_account_code_used#:#Sua conta foi reativada. Por favor, faça o login mais uma vez por razões de segurança.
+auth#:#auth_account_migration#:#Nova conta ILIAS
+auth#:#auth_account_migration_name#:#Migração
+auth#:#auth_account_migration_new#:#Criar nova conta de usuário
 auth#:#auth_activation_code_success#:#A sua conta foi reativada. Pode agora fazer login em ILIAS.
 auth#:#auth_allow_local_info#:#Se estiver ativada, é ainda possível fazer um autenticação local contra a base de dados ILIAS (com um login local/palavra-passe) para essas contas de utilizador, cujo modo de autenticação está definido para SAML.
 auth#:#auth_auth_settings#:#Definições
@@ -1870,25 +1868,25 @@ auth#:#auth_err_expired#:#A sua sessão foi desativada por causa de inatividade.
 auth#:#auth_err_invalid_user_account#:#A autenticação falhou devido a uma falha interna.
 auth#:#auth_err_ldap_exception#:#A autenticação falhou devido a uma falha interna de autenticação (LDAP).
 auth#:#auth_err_login_attempts_deactivation#:#A conta de utilizador foi desativada devido a tentativas de login erradas.
-auth#:#auth_info_add#:#Os postings são publicados apenas depois de aprovados por um utilizador com permissão ‘Editar definições’ para este blog.
-auth#:#auth_info_migrate#:#Ativar RSS
+auth#:#auth_info_add#:#Escolha esta opção se você nunca se registrou no ILIAS. Uma nova conta será criada.
+auth#:#auth_info_migrate#:#Se você já possui uma conta ILIAS, digite o nome de usuário e a senha para migrar seus dados pessoais (correio, resultados de testes...).
 auth#:#auth_ldap_server_ds#:#Servidor LDAP
-auth#:#auth_login_editor#:#Este blog faz parte da atribuição "%s" do exercício "%s".
-auth#:#auth_oidc#:#A sua última entrega foi a %s. Verifique o ficheiro de exportação: %s
-auth#:#auth_oidc_mapping_table#:#Número total de meses apresentados
-auth#:#auth_oidc_profile#:#Os meses adicionais serão apresentados com o seu número total de postings.
+auth#:#auth_login_editor#:#Editor de tela de login
+auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc_mapping_table#:#Atribuição de dados de usuário ILIAS a atributos OpenId Connect
+auth#:#auth_oidc_profile#:#Atribuição dos dados do perfil
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
-auth#:#auth_oidc_role_mapping_table#:#O posting ainda não foi aprovado
-auth#:#auth_oidc_roles#:#Apenas os postings do mês selecionado é que são apresentados no bloco 'Postings'. O mês pode ser mudado por dropdown.
-auth#:#auth_oidc_settings#:#O posting está publicado.
-auth#:#auth_oidc_settings_activation#:#Desativar notificação
-auth#:#auth_oidc_settings_client_id#:#Ativar notificação
-auth#:#auth_oidc_settings_custom_session_duration#:#Número de utilizadores que anexaram notas ou comentários a este posting
-auth#:#auth_oidc_settings_custom_session_duration_option#:#O posting foi apagado.
-auth#:#auth_oidc_settings_custom_session_duration_type#:#Tem a certeza que quer apagar o seguinte posting?
-auth#:#auth_oidc_settings_default_role#:#O tamanho predefinido é de 1370x100 pixéis.
-auth#:#auth_oidc_settings_default_role_info#:#Retirar publicação
-auth#:#auth_oidc_settings_img#:#Objetos de reserva
+auth#:#auth_oidc_role_mapping_table#:#Atribuição de funções do ILIAS a atributos OpenId Connect
+auth#:#auth_oidc_roles#:#Atribuição de funções
+auth#:#auth_oidc_settings#:#Configurações do servidor
+auth#:#auth_oidc_settings_activation#:#Habilitar OpenID Connect
+auth#:#auth_oidc_settings_client_id#:#Client-ID
+auth#:#auth_oidc_settings_custom_session_duration#:#Duração da sessão
+auth#:#auth_oidc_settings_custom_session_duration_option#:#Duração da própria sessão
+auth#:#auth_oidc_settings_custom_session_duration_type#:#Configurações para a duração da sessão
+auth#:#auth_oidc_settings_default_role#:#Atribuição de funções
+auth#:#auth_oidc_settings_default_role_info#:#Favor selecionar um papel global para os novos usuários do ILIAS
+auth#:#auth_oidc_settings_img#:#Foto
 auth#:#auth_oidc_settings_img_file_info#:#Tem a certeza que quer cancelar as seguintes reservas?
 auth#:#auth_oidc_settings_le#:#Reservas
 auth#:#auth_oidc_settings_login_option_default#:#Objetos de reserva
@@ -4345,8 +4343,8 @@ common#:#obj_itgr#:#Grupo de itens
 common#:#obj_ldap_desc#:#Defina as configurações globais do LDAP aqui.
 common#:#obj_lm#:#Módulo de Aprendizagem ILIAS
 common#:#obj_lm_duplicate#:#Copiar módulo de aprendizagem
-common#:#obj_lng#:#Língua
-common#:#obj_lngf#:#Línguas
+common#:#obj_lng#:#Idioma
+common#:#obj_lngf#:#Idiomas
 common#:#obj_lngf_desc#:#Gerencie os idiomas do seu sistema aqui.
 common#:#obj_logs#:#Logging
 common#:#obj_logs_desc#:#Definições gerais Logging
