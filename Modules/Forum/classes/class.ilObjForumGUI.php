@@ -881,6 +881,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $tpl->setVariable('DRAFT_ANCHOR', 'draft_' . $draft->getDraftId());
 
                 $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+                $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
                 if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
                     (int) $_GET['ref_id'],
                     $draft->getPostAuthorId()
@@ -1104,6 +1105,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+        $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
         $isModerator = ilForum::_isModerator((int) $authorinfo->getAuthor()->getId(), $node->getPosAuthorId());
         if ($authorinfo->getAuthor()->getId() && $isModerator) {
             $authorRole = $this->lng->txt('frm_moderator_n');
@@ -5056,7 +5058,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             $actions['reply_to_postings'] = $this->ctrl->getLinkTarget(
                                 $this,
                                 'viewThread',
-                                $node->getId()
+                                'reply_' . $node->getId()
                             );
                         }
 
@@ -5439,7 +5441,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
         }
 
-        $tpl->setVariable('REPLY_ANKER', $this->objCurrentPost->getId());
+        $tpl->setVariable('REPLY_ANKER', 'reply_' .$this->objCurrentPost->getId());
         $oEditReplyForm = $this->getReplyEditForm();
         if ($action !== 'editdraft') {
             switch ($this->objProperties->getSubjectSetting()) {
