@@ -864,9 +864,10 @@ class ilPropertyFormGUI extends ilFormGUI
                 $this->tpl->setCurrentBlock("sub_prop_start");
                 $this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
                 $this->tpl->setVariable("PROPERTY_CLASS", "il_" . $item->getType());
-                if ($item->getType() != "non_editable_value") {
-                    $this->tpl->setVariable("LAB_ID", $item->getFieldId());
+                if ($item->getType() != "non_editable_value" && $item->getFormLabelFor() != "") {
+                    $this->tpl->setVariable("FOR_ID", ' for="'.$item->getFormLabelFor().'" ');
                 }
+                $this->tpl->setVariable("LAB_ID", $item->getFieldId());
                 $this->tpl->parseCurrentBlock();
             } else {
                 // required
@@ -889,9 +890,10 @@ class ilPropertyFormGUI extends ilFormGUI
                 
                 $this->tpl->setCurrentBlock("std_prop_start");
                 $this->tpl->setVariable("PROPERTY_TITLE", $item->getTitle());
-                if ($item->getType() != "non_editable_value") {
-                    $this->tpl->setVariable("LAB_ID", $item->getFieldId());
+                if ($item->getType() != "non_editable_value" && $item->getFormLabelFor() != "") {
+                    $this->tpl->setVariable("FOR_ID", ' for="'.$item->getFormLabelFor().'" ');
                 }
+                $this->tpl->setVariable("LAB_ID", $item->getFieldId());
                 if ($this->getHideLabels()) {
                     $this->tpl->setVariable("HIDE_LABELS_STYLE", " ilFormOptionHidden");
                 }
