@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var glyph = $(".mm_background_tasks > a");
-    var refresh_uri = $(".mm_background_tasks").attr('refresh-uri');
+    var refresh_uri = $(".mm_background_tasks").data('refreshUri');
+
     var refresh = function () {
         var popover_content = $(".bt-popover-content");
         var popover_container = popover_content.parent();
