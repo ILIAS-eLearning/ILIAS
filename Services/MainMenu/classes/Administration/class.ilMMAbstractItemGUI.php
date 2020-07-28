@@ -79,6 +79,8 @@ class ilMMAbstractItemGUI
         $this->http = $DIC->http();
         $this->ui = $DIC->ui();
         $this->access = new ilObjMainMenuAccess();
+
+        $this->lng->loadLanguageModule('form');
     }
 
 

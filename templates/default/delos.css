@@ -8278,8 +8278,11 @@ ul.dropdown-menu > li > .btn:focus {
   border-radius: 0px;
   background-color: #FFF9BC;
 }
-.il-input-file .il-input-file-fileinfo {
+.il-input-file .il-input-file-fileinfo,
+.il-input-file .il-input-file-error {
   padding: 6px 12px;
+}
+.il-input-file .il-input-file-fileinfo {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
