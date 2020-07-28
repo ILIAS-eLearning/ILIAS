@@ -1516,6 +1516,7 @@ class ilObjectListGUI
                 $this->tpl->setCurrentBlock("item_title_linked");
                 $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
                 $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
+                $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
                 $this->tpl->parseCurrentBlock();
