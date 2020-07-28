@@ -98,7 +98,7 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
 
     /**
      * @param ilGroupedListGUI $gl
-     * @param hasTitle         $child
+     * @param hasTitle|isItem         $child
      * @param string           $identifier
      */
     protected function addEntry(ilGroupedListGUI $gl, hasTitle $child, string $identifier)
@@ -106,7 +106,7 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
         $target = $child instanceof hasAction ? ($child->isLinkWithExternalAction() ? "_blank" : "_top") : "_top";
         $href = ($child instanceof hasAction) ? $child->getAction() : "#";
         $tooltip = ilHelp::getMainMenuTooltip($identifier);
-        $a_id = "mm_" . $identifier;
+        $a_id = "mm_" . $child->getProviderIdentification()->getInternalIdentifier();
         $gl->addEntry(
             $child->getTitle(),
             $href,
