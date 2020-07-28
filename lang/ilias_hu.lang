@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.0.x 2020-05-14
+* @version	6.x 2020-07-28
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14,13 +14,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-rbac#:#rbac_form_copy_roles_adjust_type#:#A jogosultságok típusának beállítása
+rbac#:#rbac_form_copy_roles_adjust_type#:#A jogosultságok típusának beállítása###XXX
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Jogosultságok hozzáadása
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Másolási jogosultságok
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Jogosultságok eltávolítása
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Hozzáadja a kiválasztott globális szerepminta MARKED jogait a helyi jogosultságokhoz.
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Hozzáadja a kiválasztott globális szerepminta KIVÁLASZTOTT jogait a helyi jogosultságokhoz. A ki nem választott jogosultságokat figyelmen kívül hagyjuk.
 rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#A kiválasztott globális szerepminta minden jogosultsága felülírja a helyi jogosultságokat.
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Eltávolítja a kiválasztott globális szerepminta MARKED jogosultságát a helyi jogosultságokból.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Eltávolítja a kiválasztott globális szerepminta KIVÁLASZTOTT jogosultságát a helyi jogosultságokból.
 rbac#:#rbac_form_copy_roles_adjust_button#:#Jogosultság beállítása
 rbac#:#rbac_form_copy_roles_ce_add_yes#:#Csak a kiválasztott jogosultságokat adja hozzá a meglévő objektumokhoz
 rbac#:#rbac_form_copy_roles_ce_add_no#:#NE módosítsa a meglévő objektumokat
@@ -583,10 +583,10 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#'%s' teszt ind
 assessment#:#tst_dyn_quest_set_pool_deleted#:#A jelenleg beállított '%s' kérdésgyűjteményt törölték.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#Ez a véletlen teszt nem helyreállítható állapotban van, mert egy vagy több kérdésgyűjteményét törölték. Ezt a tesztet nem tölthetik ki többé.
 assessment#:#solution_contain_keywords#:#A pontozás a következő kulcsszavak előfordulása alapján történik:
-assessment#:#ass_mc_sel_lim_hint#:#%s darabot jelöljön ki %s válaszból!
-assessment#:#ass_mc_sel_lim_exhausted_hint#:#Ne jelöljön ki %s darabnál többet %s válaszból!
+assessment#:#ass_mc_sel_lim_hint#:#Maximum %s választ jelöljön ki %s válaszlehetőségből!
+assessment#:#ass_mc_sel_lim_exhausted_hint#:#Ne jelöljön ki %s válasznál többet %s válaszlehetőségből!
 assessment#:#ass_mc_sel_lim_setting#:#Válaszlehetőségek korlátja
-assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozható a válaszadók választható válaszainak száma.
+assessment#:#ass_mc_sel_lim_setting_desc#:#Ezzel a beállítással korlátozható a válaszadók válaszainak száma.
 assessment#:#essay_scoring_mode#:#Pontozás módja
 assessment#:#essay_scoring_mode_without_keywords#:#Nincs automatikus pontozás
 assessment#:#essay_scoring_mode_without_keywords_desc#:#Csak a tutor manuális pontozásával kerülnek megadásra pontok.
@@ -3722,7 +3722,7 @@ common#:#server_software#:#Szerverszoftver
 common#:#server#:#Szerver
 rbac#:#sess_copy#:#A felhasználó másolhatja az eseményt
 common#:#sess#:#Esemény
-common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét! Amennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt.  Üdvözlettel: %3$s.
+common#:#session_reminder_alert#:#Munkamenete lejár %1$s múlva, %2$s-kor. Kattintson az OK gombra, ha folytatni szeretné munkamenetét! Amennyiben a Mégsem gombra kattint, nem kap több emlékeztetőt jelenlegi munkamenete alatt. Üdvözlettel: %3$s.
 common#:#session_reminder_info#:#Ha be van kapcsolva, emlékeztető üzenetet fog kapni, mielőtt böngészőjének online munkamenete lejárna.
 common#:#session_reminder_lead_time_info#:#Adja meg percben a munkamenet-emlékeztetőhöz a rendelkezésre álló időt. Az emlékeztető egy figyelmeztetést jelenít meg megadott idővel a munkamenet lejárta előtt. A javasolt érték 5 (perc).<br/>A felhasználói munkamenet jelenlegi hossza %s.
 common#:#session_reminder_lead_time#:#Rendelkezésre álló idő
@@ -4681,7 +4681,7 @@ content#:#cont_text_tex#:#LaTeX-kód:
 content#:#cont_text_xln#:#Külső link:
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Idő
-content#:#cont_toc_mode#:#Tartalomjegyzék-elemek
+content#:#cont_toc_mode#:#Tartalom
 content#:#cont_toc#:#Tartalomjegyzék
 content#:#cont_top#:#Felül
 content#:#cont_total_time#:#Teljes idő
@@ -5428,7 +5428,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához. 
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket és a megjegyzéseket mentettük.
@@ -6784,6 +6784,7 @@ pd#:#pd_personal_items_default_view_info#:#Munkaasztal alapértelmezett nézete.
 pd#:#pd_personal_items_default_view#:#Alapértelmezett nézet
 pd#:#pd_view_select_at_least_one#:#Legalább egy nézetet ki kell választania vagy a 'Kigyűjtött objektumok' és/vagy a 'Tagságaim' közül.
 crs#:#crs_timing_err_start_end#:#A záró dátum nem lehet korábbi, mint a nyitó dátum.
+ps#:#ps_participants_list_courses#:#Résztvevők felsorolásának bekapcsolása a kurzus tagok képtárában
 ps#:#ps_agreement_accepted#:#Felhasználói megállapodást elfogadta
 ps#:#ps_auto_https_description#:#Ha be van kapcsolva, az ILIAS megpróbálja felismerni a HTTP állapotát az alább megadott fejlécérték elemzésével.
 ps#:#ps_auto_https_header_name#:#Fejlécnév
@@ -11167,8 +11168,8 @@ dateplaner#:#cal_ch_delete_booking#:#Foglalás törlése
 dateplaner#:#cal_ch_reject_booking#:#Foglalás lemondása
 dateplaner#:#cal_ch_bookings_tbl#:#Foglalat események
 dateplaner#:#cal_ch_app_bookings#:#Foglalások
-dateplaner#:#cal_ch_canceled_bookings#:#A kiválasztott foglalásokat sikeresen törölte.
-dateplaner#:#cal_ch_deleted_bookings#:#A kiválasztott foglalásokat sikeresen lemondta.
+dateplaner#:#cal_ch_deleted_bookings#:#A kiválasztott foglalásokat sikeresen törölte.
+dateplaner#:#cal_ch_canceled_bookings#:#A kiválasztott foglalásokat sikeresen lemondta.
 dateplaner#:#cal_ch_delete_booking_sure#:#Biztos, hogy törli a kiválasztott foglalásokat?
 dateplaner#:#cal_ch_cancel_booking_sure#:#Biztos, hogy lemondja a kiválasztott foglalásokat?
 dateplaner#:#cal_ch_assign_participants#:#Felhasználók hozzárendelése
@@ -11426,7 +11427,7 @@ wsp#:#wsp_shared_title#:#Erőforrás címe
 adve#:#adve_excass_settings#:#Beadandó feladatok
 dateplaner#:#cal_edit_single#:#Esemény módosítása
 dateplaner#:#cal_edit_recurrences#:#Összes esemény módosítása
-adve#:#advanced_editing_excass_settings#:#Beadandó feladat szerkesztő beállításai
+adve#:#advanced_editing_excass_settings#:#Beadandó szöveges feladatok
 common#:#obj_prtt#:#Portfólió sablon
 common#:#objs_prtt#:#Portfólió sablonok
 common#:#obj_prtt_duplicate#:#Portfólió sablon másolása
@@ -13367,6 +13368,9 @@ common#:#report_accessibility_issue#:#Hozzáférési probléma jelzése
 common#:#report_accessibility_link#:#Bejelentett link:
 common#:#accessibility_control_concept#:#Hozzáférés-vezérlés koncepciója
 common#:#no_accessibility_control_concept_description#:#Jelenleg nincs hozzáférés-vezérlés koncepciója ennek a telepítésnek. Kérem, további információkért lépjen kapcsolatba a <a href="%1$s">kapcsolat hozzáférési pontjával</a>.
+common#:#mainbar_aria_label#:#Főmenü
+common#:#metabar_aria_label#:#Metamenü
+common#:#breadcrumbs_aria_label#:#Morzsák
 ldap#:#ldap_servers#:#LDAP Szerver
 ldap#:#add_ldap_server#:#Szerver hozzáadása
 ldap#:#ldap_username_filter#:#Felhasználónév szűrése
@@ -13695,6 +13699,7 @@ rbac#:#mep_copy#:#A felhasználó másolhat médiagyűjteményt
 crs#:#crs_cannot_find_role#:#Ez a szerep nem található.
 grp#:#grp_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
 crs#:#crs_admission_link_failure_invalid_code#:#Nem rögzíthető: érvénytelen link.
+form#:#form_date_aria_desc#:#A bemenetei formátumnak a következőnek kell lennie:
 form#:#form_date_duration_start#:#Kezdő időpont
 form#:#form_date_duration_end#:#Záró időpont
 auth#:#auth_ldap_server_ds#:#LDAP szerver
@@ -14286,7 +14291,7 @@ pdfgen#:#webkit#:#wkhtmltopdf
 pdfgen#:#path#:#wkhtmltopdf útvonala
 pdfgen#:#wkhtml_config#:#WKHTML beállításai
 pdfgen#:#overwrite_font#:#Alapértelmezett betűtípus felülírása
-pdfgen#:#overwrite_font_info#:#Adjon meg valami hasonlót: 'serif', 'sans-serif', 'monospace'. 
+pdfgen#:#overwrite_font_info#:#Adjon meg valami hasonlót: 'serif', 'sans-serif', 'monospace'.
 pdfgen#:#external_links#:#Külső linkek
 pdfgen#:#enable_forms#:#Űrlapok bekapcsolása
 pdfgen#:#user_stylesheet#:#User stylesheet
@@ -14732,6 +14737,7 @@ content#:#cont_lpe_user_agreement_link#:#Szolgáltatási feltételek linkje
 common#:#obj_fold_duplicate#:#Mappa másolása
 common#:#fold_wizard_page#:#Mappa másolása (2/2 lépés)
 common#:#fold_copy_threads_info#:#Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat.
+file#:#general_upload_error_occured#:#A feltöltés alatt ismeretlen hiba lépett fel.
 file#:#file_suffix_custom_expl_black#:#Explicit tiltólista
 file#:#file_suffix_custom_expl_black_info#:#Az ilyen végződésekkel rendelkező fájlokat nem fogadjuk el.
 file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
@@ -14884,6 +14890,7 @@ mme#:#msg_languages_added#:#Hozzáadott nyelvek
 mme#:#msg_translations_saved#:#A fordítást sikeresen mentette
 mme#:#msg_translations_deleted#:#A fordításokat sikeresen törölte
 mme#:#topitem_css_id#:#CSS-ID
+mme#:#err_uri_not_valid#:#Valós URL-t adjon meg
 common#:#mme_lost_item_title#:#Nincs hozzárendelve
 common#:#mme_lost_item_reason#:#Nincs többé ilyen eleme.
 mme#:#type_lost#:#Elveszett
@@ -15993,6 +16000,7 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
+prg#:#prg_formatted_peri nbod#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16141,7 +16149,7 @@ mail#:#mail_enable_lso_admin_notification#:#Tanulási sor vezetőinek értesít�
 mail#:#mail_enable_lso_admin_notification_info#:#Az új Tanulási sor létrehozásakor az 'Új tagokról értesítés' alapértelmezetten aktív lesz. Ez a beállítás a Tanulás sor 'Tagok' fülén található. A vezetők levélben értesítést kapnak, amikor valaki csatlakozik a Tanulási sorhoz vagy elhagyja azt.
 prg#:#risky_to_fail_mail_subject#:#Emlékeztető, hogy a képzési program teljesítésének határideje hamarosan lejár
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' a képzési program teljesítésének határideje hamarosan lejár.
-prg#:#prg_update_progress_title#:#Határidő után a 'Folyamatban' leygen 'Nem teljesítette'
+prg#:#prg_update_progress_title#:#Határidő után a 'Folyamatban' legyen 'Nem teljesítette'
 prg#:#prg_update_progress_description#:#A 'Folyamatban' állapotok módosítása 'Nem teljesítette' állapotra a határidő után.
 common#:#collapse_content#:#Tartalom összecsukása
 common#:#expand_content#:#Tartalom kitejesztése
@@ -16159,22 +16167,16 @@ common#:#switch_language#:#Nyelv módosítása
 lti#:#lti_user_role_created#:#Az LTI-felhasználónak ajánlott globális szerepet sikeresen létrehozta.
 lti#:#lti_create_lti_user_role#:#LTI-felhasználónak ajánlott globális szerep létrehozása
 lti#:#lti_user_role_info#:#Ajánlott globális szerep még nem létezik az LTI-felhasználónak. Ez a speciális szerep csak a Tartalomtár és kategóriák 'látható' jogosultáságát tartalmazza.
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.###18 05 2020 new variable
-mme#:#err_uri_not_valid#:#Please provide a valid URL###18 05 2020 new variable
-prg#:#prg_formatted_period#:#%d days###18 05 2020 new variable
-awrn#:#user_awrn_default#:#Default###18 05 2020 new variable
-awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
-awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
-common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
-rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
-rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
-rbac#:#prgr_write#:#User can edit settings of links to study programmes###18 05 2020 new variable
-rbac#:#rbac_create_prgr#:#Create link to study programme###18 05 2020 new variable
-ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
-common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
-common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
-common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
-ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
-rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+awrn#:#user_awrn_default#:#Alapértelmezett
+awrn#:#user_awrn_hide#:#Állapotom elrejtése
+awrn#:#user_awrn_show#:#Állapotom megjelenítése
+awrn#:#awrn_user_show#:#ILIAS-fiókom megjelenítése a 'Ki van online?' eszközben
+common#:#objs_prgr#:#Linkelés Képzési programra
+rbac#:#prgr_copy#:#A felhasználó másolhatja a Képzési programra mutató linket 
+rbac#:#prgr_delete#:#A felhasználó mozgathatja, illetve törölheti a Képzési programra mutató linket
+rbac#:#prgr_edit_permission#:#A felhasználó módosíthatja a jogosultási beállításokat
+rbac#:#prgr_visible#:#A képzési programra mutató linkek láthatók és használhatóak
+rbac#:#prgr_write#:#A felhasználó módosíthatja a képzési programokra mutató linkek beállíátsait
+rbac#:#rbac_create_prgr#:#Képzési programra mutató link létrehozása
+ui#:#ui_error_in_group#:#Ebben a részben van néhány hiba.
+feed#:#feed_no_local_url#:#Az URL nem ellenőrizhető. Kérem, valós külső hírforrás URL-t adjon meg.
