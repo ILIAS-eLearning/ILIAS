@@ -15825,7 +15825,7 @@ td > img[src$="icon_custom.svg"] {
     max-width: 94vw;
   }
 }
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .table-responsive {
     overflow: visible;
   }
