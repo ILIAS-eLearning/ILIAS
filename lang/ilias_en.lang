@@ -16180,3 +16180,4 @@ rbac#:#prgr_write#:#User can edit settings of links to study programmes
 rbac#:#rbac_create_prgr#:#Create link to study programme
 ui#:#ui_error_in_group#:#There is some error in this part.
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
+common#:#mainbar_more_label#:#More
