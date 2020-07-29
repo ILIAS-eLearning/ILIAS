@@ -216,9 +216,6 @@ class MainBarTest extends ILIAS_UI_TestBase
             );
 
         $mb = $this->factory->mainBar()
-            ->withMoreButton(
-                $this->button_factory->bulky($icon, 'more', '')
-            )
             ->withAdditionalEntry('test1', $this->getButton())
             ->withAdditionalEntry('test2', $this->getButton())
             ->withAdditionalEntry('slate', $slate);
@@ -233,7 +230,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<button class="btn btn-bulky" data-action="#" id="id_1" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" data-action="#" id="id_2" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1</span></button>
-							<button class="btn btn-bulky" id="id_9" role="menuitem" aria-haspopup="true" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">more</span></button>
+							<button class="btn btn-bulky" id="id_9" role="menuitem" aria-haspopup="true" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button>
 						</div>
 					</div>
 				</nav>

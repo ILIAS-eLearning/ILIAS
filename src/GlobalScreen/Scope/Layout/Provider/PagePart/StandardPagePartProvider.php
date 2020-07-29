@@ -105,10 +105,6 @@ class StandardPagePartProvider implements PagePartProvider
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
             }
         }
-        $more_glyph = $f->symbol()->glyph()->more("#");
-        $main_bar = $main_bar->withMoreButton(
-            $f->button()->bulky($more_glyph, "More", "#")
-        );
 
         // Tools
         $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), "More");
