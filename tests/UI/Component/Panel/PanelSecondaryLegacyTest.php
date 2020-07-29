@@ -297,13 +297,13 @@ EOT;
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-section">
-			<a class="btn btn-default " type="button" href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de">
+			<a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</a>
 			<button class="btn btn-default" data-action="">
 				current
 			</button>
-			<a class="btn btn-default " type="button" href="http://www.github.com" aria-label="next" data-action="http://www.github.com">
+			<a class="btn btn-default " href="http://www.github.com" aria-label="next" data-action="http://www.github.com">
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</a>
 		</div>
