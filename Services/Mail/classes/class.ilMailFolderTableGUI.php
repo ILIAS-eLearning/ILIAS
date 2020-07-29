@@ -542,10 +542,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
                 } else {
                     $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+
                     if ($user) {
                         $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
                         $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
                     } else {
+                        $mail['img_sender'] = '';
                         $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
                     }
                 }
