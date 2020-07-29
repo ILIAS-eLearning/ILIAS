@@ -123,7 +123,7 @@
       "developer": "akill",
       "purpose": "",
       "last-update-for-ilias": "5.4.0",
-      "note": "The former patch (ILIAS < 5.4.0) is not needed anymore. Use of size() has been removed from the lib."
+      "note": "Accessibility/Valid HTML: Remove role='tree-item' from code, since this is an invalid role value."
     },
     "moment": {
       "introduction-date": null,
