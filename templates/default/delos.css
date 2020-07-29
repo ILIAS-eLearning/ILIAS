@@ -8966,7 +8966,6 @@ footer {
   min-height: auto;
   padding: 20px 0 15px 5px;
   text-align: center;
-  z-index: 2;
 }
 /*
 **************************************************************
@@ -19420,4 +19419,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: 0.25em;
 }
-/*# sourceMappingURL=delos.css.map */
