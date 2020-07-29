@@ -10,6 +10,7 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
  * To implement a new generic Message Digest encoder, please create a separate class.
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
+ * @deprecated
  */
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
