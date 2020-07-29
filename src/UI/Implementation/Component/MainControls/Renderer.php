@@ -162,17 +162,16 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
         $tpl->setVariable("ARIA_LABEL", $this->txt('mainbar_aria_label'));
-
+        $more_btn_label = $this->txt('mainbar_more_label');
         //add "more"-slate
         $more_slate = $f->maincontrols()->slate()->combined(
-            $component->getMoreButton()->getLabel(),
+            $more_btn_label,
             $f->symbol()->glyph()->more()
         )->withAriaRole(ISlate::MENU);
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
             $more_slate
         );
-
         $component = $this->calculateMainBarTreePosition("0", $component);
 
         $mb_entries = [
