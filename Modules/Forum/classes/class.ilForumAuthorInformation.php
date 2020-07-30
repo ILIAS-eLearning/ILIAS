@@ -89,6 +89,9 @@ class ilForumAuthorInformation
      */
     protected $globalUser;
 
+    /** @var bool */
+    protected $is_deleted = false;
+
     /**
      * @param int    $author_id
      * @param int    $display_id
@@ -234,6 +237,7 @@ class ilForumAuthorInformation
         } elseif ($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias)) {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
+            $this->is_deleted = true;
             $this->suffix = $translationLanguage->txt('deleted');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
@@ -358,5 +362,21 @@ class ilForumAuthorInformation
     public function getSuffix()
     {
         return $this->suffix;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->is_deleted;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlias()
+    {
+        return $this->alias;
     }
 }
