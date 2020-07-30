@@ -935,7 +935,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         
         if ($authorinfo->hasSuffix()) {
             $this->tpl->setVariable('AUTHOR', $authorinfo->getSuffix());
-            $this->tpl->setVariable('USR_NAME', $node->getUserAlias());
+            if (!$authorinfo->isDeleted()) {
+                $this->tpl->setVariable('USR_NAME', $authorinfo->getAlias());
+            }
         } else {
             $this->tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized()) {

@@ -278,13 +278,15 @@ class ilForumExportGUI
         );
 
         if ($authorinfo->hasSuffix()) {
+            if (!$authorinfo->isDeleted()) {
+                $tpl->setVariable('USR_NAME', $authorinfo->getAlias());
+            }
             $tpl->setVariable('AUTHOR', $authorinfo->getSuffix());
-            $tpl->setVariable('USR_NAME', $post->getUserAlias());
         } else {
-            $tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized()) {
                 $tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
             }
+            $tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
         }
 
         if (self::MODE_EXPORT_CLIENT == $mode) {
