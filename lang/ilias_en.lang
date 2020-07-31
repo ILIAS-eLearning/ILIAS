@@ -14505,6 +14505,7 @@ skmg#:#skmg_assigned_profiles#:#Assigned Profiles
 skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
+skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14633,6 +14634,14 @@ cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these
 cont#:#cont_assign_skills#:#Assign Competences
 cont#:#cont_skill_do_not_set#:#Do not set
 cont#:#cont_skill_no_skill#:#No value (Reset)
+cont#:#cont_skill_profiles#:#Assigned Profiles of Members
+cont#:#cont_skill_profile#:#Profile
+cont#:#cont_add_profile#:#Add Profile
+cont#:#cont_skill_assigned_profiles#:#Profile Selection
+cont#:#cont_skill_no_profile_selected#:#Please select a profile.
+cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
+cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
+cont#:#cont_skill_remove_profile#:#Remove Profile
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_published#:#Published
 cont#:#cont_assign_competence#:#Assign Competences to Members

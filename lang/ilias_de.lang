@@ -14495,6 +14495,7 @@ skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
 skmg#:#skmg_selected_skills#:#Kompetenzeinträge
 skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
 skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen zulassen
 skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
 skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
 skmg#:#skmg_save_settings#:#Einstellungen speichern
@@ -14621,6 +14622,14 @@ cont#:#cont_path#:#Pfad
 cont#:#cont_really_remove_skill_from_course#:#Sollen die Kompetenzen wirklich aus der Liste entfernt werden?
 cont#:#cont_skill_do_not_set#:#Nicht setzen
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
+cont#:#cont_skill_profiles#:#Profile der Mitglieder
+cont#:#cont_skill_profile#:#Profil
+cont#:#cont_add_profile#:#Profil hinzufügen
+cont#:#cont_skill_assigned_profiles#:#Profilauswahl
+cont#:#cont_skill_no_profile_selected#:#Bitte wählen Sie ein Profil aus.
+cont#:#cont_skill_really_remove_profiles_from_list#:#Sollen die Profile wirklich aus der Liste entfernt werden?
+cont#:#cont_skill_really_remove_profile_from_list#:#Soll das Profil wirklich aus der Liste entfernt werden?
+cont#:#cont_skill_remove_profile#:#Profil entfernen
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_published#:#Veröffentlichung
 cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
