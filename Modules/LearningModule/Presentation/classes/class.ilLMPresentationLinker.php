@@ -401,25 +401,25 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
                     case "File":
                         if (!$this->offline) {
-                            $ilCtrl->setParameter($this, "obj_id", $this->current_page);
-                            $ilCtrl->setParameter($this, "file_id", "il__file_" . $target_id);
-                            $href = $ilCtrl->getLinkTarget(
-                                $this,
+                            $ilCtrl->setParameterByClass('illmpresentationgui', "obj_id", $this->current_page);
+                            $ilCtrl->setParameterByClass('illmpresentationgui', "file_id", "il__file_" . $target_id);
+                            $href = $ilCtrl->getLinkTargetByClass(
+                                'illmpresentationgui',
                                 "downloadFile",
                                 "",
                                 false,
                                 true
                             );
-                            $ilCtrl->setParameter($this, "file_id", "");
-                            $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+                            $ilCtrl->setParameterByClass('illmpresentationgui', "file_id", "");
+                            $ilCtrl->setParameterByClass('illmpresentationgui', "obj_id", $_GET["obj_id"]);
                         }
                         break;
 
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
                         if ($obj_type == "usr") {
-                            $back = $this->ctrl->getLinkTarget(
-                                $this,
+                            $back = $this->ctrl->getLinkTargetByClass(
+                                'illmpresentationgui',
                                 "layout",
                                 "",
                                 false,
