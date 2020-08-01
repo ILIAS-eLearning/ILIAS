@@ -141,7 +141,7 @@ class ilPageEditorGUI
         $this->int_link_return = $a_return;
     }
 
-    
+
     public function setPageBackTitle($a_title)
     {
         $this->page_back_title = $a_title;
@@ -182,7 +182,7 @@ class ilPageEditorGUI
             $pc_id = $pca[1];
             $cmd = explode("_", $pca[0]);
             unset($cmd[0]);
-            $hier_id = implode($cmd, "_");
+            $hier_id = implode("_", $cmd);
             $cmd = $_POST["command" . $hier_id];
         }
         $this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
@@ -392,7 +392,7 @@ class ilPageEditorGUI
                     $this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($cont_obj)), "editQuestion");
                 }
                 break;
-                    
+
             // Plugged Component
             case "ilpcpluggedgui":
                 $this->tabs_gui->clearTargets();
@@ -408,7 +408,7 @@ class ilPageEditorGUI
                 break;
 
             default:
-                
+
                 // generic calls to gui classes
                 include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
                 if (ilCOPagePCDef::isPCGUIClassName($next_class, true)) {
@@ -431,7 +431,7 @@ class ilPageEditorGUI
                 } else {
                     $this->log->debug("Call ilPageEditorGUI command.");
                     // cmd belongs to ilPageEditorGUI
-                    
+
                     if ($cmd == "pasteFromClipboard") {
                         $ret = $this->pasteFromClipboard($hier_id);
                     } elseif ($cmd == "paste") {
@@ -448,7 +448,7 @@ class ilPageEditorGUI
 
         return $ret;
     }
-    
+
     /**
     * checks if current user has activated js editing and
     * if browser is js capable
@@ -500,7 +500,7 @@ class ilPageEditorGUI
             }
         }
         $ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
-        
+
         // again not so nice...
         if ($this->page->getParentType() == "lm") {
             $this->ctrl->redirectByClass("illmpageobjectgui", "edit");
@@ -508,14 +508,14 @@ class ilPageEditorGUI
             $this->ctrl->returnToParent($this);
         }
     }
-    
+
     /**
     * copy linked media object to clipboard
     */
     public function copyLinkedMediaToClipboard()
     {
         $ilUser = $this->user;
-        
+
         ilUtil::sendSuccess($this->lng->txt("copied_to_clipboard"), true);
         $ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
         $this->ctrl->returnToParent($this);
@@ -527,11 +527,11 @@ class ilPageEditorGUI
     public function copyLinkedMediaToMediaPool()
     {
         $ilUser = $this->user;
-        
+
         $this->ctrl->setParameterByClass("ilmediapooltargetselector", "mob_id", $_POST["mob_id"]);
         $this->ctrl->redirectByClass("ilmediapooltargetselector", "listPools");
     }
-    
+
     /**
     * add change comment to history
     */
@@ -616,7 +616,7 @@ class ilPageEditorGUI
     public function copySelected()
     {
         $lng = $this->lng;
-        
+
         if (is_int(strpos($_POST["target"][0], ";"))) {
             $_POST["target"] = explode(";", $_POST["target"][0]);
         }
@@ -633,7 +633,7 @@ class ilPageEditorGUI
     public function cutSelected()
     {
         $lng = $this->lng;
-        
+
         if (is_int(strpos($_POST["target"][0], ";"))) {
             $_POST["target"] = explode(";", $_POST["target"][0]);
         }
@@ -691,13 +691,13 @@ class ilPageEditorGUI
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         if (is_int(strpos($_POST["target"][0], ";"))) {
             $_POST["target"] = explode(";", $_POST["target"][0]);
         }
         if (is_array($_POST["target"])) {
             $types = array();
-            
+
             // check what content element types have been selected
             foreach ($_POST["target"] as $t) {
                 $tarr = explode(":", $t);
@@ -709,7 +709,7 @@ class ilPageEditorGUI
                     $types["sec"] = "sec";
                 }
             }
-        
+
             if (count($types) == 0) {
                 ilUtil::sendFailure($lng->txt("cont_select_par_or_section"), true);
                 $this->ctrl->returnToParent($this);
@@ -729,13 +729,13 @@ class ilPageEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        
+
+
         // edit form
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt("cont_choose_characteristic"));
-        
+
         if ($a_types["par"] == "par") {
             $select_prop = new ilSelectInputGUI(
                 $this->lng->txt("cont_choose_characteristic_text"),
@@ -756,7 +756,7 @@ class ilPageEditorGUI
             $select_prop->setOptions($options);
             $this->form->addItem($select_prop);
         }
-        
+
         foreach ($a_target as $t) {
             $hidden = new ilHiddenInputGUI("target[]");
             $hidden->setValue($t);
@@ -858,7 +858,7 @@ class ilPageEditorGUI
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
     /**
     * display locator
     */
@@ -879,9 +879,9 @@ class ilPageEditorGUI
         $lng = $this->lng;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-        
+
         $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
-        
+
         include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
         $mep_pools = ilMediaPoolItem::getPoolForItemId($_POST["ci_id"]);
         foreach ($mep_pools as $mep_id) {
@@ -903,7 +903,7 @@ class ilPageEditorGUI
             $stpl->setVariable("VAL_MEDIA_POOL", ilObject::_lookupTitle($mep_id));
             $stpl->parseCurrentBlock();
         }
-        
+
         include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
         $stpl->setVariable("TXT_TITLE", $lng->txt("title"));
         $stpl->setVariable("VAL_TITLE", ilMediaPoolPage::lookupTitle($_POST["ci_id"]));

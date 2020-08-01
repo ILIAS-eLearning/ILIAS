@@ -58,7 +58,7 @@ abstract class ilPageContent
             die("Error: ilPageContent::init() did not set type");
         }
     }
-    
+
     /**
      * Set page
      *
@@ -68,7 +68,7 @@ abstract class ilPageContent
     {
         $this->pg_obj = $a_val;
     }
-    
+
     /**
      * Get page
      *
@@ -78,7 +78,7 @@ abstract class ilPageContent
     {
         return $this->pg_obj;
     }
-    
+
     /**
     * Init object. This function must be overwritten and at least set
     * the content type.
@@ -114,7 +114,7 @@ abstract class ilPageContent
     {
         $this->node = $a_node;
     }
-    
+
 
     /**
     * Get xml node of page content.
@@ -167,8 +167,8 @@ abstract class ilPageContent
     {
         return $this->hier_id;
     }
-    
-    
+
+
     /**
     * Get hierarchical id from dom
     */
@@ -303,8 +303,8 @@ abstract class ilPageContent
     {
         $id = explode("_", $ed_id);
         $id[count($id) - 1]++;
-        
-        return implode($id, "_");
+
+        return implode("_", $id);
     }
 
     /**
@@ -319,7 +319,7 @@ abstract class ilPageContent
         $id = explode("_", $ed_id);
         $id[count($id) - 1]--;
 
-        return implode($id, "_");
+        return implode("_", $id);
     }
 
     /**
@@ -353,10 +353,10 @@ abstract class ilPageContent
     public static function sortHierIds($a_array)
     {
         uasort($a_array, array("ilPageContent", "isGreaterHierId"));
-        
+
         return $a_array;
     }
-    
+
     /**
     * Check whether Hier ID $a is greater than Hier ID $b
     */
@@ -373,7 +373,7 @@ abstract class ilPageContent
         }
         return false;
     }
-    
+
     /**
     * Set Enabled value for page content component.
     *
@@ -386,7 +386,7 @@ abstract class ilPageContent
             $this->node->set_attribute("Enabled", $value);
         }
     }
-     
+
     /**
     * Enable page content.
     */
@@ -394,7 +394,7 @@ abstract class ilPageContent
     {
         $this->setEnabled("True");
     }
-      
+
     /**
     * Disable page content.
     */
@@ -415,10 +415,10 @@ abstract class ilPageContent
         } else {
             $compare = "True";
         }
-        
+
         return strcasecmp($compare, "true") == 0;
     }
-    
+
     /**
     * Create page content node (always use this method first when adding a new element)
     */
@@ -430,7 +430,7 @@ abstract class ilPageContent
         }
         return $node;
     }
-    
+
     /**
      * Get lang vars needed for editing
      * @return array array of lang var keys
@@ -449,7 +449,7 @@ abstract class ilPageContent
     public static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
     {
     }
-    
+
     /**
      * Modify page content after xsl
      *
@@ -472,7 +472,7 @@ abstract class ilPageContent
     public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
     {
     }
-    
+
     /**
      * Before page is being deleted
      *

@@ -57,7 +57,7 @@ class ilMediaAliasItem
                 return $res->nodeset[0];
             }
         }
-        
+
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']" . $a_sub_element;
         $res = xpath_eval($xpc, $path);
@@ -65,7 +65,7 @@ class ilMediaAliasItem
             return $res->nodeset[0];
         }
     }
-    
+
     public function getParameterNodes($a_hier_id, $a_purpose, $a_pc_id = "")
     {
         if ($a_pc_id != "") {
@@ -77,7 +77,7 @@ class ilMediaAliasItem
             }
             return array();
         }
-        
+
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
         $res = xpath_eval($xpc, $path);
@@ -97,7 +97,7 @@ class ilMediaAliasItem
             }
             return array();
         }
-        
+
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
         $res = xpath_eval($xpc, $path);
@@ -473,7 +473,7 @@ class ilMediaAliasItem
             $par_node = $par_nodes[$i];
             $par_arr[] = $par_node->get_attribute("Name") . "=\"" . $par_node->get_attribute("Value") . "\"";
         }
-        return implode($par_arr, ", ");
+        return implode(", ", $par_arr);
     }
 
     /**
@@ -538,7 +538,7 @@ class ilMediaAliasItem
         }
     }
 
-    
+
     /**
     * Get all map areas
     */
@@ -575,10 +575,10 @@ class ilMediaAliasItem
                 "Id" => $maparea_node->get_attribute("Id"),
                 "Link" => $link);
         }
-        
+
         return $maparea_arr;
     }
-    
+
     /**
     * Set title of area
     */
@@ -597,7 +597,7 @@ class ilMediaAliasItem
             }
         }
     }
-    
+
     /**
     * Set link of area to an internal one
     */
@@ -623,7 +623,7 @@ class ilMediaAliasItem
             );
         }
     }
-    
+
     /**
     * Set link of area to an external one
     */
@@ -742,7 +742,7 @@ class ilMediaAliasItem
             );
         }
     }
-    
+
     /**
      * Delete a sinlge map area
      */
@@ -758,7 +758,7 @@ class ilMediaAliasItem
             $ma_nodes[$a_nr - 1]->unlink_node($ma_nodes[$a_nr - 1]);
         }
     }
-    
+
     /**
      * Delete map areas by id
      */
@@ -899,7 +899,7 @@ class ilMediaAliasItem
             $this->item_node->unlink_node($this->item_node);
         }
     }
-    
+
     /**
     * make map work copy of image
     *
@@ -915,12 +915,12 @@ class ilMediaAliasItem
         $a_coords
     ) {
         $lng = $this->lng;
-        
+
         if (!$a_st_item->copyOriginal()) {
             return false;
         }
         $a_st_item->buildMapWorkImage();
-        
+
         // determine ratios (first see whether the instance has w/h defined)
         $width = $this->getWidth();
         $height = $this->getHeight();
@@ -960,7 +960,7 @@ class ilMediaAliasItem
                 );
             }
         }
-        
+
         if ($a_output_new_area) {
             $area = new ilMapArea();
             $area->setShape($a_area_type);
@@ -976,7 +976,7 @@ class ilMediaAliasItem
         }
 
         $a_st_item->saveMapWorkImage();
-        
+
         return true;
     }
 }

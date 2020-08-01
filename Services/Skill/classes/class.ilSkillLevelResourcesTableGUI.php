@@ -49,23 +49,23 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->level_id = $a_level_id;
-        
+
         include_once("./Services/Skill/classes/class.ilSkillResources.php");
         $this->resources = new ilSkillResources($a_skill_id, $a_tref_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->resources->getResourcesOfLevel($a_level_id));
         $this->setTitle($lng->txt("resources"));
-        
+
         $this->addColumn("", "", "1px", true);
         $this->addColumn($this->lng->txt("type"), "", "1px");
         $this->addColumn($this->lng->txt("title"), "");
         $this->addColumn($this->lng->txt("path"));
         $this->addColumn($this->lng->txt("skmg_suggested"));
         $this->addColumn($this->lng->txt("skmg_lp_triggers_level"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.level_resources_row.html", "Services/Skill");
 
@@ -74,7 +74,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
             $this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
         }
     }
-    
+
     /**
      * Fill table row
      */
@@ -104,7 +104,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
         $this->tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($obj_id, "tiny")));
         $this->tpl->setVariable("ID", $ref_id);
-        
+
         $path = $tree->getPathFull($ref_id);
         $path_items = array();
         foreach ($path as $p) {
@@ -112,6 +112,6 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
                 $path_items[] = $p["title"];
             }
         }
-        $this->tpl->setVariable("PATH", implode($path_items, " > "));
+        $this->tpl->setVariable("PATH", implode(" > ", $path_items));
     }
 }

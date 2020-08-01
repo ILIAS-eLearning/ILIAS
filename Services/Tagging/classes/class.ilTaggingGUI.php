@@ -42,7 +42,7 @@ class ilTaggingGUI
         $this->lng = $DIC->language();
     }
 
-    
+
     /**
      * Execute command
      *
@@ -52,7 +52,7 @@ class ilTaggingGUI
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass();
         switch ($next_class) {
             default:
@@ -61,8 +61,8 @@ class ilTaggingGUI
                 break;
         }
     }
-    
-    
+
+
     /**
     * Set Object.
     *
@@ -79,11 +79,11 @@ class ilTaggingGUI
         $this->obj_type = $a_obj_type;
         $this->sub_obj_id = $a_sub_obj_id;
         $this->sub_obj_type = $a_sub_obj_type;
-        
+
         $this->setSaveCmd("saveTags");
         $this->setUserId($ilUser->getId());
         $this->setInputFieldName("il_tags");
-        
+
         $tags_set = new ilSetting("tags");
         $forbidden = $tags_set->get("forbidden_tags");
         if ($forbidden != "") {
@@ -92,7 +92,7 @@ class ilTaggingGUI
             $this->forbidden = array();
         }
     }
-    
+
     /**
     * Set User ID.
     *
@@ -160,7 +160,7 @@ class ilTaggingGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ttpl = new ilTemplate("tpl.tags_input.html", true, true, "Services/Tagging");
         $tags = ilTagging::getTagsForUserAndObject(
             $this->obj_id,
@@ -171,23 +171,23 @@ class ilTaggingGUI
         );
         $ttpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode($tags, ", "))
+            ilUtil::prepareFormOutput(implode(", ", $tags))
         );
         $ttpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $ttpl->setVariable("CMD_SAVE", $this->savecmd);
         $ttpl->setVariable("NAME_TAGS", $this->getInputFieldName());
-        
+
         return $ttpl->get();
     }
-    
+
     /**
     * Save Input
     */
     public function saveInput()
     {
         $lng = $this->lng;
-        
+
         $input = ilUtil::stripSlashes($_POST[$this->getInputFieldName()]);
         $input = str_replace("\r", "\n", $input);
         $input = str_replace("\n\n", "\n", $input);
@@ -213,7 +213,7 @@ class ilTaggingGUI
         );
         ilUtil::sendSuccess($lng->txt('msg_obj_modified'));
     }
-    
+
     /**
     * Check whether a tag is forbiddens
     */
@@ -229,7 +229,7 @@ class ilTaggingGUI
         }
         return false;
     }
-    
+
     /**
     * Get Input HTML for Tagging of an object (and a user)
     */
@@ -237,7 +237,7 @@ class ilTaggingGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ttpl = new ilTemplate("tpl.tag_cloud.html", true, true, "Services/Tagging");
         $tags = ilTagging::getTagsForObject(
             $this->obj_id,
@@ -262,15 +262,15 @@ class ilTaggingGUI
                 $ttpl->parseCurrentBlock();
             }
         }
-        
+
         return $ttpl->get();
     }
 
-    
+
     ////
     //// Ajax related methods
     ////
-    
+
     /**
      * Init javascript
      */
@@ -294,10 +294,10 @@ class ilTaggingGUI
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
-        
+
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
     }
-    
+
     /**
      * Get tagging js call
      *
@@ -310,7 +310,7 @@ class ilTaggingGUI
         global $DIC;
 
         $tpl = $DIC["tpl"];
-        
+
         if ($a_update_code === null) {
             $a_update_code = "null";
         } else {
@@ -330,11 +330,11 @@ class ilTaggingGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("tagging");
         $tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
         $tpl->setVariable("TXT_TAGS", $lng->txt("tagging_tags"));
-    
+
         switch ($_GET["mess"] != "" ? $_GET["mess"] : $this->mess) {
             case "mod":
                 $mtype = "success";
@@ -358,21 +358,21 @@ class ilTaggingGUI
         );
         $tpl->setVariable(
             "VAL_TAGS",
-            ilUtil::prepareFormOutput(implode($tags, ", "))
+            ilUtil::prepareFormOutput(implode(", ", $tags))
         );
         $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $tpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $tpl->setVariable("CMD_SAVE", "saveJS");
-        
+
         $os = "ilTagging.cmdAjaxForm(event, '" .
             $ilCtrl->getFormActionByClass("iltagginggui", "", "", true) .
             "');";
         $tpl->setVariable("ON_SUBMIT", $os);
-        
+
         $tags_set = new ilSetting("tags");
         if ($tags_set->get("enable_all_users")) {
             $tpl->setVariable("TAGS_TITLE", $lng->txt("tagging_my_tags"));
-            
+
             $all_obj_tags = ilTagging::_getListTagsForObjects(array($this->obj_id));
             $all_obj_tags = $all_obj_tags[$this->obj_id];
             if (is_array($all_obj_tags) &&
@@ -387,11 +387,11 @@ class ilTaggingGUI
                 }
             }
         }
-        
+
         echo $tpl->get();
         exit;
     }
-    
+
     /**
      * Save JS
      */
@@ -420,9 +420,9 @@ class ilTaggingGUI
             $this->getUserId(),
             $tags
         );
-        
+
         $this->mess = "mod";
-        
+
         $this->getHTML();
     }
 }

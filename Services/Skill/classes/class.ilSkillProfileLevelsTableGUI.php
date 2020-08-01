@@ -38,21 +38,21 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
-        
+
         include_once("./Services/Skill/classes/class.ilBasicSkill.php");
         include_once("./Services/Skill/classes/class.ilSkillTree.php");
         $this->tree = new ilSkillTree();
-        
+
         $this->profile = $a_profile;
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setData($this->profile->getSkillLevels());
         $this->setTitle($lng->txt("skmg_skill_levels"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("skmg_skill"));
         $this->addColumn($this->lng->txt("skmg_level"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
@@ -61,7 +61,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         //$this->addCommandButton("", $lng->txt(""));
     }
-    
+
     /**
      * Fill table row
      */
@@ -79,11 +79,11 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             "SKILL_TITLE",
-            implode($path_items, " > ")
+            implode(" > ", $path_items)
         );
-        
+
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));
-        
+
         $this->tpl->setVariable(
             "ID",
             ((int) $a_set["base_skill_id"]) . ":" . ((int) $a_set["tref_id"]) . ":" . ((int) $a_set["level_id"])

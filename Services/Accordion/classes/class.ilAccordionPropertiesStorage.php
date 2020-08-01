@@ -42,7 +42,7 @@ class ilAccordionPropertiesStorage
     public $properties = array(
         "opened" => array("storage" => "session")
         );
-    
+
     /**
     * execute command
     */
@@ -50,20 +50,20 @@ class ilAccordionPropertiesStorage
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        
+
         $cmd = $ilCtrl->getCmd();
         //		$next_class = $this->ctrl->getNextClass($this);
 
         $this->$cmd();
     }
-    
+
     /**
      * Show Filter
      */
     public function setOpenedTab()
     {
         $ilUser = $this->user;
-        
+
         if ($_GET["user_id"] == $ilUser->getId()) {
             switch ($_GET["act"]) {
 
@@ -81,7 +81,7 @@ class ilAccordionPropertiesStorage
                         $_GET["accordion_id"],
                         (int) $_GET["user_id"],
                         "opened",
-                        implode($cur_arr, ";")
+                        implode(";", $cur_arr)
                     );
                     break;
 
@@ -99,7 +99,7 @@ class ilAccordionPropertiesStorage
                         $_GET["accordion_id"],
                         (int) $_GET["user_id"],
                         "opened",
-                        implode($cur_arr, ";")
+                        implode(";", $cur_arr)
                     );
                     break;
 
@@ -124,7 +124,7 @@ class ilAccordionPropertiesStorage
             }
         }
     }
-    
+
     /**
     * Store property in session or db
     */
@@ -141,7 +141,7 @@ class ilAccordionPropertiesStorage
                 $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property]
                     = $a_value;
                 break;
-                
+
             case "db":
 /*
                 $ilDB->replace("table_properties", array(
@@ -154,7 +154,7 @@ class ilAccordionPropertiesStorage
 */
         }
     }
-    
+
     /**
     * Get property in session or db
     */
@@ -168,7 +168,7 @@ class ilAccordionPropertiesStorage
 //echo "<br><br><br><br><br><br><br><br>get-".$r;
                 return $r;
                 break;
-                
+
             case "db":
 /*
                 $set = $ilDB->query("SELECT value FROM table_properties ".

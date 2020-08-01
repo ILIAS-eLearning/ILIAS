@@ -88,7 +88,7 @@ class ilPageContentGUI
     {
         $this->content_obj = $a_val;
     }
-    
+
     /**
      * Get content object
      *
@@ -98,7 +98,7 @@ class ilPageContentGUI
     {
         return $this->content_obj;
     }
-    
+
     /**
      * Set page
      *
@@ -108,7 +108,7 @@ class ilPageContentGUI
     {
         $this->pg_obj = $a_val;
     }
-    
+
     /**
      * Get page
      *
@@ -179,10 +179,10 @@ class ilPageContentGUI
                 $this->style = new ilObjStyleSheet($this->getStyleId());
             }
         }
-        
+
         return $this->style;
     }
-    
+
     /**
     * Get characteristics of current style
     */
@@ -255,9 +255,9 @@ class ilPageContentGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
-        
+
         $btpl = new ilTemplate("tpl.bb_menu.html", true, true, "Services/COPage");
 
         // not nice, should be set by context per method
@@ -268,7 +268,7 @@ class ilPageContentGUI
                 $this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp")
             );
             $btpl->parseCurrentBlock();
-            
+
             // add int link parts
             include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
             $btpl->setCurrentBlock("int_link_prep");
@@ -313,7 +313,7 @@ class ilPageContentGUI
                 }
             }
         }
-        
+
         if ($this->getPageConfig()->getEnableAnchors()) {
             $btpl->touchBlock("bb_anc_button");
             $btpl->setVariable("TXT_ANC", $lng->txt("cont_anchor") . ":");
@@ -322,10 +322,10 @@ class ilPageContentGUI
 
         include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
         $btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), "il.COPageBB.setCharacterClass", $this->getStyleId()));
-        
+
         // footnote
         //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
-        
+
         //		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
         $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
         $lng->toJS("cont_text_iln");
@@ -334,9 +334,9 @@ class ilPageContentGUI
         $btpl->setVariable("TXT_BB_TIP", $this->lng->txt("cont_bb_tip"));
         $btpl->setVariable("TXT_WLN", $lng->txt("wiki_wiki_page"));
         $lng->toJS("wiki_wiki_page");
-        
+
         $btpl->setVariable("PAR_TA_NAME", $a_ta_name);
-        
+
         return $btpl->get();
     }
 
@@ -427,7 +427,7 @@ class ilPageContentGUI
         }
 
         $a_hid = explode(":", $_POST["target"][0]);
-        
+
         // check if target is within source
         if ($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id))) {
             $ilErr->raiseError($this->lng->txt("cont_target_within_source"), $ilErr->MESSAGE);
@@ -461,15 +461,15 @@ class ilPageContentGUI
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
-    
-    
+
+
     /**
     * split page to new page at specified position
     */
     public function splitPage()
     {
         $ilErr = $this->error;
-        
+
         if ($this->pg_obj->getParentType() != "lm") {
             $ilErr->raiseError("Split method called for wrong parent type (" .
             $this->pg_obj->getParentType() . ")", $ilErr->FATAL);
@@ -479,12 +479,12 @@ class ilPageContentGUI
                 $this->pg_obj->getParentType(),
                 $this->hier_id
             );
-                
+
             // jump to new page
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $lm_page->getId());
             $this->ctrl->redirectByClass("illmpageobjectgui", "edit");
         }
-        
+
         $this->ctrl->returnToParent($this, "jump" . ($this->hier_id - 1));
     }
 
@@ -494,7 +494,7 @@ class ilPageContentGUI
     public function splitPageNext()
     {
         $ilErr = $this->error;
-        
+
         if ($this->pg_obj->getParentType() != "lm") {
             $ilErr->raiseError("Split method called for wrong parent type (" .
             $this->pg_obj->getParentType() . ")", $ilErr->FATAL);
@@ -504,7 +504,7 @@ class ilPageContentGUI
                 $this->pg_obj->getParentType(),
                 $this->hier_id
             );
-            
+
             // jump to successor page
             if ($succ_id > 0) {
                 $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $succ_id);
@@ -522,7 +522,7 @@ class ilPageContentGUI
         if (is_array($this->updated)) {
             $error_str = "<b>Error(s):</b><br>";
             foreach ($this->updated as $error) {
-                $err_mess = implode($error, " - ");
+                $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }
@@ -533,7 +533,7 @@ class ilPageContentGUI
                 $this->updated);
         }
     }
-    
+
     /**
     * cancel creating page content
     */
@@ -565,20 +565,20 @@ class ilPageContentGUI
     public function deactivate()
     {
         $obj = &$this->content_obj;
-        
+
         if ($obj->isEnabled()) {
             $obj->disable();
         } else {
             $obj->enable();
         }
-        
+
         $updated = $this->pg_obj->update($this->hier_id);
         if ($updated !== true) {
             $_SESSION["il_pg_error"] = $updated;
         } else {
             unset($_SESSION["il_pg_error"]);
         }
-    
+
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
@@ -588,16 +588,16 @@ class ilPageContentGUI
     public function cut()
     {
         $lng = $this->lng;
-        
+
         $obj = $this->content_obj;
-        
+
         $updated = $this->pg_obj->cutContents(array($this->hier_id . ":" . $this->pc_id));
         if ($updated !== true) {
             $_SESSION["il_pg_error"] = $updated;
         } else {
             unset($_SESSION["il_pg_error"]);
         }
-    
+
         //ilUtil::sendSuccess($lng->txt("cont_sel_el_cut_use_paste"), true);
         $this->log->debug("return to parent jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -609,12 +609,12 @@ class ilPageContentGUI
     public function copy()
     {
         $lng = $this->lng;
-        
+
         $obj = $this->content_obj;
-        
+
         //ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
         $this->pg_obj->copyContents(array($this->hier_id . ":" . $this->pc_id));
-  
+
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 

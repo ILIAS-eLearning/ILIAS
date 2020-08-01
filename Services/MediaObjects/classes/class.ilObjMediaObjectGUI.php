@@ -89,7 +89,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->lng = $lng;
         $this->back_title = "";
         $this->type = "mob";
-        
+
         $lng->loadLanguageModule("mob");
     }
 
@@ -148,7 +148,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         return $this->enabledmapareas;
     }
-    
+
     /**
     * Set width preset
     *
@@ -158,7 +158,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $this->width_preset = $a_val;
     }
-    
+
     /**
     * Get width preset
     *
@@ -178,7 +178,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $this->height_preset = $a_val;
     }
-    
+
     /**
     * Get height preset
     *
@@ -210,7 +210,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
 
     /**
      * Execute current command
@@ -222,7 +222,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $ilAccess = $this->access;
         $ilErr = $this->error;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -240,7 +240,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 $this->ctrl->forwardCommand($md_gui);
                 break;
-                
+
             case "ilimagemapeditorgui":
                 require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
                 $image_map_edit = new ilImageMapEditorGUI($this->object);
@@ -248,7 +248,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $tpl->setContent($ret);
                 $this->checkFixSize();
                 break;
-                
+
             case "ilfilesystemgui":
                 include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
                 $fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
@@ -297,7 +297,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $this->back_title = $a_title;
     }
-    
+
     /**
     * create new media object form
     */
@@ -305,7 +305,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $tpl = $this->tpl;
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenId("create");
         $this->initForm();
         $tpl->setContent($this->form_gui->getHTML());
@@ -318,15 +318,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        
+
         if ($a_mode == "edit") {
             $std_item = $this->object->getMediaItem("Standard");
         }
 
         $this->form_gui = new ilPropertyFormGUI();
-        
+
         // standard view resource
         $title = new ilTextInputGUI($lng->txt("title"), "standard_title");
         $title->setSize(40);
@@ -351,14 +351,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_prop->addOption($op2);
         $radio_prop->setValue("File");
         $this->form_gui->addItem($radio_prop);
-        
+
         // standard format
         if ($a_mode == "edit") {
             $format = new ilNonEditableValueGUI($lng->txt("cont_format"), "standard_format");
             $format->setValue($std_item->getFormat());
             $this->form_gui->addItem($format);
         }
-        
+
         // standard size
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "standard_size");
         if ($a_mode == "edit") {
@@ -374,14 +374,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $op2 = new ilRadioOption($lng->txt("cont_adjust_size"), "selected");
         }
         $radio_size->addOption($op1);
-        
+
         // width height
         include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "standard_width_height");
         $width_height->setConstrainProportions(true);
         $op2->addSubItem($width_height);
-            
+
         // resize image
         if ($a_mode == "edit") {
             $std_item = $this->object->getMediaItem("Standard");
@@ -391,7 +391,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $op2->addSubItem($resize);
             }
         }
-            
+
         $radio_size->setValue("original");
         if ($a_mode == "create" && ($this->getHeightPreset() > 0 || $this->getWidthPreset() > 0)) {
             $radio_size->setValue("selected");
@@ -400,7 +400,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
         $radio_size->addOption($op2);
         $this->form_gui->addItem($radio_size);
-        
+
         // standard caption
         $caption = new ilTextAreaInputGUI($lng->txt("cont_caption"), "standard_caption");
         $caption->setCols(30);
@@ -411,7 +411,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $caption->setSize(40);
         $caption->setMaxLength(200);
         $this->form_gui->addItem($caption);*/
-        
+
         // text representation (alt text)
         if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image"))) {
             $ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "text_representation");
@@ -441,12 +441,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($a_mode == "edit") {
             $full_item = $this->object->getMediaItem("Fullscreen");
         }
-        
+
         // fullscreen view resource
         $fs_sec = new ilFormSectionHeaderGUI();
         $fs_sec->setTitle($lng->txt("cont_fullscreen"));
         $this->form_gui->addItem($fs_sec);
-        
+
         $radio_prop2 = new ilRadioGroupInputGUI($lng->txt("cont_resource"), "full_type");
         $op1 = new ilRadioOption($lng->txt("cont_none"), "None");
         $radio_prop2->addOption($op1);
@@ -479,7 +479,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $this->form_gui->addItem($format);
             }
         }
-        
+
         // fullscreen size
         $radio_size = new ilRadioGroupInputGUI($lng->txt("size"), "full_size");
         if ($a_mode == "edit") {
@@ -496,13 +496,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $op2 = new ilRadioOption($lng->txt("cont_adjust_size"), "selected");
         }
         $radio_size->addOption($op1);
-        
+
         // width/height
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "full_width_height");
         $width_height->setConstrainProportions(true);
         $op2->addSubItem($width_height);
-            
+
         // resize image
         if ($a_mode == "edit") {
             $full_item = $this->object->getMediaItem("Fullscreen");
@@ -520,7 +520,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_size->setValue("original");
         $radio_size->addOption($op2);
         $this->form_gui->addItem($radio_size);
-        
+
         // fullscreen caption
         $caption = new ilTextAreaInputGUI($lng->txt("cont_caption"), "full_caption");
         $caption->setCols(30);
@@ -531,7 +531,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $caption->setSize(40);
         $caption->setMaxLength(200);
         $this->form_gui->addItem($caption);*/
-        
+
         // text representation (alt text)
         if ($a_mode == "edit" && $this->object->hasFullscreenItem() && is_int(strpos($std_item->getFormat(), "image"))) {
             $ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "full_text_representation");
@@ -541,7 +541,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $this->form_gui->addItem($ta);
         }
 
-        
+
         // fullscreen parameters
         if ($a_mode == "edit" && $this->object->hasFullscreenItem() &&
             !in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
@@ -583,7 +583,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    
+
     /**
     * Get values for form
     *
@@ -591,9 +591,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function getValues()
     {
         $values = array();
-        
+
         $values["standard_title"] = $this->object->getTitle();
-        
+
         $std_item = $this->object->getMediaItem("Standard");
         if ($std_item->getLocationType() == "LocalFile") {
             $values["standard_type"] = "File";
@@ -606,7 +606,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $values["standard_width_height"]["width"] = $std_item->getWidth();
         $values["standard_width_height"]["height"] = $std_item->getHeight();
         $values["standard_width_height"]["constr_prop"] = true;
-        
+
         $values["standard_size"] = "selected";
 
         $orig_size = $std_item->getOriginalSize();
@@ -629,7 +629,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         } else {
             $values["standard_parameters"] = $std_item->getParameterString();
         }
-        
+
         $values["full_type"] = "None";
         $values["full_size"] = "original";
         if ($this->object->hasFullScreenItem()) {
@@ -647,7 +647,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $values["full_width_height"]["constr_prop"] = true;
 
             $values["full_size"] = "selected";
-    
+
             $orig_size = $full_item->getOriginalSize();
             if ($full_item->getWidth() == "" &&
                 $full_item->getHeight() == "") {
@@ -669,7 +669,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
             $values["full_text_representation"] = $full_item->getTextRepresentation();
         }
-        
+
         $this->form_gui->setValuesByArray($values);
     }
 
@@ -693,7 +693,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             return false;
         }
     }
-    
+
     /**
      * chechInputForm
      *
@@ -708,8 +708,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
         return true;
     }
-    
-    
+
+
     /**
     * Set media object values from creation form
     */
@@ -822,7 +822,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             } elseif ($_POST["full_type"] == "Standard" && $_POST["standard_type"] == "File") {
                 $location = $file_name;
             }
-            
+
             // resize file
             if ($_POST["full_type"] == "File" ||
                 ($_POST["full_type"] == "Standard" && $_POST["standard_type"] == "File")) {
@@ -836,13 +836,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         (boolean) $_POST["full_width_height"]["constr_prop"]
                     );
                 }
-    
+
                 $media_item2->setFormat($format);
                 $media_item2->setLocation($location);
                 $media_item2->setLocationType("LocalFile");
                 $type = "File";
             }
-            
+
             if ($_POST["full_type"] == "Reference") {
                 $format = $location = "";
                 if ($_POST["full_reference"] != "") {
@@ -850,7 +850,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $location = ilUtil::stripSlashes($_POST["full_reference"]);
                 }
             }
-            
+
             if ($_POST["full_type"] == "Reference" ||
                 ($_POST["full_type"] == "Standard" && $_POST["standard_type"] == "Reference")) {
                 $media_item2->setFormat($format);
@@ -878,14 +878,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $media_item2->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
             }
         }
-    
+
         ilObjMediaObject::renameExecutables($mob_dir);
         include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
         $a_mob->update();
     }
-    
-    
+
+
     /**
     * Cancel saving
     */
@@ -900,7 +900,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function editObject()
     {
         $tpl = $this->tpl;
-        
+
         $this->setPropertiesSubTabs("general");
 
         $this->initForm("edit");
@@ -1001,12 +1001,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
-        
+
         $this->initForm("edit");
         if ($this->form_gui->checkInput()) {
             $title = trim($_POST["standard_title"]);
             $this->object->setTitle($title);
-            
+
             $std_item = $this->object->getMediaItem("Standard");
             $location = $std_item->getLocation();
             $format = $std_item->getFormat();
@@ -1027,17 +1027,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $file_name,
                         $file
                     );
-    
+
                     // get mime type
                     $format = ilObjMediaObject::getMimeType($file);
                     $location = $file_name;
-                    
+
                     $resize = true;
                 } elseif ($_POST["standard_resize"]) {
                     $file = $mob_dir . "/" . $location;
                     $resize = true;
                 }
-                
+
                 // resize
                 if ($resize) {
                     if ($_POST["standard_size"] != "original" &&
@@ -1052,7 +1052,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $std_item->setFormat($format);
                     $std_item->setLocation($location);
                 }
-                
+
                 $std_item->setLocationType("LocalFile");
             }
             $this->object->setDescription($format);
@@ -1075,10 +1075,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // set caption
             $std_item->setCaption(ilUtil::stripSlashes($_POST["standard_caption"]));
-            
+
             // text representation
             $std_item->setTextRepresentation(ilUtil::stripSlashes($_POST["text_representation"]));
-            
+
             // set parameters
             if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
                 if (ilObjMediaObject::_useAutoStartParameterOnly(
@@ -1094,7 +1094,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $std_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["standard_parameters"])));
                 }
             }
-    
+
             // "None" selected
             if ($_POST["full_type"] == "None") {
                 if ($this->object->hasFullscreenItem()) {		// delete existing
@@ -1128,16 +1128,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                             $full_file_name,
                             $file
                         );
-    
+
                         $format = ilObjMediaObject::getMimeType($file);
                         $location = $full_file_name;
-                        
+
                         $resize = true;
                     } elseif ($_POST["full_resize"]) {
                         $file = $mob_dir . "/" . $location;
                         $resize = true;
                     }
-                    
+
                     // resize
                     if ($resize) {
                         if ($_POST["full_size"] != "original" &&
@@ -1180,7 +1180,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         );
                     }
                 }
-                
+
                 // determine width and height of known image types
                 $wh = ilObjMediaObject::_determineWidthHeight(
                     $format,
@@ -1199,13 +1199,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $full_item->setWidth($wh["width"]);
                 $full_item->setHeight($wh["height"]);
                 $full_item->setLocation($location);
-                
+
                 $full_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
-                
+
                 // text representation
                 $full_item->setTextRepresentation(ilUtil::stripSlashes($_POST["full_text_representation"]));
 
-                
+
                 // set parameters
                 if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
                     if (ilObjMediaObject::_useAutoStartParameterOnly(
@@ -1389,7 +1389,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $purpose[] = $this->lng->txt("cont_fullscreen");
                     }
                 }
-                $this->tpl->setVariable("TXT_PURPOSE", implode($purpose, ", "));
+                $this->tpl->setVariable("TXT_PURPOSE", implode(", ", $purpose));
 
                 $this->tpl->parseCurrentBlock();
             }
@@ -1637,8 +1637,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $this->showUsagesObject(true);
     }
-    
-    
+
+
     /**
      * show all usages of mob
      */
@@ -1649,19 +1649,19 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ilTabs->addSubTab(
             "current_usages",
             $lng->txt("cont_current_usages"),
             $ilCtrl->getLinkTarget($this, "showUsages")
         );
-        
+
         $ilTabs->addSubTab(
             "all_usages",
             $lng->txt("cont_all_usages"),
             $ilCtrl->getLinkTarget($this, "showAllUsages")
         );
-        
+
         if ($a_all) {
             $ilTabs->activateSubTab("all_usages");
             $cmd = "showAllUsages";
@@ -1785,7 +1785,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    
+
     /**
     * Get Tabs
     */
@@ -1794,7 +1794,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilHelp = $this->help;
 
         $ilHelp->setScreenIdComponent("mob");
-        
+
         if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
             && $this->object->getId() > 0) {
             // object properties
@@ -1804,11 +1804,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 "edit",
                 get_class($this)
             );
-            
+
             $st_item = $this->object->getMediaItem("Standard");
 
             // link areas
-            
+
             if (is_object($st_item) && $this->getEnabledMapAreas()) {
                 $format = $st_item->getFormat();
                 if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg"))) {
@@ -1843,7 +1843,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 //				$ilTabs->addTarget("cont_files",
                 //					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
                 //					get_class($this));
-                    
+
                 $this->tabs_gui->addTarget(
                     "cont_files",
                     $this->ctrl->getLinkTargetByClass(
@@ -1876,7 +1876,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             );
         }
     }
-    
+
     /**
      * Show video tools
      *
@@ -1890,14 +1890,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
 
         /*$codecs = ilFFmpeg::getSupportedCodecsInfo();
-        $codec_str = implode($codecs, "<br />");
+        $codec_str = implode("<br />", $codecs);
         $tpl->setContent($codec_str);*/
-        
+
         $formats = ilFFmpeg::getSupportedFormatsInfo();
-        $formats_str = implode($formats, "<br />");
+        $formats_str = implode("<br />", $formats);
         $tpl->setContent($formats_str);
     }
-    
+
 
     /**
      * Include media object presentation JS
@@ -1911,17 +1911,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($a_tpl == null) {
             $a_tpl = $tpl;
         }
-        
+
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQUery($a_tpl);
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         $a_tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
         $a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
-        
+
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
-    
+
     /**
      * Set subtabs for properties
      *
@@ -1934,13 +1934,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $ilTabs->activateTab("cont_mob_def_prop");
-        
+
         $ilTabs->addSubTab(
             "general",
             $lng->txt("mob_general"),
             $ilCtrl->getLinkTarget($this, "edit")
         );
-        
+
         if ($this->object->getMediaItem("Standard")->getFormat() == "video/webm" ||
             $this->object->getMediaItem("Standard")->getFormat() == "video/mp4") {
             $ilTabs->addSubTab(
@@ -1949,10 +1949,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $ilCtrl->getLinkTarget($this, "listSubtitleFiles")
             );
         }
-        
+
         $ilTabs->activateSubTab($a_active);
     }
-    
+
     /**
      * List subtitls files
      *
@@ -1966,16 +1966,16 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         $this->setPropertiesSubTabs("subtitles");
-        
+
         // upload file
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
         include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("mob_subtitle_file") . " (.srt)", "subtitle_file");
         $fi->setSuffixes(array("srt"));
         $ilToolbar->addInputItem($fi, true);
-        
+
         // language
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
@@ -1989,13 +1989,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $ilToolbar->addSeparator();
         $ilToolbar->addFormButton($lng->txt("mob_upload_multi_srt"), "uploadMultipleSubtitleFileForm");
-        
+
         include_once("./Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php");
         $tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $this->object);
-            
+
         $tpl->setContent($tab->getHTML());
     }
-    
+
     /**
      * Upload srt file
      *
@@ -2006,13 +2006,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         if ($this->object->uploadSrtFile($_FILES["subtitle_file"]["tmp_name"], ilUtil::stripSlashes($_POST["language"]))) {
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
-    
+
     /**
      * Confirm srt file deletion
      */
@@ -2021,9 +2021,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-            
+
         $lng->loadLanguageModule("meta");
-        
+
         if (!is_array($_POST["srt"]) || count($_POST["srt"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSubtitleFiles");
@@ -2034,15 +2034,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $cgui->setHeaderText($lng->txt("mob_really_delete_srt"));
             $cgui->setCancel($lng->txt("cancel"), "listSubtitleFiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSrtFiles");
-            
+
             foreach ($_POST["srt"] as $i) {
                 $cgui->addItem("srt[]", $i, "subtitle_" . $i . ".srt (" . $lng->txt("meta_l_" . $i) . ")");
             }
-            
+
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
+
     /**
      * Delete srt files
      */
@@ -2050,7 +2050,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         foreach ($_POST["srt"] as $i) {
             if (strlen($i) == 2 && !is_int(strpos($i, "."))) {
                 $this->object->removeAdditionalFile("srt/subtitle_" . $i . ".srt");

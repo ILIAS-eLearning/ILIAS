@@ -126,7 +126,7 @@ class ilMediaItem
     {
         $this->text_representation = $a_val;
     }
-    
+
     /**
      * Get text representation
      *
@@ -136,7 +136,7 @@ class ilMediaItem
     {
         return $this->text_representation;
     }
-    
+
     /**
      * Set upload hash
      *
@@ -185,7 +185,7 @@ class ilMediaItem
             $ilDB->quote($this->getUploadHash(), "text") .
             ")";
         $ilDB->manipulate($query);
-        
+
         $this->setId($item_id);
 
         // create mob parameters
@@ -317,18 +317,18 @@ class ilMediaItem
             }
         }
     }
-    
+
     /**
     * write thumbnail creation try data ("y"/"n")
     */
     public function writeThumbTried($a_tried)
     {
         $ilDB = $this->db;
-        
+
         $q = "UPDATE media_item SET tried_thumb = " .
             $ilDB->quote($a_tried, "text") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
-            
+
         $ilDB->manipulate($q);
     }
 
@@ -343,7 +343,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer") . " " .
@@ -366,7 +366,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE id = " .
             $ilDB->quote($a_med_id, "integer");
@@ -389,19 +389,19 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mobId, "integer") . " " .
             "AND purpose=" . $ilDB->quote($a_purpose, "text") . " ORDER BY nr";
         $item_set = $ilDB->query($query);
-        
+
         while ($item_rec = $ilDB->fetchAssoc($item_set)) {
             return $item_rec;
         }
         return false;
     }
-    
+
     /**
     * read media items into media objects (static)
     *
@@ -412,7 +412,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob->getId(), "integer") . " " .
@@ -465,7 +465,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // iterate all media items ob mob
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer");
@@ -806,7 +806,7 @@ class ilMediaItem
         $o_file = $file_arr[count($file_arr) - 1];
         $file_arr = explode(".", $o_file);
         unset($file_arr[count($file_arr) - 1]);
-        $file = implode($file_arr, ".");
+        $file = implode(".", $file_arr);
 
         if (!$a_reference_copy) {
             return $this->getWorkDirectory() . "/" . $file . "." . $this->getMapWorkCopyType();
@@ -918,7 +918,7 @@ class ilMediaItem
                 @fclose($lcopy);
                 @fclose($handle);
             }
-            
+
             // now, create working copy
             ilUtil::convertImage(
                 $this->getMapWorkCopyName(true),
@@ -934,7 +934,7 @@ class ilMediaItem
         }
         return true;
     }
-    
+
     /**
     * make map work copy of image
     *
@@ -944,12 +944,12 @@ class ilMediaItem
     public function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
     {
         $lng = $this->lng;
-        
+
         if (!$this->copyOriginal()) {
             return false;
         }
         $this->buildMapWorkImage();
-        
+
         // determine ratios
         $size = @getimagesize($this->getMapWorkCopyName());
         $x_ratio = 1;
@@ -980,7 +980,7 @@ class ilMediaItem
         }
 
         $this->saveMapWorkImage();
-        
+
         return true;
     }
 
@@ -1113,7 +1113,7 @@ class ilMediaItem
         // build xml of map areas
         for ($i = 0; $i < count($this->mapareas); $i++) {
             $area = $this->mapareas[$i];
-            
+
             // highlight mode
             $hm = "";
             if ($area->getHighlightMode() != "") {
@@ -1123,7 +1123,7 @@ class ilMediaItem
                     : "Accented";
                 $hm .= 'HighlightClass="' . $hcl . '" ';
             }
-            
+
             $xml .= "<MapArea Shape=\"" . $area->getShape() . "\" Coords=\"" . $area->getCoords() . "\" " . $hm . ">";
             if ($area->getLinkType() == IL_INT_LINK) {
                 $target_frame = $area->getTargetFrame();
@@ -1135,7 +1135,7 @@ class ilMediaItem
                 $tf_str = ($target_frame == "")
                     ? ""
                     : "TargetFrame=\"" . $target_frame . "\"";
-                
+
                 $xml .= "<IntLink Target=\"" . $area->getTarget($a_insert_inst, $a_inst) . "\" Type=\"" .
                     $area->getType() . "\" $tf_str>";
                 // see bug 17893 and http://stackoverflow.com/questions/4026502/xml-error-at-ampersand
@@ -1163,7 +1163,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         //echo "mediaItems::resolve<br>";
         // read media_object record
         $query = "SELECT * FROM media_item WHERE mob_id = " .
@@ -1185,7 +1185,7 @@ class ilMediaItem
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // read media_items records
         $query = "SELECT * FROM media_item WHERE mob_id = " .
             $ilDB->quote($a_mob_id, "integer") . " ORDER BY nr";

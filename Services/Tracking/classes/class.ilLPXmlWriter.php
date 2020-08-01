@@ -14,7 +14,7 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 class ilLPXmlWriter extends ilXmlWriter
 {
     private $add_header = true;
-    
+
     private $timestamp = "";
     private $include_ref_ids = false;
     private $type_filter = array();
@@ -27,7 +27,7 @@ class ilLPXmlWriter extends ilXmlWriter
         $this->add_header = $a_add_header;
         parent::__construct();
     }
-    
+
     /**
      * Set timestamp
      *
@@ -37,7 +37,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         $this->timestamp = $a_val;
     }
-    
+
     /**
      * Get timestamp
      *
@@ -47,7 +47,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         return $this->timestamp;
     }
-    
+
     /**
      * Set include ref ids
      *
@@ -57,7 +57,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         $this->include_ref_ids = $a_val;
     }
-    
+
     /**
      * Get include ref ids
      *
@@ -67,7 +67,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         return $this->include_ref_ids;
     }
-    
+
     /**
      * Set type filter
      *
@@ -77,7 +77,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         $this->type_filter = $a_val;
     }
-    
+
     /**
      * Get type filter
      *
@@ -87,7 +87,7 @@ class ilLPXmlWriter extends ilXmlWriter
     {
         return $this->type_filter;
     }
-    
+
     /**
      * Write XML
      * @return
@@ -101,7 +101,7 @@ class ilLPXmlWriter extends ilXmlWriter
         }
         $this->addLPInformation();
     }
-    
+
     /**
      * Build XML header
      * @return
@@ -114,8 +114,8 @@ class ilLPXmlWriter extends ilXmlWriter
 
         return true;
     }
-    
-    
+
+
     /**
      * Init xml writer
      * @return bool
@@ -124,13 +124,13 @@ class ilLPXmlWriter extends ilXmlWriter
     protected function init()
     {
         $this->xmlClear();
-        
+
         /*		if(!$this->obj_id)
                 {
                     throw new UnexpectedValueException('No obj_id given: ');
                 }*/
     }
-    
+
     /**
      * Add lp information as xml
      *
@@ -142,9 +142,9 @@ class ilLPXmlWriter extends ilXmlWriter
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $this->xmlStartTag('LPData', array());
-        
+
         $set = $ilDB->query(
             $q = "SELECT * FROM ut_lp_marks " .
             " WHERE status_changed >= " . $ilDB->quote($this->getTimestamp(), "timestamp")
@@ -155,7 +155,7 @@ class ilLPXmlWriter extends ilXmlWriter
             if ($this->getIncludeRefIds()) {
                 $ref_ids = ilObject::_getAllReferences($rec["obj_id"]);
             }
-            
+
             if (!is_array($this->getTypeFilter()) ||
                 (count($this->getTypeFilter()) == 0) ||
                 in_array(ilObject::_lookupType($rec["obj_id"]), $this->getTypeFilter())) {
@@ -164,14 +164,14 @@ class ilLPXmlWriter extends ilXmlWriter
                     array(
                         'UserId' => $rec["usr_id"],
                         'ObjId' => $rec["obj_id"],
-                        'RefIds' => implode($ref_ids, ","),
+                        'RefIds' => implode(",", $ref_ids),
                         'Timestamp' => $rec["status_changed"],
                         'LPStatus' => $rec["status"]
                         )
                 );
             }
         }
-        
+
         $this->xmlEndTag('LPData');
     }
 }

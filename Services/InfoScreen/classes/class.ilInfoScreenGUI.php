@@ -124,12 +124,12 @@ class ilInfoScreenGUI
         $rbacsystem = $this->rbacsystem;
         $tpl = $this->tpl;
         $ilAccess = $this->access;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
 
         $cmd = $this->ctrl->getCmd("showSummary");
         $this->ctrl->setReturn($this, "showSummary");
-        
+
         $this->setTabs();
 
         switch ($next_class) {
@@ -148,13 +148,13 @@ class ilInfoScreenGUI
                 $html = $this->ctrl->forwardCommand($user_profile);
                 $tpl->setContent($html);
                 break;
-            
+
             case "ilcommonactiondispatchergui":
                 include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-                
+
             default:
                 return $this->$cmd();
                 break;
@@ -171,7 +171,7 @@ class ilInfoScreenGUI
     {
         $this->table_class = $a_val;
     }
-    
+
     /**
      * Get table class
      *
@@ -181,7 +181,7 @@ class ilInfoScreenGUI
     {
         return $this->table_class;
     }
-    
+
     /**
     * enable notes
     */
@@ -234,7 +234,7 @@ class ilInfoScreenGUI
     {
         $this->block_property[$a_block_type][$a_property] = $a_value;
     }
-    
+
     public function getAllBlockProperties()
     {
         return $this->block_property;
@@ -382,7 +382,7 @@ class ilInfoScreenGUI
                     $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
                 }
             }
-            $langs = implode($langs, ", ");
+            $langs = implode(", ", $langs);
 
             // keywords
             $keywords = array();
@@ -390,7 +390,7 @@ class ilInfoScreenGUI
                 $md_key = $md_gen->getKeyword($id);
                 $keywords[] = $md_key->getKeyword();
             }
-            $keywords = implode($keywords, ", ");
+            $keywords = implode(", ", $keywords);
         }
 
         // authors
@@ -483,13 +483,13 @@ class ilInfoScreenGUI
 
         $this->addSection($lng->txt("additional_info"));
         $a_obj = $this->gui_object->object;
-                
+
         // links to the object
         if (is_object($a_obj)) {
             // permanent link
             $type = $a_obj->getType();
             $ref_id = $a_obj->getRefId();
-            
+
             if ($ref_id) {
                 include_once 'Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
                 if (ilECSServerSettings::getInstance()->activeServerExists()) {
@@ -508,7 +508,7 @@ class ilInfoScreenGUI
                     $pm->getHTML(),
                     ""
                 );
-            
+
                 // bookmarks
 
                 // links to resource
@@ -539,8 +539,8 @@ class ilInfoScreenGUI
                 }
             }
         }
-                
-                
+
+
         // creation date
         $this->addProperty(
             $lng->txt("create_date"),
@@ -551,7 +551,7 @@ class ilInfoScreenGUI
         if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
             include_once './Services/Object/classes/class.ilObjectFactory.php';
             include_once './Services/User/classes/class.ilObjUser.php';
-            
+
             if (ilObjUser::userExists(array($a_obj->getOwner()))) {
                 $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
             } else {
@@ -652,7 +652,7 @@ class ilInfoScreenGUI
     public function getCenterColumnHTML()
     {
         $ilCtrl = $this->ctrl;
-        
+
         include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI("info", IL_COL_CENTER);
         $this->setColumnSettings($column_gui);
@@ -675,7 +675,7 @@ class ilInfoScreenGUI
                 $html = $this->getHTML();
             }
         }
-        
+
         return $html;
     }
 
@@ -687,7 +687,7 @@ class ilInfoScreenGUI
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
         $this->setColumnSettings($column_gui);
@@ -719,7 +719,7 @@ class ilInfoScreenGUI
         $column_gui->setRepositoryMode(true);
         $column_gui->setAllBlockProperties($this->getAllBlockProperties());
     }
-    
+
     public function setOpenFormTag($a_val)
     {
         $this->open_form_tag = $a_val;
@@ -741,14 +741,14 @@ class ilInfoScreenGUI
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $tpl = new ilTemplate("tpl.infoscreen.html", true, true, "Services/InfoScreen");
 
         // other class handles form action (@todo: this is not implemented/tested)
         if ($this->form_action == "") {
             $this->setFormAction($ilCtrl->getFormAction($this));
         }
-        
+
         require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
 
@@ -758,10 +758,10 @@ class ilInfoScreenGUI
                 $this->addButton($lng->txt("show_hidden_sections"), "JavaScript:toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "');");
             }
         }
-        
-        
+
+
         // DEPRECATED - use ilToolbarGUI
-        
+
         // add top buttons
         if (count($this->top_buttons) > 0) {
             $tpl->addBlockfile("TOP_BUTTONS", "top_buttons", "tpl.buttons.html");
@@ -799,7 +799,7 @@ class ilInfoScreenGUI
                 $tpl->setVariable("FORMACTION", $this->form_action);
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($this->close_form_tag) {
                 $tpl->touchBlock("formbottom");
             }
@@ -962,7 +962,7 @@ class ilInfoScreenGUI
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return false;
         }
-            
+
         include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getContextObjId());
         if ($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL) {
@@ -1058,7 +1058,7 @@ class ilInfoScreenGUI
                 // $a_tpl->touchBlock("row");
             }
         }
-        
+
         // #10493
         $a_tpl->touchBlock("row");
     }
@@ -1092,7 +1092,7 @@ class ilInfoScreenGUI
     {
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         include_once("Services/Notes/classes/class.ilNoteGUI.php");
         $notes_gui = new ilNoteGUI(
@@ -1100,18 +1100,18 @@ class ilInfoScreenGUI
             0,
             $this->gui_object->object->getType()
         );
-        
+
         // global switch
         if ($ilSetting->get("disable_comments")) {
             $notes_gui->enablePublicNotes(false);
         } else {
             $ref_id = $this->gui_object->object->getRefId();
             $has_write = $ilAccess->checkAccess("write", "", $ref_id);
-            
+
             if ($has_write && $ilSetting->get("comments_del_tutor", 1)) {
                 $notes_gui->enablePublicNotesDeletion(true);
             }
-            
+
             /* should probably be discussed further
             for now this will only work properly with comments settings
             (see ilNoteGUI constructor)
@@ -1195,7 +1195,7 @@ class ilInfoScreenGUI
         );
     }
 
-    
+
     /**
     * Add tagging
     */
@@ -1203,7 +1203,7 @@ class ilInfoScreenGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("tagging");
         $tags_set = new ilSetting("tags");
 
@@ -1213,22 +1213,22 @@ class ilInfoScreenGUI
             $this->gui_object->object->getId(),
             $this->gui_object->object->getType()
         );
-        
+
         $this->addSection($lng->txt("tagging_tags"));
-        
+
         if ($tags_set->get("enable_all_users")) {
             $this->addProperty(
                 $lng->txt("tagging_all_users"),
                 $tagging_gui->getAllUserTagsForObjectHTML()
             );
         }
-        
+
         $this->addProperty(
             $lng->txt("tagging_my_tags"),
             $tagging_gui->getTaggingInputHTML()
         );
     }
-    
+
     public function saveTags()
     {
         include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
@@ -1238,10 +1238,10 @@ class ilInfoScreenGUI
             $this->gui_object->object->getType()
         );
         $tagging_gui->saveInput();
-        
+
         ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, ""); // #14993
-        
+
         // return $this->showSummary();
     }
 
@@ -1254,7 +1254,7 @@ class ilInfoScreenGUI
     public function getHiddenToggleButton()
     {
         $lng = $this->lng;
-        
+
         return "<a onClick=\"toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "'); return false;\" href=\"#\">" . $lng->txt("show_hidden_sections") . "</a>";
     }
 
