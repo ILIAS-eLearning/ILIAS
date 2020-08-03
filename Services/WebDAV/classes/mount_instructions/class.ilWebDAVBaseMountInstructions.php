@@ -20,7 +20,7 @@ abstract class ilWebDAVBaseMountInstructions
         ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
-        String $language
+        string $language
     ) {
         $this->repo = $a_repo;
         $this->uri_builder = $a_uri_builder;
