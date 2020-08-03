@@ -110,7 +110,8 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "",
-      "last-update-for-ilias": null
+      "last-update-for-ilias": null,
+      "note": "rm -r libs/bower/bower_components/yui2/sandbox, see #28587"
     },
     "jstree": {
       "introduction-date": null,

@@ -81,6 +81,14 @@ class ilMailingListsGUI
 
     public function executeCommand()
     {
+        require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
+        if (
+            !ilBuddySystem::getInstance()->isEnabled() ||
+            0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations())
+        ) {
+            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+        }
+
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
             default:

@@ -107,11 +107,10 @@ class ilAuthProviderFactory
                 return new ilAuthProviderECS($credentials);
 
             case AUTH_SAML:
-                $saml_info = explode('_', $a_authmode);
                 $this->getLogger()->debug('Using apache authentication.');
                 require_once 'Services/Saml/classes/class.ilAuthProviderSaml.php';
                 require_once 'Services/Saml/classes/class.ilSamlIdp.php';
-                return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($saml_info[1]));
+                return new ilAuthProviderSaml($credentials, ilSamlIdp::getIdpIdByAuthMode($a_authmode));
                 
             default:
                 $this->getLogger('Plugin authentication: ' . $a_authmode);

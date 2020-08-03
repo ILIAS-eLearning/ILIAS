@@ -155,12 +155,15 @@ abstract class ilParticipants
     
     /**
      * Check if (current) user has access to the participant list
-     * @param type $a_obj
-     * @param type $a_usr_id
-     * @todo refactor remove
+     * @param int $a_obj
+     * @param int $a_usr_id
      */
     public static function hasParticipantListAccess($a_obj_id, $a_usr_id = null)
     {
+        global $DIC;
+
+        $access = $DIC->access();
+
         if (!$a_usr_id) {
             $a_usr_id = $GLOBALS['ilUser']->getId();
         }
@@ -169,15 +172,18 @@ abstract class ilParticipants
         $refs = ilObject::_getAllReferences($a_obj_id);
         $ref_id = end($refs);
 
-        if ($GLOBALS['ilAccess']->checkAccess('write', '', $ref_id)) {
+        if ($access->checkAccess('manage_members', '', $ref_id)) {
             return true;
         }
-        $part = self::getInstanceByObjId($a_obj_id);
+        $part = self::getInstance($ref_id);
         if ($part->isAssigned($a_usr_id)) {
             if ($part->getType() == 'crs') {
-                // Check for show_members
-                include_once './Modules/Course/classes/class.ilObjCourse.php';
                 if (!ilObjCourse::lookupShowMembersEnabled($a_obj_id)) {
+                    return false;
+                }
+            }
+            if ($part->getType() == 'grp') {
+                if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
             }

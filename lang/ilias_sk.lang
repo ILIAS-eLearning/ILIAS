@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3062,7 +3062,7 @@ common#:#usrimport_action_replaced#:#Akce %1$s podle %2$s přemístěna.
 common#:#usrimport_cant_delete#:#Nelze vykonat akci "Smazat". V databázi nenalezen žádný uživatel.
 common#:#usrimport_cant_insert#:#Nelze vykonat akci "Vložit". Uživatel je již v databázi.
 common#:#usrimport_cant_update#:#Nelze vykonat akci "Aktualizovat".  V databázi nenalezen žádný uživatel.
-common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.)\nKdyž je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
+common#:#usrimport_conflict_handling_info#:#Když je vybráno "Ignorovat při konfliktu", ILIAS ignoruje akci, pokud ji nelze vykonat (např. akce "Vložit" není vykonána, pokud uživatel již existuje v databázi se stejným login.)Parent-StyleKdyž je vybráno "Aktualizovat při konfliktu", ILIAS aktualizuje databázi když akce nemůže být vykonána. (např. akce "Vložit" je zaměněna akcí "Aktualizovat", když uživatel se stejným login již v databázi existuje).
 common#:#usrimport_global_role_for_action_required#:#Nejméně jedna globální role musí být pro akci"%1$s"  specifikována.
 common#:#usrimport_ignore_role#:#Ignorovat roli
 common#:#usrimport_login_is_not_unique#:#Login není unikátní.
@@ -3817,7 +3817,7 @@ crs#:#crs_blocked_member_body#:#Vaše členství v kurzu "%s" bylo zablokováno.
 crs#:#crs_cancel_subscr_request#:#Smazat požadavek členství
 crs#:#crs_cancel_subscription#:#Odstoupil z kurzu "%s"
 crs#:#crs_cancel_subscription_body#:#Příslušník odstoupil z kurzu "%s".
-crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.\nMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.\nKe zobrazení členů Vašeho kurzu klepněte na:
+crs#:#crs_cancel_subscription_body2#:#Na seznamu čekatelů Vašeho kurzu mohou být další uživatelé.Parent-StyleMěl(a) by jste nyní tento seznam čekatelů zkontrolovat.Parent-StyleKe zobrazení členů Vašeho kurzu klepněte na:
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Konzultace
 crs#:#crs_contact_email#:#E-mail
@@ -4002,7 +4002,7 @@ crs#:#crs_structure#:#Struktura kurzu
 crs#:#crs_subscribe_member#:#Vyše registrace v kurzu "%s"
 crs#:#crs_subscribe_member_body#:#S potěšením Vám potvrzujeme Vaši registraci do kurzu "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscriber#:#Abonent
 crs#:#crs_subscribers_deleted#:#Žádost byla vymazána
 crs#:#crs_subscription#:#Zápis
@@ -4766,7 +4766,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#K potvrzení Vaší registrace vstupt
 grp#:#grp_mail_notification_reg_req_sub#:#Požadavek připojení ke skupině "%s"
 grp#:#grp_mail_notification_reg_sub#:#Uživatel registrován ve skupině "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s bylo ukončeno jeho/její členství ve skupině "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé.\nMěl(a) by jste nyní zkontrolovat seznam čekatelů.\nK zobrazení členů Vaší skupiny klepněte na:
+grp#:#grp_mail_notification_unsub_bod2#:#Na seznamu čekatelů Vaší skupiny mohou být další uživatelé.Parent-StyleMěl(a) by jste nyní zkontrolovat seznam čekatelů.Parent-StyleK zobrazení členů Vaší skupiny klepněte na:
 grp#:#grp_mail_notification_unsub_sub#:#Uživatel opustil skupinu "%s"
 grp#:#grp_mail_permanent_link#:#Klepněte na nasledující odkaz k nalezení všech informací týkající se skupiny, které potřebujete:
 grp#:#grp_mail_status_bod#:#Váš status ve skupině "%s" byl změněn.
@@ -4777,9 +4777,9 @@ grp#:#grp_mail_sub_dec_bod#:#S lítostí Vám oznamujeme, že Vaše registrace v
 grp#:#grp_mail_sub_dec_sub#:#Registrace ve skupině "%s" zamítnuta
 grp#:#grp_mail_subscribe_member_bod#:#S potěšením potvrzujeme Vaši registraci ve skupině "%s".
 grp#:#grp_mail_subscribe_member_sub#:#Vaše registrace ve skupině "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s.\nDoufáme, že najdete příležitost zúčastnit se v jiné skupině.
+grp#:#grp_mail_unsubscribe_member_bod#:#Potvrzujeme Vaše ukončení členství ve skupině %s.Parent-StyleDoufáme, že najdete příležitost zúčastnit se v jiné skupině.
 grp#:#grp_mail_unsubscribe_member_sub#:#Vaše ukončení členství ve skupině "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Umístění mapy skupiny
 grp#:#grp_map_settings#:#Nastavení mapy
@@ -4834,8 +4834,8 @@ grp#:#grp_wrong_reg_time_limit#:#Zkontrolujte prosím počátek a konec registra
 grp#:#reg_grp_max_members#:#Maximální počet uživatelů
 grp#:#reg_grp_max_members_short#:#Počet členů
 jscalendar#:#about_calendar#:#O tomto kalendáři
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/\nDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.\n\nVýběr data:\n- Použijte tlačítka «, » pro výběr roku\n- Použijte tlačítka <, > pro výběr měsíce\n- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběr\n- Mezerník slouží pro skok na dnešní den.
-jscalendar#:#about_time#:#\n\nVýběr času:\n- Klepněte na některé z časových částí k jejímu zvětšení\n- nebo klepnutím se Shiftem ke zmenšení\n- nebo klepnout a táhnout pro rychlý výběr.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time SelectorParent-Style(c) dynarch.com 2002-2003Parent-StylePoslední verzi naleznete na stránce: http://www.dynarch.com/projects/calendar/Parent-StyleDistribuováno pod GNU LGPL.  Pro podrobnosti navštivte http://gnu.org/licenses/lgpl.html.Parent-StyleParent-StyleVýběr data:Parent-Style- Použijte tlačítka «, » pro výběr rokuParent-Style- Použijte tlačítka <, > pro výběr měsíceParent-Style- Podržte tlačítko myši nebo tlačítko výše pro rychlý výběrParent-Style- Mezerník slouží pro skok na dnešní den.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleVýběr času:Parent-Style- Klepněte na některé z časových částí k jejímu zvětšeníParent-Style- nebo klepnutím se Shiftem ke zmenšeníParent-Style- nebo klepnout a táhnout pro rychlý výběr.
 jscalendar#:#close#:#Zavřít
 jscalendar#:#day_first#:#Zobrazit nejprve %s
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -5978,21 +5978,21 @@ ps#:#rbac_log_info#:#Zapnout záznam všech změn oprávnění objektů
 ps#:#show_privacy#:#Soukromé
 ps#:#show_security#:#Bezpečnost
 pwassist#:#password_assistance#:#Asistence hesla
-pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete.\nILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována.\nVyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže.\nILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet.\nV případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář odešlete.Parent-StyleILIAS zašle e-mail na tuto adresu. Tento E-mail bude obsahovat všechna uživatelská jména, která jsou na tuto e-mailovou adresu registrována.Parent-StyleVyberte si příslušné jméno uživatele a použijte službu hesla k získání  nového hesla. Pokud neobdržíte žádný e-mail od této služby, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže.Parent-StyleILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet.Parent-StyleV případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Vložte jméno uživatele a nové heslo do polí níže.
 pwassist#:#pwassist_invalid_auth_mode#:#Tento uživatel nemůže být autentizován přímo v ILIAS. Tudíž zaslání hesla je nemožné.
-pwassist#:#pwassist_invalid_email#:#Opravte prosím svou e-mailovou adresu.\nDanou e-mailovou adresu nelze najít v databázi.
-pwassist#:#pwassist_invalid_username_or_email#:#Opravte prosím text ve vstupních polích.\nUživatelské jméno a e-mailová adresa Vámi vložená neodpovídá údajům v databázi.
-pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno.\nUživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
-pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet:\n\t%1$s\n\nTato zpráva byla vygenerována automaticky serverem ILIAS\n\t%2$s\n\nVy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".\n\nZkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:\n\n- Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě:\nSmažte tento e-mail.\n\n- Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS:\nKontaktujte prosím %5$s.\n\n- Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte do Vašeho prohlížeče následující adresu:\n t%1$s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.\n\n3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.\n\nPamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
-pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s.\nZkontrolujte prosím svou poštovní schránku.
+pwassist#:#pwassist_invalid_email#:#Opravte prosím svou e-mailovou adresu.Parent-StyleDanou e-mailovou adresu nelze najít v databázi.
+pwassist#:#pwassist_invalid_username_or_email#:#Opravte prosím text ve vstupních polích.Parent-StyleUživatelské jméno a e-mailová adresa Vámi vložená neodpovídá údajům v databázi.
+pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno.Parent-StyleUživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
+pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet:Parent-Style\t%1$sParent-StyleParent-StyleTato zpráva byla vygenerována automaticky serverem ILIASParent-Style\t%2$sParent-StyleParent-StyleVy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".Parent-StyleParent-StyleZkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:Parent-StyleParent-Style- Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě:Parent-StyleSmažte tento e-mail.Parent-StyleParent-Style- Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS:Parent-StyleKontaktujte prosím %5$s.Parent-StyleParent-Style- Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:Parent-StyleParent-Style1. Spusťte svůj internetový prohlížeč.Parent-StyleParent-Style2. Vložte do Vašeho prohlížeče následující adresu:Parent-Style t%1$sParent-StyleParent-StyleDůležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.Parent-StyleParent-Style3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.Parent-StyleParent-StylePamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
+pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s.Parent-StyleZkontrolujte prosím svou poštovní schránku.
 pwassist#:#pwassist_mail_subject#:#Asistence hesla ILIAS
 pwassist#:#pwassist_no_email_found#:#Nemůžete využít asistenci hesla, pokud zde není žádná e-Mailová adresa pro Vámi vložený uživatelský účet.
-pwassist#:#pwassist_not_permitted#:#Vložte prosím jiné uživatelské jméno.\nAsistence hesla není povolena pro jméno uživatele, které jste vložil(a).
+pwassist#:#pwassist_not_permitted#:#Vložte prosím jiné uživatelské jméno.Parent-StyleAsistence hesla není povolena pro jméno uživatele, které jste vložil(a).
 pwassist#:#pwassist_password_assigned#:#Heslo bylo úspěšně přiřazeno uživateli "%1$s".
-pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu.\nVaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
-pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu:\n%s\n\nTato zpráva byla vytvořena automaticky serverem ILIAS:\n\t%s\n\nVy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.\n\nZkontrolujte prosím následující a postupujte podle doporučení::\n\n-Vy jste požádal(a) o tento e-mail při závadě:\nSmažte tento e-mail.\n\n-Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a):\nKontaktujte prosím %s.\n\n- Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::\n\n1. Spusťte svůj internetový prohlížeč.\n\n2. Vložte následující URL:\n\t%s\n\nDůležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.\n\n3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
+pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu.Parent-StyleVaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
+pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu:Parent-Style%sParent-StyleParent-StyleTato zpráva byla vytvořena automaticky serverem ILIAS:Parent-Style\t%sParent-StyleParent-StyleVy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.Parent-StyleParent-StyleZkontrolujte prosím následující a postupujte podle doporučení::Parent-StyleParent-Style-Vy jste požádal(a) o tento e-mail při závadě:Parent-StyleSmažte tento e-mail.Parent-StyleParent-Style-Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a):Parent-StyleKontaktujte prosím %s.Parent-StyleParent-Style- Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::Parent-StyleParent-Style1. Spusťte svůj internetový prohlížeč.Parent-StyleParent-Style2. Vložte následující URL:Parent-Style\t%sParent-StyleParent-StyleDůležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.Parent-StyleParent-Style3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
 rating#:#rating_your_rating#:#Vaše hodnocení
 rbac#:#add_thread#:#Přidat vlákno
 rbac#:#cals_add_consultation_hours#:#Přidat kalendář konzultačních hodin
@@ -8003,7 +8003,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.Parent-StyleParent-StyleClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9337,7 +9337,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14250,3 +14250,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable

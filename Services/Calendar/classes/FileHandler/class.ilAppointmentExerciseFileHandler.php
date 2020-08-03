@@ -25,7 +25,7 @@ class ilAppointmentExerciseFileHandler extends ilAppointmentBaseFileHandler impl
         $assignment = new ilExAssignment($ass_id);
         $ass_files = $assignment->getFiles();
         $files = array();
-        if (count($ass_files)) {
+        if (count($ass_files) && !$assignment->notStartedYet()) {
             foreach ($ass_files as $ass_file) {
                 $files[] = $ass_file['fullpath'];
             }

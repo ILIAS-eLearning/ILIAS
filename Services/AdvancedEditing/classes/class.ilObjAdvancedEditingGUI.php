@@ -177,7 +177,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $ilCtrl->getLinkTarget($this, "showGeneralPageEditorSettings"),
             array("showGeneralPageEditorSettings", "", "view")
         );
-        
+
         include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
         $grps = ilPageEditorSettings::getGroups();
         
@@ -296,7 +296,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function saveAssessmentSettingsObject()
     {
-        $this->saveTags("assessment", "assessment");
+        $form = $this->initTagsForm(
+            "assessment",
+            "saveAssessmentSettings",
+            "advanced_editing_assessment_settings"
+        );
+        if (!$this->saveTags("assessment", "assessment", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -316,7 +324,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     
     public function saveSurveySettingsObject()
     {
-        $this->saveTags("survey", "survey");
+        $form = $this->initTagsForm(
+            "survey",
+            "saveSurveySettings",
+            "advanced_editing_survey_settings"
+        );
+        if (!$this->saveTags("survey", "survey", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -336,7 +352,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         
     public function saveFrmPostSettingsObject()
     {
-        $this->saveTags("frm_post", "frmPost");
+        $form = $this->initTagsForm(
+            "frm_post",
+            "saveFrmPostSettings",
+            "advanced_editing_frm_post_settings"
+        );
+        if (!$this->saveTags("frm_post", "frmPost", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
     
     
@@ -356,7 +380,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         
     public function saveExcAssSettingsObject()
     {
-        $this->saveTags("exc_ass", "excAss");
+        $form = $this->initTagsForm(
+            "exc_ass",
+            "saveExcAssSettings",
+            "advanced_editing_excass_settings"
+        );
+        if (!$this->saveTags("exc_ass", "excAss", $form)) {
+            $form->setValuesByPost();
+            $this->tpl->setContent($form->getHTML());
+        }
     }
             
     
@@ -384,26 +416,31 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton($a_cmd, $this->lng->txt("save"));
         }
-        
+
         return $form;
     }
     
-    protected function saveTags($a_id, $a_cmd)
+    protected function saveTags($a_id, $a_cmd, $form)
     {
         $this->checkPermission("write");
         try {
-            // get rid of select all
-            if (is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "") {
-                unset($_POST['html_tags'][0]);
+            if ($form->checkInput()) {
+                // get rid of select all
+                if (is_array($_POST['html_tags']) && $_POST['html_tags'][0] == "") {
+                    unset($_POST['html_tags'][0]);
+                }
+
+                $this->object->setUsedHTMLTags((array) $_POST['html_tags'], $a_id);
+                ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            } else {
+                return false;
             }
-            
-            $this->object->setUsedHTMLTags((array) $_POST['html_tags'], $a_id);
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         } catch (ilAdvancedEditingRequiredTagsException $e) {
             ilUtil::sendInfo($e->getMessage(), true);
         }
         
         $this->ctrl->redirect($this, $a_cmd);
+        return true;
     }
     
     
@@ -595,13 +632,54 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton("saveGeneralPageSettings", $lng->txt("save"));
         }
+
+        // enable html/js
+        $this->lng->loadLanguageModule("copg");
+        $sh = new ilFormSectionHeaderGUI();
+        $sh->setTitle($lng->txt("copg_allow_html"));
+        $sh->setInfo($lng->txt("copg_allow_html_info"));
+        $form->addItem($sh);
+
+        $comps = ilComponent::getAll();
+        $comps_per_dir = array_column(array_map(function ($k, $v) {
+            return [$v["type"]."/".$v["name"], $v];
+        }, array_keys($comps), $comps), 1, 0);
+
+        $cdef = new ilCOPageObjDef();
+        foreach ($cdef->getDefinitions() as $key => $def) {
+            if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
+                $comp_id = $comps_per_dir[$def["component"]]["id"];
+                $this->lng->loadLanguageModule($comp_id);
+                $cb = new ilCheckboxInputGUI($def["component"] . ": " . $this->lng->txt($comp_id . "_page_type_" . $key), "act_html_" . $key);
+                $cb->setChecked($aset->get("act_html_" . $key));
+                $form->addItem($cb);
+            }
+        }
+
+        // workaround for glossaries to force rewriting of shot texts
+        ilGlossaryDefinition::setShortTextsDirtyGlobally();
+
                     
         $form->setTitle($lng->txt("adve_pe_general"));
         $form->setFormAction($ilCtrl->getFormAction($this));
      
         return $form;
     }
-    
+
+    /**
+     * This limits the possibility to allow html for these page objects
+     * that supported the feature in the past.
+     *
+     * PLEASE do not add additional keys here. The whole feature might be abandonded in
+     * the future.
+     *
+     * @return array
+     */
+    protected function getPageObjectKeysWithOptionalHTML()
+    {
+        return ["lobj","copa","mep","blp","prtf","prtt","gdf","lm","qht","qpl","qfbg","qfbs","sahs","stys","cont","cstr","auth"];
+    }
+
     /**
      * Save general page settings
      */
@@ -623,7 +701,14 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 $aset->set("block_mode_minutes", 0);
             }
             $aset->set("auto_url_linking", $_POST["auto_url_linking"]);
-            
+
+            $def = new ilCOPageObjDef();
+            foreach ($def->getDefinitions() as $key => $def) {
+                if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
+                    $aset->set("act_html_" . $key, (int) $_POST["act_html_" . $key]);
+                }
+            }
+
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showGeneralPageEditorSettings");
         }

@@ -822,7 +822,7 @@ abstract class ilContainerContentGUI
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
         include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
         $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
-        if ($stored_val !== false) {
+        if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;

@@ -114,7 +114,11 @@ class ilTestSkillLevelThresholdsGUI
             $valid = true;
 
             $table    = $this->getPopulatedTable();
-            $elements = $table->getInputElements();
+            $renderedElements = [];
+            if (isset($_POST['rendered']) && is_array($_POST['rendered'])) {
+                $renderedElements = $_POST['rendered'];
+            }
+            $elements = $table->getInputElements($renderedElements);
             foreach ($elements as $elm) {
                 if (!$elm->checkInput()) {
                     $valid = false;
@@ -217,7 +221,13 @@ class ilTestSkillLevelThresholdsGUI
     private function buildTableGUI()
     {
         require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
-        $table = new ilTestSkillLevelThresholdsTableGUI($this, self::CMD_SHOW_SKILL_THRESHOLDS, $this->ctrl, $this->lng);
+        $table = new ilTestSkillLevelThresholdsTableGUI(
+            $this,
+            $this->getTestId(),
+            self::CMD_SHOW_SKILL_THRESHOLDS,
+            $this->ctrl,
+            $this->lng
+        );
         $table->setQuestionAssignmentColumnsEnabled($this->areQuestionAssignmentColumnsEnabled());
         $table->initColumns();
 

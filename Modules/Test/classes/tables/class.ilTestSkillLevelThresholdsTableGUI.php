@@ -42,8 +42,9 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $this->questionAssignmentColumnsEnabled = $questionAssignmentColumnsEnabled;
     }
 
-    public function __construct($parentOBJ, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
+    public function __construct($parentOBJ, $testId, $parentCmd, ilCtrl $ctrl, ilLanguage $lng)
     {
+        $this->setId('tst_skl_lev_thr_' . $testId);
         parent::__construct($parentOBJ, $parentCmd);
 
         $this->lng = $lng;
@@ -61,6 +62,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         
         $this->setDefaultOrderField('competence');
         $this->setDefaultOrderDirection('asc');
+        $this->setShowRowsSelector(true);
 
         $this->setFormAction($ctrl->getFormAction($parentOBJ));
 
@@ -101,6 +103,8 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('COMPETENCE', $data['competence']);
         $this->tpl->parseCurrentBlock();
 
+        $this->addHiddenInput('rendered[]', $this->buildUniqueRecordIdentifier($data));
+
         $this->tpl->setCurrentBlock('tbl_content');
 
         for ($i = 0, $max = count($levels); $i < $max; $i++) {
@@ -122,6 +126,15 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param array $row
+     * @return string
+     */
+    private function buildUniqueRecordIdentifier(array $row)
+    {
+        return 'threshold_' . $row['skill_base_id'] . ':' . $row['skill_tref_id'];
+    }
+
     private function getRowspan($numLevels)
     {
         if ($numLevels == 0) {
@@ -132,13 +145,19 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
     }
 
     /**
+     * @param array $idFilter
      * @return ilNumberInputGUI[]
      */
-    public function getInputElements()
+    public function getInputElements(array $idFilter) : array
     {
         $elements = array();
 
         foreach ($this->getData() as $data) {
+            $id = $this->buildUniqueRecordIdentifier($data);
+            if (!in_array($id, $idFilter)) {
+                continue;
+            }
+
             $skill  = $data['skill'];
             $levels = $skill->getLevelData();
             for ($i = 0, $max = count($levels); $i < $max; $i++) {

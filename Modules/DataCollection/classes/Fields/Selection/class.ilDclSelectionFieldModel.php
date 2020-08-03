@@ -40,9 +40,13 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             . $ilDB->quote($this->getId(), 'integer') . ") ";
 
         if ($this->isMulti()) {
-            $join_str .=
-                " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value LIKE "
-                . $ilDB->quote("%$filter_value%", 'text') . ") ";
+            $join_str .= " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND (" .
+                "filter_stloc_{$this->getId()}.value = " . $ilDB->quote("[$filter_value]", 'text') . " OR " .
+                "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%\"$filter_value\"%", 'text') . " OR " .
+                "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value,%", 'text') . " OR " .
+                "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%[$filter_value,%", 'text') . " OR " .
+                "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value]%", 'text') .
+                ")) ";
         } else {
             $join_str .=
                 " INNER JOIN il_dcl_stloc{$this->getStorageLocation()}_value AS filter_stloc_{$this->getId()} ON (filter_stloc_{$this->getId()}.record_field_id = filter_record_field_{$this->getId()}.id AND filter_stloc_{$this->getId()}.value = "
@@ -239,6 +243,10 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
+
+        if ($this->isMulti()) {
+            return null;
+        }
 
         $sql_obj = new ilDclRecordQueryObject();
 

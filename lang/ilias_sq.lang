@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1947,7 +1947,7 @@ common#:#usrimport_action_replaced#:#Veprimi %1$s zëvendësohet me %2$s.
 common#:#usrimport_cant_delete#:#Nuk mund të kryhet veprimi "Fshij". Shfrytëzuesi nuk është databazë. 
 common#:#usrimport_cant_insert#:#Nuk mund të kryhet veprimi "Vendos".  Shfrytëzuesi tanimë është në databazë. 
 common#:#usrimport_cant_update#:#Nuk mind të kryej veprimin "Aktualizo". Nuk ka shfrytëzues të tillë në databazë. 
-common#:#usrimport_conflict_handling_info#:#Nëse zgjedhet opsioni "Injoro gjatë konfliktit", ILIAS e injoron veprimin, nëse nuk mund të kryhet (p.sh. ndonjë veprim "Vendos" nuk është kryer për arsye se ka shfrytëzues me të njëjtin emër identifikues në databazë.)\nKur zgjedhet "Aktualizo gjatë konfliktit", ILIAS e aktualizon databazën edhe kur ndonjë veprim nuk mund të kryhet. (p.sh. ndonjë veprim "Vendos" zëvendësohet me veprimin "Aktualizo" nëse ka shfrytëzues me të njëjtin emër identifikues në databazë). 
+common#:#usrimport_conflict_handling_info#:#Nëse zgjedhet opsioni "Injoro gjatë konfliktit", ILIAS e injoron veprimin, nëse nuk mund të kryhet (p.sh. ndonjë veprim "Vendos" nuk është kryer për arsye se ka shfrytëzues me të njëjtin emër identifikues në databazë.)Parent-StyleKur zgjedhet "Aktualizo gjatë konfliktit", ILIAS e aktualizon databazën edhe kur ndonjë veprim nuk mund të kryhet. (p.sh. ndonjë veprim "Vendos" zëvendësohet me veprimin "Aktualizo" nëse ka shfrytëzues me të njëjtin emër identifikues në databazë).
 common#:#usrimport_global_role_for_action_required#:#Në mënyrë që të kryhet veprimi "%1$s", së paku një rol global duhet të specifikohet. 
 common#:#usrimport_ignore_role#:#Ignore role ### 2006-8-11 --- Add new translation here.
 common#:#usrimport_login_is_not_unique#:#Identifikimi nuk është unik.
@@ -2668,8 +2668,8 @@ forum#:#new_post#:#New post###08 Nov 2005 new variable
 forum#:#thread#:#Topic###08 Nov 2005 new variable
 grp#:#grp_registration_unlimited#:#Unlimited registration period###10 Jul 2006 new variable
 jscalendar#:#about_calendar#:#Për Kalendarin
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n Për versionin e fundit shih: http://dynarch.com/misoo/calendar.epl\n Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.\n\n Zgjedhja e datës:\n-Përdor butonat «, » për të zgjedhur vitin\n-Butonat < , > për të zgjedhur muajin\n- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt. 
-jscalendar#:#about_time#:#\n\nZgjedhja e orës:\n-Klik në ndonjërën prej fushave të orës për ta rritur atë.\n- ose Shift+klik për ta zvogluar. 
+jscalendar#:#about_calendar_long#:#DHTML Date/Time SelectorParent-Style(c) dynarch.com 2002-2003Parent-Style Për versionin e fundit shih: http://dynarch.com/misoo/calendar.eplParent-Style Distribuuar nën GNU LGPL. Shih http://gnu.org/licenses/lgpl.html për detaje.Parent-StyleParent-Style Zgjedhja e datës:Parent-Style-Përdor butonat «, » për të zgjedhur vitinParent-Style-Butonat < , > për të zgjedhur muajinParent-Style- Mbaj shtypur butonin e mausit në ndonjërin prej butonave të lartpërmendur për zgjedhje më të shpejt.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleZgjedhja e orës:Parent-Style-Klik në ndonjërën prej fushave të orës për ta rritur atë.Parent-Style- ose Shift+klik për ta zvogluar.
 jscalendar#:#close#:#Mbyll
 jscalendar#:#day_first#:#Paraqit %s së pari
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -3319,19 +3319,19 @@ meta#:#meta_very_high#:#Shume Lartë
 meta#:#meta_very_low#:#Shumë e ulët
 meta#:#meta_yes#:#Po
 pwassist#:#password_assistance#:#Ndihma për parullë
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Jepni emrin identifikues dhe e-mail adresën përkatëse në fushat e mëposhtme.\n ILIAS do të ju dërgon një porosi në atë e-mail. Porosia do të përmbaj një adresë të faqes ku mund të jepni parullën e re për llogarinë tuaj.\nNë rast se keni probleme gjatë caktimit të parullës së re, kontaktoni administratorin e kursit ose dërgoni e-mail në %1$s. 
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.Parent-StyleILIAS will send an email to that address. The email contains all usernames which have registered this email address.Parent-StyleChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Jepni emrin identifikues dhe e-mail adresën përkatëse në fushat e mëposhtme.Parent-Style ILIAS do të ju dërgon një porosi në atë e-mail. Porosia do të përmbaj një adresë të faqes ku mund të jepni parullën e re për llogarinë tuaj.Parent-StyleNë rast se keni probleme gjatë caktimit të parullës së re, kontaktoni administratorin e kursit ose dërgoni e-mail në %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Jepni emrin identifikues dhe parullën e re më poshtë.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Ju lutem korrigjoni tekstin.\nEmri identifikues dhe e-mail adresa që keni dhënë nuk përkasin me ndonjërën në databazë. 
-pwassist#:#pwassist_login_not_match#:#Ju lutem zgjedhni emër identifikues tjetër.\nEmri identifikues që keni dhënë tash nuk është i njëjtë me atë të cilin e keni dhënë kur keni kërkuar ndihmë për parullë. 
-pwassist#:#pwassist_mail_body#:#Regjistroni parullë të re për llogarinë tuaj shfrytëzuese:\n\t%1$s\n\nKjo porosi është gjeneruar automatikisht nga serveri i ILIAS-it\n\t%2$s\n\nJu (ose dikush në %3$s) ka kërkuar ndihmë për parullë për llogarinë shfrytëzuese \%4$s.\n\nJu lutem shikoni me kujdes kushtet e më poshtme dhe veproni në përputhje sipas rrethanave:\n\n- Nëse keni përdorur ndihmën për parullë në serverin e ILIAS aksidentalisht:\nFshini këtë e-mail.\n\n- Nëse jeni të sigurt se kurrë nuk keni përdorur ndihmën për parullë në ILIAS server:\n Ju lutem kontaktoni %5$s.\n\n- Nëse keni kërkuar nihmën për parullë, ju lutem veproni si më vijim:\n\n1. Aktivizoni Brouserin(shfletuesin e faqeve).\n\n2.Shënoni adresën vijuese në brouser:\n\t%1$s\n\nMe rëndësi: Adresa është në një vij të vetme të pandarë. Nëse kjo adresë është e ndarë në disa pjesë, atëherë programi juaj për e-mail ka këto vendosur vija të ndarjes.\n\n3. Në web faqen e hapur me brouserin tuaj, jepni parullë të re për llogarin tuaj shfrytëzuese.\n\nJu lutem vëni re se, për shkaqe sigurie, mund të kaloni nëpër këto tre hapa saktësisht vetëm një herë dhe për afat kohe të kufizuar. Mëpas adresa shëndrrohet në jovalide, dhe ju duhet të përdorni përsëri ndihmën për parullë. 
-pwassist#:#pwassist_mail_sent#:#Një porosi është dërguar tek %1$s.\n Ju lutem kontrolloni kutinë postare. 
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.Parent-StyleThe given email address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Ju lutem korrigjoni tekstin.Parent-StyleEmri identifikues dhe e-mail adresa që keni dhënë nuk përkasin me ndonjërën në databazë.
+pwassist#:#pwassist_login_not_match#:#Ju lutem zgjedhni emër identifikues tjetër.Parent-StyleEmri identifikues që keni dhënë tash nuk është i njëjtë me atë të cilin e keni dhënë kur keni kërkuar ndihmë për parullë.
+pwassist#:#pwassist_mail_body#:#Regjistroni parullë të re për llogarinë tuaj shfrytëzuese:Parent-Style\t%1$sParent-StyleParent-StyleKjo porosi është gjeneruar automatikisht nga serveri i ILIAS-itParent-Style\t%2$sParent-StyleParent-StyleJu (ose dikush në %3$s) ka kërkuar ndihmë për parullë për llogarinë shfrytëzuese \%4$s.Parent-StyleParent-StyleJu lutem shikoni me kujdes kushtet e më poshtme dhe veproni në përputhje sipas rrethanave:Parent-StyleParent-Style- Nëse keni përdorur ndihmën për parullë në serverin e ILIAS aksidentalisht:Parent-StyleFshini këtë e-mail.Parent-StyleParent-Style- Nëse jeni të sigurt se kurrë nuk keni përdorur ndihmën për parullë në ILIAS server:Parent-Style Ju lutem kontaktoni %5$s.Parent-StyleParent-Style- Nëse keni kërkuar nihmën për parullë, ju lutem veproni si më vijim:Parent-StyleParent-Style1. Aktivizoni Brouserin(shfletuesin e faqeve).Parent-StyleParent-Style2.Shënoni adresën vijuese në brouser:Parent-Style\t%1$sParent-StyleParent-StyleMe rëndësi: Adresa është në një vij të vetme të pandarë. Nëse kjo adresë është e ndarë në disa pjesë, atëherë programi juaj për e-mail ka këto vendosur vija të ndarjes.Parent-StyleParent-Style3. Në web faqen e hapur me brouserin tuaj, jepni parullë të re për llogarin tuaj shfrytëzuese.Parent-StyleParent-StyleJu lutem vëni re se, për shkaqe sigurie, mund të kaloni nëpër këto tre hapa saktësisht vetëm një herë dhe për afat kohe të kufizuar. Mëpas adresa shëndrrohet në jovalide, dhe ju duhet të përdorni përsëri ndihmën për parullë.
+pwassist#:#pwassist_mail_sent#:#Një porosi është dërguar tek %1$s.Parent-Style Ju lutem kontrolloni kutinë postare.
 pwassist#:#pwassist_mail_subject#:#Ndihma për Parullë e ILIAS
-pwassist#:#pwassist_not_permitted#:#Ju lutem zgjedhni emër identifikues tjetër.\nNdihma për parullë nuk është e mundur për emrin identifikues që keni dhënë. 
+pwassist#:#pwassist_not_permitted#:#Ju lutem zgjedhni emër identifikues tjetër.Parent-StyleNdihma për parullë nuk është e mundur për emrin identifikues që keni dhënë.
 pwassist#:#pwassist_password_assigned#:#Parulla është vendosur më sukses për shfrytëzuesin "%1$s" 
-pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.\n Sesioni juaj për ndihmë për parullë ka skaduar. Kjo ka mund të ndodhë, për arsye se keni shfrytëzuar web adresën që ju është dërguar më e-mail më shumë se një herë, ose për arsye se ka kaluar shumë kohë që nga koha kur keni pranuar adresën përmes e-mailit. 
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
+pwassist#:#pwassist_session_expired#:#Ju lutem kompletoni formën përsëri.Parent-Style Sesioni juaj për ndihmë për parullë ka skaduar. Kjo ka mund të ndodhë, për arsye se keni shfrytëzuar web adresën që ju është dërguar më e-mail më shumë se një herë, ose për arsye se ka kaluar shumë kohë që nga koha kur keni pranuar adresën përmes e-mailit.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:Parent-Style%sParent-StyleParent-StyleThis message has been created automatically by the following ILIAS Server:Parent-Style\t%sParent-StyleParent-StyleYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.Parent-StyleParent-StylePlease check the following and act as suggested::Parent-StyleParent-Style-You have requested this mail by accident:Parent-StyleDelete this email.Parent-StyleParent-Style-You are sure, that you never requested this email:Parent-StylePlease contact %s.Parent-StyleParent-Style- If you requested this email, please proceed as follows::Parent-StyleParent-Style1. Start your internet browser.Parent-StyleParent-Style2. Enter the following url:Parent-Style\t%sParent-StyleParent-StyleImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.Parent-StyleParent-Style3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 rbac#:#edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 rbac#:#filter_all_roles#:#Show all roles of current context###23 Dec 2005 new variable
 rbac#:#filter_global_roles#:#Show only global roles###23 Dec 2005 new variable
@@ -6541,7 +6541,7 @@ mail#:#mail_salutation_n#:#Hello###21 09 2009 new variable
 crs#:#crs_notification_explanation_admin#:#You receive this mail because you are course administrator / tutor with notification enabled.###21 09 2009 new variable
 crs#:#crs_new_status#:#Your new status is:###21 09 2009 new variable
 crs#:#crs_access#:#Access###21 09 2009 new variable
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:###21 09 2009 new variable
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your course, click here:###21 09 2009 new variable
 crs#:#crs_unsubscribe_member#:#Your cancellation of membership in course "%s"###21 09 2009 new variable
 crs#:#crs_unsubscribe_member_body#:#we confirm your cancellation of membership in course "%s". We hope that you find an opportunity to participate in another course.###21 09 2009 new variable
 crs#:#crs_subscribe_member#:#Your registration for course "%s"###21 09 2009 new variable
@@ -6552,7 +6552,7 @@ wiki#:#wiki_general_settings#:#General Settings###21 09 2009 new variable
 style#:#style_current_style#:#Current Style###21 09 2009 new variable
 style#:#style_edit_style#:#Edit Style###21 09 2009 new variable
 style#:#style_delete_style#:#Delete Style###21 09 2009 new variable
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:###21 09 2009 new variable
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".###21 09 2009 new variable
@@ -6562,10 +6562,10 @@ grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"###21 09 200
 grp#:#grp_mail_notification_reg_bod#:#%s has registered for group "%s".###21 09 2009 new variable
 grp#:#grp_notification_explanation_admin#:#You receive this mail because you are group administrator with notification enabled.###21 09 2009 new variable
 grp#:#grp_mail_unsubscribe_member_sub#:#Your cancellation of membership in group "%s"###21 09 2009 new variable
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.Parent-StyleWe hope that you find an opportunity to participate in another group.###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"###21 09 2009 new variable
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".###21 09 2009 new variable
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Your registration for group "%s"###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"###21 09 2009 new variable
@@ -6576,7 +6576,7 @@ grp#:#grp_mail_sub_dec_bod#:#we regret to say that your registration has been re
 grp#:#grp_mail_sub_acc_sub#:#Registration confirmed for "%s"###21 09 2009 new variable
 grp#:#grp_mail_sub_acc_bod#:#we are pleased to confirm your registration for the group "%s".###21 09 2009 new variable
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".###21 09 2009 new variable
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a group administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_status_sub#:#Changed status in group "%s"###21 09 2009 new variable
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 2009 new variable
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
@@ -8004,7 +8004,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.Parent-StyleParent-StyleClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9337,7 +9337,7 @@ forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
 assessment#:#edit_question#:#Edit Question###28 11 2012 new variable
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Copy Data Collection###28 11 2012 new variable
 dcl#:#dcl_no_search_results_found_for#:#No modules have been found for###28 11 2012 new variable
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.###28 11 2012 new variable
@@ -14250,3 +14250,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable

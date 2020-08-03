@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source E-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source E-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -2420,7 +2420,7 @@ chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the S
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.Parent-StyleParent-StyleClick on this link ##link## to directly join this chatroom.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Invite
 chatroom#:#chat_join#:#Join
@@ -4687,7 +4687,7 @@ common#:#session_max_idle_info#:#Максимальное время безде�
 common#:#session_min_idle#:#Минимальное время бездействия (в минутах)
 common#:#session_min_idle_info#:#Когда пользователь простаивает данный период времени, его сеанс может быть прерван, чтобы была возможность открыть сеанс для другого пользователя, благодаря чему достигается максимальное количество сеансов.
 common#:#session_reminder#:#Напоминание
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.
 common#:#session_reminder_info#:#Выводить предупреждение об окончании сеанса.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify, how much seconds before the session expires you want the session reminder to display a warning. The current value for a user session is %s.
@@ -6307,7 +6307,7 @@ crs#:#crs_cancellation_end_info#:#По истечении указанного �
 crs#:#crs_cancellation_end_rbac_info#:#The cancellation deadline was met on %s, a cancellation is not possible anymore.
 crs#:#crs_cancel_subscription#:#Отписаться от курса "%s"
 crs#:#crs_cancel_subscription_body#:#Пользователь отписался от курса "%s".
-crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.\nYou should check for the waiting list now.\nTo view the members of your course, click here:
+crs#:#crs_cancel_subscription_body2#:#There might be other members on a waiting list of your course.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your course, click here:
 crs#:#crs_cancel_subscr_request#:#Delete Membership Request
 crs#:#crs_cannot_find_role#:#Эта роль не найдена.
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
@@ -6668,7 +6668,7 @@ crs#:#crs_subscribers_deleted#:#Удалить подписчика(ов)
 crs#:#crs_subscribe_member#:#Your registration for course "%s"
 crs#:#crs_subscribe_member_body#:#we are pleased to confirm your registration for the course "%s".
 crs#:#crs_subscribe_wl#:#Your registration for course "%s".
-crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.
+crs#:#crs_subscribe_wl_body#:#you have been assigned to the waiting list of course "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_subscription#:#Подписка
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 crs#:#crs_subscription_max_members#:#Максимальное количество пользователей
@@ -8471,7 +8471,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#To confirm this registration, go to:
 grp#:#grp_mail_notification_reg_req_sub#:#Request to join group "%s"
 grp#:#grp_mail_notification_reg_sub#:#User registered for group "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the group "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.Parent-StyleYou should check for the waiting list now.Parent-StyleTo view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#User left group "%s"
 grp#:#grp_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the group:
 grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.
@@ -8487,7 +8487,7 @@ grp#:#grp_mail_tutors_only_info#:#Характеристика "Отправля
 grp#:#grp_mail_type#:#Отправлять участникам e-mail сообщения
 grp#:#grp_mail_unsubscribe_member_bod#:#Вы отписаны от участия в группе "%s".
 grp#:#grp_mail_unsubscribe_member_sub#:#Отписка от участия в группе "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".Parent-StyleYou are assigned to position %s on the list.Parent-StyleParent-Style You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Your registration for group "%s".
 grp#:#grp_map_location#:#Group Map Location
 grp#:#grp_map_settings#:#Map Settings
@@ -8678,8 +8678,8 @@ itgr#:#itgr_materials#:#Материалы
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 jscalendar#:#about_calendar#:#О календаре
-jscalendar#:#about_calendar_long#:#DHTML Дата/Время Селектор\n(c) dynarch.com 2002-2003\nЗа последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.epl\nDistributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .\n\nВыбор даты:\n- Используйте кнопку «, » для выбора года\n- Используйте кнопку <, > для выбора месяца\n- Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора.
-jscalendar#:#about_time#:#\n\nВыбор времени:\n- Для увеличения щёлкните на любой части времени \n- Для уменьшения выполните Shift+щелчок\n- или щёлкните и тащите для быстрого выбора.
+jscalendar#:#about_calendar_long#:#DHTML Дата/Время СелекторParent-Style(c) dynarch.com 2002-2003Parent-StyleЗа последней версией обратитесь на сайт: http://dynarch.com/mishoo/calendar.eplParent-StyleDistributed под GNU LGPL.  Подробнее см. http://gnu.org/licenses/lgpl.html .Parent-StyleParent-StyleВыбор даты:Parent-Style- Используйте кнопку «, » для выбора годаParent-Style- Используйте кнопку <, > для выбора месяцаParent-Style- Держите кнопку мыши над какой-нибудь из клавиш для быстрого выбора.
+jscalendar#:#about_time#:#Parent-StyleParent-StyleВыбор времени:Parent-Style- Для увеличения щёлкните на любой части времени Parent-Style- Для уменьшения выполните Shift+щелчокParent-Style- или щёлкните и тащите для быстрого выбора.
 jscalendar#:#close#:#Закрыть
 jscalendar#:#day_first#:#Экран %s первый
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -10722,21 +10722,21 @@ ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Безопасность
 pwassist#:#password_assistance#:#Ассистент паролей
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
-pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.\nILIAS will send an email to that address. The email contains all usernames which have registered this email address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.\nСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.\nВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
+pwassist#:#pwassist_enter_email#:#Please enter an email address and submit the form.Parent-StyleILIAS will send an email to that address. The email contains all usernames which have registered this email address.Parent-StyleChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any email by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Введите имя пользователя и связанный с ним email адрес в поля, представленные ниже.Parent-StyleСистема Илиас отошлет сообщение по этому адресу. Сообщение будет содержать адрес веб-страницы, где вы сможете задать новой пароль для учетных записей пользователя.Parent-StyleВ случае неудачи, свяжитесь с администратором курса или пошлите сообщение по адресу %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Задайте имя пользователя и новый пароль в поля ниже.
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
-pwassist#:#pwassist_invalid_email#:#Please correct your email address.\nThe given email address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Пожалуйста, отредактируйте текст.\nВведенных имени пользователя и почтового адреса нет в базе данных.
-pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя.\nВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
-pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи:\n\t%1$s\n\nЭто сообщение было создано автоматически на сервере Илиас \n\t%2$s\n\nВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".\n\nПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:\n\n- Если вы пользовались ассистентом паролей Илиас-сервера:\nУдалите это письмо.\n\n- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.\n\n- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:\n\n1. Откройте ваш браузер.\n\n2. Введите следующий адрес:\n\t%1$s\n\nВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.\n\n3. На появившейся веб-странице задайте новый пароль.\n\nЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
-pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s.\nПожалуйста, проверьте ваш почтовый ящик.
+pwassist#:#pwassist_invalid_email#:#Please correct your email address.Parent-StyleThe given email address could not be found in the database.
+pwassist#:#pwassist_invalid_username_or_email#:#Пожалуйста, отредактируйте текст.Parent-StyleВведенных имени пользователя и почтового адреса нет в базе данных.
+pwassist#:#pwassist_login_not_match#:#Пожалуйста, введите другое имя пользователя.Parent-StyleВы задали имя пользователя, отличающееся от имени, заданного в ассистене паролей.
+pwassist#:#pwassist_mail_body#:#Зарегистрирован новый пароль для вашего учетные записи:Parent-Style\t%1$sParent-StyleParent-StyleЭто сообщение было создано автоматически на сервере Илиас Parent-Style\t%2$sParent-StyleParent-StyleВы (или кто-то с именем %3$s) использовали ассистент паролей для учетной записи "%4$s".Parent-StyleParent-StyleПожалуйста, внимательно проверьте условия, приведенные ниже, и поступите соответственно:Parent-StyleParent-Style- Если вы пользовались ассистентом паролей Илиас-сервера:Parent-StyleУдалите это письмо.Parent-StyleParent-Style- Если случилось так, что вы никогда не использовали ассистента паролей: Пожалуйста, свяжитесь с %5$s.Parent-StyleParent-Style- Если вы запрашивали ассистента паролей, пожалуйста, выполните следующее:Parent-StyleParent-Style1. Откройте ваш браузер.Parent-StyleParent-Style2. Введите следующий адрес:Parent-Style\t%1$sParent-StyleParent-StyleВажно: адрес должен быть в одну строку. Если он представлен в виде двух и более строк, ваша почтовая программа разделила его.Parent-StyleParent-Style3. На появившейся веб-странице задайте новый пароль.Parent-StyleParent-StyleЗаметьте, что из соображений секретности, вы должны в точности выполнить три шага при лимитированном времени. Потом адрес будет недействителен, и, вы не сможете возпользоваться ассистентом паролей снова.
+pwassist#:#pwassist_mail_sent#:#Сообщение было отослано в %1$s.Parent-StyleПожалуйста, проверьте ваш почтовый ящик.
 pwassist#:#pwassist_mail_subject#:#Ассистент паролей Илиас
-pwassist#:#pwassist_not_permitted#:#Пожалуйста, задайте другое имя пользователя.\nАссистенту паролей требуется имя пользователя, которое вы ввели вначале.
+pwassist#:#pwassist_not_permitted#:#Пожалуйста, задайте другое имя пользователя.Parent-StyleАссистенту паролей требуется имя пользователя, которое вы ввели вначале.
 pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
 pwassist#:#pwassist_password_assigned#:#Для пользователя "%1$s" пароль был успешно изменен.
-pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.\nСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this mail by accident:\nDelete this email.\n\n-You are sure, that you never requested this email:\nPlease contact %s.\n\n- If you requested this email, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
+pwassist#:#pwassist_session_expired#:#Пожалуйста, заполните форму снова.Parent-StyleСессия вашего ассистента паролей закончилась. Это могло случиться из-за того, что вы пытались воспользоваться полученным по почте адресом не один раз или из-за того, что прошло слишком много времени с момента получения письма.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given email address:Parent-Style%sParent-StyleParent-StyleThis message has been created automatically by the following ILIAS Server:Parent-Style\t%sParent-StyleParent-StyleYou (or somebody with IP  %s) have requested support for forgotten usernames for the email address '%s'.Parent-StyleParent-StylePlease check the following and act as suggested::Parent-StyleParent-Style-You have requested this mail by accident:Parent-StyleDelete this email.Parent-StyleParent-Style-You are sure, that you never requested this email:Parent-StylePlease contact %s.Parent-StyleParent-Style- If you requested this email, please proceed as follows::Parent-StyleParent-Style1. Start your internet browser.Parent-StyleParent-Style2. Enter the following url:Parent-Style\t%sParent-StyleParent-StyleImportant: The address is a single line. If you see this address split into multiple lines, then your email program has inserted these line breaks.Parent-StyleParent-Style3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according email address to retrieve a new password.
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_activate_rating#:#Разрешить оценивание
 rating#:#rating_activate_rating_info#:#Если выбрано, пользователи смогут оценить этот объект
@@ -14250,3 +14250,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable

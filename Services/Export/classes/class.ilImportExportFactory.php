@@ -103,7 +103,7 @@ class ilImportExportFactory
             elseif ($component_type == self::PLUGINS_DIR) {
                 return "";
             }
-
+            $a_component = str_replace("..", "", $a_component);
             if (is_file("./" . $a_component . "/classes/class." . $class . ".php")) {
                 if (include_once "./" . $a_component . "/classes/class." . $class . ".php") {
                     return $class;

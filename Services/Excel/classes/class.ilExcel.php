@@ -264,17 +264,25 @@ class ilExcel
             );
         }
     }
-    
+
     /**
      * Set cell value
-     *
-     * @param int $a_row
-     * @param int $a_col
+     * @param int   $a_row
+     * @param int   $a_col
      * @param mixed $a_value
+     * @param null  $a_datatype
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function setCell($a_row, $a_col, $a_value)
+    public function setCell($a_row, $a_col, $a_value, $a_datatype = null)
     {
-        if ($a_value instanceof ilDateTime) {
+        if (!is_null($a_datatype)) {
+            $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
+                $a_col,
+                $a_row,
+                $this->prepareValue($a_value),
+                $a_datatype
+            );
+        } elseif ($a_value instanceof ilDateTime) {
             $cell = $this->workbook->getActiveSheet()->setCellValueByColumnAndRow(
                 $a_col,
                 $a_row,

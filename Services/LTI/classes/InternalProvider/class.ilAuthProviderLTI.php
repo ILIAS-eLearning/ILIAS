@@ -345,6 +345,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                     break;
 
                 case 'Member':
+				case 'Learner':
                     $this->getLogger()->debug('Member role handling');
                     if ($obj_settings->getMemberRole()) {
                         $GLOBALS['DIC']->rbac()->admin()->assignUser(

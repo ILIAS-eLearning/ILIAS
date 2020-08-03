@@ -213,6 +213,20 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 
             return false;
         }
+        if (count($_POST[$this->getPostVar()]) > 0) {
+            $options = array_map(function ($k) {
+                return (string) $k;
+            }, array_keys($this->getOptions()));
+            foreach ($_POST[$this->getPostVar()] as $key => $val) {
+                if ($key != 0 || $val != "") {
+                    if (!in_array((string) $val, $options)) {
+                        $this->setAlert($lng->txt("msg_unknown_value"));
+                        return false;
+                    }
+                }
+            }
+        }
+
         return true;
     }
 

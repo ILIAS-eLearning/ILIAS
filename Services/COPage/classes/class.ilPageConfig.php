@@ -47,12 +47,22 @@ abstract class ilPageConfig
      * @var bool
      */
     protected $enable_permission_checks = false;
+
+    /**
+     * @var \ilSetting
+     */
+    protected $adve_set;
+
+    /**
+     * Key as returned by ilCOPageObjDef->getDefinitions()
+     * @var string
+     */
+    protected $page_obj_key = "";
     
     /**
      * Constructor
      *
      * @param
-     * @return
      */
     final public function __construct()
     {
@@ -65,7 +75,17 @@ abstract class ilPageConfig
         foreach ($this->pc_defs as $def) {
             $this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
         }
-        
+
+        $this->adve_set = new ilSetting("adve");
+
+        $def = new ilCOPageObjDef();
+        foreach($def->getDefinitions() as $key => $def) {
+            if (strtolower(get_class($this)) == strtolower($def["class_name"]."Config")) {
+                $this->page_obj_key = $key;
+            }
+        }
+
+
         $this->init();
     }
     
@@ -454,7 +474,12 @@ abstract class ilPageConfig
     */
     public function getPreventHTMLUnmasking()
     {
-        return $this->preventhtmlunmasking;
+        $safe = true;
+        if ($this->adve_set->get("act_html_".$this->page_obj_key)) {
+            $safe = false;
+        }
+        return $safe;
+        //return $this->preventhtmlunmasking;
     }
 
     /**

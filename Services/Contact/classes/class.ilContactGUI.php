@@ -129,10 +129,6 @@ class ilContactGUI
                 break;
             
             case 'ilmailinglistsgui':
-                if (!ilBuddySystem::getInstance()->isEnabled()) {
-                    $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
-                }
-
                 include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
                 $this->activateTab('mail_my_mailing_lists');
@@ -208,7 +204,16 @@ class ilContactGUI
                     $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
                 }
 
-                $this->tabs_gui->addSubTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+                if (
+                    ilBuddySystem::getInstance()->isEnabled() &&
+                    count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0
+                ) {
+                    $this->tabs_gui->addSubTab(
+                        'mail_my_mailing_lists',
+                        $this->lng->txt('mail_my_mailing_lists'),
+                        $this->ctrl->getLinkTargetByClass('ilmailinglistsgui')
+                    );
+                }
             }
 
             $this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
@@ -225,7 +230,16 @@ class ilContactGUI
                     $this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI'));
                 }
 
-                $this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
+                if (
+                    ilBuddySystem::getInstance()->isEnabled() &&
+                    count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0
+                ) {
+                    $this->tabs_gui->addTab(
+                        'mail_my_mailing_lists',
+                        $this->lng->txt('mail_my_mailing_lists'),
+                        $this->ctrl->getLinkTargetByClass('ilmailinglistsgui')
+                    );
+                }
             }
 
             $this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));

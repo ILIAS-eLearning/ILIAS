@@ -73,8 +73,9 @@ class ilServicesUserTasks
      */
     protected static function getValidLogin()
     {
+        $random = new \ilRandom();
         do {
-            $login = self::ANON_LOGIN_PREFIX . str_pad(rand(0, 9999999), 7, STR_PAD_LEFT);
+            $login = self::ANON_LOGIN_PREFIX . str_pad($random->int(0, 9999999), 7, STR_PAD_LEFT);
         } while (ilObjUser::_loginExists($login));
 
         return $login;
@@ -87,11 +88,12 @@ class ilServicesUserTasks
      */
     protected static function generatePassword($length = 8)
     {
+        $random = new \ilRandom();
         $password = array();
         $setLength = strlen(self::PASSWORD_CHARACTERSET) - 1;
 
         for ($i = 0; $i < $length; $i++) {
-            $index = rand(0, $setLength);
+            $index = $random->int(0, $setLength);
             $password[] = self::PASSWORD_CHARACTERSET[$index];
         }
 

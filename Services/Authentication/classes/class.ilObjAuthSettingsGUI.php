@@ -277,7 +277,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 */
                 break;
                 
-                case AUTH_SHIB:
+				// @fix changed from AUTH_SHIB > is not defined
+                case AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"), true);
                     ilUtil::redirect($this->getReturnLocation("authSettings", $this->ctrl->getLinkTarget($this, "editSHIB", "", false, false)));

@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1250,7 +1250,7 @@ chatroom#:#chat_connection_established#:#
 chatroom#:#chat_create_private_room_button#:#პირადი ოთახის შექმნა
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#მოწვევა საიდან
-chatroom#:#chat_invitation_long#:# ##room_name##\nInvited by
+chatroom#:#chat_invitation_long#:# ##room_name##Parent-StyleInvited by
 chatroom#:#chat_invitation_short#:#გთხოვთ დააკლიკოთ დასახელების ლინკს ჩატის ოთახში შესასვლელად
 chatroom#:#chat_invite#:#მოწვევა
 chatroom#:#chat_join#:#გაწევრიანება
@@ -3165,7 +3165,7 @@ common#:#session_max_idle_info#:#განსაზღვრავს მომ�
 common#:#session_min_idle#:#სესიის მინიმალური უმოქმედობის დრო (წუთებში)
 common#:#session_min_idle_info#:#როდესაც მომხმარებელი უმოქმედოთაა დროის ამ პერიოდში სესია შესაძლოა გაუქმდეს თუ სხვა სესიის გახსნაა საჭირო სხვა მომხმარებლისთვის და არსებული სესიების მაქსიმალური რაოდენობა მიღწეულია
 common#:#session_reminder#:#სესიის შეხსენება
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!Parent-StyleParent-StyleChoose OK to continue your session.Parent-StyleIf you click Cancel you will not be reminded during the current browser session anymore.Parent-StyleParent-StyleInstallation: %3$s.
 common#:#session_reminder_info#:#თუ გააქტიურებულია, თქვენ მიიღებთ შეხსენებას სანამ თქვენი ბრაუზერის  ონლაინ სესია ამოიწურება
 common#:#session_reminder_lead_time#:#წამყვანი დრო
 common#:#session_reminder_lead_time_info#:#გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s
@@ -5833,7 +5833,7 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#კალენდარის შესახებ
-jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http
+jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.eplParent-StyleDistributed under GNU LGPL.  See http
 jscalendar#:#about_time#:#
 jscalendar#:#close#:#დახურვა
 jscalendar#:#day_first#:#ჩვენება %s პირველ რიგში
@@ -7140,14 +7140,14 @@ pwassist#:#pwassist_invalid_auth_mode#:#მომხმარებლის პ
 pwassist#:#pwassist_invalid_email#:#გთხოვთ შეასწოროთ თქვენი ემაილის მისამართი. \ნ მოცემული ემაილის მისამართი მოძებნა მონაცემთა ბაზაში ვერ მოხერხდა
 pwassist#:#pwassist_invalid_username_or_email#:#გთხოვთ შეასწოროთ ტექსტი შენატანის ველებში. \ნ ემაილის მისამართი და პაროლი ერთმანეთს არ ემთხვევა მონაცემთა ბაზის შენატანებს
 pwassist#:#pwassist_login_not_match#:#გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ.
-pwassist#:#pwassist_mail_body#:#\n\n- If you have used the password assistance form on the ILIAS server by accident
+pwassist#:#pwassist_mail_body#:#Parent-StyleParent-Style- If you have used the password assistance form on the ILIAS server by accident
 pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზავნილია %s1$. \ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი
 pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
 pwassist#:#pwassist_no_email_found#:#თქვენ არ შეგიძლიათ პაროლის დახმარების გამოყენება, იმის გამო რომ მითითებულ ანგარიშს არ აქვს ემაილის მისამართი
 pwassist#:#pwassist_not_permitted#:#გთხოვთ შეიყვანოთ სხვა მომხმარებლის სახელი. \პაროლის დახმარება არ არის დაშვებული ამ მომხმარებლისთვის
 pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
 pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:#\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested
+pwassist#:#pwassist_username_mail_body#:#Parent-Style\t%sParent-StyleParent-StyleYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.Parent-StyleParent-StylePlease check the following and act as suggested
 rating#:#rat_not_rated_yet#:#არ არის შეფასებული ჯერ
 rating#:#rat_nr_ratings#:#%s რეიტინგები
 rating#:#rat_one_rating#:#ერთი რეიტინგი
@@ -14250,3 +14250,32 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###07 02 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable
