@@ -9193,13 +9193,14 @@ footer {
   html body {
     overflow: visible;
   }
-  html body section.il-layout-page {
+  html body .il-layout-page {
     display: block;
     overflow: visible;
   }
-  html body section.il-layout-page header,
-  html body section.il-layout-page nav,
-  html body section.il-layout-page footer {
+  html body .il-layout-page header,
+  html body .il-layout-page .il-maincontrols,
+  html body .il-layout-page .breadcrumbs,
+  html body .il-layout-page footer {
     display: none;
   }
 }
