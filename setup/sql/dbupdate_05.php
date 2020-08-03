@@ -4451,3 +4451,10 @@ if (!$ilDB->tableColumnExists('skl_user_has_level', 'next_level_fulfilment')) {
     ));
 }
 ?>
+<#5678>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
+    $ilDB->addIndex('tax_tree', ['child'], 'ttc');
+}
+?>
