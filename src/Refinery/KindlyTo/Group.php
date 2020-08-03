@@ -177,8 +177,7 @@ class Group
     /**
      * Get a kind transformation to a dictionary.
      *
-     * This supports all data represented as PHP array. Non-arrays will be wrapped
-     * in one.
+     * This supports all data represented as PHP array.
      */
     public function dictOf(Transformation $transformation) : Transformation
     {
