@@ -497,7 +497,7 @@ assessment#:#matching_type#:#Pregunta subtipo coincidente
 assessment#:#material_file#:#Archivo de Material
 assessment#:#material#:#Material
 assessment#:#maxchars#:#Máximo número de caracteres
-assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. El test no puede ser introducido!
+assessment#:#maximum_nr_of_tries_reached#:#Ha alcanzado el número máximo de intentos para este test. No puede realizarlo más veces!
 assessment#:#maximum_points#:#Máximo de puntos disponibles
 assessment#:#maxsize_info#:#Introduzca el tamaño máximo en bytes que se debe permitir en la carga de archivos. Si deja este campo vacío, el tamaño máximo de esta instalación será escogida en su lugar.
 assessment#:#maxsize#:#Tamaño máximo de carga de archivos
@@ -965,10 +965,10 @@ assessment#:#tst_test_contains_obligatory_questions#:#Para superar este test tie
 assessment#:#tst_text_count_system#:#Sistema de puntuación
 assessment#:#tst_time_already_spent#:#Comenzó el test a las %s. Su tiempo de proceso máximo es %s.
 assessment#:#tst_time_already_spent_left#:#Le quedan %s .
-assessment#:#tst_title_output_full#:#Mostrar el título del test y la puntuación disponible
-assessment#:#tst_title_output_hide_points#:#Mostrar sólo el título del test
-assessment#:#tst_title_output#:#Mostrar título del test
-assessment#:#tst_title_output_no_title#:#No mostrar ni el título del test ni la puntuación disponible
+assessment#:#tst_title_output_full#:#Títulos de preguntas y puntuaciones disponibles
+assessment#:#tst_title_output_hide_points#:#Sólo los títulos de las preguntas
+assessment#:#tst_title_output#:#Mostrar títulos de preguntas
+assessment#:#tst_title_output_no_title#:#Ni el título de las preguntas ni la puntuación disponible
 assessment#:#tst_type#:#Tipo de Test
 assessment#:#tst_use_previous_answers_description#:#Si se activa, se usarán las respuestas previas de un participante como valores por defecto en futuras ejecuciones del test
 assessment#:#tst_use_previous_answers#:#Usar respuestas previas
@@ -14252,3 +14252,32 @@ skmg#:#skmg_edit_sctp#:#Editar plantilla de categoría
 forum#:#frm_move_invalid_file_type#:#El tema "%s" tiene un fichero adjunto no aceptado. Elimine el fichero o contacte con el responsable de la plataforma para añadir este tipo de fichero a la lista de ficheros aceptados.
 assessment#:#enter_enough_positive_points_checked#:#Al menos una respuesta necesita puntuación. Por favor, introduzca una puntuación positiva para la selección de alguna respuesta.
 logging#:#log_error_path_not_configured_or_wrong#:#La ruta a los ficheros de error no está configurada o es inalcanzable
+exc#:#exc_members_already_assigned_team#:#Este usuario ya se ha asignado a un equipo
+common#:#msg_unknown_value#:#Se ha proporcionado un valor desconocido
+exc#:#exc_deleted_user#:#Usuario borrado
+copg#:#copg_allow_html#:#Activar HTML/Javascript
+copg#:#copg_allow_html_info#:#El usuario puede utilizar contenido HTML or Javascript. Esto podría ocasionar problemas de seguridad. No activar en caso de que puedan ser utilizadas por usuarios que no se consideran fiables. El soporte para añadir contenido HTML de esta forma podría ser eliminado en una versión futura.
+dcl#:#dcl_page_type_dclf#:#Vista de detalles
+crs#:#crs_page_type_lobj#:#Página de objetivos de aprendizaje
+copa#:#copa_page_type_copa#:#Página de contenido
+mep#:#mep_page_type_mep#:#Fragmento de contenido
+wiki#:#wiki_page_type_wpg#:#Página de wiki
+blog#:#blog_page_type_blp#:#Publicación en Blog
+prtf#:#prtf_page_type_prtf#:#Página de Portafolio
+prtf#:#prtf_page_type_prtt#:#Plantilla de página de Portafolio
+glo#:#glo_page_type_gdf#:#Definición de término
+lm#:#lm_page_type_lm#:#Página de Modulo de Aprendizaje
+qpl#:#qpl_page_type_qht#:#Sugerencia
+qpl#:#qpl_page_type_qpl#:#Página de pregunta
+qpl#:#qpl_page_type_qfbg#:#Comentario genérico
+qpl#:#qpl_page_type_qfbs#:#Comentario especial
+sc13#:#sc13_page_type_sahs#:#Página de editor SCORM
+copg#:#copg_page_type_stys#:#Página de organización de contenidos
+cont#:#cont_page_type_cont#:#Página de repositorio (Curso,Grupo, ...)
+cont#:#cont_page_type_cstr#:#Página de inicio de Curso (Vista de Objetivos de Aprendizaje))
+auth#:#auth_page_type_auth#:#Página de identificación
+impr#:#impr_page_type_impr#:#Información
+awrn#:#user_awrn_default#:#Por defecto
+awrn#:#user_awrn_hide#:#Ocultar mi estado
+awrn#:#user_awrn_show#:#Mostrar mi estado
+awrn#:#awrn_user_show#:#Mostrar tu cuenta en "¿Quién está conectado?"
