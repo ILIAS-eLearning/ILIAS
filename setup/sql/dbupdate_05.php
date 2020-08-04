@@ -1275,6 +1275,29 @@ identification = REPLACE(identification, %s, %s) WHERE identification LIKE %s", 
 }
 
 
+$remove = ['ILIAS\Administration\AdministrationMainBarProvider|adm',
+           'ILIAS\Administration\AdministrationMainBarProvider|adm_content',
+           'ilBookmarkGlobalScreenProvider|mm_pd_bookm',
+           'ILIAS\Certificate\Provider\CertificateMainBarProvider|mm_pd_cal',
+           'ILIAS\Contact\Provider\ContactMainBarProvider|mm_pd_contacts',
+           'ILIAS\Mail\Provider\MailMainBarProvider|mm_pd_mail',
+           'ILIAS\News\Provider\NewsMainBarProvider|mm_pd_news',
+           'ILIAS\Notes\Provider\NotesMainBarProvider|mm_pd_notes',
+           'ILIAS\PersonalDesktop\PDMainBarProvider|desktop',
+           'ILIAS\PersonalDesktop\PDMainBarProvider|mm_pd_achiev',
+           'ILIAS\PersonalDesktop\PDMainBarProvider|mm_pd_crs_grp',
+           'ILIAS\PersonalDesktop\PDMainBarProvider|mm_pd_sel_items',
+           'ILIAS\Portfolio\Provider\PortfolioMainBarProvider|mm_pd_port',
+           'ILIAS\Repository\Provider\RepositoryMainBarProvider|last_visited',
+           'ILIAS\Repository\Provider\RepositoryMainBarProvider|rep',
+           'ILIAS\Repository\Provider\RepositoryMainBarProvider|rep_main_page',
+           'ILIAS\MyStaff\Provider\StaffMainBarProvider|mm_pd_mst',
+           'ILIAS\PersonalWorkspace\Provider\WorkspaceMainBarProvider|mm_pd_wsp',
+           'ILIAS\MainMenu\Provider\CustomMainBarProvider|5f202f3dbefde',];
+
+$ilDB->manipulate("DELETE FROM il_mm_items WHERE ".$ilDB->in('identification', $remove, false, 'text'));
+$ilDB->manipulate("UPDATE il_mm_items SET position = null ");
+
 ?>
 
 
