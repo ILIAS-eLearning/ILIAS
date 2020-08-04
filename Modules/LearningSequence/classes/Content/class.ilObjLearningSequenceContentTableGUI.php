@@ -43,6 +43,8 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("table_online"));
         $this->addColumn($this->lng->txt("table_may_proceed"));
         $this->addColumn($this->lng->txt("table_actions"));
+
+        $this->setLimit(9999);
     }
 
     protected function fillRow($set)
