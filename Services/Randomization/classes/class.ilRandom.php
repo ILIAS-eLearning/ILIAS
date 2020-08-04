@@ -6,19 +6,24 @@
  */
 class ilRandom
 {
-    /**
-     * @var \ilLogger | null
-     */
-    private $logger = null;
 
     /**
-     * constructor.
+     * ilRandom constructor.
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @param callable $c
+     */
+    private function logIfPossible(callable $c)
+    {
         global $DIC;
 
-        $this->logger = $DIC->logger()->rnd();
+        if (isset($DIC['ilLoggerFactory'])) {
+            $c($DIC->logger()->rnd());
+        }
     }
 
     /**
@@ -39,12 +44,16 @@ class ilRandom
         try {
             return random_int($min, $max);
         } catch (Exception $e) {
-            $this->logger->logStack(\ilLogLevel::ERROR);
-            $this->logger()->error('No suitable random number generator found.');
+                $this->logIfPossible(static function (ilLogger $logger) {
+                    $logger->logStack(\ilLogLevel::ERROR);
+                    $logger->error('No suitable random number generator found.');
+                });
             throw $e;
         } catch (Throwable $e) {
-            $this->logger->logStack(\ilLogLevel::ERROR);
-            $this->logger->error('max should be greater than min.');
+                $this->logIfPossible(static function (ilLogger $logger) {
+                    $logger->logStack(\ilLogLevel::ERROR);
+                    $logger->error('max should be greater than min.');
+                });
             throw $e;
         }
     }
