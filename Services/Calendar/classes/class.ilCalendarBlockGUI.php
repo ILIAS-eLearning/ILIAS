@@ -974,10 +974,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
      */
     public function getHTMLNew()
     {
+        global $DIC;
+
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
         $block_html = parent::getHTMLNew();
 
-        $panel = \ilPanelGUI::getInstance();
-        $panel->setPanelStyle(\ilPanelGUI::PANEL_STYLE_SECONDARY);
+
 
         $panel_tpl = new \ilTemplate(
             'tpl.cal_block_panel.html',
@@ -989,8 +993,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $this->addConsultationHourButtons($panel_tpl);
         $this->addSubscriptionButton($panel_tpl);
 
-        $panel->setBody($panel_tpl->get());
-        return $block_html . $panel->getHTML();
+        $panel = $ui_factory->panel()
+                     ->secondary()
+                     ->legacy(
+                         '',
+                         $ui_factory->legacy($panel_tpl->get())
+                     );
+
+        return $block_html . $ui_renderer->render([$panel]);
     }
 
     /**
