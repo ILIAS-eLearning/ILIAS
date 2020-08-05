@@ -647,7 +647,7 @@ class ilRepositorySearchGUI
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         
         $this->form = new ilPropertyFormGUI();
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'search'));
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'showSearch'));
         $this->form->setTitle($this->getTitle());
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
