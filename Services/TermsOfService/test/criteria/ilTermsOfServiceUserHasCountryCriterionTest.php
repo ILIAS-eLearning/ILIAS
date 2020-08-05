@@ -14,10 +14,10 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     protected $lng;
 
     /** @var string */
-    protected $expectedInitialValue = 'en';
+    protected $expectedInitialValue = 'EN';
 
     /** @var string */
-    protected $expectedAfterFormSubmitValue = 'de';
+    protected $expectedAfterFormSubmitValue = 'DE';
 
     /** @var string */
     protected $englishLanguageTranslation = 'English';
@@ -42,7 +42,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
             ->method('txt')
             ->willReturn('dummy');
 
-        $this->countries = ['en', 'de'];
+        $this->countries = ['EN', 'DE'];
     }
 
     /**
@@ -187,7 +187,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         $language
             ->expects($this->any())
             ->method('txt')
-            ->with('meta_l_' . $country, '')
+            ->with('meta_c_' . $country, '')
             ->willReturn($translation);
 
         $criterion = new ilTermsOfServiceUserHasCountryCriterion($this->countries);
