@@ -1811,7 +1811,7 @@ class ilInitialisation
             return true;
         }
 
-        if ($_REQUEST["baseClass"] == "ilStartUpGUI") {
+        if (strtolower((string) $_REQUEST["baseClass"]) == "ilstartupgui") {
             $cmd_class = $_REQUEST["cmdClass"];
 
             if ($cmd_class == "ilaccountregistrationgui" ||
