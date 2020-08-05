@@ -122,12 +122,13 @@ Please note that different configurations SHOULD be possible, but it might be ha
 <a name="database-recommendations"></a>
 ## Database Recommendations
 
-> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only.
+> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports UTF-8 (with 3 bytes per character, such as utf8_general_ci) only.
 
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
-  * utf8_general_ci
+  * Character Set: utf8
+  * Collation: utf8_general_ci
   * query_cache_size (> 16M)
   * join_buffer_size (> 128.0K, or always use indexes with joins)
   * table_open_cache (> 400)

@@ -56,9 +56,12 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
                 $this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS;
             }
 
-            if (!$this->getForceMonthView()) {
-                include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-                ilCalendarCategories::_getInstance()->initialize($this->mode, (int) $_GET['ref_id'], true);
+        $cats = \ilCalendarCategories::_getInstance();
+        if ($this->getForceMonthView()) {
+            // nothing to do here
+        }
+        elseif (!$cats->getMode()) {
+            $cats->initialize($this->mode, (int) $_GET['ref_id'], true);
             }
         }
         $this->initialized = true;

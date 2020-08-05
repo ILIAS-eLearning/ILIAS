@@ -12,6 +12,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilCourseGroupingTableGUI extends ilTable2GUI
 {
+    /**
+     * @var null | \ilLogger
+     */
+    private $logger = null;
+
     public function __construct($a_parent_obj, $a_parent_cmd, $a_content_obj)
     {
         global $DIC;
@@ -21,6 +26,8 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
+
+        $this->logger = $DIC->logger()->ac();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -56,7 +63,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $data = array();
         foreach ($items as $grouping_id) {
             $tmp_obj = new ilObjCourseGrouping($grouping_id);
-            
+
             $data[$grouping_id]['id'] = $grouping_id;
             $data[$grouping_id]['source_ref_id'] = $tmp_obj->getContainerRefId();
             $data[$grouping_id]['assigned'] = [];

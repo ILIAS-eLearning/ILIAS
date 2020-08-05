@@ -1306,6 +1306,10 @@ class ilPageObjectGUI
                 ilYuiUtil::initPanel(false);
                 $main_tpl->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
                 $main_tpl->addJavascript("Services/COPage/js/page_editing.js");
+                $main_tpl->addOnloadCode("il.copg.editor.init('".
+                    ILIAS_HTTP_PATH."/".$this->ctrl->getLinkTargetByClass(["ilPageEditorGUI", "ilPageEditorServerAdapterGUI"], "invokeServer")."','".
+                    $this->ctrl->getFormActionByClass("ilPageEditorGUI")
+                    ."');");
 
                 include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
                 ilModalGUI::initJS();
@@ -1366,28 +1370,6 @@ class ilPageObjectGUI
                 $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
             }
 
-            // multiple actions
-            $cnt_pcs = $this->getPageObject()->countPageContents();
-            if ($cnt_pcs > 1 ||
-                    ($this->getPageObject()->getParentType() != "qpl" && $cnt_pcs > 0)) {
-                $tpl->setCurrentBlock("multi_actions");
-                if ($sel_js_mode == "enable") {
-                    $tpl->setVariable("ONCLICK_DE_ACTIVATE_SELECTED", 'onclick="return ilEditMultiAction(\'activateSelected\');"');
-                    $tpl->setVariable("ONCLICK_DELETE_SELECTED", 'onclick="return ilEditMultiAction(\'deleteSelected\');"');
-                    $tpl->setVariable("ONCLICK_ASSIGN_CHARACTERISTIC", 'onclick="return ilEditMultiAction(\'assignCharacteristicForm\');"');
-                    $tpl->setVariable("ONCLICK_COPY_SELECTED", 'onclick="return ilEditMultiAction(\'copySelected\');"');
-                    $tpl->setVariable("ONCLICK_CUT_SELECTED", 'onclick="return ilEditMultiAction(\'cutSelected\');"');
-                    $tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-                    $tpl->setVariable("ONCLICK_SELECT_ALL", 'onclick="return ilEditMultiAction(\'selectAll\');"');
-                }
-                $tpl->setVariable("TXT_DE_ACTIVATE_SELECTED", $this->lng->txt("cont_ed_enable"));
-                $tpl->setVariable("TXT_ASSIGN_CHARACTERISTIC", $this->lng->txt("cont_assign_characteristic"));
-                $tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
-                $tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
-                $tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
-                $tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
-                $tpl->parseCurrentBlock();
-            }
         } else {
             // presentation or preview here
                 
@@ -3097,7 +3079,7 @@ class ilPageObjectGUI
         if (is_array($a_error)) {
             $error_str = "<b>Error(s):</b><br>";
             foreach ($a_error as $error) {
-                $err_mess = implode($error, " - ");
+                $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }

@@ -173,7 +173,7 @@ class ilWikiPage extends ilPageObject
         $set = $ilDB->query(
             "SELECT id FROM il_wiki_page " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->read(true);
         }
@@ -830,8 +830,9 @@ class ilWikiPage extends ilPageObject
         if ($cnt < 1) {
             return "";
         }
-        
-        $rand = rand(1, $cnt);
+
+        $random = new \ilRandom();
+        $rand = $random->int(1, $cnt);
         
         // delete record of table il_wiki_data
         $ilDB->setLimit(1, $rand);

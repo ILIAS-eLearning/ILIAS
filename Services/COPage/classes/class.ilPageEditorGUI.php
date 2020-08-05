@@ -20,7 +20,7 @@ include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
 * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI
+* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -65,6 +65,16 @@ class ilPageEditorGUI
     protected $log;
 
     /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
+    /**
+     * @var \Psr\Http\Message\RequestInterface|\Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
     * Constructor
     *
     * @param	object		$a_page_object		page object
@@ -82,6 +92,9 @@ class ilPageEditorGUI
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $ilTabs = $DIC->tabs();
+
+        $this->ui = $DIC->ui();
+        $this->request = $DIC->http()->request();
 
         $this->log = ilLoggerFactory::getLogger('copg');
 
@@ -154,8 +167,14 @@ class ilPageEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-
         $this->log->debug("begin ============");
+
+        if (!true) {
+            var_dump($_GET);
+            echo "<br><br>";
+            var_dump($_POST);
+            exit;
+        }
 
         // Step BC (basic command determination)
         // determine cmd, cmdClass, hier_id and pc_id
@@ -182,7 +201,7 @@ class ilPageEditorGUI
             $pc_id = $pca[1];
             $cmd = explode("_", $pca[0]);
             unset($cmd[0]);
-            $hier_id = implode($cmd, "_");
+            $hier_id = implode("_", $cmd);
             $cmd = $_POST["command" . $hier_id];
         }
         $this->log->debug("step EC: cmd:$cmd, hier_id: $hier_id, pc_id: $pc_id");
@@ -262,14 +281,15 @@ class ilPageEditorGUI
                 $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
                 $cmd != "activatePage" && $cmd != "deactivatePage" &&
                 $cmd != "copyLinkedMediaToMediaPool" && $cmd != "showSnippetInfo" &&
-                $cmd != "deleteSelected" && $cmd != "paste" &&
+                $cmd != "delete" && $cmd != "paste" &&
                 $cmd != "cancelDeleteSelected" && $cmd != "confirmedDeleteSelected" &&
-                $cmd != "copySelected" && $cmd != "cutSelected" &&
+                $cmd != "copy" && $cmd != "cut" &&
                 ($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "" || $_POST["imagemap_x"] != "") &&
                 ($cmd != "displayPage" || $_POST["editImagemapForward_x"] != "") &&
-                $cmd != "activateSelected" && $cmd != "assignCharacteristicForm" &&
+                $cmd != "activate" && $cmd != "characteristic" &&
                 $cmd != "assignCharacteristic" &&
                 $cmdClass != "ilrepositoryselector2inputgui" &&
+                $cmdClass != "ilpageeditorserveradaptergui" &&
                 $cmd != "cancelCreate" && $cmd != "popup" &&
                 $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
                 ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
@@ -297,6 +317,11 @@ class ilPageEditorGUI
 
 
         // Step NC (handle empty next class)
+        if ($_REQUEST["ctype"] != "") {
+            $ctype = $_REQUEST["ctype"];
+            $pc_id = $_REQUEST["pcid"];
+            $hier_id = $_REQUEST["hier_id"];
+        }
         $this->ctrl->setParameter($this, "hier_id", $hier_id);
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
         $this->ctrl->setCmd($cmd);
@@ -308,7 +333,7 @@ class ilPageEditorGUI
             }
             $next_class = $this->ctrl->getNextClass($this);
         }
-        $this->log->debug("step NC: next_class: $next_class");
+        $this->log->debug("step NC2: next_class: $next_class");
 
         // ... do not do this while imagemap editing is ongoing
         // Step IM (handle image map editing)
@@ -316,8 +341,6 @@ class ilPageEditorGUI
             $next_class = "";
         }
         $this->log->debug("step IM: next_class: $next_class");
-
-
         // Step FC (forward command)
         $this->log->debug("before FC: next_class:" . $next_class . ", pc_id:" . $pc_id .
                 ", hier_id:" . $hier_id . ", ctype:" . $ctype . ", cmd:" . $cmd . ", _GET[cmd]: " . $_GET["cmd"]);
@@ -405,6 +428,16 @@ class ilPageEditorGUI
                     $pc_id
                 );
                 $ret = $this->ctrl->forwardCommand($plugged_gui);
+                break;
+
+            case "ilpageeditorserveradaptergui":
+                $adapter = new ilPageEditorServerAdapterGUI(
+                    $this->page_gui,
+                    $this->ctrl,
+                    $this->ui,
+                    $this->request
+                );
+                $this->ctrl->forwardCommand($adapter);
                 break;
 
             default:
@@ -553,13 +586,13 @@ class ilPageEditorGUI
     /**
      * Confirm
      */
-    public function deleteSelected()
+    public function delete()
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        $targets = explode(";", $_POST["target"][0]);
+        $targets = $_POST["ids"];
 
         if (count($targets) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -571,7 +604,9 @@ class ilPageEditorGUI
             $cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));
             $cgui->setCancel($lng->txt("cancel"), "cancelDeleteSelected");
             $cgui->setConfirm($lng->txt("confirm"), "confirmedDeleteSelected");
-            $cgui->addHiddenItem("target", $_POST["target"][0]);
+            foreach ($targets as $t) {
+                $cgui->addHiddenItem("ids[]", $t);
+            }
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -594,7 +629,7 @@ class ilPageEditorGUI
      */
     public function confirmedDeleteSelected()
     {
-        $targets = explode(";", $_POST["target"]);
+        $targets = $_POST["ids"];
         if (count($targets) > 0) {
             $updated = $this->page->deleteContents(
                 $targets,
@@ -613,15 +648,12 @@ class ilPageEditorGUI
     /**
      * Copy selected items
      */
-    public function copySelected()
+    public function copy()
     {
         $lng = $this->lng;
         
-        if (is_int(strpos($_POST["target"][0], ";"))) {
-            $_POST["target"] = explode(";", $_POST["target"][0]);
-        }
-        if (is_array($_POST["target"])) {
-            $this->page->copyContents($_POST["target"]);
+        if (is_array($_POST["ids"])) {
+            $this->page->copyContents($_POST["ids"]);
             ilUtil::sendSuccess($lng->txt("cont_sel_el_copied_use_paste"), true);
         }
         $this->ctrl->returnToParent($this);
@@ -630,15 +662,12 @@ class ilPageEditorGUI
     /**
      * Cut selected items
      */
-    public function cutSelected()
+    public function cut()
     {
         $lng = $this->lng;
         
-        if (is_int(strpos($_POST["target"][0], ";"))) {
-            $_POST["target"] = explode(";", $_POST["target"][0]);
-        }
-        if (is_array($_POST["target"])) {
-            $updated = $this->page->cutContents($_POST["target"]);
+        if (is_array($_POST["ids"])) {
+            $updated = $this->page->cutContents($_POST["ids"]);
             if ($updated !== true) {
                 $_SESSION["il_pg_error"] = $updated;
             } else {
@@ -664,14 +693,11 @@ class ilPageEditorGUI
     /**
     * (de-)activate selected items
     */
-    public function activateSelected()
+    public function activate()
     {
-        if (is_int(strpos($_POST["target"][0], ";"))) {
-            $_POST["target"] = explode(";", $_POST["target"][0]);
-        }
-        if (is_array($_POST["target"])) {
+        if (is_array($_POST["ids"])) {
             $updated = $this->page->switchEnableMultiple(
-                $_POST["target"],
+                $_POST["ids"],
                 true,
                 $this->page_gui->getPageConfig()->getEnableSelfAssessment()
             );
@@ -687,19 +713,16 @@ class ilPageEditorGUI
     /**
     * Assign characeristic to text blocks/sections
     */
-    public function assignCharacteristicForm()
+    public function characteristic()
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
         
-        if (is_int(strpos($_POST["target"][0], ";"))) {
-            $_POST["target"] = explode(";", $_POST["target"][0]);
-        }
-        if (is_array($_POST["target"])) {
+        if (is_array($_POST["ids"])) {
             $types = array();
             
             // check what content element types have been selected
-            foreach ($_POST["target"] as $t) {
+            foreach ($_POST["ids"] as $t) {
                 $tarr = explode(":", $t);
                 $cont_obj = $this->page->getContentObject($tarr[0], $tarr[1]);
                 if (is_object($cont_obj) && $cont_obj->getType() == "par") {
@@ -714,7 +737,7 @@ class ilPageEditorGUI
                 ilUtil::sendFailure($lng->txt("cont_select_par_or_section"), true);
                 $this->ctrl->returnToParent($this);
             } else {
-                $this->initCharacteristicForm($_POST["target"], $types);
+                $this->initCharacteristicForm($_POST["ids"], $types);
                 $tpl->setContent($this->form->getHTML());
             }
         } else {

@@ -179,7 +179,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 break;
             
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;

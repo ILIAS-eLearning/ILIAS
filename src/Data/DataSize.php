@@ -123,16 +123,8 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function __construct($size, $unit)
+    public function __construct(int $size, int $unit)
     {
-        if (!is_int($size)) {
-            throw new \InvalidArgumentException("Size must be of the type int.");
-        }
-
-        if (!is_int($unit)) {
-            throw new \InvalidArgumentException("Unit must be of the type int.");
-        }
-
         if (!isset(self::$suffixMap[$unit])) {
             throw new \InvalidArgumentException('The given data size unit is not valid, please check the provided class constants of the DataSize class.');
         }

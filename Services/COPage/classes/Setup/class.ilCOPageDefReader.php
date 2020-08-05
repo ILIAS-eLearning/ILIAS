@@ -53,7 +53,7 @@ class ilCOPageDefReader
         switch ($a_name) {
             case "pagecontent":
                 $ilDB->manipulate("INSERT INTO copg_pc_def " .
-                    "(pc_type, name, component, directory, int_links, style_classes, xsl, def_enabled) VALUES (" .
+                    "(pc_type, name, component, directory, int_links, style_classes, xsl, def_enabled, top_item, order_nr) VALUES (" .
                     $ilDB->quote($a_attribs["pc_type"], "text") . "," .
                     $ilDB->quote($a_attribs["name"], "text") . "," .
                     $ilDB->quote($a_comp, "text") . "," .
@@ -61,7 +61,9 @@ class ilCOPageDefReader
                     $ilDB->quote($a_attribs["int_links"], "integer") . "," .
                     $ilDB->quote($a_attribs["style_classes"], "integer") . "," .
                     $ilDB->quote($a_attribs["xsl"], "integer") . "," .
-                    $ilDB->quote($a_attribs["def_enabled"], "integer") .
+                    $ilDB->quote($a_attribs["def_enabled"], "integer") ."," .
+                    $ilDB->quote($a_attribs["top_item"], "integer") ."," .
+                    $ilDB->quote($a_attribs["order_nr"], "integer") .
                     ")");
                 break;
 

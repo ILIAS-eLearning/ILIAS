@@ -679,10 +679,14 @@ class ilAdvancedSelectionListGUI
                                 $tpl->parseCurrentBlock();
                             }
                         }
+                        if ($item["value"] != "") {
+                            $tpl->setCurrentBlock("item_id");
+                            $tpl->setVariable("ID_ITEM", $this->getId() . "_" . $item["value"]);
+                            $tpl->parseCurrentBlock();
+                        }
 
                         $tpl->setCurrentBlock("href_s");
                         $tpl->setVariable("HREF_ITEM", 'href="' . $item["link"] . '"');
-                        $tpl->setVariable("ID_ITEM", $this->getId() . "_" . $item["value"]);
                         $tpl->parseCurrentBlock();
 
                         $tpl->touchBlock("href_e");

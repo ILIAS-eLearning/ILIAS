@@ -30,7 +30,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
 
-
     /**
      * Creates a new file in the directory
      *
@@ -165,8 +164,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $child_exists = true;
                     
                     // Check if user has permission to read this object
-                    if ($this->repo_helper->checkAccess("read", $child_ref)
-                        && $this->repo_helper->checkAccess("visible", $child_ref)) {
+                    if ($this->checkReadAndVisibleAccessForObj($child_ref)) {
                         $child_node = $this->dav_helper->createDAVObjectForRefId($child_ref);
                     }
                 }
@@ -206,8 +204,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                 $already_seen_titles[] = $title;
 
                 // Check if read permission is given
-                if ($this->repo_helper->checkAccess("read", $child_ref)
-                    && $this->repo_helper->checkAccess("visible", $child_ref)) {
+                if ($this->checkReadAndVisibleAccessForObj($child_ref)) {
                     // Create DAV-object out of ILIAS-object
                     $child_nodes[$child_ref] = $this->dav_helper->createDAVObjectForRefId($child_ref);
                 }
@@ -241,7 +238,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                 // Check if names are the same
                 if ($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name) {
                     // Check if read permission is given
-                    if ($this->repo_helper->checkAccess("read", $child_ref)) {
+                    if ($this->checkReadAndVisibleAccessForObj($child_ref)) {
                         return true;
                     } else {
                         /*
@@ -255,6 +252,11 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         }
         
         return false;
+    }
+
+    protected function checkReadAndVisibleAccessForObj($child_ref)
+    {
+        return $this->repo_helper->checkAccess("visible", $child_ref) && $this->repo_helper->checkAccess("read", $child_ref);
     }
     
     /**

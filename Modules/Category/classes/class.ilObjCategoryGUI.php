@@ -512,6 +512,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         $ilTabs->activateTab("view_content");
         $ret = parent::renderObject();
+
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+
         return $ret;
     }
 

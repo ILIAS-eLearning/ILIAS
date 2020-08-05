@@ -16,7 +16,7 @@ We are using [rollup.js](https://rollupjs.org/) to bundle modules to larger comp
 
 In your component put your Javascript source under `js/src` and create a directory `js/dist`.
 
-Create a `rollup.congig.js` file in your main `js` directory. Minimal version is:
+Create a `rollup.config.js` file in your main `js` directory. Minimal version is:
 
 ```
 export default {

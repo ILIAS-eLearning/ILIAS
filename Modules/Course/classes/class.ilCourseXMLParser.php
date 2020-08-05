@@ -294,6 +294,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'CancellationEnd':
             case 'MinMembers':
                 break;
+
+            case 'WelcomeMail':
+                if (array_key_exists('status', $a_attribs)) {
+                    $this->course_obj->setAutoNotification((bool) $a_attribs['status']);
+                }
+                break;
         }
     }
 
@@ -503,6 +509,8 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_start = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+                        } else {
+                            $this->period_start = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }
                 }
@@ -519,6 +527,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_end = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+                        }
+                        else {
+                            $this->period_end = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }
                 }

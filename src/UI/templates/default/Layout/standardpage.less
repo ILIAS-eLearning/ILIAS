@@ -247,7 +247,6 @@ footer {
 	min-height: auto;
 	padding: @il-footer-padding;
 	text-align: center;
-	z-index: 2;
 }
 
 
@@ -556,12 +555,13 @@ footer {
 	html body {
 		overflow: visible;
 
-		section.il-layout-page {
+		.il-layout-page {
 			display: block;
 			overflow: visible;
 
 			header,
-			nav,
+			.il-maincontrols,
+			.breadcrumbs,
 			footer {
 				display: none;
 			}

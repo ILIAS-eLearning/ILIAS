@@ -76,7 +76,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         foreach ($a_submission->getFiles() as $file) {
             $titles[] = $file["filetitle"];
         }
-        $files_str = implode($titles, "<br>");
+        $files_str = implode("<br>", $titles);
         if ($files_str == "") {
             $files_str = $lng->txt("message_no_delivered_files");
         }

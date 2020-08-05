@@ -55,7 +55,7 @@ class ilHelp
         if ($rec["tt_text"] != "") {
             $t = $rec["tt_text"];
             if ($module_id == 0) {
-                $t .= "<br/><i class='small'>" . $a_tt_id . "</i>";
+                $t .= "<br/><i>(" . $a_tt_id . ")</i>";
             }
             return $t;
         } else { // try to get general version
@@ -70,7 +70,7 @@ class ilHelp
             if ($rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
                 if ($module_id == 0) {
-                    $t .= "<br/><i class='small'>" . $a_tt_id . "</i>";
+                    $t .= "<br/><i>(" . $a_tt_id . ")</i>";
                 }
                 return $t;
             }

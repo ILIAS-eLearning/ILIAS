@@ -109,13 +109,14 @@ class ilMMSubItemTableGUI extends ilTable2GUI
          * @var $item_facade ilMMItemFacadeInterface
          */
         $item_facade = $a_set['facade'];
+
         if ($item_facade->isChild()) {
-            if (!$current_parent || $current_parent->getProviderIdentification() !== $item_facade->item()->getParent()) {
+            if (!$current_parent ||
+                $current_parent->getProviderIdentification()->serialize() !== $item_facade->getParentIdentificationString()) {
                 $current_parent = $this->item_repository->getSingleItem($item_facade->item()->getParent());
                 if ($current_parent instanceof Lost) {
-
                 }
-                $this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle()); //  ." ({$current_parent->getProviderIdentification()->getInternalIdentifier()})"
+                $this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle());
                 $position = 1;
             }
         }
@@ -191,7 +192,11 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $sub_items_for_table = $this->item_repository->getSubItemsForTable();
 
         foreach ($sub_items_for_table as $k => $item) {
-            $item_facade                       = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']));
+            $item_ident           = $DIC->globalScreen()->identification()->fromSerializedIdentification($item['identification']);
+            $item_facade          = $this->item_repository->repository()->getItemFacade($item_ident);
+            $parent_id            = $item['parent_identification'];
+            $parent_id_calculated = $item_facade->getParentIdentificationString();
+
             $sub_items_for_table[$k]['facade'] = $item_facade;
             if (isset($this->filter[self::F_TABLE_ENTRY_STATUS]) && $this->filter[self::F_TABLE_ENTRY_STATUS] !== self::F_TABLE_ALL_VALUE) {
                 if (($this->filter[self::F_TABLE_ENTRY_STATUS] == self::F_TABLE_ONLY_ACTIVE_VALUE && !$item_facade->isActivated())
@@ -201,7 +206,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 }
             }
         }
-
         return $sub_items_for_table;
     }
 }

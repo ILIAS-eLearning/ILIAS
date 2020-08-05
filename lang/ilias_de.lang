@@ -1388,7 +1388,7 @@ assessment#:#tst_anonymity_anonymous_test#:#Testergebnisse ohne Namen / Anonymer
 assessment#:#tst_anonymity_no_anonymization#:#Testergebnisse mit Namen
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet:
+assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_qpl_questions#:#Aus Pool hinzufügen
 assessment#:#tst_browse_for_tst_questions#:#Aus anderem Test hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
@@ -4867,11 +4867,11 @@ content#:#cont_ed_edit_prop#:#Eigenschaften
 content#:#cont_ed_enable#:#De-/Aktivieren
 content#:#cont_ed_flist#:#Dateiliste
 content#:#cont_ed_go#:#Ok
-content#:#cont_ed_insert_atable#:#Erweiterte Tabelle einfügen
+content#:#cont_ed_insert_tab#:#Erweiterte Tabelle einfügen
 content#:#cont_ed_insert_blog#:#Blog-Eintrag hinzufügen
-content#:#cont_ed_insert_code#:#Programmcode einfügen
-content#:#cont_ed_insert_dtable#:#Datentabelle einfügen
-content#:#cont_ed_insert_filelist#:#Dateiliste einfügen
+content#:#cont_ed_insert_src#:#Programmcode einfügen
+content#:#cont_ed_insert_dtab#:#Datentabelle einfügen
+content#:#cont_ed_insert_flst#:#Dateiliste einfügen
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
@@ -4884,7 +4884,7 @@ content#:#cont_ed_insert_plach#:#Platzhalter einfügen
 content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
-content#:#cont_ed_insert_section#:#Block einfügen
+content#:#cont_ed_insert_sec#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
 content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
 content#:#cont_ed_insert_verification#:#Zertifikat einfügen
@@ -11193,7 +11193,7 @@ registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang 
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
 crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
-mmbr#:#mmbr_info_delete_sure_unsubscribe#:#ollen Sie sich wirklich aus den folgenden Objekten abmelden?
+mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
@@ -15022,7 +15022,7 @@ cert#:#cert_issued_on_label#:#Ausgestellt am
 cert#:#cert_download_label#:#Herunterladen
 cert#:#cert_object_label#:#Objekt
 cert#:#cert_description_label#:#Beschreibung
-cert#:#cert_currently_no_certs#:#Aktuelle besitzen Sie noch keine Zertifikate.
+cert#:#cert_currently_no_certs#:#Aktuell besitzen Sie noch keine Zertifikate.
 certificate#:#cert_cron_task_title#:#Zertifikate
 certificate#:#cert_cron_task_desc#:#Aufgabe dieses Jobs ist die Abarbeitung eingereihter Lernerfolge zur Datenverarbeitung für und Generierung von persistenten Zertifikaten für Benutzer an Lernobjekten.
 certificate#:#certificate_card_thumbnail_image#:#Bild für Kacheldarstellung
@@ -15341,7 +15341,7 @@ task#:#task_derived_tasks#:#To-Do
 task#:#task_tasks_with_deadline#:#Mit Endtermin
 task#:#task_tasks_without_deadline#:#Ohne Endtermin
 task#:#task_deadline#:#Ende
-task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Do.
+task#:#task_no_tasks#:#Sie haben derzeit keine offenen To-Dos.
 task#:#task_start#:#Beginn
 task#:#task_task#:#Aufgabe
 task#:#task_details#:#Details
@@ -16186,3 +16186,5 @@ survey#:#survey_calculate_sum_score#:#Skalenpunktesumme berechnen
 survey#:#survey_calculate_sum_score_info#:#Berechnet die Summe aller Skalenpunkt von Single Choice, Multiple Choice und Matrixfragen je Teilnehmer. Achtung: Wenn Teilnehmer solche Fragen überspringen, wird die gesammte Skalenpunktesumme nicht berechnet.
 survey#:#svy_sum_score#:#Skalenpunktesumme
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
+content#:#cont_select_none#:#Auswahl aufheben
+feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.

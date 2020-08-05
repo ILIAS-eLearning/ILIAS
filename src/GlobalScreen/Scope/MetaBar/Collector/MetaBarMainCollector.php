@@ -54,6 +54,16 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
 
     public function prepareItemsForUIRepresentation() : void
     {
+        // TODO: Implement prepareItemsForUIRepresentation() method.
+    }
+
+    public function cleanupItemsForUIRepresentation() : void
+    {
+        // TODO: Implement filterItemsByVisibilty() method.
+    }
+
+    public function sortItemsForUIRepresentation() : void
+    {
         $this->sortItems($this->items);
         array_walk($this->items, $this->getChildSorter());
     }

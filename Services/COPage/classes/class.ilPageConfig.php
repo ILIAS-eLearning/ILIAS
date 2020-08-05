@@ -121,6 +121,22 @@ abstract class ilPageConfig
     }
 
     /**
+     * Get enable pc type
+     *
+     * @return boolean enable pc type true/false
+     */
+    public function getEnabledTopPCTypes(): array
+    {
+        $types = [];
+        foreach ($this->pc_defs as $def) {
+            if ($def["top_item"] && $this->getEnablePCType($def["name"])) {
+                $types[] = $def;
+            }
+        }
+        return $types;
+    }
+
+    /**
      * Set enable keywords handling
      *
      * @param	boolean	keywords handling
