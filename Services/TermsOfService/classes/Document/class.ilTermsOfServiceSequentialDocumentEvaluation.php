@@ -38,13 +38,24 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     }
 
     /**
-     * @param ilObjUser $user
+     * @ineritdoc
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
+    {
+        $clone = clone $this;
+        $clone->user = $user;
+        $clone->evaluation = $clone->evaluation->withContextUser($user);
+
+        return $clone;
+    }
+
+    /**
      * @return ilTermsOfServiceSignableDocument[]
      */
-    protected function getMatchingDocuments(ilObjUser $user) : array
+    protected function getMatchingDocuments() : array
     {
-        if (!array_key_exists((int) $user->getId(), $this->matchingDocumentsByUser)) {
-            $this->matchingDocumentsByUser[(int) $user->getId()] = [];
+        if (!array_key_exists((int) $this->user->getId(), $this->matchingDocumentsByUser)) {
+            $this->matchingDocumentsByUser[(int) $this->user->getId()] = [];
 
             $this->log->debug(sprintf(
                 'Evaluating document for user "%s" (id: %s) ...',
@@ -53,62 +64,50 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
             ));
 
             foreach ($this->possibleDocuments as $document) {
-                if ($this->evaluateDocument($document, $user)) {
-                    $this->matchingDocumentsByUser[(int) $user->getId()][] = $document;
+                if ($this->evaluateDocument($document)) {
+                    $this->matchingDocumentsByUser[(int) $this->user->getId()][] = $document;
                 }
             }
 
             $this->log->debug(sprintf(
                 '%s matching document(s) found',
-                count($this->matchingDocumentsByUser[(int) $user->getId()])
+                count($this->matchingDocumentsByUser[(int) $this->user->getId()])
             ));
         }
 
-        return $this->matchingDocumentsByUser[(int) $user->getId()];
+        return $this->matchingDocumentsByUser[(int) $this->user->getId()];
     }
 
     /**
      * @inheritDoc
      */
-    public function evaluateDocument(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
     {
-        if (null === $user) {
-            $user = $this->user;
-        }
-
-        return $this->evaluation->evaluate($document, $user);
+        return $this->evaluation->evaluate($document);
     }
 
     /**
      * @inheritdoc
      */
-    public function document(ilObjUser $user = null) : ilTermsOfServiceSignableDocument
+    public function document() : ilTermsOfServiceSignableDocument
     {
-        if (null === $user) {
-            $user = $this->user;
-        }
-
-        $matchingDocuments = $this->getMatchingDocuments($user);
+        $matchingDocuments = $this->getMatchingDocuments();
         if (count($matchingDocuments) > 0) {
             return $matchingDocuments[0];
         }
 
         throw new ilTermsOfServiceNoSignableDocumentFoundException(sprintf(
             'Could not find any terms of service document for the passed user (id: %s|login: %s)',
-            $user->getId(),
-            $user->getLogin()
+            $this->user->getId(),
+            $this->user->getLogin()
         ));
     }
 
     /**
      * @inheritdoc
      */
-    public function hasDocument(ilObjUser $user = null) : bool
+    public function hasDocument() : bool
     {
-        if (null === $user) {
-            $user = $this->user;
-        }
-
-        return count($this->getMatchingDocuments($user)) > 0;
+        return count($this->getMatchingDocuments()) > 0;
     }
 }

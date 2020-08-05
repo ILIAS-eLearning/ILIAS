@@ -179,9 +179,10 @@ class ilTermsOfServiceHelper
             return false;
         }
 
-        if (!$this->termsOfServiceEvaluation->hasDocument($user)) {
+        $evaluator = $this->termsOfServiceEvaluation->withContextUser($user);
+        if (!$evaluator->hasDocument()) {
             $logger->debug(sprintf(
-                'No signed Terms of Service document found, resigning not required ...'
+                'No signable Terms of Service document found, resigning not required ...'
             ));
             return false;
         }
@@ -200,7 +201,7 @@ class ilTermsOfServiceHelper
             $this->criterionTypeFactory
         );
 
-        if ($this->termsOfServiceEvaluation->evaluateDocument($historizedDocument, $user)) {
+        if ($evaluator->evaluateDocument($historizedDocument)) {
             $logger->debug(sprintf(
                 'Current user values do still match historized criteria, resigning not required ...'
             ));

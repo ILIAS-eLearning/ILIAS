@@ -17,8 +17,8 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
     /**
      * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
      * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser                                     $user
-     * @param ilLogger                                      $log
+     * @param ilObjUser $user
+     * @param ilLogger $log
      */
     public function __construct(
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
@@ -31,26 +31,33 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
     }
 
     /**
+     * @ineritdoc
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation
+    {
+        $clone = clone $this;
+        $clone->user = $user;
+
+        return $clone;
+    }
+
+    /**
      * @inheritdoc
      */
-    public function evaluate(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool
+    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool
     {
-        if (null === $user) {
-            $user = $this->user;
-        }
-
         $this->log->debug(sprintf(
             'Evaluating criteria for document "%s" (id: %s) and user "%s" (id: %s)',
             $document->title(),
             $document->id(),
-            $user->getLogin(),
-            $user->getId()
+            $this->user->getLogin(),
+            $this->user->getId()
         ));
 
         foreach ($document->criteria() as $criterionAssignment) {
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($criterionAssignment->getCriterionId(), true);
 
-            $result = $criterionType->evaluate($user, $criterionAssignment->getCriterionValue());
+            $result = $criterionType->evaluate($this->user, $criterionAssignment->getCriterionValue());
 
             $this->log->debug(sprintf(
                 'Criterion of type "%s", configured with %s evaluated: %s',

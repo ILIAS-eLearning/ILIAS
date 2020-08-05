@@ -8,9 +8,16 @@
 interface ilTermsOfServiceDocumentCriteriaEvaluation
 {
     /**
+     * Evaluates a document for the context given by the concrete implementation
      * @param ilTermsOfServiceSignableDocument $document
-     * @param ilObjUser|null $user
      * @return bool
      */
-    public function evaluate(ilTermsOfServiceSignableDocument $document, ilObjUser $user = null) : bool;
+    public function evaluate(ilTermsOfServiceSignableDocument $document) : bool;
+
+    /**
+     * Returns a criteria evaluator like this with the passed context user
+     * @param ilObjUser $user
+     * @return ilTermsOfServiceDocumentCriteriaEvaluation
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation;
 }

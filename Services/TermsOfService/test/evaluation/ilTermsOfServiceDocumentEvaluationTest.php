@@ -105,14 +105,14 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
             ->expects($this->exactly(3))
             ->method('evaluate')
             ->withConsecutive(
-                [$doc1, $user],
-                [$doc2, $user],
-                [$doc3, $user]
+                [$doc1],
+                [$doc2],
+                [$doc3]
             )
             ->will($this->returnValueMap([
-                [$doc1, $user, false],
-                [$doc2, $user, true],
-                [$doc3, $user, false]
+                [$doc1, false],
+                [$doc2, true],
+                [$doc3, false],
             ]));
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(
@@ -152,14 +152,14 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
             ->expects($this->exactly(3))
             ->method('evaluate')
             ->withConsecutive(
-                [$doc1, $user],
-                [$doc2, $user],
-                [$doc3, $user]
+                [$doc1],
+                [$doc2],
+                [$doc3]
             )
             ->will($this->returnValueMap([
-                [$doc1, $user, false],
-                [$doc2, $user, true],
-                [$doc3, $user, true]
+                [$doc1, false],
+                [$doc2, true],
+                [$doc3, true],
             ]));
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(
