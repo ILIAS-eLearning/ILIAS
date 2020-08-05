@@ -301,7 +301,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
             $this->tpl->setVariable('DAY_CELL_NUM', $this->num_appointments);
             $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
-            //$event_tpl->setVariable('TD_STYLE',$td_style);
+            $this->tpl->setVariable('TD_STYLE',$a_app['event']->getPresentationStyle());
             $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
 
             $this->tpl->parseCurrentBlock();
