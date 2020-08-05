@@ -399,63 +399,24 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 );
             }
             
-            if ($supports_lp &&
+            if (
+                $supports_lp &&
                 $node["child"] != $a_ref_id) {
                 $a_res[$node["child"]]["node"]["lp"] = true;
                 $has_lp_parents = true;
-                
-                $parent_obj_id = $node["obj_id"];
-                $parent_obj_lp = ilObjectLP::getInstance($parent_obj_id);
-                
-                // parse LP collection
-                $parent_collection = $parent_obj_lp->getCollectionInstance();
-                if ($parent_collection &&
-                    $parent_collection->hasSelectableItems() &&
-                    $parent_collection->isAssignedEntry($a_ref_id)) {
-                    $a_res[$node["child"]]["node"]["active"] = true;
 
-                    if ($parent_collection instanceof ilLPCollectionOfRepositoryObjects) {
-                        $group = array();
-                        foreach ($parent_collection->getTableGUIData($node["parent"]) as $item) {
-                            $found = false;
-                            $grp_tmp = array();
-                            if ($item["grouped"]) {
-                                // parse grouped items
-                                foreach ($item["grouped"] as $group_item) {
-                                    if ($group_item["ref_id"] == $a_ref_id) {
-                                        $found = true;
-                                    } else {
-                                        $grp_tmp[$group_item["ref_id"]] = array(
-                                            "type" => $group_item["type"]
-                                            ,"title" => $group_item["title"]
-                                            ,"obj_id" => $group_item["obj_id"]
-                                        );
-                                    }
-                                }
-                            }
-                            if (sizeof($grp_tmp) ||
-                                $found) {
-                                if ($item["ref_id"] == $a_ref_id) {
-                                    // group "parent" item is current object
-                                    $group = $grp_tmp;
-                                } elseif ($found) {
-                                    // group "parent" item is not current object
-                                    // add group "parent" to grouped items
-                                    $group = $grp_tmp;
-                                    $group[$item["ref_id"]] = array(
-                                        "type" => $item["type"]
-                                        ,"title" => $item["title"]
-                                        ,"obj_id" => $item["obj_id"]
-                                    );
-                                }
-                            }
-                        }
-                        $a_res[$node["child"]]["group"] = $group;
-                    }
+                $parent_obj_id = $node['obj_id'];
+                $parent_obj_lp = \ilObjectLP::getInstance($parent_obj_id);
+                $parent_collection = $parent_obj_lp->getCollectionInstance();
+                if (
+                    $parent_collection &&
+                    $parent_collection->hasSelectableItems() &&
+                    $parent_collection->isAssignedEntry($a_ref_id)
+                ) {
+                    $a_res[$node['child']]['node']['active'] = true;
                 }
             }
         }
-        
         return $has_lp_parents;
     }
     
@@ -481,39 +442,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             $margin = 0;
             $has_active = false;
             foreach ($coll as $parent_ref_id => $parts) {
-                /* currently not used
-                if($parts["group"])
-                {
-                    foreach($parts["group"] as $group_item_ref_id => $group_item)
-                    {
-                        if($ilAccess->checkAccess("read", "", $group_item_ref_id))
-                        {
-                            $tpl->setCurrentBlock("group_item_link_bl");
-                            $tpl->setVariable("GROUP_ITEM_LINK_TITLE", $group_item["title"]);
-                            $tpl->setVariable("GROUP_ITEM_URL", ilLink::_getLink($group_item_ref_id, $group_item["type"], array("gotolp" => 1)));
-                            $tpl->parseCurrentBlock();
-                        }
-                        else
-                        {
-                            $tpl->setCurrentBlock("group_item_nolink_bl");
-                            $tpl->setVariable("GROUP_ITEM_NOLINK_TITLE", $group_item["title"]);
-                            $tpl->parseCurrentBlock();
-                        }
-
-                        $tpl->setCurrentBlock("group_item_bl");
-                        $tpl->setVariable("GROUP_ITEM_TYPE_URL", ilUtil::getTypeIconPath($group_item["type"], $group_item["obj_id"]));
-                        $tpl->setVariable("GROUP_ITEM_TYPE_ALT", $lng->txt("obj_".$group_item["type"]));
-                        $tpl->parseCurrentBlock();
-                    }
-
-                    $tpl->setCurrentBlock("group_bl");
-                    $tpl->setVariable("GROUP_INFO", $lng->txt("trac_lp_settings_info_parent_group"));
-                    $tpl->parseCurrentBlock();
-                }
-                */
-                
                 $node = $parts["node"];
-                
                 $params = array();
                 if ($node["lp"]) {
                     if ($node["active"]) {
