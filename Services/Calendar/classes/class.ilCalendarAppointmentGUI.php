@@ -1348,14 +1348,15 @@ class ilCalendarAppointmentGUI
         $ilUser = $DIC['ilUser'];
         $tpl = $DIC['tpl'];
         
-        $entry = (int) $_GET['app_id'];
-        $user = (int) $_GET['bkid'];
-
+        $entry_id = (int) $_GET['app_id'];
         $this->ctrl->saveParameter($this, 'app_id');
         
         include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
         include_once 'Services/Booking/classes/class.ilBookingEntry.php';
-        $entry = new ilCalendarEntry($entry);
+        $entry = new ilCalendarEntry($entry_id);
+        $booking = new \ilBookingEntry($entry->getContextId());
+        $user = $booking->getObjId();
+
 
         $form = $this->initFormConfirmBooking();
         $form->getItemByPostVar('date')->setValue(ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd()));
@@ -1397,11 +1398,9 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
         $entry = (int) $_REQUEST['app_id'];
-        $user = (int) $_REQUEST['bkid'];
-        
         $form = $this->initFormConfirmBooking();
         if ($form->checkInput()) {
             // check if appointment is bookable
@@ -1483,7 +1482,6 @@ class ilCalendarAppointmentGUI
         $ilUser = $DIC['ilUser'];
 
         $entry = (int) $_POST['app_id'];
-        $user = (int) $_GET['bkid'];
 
         include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
         $entry = new ilCalendarEntry($entry);
