@@ -1021,6 +1021,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             (int) $user->getId(),
             $this->getTargetGUIClassPath()
         );
+        $counter = 0;
         foreach ($links as $link) {
 
             $ui_factory  = $DIC->ui()->factory();
@@ -1031,8 +1032,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $link['link']
             );
             $panel_template->setCurrentBlock('consultation_hour_buttons');
+            if ($counter) {
+                $panel_template->touchBlock('consultation_hour_buttons_multi');
+            }
             $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
             $panel_template->parseCurrentBlock();
+            $counter++;
         }
     }
 
