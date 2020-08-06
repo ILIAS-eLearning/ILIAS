@@ -1539,6 +1539,7 @@ class ilObjStudyProgramme extends ilContainer
             $course_ref->create();
             $course_ref->createReference();
             $course_ref->putInTree($prg->getRefId());
+            $course_ref->setPermissions($crs_ref_id);
             $course_ref->setTargetId(ilObject::_lookupObjectId($crs_ref_id));
             $course_ref->update();
         }
