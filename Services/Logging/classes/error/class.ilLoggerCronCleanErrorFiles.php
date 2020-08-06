@@ -12,6 +12,8 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 class ilLoggerCronCleanErrorFiles extends ilCronJob
 {
+    const DEFAULT_VALUE_OLDER_THAN = 31;
+
     public function __construct()
     {
         global $DIC;
@@ -101,9 +103,14 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
             return $result;
         }
 
+        $offset = $this->settings->get('clear_older_then');
+        if (!$offset) {
+            $offset = self::DEFAULT_VALUE_OLDER_THAN;
+        }
+
         $files = $this->readLogDir($folder);
         $delete_date = new ilDateTime(date("Y-m-d"), IL_CAL_DATE);
-        $delete_date->increment(ilDateTime::DAY, (-1 * $this->settings->get('clear_older_then')));
+        $delete_date->increment(ilDateTime::DAY, (-1 * $offset));
 
         foreach ($files as $file) {
             $file_date = date("Y-m-d", filemtime($this->error_settings->folder() . "/" . $file));
@@ -142,8 +149,14 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
      */
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
     {
-        $clear_older_then = new ilTextInputGUI($this->lng->txt('frm_clear_older_then'), 'clear_older_then');
-        $clear_older_then->setValue($this->settings->get('clear_older_then'));
+        $offset = $this->settings->get('clear_older_then');
+        if (!$offset) {
+            $offset = self::DEFAULT_VALUE_OLDER_THAN;
+        }
+        $clear_older_then = new ilNumberInputGUI($this->lng->txt('frm_clear_older_then'), 'clear_older_then');
+        $clear_older_then->allowDecimals(false);
+        $clear_older_then->setMinValue(1, true);
+        $clear_older_then->setValue($offset);
         $clear_older_then->setInfo($this->lng->txt('frm_clear_older_then_info'));
 
         $a_form->addItem($clear_older_then);

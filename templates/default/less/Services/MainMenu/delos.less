@@ -95,6 +95,10 @@
 
 					}
 				}
+				&:focus {
+					outline: 1px dotted @mid-gray;
+					text-decoration: underline;
+				}
 			}
 		}
 		> .active > a,
@@ -105,6 +109,7 @@
 			&:focus {
 				//background-color: lighten(@ilMainMenuColor, 42%);
 				outline: 0 none;
+				text-decoration: none;
 				border-top: 4px solid @brand-primary;
 				background-color: @il-main-menu-link-active-bg;
 				color: @il-main-menu-link-active-color;

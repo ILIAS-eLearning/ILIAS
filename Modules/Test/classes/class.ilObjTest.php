@@ -10496,7 +10496,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $testSession->setUserId($user_id);
                     $testSession->saveToDb();
                     $passes = ($this->getNrOfTries()) ? $this->getNrOfTries() : 10;
-                    $nr_of_passes = rand(1, $passes);
+                    $random = new \ilRandom();
+                    $nr_of_passes = $random->int(1, $passes);
                     $active_id = $testSession->getActiveId();
                     for ($pass = 0; $pass < $nr_of_passes; $pass++) {
                         include_once "./Modules/Test/classes/class.ilTestSequence.php";
@@ -11520,6 +11521,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : null;
     }
 
+    /**
+     * Note, this function should only be used if absolutely necessary, since it perform joins on tables that
+     * tend to grow huge and returns vast amount of data. If possible, use getStartingTimeOfUser($active_id) instead
+     *
+     * @return array
+     */
     public function getStartingTimeOfParticipants()
     {
         global $DIC;

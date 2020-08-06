@@ -11320,7 +11320,6 @@ ps#:#crs_ps_cdf_info#:#Ulteriori dati relativi al corso. Compila i seguenti camp
 ps#:#crs_ps_required_info#:#Per accedere al corso è necessario riempire questi campi.
 ps#:#grp_ps_cdf_info#:#Per accedere al gruppo è necessario riempire questi campi.
 ps#:#grp_ps_required_info#:#Per l'accesso a questo gruppo è necessario compilari ulteriori campi.
-ps#:#participants_list_courses#:#Consenti l'attivazione degli elenchi dei partecipanti nella Galleria dei corsi dei membri
 ps#:#ps_agreement_accepted#:#Condizioni di accesso accettate
 ps#:#ps_auto_https#:#rilevazione automatica del HTTPS
 ps#:#ps_auto_https_description#:#Se abilitato, ILIAS prova a rilevare la condizione HTTPS analizzando il valore dell'intestazione specificato qui sotto.
@@ -11408,19 +11407,19 @@ ps#:#rbac_log_info#:#Attiva Logging di tutti i cambiamenti e delle impostazioni 
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sicurezza
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
-pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s
-pwassist#:#pwassist_enter_email#:#Inserisci un indirizzo e-mail e invia il modulo. \ NILIAS invierà un'e-mail a tale indirizzo. L'e-mail contiene tutti i nomi utente che hanno registrato questo indirizzo e-mail. \ NScegliere un nome utente adatto e utilizzare il servizio password per recuperare una nuova password. Se non si recupera alcuna e-mail da questo servizio, contattare l'amministratore del corso o% 1 $ s.
-pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indirizzo e-mail associato nei campi indicati di seguito. \ NILIAS invierà un messaggio a tale indirizzo e-mail. Il messaggio contiene un indirizzo per una pagina Web, in cui è possibile inserire una nuova password per l'account utente. \ NSe non è possibile assegnare una password al proprio account utente utilizzando questo modulo, contattare l'amministrazione del corso o inviare un'e-mail a% 1 $ s.
+pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: \t%1$s
+pwassist#:#pwassist_enter_email#:#Inserisci un indirizzo e-mail e invia il modulo. \nILIAS invierà un'e-mail a tale indirizzo. L'e-mail contiene tutti i nomi utente che hanno registrato questo indirizzo e-mail. \n Scegliere un nome utente adatto e utilizzare il servizio password per recuperare una nuova password. Se non si recupera alcuna e-mail da questo servizio, contattare l'amministratore del corso.
+pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indirizzo e-mail associato nei campi indicati di seguito. \n ILIAS invierà un messaggio a tale indirizzo e-mail. Il messaggio contiene un indirizzo per una pagina Web, in cui è possibile inserire una nuova password per l'account utente. \nSe non è possibile assegnare una password al proprio account utente utilizzando questo modulo, contattare l'amministrazione del corso o inviare un'e-mail all'amministratore.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome utente e la nuova password nei campi sottostanti.
 pwassist#:#pwassist_login_not_match#:#Inserisci un altro nome utente. \ Il nome utente che hai inserito non corrisponde al nome utente per il quale hai richiesto l'assistenza tramite password.
-pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: \ n \ t% 1 $ s \ n \ n Questo messaggio è stato generato automaticamente dal server ILIAS \ n \ t% 2 $ s \ n \ nYou (o qualcuno a% 3 $ s ) ha richiesto l'assistenza per la password per l'account utente "% 4 $ s". \ n \ nControlla attentamente le condizioni elencate di seguito e procedi di conseguenza: \ n \ n- Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: \ nElimina questa mail. \ n \ n- Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: \ nSi prega di contattare% 5 $ s. \ n \ n- Se hai chiesto assistenza per la password, per favore procedere come segue: \ n \ n1. Apri il tuo browser. \ N \ n2. Immettere il seguente indirizzo nel browser: \ n \ t% 6 $ s \ n \ nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \ N \ n3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente. \ N \ nSi prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra esattamente una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e è necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
-pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s.\ Per favore controlla la tua casella di posta.
+pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: \t%1$s \n \n Questo messaggio è stato generato automaticamente dal server ILIAS \t%2$s \n \nTu (o qualcuno all'indirizzo \t%3$s) ha richiesto l'assistenza per la password per l'account utente \t%4$s. \n \nControlla attentamente le condizioni elencate di seguito e procedi di conseguenza: \n \n-Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: elimina questa mail. \n \n- Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: \nSi prega di contattare \t%5$s. \n \n- Se hai chiesto assistenza per la password, per favore procedere come segue: \n \n1. Apri il tuo browser. \n \n2. Immettere il seguente indirizzo nel browser: \n \t%6$s \n \nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \n \n3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente. \n \nSi prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e sarà necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
+pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a \t%1$s.\ Per favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
-pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente "% 1 $ s".
-pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. \ NLa tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
-pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovati per l'indirizzo e-mail indicato: \ n% s \ n \ n Questo messaggio è stato creato automaticamente dal seguente server ILIAS: \ n \ t% s \ n \ nYou (o qualcuno con IP% s ) ha richiesto il supporto per i nomi utente dimenticati per l'indirizzo e-mail "% s". \ n \ nSi prega di controllare quanto segue e agire come suggerito :: \ n \ n-Hai richiesto questa e-mail per sbaglio: \ nElimina questo e-mail. \ n \ n-Sei sicuro di non aver mai richiesto questa e-mail: \ nSi prega di contattare% s. \ n \ n- Se hai richiesto questa e-mail, procedi come segue :: \ n \ n1. Avvia il tuo browser Internet. \ N \ n2. Immettere il seguente URL: \ n \ t% s \ n \ nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \ N \ n3. Il tuo browser ora mostra il servizio password. Utilizzare questa pagina insieme a uno dei nomi utente e all'indirizzo e-mail corrispondente per recuperare una nuova password.
-pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %s
+pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente \t%1$s.
+pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. \nLa tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
+pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovati per l'indirizzo e-mail indicato: \t%1$s \ n \ n Questo messaggio è stato creato automaticamente dal seguente server ILIAS: \n \t%2$s \n \nYou (o qualcuno con IP\t%3$s) ha richiesto il supporto per i nomi utente dimenticati per l'indirizzo e-mail \t%4$s. \n \nSi prega di controllare quanto segue e agire come suggerito :: \n \n-Hai richiesto questa e-mail per sbaglio: \nElimina questo e-mail. \n \n-Sei sicuro di non aver mai richiesto questa e-mail: \nSi prega di contattare \t%5$s. \n \n- Se hai richiesto questa e-mail, procedi come segue :: \n \n1. Avvia il tuo browser Internet. \n \n2. Immettere il seguente URL: \n \t%5$s \n \nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \n \n3. Il tuo browser ora mostra il servizio password. Utilizzare questa pagina insieme a uno dei nomi utente e all'indirizzo e-mail corrispondente per recuperare una nuova password.
+pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: \t%1$s
 rating#:#rat_not_rated_yet#:#Non valutato
 rating#:#rat_nr_ratings#:#%s Valutazioni
 rating#:#rat_one_rating#:#Una valutazione
@@ -15065,32 +15064,61 @@ cont#:#cont_page_type_cont#:#Repository Page (Corsi, Gruppi, ...)
 cont#:#cont_page_type_cstr#:#Pagina iniziale del corso (visualizzazione degli obiettivi di apprendimento)
 auth#:#auth_page_type_auth#:#Pagina di Login
 impr#:#impr_page_type_impr#:#Imprint
-assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.###24 04 2020 new variable
-wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted###24 04 2020 new variable
-wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page###24 04 2020 new variable
-common#:#obj_poll_dupliate:#:#Copy Poll###24 04 2020 new variable
-dcl#:#dcl_empty_detailed_view#:#Delete this detailed view###24 04 2020 new variable
-dcl#:#dcl_empty_detailed_view_success#:#The detailed view definition has been deleted successfully.###24 04 2020 new variable
-tos#:#tos_reset_successful#:#The terms of service have been reset successfully.###24 04 2020 new variable
-bibl#:#bibliography_file#:#Bibliography File###24 04 2020 new variable
-trac#:#trac_mode_content_visited#:#Visited###24 04 2020 new variable
-trac#:#trac_mode_content_visited_info#:#Learning progress status is set to 'completed' when object has been presented to user.###24 04 2020 new variable
-chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
-lhist#:#lhist_learning_history#:#Learning History###24 04 2020 new variable
-lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.###24 04 2020 new variable
-like#:#reaction#:#Reaction###24 04 2020 new variable
+assessment#:#tst_conflicting_setting#:#Questa impostazione è in conflitto con un altra.###24 04 2020 new variable
+wiki#:#wiki_change_notification_page_body_delete#:#la pagina wiki seguente è stata rimossa###24 04 2020 new variable
+wiki#:#wiki_change_notification_page_body_comment#:#un commento è stato aggiunto alla pagina wiki seguente ###24 04 2020 new variable
+common#:#obj_poll_dupliate:#:#Copia sondaggio###24 04 2020 new variable
+dcl#:#dcl_empty_detailed_view#:#Elimina questa vista dettagliata###24 04 2020 new variable
+dcl#:#dcl_empty_detailed_view_success#:#Le impostazioni della pnaoramica sono state cancellate correttamente.###24 04 2020 new variable
+tos#:#tos_reset_successful#:#I termini di servizio sono stati cancellati correttamente.###24 04 2020 new variable
+bibl#:#bibliography_file#:#File bibliografici###24 04 2020 new variable
+trac#:#trac_mode_content_visited#:#Visitato###24 04 2020 new variable
+trac#:#trac_mode_content_visited_info#:#Lo stato dei progressi didattici è impostato su 'completato' quando un oggetto è stato presentato all'utente.###24 04 2020 new variable
+chatroom#:#chat_log_level#:#Livello di Log###24 04 2020 new variable
+lhist#:#lhist_learning_history#:#Storico dei progressi di insegnamento###24 04 2020 new variable
+lhist#:#lhist_no_entries#:#Raggiungi i tuoi obbiettivi! Impara qualcosa oggi per aggiornare i la tua storia didattica.###24 04 2020 new variable
+like#:#reaction#:#Reazione###24 04 2020 new variable
 common#:#like#:#Like###24 04 2020 new variable
 like#:#like#:#Like###24 04 2020 new variable
-lhist#:#lhist_first_login#:#First Login###24 04 2020 new variable
-content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.###24 04 2020 new variable
-lhist#:#lhist_all#:#All###24 04 2020 new variable
-lhist#:#lhist_selected#:#Selected###24 04 2020 new variable
-lhist#:#lhist_manual#:#Manual###24 04 2020 new variable
-lhist#:#lhist_period#:#Period###24 04 2020 new variable
-lhist#:#lhist_type_of_achievement#:#Type of Achievement###24 04 2020 new variable
-lhist#:#cont_update_lhist#:#Edit Learning History Element###24 04 2020 new variable
-lhist#:#cont_create_lhist#:#Create Learning History Element###24 04 2020 new variable
-lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.###24 04 2020 new variable
+lhist#:#lhist_first_login#:#Primo Login###24 04 2020 new variable
+content#:#cont_got_lock_release#:#Questa pagina è stata bloccata per permetterti di editarla fino a %1. Per favore sbloccala quando hai concluso le tue modifiche.###24 04 2020 new variable
+lhist#:#lhist_all#:#Tutti###24 04 2020 new variable
+lhist#:#lhist_selected#:#Selezionati###24 04 2020 new variable
+lhist#:#lhist_manual#:#Manuale###24 04 2020 new variable
+lhist#:#lhist_period#:#Periodo###24 04 2020 new variable
+lhist#:#lhist_type_of_achievement#:#Tipo di progresso###24 04 2020 new variable
+lhist#:#cont_update_lhist#:#Edita elemento della Learning History###24 04 2020 new variable
+lhist#:#cont_create_lhist#:#Crea elemento della Learning History###24 04 2020 new variable
+lhist#:#lhist_cont_placeholder_text#:#Questo elemento mostrerà la learning history in modalità presentazione del portfolio.###24 04 2020 new variable
 lhist#:#lhist_lhist#:#Learning History###24 04 2020 new variable
-lhist#:#lhist_show_more#:#Show More###24 04 2020 new variable
-crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+lhist#:#lhist_show_more#:#Mostra di più###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#La data di fine deve essere maggiore o uguale alla data di inizio.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
+common#:#logo#:#ILIAS Logo###31 07 2020 new variable

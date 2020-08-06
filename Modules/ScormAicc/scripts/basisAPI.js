@@ -45,7 +45,7 @@ function sendRequest (url, data, callback, user, password, headers) {
 					return new HttpResponse(xhttp);
 				} 
 			}
-		}		
+		}
 		var xhttp = createHttpRequest();
 		var async = !!callback;
 		var post = !!data; 
@@ -75,10 +75,27 @@ function sendRequest (url, data, callback, user, password, headers) {
 			return onStateChange();
 		}
 	}
+	
+	function useSendBeacon() {
+		if (navigator.userAgent.indexOf("Chrome") > -1) {
+			if (typeof(window.sahs_content) != "undefined" && typeof(window.sahs_content.event) != "undefined" && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")) {
+				var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+				var version = raw ? parseInt(raw[2], 10) : false;
+				if (version === false) return false;
+				if (version >= 80) return true;
+			}
+		}
+		return false;
+	}
 
 	if (typeof headers !== "object") {headers = {};}
 	headers['Accept'] = 'text/javascript';
 	headers['Accept-Charset'] = 'UTF-8';
+	if (useSendBeacon()) {
+		navigator.sendBeacon(url, data);
+		console.log('use sendBeacon');
+		return "ok";
+	}
 	var r = sendAndLoad(url, data, callback, user, password, headers);
 	
 	if (r.content) {
@@ -483,7 +500,7 @@ function onWindowUnload () {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
 		// if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true)
-			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
+		sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
 	}
 }
 

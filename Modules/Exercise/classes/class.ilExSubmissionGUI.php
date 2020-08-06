@@ -77,6 +77,7 @@ class ilExSubmissionGUI
         
         $this->assignment = $a_ass;
         $this->exercise = $a_exercise;
+        $this->user_id = $a_user_id;
 
         include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
@@ -314,13 +315,22 @@ class ilExSubmissionGUI
     public function downloadGlobalFeedbackFileObject()
     {
         $ilCtrl = $this->ctrl;
-        
+
+        include_once("./Modules/Exercise/classes/class.ilExcAssMemberState.php");
+        $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
+
         $needs_dl = ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE);
         
         if (!$this->assignment ||
             !$this->assignment->getFeedbackFile() ||
             ($needs_dl && !$this->assignment->afterDeadlineStrict()) ||
             (!$needs_dl && !$this->submission->hasSubmitted())) {
+            $ilCtrl->redirect($this, "returnToParent");
+        }
+
+        // fix bug 28466, this code should be streamlined with the if above and
+        // the presentation of the download link in the ilExAssignmentGUI->addSubmission
+        if (!$state->isGlobalFeedbackFileAccessible($this->submission)) {
             $ilCtrl->redirect($this, "returnToParent");
         }
 
@@ -345,7 +355,8 @@ class ilExSubmissionGUI
         }
         
         // check whether assignment as already started
-        if (!$this->assignment->notStartedYet()) {
+        $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
+        if ($state->areInstructionsVisible()) {
             // check, whether file belongs to assignment
             $files = $this->assignment->getFiles();
             $file_exist = false;

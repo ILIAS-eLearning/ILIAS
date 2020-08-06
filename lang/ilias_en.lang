@@ -11231,7 +11231,7 @@ wsp#:#wsp_shared_title#:#Title of Resource
 adve#:#adve_excass_settings#:#Exercise Assignments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
-adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings
+adve#:#advanced_editing_excass_settings#:#Exercise Text Assignments
 common#:#obj_prtt#:#Portfolio Template
 common#:#objs_prtt#:#Portfolio Templates
 common#:#obj_prtt_duplicate#:#Copy Portfolio Template
@@ -13492,6 +13492,7 @@ rbac#:#mep_copy#:#User can copy media pool
 crs#:#crs_cannot_find_role#:#Can't find this role.
 grp#:#grp_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
+form#:#form_date_aria_desc#:#The following input format is required:
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#End
 auth#:#auth_ldap_server_ds#:#LDAP-Server
@@ -15119,3 +15120,5 @@ awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
+common#:#logo#:#ILIAS Logo

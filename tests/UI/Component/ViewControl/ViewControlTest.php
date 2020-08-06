@@ -171,9 +171,9 @@ class ViewControlTest extends ILIAS_UI_TestBase
     {
         $expected = <<<EOT
 <div class="il-viewcontrol-section">
-<a class="btn btn-default " type="button" href="http://www.ilias.de" data-action="http://www.ilias.de"><span class="glyphicon glyphicon-chevron-left"></span></a>
+<a class="btn btn-default " href="http://www.ilias.de" data-action="http://www.ilias.de"><span class="glyphicon glyphicon-chevron-left"></span></a>
 <button class="btn btn-default" data-action="">Today</button>
-<a class="btn btn-default " type="button" href="http://www.github.com" data-action="http://www.github.com"><span class="glyphicon glyphicon-chevron-right"></span></a>
+<a class="btn btn-default " href="http://www.github.com" data-action="http://www.github.com"><span class="glyphicon glyphicon-chevron-right"></span></a>
 </div>
 EOT;
         return $expected;

@@ -6304,6 +6304,7 @@ return array(
     'ilRadiusAttributeToUser' => $baseDir . '/../../Services/Radius/classes/class.ilRadiusAttributeToUser.php',
     'ilRadiusSettings' => $baseDir . '/../../Services/Radius/classes/class.ilRadiusSettings.php',
     'ilRadiusSettingsGUI' => $baseDir . '/../../Services/Radius/classes/class.ilRadiusSettingsGUI.php',
+    'ilRandom' => $baseDir . '/../../Services/Randomization/classes/class.ilRandom.php',
     'ilRandomTestData' => $baseDir . '/../../Modules/Test/classes/class.ilRandomTestData.php',
     'ilRandomTestROInputGUI' => $baseDir . '/../../Modules/Test/classes/class.ilRandomTestROInputGUI.php',
     'ilRating' => $baseDir . '/../../Services/Rating/classes/class.ilRating.php',

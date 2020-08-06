@@ -493,6 +493,7 @@ class ilECSCourseCreationHandler
         $this->log->debug('Creating new parallel course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
         $course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
+        $course_obj->setOfflineStatus(true);
         $course_obj->create();
         
         $this->createCourseReference($course_obj, ilObject::_lookupObjId($parent_ref));
@@ -656,6 +657,7 @@ class ilECSCourseCreationHandler
         $title = $course->title;
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Creating new course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
+        $course_obj->setOfflineStatus(true);
         $course_obj->create();
         return $course_obj;
     }

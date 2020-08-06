@@ -5,15 +5,16 @@ require_once './Services/Http/classes/class.ilProxySettings.php';
 
 define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 define("MAGPIE_CACHE_ON", true);
-define("MAGPIE_CACHE_DIR", "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/magpie_cache");
+define("MAGPIE_CACHE_DIR", ILIAS_DATA_DIR . "/" . CLIENT_ID . "/magpie_cache");
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_AGE', 900);			// 900 seconds = 15 minutes
+define('MAGPIE_DEBUG', false);
 include_once(MAGPIE_DIR . "/rss_fetch.inc");
 
 include_once("./Services/Feeds/classes/class.ilExternalFeedItem.php");
 
 /**
-* Handles external Feeds via Magpie libaray.
+* Handles external Feeds via Magpie library.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -86,8 +87,8 @@ class ilExternalFeed
     */
     public static function _createCacheDirectory()
     {
-        if (!is_dir(ilUtil::getWebspaceDir() . "/magpie_cache")) {
-            ilUtil::makeDir(ilUtil::getWebspaceDir() . "/magpie_cache");
+        if (!is_dir(ilUtil::getDataDir() . "/magpie_cache")) {
+            ilUtil::makeDir(ilUtil::getDataDir() . "/magpie_cache");
         }
     }
     

@@ -1517,15 +1517,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
 
-        $this->tpl->setCurrentBlock("HeadContent");
-        $this->tpl->setVariable("CONTENT_BLOCK", $template->get());
-        $this->tpl->parseCurrentBlock();
-        if($this->ctrl->getCmd('outQuestionSummary')) {
-            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
+        if($this->ctrl->getCmd() == 'outQuestionSummary') {
+            $a =  $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd');
+            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd','',false,false));
         } else {
             $template->setVariable("REDIRECT_URL", "");
         }
-        $this->tpl->addOnLoadCode($template->get());
+
+        $this->tpl->setCurrentBlock("HeadContent");
+        $this->tpl->setVariable("CONTENT_BLOCK", $template->get());
+        $this->tpl->parseCurrentBlock();
+
     }
 
     protected function showSideList($presentationMode, $currentSequenceElement)
@@ -1606,7 +1608,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());
             
             if ($this->object->getEnableProcessingTime()) {
-                $this->outProcessingTime($active_id);
+               $this->outProcessingTime($active_id);
             }
         }
     }

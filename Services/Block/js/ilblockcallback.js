@@ -75,7 +75,7 @@ function ilBlockJSHandler(block_id, sUrl)
 	{
 		var loadergif = document.createElement('img');
 		loadergif.src = "./templates/default/images/loader.svg";
-		loadergif.border = 0;
+		loadergif.alt = "";
 		$(loadergif).css("position", "absolute");
 		obj.appendChild(loadergif);
 	}

@@ -1328,3 +1328,35 @@ if (!$idx) {
     $setting->set('ilfrmreadidx1', 1);
 }
 ?>
+<#90>
+<?php
+
+$query = 'update object_data set offline = 1 where type = '.
+    $ilDB->quote('crs',\ilDBConstants::T_TEXT) . '  and offline IS NULL';
+$ilDB->manipulate($query);
+
+?>
+
+<#91>
+<?php
+
+$ilDB->modifyTableColumn(
+        'ldap_role_assignments',
+        'rule_id',
+    [
+            'type' => \ilDBConstants::T_INTEGER,
+            'length' => 4,
+            'notnull' => false
+    ]
+);
+?>
+<#92>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#93>
+<?php
+    // remove magpie cache dir
+    $mcdir = CLIENT_WEB_DIR."/magpie_cache";
+    ilUtil::delDir($mcdir);
+?>

@@ -191,8 +191,7 @@ class ilCheckboxListOverlayGUI
         
         // do not repeat title (accessibility) -> empty alt
         $tpl->setVariable("TXT_SEL_TOP", $this->getLinkTitle());
-        $tpl->setVariable("ALT_SEL_TOP", "");
-        
+
         $tpl->parseCurrentBlock();
         
         reset($items);

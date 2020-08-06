@@ -51,12 +51,12 @@
 <!-- END HeadContent -->
 <!-- BEGIN CalendarJS -->
 <style type="text/css">@import url({LOCATION_JAVASCRIPT_CALENDAR_STYLESHEET});</style>
-<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR}"></script>
+<script src="{LOCATION_JAVASCRIPT_CALENDAR}"></script>
 {CALENDAR_LANG_JAVASCRIPT}
-<script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script>
+<script src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script>
 <!-- END CalendarJS -->
 	<!-- BEGIN js_file -->
-	<script type="text/javascript" src="{JS_FILE}"></script><!-- END js_file -->
+	<script src="{JS_FILE}"></script><!-- END js_file -->
 	{SESSION_REMINDER}
 </head>
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> {BODY_ATTRIBUTES}>
@@ -64,7 +64,7 @@
 <div id="drag_zmove"></div>
 <div id="ilAll">{CONTENT}</div>
 <!-- BEGIN on_load_code -->
-<script type="text/javascript">
+<script>
 il.Util.addOnLoad(function() {
 <!-- BEGIN on_load_code_inner -->{OLCODE}
 <!-- END on_load_code_inner -->

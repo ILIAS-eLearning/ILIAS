@@ -6670,6 +6670,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilRadiusAttributeToUser' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilRadiusAttributeToUser.php',
         'ilRadiusSettings' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilRadiusSettings.php',
         'ilRadiusSettingsGUI' => __DIR__ . '/../..' . '/../../Services/Radius/classes/class.ilRadiusSettingsGUI.php',
+        'ilRandom' => __DIR__ . '/../..' . '/../../Services/Randomization/classes/class.ilRandom.php',
         'ilRandomTestData' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilRandomTestData.php',
         'ilRandomTestROInputGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilRandomTestROInputGUI.php',
         'ilRating' => __DIR__ . '/../..' . '/../../Services/Rating/classes/class.ilRating.php',

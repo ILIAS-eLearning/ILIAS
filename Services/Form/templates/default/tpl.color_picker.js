@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 YAHOO.util.Event.onContentReady("{POST_VAR}-bc", function () {
 
 	// added color initialisation
