@@ -65,6 +65,12 @@
     waitingList CDATA #IMPLIED
 >
 
+<!ELEMENT period (start, end)>
+<!ATTLIST period
+		withTime CDATA #IMPLIED
+>
+
+
 <!-- group period begin,end
 <!ELEMENT period (start,end)>
 

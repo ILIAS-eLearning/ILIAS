@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
-								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-								xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!-- removed xmlns:str="http://exslt.org/strings" -->
 
 <xsl:output method="xml" omit-xml-declaration="yes" />
@@ -107,18 +105,10 @@
 	<xsl:comment>COPage-PageTop</xsl:comment>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
-			<div class="il_droparea">
-				<xsl:if test = "count(//PageContent) = 0" >
-					<xsl:attribute name="class">il_droparea ilCOPGNoPageContent</xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-				<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-				<xsl:attribute name="onMouseOut">doMouseOut(this.id, '', null, null);</xsl:attribute>
-				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-				<span class="glyphicon glyphicon-plus"><xsl:comment>Dummy</xsl:comment></span>
-				<xsl:if test = "count(//PageContent) = 0" >
-					&amp;nbsp;<xsl:value-of select="//LVs/LV[@name='ed_click_to_add_pg']/@value"/>
-				</xsl:if>
+			<div data-copg-ed-type="add-area">
+				<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+				<xsl:comment>dummy</xsl:comment>
 			</div>
 			<!-- insert menu for drop area -->
 			<xsl:call-template name="EditMenu">
@@ -311,7 +301,7 @@
 				(./Table/@HorizontalAlign = 'LeftFloat')">
 				<xsl:attribute name="style"><!--<xsl:if test="./Table/@Width">width:<xsl:value-of select="./Table/@Width"/>;</xsl:if>--> float:left; clear:both; background-color:#FFFFFF;</xsl:attribute>
 			</xsl:if>
-			<div>
+			<div data-copg-ed-type="pc-area">
 				<xsl:if test="not(../../../@DataTable) or (../../../@DataTable = 'n')">
 					<xsl:if test="$javascript='enable'">
 						<xsl:attribute name="class">il_editarea</xsl:attribute>
@@ -328,11 +318,13 @@
 						<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
 						<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
 						<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>','<xsl:value-of select="./*[1]/@Characteristic"/>');</xsl:attribute>
-						<xsl:attribute name="onDblClick">doMouseDblClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
 				<xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute>
-		
+				<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+				<xsl:attribute name="data-ctype"><xsl:value-of select="$content_type"/></xsl:attribute>
+				<xsl:attribute name="data-characteristic"><xsl:value-of select="./*[1]/@Characteristic"/></xsl:attribute>
 				<xsl:apply-templates>
 					<xsl:with-param name="par_counter" select ="position()" />
 				</xsl:apply-templates>
@@ -340,11 +332,10 @@
 			
 			<!-- drop area -->
 			<xsl:if test="(not(../../../@DataTable) or (../../../@DataTable = 'n')) and ($javascript != 'disable')">
-				<div class="il_droparea">
-					<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-					<xsl:attribute name="onMouseOut">doMouseOut(this.id, '', null, null);</xsl:attribute>
-					<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-					<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><span class="glyphicon glyphicon-plus"></span>
+				<div data-copg-ed-type="add-area">
+					<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+					<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+					<xsl:comment>dummy</xsl:comment>
 				</div>
 			</xsl:if>
 	
@@ -404,8 +395,7 @@
 <xsl:template name="EditLabel">
 	<xsl:param name="text"/>
 	<xsl:if test="$mode = 'edit'">
-	<div class="ilEditLabel" style="display:none;">
-		<xsl:attribute name="id">TCONTENT<xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/></xsl:attribute>
+	<div class="ilEditLabel">
 	<xsl:value-of select="$text"/><xsl:comment>Dummy</xsl:comment></div>
 	</xsl:if>
 </xsl:template>
@@ -898,12 +888,10 @@
 <!-- <xsl:value-of select="$hier_id"/> -->
 	<!-- Drop area -->
 	<xsl:if test="$javascript != 'disable'">
-		<div class="il_droparea">
-			<xsl:attribute name="id">TARGET<xsl:value-of select="$hier_id"/>:<xsl:value-of select="$pc_id"/></xsl:attribute>
-			<xsl:attribute name="onMouseOver">doMouseOver(this.id, '', null, null);</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
-			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-			<span class="glyphicon glyphicon-plus"></span>
+		<div data-copg-ed-type="add-area">
+			<xsl:attribute name="data-hierid"><xsl:value-of select="@HierId"/></xsl:attribute>
+			<xsl:attribute name="data-pcid"><xsl:value-of select="@PCID"/></xsl:attribute>
+			<xsl:comment>dummy</xsl:comment>
 		</div>
 	</xsl:if>
 	<!-- insert menu for drop area -->

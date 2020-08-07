@@ -122,12 +122,13 @@ Please note that different configurations SHOULD be possible, but it might be ha
 <a name="database-recommendations"></a>
 ## Database Recommendations
 
-> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports utf8mb3 only.
+> Please note that installing ILIAS in utf8mb4-collations is currently not supported! ILIAS supports UTF-8 (with 3 bytes per character, such as utf8_general_ci) only.
 
 We RECOMMEND to use MySQL/MariaDB with the following settings:
 
   * InnoDB storage engine
-  * utf8_general_ci
+  * Character Set: utf8
+  * Collation: utf8_general_ci
   * query_cache_size (> 16M)
   * join_buffer_size (> 128.0K, or always use indexes with joins)
   * table_open_cache (> 400)
@@ -599,7 +600,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
 | 7.x             | 7.3.x, 7.4.x                          |
-| 6.x             | 7.2.x, 7.3.x                          |
+| 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
 | 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
@@ -616,7 +617,7 @@ When you upgrade from rather old versions please make sure that the dependencies
 | ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
 |-----------------|-------------------------------------|-------------------------|--------------------------|
 | 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
-| 6.0 - 6.x       | 5.6.x, 5.7.x                        | 10.0, 10.1, 10.2        | 9.x                      |
+| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
 | 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
 | 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
 | 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
@@ -657,15 +658,16 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 16.04.1 LTS          |
-| MySQL          | MySQL 5.5.58                |
-| MariaDB        | 10.1                        |
-| PHP            | 7.1.20                      |
-| Apache         | 2.4.7                       |
-| Nginx          | 1.4.6                       |
+| Distribution   | Ubuntu 20.04 LTS            |
+| MariaDB        | 10.3                        |
+| PHP            | 7.4                         |
+| Nginx          | 1.16                        |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | 1.7.0_121 (IcedTea 2.6.8)   |
+| JDK            | OpenJDK 11                  |
 | Node.js        | 12 LTS                      |
+| wkhtmltopdf    | 0.12.5                      |
+| Ghostscript    | 9.51                        |
+| Imagemagick    | 6.9.10-23 Q16               |
 
 Please note: Shibboleth won't work with Nginx.

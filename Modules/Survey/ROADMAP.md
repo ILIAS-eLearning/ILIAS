@@ -4,6 +4,10 @@
 
 ## Mid Term
 
+### Abandon undocumented plugin slot
+
+There is an undocumented plugin slot in the survey question pool module. If there is no interest in using it, it should be removed.
+
 ### Improve Architecture
 
 - Introduce repository pattern

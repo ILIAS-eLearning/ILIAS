@@ -708,6 +708,8 @@ class ilTestServiceGUI
             $template->parseCurrentBlock();
         }
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
+        $template->setVariable("TEXT_SOLUTION_OUTPUT", $this->lng->txt("tst_your_answer_was")); // Mantis 28646. I don't really know why Ingmar renamed the placeholder, so
+                                                                                                // I set both old and new since the old one is set as well in several places.
         $maxpoints = $question_gui->object->getMaximumPoints();
         if ($maxpoints == 1) {
             $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");

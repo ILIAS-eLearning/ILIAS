@@ -36,6 +36,11 @@ class ilRatingGUI
     protected $export_subobj_title;
     protected $ctrl_path;
 
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
     public function __construct()
     {
         global $DIC;
@@ -44,6 +49,8 @@ class ilRatingGUI
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $lng = $DIC->language();
+
+        $this->ui = $DIC->ui();
         
         $lng->loadLanguageModule("rating");
     }
@@ -567,23 +574,24 @@ class ilRatingGUI
     
     public function getBlockHTML($a_title)
     {
+        $ui = $this->ui;
+
         $categories = array();
         if ($this->enable_categories) {
             $categories = ilRatingCategory::getAllForObject($this->obj_id);
         }
         
         $may_rate = ($this->getUserId() != ANONYMOUS_USER_ID);
-        
-        $ttpl = new ilTemplate("tpl.rating_block.html", true, true, "Services/Rating");
-        
-        $ttpl->setVariable("TITLE", $a_title);
-        
-        $ttpl->setVariable(
-            "RATING_DETAILS",
-            $this->renderDetails("rtsb_", $may_rate, $categories, null, true)
+
+
+        $panel = $ui->factory()->panel()->secondary()->legacy(
+            $a_title,
+            $ui->factory()->legacy(
+                $this->renderDetails("rtsb_", $may_rate, $categories, null, true)
+            )
         );
-        
-        return $ttpl->get();
+
+        return $ui->renderer()->render($panel);
     }
     
     /**

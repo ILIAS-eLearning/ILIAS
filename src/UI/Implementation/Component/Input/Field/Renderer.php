@@ -283,8 +283,12 @@ class Renderer extends AbstractComponentRenderer
         switch (true) {
             case ($component instanceof Textarea):
                 return htmlentities($value);
-            default:
+            case ($component instanceof Text):
+            case ($component instanceof Password):
+            case ($component instanceof Numeric):
                 return htmlspecialchars($value, ENT_QUOTES);
+            default:
+                return $value;
         }
     }
 
@@ -880,6 +884,7 @@ JS;
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $input->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue() ?? []);
+        $settings->dictInvalidFileType = $this->txt('form_msg_file_wrong_file_type');
 
         $input = $component->withAdditionalOnLoadCode(
             function ($id) use ($settings) {

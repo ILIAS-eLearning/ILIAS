@@ -100,7 +100,6 @@
 	
 //alert("initDragElements: outer");
 <!-- BEGIN init_dragging -->
-ilCOPage.initDragElements();
 <!-- END init_dragging -->
 var confirm_delete="{TXT_CONFIRM_DELETE}";
 </script>
@@ -129,3 +128,8 @@ td.mceIframeContainer {
 <!-- END int_link_prep -->
 </div>
 <!-- END edit_page -->
+<script type="module">
+	import editor from './Services/COPage/Editor/js/src/editor.js';
+	window.il.copg = window.il.copg || {};
+	window.il.copg.editor = editor;
+</script>

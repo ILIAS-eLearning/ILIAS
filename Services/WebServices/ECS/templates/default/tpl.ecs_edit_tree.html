@@ -3,14 +3,14 @@
 <form action="{TFORM_ACTION}" id="map" method="post">
 	<div style="width: 100%; padding: 20px; border: 1px solid">
 		<input class="submit" type="submit" name="cmd[dMap]" value="Mapping durchführen" />
-		<font class="small">
+		<span class="small">
 			{LEGEND}:
-			<font style="font-weight: bold">{PENDING_UNMAPPED}</font> 
-			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_DISCON}</font>
-			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_NONDISCON}</font>
+			<span style="font-weight: bold">{PENDING_UNMAPPED}</span>
+			<span style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_DISCON}</span>
+			<span style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_NONDISCON}</span>
 			{MAPPED}
-			<font class="warning">{DELETED}</font>
-		</font>
+			<span class="warning">{DELETED}</span>
+		</span>
 	</div>
 	<br />
 	<div style="float:left;padding: 20px;width: 47%;border: 1px solid;overflow-x: auto">{LOCAL_EXPLORER}</div>

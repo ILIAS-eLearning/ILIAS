@@ -362,9 +362,18 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.footer.html", true, true);
         $links = $component->getLinks();
+        $modalsWithTriggers = $component->getModals();
+        $links = array_merge($links, array_column($modalsWithTriggers, 1));
+
         if ($links) {
             $link_list = $this->getUIFactory()->listing()->unordered($links);
             $tpl->setVariable('LINKS', $default_renderer->render($link_list));
+        }
+
+        if ($modalsWithTriggers !== []) {
+            $tpl->setVariable('MODALS', $default_renderer->render(
+                array_column($modalsWithTriggers, 0)
+            ));
         }
 
         $tpl->setVariable('TEXT', $component->getText());

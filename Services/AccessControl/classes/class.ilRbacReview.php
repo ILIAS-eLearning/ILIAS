@@ -628,10 +628,11 @@ class ilRbacReview
              "WHERE rol_id = " . $ilDB->quote($a_rol_id, 'integer') . " " . $where . " ";
 
         $res = $ilDB->query($query);
+        $folders = [];
         while ($row = $ilDB->fetchObject($res)) {
             $folders[] = $row->parent;
         }
-        return $folders ? $folders : array();
+        return $folders;
     }
     
     /**

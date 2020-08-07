@@ -7,6 +7,7 @@ require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncode
  * Class ilBcryptPasswordEncoder
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
+ * @deprecated
  */
 class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 {

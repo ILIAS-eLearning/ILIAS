@@ -23,7 +23,11 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $criterionTypeFactory = new ilTermsOfServiceCriterionTypeFactory($rbacReview, $dataCache);
+        $criterionTypeFactory = new ilTermsOfServiceCriterionTypeFactory(
+            $rbacReview,
+            $dataCache,
+            []
+        );
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionTypeFactory::class, $criterionTypeFactory);
 
@@ -37,7 +41,7 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
     public function testFactoryReturnsValidCriteriaWhenRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
     ) : void {
-        $this->assertCount(2, $criterionTypeFactory->getTypesByIdentMap());
+        $this->assertCount(3, $criterionTypeFactory->getTypesByIdentMap());
     }
 
     /**

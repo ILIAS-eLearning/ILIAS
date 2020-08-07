@@ -917,7 +917,6 @@ class ilLMPresentationGUI
     public function ilLMSubMenu()
     {
         $rbacsystem = $this->rbacsystem;
-        
         if ($this->abstract) {
             return;
         }
@@ -951,33 +950,9 @@ class ilLMPresentationGUI
             }
 
             $page_id = $this->getCurrentPageId();
-            
-            $plinkgui = new ilPermanentLinkGUI(
-                "pg",
-                $page_id . "_" . $this->lm->getRefId(),
-                "",
-                "_top"
-            );
 
-            $title = $this->getLMPresentationTitle();
-            $pg_title = ilLMPageObject::_getPresentationTitle(
-                $page_id,
-                $this->lm->getPageHeader(),
-                $this->lm->isActiveNumbering(),
-                $this->lm_set->get("time_scheduled_page_activation"),
-                false,
-                0,
-                $this->lang
-            );
-            if ($pg_title != "") {
-                $title .= ": " . $pg_title;
-            }
-            
-            $plinkgui->setTitle($title);
-                
-            $tpl_menu->setCurrentBlock("perma_link");
-            $tpl_menu->setVariable("PERMA_LINK", $plinkgui->getHTML());
-            $tpl_menu->parseCurrentBlock();
+            // permanent link
+            $this->tpl->setPermanentLink("pg", "",  $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());

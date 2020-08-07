@@ -1396,7 +1396,10 @@ class ilTable2GUI extends ilTableGUI
         if ($allcolumnswithwidth) {
             foreach ((array) $this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
-                $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", $column["width"]);
+                $width = (is_numeric($column["width"]))
+                    ? $column["width"]."px"
+                    : $column["width"];
+                $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
                 $this->tpl->parseCurrentBlock();
             }
         }
@@ -1432,7 +1435,10 @@ class ilTable2GUI extends ilTableGUI
             ) {
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
-                    $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " width=\"" . $column["width"] . "\"");
+                    $width = (is_numeric($column["width"]))
+                        ? $column["width"]."px"
+                        : $column["width"];
+                    $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " style=\"width:" . $width . "\"");
                 }
                 if ($column["class"] != "") {
                     $this->tpl->setVariable("TBL_COLUMN_CLASS_NO_LINK", " class=\"" . $column["class"] . "\"");
@@ -1473,7 +1479,10 @@ class ilTable2GUI extends ilTableGUI
 
             // only set width if a value is given for that column
             if ($column["width"] != "") {
-                $this->tpl->setVariable("TBL_COLUMN_WIDTH", " width=\"" . $column["width"] . "\"");
+                $width = (is_numeric($column["width"]))
+                    ? $column["width"]."px"
+                    : $column["width"];
+                $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
             }
             if ($column["class"] != "") {
                 $this->tpl->setVariable("TBL_COLUMN_CLASS", " class=\"" . $column["class"] . "\"");
@@ -1747,7 +1756,7 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setVariable("CSS_TABLE", $this->getStyle("table"));
-        $this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
+        //$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
         if ($this->getId() != "") {
             $this->tpl->setVariable("ID", 'id="' . $this->getId() . '"');
         }
@@ -1880,7 +1889,7 @@ class ilTable2GUI extends ilTableGUI
                 );
                 $this->tpl->setVariable(
                     "F_INPUT_ID",
-                    $item->getFieldId()
+                    $item->getTableFilterLabelFor()
                 );
                 $this->tpl->setVariable(
                     "INPUT_HTML",

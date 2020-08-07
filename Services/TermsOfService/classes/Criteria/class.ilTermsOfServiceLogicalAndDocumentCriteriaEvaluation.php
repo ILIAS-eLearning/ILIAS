@@ -9,18 +9,16 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
 {
     /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
     protected $criterionTypeFactory;
-
     /** @var ilObjUser */
     protected $user;
-
     /** @var ilLogger */
     protected $log;
 
     /**
      * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
      * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser                                     $user
-     * @param ilLogger                                      $log
+     * @param ilObjUser $user
+     * @param ilLogger $log
      */
     public function __construct(
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
@@ -30,6 +28,17 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         $this->criterionTypeFactory = $criterionTypeFactory;
         $this->user = $user;
         $this->log = $log;
+    }
+
+    /**
+     * @ineritdoc
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation
+    {
+        $clone = clone $this;
+        $clone->user = $user;
+
+        return $clone;
     }
 
     /**
@@ -46,8 +55,6 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         ));
 
         foreach ($document->criteria() as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceEvaluableCriterion */
-
             $criterionType = $this->criterionTypeFactory->findByTypeIdent($criterionAssignment->getCriterionId(), true);
 
             $result = $criterionType->evaluate($this->user, $criterionAssignment->getCriterionValue());

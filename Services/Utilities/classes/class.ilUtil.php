@@ -363,7 +363,11 @@ class ilUtil
             $disabled = ' disabled=\"disabled\"';
         }
 
-        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class size=\"" . $size . "\" $attributes $disabled>\n";
+        $size_str = "";
+        if ($size > 0) {
+            $size_str = ' size="'.$size.'" ';
+        }
+        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $attributes $disabled>\n";
 
         foreach ((array) $options as $key => $val) {
             $style = "";
@@ -1397,7 +1401,7 @@ class ilUtil
             }
         }
 
-        return implode($str_arr, " ");
+        return implode(" ", $str_arr);
     }
 
     /**
@@ -1894,13 +1898,13 @@ class ilUtil
     * Build img tag
     *
     * @static
-    *
+    * @deprecated
     */
-    public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
+    public static function img($a_src, $a_alt = null, $a_width = "", $a_height = "", $a_border = 0, $a_id = "", $a_class = "")
     {
         $img = '<img src="' . $a_src . '"';
-        if ($a_alt != "") {
-            $img .= ' alt="' . htmlspecialchars($a_alt) . '" title="' . htmlspecialchars($a_alt) . '"';
+        if (!is_null($a_alt)) {
+            $img .= ' alt="' . htmlspecialchars($a_alt) . '"';
         }
         if ($a_width != "") {
             $img .= ' width="' . htmlspecialchars($a_width) . '"';
@@ -1914,7 +1918,7 @@ class ilUtil
         if ($a_id != "") {
             $img .= ' id="' . $a_id . '"';
         }
-        $img .= ' border="' . (int) $a_border . '"/>';
+        $img .= ' />';
 
         return $img;
     }
@@ -3657,8 +3661,9 @@ class ilUtil
             if ($min > $max) {
                 $max = $max + 1;
             }
-            $length = rand($min, $max);
-            $next = rand(1, 2);
+            $random = new \ilRandom();
+            $length  = $random->int($min, $max);
+            $next  = $random->int(1, 2);
             $vowels = "aeiou";
             $vowels_uc = strtoupper($vowels);
             $consonants = "bcdfghjklmnpqrstvwxyz";
@@ -3671,12 +3676,12 @@ class ilUtil
                 for ($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++) {
                     switch ($next) {
                         case 1:
-                            $pw .= $consonants_uc[rand(0, strlen($consonants_uc) - 1)];
+                            $pw.= $consonants_uc[$random->int(0, strlen($consonants_uc) - 1)];
                             $next = 2;
                             break;
 
                         case 2:
-                            $pw .= $vowels_uc[rand(0, strlen($vowels_uc) - 1)];
+                            $pw.= $vowels_uc[$random->int(0, strlen($vowels_uc) - 1)];
                             $next = 1;
                             break;
                     }
@@ -3684,23 +3689,23 @@ class ilUtil
             }
 
             if ($security->isPasswordCharsAndNumbersEnabled()) {
-                $pw .= $numbers[rand(0, strlen($numbers) - 1)];
+                $pw.= $numbers[$random->int(0, strlen($numbers) - 1)];
             }
 
             if ($security->isPasswordSpecialCharsEnabled()) {
-                $pw .= $special[rand(0, strlen($special) - 1)];
+                $pw.= $special[$random->int(0, strlen($special) - 1)];
             }
 
             $num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
             for ($j = 0; $j < $num_lcase_chars; $j++) {
                 switch ($next) {
                     case 1:
-                        $pw .= $consonants[rand(0, strlen($consonants) - 1)];
+                        $pw.= $consonants[$random->int(0, strlen($consonants) - 1)];
                         $next = 2;
                         break;
 
                     case 2:
-                        $pw .= $vowels[rand(0, strlen($vowels) - 1)];
+                        $pw.= $vowels[$random->int(0, strlen($vowels) - 1)];
                         $next = 1;
                         break;
                 }
@@ -4625,7 +4630,8 @@ class ilUtil
 
     public static function randomhash()
     {
-        return md5(rand(1, 9999999) + str_replace(" ", "", (string) microtime()));
+        $random = new \ilRandom();
+        return md5($random->int(1, 9999999) + str_replace(" ", "", (string) microtime()));
     }
 
     public static function setCookie($a_cookie_name, $a_cookie_value = '', $a_also_set_super_global = true, $a_set_cookie_invalid = false)

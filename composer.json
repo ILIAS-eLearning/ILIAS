@@ -9,8 +9,13 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"php setup/cli.php build-artifacts --yes",
-			"npm i"
+			"php setup/cli.php build-artifacts --yes"
+		],
+		"post-install-cmd": [
+		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
+		],
+		"post-update-cmd": [
+		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
 		],
 		"test-php-all": [
 		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
@@ -61,7 +66,8 @@
 		"phpunit/php-timer": "^3.0",
 		"phpspec/prophecy": "^1.8",
 		"theseer/tokenizer": "^1.1",
-		"myclabs/deep-copy": "^1.9"
+		"myclabs/deep-copy": "^1.9",
+		"captainhook/captainhook": "^5.3"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -160,7 +166,8 @@
 			"last_update" : "2020-01-27",
 			"last_update_by" : "Alexander Killing <killing@leifos.de>",
 			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
+			"approved-date": "YYYY-MM-DD",
+			"info": "see #28586"
 		},
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",

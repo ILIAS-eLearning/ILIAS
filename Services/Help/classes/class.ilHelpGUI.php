@@ -649,7 +649,7 @@ class ilHelpGUI
         while (preg_match("~\[(menu" . $ws . "path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $path = "";
             if ($item->getParent() != null) {
-                $parent = $mmc->getSingleItem($item->getParent());
+                $parent = $mmc->getSingleItemFromRaw($item->getParent());
                 $path = $parent->getTitle() . " > ";
             }
             $path .= $item->getTitle();

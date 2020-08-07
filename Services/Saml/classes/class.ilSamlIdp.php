@@ -221,6 +221,21 @@ class ilSamlIdp
     }
 
     /**
+     * @param string $entityId
+     * @return int
+     */
+    public static function geIdpIdByEntityId($entityId)
+    {
+        foreach (self::getAllIdps() as $idp) {
+            if ($idp->isActive() && $idp->getEntityId() === $entityId) {
+                return $idp->getIdpId();
+            }
+        }
+
+        return 0;
+    }
+
+    /**
      * @return self[]
      */
     public static function getActiveIdpList() : array

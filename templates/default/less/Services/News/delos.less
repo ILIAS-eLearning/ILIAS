@@ -74,6 +74,10 @@ span.ilNewsRssIcon {
 				margin-left: -25px;
 				right: auto;
 				margin-right: 0;
+				@media only screen and (max-width: @grid-float-breakpoint-max) {
+					right: auto;
+					left: 90%;
+				}
 			}
 		}
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -124,6 +128,8 @@ span.ilNewsRssIcon {
 			margin-right: -25px;
 			@media only screen and (max-width: @grid-float-breakpoint-max) {
 				left: 90%;
+				right: auto;
+				margin-left: -25px;
 			}
 			> .ilTimelineDay {
 				font-size: 1.3em;
@@ -177,9 +183,9 @@ span.ilNewsRssIcon {
 }
 
 .ilNewsTimelineTruncatedText {
-	overflow: hidden;
+	/*overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	white-space: nowrap;*/
 }
 
 .ilNewsTimelineObjHead img {

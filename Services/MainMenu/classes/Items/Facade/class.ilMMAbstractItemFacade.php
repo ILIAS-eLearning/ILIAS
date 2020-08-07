@@ -191,6 +191,11 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->gs_item instanceof isChild) {
             $provider_name_for_presentation = $this->gs_item->getParent()->serialize();
 
+            $storage_parent = $this->mm_item->getParentIdentification();
+            if ($storage_parent !== $provider_name_for_presentation) {
+                return $storage_parent;
+            }
+
             return $provider_name_for_presentation;
         }
 

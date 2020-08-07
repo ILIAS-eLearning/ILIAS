@@ -4291,10 +4291,10 @@ content#:#cont_ed_edit#:#Edit
 content#:#cont_ed_enable#:#(De-)Activate Elements
 content#:#cont_ed_flist#:# File List
 content#:#cont_ed_go#:#Go
-content#:#cont_ed_insert_atable#:#Insert Advanced Table
-content#:#cont_ed_insert_code#:#Insert Code
-content#:#cont_ed_insert_dtable#:#Insert Data Table
-content#:#cont_ed_insert_filelist#:#Insert File List
+content#:#cont_ed_insert_tab#:#Insert Advanced Table
+content#:#cont_ed_insert_src#:#Insert Code
+content#:#cont_ed_insert_dtab#:#Insert Data Table
+content#:#cont_ed_insert_flst#:#Insert File List
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
 content#:#cont_ed_insert_list#:#Insert Advanced List
 content#:#cont_ed_insert_map#:#Insert Map
@@ -4303,7 +4303,7 @@ content#:#cont_ed_insert_par#:#Insert Text
 content#:#cont_ed_insert_pcqst#:#Insert Question
 content#:#cont_ed_insert_plach#:#Insert Placeholder
 content#:#cont_ed_insert_repobj#:#Insert Resource List
-content#:#cont_ed_insert_section#:#Insert Section
+content#:#cont_ed_insert_sec#:#Insert Section
 content#:#cont_ed_insert_tabs#:#Insert Accordion
 content#:#cont_ed_item_down#:#Move Item Down
 content#:#cont_ed_item_up#:#Move Item Up
@@ -4684,7 +4684,7 @@ content#:#cont_text_xln#:#External Link:
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
-content#:#cont_toc#:#Table of Contents
+content#:#cont_toc#:#Content
 content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total Time
 content#:#cont_tracking_bysco#:#By Chapter
@@ -10789,7 +10789,11 @@ tos#:#tos_crit_type_usr_global_role#:#User has Global Role
 tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
 tos#:#tos_crit_type_usr_language#:#Profile Language
 tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_crit_type_usr_country#:#Profile Country
+tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selected country is set for a user profile. Please note that this criterion type can be attached only once.
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
+tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
@@ -11433,7 +11437,7 @@ wsp#:#wsp_shared_title#:#Title of Resource
 adve#:#adve_excass_settings#:#Exercise Assignments
 dateplaner#:#cal_edit_single#:#Edit this Appointment
 dateplaner#:#cal_edit_recurrences#:#Edit all Appointments
-adve#:#advanced_editing_excass_settings#:#Exercise Assignments Settings
+adve#:#advanced_editing_excass_settings#:#Exercise Text Assignments
 common#:#obj_prtt#:#Portfolio Template
 common#:#objs_prtt#:#Portfolio Templates
 common#:#obj_prtt_duplicate#:#Copy Portfolio Template
@@ -16177,3 +16181,9 @@ awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
 ui#:#ui_error_in_group#:#There is some error in this part.
+survey#:#survey_calculate_sum_score#:#Calculate Sum Score
+survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
+survey#:#svy_sum_score#:#Sum Score
+survey#:#svy_max_sum_score#:#Maximum Sum Score
+content#:#cont_select_none#:#Clear Selection
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.

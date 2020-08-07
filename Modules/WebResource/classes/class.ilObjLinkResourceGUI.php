@@ -97,7 +97,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 break;
             
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;

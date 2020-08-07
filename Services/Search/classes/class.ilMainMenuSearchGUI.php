@@ -104,7 +104,6 @@ class ilMainMenuSearchGUI
             '&rtoken=' . $ilCtrl->getRequestToken() . '&fallbackCmd=remoteSearch');
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         
-        // $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
         $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
         
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(

@@ -120,7 +120,8 @@ class ilSkillProfileGUI
                     "assignLevelSelectSkill", "assignLevelToProfile",
                     "confirmLevelAssignmentRemoval", "removeLevelAssignments",
                     "showUsers", "assignUser", "assignRole",
-                    "confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm", "importProfiles"))) {
+                    "confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm",
+                    "importProfiles", "saveLevelOrder"))) {
                     $this->$cmd();
                 }
                 break;
@@ -495,7 +496,8 @@ class ilSkillProfileGUI
         $this->profile->addSkillLevel(
             (int) $parts[0],
             (int) $parts[1],
-            (int) $_GET["level_id"]
+            (int) $_GET["level_id"],
+            (int) $this->profile->getMaxLevelOrderNr() + 10
         );
         $this->profile->update();
         
@@ -555,11 +557,31 @@ class ilSkillProfileGUI
         if (is_array($_POST["ass_id"])) {
             foreach ($_POST["ass_id"] as $i) {
                 $id_arr = explode(":", $i);
-                $this->profile->removeSkillLevel($id_arr[0], $id_arr[1], $id_arr[2]);
+                $this->profile->removeSkillLevel($id_arr[0], $id_arr[1], $id_arr[2], $id_arr[3]);
             }
             $this->profile->update();
+            $this->profile->fixSkillOrderNumbering();
         }
         
+        $ilCtrl->redirect($this, "showLevels");
+    }
+
+    /**
+     * Save level order
+     */
+    public function saveLevelOrder()
+    {
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        if (!$this->checkPermissionBool("write")) {
+            return;
+        }
+
+        $order = ilUtil::stripSlashesArray($_POST["order"]);
+        $this->profile->updateSkillOrder($order);
+
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showLevels");
     }
     

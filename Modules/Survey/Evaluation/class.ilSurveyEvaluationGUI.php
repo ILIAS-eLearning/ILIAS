@@ -160,6 +160,14 @@ class ilSurveyEvaluationGUI
                 array("evaluationuser")
             );
         }
+
+        if ($this->object->getCalculateSumScore()) {
+            $ilTabs->addSubTabTarget(
+                "svy_sum_score",
+                $this->ctrl->getLinkTarget($this, "sumscore"),
+                array("sumscore")
+            );
+        }
     }
 
     
@@ -972,6 +980,12 @@ class ilSurveyEvaluationGUI
             $question_res = $question_res[0][1];
             $matrix = true;
         }
+
+        // see #28507 (matrix question without a row)
+        if (!is_object($question_res)) {
+            return;
+        }
+
         $question = $question_res->getQuestion();
 
         // question "overview"
@@ -1468,7 +1482,12 @@ class ilSurveyEvaluationGUI
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
             $q_res = $q_eval->getResults();
-                        
+
+            // see #28507 (matrix question without a row)
+            if (is_array($q_res) && !is_object($q_res[0][1])) {
+                continue;
+            }
+
             $question = is_array($q_res)
                 ? $q_res[0][1]->getQuestion()
                 : $q_res->getQuestion();
@@ -1815,5 +1834,65 @@ class ilSurveyEvaluationGUI
             ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
             return $target;
         }
+    }
+
+    /**
+     * Show sum score table
+     */
+    function sumscore()
+    {
+        $ilToolbar = $this->toolbar;
+
+        if(!$this->hasResultsAccess() &&
+            $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
+        {
+            ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
+            $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
+        }
+
+        ilUtil::sendInfo($this->lng->txt("svy_max_sum_score").": " . $this->object->getMaxSumScore());
+
+        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
+
+        $modal_id = "svy_ev_exp";
+        $modal = $this->buildExportModal($modal_id, "exportevaluationuser");
+
+        $button = ilLinkButton::getInstance();
+        $button->setCaption("print");
+        $button->setOnClick("window.print(); return false;");
+        $button->setOmitPreventDoubleSubmission(true);
+        $ilToolbar->addButtonInstance($button);
+
+        $finished_ids = null;
+
+        $sum_scores = $this->getSumScores($finished_ids);
+        $table_gui = new ilSumScoreTableGUI($this, 'sumscore', $this->object->hasAnonymizedResults());
+        $table_gui->setSumScores($sum_scores);
+        $this->tpl->setContent($table_gui->getHTML().$modal);
+    }
+
+    protected function getSumScores(array $a_finished_ids = null): array
+    {
+        $sum_scores = [];
+        foreach ($this->filterSurveyParticipantsByAccess($a_finished_ids) as $p) {
+            $sum_scores[$p["active_id"]] = [
+                "username" => $p["sortname"],
+                "score" => 0
+            ];
+        }
+
+        foreach($this->object->getSurveyQuestions() as $qdata)
+        {
+            $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
+            foreach($q_eval->getSumScores() as $finished_id => $sum_score) {
+                if ($sum_score === null) {
+                    $sum_scores[$finished_id]["score"] = null;
+                }
+                if ($sum_scores[$finished_id]["score"] !== null) {
+                    $sum_scores[$finished_id]["score"] += (int) $sum_score;
+                }
+            }
+        }
+        return $sum_scores;
     }
 }

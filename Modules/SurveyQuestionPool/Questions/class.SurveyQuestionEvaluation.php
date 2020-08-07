@@ -66,7 +66,65 @@ abstract class SurveyQuestionEvaluation
         
         return $results;
     }
-        
+
+    /**
+     * Get sum score for this question for all active ids of run
+     *
+     * @return array, key is active id, value is sum score for question|null if not supported
+     */
+    public function getSumScores(): array
+    {
+        $ilDB = $this->db;
+
+        $res = [];
+
+        $sql = "SELECT svy_answer.* FROM svy_answer".
+            " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
+            " WHERE svy_answer.question_fi = ".$ilDB->quote($this->question->getId(), "integer").
+            " AND svy_finished.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer");
+        if(is_array($this->finished_ids))
+        {
+            $sql .= " AND ".$ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+        }
+        $set = $ilDB->query($sql);
+        $cnt_answer_records = [];
+        while($row = $ilDB->fetchAssoc($set))
+        {
+            $cnt_answer_records[(int) $row["active_fi"]] += 1;
+            if ($this->supportsSumScore()) {
+                $res[(int) $row["active_fi"]] += $row["value"] + 1;
+            } else {
+                $res[(int) $row["active_fi"]] = 0;
+            }
+        }
+
+        foreach ($res as $active_id => $sum_score) {
+            if (!$this->isSumScoreValid($cnt_answer_records[$active_id])) {
+                $res[$active_id] = null;
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * Is sum score ok (question needs to be fully answered)
+     * @param int
+     * @return bool
+     */
+    protected function isSumScoreValid(int $nr_answer_records): bool
+    {
+        return true;
+    }
+
+    /**
+     * Supports sum score?
+     * @return bool
+     */
+    protected function supportsSumScore(): bool
+    {
+        return false;
+    }
+
     /**
      * Parse answer data into results instance
      *

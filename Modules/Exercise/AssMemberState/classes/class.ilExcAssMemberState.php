@@ -584,4 +584,29 @@ class ilExcAssMemberState
         }
         return false;
     }
+
+    /**
+     * Is global feedback file accessible?
+     * @param ilExSubmission $submission
+     * @return bool
+     */
+    public function isGlobalFeedbackFileAccessible(ilExSubmission $submission)
+    {
+        $access = false;
+
+        if (!$this->assignment->getFeedbackFile()) {
+            return false;
+        }
+
+        // global feedback / sample solution
+        if ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE) {
+            $access = $this->hasSubmissionEndedForAllUsers();
+        } elseif ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_CUSTOM) {
+            $access = $this->assignment->afterCustomDate();
+        } else {
+            $access = $submission->hasSubmitted();
+        }
+
+        return $access;
+    }
 }

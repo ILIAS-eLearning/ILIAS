@@ -49,38 +49,36 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected $force_month_view = false;
 
     /**
-    * Constructor
-    *
-    * @param	boolean		skip initialisation (is called by derived PDCalendarBlockGUI class)
-    */
+     * Constructor
+     * @param boolean        skip initialisation (is called by derived PDCalendarBlockGUI class)
+     */
     public function __construct()
     {
         global $DIC;
 
         parent::__construct();
 
-        $this->tabs = $DIC->tabs();
+        $this->tabs           = $DIC->tabs();
         $this->obj_data_cache = $DIC["ilObjDataCache"];
-        $this->ui = $DIC->ui();
+        $this->ui             = $DIC->ui();
 
-        $lng = $this->lng;
+        $lng    = $this->lng;
         $ilCtrl = $this->ctrl;
-        $tpl = $this->main_tpl;
+        $tpl    = $this->main_tpl;
         $ilUser = $this->user;
         $ilHelp = $DIC["ilHelp"];
 
-
         $lng->loadLanguageModule("dateplaner");
         $ilHelp->addHelpSection("cal_block");
-        
+
         include_once("./Services/News/classes/class.ilNewsItem.php");
 
         $ilCtrl->saveParameter($this, 'bkid');
 
         $this->setBlockId($ilCtrl->getContextObjId());
 
-        $this->setLimit(5);			// @todo: needed?
-        
+        $this->setLimit(5);            // @todo: needed?
+
         $this->setEnableNumInfo(false);
 
         $title = $lng->txt("calendar");
@@ -90,7 +88,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         include_once('Services/Calendar/classes/class.ilDate.php');
         include_once('Services/Calendar/classes/class.ilCalendarUserSettings.php');
-        
+
         $seed_str = "";
         if ((!isset($_GET["seed"]) || $_GET["seed"] == "") &&
             isset($_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"])) {
@@ -98,23 +96,23 @@ class ilCalendarBlockGUI extends ilBlockGUI
         } elseif (isset($_GET["seed"])) {
             $seed_str = $_GET["seed"];
         }
-            
+
         if (isset($_GET["seed"]) && $_GET["seed"] != "") {
             $_SESSION["il_cal_block_" . $this->getBlockType() . "_" . $this->getBlockId() . "_seed"]
                 = $_GET["seed"];
         }
 
         if ($seed_str == "") {
-            $now = new \ilDate(time(), IL_CAL_UNIX);
+            $now        = new \ilDate(time(), IL_CAL_UNIX);
             $this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
         } else {
-            $this->seed = new ilDate($seed_str, IL_CAL_DATE);	// @todo: check this
+            $this->seed = new ilDate($seed_str, IL_CAL_DATE);    // @todo: check this
         }
 
-        $this->settings = ilCalendarSettings::_getInstance();
+        $this->settings      = ilCalendarSettings::_getInstance();
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
-        
-        $mode = $ilUser->getPref("il_pd_cal_mode");
+
+        $mode               = $ilUser->getPref("il_pd_cal_mode");
         $this->display_mode = $mode ? $mode : "mmon";
 
         if ($this->display_mode !== "mmon") {
@@ -124,7 +122,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Show weeks column
-     *
      * @param
      * @return
      */
@@ -132,7 +129,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
     {
         return ($this->settings->getShowWeeks() && $this->user_settings->getShowWeeks());
     }
-
 
     /**
      * @inheritdoc
@@ -152,7 +148,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Set parent gui
-     *
      * @param  $a_val
      */
     public function setParentGUI($a_val)
@@ -162,7 +157,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Get  parent gui
-     *
      * @return
      */
     public function getParentGUI()
@@ -172,7 +166,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Set force month view
-     *
      * @param bool $a_val force month view
      */
     public function setForceMonthView($a_val)
@@ -183,10 +176,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $this->setPresentation(self::PRES_SEC_LEG);
         }
     }
-    
+
     /**
      * Get force month view
-     *
      * @return bool force month view
      */
     public function getForceMonthView()
@@ -195,8 +187,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-    * Get Screen Mode for current command.
-    */
+     * Get Screen Mode for current command.
+     */
     public static function getScreenMode()
     {
         global $DIC;
@@ -204,18 +196,18 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilCtrl = $DIC->ctrl();
 
         $cmd_class = $ilCtrl->getCmdClass();
-        
+
         if ($cmd_class == "ilcalendarappointmentgui" ||
             $cmd_class == "ilconsultationhoursgui" ||
             $_GET['cmd'] == 'showCalendarSubscription') {
             return IL_SCREEN_CENTER;
         }
-        
+
         switch ($ilCtrl->getCmd()) {
             case "kkk":
-            // return IL_SCREEN_CENTER;
-            // return IL_SCREEN_FULL;
-            
+                // return IL_SCREEN_CENTER;
+                // return IL_SCREEN_FULL;
+
             default:
                 //return IL_SCREEN_SIDE;
                 break;
@@ -223,26 +215,25 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
 
-
         $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
-        
+        $cmd        = $ilCtrl->getCmd("getHTML");
+
         $this->setSubTabs();
-        
+
         switch ($next_class) {
             case "ilcalendarappointmentgui":
                 include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
                 $app_gui = new ilCalendarAppointmentGUI($this->seed, $this->seed);
                 $ilCtrl->forwardCommand($app_gui);
                 break;
-                
+
             case "ilconsultationhoursgui":
                 include_once('./Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php');
                 $hours = new ilConsultationHoursGUI($this->seed);
@@ -250,7 +241,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 break;
 
             case "ilcalendarappointmentpresentationgui":
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php');
+                $this->initCategories();
                 $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $this->appointment);
                 $ilCtrl->forwardCommand($presentation);
                 break;
@@ -268,28 +259,26 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-    * Set EnableEdit.
-    *
-    * @param	boolean	$a_enable_edit	Edit mode on/off
-    */
+     * Set EnableEdit.
+     * @param boolean $a_enable_edit Edit mode on/off
+     */
     public function setEnableEdit($a_enable_edit = 0)
     {
         $this->enable_edit = $a_enable_edit;
     }
 
     /**
-    * Get EnableEdit.
-    *
-    * @return	boolean	Edit mode on/off
-    */
+     * Get EnableEdit.
+     * @return    boolean    Edit mode on/off
+     */
     public function getEnableEdit()
     {
         return $this->enable_edit;
     }
-    
+
     /**
-    * Fill data section
-    */
+     * Fill data section
+     */
     public function fillDataSection()
     {
         if ($this->display_mode != "mmon") {
@@ -311,7 +300,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Get target gui class path (for presenting the calendar)
-     *
      * @param
      * @return
      */
@@ -335,15 +323,15 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-    * Add mini version of monthly overview
-    * (Maybe extracted to another class, if used in pd calendar tab
-    */
+     * Add mini version of monthly overview
+     * (Maybe extracted to another class, if used in pd calendar tab
+     */
     public function addMiniMonth($a_tpl, $a_include_view_ctrl = false)
     {
-        $lng = $this->lng;
+        $lng    = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        $ui = $this->ui;
+        $ui     = $this->ui;
 
         // weekdays
         include_once('Services/Calendar/classes/class.ilCalendarUtil.php');
@@ -352,24 +340,24 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $a_tpl->setVariable('TXT_WEEKDAY', $lng->txt("cal_week_abbrev"));
             $a_tpl->parseCurrentBlock();
         }
-        for ($i = (int) $this->user_settings->getWeekStart();$i < (7 + (int) $this->user_settings->getWeekStart());$i++) {
+        for ($i = (int) $this->user_settings->getWeekStart(); $i < (7 + (int) $this->user_settings->getWeekStart()); $i++) {
             $a_tpl->setCurrentBlock('month_header_col');
             $a_tpl->setVariable('TXT_WEEKDAY', ilCalendarUtil::_numericDayToString($i, false));
             $a_tpl->parseCurrentBlock();
         }
 
         if (isset($_GET["bkid"])) {
-            $user_id = $_GET["bkid"];
+            $user_id       = $_GET["bkid"];
             $disable_empty = true;
         } else {
-            $user_id = $ilUser->getId();
+            $user_id       = $ilUser->getId();
             $disable_empty = false;
         }
         include_once('Services/Calendar/classes/class.ilCalendarSchedule.php');
         $this->scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user_id);
         $this->scheduler->addSubitemCalendars(true);
         $this->scheduler->calculate();
-        
+
         $counter = 0;
         foreach (ilCalendarUtil::_buildMonthDayList(
             $this->seed->get(IL_CAL_FKT_DATE, 'm'),
@@ -378,7 +366,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         )->get() as $date) {
             $counter++;
 
-            $events = $this->scheduler->getByDay($date, $ilUser->getTimeZone());
+            $events     = $this->scheduler->getByDay($date, $ilUser->getTimeZone());
             $has_events = (bool) count($events);
             if ($has_events || !$disable_empty) {
                 $a_tpl->setCurrentBlock('month_col_link');
@@ -404,11 +392,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $week_has_events = true;
                 $a_tpl->setVariable('DAY_CLASS', 'calminiapp');
             }
-            
-            
-            $day = $date->get(IL_CAL_FKT_DATE, 'j');
+
+            $day   = $date->get(IL_CAL_FKT_DATE, 'j');
             $month = $date->get(IL_CAL_FKT_DATE, 'n');
-            
+
             $month_day = $day;
 
             $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), 'seed', $date->get(IL_CAL_DATE));
@@ -420,7 +407,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $a_tpl->setVariable('MONTH_DAY', $month_day);
 
             $a_tpl->parseCurrentBlock();
-
 
             $a_tpl->setCurrentBlock('month_col');
 
@@ -439,10 +425,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
             } else {
                 $a_tpl->setVariable('TD_CLASS', 'calmininext');
             }
-            
+
             $a_tpl->parseCurrentBlock();
 
-            
             if ($counter and !($counter % 7)) {
                 if ($this->getShowWeeksColumn()) {
                     $a_tpl->setCurrentBlock('week');
@@ -461,8 +446,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             }
         }
         $a_tpl->setCurrentBlock('mini_month');
-        $a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
-
+        //$a_tpl->setVariable('TXT_MONTH_OVERVIEW', $lng->txt("cal_month_overview"));
 
         if ($a_include_view_ctrl) {
             $a_tpl->setVariable("VIEW_CTRL_SECTION", $ui->renderer()->render($this->getViewControl()));
@@ -470,20 +454,19 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         $a_tpl->parseCurrentBlock();
     }
-    
+
     /**
      * Get view control
-     *
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
     protected function getViewControl() : \ILIAS\UI\Component\ViewControl\Section
     {
-        $ui = $this->ui;
-        $lng = $this->lng;
+        $ui     = $this->ui;
+        $lng    = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $first_of_month = substr($this->seed->get(IL_CAL_DATE), 0, 7) . "-01";
-        $myseed = new ilDate($first_of_month, IL_CAL_DATE);
+        $myseed         = new ilDate($first_of_month, IL_CAL_DATE);
 
         $myseed->increment(ilDateTime::MONTH, -1);
         $ilCtrl->setParameter($this, 'seed', $myseed->get(IL_CAL_DATE));
@@ -510,7 +493,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilCtrl->clearParameterByClass("ilcalendarblockgui", 'seed');
         $month_link = $ilCtrl->getLinkTarget($this, "setSeed", "", true, false);
         $seed_parts = explode("-", $this->seed->get(IL_CAL_DATE));
-        $b2 = $ui->factory()->button()->month($seed_parts[1] . "-" . $seed_parts[0])->withOnLoadCode(function ($id) use ($month_link, $blockgui) {
+        $b2         = $ui->factory()->button()->month($seed_parts[1] . "-" . $seed_parts[0])->withOnLoadCode(function ($id) use ($month_link, $blockgui) {
             return "$('#" . $id . "').on('il.ui.button.month.changed', function(el, id, month) { var m = month.split('-'); ilBlockJSHandler('block_" . $blockgui->getBlockType() .
                 "_" . $blockgui->getBlockId() . "','" . $month_link . "' + '&seed=' + m[1] + '-' + m[0] + '-01'); return false;});";
         });
@@ -521,72 +504,26 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 "_" . $blockgui->getBlockId() . "','" . $next_link . "'); return false;});";
         });
 
-
         return $ui->factory()->viewControl()->section($b1, $b2, $b3);
     }
-    
 
     /**
-     * Add subscription block command
+     * Get bloch HTML code.
      */
-    protected function addSubscriptionBlockCommand()
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $ui_factory = $DIC->ui()->factory();
-        $ui_renderer = $DIC->ui()->renderer();
-
-        $gui_path = $this->getTargetGUIClassPath();
-        $gui_path[] = "ilcalendarsubscriptiongui";
-        $url = $this->ctrl->getLinkTargetByClass($gui_path, 'getModalForSubscription', "", true, false);
-
-        $roundtrip = $ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-
-        $standard_button = $ui_factory->button()->standard($lng->txt('btn_ical'), '')->withOnClick(
-            $roundtrip->getShowSignal()
-        );
-        $components = [
-            $roundtrip,
-            $standard_button
-        ];
-
-        $out = $ui_renderer->render($components);
-
-        //@todo render this differently
-        /*
-        $this->addBlockCommand(
-            '',
-            '',
-            "", "",
-            true,
-            false,
-            '<span class="ilIcalIcon">'.$out.'</span>'
-        );*/
-    }
-
-
-    /**
-    * Get bloch HTML code.
-    */
     public function getHTML()
     {
         $this->initCategories();
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
+        $lng            = $this->lng;
+        $ilCtrl         = $this->ctrl;
         $ilObjDataCache = $this->obj_data_cache;
-        $user = $this->user;
-
-
-        $this->addSubscriptionBlockCommand();
+        $user           = $this->user;
 
         if ($this->mode == ilCalendarCategories::MODE_REPOSITORY) {
             if (!isset($_GET["bkid"])) {
                 include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-                $obj_id = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
+                $obj_id       = $ilObjDataCache->lookupObjId((int) $_GET['ref_id']);
                 $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
-                $users = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
+                $users        = array_unique(array_merge($participants->getTutors(), $participants->getAdmins()));
                 //$users = $participants->getParticipants();
                 include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $users = ilBookingEntry::lookupBookableUsersForObject($obj_id, $users);
@@ -594,12 +531,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
                     if (!isset($_GET["bkid"])) {
                         include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
                         $now = new ilDateTime(time(), IL_CAL_UNIX);
-                        
+
                         // default to last booking entry
                         $appointments = ilConsultationHourAppointments::getAppointments($user_id);
-                        $next_app = end($appointments);
+                        $next_app     = end($appointments);
                         reset($appointments);
-                        
+
                         foreach ($appointments as $entry) {
                             // find next entry
                             if (ilDateTime::_before($entry->getStart(), $now, IL_CAL_DAY)) {
@@ -610,7 +547,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                             if (!in_array($obj_id, $booking_entry->getTargetObjIds())) {
                                 continue;
                             }
-                            
+
                             if (!$booking_entry->isAppointmentBookableForUser($entry->getEntryId(), $user->getId())) {
                                 continue;
                             }
@@ -645,7 +582,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                         if (!$this->getForceMonthView()) {
                             $this->cal_footer[] = array(
                                 'link' => $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), 'selectCHCalendarOfUser'),
-                                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
+                                'txt'  => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
                             );
                         }
                         $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", "");
@@ -679,38 +616,36 @@ class ilCalendarBlockGUI extends ilBlockGUI
         // workaround to include asynch code from ui only one time, see #20853
         if ($ilCtrl->isAsynch()) {
             global $DIC;
-            $f = $DIC->ui()->factory()->legacy("");
+            $f   = $DIC->ui()->factory()->legacy("");
             $ret .= $DIC->ui()->renderer()->renderAsync($f);
         }
 
         return $ret;
     }
-    
+
     /**
-    * Get overview.
-    */
+     * Get overview.
+     */
     public function getOverview()
     {
-        $lng = $this->lng;
+        $lng    = $this->lng;
         $ilCtrl = $this->ctrl;
-
 
         include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');
         $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_INBOX);
-        $events = $schedule->getChangedEvents(true);
+        $events   = $schedule->getChangedEvents(true);
 
         $ilCtrl->setParameterByClass('ilcalendarinboxgui', 'changed', 1);
         $link = '<a href=' . $ilCtrl->getLinkTargetByClass('ilcalendarinboxgui', '') . '>';
         $ilCtrl->setParameterByClass('ilcalendarinboxgui', 'changed', '');
-        $text = '<div class="small">' . ((int) count($events)) . " " . $lng->txt("cal_changed_events_header") . "</div>";
+        $text     = '<div class="small">' . ((int) count($events)) . " " . $lng->txt("cal_changed_events_header") . "</div>";
         $end_link = '</a>';
-        
+
         return $link . $text . $end_link;
     }
 
     /**
      * init categories
-     *
      * @access protected
      * @param
      * @return
@@ -718,16 +653,19 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected function initCategories()
     {
         $this->mode = ilCalendarCategories::MODE_REPOSITORY;
-
-        include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-
-        if (!$this->getForceMonthView()) {	// in full container calendar presentation (allows selection of other calendars)
-            ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY, (int) $_GET['ref_id'], true);
+        $cats       = \ilCalendarCategories::_getInstance();
+        if ($this->getForceMonthView()) {
+            // old comment: in full container calendar presentation (allows selection of other calendars)
+        } elseif (!$cats->getMode()) {
+            $cats->initialize(
+                \ilCalendarCategories::MODE_REPOSITORY_CONTAINER_ONLY,
+                (int) $_GET['ref_id'],
+                true
+            );
         }
     }
-    
+
     /**
-     *
      * @param
      * @return
      */
@@ -739,8 +677,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-    * Set seed
-    */
+     * Set seed
+     */
     public function setSeed()
     {
         $ilCtrl = $this->ctrl;
@@ -755,17 +693,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $this->returnToUpperContext();
         }
     }
-    
+
     /**
-    * Return to upper context
-    */
+     * Return to upper context
+     */
     public function returnToUpperContext()
     {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->returnToParent($this);
     }
-
 
     public function fillFooter()
     {
@@ -789,11 +726,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     public function initCommands()
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
+        $lng    = $this->lng;
 
         if (!$this->getForceMonthView()) {
             // @todo: set checked on ($this->display_mode != 'mmon')
@@ -827,12 +764,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
             }
         }
     }
-    
+
     public function setPdModeEvents()
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-
 
         $ilUser->writePref("il_pd_cal_mode", "evt");
         $this->display_mode = "evt";
@@ -844,7 +780,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             $ilCtrl->redirectByClass("ildashboardgui", "show");
         }
     }
-    
+
     public function setPdModeMonth()
     {
         $ilCtrl = $this->ctrl;
@@ -863,7 +799,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * Get events
-     *
      * @param
      * @return
      */
@@ -883,12 +818,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
     public function getData()
     {
         $lng = $this->lng;
-        $ui = $this->ui;
+        $ui  = $this->ui;
 
         $f = $ui->factory();
-                            
+
         $events = $this->getEvents();
-        
+
         $data = array();
         if (sizeof($events)) {
             foreach ($events as $item) {
@@ -901,16 +836,16 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                 $dates = $this->getDatesForItem($item);
 
-                $comps = [$f->button()->shy($item["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
+                $comps    = [$f->button()->shy($item["event"]->getPresentationTitle(), "")->withOnClick($modal->getShowSignal()), $modal];
                 $renderer = $ui->renderer();
-                $shy = $renderer->render($comps);
+                $shy      = $renderer->render($comps);
 
                 $data[] = array(
-                    "date" => ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
-                    "title" => $item["event"]->getPresentationTitle(),
-                    "url" => "#",
+                    "date"       => ilDatePresentation::formatPeriod($dates["start"], $dates["end"]),
+                    "title"      => $item["event"]->getPresentationTitle(),
+                    "url"        => "#",
                     "shy_button" => $shy
-                    );
+                );
             }
             $this->setEnableNumInfo(true);
         } else {
@@ -920,33 +855,31 @@ class ilCalendarBlockGUI extends ilBlockGUI
                     "title" => "",
                     "url" => ""
                     );		*/
-            
+
             $this->setEnableNumInfo(false);
         }
-        
+
         return $data;
     }
 
     /**
      * Get start/end date for item
-     *
      * @param array $item item
      * @return array
      */
     public function getDatesForItem($item)
     {
         $start = $item["dstart"];
-        $end = $item["dend"];
+        $end   = $item["dend"];
         if ($item["fullday"]) {
             $start = new ilDate($start, IL_CAL_UNIX);
-            $end = new ilDate($end, IL_CAL_UNIX);
+            $end   = new ilDate($end, IL_CAL_UNIX);
         } else {
             $start = new ilDateTime($start, IL_CAL_UNIX);
-            $end = new ilDateTime($end, IL_CAL_UNIX);
+            $end   = new ilDateTime($end, IL_CAL_UNIX);
         }
         return array("start" => $start, "end" => $end);
     }
-
 
     /**
      * Get modal for appointment (see similar code in ilCalendarAgendaListGUI)
@@ -955,7 +888,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     public function getModalForApp()
     {
         $this->initCategories();
-        $ui = $this->ui;
+        $ui     = $this->ui;
         $ilCtrl = $this->ctrl;
 
         $f = $ui->factory();
@@ -970,7 +903,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 // content of modal
                 include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
-                $content = $ilCtrl->getHTML($next_gui);
+                $content  = $ilCtrl->getHTML($next_gui);
 
                 $modal = $f->modal()->roundtrip(ilDatePresentation::formatPeriod($dates["start"], $dates["end"]), $f->legacy($content));
                 echo $r->renderAsync($modal);
@@ -984,7 +917,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
     //
 
     protected $new_rendering = true;
-
 
     /**
      * @inheritdoc
@@ -1029,11 +961,116 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
     /**
      * No item entry
-     *
      * @return string
      */
     protected function getNoItemFoundContent() : string
     {
         return $this->lng->txt("cal_no_events_block");
+    }
+
+    /**
+     * overwrites base implementation for adding subscription and consultation hour links
+     * @return string
+     */
+    public function getHTMLNew()
+    {
+        global $DIC;
+
+        $ui_factory = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $block_html = parent::getHTMLNew();
+
+
+
+        $panel_tpl = new \ilTemplate(
+            'tpl.cal_block_panel.html',
+            true,
+            true,
+            'Services/Calendar'
+        );
+
+        $this->addConsultationHourButtons($panel_tpl);
+        $this->addSubscriptionButton($panel_tpl);
+
+        $panel = $ui_factory->panel()
+                     ->secondary()
+                     ->legacy(
+                         '',
+                         $ui_factory->legacy($panel_tpl->get())
+                     );
+
+        return $block_html . $ui_renderer->render([$panel]);
+    }
+
+    /**
+     * Add consultation hour buttons
+     */
+    protected function addConsultationHourButtons(ilTemplate $panel_template) : void
+    {
+        global $DIC;
+
+        $user = $DIC->user();
+
+        if (!$this->getRepositoryMode()) {
+            return;
+        }
+
+        $links = \ilConsultationHourUtils::getConsultationHourLinksForRepositoryObject(
+            (int) $_GET['ref_id'],
+            (int) $user->getId(),
+            $this->getTargetGUIClassPath()
+        );
+        $counter = 0;
+        foreach ($links as $link) {
+
+            $ui_factory  = $DIC->ui()->factory();
+            $ui_renderer = $DIC->ui()->renderer();
+
+            $link_button = $ui_factory->button()->shy(
+                $link['txt'],
+                $link['link']
+            );
+            $panel_template->setCurrentBlock('consultation_hour_buttons');
+            if ($counter) {
+                $panel_template->touchBlock('consultation_hour_buttons_multi');
+            }
+            $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
+            $panel_template->parseCurrentBlock();
+            $counter++;
+        }
+    }
+
+    /**
+     * Add subscription button
+     */
+    protected function addSubscriptionButton(ilTemplate $panel_template) : void
+    {
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        $ui_factory  = $DIC->ui()->factory();
+        $ui_renderer = $DIC->ui()->renderer();
+
+        $gui_path   = $this->getTargetGUIClassPath();
+        $gui_path[] = strtolower(\ilCalendarSubscriptionGUI::class);
+        $url        = $this->ctrl->getLinkTargetByClass($gui_path, 'getModalForSubscription', "", true, false);
+
+        $roundtrip_modal = $ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+
+        $standard_button = $ui_factory->button()->standard($lng->txt('btn_ical'), '')->withOnClick(
+            $roundtrip_modal->getShowSignal()
+        );
+        $components      = [
+            $roundtrip_modal,
+            $standard_button
+        ];
+
+        $presentation = $ui_renderer->render($components);
+
+        $panel_template->setCurrentBlock('subscription_buttons');
+        $panel_template->setVariable('SUBSCRIPTION_BUTTON', $presentation);
+        $panel_template->parseCurrentBlock();
     }
 }

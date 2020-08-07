@@ -633,4 +633,38 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     {
         return $this->categories;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getMaxSumScore(int $survey_id): int
+    {
+        global $DIC;
+
+        // we need max scale values of single choice questions (type 2)
+        $db = $DIC->database();
+        $set = $db->queryF(
+            "SELECT SUM(max_sum_score) sum_sum_score FROM (SELECT MAX(scale) max_sum_score FROM svy_svy_qst sq ".
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
+            "JOIN svy_variable v ON (v.question_fi = q.question_id) ".
+            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ".
+            "GROUP BY (q.question_id)) x",
+            ["integer", "integer"],
+            [$survey_id, 2]
+        );
+        $rec = $db->fetchAssoc($set);
+        return (int) $rec["sum_sum_score"];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function isSumScoreValid(int $nr_answer_records): bool
+    {
+        if ($nr_answer_records == 1) {
+            return true;
+        }
+        return false;
+    }
+
 }

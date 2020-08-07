@@ -33,7 +33,6 @@
     "pouchdb": "^6.3.4",
     "openlayers": "^4.6.4",
     "owl.carousel": "^2.3.3",
-    "nestable2": "^1.6.0",
     "dropzone": "^5.5.0"
   },
   "extra": {
@@ -92,7 +91,8 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "",
-      "last-update-for-ilias": null
+      "last-update-for-ilias": null,
+      "note": "rm -r libs/bower/bower_components/yui2/sandbox, see #28587"
     },
     "moment": {
       "introduction-date": null,

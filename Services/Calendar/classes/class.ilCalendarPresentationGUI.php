@@ -159,7 +159,10 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
-                $this->ctrl->redirect($this, "");
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed' , $this->seed);
+                $this->ctrl->redirectToURL(
+                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class,'')
+                );
             }
         }
     }

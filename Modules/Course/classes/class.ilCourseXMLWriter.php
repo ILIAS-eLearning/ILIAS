@@ -391,6 +391,14 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
         // cognos-blu-patch: end
 
+        $this->xmlElement(
+            'WelcomeMail',
+            [
+                'status' => $this->course_obj->getAutoNotification() ? 1 : 0
+            ]
+        );
+
+
         $this->xmlEndTag('Settings');
 
         return true;

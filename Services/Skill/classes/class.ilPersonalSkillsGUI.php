@@ -1429,9 +1429,11 @@ class ilPersonalSkillsGUI
         $stree = new ilSkillTree();
         $html = "";
 
-        // order skills per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
-        $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
+        if (!$this->getProfileId() > 0) {
+            // order skills per virtual skill tree
+            $vtree = new ilVirtualSkillTree();
+            $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
+        }
         foreach ($skills as $s) {
             $path = $stree->getSkillTreePath($s["base_skill_id"]);
 

@@ -428,7 +428,7 @@ class ilCtrlStructureReader
     protected function getILIASAbsolutePath() : string
     {
         if (defined("ILIAS_ABSOLUTE_PATH")) {
-            return ILIAS_ABSOLUTE_PATH;
+            return $this->normalizePath(ILIAS_ABSOLUTE_PATH);
         } else {
             return dirname(__FILE__, 5);
         }

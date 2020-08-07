@@ -39,7 +39,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
             $p = $item->getProviderIdentification();
 
             $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
-            $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), '', $tt_text));
+            $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
 
             if ($tt_text != "") {
                 if ($item instanceof hasSymbol && $item->hasSymbol()) {

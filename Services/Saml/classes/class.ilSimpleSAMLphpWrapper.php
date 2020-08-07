@@ -155,4 +155,12 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
     {
         return new ilSimpleSAMLphplIdpDiscovery();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAuthDataArray() : array
+    {
+        return $this->authSource->getAuthDataArray();
+    }
 }
