@@ -4,7 +4,7 @@
 /**
  * Class ilContentPageDataSet
  */
-class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectConstants
+class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConstants
 {
     /**
      * @var array
@@ -78,17 +78,17 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
         switch ($entity) {
             case self::OBJ_TYPE:
                 foreach ($ids as $objId) {
-                    if (\ilObject::_lookupType($objId) == self::OBJ_TYPE) {
-                        /** @var \ilObjContentPage $obj */
-                        $obj = \ilObjectFactory::getInstanceByObjId($objId);
+                    if (ilObject::_lookupType($objId) == self::OBJ_TYPE) {
+                        /** @var ilObjContentPage $obj */
+                        $obj = ilObjectFactory::getInstanceByObjId($objId);
 
                         $this->data[] = [
                             'id' => $obj->getId(),
                             'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'info-tab' => (int) \ilContainer::_lookupContainerSetting(
+                            'info-tab' => (int) ilContainer::_lookupContainerSetting(
                                 $obj->getId(),
-                                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                                 true
                             ),
                             'style-id' => $obj->getStyleSheetId(),
@@ -106,7 +106,7 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
      * @param $a_entity
      * @param $a_types
      * @param $a_rec
-     * @param \ilImportMapping $a_mapping
+     * @param ilImportMapping $a_mapping
      * @param $a_schema_version
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
@@ -114,22 +114,22 @@ class ilContentPageDataSet extends \ilDataSet implements \ilContentPageObjectCon
         switch ($a_entity) {
             case self::OBJ_TYPE:
                 if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
-                    $newObject = \ilObjectFactory::getInstanceByObjId($newObjId, false);
+                    $newObject = ilObjectFactory::getInstanceByObjId($newObjId, false);
                 } else {
-                    $newObject = new \ilObjContentPage();
+                    $newObject = new ilObjContentPage();
                 }
 
-                $newObject->setTitle(\ilUtil::stripSlashes($a_rec['title']));
-                $newObject->setDescription(\ilUtil::stripSlashes($a_rec['description']));
-                $newObject->setStyleSheetId((int) \ilUtil::stripSlashes($a_rec['style-id']));
+                $newObject->setTitle(ilUtil::stripSlashes($a_rec['title']));
+                $newObject->setDescription(ilUtil::stripSlashes($a_rec['description']));
+                $newObject->setStyleSheetId((int) ilUtil::stripSlashes($a_rec['style-id']));
 
                 if (!$newObject->getId()) {
                     $newObject->create();
                 }
 
-                \ilContainer::_writeContainerSetting(
+                ilContainer::_writeContainerSetting(
                     $newObject->getId(),
-                    \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                    ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                     (int) $a_rec['info-tab']
                 );
 

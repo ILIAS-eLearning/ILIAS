@@ -4,12 +4,32 @@
 /**
  * Class ilObjContentPage
  */
-class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstants
+class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 {
     /**
      * @var int
      */
     protected $styleId = 0;
+
+    /** @var ilObjectTranslation */
+    protected $objTrans;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct($a_id = 0, $a_reference = true)
+    {
+        parent::__construct($a_id, $a_reference);
+        $this->initTranslationService();
+    }
+
+    /**
+     * @return ilObjectTranslation|null
+     */
+    public function getObjectTranslation() : ? ilObjectTranslation
+    {
+        return $this->objTrans;
+    }
 
     /**
      * @inheritdoc
@@ -57,11 +77,11 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
         /** @var $new_obj self */
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
-        if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
-            $originalPageObject = new \ilContentPagePage($this->getId());
+        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+            $originalPageObject = new ilContentPagePage($this->getId());
             $originalXML = $originalPageObject->getXMLContent();
 
-            $duplicatePageObject = new \ilContentPagePage();
+            $duplicatePageObject = new ilContentPagePage();
             $duplicatePageObject->setId($new_obj->getId());
             $duplicatePageObject->setParentId($new_obj->getId());
             $duplicatePageObject->setXMLContent($originalXML);
@@ -69,8 +89,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
         }
 
         $styleId = $this->getStyleSheetId();
-        if ($styleId > 0 && !\ilObjStyleSheet::_lookupStandard($styleId)) {
-            $style = \ilObjectFactory::getInstanceByObjId($styleId, false);
+        if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
+            $style = ilObjectFactory::getInstanceByObjId($styleId, false);
             if ($style) {
                 $new_id = $style->ilClone();
                 $new_obj->setStyleSheetId($new_id);
@@ -78,18 +98,21 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
             }
         }
 
-        \ilContainer::_writeContainerSetting(
+        ilContainer::_writeContainerSetting(
             $new_obj->getId(),
-            \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            \ilContainer::_lookupContainerSetting(
+            ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+            ilContainer::_lookupContainerSetting(
                 $this->getId(),
-                \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                 true
             )
         );
 
         $lpSettings = new ilLPObjSettings($this->getId());
         $lpSettings->cloneSettings($new_obj->getId());
+
+        $ot = ilObjectTranslation::getInstance($this->getId());
+        $ot->copy($new_obj->getId());
     }
 
     /**
@@ -98,6 +121,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     protected function doRead()
     {
         parent::doRead();
+
+        $this->initTranslationService();
 
         $res = $this->db->queryF(
             'SELECT * FROM content_page_data WHERE content_page_id = %s',
@@ -116,6 +141,8 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     protected function doCreate()
     {
         parent::doCreate();
+
+        $this->initTranslationService();
 
         $this->db->manipulateF(
             '
@@ -138,6 +165,13 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     {
         parent::doUpdate();
 
+        $this->initTranslationService();
+
+        $trans = $this->getObjectTranslation();
+        $trans->setDefaultTitle($this->getTitle());
+        $trans->setDefaultDescription($this->getLongDescription());
+        $trans->save();
+
         $this->db->manipulateF(
             '
 			UPDATE content_page_data
@@ -156,10 +190,13 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     {
         parent::doDelete();
 
-        if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
-            $originalPageObject = new \ilContentPagePage($this->getId());
+        if (ilContentPagePage::_exists($this->getType(), $this->getId())) {
+            $originalPageObject = new ilContentPagePage($this->getId());
             $originalPageObject->delete();
         }
+
+        $this->initTranslationService();
+        $this->objTrans->delete();
     }
 
     /**
@@ -169,7 +206,7 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
     {
         $pageObjIds = [];
 
-        $sql = "SELECT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s";
+        $sql = "SELECT DISTINCT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s";
         $res = $this->db->queryF(
             $sql,
             ['integer', 'text'],
@@ -188,16 +225,23 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
      */
     public function trackProgress(int $usrId)
     {
-        \ilChangeEvent::_recordReadEvent(
+        ilChangeEvent::_recordReadEvent(
             $this->getType(),
             $this->getRefId(),
             $this->getId(),
             $usrId
         );
 
-        \ilLPStatusWrapper::_updateStatus(
+        ilLPStatusWrapper::_updateStatus(
             $this->getId(),
             $usrId
         );
+    }
+
+    private function initTranslationService() : void
+    {
+        if ($this->getId() > 0 && null === $this->objTrans) {
+            $this->objTrans = ilObjectTranslation::getInstance($this->getId());
+        }
     }
 }

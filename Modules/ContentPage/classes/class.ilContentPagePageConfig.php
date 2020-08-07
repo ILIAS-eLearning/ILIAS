@@ -15,6 +15,7 @@ class ilContentPagePageConfig extends ilPageConfig
         $this->setIntLinkHelpDefaultType('RepositoryItem');
         $this->setSinglePageMode(true);
         $this->setEnablePermissionChecks(true);
+        $this->setMultiLangSupport(true);
 
         $mediaPoolSettings = new ilSetting('mobs');
         if ($mediaPoolSettings->get('mep_activate_pages')) {

@@ -4,10 +4,10 @@
 /**
  * Class ilContentPageExporter
  */
-class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObjectConstants
+class ilContentPageExporter extends ilXmlExporter implements ilContentPageObjectConstants
 {
     /**
-     * @var \ilContentPageDataSet
+     * @var ilContentPageDataSet
      */
     protected $ds;
 
@@ -16,7 +16,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
      */
     public function init()
     {
-        $this->ds = new \ilContentPageDataSet();
+        $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
     }
 
@@ -25,7 +25,7 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
      */
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
-        \ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
@@ -56,8 +56,8 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
         $styleIds = [];
 
         foreach ($a_ids as $copaObjId) {
-            $copa = \ilObjectFactory::getInstanceByObjId($copaObjId, false);
-            if (!$copa || !($copa instanceof \ilObjContentPage)) {
+            $copa = ilObjectFactory::getInstanceByObjId($copaObjId, false);
+            if (!$copa || !($copa instanceof ilObjContentPage)) {
                 continue;
             }
 
