@@ -8,6 +8,14 @@
 interface ilTermsOfServiceDocumentEvaluation
 {
     /**
+     * Returns an evaluator like this with the passed context user
+     * @param ilObjUser $user
+     * @return ilTermsOfServiceDocumentEvaluation
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation;
+
+    /**
+     * Determines a document based on the context of the concrete implementation
      * @return ilTermsOfServiceSignableDocument
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      */
@@ -17,4 +25,11 @@ interface ilTermsOfServiceDocumentEvaluation
      * @return bool
      */
     public function hasDocument() : bool;
+
+    /**
+     * Evaluates the passed document for the context given in the concrete implementation
+     * @param ilTermsOfServiceSignableDocument $document
+     * @return bool
+     */
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool;
 }

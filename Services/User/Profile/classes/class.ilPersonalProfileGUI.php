@@ -485,10 +485,7 @@ class ilPersonalProfileGUI
     {
         $this->showPersonalData();
     }
-    
-    /**
-     *
-     */
+
     protected function showUserAgreement()
     {
         $this->tabs->clearTargets();
@@ -498,11 +495,25 @@ class ilPersonalProfileGUI
 
         $this->tpl->setTitle($this->lng->txt('usr_agreement'));
 
-        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
-        if ($handleDocument) {
-            $document = $this->termsOfServiceEvaluation->document();
-            $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+        $noAgreement = true;
+        if (!$this->user->isAnonymous() && (int) $this->user->getId() > 0 && $this->user->getAgreeDate()) {
+            $helper = new \ilTermsOfServiceHelper();
+
+            $entity = $helper->getCurrentAcceptanceForUser($this->user);
+            if ($entity->getId()) {
+                $noAgreement = false;
+                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $entity->getText());
+            }
         } else {
+            $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+            if ($handleDocument) {
+                $noAgreement = false;
+                $document = $this->termsOfServiceEvaluation->document();
+                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+            }
+        }
+
+        if ($noAgreement) {
             $tpl->setVariable(
                 'TERMS_OF_SERVICE_CONTENT',
                 sprintf(

@@ -112,7 +112,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
             ->will($this->returnValueMap([
                 [$doc1, false],
                 [$doc2, true],
-                [$doc3, false]
+                [$doc3, false],
             ]));
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(
@@ -159,7 +159,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
             ->will($this->returnValueMap([
                 [$doc1, false],
                 [$doc2, true],
-                [$doc3, true]
+                [$doc3, true],
             ]));
 
         $evaluation = new ilTermsOfServiceSequentialDocumentEvaluation(

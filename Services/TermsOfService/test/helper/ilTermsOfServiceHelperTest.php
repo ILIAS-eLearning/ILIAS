@@ -30,8 +30,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($dataGateway);
 
         $helper = new ilTermsOfServiceHelper(
-            $this->getMockBuilder(ilDBInterface::class)->getMock(),
-            $dataGatewayFactory
+            $dataGatewayFactory,
+            $this->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)->getMock(),
+            $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->getMock(),
+            $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock()
         );
 
         $user = $this
@@ -110,8 +112,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($dataGateway);
 
         $helper = new ilTermsOfServiceHelper(
-            $this->getMockBuilder(ilDBInterface::class)->getMock(),
-            $dataGatewayFactory
+            $dataGatewayFactory,
+            $this->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)->getMock(),
+            $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->getMock(),
+            $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock()
         );
 
         $user = $this
@@ -159,8 +163,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($dataGateway);
 
         $helper = new ilTermsOfServiceHelper(
-            $this->getMockBuilder(ilDBInterface::class)->getMock(),
-            $dataGatewayFactory
+            $dataGatewayFactory,
+            $this->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)->getMock(),
+            $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->getMock(),
+            $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock()
         );
 
         $user = $this
@@ -208,8 +214,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($dataGateway);
 
         $helper = new ilTermsOfServiceHelper(
-            $this->getMockBuilder(ilDBInterface::class)->getMock(),
-            $dataGatewayFactory
+            $dataGatewayFactory,
+            $this->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)->getMock(),
+            $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->getMock(),
+            $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock()
         );
 
         $user = $this

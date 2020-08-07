@@ -12,17 +12,20 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
 
     /**
      * ilTermsOfServiceCriterionTypeFactory constructor.
-     * @param ilRbacReview      $rbacReview
-     * @param ilObjectDataCache $objectCache
+     * @param ilRbacReview $rbacReview
+     * @param ilObjectDataCache $
+     * @param string[] $countryCodes
      */
-    public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
+    public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache, array $countryCodes)
     {
         $usrLanguageCriterion = new ilTermsOfServiceUserHasLanguageCriterion();
         $usrGlobalRoleCriterion = new ilTermsOfServiceUserHasGlobalRoleCriterion($rbacReview, $objectCache);
+        $usrCountryCriterion = new ilTermsOfServiceUserHasCountryCriterion($countryCodes);
 
         $this->types = [
             $usrLanguageCriterion->getTypeIdent() => $usrLanguageCriterion,
             $usrGlobalRoleCriterion->getTypeIdent() => $usrGlobalRoleCriterion,
+            $usrCountryCriterion->getTypeIdent() => $usrCountryCriterion,
         ];
     }
 

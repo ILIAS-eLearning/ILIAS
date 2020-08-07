@@ -54,10 +54,17 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 
         $status = new ilCheckboxInputGUI($this->lng->txt('tos_status_enable'), 'tos_status');
         $status->setValue(1);
-        $status->setChecked((bool) $this->tos->getStatus());
+        $status->setChecked($this->tos->getStatus());
         $status->setInfo($this->lng->txt('tos_status_desc'));
         $status->setDisabled(!$this->isEditable);
         $this->addItem($status);
+
+        $reevaluateOnLogin = new ilCheckboxInputGUI($this->lng->txt('tos_reevaluate_on_login'), 'tos_reevaluate_on_login');
+        $reevaluateOnLogin->setValue(1);
+        $reevaluateOnLogin->setChecked($this->tos->shouldReevaluateOnLogin());
+        $reevaluateOnLogin->setInfo($this->lng->txt('tos_reevaluate_on_login_desc'));
+        $reevaluateOnLogin->setDisabled(!$this->isEditable);
+        $status->addSubItem($reevaluateOnLogin);
 
         if ($this->isEditable) {
             $this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
@@ -106,6 +113,7 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         $hasDocuments = ilTermsOfServiceDocument::where([])->count() > 0;
         if ($hasDocuments) {
             $this->tos->saveStatus((bool) $this->getInput('tos_status'));
+            $this->tos->setReevaluateOnLogin((bool) $this->getInput('tos_reevaluate_on_login'));
             return true;
         }
 
@@ -116,6 +124,7 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         }
 
         $this->tos->saveStatus((bool) $this->getInput('tos_status'));
+        $this->tos->setReevaluateOnLogin((bool) $this->getInput('tos_reevaluate_on_login'));
         return true;
     }
 
