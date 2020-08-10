@@ -181,6 +181,23 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
 
             $footer = $f->mainControls()->footer($links, $text);
 
+            if (
+                !$this->dic->user()->isAnonymous() &&
+                (int) $this->dic->user()->getId() > 0 &&
+                $this->dic->user()->getAgreeDate()) {
+                $helper = new \ilTermsOfServiceHelper();
+                $entity = $helper->getCurrentAcceptanceForUser($this->dic->user());
+                if ($entity->getId()) {
+                    $footer = $footer->withAdditionalModalAndTrigger(
+                        $f->modal()->roundtrip(
+                            $entity->getTitle(),
+                            $f->legacy($entity->getText()) // TODO: Append text and button for 'Withdrawl'
+                        ),
+                        $f->button()->shy($this->dic->language()->txt('usr_agreement'), '#')
+                    );
+                }
+            }
+
             if (self::$perma_link !== "") {
                 $footer = $footer->withPermanentURL(new URI(self::$perma_link));
             }
