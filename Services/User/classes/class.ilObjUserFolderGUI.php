@@ -4205,12 +4205,16 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 return array(array("generalSettings", $fields));
                 
             case ilAdministrationSettingsFormHandler::FORM_TOS:
-                return array(array("generalSettings", [
-                    'tos_withdrawal_usr_deletion' => $DIC->settings()->get(
-                        'tos_withdrawal_usr_deletion',
-                        false
-                    ) ? $DIC->language()->txt('enabled') : $DIC->language()->txt('disabled'),
-                ]));
+                return [
+                    [
+                        'generalSettings', [
+                            'tos_withdrawal_usr_deletion' => $DIC->settings()->get(
+                                'tos_withdrawal_usr_deletion',
+                                false
+                            ) ? $DIC->language()->txt('enabled') : $DIC->language()->txt('disabled'),
+                        ]
+                    ],
+                ];
         }
     }
 
