@@ -63,7 +63,7 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         if (ilSession::get('used_external_auth')) {
             return false;
         }
-        return true;
+
         if (!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired())) {
             return true;
         }
