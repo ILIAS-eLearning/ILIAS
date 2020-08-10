@@ -108,11 +108,24 @@ class ilSoapUtils extends ilSoapAdministration
                     $allowedPathPrefixes[] = $anonymousFileData->getAbsoluteAttachmentPoolPathPrefix();
                 }
 
+                $allowedPathPrefixes = array_map(
+                    static function ($path) {
+                        $basename = basename($path);
+                        $dirname  = dirname($path);
+
+                        return realpath($dirname) . DIRECTORY_SEPARATOR . $basename;
+                    },
+                    $allowedPathPrefixes
+                );
+
                 $absoluteAttachmentPath = realpath($attachment);
 
-                $matchedPathPrefixes = array_filter($allowedPathPrefixes, function ($path) use ($absoluteAttachmentPath) {
-                    return strpos($absoluteAttachmentPath, $path) === 0;
-                });
+                $matchedPathPrefixes = array_filter(
+                    $allowedPathPrefixes,
+                    static function ($path) use ($absoluteAttachmentPath) {
+                        return strpos($absoluteAttachmentPath, $path) === 0;
+                    }
+                );
 
                 if (count($matchedPathPrefixes) > 0) {
                     $mmail->Attach($attachment, '', 'inline', $final_filename);
