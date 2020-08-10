@@ -97,11 +97,11 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             return $criterionFactory;
         };
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($dic);
+        $requestInterceptor = new ilTermsOfServiceAcceptanceStartUpStep($dic);
 
-        $this->assertTrue($requestInterceptor->shouldAdjustRequest());
+        $this->assertTrue($requestInterceptor->shouldInterceptRequest());
         $this->assertTrue($requestInterceptor->shouldStoreRequestTarget());
-        $requestInterceptor->adjust();
+        $requestInterceptor->execute();
     }
 
     /**
@@ -184,9 +184,9 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             return $criterionFactory;
         };
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($dic);
+        $requestInterceptor = new ilTermsOfServiceAcceptanceStartUpStep($dic);
 
-        $this->assertFalse($requestInterceptor->shouldAdjustRequest());
+        $this->assertFalse($requestInterceptor->shouldInterceptRequest());
     }
 
     /**
@@ -377,9 +377,9 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             return $user;
         };
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($dic);
+        $requestInterceptor = new ilTermsOfServiceAcceptanceStartUpStep($dic);
 
-        $this->assertFalse($requestInterceptor->shouldAdjustRequest());
+        $this->assertFalse($requestInterceptor->shouldInterceptRequest());
     }
 
     /**
@@ -512,8 +512,8 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             return $user;
         };
 
-        $requestInterceptor = new ilTermsOfServiceRequestTargetAdjustmentCase($dic);
+        $requestInterceptor = new ilTermsOfServiceAcceptanceStartUpStep($dic);
 
-        $this->assertTrue($requestInterceptor->shouldAdjustRequest());
+        $this->assertTrue($requestInterceptor->shouldInterceptRequest());
     }
 }

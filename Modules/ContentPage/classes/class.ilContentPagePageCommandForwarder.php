@@ -1,10 +1,12 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class ilContentPagePageCommandForwarder
  */
-class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
+class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**
      * presentation mode for authoring
@@ -21,55 +23,43 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
      */
     const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $presentationMode = self::PRESENTATION_MODE_EDITING;
-
-    /**
-     * @var \ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
-
-    /**
-     * @var \ilLanguage
-     */
+    /** @var ilLanguage */
     protected $lng;
-
-    /**
-     * @var \ilTabsGUI
-     */
+    /** @var ilTabsGUI */
     protected $tabs;
-
-    /**
-     * @var \ilObjContentPage
-     */
+    /** @var ilObjContentPage */
     protected $parentObject;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $backUrl = '';
+    /** @var ilObjUser */
+    protected $actor;
 
     /**
      * ilContentPagePageCommandForwarder constructor.
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \ilCtrl                                  $ctrl
-     * @param \ilTabsGUI                               $tabs
-     * @param \ilLanguage                              $lng
-     * @param \ilObjContentPage                        $parentObject
+     * @param ServerRequestInterface $request
+     * @param ilCtrl $ctrl
+     * @param ilTabsGUI $tabs
+     * @param ilLanguage $lng
+     * @param ilObjContentPage $parentObject
+     * @param ilObjUser $actor
      */
     public function __construct(
-        \Psr\Http\Message\ServerRequestInterface $request,
-        \ilCtrl $ctrl,
-        \ilTabsGUI $tabs,
-        \ilLanguage $lng,
-        \ilObjContentPage $parentObject
+        ServerRequestInterface $request,
+        ilCtrl $ctrl,
+        ilTabsGUI $tabs,
+        ilLanguage $lng,
+        ilObjContentPage $parentObject,
+        ilObjUser $actor
     ) {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
         $this->parentObject = $parentObject;
+        $this->actor = $actor;
 
         $this->lng->loadLanguageModule('content');
 
@@ -81,14 +71,15 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
+     * @param string $language
      * @param bool $isEmbedded
-     * @return \ilContentPagePageGUI
+     * @return ilContentPagePageGUI
      */
-    protected function getPageObjectGUI($isEmbedded = false) : \ilContentPagePageGUI
+    protected function getPageObjectGUI(string $language, bool $isEmbedded = false) : ilContentPagePageGUI
     {
-        $pageObjectGUI = new \ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded);
+        $pageObjectGUI = new ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -100,14 +91,24 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
-     *
+     * @param string $language
+     * @return bool|mixed
      */
-    protected function ensurePageObjectExists()
+    protected function doesPageExistsForLanguage(string $language) : bool
     {
-        if (!\ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId())) {
-            $pageObject = new \ilContentPagePage();
+        return ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
+    }
+
+    /**
+     * @param string $language
+     */
+    protected function ensurePageObjectExists(string $language)
+    {
+        if (!$this->doesPageExistsForLanguage($language)) {
+            $pageObject = new ilContentPagePage();
             $pageObject->setParentId($this->parentObject->getId());
             $pageObject->setId($this->parentObject->getId());
+            $pageObject->setLanguage($language);
             $pageObject->createFromXML();
         }
     }
@@ -115,11 +116,11 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      *
      */
-    protected function setBackLinkTab()
+    protected function setBackLinkTab() : void
     {
         $backUrl = $this->ctrl->getLinkTargetByClass('ilObjContentPageGUI', self::UI_CMD_VIEW);
         if (strlen($this->backUrl) > 0) {
-            $backUrlParts = parse_url(\ilUtil::stripSlashes($this->backUrl));
+            $backUrlParts = parse_url(ilUtil::stripSlashes($this->backUrl));
 
             $script = basename($backUrlParts['path']);
 
@@ -132,34 +133,36 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
-     * @return \ilContentPagePageGUI
+     * @param string $language
+     * @return ilContentPagePageGUI
      */
-    protected function buildEditingPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildEditingPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->tabs->clearTargets();
 
         $this->setBackLinkTab();
 
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI();
+        $pageObjectGUI = $this->getPageObjectGUI($language);
         $pageObjectGUI->setEnabledTabs(true);
 
         return $pageObjectGUI;
     }
 
     /**
-     * @return \ilContentPagePageGUI
+     * @param string $language
+     * @return ilContentPagePageGUI
      */
-    protected function buildPresentationPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI();
+        $pageObjectGUI = $this->getPageObjectGUI($language);
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -169,17 +172,18 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     }
 
     /**
-     * @return \ilContentPagePageGUI
+     * @param string $language
+     * @return ilContentPagePageGUI
      */
-    protected function buildEmbeddedPresentationPageObjectGUI() : \ilContentPagePageGUI
+    protected function buildEmbeddedPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
-        $this->ensurePageObjectExists();
+        $this->ensurePageObjectExists($language);
 
-        $pageObjectGUI = $this->getPageObjectGUI(true);
+        $pageObjectGUI = $this->getPageObjectGUI($language, true);
         $pageObjectGUI->setEnabledTabs(false);
 
         $pageObjectGUI->setStyleId(
-            \ilObjStyleSheet::getEffectiveContentStyleId(
+            ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->parentObject->getStyleSheetId(),
                 $this->parentObject->getType()
             )
@@ -191,7 +195,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
     /**
      * @param string $presentationMode
      */
-    public function setPresentationMode(string $presentationMode)
+    public function setPresentationMode(string $presentationMode) : void
     {
         $this->presentationMode = $presentationMode;
     }
@@ -207,11 +211,14 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI();
+                $pageObjectGui = $this->buildEditingPageObjectGUI('');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:
-                $pageObjectGUI = $this->buildPresentationPageObjectGUI();
+                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
+                $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
@@ -222,7 +229,10 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
                 return $this->ctrl->getHTML($pageObjectGUI);
 
             case self::PRESENTATION_MODE_EMBEDDED_PRESENTATION:
-                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI();
+                $ot = ilObjectTranslation::getInstance($this->parentObject->getId());
+                $language = $ot->getEffectiveContentLang($this->actor->getCurrentLanguage(), $this->parentObject->getType());
+
+                $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
 
                 if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
@@ -233,7 +243,7 @@ class ilContentPagePageCommandForwarder implements \ilContentPageObjectConstants
                 return $pageObjectGUI->getHTML();
 
             default:
-                throw new \ilException('Unknown presentation mode given');
+                throw new ilException('Unknown presentation mode given');
                 break;
         }
     }

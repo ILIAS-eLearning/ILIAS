@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class ilUserProfileIncompleteAndPasswordResetRequestTargetAdjustmentCase
+ * Class ilForcedUserPasswordChangeStartUpStep
  */
-class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
+class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 {
     /** @var ilObjUser */
     private $user;
@@ -16,6 +17,7 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
     private $request;
 
     /**
+     * ilForcedUserPasswordChangeStartUpStep constructor.
      * @param ilObjUser $user
      * @param ilCtrl $ctrl
      * @param ServerRequestInterface $request
@@ -56,12 +58,12 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
     /**
      * @return boolean
      */
-    public function shouldAdjustRequest() : bool
+    public function shouldInterceptRequest() : bool
     {
         if (ilSession::get('used_external_auth')) {
             return false;
         }
-
+        return true;
         if (!$this->isInFulfillment() && ($this->user->isPasswordChangeDemanded() || $this->user->isPasswordExpired())) {
             return true;
         }
@@ -72,7 +74,7 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
     /**
      * @return void
      */
-    public function adjust() : void
+    public function execute() : void
     {
         $this->ctrl->initBaseClass('ildashboardgui');
         $this->ctrl->redirectByClass(

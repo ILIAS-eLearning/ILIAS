@@ -4,14 +4,14 @@
 /**
  * Class ilContentPageLP
  */
-class ilContentPageLP extends \ilObjectLP
+class ilContentPageLP extends ilObjectLP
 {
     /**
      * @inheritdoc
      */
     public function getDefaultMode()
     {
-        return \ilLPObjSettings::LP_MODE_MANUAL;
+        return ilLPObjSettings::LP_MODE_MANUAL;
     }
 
     /**

@@ -4,7 +4,7 @@
 /**
  * Class ilObjContentPageListGUI
  */
-class ilObjContentPageListGUI extends \ilObjectListGUI implements \ilContentPageObjectConstants
+class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
     /**
      * @inheritdoc
@@ -29,9 +29,9 @@ class ilObjContentPageListGUI extends \ilObjectListGUI implements \ilContentPage
      */
     public function getInfoScreenStatus()
     {
-        if (\ilContainer::_lookupContainerSetting(
+        if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
-            \ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
+            ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             true
         )) {
             return $this->info_screen_enabled;

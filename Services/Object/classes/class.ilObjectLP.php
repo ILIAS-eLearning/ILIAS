@@ -37,7 +37,11 @@ class ilObjectLP
         $this->db = $DIC->database();
         $this->obj_id = (int) $a_obj_id;
     }
-    
+
+    /**
+     * @param int $a_obj_id
+     * @return ilObjectLP
+     */
     public static function getInstance($a_obj_id)
     {
         static $instances = array();

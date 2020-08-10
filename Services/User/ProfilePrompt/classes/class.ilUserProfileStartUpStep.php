@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Init\StartupSequence\StartUpSequenceStep;
+
 /**
- * Class ilUserProfileIncompleteRequestTargetAdjustmentCase
+ * Class ilUserProfileStartUpStep
  */
-class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
+class ilUserProfileStartUpStep extends StartUpSequenceStep
 {
     /** @var ilObjUser */
     private $user;
@@ -12,6 +14,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
     private $ctrl;
 
     /**
+     * ilUserProfileStartUpStep constructor.
      * @param ilObjUser $user
      * @param ilCtrl $ctrl
      */
@@ -57,7 +60,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
     /**
      * @return boolean
      */
-    public function shouldAdjustRequest() : bool
+    public function shouldInterceptRequest() : bool
     {
         $user_log = ilLoggerFactory::getLogger("user");
 
@@ -122,7 +125,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
     /**
      * @return void
      */
-    public function adjust() : void
+    public function execute() : void
     {
         $user_log = ilLoggerFactory::getLogger("user");
 
