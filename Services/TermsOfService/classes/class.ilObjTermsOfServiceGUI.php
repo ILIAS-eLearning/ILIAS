@@ -170,6 +170,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->rbacsystem->checkAccess('write', $this->object->getRefId())
         );
 
+        ilAdministrationSettingsFormHandler::addFieldsToForm(
+            ilAdministrationSettingsFormHandler::FORM_TOS,
+            $form,
+            $this
+        );
+
         return $form;
     }
 
