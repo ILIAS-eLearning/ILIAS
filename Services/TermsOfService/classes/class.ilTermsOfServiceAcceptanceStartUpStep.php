@@ -2,17 +2,19 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
+use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 
 /**
- * Class ilTermsOfServiceRequestTargetAdjustmentCase
+ * Class ilTermsOfServiceAcceptanceStartUpStep
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
+class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
 {
     /** @var Container */
     private $dic;
 
     /**
+     * ilTermsOfServiceAcceptanceStartUpStep constructor.
      * @param Container $dic
      */
     public function __construct(Container $dic)
@@ -42,7 +44,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
     /**
      * @inheritdoc
      */
-    public function shouldAdjustRequest() : bool
+    public function shouldInterceptRequest() : bool
     {
         if ($this->isInFulfillment()) {
             return false;
@@ -71,7 +73,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdj
     /**
      * @inheritdoc
      */
-    public function adjust() : void
+    public function execute() : void
     {
         $this->dic->ctrl()->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
     }

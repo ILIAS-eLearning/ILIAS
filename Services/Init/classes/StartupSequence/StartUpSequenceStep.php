@@ -1,13 +1,14 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+namespace ILIAS\Init\StartupSequence;
 
 /**
- * Class ilUserRequestTargetAdjustmentCase
+ * Class StartUpSequenceStep
+ * @package ILIAS\Init\StartupSequence
+ * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilUserRequestTargetAdjustmentCase
+abstract class StartUpSequenceStep
 {
     /**
      * @return bool
@@ -17,7 +18,7 @@ abstract class ilUserRequestTargetAdjustmentCase
     /**
      * @return bool
      */
-    abstract public function shouldAdjustRequest() : bool;
+    abstract public function shouldInterceptRequest() : bool;
 
     /**
      * @return bool
@@ -27,5 +28,5 @@ abstract class ilUserRequestTargetAdjustmentCase
     /**
      * @return void
      */
-    abstract public function adjust() : void;
+    abstract public function execute() : void;
 }

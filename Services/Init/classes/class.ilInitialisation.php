@@ -1616,7 +1616,6 @@ class ilInitialisation
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"]
-
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -1692,8 +1691,8 @@ class ilInitialisation
         self::initGlobal("tpl", $tpl);
 
         if (ilContext::hasUser()) {
-            $request_adjuster = new ilUserRequestTargetAdjustment($DIC);
-            $request_adjuster->adjust();
+            $dispatcher = new \ILIAS\Init\StartupSequence\StartUpSequenceDispatcher($DIC);
+            $dispatcher->dispatch();
         }
 
         require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
