@@ -1389,7 +1389,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $purpose[] = $this->lng->txt("cont_fullscreen");
                     }
                 }
-                $this->tpl->setVariable("TXT_PURPOSE", implode($purpose, ", "));
+                $this->tpl->setVariable("TXT_PURPOSE", implode(", ", $purpose));
 
                 $this->tpl->parseCurrentBlock();
             }
@@ -1894,7 +1894,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($codec_str);*/
         
         $formats = ilFFmpeg::getSupportedFormatsInfo();
-        $formats_str = implode($formats, "<br />");
+        $formats_str = implode("<br />", $formats);
         $tpl->setContent($formats_str);
     }
     

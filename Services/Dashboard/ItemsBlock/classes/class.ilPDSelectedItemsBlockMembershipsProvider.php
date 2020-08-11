@@ -19,6 +19,11 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
     protected $tree;
 
     /**
+     * @var ilAccessHandler
+     */
+    protected $access;
+
+    /**
      * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
      * @param ilObjUser $actor
      */
@@ -28,6 +33,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
 
         $this->actor = $actor;
         $this->tree = $DIC->repositoryTree();
+        $this->access = $DIC->access();
     }
 
     /**
@@ -63,6 +69,9 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         foreach ($items as $key => $obj_id) {
             $item_references = ilObject::_getAllReferences($obj_id);
             foreach ($item_references as $ref_id) {
+                if (!$this->access->checkAccess('read', '', $ref_id)) {
+                    continue;
+                }
                 if ($this->tree->isInTree($ref_id)) {
                     $object = ilObjectFactory::getInstanceByRefId($ref_id);
 

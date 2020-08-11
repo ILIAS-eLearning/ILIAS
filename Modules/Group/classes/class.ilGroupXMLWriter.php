@@ -205,7 +205,7 @@ class ilGroupXMLWriter extends ilXmlWriter
     }
 
     /**
-     * Add group eriod settings to xml
+     * Add group period settings to xml
      */
     protected function __buildPeriod()
     {
@@ -222,12 +222,16 @@ class ilGroupXMLWriter extends ilXmlWriter
         $this->xmlElement(
             'start',
             null,
-            $this->group_obj->getStart()->get(IL_CAL_UNIX)
+            $this->group_obj->getStart() ?
+                $this->group_obj->getStart()->get(IL_CAL_UNIX) :
+                null
         );
         $this->xmlElement(
             'end',
             null,
-            $this->group_obj->getEnd()->get(IL_CAL_UNIX)
+            $this->group_obj->getEnd()->get(IL_CAL_UNIX) ?
+                $this->group_obj->getEnd()->get(IL_CAL_UNIX) :
+                null
         );
 
         $this->xmlEndTag('period');

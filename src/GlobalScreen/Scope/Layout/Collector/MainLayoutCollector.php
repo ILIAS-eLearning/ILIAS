@@ -161,6 +161,16 @@ class MainLayoutCollector extends AbstractBaseCollector
         // TODO: Implement prepareItemsForUIRepresentation() method.
     }
 
+    public function cleanupItemsForUIRepresentation() : void
+    {
+        // TODO: Implement cleanupItemsForUIRepresentation() method.
+    }
+
+    public function sortItemsForUIRepresentation() : void
+    {
+        // TODO: Implement sortItemsForUIRepresentation() method.
+    }
+
 
     /**
      * @inheritDoc

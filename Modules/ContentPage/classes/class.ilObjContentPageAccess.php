@@ -4,7 +4,7 @@
 /**
  * Class ilObjContentPageAccess
  */
-class ilObjContentPageAccess extends \ilObjectAccess implements \ilContentPageObjectConstants, \ilConditionHandling
+class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObjectConstants, ilConditionHandling
 {
     /**
      * @inheritdoc

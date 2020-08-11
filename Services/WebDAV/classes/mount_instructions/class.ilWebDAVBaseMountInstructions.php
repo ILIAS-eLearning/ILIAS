@@ -19,11 +19,13 @@ abstract class ilWebDAVBaseMountInstructions
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
-        ilSetting $a_settings
+        ilSetting $a_settings,
+        string $language
     ) {
         $this->repo = $a_repo;
         $this->uri_builder = $a_uri_builder;
         $this->settings = $a_settings;
+        $this->language = $language;
     }
 
     public function getMountInstructionsAsArray(array $mount_instructions = []) : array

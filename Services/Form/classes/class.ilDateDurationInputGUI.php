@@ -590,4 +590,19 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     {
         $this->allowOpenIntervals = $allowOpenInterval;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTableFilterLabelFor() {
+        return $this->getFieldId()."[start]";
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFormLabelFor() {
+        return $this->getFieldId()."[start]";
+    }
+
 }

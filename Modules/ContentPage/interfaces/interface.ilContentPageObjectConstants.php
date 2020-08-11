@@ -21,6 +21,7 @@ interface ilContentPageObjectConstants
     const UI_TAB_ID_SETTINGS = 'settings';
     const UI_TAB_ID_ICON = 'icon';
     const UI_TAB_ID_STYLE = 'style';
+    const UI_TAB_ID_I18N = 'i18n';
     const UI_TAB_ID_LP = 'learning_progress';
     const UI_TAB_ID_EXPORT = 'export';
     const UI_TAB_ID_PERMISSIONS = 'perm_settings';

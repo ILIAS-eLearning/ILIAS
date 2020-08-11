@@ -10789,7 +10789,11 @@ tos#:#tos_crit_type_usr_global_role#:#User has Global Role
 tos#:#tos_crit_type_usr_global_role_info#:#The criterion is fulfilled if the user is assigned to the selected role.
 tos#:#tos_crit_type_usr_language#:#Profile Language
 tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
+tos#:#tos_crit_type_usr_country#:#Profile Country
+tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selected country is set for a user profile. Please note that this criterion type can be attached only once.
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
+tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
@@ -16182,3 +16186,4 @@ survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale value
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.

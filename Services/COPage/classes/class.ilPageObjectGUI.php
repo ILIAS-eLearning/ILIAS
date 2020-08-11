@@ -3079,7 +3079,7 @@ class ilPageObjectGUI
         if (is_array($a_error)) {
             $error_str = "<b>Error(s):</b><br>";
             foreach ($a_error as $error) {
-                $err_mess = implode($error, " - ");
+                $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }

@@ -30,7 +30,7 @@ class ilTermsOfServiceUserHasLanguageCriterion implements ilTermsOfServiceCriter
     {
         $lng = $config['lng'] ?? '';
 
-        if (!is_string($lng) || 2 !== strlen($lng)) {
+        if (!is_string($lng) || 2 !== strlen($lng) || !is_string($user->getLanguage())) {
             return false;
         }
 

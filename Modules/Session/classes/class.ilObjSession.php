@@ -904,6 +904,7 @@ class ilObjSession extends ilObject
                 $app->setTranslationType(IL_CAL_TRANSLATION_NONE);
                 $app->setTitle($this->getTitle() ? $this->getTitle() : $this->lng->txt('obj_sess'));
                 $app->setDescription($this->getLongDescription());
+                $app->setLocation($this->getLocation());
                 
                 $sess_app = $this->getFirstAppointment();
                 $app->setFullday($sess_app->isFullday());

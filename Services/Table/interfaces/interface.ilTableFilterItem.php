@@ -15,4 +15,10 @@ interface ilTableFilterItem
      * @return string
      */
     public function getTableFilterHTML();
+
+    /**
+     * Get label "for" attribute value
+     * @return string
+     */
+    public function getTableFilterLabelFor();
 }

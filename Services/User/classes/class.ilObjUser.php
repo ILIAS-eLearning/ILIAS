@@ -5203,34 +5203,6 @@ class ilObjUser extends ilObject
     }
 
     /**
-     * @param string $a_username
-     * @return bool
-     */
-    public static function hasUserToAcceptTermsOfService($a_username)
-    {
-        /**
-         * @var $ilDB ilDB
-         */
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-
-        if (!ilTermsOfServiceHelper::isEnabled()) {
-            return false;
-        }
-
-        $in = $ilDB->in('usr_id', array(ANONYMOUS_USER_ID, SYSTEM_USER_ID), true, 'integer');
-        $res = $ilDB->queryF(
-            "SELECT usr_id FROM usr_data WHERE login = %s AND agree_date IS NULL $in",
-            array("text"),
-            array($a_username)
-        );
-        return $ilDB->fetchAssoc($res) ? true : false;
-    }
-
-    /**
      * Get users that have or have not agreed to the user agreement.
      *
      * @param bool $a_agreed true, if users that have agreed should be returned

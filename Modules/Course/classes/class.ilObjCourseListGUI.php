@@ -158,7 +158,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
             $lng->loadLanguageModule('certificate');
             $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=" . $this->ref_id .
                     "&amp;cmd=deliverCertificate";
-            $props[] = array("alert" => false, "property" => $lng->txt("passed"),
+            $props[] = array("alert" => false, 
                 "value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
         }
 

@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adm_her
- * Date: 15.10.18
- * Time: 15:32
- */
 
-/**
- * Just some tests for ilWebDAVObjDAVHelper
- */
-class ilWebDAVObjDAVHelperTest extends PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
+class ilWebDAVObjDAVHelperTest extends TestCase
 {
 
     /**

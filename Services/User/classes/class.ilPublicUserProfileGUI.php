@@ -420,7 +420,8 @@ class ilPublicUserProfileGUI
         
         $webspace_dir = ilUtil::getWebspaceDir("user");
         $check_dir = ilUtil::getWebspaceDir();
-        $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image") . "?dummy=" . rand(1, 999999);
+        $random = new \ilRandom();
+        $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image") . "?dummy=" . $random->int(1, 999999);
         $check_file = $check_dir . "/usr_images/" . $user->getPref("profile_image");
 
         if (!@is_file($check_file)) {

@@ -491,7 +491,10 @@ class ilTabsGUI
                 $tpl->setVariable("BACK_2_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
                 $tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
                 $tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
-                $tpl->setVariable("BACK_2_TAB_TARGET", $this->back_2_frame);
+                if ($this->back_2_frame != "") {
+                    $tpl->setVariable("BACK_2_TAB_TARGET", ' target="'.$this->back_2_frame.'" ');
+                }
+
                 $tpl->parseCurrentBlock();
             }
             
@@ -501,7 +504,9 @@ class ilTabsGUI
                 $tpl->setVariable("BACK_ICON", ilGlyphGUI::get(ilGlyphGUI::PREVIOUS, ilGlyphGUI::NO_TEXT));
                 $tpl->setVariable("BACK_TAB_LINK", $this->back_target);
                 $tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
-                $tpl->setVariable("BACK_TAB_TARGET", $this->back_frame);
+                if ($this->back_frame != "") {
+                    $tpl->setVariable("BACK_TAB_TARGET", ' target="'.$this->back_frame.'" ');
+                }
                 $tpl->parseCurrentBlock();
             }
         }
@@ -584,7 +589,9 @@ class ilTabsGUI
                 } else {
                     $tpl->setVariable($pre2 . "TAB_TEXT", $lng->txt($target["text"]));
                 }
-                $tpl->setVariable($pre2 . "TAB_TARGET", $target["frame"]);
+                if ($target["frame"] != "") {
+                    $tpl->setVariable($pre2 . "TAB_TARGET", ' target="'.$target["frame"].'" ');
+                }
                 $tpl->parseCurrentBlock();
             }
             

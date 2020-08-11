@@ -87,6 +87,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     /** @var string */
     private $requestAction = '';
 
+    /** @var array */
+    private $modalActionsContainer = [];
+
     public $access;
     public $ilObjDataCache;
     public $tabs;
@@ -878,6 +881,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $tpl->setVariable('DRAFT_ANCHOR', 'draft_' . $draft->getDraftId());
 
                 $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+                $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
                 if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
                     (int) $_GET['ref_id'],
                     $draft->getPostAuthorId()
@@ -1091,16 +1095,19 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->clearParameters($this);
 
         if ($authorinfo->hasSuffix()) {
+            if (!$authorinfo->isDeleted()) {
+                $tpl->setVariable('USR_NAME', $authorinfo->getAlias());
+            }
             $tpl->setVariable('AUTHOR', $authorinfo->getSuffix());
-            $tpl->setVariable('USR_NAME', $node->getUserAlias());
         } else {
-            $tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized()) {
                 $tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
             }
+            $tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
         }
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
+        $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
         $isModerator = ilForum::_isModerator((int) $authorinfo->getAuthor()->getId(), $node->getPosAuthorId());
         if ($authorinfo->getAuthor()->getId() && $isModerator) {
             $authorRole = $this->lng->txt('frm_moderator_n');
@@ -1657,10 +1664,25 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->handleCensorship();
     }
 
+    /**
+     * @return string
+     */
+    private function getModalActions() : string
+    {
+        $modalString = '';
+        foreach ((array) $this->modalActionsContainer as $modal) {
+            $modalString .= $this->uiRenderer->render($modal);
+        }
+        return $modalString;
+    }
+
     private function handleCensorship($wasRevoked = false)
     {
         if (!$this->objCurrentTopic->isClosed() && $this->is_moderator) {
             $message = $this->handleFormInput($_POST['formData']['cens_message']);
+            if ($message === '') {
+                $message = $this->handleFormInput($_POST['cens_message']);
+            }
             $this->ensureThreadBelongsToForum((int) $this->object->getId(), $this->objCurrentPost->getThread());
 
             $oForumObjects = $this->getForumObjects();
@@ -3189,7 +3211,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			$elm.removeAttr("height");
 		});');
 
-        $this->tpl->setContent($threadContentTemplate->get());
+        $this->tpl->setContent($threadContentTemplate->get() . $this->getModalActions());
 
         return true;
     }
@@ -5010,7 +5032,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         int $pageIndex = 0,
         ilForumPostDraft $draft = null
     ) {
-        $actions = array();
+        $actions = [];
+        $modalActions = [];
         if ($is_post) {
             if ($this->objCurrentPost->getId() != $node->getId() || (
                 !in_array(
@@ -5037,7 +5060,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             $actions['reply_to_postings'] = $this->ctrl->getLinkTarget(
                                 $this,
                                 'viewThread',
-                                $node->getId()
+                                'reply_' . $node->getId()
                             );
                         }
 
@@ -5132,7 +5155,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         );
 
                         $actions['delete'] = $this->ctrl->getLinkTarget($this, 'viewThread', $node->getId());
-
+                        $this->ctrl->setParameter($this, 'action', 'viewThread');
+                        $modalActions['delete'] = $this->ctrl->getFormAction($this, 'deletePosting');
+                        
                         $this->ctrl->clearParameters($this);
                     }
 
@@ -5152,12 +5177,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                                 'viewThread',
                                 $node->getId()
                             );
+                            $this->ctrl->setParameter($this, 'action', 'viewThread');
+                            $modalActions['revokeCensorship'] = $this->ctrl->getFormAction($this, 'revokeCensorship');
                         } else {
                             $actions['frm_censorship'] = $this->ctrl->getLinkTarget(
                                 $this,
                                 'viewThread',
                                 $node->getId()
                             );
+                            $this->ctrl->setParameter($this, 'action', 'viewThread');
+                            $modalActions['addCensorship'] = $this->ctrl->getFormAction($this, 'addCensorship');
                         }
 
                         $this->ctrl->clearParameters($this);
@@ -5250,6 +5279,54 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     $action_button->setDefaultButton($sb_item);
                     ++$i;
                 } else {
+                    if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
+                        $modalTemplate = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
+                        $formID = uniqid('form');
+                        $modalTemplate->setVariable('FORM_ID', $formID);
+                        
+                        if ($node->isCensored()) {
+                            $URI = $modalActions['revokeCensorship'];
+                            $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor2_post'));
+                        } else {
+                            $URI = $modalActions['addCensorship'];
+                            $modalTemplate->setVariable('BODY', $this->lng->txt('forums_info_censor_post'));
+                            $modalTemplate->touchBlock('message');
+                        }
+                        $this->ctrl->clearParameters($this);
+
+                        $modalTemplate->setVariable('FORM_ACTION', $URI);
+
+                        $content = $this->uiFactory->legacy($modalTemplate->get());
+                        $submitBtn = $this->uiFactory->button()->primary($this->lng->txt('submit'), '#')->withOnLoadCode(function ($id) use ($formID) {
+                            return "$('#{$id}').click(function() { $('#{$formID}').submit(); return false; });";
+                        });
+                        $modal = $this->uiFactory->modal()->roundtrip($this->lng->txt($lng_id), $content)->withActionButtons([$submitBtn]);
+                        $sb_item = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                            $modal->getShowSignal()
+                        );
+
+                        $this->modalActionsContainer[] = $modal;
+
+                        $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item, $this->uiRenderer));
+                        continue;
+                     }
+                     elseif ('delete' === $lng_id) {
+
+                         {
+                             $URI = $modalActions['delete'];
+                             $this->ctrl->clearParameters($this);
+                             $modal = $this->uiFactory->modal()->interruptive($this->lng->txt($lng_id), $this->lng->txt('forums_info_delete_post'), $URI);
+
+                             $sb_item = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(
+                                 $modal->getShowSignal()
+                             );
+
+                             $this->modalActionsContainer[] = $modal;
+
+                             $action_button->addMenuItem(new ilUiLinkToSplitButtonMenuItemAdapter($sb_item, $this->uiRenderer));
+                             continue;
+                         }
+                    }
                     $sb_item = ilLinkButton::getInstance();
                     $sb_item->setCaption($lng_id);
                     $sb_item->setUrl($url);
@@ -5366,7 +5443,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
         }
 
-        $tpl->setVariable('REPLY_ANKER', $this->objCurrentPost->getId());
+        $tpl->setVariable('REPLY_ANKER', 'reply_' .$this->objCurrentPost->getId());
         $oEditReplyForm = $this->getReplyEditForm();
         if ($action !== 'editdraft') {
             switch ($this->objProperties->getSubjectSetting()) {

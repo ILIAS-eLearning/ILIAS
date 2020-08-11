@@ -1,5 +1,5 @@
 <!-- BEGIN tbl_form_header -->
-<form action="{FORMACTION}" name="{FORMNAME}" id="{FORMNAME}" method="post" target="{ACTIONTARGET}" class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->" role="form"<!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
+<form action="{FORMACTION}" name="{FORMNAME}" id="{FORMNAME}" method="post" class="form-inline<!-- BEGIN pdfs --> preventDoubleSubmission<!-- END pdfs -->" <!-- BEGIN form_multipart_bl --> enctype="multipart/form-data"<!-- END form_multipart_bl -->>
 <!-- END tbl_form_header -->
 <!-- BEGIN outer_start_1 --><div class="ilTableOuter"><!-- END outer_start_1 -->
 <!-- BEGIN tbl_header_title -->
@@ -8,10 +8,10 @@
 	<!-- BEGIN head_cmd --><a class="il_ContainerItemCommand" href="{HREF_HEAD_CMD}">{TXT_HEAD_CMD}</a><!-- END head_cmd -->
 	<!-- BEGIN tbl_header_html -->{HEADER_HTML}<!-- END tbl_header_html -->
     <!-- BEGIN tbl_header_img_link -->
-	<a href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}><img alt="{ALT_IMG_LINK}" border="0" src="{SRC_IMG_LINK}" /></a><!-- END tbl_header_img_link -->
+	<a href="{HREF_IMG_LINK}" {TARGET_IMG_LINK}><img alt="{ALT_IMG_LINK}" src="{SRC_IMG_LINK}" /></a><!-- END tbl_header_img_link -->
 	</div>
 <!-- BEGIN tbl_header_title_icon --><!--<img src="{TBL_TITLE_IMG}" style="vertical-align:middle" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" border="0" />-->
-<!-- END tbl_header_title_icon --><h3 class="ilHeader ilTableHeaderTitle{BLK_CLASS}"><a class="ilAccAnchor" name="{TOP_ANCHOR}" id="{TOP_ANCHOR}">{TBL_TITLE}</a></h3>
+<!-- END tbl_header_title_icon --><h3 class="ilHeader ilTableHeaderTitle{BLK_CLASS}"><a class="ilAccAnchor" id="{TOP_ANCHOR}">{TBL_TITLE}</a></h3>
 </div>
 <!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="ilHeaderDesc">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
@@ -27,7 +27,7 @@
 <input type="submit" class="btn btn-default" name="cmd[{HIDDEN_CMD_APPLY}]" style="display:none;" />
 <div class="small" style="margin-bottom:5px;">{FILTER_SELECTOR}</div>
 <!-- END filter_select -->
-<table border="0" class="ilTableFilter" datatable="0">
+<table class="ilTableFilter">
 <!-- BEGIN filter_row -->
 <tr>
 <!-- BEGIN filter_item -->
@@ -56,7 +56,7 @@
 <!-- END filter_section -->
 <!-- BEGIN top_navigation -->
 <div class="ilTableNav yui-skin-sam">
-	<table width="100%" border="0" cellpadding="0" cellspacing="0" datatable="0"><tr class="hidden-print">
+	<table><tr class="hidden-print">
 	<td class="ilWhiteSpaceNowrap ilLeft ilValignMiddle" >
 	<!-- BEGIN top_numinfo -->
 	<span class="ilTableFootLight">{NUMINFO}</span>&nbsp;&nbsp;&nbsp;
@@ -70,7 +70,7 @@
 	<a class="btn btn-link ilTableFilterActivator" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
 	<!-- END filter_activation -->
 	<!-- BEGIN filter_hidden -->
-	<script type="text/javascript">
+	<script>
 	ilTableHideFilter['atfil_{FI_ID}'] = true;
 	ilTableHideFilter['tfil_{FI_ID}'] = true;
 	ilTableHideFilter['dtfil_{FI_ID}'] = true;
@@ -109,7 +109,7 @@
 <div class="ilTableCommandRowTop form-inline">
 		<div class="ilFloatLeft">
 <!-- BEGIN tbl_top_action_img_arrow -->
-		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
+		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;"  />
 <!-- END tbl_top_action_img_arrow -->
 <!-- BEGIN mi_top_sel_button -->
 	{MI_BUTTON_SELECT} <input class="btn btn-default" type="submit" name="table_top_cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />
@@ -141,12 +141,12 @@
 <!-- END tbl_top_action_row -->
 <!-- BEGIN tbl_table_start -->
 <div class="table-responsive">
-<table class="table table-striped {CSS_TABLE}" {WIDTH} {ID} datatable="{DATA_TABLE}">
+<table class="table table-striped {CSS_TABLE}" {WIDTH} {ID} >
 <!-- END tbl_table_start -->
 <!-- BEGIN tbl_colgroup -->
 <colgroup>
 <!-- BEGIN tbl_colgroup_column -->
-	<col width="{COLGROUP_COLUMN_WIDTH}" />
+	<col {COLGROUP_COLUMN_WIDTH} />
 <!-- END tbl_colgroup_column -->
 </colgroup>
 <!-- END tbl_colgroup -->
@@ -214,7 +214,7 @@
 <div class="ilTableCommandRow form-inline">
 		<div class="ilFloatLeft">
 <!-- BEGIN tbl_action_img_arrow -->
-		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" border="0" />
+		  <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;"  />
 <!-- END tbl_action_img_arrow -->
 <!-- BEGIN mi_sel_button -->
 	{MI_BUTTON_SELECT} <input class="btn btn-default" type="submit" name="cmd[{MI_BTN_NAME}]" value="{MI_BTN_VALUE}" />

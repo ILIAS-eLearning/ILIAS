@@ -8278,8 +8278,11 @@ ul.dropdown-menu > li > .btn:focus {
   border-radius: 0px;
   background-color: #FFF9BC;
 }
-.il-input-file .il-input-file-fileinfo {
+.il-input-file .il-input-file-fileinfo,
+.il-input-file .il-input-file-error {
   padding: 6px 12px;
+}
+.il-input-file .il-input-file-fileinfo {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -8963,7 +8966,6 @@ footer {
   min-height: auto;
   padding: 20px 0 15px 5px;
   text-align: center;
-  z-index: 2;
 }
 /*
 **************************************************************
@@ -9205,13 +9207,14 @@ footer {
   html body {
     overflow: visible;
   }
-  html body section.il-layout-page {
+  html body .il-layout-page {
     display: block;
     overflow: visible;
   }
-  html body section.il-layout-page header,
-  html body section.il-layout-page nav,
-  html body section.il-layout-page footer {
+  html body .il-layout-page header,
+  html body .il-layout-page .il-maincontrols,
+  html body .il-layout-page .breadcrumbs,
+  html body .il-layout-page footer {
     display: none;
   }
 }
@@ -9301,6 +9304,20 @@ footer {
   font-family: "il-icons";
   font-size: 1.7rem;
   margin-right: 10px;
+}
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky {
+  padding: 6px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before {
+  content: " \e605";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-right: 10px;
+}
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label {
+  margin-top: 3px;
 }
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
@@ -9888,8 +9905,12 @@ footer {
   display: inline-block;
   margin-right: 5px;
 }
-.il-maincontrols-footer .il-footer-links li a {
+.il-maincontrols-footer .il-footer-links li a,
+.il-maincontrols-footer .il-footer-links li button {
   color: white;
+}
+.il-maincontrols-footer .il-footer-links li button {
+  vertical-align: baseline;
 }
 .il-maincontrols-footer .il-footer-links li:first-child:before {
   content: "\00b7";
@@ -13393,7 +13414,6 @@ img.ilSmallIcon {
 }
 span.ilIcalIcon {
   text-align: initial;
-  font-size: 133%;
 }
 /* Component Imports */
 /* Services/Accordion */
@@ -15709,6 +15729,9 @@ div.ilTableNav {
   font-size: 80%;
   text-align: right;
 }
+div.ilTableNav table {
+  width: 100%;
+}
 tr.tblfooter {
   color: black;
   font-weight: normal;
@@ -15725,7 +15748,6 @@ div.ilTableHeaderTitleBlock {
   padding: 3px;
   font-size: 90%;
   color: #404040;
-  background: url("images/block_top.png") repeat-x #f8f8f8;
   border-bottom: 1px solid #e9e9e9;
 }
 div.ilTableHeaderTitle {
@@ -15894,7 +15916,7 @@ td > img[src$="icon_custom.svg"] {
     max-width: 94vw;
   }
 }
-@media (min-width: 769px) {
+@media (min-width: 768px) {
   .table-responsive {
     overflow: visible;
   }
@@ -15954,6 +15976,12 @@ textarea#note {
 }
 div.ilNoteInput {
   padding-bottom: 10px;
+}
+.ilNotesCheckboxes .ilComment {
+  padding-left: 80px;
+}
+.ilNotesCheckboxes .ilNoteList input[type="checkbox"] {
+  position: absolute;
 }
 /* Modules/Blog */
 div.ilBlogList {
@@ -17680,6 +17708,12 @@ span.ilNewsRssIcon:hover {
   margin-right: 0;
 }
 @media only screen and (max-width: 768px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
+    right: auto;
+    left: 90%;
+  }
+}
+@media only screen and (max-width: 768px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -17734,6 +17768,8 @@ span.ilNewsRssIcon:hover {
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
+    right: auto;
+    margin-left: -25px;
   }
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
@@ -17790,9 +17826,9 @@ span.ilNewsRssIcon:hover {
   background-color: white;
 }
 .ilNewsTimelineTruncatedText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
 }
 .ilNewsTimelineObjHead img {
   width: 22px;

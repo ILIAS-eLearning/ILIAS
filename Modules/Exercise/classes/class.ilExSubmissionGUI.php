@@ -339,7 +339,8 @@ class ilExSubmissionGUI
         }
         
         // check whether assignment as already started
-        if (!$this->assignment->notStartedYet()) {
+        $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
+        if ($state->areInstructionsVisible()) {
             // check, whether file belongs to assignment
             $files = $this->assignment->getFiles();
             $file_exist = false;

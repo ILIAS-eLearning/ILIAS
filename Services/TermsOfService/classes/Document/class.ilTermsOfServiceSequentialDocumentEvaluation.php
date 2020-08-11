@@ -9,16 +9,12 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 {
     /** @var ilTermsOfServiceDocumentCriteriaEvaluation */
     protected $evaluation;
-
     /** @var ilObjUser */
     protected $user;
-
-    /** @var ilTermsOfServiceDocument[]|null */
-    protected $matchingDocuments = null;
-
+    /** @var array<int, ilTermsOfServiceDocument[]> */
+    protected $matchingDocumentsByUser = [];
     /** @var ilTermsOfServiceSignableDocument[] */
     protected $possibleDocuments = [];
-
     /** @var ilLogger */
     protected $log;
 
@@ -42,12 +38,24 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     }
 
     /**
+     * @ineritdoc
+     */
+    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
+    {
+        $clone = clone $this;
+        $clone->user = $user;
+        $clone->evaluation = $clone->evaluation->withContextUser($user);
+
+        return $clone;
+    }
+
+    /**
      * @return ilTermsOfServiceSignableDocument[]
      */
     protected function getMatchingDocuments() : array
     {
-        if (null === $this->matchingDocuments) {
-            $this->matchingDocuments = [];
+        if (!array_key_exists((int) $this->user->getId(), $this->matchingDocumentsByUser)) {
+            $this->matchingDocumentsByUser[(int) $this->user->getId()] = [];
 
             $this->log->debug(sprintf(
                 'Evaluating document for user "%s" (id: %s) ...',
@@ -56,18 +64,26 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
             ));
 
             foreach ($this->possibleDocuments as $document) {
-                if ($this->evaluation->evaluate($document)) {
-                    $this->matchingDocuments[] = $document;
+                if ($this->evaluateDocument($document)) {
+                    $this->matchingDocumentsByUser[(int) $this->user->getId()][] = $document;
                 }
             }
 
             $this->log->debug(sprintf(
                 '%s matching document(s) found',
-                count($this->matchingDocuments)
+                count($this->matchingDocumentsByUser[(int) $this->user->getId()])
             ));
         }
 
-        return $this->matchingDocuments;
+        return $this->matchingDocumentsByUser[(int) $this->user->getId()];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
+    {
+        return $this->evaluation->evaluate($document);
     }
 
     /**

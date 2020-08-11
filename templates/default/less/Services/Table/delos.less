@@ -13,6 +13,9 @@ div.ilTableNav {
 	padding: 0 3px;
 	font-size: 80%;
 	text-align: right;
+	table {
+		width: 100%;
+	}
 }
 
 td.tblfooter {
@@ -43,7 +46,6 @@ div.ilTableHeaderTitleBlock {
 	padding: 3px;
 	font-size: 90%;
 	color: #404040;
-	background: url("@{background-images-path}block_top.png") repeat-x #f8f8f8;
 	border-bottom: 1px solid #e9e9e9;
 }
 
@@ -262,7 +264,7 @@ td > img[src$="icon_custom.svg"] {
 	}
 }
 
-@media (min-width: @grid-float-breakpoint-max+1px) {
+@media (min-width: @grid-float-breakpoint-max) {
 	.table-responsive {
 		overflow: visible;
 	}

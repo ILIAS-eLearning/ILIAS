@@ -646,11 +646,28 @@ class ilInitialisation
      */
     protected static function initTermsOfService(\ILIAS\DI\Container $c)
     {
-        $c['tos.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
-            return new ilTermsOfServiceCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
+        $c['tos.criteria.type.factory'] = function (
+            \ILIAS\DI\Container $c
+        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
+            return new ilTermsOfServiceCriterionTypeFactory(
+                $c->rbac()->review(),
+                $c['ilObjDataCache'],
+                ilCountry::getCountryCodes()
+            );
         };
 
-        $c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) {
+        $c['tos.service'] = function (\ILIAS\DI\Container $c) : ilTermsOfServiceHelper {
+            $persistence = new ilTermsOfServiceDataGatewayFactory();
+            $persistence->setDatabaseAdapter($c->database());
+            return new ilTermsOfServiceHelper(
+                $persistence,
+                $c['tos.document.evaluator'],
+                $c['tos.criteria.type.factory'],
+                new ilObjTermsOfService()
+            );
+        };
+
+        $c['tos.document.evaluator'] = function (\ILIAS\DI\Container $c) : ilTermsOfServiceDocumentEvaluation {
             return new ilTermsOfServiceSequentialDocumentEvaluation(
                 new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
                     $c['tos.criteria.type.factory'],
@@ -659,7 +676,7 @@ class ilInitialisation
                 ),
                 $c->user(),
                 $c->logger()->tos(),
-                \ilTermsOfServiceDocument::orderBy('sorting')->get()
+                ilTermsOfServiceDocument::orderBy('sorting')->get()
             );
         };
     }
@@ -1599,7 +1616,6 @@ class ilInitialisation
                             $c["lng"],
                             $c["ui.javascript_binding"],
                             $c["refinery"]
-
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
@@ -1675,12 +1691,8 @@ class ilInitialisation
         self::initGlobal("tpl", $tpl);
 
         if (ilContext::hasUser()) {
-            $request_adjuster = new ilUserRequestTargetAdjustment(
-                $ilUser,
-                $GLOBALS['DIC']['ilCtrl'],
-                $GLOBALS['DIC']->http()->request()
-            );
-            $request_adjuster->adjust();
+            $dispatcher = new \ILIAS\Init\StartupSequence\StartUpSequenceDispatcher($DIC);
+            $dispatcher->dispatch();
         }
 
         require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
@@ -1811,7 +1823,7 @@ class ilInitialisation
             return true;
         }
 
-        if ($_REQUEST["baseClass"] == "ilStartUpGUI") {
+        if (strtolower((string) $_REQUEST["baseClass"]) == "ilstartupgui") {
             $cmd_class = $_REQUEST["cmdClass"];
 
             if ($cmd_class == "ilaccountregistrationgui" ||
