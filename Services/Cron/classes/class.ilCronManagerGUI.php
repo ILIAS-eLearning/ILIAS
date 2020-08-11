@@ -24,6 +24,8 @@ class ilCronManagerGUI
     private $uiFactory;
     /** @var Renderer */
     private $uiRenderer;
+    /** @var ilUIService */
+    private $uiService;
 
     /**
      * ilCronManagerGUI constructor.
@@ -38,6 +40,8 @@ class ilCronManagerGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
+        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->uiService = $DIC->uiService();
 
         $this->lng->loadLanguageModule('cron');
     }
@@ -58,7 +62,7 @@ class ilCronManagerGUI
         return true;
     }
 
-    protected function render()
+    protected function render() : void
     {
         if ($this->settings->get('last_cronjob_start_ts')) {
             $tstamp = ilDatePresentation::formatDate(new ilDateTime($this->settings->get('last_cronjob_start_ts'), IL_CAL_UNIX));
@@ -68,26 +72,15 @@ class ilCronManagerGUI
 
         $message = $this->uiFactory->messageBox()->info($this->lng->txt('cronjob_last_start') . ': ' . $tstamp);
 
-        $title_input = $this->uiFactory->input()->field()->text("Title");
-        $select = $this->uiFactory->input()->field()->select("Selection", ["one" => "One", "two" => "Two", "three" => "Three"]);
-        $with_def = $this->uiFactory->input()->field()->text("With Default")->withValue("Def.Value");
-        $init_hide = $this->uiFactory->input()->field()->text("Hidden initially");
-
-        $action = '';
-        global $DIC;
-        $filter = $DIC->uiService()->filter()->standard(
-            "filter_ID",
-            $action,
-            [
-                "title" => $title_input,
-                "select" => $select,
-                "with_def" => $with_def,
-                "init_hide" => $init_hide,
-            ],
-            [true, true, true, false],
-            true,
-            true
+        $tableFilterMediator = new ilCronManagerTableFilterMediator(
+            $this->uiFactory,
+            $this->uiService,
+            $this->lng
         );
+        $filter = $tableFilterMediator->getFilter($this->ctrl->getFormAction(
+            $this,
+            'handleFilter'
+        ));
 
         $tbl = new ilCronManagerTableGUI($this, "render");
         $this->tpl->setContent(implode('', [
