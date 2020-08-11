@@ -648,7 +648,7 @@ class ilHelpGUI
         // menu item path
         while (preg_match("~\[(menu" . $ws . "path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $path = "";
-            if ($item->getParent() != null) {
+            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild && $item->getParent() != null) {
                 $parent = $mmc->getSingleItemFromRaw($item->getParent());
                 $path = $parent->getTitle() . " > ";
             }
