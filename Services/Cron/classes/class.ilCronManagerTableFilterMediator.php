@@ -45,14 +45,19 @@ class ilCronManagerTableFilterMediator
      */
     public function getFilter(string $action) : Standard
     {
+        $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity) : string {
+            if ($entity->isPlugin()) {
+                return $this->lng->txt('cmps_plugin') . '/' . $entity->getComponent();
+            }
+
+            return $entity->getComponent();
+        }, $this->items->toArray()));
+        asort($componentOptions);
+
         $title = $this->uiFactory->input()->field()->text($this->lng->txt('title'));
         $components = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_component'),
-            [
-                "one" => "One",
-                "two" => "Two",
-                "three" => "Three"
-            ]
+            array_combine($componentOptions, $componentOptions)
         );
         $schedule = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_schedule'),

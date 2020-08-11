@@ -215,7 +215,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
      */
     public function populate(ilCronJobCollection $collection) : self
     {
-        $this->setData(array_map(function (ilCronJobEntity $entity) {
+        $this->setData(array_map(function (ilCronJobEntity $entity) : array {
             $row = [];
 
             $row['schedule'] = $this->formatSchedule($entity, $row);
