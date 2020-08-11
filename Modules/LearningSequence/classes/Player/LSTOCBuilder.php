@@ -68,13 +68,14 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function item(string $label, int $parameter, $state = null) : TOCBuilder
+    public function item(string $label, int $parameter, $state = null, bool $current = false) : TOCBuilder
     {
         $item = [
             'label' => $label,
             'command' => $this->command,
             'parameter' => $parameter,
-            'state' => $state
+            'state' => $state,
+            'current' => $current
         ];
         $this->structure['childs'][] = $item;
         return $this;
