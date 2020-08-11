@@ -11,6 +11,15 @@ use ILIAS\UI\Factory;
  */
 class ilCronManagerTableFilterMediator
 {
+    private const FILTER_PROPERTY_NAME_TITLE = 'title';
+    private const FILTER_PROPERTY_NAME_COMPONENT = 'component';
+    private const FILTER_PROPERTY_NAME_SCHEDULE = 'schedule';
+    private const FILTER_PROPERTY_NAME_STATUS = 'status';
+    private const FILTER_PROPERTY_NAME_RESULT = 'result';
+
+    private const FILTER_STATUS_ACTIVE = 1;
+    private const FILTER_STATUS_INACTIVE = 2;
+
     /** @var ilCronJobCollection */
     private $items;
     /** @var Factory */
@@ -75,8 +84,8 @@ class ilCronManagerTableFilterMediator
         $status = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_status'),
             [
-                1 => $this->lng->txt('cron_status_active'), // TODO: Use constant instead
-                2 => $this->lng->txt('cron_status_inactive'), // TODO: Use constant instead
+                self::FILTER_STATUS_ACTIVE => $this->lng->txt('cron_status_active'),
+                self::FILTER_STATUS_INACTIVE => $this->lng->txt('cron_status_inactive'),
             ]
         );
         $result = $this->uiFactory->input()->field()->select(
@@ -104,11 +113,11 @@ class ilCronManagerTableFilterMediator
         );
 
         $fields = [
-            'title' => $title,
-            'component' => $components,
-            'schedule' => $schedule,
-            'status' => $status,
-            'result' => $result,
+            self::FILTER_PROPERTY_NAME_TITLE => $title,
+            self::FILTER_PROPERTY_NAME_COMPONENT => $components,
+            self::FILTER_PROPERTY_NAME_SCHEDULE => $schedule,
+            self::FILTER_PROPERTY_NAME_STATUS => $status,
+            self::FILTER_PROPERTY_NAME_RESULT => $result,
         ];
 
         $filter = $this->uiService->filter()->standard(
@@ -121,5 +130,42 @@ class ilCronManagerTableFilterMediator
         );
 
         return $filter;
+    }
+
+    /**
+     * @param Standard $filter
+     * @param bool $fromRequest
+     * @return ilCronJobCollection
+     */
+    public function filteredJobs(Standard $filter, bool $fromRequest = false) : ilCronJobCollection
+    {
+        $filterValues = [];
+        if ($fromRequest) {
+            $filterValues = $this->uiService->filter()->getData($filter);
+        } else {
+            /** @var \ILIAS\UI\Implementation\Component\Input\Field\Input $i */
+            foreach ($filter->getInputs() as $k => $i) {
+                $filterValues[$k] = $i->getValue();
+            }
+        }
+
+        return $this->items->filter(static function (ilCronJobEntity $entity) use ($filterValues) : bool {
+            if (isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE])) {
+            }
+
+            if (isset($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT])) {
+            }
+
+            if (isset($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE])) {
+            }
+
+            if (isset($filterValues[self::FILTER_PROPERTY_NAME_STATUS])) {
+            }
+
+            if (isset($filterValues[self::FILTER_PROPERTY_NAME_RESULT])) {
+            }
+
+            return true;
+        });
     }
 }

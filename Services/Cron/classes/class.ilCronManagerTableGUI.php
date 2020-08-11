@@ -14,17 +14,16 @@ class ilCronManagerTableGUI extends ilTable2GUI
 {
     /** @var ilLanguage */
     private $language;
-
     /** @var ilCtrl */
     private $controller;
 
     /**
-     * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
+     * ilCronManagerTableGUI constructor.
+     * @param object $a_parent_obj
+     * @param $a_parent_cmd
+     * @param \ILIAS\DI\Container|null $dic
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, \ILIAS\DI\Container $dic = null)
+    public function __construct(object $a_parent_obj, $a_parent_cmd, \ILIAS\DI\Container $dic = null)
     {
         if ($dic === null) {
             global $DIC;
@@ -34,30 +33,30 @@ class ilCronManagerTableGUI extends ilTable2GUI
         $this->language = $dic->language();
         $this->controller = $dic->ctrl();
 
-        $this->setId("crnmng"); // #14526 / #16391
+        $this->setId('crnmng'); // #14526 / #16391
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->addColumn("", "", 1);
-        $this->addColumn($this->lng->txt("cron_job_id"), "title");
-        $this->addColumn($this->lng->txt("cron_component"), "component");
-        $this->addColumn($this->lng->txt("cron_schedule"), "schedule");
-        $this->addColumn($this->lng->txt("cron_status"), "status");
-        $this->addColumn($this->lng->txt("cron_status_info"), "");
-        $this->addColumn($this->lng->txt("cron_result"), "result");
-        $this->addColumn($this->lng->txt("cron_result_info"), "");
-        $this->addColumn($this->lng->txt("cron_last_run"), "last_run");
-        $this->addColumn($this->lng->txt("actions"), "");
+        $this->addColumn($this->lng->txt('cron_job_id'), 'title');
+        $this->addColumn($this->lng->txt('cron_component'), 'component');
+        $this->addColumn($this->lng->txt('cron_schedule'), 'schedule');
+        $this->addColumn($this->lng->txt('cron_status'), 'status');
+        $this->addColumn($this->lng->txt('cron_status_info'), '');
+        $this->addColumn($this->lng->txt('cron_result'), 'result');
+        $this->addColumn($this->lng->txt('cron_result_info'), '');
+        $this->addColumn($this->lng->txt('cron_last_run'), 'last_run');
+        $this->addColumn($this->lng->txt('actions'), '');
         
-        $this->setTitle($this->lng->txt("cron_jobs"));
-        $this->setDefaultOrderField("title");
+        $this->setTitle($this->lng->txt('cron_jobs'));
+        $this->setDefaultOrderField('title');
         
-        $this->setSelectAllCheckbox("mjid");
-        $this->addMultiCommand("activate", $this->language->txt("cron_action_activate"));
-        $this->addMultiCommand("deactivate", $this->language->txt("cron_action_deactivate"));
-        $this->addMultiCommand("reset", $this->language->txt("cron_action_reset"));
+        $this->setSelectAllCheckbox('mjid');
+        $this->addMultiCommand('activate', $this->language->txt('cron_action_activate'));
+        $this->addMultiCommand('deactivate', $this->language->txt('cron_action_deactivate'));
+        $this->addMultiCommand('reset', $this->language->txt('cron_action_reset'));
                         
-        $this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
+        $this->setRowTemplate('tpl.cron_job_row.html', 'Services/Cron');
         $this->setFormAction($this->controller->getFormAction($a_parent_obj, $a_parent_cmd));
     }
 
