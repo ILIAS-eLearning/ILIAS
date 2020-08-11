@@ -9291,18 +9291,21 @@ footer {
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky {
   padding: 6px;
   text-align: center;
   text-transform: uppercase;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky .glyph :before {
   content: " \e605";
   font-family: "il-icons";
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
