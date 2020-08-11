@@ -26,6 +26,8 @@ class ilCronManagerGUI
     private $uiRenderer;
     /** @var ilUIService */
     private $uiService;
+    /** @var ilCronJobRepository */
+    private $repository;
 
     /**
      * ilCronManagerGUI constructor.
@@ -42,37 +44,39 @@ class ilCronManagerGUI
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->uiService = $DIC->uiService();
+        $this->repository = new ilCronJobRepositoryImpl();
 
         $this->lng->loadLanguageModule('cron');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $class = $this->ctrl->getNextClass($this);
 
-        switch ($class) {
-            case "ilpropertyformgui":
-                $form = $this->initEditForm($_REQUEST['jid']);
+        switch (strtolower($class)) {
+            case ilPropertyFormGUI::class:
+                $form = $this->initEditForm(ilUtil::stripSlashes($_REQUEST['jid']));
                 $this->ctrl->forwardCommand($form);
                 break;
         }
-        $cmd = $this->ctrl->getCmd("render");
-        $this->$cmd();
 
-        return true;
+        $cmd = $this->ctrl->getCmd('render');
+        $this->$cmd();
     }
 
     protected function render() : void
     {
+        $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         if ($this->settings->get('last_cronjob_start_ts')) {
             $tstamp = ilDatePresentation::formatDate(new ilDateTime($this->settings->get('last_cronjob_start_ts'), IL_CAL_UNIX));
-        } else {
-            $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         }
 
         $message = $this->uiFactory->messageBox()->info($this->lng->txt('cronjob_last_start') . ': ' . $tstamp);
 
+        $cronJobs = $this->repository->findAll();
+
         $tableFilterMediator = new ilCronManagerTableFilterMediator(
+            $cronJobs,
             $this->uiFactory,
             $this->uiService,
             $this->lng
@@ -82,10 +86,10 @@ class ilCronManagerGUI
             'handleFilter'
         ));
 
-        $tbl = new ilCronManagerTableGUI($this, "render");
+        $tbl = new ilCronManagerTableGUI($this, 'render');
         $this->tpl->setContent(implode('', [
             $this->uiRenderer->render([$message, $filter]),
-            $tbl->getHTML()
+            $tbl->populate($cronJobs)->getHTML()
         ]));
     }
     

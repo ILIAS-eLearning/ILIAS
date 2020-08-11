@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
@@ -6,9 +7,12 @@ use ILIAS\UI\Factory;
 
 /**
  * Class ilCronManagerTableFilterMediator
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilCronManagerTableFilterMediator
 {
+    /** @var ilCronJobCollection */
+    private $items;
     /** @var Factory */
     private $uiFactory;
     /** @var ilUIService */
@@ -18,11 +22,18 @@ class ilCronManagerTableFilterMediator
 
     /**
      * ilCronManagerTableFilterMediator constructor.
+     * @param ilCronJobCollection $repository
      * @param Factory $uiFactory
      * @param ilUIService $uiService
+     * @param ilLanguage $lng
      */
-    public function __construct(Factory $uiFactory, ilUIService $uiService, ilLanguage $lng)
-    {
+    public function __construct(
+        ilCronJobCollection $repository,
+        Factory $uiFactory,
+        ilUIService $uiService,
+        ilLanguage $lng
+    ) {
+        $this->items = $repository;
         $this->uiFactory = $uiFactory;
         $this->uiService = $uiService;
         $this->lng = $lng;
@@ -38,7 +49,9 @@ class ilCronManagerTableFilterMediator
         $components = $this->uiFactory->input()->field()->select(
             $this->lng->txt('cron_component'),
             [
-                "one" => "One", "two" => "Two", "three" => "Three"
+                "one" => "One",
+                "two" => "Two",
+                "three" => "Three"
             ]
         );
         $schedule = $this->uiFactory->input()->field()->select(
@@ -95,7 +108,7 @@ class ilCronManagerTableFilterMediator
             true,
             true
         );
-        
+
         return $filter;
     }
 }
