@@ -103,7 +103,13 @@ class ilCronManagerTableFilterMediator
             ]
         );
 
-        $fields = [$title, $components, $schedule, $status, $result,];
+        $fields = [
+            'title' => $title,
+            'component' => $components,
+            'schedule' => $schedule,
+            'status' => $status,
+            'result' => $result,
+        ];
 
         $filter = $this->uiService->filter()->standard(
             'cron_job_adm_table',
