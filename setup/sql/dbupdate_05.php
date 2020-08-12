@@ -301,139 +301,143 @@ if (!$ilDB->tableExists('frm_thread_tree_mig')) {
 ?>
 <#5453>
 <?php
-$query = "
-	SELECT frmpt.thr_fk
-	FROM frm_posts_tree frmpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
-	WHERE frmpt.parent_pos = 0
-	GROUP BY frmpt.thr_fk
-	HAVING COUNT(frmpt.fpt_pk) > 1
-";
-$ignoredThreadIds = [];
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-    $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
-}
+$setting = new ilSetting();
+$alreadyMigrated = (bool) $setting->get('ilfrmtreemigr', false);
+if (!$alreadyMigrated) {
+    $query = "
+        SELECT frmpt.thr_fk
+        FROM frm_posts_tree frmpt
+        INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
+        WHERE frmpt.parent_pos = 0
+        GROUP BY frmpt.thr_fk
+        HAVING COUNT(frmpt.fpt_pk) > 1
+    ";
+    $ignoredThreadIds = [];
+    $res = $ilDB->query($query);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+    }
 
-$step = 5453;
+    $step = 5453;
 
-$query = "
-	SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
-	FROM frm_posts_tree fpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
-	LEFT JOIN frm_thread_tree_mig ON frm_thread_tree_mig.thread_id = fpt.thr_fk
-	WHERE fpt.parent_pos = 0 AND fpt.depth = 1 AND frm_thread_tree_mig.thread_id IS NULL
-";
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-    $GLOBALS['ilLog']->info(sprintf(
-        "Started migration of thread with id %s",
-        $row['thr_fk']
-    ));
-    if (isset($ignoredThreadIds[$row['thr_fk']])) {
-        $GLOBALS['ilLog']->warning(sprintf(
-            "Cannot migrate forum tree for thread id %s in database update step %s",
+    $query = "
+        SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
+        FROM frm_posts_tree fpt
+        INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
+        LEFT JOIN frm_thread_tree_mig ON frm_thread_tree_mig.thread_id = fpt.thr_fk
+        WHERE fpt.parent_pos = 0 AND fpt.depth = 1 AND frm_thread_tree_mig.thread_id IS NULL
+    ";
+    $res = $ilDB->query($query);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $GLOBALS['ilLog']->info(sprintf(
+            "Started migration of thread with id %s",
+            $row['thr_fk']
+        ));
+        if (isset($ignoredThreadIds[$row['thr_fk']])) {
+            $GLOBALS['ilLog']->warning(sprintf(
+                "Cannot migrate forum tree for thread id %s in database update step %s",
+                $row['thr_fk'],
+                $step
+            ));
+            continue;
+        }
+
+        // Create space for a new root node, increment depth of all nodes, increment lft and rgt values
+        $ilDB->manipulateF(
+            "
+                UPDATE frm_posts_tree
+                SET
+                    lft = lft + 1,
+                    rgt = rgt + 1,
+                    depth = depth + 1
+                WHERE thr_fk = %s
+            ",
+            ['integer'],
+            [$row['thr_fk']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created gaps in tree for thread with id %s in database update step %s",
             $row['thr_fk'],
             $step
         ));
-        continue;
+
+        // Create a posting as new root
+        $postId = $ilDB->nextId('frm_posts');
+        $ilDB->insert('frm_posts', array(
+            'pos_pk' => array('integer', $postId),
+            'pos_top_fk' => array('integer', $row['pos_top_fk']),
+            'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
+            'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
+            'pos_usr_alias' => array('text', $row['pos_usr_alias']),
+            'pos_subject' => array('text', $row['pos_subject']),
+            'pos_message' => array('clob', $row['pos_message']),
+            'pos_date' => array('timestamp', $row['pos_date']),
+            'pos_update' => array('timestamp', null),
+            'update_user' => array('integer', 0),
+            'pos_cens' => array('integer', 0),
+            'notify' => array('integer', 0),
+            'import_name' => array('text', (string) $row['import_name']),
+            'pos_status' => array('integer', 1),
+            'pos_author_id' => array('integer', (int) $row['pos_author_id']),
+            'is_author_moderator' => array('integer', $row['is_author_moderator']),
+            'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
+        ));
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created new root posting with id %s in thread with id %s in database update step %s",
+            $postId,
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
+        $nextId = $ilDB->nextId('frm_posts_tree');
+        $ilDB->manipulateF(
+            '
+            INSERT INTO frm_posts_tree
+            (
+                fpt_pk,
+                thr_fk,
+                pos_fk,
+                parent_pos,
+                lft,
+                rgt,
+                depth,
+                fpt_date
+            ) VALUES (%s, %s, %s, %s,  %s,  %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'],
+            [$nextId, $row['thr_fk'], $postId, 0, 1, $row['rgt'] + 2, 1, $row['fpt_date']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created new tree root with id %s in thread with id %s in database update step %s",
+            $nextId,
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Set parent_pos for old root
+        $ilDB->manipulateF(
+            "
+                UPDATE frm_posts_tree
+                SET
+                    parent_pos = %s
+                WHERE thr_fk = %s AND fpt_pk = %s
+            ",
+            ['integer', 'integer', 'integer'],
+            [$nextId, $row['thr_fk'], $row['fpt_pk']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Set parent to %s for posting with id %s in thread with id %s in database update step %s",
+            $nextId,
+            $row['fpt_pk'],
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Mark as migrated
+        $ilDB->insert('frm_thread_tree_mig', array(
+            'thread_id' => array('integer', $row['thr_fk'])
+        ));
     }
-
-    // Create space for a new root node, increment depth of all nodes, increment lft and rgt values
-    $ilDB->manipulateF(
-        "
-			UPDATE frm_posts_tree
-			SET
-				lft = lft + 1,
-				rgt = rgt + 1,
-				depth = depth + 1
-			WHERE thr_fk = %s
-		",
-        ['integer'],
-        [$row['thr_fk']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created gaps in tree for thread with id %s in database update step %s",
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Create a posting as new root
-    $postId = $ilDB->nextId('frm_posts');
-    $ilDB->insert('frm_posts', array(
-        'pos_pk' => array('integer', $postId),
-        'pos_top_fk' => array('integer', $row['pos_top_fk']),
-        'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
-        'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
-        'pos_usr_alias' => array('text', $row['pos_usr_alias']),
-        'pos_subject' => array('text', $row['pos_subject']),
-        'pos_message' => array('clob', $row['pos_message']),
-        'pos_date' => array('timestamp', $row['pos_date']),
-        'pos_update' => array('timestamp', null),
-        'update_user' => array('integer', 0),
-        'pos_cens' => array('integer', 0),
-        'notify' => array('integer', 0),
-        'import_name' => array('text', (string) $row['import_name']),
-        'pos_status' => array('integer', 1),
-        'pos_author_id' => array('integer', (int) $row['pos_author_id']),
-        'is_author_moderator' => array('integer', $row['is_author_moderator']),
-        'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
-    ));
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created new root posting with id %s in thread with id %s in database update step %s",
-        $postId,
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
-    $nextId = $ilDB->nextId('frm_posts_tree');
-    $ilDB->manipulateF(
-        '
-		INSERT INTO frm_posts_tree
-		(
-			fpt_pk,
-			thr_fk,
-			pos_fk,
-			parent_pos,
-			lft,
-			rgt,
-			depth,
-			fpt_date
-		) VALUES (%s, %s, %s, %s,  %s,  %s, %s, %s)',
-        ['integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'],
-        [$nextId, $row['thr_fk'], $postId, 0, 1, $row['rgt'] + 2, 1, $row['fpt_date']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created new tree root with id %s in thread with id %s in database update step %s",
-        $nextId,
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Set parent_pos for old root
-    $ilDB->manipulateF(
-        "
-			UPDATE frm_posts_tree
-			SET
-				parent_pos = %s
-			WHERE thr_fk = %s AND fpt_pk = %s
-		",
-        ['integer', 'integer', 'integer'],
-        [$nextId, $row['thr_fk'], $row['fpt_pk']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Set parent to %s for posting with id %s in thread with id %s in database update step %s",
-        $nextId,
-        $row['fpt_pk'],
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Mark as migrated
-    $ilDB->insert('frm_thread_tree_mig', array(
-        'thread_id' => array('integer', $row['thr_fk'])
-    ));
 }
 ?>
 <#5454>
