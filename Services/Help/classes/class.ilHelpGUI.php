@@ -650,9 +650,9 @@ class ilHelpGUI
             $path = "";
             if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild && $item->getParent() != null) {
                 $parent = $mmc->getSingleItemFromRaw($item->getParent());
-                $path = $parent->getTitle() . " > ";
+                $path = $this->getTitleForItem($parent) . " > ";
             }
-            $path .= $item->getTitle();
+            $path .= $this->getTitleForItem($item);
             $content = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
                 "<strong>" . $path . "</strong>",
@@ -663,10 +663,24 @@ class ilHelpGUI
         while (preg_match("~\[(menu" . $ws . "item$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $content = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
-                "<strong>" . $item->getTitle() . "</strong>",
+                "<strong>" . $this->getTitleForItem($item) . "</strong>",
                 $content
             );
         }
         return $content;
     }
+
+    /**
+     * Get title for item
+     * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
+     * @return string
+     * @throws Throwable
+     */
+    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item): string
+    {
+        global $DIC;
+        $mmc = $DIC->globalScreen()->collector()->mainmenu();
+        return $mmc->getItemInformation()->customTranslationForUser($item)->getTitle();
+    }
+
 }
