@@ -283,4 +283,22 @@ class ilCronJobEntity
 
         return $value;
     }
+
+    /**
+     * @return string
+     */
+    public function getEffectiveTitle() : string
+    {
+        $id = $this->getJobId();
+        if ($this->isPlugin()) {
+            $id = 'pl__' . $this->getComponent() . '__' . $id;
+        }
+
+        $title = (string) $this->getJob()->getTitle();
+        if (0 === strlen($title)) {
+            $title = $id;
+        }
+
+        return $title;
+    }
 }

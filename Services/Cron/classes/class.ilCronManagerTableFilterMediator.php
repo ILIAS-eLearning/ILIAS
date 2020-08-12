@@ -149,22 +149,15 @@ class ilCronManagerTableFilterMediator
             }
         }
 
-        return $this->items->filter(static function (ilCronJobEntity $entity) use ($filterValues) : bool {
+        return $this->items->filter(function (ilCronJobEntity $entity) use ($filterValues) : bool {
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
                 strlen($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) > 0
             ) {
-                $id = $entity->getJobId();
-                if ($entity->isPlugin()) {
-                    $id = 'pl__' . $entity->getComponent() . '__' . $id;
-                }
-                $title = $entity->getJob()->getTitle();
-                if (0 === strlen($title)) {
-                    $title = $id;
-                }
+                $titleFilterValue = $filterValues[self::FILTER_PROPERTY_NAME_TITLE];
                 
-                if (ilStr::strIPos($title, $filterValues[self::FILTER_PROPERTY_NAME_TITLE]) === false) {
+                if (ilStr::strIPos($entity->getEffectiveTitle(), $titleFilterValue) === false) {
                     return false;
                 }
             }

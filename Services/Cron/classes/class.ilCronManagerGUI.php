@@ -47,6 +47,7 @@ class ilCronManagerGUI
         $this->repository = new ilCronJobRepositoryImpl();
 
         $this->lng->loadLanguageModule('cron');
+        $this->lng->loadLanguageModule('cmps');
     }
 
     public function executeCommand() : void

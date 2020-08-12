@@ -239,11 +239,8 @@ class ilCronManagerTableGUI extends ilTable2GUI
                 $row['job_id'] = 'pl__' . $row['component'] . '__' . $row['job_id'];
                 $row['component'] = $this->language->txt('cmps_plugin') . '/' . $row['component'];
             }
-            $row['title'] = $entity->getJob()->getTitle();
-            if (0 === strlen($row['title'])) {
-                $row['title'] = $row['job_id'];
-            }
 
+            $row['title'] = $entity->getEffectiveTitle();
             $row['description'] = $entity->getJob()->getDescription();
             $row['is_manually_executable'] = $entity->getJob()->isManuallyExecutable();
             $row['has_settings'] = $entity->getJob()->hasCustomSettings();
