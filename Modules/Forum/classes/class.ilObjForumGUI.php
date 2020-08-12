@@ -1395,19 +1395,24 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     }
 
                     if (isset($new_ref_id) && $new_ref_id != $a_target) {
-                        ilUtil::redirect(ILIAS_HTTP_PATH . "/goto.php?target=frm_" . $new_ref_id . "_" . $a_thread . "_" . $a_posting);
+                        $DIC->ctrl()->redirectToURL(
+                            ILIAS_HTTP_PATH . '/goto.php?target=frm_' . $new_ref_id . '_' . $a_thread . '_' . $a_posting
+                        );
                     }
                 }
 
-                $_GET['ref_id'] = $a_target;
-                $_GET['pos_pk'] = $a_posting;
-                $_GET['thr_pk'] = $a_thread;
-                $_GET['anchor'] = $a_posting;
-                $_GET['cmdClass'] = 'ilObjForumGUI';
-                $_GET['cmd'] = 'viewThread';
-                $_GET['baseClass'] = 'ilRepositoryGUI';
-                include_once('ilias.php');
-                exit();
+                $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'ref_id', (int) $a_target);
+                if (is_numeric($a_thread)) {
+                    $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'thr_pk', (int) $a_thread);
+                }
+                if (is_numeric($a_posting)) {
+                    $DIC->ctrl()->setParameterByClass(ilObjForumGUI::class, 'pos_pk', (int) $a_posting);
+                }
+                $DIC->ctrl()->redirectByClass(
+                    [ilRepositoryGUI::class, self::class],
+                    'viewThread',
+                    is_numeric($a_posting) ? (int) $a_posting : ''
+                );
             } else {
                 $_GET['ref_id'] = $a_target;
                 $_GET['baseClass'] = 'ilRepositoryGUI';
