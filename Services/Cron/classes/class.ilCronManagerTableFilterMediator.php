@@ -156,7 +156,6 @@ class ilCronManagerTableFilterMediator
                 strlen($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) > 0
             ) {
                 $titleFilterValue = $filterValues[self::FILTER_PROPERTY_NAME_TITLE];
-                
                 if (ilStr::strIPos($entity->getEffectiveTitle(), $titleFilterValue) === false) {
                     return false;
                 }
