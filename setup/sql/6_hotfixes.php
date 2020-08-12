@@ -382,3 +382,474 @@ $remove = ['ILIAS\Administration\AdministrationMainBarProvider|adm',
 $ilDB->manipulate("DELETE FROM il_mm_items WHERE ".$ilDB->in('identification', $remove, false, 'text'));
 
 ?>
+<#31>
+<?php
+/* Determine threads which cannot be migrated because they are not valid (just to make the script robust) */
+$query = "
+        SELECT frmpt.thr_fk
+        FROM frm_posts_tree frmpt
+        INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
+        WHERE frmpt.parent_pos = 0
+        GROUP BY frmpt.thr_fk
+        HAVING COUNT(frmpt.fpt_pk) > 1
+    ";
+$ignoredThreadIds = [];
+$res = $ilDB->query($query);
+while ($row = $ilDB->fetchAssoc($res)) {
+    $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+}
+
+$hotfixstep = 31;
+
+$GLOBALS['ilLog']->info(sprintf(
+    "Started migration of wrong parent relation value in field 'parent_pos' (table: frm_posts_tree) for the former root node (Hotfix Step: %s)",
+    $hotfixstep
+));
+
+$query = "
+	SELECT *
+	FROM frm_posts_tree fpt
+	INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
+	WHERE fpt.parent_pos = 0 AND fpt.depth = 1
+";
+$res = $ilDB->query($query);
+while ($rootRow = $ilDB->fetchAssoc($res)) {
+    $GLOBALS['ilLog']->info(sprintf(
+        "Started parent relation fix for thread with id %s",
+        $rootRow['thr_fk']
+    ));
+    if (isset($ignoredThreadIds[$rootRow['thr_fk']])) {
+        $GLOBALS['ilLog']->warning(sprintf(
+            "Cannot fix parent relation in thread with id %s because this thread tree has multiple root node postings ...",
+            $rootRow['thr_fk']
+        ));
+        continue;
+    }
+
+    $nestedNodes = [$rootRow];
+
+    $query = '
+        SELECT *
+        FROM frm_posts_tree fpt
+        INNER JOIN frm_posts fp
+            ON fp.pos_pk = fpt.pos_fk
+        WHERE 
+        fpt.thr_fk = %s AND
+        fp.pos_date = %s AND
+        fpt.pos_fk != %s AND
+        fpt.depth BETWEEN 1 AND 3
+        ORDER BY fpt.depth
+    ';
+    $posRes    = $ilDB->queryF(
+        $query,
+        ['integer', 'timestamp', 'integer',],
+        [$rootRow['thr_fk'], $rootRow['pos_date'], $rootRow['pos_fk']]
+    );
+    $lastDepth = (int) $rootRow['depth'];
+    $lastLft = (int) $rootRow['lft'];
+    $lastRgt = (int) $rootRow['rgt'];
+    while ($posRow = $ilDB->fetchAssoc($posRes)) {
+        if ((int) $posRow['depth'] !== ($lastDepth + 1)) {
+            break;
+        }
+
+        if (! ((int) $posRow['lft'] > $lastLft && (int) $posRow['rgt'] < $lastRgt)) {
+            break;
+        }
+
+        $lastDepth = (int) $posRow['depth'];
+        $lastLft = (int) $posRow['lft'];
+        $lastRgt = (int) $posRow['rgt'];
+        $nestedNodes[] = $posRow;
+    }
+
+    /* We can only migrate the thread tree, if we have determined exactly 2 or 3 nested nodes with the same creation date */
+    if (count($nestedNodes) < 2 || count($nestedNodes) > 3) {
+        $GLOBALS['ilLog']->info(sprintf(
+            "Cannot/Don't need to fix parent relation in thread id %s because there aren't " .
+            "2 (or 3, if the migration has been already executed in ILIAS 6 a 2nd time) nested postings with the same creation date",
+            $rootRow['thr_fk']
+        ));
+        continue;
+    }
+
+    // This is the new/real root node!!!
+    $newRoot = $nestedNodes[1];
+
+    /* Repair the parent_pos of the nodes (broken during migration in 5.4.x and 6) */
+    $query = '
+        UPDATE frm_posts_tree
+        SET parent_pos = %s
+        WHERE parent_pos = %s AND fpt_pk = %s
+        ';
+    $ilDB->manipulateF(
+        $query,
+        ['integer', 'integer', 'integer'],
+        [$rootRow['pos_pk'], $rootRow['fpt_pk'], $newRoot['fpt_pk']]
+    );
+
+    $GLOBALS['ilLog']->info(sprintf(
+        "Set 'parent_pos' value of posting node with fpt_pk:%s (pos_fk:%s) to %s",
+        $newRoot['fpt_pk'],
+        $newRoot['pos_pk'],
+        $rootRow['pos_pk']
+    ));
+
+    if (isset($nestedNodes[2])) {
+        // This is the the first real node in UI!!!
+        $firstVisibleEntry = $nestedNodes[2];
+        $ilDB->manipulateF(
+            $query,
+            ['integer', 'integer', 'integer'],
+            [$newRoot['pos_pk'], $newRoot['fpt_pk'], $firstVisibleEntry['fpt_pk']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Set 'parent_pos' value of posting node with fpt_pk:%s (pos_fk:%s) to %s",
+            $firstVisibleEntry['fpt_pk'],
+            $firstVisibleEntry['pos_pk'],
+            $newRoot['pos_pk']
+        ));
+    }
+}
+
+$GLOBALS['ilLog']->info(sprintf(
+    "Finished migration of wrong parent relation value"
+));
+?>
+<#32>
+<?php
+$setting = new ilSetting();
+$skippedIlias6MigrTs = $setting->get('ilfrmtreemigr_6_skip', null);
+$hotfixstep = 32;
+
+if (!is_numeric($skippedIlias6MigrTs)) {
+    /* Determine threads which cannot be migrated because they are not valid (just to make the script robust) */
+    $GLOBALS['ilLog']->info(sprintf(
+        "Started migration of forum thread trees to remove the (potentially) wrong root node (Hotfix Step: %s)",
+        $hotfixstep
+    ));
+
+    $query = "
+            SELECT frmpt.thr_fk
+            FROM frm_posts_tree frmpt
+            INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
+            WHERE frmpt.parent_pos = 0
+            GROUP BY frmpt.thr_fk
+            HAVING COUNT(frmpt.fpt_pk) > 1
+        ";
+    $ignoredThreadIds = [];
+    $res = $ilDB->query($query);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+    }
+
+    $query = "
+            SELECT *
+            FROM frm_posts_tree fpt
+            INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
+            WHERE fpt.parent_pos = 0 AND fpt.depth = 1
+        ";
+    $res = $ilDB->query($query);
+    while ($rootRow = $ilDB->fetchAssoc($res)) {
+        $GLOBALS['ilLog']->info(sprintf(
+            "Started migration of thread with id %s",
+            $rootRow['thr_fk']
+        ));
+        if (isset($ignoredThreadIds[$rootRow['thr_fk']])) {
+            $GLOBALS['ilLog']->warning(sprintf(
+                "Cannot migrate forum thread tree with id %s because this thread tree has multiple root node postings ...",
+                $rootRow['thr_fk']
+            ));
+            continue;
+        }
+
+        $nestedNodes = [$rootRow];
+
+        $query = '
+            SELECT *
+            FROM frm_posts_tree fpt
+            INNER JOIN frm_posts fp
+                ON fp.pos_pk = fpt.pos_fk
+            WHERE 
+            fpt.thr_fk = %s AND
+            fp.pos_date = %s AND
+            fpt.pos_fk != %s AND
+            fpt.depth BETWEEN 1 AND 3
+            ORDER BY fpt.depth
+        ';
+        $posRes = $ilDB->queryF(
+            $query,
+            ['integer', 'timestamp', 'integer',],
+            [$rootRow['thr_fk'], $rootRow['pos_date'], $rootRow['pos_fk']]
+        );
+        $lastDepth = (int) $rootRow['depth'];
+        $lastParent = (int) $rootRow['pos_fk'];
+
+        while ($posRow = $ilDB->fetchAssoc($posRes)) {
+            if ((int) $posRow['depth'] !== ($lastDepth + 1)) {
+                break;
+            }
+
+            if ((int) $posRow['parent_pos'] !== $lastParent) {
+                break;
+            }
+
+            $lastDepth = (int) $posRow['depth'];
+            $lastParent = (int) $posRow['pos_fk'];
+            $nestedNodes[] = $posRow;
+        }
+
+        /* We can only migrate the thread tree, if we have determined exactly 3 nested nodes with the same creation date */
+        if (count($nestedNodes) !== 3) {
+            $GLOBALS['ilLog']->info(sprintf(
+                "Cannot/Don't need to migrate forum tree for thread id %s because there aren't " .
+                "3 nested postings with the same creation date",
+                $rootRow['thr_fk']
+            ));
+            continue;
+        }
+
+        // This is the new root node!!!
+        $newRoot = $nestedNodes[1];
+
+        $GLOBALS['ilLog']->info(sprintf(
+            "Current/Wrong root node in thread with id %s -> fpt_pk:%s / pos_fk:%s / parent_pos:%s / depth:%s",
+            $rootRow['thr_fk'],
+            $rootRow['fpt_pk'],
+            $rootRow['pos_pk'],
+            $rootRow['parent_pos'],
+            $rootRow['depth']
+        ));
+
+        $GLOBALS['ilLog']->info(sprintf(
+            "Determined new root node for thread with id %s -> fpt_pk:%s / pos_fk:%s / parent_pos:%s / depth:%s",
+            $newRoot['thr_fk'],
+            $newRoot['fpt_pk'],
+            $newRoot['pos_pk'],
+            $newRoot['parent_pos'],
+            $newRoot['depth']
+        ));
+
+        $ilAtomQuery = $ilDB->buildAtomQuery();
+        $ilAtomQuery->addTableLock('frm_posts');
+        $ilAtomQuery->addTableLock('frm_posts_tree');
+
+        $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use ($rootRow, $newRoot) {
+            /* Now, fetch all children of the current (wrong) root node */
+            $query = '
+                SELECT *
+                FROM frm_posts_tree
+                INNER JOIN frm_posts
+                    ON frm_posts.pos_pk = frm_posts_tree.pos_fk
+                WHERE frm_posts_tree.thr_fk = %s AND frm_posts_tree.parent_pos = %s AND frm_posts.pos_pk != %s
+                ORDER BY frm_posts.pos_date ASC
+            ';
+            $rootsChildrenRes = $ilDB->queryF(
+                $query,
+                ['integer', 'integer', 'integer'],
+                [$rootRow['thr_fk'], $rootRow['pos_pk'], $newRoot['pos_pk']]
+            );
+
+            $numChildren = $ilDB->numRows($rootsChildrenRes);
+            if ($numChildren > 0) {
+                $GLOBALS['ilLog']->info(sprintf(
+                    "We have to move %s sub trees (authored by users since the ILIAS 6 migration) to the original root for thread with id %s",
+                    $numChildren,
+                    $rootRow['thr_fk']
+                ));
+            }
+
+            while ($child = $ilDB->fetchAssoc($rootsChildrenRes)) {
+                $newRootTreeQuery = "
+                    SELECT frm_posts_tree.*
+                    FROM frm_posts_tree
+                    INNER JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk
+                    WHERE frm_posts_tree.pos_fk = %s
+                ";
+                $newRootTreeRes = $ilDB->queryF($newRootTreeQuery, ['integer'], [$newRoot['pos_pk']]);
+                $newRootTree = $ilDB->fetchAssoc($newRootTreeRes);
+
+                $a_target_id = $newRoot['pos_pk'];
+                $target_lft = $newRootTree['lft'];
+                $target_rgt = $newRootTree['rgt'];
+                $target_depth = $newRootTree['depth'];
+
+                $source_lft = $child['lft'];
+                $source_rgt = $child['rgt'];
+                $source_depth = $child['depth'];
+                $source_parent = $child['parent_pos'];
+
+                $spread_diff = $source_rgt - $source_lft + 1;
+
+                /* Spread the thread tree */
+                $query = '
+                    UPDATE frm_posts_tree
+                    SET 
+                        lft = CASE WHEN lft >  %s THEN lft + %s ELSE lft END,
+                        rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END
+                    WHERE thr_fk = %s 
+                ';
+                $ilDB->manipulateF(
+                    $query,
+                    [
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer'
+                    ],
+                    [
+                        $target_lft,
+                        $spread_diff,
+                        $target_lft,
+                        $spread_diff,
+                        $newRoot['thr_fk']
+                    ]
+                );
+
+                /* Move nodes */
+                if ($source_lft > $target_rgt) {
+                    $where_offset = $spread_diff;
+                    $move_diff = $target_lft - $source_lft - $spread_diff + 1;
+                } else {
+                    $where_offset = 0;
+                    $move_diff = $target_lft - $source_lft + 1;
+                }
+                $depth_diff = $target_depth - $source_depth + 1;
+
+                $query = '
+                    UPDATE frm_posts_tree
+                    SET 
+                        parent_pos = CASE WHEN parent_pos = %s THEN %s ELSE parent_pos END, 
+                        rgt = rgt + %s,
+                        lft = lft + %s,
+                        depth = depth + %s
+                    WHERE lft >= %s AND rgt <= %s AND thr_fk = %s 
+                ';
+                $ilDB->manipulateF(
+                    $query,
+                    [
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer'
+                    ],
+                    [
+                        $source_parent,
+                        $a_target_id,
+                        $move_diff,
+                        $move_diff,
+                        $depth_diff,
+                        $source_lft + $where_offset,
+                        $source_rgt + $where_offset,
+                        $newRoot['thr_fk']
+                    ]
+                );
+
+                /* Close gabs  */
+                $query = '
+                    UPDATE frm_posts_tree
+                    SET 
+                        lft = CASE WHEN lft >= %s THEN lft - %s ELSE lft END,
+                        rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END
+                    WHERE thr_fk = %s 
+                ';
+                $ilDB->manipulateF(
+                    $query,
+                    [
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer',
+                        'integer'
+                    ],
+                    [
+                        $source_lft + $where_offset,
+                        $spread_diff,
+                        $source_rgt + $where_offset,
+                        $spread_diff,
+                        $newRoot['thr_fk']
+                    ]
+                );
+            }
+
+            /* DELETE the current root from 'frm_posts_tree' AND 'frm_posts' */
+            $query = '
+                DELETE FROM frm_posts_tree
+                WHERE fpt_pk = %s 
+                ';
+            $ilDB->manipulateF($query, ['integer'], [$rootRow['fpt_pk']]);
+            $query = '
+                DELETE FROM frm_posts
+                WHERE pos_pk = %s 
+                ';
+            $ilDB->manipulateF($query, ['integer'], [$rootRow['pos_pk']]);
+            $GLOBALS['ilLog']->info(sprintf(
+                "Deleted wrong root node from 'frm_posts_tree' AND 'frm_posts' for thread with id %s",
+                $rootRow['thr_fk']
+            ));
+
+            /* Fix depth of all nodes */
+            $query = '
+                UPDATE frm_posts_tree
+                SET depth = depth -1,
+                lft = lft - 1,
+                rgt = rgt - 1
+                WHERE thr_fk = %s 
+                ';
+            $ilDB->manipulateF(
+                $query,
+                [
+                    'integer'
+                ],
+                [
+                    $rootRow['thr_fk']
+                ]
+            );
+            $GLOBALS['ilLog']->info(sprintf(
+                "Decremented lft, rgt and depth for all tree nodes in thread %s",
+                $rootRow['thr_fk']
+            ));
+
+            /* Fix parent of correct root node */
+            $query = '
+                UPDATE frm_posts_tree
+                SET parent_pos = %s
+                WHERE fpt_pk = %s
+                ';
+            $ilDB->manipulateF(
+                $query,
+                [
+                    'integer',
+                    'integer'
+                ],
+                [
+                    0,
+                    $newRoot['fpt_pk'],
+                ]
+            );
+            $GLOBALS['ilLog']->info(sprintf(
+                "Set 'parent_pos' value to 0 for root node posting with fpt_pk:%s (pos_pk:%s) in thread %s",
+                $newRoot['fpt_pk'],
+                $newRoot['pos_pk'],
+                $rootRow['thr_fk']
+            ));
+        });
+        $ilAtomQuery->run();
+    }
+
+    $GLOBALS['ilLog']->info(sprintf(
+        "Finished migration of forum thread trees"
+    ));
+    $setting->set('ilfrmtreemigr_6_hf', time());
+} else {
+    $GLOBALS['ilLog']->info(sprintf(
+        "Ignored forum tree migration because it is not necessary (Hotfix step: %s)",
+        $hotfixstep
+    ));
+}
+?>
