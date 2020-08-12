@@ -52,7 +52,7 @@ class ilCronManagerTableFilterMediator
      * @param string $action
      * @return Standard
      */
-    public function getFilter(string $action) : Standard
+    public function filter(string $action) : Standard
     {
         $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity) : string {
             if ($entity->isPlugin()) {
@@ -150,19 +150,76 @@ class ilCronManagerTableFilterMediator
         }
 
         return $this->items->filter(static function (ilCronJobEntity $entity) use ($filterValues) : bool {
-            if (isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE])) {
+            if (
+                isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
+                is_string($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
+                strlen($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) > 0
+            ) {
+                $id = $entity->getJobId();
+                if ($entity->isPlugin()) {
+                    $id = 'pl__' . $entity->getComponent() . '__' . $id;
+                }
+                $title = $entity->getJob()->getTitle();
+                if (0 === strlen($title)) {
+                    $title = $id;
+                }
+                
+                if (ilStr::strIPos($title, $filterValues[self::FILTER_PROPERTY_NAME_TITLE]) === false) {
+                    return false;
+                }
             }
 
-            if (isset($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT])) {
+            if (
+                isset($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
+                is_string($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
+                strlen($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) > 0
+            ) {
+                $component = $entity->getComponent();
+                if ($entity->isPlugin()) {
+                    $component = $this->lng->txt('cmps_plugin') . '/' . $component;
+                }
+
+                if ($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT] !== $component) {
+                    return false;
+                }
             }
 
-            if (isset($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE])) {
+            if (
+                isset($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) &&
+                is_string($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) &&
+                strlen($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) > 0
+            ) {
+                if ((int) $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== $entity->getEffectiveScheduleType()) {
+                    return false;
+                }
             }
 
-            if (isset($filterValues[self::FILTER_PROPERTY_NAME_STATUS])) {
+            if (
+                isset($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) &&
+                is_string($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) &&
+                strlen($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) > 0
+            ) {
+                if (
+                    (int) $filterValues[self::FILTER_PROPERTY_NAME_STATUS] === self::FILTER_STATUS_ACTIVE &&
+                    !$entity->getJobStatus()
+                ) {
+                    return false;
+                } elseif (
+                    (int) $filterValues[self::FILTER_PROPERTY_NAME_STATUS] === self::FILTER_STATUS_INACTIVE &&
+                    $entity->getJobStatus()
+                ) {
+                    return false;
+                }
             }
 
-            if (isset($filterValues[self::FILTER_PROPERTY_NAME_RESULT])) {
+            if (
+                isset($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) &&
+                is_string($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) &&
+                strlen($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) > 0
+            ) {
+                if ((int) $filterValues[self::FILTER_PROPERTY_NAME_RESULT] !== $entity->getJobResultStatus()) {
+                    return false;
+                }
             }
 
             return true;

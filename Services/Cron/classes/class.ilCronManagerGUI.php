@@ -91,7 +91,7 @@ class ilCronManagerGUI
             $this->uiService,
             $this->lng
         );
-        $filter = $tableFilterMediator->getFilter($this->ctrl->getFormAction(
+        $filter = $tableFilterMediator->filter($this->ctrl->getFormAction(
             $this,
             'applyFilterAndRender'
         ));
