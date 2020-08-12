@@ -64,17 +64,7 @@ class ilCronManagerGUI
         $this->$cmd();
     }
 
-    protected function applyFilterAndRender()
-    {
-        $this->printTableWithFilter(true);
-    }
-
     protected function render() : void
-    {
-        $this->printTableWithFilter();
-    }
-
-    protected function printTableWithFilter(bool $withFilterApplied = false) : void
     {
         $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         if ($this->settings->get('last_cronjob_start_ts')) {
@@ -93,7 +83,9 @@ class ilCronManagerGUI
         );
         $filter = $tableFilterMediator->filter($this->ctrl->getFormAction(
             $this,
-            'applyFilterAndRender'
+            'render',
+            '',
+            true
         ));
 
         $tbl = new ilCronManagerTableGUI($this, 'render');
@@ -102,7 +94,7 @@ class ilCronManagerGUI
             $tbl->populate(
                 $tableFilterMediator->filteredJobs(
                     $filter,
-                    $withFilterApplied
+                    false
                 )
             )->getHTML()
         ]));
