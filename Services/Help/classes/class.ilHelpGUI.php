@@ -642,15 +642,21 @@ class ilHelpGUI
      */
     protected function replaceItemTag($mmc, string $content, \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item)
     {
+        global $DIC;
+        $mmc = $DIC->globalScreen()->collector()->mainmenu();
+
         $id = $item->getProviderIdentification()->getInternalIdentifier();
         $ws = "[ \t\r\f\v\n]*";
 
         // menu item path
         while (preg_match("~\[(menu" . $ws . "path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $path = "";
-            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild && $item->getParent() != null) {
-                $parent = $mmc->getSingleItemFromRaw($item->getParent());
-                $path = $this->getTitleForItem($parent) . " > ";
+            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+                $parent = $mmc->getItemInformation()->getParent($item);
+                if ($parent !== null) {
+                    $parent = $mmc->getSingleItemFromRaw($parent);
+                    $path = $this->getTitleForItem($parent) . " > ";
+                }
             }
             $path .= $this->getTitleForItem($item);
             $content = preg_replace(
