@@ -1360,3 +1360,8 @@ $ilCtrlStructureReader->getStructure();
     $mcdir = CLIENT_WEB_DIR."/magpie_cache";
     ilUtil::delDir($mcdir);
 ?>
+<#94>
+<?php
+$setting = new ilSetting();
+$setting->set('ilfrmtreemigr', 1);
+?>
