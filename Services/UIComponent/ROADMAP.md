@@ -8,15 +8,13 @@ PLR Meeting, 13 Aug 2020: We would like to focus on the following elements to be
 
 ### Checklist (ilChecklistGUI)
 
-#### Usages
+**Usages**
 
-**setup**
+- setup: Checklist in setup, seems to be obsolete/dead code. -> RK
 
-Checklist in setup, seems to be obsolete/dead code. -> RK
+### Glyph (ilGlyphGUI)
 
-### Glyph
-
-#### Usages
+**Usages**
 
 - Filter Glyph
   - Services/Awareness -> AK
@@ -45,65 +43,40 @@ Checklist in setup, seems to be obsolete/dead code. -> RK
 - Previous/Next Glyph
   - Services/Tabs -> AK
 
-### GroupedList
+### GroupedList (ilGroupedListGUI)
 
 Most prominent use is the "Add New Item" Dropdown. Grouped lists are lists with subheadings and a possible multi-column layout.
 
-#### Usages (ilGroupedListGUI)
+**Usages**
 
-**Services/Object**
-
-Used for "Add New Item" Dropdown. Replacing this instance needs a broader discussion in the PLR group. Currently there does not seem to exist anything in the KS that could be a simple replacement. -> ALL
-
-**Services/Help**
-
-Used for listings of help pages. -> AK
-
-**Services/MainMenu**
-
-Used for rendering of help topics. Most probable deprecated. -> AK
-
-**Modules/Test**
-
-Used for list of questions? -> BH/MB
-
-**Services/UIComponent/Checklist**
-
-Old check list presentation (see above). Obsolete. -> AK after RK
+- **Services/Object**: Used for "Add New Item" Dropdown. Replacing this instance needs a broader discussion in the PLR group. Currently there does not seem to exist anything in the KS that could be a simple replacement. -> ALL
+- **Services/Help**: Used for listings of help pages. -> AK
+- **Services/MainMenu**: Used for rendering of help topics. Most probable deprecated. -> AK
+- **Modules/Test**: Used for list of questions? -> BH/MB
+- **Services/UIComponent/Checklist**: Old check list presentation (see above). Obsolete. -> AK after RK
 
 ### Lightbox (ilLightboxGUI)
 
-#### Usages
+**Usages**
 
-**Services/MediaObjects**
-
-Used for lightbox in media casts. -> AK
+- **Services/MediaObjects**: Used for lightbox in media casts. -> AK
 
 ### Modal (ilModalGUI)
 
 These might not all be easily transferrable to the KS elements. Sometimes the JS API is being used by consumers.
 
-#### Usages
+**Usages**
 
-Modules/Chatroom -> MJ
-
-Modules/Excercise -> AK
-
-Modules/Forum -> MJ
-
-Modules/MediaPool -> AK
-
-Modules/StudyProgramme -> RK
-
-Modules/Survey -> AK
-
-Modules/Test -> BH/MB
-
-Modules/TestQuestionPool -> BH/MB
-
-Services/COPage -> AK
-
-Services/Link (Internal link modal) -> AK
+- Modules/Chatroom -> MJ
+- Modules/Excercise -> AK
+- Modules/Forum -> MJ
+- Modules/MediaPool -> AK
+- Modules/StudyProgramme -> RK
+- Modules/Survey -> AK
+- Modules/Test -> BH/MB
+- Modules/TestQuestionPool -> BH/MB
+- Services/COPage -> AK
+- Services/Link (Internal link modal) -> AK
 
 ### Other components
 
