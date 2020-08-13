@@ -447,6 +447,8 @@ if (!$alreadyMigrated) {
             'thread_id' => array('integer', $row['thr_fk'])
         ));
     }
+} else {
+    $setting->set('ilfrmtreemigr_6_skip', time());
 }
 ?>
 <#5454>
