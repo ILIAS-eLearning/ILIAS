@@ -66,6 +66,9 @@ class ilContSkillPresentationGUI
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
+        $this->container_profiles = new ilContainerProfiles($this->container);
+
+        $this->cont_skill_collector = new ilContSkillCollector($this->container_skills, $this->container_profiles);
     }
 
     /**
@@ -106,12 +109,7 @@ class ilContSkillPresentationGUI
         $gui->setGapAnalysisActualStatusModePerObject($this->container->getId());
         $gui->setTriggerObjectsFilter($this->getSubtreeObjectIds());
         $gui->setHistoryView(true); // NOT IMPLEMENTED YET
-        $skills = array_map(function ($v) {
-            return array(
-                "base_skill_id" => $v["skill_id"],
-                "tref_id" => $v["tref_id"]
-            );
-        }, $this->container_skills->getSkills());
+        $skills = $this->cont_skill_collector->getSkillsForPresentationGUI();
         $gui->setObjectSkills($this->container_skills->getId(), $skills);
         return $gui;
     }

@@ -369,7 +369,12 @@ class ilContSkillAdminGUI
 
         // table
         include_once("./Services/Container/Skills/classes/class.ilContSkillTableGUI.php");
-        $tab = new ilContSkillTableGUI($this, "listCompetences", $this->container_skills);
+        $tab = new ilContSkillTableGUI(
+            $this,
+            "listCompetences",
+            $this->container_skills,
+            $this->container_profiles
+        );
 
         $tpl->setContent($tab->getHTML());
     }
